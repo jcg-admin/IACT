@@ -1,12 +1,10 @@
 import os
 import sys
-from pathlib import Path
 
 
-def main():
-    """Run administrative tasks."""
-    # Configurar el módulo de configuración de Django
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'api.settings')
+def main() -> None:
+    """Ejecuta las tareas administrativas de Django."""
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'callcentersite.settings')
 
     try:
         from django.core.management import execute_from_command_line
