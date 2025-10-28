@@ -56,7 +56,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'pytm_project.urls'
+ROOT_URLCONF = 'callcentersite.urls'
 
 TEMPLATES = [
     {
@@ -74,7 +74,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'pytm_project.wsgi.application'
+WSGI_APPLICATION = 'callcentersite.wsgi.application'
 
 # ==============================================================================
 # DATABASE
