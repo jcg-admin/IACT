@@ -3,16 +3,16 @@ FROM mcr.microsoft.com/devcontainers/python:3.12-bookworm
 # Variables de entorno
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
-    PIP_NO_CACHE_DIR=1 \
     PATH="/home/callcenter/.local/bin:${PATH}"
 
 # Instalar dependencias del sistema de manera idempotente
+# - build-essential proporciona gcc/g++/make en un único paquete
+# - default-libmysqlclient-dev habilita la compilación de mysqlclient
 RUN apt-get update && apt-get install -y --no-install-recommends \
     postgresql-client \
     libpq-dev \
-    gcc \
-    g++ \
-    make \
+    default-libmysqlclient-dev \
+    build-essential \
     git \
     curl \
     ca-certificates \
@@ -30,18 +30,13 @@ RUN groupadd callcenter 2>/dev/null || true \
 USER callcenter
 WORKDIR /workspaces
 
-# Instalar herramientas de Python de manera idempotente
-RUN pip install --user --upgrade --no-cache-dir \
-    poetry \
-    django \
-    psycopg2-binary \
-    djangorestframework \
-    python-dotenv \
-    black \
-    ruff \
-    pytest \
-    coverage \
-    drf-spectacular
+# Instalar herramientas base de Python de manera idempotente.
+# Las dependencias del proyecto se resuelven durante post-create para evitar duplicar instalaciones.
+RUN pip install --user --upgrade \
+    pip \
+    setuptools \
+    wheel \
+    poetry
 
 # Crear directorio de configuración de pip de manera idempotente
 RUN mkdir -p /home/callcenter/.config/pip \
