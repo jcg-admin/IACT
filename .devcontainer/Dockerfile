@@ -1,4 +1,4 @@
-FROM python:3.12-alpine3.19
+FROM mcr.microsoft.com/devcontainers/python:3.12-bookworm
 
 # Metadata de la imagen
 LABEL maintainer="CallCenter Team"
@@ -21,21 +21,20 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 
 # Instalar dependencias del sistema
 # Se agrupan en una sola capa RUN para optimizar el tamaño de la imagen
-RUN apk add --no-cache \
-    postgresql-dev \
+RUN apt-get update && apt-get install -y --no-install-recommends \
     postgresql-client \
-    mariadb-dev \
+    libpq-dev \
     mariadb-client \
-    mariadb-connector-c \
+    default-libmysqlclient-dev \
     gcc \
-    musl-dev \
-    linux-headers \
+    g++ \
+    make \
     git \
     bash \
     curl \
-    make \
     tzdata \
-    && rm -rf /var/cache/apk/*
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 # Actualizar pip a la última versión
 RUN pip install --upgrade pip setuptools wheel
@@ -53,8 +52,8 @@ RUN pip install --no-cache-dir -r /tmp/base.txt \
 
 # Crear grupo y usuario no-root para seguridad
 # El UID/GID 1000 es estándar y evita problemas de permisos con archivos del host
-RUN addgroup -g ${USER_GID} django \
-    && adduser -D -u ${USER_UID} -G django -s /bin/bash django \
+RUN groupadd -g ${USER_GID} django \
+    && useradd -u ${USER_UID} -g ${USER_GID} -m -s /bin/bash django \
     && mkdir -p /home/django/.cache \
     && chown -R django:django /home/django
 
