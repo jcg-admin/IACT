@@ -1,0 +1,29 @@
+# Django Configuration
+DJANGO_SETTINGS_MODULE=callcentersite.settings
+DJANGO_DEBUG=1
+DJANGO_SECRET_KEY=your-secret-key-here-change-in-production
+DJANGO_ALLOWED_HOSTS=localhost,127.0.0.1
+
+# Database Configuration
+DATABASE_URL=postgres://django_user:django_pass@db_postgres:5432/callcenterdb
+
+# PostgreSQL Direct Configuration (alternative to DATABASE_URL)
+DB_ENGINE=django.db.backends.postgresql
+DB_NAME=callcenterdb
+DB_USER=django_user
+DB_PASSWORD=django_pass
+DB_HOST=db_postgres
+DB_PORT=5432
+
+# Python Configuration
+PYTHONUNBUFFERED=1
+PYTHONDONTWRITEBYTECODE=1
+
+# Application Configuration
+TIME_ZONE=America/Mexico_City
+LANGUAGE_CODE=es-mx
+
+# Security (Production)
+# SECURE_SSL_REDIRECT=True
+# SESSION_COOKIE_SECURE=True
+# CSRF_COOKIE_SECURE=True
