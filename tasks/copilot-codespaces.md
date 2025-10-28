@@ -1,5 +1,7 @@
 # Playbook: habilitar GitHub Copilot y estabilizar Codespaces
 
+> **Nota**: la verificación operativa y la bitácora viva se mantienen en `docs/07-devops/runbooks/github-copilot-codespaces.md`.
+
 ## Contexto
 El objetivo es asegurar que los desarrolladores dispongan de asistencia con GitHub Copilot dentro de Codespaces y que el contenedor remoto se configure sin pasos manuales adicionales. Las tareas se organizan en completadas y pendientes para facilitar el seguimiento.
 
