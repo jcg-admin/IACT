@@ -1,4 +1,4 @@
-# Tareas para habilitar GitHub Copilot y estabilizar Codespaces
+# Playbook: habilitar GitHub Copilot y estabilizar Codespaces
 
 ## Contexto
 El objetivo es asegurar que los desarrolladores dispongan de asistencia con GitHub Copilot dentro de Codespaces y que el contenedor remoto se configure sin pasos manuales adicionales. Las tareas se organizan en completadas y pendientes para facilitar el seguimiento.
@@ -36,25 +36,46 @@ El objetivo es asegurar que los desarrolladores dispongan de asistencia con GitH
 
 Los logs generados pueden consultarse ejecutando `cat infrastructure/devcontainer/logs/post-create.log` o `cat infrastructure/devcontainer/logs/post-start.log` desde dentro del Codespace.
 
-## Tareas pendientes / validaciones manuales
-- [ ] Reconstruir un Codespace nuevo y verificar la ejecución correcta de los hooks `postCreateCommand` y `postStartCommand`, confirmando que no haya errores en la terminal inicial.
-- [ ] Validar interactivamente que GitHub Copilot y Copilot Chat se conecten a la cuenta corporativa y sugieran código dentro de VS Code.
-- [ ] Ejecutar `pytest` desde el Codespace para comprobar que las dependencias de prueba instaladas durante el `postCreateCommand` funcionan correctamente (el script ya deja preparada la ejecución).
-- [ ] Documentar en la wiki del proyecto el flujo recomendado de trabajo dentro de Codespaces (apertura, verificación de Copilot, ejecución de pruebas y despliegue local), enlazando a los scripts de automatización generados.
+## Validaciones manuales y seguimiento operativo
 
-### Procedimiento sugerido para completar las validaciones manuales
+Las comprobaciones manuales se agrupan por objetivo para facilitar su reparto entre las personas responsables de plataforma y el equipo de desarrollo. Cada bloque puede ejecutarse de manera independiente, pero se recomienda seguir el orden propuesto para detectar problemas de forma temprana.
+
+### Checklist resumido
 
 1. **Reconstrucción del Codespace**
-   - Comando: `Codespaces: Rebuild Container` en VS Code o `F1` → _Rebuild Container_.
-   - Revisar los logs `post-create.log` y `post-start.log` para confirmar que no hay errores.
-2. **Prueba de GitHub Copilot**
+   - Ejecutar `Codespaces: Rebuild Container` (o `F1` → _Rebuild Container_).
+   - Confirmar que no se muestren errores fatales al finalizar la reconstrucción.
+   - Revisar `infrastructure/devcontainer/logs/post-create.log` y `infrastructure/devcontainer/logs/post-start.log`.
+2. **Autenticación de Copilot/Codex**
    - Abrir cualquier archivo Python y solicitar una sugerencia con `Ctrl+Enter`.
-   - Confirmar en la barra de estado que la cuenta autenticada corresponde a la organización.
-3. **Ejecución de pruebas**
-   - Desde el terminal del Codespace ejecutar `cd api/callcentersite && pytest`.
-   - Verificar que el comando finalice sin errores y con cobertura mínima del 80 %.
-4. **Documentación en la wiki**
-   - Registrar en la wiki corporativa el flujo de trabajo, referenciando los scripts:
-     - `infrastructure/devcontainer/scripts/post-create.sh`
-     - `infrastructure/devcontainer/scripts/post-start.sh`
-   - Adjuntar capturas de pantalla del estado conectado de Copilot y la salida de `pytest`.
+   - Validar en la barra de estado que la sesión corresponde a la cuenta corporativa.
+   - En caso de error, ejecutar `gh auth status` y `gh copilot status` para recopilar diagnósticos.
+3. **Pruebas automatizadas**
+   - Desde `api/callcentersite`, ejecutar `pytest`.
+   - Registrar la cobertura reportada y adjuntar la salida al ticket de seguimiento.
+4. **Documentación y traza**
+   - Actualizar la wiki interna con los hallazgos, capturas de pantalla y cualquier incidencia reportada.
+   - Indicar si fue necesario contactar a soporte de red o solicitar aperturas en el firewall.
+
+### Seguimiento detallado por responsable
+
+| Responsable | Objetivo | Pasos clave | Evidencia requerida |
+|-------------|----------|-------------|---------------------|
+| Plataforma | Reconstrucción del Codespace | Comando de reconstrucción, revisión de logs, verificación de hooks | Capturas de `post-create.log` y `post-start.log` sin errores críticos |
+| Desarrollo | Validación de Copilot/Codex | Solicitar sugerencias, verificar sesión corporativa, ejecutar `gh copilot status` | Captura de la barra de estado conectada y salida de la CLI |
+| QA | Ejecución de pruebas | `cd api/callcentersite && pytest`, revisión de cobertura | Salida completa de `pytest` con cobertura ≥80 % |
+| PM/Coordinación | Documentación | Actualización de la wiki, centralización de hallazgos | Enlace al registro actualizado y resumen de bloqueos |
+
+### Procedimiento de diagnóstico cuando falle Copilot/Codex
+
+1. **Revisión rápida**
+   - Ejecutar `gh auth status` para validar la sesión de GitHub CLI.
+   - Ejecutar `gh copilot status` para revisar el estado de la conexión hacia los servicios de Copilot/Codex.
+   - Confirmar que las variables de entorno relacionadas con el proxy (si aplica) estén presentes en el Codespace.
+2. **Registro de incidentes**
+   - Documentar el mensaje de error literal mostrado por la extensión y adjuntar capturas.
+   - Si la autenticación falla por firewall, registrar el segmento de red y el dominio bloqueado para acelerar la apertura de puertos.
+   - Escalar al equipo de TI con los registros anteriores y un resumen del impacto.
+3. **Restauración temporal**
+   - Indicar a la persona desarrolladora que continúe con la guía TDD estándar mientras se resuelve el incidente.
+   - Mantener actualizado el ticket hasta confirmar que Copilot/Codex vuelve a ofrecer sugerencias y chat contextual.
