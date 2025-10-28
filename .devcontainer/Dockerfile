@@ -20,12 +20,16 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-RUN groupadd -g ${USER_GID} django \
-    && useradd -u ${USER_UID} -g ${USER_GID} -m -s /bin/bash django \
+RUN if ! getent group ${USER_GID} >/dev/null 2>&1; then \
+        groupadd -g ${USER_GID} django; \
+    fi \
+    && if ! id -u ${USER_UID} >/dev/null 2>&1; then \
+        useradd -u ${USER_UID} -g ${USER_GID} -m -s /bin/bash django; \
+    fi \
     && mkdir -p /workspace \
-    && chown -R django:django /workspace
+    && chown -R ${USER_UID}:${USER_GID} /workspace
 
 WORKDIR /workspace
-USER django
+USER ${USER_UID}:${USER_GID}
 
 CMD ["sleep", "infinity"]
