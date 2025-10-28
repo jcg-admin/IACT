@@ -1,29 +1,40 @@
 {
   "name": "CallCenter Django API",
-  "dockerComposeFile": "docker-compose.yml",
+  "dockerComposeFile": [
+    "docker-compose.yml"
+  ],
   "service": "app",
   "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
 
   "features": {
-    "ghcr.io/devcontainers/features/github-cli": {}
+    "ghcr.io/devcontainers/features/github-cli:1": {},
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "22",
+      "npm": "10"
+    }
   },
 
-  "remoteUser": "django",
+  "remoteUser": "callcenter",
   "updateRemoteUserUID": true,
 
   "forwardPorts": [8000, 5432],
 
-  "postCreateCommand": "bash /workspaces/${localWorkspaceFolderBasename}/infrastructure/devcontainer/scripts/post-create.sh",
-
-  "postStartCommand": "bash /workspaces/${localWorkspaceFolderBasename}/infrastructure/devcontainer/scripts/post-start.sh",
+  "postCreateCommand": "bash infrastructure/devcontainer/scripts/post-create.sh",
+  "postStartCommand": "bash infrastructure/devcontainer/scripts/post-start.sh",
 
   "customizations": {
     "vscode": {
       "extensions": [
         "ms-python.python",
         "ms-python.vscode-pylance",
+        "ms-python.black-formatter",
+        "charliermarsh.ruff",
+        "mtxr.sqltools",
+        "mtxr.sqltools-driver-pg",
         "github.copilot",
-        "github.copilot-chat"
+        "github.copilot-chat",
+        "eamodio.gitlens",
+        "ms-azuretools.vscode-docker"
       ],
       "settings": {
         "python.defaultInterpreterPath": "/usr/local/bin/python",
@@ -31,6 +42,9 @@
         "python.testing.pytestArgs": [
           "api/callcentersite"
         ],
+        "python.linting.enabled": true,
+        "python.formatting.provider": "black",
+        "editor.formatOnSave": true,
         "github.copilot.enable": {
           "*": true,
           "plaintext": false,
