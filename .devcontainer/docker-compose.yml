@@ -3,16 +3,13 @@ services:
     build:
       context: ..
       dockerfile: .devcontainer/Dockerfile
-      args:
-        USER_UID: 1000
-        USER_GID: 1000
 
     user: django
     hostname: django-app
     command: sleep infinity
 
     volumes:
-      - ..:/workspaces/${localWorkspaceFolderBasename}:cached
+      - ../..:/workspaces:cached
 
     working_dir: /workspaces/${localWorkspaceFolderBasename}
 
@@ -21,6 +18,7 @@ services:
       DJANGO_SETTINGS_MODULE: callcentersite.settings
       DJANGO_DEBUG: "1"
       PYTHONUNBUFFERED: "1"
+      PYTHONPATH: /workspaces/${localWorkspaceFolderBasename}/api/callcentersite
 
     depends_on:
       db_postgres:

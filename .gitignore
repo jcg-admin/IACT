@@ -1,31 +1,82 @@
-**/db.sqlite3
-**/__pycache__
-**/.DS_Store
-**/*.tgz
-**/*.tar
-**/*-tar.gz
-**/.vagrant
-**/*.log
-**/*.pyc
-**/*.class
-**/*.jar
-**/coffeeshop/target
-**/csthirdparty/target
-**/static/admin
-**/static/flags
-**/static/rest_framework
-**/static/django_extensions
-**/*.crt
-**/*.csr
-**/*.key
-**/*.pub
-**/*.ipynb
+# ==========================================
+# Python
+# ==========================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+*.manifest
+*.spec
+pip-log.txt
+pip-delete-this-directory.txt
 
+# ==========================================
+# Virtual Environments
+# ==========================================
+venv/
+ENV/
+env/
+.venv
+.venv/
+*.venv/
+venv_local
+.venv_local
 
+# ==========================================
+# Django
+# ==========================================
+*.log
+*.pot
+*.pyc
+db.sqlite3
+db.sqlite3-journal
+local_settings.py
+media/
+staticfiles/
+static/admin
+static/flags
+static/rest_framework
+static/django_extensions
+log/
+logs/*.log
+!logs/.gitkeep
+
+# ==========================================
+# Testing & Coverage
+# ==========================================
+htmlcov/
+.tox/
+.coverage
+.cache
+.pytest_cache/
+.hypothesis/
+nosetests.xml
+coverage.xml
+*.cover
+
+# ==========================================
+# IDEs
+# ==========================================
 # Visual Studio Code
 .vscode/
 *.code-workspace
-.vscode
 
 # IntelliJ IDEA
 .idea/
@@ -33,148 +84,89 @@
 *.ipr
 *.iws
 
-# Backup files
-*.bak
-*.backup
-*.orig
-*.tmp
-/backups/
+# General IDE files
+*.swp
+*.swo
+*~
 
-# Reglas para archivos de backup específicos
-*backup-copy-log-*.txt
-*backup-*log-*.txt
-*.backup-*
-*.pre-fix-*
-
-
-### OSX ###
+# ==========================================
+# OS Specific
+# ==========================================
+# macOS
 .DS_Store
 .AppleDouble
 .LSOverride
-
-# Icon must end with two \r
 Icon
-
-# Thumbnails
 ._*
-
-# Files that might appear on external disk
 .Spotlight-V100
 .Trashes
-
-# Directories potentially created on remote AFP share
 .AppleDB
 .AppleDesktop
 Network Trash Folder
 Temporary Items
 .apdisk
 
-
-### Python ###
-# Byte-compiled / optimized / DLL files
-__pycache__/
-*.py[cod]
-
-# C extensions
-*.so
-
-# Distribution / packaging
-.Python
-env/
-*.venv/
-.venv/*
-.venv/
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-*.egg-info/
-.installed.cfg
-*.egg
-
-# PyInstaller
-#  Usually these files are written by a python script from a template
-#  before PyInstaller builds the exe, so as to inject date/other infos into it.
-*.manifest
-*.spec
-
-# Installer logs
-pip-log.txt
-pip-delete-this-directory.txt
-
-# Unit test / coverage reports
-htmlcov/
-.tox/
-.coverage
-.cache
-nosetests.xml
-coverage.xml
-
-# Translations
-*.mo
-*.pot
-
-# Sphinx documentation
-docs/_build/
-
-# PyBuilder
-target/
-
-
-### Django ###
-log/
-*.log
-*.pot
-*.pyc
-__pycache__/
-local_settings.py
-
-.env
-venv_local
-.venv_local
-
-db.sqlite3
-
-staticfiles
-
-
-# Django
-*.log
-*.pot
-*.pyc
-__pycache__/
-db.sqlite3
-media/
-staticfiles/
-
-# Virtual Environment
-venv/
-env/
-
-# Environment
+# ==========================================
+# Environment Variables
+# ==========================================
 .env
 .env.local
+.env.*.local
 
-# IDE
-.vscode/
-.idea/
+# ==========================================
+# Security & Certificates
+# ==========================================
+*.crt
+*.csr
+*.key
+*.pub
 
-# OS
-.DS_Store
+# ==========================================
+# Archives & Backups
+# ==========================================
+*.tgz
+*.tar
+*-tar.gz
+*.bak
+*.backup
+*.orig
+*.tmp
+/backups/
+*backup-copy-log-*.txt
+*backup-*log-*.txt
+*.backup-*
+*.pre-fix-*
 
-# Testing
-.coverage
-.pytest_cache/
+# ==========================================
+# Databases
+# ==========================================
+*.db
 
-# Logs
-logs/*.log
-!logs/.gitkeep
+# ==========================================
+# Java (if applicable)
+# ==========================================
+*.class
+*.jar
+**/coffeeshop/target
+**/csthirdparty/target
+target/
 
+# ==========================================
+# Jupyter Notebooks
+# ==========================================
+*.ipynb
 
+# ==========================================
+# Documentation
+# ==========================================
+docs/_build/
+
+# ==========================================
+# Cache
+# ==========================================
 cache/
+
+# ==========================================
+# Vagrant
+# ==========================================
+.vagrant

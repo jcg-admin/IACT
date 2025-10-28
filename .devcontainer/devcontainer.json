@@ -1,5 +1,5 @@
 {
-  "name": "CallCenter Django - Minimal",
+  "name": "CallCenter Django API",
   "dockerComposeFile": "docker-compose.yml",
   "service": "app",
   "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
@@ -9,17 +9,25 @@
   },
 
   "remoteUser": "django",
-  "containerUser": "django",
-  "updateRemoteUserUID": false,
+  "updateRemoteUserUID": true,
 
   "forwardPorts": [8000, 5432],
+
+  "postCreateCommand": "cd /workspaces/${localWorkspaceFolderBasename}/api/callcentersite && pip install -r requirements/dev.txt",
 
   "customizations": {
     "vscode": {
       "extensions": [
         "ms-python.python",
         "ms-python.vscode-pylance"
-      ]
+      ],
+      "settings": {
+        "python.defaultInterpreterPath": "/usr/local/bin/python",
+        "python.testing.pytestEnabled": true,
+        "python.testing.pytestArgs": [
+          "api/callcentersite"
+        ]
+      }
     }
   }
 }

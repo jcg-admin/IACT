@@ -1,17 +1,13 @@
 FROM mcr.microsoft.com/devcontainers/python:3.12-bookworm
 
-ARG USER_UID=1000
-ARG USER_GID=1000
-
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     PIP_NO_CACHE_DIR=1
 
+# Instalar dependencias del sistema
 RUN apt-get update && apt-get install -y --no-install-recommends \
     postgresql-client \
     libpq-dev \
-    mariadb-client \
-    default-libmysqlclient-dev \
     gcc \
     g++ \
     make \
@@ -20,16 +16,13 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-RUN if ! getent group ${USER_GID} >/dev/null 2>&1; then \
-        groupadd -g ${USER_GID} django; \
-    fi \
-    && if ! id -u ${USER_UID} >/dev/null 2>&1; then \
-        useradd -u ${USER_UID} -g ${USER_GID} -m -s /bin/bash django; \
-    fi \
+# Crear usuario django
+RUN groupadd -g 1000 django 2>/dev/null || true \
+    && useradd -u 1000 -g 1000 -m -s /bin/bash django 2>/dev/null || true \
     && mkdir -p /workspaces \
-    && chown -R ${USER_UID}:${USER_GID} /workspaces
+    && chown -R django:django /workspaces
 
+USER django
 WORKDIR /workspaces
-USER ${USER_UID}:${USER_GID}
 
 CMD ["sleep", "infinity"]
