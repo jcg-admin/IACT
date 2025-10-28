@@ -3,7 +3,7 @@ FROM mcr.microsoft.com/devcontainers/python:3.12-bookworm
 # Variables de entorno
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
-    PATH="/home/callcenter/.local/bin:${PATH}"
+    PATH="/home/callcenter/.npm-global/bin:/home/callcenter/.local/bin:${PATH}"
 
 # Instalar dependencias del sistema de manera idempotente
 # - build-essential proporciona gcc/g++/make en un único paquete
