@@ -40,10 +40,20 @@ class SessionSecurityMiddleware:
             if stored_user_agent is None:
                 session[SESSION_UA_KEY] = user_agent
 
+            invalid_session = False
+
             if stored_ip and stored_ip != client_ip:
-                logout(request)
+                invalid_session = True
             elif stored_user_agent and stored_user_agent != user_agent:
+                invalid_session = True
+
+            if invalid_session:
                 logout(request)
+                request.session.flush()
+                response = HttpResponse(status=401)
+                response["Cache-Control"] = "no-store"
+                response["WWW-Authenticate"] = "Bearer"
+                return response
 
         response = self.get_response(request)
         return response

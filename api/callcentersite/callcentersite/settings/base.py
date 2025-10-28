@@ -75,12 +75,29 @@ AUTH_USER_MODEL = "users.User"
 
 DATABASES = {
     "default": {
-        "ENGINE": os.getenv("DJANGO_DB_ENGINE", "django.db.backends.sqlite3"),
-        "NAME": os.getenv("DJANGO_DB_NAME", str(BASE_DIR / "db.sqlite3")),
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": os.getenv("DJANGO_DB_NAME", "iact_analytics"),
+        "USER": os.getenv("DJANGO_DB_USER", "django_user"),
+        "PASSWORD": os.getenv("DJANGO_DB_PASSWORD", "django_pass"),
+        "HOST": os.getenv("DJANGO_DB_HOST", "127.0.0.1"),
+        "PORT": os.getenv("DJANGO_DB_PORT", "15432"),
+        "CONN_MAX_AGE": int(os.getenv("DJANGO_DB_CONN_MAX_AGE", "300")),
+        "OPTIONS": {
+            "connect_timeout": int(os.getenv("DJANGO_DB_CONNECT_TIMEOUT", "10")),
+        },
     },
     "ivr_readonly": {
-        "ENGINE": os.getenv("DJANGO_IVR_ENGINE", "django.db.backends.sqlite3"),
-        "NAME": os.getenv("DJANGO_IVR_NAME", str(BASE_DIR / "ivr.sqlite3")),
+        "ENGINE": "django.db.backends.mysql",
+        "NAME": os.getenv("DJANGO_IVR_NAME", "ivr_legacy"),
+        "USER": os.getenv("DJANGO_IVR_USER", "django_user"),
+        "PASSWORD": os.getenv("DJANGO_IVR_PASSWORD", "django_pass"),
+        "HOST": os.getenv("DJANGO_IVR_HOST", "127.0.0.1"),
+        "PORT": os.getenv("DJANGO_IVR_PORT", "13306"),
+        "CONN_MAX_AGE": int(os.getenv("DJANGO_IVR_CONN_MAX_AGE", "300")),
+        "OPTIONS": {
+            "init_command": "SET sql_mode='STRICT_TRANS_TABLES'",
+            "charset": "utf8mb4",
+        },
     },
 }
 
