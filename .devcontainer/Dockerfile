@@ -16,13 +16,13 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Crear usuario django
-RUN groupadd -g 1000 django 2>/dev/null || true \
-    && useradd -u 1000 -g 1000 -m -s /bin/bash django 2>/dev/null || true \
+# Crear usuario personalizado sin forzar UID/GID
+RUN groupadd callcenter || true \
+    && useradd -m -s /bin/bash -g callcenter callcenter || true \
     && mkdir -p /workspaces \
-    && chown -R django:django /workspaces
+    && chown -R callcenter:callcenter /workspaces
 
-USER django
+USER callcenter
 WORKDIR /workspaces
 
 CMD ["sleep", "infinity"]
