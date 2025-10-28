@@ -1,6 +1,8 @@
 {
   "name": "CallCenter Django API",
-  "dockerComposeFile": "docker-compose.yml",
+  "dockerComposeFile": [
+    "docker-compose.yml"
+  ],
   "service": "app",
   "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
 
@@ -8,14 +10,13 @@
     "ghcr.io/devcontainers/features/github-cli": {}
   },
 
-  "remoteUser": "django",
+  "remoteUser": "callcenter",
   "updateRemoteUserUID": true,
 
   "forwardPorts": [8000, 5432],
 
-  "postCreateCommand": "bash /workspaces/${localWorkspaceFolderBasename}/infrastructure/devcontainer/scripts/post-create.sh",
-
-  "postStartCommand": "bash /workspaces/${localWorkspaceFolderBasename}/infrastructure/devcontainer/scripts/post-start.sh",
+  "postCreateCommand": "bash infrastructure/devcontainer/scripts/post-create.sh",
+  "postStartCommand": "bash infrastructure/devcontainer/scripts/post-start.sh",
 
   "customizations": {
     "vscode": {
