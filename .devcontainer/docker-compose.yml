@@ -4,7 +4,7 @@ services:
       context: ..
       dockerfile: .devcontainer/Dockerfile
 
-    user: django
+    user: callcenter
     hostname: django-app
     command: sleep infinity
 
