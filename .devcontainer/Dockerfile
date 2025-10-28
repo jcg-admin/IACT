@@ -22,23 +22,18 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 # Instalar dependencias del sistema
 # Se agrupan en una sola capa RUN para optimizar el tamaño de la imagen
 RUN apk add --no-cache \
-    # PostgreSQL
     postgresql-dev \
     postgresql-client \
-    # MariaDB/MySQL
     mariadb-dev \
     mariadb-client \
     mariadb-connector-c \
-    # Herramientas de compilación (necesarias para psycopg2, mysqlclient)
     gcc \
     musl-dev \
     linux-headers \
-    # Utilidades de desarrollo
     git \
     bash \
     curl \
     make \
-    # Timezone data (útil para Django)
     tzdata \
     && rm -rf /var/cache/apk/*
 
@@ -52,7 +47,6 @@ COPY api/requirements/base.txt /tmp/base.txt
 
 RUN pip install --no-cache-dir -r /tmp/base.txt \
     && rm /tmp/base.txt \
-    # Verificar instalaciones críticas
     && python -c "import django; print(f'Django {django.get_version()} instalado correctamente')" \
     && python -c "import psycopg2; print('psycopg2 instalado correctamente')" \
     && python -c "import MySQLdb; print('mysqlclient instalado correctamente')"
@@ -65,7 +59,7 @@ RUN addgroup -g ${USER_GID} django \
     && chown -R django:django /home/django
 
 # Configurar directorio de trabajo
-WORKDIR /workspace/IACT---project
+WORKDIR /workspace
 
 # Cambiar a usuario no-root
 # Todos los comandos posteriores se ejecutarán como 'django'
