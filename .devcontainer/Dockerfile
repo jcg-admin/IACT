@@ -26,10 +26,10 @@ RUN if ! getent group ${USER_GID} >/dev/null 2>&1; then \
     && if ! id -u ${USER_UID} >/dev/null 2>&1; then \
         useradd -u ${USER_UID} -g ${USER_GID} -m -s /bin/bash django; \
     fi \
-    && mkdir -p /workspace \
-    && chown -R ${USER_UID}:${USER_GID} /workspace
+    && mkdir -p /workspaces \
+    && chown -R ${USER_UID}:${USER_GID} /workspaces
 
-WORKDIR /workspace
+WORKDIR /workspaces
 USER ${USER_UID}:${USER_GID}
 
 CMD ["sleep", "infinity"]

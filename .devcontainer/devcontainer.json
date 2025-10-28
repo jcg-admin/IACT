@@ -2,7 +2,7 @@
   "name": "CallCenter Django - Minimal",
   "dockerComposeFile": "docker-compose.yml",
   "service": "app",
-  "workspaceFolder": "/workspace",
+  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
 
   "features": {
     "ghcr.io/devcontainers/features/github-cli": {}
