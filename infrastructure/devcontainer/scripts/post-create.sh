@@ -90,7 +90,7 @@ log_file="$log_dir/post-create.log"
     echo "[post-create] manage.py no encontrado, se omite django check"
   fi
 
-  run_tests="${DEVCONTAINER_RUN_TESTS:-0}"
+  run_tests="${DEVCONTAINER_RUN_TESTS:-1}"
   if [ "$run_tests" = "1" ]; then
     if command -v pytest >/dev/null 2>&1; then
       echo "[post-create] Ejecutando pytest (smoke test)"
