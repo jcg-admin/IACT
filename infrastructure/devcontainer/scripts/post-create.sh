@@ -52,13 +52,18 @@ log_file="$log_dir/post-create.log"
     echo "[post-create] manage.py no encontrado, se omite django check"
   fi
 
-  if command -v pytest >/dev/null 2>&1; then
-    echo "[post-create] Ejecutando pytest (smoke test)"
-    if ! python -m pytest --maxfail=1 --disable-warnings -q; then
-      echo "[post-create] Advertencia: pytest finalizó con errores" >&2
+  run_tests="${DEVCONTAINER_RUN_TESTS:-0}"
+  if [ "$run_tests" = "1" ]; then
+    if command -v pytest >/dev/null 2>&1; then
+      echo "[post-create] Ejecutando pytest (smoke test)"
+      if ! python -m pytest --maxfail=1 --disable-warnings -q; then
+        echo "[post-create] Advertencia: pytest finalizó con errores" >&2
+      fi
+    else
+      echo "[post-create] pytest no está instalado todavía"
     fi
   else
-    echo "[post-create] pytest no está instalado todavía"
+    echo "[post-create] Pruebas omitidas (DEVCONTAINER_RUN_TESTS=$run_tests)"
   fi
 
   echo "[post-create] Fin: $(date --iso-8601=seconds)"
