@@ -11,7 +11,7 @@ Esta guía describe cómo levantar los servicios requeridos por la aplicación (
    vagrant up
    ```
 
-   El archivo [`Vagrantfile`](../Vagrantfile) crea una VM Ubuntu con 2 vCPU y 4 GB de RAM, expone los puertos `15432` (PostgreSQL) y `13306` (MariaDB) hacia tu host y provisiona ambos motores mediante [`provisioning/bootstrap.sh`](../provisioning/bootstrap.sh).
+   El archivo [`Vagrantfile`](../infrastructure/Vagrantfile) crea una VM Ubuntu con 2 vCPU y 4 GB de RAM, expone los puertos `15432` (PostgreSQL) y `13306` (MariaDB) hacia tu host y provisiona ambos motores mediante [`provisioning/bootstrap.sh`](../infrastructure/provisioning/bootstrap.sh).
 
 3. Una vez finalizado el aprovisionamiento, los servicios quedarán escuchando dentro de la VM en los puertos estándar (`5432` y `3306`).
 
@@ -36,7 +36,7 @@ Incluye estas variables en tu `.env` o exporta las variables de entorno equivale
    sudo apt-get install postgresql-client mariadb-client
    ```
 
-2. Ejecuta el script de verificación incluido en [`scripts/verificar_servicios.sh`](../scripts/verificar_servicios.sh):
+2. Ejecuta el script de verificación incluido en [`scripts/verificar_servicios.sh`](../infrastructure/scripts/verificar_servicios.sh):
 
    ```bash
    ./scripts/verificar_servicios.sh

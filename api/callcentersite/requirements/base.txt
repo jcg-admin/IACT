@@ -1,4 +1,4 @@
-# api/requirements/base.txt
+# callcentersite/requirements/base.txt
 # ============================================
 # DEPENDENCIAS CORE - PRE-INSTALADAS EN PREBUILD
 # ============================================

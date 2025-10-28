@@ -345,15 +345,15 @@ Codespace activo
 
 ```bash
 # Desarrollador actualiza dependencia
-echo "django-cors-headers>=4.3" >> api/requirements/base.txt
+echo "django-cors-headers>=4.3" >> callcentersite/requirements/base.txt
 
 # Commit y push
-git add api/requirements/base.txt
+git add callcentersite/requirements/base.txt
 git commit -m "feat: agregar django-cors-headers"
 git push origin main
 
 # GitHub automáticamente:
-# 1. Detecta cambio en api/requirements/base.txt
+# 1. Detecta cambio en callcentersite/requirements/base.txt
 # 2. Trigger rebuild de prebuild
 # 3. Nuevos Codespaces usan versión actualizada
 
@@ -931,7 +931,7 @@ python manage.py showmigrations
 pip list | grep django
 
 # Verificar requirements
-cat api/requirements/base.txt
+cat callcentersite/requirements/base.txt
 ```
 
 **Solución:**
@@ -940,7 +940,7 @@ cat api/requirements/base.txt
 make install-all
 
 # Si persiste, forzar reinstalación
-pip install --force-reinstall -r api/requirements/base.txt
+pip install --force-reinstall -r callcentersite/requirements/base.txt
 ```
 
 ---
@@ -1021,7 +1021,7 @@ DJANGO_SECRET_KEY=change-me-in-production
 #### 4. Configuración Git Segura
 ```json
 "postCreateCommand": {
-  "setup-git": "git config --global --add safe.directory /workspace/api"
+  "setup-git": "git config --global --add safe.directory /workspace/callcentersite"
 }
 ```
 **Beneficio:** Previene ataques de directorio no confiable

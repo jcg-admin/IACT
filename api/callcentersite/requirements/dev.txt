@@ -1,4 +1,4 @@
-# api/requirements/dev.txt
+# callcentersite/requirements/dev.txt
 # ============================================
 # HERRAMIENTAS DE DESARROLLO
 # Instaladas en onCreateCommand (una sola vez)
