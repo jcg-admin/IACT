@@ -1,0 +1,223 @@
+version: "3.9"
+
+# Volúmenes persistentes para datos de bases de datos
+# Estos volúmenes sobreviven a reinicios de contenedores
+volumes:
+  pg_data:
+    name: callcenter_pg_data
+    driver: local
+  maria_data:
+    name: callcenter_maria_data
+    driver: local
+
+# Redes personalizadas (opcional pero mejora el aislamiento)
+networks:
+  callcenter_network:
+    name: callcenter_dev_network
+    driver: bridge
+
+services:
+  # ========================================
+  # Servicio principal: Aplicación Django
+  # ========================================
+  app:
+    build:
+      context: ..
+      dockerfile: .devcontainer/Dockerfile
+      # Build arguments (opcionales)
+      args:
+        PYTHON_VERSION: "3.12"
+        USER_UID: 1000
+        USER_GID: 1000
+
+    # Labels de metadata
+    labels:
+      com.callcenter.service: "django-app"
+      com.callcenter.environment: "development"
+      com.callcenter.description: "Django application container"
+
+    # init: true permite que el contenedor maneje señales correctamente
+    init: true
+
+    # Usuario no-root para seguridad
+    user: django
+
+    # Hostname personalizado (útil para debugging)
+    hostname: django-app
+
+    # Directorio de trabajo dentro del contenedor
+    working_dir: /workspace/api
+
+    # Montaje de volúmenes
+    # cached: optimiza rendimiento en macOS/Windows
+    volumes:
+      - ..:/workspace:cached
+      # Volume para cache de pip (acelera reinstalaciones)
+      - pip_cache:/home/django/.cache/pip
+
+    # Variables de entorno para Django
+    environment:
+      # Django settings
+      DJANGO_SETTINGS_MODULE: api.settings
+      DJANGO_SECRET_KEY: insecure-dev-key-change-in-production
+      DJANGO_DEBUG: "1"
+      DJANGO_ALLOWED_HOSTS: localhost,127.0.0.1,*.githubpreview.dev
+
+      # Database URLs
+      DATABASE_URL: postgres://django_user:django_pass@db_postgres:5432/callcenterdb
+      MARIADB_URL: mysql://django_user:django_pass@db_mariadb:3306/callcenterdb_maria
+
+      # Entorno
+      ENVIRONMENT: development
+
+      # Python
+      PYTHONUNBUFFERED: "1"
+
+      # Timezone
+      TZ: UTC
+
+    # Comando por defecto: sleep infinity mantiene el contenedor vivo
+    command: sleep infinity
+
+    # Reinicio automático en caso de fallo
+    restart: unless-stopped
+
+    # Dependencias: espera a que PostgreSQL esté saludable
+    depends_on:
+      db_postgres:
+        condition: service_healthy
+
+    # Conectar a la red personalizada
+    networks:
+      - callcenter_network
+
+    # Límites de recursos (opcionales, descomentarlos si es necesario)
+    # deploy:
+    #   resources:
+    #     limits:
+    #       cpus: '1.5'
+    #       memory: 2G
+    #     reservations:
+    #       cpus: '0.5'
+    #       memory: 512M
+
+  # ========================================
+  # PostgreSQL - Base de datos principal
+  # SIEMPRE activo (sin profile)
+  # ========================================
+  db_postgres:
+    image: postgres:15-alpine
+
+    # Labels de metadata
+    labels:
+      com.callcenter.service: "postgresql"
+      com.callcenter.environment: "development"
+      com.callcenter.description: "PostgreSQL primary database"
+
+    # Hostname personalizado
+    hostname: db-postgres
+
+    # Variables de entorno para PostgreSQL
+    environment:
+      POSTGRES_DB: callcenterdb
+      POSTGRES_USER: django_user
+      POSTGRES_PASSWORD: django_pass
+      # Configuraciones de PostgreSQL
+      POSTGRES_INITDB_ARGS: "--encoding=UTF8 --lc-collate=en_US.UTF-8 --lc-ctype=en_US.UTF-8"
+      # Timezone
+      TZ: UTC
+      PGTZ: UTC
+
+    # Volumen persistente para datos
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+      # Configuración personalizada (opcional)
+      # - ./postgres/postgresql.conf:/etc/postgresql/postgresql.conf:ro
+
+    # Exponer puerto solo internamente (no publicarlo en host)
+    expose:
+      - "5432"
+
+    # Healthcheck: verifica que PostgreSQL esté listo para aceptar conexiones
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U django_user -d callcenterdb"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+
+    # Reinicio automático
+    restart: unless-stopped
+
+    # Conectar a la red personalizada
+    networks:
+      - callcenter_network
+
+    # Configuración de recursos (opcional)
+    # shm_size: 256mb  # Memoria compartida para PostgreSQL
+
+  # ========================================
+  # MariaDB - Base de datos secundaria
+  # SOLO cuando lo necesites (profile: mariadb)
+  # ========================================
+  db_mariadb:
+    image: mariadb:11-jammy
+
+    # Labels de metadata
+    labels:
+      com.callcenter.service: "mariadb"
+      com.callcenter.environment: "development"
+      com.callcenter.description: "MariaDB secondary database for legacy data"
+
+    # Hostname personalizado
+    hostname: db-mariadb
+
+    # Variables de entorno para MariaDB
+    environment:
+      MARIADB_DATABASE: callcenterdb_maria
+      MARIADB_USER: django_user
+      MARIADB_PASSWORD: django_pass
+      MARIADB_ROOT_PASSWORD: root_pass
+      # Configuración de character set
+      MARIADB_CHARSET: utf8mb4
+      MARIADB_COLLATION: utf8mb4_unicode_ci
+      # Timezone
+      TZ: UTC
+
+    # Volumen persistente para datos
+    volumes:
+      - maria_data:/var/lib/mysql
+      # Configuración personalizada (opcional)
+      # - ./mariadb/my.cnf:/etc/mysql/conf.d/custom.cnf:ro
+
+    # Exponer puerto solo internamente
+    expose:
+      - "3306"
+
+    # Healthcheck: verifica que MariaDB esté listo
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+    # Reinicio automático
+    restart: unless-stopped
+
+    # Conectar a la red personalizada
+    networks:
+      - callcenter_network
+
+    # Profile: solo se activa con --profile mariadb
+    profiles:
+      - mariadb
+
+    # Comando personalizado (opcional, para configuraciones específicas)
+    # command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+
+# Volúmenes adicionales
+volumes:
+  pip_cache:
+    name: callcenter_pip_cache
+    driver: local
