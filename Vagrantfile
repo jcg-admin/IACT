@@ -1,0 +1,16 @@
+# frozen_string_literal: true
+
+Vagrant.configure('2') do |config|
+  config.vm.box = 'ubuntu/noble64'
+  config.vm.hostname = 'callcenter-analytics'
+
+  config.vm.network 'forwarded_port', guest: 5432, host: 15432, auto_correct: true
+  config.vm.network 'forwarded_port', guest: 3306, host: 13306, auto_correct: true
+
+  config.vm.provider 'virtualbox' do |vb|
+    vb.memory = 4096
+    vb.cpus = 2
+  end
+
+  config.vm.provision 'shell', path: 'provisioning/bootstrap.sh'
+end
