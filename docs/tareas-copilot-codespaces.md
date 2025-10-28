@@ -3,6 +3,21 @@
 ## Contexto
 El objetivo es asegurar que los desarrolladores dispongan de asistencia con GitHub Copilot dentro de Codespaces y que el contenedor remoto se configure sin pasos manuales adicionales. Las tareas se organizan en completadas y pendientes para facilitar el seguimiento.
 
+### Problema de las redes corporativas/escolares
+
+- Los equipos de pruebas ejecutan el proyecto desde laboratorios corporativos y aulas universitarias en los que todo el tráfico hacia servicios de IA (GitHub Copilot, OpenAI, Azure AI) se bloquea a nivel de firewall.
+- El personal no puede iniciar sesión en la extensión de Copilot porque la ventana de autenticación y las solicitudes `api.githubcopilot.com` quedan filtradas; después de varios intentos la interfaz de VS Code queda inutilizable.
+- Las políticas de seguridad impiden instalar software adicional o modificar la configuración del proxy del sistema, por lo que las personas no tienen forma de habilitar Copilot por cuenta propia.
+- Para no perder productividad en esos entornos cerrados, el devcontainer debe preparar de antemano la CLI de Copilot y dejar mensajes claros cuando la autenticación falle, de modo que soporte técnico pueda gestionar una lista blanca o una conexión alternativa.
+- En resumen, el problema raíz es que la red corporativa/escolar actúa como un bloqueo total hacia los dominios de GitHub Copilot; esto deja a las personas desarrolladoras sin la herramienta pese a tener acceso autorizado, genera fricción operativa al soporte y retrasa la entrega de tareas mientras se consigue una excepción en el firewall.
+
+### Impacto para las personas usuarias
+
+- **Imposibilidad de usar Copilot**: el IDE muestra errores de autenticación y deja de sugerir código porque no puede contactar a los servidores de GitHub Copilot.
+- **Cuellos de botella en soporte**: el equipo de TI debe gestionar excepciones de firewall caso por caso, lo que puede tardar días y deja al personal sin asistencia inteligente mientras tanto.
+- **Pérdida de productividad**: sin sugerencias automáticas ni chat contextual, el trabajo sobre el monolito Django se vuelve más lento, especialmente para quienes están en capacitación.
+- **Riesgo de configuraciones manuales**: ante la urgencia, algunas personas intentan instalar clientes no autorizados o modificar proxies locales, lo que viola políticas internas y puede provocar sanciones.
+
 ## Tareas completadas
 - [x] Añadir las extensiones `github.copilot` y `github.copilot-chat` en `.devcontainer/devcontainer.json` para que estén disponibles al abrir el Codespace.
 - [x] Configurar `github.copilot.enable` con políticas predeterminadas (deshabilitar en texto plano y entradas de commit) para cumplir buenas prácticas de seguridad.
