@@ -5,7 +5,7 @@
   // Configuración de Docker Compose
   "dockerComposeFile": "docker-compose.yml",
   "service": "app",
-  "workspaceFolder": "/workspace/callcentersite",
+  "workspaceFolder": "/workspace",
 
   // ========================================
   // Requisitos de Hardware
@@ -54,8 +54,8 @@
   // onCreateCommand: Se ejecuta UNA VEZ cuando se crea el Codespace
   // Aquí instalamos dependencias de desarrollo y testing
   "onCreateCommand": {
-    "install-dev": "pip install -r requirements/dev.txt",
-    "install-test": "pip install -r requirements/test.txt",
+    "install-dev": "pip install -r api/requirements/dev.txt",
+    "install-test": "pip install -r api/requirements/test.txt",
     "verify": "python -c 'import django; import pytest; print(\"Dependencias instaladas correctamente\")'",
     "info": "echo 'Dependencias dev y test instaladas'"
   },
@@ -63,18 +63,18 @@
   // postCreateCommand: Se ejecuta después de onCreateCommand
   // Útil para configuraciones adicionales que requieren las deps instaladas
   "postCreateCommand": {
-    "setup-git": "git config --global --add safe.directory /workspace/callcentersite",
-    "copy-env": "[ ! -f .env ] && cp .env.example .env || echo '.env ya existe'",
+    "setup-git": "git config --global --add safe.directory ${CONTAINER_WORKSPACE_FOLDER:-/workspace}",
+    "copy-env": "if [ -f api/.env.example ]; then [ ! -f api/.env ] && cp api/.env.example api/.env && echo 'api/.env generado' || echo 'api/.env ya existe'; else echo 'No se encontró api/.env.example, omitiendo copia automática'; fi",
     "info": "echo 'Configuración post-creación completada'"
   },
 
   // postStartCommand: Se ejecuta CADA VEZ que el Codespace inicia/resume
   // Aquí verificamos estado y ejecutamos migraciones
   "postStartCommand": {
-    "wait-db": "until pg_isready -h db_postgres -U django_user -d callcenterdb; do sleep 1; done",
-    "migrate-postgres": "python manage.py migrate",
-    "collect-static": "python manage.py collectstatic --noinput --clear || true",
-    "check": "python manage.py check",
+    "wait-db": "if command -v pg_isready >/dev/null 2>&1; then until pg_isready -h db_postgres -U django_user -d callcenterdb; do sleep 1; done; else echo 'pg_isready no disponible, omitiendo espera de base de datos'; fi",
+    "migrate-postgres": "cd api && python manage.py migrate",
+    "collect-static": "cd api && python manage.py collectstatic --noinput --clear || true",
+    "check": "cd api && python manage.py check",
     "info": "echo 'Codespace listo. Django app + PostgreSQL activos. Para activar MariaDB: make mariadb-up'"
   },
 
@@ -82,7 +82,7 @@
   // Útil para mostrar información de bienvenida
   "postAttachCommand": {
     "welcome": "cat README-CODESPACES.md 2>/dev/null || echo 'Bienvenido al Codespace de CallCenter Django'",
-    "status": "make ps || docker compose ps"
+    "status": "cd api && python manage.py showmigrations || echo 'No se pudieron listar migraciones (¿falta configurar la base de datos?)'"
   },
 
   // ========================================
@@ -92,8 +92,8 @@
     "codespaces": {
       // Archivos a abrir automáticamente al iniciar
       "openFiles": [
-        "README-CODESPACES.md",
-        "callcentersite/settings.py"
+        "README.md",
+        "api/callcentersite/settings.py"
       ]
     },
     

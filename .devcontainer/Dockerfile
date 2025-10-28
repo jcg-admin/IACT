@@ -48,7 +48,7 @@ RUN pip install --upgrade pip setuptools wheel
 # Pre-instalar dependencias Python base en la imagen
 # Esto acelera el inicio del Codespace ya que están en el prebuild
 # Nota: requirements está en api/requirements/base.txt
-COPY callcentersite/requirements/base.txt /tmp/base.txt
+COPY api/requirements/base.txt /tmp/base.txt
 
 RUN pip install --no-cache-dir -r /tmp/base.txt \
     && rm /tmp/base.txt \
@@ -65,7 +65,7 @@ RUN addgroup -g ${USER_GID} django \
     && chown -R django:django /home/django
 
 # Configurar directorio de trabajo
-WORKDIR /workspace/callcentersite
+WORKDIR /workspace/IACT---project
 
 # Cambiar a usuario no-root
 # Todos los comandos posteriores se ejecutarán como 'django'
