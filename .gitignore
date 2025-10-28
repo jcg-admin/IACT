@@ -1,0 +1,180 @@
+**/db.sqlite3
+**/__pycache__
+**/.DS_Store
+**/*.tgz
+**/*.tar
+**/*-tar.gz
+**/.vagrant
+**/*.log
+**/*.pyc
+**/*.class
+**/*.jar
+**/coffeeshop/target
+**/csthirdparty/target
+**/static/admin
+**/static/flags
+**/static/rest_framework
+**/static/django_extensions
+**/*.crt
+**/*.csr
+**/*.key
+**/*.pub
+**/*.ipynb
+
+
+# Visual Studio Code
+.vscode/
+*.code-workspace
+.vscode
+
+# IntelliJ IDEA
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Backup files
+*.bak
+*.backup
+*.orig
+*.tmp
+/backups/
+
+# Reglas para archivos de backup específicos
+*backup-copy-log-*.txt
+*backup-*log-*.txt
+*.backup-*
+*.pre-fix-*
+
+
+### OSX ###
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Icon must end with two \r
+Icon
+
+# Thumbnails
+._*
+
+# Files that might appear on external disk
+.Spotlight-V100
+.Trashes
+
+# Directories potentially created on remote AFP share
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+
+### Python ###
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+env/
+*.venv/
+.venv/*
+.venv/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# PyInstaller
+#  Usually these files are written by a python script from a template
+#  before PyInstaller builds the exe, so as to inject date/other infos into it.
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.coverage
+.cache
+nosetests.xml
+coverage.xml
+
+# Translations
+*.mo
+*.pot
+
+# Sphinx documentation
+docs/_build/
+
+# PyBuilder
+target/
+
+
+### Django ###
+log/
+*.log
+*.pot
+*.pyc
+__pycache__/
+local_settings.py
+
+.env
+venv_local
+.venv_local
+
+db.sqlite3
+
+staticfiles
+
+
+# Django
+*.log
+*.pot
+*.pyc
+__pycache__/
+db.sqlite3
+media/
+staticfiles/
+
+# Virtual Environment
+venv/
+env/
+
+# Environment
+.env
+.env.local
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+
+# Testing
+.coverage
+.pytest_cache/
+
+# Logs
+logs/*.log
+!logs/.gitkeep
+
+
+cache/
