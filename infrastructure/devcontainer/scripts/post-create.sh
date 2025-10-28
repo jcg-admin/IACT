@@ -38,6 +38,44 @@ log_file="$log_dir/post-create.log"
   install_requirements "requirements/dev.txt"
   install_requirements "requirements/test.txt"
 
+  install_copilot_cli="${DEVCONTAINER_INSTALL_COPILOT_CLI:-1}"
+  if [ "$install_copilot_cli" = "1" ]; then
+    if command -v npm >/dev/null 2>&1; then
+      echo "[post-create] Instalando GitHub Copilot CLI"
+      install_log=$(mktemp)
+      alias_log=$(mktemp)
+      if npm install -g @githubnext/github-copilot-cli >"$install_log" 2>&1; then
+        echo "[post-create] GitHub Copilot CLI instalado correctamente"
+        if command -v github-copilot-cli >/dev/null 2>&1; then
+          alias_dir="$HOME/.config/github-copilot-cli"
+          alias_file="$alias_dir/alias.sh"
+          mkdir -p "$alias_dir"
+          if github-copilot-cli alias -- bash >"$alias_file" 2>"$alias_log"; then
+            if ! grep -Fq "github-copilot-cli" "$HOME/.bashrc" 2>/dev/null; then
+              echo "source \"$alias_file\"" >> "$HOME/.bashrc"
+              echo "[post-create] Alias de Copilot CLI añadidos a ~/.bashrc"
+            else
+              echo "[post-create] Alias de Copilot CLI ya presentes en ~/.bashrc"
+            fi
+          else
+            echo "[post-create] Advertencia: no fue posible generar alias para Copilot CLI" >&2
+            cat "$alias_log" >&2
+          fi
+        else
+          echo "[post-create] Advertencia: github-copilot-cli no está en PATH tras la instalación" >&2
+        fi
+      else
+        echo "[post-create] Advertencia: npm no pudo instalar github-copilot-cli" >&2
+        cat "$install_log" >&2
+      fi
+      rm -f "$install_log" "$alias_log"
+    else
+      echo "[post-create] npm no está disponible; se omite GitHub Copilot CLI"
+    fi
+  else
+    echo "[post-create] Instalación de Copilot CLI omitida (DEVCONTAINER_INSTALL_COPILOT_CLI=$install_copilot_cli)"
+  fi
+
   if [ -f "env.example" ] && [ ! -f "env" ]; then
     echo "[post-create] Copiando env.example → env"
     cp env.example env
