@@ -47,8 +47,36 @@ log_file="$log_dir/post-create.log"
       npm_version_raw="$(npm --version 2>/dev/null || echo "0.0.0")"
       npm_major="${npm_version_raw%%.*}"
 
-      echo "[post-create] Node.js detectado: $node_version_raw"
+      echo "[post-create] Node detectado: $node_version_raw"
       echo "[post-create] npm detectado: $npm_version_raw"
+
+      echo "[post-create] Registry configurado: $(npm config get registry 2>/dev/null || echo 'desconocido')"
+      echo "[post-create] Proxy HTTP: $(npm config get proxy 2>/dev/null || echo 'no configurado')"
+      echo "[post-create] Proxy HTTPS: $(npm config get https-proxy 2>/dev/null || echo 'no configurado')"
+
+      echo "[post-create] Ejecutando npm ping para validar conectividad"
+      if ping_output="$(npm ping 2>&1)"; then
+        echo "[post-create] npm ping exitoso"
+        printf '%s\n' "$ping_output"
+      else
+        echo "[post-create] Advertencia: npm ping falló" >&2
+        printf '%s\n' "$ping_output" >&2
+      fi
+
+      diagnostics_enabled="${DEVCONTAINER_CAPTURE_NPM_DIAGNOSTICS:-1}"
+      diagnostics_script="$(dirname "${BASH_SOURCE[0]}")/npm-diagnostics.sh"
+      if [ "$diagnostics_enabled" = "1" ]; then
+        if [ -x "$diagnostics_script" ]; then
+          echo "[post-create] Ejecutando script de diagnóstico npm"
+          if ! "$diagnostics_script"; then
+            echo "[post-create] Advertencia: el script npm-diagnostics devolvió un error" >&2
+          fi
+        else
+          echo "[post-create] Advertencia: npm-diagnostics.sh no es ejecutable o no existe" >&2
+        fi
+      else
+        echo "[post-create] Diagnóstico npm omitido (DEVCONTAINER_CAPTURE_NPM_DIAGNOSTICS=$diagnostics_enabled)"
+      fi
 
       if [ "${node_major:-0}" -ge 22 ] && [ "${npm_major:-0}" -ge 10 ]; then
         npm_ping_log=$(mktemp)
