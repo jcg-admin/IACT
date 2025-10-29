@@ -18,6 +18,7 @@ Este runbook confirma que el Codespace corporativo deja lista la integración co
 | Scripts centralizados para aprovisionamiento | `infrastructure/devcontainer/scripts/post-create.sh` y `post-start.sh` | Los comandos de bootstrap se ejecutan desde el repositorio y persisten logs en `infrastructure/devcontainer/logs/`. |
 | Validación automática de Django | `post-create.sh` ejecuta `python manage.py check` tras instalar dependencias. | El resultado queda trazado en `post-create.log`. |
 | Smoke test de `pytest` no bloqueante | `post-create.sh` ejecuta `python -m pytest --maxfail=1 --disable-warnings -q` por defecto y solo registra advertencias ante fallos. | Garantiza visibilidad temprana sin frenar la creación del Codespace. |
+| Banderas de aprovisionamiento controladas | `.devcontainer/devcontainer.json` → `containerEnv.DEVCONTAINER_*` | Permiten habilitar/omitir instalación de Copilot, pruebas automáticas y diagnósticos de npm según la necesidad. |
 | Verificación en el arranque | `post-start.sh` relanza `python manage.py check` al iniciarse el contenedor remoto. | La salida se guarda en `post-start.log` para diagnóstico. |
 | Copilot CLI preparado | `post-create.sh` valida `node >=22` y `npm >=10`, instala `@github/copilot` y verifica que el comando `copilot` quede disponible. | La instalación cumple el flujo "install once, authenticate, work" sin pasos manuales. |
 | Bootstrap de variables de entorno | `post-create.sh` copia `env.example` → `env` en `api/callcentersite/` si el archivo no existe. | Evita errores en `manage.py` tras el primer arranque. |
@@ -30,6 +31,7 @@ Este runbook confirma que el Codespace corporativo deja lista la integración co
    ```
    - Revisar `infrastructure/devcontainer/logs/post-create.log` y confirmar que no existan errores fatales de `pip`.
    - Verificar que el bloque `[post-create] Ejecutando pytest` aparezca incluso cuando existan fallos en las pruebas.
+   - Consultar `infrastructure/devcontainer/logs/npm-diagnostics-*.log` para validar `npm ping`, registry y configuración de proxy registrada automáticamente.
 2. **Verificar Copilot CLI**
    ```bash
    gh auth status
@@ -101,6 +103,41 @@ Este runbook confirma que el Codespace corporativo deja lista la integración co
   ```
 - Si `copilot` no queda disponible, revisar `~/.npm-global/bin` y ajustar `PATH` en `.bashrc`.
 - Registrar en la bitácora `post-create.log` la línea `[post-create] Copilot CLI disponible`.
+- El script genera un informe adicional `npm-diagnostics-<fecha>.log` con `npm ping`, proxies configurados y contenidos de `.npmrc`; adjúntalo en cualquier ticket de red.
+
+#### 6.1.1 Error `403 Forbidden` al instalar `@github/copilot`
+
+En entornos corporativos con proxies estrictos puede aparecer el error:
+
+```text
+npm ERR! code E403
+npm ERR! 403 403 Forbidden - GET https://registry.npmjs.org/@github%2fcopilot - request forbidden by corporate proxy
+```
+
+**Causa.** `@github/copilot` se publica en el registro público `https://registry.npmjs.org/`. El error suele ocurrir cuando el proxy o
+mirror corporativo bloquea el paquete (por ejemplo, Artifactory mal configurado), fuerza autenticación con credenciales externas
+o intercepta las solicitudes `@github/*`. En estos casos `npm` no debe apuntar a `npm.pkg.github.com` ni requiere tokens con
+`read:packages`.
+
+**Solución.** Restablecer la configuración de `npm` para usar el registro público oficial, validar la ruta a través del proxy y, si el bloqueo
+persiste, escalar a la mesa de redes con evidencias:
+
+```bash
+npm config delete @github:registry            # elimina overrides heredados
+npm config set registry https://registry.npmjs.org/
+npm config delete //npm.pkg.github.com/:_authToken || true
+npm cache clean --force
+npm ping                                      # verifica conectividad con el registro público
+npm install -g @github/copilot
+```
+
+> **Seguimiento:** si `npm ping` también devuelve `403`, abrir ticket con el equipo de redes adjuntando la hora, IP del proxy y la URL
+> bloqueada. Para instalaciones críticas, solicitar whitelist temporal del dominio `registry.npmjs.org` y del scope `@github`.
+
+> **Banderas útiles:**
+> - `DEVCONTAINER_INSTALL_COPILOT_CLI=0` omite la instalación automática (útil si el equipo de redes está depurando manualmente).
+> - `DEVCONTAINER_CAPTURE_NPM_DIAGNOSTICS=0` evita generar logs extra cuando no son necesarios.
+> - `DEVCONTAINER_NPM_DIAGNOSTICS_DRY_RUN=1` añade un `npm install --dry-run --verbose` al reporte para reproducir el error.
 
 ### 6.2 Autenticación y validaciones
 
