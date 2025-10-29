@@ -2,7 +2,7 @@
 id: RB-DEVOPS-004
 estado: vigente
 propietario: equipo-devops
-ultima_actualizacion: 2025-02-15
+ultima_actualizacion: 2025-02-16
 relacionados: ["DOC-OPS-001", "tasks/copilot-codespaces.md"]
 ---
 # Runbook de verificación: GitHub Copilot y Codespaces
@@ -19,7 +19,7 @@ Este runbook confirma que el Codespace corporativo deja lista la integración co
 | Validación automática de Django | `post-create.sh` ejecuta `python manage.py check` tras instalar dependencias. | El resultado queda trazado en `post-create.log`. |
 | Smoke test de `pytest` no bloqueante | `post-create.sh` ejecuta `python -m pytest --maxfail=1 --disable-warnings -q` por defecto y solo registra advertencias ante fallos. | Garantiza visibilidad temprana sin frenar la creación del Codespace. |
 | Verificación en el arranque | `post-start.sh` relanza `python manage.py check` al iniciarse el contenedor remoto. | La salida se guarda en `post-start.log` para diagnóstico. |
-| Copilot CLI preparado | `post-create.sh` instala `@githubnext/github-copilot-cli` vía `npm` cuando está disponible y añade alias en `~/.bashrc`. | Las personas usuarias pueden invocar `github-copilot-cli` sin pasos manuales. |
+| Copilot CLI preparado | `post-create.sh` valida `node >=22` y `npm >=10`, instala `@github/copilot` y verifica que el comando `copilot` quede disponible. | La instalación cumple el flujo "install once, authenticate, work" sin pasos manuales. |
 | Bootstrap de variables de entorno | `post-create.sh` copia `env.example` → `env` en `api/callcentersite/` si el archivo no existe. | Evita errores en `manage.py` tras el primer arranque. |
 
 ## 2. Procedimiento de auditoría rápida
@@ -34,9 +34,11 @@ Este runbook confirma que el Codespace corporativo deja lista la integración co
    ```bash
    gh auth status
    gh copilot status
-   github-copilot-cli help
+   node --version
+   npm --version
+   copilot
    ```
-   - Confirmar que la CLI responda y que la sesión pertenezca a la cuenta corporativa.
+   - Confirmar que la CLI responda, que las versiones cumplan `node >=22` / `npm >=10` y que la sesión pertenezca a la cuenta corporativa.
 3. **Solicitar sugerencia en VS Code**
    - Abrir un archivo Python y usar `Ctrl+Enter` para pedir una propuesta de código.
    - Comprobar la barra de estado de VS Code: debe mostrar “GitHub Copilot: conectado”.
@@ -65,9 +67,33 @@ Este runbook confirma que el Codespace corporativo deja lista la integración co
 ## 4. Checklist para entrega semanal
 
 - [ ] `post-create.log` y `post-start.log` sin errores críticos.
-- [ ] Copilot CLI instalado y alias disponible (`type github-copilot-cli`).
+- [ ] Copilot CLI instalado (`copilot --version`) y accesible desde la terminal.
 - [ ] Extensiones de Copilot visibles en VS Code.
 - [ ] `pytest` ejecutado automáticamente tras la reconstrucción del contenedor.
 - [ ] Documentación interna actualizada con hallazgos y bloqueos.
+
+## 5. Guía rápida para el equipo
+
+1. **Instala y autentica**
+   - Ejecuta `copilot` y sigue el flujo `/login`.
+   - Concede acceso usando la cuenta con plan Copilot Pro/Business/Enterprise.
+   - Valida con `gh auth status` y `gh copilot status` que la sesión quedó enlazada.
+2. **Conoce el repositorio**
+   - Pregunta “Explain the layout of this project.” para recibir un resumen de directorios y módulos.
+   - Solicita “Make sure my environment is ready to build this project.” para que verifique dependencias y versiones.
+3. **Encuentra trabajo relevante**
+   - Usa “Find good first issues in this repository and rank them by difficulty.” para priorizar tareas.
+   - Documenta en la wiki el issue seleccionado y los criterios de decisión.
+4. **Implementa con control**
+   - Pide “Start implementing issue #<número>. Show me the diff before applying.” para que proponga cambios revisables.
+   - Revisa y aprueba antes de ejecutar los comandos sugeridos; mantén el flujo TDD habitual.
+5. **Prepara la entrega**
+   - Solicita “Stage changes, write a commit referencing #<número>, and open a draft PR.” para automatizar el empaquetado.
+   - Asegúrate de editar el mensaje de commit para respetar el formato convencional.
+6. **Resuelve incidentes operativos**
+   - Pregunta “What process is using port 8080? Kill it and verify the port is free.” para liberar puertos ocupados.
+   - Emplea `/session`, `/reset` o `/add-directory` para administrar permisos del asistente.
+
+> **Extensiones MCP:** usa `/mcp` para integrar herramientas adicionales (p. ej. Playwright) siguiendo los lineamientos de seguridad definidos en `tasks/copilot-codespaces.md`.
 
 > **Tip:** ante restricciones de red persistentes, coordinar con TI la creación de un túnel temporal usando la VPN corporativa oficial antes de iniciar Codespaces.
