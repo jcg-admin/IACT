@@ -10,3 +10,4 @@ Este directorio agrupa tareas repetibles para soporte y operaciones. Cada archiv
 
 ## Índice
 - [Habilitar Copilot en Codespaces](./copilot-codespaces.md)
+- [Mitigar error 403 en instalación de Copilot CLI](./github-copilot-cli-403-forbidden.md)
