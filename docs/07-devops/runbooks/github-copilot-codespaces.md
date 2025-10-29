@@ -75,25 +75,111 @@ Este runbook confirma que el Codespace corporativo deja lista la integración co
 ## 5. Guía rápida para el equipo
 
 1. **Instala y autentica**
-   - Ejecuta `copilot` y sigue el flujo `/login`.
-   - Concede acceso usando la cuenta con plan Copilot Pro/Business/Enterprise.
-   - Valida con `gh auth status` y `gh copilot status` que la sesión quedó enlazada.
+   - Sigue el resumen de los apartados §6.1 y §6.2 para dejar lista la CLI y validar la sesión corporativa.
 2. **Conoce el repositorio**
-   - Pregunta “Explain the layout of this project.” para recibir un resumen de directorios y módulos.
-   - Solicita “Make sure my environment is ready to build this project.” para que verifique dependencias y versiones.
+   - Consulta el flujo descrito en §6.3 para recopilar el layout y el estado del entorno.
 3. **Encuentra trabajo relevante**
-   - Usa “Find good first issues in this repository and rank them by difficulty.” para priorizar tareas.
-   - Documenta en la wiki el issue seleccionado y los criterios de decisión.
+   - Prioriza issues con el procedimiento §6.4 y registra evidencias en la wiki.
 4. **Implementa con control**
-   - Pide “Start implementing issue #<número>. Show me the diff before applying.” para que proponga cambios revisables.
-   - Revisa y aprueba antes de ejecutar los comandos sugeridos; mantén el flujo TDD habitual.
+   - Mantén el ciclo TDD utilizando los pasos guiados de §6.5 y verifica comandos antes de ejecutarlos.
 5. **Prepara la entrega**
-   - Solicita “Stage changes, write a commit referencing #<número>, and open a draft PR.” para automatizar el empaquetado.
-   - Asegúrate de editar el mensaje de commit para respetar el formato convencional.
+   - Aplica las convenciones corporativas apoyándote en §6.6.
 6. **Resuelve incidentes operativos**
-   - Pregunta “What process is using port 8080? Kill it and verify the port is free.” para liberar puertos ocupados.
-   - Emplea `/session`, `/reset` o `/add-directory` para administrar permisos del asistente.
-
-> **Extensiones MCP:** usa `/mcp` para integrar herramientas adicionales (p. ej. Playwright) siguiendo los lineamientos de seguridad definidos en `tasks/copilot-codespaces.md`.
+   - Revisa §6.7 y §6.8 para liberar recursos y gestionar extensiones MCP.
 
 > **Tip:** ante restricciones de red persistentes, coordinar con TI la creación de un túnel temporal usando la VPN corporativa oficial antes de iniciar Codespaces.
+
+## 6. Recetario de Copilot CLI
+
+### 6.1 Instalación automatizada
+
+- El script `infrastructure/devcontainer/scripts/post-create.sh` valida versiones (`node --version`, `npm --version`) y exige `node >=22` y `npm >=10` antes de instalar la CLI.
+- La instalación se realiza con:
+  ```bash
+  npm install -g @github/copilot
+  copilot --help
+  ```
+- Si `copilot` no queda disponible, revisar `~/.npm-global/bin` y ajustar `PATH` en `.bashrc`.
+- Registrar en la bitácora `post-create.log` la línea `[post-create] Copilot CLI disponible`.
+
+### 6.2 Autenticación y validaciones
+
+1. Lanzar la CLI:
+   ```bash
+   copilot
+   /login
+   ```
+2. Autenticar con una cuenta que tenga plan Copilot Pro/Pro+/Business/Enterprise.
+3. Confirmar que la sesión quedó enlazada:
+   ```bash
+   gh auth status
+   gh copilot status
+   ```
+4. Documentar en la wiki: fecha, responsable, tipo de red, resultado y si fue necesario ejecutar `/reset`.
+
+### 6.3 Arranque rápido del repositorio
+
+1. Solicitar un resumen del proyecto:
+   ```text
+   Explain the layout of this project.
+   ```
+2. Verificar dependencias y entorno:
+   ```text
+   Make sure my environment is ready to build this project.
+   ```
+3. Confirmar que Copilot enlistó comandos como `python manage.py check` y la instalación de Go cuando corresponda.
+4. Registrar la respuesta en la wiki de onboarding.
+
+### 6.4 Rastreo de issues y priorización
+
+1. Usar el MCP de GitHub integrado:
+   ```text
+   Find good first issues in this repository and rank them by difficulty.
+   ```
+2. Validar que cada issue incluya enlace, tags y justificación de dificultad.
+3. Documentar el issue seleccionado, responsable y decisión tomada en la wiki interna.
+
+### 6.5 Flujo de implementación asistida
+
+1. Crear un branch siguiendo la convención `feature/<ticket>`.
+2. Pedir a Copilot un plan y revisión del diff:
+   ```text
+   Start implementing issue #1234. Show me the diff before applying.
+   ```
+3. Revisar el plan, ajustar el alcance y aprobar los cambios cuando respeten el ciclo TDD.
+4. Ejecutar manualmente los tests relevantes (`pytest`, `python manage.py test`) antes de confirmar cambios.
+
+### 6.6 Automatización de entrega
+
+1. Mantener control humano sobre el empaquetado:
+   ```text
+   Stage changes, write a commit referencing #1234, and open a draft PR.
+   ```
+2. Validar que el mensaje de commit respete el formato `<type>(<scope>): <description>`.
+3. Confirmar que el PR queda en modo borrador y añadir checklist de revisión.
+
+### 6.7 Utilidades de soporte
+
+1. Liberar puertos ocupados cuando aparezca el error "address already in use":
+   ```text
+   What process is using port 8080? Kill it and verify the port is free.
+   ```
+2. Gestionar permisos activos:
+   ```text
+   /session
+   /reset
+   /add-directory
+   ```
+3. Registrar incidentes de red en el tablero de plataforma y adjuntar logs generados.
+
+### 6.8 Extensión con MCP adicionales
+
+1. Revisar lineamientos de seguridad en `tasks/copilot-codespaces.md` antes de agregar servidores.
+2. Solicitar la instalación de nuevas herramientas:
+   ```text
+   /mcp add
+   ```
+3. Documentar nombre, tipo (Local/HTTP/SSE), comando, argumentos y variables de entorno propuestas.
+4. Someter la solicitud a Seguridad TI, incluyendo evaluación de riesgos y plan de rollback.
+
+> **Nota:** cualquier integración MCP debe contar con aprobación previa y pruebas controladas en un Codespace aislado.

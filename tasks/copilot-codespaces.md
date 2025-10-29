@@ -2,8 +2,6 @@
 
 > **Nota**: la verificación operativa y la bitácora viva se mantienen en `docs/07-devops/runbooks/github-copilot-codespaces.md`.
 
-> **Nota**: la verificación operativa y la bitácora viva se mantienen en `docs/07-devops/runbooks/github-copilot-codespaces.md`.
-
 ## Contexto
 El énfasis cambia de la extensión tradicional hacia **GitHub Copilot CLI**. Queremos que cualquier Codespace (o estación local) pueda instalar una sola vez la CLI, autenticarse con la cuenta corporativa y comenzar a trabajar desde la terminal usando los flujos guiados por slash commands. Las dependencias previas (Node, npm) se encontraban en la imagen precisamente para soportar este escenario.
 
@@ -44,7 +42,7 @@ El énfasis cambia de la extensión tradicional hacia **GitHub Copilot CLI**. Qu
 ## Cómo lo vamos a distribuir
 
 - Actualizar el runbook operativo (`docs/07-devops/runbooks/github-copilot-codespaces.md`) con los requisitos de versión, el nuevo flujo CLI y la matriz de cumplimiento alineada a `@github/copilot`.
-- Generar ejemplos guiados (scripts o snippets) que puedan copiarse en la terminal para replicar los casos de uso descritos arriba.
+- Generar ejemplos guiados (scripts o snippets) que puedan copiarse en la terminal para replicar los casos de uso descritos arriba. La sección §6 del runbook consolida este recetario con comandos listos para copiar.
 - Añadir referencias cruzadas desde la wiki interna para que soporte y capacitación puedan seguir la misma guía.
 
 ## Próximos entregables
