@@ -158,7 +158,8 @@ execute_installation_script() {
 
 prepare_installation() {
   local scripts_sequence=(
-      "$PROJECT_ROOT/scripts/system-prepare.sh"
+    "$PROJECT_ROOT/install/system-prepare.sh"
+    "$PROJECT_ROOT/install/mariadb-install.sh"
   )
 
   echo "${scripts_sequence[@]}"
