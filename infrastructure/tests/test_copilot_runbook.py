@@ -3,7 +3,7 @@
 from pathlib import Path
 
 
-REPO_ROOT = Path(__file__).resolve().parents[4]
+REPO_ROOT = Path(__file__).resolve().parents[2]
 RUNBOOK_PATH = REPO_ROOT / "docs/07-devops/runbooks/github-copilot-codespaces.md"
 
 
