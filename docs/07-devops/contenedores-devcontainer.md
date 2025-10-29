@@ -22,3 +22,8 @@ relacionados: ["ADR-2025-001"]
 - Confirmar instalación de extensiones críticas (`ms-python.python`, `batisteo.vscode-django`, `charliermarsh.ruff`).
 - Ejecutar `pip install -r api/requirements/dev.txt` y `pip install -r api/requirements/test.txt` tras ajustar rutas.
 - Reconstruir el contenedor y revisar logs de `postCreateCommand` antes de adoptar cambios.
+
+## Parámetros de Dev Container
+- **Feature Node.js**: configurado en `.devcontainer/devcontainer.json` con `version: "22"` y `npm: "10"` para garantizar compatibilidad con GitHub Copilot CLI.
+- **DEVCONTAINER_INSTALL_COPILOT_CLI**: controla la instalación automática de `@github/copilot`; por defecto es `1` (habilitado). Establecerlo en `0` omite el paso.
+- **DEVCONTAINER_RUN_TESTS**: define si se ejecutan pruebas de humo con `pytest` al finalizar el `postCreate`; el valor por defecto es `1` (se ejecutan). Cambiarlo a `0` salta las pruebas iniciales.
