@@ -2,7 +2,7 @@
 from pathlib import Path
 
 
-REPO_ROOT = Path(__file__).resolve().parents[4]
+REPO_ROOT = Path(__file__).resolve().parents[2]
 SCRIPT_PATH = REPO_ROOT / "infrastructure/devcontainer/scripts/post-create.sh"
 
 
