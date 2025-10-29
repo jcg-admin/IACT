@@ -1,0 +1,185 @@
+---
+id: RB-DEVOPS-004
+estado: vigente
+propietario: equipo-devops
+ultima_actualizacion: 2025-02-16
+relacionados: ["DOC-OPS-001", "tasks/copilot-codespaces.md"]
+---
+# Runbook de verificación: GitHub Copilot y Codespaces
+
+Este runbook confirma que el Codespace corporativo deja lista la integración con GitHub Copilot y registra las evidencias clave descritas en `tasks/copilot-codespaces.md`.
+
+## 1. Matriz de cumplimiento
+
+| Requisito | Evidencia | Validación |
+|-----------|-----------|------------|
+| Extensiones `github.copilot` y `github.copilot-chat` preinstaladas | `.devcontainer/devcontainer.json` → `customizations.vscode.extensions` | Ambas extensiones figuran junto al stack Python/SQL y se distribuyen en cada Codespace. |
+| Políticas `github.copilot.enable` aplicadas | `.devcontainer/devcontainer.json` → `customizations.vscode.settings` | El ajuste deshabilita Copilot en texto plano y entradas de commit conforme a las políticas de seguridad. |
+| Scripts centralizados para aprovisionamiento | `infrastructure/devcontainer/scripts/post-create.sh` y `post-start.sh` | Los comandos de bootstrap se ejecutan desde el repositorio y persisten logs en `infrastructure/devcontainer/logs/`. |
+| Validación automática de Django | `post-create.sh` ejecuta `python manage.py check` tras instalar dependencias. | El resultado queda trazado en `post-create.log`. |
+| Smoke test de `pytest` no bloqueante | `post-create.sh` ejecuta `python -m pytest --maxfail=1 --disable-warnings -q` por defecto y solo registra advertencias ante fallos. | Garantiza visibilidad temprana sin frenar la creación del Codespace. |
+| Verificación en el arranque | `post-start.sh` relanza `python manage.py check` al iniciarse el contenedor remoto. | La salida se guarda en `post-start.log` para diagnóstico. |
+| Copilot CLI preparado | `post-create.sh` valida `node >=22` y `npm >=10`, instala `@github/copilot` y verifica que el comando `copilot` quede disponible. | La instalación cumple el flujo "install once, authenticate, work" sin pasos manuales. |
+| Bootstrap de variables de entorno | `post-create.sh` copia `env.example` → `env` en `api/callcentersite/` si el archivo no existe. | Evita errores en `manage.py` tras el primer arranque. |
+
+## 2. Procedimiento de auditoría rápida
+
+1. **Reconstruir Codespace**
+   ```bash
+   Codespaces: Rebuild Container
+   ```
+   - Revisar `infrastructure/devcontainer/logs/post-create.log` y confirmar que no existan errores fatales de `pip`.
+   - Verificar que el bloque `[post-create] Ejecutando pytest` aparezca incluso cuando existan fallos en las pruebas.
+2. **Verificar Copilot CLI**
+   ```bash
+   gh auth status
+   gh copilot status
+   node --version
+   npm --version
+   copilot
+   ```
+   - Confirmar que la CLI responda, que las versiones cumplan `node >=22` / `npm >=10` y que la sesión pertenezca a la cuenta corporativa.
+3. **Solicitar sugerencia en VS Code**
+   - Abrir un archivo Python y usar `Ctrl+Enter` para pedir una propuesta de código.
+   - Comprobar la barra de estado de VS Code: debe mostrar “GitHub Copilot: conectado”.
+4. **Ejecutar pruebas manuales**
+   ```bash
+   cd api/callcentersite
+   python -m pytest --maxfail=1
+   ```
+   - Registrar cobertura ≥80 % y adjuntar la salida al ticket o wiki correspondiente.
+5. **Actualizar documentación**
+   - Registrar fecha, persona responsable y hallazgos en la wiki interna.
+   - Escalar incidentes de firewall con logs adjuntos y referencias a dominios bloqueados.
+
+## 3. Manejo de incidentes
+
+1. **Diagnóstico inicial**
+   - Ejecutar `gh auth status` y `gh copilot status` para confirmar autenticación.
+   - Validar que las variables de entorno de proxy sigan presentes en el Codespace (`printenv | grep -i proxy`).
+2. **Recolección de evidencias**
+   - Guardar capturas de los mensajes de la extensión y de la barra de estado.
+   - Documentar dominios o puertos bloqueados reportados en el firewall.
+3. **Contención**
+   - Indicar a la persona desarrolladora que continúe con el flujo TDD estándar mientras se gestiona la apertura de red.
+   - Mantener actualizado el ticket hasta recibir confirmación de que Copilot vuelve a conectarse.
+
+## 4. Checklist para entrega semanal
+
+- [ ] `post-create.log` y `post-start.log` sin errores críticos.
+- [ ] Copilot CLI instalado (`copilot --version`) y accesible desde la terminal.
+- [ ] Extensiones de Copilot visibles en VS Code.
+- [ ] `pytest` ejecutado automáticamente tras la reconstrucción del contenedor.
+- [ ] Documentación interna actualizada con hallazgos y bloqueos.
+
+## 5. Guía rápida para el equipo
+
+1. **Instala y autentica**
+   - Sigue el resumen de los apartados §6.1 y §6.2 para dejar lista la CLI y validar la sesión corporativa.
+2. **Conoce el repositorio**
+   - Consulta el flujo descrito en §6.3 para recopilar el layout y el estado del entorno.
+3. **Encuentra trabajo relevante**
+   - Prioriza issues con el procedimiento §6.4 y registra evidencias en la wiki.
+4. **Implementa con control**
+   - Mantén el ciclo TDD utilizando los pasos guiados de §6.5 y verifica comandos antes de ejecutarlos.
+5. **Prepara la entrega**
+   - Aplica las convenciones corporativas apoyándote en §6.6.
+6. **Resuelve incidentes operativos**
+   - Revisa §6.7 y §6.8 para liberar recursos y gestionar extensiones MCP.
+
+> **Tip:** ante restricciones de red persistentes, coordinar con TI la creación de un túnel temporal usando la VPN corporativa oficial antes de iniciar Codespaces.
+
+## 6. Recetario de Copilot CLI
+
+### 6.1 Instalación automatizada
+
+- El script `infrastructure/devcontainer/scripts/post-create.sh` valida versiones (`node --version`, `npm --version`) y exige `node >=22` y `npm >=10` antes de instalar la CLI.
+- La instalación se realiza con:
+  ```bash
+  npm install -g @github/copilot
+  copilot --help
+  ```
+- Si `copilot` no queda disponible, revisar `~/.npm-global/bin` y ajustar `PATH` en `.bashrc`.
+- Registrar en la bitácora `post-create.log` la línea `[post-create] Copilot CLI disponible`.
+
+### 6.2 Autenticación y validaciones
+
+1. Lanzar la CLI:
+   ```bash
+   copilot
+   /login
+   ```
+2. Autenticar con una cuenta que tenga plan Copilot Pro/Pro+/Business/Enterprise.
+3. Confirmar que la sesión quedó enlazada:
+   ```bash
+   gh auth status
+   gh copilot status
+   ```
+4. Documentar en la wiki: fecha, responsable, tipo de red, resultado y si fue necesario ejecutar `/reset`.
+
+### 6.3 Arranque rápido del repositorio
+
+1. Solicitar un resumen del proyecto:
+   ```text
+   Explain the layout of this project.
+   ```
+2. Verificar dependencias y entorno:
+   ```text
+   Make sure my environment is ready to build this project.
+   ```
+3. Confirmar que Copilot enlistó comandos como `python manage.py check` y la instalación de Go cuando corresponda.
+4. Registrar la respuesta en la wiki de onboarding.
+
+### 6.4 Rastreo de issues y priorización
+
+1. Usar el MCP de GitHub integrado:
+   ```text
+   Find good first issues in this repository and rank them by difficulty.
+   ```
+2. Validar que cada issue incluya enlace, tags y justificación de dificultad.
+3. Documentar el issue seleccionado, responsable y decisión tomada en la wiki interna.
+
+### 6.5 Flujo de implementación asistida
+
+1. Crear un branch siguiendo la convención `feature/<ticket>`.
+2. Pedir a Copilot un plan y revisión del diff:
+   ```text
+   Start implementing issue #1234. Show me the diff before applying.
+   ```
+3. Revisar el plan, ajustar el alcance y aprobar los cambios cuando respeten el ciclo TDD.
+4. Ejecutar manualmente los tests relevantes (`pytest`, `python manage.py test`) antes de confirmar cambios.
+
+### 6.6 Automatización de entrega
+
+1. Mantener control humano sobre el empaquetado:
+   ```text
+   Stage changes, write a commit referencing #1234, and open a draft PR.
+   ```
+2. Validar que el mensaje de commit respete el formato `<type>(<scope>): <description>`.
+3. Confirmar que el PR queda en modo borrador y añadir checklist de revisión.
+
+### 6.7 Utilidades de soporte
+
+1. Liberar puertos ocupados cuando aparezca el error "address already in use":
+   ```text
+   What process is using port 8080? Kill it and verify the port is free.
+   ```
+2. Gestionar permisos activos:
+   ```text
+   /session
+   /reset
+   /add-directory
+   ```
+3. Registrar incidentes de red en el tablero de plataforma y adjuntar logs generados.
+
+### 6.8 Extensión con MCP adicionales
+
+1. Revisar lineamientos de seguridad en `tasks/copilot-codespaces.md` antes de agregar servidores.
+2. Solicitar la instalación de nuevas herramientas:
+   ```text
+   /mcp add
+   ```
+3. Documentar nombre, tipo (Local/HTTP/SSE), comando, argumentos y variables de entorno propuestas.
+4. Someter la solicitud a Seguridad TI, incluyendo evaluación de riesgos y plan de rollback.
+
+> **Nota:** cualquier integración MCP debe contar con aprobación previa y pruebas controladas en un Codespace aislado.
