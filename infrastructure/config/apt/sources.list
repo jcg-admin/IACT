@@ -1,0 +1,11 @@
+# Ubuntu 18.04 LTS repositories
+deb http://91.189.91.81/ubuntu/ bionic main restricted
+deb http://91.189.91.81/ubuntu/ bionic-updates main restricted
+deb http://91.189.91.81/ubuntu/ bionic universe
+deb http://91.189.91.81/ubuntu/ bionic-updates universe
+deb http://91.189.91.81/ubuntu/ bionic multiverse
+deb http://91.189.91.81/ubuntu/ bionic-updates multiverse
+deb http://91.189.91.81/ubuntu/ bionic-backports main restricted universe multiverse
+deb http://185.125.190.82/ubuntu/ bionic-security main restricted
+deb http://185.125.190.82/ubuntu/ bionic-security universe
+deb http://185.125.190.82/ubuntu/ bionic-security multiverse

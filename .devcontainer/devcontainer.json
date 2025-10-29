@@ -23,9 +23,9 @@
   "postStartCommand": "bash infrastructure/devcontainer/scripts/post-start.sh",
 
   "containerEnv": {
-    "DEVCONTAINER_INSTALL_COPILOT_CLI": "1",
-    "DEVCONTAINER_RUN_TESTS": "1",
-    "DEVCONTAINER_CAPTURE_NPM_DIAGNOSTICS": "1",
+    "DEVCONTAINER_INSTALL_COPILOT_CLI": "0",
+    "DEVCONTAINER_RUN_TESTS": "0",
+    "DEVCONTAINER_CAPTURE_NPM_DIAGNOSTICS": "0",
     "DEVCONTAINER_NPM_DIAGNOSTICS_DRY_RUN": "0"
   },
 
