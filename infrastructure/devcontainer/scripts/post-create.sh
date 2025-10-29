@@ -48,6 +48,17 @@ log_file="$log_dir/post-create.log"
       npm_major="${npm_version_raw%%.*}"
 
       if [ "${node_major:-0}" -ge 22 ] && [ "${npm_major:-0}" -ge 10 ]; then
+        diagnostics_script="$(dirname "${BASH_SOURCE[0]}")/npm-diagnostics.sh"
+        diagnostics_log="$log_dir/npm-diagnostics.log"
+        if [ -x "$diagnostics_script" ]; then
+          echo "[post-create] Ejecutando npm-diagnostics.sh → $diagnostics_log"
+          if ! WORKSPACE_NPMRC="$workspace/.npmrc" "$diagnostics_script" >"$diagnostics_log" 2>&1; then
+            echo "[post-create] Advertencia: npm-diagnostics.sh finalizó con errores" >&2
+          fi
+        else
+          echo "[post-create] Advertencia: npm-diagnostics.sh no es ejecutable" >&2
+        fi
+
         echo "[post-create] Instalando GitHub Copilot CLI (@github/copilot)"
         install_log=$(mktemp)
         if npm install -g @github/copilot >"$install_log" 2>&1; then
