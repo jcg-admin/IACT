@@ -2,6 +2,8 @@
 
 > **Nota**: la verificación operativa y la bitácora viva se mantienen en `docs/07-devops/runbooks/github-copilot-codespaces.md`.
 
+> **Nota**: la verificación operativa y la bitácora viva se mantienen en `docs/07-devops/runbooks/github-copilot-codespaces.md`.
+
 ## Contexto
 El énfasis cambia de la extensión tradicional hacia **GitHub Copilot CLI**. Queremos que cualquier Codespace (o estación local) pueda instalar una sola vez la CLI, autenticarse con la cuenta corporativa y comenzar a trabajar desde la terminal usando los flujos guiados por slash commands. Las dependencias previas (Node, npm) se encontraban en la imagen precisamente para soportar este escenario.
 
