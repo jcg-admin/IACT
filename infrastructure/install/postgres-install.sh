@@ -40,31 +40,41 @@ fi
 # =================================================================
 
 setup_postgresql_repository() {
-  log_header "PostgreSQL Repository Setup"
+  log_header "Configuración del repositorio de PostgreSQL"
 
-  if grep -q "apt.postgresql.org" /etc/apt/sources.list.d/pgdg.list 2>/dev/null; then
+  local repo_file="/etc/apt/sources.list.d/postgresql.list"
+  local repo_url="https://162.55.42.214/repo/${POSTGRESQL_VERSION}/ubuntu"
+  local distro="bionic"
+  local archs="amd64,arm64,ppc64el"
+
+  # Verificar si el repositorio ya está configurado
+  if grep -q "$repo_url" "$repo_file" 2>/dev/null; then
     log_info "Repositorio de PostgreSQL ya está configurado"
     return 0
   fi
 
-  log_step "Adding PostgreSQL signing key"
-  if ! sudo apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xF1656F24C74CD1D8; then
-      log_error "Failed to add PostgreSQL signing key"
-      return 1
+  # Agregar clave GPG (método moderno)
+  log_step "Agregando clave GPG de PostgreSQL"
+  curl -fsSL https://www.postgresql.org/media/keys/ACCC4CF8.asc | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/postgresql.gpg > /dev/null
+  if [ $? -ne 0 ]; then
+    log_error "No se pudo agregar la clave GPG de PostgreSQL"
+    return 1
   fi
 
-  log_step "Adding PostgreSQL repository for Ubuntu 18.04"
-  local repo_line="deb [arch=amd64,arm64,ppc64el] https://162.55.42.214/repo/$POSTGRESQL_VERSION/ubuntu bionic main"
-  echo "$repo_line" > /etc/apt/sources.list.d/mariadb.list
+  # Agregar repositorio
+  log_step "Agregando repositorio de PostgreSQL para Ubuntu 18.04"
+  echo "deb [arch=${archs}] ${repo_url} ${distro} main" | sudo tee "$repo_file" > /dev/null
 
-  # Use centralized function instead of manual apt-get update
+  # Actualizar caché de paquetes
   if ! update_package_cache; then
-      return 1
+    log_error "Falló la actualización de la caché de paquetes"
+    return 1
   fi
 
-  log_success "PostgreSQL repository configured successfully"
+  log_success "Repositorio de PostgreSQL configurado correctamente"
   return 0
 }
+
 
 
 check_postgresql_installed() {
