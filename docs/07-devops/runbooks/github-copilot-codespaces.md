@@ -102,6 +102,33 @@ Este runbook confirma que el Codespace corporativo deja lista la integración co
 - Si `copilot` no queda disponible, revisar `~/.npm-global/bin` y ajustar `PATH` en `.bashrc`.
 - Registrar en la bitácora `post-create.log` la línea `[post-create] Copilot CLI disponible`.
 
+#### 6.1.1 Error `403 Forbidden` al instalar `@github/copilot`
+
+En entornos restringidos puede aparecer el error:
+
+```text
+npm ERR! code E403
+npm ERR! 403 403 Forbidden - GET https://registry.npmjs.org/@github%2fcopilot - no hay permiso para acceder al registro
+```
+
+**Causa.** El paquete `@github/copilot` vive en el registro privado `https://npm.pkg.github.com` y exige autenticación con un token
+personal de GitHub que tenga el scope `read:packages`. Cuando `npm` intenta descargarlo desde `registry.npmjs.org` sin esa
+configuración, el proxy corporativo responde `403`.
+
+**Solución.** Configurar `npm` para usar el registro correcto y autenticar la sesión antes de ejecutar el script automatizado:
+
+```bash
+export GITHUB_TOKEN="<token-con-read:packages>"
+printf "@github:registry=https://npm.pkg.github.com\n//npm.pkg.github.com/:_authToken=%s\n" "$GITHUB_TOKEN" > "$HOME/.npmrc"
+npm config set @github:registry https://npm.pkg.github.com
+npm config set //npm.pkg.github.com/:_authToken "$GITHUB_TOKEN"
+npm install -g @github/copilot --registry=https://npm.pkg.github.com
+```
+
+> **Nota:** guarda el token en el gestor de secretos corporativo y nunca lo incluyas en commits ni variables compartidas. Si el
+entorno no permite escribir en `$HOME/.npmrc`, exporta `NPM_CONFIG_USERCONFIG` apuntando a un archivo dentro de
+`infrastructure/devcontainer/logs/` con permisos adecuados y reutiliza la configuración anterior.
+
 ### 6.2 Autenticación y validaciones
 
 1. Lanzar la CLI:
