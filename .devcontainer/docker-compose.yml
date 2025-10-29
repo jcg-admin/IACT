@@ -18,16 +18,47 @@ services:
     working_dir: /workspaces/${localWorkspaceFolderBasename}
 
     environment:
-      DATABASE_URL: postgres://django_user:django_pass@db_postgres:5432/callcenterdb
-      DJANGO_SETTINGS_MODULE: callcentersite.settings
+      # Django Core
+      DJANGO_SETTINGS_MODULE: callcentersite.settings.development
       DJANGO_DEBUG: "1"
       DJANGO_ALLOWED_HOSTS: "*"
       DJANGO_SECRET_KEY: desarrollo-inseguro-solo-para-desarrollo
+      
+      # Python
       PYTHONUNBUFFERED: "1"
+      PYTHONDONTWRITEBYTECODE: "1"
       PYTHONPATH: /workspaces/${localWorkspaceFolderBasename}/api/callcentersite
+      
+      # PostgreSQL (Analytics DB)
+      DJANGO_DB_NAME: iact_analytics
+      DJANGO_DB_USER: django_user
+      DJANGO_DB_PASSWORD: django_pass
+      DJANGO_DB_HOST: db_postgres
+      DJANGO_DB_PORT: "5432"
+      DJANGO_DB_CONN_MAX_AGE: "300"
+      DJANGO_DB_CONNECT_TIMEOUT: "10"
+      
+      # MariaDB (IVR Legacy - READ ONLY)
+      DJANGO_IVR_NAME: ivr_legacy
+      DJANGO_IVR_USER: django_user
+      DJANGO_IVR_PASSWORD: django_pass
+      DJANGO_IVR_HOST: db_mariadb
+      DJANGO_IVR_PORT: "3306"
+      DJANGO_IVR_CONN_MAX_AGE: "300"
+      
+      # ETL Configuration
+      ETL_FREQUENCY_HOURS: "6"
+      ETL_BATCH_SIZE: "1000"
+      ETL_RETENTION_DAYS: "730"
+      
+      # Application
+      TIME_ZONE: America/Mexico_City
+      LANGUAGE_CODE: es-mx
 
     depends_on:
       db_postgres:
+        condition: service_healthy
+      db_mariadb:
         condition: service_healthy
 
     networks:
@@ -38,7 +69,7 @@ services:
     hostname: db-postgres
 
     environment:
-      POSTGRES_DB: callcenterdb
+      POSTGRES_DB: iact_analytics
       POSTGRES_USER: django_user
       POSTGRES_PASSWORD: django_pass
       POSTGRES_HOST_AUTH_METHOD: trust
@@ -47,10 +78,10 @@ services:
       - pg_data:/var/lib/postgresql/data
 
     ports:
-      - "5432:5432"
+      - "15432:5432"
 
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U django_user -d callcenterdb"]
+      test: ["CMD-SHELL", "pg_isready -U django_user -d iact_analytics"]
       interval: 5s
       timeout: 5s
       retries: 10
@@ -59,11 +90,48 @@ services:
     networks:
       - callcenter_network
 
+  db_mariadb:
+    image: mariadb:11-jammy
+    hostname: db-mariadb
+
+    environment:
+      MARIADB_ROOT_PASSWORD: rootpass_change_in_production
+      MARIADB_DATABASE: ivr_legacy
+      MARIADB_USER: django_user
+      MARIADB_PASSWORD: django_pass
+      MARIADB_AUTO_UPGRADE: "1"
+
+    volumes:
+      - mariadb_data:/var/lib/mysql
+
+    ports:
+      - "13306:3306"
+
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+
+    networks:
+      - callcenter_network
+
+    command: >
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_unicode_ci
+      --sql-mode=STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION
+
 networks:
   callcenter_network:
     driver: bridge
 
 volumes:
   pg_data:
+    driver: local
+  mariadb_data:
+    driver: local
   pip_cache:
+    driver: local
   npm_cache:
+    driver: local

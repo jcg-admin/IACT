@@ -1,5 +1,5 @@
 {
-  "name": "CallCenter Django API",
+  "name": "IACT - CallCenter Django API",
   "dockerComposeFile": [
     "docker-compose.yml"
   ],
@@ -17,7 +17,26 @@
   "remoteUser": "callcenter",
   "updateRemoteUserUID": true,
 
-  "forwardPorts": [8000, 5432],
+  "forwardPorts": [
+    8000,
+    15432,
+    13306
+  ],
+
+  "portsAttributes": {
+    "8000": {
+      "label": "Django Development Server",
+      "onAutoForward": "notify"
+    },
+    "15432": {
+      "label": "PostgreSQL (Analytics)",
+      "onAutoForward": "silent"
+    },
+    "13306": {
+      "label": "MariaDB (IVR Legacy - READ ONLY)",
+      "onAutoForward": "silent"
+    }
+  },
 
   "postCreateCommand": "bash infrastructure/devcontainer/scripts/post-create.sh",
   "postStartCommand": "bash infrastructure/devcontainer/scripts/post-start.sh",
@@ -38,6 +57,7 @@
         "charliermarsh.ruff",
         "mtxr.sqltools",
         "mtxr.sqltools-driver-pg",
+        "mtxr.sqltools-driver-mysql",
         "github.copilot",
         "github.copilot-chat",
         "eamodio.gitlens",
@@ -52,12 +72,45 @@
         "python.linting.enabled": true,
         "python.formatting.provider": "black",
         "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+          "source.organizeImports": "explicit"
+        },
         "github.copilot.enable": {
           "*": true,
           "plaintext": false,
           "markdown": true,
           "scminput": false
-        }
+        },
+        "files.exclude": {
+          "**/__pycache__": true,
+          "**/*.pyc": true,
+          "**/.pytest_cache": true,
+          "**/.coverage": true,
+          "**/htmlcov": true,
+          "**/.env": false
+        },
+        "sqltools.connections": [
+          {
+            "name": "PostgreSQL - Analytics (IACT)",
+            "driver": "PostgreSQL",
+            "server": "db_postgres",
+            "port": 5432,
+            "database": "iact_analytics",
+            "username": "django_user",
+            "password": "django_pass",
+            "previewLimit": 50
+          },
+          {
+            "name": "MariaDB - IVR Legacy (READ ONLY)",
+            "driver": "MySQL",
+            "server": "db_mariadb",
+            "port": 3306,
+            "database": "ivr_legacy",
+            "username": "django_user",
+            "password": "django_pass",
+            "previewLimit": 50
+          }
+        ]
       }
     }
   }
