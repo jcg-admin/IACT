@@ -1,3 +1,5 @@
+version: "3.9"
+
 services:
   app:
     build:
@@ -10,6 +12,8 @@ services:
 
     volumes:
       - ../..:/workspaces:cached
+      - pip_cache:/home/callcenter/.cache/pip
+      - npm_cache:/home/callcenter/.npm
 
     working_dir: /workspaces/${localWorkspaceFolderBasename}
 
@@ -17,6 +21,8 @@ services:
       DATABASE_URL: postgres://django_user:django_pass@db_postgres:5432/callcenterdb
       DJANGO_SETTINGS_MODULE: callcentersite.settings
       DJANGO_DEBUG: "1"
+      DJANGO_ALLOWED_HOSTS: "*"
+      DJANGO_SECRET_KEY: desarrollo-inseguro-solo-para-desarrollo
       PYTHONUNBUFFERED: "1"
       PYTHONPATH: /workspaces/${localWorkspaceFolderBasename}/api/callcentersite
 
@@ -35,9 +41,13 @@ services:
       POSTGRES_DB: callcenterdb
       POSTGRES_USER: django_user
       POSTGRES_PASSWORD: django_pass
+      POSTGRES_HOST_AUTH_METHOD: trust
 
     volumes:
       - pg_data:/var/lib/postgresql/data
+
+    ports:
+      - "5432:5432"
 
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U django_user -d callcenterdb"]
@@ -55,3 +65,5 @@ networks:
 
 volumes:
   pg_data:
+  pip_cache:
+  npm_cache:
