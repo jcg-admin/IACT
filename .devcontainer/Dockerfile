@@ -34,8 +34,10 @@ USER callcenter
 WORKDIR /workspaces
 
 # Configurar npm para instalaciones globales en el home del usuario e instalar herramientas
+# - npm@10 garantiza que la versión global respete la compatibilidad con Node 22
+# - @github/copilot es el paquete oficial publicado por GitHub para la CLI
 RUN npm config set prefix '/home/callcenter/.npm-global' \
-    && npm install -g npm@10 @githubnext/github-copilot-cli
+    && npm install -g npm@10 @github/copilot
 
 # Instalar herramientas base de Python de manera idempotente.
 # Las dependencias del proyecto se resuelven durante post-create para evitar duplicar instalaciones.
