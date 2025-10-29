@@ -19,7 +19,7 @@ Este runbook confirma que el Codespace corporativo deja lista la integración co
 | Validación automática de Django | `post-create.sh` ejecuta `python manage.py check` tras instalar dependencias. | El resultado queda trazado en `post-create.log`. |
 | Smoke test de `pytest` no bloqueante | `post-create.sh` ejecuta `python -m pytest --maxfail=1 --disable-warnings -q` por defecto y solo registra advertencias ante fallos. | Garantiza visibilidad temprana sin frenar la creación del Codespace. |
 | Verificación en el arranque | `post-start.sh` relanza `python manage.py check` al iniciarse el contenedor remoto. | La salida se guarda en `post-start.log` para diagnóstico. |
-| Copilot CLI preparado | `post-create.sh` valida `node >=22` y `npm >=10`, instala `@github/copilot` y verifica que el comando `copilot` quede disponible. | La instalación cumple el flujo "install once, authenticate, work" sin pasos manuales. |
+| Copilot CLI preparado | `post-create.sh` valida `node >=22` y `npm >=10`, ejecuta `npm-diagnostics.sh` (log en `infrastructure/devcontainer/logs/npm-diagnostics.log`) e instala `@github/copilot`. | La instalación cumple el flujo "install once, authenticate, work" sin pasos manuales y conserva trazas para soporte. |
 | Bootstrap de variables de entorno | `post-create.sh` copia `env.example` → `env` en `api/callcentersite/` si el archivo no existe. | Evita errores en `manage.py` tras el primer arranque. |
 
 ## 2. Procedimiento de auditoría rápida
@@ -94,6 +94,9 @@ Este runbook confirma que el Codespace corporativo deja lista la integración co
 ### 6.1 Instalación automatizada
 
 - El script `infrastructure/devcontainer/scripts/post-create.sh` valida versiones (`node --version`, `npm --version`) y exige `node >=22` y `npm >=10` antes de instalar la CLI.
+- Cuando `DEVCONTAINER_INSTALL_COPILOT_CLI=1` (valor por defecto) se ejecuta `infrastructure/devcontainer/scripts/npm-diagnostics.sh` y el resultado queda en `infrastructure/devcontainer/logs/npm-diagnostics.log`; adjunta este archivo al ticket de soporte cuando existan fallos de red o permisos.
+- Para omitir tanto la instalación como la recopilación de diagnósticos establece `DEVCONTAINER_INSTALL_COPILOT_CLI=0` en `devcontainer.json` o en los Secrets del Codespace y reconstruye el contenedor.
+- El script de diagnósticos acepta `DEVCONTAINER_NPM_DIAGNOSTICS_DRY_RUN=1` para ejecutar `npm install -g @github/copilot --dry-run --verbose` y registrar la traza completa; deja el valor `0` (por defecto) si no requieres el volcado detallado.
 - La instalación se realiza con:
   ```bash
   npm install -g @github/copilot
