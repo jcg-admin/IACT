@@ -47,33 +47,45 @@ log_file="$log_dir/post-create.log"
       npm_version_raw="$(npm --version 2>/dev/null || echo "0.0.0")"
       npm_major="${npm_version_raw%%.*}"
 
-      if [ "${node_major:-0}" -ge 22 ] && [ "${npm_major:-0}" -ge 10 ]; then
-        diagnostics_script="$(dirname "${BASH_SOURCE[0]}")/npm-diagnostics.sh"
-        diagnostics_log="$log_dir/npm-diagnostics.log"
-        if [ -x "$diagnostics_script" ]; then
-          echo "[post-create] Ejecutando npm-diagnostics.sh → $diagnostics_log"
-          if ! WORKSPACE_NPMRC="$workspace/.npmrc" "$diagnostics_script" >"$diagnostics_log" 2>&1; then
-            echo "[post-create] Advertencia: npm-diagnostics.sh finalizó con errores" >&2
-          fi
-        else
-          echo "[post-create] Advertencia: npm-diagnostics.sh no es ejecutable" >&2
-        fi
+      echo "[post-create] Node.js detectado: $node_version_raw"
+      echo "[post-create] npm detectado: $npm_version_raw"
 
-        echo "[post-create] Instalando GitHub Copilot CLI (@github/copilot)"
-        install_log=$(mktemp)
-        if npm install -g @github/copilot >"$install_log" 2>&1; then
-          if command -v copilot >/dev/null 2>&1; then
-            echo "[post-create] Copilot CLI disponible (comando copilot)"
-          else
-            echo "[post-create] Advertencia: copilot no está en PATH tras la instalación" >&2
-          fi
+      if [ "${node_major:-0}" -ge 22 ] && [ "${npm_major:-0}" -ge 10 ]; then
+        npm_ping_log=$(mktemp)
+        if npm ping >"$npm_ping_log" 2>&1; then
+          echo "[post-create] npm ping exitoso"
+          while IFS= read -r line; do
+            echo "[post-create] npm ping ▶ $line"
+          done <"$npm_ping_log"
+          npm_ping_ok=1
         else
-          echo "[post-create] Advertencia: npm no pudo instalar @github/copilot" >&2
-          cat "$install_log" >&2
+          echo "[post-create] Error: npm ping falló; se omite la instalación de Copilot CLI" >&2
+          while IFS= read -r line; do
+            echo "[post-create] npm ping ▶ $line" >&2
+          done <"$npm_ping_log"
+          npm_ping_ok=0
         fi
-        rm -f "$install_log"
+        rm -f "$npm_ping_log"
+
+        if [ "${npm_ping_ok:-0}" -eq 1 ]; then
+          echo "[post-create] Instalando GitHub Copilot CLI (@github/copilot)"
+          install_log=$(mktemp)
+          if npm install -g @github/copilot >"$install_log" 2>&1; then
+            if command -v copilot >/dev/null 2>&1; then
+              echo "[post-create] Copilot CLI disponible (comando copilot)"
+            else
+              echo "[post-create] Advertencia: copilot no está en PATH tras la instalación" >&2
+            fi
+          else
+            echo "[post-create] Advertencia: npm no pudo instalar @github/copilot" >&2
+            while IFS= read -r line; do
+              echo "[post-create] npm install ▶ $line" >&2
+            done <"$install_log"
+          fi
+          rm -f "$install_log"
+        fi
       else
-        echo "[post-create] Advertencia: se requiere Node >=22 y npm >=10 para Copilot CLI (versiones detectadas: node $node_version_raw, npm $npm_version_raw)" >&2
+        echo "[post-create] Error: se requiere Node >=22 y npm >=10 para Copilot CLI (versiones detectadas: node $node_version_raw, npm $npm_version_raw)" >&2
       fi
     else
       echo "[post-create] Node.js o npm no están disponibles; se omite la instalación de Copilot CLI"
