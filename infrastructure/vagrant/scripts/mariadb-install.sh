@@ -59,7 +59,7 @@ iact_init_logging "${SCRIPT_NAME%.sh}"
 # -----------------------------------------------------------------------------
 add_mariadb_gpg_key() {
     iact_log_info "Agregando clave GPG de MariaDB..."
-
+    
     # Check if key already exists
     if apt-key list 2>/dev/null | grep -q "MariaDB"; then
         iact_log_info "Clave GPG de MariaDB ya existe"
@@ -106,7 +106,7 @@ setup_mariadb_repository() {
     fi
 
     iact_log_info "Configurando repositorio con estrategia de fallback..."
-
+    
     # Create repository file with fallback strategy
     cat > "$repo_file" <<EOF
 # MariaDB $MARIADB_VERSION Repository - Fallback Strategy
@@ -128,7 +128,7 @@ EOF
     iact_log_info "Actualizando cache de paquetes..."
     if apt-get update 2>&1 | tee -a "$(iact_get_log_file)"; then
         iact_log_success "Repositorio de MariaDB configurado correctamente"
-
+        
         # Verify which repository is being used
         iact_log_info "Verificando repositorio activo..."
         if apt-cache policy mariadb-server 2>/dev/null | grep -q "$MARIADB_CUSTOM_REPO"; then
@@ -138,7 +138,7 @@ EOF
         else
             iact_log_warning "No se pudo determinar el repositorio activo"
         fi
-
+        
         return 0
     else
         iact_log_error "Error actualizando cache de paquetes"

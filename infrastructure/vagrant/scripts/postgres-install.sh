@@ -59,7 +59,7 @@ iact_init_logging "${SCRIPT_NAME%.sh}"
 # -----------------------------------------------------------------------------
 add_postgresql_gpg_key() {
     iact_log_info "Agregando clave GPG de PostgreSQL..."
-
+    
     # Check if key already exists
     if [[ -f /etc/apt/trusted.gpg.d/postgresql.gpg ]]; then
         iact_log_info "Clave GPG de PostgreSQL ya existe"
@@ -106,7 +106,7 @@ setup_postgresql_repository() {
     fi
 
     iact_log_info "Configurando repositorio con estrategia de fallback..."
-
+    
     # Create repository file with fallback strategy
     cat > "$repo_file" <<EOF
 # PostgreSQL $POSTGRESQL_VERSION Repository - Fallback Strategy
@@ -128,7 +128,7 @@ EOF
     iact_log_info "Actualizando cache de paquetes..."
     if apt-get update 2>&1 | tee -a "$(iact_get_log_file)"; then
         iact_log_success "Repositorio de PostgreSQL configurado correctamente"
-
+        
         # Verify which repository is being used
         iact_log_info "Verificando repositorio activo..."
         if apt-cache policy postgresql-${POSTGRESQL_VERSION} 2>/dev/null | grep -q "$POSTGRESQL_CUSTOM_REPO"; then
@@ -138,7 +138,7 @@ EOF
         else
             iact_log_warning "No se pudo determinar el repositorio activo"
         fi
-
+        
         return 0
     else
         iact_log_error "Error actualizando cache de paquetes"
@@ -458,11 +458,16 @@ main() {
     local current=0
     local failed_steps=()
 
+    iact_log_info "Total de pasos a ejecutar: $total"
+
     for step_func in "${steps[@]}"; do
         ((current++))
 
+        iact_log_info "DEBUG: Ejecutando funcion: $step_func"
+
         if ! $step_func "$current" "$total"; then
             failed_steps+=("$step_func")
+            iact_log_warning "Paso $step_func fallo, continuando..."
         fi
     done
 
@@ -471,7 +476,7 @@ main() {
     if [[ ${#failed_steps[@]} -eq 0 ]]; then
         iact_log_success "Instalacion de PostgreSQL completada exitosamente"
         iact_log_info "Total pasos ejecutados: $total"
-        iact_log_info "Siguiente paso: Configuracion de bases de datos de aplicacion"
+        iact_log_info "PostgreSQL esta listo para usar"
         return 0
     else
         iact_log_error "Instalacion completada con ${#failed_steps[@]} error(es):"

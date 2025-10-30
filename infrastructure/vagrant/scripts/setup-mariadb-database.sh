@@ -121,7 +121,7 @@ create_database() {
     fi
 
     iact_log_info "Creando base de datos '$IVR_DB_NAME'..."
-    if mysql -u root -p"$DB_ROOT_PASSWORD" -e "CREATE DATABASE IF NOT EXISTS \`$IVR_DB_NAME\` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;" 2>&1 | tee -a "$(iact_get_log_file)"; then
+    if mysql -u root -p"$DB_ROOT_PASSWORD" -e "CREATE DATABASE IF NOT EXISTS \$IVR_DB_NAME\ CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;" 2>&1 | tee -a "$(iact_get_log_file)"; then
         iact_log_success "Base de datos '$IVR_DB_NAME' creada"
         return 0
     else
@@ -176,7 +176,7 @@ create_database_user() {
 
     # Grant privileges
     iact_log_info "Otorgando privilegios a '$IVR_DB_USER' en '$IVR_DB_NAME'..."
-    if mysql -u root -p"$DB_ROOT_PASSWORD" -e "GRANT ALL PRIVILEGES ON \`$IVR_DB_NAME\`.* TO '$IVR_DB_USER'@'%';" 2>&1 | tee -a "$(iact_get_log_file)"; then
+    if mysql -u root -p"$DB_ROOT_PASSWORD" -e "GRANT ALL PRIVILEGES ON \$IVR_DB_NAME\.* TO '$IVR_DB_USER'@'%';" 2>&1 | tee -a "$(iact_get_log_file)"; then
         iact_log_success "Privilegios otorgados a '$IVR_DB_USER'"
     else
         iact_log_error "Error otorgando privilegios"
@@ -224,7 +224,7 @@ verify_database_setup() {
 
     # Test user connection
     iact_log_info "Probando conexion con usuario '$IVR_DB_USER'..."
-    if mysql -u "$IVR_DB_USER" -p"$IVR_DB_PASSWORD" -e "USE \`$IVR_DB_NAME\`; SELECT 1;" >/dev/null 2>&1; then
+    if mysql -u "$IVR_DB_USER" -p"$IVR_DB_PASSWORD" -e "USE \$IVR_DB_NAME\; SELECT 1;" >/dev/null 2>&1; then
         iact_log_success "Conexion con '$IVR_DB_USER' exitosa"
         return 0
     else
@@ -298,11 +298,16 @@ main() {
     local current=0
     local failed_steps=()
 
+    iact_log_info "Total de pasos a ejecutar: $total"
+
     for step_func in "${steps[@]}"; do
         ((current++))
 
+        iact_log_info "DEBUG: Ejecutando funcion: $step_func"
+
         if ! $step_func "$current" "$total"; then
             failed_steps+=("$step_func")
+            iact_log_warning "Paso $step_func fallo, continuando..."
         fi
     done
 
