@@ -23,13 +23,13 @@ readonly SCRIPT_NAME="$(basename "${BASH_SOURCE[0]}")"
 if [[ -d "/vagrant" ]]; then
     readonly PROJECT_ROOT="/vagrant"
 else
-    readonly PROJECT_ROOT="$(dirname "$(dirname "$SCRIPT_DIR")")"
+    readonly PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
 fi
 
 # Cargar core (que auto-carga logging)
-source "${PROJECT_ROOT}/infrastructure/utils/core.sh"
+source "${PROJECT_ROOT}/utils/core.sh"
 
-# Cargar módulos adicionales
+# Cargar modulos adicionales
 iact_source_module "validation"
 iact_source_module "database"
 
@@ -260,6 +260,14 @@ display_mariadb_info() {
     echo ""
     echo "Charset: utf8mb4"
     echo "Collation: utf8mb4_unicode_ci"
+    echo ""
+    echo "Desde aplicacion Django:"
+    echo "  'ENGINE': 'django.db.backends.mysql'"
+    echo "  'NAME': '$IVR_DB_NAME'"
+    echo "  'USER': '$IVR_DB_USER'"
+    echo "  'PASSWORD': '$IVR_DB_PASSWORD'"
+    echo "  'HOST': 'localhost'"
+    echo "  'PORT': '3306'"
     echo ""
     echo "=================================================================="
     echo ""

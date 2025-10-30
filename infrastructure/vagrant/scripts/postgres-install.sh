@@ -7,6 +7,7 @@
 # Version: 2.0.0
 # Context: Vagrant provisioning
 # Pattern: Idempotent execution, No silent failures
+# Strategy: Fallback - Intenta repositorio custom, luego oficial
 # =============================================================================
 
 set -euo pipefail
@@ -30,10 +31,14 @@ fi
 readonly POSTGRESQL_VERSION="${POSTGRESQL_VERSION:-10}"
 readonly DB_PASSWORD="${DB_PASSWORD:-postgrespass123}"
 
-# Cargar core (que auto-carga logging)
-source "${PROJECT_ROOT}/infrastructure/utils/core.sh"
+# Repository configuration - Fallback Strategy
+readonly POSTGRESQL_CUSTOM_REPO="${POSTGRESQL_CUSTOM_REPO:-http://apt.postgresql.org/pub/repos/apt}"
+readonly POSTGRESQL_OFFICIAL_REPO="http://apt.postgresql.org/pub/repos/apt"
 
-# Cargar módulos adicionales
+# Cargar core (que auto-carga logging)
+source "${PROJECT_ROOT}/utils/core.sh"
+
+# Cargar modulos adicionales
 iact_source_module "validation"
 iact_source_module "database"
 
@@ -45,10 +50,38 @@ iact_init_logging "${SCRIPT_NAME%.sh}"
 # =============================================================================
 
 # -----------------------------------------------------------------------------
+# add_postgresql_gpg_key
+# Description: Add PostgreSQL GPG key
+# NO SILENT FAILURES: Reports key addition status
+# IDEMPOTENT: Key won't be added if already present
+# Arguments: None
+# Returns: 0 on success, 1 on failure
+# -----------------------------------------------------------------------------
+add_postgresql_gpg_key() {
+    iact_log_info "Agregando clave GPG de PostgreSQL..."
+
+    # Check if key already exists
+    if [[ -f /etc/apt/trusted.gpg.d/postgresql.gpg ]]; then
+        iact_log_info "Clave GPG de PostgreSQL ya existe"
+        return 0
+    fi
+
+    # Try to add key
+    if curl -fsSL https://www.postgresql.org/media/keys/ACCC4CF8.asc | gpg --dearmor | tee /etc/apt/trusted.gpg.d/postgresql.gpg > /dev/null 2>&1; then
+        iact_log_success "Clave GPG de PostgreSQL agregada"
+        return 0
+    else
+        iact_log_error "Error agregando clave GPG de PostgreSQL"
+        return 1
+    fi
+}
+
+# -----------------------------------------------------------------------------
 # setup_postgresql_repository
-# Description: Setup PostgreSQL APT repository
+# Description: Setup PostgreSQL APT repository with fallback strategy
 # NO SILENT FAILURES: Reports repository setup status
 # IDEMPOTENT: Checks if already configured
+# FALLBACK: Tries custom repo first, then official
 # Arguments: $1 - current step, $2 - total steps
 # Returns: 0 on success, 1 on failure
 # -----------------------------------------------------------------------------
@@ -59,26 +92,53 @@ setup_postgresql_repository() {
     iact_log_step "$current" "$total" "Configurando repositorio de PostgreSQL"
 
     local repo_file="/etc/apt/sources.list.d/pgdg.list"
-    local repo_url="http://apt.postgresql.org/pub/repos/apt"
 
     # Check if repository already configured
-    if [[ -f "$repo_file" ]] && grep -q "$repo_url" "$repo_file" 2>/dev/null; then
+    if [[ -f "$repo_file" ]]; then
         iact_log_info "Repositorio de PostgreSQL ya configurado"
         return 0
     fi
 
-    iact_log_info "Agregando clave GPG de PostgreSQL..."
-    if ! curl -fsSL https://www.postgresql.org/media/keys/ACCC4CF8.asc | gpg --dearmor | tee /etc/apt/trusted.gpg.d/postgresql.gpg > /dev/null 2>&1; then
-        iact_log_error "Error agregando clave GPG de PostgreSQL"
+    # Add GPG key
+    if ! add_postgresql_gpg_key; then
+        iact_log_error "No se pudo agregar clave GPG de PostgreSQL"
         return 1
     fi
 
-    iact_log_info "Agregando repositorio de PostgreSQL..."
-    echo "deb [arch=amd64] $repo_url bionic-pgdg main" > "$repo_file"
+    iact_log_info "Configurando repositorio con estrategia de fallback..."
+
+    # Create repository file with fallback strategy
+    cat > "$repo_file" <<EOF
+# PostgreSQL $POSTGRESQL_VERSION Repository - Fallback Strategy
+# =============================================================================
+# TIER 1: Custom/Corporate Mirror (May be faster in your network)
+deb [arch=amd64] $POSTGRESQL_CUSTOM_REPO bionic-pgdg main
+
+# TIER 2: Official PostgreSQL Mirror (Fallback)
+deb [arch=amd64] $POSTGRESQL_OFFICIAL_REPO bionic-pgdg main
+EOF
+
+    if [[ $? -eq 0 ]]; then
+        iact_log_success "Archivo de repositorio creado: $repo_file"
+    else
+        iact_log_error "Error creando archivo de repositorio"
+        return 1
+    fi
 
     iact_log_info "Actualizando cache de paquetes..."
     if apt-get update 2>&1 | tee -a "$(iact_get_log_file)"; then
         iact_log_success "Repositorio de PostgreSQL configurado correctamente"
+
+        # Verify which repository is being used
+        iact_log_info "Verificando repositorio activo..."
+        if apt-cache policy postgresql-${POSTGRESQL_VERSION} 2>/dev/null | grep -q "$POSTGRESQL_CUSTOM_REPO"; then
+            iact_log_success "Usando repositorio custom (TIER 1): $POSTGRESQL_CUSTOM_REPO"
+        elif apt-cache policy postgresql-${POSTGRESQL_VERSION} 2>/dev/null | grep -q "$POSTGRESQL_OFFICIAL_REPO"; then
+            iact_log_success "Usando repositorio oficial (TIER 2): $POSTGRESQL_OFFICIAL_REPO"
+        else
+            iact_log_warning "No se pudo determinar el repositorio activo"
+        fi
+
         return 0
     else
         iact_log_error "Error actualizando cache de paquetes"
@@ -220,7 +280,13 @@ configure_postgresql_authentication() {
 
     # Configure listen addresses
     if [[ -f "$pg_conf" ]]; then
-        if ! grep -q "^listen_addresses = '*'" "$pg_conf" 2>/dev/null; then
+        # Backup postgresql.conf if not already backed up
+        if [[ ! -f "${pg_conf}.backup" ]]; then
+            iact_log_info "Creando backup de postgresql.conf..."
+            cp "$pg_conf" "${pg_conf}.backup"
+        fi
+
+        if ! grep -q "^listen_addresses = '\*'" "$pg_conf" 2>/dev/null; then
             sed -i "s/^#*listen_addresses.*/listen_addresses = '*'/" "$pg_conf"
             iact_log_success "Listen addresses configurado"
         else
@@ -311,6 +377,12 @@ verify_postgresql_installation() {
     version=$(sudo -u postgres psql -t -c "SELECT version();" 2>/dev/null | head -n 1 | xargs)
     iact_log_info "Version de PostgreSQL: $version"
 
+    # Display which repository was used
+    iact_log_info "Verificando origen del paquete..."
+    local package_origin
+    package_origin=$(apt-cache policy postgresql-${POSTGRESQL_VERSION} 2>/dev/null | grep "Installed" | head -1)
+    iact_log_info "Informacion del paquete: $package_origin"
+
     iact_log_success "Verificacion de instalacion completada"
     return 0
 }
@@ -336,6 +408,10 @@ display_postgresql_info() {
     echo "Version: $POSTGRESQL_VERSION"
     echo "Estado del servicio: $(systemctl is-active postgresql 2>/dev/null || echo 'unknown')"
     echo ""
+    echo "Estrategia de repositorio: Fallback"
+    echo "  TIER 1 (Custom): $POSTGRESQL_CUSTOM_REPO"
+    echo "  TIER 2 (Official): $POSTGRESQL_OFFICIAL_REPO"
+    echo ""
     echo "CREDENCIALES (GUARDAR DE FORMA SEGURA):"
     echo "  Usuario: postgres"
     echo "  Password: $DB_PASSWORD"
@@ -343,6 +419,10 @@ display_postgresql_info() {
     echo "CONEXION:"
     echo "  psql -U postgres -h localhost"
     echo "  PGPASSWORD='$DB_PASSWORD' psql -U postgres -h localhost"
+    echo ""
+    echo "Archivos de configuracion:"
+    echo "  pg_hba.conf: /etc/postgresql/${POSTGRESQL_VERSION}/main/pg_hba.conf"
+    echo "  postgresql.conf: /etc/postgresql/${POSTGRESQL_VERSION}/main/postgresql.conf"
     echo ""
     echo "Logs: $(iact_get_log_file)"
     echo ""
@@ -360,6 +440,7 @@ main() {
     iact_log_header "POSTGRESQL INSTALLATION - UBUNTU 18.04"
     iact_log_info "Instalando PostgreSQL $POSTGRESQL_VERSION"
     iact_log_info "Context: $(iact_get_context)"
+    iact_log_info "Strategy: Fallback (Custom + Official repos)"
 
     # Array de pasos (auto-calculado)
     local steps=(

@@ -23,13 +23,13 @@ readonly SCRIPT_NAME="$(basename "${BASH_SOURCE[0]}")"
 if [[ -d "/vagrant" ]]; then
     readonly PROJECT_ROOT="/vagrant"
 else
-    readonly PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
+    readonly PROJECT_ROOT="$(dirname "$(dirname "$SCRIPT_DIR")")"
 fi
 
 # Cargar core (que auto-carga logging)
-source "${PROJECT_ROOT}/infrastructure/utils/core.sh"
+source "${PROJECT_ROOT}/utils/core.sh"
 
-# Cargar módulos adicionales
+# Cargar modulos adicionales
 iact_source_module "validation"
 
 # Configurar logging con nombre del script
@@ -118,7 +118,7 @@ verify_essential_commands() {
     local missing=()
 
     for cmd in "${commands[@]}"; do
-        if iact_check_command_exists "$cmd"; then
+        if iact_command_exists "$cmd"; then
             iact_log_success "Comando disponible: $cmd"
         else
             iact_log_error "Comando no encontrado: $cmd"

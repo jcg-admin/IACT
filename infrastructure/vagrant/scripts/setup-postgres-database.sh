@@ -23,13 +23,13 @@ readonly SCRIPT_NAME="$(basename "${BASH_SOURCE[0]}")"
 if [[ -d "/vagrant" ]]; then
     readonly PROJECT_ROOT="/vagrant"
 else
-    readonly PROJECT_ROOT="$(dirname "$(dirname "$SCRIPT_DIR")")"
+    readonly PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
 fi
 
 # Cargar core (que auto-carga logging)
-source "${PROJECT_ROOT}/infrastructure/utils/core.sh"
+source "${PROJECT_ROOT}/utils/core.sh"
 
-# Cargar módulos adicionales
+# Cargar modulos adicionales
 iact_source_module "validation"
 iact_source_module "database"
 
@@ -335,6 +335,14 @@ display_postgres_info() {
     echo "Extensiones instaladas:"
     echo "  - pg_trgm (busqueda de texto)"
     echo "  - unaccent (normalizacion de texto)"
+    echo ""
+    echo "Desde aplicacion Django:"
+    echo "  'ENGINE': 'django.db.backends.postgresql'"
+    echo "  'NAME': '$DJANGO_DB_NAME'"
+    echo "  'USER': '$DJANGO_DB_USER'"
+    echo "  'PASSWORD': '$DJANGO_DB_PASSWORD'"
+    echo "  'HOST': 'localhost'"
+    echo "  'PORT': '5432'"
     echo ""
     echo "=================================================================="
     echo ""

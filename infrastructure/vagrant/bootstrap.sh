@@ -38,7 +38,7 @@ export LOGS_DIR DEBUG
 # Cargar core (que auto-carga logging)
 source "${PROJECT_ROOT}/utils/core.sh"
 
-# Cargar módulos adicionales
+# Cargar modulos adicionales
 iact_source_module "validation"
 
 # Configurar logging con nombre del script
@@ -62,12 +62,21 @@ apply_apt_sources() {
 
     iact_log_step "$current" "$total" "Aplicando configuracion de APT sources"
 
-    local source_file="$PROJECT_ROOT/vagrant/config/apt/sources.list"
+    local source_file="$PROJECT_ROOT/config/apt/sources.list"
     local target_file="/etc/apt/sources.list"
 
     if [[ ! -f "$source_file" ]]; then
         iact_log_warning "Archivo de configuracion no encontrado: $source_file"
         return 0  # Non-critical
+    fi
+
+    # Backup del archivo original si existe
+    if [[ -f "$target_file" ]]; then
+        local backup_file="${target_file}.backup.$(date +%Y%m%d_%H%M%S)"
+        iact_log_info "Creando backup: $backup_file"
+        if ! cp "$target_file" "$backup_file"; then
+            iact_log_warning "No se pudo crear backup de sources.list original"
+        fi
     fi
 
     iact_log_info "Copiando configuracion desde: $source_file"
@@ -95,10 +104,17 @@ apply_dns_configuration() {
     iact_log_step "$current" "$total" "Aplicando configuracion de DNS"
 
     # Apply systemd-resolved configuration
-    local resolved_source="$PROJECT_ROOT/vagrant/config/systemd/resolved.conf"
+    local resolved_source="$PROJECT_ROOT/config/systemd/resolved.conf"
     local resolved_target="/etc/systemd/resolved.conf"
 
     if [[ -f "$resolved_source" ]]; then
+        # Backup del archivo original si existe
+        if [[ -f "$resolved_target" ]]; then
+            local backup_file="${resolved_target}.backup.$(date +%Y%m%d_%H%M%S)"
+            iact_log_info "Creando backup: $backup_file"
+            cp "$resolved_target" "$backup_file" 2>/dev/null || true
+        fi
+
         iact_log_info "Aplicando configuracion de systemd-resolved..."
         if cp "$resolved_source" "$resolved_target"; then
             iact_log_success "Configuracion de systemd-resolved aplicada"
@@ -110,10 +126,17 @@ apply_dns_configuration() {
     fi
 
     # Apply resolv.conf backup
-    local resolv_source="$PROJECT_ROOT/vagrant/config/network/resolv.conf"
+    local resolv_source="$PROJECT_ROOT/config/network/resolv.conf"
     local resolv_target="/etc/resolv.conf"
 
     if [[ -f "$resolv_source" ]]; then
+        # Backup del archivo original si existe
+        if [[ -f "$resolv_target" ]]; then
+            local backup_file="${resolv_target}.backup.$(date +%Y%m%d_%H%M%S)"
+            iact_log_info "Creando backup: $backup_file"
+            cp "$resolv_target" "$backup_file" 2>/dev/null || true
+        fi
+
         iact_log_info "Aplicando configuracion de resolv.conf..."
         if cp "$resolv_source" "$resolv_target"; then
             iact_log_success "Configuracion de resolv.conf aplicada"
@@ -309,11 +332,11 @@ main() {
 
     # Define installation scripts
     local scripts=(
-        "$PROJECT_ROOT/vagrant/scripts/system-prepare.sh"
-        "$PROJECT_ROOT/vagrant/scripts/mariadb-install.sh"
-        "$PROJECT_ROOT/vagrant/scripts/postgres-install.sh"
-        "$PROJECT_ROOT/vagrant/scripts/setup-mariadb-database.sh"
-        "$PROJECT_ROOT/vagrant/scripts/setup-postgres-database.sh"
+        "$PROJECT_ROOT/scripts/system-prepare.sh"
+        "$PROJECT_ROOT/scripts/mariadb-install.sh"
+        "$PROJECT_ROOT/scripts/postgres-install.sh"
+        "$PROJECT_ROOT/scripts/setup-mariadb-database.sh"
+        "$PROJECT_ROOT/scripts/setup-postgres-database.sh"
     )
 
     # Build steps array dynamically
