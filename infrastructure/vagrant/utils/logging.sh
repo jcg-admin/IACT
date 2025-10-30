@@ -26,7 +26,7 @@ else
 fi
 
 # Directorio de logs
-readonly IACT_LOGS_DIR="${IACT_LOG_PROJECT_ROOT}/infrastructure/logs"
+readonly IACT_LOGS_DIR="${IACT_LOG_PROJECT_ROOT}/logs"
 
 # Colores
 readonly IACT_COLOR_RED='\033[0;31m'

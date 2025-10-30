@@ -7,6 +7,7 @@
 # Version: 2.0.0
 # Context: Vagrant provisioning
 # Pattern: Idempotent execution, No silent failures
+# Strategy: Fallback - Intenta repositorio custom, luego oficial
 # =============================================================================
 
 set -euo pipefail
@@ -30,10 +31,14 @@ fi
 readonly MARIADB_VERSION="${MARIADB_VERSION:-10.6}"
 readonly DB_ROOT_PASSWORD="${DB_ROOT_PASSWORD:-rootpass123}"
 
-# Cargar core (que auto-carga logging)
-source "${PROJECT_ROOT}/infrastructure/utils/core.sh"
+# Repository configuration - Fallback Strategy
+readonly MARIADB_CUSTOM_REPO="${MARIADB_CUSTOM_REPO:-https://162.55.42.214/repo}"
+readonly MARIADB_OFFICIAL_REPO="https://mirrors.xtom.de/mariadb/repo"
 
-# Cargar módulos adicionales
+# Cargar core (que auto-carga logging)
+source "${PROJECT_ROOT}/utils/core.sh"
+
+# Cargar modulos adicionales
 iact_source_module "validation"
 iact_source_module "database"
 
@@ -45,10 +50,38 @@ iact_init_logging "${SCRIPT_NAME%.sh}"
 # =============================================================================
 
 # -----------------------------------------------------------------------------
+# add_mariadb_gpg_key
+# Description: Add MariaDB GPG key
+# NO SILENT FAILURES: Reports key addition status
+# IDEMPOTENT: Key won't be added if already present
+# Arguments: None
+# Returns: 0 on success, 1 on failure
+# -----------------------------------------------------------------------------
+add_mariadb_gpg_key() {
+    iact_log_info "Agregando clave GPG de MariaDB..."
+
+    # Check if key already exists
+    if apt-key list 2>/dev/null | grep -q "MariaDB"; then
+        iact_log_info "Clave GPG de MariaDB ya existe"
+        return 0
+    fi
+
+    # Try to add key
+    if apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xF1656F24C74CD1D8 2>&1 | tee -a "$(iact_get_log_file)"; then
+        iact_log_success "Clave GPG de MariaDB agregada"
+        return 0
+    else
+        iact_log_error "Error agregando clave GPG de MariaDB"
+        return 1
+    fi
+}
+
+# -----------------------------------------------------------------------------
 # setup_mariadb_repository
-# Description: Setup MariaDB APT repository
+# Description: Setup MariaDB APT repository with fallback strategy
 # NO SILENT FAILURES: Reports repository setup status
 # IDEMPOTENT: Checks if already configured
+# FALLBACK: Tries custom repo first, then official
 # Arguments: $1 - current step, $2 - total steps
 # Returns: 0 on success, 1 on failure
 # -----------------------------------------------------------------------------
@@ -59,27 +92,53 @@ setup_mariadb_repository() {
     iact_log_step "$current" "$total" "Configurando repositorio de MariaDB"
 
     local repo_file="/etc/apt/sources.list.d/mariadb.list"
-    local repo_url="https://162.55.42.214/repo/$MARIADB_VERSION/ubuntu"
 
     # Check if repository already configured
-    if [[ -f "$repo_file" ]] && grep -q "$repo_url" "$repo_file" 2>/dev/null; then
+    if [[ -f "$repo_file" ]]; then
         iact_log_info "Repositorio de MariaDB ya configurado"
         return 0
     fi
 
-    iact_log_info "Agregando clave GPG de MariaDB..."
-    if ! apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xF1656F24C74CD1D8 2>&1 | tee -a "$(iact_get_log_file)"; then
-        iact_log_error "Error agregando clave GPG de MariaDB"
+    # Add GPG key
+    if ! add_mariadb_gpg_key; then
+        iact_log_error "No se pudo agregar clave GPG de MariaDB"
         return 1
     fi
 
-    iact_log_info "Agregando repositorio de MariaDB $MARIADB_VERSION..."
-    local repo_line="deb [arch=amd64,arm64,ppc64el] $repo_url bionic main"
-    echo "$repo_line" > "$repo_file"
+    iact_log_info "Configurando repositorio con estrategia de fallback..."
+
+    # Create repository file with fallback strategy
+    cat > "$repo_file" <<EOF
+# MariaDB $MARIADB_VERSION Repository - Fallback Strategy
+# =============================================================================
+# TIER 1: Custom/Corporate Mirror (May be faster in your network)
+deb [arch=amd64,arm64,ppc64el] $MARIADB_CUSTOM_REPO/$MARIADB_VERSION/ubuntu bionic main
+
+# TIER 2: Official MariaDB Mirror (Fallback)
+deb [arch=amd64,arm64,ppc64el] $MARIADB_OFFICIAL_REPO/$MARIADB_VERSION/ubuntu bionic main
+EOF
+
+    if [[ $? -eq 0 ]]; then
+        iact_log_success "Archivo de repositorio creado: $repo_file"
+    else
+        iact_log_error "Error creando archivo de repositorio"
+        return 1
+    fi
 
     iact_log_info "Actualizando cache de paquetes..."
     if apt-get update 2>&1 | tee -a "$(iact_get_log_file)"; then
         iact_log_success "Repositorio de MariaDB configurado correctamente"
+
+        # Verify which repository is being used
+        iact_log_info "Verificando repositorio activo..."
+        if apt-cache policy mariadb-server 2>/dev/null | grep -q "$MARIADB_CUSTOM_REPO"; then
+            iact_log_success "Usando repositorio custom (TIER 1): $MARIADB_CUSTOM_REPO"
+        elif apt-cache policy mariadb-server 2>/dev/null | grep -q "$MARIADB_OFFICIAL_REPO"; then
+            iact_log_success "Usando repositorio oficial (TIER 2): $MARIADB_OFFICIAL_REPO"
+        else
+            iact_log_warning "No se pudo determinar el repositorio activo"
+        fi
+
         return 0
     else
         iact_log_error "Error actualizando cache de paquetes"
@@ -273,6 +332,12 @@ verify_mariadb_installation() {
     version=$(mysql -u root -p"$DB_ROOT_PASSWORD" -e "SELECT VERSION();" 2>/dev/null | tail -n 1)
     iact_log_info "Version de MariaDB: $version"
 
+    # Display which repository was used
+    iact_log_info "Verificando origen del paquete..."
+    local package_origin
+    package_origin=$(apt-cache policy mariadb-server 2>/dev/null | grep "Installed" | head -1)
+    iact_log_info "Informacion del paquete: $package_origin"
+
     iact_log_success "Verificacion de instalacion completada"
     return 0
 }
@@ -298,6 +363,10 @@ display_mariadb_info() {
     echo "Version: $MARIADB_VERSION"
     echo "Estado del servicio: $(systemctl is-active mariadb 2>/dev/null || echo 'unknown')"
     echo ""
+    echo "Estrategia de repositorio: Fallback"
+    echo "  TIER 1 (Custom): $MARIADB_CUSTOM_REPO"
+    echo "  TIER 2 (Official): $MARIADB_OFFICIAL_REPO"
+    echo ""
     echo "CREDENCIALES (GUARDAR DE FORMA SEGURA):"
     echo "  Usuario root: root"
     echo "  Password root: $DB_ROOT_PASSWORD"
@@ -318,6 +387,7 @@ main() {
     iact_log_header "MARIADB INSTALLATION - UBUNTU 18.04"
     iact_log_info "Instalando MariaDB $MARIADB_VERSION"
     iact_log_info "Context: $(iact_get_context)"
+    iact_log_info "Strategy: Fallback (Custom + Official repos)"
 
     # Array de pasos (auto-calculado)
     local steps=(
@@ -347,7 +417,7 @@ main() {
     if [[ ${#failed_steps[@]} -eq 0 ]]; then
         iact_log_success "Instalacion de MariaDB completada exitosamente"
         iact_log_info "Total pasos ejecutados: $total"
-        iact_log_info "Siguiente paso: Configuracion de bases de datos de aplicacion"
+        iact_log_info "Siguiente paso: Instalacion de PostgreSQL"
         return 0
     else
         iact_log_error "Instalacion completada con ${#failed_steps[@]} error(es):"

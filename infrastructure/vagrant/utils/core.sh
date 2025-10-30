@@ -25,7 +25,7 @@ readonly IACT_HOSTNAME="${HOSTNAME:-unknown}"
 
 # Directorio de utilidades de Vagrant
 if [[ -d "/vagrant" ]]; then
-    readonly IACT_UTILS_DIR="/vagrant/infrastructure/vagrant/utils"
+    readonly IACT_UTILS_DIR="/vagrant/utils"
 else
     readonly IACT_UTILS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 fi
