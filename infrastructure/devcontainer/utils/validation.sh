@@ -1,7 +1,11 @@
 #!/usr/bin/env bash
-# utils/validation.sh - System validation functions for IACT DevContainer
+# infrastructure/utils/validation.sh
+# System validation functions for IACT Infrastructure
 # Provides validation functions for system requirements, commands, ports, and environment
-# Designed for DevContainer environment but works in traditional environments too
+# Works in DevContainer, Vagrant, and traditional environments
+#
+# Version: 2.0.0
+# Pattern: Idempotent execution, No silent failures
 
 set -euo pipefail
 
@@ -10,6 +14,8 @@ set -euo pipefail
 # =============================================================================
 
 # Check if a command exists in PATH
+# NO SILENT FAILURES: Always reports result via logging
+#
 # Usage: iact_check_command_exists "python3"
 # Usage: if iact_check_command_exists "docker"; then ...; fi
 #
@@ -32,6 +38,8 @@ iact_check_command_exists() {
 }
 
 # Check if multiple commands exist
+# NO SILENT FAILURES: Reports all missing commands explicitly
+#
 # Usage: iact_check_commands_exist "python3" "pip" "git"
 #
 # Args:
@@ -64,6 +72,8 @@ iact_check_commands_exist() {
 # =============================================================================
 
 # Check if a port is listening
+# NO SILENT FAILURES: Always reports result
+#
 # Usage: iact_check_port_listening "5432"
 # Usage: iact_check_port_listening "3306" "localhost"
 #
@@ -107,6 +117,8 @@ iact_check_port_listening() {
 # =============================================================================
 
 # Check if environment variable is set and not empty
+# NO SILENT FAILURES: Always logs result
+#
 # Usage: iact_check_environment_variable "DB_HOST"
 # Usage: if iact_check_environment_variable "DEBUG"; then ...; fi
 #
@@ -129,6 +141,8 @@ iact_check_environment_variable() {
 }
 
 # Check if multiple environment variables are set
+# NO SILENT FAILURES: Reports all missing variables explicitly
+#
 # Usage: iact_check_environment_variables "DB_HOST" "DB_PORT" "DB_NAME"
 #
 # Args:
@@ -161,6 +175,8 @@ iact_check_environment_variables() {
 # =============================================================================
 
 # Check if file exists and is readable
+# NO SILENT FAILURES: Always reports result
+#
 # Usage: iact_check_file_exists "/path/to/file"
 #
 # Args:
@@ -182,6 +198,8 @@ iact_check_file_exists() {
 }
 
 # Check if directory exists and is accessible
+# NO SILENT FAILURES: Always reports result
+#
 # Usage: iact_check_directory_exists "/path/to/dir"
 #
 # Args:
@@ -207,6 +225,8 @@ iact_check_directory_exists() {
 # =============================================================================
 
 # Check if Docker is available and running
+# NO SILENT FAILURES: Explicitly reports what's missing
+#
 # Usage: iact_check_docker_available
 #
 # Returns:
@@ -228,6 +248,8 @@ iact_check_docker_available() {
 }
 
 # Check if Docker Compose is available
+# NO SILENT FAILURES: Reports which compose method is available
+#
 # Usage: iact_check_docker_compose_available
 #
 # Returns:
@@ -246,11 +268,13 @@ iact_check_docker_compose_available() {
         return 0
     fi
 
-    iact_log_error "Docker Compose not found"
+    iact_log_error "Docker Compose not found (neither docker-compose nor docker compose plugin)"
     return 1
 }
 
 # Check if a Docker container is running
+# NO SILENT FAILURES: Reports container status
+#
 # Usage: iact_check_container_running "db_postgres"
 #
 # Args:
@@ -277,6 +301,8 @@ iact_check_container_running() {
 }
 
 # Check if a Docker container is healthy
+# NO SILENT FAILURES: Reports actual health status
+#
 # Usage: iact_check_container_healthy "db_postgres"
 #
 # Args:
@@ -300,12 +326,14 @@ iact_check_container_healthy() {
         iact_log_debug "Container is healthy: $container"
         return 0
     else
-        iact_log_debug "Container health status: $health_status"
+        iact_log_debug "Container health status: $health_status (container: $container)"
         return 1
     fi
 }
 
 # Wait for a Docker container to become healthy
+# NO SILENT FAILURES: Reports timeout explicitly
+#
 # Usage: iact_wait_for_container_healthy "db_postgres" "60"
 #
 # Args:
@@ -324,7 +352,7 @@ iact_wait_for_container_healthy() {
     local counter=0
     while [[ $counter -lt $timeout ]]; do
         if iact_check_container_healthy "$container"; then
-            iact_log_debug "Container $container is healthy"
+            iact_log_debug "Container $container is healthy after ${counter}s"
             return 0
         fi
 
@@ -337,31 +365,60 @@ iact_wait_for_container_healthy() {
 }
 
 # =============================================================================
-# DEVCONTAINER VALIDATION
+# CONTEXT-AWARE VALIDATION
 # =============================================================================
 
-# Validate complete DevContainer environment
-# Checks all essential components for IACT DevContainer
+# Validate complete environment based on context
+# Adapts validation based on IACT_CONTEXT (devcontainer/vagrant/local)
 #
-# Usage: iact_validate_devcontainer
+# Usage: iact_validate_environment
 #
 # Returns:
 #   0 - All validations passed
 #   1 - One or more validations failed
-iact_validate_devcontainer() {
-    iact_log_header "DevContainer Environment Validation"
+iact_validate_environment() {
+    local context="${IACT_CONTEXT:-local}"
+
+    iact_log_header "Environment Validation (Context: $context)"
 
     local validation_errors=0
 
-    # Check if running in DevContainer
-    iact_log_info "Checking DevContainer environment..."
-    if [[ "$IACT_IN_DEVCONTAINER" == "true" ]]; then
-        iact_log_success "Running in DevContainer"
-    else
-        iact_log_warning "Not running in DevContainer (this is OK for local development)"
-    fi
+    # Context-specific validation
+    case "$context" in
+        "devcontainer")
+            iact_log_info "Validating DevContainer environment..."
+            if iact_validate_devcontainer_context; then
+                iact_log_success "DevContainer context validated"
+            else
+                iact_log_error "DevContainer context validation failed"
+                ((validation_errors++))
+            fi
+            ;;
+        "vagrant")
+            iact_log_info "Validating Vagrant environment..."
+            if iact_validate_vagrant_context; then
+                iact_log_success "Vagrant context validated"
+            else
+                iact_log_error "Vagrant context validation failed"
+                ((validation_errors++))
+            fi
+            ;;
+        "local")
+            iact_log_info "Validating local environment..."
+            if iact_validate_local_context; then
+                iact_log_success "Local context validated"
+            else
+                iact_log_error "Local context validation failed"
+                ((validation_errors++))
+            fi
+            ;;
+        *)
+            iact_log_warning "Unknown context: $context"
+            ((validation_errors++))
+            ;;
+    esac
 
-    # Check essential commands
+    # Common validations
     iact_log_info "Checking essential commands..."
     local required_commands=("python3" "pip" "git" "curl")
     if iact_check_commands_exist "${required_commands[@]}"; then
@@ -371,20 +428,9 @@ iact_validate_devcontainer() {
         ((validation_errors++))
     fi
 
-    # Check Docker availability (if not in DevContainer)
-    if [[ "$IACT_IN_DEVCONTAINER" == "false" ]]; then
-        iact_log_info "Checking Docker availability..."
-        if iact_check_docker_available; then
-            iact_log_success "Docker is available"
-        else
-            iact_log_warning "Docker is not available (required for local development)"
-            ((validation_errors++))
-        fi
-    fi
-
     # Check project structure
     iact_log_info "Checking project structure..."
-    if iact_check_directory_exists "$IACT_WORKSPACE_ROOT/api"; then
+    if [[ -n "${IACT_WORKSPACE_ROOT:-}" ]] && iact_check_directory_exists "$IACT_WORKSPACE_ROOT/api"; then
         iact_log_success "Project structure validated"
     else
         iact_log_error "Project structure invalid: api directory not found"
@@ -393,12 +439,70 @@ iact_validate_devcontainer() {
 
     # Report results
     if [[ $validation_errors -eq 0 ]]; then
-        iact_log_success "DevContainer validation passed"
+        iact_log_success "Environment validation passed"
         return 0
     else
-        iact_log_error "DevContainer validation failed with $validation_errors errors"
+        iact_log_error "Environment validation failed with $validation_errors errors"
         return 1
     fi
+}
+
+# Validate DevContainer-specific requirements
+iact_validate_devcontainer_context() {
+    local errors=0
+
+    # Check if running in Docker
+    if [[ -f "/.dockerenv" ]]; then
+        iact_log_debug "Running in Docker container"
+    else
+        iact_log_warning "Not running in Docker (expected for DevContainer)"
+        ((errors++))
+    fi
+
+    # Check workspace mount
+    if [[ -d "/workspaces" ]]; then
+        iact_log_debug "Workspace mount detected"
+    else
+        iact_log_warning "Workspace mount not found"
+        ((errors++))
+    fi
+
+    return $errors
+}
+
+# Validate Vagrant-specific requirements
+iact_validate_vagrant_context() {
+    local errors=0
+
+    # Check Vagrant marker
+    if [[ -f "/etc/vagrant_provisioned" ]]; then
+        iact_log_debug "Vagrant provisioned marker found"
+    else
+        iact_log_warning "Vagrant provisioned marker not found"
+        ((errors++))
+    fi
+
+    return $errors
+}
+
+# Validate local development requirements
+iact_validate_local_context() {
+    local errors=0
+
+    # Check Docker availability
+    if iact_check_docker_available; then
+        iact_log_debug "Docker is available for local development"
+    else
+        iact_log_warning "Docker not available (may be needed for containers)"
+        ((errors++))
+    fi
+
+    return $errors
+}
+
+# Legacy function for backward compatibility
+iact_validate_devcontainer() {
+    iact_validate_environment
 }
 
 # =============================================================================
@@ -406,6 +510,8 @@ iact_validate_devcontainer() {
 # =============================================================================
 
 # Check available disk space
+# NO SILENT FAILURES: Reports actual values
+#
 # Usage: iact_check_disk_space "/path" "1000"
 # Usage: iact_check_disk_space "/" "5000"  # Check for 5GB
 #
@@ -429,7 +535,7 @@ iact_check_disk_space() {
     available_kb=$(df "$path" 2>/dev/null | awk 'NR==2 {print $4}')
 
     if [[ -z "$available_kb" ]]; then
-        iact_log_warning "Could not determine available disk space"
+        iact_log_warning "Could not determine available disk space for: $path"
         return 0
     fi
 
@@ -439,12 +545,14 @@ iact_check_disk_space() {
         iact_log_debug "Disk space check passed: ${available_mb}MB available (${required_mb}MB required)"
         return 0
     else
-        iact_log_error "Insufficient disk space: ${available_mb}MB available, ${required_mb}MB required"
+        iact_log_error "Insufficient disk space on $path: ${available_mb}MB available, ${required_mb}MB required"
         return 1
     fi
 }
 
 # Check available memory
+# NO SILENT FAILURES: Reports actual values
+#
 # Usage: iact_check_memory "1024"  # Check for 1GB
 #
 # Args:
@@ -495,11 +603,49 @@ check_container_running() { iact_check_container_running "$@"; }
 check_container_healthy() { iact_check_container_healthy "$@"; }
 wait_for_container_healthy() { iact_wait_for_container_healthy "$@"; }
 validate_devcontainer() { iact_validate_devcontainer "$@"; }
+validate_environment() { iact_validate_environment "$@"; }
 check_disk_space() { iact_check_disk_space "$@"; }
 check_memory() { iact_check_memory "$@"; }
 
 # =============================================================================
-# INITIALIZATION
+# INITIALIZATION - IDEMPOTENT PATTERN
 # =============================================================================
 
-iact_log_debug "Validation module loaded successfully"
+# Initialize validation module
+_iact_init_validation() {
+    local init_step="$1"
+    local init_total="$2"
+
+    iact_log_debug "Validation module loaded successfully"
+
+    return 0
+}
+
+# Array de pasos de inicialización
+_VALIDATION_INIT_STEPS=(
+    _iact_init_validation
+)
+
+# Main initialization function with auto-execution pattern
+_init_validation_main() {
+    local total_steps=${#_VALIDATION_INIT_STEPS[@]}
+    local current_step=0
+
+    for step_function in "${_VALIDATION_INIT_STEPS[@]}"; do
+        ((current_step++))
+
+        if ! $step_function $current_step $total_steps; then
+            echo "[ERROR] Validation initialization failed at: $step_function" >&2
+            return 1
+        fi
+    done
+
+    # Success: all steps completed
+    return 0
+}
+
+# Execute initialization immediately when validation.sh is sourced
+if ! _init_validation_main; then
+    echo "[FATAL] Validation module initialization failed" >&2
+    exit 1
+fi

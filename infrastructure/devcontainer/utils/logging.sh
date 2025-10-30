@@ -1,7 +1,11 @@
 #!/usr/bin/env bash
-# utils/logging.sh - Logging system for IACT DevContainer
+# infrastructure/utils/logging.sh
+# Logging system for IACT Infrastructure
 # Provides consistent logging functions with colors, file output, and step tracking
 # Auto-initializes when sourced
+#
+# Version: 2.0.0
+# Pattern: Idempotent execution, No silent failures
 
 set -euo pipefail
 
@@ -13,6 +17,7 @@ IACT_LOGGING_INITIALIZED=false
 IACT_LOG_FILE=""
 IACT_LOG_TO_FILE=false
 IACT_LOG_COLORS="${IACT_LOG_COLORS:-1}"
+IACT_LOG_SCRIPT_NAME=""
 
 # =============================================================================
 # COLOR CODES
@@ -32,54 +37,120 @@ readonly COLOR_WHITE='\033[0;37m'
 
 # Initialize logging system
 # Detects environment and sets up log file location
-# Can be called multiple times (idempotent)
+# IDEMPOTENT: Can be called multiple times safely
+# NO SILENT FAILURES: Reports all issues to stderr
+#
+# Usage: iact_init_logging
+# Usage: iact_init_logging "post-create"
+# Usage: iact_init_logging "verificar"
+#
+# Args:
+#   $1 - Optional script name for specific log file
+#
+# Returns:
+#   0 - Logging initialized successfully
 iact_init_logging() {
+    local script_name="${1:-}"
+
+    # Idempotent: Skip if already initialized with same config
     if [[ "$IACT_LOGGING_INITIALIZED" == "true" ]]; then
-        return 0
+        # If script_name provided and different, re-initialize
+        if [[ -n "$script_name" ]] && [[ "$IACT_LOG_SCRIPT_NAME" != "$script_name" ]]; then
+            IACT_LOGGING_INITIALIZED=false
+        else
+            return 0
+        fi
     fi
 
+    # Store script name
+    IACT_LOG_SCRIPT_NAME="$script_name"
+
     # Determine log file location based on environment
-    if [[ -d "/workspaces" ]]; then
-        # DevContainer environment
+    # Priority 1: Use IACT_LOG_DIR from core.sh if available
+    if [[ -n "${IACT_LOG_DIR:-}" ]]; then
+        if [[ -n "$script_name" ]]; then
+            IACT_LOG_FILE="$IACT_LOG_DIR/${script_name}.log"
+        else
+            IACT_LOG_FILE="$IACT_LOG_DIR/iact.log"
+        fi
+    # Priority 2: DevContainer environment
+    elif [[ -d "/workspaces" ]]; then
         local workspace="/workspaces/${localWorkspaceFolderBasename:-callcentersite}"
-        IACT_LOG_FILE="$workspace/logs/devcontainer.log"
+        if [[ -n "$script_name" ]]; then
+            IACT_LOG_FILE="$workspace/infrastructure/devcontainer/logs/${script_name}.log"
+        else
+            IACT_LOG_FILE="$workspace/infrastructure/devcontainer/logs/iact.log"
+        fi
+    # Priority 3: Custom log directory
     elif [[ -n "${LOGS_DIR:-}" ]]; then
-        # Custom log directory specified
-        IACT_LOG_FILE="$LOGS_DIR/iact.log"
+        if [[ -n "$script_name" ]]; then
+            IACT_LOG_FILE="$LOGS_DIR/${script_name}.log"
+        else
+            IACT_LOG_FILE="$LOGS_DIR/iact.log"
+        fi
+    # Priority 4: Default location
     else
-        # Default location
-        IACT_LOG_FILE="./logs/iact.log"
+        if [[ -n "$script_name" ]]; then
+            IACT_LOG_FILE="./logs/${script_name}.log"
+        else
+            IACT_LOG_FILE="./logs/iact.log"
+        fi
     fi
 
     # Create log directory if needed
     local log_dir
     log_dir=$(dirname "$IACT_LOG_FILE")
     if [[ ! -d "$log_dir" ]]; then
-        mkdir -p "$log_dir" 2>/dev/null || true
+        if ! mkdir -p "$log_dir" 2>/dev/null; then
+            echo "[WARN] Could not create log directory: $log_dir" >&2
+        fi
     fi
 
     # Try to create/touch log file
+    # NO SILENT FAILURES: Explicitly report if cannot write
     if touch "$IACT_LOG_FILE" 2>/dev/null; then
         IACT_LOG_TO_FILE=true
         chmod 644 "$IACT_LOG_FILE" 2>/dev/null || true
     else
         IACT_LOG_TO_FILE=false
-        echo "WARNING: Cannot write to log file: $IACT_LOG_FILE" >&2
+        echo "[WARN] Cannot write to log file: $IACT_LOG_FILE" >&2
+        echo "[INFO] Logging will continue to terminal only" >&2
     fi
 
     IACT_LOGGING_INITIALIZED=true
 
     # Write initialization message
-    iact_write_to_file "$(date '+%Y-%m-%d %H:%M:%S') [INIT] Logging initialized"
+    local context_info=""
+    if [[ -n "${IACT_CONTEXT:-}" ]]; then
+        context_info=" (context: $IACT_CONTEXT)"
+    fi
+    iact_write_to_file "$(date '+%Y-%m-%d %H:%M:%S') [INIT] Logging initialized${context_info}"
+
+    return 0
 }
 
 # Write message to log file (internal function)
+# NO SILENT FAILURES: Returns error if write fails
+#
+# Args:
+#   $1 - Message to write
+#
+# Returns:
+#   0 - Message written successfully (or logging disabled)
+#   1 - Failed to write (only if critical)
 iact_write_to_file() {
     local message="$1"
 
     if [[ "$IACT_LOG_TO_FILE" == "true" ]] && [[ -n "$IACT_LOG_FILE" ]]; then
-        echo "$message" >> "$IACT_LOG_FILE" 2>/dev/null || true
+        if ! echo "$message" >> "$IACT_LOG_FILE" 2>/dev/null; then
+            # Write failure - disable file logging to avoid spam
+            IACT_LOG_TO_FILE=false
+            echo "[ERROR] Failed to write to log file: $IACT_LOG_FILE" >&2
+            return 1
+        fi
     fi
+
+    return 0
 }
 
 # =============================================================================
@@ -134,7 +205,7 @@ iact_log_warning() {
 # Log error message (red)
 # Usage: iact_log_error "Operation failed"
 iact_log_error() {
-    iact_print_message "ERROR" "$COLOR_RED" "$1"
+    iact_print_message "ERROR" "$COLOR_RED" "$1" >&2
 }
 
 # Log debug message (white, only if DEBUG=true)
@@ -211,10 +282,15 @@ iact_log_header() {
 iact_show_log_config() {
     echo "IACT Logging Configuration:"
     echo "  Initialized: $IACT_LOGGING_INITIALIZED"
+    echo "  Script Name: ${IACT_LOG_SCRIPT_NAME:-[default]}"
     echo "  Log File: ${IACT_LOG_FILE:-[not set]}"
     echo "  File Logging: $IACT_LOG_TO_FILE"
     echo "  Colors: $IACT_LOG_COLORS"
     echo "  Debug Mode: ${DEBUG:-false}"
+    if [[ -n "${IACT_CONTEXT:-}" ]]; then
+        echo "  Context: $IACT_CONTEXT"
+        echo "  Context Dir: ${IACT_CONTEXT_DIR:-[not set]}"
+    fi
 }
 
 # Get current log file path
@@ -243,8 +319,9 @@ log_debug() { iact_log_debug "$@"; }
 log_step() { iact_log_step "$@"; }
 log_header() { iact_log_header "$@"; }
 
-# Additional alias
+# Additional aliases
 log_warn() { iact_log_warning "$@"; }
+init_logging() { iact_init_logging "$@"; }
 
 # =============================================================================
 # ERROR HANDLING HELPERS
@@ -301,8 +378,52 @@ iact_test_logging() {
 }
 
 # =============================================================================
-# AUTO-INITIALIZATION
+# AUTO-INITIALIZATION - IDEMPOTENT PATTERN
 # =============================================================================
 
-# Initialize logging when this script is sourced
-iact_init_logging
+# Initialize logging step
+_iact_auto_init_logging() {
+    local init_step="$1"
+    local init_total="$2"
+
+    # Auto-initialize with default settings
+    # Scripts can call iact_init_logging("script_name") later to customize
+    if ! iact_init_logging; then
+        echo "[ERROR] Failed to initialize logging system" >&2
+        return 1
+    fi
+
+    return 0
+}
+
+# Array de pasos de inicialización
+_LOGGING_INIT_STEPS=(
+    _iact_auto_init_logging
+)
+
+# Main initialization function with auto-execution pattern
+_init_logging_main() {
+    local total_steps=${#_LOGGING_INIT_STEPS[@]}
+    local current_step=0
+
+    for step_function in "${_LOGGING_INIT_STEPS[@]}"; do
+        ((current_step++))
+
+        if ! $step_function $current_step $total_steps; then
+            echo "[ERROR] Logging initialization failed at: $step_function" >&2
+            return 1
+        fi
+    done
+
+    # Success: all steps completed
+    return 0
+}
+
+# Execute initialization immediately when logging.sh is sourced
+# This runs ONLY if not already initialized (idempotent)
+if [[ "$IACT_LOGGING_INITIALIZED" != "true" ]]; then
+    if ! _init_logging_main; then
+        echo "[FATAL] Logging module initialization failed" >&2
+        exit 1
+    fi
+fi

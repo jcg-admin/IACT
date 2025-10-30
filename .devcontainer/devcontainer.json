@@ -19,8 +19,8 @@
 
   "forwardPorts": [8000, 5432],
 
-  "postCreateCommand": "bash infrastructure/devcontainer/post-create.sh",
-  "postStartCommand": "bash infrastructure/devcontainer/post-start.sh",
+  "postCreateCommand": "bash infrastructure/devcontainer/scripts/post-create.sh",
+  "postStartCommand": "bash infrastructure/devcontainer/scripts/post-start.sh",
 
   "containerEnv": {
     "DEVCONTAINER_INSTALL_COPILOT_CLI": "0",

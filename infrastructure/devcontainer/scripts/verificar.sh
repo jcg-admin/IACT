@@ -6,6 +6,7 @@
 # Author: IACT Team
 # Version: 2.0.0
 # Usage: ./verificar.sh
+# Pattern: Idempotent execution, No silent failures
 # =============================================================================
 
 set -euo pipefail
@@ -19,7 +20,7 @@ readonly SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 readonly SCRIPT_NAME="$(basename "${BASH_SOURCE[0]}")"
 
 # Cargar core (que auto-carga logging)
-source "${SCRIPT_DIR}/../utils/core.sh"
+source "${SCRIPT_DIR}/../../utils/core.sh"
 
 # Cargar módulos adicionales
 iact_source_module "validation"
@@ -30,13 +31,15 @@ iact_source_module "python"
 iact_init_logging "${SCRIPT_NAME%.sh}"
 
 # =============================================================================
-# VERIFICATION FUNCTIONS
+# VERIFICATION FUNCTIONS - IDEMPOTENT & NO SILENT FAILURES
 # =============================================================================
 
 # -----------------------------------------------------------------------------
 # verify_docker_environment
 # Description: Verify running in Docker
+# NO SILENT FAILURES: Reports detection explicitly
 # Arguments: $1 - current step, $2 - total steps
+# Returns: 0 if in Docker, 1 otherwise
 # -----------------------------------------------------------------------------
 verify_docker_environment() {
     local current="$1"
@@ -46,9 +49,10 @@ verify_docker_environment() {
 
     if iact_validate_docker_environment; then
         iact_log_success "Ejecutando en contenedor Docker"
+        iact_log_info "Context: $(iact_get_context)"
         return 0
     else
-        iact_log_warning "No se detectó entorno Docker"
+        iact_log_warning "No se detectó entorno Docker (ejecutando en: $(iact_get_context))"
         return 1
     fi
 }
@@ -56,7 +60,9 @@ verify_docker_environment() {
 # -----------------------------------------------------------------------------
 # verify_essential_commands
 # Description: Verify essential command availability
+# NO SILENT FAILURES: Reports each command status
 # Arguments: $1 - current step, $2 - total steps
+# Returns: 0 if all found, 1 if any missing
 # -----------------------------------------------------------------------------
 verify_essential_commands() {
     local current="$1"
@@ -68,15 +74,16 @@ verify_essential_commands() {
     local missing=()
 
     for cmd in "${commands[@]}"; do
-        if iact_command_exists "$cmd"; then
-            iact_log_success "✓ $cmd"
+        if iact_check_command_exists "$cmd"; then
+            iact_log_success "Comando disponible: $cmd"
         else
-            iact_log_error "✗ $cmd (no encontrado)"
+            iact_log_error "Comando no encontrado: $cmd"
             missing+=("$cmd")
         fi
     done
 
-    if [ ${#missing[@]} -eq 0 ]; then
+    if [[ ${#missing[@]} -eq 0 ]]; then
+        iact_log_success "Todos los comandos esenciales disponibles"
         return 0
     else
         iact_log_error "Comandos faltantes: ${missing[*]}"
@@ -87,7 +94,9 @@ verify_essential_commands() {
 # -----------------------------------------------------------------------------
 # verify_project_structure
 # Description: Verify project directory structure
+# NO SILENT FAILURES: Reports each directory status
 # Arguments: $1 - current step, $2 - total steps
+# Returns: 0 if all found, 1 if any missing
 # -----------------------------------------------------------------------------
 verify_project_structure() {
     local current="$1"
@@ -96,24 +105,25 @@ verify_project_structure() {
     iact_log_step "$current" "$total" "Verificando estructura del proyecto"
 
     local required_dirs=(
-        "$PROJECT_ROOT/api"
-        "$PROJECT_ROOT/api/callcentersite"
-        "$INFRASTRUCTURE_DIR"
-        "$UTILS_DIR"
+        "$IACT_PROJECT_ROOT/api"
+        "$IACT_PROJECT_ROOT/api/callcentersite"
+        "$IACT_INFRASTRUCTURE_DIR"
+        "$IACT_UTILS_DIR"
     )
 
     local missing=()
 
     for dir in "${required_dirs[@]}"; do
-        if [[ -d "$dir" ]]; then
-            iact_log_success "✓ $dir"
+        if iact_check_directory_exists "$dir"; then
+            iact_log_success "Directorio encontrado: $dir"
         else
-            iact_log_error "✗ $dir (no encontrado)"
+            iact_log_error "Directorio no encontrado: $dir"
             missing+=("$dir")
         fi
     done
 
-    if [ ${#missing[@]} -eq 0 ]; then
+    if [[ ${#missing[@]} -eq 0 ]]; then
+        iact_log_success "Estructura del proyecto validada"
         return 0
     else
         iact_log_error "Directorios faltantes: ${#missing[@]}"
@@ -124,7 +134,9 @@ verify_project_structure() {
 # -----------------------------------------------------------------------------
 # verify_environment_variables
 # Description: Verify required environment variables
+# NO SILENT FAILURES: Reports each variable with its value
 # Arguments: $1 - current step, $2 - total steps
+# Returns: 0 if all set, 1 if any missing
 # -----------------------------------------------------------------------------
 verify_environment_variables() {
     local current="$1"
@@ -147,14 +159,15 @@ verify_environment_variables() {
 
     for var in "${required_vars[@]}"; do
         if [[ -n "${!var:-}" ]]; then
-            iact_log_success "✓ $var=${!var}"
+            iact_log_success "Variable definida: $var=${!var}"
         else
-            iact_log_error "✗ $var (no definida)"
+            iact_log_error "Variable no definida: $var"
             missing+=("$var")
         fi
     done
 
-    if [ ${#missing[@]} -eq 0 ]; then
+    if [[ ${#missing[@]} -eq 0 ]]; then
+        iact_log_success "Todas las variables de entorno configuradas"
         return 0
     else
         iact_log_error "Variables faltantes: ${missing[*]}"
@@ -165,7 +178,9 @@ verify_environment_variables() {
 # -----------------------------------------------------------------------------
 # verify_python_installation
 # Description: Verify Python and pip installation
+# NO SILENT FAILURES: Reports versions explicitly
 # Arguments: $1 - current step, $2 - total steps
+# Returns: 0 if requirements met, 1 otherwise
 # -----------------------------------------------------------------------------
 verify_python_installation() {
     local current="$1"
@@ -178,14 +193,18 @@ verify_python_installation() {
         return 1
     fi
 
-    iact_log_success "Python $(python --version 2>&1) instalado"
+    local py_version
+    py_version=$(iact_get_python_version)
+    iact_log_success "Python $py_version instalado (requisito: >= 3.11)"
 
-    if ! iact_command_exists "pip"; then
+    if ! iact_check_pip_installed; then
         iact_log_error "pip no encontrado"
         return 1
     fi
 
-    iact_log_success "pip $(pip --version | awk '{print $2}') instalado"
+    local pip_version
+    pip_version=$(iact_get_pip_version)
+    iact_log_success "pip $pip_version instalado"
 
     return 0
 }
@@ -193,7 +212,9 @@ verify_python_installation() {
 # -----------------------------------------------------------------------------
 # verify_django_installation
 # Description: Verify Django installation and configuration
+# NO SILENT FAILURES: Reports Django status and version
 # Arguments: $1 - current step, $2 - total steps
+# Returns: 0 if Django OK, 1 otherwise
 # -----------------------------------------------------------------------------
 verify_django_installation() {
     local current="$1"
@@ -201,22 +222,29 @@ verify_django_installation() {
 
     iact_log_step "$current" "$total" "Verificando instalación de Django"
 
-    if ! python -c "import django" 2>/dev/null; then
+    if ! iact_check_django_installed; then
         iact_log_error "Django no instalado"
         return 1
     fi
 
-    local django_version=$(python -c "import django; print(django.get_version())")
+    local django_version
+    django_version=$(iact_get_django_version)
     iact_log_success "Django $django_version instalado"
 
-    # Check settings
-    cd "$DJANGO_PROJECT_DIR" || return 1
+    # Check if project exists
+    if ! iact_check_django_project_exists "$DJANGO_PROJECT_DIR"; then
+        iact_log_error "Django project not found at: $DJANGO_PROJECT_DIR"
+        return 1
+    fi
 
-    if python -c "from django.conf import settings" 2>/dev/null; then
-        iact_log_success "Django settings configurados"
+    iact_log_success "Django project encontrado en: $DJANGO_PROJECT_DIR"
+
+    # Check settings
+    if iact_check_django_settings; then
+        iact_log_success "Django settings configurados correctamente"
         return 0
     else
-        iact_log_error "Django settings no configurados"
+        iact_log_error "Django settings no configurados o inválidos"
         return 1
     fi
 }
@@ -224,7 +252,9 @@ verify_django_installation() {
 # -----------------------------------------------------------------------------
 # verify_postgres_connection
 # Description: Verify PostgreSQL connection and database
+# NO SILENT FAILURES: Reports connection status and table count
 # Arguments: $1 - current step, $2 - total steps
+# Returns: 0 if connected, 1 otherwise
 # -----------------------------------------------------------------------------
 verify_postgres_connection() {
     local current="$1"
@@ -233,8 +263,9 @@ verify_postgres_connection() {
     iact_log_step "$current" "$total" "Verificando PostgreSQL"
 
     # Wait for service
+    iact_log_info "Esperando PostgreSQL..."
     if ! iact_wait_for_postgres 30; then
-        iact_log_error "PostgreSQL no disponible (timeout 30s)"
+        iact_log_error "PostgreSQL no disponible después de 30s"
         return 1
     fi
 
@@ -248,14 +279,15 @@ verify_postgres_connection() {
 
     # Check database exists
     if iact_check_postgres_database_exists "$DJANGO_DB_NAME"; then
-        iact_log_success "Base de datos '$DJANGO_DB_NAME' existe"
+        iact_log_success "Base de datos existe: $DJANGO_DB_NAME"
 
         # Count tables
-        local tables=$(iact_postgres_count_tables "$DJANGO_DB_NAME")
+        local tables
+        tables=$(iact_check_postgres_tables_count "$DJANGO_DB_NAME")
         iact_log_info "Tablas en la base de datos: $tables"
         return 0
     else
-        iact_log_warning "Base de datos '$DJANGO_DB_NAME' no existe"
+        iact_log_warning "Base de datos no existe: $DJANGO_DB_NAME"
         return 1
     fi
 }
@@ -263,7 +295,9 @@ verify_postgres_connection() {
 # -----------------------------------------------------------------------------
 # verify_mariadb_connection
 # Description: Verify MariaDB connection and database
+# NO SILENT FAILURES: Reports connection status and table count
 # Arguments: $1 - current step, $2 - total steps
+# Returns: 0 if connected, 1 otherwise
 # -----------------------------------------------------------------------------
 verify_mariadb_connection() {
     local current="$1"
@@ -272,8 +306,9 @@ verify_mariadb_connection() {
     iact_log_step "$current" "$total" "Verificando MariaDB"
 
     # Wait for service
+    iact_log_info "Esperando MariaDB..."
     if ! iact_wait_for_mariadb 30; then
-        iact_log_error "MariaDB no disponible (timeout 30s)"
+        iact_log_error "MariaDB no disponible después de 30s"
         return 1
     fi
 
@@ -287,14 +322,15 @@ verify_mariadb_connection() {
 
     # Check database exists
     if iact_check_mariadb_database_exists "$IVR_DB_NAME"; then
-        iact_log_success "Base de datos '$IVR_DB_NAME' existe"
+        iact_log_success "Base de datos existe: $IVR_DB_NAME"
 
         # Count tables
-        local tables=$(iact_mariadb_count_tables "$IVR_DB_NAME")
+        local tables
+        tables=$(iact_check_mariadb_tables_count "$IVR_DB_NAME")
         iact_log_info "Tablas en la base de datos: $tables"
         return 0
     else
-        iact_log_warning "Base de datos '$IVR_DB_NAME' no existe"
+        iact_log_warning "Base de datos no existe: $IVR_DB_NAME"
         return 1
     fi
 }
@@ -302,7 +338,9 @@ verify_mariadb_connection() {
 # -----------------------------------------------------------------------------
 # verify_django_system_check
 # Description: Run Django system check
+# NO SILENT FAILURES: Reports check output
 # Arguments: $1 - current step, $2 - total steps
+# Returns: 0 if check passes, 1 otherwise
 # -----------------------------------------------------------------------------
 verify_django_system_check() {
     local current="$1"
@@ -310,9 +348,13 @@ verify_django_system_check() {
 
     iact_log_step "$current" "$total" "Ejecutando Django system check"
 
-    cd "$DJANGO_PROJECT_DIR" || return 1
+    if ! iact_check_django_project_exists "$DJANGO_PROJECT_DIR"; then
+        iact_log_error "Django project not found at: $DJANGO_PROJECT_DIR"
+        return 1
+    fi
 
-    if python manage.py check --deploy; then
+    iact_log_info "Ejecutando: python manage.py check --deploy"
+    if iact_django_manage check --deploy 2>&1 | tee -a "$(iact_get_log_file)"; then
         iact_log_success "Django system check pasó correctamente"
         return 0
     else
@@ -324,7 +366,9 @@ verify_django_system_check() {
 # -----------------------------------------------------------------------------
 # display_summary
 # Description: Display verification summary
+# NO SILENT FAILURES: Shows complete system status
 # Arguments: $1 - current step, $2 - total steps
+# Returns: 0 always
 # -----------------------------------------------------------------------------
 display_summary() {
     local current="$1"
@@ -333,33 +377,36 @@ display_summary() {
     iact_log_step "$current" "$total" "Resumen de verificación"
 
     echo ""
-    echo "═══════════════════════════════════════════════════════════════"
-    echo "                    RESUMEN DE VERIFICACIÓN"
-    echo "═══════════════════════════════════════════════════════════════"
+    echo "=================================================================="
+    echo "                    RESUMEN DE VERIFICACION"
+    echo "=================================================================="
     echo ""
-    echo "📍 Contexto: $(iact_get_context)"
-    echo "📁 Proyecto: $PROJECT_ROOT"
-    echo "🐍 Python: $(python --version 2>&1)"
-    echo "🎯 Django: $(python -c 'import django; print(django.get_version())' 2>/dev/null || echo 'No instalado')"
+    echo "Contexto: $(iact_get_context)"
+    echo "Proyecto: $IACT_PROJECT_ROOT"
+    echo "Python: $(iact_get_python_version)"
+    echo "Django: $(iact_get_django_version 2>/dev/null || echo 'No instalado')"
     echo ""
-    echo "🗄️  PostgreSQL: ${DJANGO_DB_HOST}:${DJANGO_DB_PORT} / ${DJANGO_DB_NAME}"
-    echo "🗄️  MariaDB: ${IVR_DB_HOST}:${IVR_DB_PORT} / ${IVR_DB_NAME}"
+    echo "PostgreSQL: ${DJANGO_DB_HOST}:${DJANGO_DB_PORT} / ${DJANGO_DB_NAME}"
+    echo "MariaDB: ${IVR_DB_HOST}:${IVR_DB_PORT} / ${IVR_DB_NAME}"
     echo ""
-    echo "═══════════════════════════════════════════════════════════════"
+    echo "Logs: $(iact_get_log_file)"
+    echo ""
+    echo "=================================================================="
     echo ""
 
     return 0
 }
 
 # =============================================================================
-# MAIN EXECUTION
+# MAIN EXECUTION - AUTO-EXECUTION PATTERN
 # =============================================================================
 
 main() {
-    iact_log_header "DevContainer Verification"
+    iact_log_header "DEVCONTAINER VERIFICATION"
     iact_log_info "Iniciando verificación completa del sistema"
+    iact_log_info "Context: $(iact_get_context)"
 
-    # Define steps array (auto-calculated)
+    # Array de pasos (auto-calculado)
     local steps=(
         verify_docker_environment
         verify_essential_commands
@@ -373,7 +420,7 @@ main() {
         display_summary
     )
 
-    # Auto-calculate total and execute
+    # Auto-ejecutar con patrón
     local total=${#steps[@]}
     local current=0
     local failed_steps=()
@@ -386,16 +433,19 @@ main() {
         fi
     done
 
-    # Report results
+    # Report final results
     echo ""
-    if [ ${#failed_steps[@]} -eq 0 ]; then
-        iact_log_success "✅ Todas las verificaciones pasaron correctamente"
+    if [[ ${#failed_steps[@]} -eq 0 ]]; then
+        iact_log_success "Todas las verificaciones pasaron correctamente"
+        iact_log_info "Total verificaciones: $total"
         return 0
     else
-        iact_log_error "❌ Verificación completada con ${#failed_steps[@]} errores:"
+        iact_log_error "Verificación completada con ${#failed_steps[@]} error(es):"
         for step in "${failed_steps[@]}"; do
             iact_log_error "  - $step"
         done
+        iact_log_info "Total verificaciones: $total"
+        iact_log_info "Verificaciones exitosas: $((total - ${#failed_steps[@]}))"
         return 1
     fi
 }
