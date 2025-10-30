@@ -374,11 +374,16 @@ main() {
     local current=0
     local failed_steps=()
 
+    iact_log_info "Total de pasos a ejecutar: $total"
+
     for step_func in "${steps[@]}"; do
         ((current++))
 
+        iact_log_info "DEBUG: Ejecutando funcion: $step_func"
+
         if ! $step_func "$current" "$total"; then
             failed_steps+=("$step_func")
+            iact_log_warning "Paso $step_func fallo, continuando..."
         fi
     done
 
