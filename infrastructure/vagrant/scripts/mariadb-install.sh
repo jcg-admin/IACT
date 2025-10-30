@@ -371,6 +371,9 @@ display_mariadb_info() {
     echo "  Usuario root: root"
     echo "  Password root: $DB_ROOT_PASSWORD"
     echo ""
+    echo "Comando de conexion:"
+    echo "  mysql -u root -p'$DB_ROOT_PASSWORD'"
+    echo ""
     echo "Logs: $(iact_get_log_file)"
     echo ""
     echo "=================================================================="
@@ -404,11 +407,16 @@ main() {
     local current=0
     local failed_steps=()
 
+    iact_log_info "Total de pasos a ejecutar: $total"
+
     for step_func in "${steps[@]}"; do
         ((current++))
 
+        iact_log_info "DEBUG: Ejecutando funcion: $step_func"
+
         if ! $step_func "$current" "$total"; then
             failed_steps+=("$step_func")
+            iact_log_warning "Paso $step_func fallo, continuando..."
         fi
     done
 
@@ -417,7 +425,7 @@ main() {
     if [[ ${#failed_steps[@]} -eq 0 ]]; then
         iact_log_success "Instalacion de MariaDB completada exitosamente"
         iact_log_info "Total pasos ejecutados: $total"
-        iact_log_info "Siguiente paso: Instalacion de PostgreSQL"
+        iact_log_info "MariaDB esta listo para usar"
         return 0
     else
         iact_log_error "Instalacion completada con ${#failed_steps[@]} error(es):"

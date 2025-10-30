@@ -32,8 +32,20 @@ fi
 readonly LOGS_DIR="${LOGS_DIR:-$PROJECT_ROOT/logs}"
 readonly DEBUG="${DEBUG:-false}"
 
+# Database configuration with defaults
+export DB_ROOT_PASSWORD="${DB_ROOT_PASSWORD:-rootpass123}"
+export DB_PASSWORD="${DB_PASSWORD:-postgrespass123}"
+export IVR_DB_NAME="${IVR_DB_NAME:-ivr_legacy}"
+export IVR_DB_USER="${IVR_DB_USER:-django_user}"
+export IVR_DB_PASSWORD="${IVR_DB_PASSWORD:-django_pass}"
+export DJANGO_DB_NAME="${DJANGO_DB_NAME:-iact_analytics}"
+export DJANGO_DB_USER="${DJANGO_DB_USER:-django_user}"
+export DJANGO_DB_PASSWORD="${DJANGO_DB_PASSWORD:-django_pass}"
+export MARIADB_VERSION="${MARIADB_VERSION:-10.6}"
+export POSTGRESQL_VERSION="${POSTGRESQL_VERSION:-10}"
+
 # Export variables for child scripts
-export LOGS_DIR DEBUG
+export LOGS_DIR DEBUG PROJECT_ROOT
 
 # Cargar core (que auto-carga logging)
 source "${PROJECT_ROOT}/utils/core.sh"
@@ -271,11 +283,11 @@ display_credentials_info() {
     echo ""
     echo "MariaDB:"
     echo "  Usuario: root"
-    echo "  Password: \$DB_ROOT_PASSWORD (definido en variables de entorno)"
+    echo "  Password: $DB_ROOT_PASSWORD"
     echo ""
     echo "PostgreSQL:"
     echo "  Usuario: postgres"
-    echo "  Password: \$DB_PASSWORD (definido en variables de entorno)"
+    echo "  Password: $DB_PASSWORD"
     echo ""
     echo "Estas credenciales estan registradas en: $(iact_get_log_file)"
     echo ""
@@ -363,13 +375,18 @@ main() {
     local current=0
     local failed_steps=()
 
+    iact_log_info "Total de pasos a ejecutar: $total"
+    iact_log_info "Iniciando proceso de aprovisionamiento..."
+
     for step_func in "${steps[@]}"; do
         ((current++))
 
+        iact_log_info "DEBUG: Ejecutando paso $current/$total: $step_func"
+
         # Handle scripts with parameters vs regular functions
         if [[ "$step_func" == execute_installation_script* ]]; then
-            local script_path
-            script_path=$(echo "$step_func" | cut -d' ' -f2-)
+            # Extract script path (everything after "execute_installation_script ")
+            local script_path="${step_func#execute_installation_script }"
             if ! execute_installation_script "$script_path" "$current" "$total"; then
                 failed_steps+=("$(basename "$script_path")")
             fi
@@ -379,6 +396,8 @@ main() {
             fi
         fi
     done
+
+    iact_log_info "Proceso de aprovisionamiento completado"
 
     # Report final results
     echo ""
