@@ -29,7 +29,8 @@ services:
       PYTHONDONTWRITEBYTECODE: "1"
       PYTHONPATH: /workspaces/${localWorkspaceFolderBasename}/api/callcentersite
       
-      # PostgreSQL (Analytics DB)
+      # PostgreSQL (Analytics DB - Read/Write)
+      DJANGO_DB_ENGINE: django.db.backends.postgresql
       DJANGO_DB_NAME: iact_analytics
       DJANGO_DB_USER: django_user
       DJANGO_DB_PASSWORD: django_pass
@@ -37,14 +38,15 @@ services:
       DJANGO_DB_PORT: "5432"
       DJANGO_DB_CONN_MAX_AGE: "300"
       DJANGO_DB_CONNECT_TIMEOUT: "10"
-      
+
       # MariaDB (IVR Legacy - READ ONLY)
-      DJANGO_IVR_NAME: ivr_legacy
-      DJANGO_IVR_USER: django_user
-      DJANGO_IVR_PASSWORD: django_pass
-      DJANGO_IVR_HOST: db_mariadb
-      DJANGO_IVR_PORT: "3306"
-      DJANGO_IVR_CONN_MAX_AGE: "300"
+      IVR_DB_ENGINE: django.db.backends.mysql
+      IVR_DB_NAME: ivr_legacy
+      IVR_DB_USER: django_user
+      IVR_DB_PASSWORD: django_pass
+      IVR_DB_HOST: db_mariadb
+      IVR_DB_PORT: "3306"
+      IVR_DB_CONN_MAX_AGE: "300"
       
       # ETL Configuration
       ETL_FREQUENCY_HOURS: "6"

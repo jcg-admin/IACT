@@ -1,7 +1,11 @@
 #!/usr/bin/env bash
-# utils/database.sh - Database verification functions for IACT DevContainer
+# infrastructure/utils/database.sh
+# Database verification functions for IACT Infrastructure
 # Provides functions to verify PostgreSQL and MariaDB connectivity and status
-# Supports both DevContainer and traditional environments
+# Supports DevContainer, Vagrant, and traditional environments
+#
+# Version: 2.0.0
+# Pattern: Idempotent execution, No silent failures
 
 set -euo pipefail
 
@@ -10,6 +14,8 @@ set -euo pipefail
 # =============================================================================
 
 # Check if PostgreSQL client is available
+# NO SILENT FAILURES: Always reports result
+#
 # Usage: iact_check_postgres_client
 #
 # Returns:
@@ -26,6 +32,8 @@ iact_check_postgres_client() {
 }
 
 # Test PostgreSQL connection
+# NO SILENT FAILURES: Reports connection details and errors
+#
 # Usage: iact_test_postgres_connection
 # Usage: iact_test_postgres_connection "custom_host" "5433" "custom_db" "custom_user" "custom_pass"
 #
@@ -47,7 +55,7 @@ iact_test_postgres_connection() {
     local password="${5:-${DJANGO_DB_PASSWORD:-}}"
 
     if ! iact_check_postgres_client; then
-        iact_log_error "PostgreSQL client not available"
+        iact_log_error "PostgreSQL client not available - cannot test connection"
         return 1
     fi
 
@@ -61,16 +69,18 @@ iact_test_postgres_connection() {
 
     # Try to connect and run a simple query
     if env $pg_env psql -h "$host" -p "$port" -U "$user" -d "$database" -c "SELECT 1;" >/dev/null 2>&1; then
-        iact_log_debug "PostgreSQL connection successful"
+        iact_log_debug "PostgreSQL connection successful to $host:$port/$database"
         return 0
     else
-        iact_log_debug "PostgreSQL connection failed"
+        iact_log_debug "PostgreSQL connection failed to $host:$port/$database"
         return 1
     fi
 }
 
 # Check if PostgreSQL is accessible (simplified version)
 # Uses environment variables from Django settings
+# NO SILENT FAILURES: Reports connection parameters and result
+#
 # Usage: iact_check_postgres_connect
 #
 # Returns:
@@ -86,15 +96,17 @@ iact_check_postgres_connect() {
     iact_log_debug "Checking PostgreSQL connectivity: $host:$port/$database"
 
     if iact_test_postgres_connection "$host" "$port" "$database" "$user" "$password"; then
-        iact_log_debug "PostgreSQL is accessible"
+        iact_log_debug "PostgreSQL is accessible at $host:$port"
         return 0
     else
-        iact_log_debug "PostgreSQL is not accessible"
+        iact_log_debug "PostgreSQL is not accessible at $host:$port"
         return 1
     fi
 }
 
 # Check if PostgreSQL database exists
+# NO SILENT FAILURES: Reports query errors
+#
 # Usage: iact_check_postgres_database_exists "iact_analytics"
 #
 # Args:
@@ -119,7 +131,7 @@ iact_check_postgres_database_exists() {
         return 1
     fi
 
-    iact_log_debug "Checking if PostgreSQL database exists: $database"
+    iact_log_debug "Checking if PostgreSQL database exists: $database on $host:$port"
 
     local pg_env=""
     if [[ -n "$password" ]]; then
@@ -128,7 +140,12 @@ iact_check_postgres_database_exists() {
 
     # List databases and check if our database exists
     local db_list
-    db_list=$(env $pg_env psql -h "$host" -p "$port" -U "$user" -d postgres -t -c "SELECT datname FROM pg_database WHERE datname='$database';" 2>/dev/null | xargs)
+    if ! db_list=$(env $pg_env psql -h "$host" -p "$port" -U "$user" -d postgres -t -c "SELECT datname FROM pg_database WHERE datname='$database';" 2>&1); then
+        iact_log_error "Failed to query PostgreSQL databases: $db_list"
+        return 1
+    fi
+
+    db_list=$(echo "$db_list" | xargs)
 
     if [[ "$db_list" == "$database" ]]; then
         iact_log_debug "PostgreSQL database exists: $database"
@@ -140,13 +157,15 @@ iact_check_postgres_database_exists() {
 }
 
 # Get count of tables in PostgreSQL database
+# NO SILENT FAILURES: Returns 0 and logs error on failure
+#
 # Usage: table_count=$(iact_check_postgres_tables_count "iact_analytics")
 #
 # Args:
 #   $1 - Database name (optional, default: from DJANGO_DB_NAME)
 #
 # Returns:
-#   Prints number of tables to stdout
+#   Prints number of tables to stdout (0 on error)
 iact_check_postgres_tables_count() {
     local database="${1:-${DJANGO_DB_NAME:-iact_analytics}}"
     local host="${DJANGO_DB_HOST:-localhost}"
@@ -155,6 +174,7 @@ iact_check_postgres_tables_count() {
     local password="${DJANGO_DB_PASSWORD:-}"
 
     if ! iact_check_postgres_client; then
+        iact_log_error "PostgreSQL client not available - cannot count tables"
         echo "0"
         return 1
     fi
@@ -166,12 +186,21 @@ iact_check_postgres_tables_count() {
 
     # Count tables in public schema
     local count
-    count=$(env $pg_env psql -h "$host" -p "$port" -U "$user" -d "$database" -t -c "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema='public' AND table_type='BASE TABLE';" 2>/dev/null | xargs)
+    if ! count=$(env $pg_env psql -h "$host" -p "$port" -U "$user" -d "$database" -t -c "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema='public' AND table_type='BASE TABLE';" 2>&1); then
+        iact_log_error "Failed to count PostgreSQL tables in $database: $count"
+        echo "0"
+        return 1
+    fi
+
+    count=$(echo "$count" | xargs)
 
     echo "${count:-0}"
+    return 0
 }
 
 # Wait for PostgreSQL to be ready
+# NO SILENT FAILURES: Reports each attempt and final result
+#
 # Usage: iact_wait_for_postgres
 # Usage: iact_wait_for_postgres "60"
 #
@@ -191,7 +220,7 @@ iact_wait_for_postgres() {
     local counter=0
     while [[ $counter -lt $timeout ]]; do
         if iact_check_postgres_connect; then
-            iact_log_success "PostgreSQL is ready"
+            iact_log_success "PostgreSQL is ready after ${counter}s"
             return 0
         fi
 
@@ -199,7 +228,7 @@ iact_wait_for_postgres() {
         ((counter++))
     done
 
-    iact_log_error "PostgreSQL not ready after ${timeout}s"
+    iact_log_error "PostgreSQL not ready after ${timeout}s on $host:$port"
     return 1
 }
 
@@ -208,6 +237,8 @@ iact_wait_for_postgres() {
 # =============================================================================
 
 # Check if MariaDB/MySQL client is available
+# NO SILENT FAILURES: Reports which client is found
+#
 # Usage: iact_check_mariadb_client
 #
 # Returns:
@@ -221,12 +252,14 @@ iact_check_mariadb_client() {
         iact_log_debug "MariaDB client (mariadb) is available"
         return 0
     else
-        iact_log_debug "MariaDB/MySQL client not found"
+        iact_log_debug "MariaDB/MySQL client not found (neither mysql nor mariadb)"
         return 1
     fi
 }
 
 # Test MariaDB connection
+# NO SILENT FAILURES: Reports connection details and errors
+#
 # Usage: iact_test_mariadb_connection
 # Usage: iact_test_mariadb_connection "custom_host" "3307" "custom_db" "custom_user" "custom_pass"
 #
@@ -248,7 +281,7 @@ iact_test_mariadb_connection() {
     local password="${5:-${IVR_DB_PASSWORD:-}}"
 
     if ! iact_check_mariadb_client; then
-        iact_log_error "MariaDB/MySQL client not available"
+        iact_log_error "MariaDB/MySQL client not available - cannot test connection"
         return 1
     fi
 
@@ -262,16 +295,18 @@ iact_test_mariadb_connection() {
 
     # Try to connect and run a simple query
     if $mysql_cmd -e "SELECT 1;" >/dev/null 2>&1; then
-        iact_log_debug "MariaDB connection successful"
+        iact_log_debug "MariaDB connection successful to $host:$port/$database"
         return 0
     else
-        iact_log_debug "MariaDB connection failed"
+        iact_log_debug "MariaDB connection failed to $host:$port/$database"
         return 1
     fi
 }
 
 # Check if MariaDB is accessible (simplified version)
 # Uses environment variables from Django settings (IVR database)
+# NO SILENT FAILURES: Reports connection parameters and result
+#
 # Usage: iact_check_mariadb_connect
 #
 # Returns:
@@ -287,15 +322,17 @@ iact_check_mariadb_connect() {
     iact_log_debug "Checking MariaDB connectivity: $host:$port/$database"
 
     if iact_test_mariadb_connection "$host" "$port" "$database" "$user" "$password"; then
-        iact_log_debug "MariaDB is accessible"
+        iact_log_debug "MariaDB is accessible at $host:$port"
         return 0
     else
-        iact_log_debug "MariaDB is not accessible"
+        iact_log_debug "MariaDB is not accessible at $host:$port"
         return 1
     fi
 }
 
 # Check if MariaDB database exists
+# NO SILENT FAILURES: Reports query errors
+#
 # Usage: iact_check_mariadb_database_exists "ivr_legacy"
 #
 # Args:
@@ -320,7 +357,7 @@ iact_check_mariadb_database_exists() {
         return 1
     fi
 
-    iact_log_debug "Checking if MariaDB database exists: $database"
+    iact_log_debug "Checking if MariaDB database exists: $database on $host:$port"
 
     local mysql_cmd="mysql -h $host -P $port -u $user"
     if [[ -n "$password" ]]; then
@@ -338,13 +375,15 @@ iact_check_mariadb_database_exists() {
 }
 
 # Get count of tables in MariaDB database
+# NO SILENT FAILURES: Returns 0 and logs error on failure
+#
 # Usage: table_count=$(iact_check_mariadb_tables_count "ivr_legacy")
 #
 # Args:
 #   $1 - Database name (optional, default: from IVR_DB_NAME)
 #
 # Returns:
-#   Prints number of tables to stdout
+#   Prints number of tables to stdout (0 on error)
 iact_check_mariadb_tables_count() {
     local database="${1:-${IVR_DB_NAME:-ivr_legacy}}"
     local host="${IVR_DB_HOST:-localhost}"
@@ -353,6 +392,7 @@ iact_check_mariadb_tables_count() {
     local password="${IVR_DB_PASSWORD:-}"
 
     if ! iact_check_mariadb_client; then
+        iact_log_error "MariaDB/MySQL client not available - cannot count tables"
         echo "0"
         return 1
     fi
@@ -364,12 +404,19 @@ iact_check_mariadb_tables_count() {
 
     # Count tables
     local count
-    count=$($mysql_cmd -N -e "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema='$database';" 2>/dev/null)
+    if ! count=$($mysql_cmd -N -e "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema='$database';" 2>&1); then
+        iact_log_error "Failed to count MariaDB tables in $database: $count"
+        echo "0"
+        return 1
+    fi
 
     echo "${count:-0}"
+    return 0
 }
 
 # Wait for MariaDB to be ready
+# NO SILENT FAILURES: Reports each attempt and final result
+#
 # Usage: iact_wait_for_mariadb
 # Usage: iact_wait_for_mariadb "60"
 #
@@ -389,7 +436,7 @@ iact_wait_for_mariadb() {
     local counter=0
     while [[ $counter -lt $timeout ]]; do
         if iact_check_mariadb_connect; then
-            iact_log_success "MariaDB is ready"
+            iact_log_success "MariaDB is ready after ${counter}s"
             return 0
         fi
 
@@ -397,28 +444,21 @@ iact_wait_for_mariadb() {
         ((counter++))
     done
 
-    iact_log_error "MariaDB not ready after ${timeout}s"
+    iact_log_error "MariaDB not ready after ${timeout}s on $host:$port"
     return 1
 }
 
 # =============================================================================
-# DATABASE VALIDATION FUNCTIONS
+# DATABASE VALIDATION FUNCTIONS - IDEMPOTENT PATTERN
 # =============================================================================
 
-# Validate all database connections
-# Checks both PostgreSQL and MariaDB connectivity
-# Usage: iact_validate_database_connections
-#
-# Returns:
-#   0 - All database connections successful
-#   1 - One or more database connections failed
-iact_validate_database_connections() {
-    iact_log_header "Database Connections Validation"
+# Validate PostgreSQL connection
+_validate_postgres_step() {
+    local step="$1"
+    local total="$2"
 
-    local validation_errors=0
+    iact_log_step "$step" "$total" "Checking PostgreSQL connection"
 
-    # Check PostgreSQL
-    iact_log_info "Checking PostgreSQL connection..."
     if iact_check_postgres_connect; then
         iact_log_success "PostgreSQL connection: OK"
 
@@ -434,13 +474,20 @@ iact_validate_database_connections() {
         else
             iact_log_warning "PostgreSQL database does not exist: $pg_db"
         fi
+        return 0
     else
         iact_log_error "PostgreSQL connection: FAILED"
-        ((validation_errors++))
+        return 1
     fi
+}
 
-    # Check MariaDB
-    iact_log_info "Checking MariaDB connection..."
+# Validate MariaDB connection
+_validate_mariadb_step() {
+    local step="$1"
+    local total="$2"
+
+    iact_log_step "$step" "$total" "Checking MariaDB connection"
+
     if iact_check_mariadb_connect; then
         iact_log_success "MariaDB connection: OK"
 
@@ -456,17 +503,53 @@ iact_validate_database_connections() {
         else
             iact_log_warning "MariaDB database does not exist: $maria_db"
         fi
+        return 0
     else
         iact_log_error "MariaDB connection: FAILED"
-        ((validation_errors++))
+        return 1
     fi
+}
+
+# Validate all database connections
+# Checks both PostgreSQL and MariaDB connectivity
+# IDEMPOTENT: Can be run multiple times
+# NO SILENT FAILURES: Reports all issues
+#
+# Usage: iact_validate_database_connections
+#
+# Returns:
+#   0 - All database connections successful
+#   1 - One or more database connections failed
+iact_validate_database_connections() {
+    iact_log_header "Database Connections Validation"
+
+    # Array de pasos de validación
+    local validation_steps=(
+        _validate_postgres_step
+        _validate_mariadb_step
+    )
+
+    local total_steps=${#validation_steps[@]}
+    local current_step=0
+    local failed_steps=()
+
+    for step_function in "${validation_steps[@]}"; do
+        ((current_step++))
+
+        if ! $step_function $current_step $total_steps; then
+            failed_steps+=("$step_function")
+        fi
+    done
 
     # Report results
-    if [[ $validation_errors -eq 0 ]]; then
+    if [[ ${#failed_steps[@]} -eq 0 ]]; then
         iact_log_success "Database validation passed"
         return 0
     else
-        iact_log_error "Database validation failed with $validation_errors errors"
+        iact_log_error "Database validation failed: ${#failed_steps[@]} step(s) failed"
+        for failed_step in "${failed_steps[@]}"; do
+            iact_log_error "  - $failed_step"
+        done
         return 1
     fi
 }
@@ -492,7 +575,44 @@ wait_for_mariadb() { iact_wait_for_mariadb "$@"; }
 validate_database_connections() { iact_validate_database_connections "$@"; }
 
 # =============================================================================
-# INITIALIZATION
+# INITIALIZATION - IDEMPOTENT PATTERN
 # =============================================================================
 
-iact_log_debug "Database module loaded successfully"
+# Initialize database module
+_iact_init_database() {
+    local init_step="$1"
+    local init_total="$2"
+
+    iact_log_debug "Database module loaded successfully"
+
+    return 0
+}
+
+# Array de pasos de inicialización
+_DATABASE_INIT_STEPS=(
+    _iact_init_database
+)
+
+# Main initialization function with auto-execution pattern
+_init_database_main() {
+    local total_steps=${#_DATABASE_INIT_STEPS[@]}
+    local current_step=0
+
+    for step_function in "${_DATABASE_INIT_STEPS[@]}"; do
+        ((current_step++))
+
+        if ! $step_function $current_step $total_steps; then
+            echo "[ERROR] Database initialization failed at: $step_function" >&2
+            return 1
+        fi
+    done
+
+    # Success: all steps completed
+    return 0
+}
+
+# Execute initialization immediately when database.sh is sourced
+if ! _init_database_main; then
+    echo "[FATAL] Database module initialization failed" >&2
+    exit 1
+fi
