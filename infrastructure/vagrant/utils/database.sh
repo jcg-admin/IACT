@@ -8,7 +8,7 @@
 # Context: Vagrant-specific database operations
 # =============================================================================
 
-# Prevenir ejecución directa
+# Prevenir ejecucion directa
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     echo "Error: Este script debe ser 'sourced', no ejecutado directamente"
     exit 1
@@ -19,12 +19,12 @@ fi
 # =============================================================================
 
 # -----------------------------------------------------------------------------
-# vagrant_db_postgres_is_ready
+# iact_db_postgres_is_ready
 # Description: Check if PostgreSQL is ready to accept connections
 # Arguments: $1 - user, $2 - password, $3 - host (default: localhost)
 # Returns: 0 if ready, 1 otherwise
 # -----------------------------------------------------------------------------
-vagrant_db_postgres_is_ready() {
+iact_db_postgres_is_ready() {
     local user="$1"
     local password="$2"
     local host="${3:-localhost}"
@@ -33,12 +33,12 @@ vagrant_db_postgres_is_ready() {
 }
 
 # -----------------------------------------------------------------------------
-# vagrant_db_postgres_wait
+# iact_db_postgres_wait
 # Description: Wait for PostgreSQL to be ready
 # Arguments: $1 - user, $2 - password, $3 - max wait (default: 60), $4 - host (default: localhost)
 # Returns: 0 if ready, 1 on timeout
 # -----------------------------------------------------------------------------
-vagrant_db_postgres_wait() {
+iact_db_postgres_wait() {
     local user="$1"
     local password="$2"
     local max_wait="${3:-60}"
@@ -46,7 +46,7 @@ vagrant_db_postgres_wait() {
     local counter=0
 
     while [[ $counter -lt $max_wait ]]; do
-        if vagrant_db_postgres_is_ready "$user" "$password" "$host"; then
+        if iact_db_postgres_is_ready "$user" "$password" "$host"; then
             return 0
         fi
 
@@ -59,12 +59,12 @@ vagrant_db_postgres_wait() {
 }
 
 # -----------------------------------------------------------------------------
-# vagrant_db_postgres_database_exists
+# iact_db_postgres_database_exists
 # Description: Check if PostgreSQL database exists
 # Arguments: $1 - database name, $2 - user, $3 - password, $4 - host (default: localhost)
 # Returns: 0 if exists, 1 otherwise
 # -----------------------------------------------------------------------------
-vagrant_db_postgres_database_exists() {
+iact_db_postgres_database_exists() {
     local database="$1"
     local user="$2"
     local password="$3"
@@ -77,12 +77,12 @@ vagrant_db_postgres_database_exists() {
 }
 
 # -----------------------------------------------------------------------------
-# vagrant_db_postgres_user_exists
+# iact_db_postgres_user_exists
 # Description: Check if PostgreSQL user exists
 # Arguments: $1 - username, $2 - admin user, $3 - admin password, $4 - host (default: localhost)
 # Returns: 0 if exists, 1 otherwise
 # -----------------------------------------------------------------------------
-vagrant_db_postgres_user_exists() {
+iact_db_postgres_user_exists() {
     local username="$1"
     local admin_user="$2"
     local admin_password="$3"
@@ -99,12 +99,12 @@ vagrant_db_postgres_user_exists() {
 # =============================================================================
 
 # -----------------------------------------------------------------------------
-# vagrant_db_mariadb_is_ready
+# iact_db_mariadb_is_ready
 # Description: Check if MariaDB is ready to accept connections
 # Arguments: $1 - user, $2 - password
 # Returns: 0 if ready, 1 otherwise
 # -----------------------------------------------------------------------------
-vagrant_db_mariadb_is_ready() {
+iact_db_mariadb_is_ready() {
     local user="$1"
     local password="$2"
 
@@ -112,19 +112,19 @@ vagrant_db_mariadb_is_ready() {
 }
 
 # -----------------------------------------------------------------------------
-# vagrant_db_mariadb_wait
+# iact_db_mariadb_wait
 # Description: Wait for MariaDB to be ready
 # Arguments: $1 - user, $2 - password, $3 - max wait (default: 60)
 # Returns: 0 if ready, 1 on timeout
 # -----------------------------------------------------------------------------
-vagrant_db_mariadb_wait() {
+iact_db_mariadb_wait() {
     local user="$1"
     local password="$2"
     local max_wait="${3:-60}"
     local counter=0
 
     while [[ $counter -lt $max_wait ]]; do
-        if vagrant_db_mariadb_is_ready "$user" "$password"; then
+        if iact_db_mariadb_is_ready "$user" "$password"; then
             return 0
         fi
 
@@ -137,12 +137,12 @@ vagrant_db_mariadb_wait() {
 }
 
 # -----------------------------------------------------------------------------
-# vagrant_db_mariadb_database_exists
+# iact_db_mariadb_database_exists
 # Description: Check if MariaDB database exists
 # Arguments: $1 - database name, $2 - user, $3 - password
 # Returns: 0 if exists, 1 otherwise
 # -----------------------------------------------------------------------------
-vagrant_db_mariadb_database_exists() {
+iact_db_mariadb_database_exists() {
     local database="$1"
     local user="$2"
     local password="$3"
@@ -154,12 +154,12 @@ vagrant_db_mariadb_database_exists() {
 }
 
 # -----------------------------------------------------------------------------
-# vagrant_db_mariadb_user_exists
+# iact_db_mariadb_user_exists
 # Description: Check if MariaDB user exists
 # Arguments: $1 - username, $2 - admin user, $3 - admin password
 # Returns: 0 if exists, 1 otherwise
 # -----------------------------------------------------------------------------
-vagrant_db_mariadb_user_exists() {
+iact_db_mariadb_user_exists() {
     local username="$1"
     local admin_user="$2"
     local admin_password="$3"
@@ -174,11 +174,11 @@ vagrant_db_mariadb_user_exists() {
 # EXPORT
 # =============================================================================
 
-export -f vagrant_db_postgres_is_ready
-export -f vagrant_db_postgres_wait
-export -f vagrant_db_postgres_database_exists
-export -f vagrant_db_postgres_user_exists
-export -f vagrant_db_mariadb_is_ready
-export -f vagrant_db_mariadb_wait
-export -f vagrant_db_mariadb_database_exists
-export -f vagrant_db_mariadb_user_exists
+export -f iact_db_postgres_is_ready
+export -f iact_db_postgres_wait
+export -f iact_db_postgres_database_exists
+export -f iact_db_postgres_user_exists
+export -f iact_db_mariadb_is_ready
+export -f iact_db_mariadb_wait
+export -f iact_db_mariadb_database_exists
+export -f iact_db_mariadb_user_exists

@@ -8,7 +8,7 @@
 # Context: Vagrant-specific validation
 # =============================================================================
 
-# Prevenir ejecución directa
+# Prevenir ejecucion directa
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     echo "Error: Este script debe ser 'sourced', no ejecutado directamente"
     exit 1
@@ -19,12 +19,12 @@ fi
 # =============================================================================
 
 # -----------------------------------------------------------------------------
-# vagrant_validate_disk_space
+# iact_validate_disk_space
 # Description: Validate available disk space
 # Arguments: $1 - required space in GB (default: 5)
 # Returns: 0 if enough space, 1 otherwise
 # -----------------------------------------------------------------------------
-vagrant_validate_disk_space() {
+iact_validate_disk_space() {
     local required_gb="${1:-5}"
     local available_kb
     available_kb=$(df / | awk 'NR==2 {print $4}')
@@ -43,12 +43,12 @@ vagrant_validate_disk_space() {
 # =============================================================================
 
 # -----------------------------------------------------------------------------
-# vagrant_validate_ubuntu_version
+# iact_validate_ubuntu_version
 # Description: Validate Ubuntu version
 # Arguments: $1 - required version (e.g., "18.04")
 # Returns: 0 if correct version, 1 otherwise
 # -----------------------------------------------------------------------------
-vagrant_validate_ubuntu_version() {
+iact_validate_ubuntu_version() {
     local required_version="$1"
 
     if [[ ! -f /etc/os-release ]]; then
@@ -76,11 +76,11 @@ vagrant_validate_ubuntu_version() {
 # =============================================================================
 
 # -----------------------------------------------------------------------------
-# vagrant_validate_internet
+# iact_validate_internet
 # Description: Validate internet connectivity
 # Returns: 0 if connected, 1 otherwise
 # -----------------------------------------------------------------------------
-vagrant_validate_internet() {
+iact_validate_internet() {
     local hosts=("8.8.8.8" "1.1.1.1")
 
     for host in "${hosts[@]}"; do
@@ -98,12 +98,12 @@ vagrant_validate_internet() {
 # =============================================================================
 
 # -----------------------------------------------------------------------------
-# vagrant_validate_package_installed
+# iact_validate_package_installed
 # Description: Validate if a package is installed
 # Arguments: $1 - package name
 # Returns: 0 if installed, 1 otherwise
 # -----------------------------------------------------------------------------
-vagrant_validate_package_installed() {
+iact_validate_package_installed() {
     local package="$1"
 
     if dpkg -l "$package" 2>/dev/null | grep -q "^ii"; then
@@ -118,7 +118,7 @@ vagrant_validate_package_installed() {
 # EXPORT
 # =============================================================================
 
-export -f vagrant_validate_disk_space
-export -f vagrant_validate_ubuntu_version
-export -f vagrant_validate_internet
-export -f vagrant_validate_package_installed
+export -f iact_validate_disk_space
+export -f iact_validate_ubuntu_version
+export -f iact_validate_internet
+export -f iact_validate_package_installed
