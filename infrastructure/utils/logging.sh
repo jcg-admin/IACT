@@ -1,69 +1,96 @@
-#!/bin/bash
+#!/usr/bin/env bash
+# utils/logging.sh - Logging system for IACT DevContainer
+# Provides consistent logging functions with colors, file output, and step tracking
+# Auto-initializes when sourced
 
 set -euo pipefail
 
-# =================================================================
+# =============================================================================
 # GLOBAL VARIABLES
-# =================================================================
-LOGGING_INITIALIZED=false
-LOG_FILE=""
-LOG_TO_FILE=false
+# =============================================================================
 
-# =================================================================
+IACT_LOGGING_INITIALIZED=false
+IACT_LOG_FILE=""
+IACT_LOG_TO_FILE=false
+IACT_LOG_COLORS="${IACT_LOG_COLORS:-1}"
+
+# =============================================================================
+# COLOR CODES
+# =============================================================================
+
+readonly COLOR_RESET='\033[0m'
+readonly COLOR_RED='\033[0;31m'
+readonly COLOR_GREEN='\033[0;32m'
+readonly COLOR_YELLOW='\033[0;33m'
+readonly COLOR_BLUE='\033[0;34m'
+readonly COLOR_CYAN='\033[0;36m'
+readonly COLOR_WHITE='\033[0;37m'
+
+# =============================================================================
 # INITIALIZATION FUNCTIONS
-# =================================================================
+# =============================================================================
 
-init_logging() {
-    if [ "$LOGGING_INITIALIZED" = "true" ]; then
+# Initialize logging system
+# Detects environment and sets up log file location
+# Can be called multiple times (idempotent)
+iact_init_logging() {
+    if [[ "$IACT_LOGGING_INITIALIZED" == "true" ]]; then
         return 0
     fi
 
-    # Determine log file location
-    if [ -d "/vagrant/logs" ]; then
-        LOG_FILE="/vagrant/logs/bootstrap.log"
-    elif [ -n "${LOGS_DIR:-}" ]; then
-        LOG_FILE="$LOGS_DIR/bootstrap.log"
+    # Determine log file location based on environment
+    if [[ -d "/workspaces" ]]; then
+        # DevContainer environment
+        local workspace="/workspaces/${localWorkspaceFolderBasename:-callcentersite}"
+        IACT_LOG_FILE="$workspace/logs/devcontainer.log"
+    elif [[ -n "${LOGS_DIR:-}" ]]; then
+        # Custom log directory specified
+        IACT_LOG_FILE="$LOGS_DIR/iact.log"
     else
-        LOG_FILE="./logs/bootstrap.log"
+        # Default location
+        IACT_LOG_FILE="./logs/iact.log"
     fi
 
     # Create log directory if needed
     local log_dir
-    log_dir=$(dirname "$LOG_FILE")
-    if [ ! -d "$log_dir" ]; then
+    log_dir=$(dirname "$IACT_LOG_FILE")
+    if [[ ! -d "$log_dir" ]]; then
         mkdir -p "$log_dir" 2>/dev/null || true
     fi
 
     # Try to create/touch log file
-    if touch "$LOG_FILE" 2>/dev/null; then
-        LOG_TO_FILE=true
-        chmod 644 "$LOG_FILE" 2>/dev/null || true
+    if touch "$IACT_LOG_FILE" 2>/dev/null; then
+        IACT_LOG_TO_FILE=true
+        chmod 644 "$IACT_LOG_FILE" 2>/dev/null || true
     else
-        LOG_TO_FILE=false
-        echo "WARNING: Cannot write to log file: $LOG_FILE"
+        IACT_LOG_TO_FILE=false
+        echo "WARNING: Cannot write to log file: $IACT_LOG_FILE" >&2
     fi
 
-    LOGGING_INITIALIZED=true
+    IACT_LOGGING_INITIALIZED=true
 
     # Write initialization message
-    write_to_file "$(date '+%Y-%m-%d %H:%M:%S') [INIT] Logging initialized"
+    iact_write_to_file "$(date '+%Y-%m-%d %H:%M:%S') [INIT] Logging initialized"
 }
 
-write_to_file() {
+# Write message to log file (internal function)
+iact_write_to_file() {
     local message="$1"
 
-    if [ "$LOG_TO_FILE" = "true" ] && [ -n "$LOG_FILE" ]; then
-        echo "$message" >> "$LOG_FILE" 2>/dev/null || true
+    if [[ "$IACT_LOG_TO_FILE" == "true" ]] && [[ -n "$IACT_LOG_FILE" ]]; then
+        echo "$message" >> "$IACT_LOG_FILE" 2>/dev/null || true
     fi
 }
 
-# =================================================================
+# =============================================================================
 # CORE LOGGING FUNCTIONS
-# =================================================================
+# =============================================================================
 
-print_message() {
+# Internal function to print formatted message
+# Args: level, color_code, message
+iact_print_message() {
     local level="$1"
-    local color="$2"
+    local color_code="$2"
     local message="$3"
 
     local timestamp
@@ -71,46 +98,85 @@ print_message() {
     local file_timestamp
     file_timestamp=$(date '+%Y-%m-%d %H:%M:%S')
 
-    # Print to terminal with colors
-    printf "\033[0;${color}m[%s]\033[0m %s %s\n" "$level" "$timestamp" "$message"
+    # Print to terminal with colors (if enabled)
+    if [[ "$IACT_LOG_COLORS" == "1" ]]; then
+        printf "${color_code}[%s]${COLOR_RESET} %s %s\n" "$level" "$timestamp" "$message"
+    else
+        printf "[%s] %s %s\n" "$level" "$timestamp" "$message"
+    fi
 
     # Write to file without colors
-    write_to_file "$file_timestamp [$level] $message"
+    iact_write_to_file "$file_timestamp [$level] $message"
 }
 
-# =================================================================
+# =============================================================================
 # PUBLIC LOGGING API
-# =================================================================
+# =============================================================================
 
-log_info() {
-    print_message "INFO" "34" "$1"
+# Log info message (blue)
+# Usage: iact_log_info "Starting process"
+iact_log_info() {
+    iact_print_message "INFO" "$COLOR_BLUE" "$1"
 }
 
-log_success() {
-    print_message "SUCCESS" "32" "$1"
+# Log success message (green)
+# Usage: iact_log_success "Operation completed"
+iact_log_success() {
+    iact_print_message "SUCCESS" "$COLOR_GREEN" "$1"
 }
 
-log_warning() {
-    print_message "WARNING" "33" "$1"
+# Log warning message (yellow)
+# Usage: iact_log_warning "Potential issue detected"
+iact_log_warning() {
+    iact_print_message "WARNING" "$COLOR_YELLOW" "$1"
 }
 
-log_error() {
-    print_message "ERROR" "31" "$1"
+# Log error message (red)
+# Usage: iact_log_error "Operation failed"
+iact_log_error() {
+    iact_print_message "ERROR" "$COLOR_RED" "$1"
 }
 
-log_debug() {
-    if [ "${DEBUG:-false}" = "true" ]; then
-        print_message "DEBUG" "37" "$1"
+# Log debug message (white, only if DEBUG=true)
+# Usage: iact_log_debug "Debug information"
+iact_log_debug() {
+    if [[ "${DEBUG:-false}" == "true" ]]; then
+        iact_print_message "DEBUG" "$COLOR_WHITE" "$1"
     fi
 }
 
-log_step() {
-    print_message "STEP" "36" "$1"
+# Log step with progress indicator (cyan)
+# Usage: iact_log_step "1" "10" "Installing dependencies"
+# Args: step_number, total_steps, message
+iact_log_step() {
+    local step="$1"
+    local total="$2"
+    local message="$3"
+
+    local timestamp
+    timestamp=$(date '+%H:%M:%S')
+    local file_timestamp
+    file_timestamp=$(date '+%Y-%m-%d %H:%M:%S')
+
+    # Format: [STEP 1/10] HH:MM:SS Message
+    local step_label="STEP ${step}/${total}"
+
+    # Print to terminal with colors (if enabled)
+    if [[ "$IACT_LOG_COLORS" == "1" ]]; then
+        printf "${COLOR_CYAN}[%s]${COLOR_RESET} %s %s\n" "$step_label" "$timestamp" "$message"
+    else
+        printf "[%s] %s %s\n" "$step_label" "$timestamp" "$message"
+    fi
+
+    # Write to file
+    iact_write_to_file "$file_timestamp [$step_label] $message"
 }
 
-log_header() {
+# Log header with separator lines (blue)
+# Usage: iact_log_header "INSTALLATION STARTING"
+iact_log_header() {
     local message="$1"
-    local separator="=========================================="
+    local separator="============================================================================="
     local timestamp
     timestamp=$(date '+%H:%M:%S')
     local file_timestamp
@@ -118,97 +184,125 @@ log_header() {
 
     # Print to terminal
     echo ""
-    printf "\033[0;34m%s\033[0m\n" "$separator"
-    printf "\033[0;34m[HEADER]\033[0m %s %s\n" "$timestamp" "$message"
-    printf "\033[0;34m%s\033[0m\n" "$separator"
+    if [[ "$IACT_LOG_COLORS" == "1" ]]; then
+        printf "${COLOR_BLUE}%s${COLOR_RESET}\n" "$separator"
+        printf "${COLOR_BLUE}[HEADER]${COLOR_RESET} %s %s\n" "$timestamp" "$message"
+        printf "${COLOR_BLUE}%s${COLOR_RESET}\n" "$separator"
+    else
+        printf "%s\n" "$separator"
+        printf "[HEADER] %s %s\n" "$timestamp" "$message"
+        printf "%s\n" "$separator"
+    fi
     echo ""
 
     # Write to file
-    write_to_file ""
-    write_to_file "$separator"
-    write_to_file "$file_timestamp [HEADER] $message"
-    write_to_file "$separator"
+    iact_write_to_file ""
+    iact_write_to_file "$separator"
+    iact_write_to_file "$file_timestamp [HEADER] $message"
+    iact_write_to_file "$separator"
 }
 
-# =================================================================
+# =============================================================================
 # UTILITY FUNCTIONS
-# =================================================================
+# =============================================================================
 
-show_log_config() {
-    echo "Logging Configuration:"
-    echo "  Initialized: $LOGGING_INITIALIZED"
-    echo "  Log File: ${LOG_FILE:-[not set]}"
-    echo "  File Logging: $LOG_TO_FILE"
+# Show current logging configuration
+# Usage: iact_show_log_config
+iact_show_log_config() {
+    echo "IACT Logging Configuration:"
+    echo "  Initialized: $IACT_LOGGING_INITIALIZED"
+    echo "  Log File: ${IACT_LOG_FILE:-[not set]}"
+    echo "  File Logging: $IACT_LOG_TO_FILE"
+    echo "  Colors: $IACT_LOG_COLORS"
     echo "  Debug Mode: ${DEBUG:-false}"
 }
 
-get_log_file() {
-    echo "$LOG_FILE"
+# Get current log file path
+# Usage: log_file=$(iact_get_log_file)
+iact_get_log_file() {
+    echo "$IACT_LOG_FILE"
 }
 
-is_logging_to_file() {
-    [ "$LOG_TO_FILE" = "true" ]
+# Check if logging to file is enabled
+# Usage: if iact_is_logging_to_file; then ...; fi
+iact_is_logging_to_file() {
+    [[ "$IACT_LOG_TO_FILE" == "true" ]]
 }
 
-# =================================================================
-# COMPATIBILITY FUNCTIONS
-# =================================================================
+# =============================================================================
+# COMPATIBILITY ALIASES
+# =============================================================================
 
-# Legacy compatibility functions
-log_warn() {
-    log_warning "$@"
-}
+# Legacy compatibility (without iact_ prefix)
+# These can be used for backward compatibility if needed
+log_info() { iact_log_info "$@"; }
+log_success() { iact_log_success "$@"; }
+log_warning() { iact_log_warning "$@"; }
+log_error() { iact_log_error "$@"; }
+log_debug() { iact_log_debug "$@"; }
+log_step() { iact_log_step "$@"; }
+log_header() { iact_log_header "$@"; }
 
-# =================================================================
-# ERROR HANDLING
-# =================================================================
+# Additional alias
+log_warn() { iact_log_warning "$@"; }
 
-log_and_exit() {
+# =============================================================================
+# ERROR HANDLING HELPERS
+# =============================================================================
+
+# Log error and exit
+# Usage: iact_log_and_exit 1 "Fatal error occurred"
+iact_log_and_exit() {
     local exit_code="${1:-1}"
     local message="${2:-Unknown error occurred}"
 
-    log_error "$message"
+    iact_log_error "$message"
     exit "$exit_code"
 }
 
-log_command_result() {
+# Execute command and log result
+# Usage: iact_log_command_result "apt-get update" "Package cache update"
+iact_log_command_result() {
     local command="$1"
     local description="${2:-Command execution}"
 
     if eval "$command" >/dev/null 2>&1; then
-        log_success "$description completed successfully"
+        iact_log_success "$description completed successfully"
         return 0
     else
         local exit_code=$?
-        log_error "$description failed (exit code: $exit_code)"
+        iact_log_error "$description failed (exit code: $exit_code)"
         return $exit_code
     fi
 }
 
-# =================================================================
+# =============================================================================
 # TESTING FUNCTIONS
-# =================================================================
+# =============================================================================
 
-test_logging() {
-    log_header "Testing Logging System"
-    log_info "This is an info message"
-    log_success "This is a success message"
-    log_warning "This is a warning message"
-    log_error "This is an error message"
-    log_debug "This is a debug message (only visible with DEBUG=true)"
-    log_step "This is a step message"
-    show_log_config
+# Test all logging functions
+# Usage: iact_test_logging
+iact_test_logging() {
+    iact_log_header "Testing IACT Logging System"
+    iact_log_info "This is an info message"
+    iact_log_success "This is a success message"
+    iact_log_warning "This is a warning message"
+    iact_log_error "This is an error message"
+    iact_log_debug "This is a debug message (only visible with DEBUG=true)"
+    iact_log_step "1" "5" "This is step 1 of 5"
+    iact_log_step "2" "5" "This is step 2 of 5"
+    iact_show_log_config
 
-    if is_logging_to_file; then
-        log_info "Log file location: $(get_log_file)"
+    if iact_is_logging_to_file; then
+        iact_log_info "Log file location: $(iact_get_log_file)"
     else
-        log_warning "File logging is disabled"
+        iact_log_warning "File logging is disabled"
     fi
 }
 
-# =================================================================
+# =============================================================================
 # AUTO-INITIALIZATION
-# =================================================================
+# =============================================================================
 
 # Initialize logging when this script is sourced
-init_logging
+iact_init_logging
