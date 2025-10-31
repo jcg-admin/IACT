@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 #
-# post_create.sh - DevContainer Post-Create Setup
+# post-create.sh - DevContainer Post-Create Setup
 #
 # Ejecuta setup completo DESPUÉS de instalar dependencias.
-# Este script corre DESPUÉS de update_content.sh
+# Este script corre DESPUÉS de update-content.sh
 #
 # Lifecycle: postCreateCommand (CONTAINER - después de dependencias)
 # Frecuencia: UNA SOLA VEZ (creación del contenedor)
@@ -63,8 +63,13 @@ if ! iact_source_module "validation"; then
     exit 1
 fi
 
-if ! iact_source_module "database"; then
-    echo "Error: No se pudo cargar database.sh" >&2
+if ! iact_source_module "database_postgres"; then
+    echo "Error: No se pudo cargar database_postgres.sh" >&2
+    exit 1
+fi
+
+if ! iact_source_module "database_mariadb"; then
+    echo "Error: No se pudo cargar database_mariadb.sh" >&2
     exit 1
 fi
 

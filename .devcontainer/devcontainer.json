@@ -1,64 +1,178 @@
 {
-  "name": "CallCenter Django API",
-  "dockerComposeFile": [
-    "docker-compose.yml"
-  ],
+  "name": "CallCenter Django API - DevContainer",
+
+  // ==========================================================================
+  // DOCKER CONFIGURATION
+  // ==========================================================================
+
+  "dockerComposeFile": "docker-compose.yml",
   "service": "app",
   "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
 
+  // ==========================================================================
+  // LIFECYCLE HOOKS
+  // ==========================================================================
+  // Execution order:
+  // 1. initializeCommand (HOST) - Validations before building container
+  // 2. onCreateCommand (CONTAINER) - Basic setup (once)
+  // 3. updateContentCommand (CONTAINER) - Install dependencies (once)
+  // 4. postCreateCommand (CONTAINER) - Database setup and migrations (once)
+  // 5. postStartCommand (CONTAINER) - Verification (every start)
+  // ==========================================================================
+
+  // HOST - Pre-initialization validations
+  "initializeCommand": "bash infrastructure/devcontainer/scripts/init-host.sh",
+
+  // CONTAINER - Initial setup (Python, Git, directories)
+  "onCreateCommand": "bash infrastructure/devcontainer/scripts/on-create.sh",
+
+  // CONTAINER - Install Python dependencies
+  "updateContentCommand": "bash infrastructure/devcontainer/scripts/update-content.sh",
+
+  // CONTAINER - Database setup and migrations
+  "postCreateCommand": "bash infrastructure/devcontainer/scripts/post-create.sh",
+
+  // CONTAINER - Quick verification on every start
+  "postStartCommand": "bash infrastructure/devcontainer/scripts/post-start.sh",
+
+  // ==========================================================================
+  // FEATURES
+  // ==========================================================================
+
   "features": {
-    "ghcr.io/devcontainers/features/github-cli:1": {},
-    "ghcr.io/devcontainers/features/node:1": {
-      "version": "22",
-      "npm": "10"
+    "ghcr.io/devcontainers/features/python:1": {
+      "version": "3.11"
+    },
+    "ghcr.io/devcontainers/features/git:1": {
+      "version": "latest"
+    },
+    "ghcr.io/devcontainers/features/common-utils:2": {
+      "installZsh": true,
+      "installOhMyZsh": true,
+      "upgradePackages": true,
+      "username": "vscode",
+      "userUid": "1000",
+      "userGid": "1000"
     }
   },
 
-  "remoteUser": "callcenter",
-  "updateRemoteUserUID": true,
-
-  "forwardPorts": [8000, 5432],
-
-  "postCreateCommand": "bash infrastructure/devcontainer/scripts/post-create.sh",
-  "postStartCommand": "bash infrastructure/devcontainer/scripts/post-start.sh",
-
-  "containerEnv": {
-    "DEVCONTAINER_INSTALL_COPILOT_CLI": "0",
-    "DEVCONTAINER_RUN_TESTS": "0",
-    "DEVCONTAINER_CAPTURE_NPM_DIAGNOSTICS": "0",
-    "DEVCONTAINER_NPM_DIAGNOSTICS_DRY_RUN": "0"
-  },
+  // ==========================================================================
+  // CUSTOMIZATIONS
+  // ==========================================================================
 
   "customizations": {
     "vscode": {
+      // Extensions
       "extensions": [
+        // Python
         "ms-python.python",
         "ms-python.vscode-pylance",
         "ms-python.black-formatter",
-        "charliermarsh.ruff",
+
+        // Django
+        "batisteo.vscode-django",
+
+        // Database
         "mtxr.sqltools",
         "mtxr.sqltools-driver-pg",
-        "github.copilot",
-        "github.copilot-chat",
+        "mtxr.sqltools-driver-mysql",
+
+        // Git
         "eamodio.gitlens",
-        "ms-azuretools.vscode-docker"
+
+        // Docker
+        "ms-azuretools.vscode-docker",
+
+        // Utilities
+        "editorconfig.editorconfig",
+        "ms-vscode.makefile-tools"
       ],
+
+      // Settings
       "settings": {
+        // Python
         "python.defaultInterpreterPath": "/usr/local/bin/python",
-        "python.testing.pytestEnabled": true,
-        "python.testing.pytestArgs": [
-          "api/callcentersite"
-        ],
         "python.linting.enabled": true,
+        "python.linting.pylintEnabled": false,
+        "python.linting.flake8Enabled": true,
         "python.formatting.provider": "black",
+        "python.testing.pytestEnabled": true,
+        "python.testing.unittestEnabled": false,
+
+        // Editor
         "editor.formatOnSave": true,
-        "github.copilot.enable": {
-          "*": true,
-          "plaintext": false,
-          "markdown": true,
-          "scminput": false
+        "editor.rulers": [88, 120],
+        "editor.tabSize": 4,
+        "files.trimTrailingWhitespace": true,
+        "files.insertFinalNewline": true,
+
+        // Terminal
+        "terminal.integrated.defaultProfile.linux": "bash",
+        "terminal.integrated.profiles.linux": {
+          "bash": {
+            "path": "/bin/bash"
+          },
+          "zsh": {
+            "path": "/bin/zsh"
+          }
         }
       }
     }
-  }
+  },
+
+  // ==========================================================================
+  // FORWARDED PORTS
+  // ==========================================================================
+
+  "forwardPorts": [
+    8000,  // Django runserver
+    5432,  // PostgreSQL
+    3306   // MariaDB
+  ],
+
+  "portsAttributes": {
+    "8000": {
+      "label": "Django Application",
+      "onAutoForward": "notify"
+    },
+    "5432": {
+      "label": "PostgreSQL Database"
+    },
+    "3306": {
+      "label": "MariaDB Database"
+    }
+  },
+
+  // ==========================================================================
+  // MOUNTS
+  // ==========================================================================
+
+  "mounts": [
+    // Mount SSH keys for git operations
+    {
+      "source": "${localEnv:HOME}${localEnv:USERPROFILE}/.ssh",
+      "target": "/home/vscode/.ssh",
+      "type": "bind"
+    }
+  ],
+
+  // ==========================================================================
+  // POST-ATTACH COMMAND
+  // ==========================================================================
+  // Commands to run after attaching to the container (optional)
+
+  // "postAttachCommand": "echo 'Container ready!'",
+
+  // ==========================================================================
+  // USER
+  // ==========================================================================
+
+  "remoteUser": "vscode",
+
+  // ==========================================================================
+  // WAIT FOR
+  // ==========================================================================
+  // Wait for services to be ready before continuing
+
+  "waitFor": "postCreateCommand"
 }
