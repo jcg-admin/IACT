@@ -11,7 +11,7 @@ relacionados: ["RQ-ANL-001", "RN-015"]
 Las evaluaciones de devcontainer y Docker mostraron incompatibilidades con las restricciones del proyecto (solo Vagrant, Apache y APScheduler). Los equipos de analytics requieren reproducibilidad sin depender de Docker Desktop ni Codespaces.
 
 ## Decisión
-Mantener Vagrant como capa de virtualización oficial, sirviendo la aplicación Django bajo Apache 2.4 en modo daemon con mod_wsgi. La VM publica PostgreSQL y MariaDB mediante el `Vagrantfile` actual y expone scripts de verificación en `infrastructure/scripts`.
+Mantener Vagrant como capa de virtualización oficial, sirviendo la aplicación Django bajo Apache 2.4 en modo daemon con mod_wsgi. La VM publica PostgreSQL y MariaDB mediante el `vagrantfile` actual y expone scripts de verificación en `infrastructure/scripts`.
 
 ## Consecuencias
 - **Positivas:** Configuración alineada con producción, soporte de Apache para TLS y logging unificado, menor fricción legal (sin Docker Desktop).

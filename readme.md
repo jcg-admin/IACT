@@ -16,7 +16,7 @@ Repositorio monolítico para la plataforma de analítica de centros de contacto 
 vagrant up
 ```
 
-El `Vagrantfile` provisiona una VM Ubuntu que instala PostgreSQL y MariaDB mediante `provisioning/bootstrap.sh`. Los puertos expuestos en la máquina anfitriona son:
+El `vagrantfile` provisiona una VM Ubuntu que instala PostgreSQL y MariaDB mediante `provisioning/bootstrap.sh`. Los puertos expuestos en la máquina anfitriona son:
 
 - PostgreSQL: `127.0.0.1:15432`
 - MariaDB: `127.0.0.1:13306`
@@ -51,5 +51,5 @@ El script prueba la conectividad contra las bases de datos utilizando las variab
 
 - [Guía de verificación de servicios](docs/verificacion-servicios.md)
 - [ADR de arquitectura](docs/architecture-decision-records/Arquitectura%20GitHub%20Codespaces.md)
-- [Playbooks operativos](tasks/README.md)
+- [Playbooks operativos](tasks/readme.md)
 
