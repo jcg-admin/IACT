@@ -26,13 +26,40 @@ MANIFEST
 *.spec
 pip-log.txt
 pip-delete-this-directory.txt
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+.hypothesis/
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.pyre/
+.pytype/
+
+
+
+# ==================
+# Django
+# ==================
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+/media
+/staticfiles
+/static
 
 # ==========================================
 # Virtual Environments
 # ==========================================
+env/
 venv/
 ENV/
-env/
+env.bak/
+venv.bak/
 .venv
 .venv/
 *.venv/
@@ -170,3 +197,66 @@ cache/
 # Vagrant
 # ==========================================
 .vagrant
+
+
+# ==================
+# Node (si hay frontend)
+# ==================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npm
+.yarn-integrity
+
+# ==================
+# Misc
+# ==================
+*.tar
+*.tar.gz
+*.zip
+*.rar
+.env.local
+.env.*.local
+# ==================
+# Documentation
+# ==================
+docs/_build/
+site/
+
+# ==================
+# Database
+# ==================
+*.sqlite
+*.sqlite3
+*.db
+
+# Database dumps
+*.sql
+*.dump
+
+# ==================
+# Backups
+# ==================
+*.backup
+*.bak
+*.old
+*.orig
+*.save
+
+# ==================
+# Temporary Files
+# ==================
+*.tmp
+*.temp
+.cache/
+
+# ==================
+# Secrets
+# ==================
+secrets/
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
