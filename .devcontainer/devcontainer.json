@@ -21,19 +21,19 @@
   // ==========================================================================
 
   // HOST - Pre-initialization validations
-  "initializeCommand": "bash infrastructure/devcontainer/scripts/init-host.sh",
+  "initializeCommand": "bash infrastructure/devcontainer/scripts/init_host.sh",
 
   // CONTAINER - Initial setup (Python, Git, directories)
-  "onCreateCommand": "bash infrastructure/devcontainer/scripts/on-create.sh",
+  "onCreateCommand": "bash infrastructure/devcontainer/scripts/on_create.sh",
 
   // CONTAINER - Install Python dependencies
-  "updateContentCommand": "bash infrastructure/devcontainer/scripts/update-content.sh",
+  "updateContentCommand": "bash infrastructure/devcontainer/scripts/update_content.sh",
 
   // CONTAINER - Database setup and migrations
-  "postCreateCommand": "bash infrastructure/devcontainer/scripts/post-create.sh",
+  "postCreateCommand": "bash infrastructure/devcontainer/scripts/post_create.sh",
 
   // CONTAINER - Quick verification on every start
-  "postStartCommand": "bash infrastructure/devcontainer/scripts/post-start.sh",
+  "postStartCommand": "bash infrastructure/devcontainer/scripts/post_start.sh",
 
   // ==========================================================================
   // FEATURES
