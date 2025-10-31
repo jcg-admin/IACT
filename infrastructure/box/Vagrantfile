@@ -1,0 +1,106 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# =============================================================================
+# CONFIGURATION VARIABLES
+# =============================================================================
+
+# VM Configuration
+VM_NAME = "iact-devbox"
+VM_HOSTNAME = "callcenter-analytics"
+VM_MEMORY = 4096  # 4 GB
+VM_CPUS = 2
+
+# =============================================================================
+# APT CACHE OPTIMIZATION (speeds up reprovisioning)
+# =============================================================================
+
+def local_cache(box_name)
+  begin
+    cache_dir = File.join(File.expand_path('~/.vagrant.d'), 'cache', 'apt', box_name)
+    FileUtils.mkdir_p(cache_dir) unless File.exist?(cache_dir)
+    return cache_dir if File.writable?(cache_dir)
+  rescue => e
+    puts "WARNING: APT cache disabled: #{e.message}"
+  end
+  nil
+end
+
+
+Vagrant.configure("2") do |config|
+
+  # Base box selection iact
+  config.vm.box = "iact-devbox"
+
+  
+  # =================================================================
+  # SYNCED FOLDERS WITH UTF-8 ENCODING
+  # =================================================================
+
+  # APT cache (if available)
+  cache_dir = local_cache(config.vm.box)
+  if cache_dir
+    config.vm.synced_folder cache_dir, "/var/cache/apt/archives/",
+      create: true,
+      mount_options: ["dmode=755,fmode=644"]
+    puts "[OK] APT cache enabled: #{cache_dir}"
+  end
+
+  # Project root with UTF-8 encoding to prevent character corruption
+  config.vm.synced_folder ".", "/vagrant",
+    create: true,
+    mount_options: [
+      "dmode=755,fmode=644",
+      "iocharset=utf8",
+      "ttl=1"
+    ]
+
+  # =================================================================
+  # VIRTUALBOX PROVIDER CONFIGURATION
+  # =================================================================
+
+  config.vm.provider "virtualbox" do |vb|
+    vb.name = VM_NAME
+    vb.memory = VM_MEMORY
+    vb.cpus = VM_CPUS
+    vb.gui = false
+    vb.linked_clone = true
+
+    # Performance optimizations
+    vb.customize ["modifyvm", :id, "--ioapic", "on"]
+    vb.customize ["modifyvm", :id, "--vram", "12"]
+    vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
+    vb.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
+    vb.customize ["modifyvm", :id, "--audio", "none"]
+    vb.customize ["modifyvm", :id, "--usb", "off"]
+    vb.customize ["modifyvm", :id, "--usbehci", "off"]
+    vb.customize ["modifyvm", :id, "--cableconnected1", "on"]
+    vb.customize ["modifyvm", :id, "--rtcuseutc", "on"]
+
+    # Network optimizations for database workloads
+    vb.customize ["modifyvm", :id, "--nic2", "intnet"]
+    vb.customize ["modifyvm", :id, "--intnet2", "db_private_network"]
+  end
+
+  # =================================================================
+  # PROVISIONING
+  # =================================================================
+
+  config.vm.provision "shell", inline: <<-SHELL
+    set -euo pipefail
+
+    echo ""
+    echo "=================================================="
+    echo "  Starting VM Provisioning"
+    echo "=================================================="
+    echo ""
+
+    # Make all scripts executable
+    find /vagrant/tests -name "*.sh" -exec chmod +x {} \\;
+
+    echo "=================================================="
+    echo "  [OK] Bootstrap Completed Successfully"
+    echo "=================================================="
+  SHELL
+
+end
