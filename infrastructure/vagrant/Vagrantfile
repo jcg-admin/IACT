@@ -1,8 +1,11 @@
 # frozen_string_literal: true
 
 Vagrant.configure('2') do |config|
-  config.vm.box = "ubuntu/bionic64"
+  # Base box selection with version pinning
+  config.vm.box = "ubuntu/focal64"
   config.vm.box_check_update = true
+  config.vm.box_version = ">= 20220101.0.0"  # Ensure recent focal64
+
   config.vm.hostname = 'callcenter-analytics'
 
   if Vagrant.has_plugin?("vagrant-vbguest")
