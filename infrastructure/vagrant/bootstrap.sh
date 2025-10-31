@@ -194,22 +194,61 @@ collect_environment_snapshot() {
     iact_log_info "PostgreSQL: $POSTGRESQL_VERSION"
 }
 
-verify_required_scripts() {
-    local -a scripts=(
-        "$PROJECT_ROOT/scripts/system-prepare.sh"
-        "$PROJECT_ROOT/scripts/mariadb-install.sh"
-        "$PROJECT_ROOT/scripts/postgres-install.sh"
-        "$PROJECT_ROOT/scripts/setup-mariadb-database.sh"
-        "$PROJECT_ROOT/scripts/setup-postgres-database.sh"
-    )
+collect_required_script_paths() {
+    local domain="${1:-all}"
+    local -a steps=()
+    local -a scripts=()
+    local step
+    local type
+    local path
 
+    readarray -t steps < <(build_bootstrap_steps "$domain")
+
+    local -A seen=()
+
+    for step in "${steps[@]}"; do
+        type="${step%%:*}"
+        if [[ "$type" != "script" ]]; then
+            continue
+        fi
+
+        path="${step#*:}"
+        if [[ -z "$path" ]]; then
+            continue
+        fi
+
+        if [[ -n "${seen["$path"]:-}" ]]; then
+            continue
+        fi
+
+        seen["$path"]=1
+        scripts+=("$path")
+    done
+
+    printf '%s\n' "${scripts[@]}"
+}
+
+verify_required_scripts() {
+    local -a scripts=()
     local missing=0
+    local path
+
+    readarray -t scripts < <(collect_required_script_paths all)
+
+    iact_log_info "Validando scripts requeridos (${#scripts[@]})"
 
     for path in "${scripts[@]}"; do
+        if [[ -z "$path" ]]; then
+            continue
+        fi
+
         if [[ ! -f "$path" ]]; then
             iact_log_error "Script faltante: $path"
             missing=$((missing + 1))
-        elif ! ensure_executable "$path"; then
+            continue
+        fi
+
+        if ! ensure_executable "$path"; then
             missing=$((missing + 1))
         fi
     done
