@@ -14,6 +14,12 @@ main() {
     run_test "run_bootstrap_steps reporta fallos de funciones" test_run_bootstrap_steps_reports_failures || tests_failed=$((tests_failed + 1))
     tests_run=$((tests_run + 1))
 
+    run_test "verify_required_scripts aprueba con scripts presentes" test_verify_required_scripts_succeeds_when_files_exist || tests_failed=$((tests_failed + 1))
+    tests_run=$((tests_run + 1))
+
+    run_test "verify_required_scripts detecta scripts dinámicos faltantes" test_verify_required_scripts_detects_missing_dynamic_step || tests_failed=$((tests_failed + 1))
+    tests_run=$((tests_run + 1))
+
     printf "Pruebas ejecutadas: %d\n" "$tests_run"
 
     if [[ "$tests_failed" -gt 0 ]]; then
@@ -83,9 +89,13 @@ with_bootstrap_environment() {
         return 1
     fi
 
-    "$@" "$fixture_dir"
+    local status=0
+
+    "$@" "$fixture_dir" || status=$?
 
     rm -rf "$fixture_dir"
+
+    return "$status"
 }
 
 assert_equals() {
@@ -110,6 +120,32 @@ assert_contains() {
         return 1
     fi
     return 0
+}
+
+create_stub_script() {
+    local path="$1"
+
+    cat <<'SCRIPT' > "$path"
+#!/usr/bin/env bash
+exit 0
+SCRIPT
+    chmod +x "$path"
+}
+
+prepare_required_scripts() {
+    local root="$1"
+    local -a names=(
+        system-prepare.sh
+        mariadb-install.sh
+        postgres-install.sh
+        setup-mariadb-database.sh
+        setup-postgres-database.sh
+    )
+
+    local name
+    for name in "${names[@]}"; do
+        create_stub_script "$root/scripts/$name"
+    done
 }
 
 test_build_bootstrap_steps_trims() {
@@ -172,6 +208,54 @@ __test_run_bootstrap_steps_reports_failures_impl() {
     fi
 
     assert_contains 'failing_step' "$output" 'El resumen debe incluir el paso fallido' || return 1
+    return 0
+}
+
+test_verify_required_scripts_succeeds_when_files_exist() {
+    with_bootstrap_environment __test_verify_required_scripts_succeeds_impl
+}
+
+__test_verify_required_scripts_succeeds_impl() {
+    local fixture_dir="$1"
+
+    prepare_required_scripts "$fixture_dir"
+
+    if ! verify_required_scripts; then
+        printf 'ERROR: verify_required_scripts debería aprobar cuando existen todos los scripts\n' >&2
+        return 1
+    fi
+
+    return 0
+}
+
+test_verify_required_scripts_detects_missing_dynamic_step() {
+    with_bootstrap_environment __test_verify_required_scripts_detects_missing_impl
+}
+
+__test_verify_required_scripts_detects_missing_impl() {
+    local fixture_dir="$1"
+
+    prepare_required_scripts "$fixture_dir"
+
+    define_database_steps() {
+        printf '%s\n' \
+            "script:$fixture_dir/scripts/mariadb-install.sh" \
+            "script:$fixture_dir/scripts/postgres-install.sh" \
+            "script:$fixture_dir/scripts/setup-mariadb-database.sh" \
+            "script:$fixture_dir/scripts/setup-postgres-database.sh" \
+            "script:$fixture_dir/scripts/custom-migration.sh"
+    }
+
+    local output
+    if output=$(verify_required_scripts 2>&1); then
+        printf 'ERROR: verify_required_scripts debió fallar ante script dinámico faltante\n' >&2
+        printf '%s\n' "$output" >&2
+        return 1
+    fi
+
+    assert_contains 'Script faltante' "$output" 'Debe reportar el script faltante' || return 1
+    assert_contains 'custom-migration.sh' "$output" 'Debe incluir el nombre del script dinámico faltante' || return 1
+
     return 0
 }
 
