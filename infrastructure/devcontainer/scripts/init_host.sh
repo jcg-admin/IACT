@@ -119,10 +119,10 @@ validate_lifecycle_scripts() {
     log_info "Validating lifecycle scripts..."
 
     local required_scripts=(
-        "infrastructure/devcontainer/scripts/on-create.sh"
-        "infrastructure/devcontainer/scripts/update-content.sh"
-        "infrastructure/devcontainer/scripts/post-create.sh"
-        "infrastructure/devcontainer/scripts/post-start.sh"
+        "infrastructure/devcontainer/scripts/on_create.sh"
+        "infrastructure/devcontainer/scripts/update_content.sh"
+        "infrastructure/devcontainer/scripts/post_create.sh"
+        "infrastructure/devcontainer/scripts/post_start.sh"
     )
 
     for script in "${required_scripts[@]}"; do
@@ -302,7 +302,7 @@ validate_utils() {
 mark_initialization() {
     log_info "Marking initialization..."
 
-    local state_file="${PROJECT_ROOT}/.devcontainer/.init-completed"
+    local state_file="${PROJECT_ROOT}/.devcontainer/.init_completed"
     local state_dir="${PROJECT_ROOT}/.devcontainer"
 
     # Crear directorio si no existe

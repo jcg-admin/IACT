@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 #
-# post-create.sh - DevContainer Post-Create Setup
+# post_create.sh - DevContainer Post-Create Setup
 #
 # Ejecuta setup completo DESPUÉS de instalar dependencias.
-# Este script corre DESPUÉS de update-content.sh
+# Este script corre DESPUÉS de update_content.sh
 #
 # Lifecycle: postCreateCommand (CONTAINER - después de dependencias)
 # Frecuencia: UNA SOLA VEZ (creación del contenedor)
@@ -114,7 +114,7 @@ validate_prerequisites() {
 
     # Validar que Django está instalado
     if ! iact_validate_django_installed; then
-        iact_log_error "Django no está instalado - ejecutar update-content.sh primero"
+        iact_log_error "Django no está instalado - ejecutar update_content.sh primero"
         increment_errors
         return 1
     fi
