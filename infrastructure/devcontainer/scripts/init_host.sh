@@ -55,12 +55,12 @@ log_ok() {
 
 log_warn() {
     echo -e "${YELLOW}[WARN]${NC} $*"
-    ((WARNINGS++))
+    WARNINGS=$((WARNINGS + 1))
 }
 
 log_error() {
     echo -e "${RED}[ERROR]${NC} $*"
-    ((ERRORS++))
+    ERRORS=$((ERRORS + 1))
 }
 
 print_separator() {
