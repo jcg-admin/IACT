@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# post-start.sh - DevContainer Post-Start Verification
+# post_start.sh - DevContainer Post-Start Verification
 #
 # Ejecuta verificaciones rápidas CADA VEZ que el contenedor se inicia.
 # Este script debe ser RÁPIDO (<30s) y solo VERIFICAR, no instalar.
