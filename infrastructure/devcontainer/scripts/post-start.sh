@@ -58,8 +58,13 @@ if ! iact_source_module "validation"; then
     exit 1
 fi
 
-if ! iact_source_module "database"; then
-    echo "Error: No se pudo cargar database.sh" >&2
+if ! iact_source_module "database_postgres"; then
+    echo "Error: No se pudo cargar database_postgres.sh" >&2
+    exit 1
+fi
+
+if ! iact_source_module "database_mariadb"; then
+    echo "Error: No se pudo cargar database_mariadb.sh" >&2
     exit 1
 fi
 

@@ -1,58 +1,186 @@
-FROM mcr.microsoft.com/devcontainers/python:3.12-bookworm
+# =============================================================================
+# CALLCENTER DJANGO API - DEVCONTAINER
+# =============================================================================
+# Base image: Python 3.11 on Debian Bookworm
+# Includes: PostgreSQL client, MariaDB client, development tools
+# =============================================================================
 
-# Variables de entorno
-ENV PYTHONDONTWRITEBYTECODE=1 \
-    PYTHONUNBUFFERED=1 \
-    PATH="/home/callcenter/.npm-global/bin:/home/callcenter/.local/bin:${PATH}"
+FROM mcr.microsoft.com/devcontainers/python:3.11-bookworm
 
-# Instalar dependencias del sistema y Node.js 22 de forma idempotente
-# - build-essential proporciona gcc/g++/make en un único paquete
-# - default-libmysqlclient-dev habilita la compilación de mysqlclient
-RUN apt-get update \
+# =============================================================================
+# METADATA
+# =============================================================================
+
+LABEL maintainer="IACT Team"
+LABEL description="Django CallCenter API DevContainer"
+LABEL version="1.0.0"
+
+# =============================================================================
+# ENVIRONMENT VARIABLES
+# =============================================================================
+
+# Python configuration
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PIP_NO_CACHE_DIR=1 \
+    PIP_DISABLE_PIP_VERSION_CHECK=1
+
+# Locale configuration
+ENV LANG=en_US.UTF-8 \
+    LANGUAGE=en_US:en \
+    LC_ALL=en_US.UTF-8
+
+# Timezone
+ENV TZ=America/Mexico_City
+
+# User configuration
+ENV USERNAME=vscode \
+    USER_UID=1000 \
+    USER_GID=1000
+
+# =============================================================================
+# INSTALL SYSTEM DEPENDENCIES
+# =============================================================================
+
+RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     && apt-get install -y --no-install-recommends \
-        ca-certificates \
-        curl \
-        gnupg \
-        postgresql-client \
-        libpq-dev \
-        default-libmysqlclient-dev \
-        build-essential \
-        git \
-    && curl -fsSL https://deb.nodesource.com/setup_22.x | bash - \
-    && apt-get install -y --no-install-recommends nodejs \
-    && apt-get clean \
+    build-essential \
+    gcc \
+    g++ \
+    make \
+    cmake \
+    python3-dev \
+    postgresql-client \
+    libpq-dev \
+    default-mysql-client \
+    default-libmysqlclient-dev \
+    git \
+    git-lfs \
+    curl \
+    wget \
+    vim \
+    nano \
+    less \
+    tree \
+    htop \
+    jq \
+    zip \
+    unzip \
+    net-tools \
+    iputils-ping \
+    dnsutils \
+    locales \
+    tzdata \
+    ca-certificates \
+    sudo \
+    bash-completion \
+    && apt-get autoremove -y \
+    && apt-get clean -y \
     && rm -rf /var/lib/apt/lists/*
 
-# Crear usuario personalizado y preparar rutas para npm global
-RUN groupadd callcenter 2>/dev/null || true \
-    && id -u callcenter 2>/dev/null || useradd -m -s /bin/bash -g callcenter callcenter \
-    && mkdir -p /workspaces /home/callcenter/.npm-global \
-    && chown -R callcenter:callcenter /workspaces /home/callcenter/.npm-global
+# =============================================================================
+# CONFIGURE LOCALE
+# =============================================================================
 
-# Cambiar a usuario callcenter
-USER callcenter
+RUN sed -i '/en_US.UTF-8/s/^# //g' /etc/locale.gen \
+    && locale-gen
+
+# =============================================================================
+# CONFIGURE TIMEZONE
+# =============================================================================
+
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime \
+    && echo $TZ > /etc/timezone
+
+# =============================================================================
+# UPGRADE PIP AND INSTALL GLOBAL PYTHON PACKAGES
+# =============================================================================
+
+RUN pip install --upgrade pip setuptools wheel
+
+# Install global Python development tools
+RUN pip install --no-cache-dir \
+    black \
+    flake8 \
+    pylint \
+    isort \
+    pytest \
+    pytest-cov \
+    pytest-django \
+    pytest-mock \
+    mypy \
+    django-extensions \
+    django-debug-toolbar \
+    psycopg2-binary \
+    mysqlclient \
+    ipython \
+    ipdb
+
+# =============================================================================
+# CREATE WORKSPACE DIRECTORY
+# =============================================================================
+
+RUN mkdir -p /workspaces \
+    && chown -R ${USERNAME}:${USERNAME} /workspaces
+
+# =============================================================================
+# CONFIGURE BASH HISTORY PERSISTENCE
+# =============================================================================
+
+# Create directory for bash history
+RUN SNIPPET="export PROMPT_COMMAND='history -a' && export HISTFILE=/commandhistory/.bash_history" \
+    && mkdir -p /commandhistory \
+    && touch /commandhistory/.bash_history \
+    && chown -R ${USERNAME}:${USERNAME} /commandhistory \
+    && echo "$SNIPPET" >> "/home/${USERNAME}/.bashrc"
+
+# =============================================================================
+# CONFIGURE SUDO FOR VSCODE USER
+# =============================================================================
+
+# Allow vscode user to use sudo without password
+RUN echo "${USERNAME} ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/${USERNAME} \
+    && chmod 0440 /etc/sudoers.d/${USERNAME}
+
+# =============================================================================
+# CONFIGURE GIT
+# =============================================================================
+
+# Set safe directory for git (prevents "dubious ownership" errors)
+RUN git config --system --add safe.directory '*'
+
+# =============================================================================
+# CREATE DIRECTORIES FOR LOGS AND STATE
+# =============================================================================
+
+RUN mkdir -p /workspaces/infrastructure/devcontainer/logs \
+    && mkdir -p /workspaces/infrastructure/state \
+    && chown -R ${USERNAME}:${USERNAME} /workspaces/infrastructure
+
+# =============================================================================
+# HEALTHCHECK
+# =============================================================================
+
+# Simple healthcheck to verify Python is working
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
+    CMD python3 --version || exit 1
+
+# =============================================================================
+# USER
+# =============================================================================
+
+# Switch to non-root user
+USER ${USERNAME}
+
+# Set working directory
 WORKDIR /workspaces
 
-# Configurar npm para instalaciones globales en el home del usuario e instalar herramientas
-# - npm@10 garantiza que la versión global respete la compatibilidad con Node 22
-# - @github/copilot es el paquete oficial publicado por GitHub para la CLI
-RUN npm config set prefix '/home/callcenter/.npm-global' \
-    && npm install -g npm@10 @github/copilot
+# =============================================================================
+# ENTRYPOINT
+# =============================================================================
 
-# Instalar herramientas base de Python de manera idempotente.
-# Las dependencias del proyecto se resuelven durante post-create para evitar duplicar instalaciones.
-RUN pip install --user --upgrade \
-    pip \
-    setuptools \
-    wheel \
-    poetry
+# Use bash as default shell
+SHELL ["/bin/bash", "-c"]
 
-# Crear directorio de configuración de pip de manera idempotente
-RUN mkdir -p /home/callcenter/.config/pip \
-    && { [ -f /home/callcenter/.config/pip/pip.conf ] || \
-    echo -e "[global]\ndisable-pip-version-check = true\nno-cache-dir = false" > /home/callcenter/.config/pip/pip.conf; }
-
-# Volumen para workspace
-VOLUME ["/workspaces"]
-
+# Keep container running (for DevContainer)
 CMD ["sleep", "infinity"]
