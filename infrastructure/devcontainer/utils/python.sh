@@ -1,807 +1,532 @@
 #!/usr/bin/env bash
-# infrastructure/utils/python.sh - PARTE 1 DE 2
-# Python and Django verification functions for IACT Infrastructure
-# Provides functions to verify Python, pip, Django installation and configuration
-# Supports DevContainer, Vagrant, and traditional environments
-#
-# Version: 2.0.0
-# Pattern: Idempotent execution, No silent failures
-#
-# INSTRUCCIONES: Este es la PARTE 1. Concatenar con PARTE 2 para archivo completo.
-
-set -euo pipefail
-
 # =============================================================================
-# PYTHON VERIFICATION FUNCTIONS
+# IACT DevContainer - Python Utilities
+# =============================================================================
+# Description: Python, pip, and Django utilities for DevContainer environment
+# Author: IACT Team
+# Version: 1.0.0
+# Context: DevContainer-specific Python operations
 # =============================================================================
 
-# Check if Python 3 is available
-# NO SILENT FAILURES: Reports result
-#
-# Usage: iact_check_python_available
-#
-# Returns:
-#   0 - Python 3 is available
-#   1 - Python 3 not found
-iact_check_python_available() {
-    if iact_check_command_exists "python3"; then
-        iact_log_debug "Python 3 is available"
-        return 0
+# Prevenir ejecucion directa
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+    echo "Error: Este script debe ser 'sourced', no ejecutado directamente"
+    exit 1
+fi
+
+# =============================================================================
+# PYTHON BASICS
+# =============================================================================
+
+# -----------------------------------------------------------------------------
+# iact_python_get_command
+# Description: Get the correct Python command (python3 or python)
+# Returns: Python command via stdout
+# -----------------------------------------------------------------------------
+iact_python_get_command() {
+    if command -v python3 >/dev/null 2>&1; then
+        echo "python3"
+    elif command -v python >/dev/null 2>&1; then
+        echo "python"
     else
-        iact_log_debug "Python 3 not found"
-        return 1
+        echo ""
     fi
 }
 
-# Get Python version
-# NO SILENT FAILURES: Returns "unknown" on error
-#
-# Usage: version=$(iact_get_python_version)
-#
-# Returns:
-#   Prints Python version to stdout (e.g., "3.11.5")
-iact_get_python_version() {
-    if ! iact_check_python_available; then
-        echo "unknown"
+# -----------------------------------------------------------------------------
+# iact_python_get_version
+# Description: Get Python version
+# Returns: Version string (e.g., "3.11.5") via stdout, or empty if not installed
+# -----------------------------------------------------------------------------
+iact_python_get_version() {
+    local python_cmd
+    python_cmd=$(iact_python_get_command)
+
+    if [[ -z "$python_cmd" ]]; then
         return 1
     fi
 
-    python3 --version 2>&1 | awk '{print $2}'
+    $python_cmd --version 2>&1 | awk '{print $2}'
 }
 
-# Check if Python version meets minimum requirement
-# NO SILENT FAILURES: Reports exact version comparison
-#
-# Usage: iact_check_python_version "3.11"
-# Usage: iact_check_python_version  # Uses default 3.11
-#
-# Args:
-#   $1 - Minimum version (optional, default: 3.11)
-#
-# Returns:
-#   0 - Version meets requirement
-#   1 - Version does not meet requirement or Python not found
-iact_check_python_version() {
-    local min_version="${1:-3.11}"
+# -----------------------------------------------------------------------------
+# iact_python_get_version_short
+# Description: Get Python version in short format (major.minor)
+# Returns: Version string (e.g., "3.11") via stdout
+# -----------------------------------------------------------------------------
+iact_python_get_version_short() {
+    local version
+    version=$(iact_python_get_version)
 
-    if ! iact_check_python_available; then
-        iact_log_error "Python 3 not found - cannot check version"
+    if [[ -z "$version" ]]; then
         return 1
     fi
 
-    local current_version
-    current_version=$(iact_get_python_version)
-
-    iact_log_debug "Python version: $current_version (minimum required: $min_version)"
-
-    # Compare versions (simplified comparison for major.minor)
-    local current_major current_minor
-    current_major=$(echo "$current_version" | cut -d. -f1)
-    current_minor=$(echo "$current_version" | cut -d. -f2)
-
-    local required_major required_minor
-    required_major=$(echo "$min_version" | cut -d. -f1)
-    required_minor=$(echo "$min_version" | cut -d. -f2)
-
-    if [[ $current_major -gt $required_major ]] || \
-       [[ $current_major -eq $required_major && $current_minor -ge $required_minor ]]; then
-        iact_log_debug "Python version check passed: $current_version >= $min_version"
-        return 0
-    else
-        iact_log_error "Python version $current_version does not meet minimum $min_version"
-        return 1
-    fi
+    echo "$version" | cut -d. -f1,2
 }
 
 # =============================================================================
-# PIP VERIFICATION FUNCTIONS
+# PIP UTILITIES
 # =============================================================================
 
-# Check if pip is installed
-# NO SILENT FAILURES: Reports result
-#
-# Usage: iact_check_pip_installed
-#
-# Returns:
-#   0 - pip is installed
-#   1 - pip not found
-iact_check_pip_installed() {
-    if python3 -m pip --version >/dev/null 2>&1; then
-        iact_log_debug "pip is installed"
-        return 0
+# -----------------------------------------------------------------------------
+# iact_pip_get_command
+# Description: Get the correct pip command (pip3 or pip)
+# Returns: Pip command via stdout
+# -----------------------------------------------------------------------------
+iact_pip_get_command() {
+    if command -v pip3 >/dev/null 2>&1; then
+        echo "pip3"
+    elif command -v pip >/dev/null 2>&1; then
+        echo "pip"
     else
-        iact_log_debug "pip not found"
-        return 1
+        echo ""
     fi
 }
 
-# Get pip version
-# NO SILENT FAILURES: Returns "unknown" on error
-#
-# Usage: version=$(iact_get_pip_version)
-#
-# Returns:
-#   Prints pip version to stdout (e.g., "23.3.1")
-iact_get_pip_version() {
-    if ! iact_check_pip_installed; then
-        echo "unknown"
-        return 1
-    fi
-
-    python3 -m pip --version 2>&1 | awk '{print $2}'
-}
-
-# Check if a Python package is installed
-# NO SILENT FAILURES: Reports package status and version details
-#
-# Usage: iact_check_python_package "django"
-# Usage: iact_check_python_package "pytest" "7.0"
-#
-# Args:
-#   $1 - Package name
-#   $2 - Minimum version (optional)
-#
-# Returns:
-#   0 - Package is installed (and meets version if specified)
-#   1 - Package not installed or version too old
-iact_check_python_package() {
+# -----------------------------------------------------------------------------
+# iact_pip_install_package
+# Description: Install a Python package using pip (idempotent)
+# Arguments: $1 - package name (e.g., "django" or "django>=4.2")
+# Returns: 0 on success, 1 on failure
+# Note: Idempotent - skips if already installed with correct version
+# -----------------------------------------------------------------------------
+iact_pip_install_package() {
     local package="$1"
-    local min_version="${2:-}"
 
-    if ! iact_check_pip_installed; then
-        iact_log_error "pip not available - cannot check package"
+    if [[ -z "$package" ]]; then
+        echo "Error: iact_pip_install_package requiere nombre de paquete" >&2
         return 1
     fi
 
-    # Check if package is installed
-    if ! python3 -m pip show "$package" >/dev/null 2>&1; then
-        iact_log_debug "Package not installed: $package"
+    local pip_cmd
+    pip_cmd=$(iact_pip_get_command)
+
+    if [[ -z "$pip_cmd" ]]; then
+        echo "Error: pip no está instalado" >&2
         return 1
     fi
 
-    # If no version requirement, we're done
-    if [[ -z "$min_version" ]]; then
-        iact_log_debug "Package installed: $package"
-        return 0
-    fi
-
-    # Check version
-    local installed_version
-    installed_version=$(python3 -m pip show "$package" 2>/dev/null | grep "^Version:" | awk '{print $2}')
-
-    iact_log_debug "Package $package version: $installed_version (minimum required: $min_version)"
-
-    # Simple version comparison (works for major.minor)
-    if python3 -c "from packaging import version; exit(0 if version.parse('$installed_version') >= version.parse('$min_version') else 1)" 2>/dev/null; then
-        iact_log_debug "Package version check passed: $installed_version >= $min_version"
+    # Instalar/actualizar paquete
+    if $pip_cmd install --upgrade "$package" 2>&1; then
         return 0
     else
-        iact_log_debug "Package version too old: $installed_version < $min_version"
+        echo "Error: No se pudo instalar paquete: $package" >&2
         return 1
     fi
 }
 
-# Install or upgrade pip
-# NO SILENT FAILURES: Reports upgrade result
-#
-# Usage: iact_upgrade_pip
-#
-# Returns:
-#   0 - pip upgraded successfully
-#   1 - pip upgrade failed
-iact_upgrade_pip() {
-    iact_log_info "Upgrading pip..."
-
-    if python3 -m pip install --upgrade pip >/dev/null 2>&1; then
-        local new_version
-        new_version=$(iact_get_pip_version)
-        iact_log_success "pip upgraded to version $new_version"
-        return 0
-    else
-        iact_log_error "Failed to upgrade pip"
-        return 1
-    fi
-}
-
-# =============================================================================
-# VIRTUAL ENVIRONMENT FUNCTIONS
-# =============================================================================
-
-# Check if running inside a virtual environment
-# NO SILENT FAILURES: Reports venv status
-#
-# Usage: if iact_check_virtualenv_active; then ...; fi
-#
-# Returns:
-#   0 - Running in virtual environment
-#   1 - Not running in virtual environment
-iact_check_virtualenv_active() {
-    if [[ -n "${VIRTUAL_ENV:-}" ]]; then
-        iact_log_debug "Virtual environment active: $VIRTUAL_ENV"
-        return 0
-    else
-        iact_log_debug "No virtual environment active"
-        return 1
-    fi
-}
-
-# =============================================================================
-# DJANGO VERIFICATION FUNCTIONS
-# =============================================================================
-
-# Check if Django is installed
-# NO SILENT FAILURES: Reports Django status and version
-#
-# Usage: iact_check_django_installed
-# Usage: iact_check_django_installed "4.2"
-#
-# Args:
-#   $1 - Minimum version (optional, default: 4.2)
-#
-# Returns:
-#   0 - Django is installed (and meets version if specified)
-#   1 - Django not installed or version too old
-iact_check_django_installed() {
-    local min_version="${1:-4.2}"
-
-    if iact_check_python_package "django" "$min_version"; then
-        iact_log_debug "Django installed and meets version requirement: >= $min_version"
-        return 0
-    else
-        iact_log_debug "Django not installed or version requirement not met: < $min_version"
-        return 1
-    fi
-}
-
-# Get Django version
-# NO SILENT FAILURES: Returns "unknown" on error
-#
-# Usage: version=$(iact_get_django_version)
-#
-# Returns:
-#   Prints Django version to stdout (e.g., "4.2.7")
-iact_get_django_version() {
-    if ! iact_check_python_package "django"; then
-        echo "unknown"
-        return 1
-    fi
-
-    python3 -c "import django; print(django.get_version())" 2>/dev/null
-}
-
-# Check Django settings module
-# NO SILENT FAILURES: Reports settings validation result
-#
-# Usage: iact_check_django_settings
-#
-# Returns:
-#   0 - DJANGO_SETTINGS_MODULE is set and valid
-#   1 - DJANGO_SETTINGS_MODULE not set or invalid
-iact_check_django_settings() {
-    if [[ -z "${DJANGO_SETTINGS_MODULE:-}" ]]; then
-        iact_log_error "DJANGO_SETTINGS_MODULE environment variable not set"
-        return 1
-    fi
-
-    iact_log_debug "DJANGO_SETTINGS_MODULE: $DJANGO_SETTINGS_MODULE"
-
-    # Try to import settings
-    if python3 -c "import django; django.setup()" 2>/dev/null; then
-        iact_log_debug "Django settings are valid"
-        return 0
-    else
-        iact_log_error "Django settings are invalid or cannot be loaded"
-        return 1
-    fi
-}
-
-# Check if Django project directory exists
-# NO SILENT FAILURES: Reports directory status
-#
-# Usage: iact_check_django_project_exists
-# Usage: iact_check_django_project_exists "/custom/path"
-#
-# Args:
-#   $1 - Project directory (optional, default: from DJANGO_PROJECT_DIR)
-#
-# Returns:
-#   0 - Project directory exists and has manage.py
-#   1 - Project directory does not exist or is invalid
-iact_check_django_project_exists() {
-    local project_dir="${1:-${DJANGO_PROJECT_DIR:-}}"
-
-    if [[ -z "$project_dir" ]]; then
-        iact_log_error "Django project directory not specified"
-        return 1
-    fi
-
-    if [[ ! -d "$project_dir" ]]; then
-        iact_log_error "Django project directory does not exist: $project_dir"
-        return 1
-    fi
-
-    if [[ ! -f "$project_dir/manage.py" ]]; then
-        iact_log_error "manage.py not found in: $project_dir"
-        return 1
-    fi
-
-    iact_log_debug "Django project directory is valid: $project_dir"
-    return 0
-}
-
-# Run Django management command
-# NO SILENT FAILURES: Reports command execution result
-#
-# Usage: iact_django_manage "check"
-# Usage: iact_django_manage "migrate" "--noinput"
-#
-# Args:
-#   $@ - Django management command and arguments
-#
-# Returns:
-#   Exit code of the Django command
-iact_django_manage() {
-    local project_dir="${DJANGO_PROJECT_DIR:-}"
-
-    if [[ -z "$project_dir" ]]; then
-        iact_log_error "DJANGO_PROJECT_DIR not set"
-        return 1
-    fi
-
-    if ! iact_check_django_project_exists "$project_dir"; then
-        iact_log_error "Django project not found at: $project_dir"
-        return 1
-    fi
-
-    local cmd=("$@")
-    iact_log_debug "Running Django command: python manage.py ${cmd[*]}"
-
-    # Change to project directory and run command
-    (
-        cd "$project_dir" && \
-        python3 manage.py "${cmd[@]}"
-    )
-}
-
-# Run Django system check
-# NO SILENT FAILURES: Reports check result with details
-#
-# Usage: iact_run_django_check
-# Usage: iact_run_django_check "--deploy"
-#
-# Args:
-#   $@ - Additional arguments for django-admin check (optional)
-#
-# Returns:
-#   0 - Django check passed
-#   1 - Django check failed
-iact_run_django_check() {
-    local extra_args=("$@")
-
-    if ! iact_check_django_installed; then
-        iact_log_error "Django not installed - cannot run check"
-        return 1
-    fi
-
-    if ! iact_check_django_settings; then
-        iact_log_error "Django settings not configured"
-        return 1
-    fi
-
-    iact_log_info "Running Django system check..."
-
-    if iact_django_manage check "${extra_args[@]}" 2>&1; then
-        iact_log_success "Django system check passed"
-        return 0
-    else
-        iact_log_error "Django system check failed"
-        return 1
-    fi
-}
-
-# Check if Django migrations are needed
-# NO SILENT FAILURES: Reports migration status
-#
-# Usage: if iact_check_django_migrations_needed; then ...; fi
-#
-# Returns:
-#   0 - Migrations are needed
-#   1 - No migrations needed or error
-iact_check_django_migrations_needed() {
-    if ! iact_check_django_installed; then
-        iact_log_error "Django not installed"
-        return 1
-    fi
-
-    if ! iact_check_django_settings; then
-        iact_log_error "Django settings not configured"
-        return 1
-    fi
-
-    # Check if there are unapplied migrations
-    if iact_django_manage showmigrations --plan 2>/dev/null | grep -q "\[ \]"; then
-        iact_log_debug "Unapplied migrations detected"
-        return 0
-    else
-        iact_log_debug "No unapplied migrations"
-        return 1
-    fi
-}
-
-# Run Django migrations
-# NO SILENT FAILURES: Reports migration result
-#
-# Usage: iact_run_django_migrations
-# Usage: iact_run_django_migrations "app_name"
-#
-# Args:
-#   $1 - App name (optional, runs all migrations if not specified)
-#
-# Returns:
-#   0 - Migrations completed successfully
-#   1 - Migrations failed
-iact_run_django_migrations() {
-    local app="${1:-}"
-
-    if ! iact_check_django_installed; then
-        iact_log_error "Django not installed"
-        return 1
-    fi
-
-    if ! iact_check_django_settings; then
-        iact_log_error "Django settings not configured"
-        return 1
-    fi
-
-    iact_log_info "Running Django migrations..."
-
-    if [[ -n "$app" ]]; then
-        if iact_django_manage migrate "$app" 2>&1; then
-            iact_log_success "Django migrations completed for $app"
-            return 0
-        else
-            iact_log_error "Django migrations failed for $app"
-            return 1
-        fi
-    else
-        if iact_django_manage migrate 2>&1; then
-            iact_log_success "Django migrations completed"
-            return 0
-        else
-            iact_log_error "Django migrations failed"
-            return 1
-        fi
-    fi
-}
-
-# Collect Django static files
-# NO SILENT FAILURES: Reports collection result
-#
-# Usage: iact_collect_django_static
-#
-# Returns:
-#   0 - Static files collected successfully
-#   1 - Collection failed
-iact_collect_django_static() {
-    if ! iact_check_django_installed; then
-        iact_log_error "Django not installed"
-        return 1
-    fi
-
-    if ! iact_check_django_settings; then
-        iact_log_error "Django settings not configured"
-        return 1
-    fi
-
-    iact_log_info "Collecting Django static files..."
-
-    if iact_django_manage collectstatic --noinput 2>&1; then
-        iact_log_success "Static files collected"
-        return 0
-    else
-        iact_log_error "Failed to collect static files"
-        return 1
-    fi
-}
-
-# =============================================================================
-# REQUIREMENTS INSTALLATION FUNCTIONS
-# =============================================================================
-
-# Install requirements from file
-# NO SILENT FAILURES: Reports file status and installation result
-#
-# Usage: iact_install_requirements "requirements.txt"
-# Usage: iact_install_requirements "requirements/dev.txt"
-#
-# Args:
-#   $1 - Requirements file path
-#
-# Returns:
-#   0 - Requirements installed successfully
-#   1 - Installation failed or file not found
-iact_install_requirements() {
+# -----------------------------------------------------------------------------
+# iact_pip_install_requirements
+# Description: Install packages from requirements file (idempotent)
+# Arguments: $1 - requirements file path
+# Returns: 0 on success, 1 on failure
+# -----------------------------------------------------------------------------
+iact_pip_install_requirements() {
     local req_file="$1"
 
-    if ! iact_check_pip_installed; then
-        iact_log_error "pip not available - cannot install requirements"
+    if [[ -z "$req_file" ]]; then
+        echo "Error: iact_pip_install_requirements requiere archivo de requirements" >&2
         return 1
     fi
 
     if [[ ! -f "$req_file" ]]; then
-        iact_log_error "Requirements file not found: $req_file"
+        echo "Error: Archivo de requirements no existe: $req_file" >&2
         return 1
     fi
 
-    iact_log_info "Installing requirements from $req_file..."
+    local pip_cmd
+    pip_cmd=$(iact_pip_get_command)
 
-    if python3 -m pip install -r "$req_file" 2>&1; then
-        iact_log_success "Requirements installed from $req_file"
+    if [[ -z "$pip_cmd" ]]; then
+        echo "Error: pip no está instalado" >&2
+        return 1
+    fi
+
+    # Instalar desde requirements
+    if $pip_cmd install -r "$req_file" 2>&1; then
         return 0
     else
-        iact_log_error "Failed to install requirements from $req_file"
+        echo "Error: No se pudo instalar desde: $req_file" >&2
         return 1
     fi
+}
+
+# -----------------------------------------------------------------------------
+# iact_pip_package_installed
+# Description: Check if a Python package is installed
+# Arguments: $1 - package name
+# Returns: 0 if installed, 1 otherwise
+# -----------------------------------------------------------------------------
+iact_pip_package_installed() {
+    local package="$1"
+
+    if [[ -z "$package" ]]; then
+        echo "Error: iact_pip_package_installed requiere nombre de paquete" >&2
+        return 1
+    fi
+
+    local python_cmd
+    python_cmd=$(iact_python_get_command)
+
+    if [[ -z "$python_cmd" ]]; then
+        echo "Error: Python no está instalado" >&2
+        return 1
+    fi
+
+    # Intentar importar el paquete
+    $python_cmd -c "import ${package}" 2>/dev/null
+}
+
+# -----------------------------------------------------------------------------
+# iact_pip_freeze
+# Description: Get list of installed packages
+# Returns: List of packages via stdout
+# -----------------------------------------------------------------------------
+iact_pip_freeze() {
+    local pip_cmd
+    pip_cmd=$(iact_pip_get_command)
+
+    if [[ -z "$pip_cmd" ]]; then
+        echo "Error: pip no está instalado" >&2
+        return 1
+    fi
+
+    $pip_cmd freeze 2>/dev/null
+}
+
+# -----------------------------------------------------------------------------
+# iact_pip_list_outdated
+# Description: Get list of outdated packages
+# Returns: List of outdated packages via stdout
+# -----------------------------------------------------------------------------
+iact_pip_list_outdated() {
+    local pip_cmd
+    pip_cmd=$(iact_pip_get_command)
+
+    if [[ -z "$pip_cmd" ]]; then
+        echo "Error: pip no está instalado" >&2
+        return 1
+    fi
+
+    $pip_cmd list --outdated 2>/dev/null
 }
 
 # =============================================================================
-# PYTEST FUNCTIONS
+# DJANGO UTILITIES
 # =============================================================================
 
-# Check if pytest is installed
-# NO SILENT FAILURES: Reports pytest status
-#
-# Usage: iact_check_pytest_installed
-#
-# Returns:
-#   0 - pytest is installed
-#   1 - pytest not installed
-iact_check_pytest_installed() {
-    if iact_check_python_package "pytest"; then
-        iact_log_debug "pytest is installed"
-        return 0
-    else
-        iact_log_debug "pytest not installed"
-        return 1
-    fi
-}
+# -----------------------------------------------------------------------------
+# iact_django_get_version
+# Description: Get Django version
+# Returns: Version string (e.g., "4.2.5") via stdout, or empty if not installed
+# -----------------------------------------------------------------------------
+iact_django_get_version() {
+    local python_cmd
+    python_cmd=$(iact_python_get_command)
 
-# Run pytest
-# NO SILENT FAILURES: Reports test execution result
-#
-# Usage: iact_run_pytest
-# Usage: iact_run_pytest "-v" "--cov"
-#
-# Args:
-#   $@ - Additional pytest arguments (optional)
-#
-# Returns:
-#   0 - Tests passed
-#   1 - Tests failed or pytest not installed
-iact_run_pytest() {
-    local pytest_args=("$@")
-
-    if ! iact_check_pytest_installed; then
-        iact_log_error "pytest not installed"
+    if [[ -z "$python_cmd" ]]; then
         return 1
     fi
 
-    iact_log_info "Running pytest..."
+    $python_cmd -c "import django; print(django.get_version())" 2>/dev/null
+}
 
-    if python3 -m pytest "${pytest_args[@]}" 2>&1; then
-        iact_log_success "Tests passed"
-        return 0
-    else
-        iact_log_error "Tests failed"
+# -----------------------------------------------------------------------------
+# iact_django_get_version_short
+# Description: Get Django version in short format (major.minor)
+# Returns: Version string (e.g., "4.2") via stdout
+# -----------------------------------------------------------------------------
+iact_django_get_version_short() {
+    local version
+    version=$(iact_django_get_version)
+
+    if [[ -z "$version" ]]; then
         return 1
     fi
+
+    echo "$version" | cut -d. -f1,2
 }
 
-# =============================================================================
-# VALIDATION FUNCTIONS - IDEMPOTENT PATTERN
-# =============================================================================
-
-# Validate Python installation
-_validate_python_step() {
-    local step="$1"
-    local total="$2"
-
-    iact_log_step "$step" "$total" "Checking Python installation"
-
-    if iact_check_python_version "3.11"; then
-        local py_version
-        py_version=$(iact_get_python_version)
-        iact_log_success "Python version: $py_version"
-        return 0
-    else
-        iact_log_error "Python version check failed (minimum: 3.11)"
+# -----------------------------------------------------------------------------
+# iact_django_management_command
+# Description: Run a Django management command
+# Arguments: $1 - project directory (with manage.py), $2+ - command and args
+# Returns: Exit code of the command
+# Example: iact_django_management_command "/app" migrate --noinput
+# -----------------------------------------------------------------------------
+iact_django_management_command() {
+    if [[ $# -lt 2 ]]; then
+        echo "Error: iact_django_management_command requiere project_dir y comando" >&2
         return 1
     fi
-}
 
-# Validate pip installation
-_validate_pip_step() {
-    local step="$1"
-    local total="$2"
+    local project_dir="$1"
+    shift
+    local command=("$@")
 
-    iact_log_step "$step" "$total" "Checking pip installation"
-
-    if iact_check_pip_installed; then
-        local pip_version
-        pip_version=$(iact_get_pip_version)
-        iact_log_success "pip version: $pip_version"
-        return 0
-    else
-        iact_log_error "pip not installed"
+    if [[ ! -d "$project_dir" ]]; then
+        echo "Error: Directorio del proyecto no existe: $project_dir" >&2
         return 1
     fi
-}
 
-# Validate Django installation
-_validate_django_step() {
-    local step="$1"
-    local total="$2"
-
-    iact_log_step "$step" "$total" "Checking Django installation"
-
-    if iact_check_django_installed "4.2"; then
-        local django_version
-        django_version=$(iact_get_django_version)
-        iact_log_success "Django version: $django_version"
-        return 0
-    else
-        iact_log_error "Django not installed or version < 4.2"
+    if [[ ! -f "$project_dir/manage.py" ]]; then
+        echo "Error: manage.py no encontrado en: $project_dir" >&2
         return 1
     fi
-}
 
-# Validate Django settings
-_validate_django_settings_step() {
-    local step="$1"
-    local total="$2"
+    local python_cmd
+    python_cmd=$(iact_python_get_command)
 
-    iact_log_step "$step" "$total" "Checking Django settings"
-
-    if iact_check_django_settings; then
-        iact_log_success "Django settings: OK"
-        return 0
-    else
-        iact_log_warning "Django settings not configured or invalid"
+    if [[ -z "$python_cmd" ]]; then
+        echo "Error: Python no está instalado" >&2
         return 1
     fi
+
+    # Ejecutar comando desde el directorio del proyecto
+    (cd "$project_dir" && $python_cmd manage.py "${command[@]}")
 }
 
-# Check virtual environment
-_check_virtualenv_step() {
-    local step="$1"
-    local total="$2"
+# -----------------------------------------------------------------------------
+# iact_django_migrate
+# Description: Run Django migrations (idempotent)
+# Arguments: $1 - project directory, $2 - database alias (optional)
+# Returns: 0 on success, 1 on failure
+# -----------------------------------------------------------------------------
+iact_django_migrate() {
+    local project_dir="$1"
+    local database="${2:-default}"
 
-    iact_log_step "$step" "$total" "Checking virtual environment"
-
-    if iact_check_virtualenv_active; then
-        iact_log_success "Virtual environment: Active"
-    else
-        iact_log_warning "No virtual environment active (DevContainer doesn't require it)"
+    if [[ -z "$project_dir" ]]; then
+        echo "Error: iact_django_migrate requiere project directory" >&2
+        return 1
     fi
 
-    return 0
+    if [[ "$database" == "default" ]]; then
+        iact_django_management_command "$project_dir" migrate --noinput
+    else
+        iact_django_management_command "$project_dir" migrate --database="$database" --noinput
+    fi
 }
 
-# Validate complete Python/Django installation
-# IDEMPOTENT: Can be run multiple times
-# NO SILENT FAILURES: Reports all validation results
-#
-# Usage: iact_validate_python_django_installation
-#
-# Returns:
-#   0 - All validations passed
-#   1 - One or more validations failed
-iact_validate_python_django_installation() {
-    iact_log_header "Python/Django Installation Validation"
+# -----------------------------------------------------------------------------
+# iact_django_collectstatic
+# Description: Collect static files (idempotent)
+# Arguments: $1 - project directory
+# Returns: 0 on success, 1 on failure
+# -----------------------------------------------------------------------------
+iact_django_collectstatic() {
+    local project_dir="$1"
 
-    # Array de pasos de validación
-    local validation_steps=(
-        _validate_python_step
-        _validate_pip_step
-        _validate_django_step
-        _validate_django_settings_step
-        _check_virtualenv_step
-    )
+    if [[ -z "$project_dir" ]]; then
+        echo "Error: iact_django_collectstatic requiere project directory" >&2
+        return 1
+    fi
 
-    local total_steps=${#validation_steps[@]}
-    local current_step=0
-    local failed_steps=()
+    iact_django_management_command "$project_dir" collectstatic --noinput --clear
+}
 
-    for step_function in "${validation_steps[@]}"; do
-        ((current_step++))
+# -----------------------------------------------------------------------------
+# iact_django_check
+# Description: Run Django system check
+# Arguments: $1 - project directory
+# Returns: 0 if all checks pass, 1 otherwise
+# -----------------------------------------------------------------------------
+iact_django_check() {
+    local project_dir="$1"
 
-        if ! $step_function $current_step $total_steps; then
-            # Only add to failed if it's a critical step (not warnings)
-            if [[ "$step_function" != "_check_virtualenv_step" ]] && \
-               [[ "$step_function" != "_validate_django_settings_step" ]]; then
-                failed_steps+=("$step_function")
-            fi
+    if [[ -z "$project_dir" ]]; then
+        echo "Error: iact_django_check requiere project directory" >&2
+        return 1
+    fi
+
+    iact_django_management_command "$project_dir" check
+}
+
+# -----------------------------------------------------------------------------
+# iact_django_showmigrations
+# Description: Show migration status
+# Arguments: $1 - project directory, $2 - database alias (optional)
+# Returns: 0 on success, 1 on failure
+# -----------------------------------------------------------------------------
+iact_django_showmigrations() {
+    local project_dir="$1"
+    local database="${2:-default}"
+
+    if [[ -z "$project_dir" ]]; then
+        echo "Error: iact_django_showmigrations requiere project directory" >&2
+        return 1
+    fi
+
+    if [[ "$database" == "default" ]]; then
+        iact_django_management_command "$project_dir" showmigrations
+    else
+        iact_django_management_command "$project_dir" showmigrations --database="$database"
+    fi
+}
+
+# -----------------------------------------------------------------------------
+# iact_django_has_pending_migrations
+# Description: Check if there are pending migrations
+# Arguments: $1 - project directory, $2 - database alias (optional)
+# Returns: 0 if has pending migrations, 1 if all applied
+# -----------------------------------------------------------------------------
+iact_django_has_pending_migrations() {
+    local project_dir="$1"
+    local database="${2:-default}"
+
+    if [[ -z "$project_dir" ]]; then
+        echo "Error: iact_django_has_pending_migrations requiere project directory" >&2
+        return 1
+    fi
+
+    local output
+    if [[ "$database" == "default" ]]; then
+        output=$(iact_django_management_command "$project_dir" showmigrations 2>&1)
+    else
+        output=$(iact_django_management_command "$project_dir" showmigrations --database="$database" 2>&1)
+    fi
+
+    # Buscar migraciones sin aplicar (líneas con [ ] en lugar de [X])
+    if echo "$output" | grep -q "^\s*\[ \]"; then
+        return 0  # Hay migraciones pendientes
+    else
+        return 1  # Todas las migraciones aplicadas
+    fi
+}
+
+# -----------------------------------------------------------------------------
+# iact_django_createsuperuser_noninteractive
+# Description: Create Django superuser non-interactively (idempotent)
+# Arguments: $1 - project directory, $2 - username, $3 - email, $4 - password
+# Returns: 0 on success, 1 on failure
+# Note: Skips if user already exists
+# -----------------------------------------------------------------------------
+iact_django_createsuperuser_noninteractive() {
+    local project_dir="$1"
+    local username="$2"
+    local email="$3"
+    local password="$4"
+
+    if [[ -z "$project_dir" ]] || [[ -z "$username" ]] || [[ -z "$email" ]] || [[ -z "$password" ]]; then
+        echo "Error: iact_django_createsuperuser_noninteractive requiere todos los parámetros" >&2
+        return 1
+    fi
+
+    local python_cmd
+    python_cmd=$(iact_python_get_command)
+
+    if [[ -z "$python_cmd" ]]; then
+        echo "Error: Python no está instalado" >&2
+        return 1
+    fi
+
+    # Script Python para crear superuser idempotente
+    local python_script="
+import os
+import django
+os.chdir('$project_dir')
+django.setup()
+from django.contrib.auth import get_user_model
+User = get_user_model()
+if not User.objects.filter(username='$username').exists():
+    User.objects.create_superuser('$username', '$email', '$password')
+    print('Superuser created: $username')
+else:
+    print('Superuser already exists: $username')
+"
+
+    $python_cmd -c "$python_script" 2>&1
+}
+
+# -----------------------------------------------------------------------------
+# iact_django_wait_for_db
+# Description: Wait for Django to be able to connect to database
+# Arguments: $1 - project directory, $2 - max wait seconds (default: 60)
+# Returns: 0 if database ready, 1 on timeout
+# -----------------------------------------------------------------------------
+iact_django_wait_for_db() {
+    local project_dir="$1"
+    local max_wait="${2:-60}"
+    local counter=0
+
+    if [[ -z "$project_dir" ]]; then
+        echo "Error: iact_django_wait_for_db requiere project directory" >&2
+        return 1
+    fi
+
+    # Validar que max_wait es un número
+    if ! [[ "$max_wait" =~ ^[0-9]+$ ]]; then
+        echo "Error: max_wait debe ser un número: $max_wait" >&2
+        return 1
+    fi
+
+    while [[ $counter -lt $max_wait ]]; do
+        # Intentar Django check que incluye conexión a DB
+        if iact_django_management_command "$project_dir" check --database default >/dev/null 2>&1; then
+            return 0
         fi
+
+        sleep 1
+        ((counter++))
     done
 
-    # Report results
-    if [[ ${#failed_steps[@]} -eq 0 ]]; then
-        iact_log_success "Python/Django validation passed"
-        return 0
-    else
-        iact_log_error "Python/Django validation failed: ${#failed_steps[@]} critical step(s) failed"
-        for failed_step in "${failed_steps[@]}"; do
-            iact_log_error "  - $failed_step"
-        done
+    echo "Error: Django no pudo conectar a base de datos en ${max_wait}s" >&2
+    return 1
+}
+
+# =============================================================================
+# VIRTUAL ENVIRONMENT UTILITIES (opcional)
+# =============================================================================
+
+# -----------------------------------------------------------------------------
+# iact_venv_exists
+# Description: Check if a virtual environment exists
+# Arguments: $1 - venv directory
+# Returns: 0 if exists, 1 otherwise
+# -----------------------------------------------------------------------------
+iact_venv_exists() {
+    local venv_dir="$1"
+
+    if [[ -z "$venv_dir" ]]; then
+        echo "Error: iact_venv_exists requiere directorio de venv" >&2
         return 1
     fi
+
+    [[ -d "$venv_dir" ]] && [[ -f "$venv_dir/bin/activate" ]]
+}
+
+# -----------------------------------------------------------------------------
+# iact_venv_is_active
+# Description: Check if a virtual environment is currently active
+# Returns: 0 if active, 1 otherwise
+# -----------------------------------------------------------------------------
+iact_venv_is_active() {
+    [[ -n "${VIRTUAL_ENV:-}" ]]
 }
 
 # =============================================================================
-# COMPATIBILITY ALIASES
+# EXPORT
 # =============================================================================
 
-check_python_available() { iact_check_python_available "$@"; }
-get_python_version() { iact_get_python_version "$@"; }
-check_python_version() { iact_check_python_version "$@"; }
-check_pip_installed() { iact_check_pip_installed "$@"; }
-get_pip_version() { iact_get_pip_version "$@"; }
-check_python_package() { iact_check_python_package "$@"; }
-upgrade_pip() { iact_upgrade_pip "$@"; }
-check_virtualenv_active() { iact_check_virtualenv_active "$@"; }
-check_django_installed() { iact_check_django_installed "$@"; }
-get_django_version() { iact_get_django_version "$@"; }
-check_django_settings() { iact_check_django_settings "$@"; }
-check_django_project_exists() { iact_check_django_project_exists "$@"; }
-django_manage() { iact_django_manage "$@"; }
-run_django_check() { iact_run_django_check "$@"; }
-check_django_migrations_needed() { iact_check_django_migrations_needed "$@"; }
-run_django_migrations() { iact_run_django_migrations "$@"; }
-collect_django_static() { iact_collect_django_static "$@"; }
-install_requirements() { iact_install_requirements "$@"; }
-check_pytest_installed() { iact_check_pytest_installed "$@"; }
-run_pytest() { iact_run_pytest "$@"; }
-validate_python_django_installation() { iact_validate_python_django_installation "$@"; }
-
-# =============================================================================
-# INITIALIZATION - IDEMPOTENT PATTERN
-# =============================================================================
-
-# Initialize python module
-_iact_init_python() {
-    local init_step="$1"
-    local init_total="$2"
-
-    iact_log_debug "Python module loaded successfully"
-
-    return 0
-}
-
-# Array de pasos de inicialización
-_PYTHON_INIT_STEPS=(
-    _iact_init_python
-)
-
-# Main initialization function with auto-execution pattern
-_init_python_main() {
-    local total_steps=${#_PYTHON_INIT_STEPS[@]}
-    local current_step=0
-
-    for step_function in "${_PYTHON_INIT_STEPS[@]}"; do
-        ((current_step++))
-
-        if ! $step_function $current_step $total_steps; then
-            echo "[ERROR] Python initialization failed at: $step_function" >&2
-            return 1
-        fi
-    done
-
-    # Success: all steps completed
-    return 0
-}
-
-# Execute initialization immediately when python.sh is sourced
-if ! _init_python_main; then
-    echo "[FATAL] Python module initialization failed" >&2
-    exit 1
-fi
+export -f iact_python_get_command
+export -f iact_python_get_version
+export -f iact_python_get_version_short
+export -f iact_pip_get_command
+export -f iact_pip_install_package
+export -f iact_pip_install_requirements
+export -f iact_pip_package_installed
+export -f iact_pip_freeze
+export -f iact_pip_list_outdated
+export -f iact_django_get_version
+export -f iact_django_get_version_short
+export -f iact_django_management_command
+export -f iact_django_migrate
+export -f iact_django_collectstatic
+export -f iact_django_check
+export -f iact_django_showmigrations
+export -f iact_django_has_pending_migrations
+export -f iact_django_createsuperuser_noninteractive
+export -f iact_django_wait_for_db
+export -f iact_venv_exists
+export -f iact_venv_is_active
