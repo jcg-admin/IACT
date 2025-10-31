@@ -17,7 +17,7 @@
 | docs/07-devops/runbooks/post-create.md | No | Nombre compuesto con guion medio. |
 | docs/07-devops/runbooks/reprocesar-etl-fallido.md | No | Guiones medios entre términos. |
 | docs/07-devops/runbooks/verificar-servicios.md | No | Guiones medios en el nombre. |
-| docs/README.md | No | Archivo principal sin guiones bajos. |
+| docs/readme.md | No | Archivo principal sin guiones bajos. |
 
 ## Archivos que requieren normalización a guion bajo
 
