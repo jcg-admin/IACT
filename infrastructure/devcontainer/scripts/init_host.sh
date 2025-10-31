@@ -152,7 +152,7 @@ validate_critical_files() {
     local required_files=(
         "api/callcentersite/manage.py"
         ".devcontainer/docker-compose.yml"
-        ".devcontainer/dockerfile"
+        ".devcontainer/Dockerfile"
         ".devcontainer/devcontainer.json"
     )
 

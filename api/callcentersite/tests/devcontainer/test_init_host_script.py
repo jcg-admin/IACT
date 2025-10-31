@@ -45,7 +45,7 @@ class InitHostScriptTests(unittest.TestCase):
 
         devcontainer_dir = self.project_root / ".devcontainer"
         devcontainer_dir.mkdir()
-        for filename in ("docker-compose.yml", "dockerfile", "devcontainer.json"):
+        for filename in ("docker-compose.yml", "Dockerfile", "devcontainer.json"):
             (devcontainer_dir / filename).write_text("{}\n", encoding="utf-8")
 
         api_dir = self.project_root / "api" / "callcentersite"
