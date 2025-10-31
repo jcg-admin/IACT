@@ -2,12 +2,11 @@
 
 from __future__ import annotations
 
-from typing import Iterable
+from typing import Iterable, Set
 
-from django.contrib.auth import get_user_model
 from . import models
 
-User = get_user_model()
+User = models.User
 
 
 class PermissionService:
@@ -30,25 +29,18 @@ class PermissionService:
 
     @staticmethod
     def _has_direct_permission(user: User, permission_codename: str) -> bool:
-        return models.UserPermission.objects.filter(
-            user=user, permission__codename=permission_codename
-        ).exists()
+        return models.UserPermission.objects.has_permission(user, permission_codename)
 
     @staticmethod
     def _has_role_permission(user: User, permission_codename: str) -> bool:
-        return models.Permission.objects.filter(
-            codename=permission_codename,
-            roles__assignments__user=user,
-        ).exists()
+        for role in models.RoleAssignment.objects.roles_for_user(user):
+            if role.permissions.has_codename(permission_codename):
+                return True
+        return False
 
     @staticmethod
     def _has_segment_permission(user: User, permission_codename: str) -> bool:
-        segments = models.Segment.objects.filter(
-            is_active=True,
-            permissions__codename=permission_codename,
-        ).distinct()
-
-        for segment in segments:
+        for segment in models.Segment.objects.with_permission(permission_codename):
             if segment.matches(user):
                 return True
         return False
@@ -57,20 +49,17 @@ class PermissionService:
     def permissions_for_user(user: User) -> Iterable[str]:
         """Retorna todos los permisos efectivos del usuario."""
 
-        direct = set(
-            models.UserPermission.objects.filter(user=user).values_list(
-                "permission__codename", flat=True
-            )
-        )
-        role_based = set(
-            models.Permission.objects.filter(roles__assignments__user=user).values_list(
-                "codename", flat=True
-            )
-        )
+        direct: Set[str] = {
+            permission.codename
+            for permission in models.UserPermission.objects.permissions_for_user(user)
+        }
 
-        segment_permissions: set[str] = set()
-        segments = models.Segment.objects.filter(is_active=True).prefetch_related("permissions")
-        for segment in segments:
+        role_based: Set[str] = set()
+        for role in models.RoleAssignment.objects.roles_for_user(user):
+            role_based.update(role.permissions.values_list("codename", flat=True))
+
+        segment_permissions: Set[str] = set()
+        for segment in models.Segment.objects.active_segments():
             if segment.matches(user):
                 segment_permissions.update(
                     segment.permissions.values_list("codename", flat=True)
