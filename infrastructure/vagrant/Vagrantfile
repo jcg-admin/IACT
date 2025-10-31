@@ -1,29 +1,155 @@
-# frozen_string_literal: true
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
 
-Vagrant.configure('2') do |config|
+# =============================================================================
+# IACT DevBox - Vagrant Configuration
+# MariaDB 11.4 LTS + PostgreSQL 16 Development Environment
+# =============================================================================
+
+VAGRANTFILE_API_VERSION = "2"
+
+# =============================================================================
+# CONFIGURATION VARIABLES
+# =============================================================================
+
+# VM Configuration
+VM_NAME = "iact-devbox"
+VM_HOSTNAME = "callcenter-analytics"
+VM_MEMORY = 4096  # 4 GB
+VM_CPUS = 2
+
+# Network Configuration
+NETWORK_IP = "10.0.2.10"
+
+# Port Forwarding
+POSTGRES_PORT = 15432  # PostgreSQL guest:5432 -> host:15432
+MARIADB_PORT = 13306   # MariaDB guest:3306 -> host:13306
+
+# Database Credentials (for reference, actual config in bootstrap)
+DB_MARIADB_ROOT_PASS = "rootpass123"
+DB_MARIADB_NAME = "ivr_legacy"
+DB_POSTGRES_PASS = "postgrespass123"
+DB_POSTGRES_NAME = "iact_analytics"
+DB_APP_USER = "django_user"
+DB_APP_PASS = "django_pass"
+
+# Display configuration summary
+puts "=" * 70
+puts "  IACT DevBox Configuration"
+puts "=" * 70
+puts "VM:"
+puts "  Name: #{VM_NAME}"
+puts "  Hostname: #{VM_HOSTNAME}"
+puts "  Resources: #{VM_MEMORY}MB RAM, #{VM_CPUS} CPUs"
+puts "  Network: #{NETWORK_IP}"
+puts ""
+puts "Port Forwarding:"
+puts "  PostgreSQL: localhost:#{POSTGRES_PORT} -> guest:5432"
+puts "  MariaDB:    localhost:#{MARIADB_PORT} -> guest:3306"
+puts ""
+puts "Databases:"
+puts "  MariaDB:    #{DB_MARIADB_NAME} (root: #{DB_MARIADB_ROOT_PASS})"
+puts "  PostgreSQL: #{DB_POSTGRES_NAME} (postgres: #{DB_POSTGRES_PASS})"
+puts "  App User:   #{DB_APP_USER} (pass: #{DB_APP_PASS})"
+puts "=" * 70
+puts ""
+
+# =============================================================================
+# APT CACHE OPTIMIZATION (speeds up reprovisioning)
+# =============================================================================
+
+def local_cache(box_name)
+  begin
+    cache_dir = File.join(File.expand_path('~/.vagrant.d'), 'cache', 'apt', box_name)
+    FileUtils.mkdir_p(cache_dir) unless File.exist?(cache_dir)
+    return cache_dir if File.writable?(cache_dir)
+  rescue => e
+    puts "WARNING: APT cache disabled: #{e.message}"
+  end
+  nil
+end
+
+# =============================================================================
+# VAGRANT VM CONFIGURATION
+# =============================================================================
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Base box selection with version pinning
   config.vm.box = "ubuntu/focal64"
   config.vm.box_check_update = true
-  config.vm.box_version = ">= 20220101.0.0"  # Ensure recent focal64
+  config.vm.box_version = ">= 20220101.0.0"  # Ensure recent Ubuntu 20.04
 
-  config.vm.hostname = 'callcenter-analytics'
+  # VM hostname
+  config.vm.hostname = VM_HOSTNAME
 
+  # Disable vbguest auto-update if plugin is installed
   if Vagrant.has_plugin?("vagrant-vbguest")
     config.vbguest.auto_update = false
   end
 
+  # SSH configuration
+  config.ssh.forward_agent = true
+  config.ssh.insert_key = true
+  config.ssh.connect_timeout = 120
+
+  # =================================================================
+  # NETWORK CONFIGURATION
+  # =================================================================
+
+  # Private network with DHCP
   config.vm.network "private_network",
-  ip: "10.0.2.10",
-  virtualbox__intnet: true,
-  type: "dhcp"
+    ip: NETWORK_IP,
+    virtualbox__intnet: true,
+    type: "dhcp"
 
-      
-  config.vm.network 'forwarded_port', guest: 5432, host: 15432, auto_correct: true
-  config.vm.network 'forwarded_port', guest: 3306, host: 13306, auto_correct: true
+  # Port forwarding with auto-correction
+  config.vm.network "forwarded_port",
+    guest: 5432,
+    host: POSTGRES_PORT,
+    host_ip: "127.0.0.1",
+    auto_correct: true,
+    id: "postgresql"
 
-  config.vm.provider 'virtualbox' do |vb|
-    vb.memory = 4096
-    vb.cpus = 2
+  config.vm.network "forwarded_port",
+    guest: 3306,
+    host: MARIADB_PORT,
+    host_ip: "127.0.0.1",
+    auto_correct: true,
+    id: "mariadb"
+
+  # =================================================================
+  # SYNCED FOLDERS WITH UTF-8 ENCODING
+  # =================================================================
+
+  # APT cache (if available)
+  cache_dir = local_cache(config.vm.box)
+  if cache_dir
+    config.vm.synced_folder cache_dir, "/var/cache/apt/archives/",
+      create: true,
+      mount_options: ["dmode=755,fmode=644"]
+    puts "[OK] APT cache enabled: #{cache_dir}"
+  end
+
+  # Project root with UTF-8 encoding to prevent character corruption
+  config.vm.synced_folder ".", "/vagrant",
+    create: true,
+    mount_options: [
+      "dmode=755,fmode=644",
+      "iocharset=utf8",
+      "ttl=1"
+    ]
+
+  # =================================================================
+  # VIRTUALBOX PROVIDER CONFIGURATION
+  # =================================================================
+
+  config.vm.provider "virtualbox" do |vb|
+    vb.name = VM_NAME
+    vb.memory = VM_MEMORY
+    vb.cpus = VM_CPUS
+    vb.gui = false
+    vb.linked_clone = true
+
     # Performance optimizations
     vb.customize ["modifyvm", :id, "--ioapic", "on"]
     vb.customize ["modifyvm", :id, "--vram", "12"]
@@ -35,11 +161,145 @@ Vagrant.configure('2') do |config|
     vb.customize ["modifyvm", :id, "--cableconnected1", "on"]
     vb.customize ["modifyvm", :id, "--rtcuseutc", "on"]
 
-    # Network optimizations
+    # Network optimizations for database workloads
     vb.customize ["modifyvm", :id, "--nic2", "intnet"]
     vb.customize ["modifyvm", :id, "--intnet2", "db_private_network"]
   end
 
-  config.vm.synced_folder ".", "/vagrant", create: true
-  config.vm.provision 'shell', path: 'bootstrap.sh'
+  # =================================================================
+  # PROVISIONING
+  # =================================================================
+
+  config.vm.provision "shell", inline: <<-SHELL
+    set -euo pipefail
+
+    echo ""
+    echo "=================================================="
+    echo "  Starting VM Provisioning"
+    echo "=================================================="
+    echo ""
+
+    # Validate project structure
+    echo "Validating project structure..."
+
+    required_files=(
+      "/vagrant/utils/logging.sh"
+      "/vagrant/bootstrap.sh"
+      "/vagrant/scripts/system-prepare.sh"
+      "/vagrant/scripts/mariadb-install.sh"
+      "/vagrant/scripts/postgres-install.sh"
+    )
+
+    for file in "${required_files[@]}"; do
+      if [ ! -f "$file" ]; then
+        echo "[ERROR] Required file not found: $file"
+        exit 1
+      fi
+    done
+
+    required_dirs=(
+      "/vagrant/scripts"
+      "/vagrant/utils"
+      "/vagrant/logs"
+    )
+
+    for dir in "${required_dirs[@]}"; do
+      if [ ! -d "$dir" ]; then
+        echo "[ERROR] Required directory not found: $dir"
+        exit 1
+      fi
+    done
+
+    echo "[OK] Project structure validated"
+    echo ""
+
+    # Make bootstrap executable
+    chmod +x /vagrant/bootstrap.sh
+
+    # Make all scripts executable
+    find /vagrant/scripts -name "*.sh" -exec chmod +x {} \\;
+    find /vagrant/utils -name "*.sh" -exec chmod +x {} \\;
+
+    # Execute bootstrap
+    echo "Executing bootstrap script..."
+    cd /vagrant
+
+    if bash bootstrap.sh; then
+      echo ""
+      echo "=================================================="
+      echo "  [OK] Bootstrap Completed Successfully"
+      echo "=================================================="
+      echo ""
+    else
+      echo ""
+      echo "=================================================="
+      echo "  [ERROR] Bootstrap Failed"
+      echo "=================================================="
+      echo ""
+      echo "Troubleshooting:"
+      echo "  1. Check logs: /vagrant/logs/"
+      echo "  2. SSH into VM: vagrant ssh"
+      echo "  3. Retry: cd /vagrant && sudo bash bootstrap.sh"
+      echo ""
+      exit 1
+    fi
+  SHELL
+
+  # =================================================================
+  # POST-UP MESSAGE
+  # =================================================================
+
+  config.vm.post_up_message = <<-MESSAGE
+
+  ========================================================================
+                        IACT DevBox Ready!
+  ========================================================================
+
+  VM INFORMATION:
+    Name:     #{VM_NAME}
+    Hostname: #{VM_HOSTNAME}
+    IP:       #{NETWORK_IP}
+    Memory:   #{VM_MEMORY}MB
+    CPUs:     #{VM_CPUS}
+
+  DATABASES:
+    MariaDB 11.4:    localhost:#{MARIADB_PORT}
+    PostgreSQL 16:   localhost:#{POSTGRES_PORT}
+
+  CREDENTIALS:
+    MariaDB Root:
+      mysql -h 127.0.0.1 -P #{MARIADB_PORT} -u root -p'#{DB_MARIADB_ROOT_PASS}'
+
+    MariaDB Application (#{DB_MARIADB_NAME}):
+      User: #{DB_APP_USER}
+      Pass: #{DB_APP_PASS}
+      mysql -h 127.0.0.1 -P #{MARIADB_PORT} -u #{DB_APP_USER} -p'#{DB_APP_PASS}' #{DB_MARIADB_NAME}
+
+    PostgreSQL Superuser:
+      PGPASSWORD='#{DB_POSTGRES_PASS}' psql -h 127.0.0.1 -p #{POSTGRES_PORT} -U postgres
+
+    PostgreSQL Application (#{DB_POSTGRES_NAME}):
+      User: #{DB_APP_USER}
+      Pass: #{DB_APP_PASS}
+      PGPASSWORD='#{DB_APP_PASS}' psql -h 127.0.0.1 -p #{POSTGRES_PORT} -U #{DB_APP_USER} -d #{DB_POSTGRES_NAME}
+
+  VM MANAGEMENT:
+    Connect:  vagrant ssh
+    Stop:     vagrant halt
+    Restart:  vagrant reload
+    Destroy:  vagrant destroy
+    Status:   vagrant status
+
+  VERIFICATION:
+    vagrant ssh
+    bash /vagrant/scripts/verify-connections.sh
+
+  LOGS:
+    /vagrant/logs/
+
+  WARNING: Default passwords are for DEVELOPMENT ONLY!
+           Change them for production use.
+
+  ========================================================================
+  MESSAGE
 end
