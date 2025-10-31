@@ -1,140 +1,236 @@
-"""Modelos para la gestión de usuarios y permisos."""
+"""Modelos en memoria para usuarios, roles y permisos."""
 
 from __future__ import annotations
 
-from typing import Any
+from dataclasses import dataclass, field
+from datetime import datetime, timezone
+from typing import Any, ClassVar, Iterable, List
 
-from django.contrib.auth.models import AbstractUser
-from django.core.validators import MinValueValidator
-from django.db import models
-from django.utils import timezone
-
-from callcentersite.apps.common.models import BaseModel, TimeStampedModel
+_REGISTRY: list["InMemoryManager[Any]"] = []
 
 
-class User(AbstractUser, BaseModel):
-    """Usuario principal del sistema con campos adicionales."""
+class InMemoryManager:
+    """Administrador base que persiste objetos en listas in-memory."""
 
-    email = models.EmailField("correo", unique=True)
-    last_login_ip = models.GenericIPAddressField("última IP de acceso", null=True, blank=True)
-    failed_login_attempts = models.PositiveIntegerField(
-        "intentos de inicio de sesión fallidos",
-        default=0,
-        validators=[MinValueValidator(0)],
-    )
+    def __init__(self, model_cls):
+        self.model_cls = model_cls
+        self._records: List[Any] = []
+        self._next_id = 1
+        _REGISTRY.append(self)
 
-    REQUIRED_FIELDS = ["email"]
+    def create(self, **kwargs):
+        instance = self.model_cls(**kwargs)
+        instance.id = self._next_id
+        self._next_id += 1
+        self._records.append(instance)
+        return instance
 
-    class Meta(AbstractUser.Meta):
-        verbose_name = "usuario"
-        verbose_name_plural = "usuarios"
+    def all(self) -> List[Any]:
+        return list(self._records)
 
-    def mark_deleted(self) -> None:
-        """Realiza soft delete del usuario."""
-
-        self.is_active = False
-        self.is_deleted = True
-        self.deleted_at = timezone.now()
-        self.save(update_fields=["is_active", "is_deleted", "deleted_at"])
+    def clear(self) -> None:
+        self._records.clear()
+        self._next_id = 1
 
 
-class Permission(TimeStampedModel):
+class UserManager(InMemoryManager):
+    """Operaciones de creación de usuarios."""
+
+    def create_user(self, username: str, password: str, email: str, **extra: Any):
+        extra.setdefault("is_active", True)
+        user = super().create(username=username, password=password, email=email, **extra)
+        user.set_authenticated(True)
+        return user
+
+
+class PermissionManager(InMemoryManager):
+    pass
+
+
+class RoleManager(InMemoryManager):
+    pass
+
+
+class RoleAssignmentManager(InMemoryManager):
+    def roles_for_user(self, user: "User") -> List["Role"]:
+        return [assignment.role for assignment in self._records if assignment.user is user]
+
+
+class UserPermissionManager(InMemoryManager):
+    def has_permission(self, user: "User", codename: str) -> bool:
+        return any(
+            assignment.user is user and assignment.permission.codename == codename
+            for assignment in self._records
+        )
+
+    def permissions_for_user(self, user: "User") -> List["Permission"]:
+        return [assignment.permission for assignment in self._records if assignment.user is user]
+
+
+class SegmentManager(InMemoryManager):
+    def active_segments(self) -> Iterable["Segment"]:
+        return [segment for segment in self._records if segment.is_active]
+
+    def with_permission(self, codename: str) -> Iterable["Segment"]:
+        return [segment for segment in self.active_segments() if segment.permissions.has_codename(codename)]
+
+
+def reset_registry() -> None:
+    """Limpia todos los registros en memoria (se ejecuta por prueba)."""
+
+    for manager in _REGISTRY:
+        manager.clear()
+
+
+@dataclass
+class Permission:
     """Permiso granular definido por recurso y acción."""
 
-    codename = models.CharField("codigo", max_length=100, unique=True)
-    name = models.CharField("nombre", max_length=255)
-    resource = models.CharField("recurso", max_length=100)
-    action = models.CharField("acción", max_length=50)
-    description = models.TextField("descripción")
+    codename: str
+    name: str
+    resource: str
+    action: str
+    description: str
+    id: int = field(init=False, default=0)
 
-    class Meta:
-        verbose_name = "permiso"
-        verbose_name_plural = "permisos"
-        ordering = ("codename",)
+    objects: ClassVar[PermissionManager]
 
-    def __str__(self) -> str:  # pragma: no cover - representación
-        return self.codename
+    def __hash__(self) -> int:  # pragma: no cover - utilitario
+        return hash(self.codename)
 
 
-class Role(TimeStampedModel):
+class PermissionCollection:
+    """Colección liviana para relaciones muchos-a-muchos."""
+
+    def __init__(self) -> None:
+        self._items: List[Permission] = []
+
+    def add(self, permission: Permission) -> None:
+        if permission not in self._items:
+            self._items.append(permission)
+
+    def values_list(self, field_name: str, *, flat: bool = False) -> List[Any]:
+        if not flat:
+            raise ValueError("Solo se soporta flat=True en esta colección simplificada")
+        return [getattr(permission, field_name) for permission in self._items]
+
+    def has_codename(self, codename: str) -> bool:
+        return any(permission.codename == codename for permission in self._items)
+
+    def __iter__(self):  # pragma: no cover - soporte iteración
+        return iter(self._items)
+
+    def __len__(self) -> int:  # pragma: no cover - soporte len
+        return len(self._items)
+
+
+@dataclass
+class Role:
     """Rol que agrupa permisos para asignación indirecta."""
 
-    name = models.CharField("nombre", max_length=100, unique=True)
-    description = models.TextField("descripción")
-    permissions = models.ManyToManyField(Permission, related_name="roles", blank=True)
-    is_system_role = models.BooleanField("rol del sistema", default=False)
+    name: str
+    description: str
+    is_system_role: bool = False
+    id: int = field(init=False, default=0)
+    permissions: PermissionCollection = field(init=False)
 
-    class Meta:
-        verbose_name = "rol"
-        verbose_name_plural = "roles"
-        ordering = ("name",)
+    objects: ClassVar[RoleManager]
 
-    def __str__(self) -> str:  # pragma: no cover - representación
-        return self.name
+    def __post_init__(self) -> None:
+        self.permissions = PermissionCollection()
 
 
-class RoleAssignment(TimeStampedModel):
-    """Relación entre usuarios y roles."""
-
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="role_assignments")
-    role = models.ForeignKey(Role, on_delete=models.CASCADE, related_name="assignments")
-    granted_by = models.ForeignKey(
-        User, on_delete=models.PROTECT, related_name="granted_roles", help_text="Usuario que asignó el rol"
-    )
-
-    class Meta:
-        verbose_name = "asignación de rol"
-        verbose_name_plural = "asignaciones de roles"
-        unique_together = ("user", "role")
-
-    def __str__(self) -> str:  # pragma: no cover
-        return f"{self.user} -> {self.role}"
-
-
-class UserPermission(TimeStampedModel):
-    """Permisos directos asignados a un usuario."""
-
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="direct_permissions")
-    permission = models.ForeignKey(Permission, on_delete=models.CASCADE, related_name="direct_assignments")
-    granted_by = models.ForeignKey(
-        User,
-        on_delete=models.PROTECT,
-        related_name="granted_permissions",
-        help_text="Usuario que concedió el permiso",
-    )
-    granted_at = models.DateTimeField("fecha de concesión", auto_now_add=True)
-
-    class Meta:
-        verbose_name = "permiso directo"
-        verbose_name_plural = "permisos directos"
-        unique_together = ("user", "permission")
-
-    def __str__(self) -> str:  # pragma: no cover
-        return f"{self.user} -> {self.permission}"
-
-
-class Segment(TimeStampedModel):
+@dataclass
+class Segment:
     """Segmentación de usuarios con criterios dinámicos."""
 
-    name = models.CharField("nombre", max_length=150)
-    description = models.TextField("descripción")
-    criteria = models.JSONField("criterios", default=dict)
-    permissions = models.ManyToManyField(Permission, related_name="segments", blank=True)
-    is_active = models.BooleanField("activo", default=True)
+    name: str
+    description: str
+    criteria: dict[str, Any]
+    is_active: bool = True
+    id: int = field(init=False, default=0)
+    permissions: PermissionCollection = field(init=False)
 
-    class Meta:
-        verbose_name = "segmento"
-        verbose_name_plural = "segmentos"
-        ordering = ("name",)
+    objects: ClassVar[SegmentManager]
 
-    def matches(self, user: User) -> bool:
-        """Evalúa si el usuario cumple con los criterios del segmento."""
+    def __post_init__(self) -> None:
+        self.permissions = PermissionCollection()
 
+    def matches(self, user: "User") -> bool:
         for field, expected in self.criteria.items():
-            value: Any = getattr(user, field, None)
-            if value != expected:
+            if getattr(user, field, None) != expected:
                 return False
         return True
 
-    def __str__(self) -> str:  # pragma: no cover
-        return self.name
+
+@dataclass
+class User:
+    """Usuario principal del sistema con campos adicionales."""
+
+    username: str
+    password: str
+    email: str
+    is_active: bool = True
+    last_login_ip: str | None = None
+    failed_login_attempts: int = 0
+    is_deleted: bool = False
+    deleted_at: datetime | None = None
+    id: int = field(init=False, default=0)
+
+    _is_authenticated: bool = field(init=False, default=True)
+    created_at: datetime = field(init=False)
+    updated_at: datetime = field(init=False)
+
+    objects: ClassVar[UserManager]
+
+    def __post_init__(self) -> None:
+        now = datetime.now(timezone.utc)
+        self.created_at = now
+        self.updated_at = now
+
+    @property
+    def is_authenticated(self) -> bool:
+        return self._is_authenticated and self.is_active and not self.is_deleted
+
+    def set_authenticated(self, value: bool) -> None:
+        self._is_authenticated = value
+
+    def mark_deleted(self) -> None:
+        self.is_active = False
+        self.is_deleted = True
+        self.deleted_at = datetime.now(timezone.utc)
+        self.updated_at = self.deleted_at
+
+
+@dataclass
+class RoleAssignment:
+    """Relación entre usuarios y roles."""
+
+    user: User
+    role: Role
+    granted_by: User
+    id: int = field(init=False, default=0)
+
+    objects: ClassVar[RoleAssignmentManager]
+
+
+@dataclass
+class UserPermission:
+    """Permisos directos asignados a un usuario."""
+
+    user: User
+    permission: Permission
+    granted_by: User
+    granted_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
+    id: int = field(init=False, default=0)
+
+    objects: ClassVar[UserPermissionManager]
+
+
+# Instanciar managers una vez que las clases existen
+User.objects = UserManager(User)
+Permission.objects = PermissionManager(Permission)
+Role.objects = RoleManager(Role)
+Segment.objects = SegmentManager(Segment)
+RoleAssignment.objects = RoleAssignmentManager(RoleAssignment)
+UserPermission.objects = UserPermissionManager(UserPermission)
