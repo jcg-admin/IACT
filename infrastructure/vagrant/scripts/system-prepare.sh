@@ -1,105 +1,107 @@
-#!/usr/bin/env bash
-# =============================================================================
-# IACT Vagrant - System Preparation Script
-# =============================================================================
-# Description: Prepare Ubuntu system for database installation
-# Author: IACT Team
-# Version: 2.0.0
-# Context: Vagrant provisioning
-# Pattern: Idempotent execution, No silent failures
-# =============================================================================
-
+#!/bin/bash
 set -euo pipefail
 
 # =============================================================================
-# SETUP
+# SYSTEM PREPARATION - Preparación del sistema para bases de datos
+# =============================================================================
+# Descripción: Prepara Ubuntu 18.04 para instalación de bases de datos
+# Patrón: Funcional, Idempotente, Sin fallas silenciosas, POSIX
 # =============================================================================
 
-# Obtener directorio del script
-readonly SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-readonly SCRIPT_NAME="$(basename "${BASH_SOURCE[0]}")"
+# -----------------------------------------------------------------------------
+# Setup - Configuración inicial
+# -----------------------------------------------------------------------------
 
-# Detect Vagrant environment
-if [[ -d "/vagrant" ]]; then
-    readonly PROJECT_ROOT="/vagrant"
+# Detectar directorio del script
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SCRIPT_NAME="$(basename "${BASH_SOURCE[0]}")"
+
+# Detectar PROJECT_ROOT
+if [ -d "/vagrant" ]; then
+    PROJECT_ROOT="/vagrant"
 else
-    readonly PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
+    PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
 fi
 
-# Cargar core (que auto-carga logging)
-source "${PROJECT_ROOT}/utils/core.sh"
+# Cargar módulos core
+if [ ! -f "${PROJECT_ROOT}/utils/core.sh" ]; then
+    printf 'ERROR: No se encontró %s/utils/core.sh\n' "$PROJECT_ROOT" >&2
+    exit 1
+fi
 
-# Cargar modulos adicionales
-iact_source_module "validation"
+# shellcheck disable=SC1090
+. "${PROJECT_ROOT}/utils/core.sh"
 
-# Configurar logging con nombre del script
-iact_init_logging "${SCRIPT_NAME%.sh}"
+# Cargar módulo de validación si está disponible
+if type "iact_source_module" >/dev/null 2>&1; then
+    iact_source_module "validation" || {
+        printf 'ADVERTENCIA: No se pudo cargar módulo validation\n' >&2
+    }
+fi
 
-# =============================================================================
-# SYSTEM PREPARATION FUNCTIONS - IDEMPOTENT & NO SILENT FAILURES
-# =============================================================================
+# Inicializar logging
+if type "iact_init_logging" >/dev/null 2>&1; then
+    iact_init_logging "${SCRIPT_NAME%.sh}"
+fi
 
 # -----------------------------------------------------------------------------
-# verify_ubuntu_version
-# Description: Verify Ubuntu version is 18.04
-# NO SILENT FAILURES: Reports version check results
-# IDEMPOTENT: Safe to run multiple times
-# Arguments: $1 - current step, $2 - total steps
-# Returns: 0 on success, 1 on failure
+# Funciones de validación - Idempotentes y sin fallas silenciosas
 # -----------------------------------------------------------------------------
-verify_ubuntu_version() {
+
+# Verifica versión de Ubuntu (idempotente)
+check_ubuntu_version() {
     local current="$1"
     local total="$2"
 
-    iact_log_step "$current" "$total" "Verificando version de Ubuntu"
+    iact_log_step "$current" "$total" "Verificando versión de Ubuntu"
+
+    if ! type "iact_validate_ubuntu_version" >/dev/null 2>&1; then
+        iact_log_error "Función iact_validate_ubuntu_version no disponible"
+        return 1
+    fi
 
     if iact_validate_ubuntu_version; then
-        iact_log_success "Version de Ubuntu verificada: 18.04 LTS"
+        iact_log_success "Versión de Ubuntu verificada: 18.04 LTS"
         return 0
     else
-        iact_log_error "Version de Ubuntu no soportada"
+        iact_log_error "Versión de Ubuntu no soportada"
         return 1
     fi
 }
 
-# -----------------------------------------------------------------------------
-# verify_disk_space
-# Description: Verify sufficient disk space
-# NO SILENT FAILURES: Reports disk space status
-# IDEMPOTENT: Safe to run multiple times
-# Arguments: $1 - current step, $2 - total steps
-# Returns: 0 on success, 1 on failure
-# -----------------------------------------------------------------------------
-verify_disk_space() {
+# Verifica espacio en disco (idempotente)
+check_disk_space() {
     local current="$1"
     local total="$2"
+    local required_gb=10
 
     iact_log_step "$current" "$total" "Verificando espacio en disco"
 
-    local required_gb=10
+    if ! type "iact_validate_disk_space" >/dev/null 2>&1; then
+        iact_log_error "Función iact_validate_disk_space no disponible"
+        return 1
+    fi
 
     if iact_validate_disk_space "$required_gb"; then
-        iact_log_success "Espacio en disco suficiente (minimo: ${required_gb}GB)"
+        iact_log_success "Espacio en disco suficiente (mínimo: ${required_gb}GB)"
         return 0
     else
-        iact_log_error "Espacio en disco insuficiente (minimo requerido: ${required_gb}GB)"
+        iact_log_error "Espacio en disco insuficiente (mínimo requerido: ${required_gb}GB)"
         return 1
     fi
 }
 
-# -----------------------------------------------------------------------------
-# verify_internet_connectivity
-# Description: Verify internet connectivity
-# NO SILENT FAILURES: Reports connectivity status
-# IDEMPOTENT: Safe to run multiple times
-# Arguments: $1 - current step, $2 - total steps
-# Returns: 0 on success, 1 on failure
-# -----------------------------------------------------------------------------
-verify_internet_connectivity() {
+# Verifica conectividad a Internet (idempotente)
+check_internet() {
     local current="$1"
     local total="$2"
 
     iact_log_step "$current" "$total" "Verificando conectividad a Internet"
+
+    if ! type "iact_validate_internet" >/dev/null 2>&1; then
+        iact_log_error "Función iact_validate_internet no disponible"
+        return 1
+    fi
 
     if iact_validate_internet; then
         iact_log_success "Conectividad a Internet verificada"
@@ -110,19 +112,14 @@ verify_internet_connectivity() {
     fi
 }
 
-# -----------------------------------------------------------------------------
-# update_package_cache
-# Description: Update APT package cache
-# NO SILENT FAILURES: Reports update status
-# IDEMPOTENT: Safe to run multiple times
-# Arguments: $1 - current step, $2 - total steps
-# Returns: 0 on success, 1 on failure
-# -----------------------------------------------------------------------------
-update_package_cache() {
+# Actualiza cache de paquetes APT (idempotente)
+update_apt_cache() {
     local current="$1"
     local total="$2"
 
     iact_log_step "$current" "$total" "Actualizando cache de paquetes APT"
+
+    export DEBIAN_FRONTEND=noninteractive
 
     if apt-get update 2>&1 | tee -a "$(iact_get_log_file)"; then
         iact_log_success "Cache de paquetes actualizado"
@@ -133,37 +130,22 @@ update_package_cache() {
     fi
 }
 
-# -----------------------------------------------------------------------------
-# install_essential_packages
-# Description: Install essential system packages
-# NO SILENT FAILURES: Reports installation status
-# IDEMPOTENT: APT handles already-installed packages
-# Arguments: $1 - current step, $2 - total steps
-# Returns: 0 on success, 1 on failure
-# -----------------------------------------------------------------------------
-install_essential_packages() {
+# Instala paquetes esenciales (idempotente - APT maneja paquetes ya instalados)
+install_essentials() {
     local current="$1"
     local total="$2"
 
     iact_log_step "$current" "$total" "Instalando paquetes esenciales"
 
-    local packages=(
-        "curl"
-        "wget"
-        "gnupg"
-        "lsb-release"
-        "software-properties-common"
-        "apt-transport-https"
-        "ca-certificates"
-        "build-essential"
-        "git"
-    )
+    # Lista de paquetes requeridos
+    local packages="curl wget gnupg lsb-release software-properties-common apt-transport-https ca-certificates build-essential git"
 
-    iact_log_info "Paquetes a instalar: ${packages[*]}"
+    iact_log_info "Paquetes a instalar: $packages"
 
     export DEBIAN_FRONTEND=noninteractive
 
-    if apt-get install -y --no-install-recommends "${packages[@]}" 2>&1 | tee -a "$(iact_get_log_file)"; then
+    # shellcheck disable=SC2086
+    if apt-get install -y --no-install-recommends $packages 2>&1 | tee -a "$(iact_get_log_file)"; then
         iact_log_success "Paquetes esenciales instalados correctamente"
         return 0
     else
@@ -172,139 +154,244 @@ install_essential_packages() {
     fi
 }
 
-# -----------------------------------------------------------------------------
-# verify_essential_commands
-# Description: Verify essential commands are available
-# NO SILENT FAILURES: Reports verification results
-# IDEMPOTENT: Safe to run multiple times
-# Arguments: $1 - current step, $2 - total steps
-# Returns: 0 on success, 1 on failure
-# -----------------------------------------------------------------------------
-verify_essential_commands() {
+# Verifica disponibilidad de comandos esenciales (idempotente)
+check_essential_commands() {
     local current="$1"
     local total="$2"
 
     iact_log_step "$current" "$total" "Verificando comandos esenciales"
 
-    local commands=(
-        "curl"
-        "wget"
-        "gpg"
-        "apt-get"
-        "systemctl"
-    )
+    local commands="curl wget gpg apt-get systemctl"
+    local missing=""
+    local missing_count=0
 
-    local missing_commands=()
+    if ! type "iact_command_exists" >/dev/null 2>&1; then
+        iact_log_error "Función iact_command_exists no disponible"
+        return 1
+    fi
 
-    for cmd in "${commands[@]}"; do
+    # Verificar cada comando
+    for cmd in $commands; do
         if iact_command_exists "$cmd"; then
             iact_log_info "Comando '$cmd' disponible"
         else
             iact_log_warning "Comando '$cmd' no encontrado"
-            missing_commands+=("$cmd")
+
+            if [ -z "$missing" ]; then
+                missing="$cmd"
+            else
+                missing="$missing $cmd"
+            fi
+
+            missing_count=$((missing_count + 1))
         fi
     done
 
-    if [[ ${#missing_commands[@]} -eq 0 ]]; then
-        iact_log_success "Todos los comandos esenciales estan disponibles"
+    if [ "$missing_count" -eq 0 ]; then
+        iact_log_success "Todos los comandos esenciales están disponibles"
         return 0
     else
-        iact_log_error "Comandos faltantes: ${missing_commands[*]}"
+        iact_log_error "Comandos faltantes: $missing"
         return 1
     fi
 }
 
-# -----------------------------------------------------------------------------
-# display_system_info
-# Description: Display system information
-# NO SILENT FAILURES: Shows complete system status
-# Arguments: $1 - current step, $2 - total steps
-# Returns: 0 always
-# -----------------------------------------------------------------------------
-display_system_info() {
+# Muestra información del sistema
+show_system_info() {
     local current="$1"
     local total="$2"
 
-    iact_log_step "$current" "$total" "Informacion del sistema"
+    iact_log_step "$current" "$total" "Información del sistema"
 
-    echo ""
-    echo "=================================================================="
-    echo "                  INFORMACION DEL SISTEMA"
-    echo "=================================================================="
-    echo ""
-    echo "Sistema Operativo:"
+    printf '\n'
+    printf '%s\n' "=================================================================="
+    printf '%s\n' "                  INFORMACION DEL SISTEMA"
+    printf '%s\n' "=================================================================="
+    printf '\n'
+    printf '%s\n' "Sistema Operativo:"
     lsb_release -a 2>/dev/null | grep -E "Description|Release|Codename" || true
-    echo ""
-    echo "Kernel:"
+    printf '\n'
+    printf '%s\n' "Kernel:"
     uname -r
-    echo ""
-    echo "Espacio en disco:"
+    printf '\n'
+    printf '%s\n' "Espacio en disco:"
     df -h / | tail -1
-    echo ""
-    echo "Memoria:"
+    printf '\n'
+    printf '%s\n' "Memoria:"
     free -h | grep "Mem:" || true
-    echo ""
-    echo "=================================================================="
-    echo ""
+    printf '\n'
+    printf '%s\n' "=================================================================="
+    printf '\n'
 
     return 0
 }
 
-# =============================================================================
-# MAIN EXECUTION - AUTO-EXECUTION PATTERN
-# =============================================================================
+# -----------------------------------------------------------------------------
+# Funciones de paso - Una por paso, con validación explícita
+# -----------------------------------------------------------------------------
+
+step_check_ubuntu() {
+    local current="$1"
+    local total="$2"
+
+    if ! check_ubuntu_version "$current" "$total"; then
+        iact_log_error "Error verificando versión de Ubuntu"
+        return 1
+    fi
+    return 0
+}
+
+step_check_disk() {
+    local current="$1"
+    local total="$2"
+
+    if ! check_disk_space "$current" "$total"; then
+        iact_log_error "Error verificando espacio en disco"
+        return 1
+    fi
+    return 0
+}
+
+step_check_internet() {
+    local current="$1"
+    local total="$2"
+
+    if ! check_internet "$current" "$total"; then
+        iact_log_error "Error verificando conectividad"
+        return 1
+    fi
+    return 0
+}
+
+step_update_cache() {
+    local current="$1"
+    local total="$2"
+
+    if ! update_apt_cache "$current" "$total"; then
+        iact_log_error "Error actualizando cache"
+        return 1
+    fi
+    return 0
+}
+
+step_install_packages() {
+    local current="$1"
+    local total="$2"
+
+    if ! install_essentials "$current" "$total"; then
+        iact_log_error "Error instalando paquetes"
+        return 1
+    fi
+    return 0
+}
+
+step_check_commands() {
+    local current="$1"
+    local total="$2"
+
+    if ! check_essential_commands "$current" "$total"; then
+        iact_log_error "Error verificando comandos"
+        return 1
+    fi
+    return 0
+}
+
+step_show_info() {
+    local current="$1"
+    local total="$2"
+
+    if ! show_system_info "$current" "$total"; then
+        iact_log_error "Error mostrando información"
+        return 1
+    fi
+    return 0
+}
+
+# -----------------------------------------------------------------------------
+# Reporte de resultados - POSIX puro
+# -----------------------------------------------------------------------------
+
+show_results() {
+    local total="$1"
+    local failed_count="$2"
+    local failed_list="$3"
+    local successful
+
+    printf '\n'
+
+    if [ "$failed_count" -eq 0 ]; then
+        iact_log_success "Preparación del sistema completada exitosamente"
+        iact_log_info "Total pasos ejecutados: $total"
+        iact_log_info "Sistema listo para instalación de bases de datos"
+        return 0
+    fi
+
+    successful=$((total - failed_count))
+
+    iact_log_error "Preparación completada con $failed_count error(es):"
+
+    # Mostrar cada fallo (POSIX compatible sin arrays)
+    local IFS='|'
+    for step in $failed_list; do
+        iact_log_error "  - $step"
+    done
+
+    iact_log_info "Total pasos ejecutados: $total"
+    iact_log_info "Pasos exitosos: $successful"
+    return 1
+}
+
+# -----------------------------------------------------------------------------
+# Main - Composición directa sin abstracciones innecesarias
+# -----------------------------------------------------------------------------
 
 main() {
     iact_log_header "SYSTEM PREPARATION - UBUNTU 18.04"
-    iact_log_info "Preparando sistema para instalacion de bases de datos"
+    iact_log_info "Preparando sistema para instalación de bases de datos"
     iact_log_info "Context: $(iact_get_context)"
 
-    # Array de pasos (auto-calculado)
-    local steps=(
-        verify_ubuntu_version
-        verify_disk_space
-        verify_internet_connectivity
-        update_package_cache
-        install_essential_packages
-        verify_essential_commands
-        display_system_info
-    )
+    local total_steps=7
+    local current_step=0
+    local failed_count=0
+    local failed_list=""
 
-    # Auto-ejecutar con patron
-    local total=${#steps[@]}
-    local current=0
-    local failed_steps=()
+    # Helper para ejecutar paso y registrar fallo sin abortar
+    run_step() {
+        local step_func="$1"
 
-    iact_log_info "Total de pasos a ejecutar: $total"
+        current_step=$((current_step + 1))
 
-    for step_func in "${steps[@]}"; do
-        ((current++))
+        if ! "$step_func" "$current_step" "$total_steps"; then
+            iact_log_warning "Paso $step_func falló (continuando con siguientes pasos)"
 
-        iact_log_info "DEBUG: Ejecutando funcion: $step_func"
+            # Acumular fallos
+            if [ -z "$failed_list" ]; then
+                failed_list="$step_func"
+            else
+                failed_list="$failed_list|$step_func"
+            fi
+            failed_count=$((failed_count + 1))
 
-        if ! $step_func "$current" "$total"; then
-            failed_steps+=("$step_func")
-            iact_log_warning "Paso $step_func fallo, continuando..."
+            return 1
         fi
-    done
 
-    # Report final results
-    echo ""
-    if [[ ${#failed_steps[@]} -eq 0 ]]; then
-        iact_log_success "Preparacion del sistema completada exitosamente"
-        iact_log_info "Total pasos ejecutados: $total"
-        iact_log_info "Sistema listo para instalacion de bases de datos"
         return 0
-    else
-        iact_log_error "Preparacion completada con ${#failed_steps[@]} error(es):"
-        for step in "${failed_steps[@]}"; do
-            iact_log_error "  - $step"
-        done
-        iact_log_info "Total pasos ejecutados: $total"
-        iact_log_info "Pasos exitosos: $((total - ${#failed_steps[@]}))"
-        return 1
-    fi
+    }
+
+    iact_log_info "Total de pasos a ejecutar: $total_steps"
+
+    # Ejecutar todos los pasos - composición directa
+    run_step step_check_ubuntu
+    run_step step_check_disk
+    run_step step_check_internet
+    run_step step_update_cache
+    run_step step_install_packages
+    run_step step_check_commands
+    run_step step_show_info
+
+    # Mostrar resultados finales
+    show_results "$total_steps" "$failed_count" "$failed_list"
 }
 
-# Execute main
+# Ejecutar main
 main "$@"
