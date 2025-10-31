@@ -146,6 +146,43 @@ validate_lifecycle_scripts() {
 # VALIDACION DE ARCHIVOS CRITICOS
 # =============================================================================
 
+ensure_required_file() {
+    local relative_path="$1"
+    local expected_path="${PROJECT_ROOT}/${relative_path}"
+
+    # Si el archivo existe con el nombre esperado, terminar rápido
+    if [[ -f "$expected_path" ]]; then
+        log_ok "File found: ${relative_path}"
+        return 0
+    fi
+
+    # Buscar el archivo ignorando mayúsculas/minúsculas para tolerar variaciones
+    local directory="${expected_path%/*}"
+    local filename="${relative_path##*/}"
+
+    if [[ ! -d "$directory" ]]; then
+        log_error "Critical directory not found for: ${relative_path}"
+        return 1
+    fi
+
+    local found_path
+    found_path=$(find "$directory" -maxdepth 1 -type f -iname "$filename" -print -quit)
+
+    if [[ -n "$found_path" ]]; then
+        local relative_found="${found_path#${PROJECT_ROOT}/}"
+
+        if [[ "$relative_found" != "$relative_path" ]]; then
+            log_warn "Nombre detectado distinto para ${relative_path}: ${relative_found}"
+        fi
+
+        log_ok "File found: ${relative_found}"
+        return 0
+    fi
+
+    log_error "Critical file not found: ${relative_path}"
+    return 1
+}
+
 validate_critical_files() {
     log_info "Validating critical files..."
 
@@ -157,11 +194,7 @@ validate_critical_files() {
     )
 
     for file in "${required_files[@]}"; do
-        if [[ ! -f "${PROJECT_ROOT}/${file}" ]]; then
-            log_error "Critical file not found: ${file}"
-        else
-            log_ok "File found: ${file}"
-        fi
+        ensure_required_file "$file"
     done
 }
 
