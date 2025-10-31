@@ -1,108 +1,136 @@
 #!/bin/bash
 set -euo pipefail
 
+# =============================================================================
+# BOOTSTRAP - Sistema de aprovisionamiento funcional e idempotente
+# =============================================================================
+
 # -----------------------------------------------------------------------------
-# Utilidades internas para asegurar comandos seguros
+# Utilidades core - Funciones puras sin efectos secundarios
 # -----------------------------------------------------------------------------
-safe_printf() {
+
+# Imprime mensaje de forma segura (función pura)
+print_safe() {
     printf '%s\n' "$1"
 }
 
-ensure_directory() {
-    local directory="$1"
+# Valida si directorio existe (función pura de validación)
+dir_exists() {
+    [[ -d "$1" ]]
+}
 
-    if [[ -d "$directory" ]]; then
-        return 0
-    fi
+# Valida si archivo existe (función pura de validación)
+file_exists() {
+    [[ -f "$1" ]]
+}
 
-    if ! mkdir -p "$directory"; then
-        safe_printf "ERROR: No se pudo crear el directorio requerido: $directory" >&2
+# Valida si archivo es ejecutable (función pura de validación)
+is_executable() {
+    [[ -x "$1" ]]
+}
+
+# Crea directorio con validación explícita (idempotente)
+ensure_dir() {
+    local dir="$1"
+
+    dir_exists "$dir" && return 0
+
+    if ! mkdir -p "$dir"; then
+        print_safe "ERROR: No se pudo crear directorio: $dir" >&2
         return 1
     fi
+
     return 0
 }
 
-ensure_executable() {
+# Hace ejecutable un archivo con validación explícita (idempotente)
+make_executable() {
     local path="$1"
 
-    if [[ ! -f "$path" ]]; then
-        safe_printf "ERROR: Archivo inexistente: $path" >&2
+    if ! file_exists "$path"; then
+        print_safe "ERROR: Archivo no existe: $path" >&2
         return 1
     fi
 
-    if [[ -x "$path" ]]; then
-        return 0
-    fi
+    is_executable "$path" && return 0
 
     if ! chmod +x "$path"; then
-        safe_printf "ERROR: No se pudo establecer permiso de ejecución en: $path" >&2
+        print_safe "ERROR: No se pudo dar permisos de ejecución: $path" >&2
         return 1
     fi
+
     return 0
 }
 
 # -----------------------------------------------------------------------------
-# execute_installation_script
-# Description: Execute an installation script
-# Arguments: $1 - script path, $2 - current step, $3 - total steps
-# Returns: 0 on success, 1 on failure
+# Ejecución de scripts - Con validación explícita de errores
 # -----------------------------------------------------------------------------
-execute_installation_script() {
-    local script_path="$1"
-    local current="$2"
+
+run_script() {
+    local script="$1"
+    local step="$2"
     local total="$3"
-    local script_name
-    script_name=$(basename "$script_path")
+    local name
 
-    iact_log_step "$current" "$total" "Ejecutando: $script_name"
-    iact_log_info "DEBUG: Iniciando execute_installation_script para $script_path"
+    name=$(basename "$script")
 
-    if ! ensure_executable "$script_path"; then
-        iact_log_error "Script no disponible o sin permisos: $script_path"
+    iact_log_step "$step" "$total" "Ejecutando: $name"
+    iact_log_info "DEBUG: Iniciando ejecución de $script"
+
+    if ! make_executable "$script"; then
+        iact_log_error "Script no disponible o sin permisos: $script"
         return 1
     fi
 
-    iact_log_info "Ejecutando script: $script_path"
+    iact_log_info "Ejecutando script: $script"
 
-    local exit_code=0
+    local code=0
     set +e
-    bash "$script_path" >> "$(iact_get_log_file)" 2>&1
-    exit_code=$?
+    bash "$script" >> "$(iact_get_log_file)" 2>&1
+    code=$?
     set -e
 
-    if [[ $exit_code -eq 0 ]]; then
-        iact_log_success "$script_name completado exitosamente"
+    if [[ $code -eq 0 ]]; then
+        iact_log_success "$name completado exitosamente"
         return 0
     fi
 
-    iact_log_error "$script_name falló con código de salida: $exit_code"
-    return $exit_code
+    iact_log_error "$name falló con código: $code"
+    return "$code"
 }
 
 # -----------------------------------------------------------------------------
-# setup_environment
-# Description: Configura variables de entorno y carga módulos base
+# Configuración de entorno - Función pura que retorna configuración
 # -----------------------------------------------------------------------------
-setup_environment() {
+
+# Calcula root del proyecto (función pura)
+compute_project_root() {
+    local script_dir="$1"
+
+    if [[ -n "${IACT_BOOTSTRAP_TEST_ROOT:-}" ]]; then
+        printf '%s' "$IACT_BOOTSTRAP_TEST_ROOT"
+    elif [[ -d "/vagrant" ]]; then
+        printf '%s' "/vagrant"
+    else
+        printf '%s' "$script_dir"
+    fi
+}
+
+# Inicializa variables de entorno (idempotente)
+init_env_vars() {
     export DEBIAN_FRONTEND=noninteractive
 
     local script_dir
     script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-    if [[ -n "${IACT_BOOTSTRAP_TEST_ROOT:-}" ]]; then
-        PROJECT_ROOT="$IACT_BOOTSTRAP_TEST_ROOT"
-    elif [[ -d "/vagrant" ]]; then
-        PROJECT_ROOT="/vagrant"
-    else
-        PROJECT_ROOT="$script_dir"
-    fi
-
+    PROJECT_ROOT=$(compute_project_root "$script_dir")
     LOGS_DIR="${LOGS_DIR:-$PROJECT_ROOT/logs}"
     DEBUG="${DEBUG:-false}"
     SCRIPT_NAME="$(basename "${BASH_SOURCE[0]}")"
 
-    export PROJECT_ROOT LOGS_DIR DEBUG
+    export PROJECT_ROOT LOGS_DIR DEBUG SCRIPT_NAME
 
+    # Configuración de bases de datos con valores por defecto
     export DB_ROOT_PASSWORD="${DB_ROOT_PASSWORD:-rootpass123}"
     export DB_PASSWORD="${DB_PASSWORD:-postgrespass123}"
     export IVR_DB_NAME="${IVR_DB_NAME:-ivr_legacy}"
@@ -113,30 +141,46 @@ setup_environment() {
     export DJANGO_DB_PASSWORD="${DJANGO_DB_PASSWORD:-django_pass}"
     export MARIADB_VERSION="${MARIADB_VERSION:-10.6}"
     export POSTGRESQL_VERSION="${POSTGRESQL_VERSION:-10}"
+}
 
-    if ! ensure_directory "$PROJECT_ROOT/logs"; then
-        exit 1
-    fi
+# Carga módulos del sistema
+load_core_modules() {
+    local core_path="${PROJECT_ROOT}/utils/core.sh"
 
-    if [[ ! -f "${PROJECT_ROOT}/utils/core.sh" ]]; then
-        safe_printf "ERROR: No se encontró ${PROJECT_ROOT}/utils/core.sh" >&2
-        exit 1
+    if ! file_exists "$core_path"; then
+        print_safe "ERROR: No se encontró $core_path" >&2
+        return 1
     fi
 
     # shellcheck disable=SC1090
-    source "${PROJECT_ROOT}/utils/core.sh"
+    source "$core_path"
 
     if declare -f "iact_source_module" >/dev/null 2>&1; then
         if ! iact_source_module "validation"; then
-            iact_log_error "No se pudo cargar el módulo validation"
+            iact_log_error "No se pudo cargar módulo validation"
             return 1
         fi
     else
-        safe_printf "ADVERTENCIA: iact_source_module no disponible" >&2
+        print_safe "ADVERTENCIA: iact_source_module no disponible" >&2
     fi
 
     if declare -f "iact_init_logging" >/dev/null 2>&1; then
         iact_init_logging "${SCRIPT_NAME%.sh}"
+    fi
+
+    return 0
+}
+
+# Configura entorno completo (orquestador)
+setup_env() {
+    init_env_vars
+
+    if ! ensure_dir "$LOGS_DIR"; then
+        return 1
+    fi
+
+    if ! load_core_modules; then
+        return 1
     fi
 
     if [[ "$DEBUG" == "true" ]]; then
@@ -144,10 +188,52 @@ setup_environment() {
     fi
 
     iact_log_info "DEBUG: Entorno configurado correctamente"
+    return 0
 }
 
-validate_environment() {
+# -----------------------------------------------------------------------------
+# Validación de entorno - Funciones puras de validación
+# -----------------------------------------------------------------------------
+
+# Valida que variable tenga valor (función pura)
+var_is_set() {
+    [[ -n "${!1}" ]]
+}
+
+# Cuenta errores de variables requeridas (función pura con side-effect de logging)
+count_missing_vars() {
+    local -a vars=("$@")
     local errors=0
+    local var
+
+    for var in "${vars[@]}"; do
+        if ! var_is_set "$var"; then
+            iact_log_error "Variable obligatoria vacía: $var"
+            errors=$((errors + 1))
+        fi
+    done
+
+    printf '%d' "$errors"
+}
+
+# Cuenta errores de directorios faltantes (función con side-effect de logging)
+count_missing_dirs() {
+    local -a dirs=("$@")
+    local errors=0
+    local dir
+
+    for dir in "${dirs[@]}"; do
+        if ! dir_exists "$dir"; then
+            iact_log_error "Directorio requerido inexistente: $dir"
+            errors=$((errors + 1))
+        fi
+    done
+
+    printf '%d' "$errors"
+}
+
+# Valida entorno completo
+validate_env() {
     local -a required_vars=(
         "PROJECT_ROOT"
         "LOGS_DIR"
@@ -157,28 +243,22 @@ validate_environment() {
         "DJANGO_DB_NAME"
     )
 
-    for var_name in "${required_vars[@]}"; do
-        if [[ -z "${!var_name}" ]]; then
-            iact_log_error "Variable obligatoria vacía: $var_name"
-            errors=$((errors + 1))
-        fi
-    done
-
     local -a required_dirs=(
         "$PROJECT_ROOT"
         "$PROJECT_ROOT/scripts"
         "$PROJECT_ROOT/utils"
     )
 
-    for directory in "${required_dirs[@]}"; do
-        if [[ ! -d "$directory" ]]; then
-            iact_log_error "Directorio requerido inexistente: $directory"
-            errors=$((errors + 1))
-        fi
-    done
+    local var_errors
+    local dir_errors
+    local total_errors
 
-    if [[ "$errors" -gt 0 ]]; then
-        iact_log_error "Validación de entorno falló con $errors error(es)"
+    var_errors=$(count_missing_vars "${required_vars[@]}")
+    dir_errors=$(count_missing_dirs "${required_dirs[@]}")
+    total_errors=$((var_errors + dir_errors))
+
+    if [[ $total_errors -gt 0 ]]; then
+        iact_log_error "Validación de entorno falló con $total_errors error(es)"
         return 1
     fi
 
@@ -186,7 +266,11 @@ validate_environment() {
     return 0
 }
 
-collect_environment_snapshot() {
+# -----------------------------------------------------------------------------
+# Información del sistema - Funciones de reporte
+# -----------------------------------------------------------------------------
+
+show_env_snapshot() {
     iact_log_info "Contexto: $(iact_get_context)"
     iact_log_info "Proyecto: $PROJECT_ROOT"
     iact_log_info "Logs: $LOGS_DIR"
@@ -194,67 +278,47 @@ collect_environment_snapshot() {
     iact_log_info "PostgreSQL: $POSTGRESQL_VERSION"
 }
 
-collect_required_script_paths() {
-    local domain="${1:-all}"
-    local -a steps=()
-    local -a scripts=()
-    local step
-    local type
-    local path
+# -----------------------------------------------------------------------------
+# Verificación de scripts - Funciones de validación
+# -----------------------------------------------------------------------------
 
-    readarray -t steps < <(build_bootstrap_steps "$domain")
-
-    local -A seen=()
-
-    for step in "${steps[@]}"; do
-        type="${step%%:*}"
-        if [[ "$type" != "script" ]]; then
-            continue
-        fi
-
-        path="${step#*:}"
-        if [[ -z "$path" ]]; then
-            continue
-        fi
-
-        if [[ -n "${seen["$path"]:-}" ]]; then
-            continue
-        fi
-
-        seen["$path"]=1
-        scripts+=("$path")
-    done
-
-    printf '%s\n' "${scripts[@]}"
+# Obtiene lista de scripts requeridos (función pura)
+get_required_scripts() {
+    printf '%s\n' \
+        "$PROJECT_ROOT/scripts/system-prepare.sh" \
+        "$PROJECT_ROOT/scripts/mariadb-install.sh" \
+        "$PROJECT_ROOT/scripts/postgres-install.sh" \
+        "$PROJECT_ROOT/scripts/setup-mariadb-database.sh" \
+        "$PROJECT_ROOT/scripts/setup-postgres-database.sh"
 }
 
-verify_required_scripts() {
-    local -a scripts=()
+# Cuenta scripts faltantes o no ejecutables
+count_script_issues() {
+    local -a scripts
+    readarray -t scripts < <(get_required_scripts)
+
     local missing=0
-    local path
+    local script
 
-    readarray -t scripts < <(collect_required_script_paths all)
-
-    iact_log_info "Validando scripts requeridos (${#scripts[@]})"
-
-    for path in "${scripts[@]}"; do
-        if [[ -z "$path" ]]; then
-            continue
-        fi
-
-        if [[ ! -f "$path" ]]; then
-            iact_log_error "Script faltante: $path"
+    for script in "${scripts[@]}"; do
+        if ! file_exists "$script"; then
+            iact_log_error "Script faltante: $script"
             missing=$((missing + 1))
-            continue
-        fi
-
-        if ! ensure_executable "$path"; then
+        elif ! make_executable "$script"; then
             missing=$((missing + 1))
         fi
     done
 
-    if [[ "$missing" -gt 0 ]]; then
-        iact_log_error "No se cumplen los prerequisitos de scripts"
+    printf '%d' "$missing"
+}
+
+# Verifica que todos los scripts estén disponibles
+verify_scripts() {
+    local issues
+    issues=$(count_script_issues)
+
+    if [[ $issues -gt 0 ]]; then
+        iact_log_error "No se cumplen prerequisitos de scripts"
         return 1
     fi
 
@@ -263,18 +327,19 @@ verify_required_scripts() {
 }
 
 # -----------------------------------------------------------------------------
-# Funciones de definición de pasos
+# Definición de pasos - Funciones puras que retornan listas
 # -----------------------------------------------------------------------------
-define_system_steps() {
+
+steps_system() {
     printf '%s\n' \
-        'func:display_bootstrap_header' \
-        'func:apply_apt_sources' \
-        'func:apply_dns_configuration' \
-        'func:update_package_cache' \
+        'func:show_header' \
+        'func:check_apt_sources' \
+        'func:check_dns_config' \
+        'func:check_pkg_cache' \
         "script:$PROJECT_ROOT/scripts/system-prepare.sh"
 }
 
-define_database_steps() {
+steps_database() {
     printf '%s\n' \
         "script:$PROJECT_ROOT/scripts/mariadb-install.sh" \
         "script:$PROJECT_ROOT/scripts/postgres-install.sh" \
@@ -282,121 +347,137 @@ define_database_steps() {
         "script:$PROJECT_ROOT/scripts/setup-postgres-database.sh"
 }
 
-define_info_steps() {
+steps_info() {
     printf '%s\n' \
-        'func:display_credentials_info' \
-        'func:display_access_information'
+        'func:show_credentials' \
+        'func:show_access_info'
 }
 
-build_bootstrap_steps() {
+# Construye lista de pasos según dominio (función pura)
+build_steps() {
     local domain="${1:-all}"
     iact_log_info "DEBUG: Construyendo pasos para dominio: $domain"
 
-    local steps=()
-
     case "$domain" in
         system)
-            readarray -t steps < <(define_system_steps)
+            steps_system
             ;;
         database)
-            readarray -t steps < <(define_database_steps)
+            steps_database
             ;;
         info)
-            readarray -t steps < <(define_info_steps)
+            steps_info
             ;;
         all)
-            readarray -t system < <(define_system_steps)
-            readarray -t database < <(define_database_steps)
-            readarray -t info < <(define_info_steps)
-            steps=("${system[@]}" "${database[@]}" "${info[@]}")
+            steps_system
+            steps_database
+            steps_info
             ;;
         *)
             iact_log_error "Dominio desconocido: $domain"
-            exit 1
+            return 1
             ;;
     esac
-
-    printf '%s\n' "${steps[@]}"
 }
 
 # -----------------------------------------------------------------------------
-# run_bootstrap_steps
-# Description: Ejecuta todos los pasos definidos
+# Ejecución de pasos - Función de orquestación
 # -----------------------------------------------------------------------------
-run_bootstrap_steps() {
-    local steps=("$@")
+
+# Ejecuta un paso individual
+exec_step() {
+    local step="$1"
+    local current="$2"
+    local total="$3"
+    local type="${step%%:*}"
+    local value="${step#*:}"
+
+    case "$type" in
+        func)
+            if ! declare -f "$value" >/dev/null 2>&1; then
+                iact_log_error "Función no definida: $value"
+                return 1
+            fi
+            iact_log_info "DEBUG: Ejecutando función: $value"
+            "$value" "$current" "$total"
+            ;;
+        script)
+            iact_log_info "DEBUG: Ejecutando script: $value"
+            run_script "$value" "$current" "$total"
+            ;;
+        *)
+            iact_log_error "Tipo de paso desconocido: $type"
+            return 1
+            ;;
+    esac
+}
+
+# Ejecuta todos los pasos y recolecta fallos
+run_steps() {
+    local -a steps=("$@")
     local total=${#steps[@]}
     local current=0
-    local failed_steps=()
+    local -a failed=()
+    local step
 
     iact_log_info "Total de pasos a ejecutar: $total"
     iact_log_info "Iniciando proceso de aprovisionamiento..."
 
     for step in "${steps[@]}"; do
-        ((current++))
-        local type="${step%%:*}"
-        local value="${step#*:}"
+        current=$((current + 1))
 
-        if [[ "$type" == "func" ]]; then
-            if ! declare -f "$value" > /dev/null; then
-                iact_log_error "Funcion no definida: $value"
-                failed_steps+=("$value")
-                continue
-            fi
-            iact_log_info "DEBUG: Ejecutando funcion: $value"
-            if ! "$value" "$current" "$total"; then
-                failed_steps+=("$value")
-            fi
-        elif [[ "$type" == "script" ]]; then
-            iact_log_info "DEBUG: Ejecutando script: $value"
-            if ! execute_installation_script "$value" "$current" "$total"; then
-                failed_steps+=("$(basename "$value")")
-            fi
-        else
-            iact_log_error "Tipo de paso desconocido: $type"
-            failed_steps+=("$step")
+        if ! exec_step "$step" "$current" "$total"; then
+            local label="${step#*:}"
+            [[ "${step%%:*}" == "script" ]] && label=$(basename "$label")
+            failed+=("$label")
         fi
     done
 
-    report_bootstrap_results "$total" "${failed_steps[@]}"
+    show_results "$total" "${failed[@]}"
 }
 
 # -----------------------------------------------------------------------------
-# report_bootstrap_results
-# Description: Muestra el resumen final del proceso
+# Reporte de resultados - Función de presentación
 # -----------------------------------------------------------------------------
-report_bootstrap_results() {
+
+show_results() {
     local total="$1"
     shift
-    local failed_steps=("$@")
+    local -a failed=("$@")
+    local count=${#failed[@]}
+    local successful
 
     echo ""
-    if [[ ${#failed_steps[@]} -eq 0 ]]; then
+
+    if [[ $count -eq 0 ]]; then
         iact_log_success "Bootstrap completado sin fallos"
         iact_log_info "Total pasos ejecutados: $total"
         iact_log_info "Revise el log para detalles: $(iact_get_log_file)"
         return 0
     fi
 
-    iact_log_error "Bootstrap con ${#failed_steps[@]} error(es):"
-    for step in "${failed_steps[@]}"; do
+    successful=$((total - count))
+
+    iact_log_error "Bootstrap con $count error(es):"
+    for step in "${failed[@]}"; do
         iact_log_error "  - $step"
     done
     iact_log_info "Total pasos ejecutados: $total"
-    iact_log_info "Pasos exitosos: $((total - ${#failed_steps[@]}))"
+    iact_log_info "Pasos exitosos: $successful"
     iact_log_info "Revise los logs para más detalles: $(iact_get_log_file)"
     return 1
 }
 
 # -----------------------------------------------------------------------------
-# Funciones de información y visualización
+# Funciones de información visual - Sin emojis
 # -----------------------------------------------------------------------------
-display_bootstrap_header() {
+
+show_header() {
     local current="$1"
     local total="$2"
 
     iact_log_step "$current" "$total" "Información de bootstrap"
-    iact_log_info "DEBUG: Iniciando display_bootstrap_header"
+    iact_log_info "DEBUG: Iniciando show_header"
 
     echo ""
     echo "=================================================================="
@@ -414,7 +495,8 @@ display_bootstrap_header() {
     return 0
 }
 
-apply_apt_sources() {
+# Validación idempotente de fuentes APT
+check_apt_sources() {
     local current="$1"
     local total="$2"
 
@@ -424,7 +506,8 @@ apply_apt_sources() {
     return 0
 }
 
-apply_dns_configuration() {
+# Validación idempotente de DNS
+check_dns_config() {
     local current="$1"
     local total="$2"
 
@@ -434,7 +517,8 @@ apply_dns_configuration() {
     return 0
 }
 
-update_package_cache() {
+# Validación idempotente de cache de paquetes
+check_pkg_cache() {
     local current="$1"
     local total="$2"
 
@@ -443,12 +527,12 @@ update_package_cache() {
     return 0
 }
 
-display_credentials_info() {
+show_credentials() {
     local current="$1"
     local total="$2"
 
     iact_log_step "$current" "$total" "Información de credenciales"
-    iact_log_info "DEBUG: Iniciando display_credentials_info"
+    iact_log_info "DEBUG: Iniciando show_credentials"
 
     echo ""
     echo "=================================================================="
@@ -465,7 +549,7 @@ display_credentials_info() {
     echo "  Usuario: postgres"
     echo "  Password: $DB_PASSWORD"
     echo ""
-    echo "Estas credenciales estan registradas en: $(iact_get_log_file)"
+    echo "Estas credenciales están registradas en: $(iact_get_log_file)"
     echo ""
     echo "=================================================================="
     echo ""
@@ -473,12 +557,12 @@ display_credentials_info() {
     return 0
 }
 
-display_access_information() {
+show_access_info() {
     local current="$1"
     local total="$2"
 
     iact_log_step "$current" "$total" "Información de acceso"
-    iact_log_info "DEBUG: Iniciando display_access_information"
+    iact_log_info "DEBUG: Iniciando show_access_info"
 
     echo ""
     echo "=================================================================="
@@ -505,36 +589,32 @@ display_access_information() {
 }
 
 # -----------------------------------------------------------------------------
-# Punto de entrada principal
+# Función principal - Orquestación de alto nivel
 # -----------------------------------------------------------------------------
+
 main() {
-    setup_environment
-    collect_environment_snapshot
-
-    if ! validate_environment; then
-        return 1
-    fi
-
-    if ! verify_required_scripts; then
-        return 1
-    fi
-
     local domain="${1:-all}"
     local -a steps
-    readarray -t steps < <(build_bootstrap_steps "$domain")
-    run_bootstrap_steps "${steps[@]}"
+
+    setup_env || return 1
+    show_env_snapshot
+    validate_env || return 1
+    verify_scripts || return 1
+
+    readarray -t steps < <(build_steps "$domain")
+    run_steps "${steps[@]}"
 }
 
 # -----------------------------------------------------------------------------
-# Verificación de privilegios y ejecución
+# Punto de entrada - Verificación de privilegios
 # -----------------------------------------------------------------------------
+
 if [[ "${IACT_BOOTSTRAP_MODE:-execute}" != "library" ]]; then
     if [[ $EUID -ne 0 ]]; then
-        echo "ERROR: Este script debe ejecutarse con privilegios de root" >&2
-        echo "Intente: sudo $0" >&2
+        print_safe "ERROR: Este script debe ejecutarse con privilegios de root" >&2
+        print_safe "ACCION REQUERIDA: Intente: sudo $0" >&2
         exit 1
     fi
 
     main "$@"
 fi
-
