@@ -13,12 +13,12 @@ Este nivel corresponde a la categoría intermedia del espacio SCP dentro de la b
 - [`../readme.md`](../readme.md)
 
 ## Páginas hijas
-- [`sc17/readme.md`](sc17/readme.md)
+- [SC17 · Documentación local](../../sc17/readme.md)
 
 ## Estado de cumplimiento
 | Elemento en la base maestra | ¿Existe en repositorio? | Observaciones |
 | --- | --- | --- |
-| Página SC17 | Sí | Documentada en `sc17/readme.md`. |
+| Página SC17 | Sí | Documentada en [`../../sc17/readme.md`](../../sc17/readme.md). |
 | Otros eventos históricos (SC11, SC16) | No | Pendiente de levantar inventario y generar carpetas. |
 
 ## Acciones

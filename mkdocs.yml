@@ -32,13 +32,12 @@ nav:
   - Checklists: checklists/readme.md
   - Scientific Computing Projects:
       - Índice SCP: scientific_computing_projects/index.md
-      - Supercomputing:
-          - Portada: scientific_computing_projects/supercomputing/readme.md
-          - SC17:
-              - Portada: scientific_computing_projects/supercomputing/sc17/readme.md
-              - Meeting Notes: scientific_computing_projects/supercomputing/sc17/meeting_and_discussion_notes/readme.md
-              - Documentos: scientific_computing_projects/supercomputing/sc17/sc17_documents/readme.md
-              - Task report: scientific_computing_projects/supercomputing/sc17/sc17_task_report/readme.md
+      - Supercomputing: scientific_computing_projects/supercomputing/readme.md
+  - SC17:
+      - Portada: sc17/readme.md
+      - Meeting Notes: sc17/meeting_and_discussion_notes/readme.md
+      - Documentos: sc17/sc17_documents/readme.md
+      - Task report: sc17/sc17_task_report/readme.md
 docs_dir: docs
 theme:
   name: readthedocs
