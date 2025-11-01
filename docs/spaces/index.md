@@ -9,12 +9,10 @@ relacionados: ["DOC-ROOT-001", "DOC-VIS-INDEX"]
 
 Este árbol replica la jerarquía de espacios publicada en la base documental maestra de IACT. Todas las secciones del proyecto se ubican aquí y conservan metadatos de trazabilidad, responsables y pendientes.
 
-## Convenciones
-- Cada carpeta representa un espacio, categoría o página corporativa.
-- Las portadas utilizan `readme.md` con front matter en YAML para registrar propietarios y relaciones.
-- Los enlaces entre secciones deben ser relativos (`../gobernanza/readme.md`) para que funcionen tanto en GitHub como en MkDocs.
+## Página padre
+- [`../readme.md`](../readme.md)
 
-## Navegación principal
+## Páginas hijas
 - [Visión y alcance](vision_y_alcance/readme.md)
 - [Gobernanza](gobernanza/readme.md)
 - [Requisitos](requisitos/readme.md)
@@ -29,10 +27,24 @@ Este árbol replica la jerarquía de espacios publicada en la base documental ma
 - [Documentación corporativa](documentacion_corporativa.md)
 - [Scientific Computing Projects](scientific_computing_projects/index.md)
 
-## Checklist de alineación
+## Información clave
+### Convenciones
+- Cada carpeta representa un espacio, categoría o página corporativa.
+- Las portadas utilizan `readme.md` con front matter en YAML para registrar propietarios y relaciones.
+- Los enlaces entre secciones deben ser relativos (`../gobernanza/readme.md`) para que funcionen tanto en GitHub como en MkDocs.
+
+### Uso con MkDocs
+La configuración `mkdocs.yml` apunta a este directorio (`docs/spaces`) como `docs_dir`. Cualquier archivo nuevo añadido aquí aparecerá automáticamente en la búsqueda global del sitio generado.
+
+## Estado de cumplimiento
+| Elemento en la base maestra | ¿Existe en repositorio? | Observaciones |
+| --- | --- | --- |
+| Jerarquía de espacios corporativos | Sí | Todas las secciones principales tienen portada con front matter. |
+| Índice de navegación actualizado | Sí | Se refleja en la sección **Páginas hijas** y en MkDocs. |
+| Matriz de responsables por espacio | Parcial | Cada portada incluye propietario; falta consolidar inventario global. |
+| Sincronización periódica con la base maestra | Pendiente | Requiere revisión mensual coordinada con Gobernanza. |
+
+## Acciones prioritarias
 - [ ] Verificar mensualmente que la jerarquía local coincide con la base documental maestra.
 - [ ] Registrar diferencias relevantes en `gobernanza/backlog.md` o documento equivalente.
 - [ ] Revisar que los enlaces del menú de MkDocs coincidan con esta estructura.
-
-## Uso con MkDocs
-La configuración `mkdocs.yml` apunta a este directorio (`docs/spaces`) como `docs_dir`. Cualquier archivo nuevo añadido aquí aparecerá automáticamente en la búsqueda global del sitio generado.
