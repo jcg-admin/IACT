@@ -18,7 +18,11 @@ Centraliza runbooks, bitácoras y lineamientos operativos para mantener los ento
 
 ## Información clave
 ### Artefactos disponibles
-- Runbooks (`runbooks/`).
+- Runbooks (`runbooks/`):
+  - [`instalacion_mkdocs.md`](runbooks/instalacion_mkdocs.md) — instalación corporativa de MkDocs y evidencia.
+  - [`github_copilot_codespaces.md`](runbooks/github_copilot_codespaces.md).
+  - [`post_create.md`](runbooks/post_create.md).
+  - [`verificar_servicios.md`](runbooks/verificar_servicios.md).
 - Guías de contenedores (`contenedores_devcontainer.md`).
 - Bitácora de ejecución (pendiente, crear `bitacora.md`).
 
