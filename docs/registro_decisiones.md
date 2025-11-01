@@ -20,6 +20,11 @@
 - Se habilitaron los índices `docs/backend/readme.md` y `docs/frontend/readme.md` como puntos de entrada técnicos diferenciados.
 - Se actualizó `mkdocs.yml`, el índice general y la documentación corporativa para reflejar la nueva separación.
 
+## 2025-02-20 - Reajuste de espacios estratégicos
+- Se elimina la carpeta `docs/gerencia/` para mantener `vision_y_alcance` como espacio raíz.
+- Se conservan los espacios dedicados de backend y frontend sin cambios estructurales.
+- Se sincronizan enlaces, inventario y navegación de MkDocs con el esquema sin carpeta intermedia.
+
 ## Próximos pasos
 - Revisar nuevas contribuciones para validar que respetan la convención.
 - Completar anexos con ejemplos reales a medida que estén disponibles.

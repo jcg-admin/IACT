@@ -4,8 +4,8 @@
 
 | Ruta | Observaciones |
 | --- | --- |
-| docs/gerencia/vision_y_alcance/glossary.md | Glosario oficial alineado con negocio. |
-| docs/gerencia/vision_y_alcance/readme.md | Portada estratégica con backlog de visión. |
+| docs/vision_y_alcance/glossary.md | Glosario oficial alineado con negocio. |
+| docs/vision_y_alcance/readme.md | Portada estratégica con backlog de visión. |
 | docs/backend/readme.md | Índice técnico inicial del monolito backend. |
 | docs/frontend/readme.md | Índice técnico inicial del frontend. |
 | docs/gobernanza/lineamientos_gobernanza.md | Lineamientos vigentes para comités y RACI. |
@@ -36,8 +36,7 @@
 ## Estructura objetivo
 ```text
 docs/
-├── gerencia/
-│   └── vision_y_alcance/
+├── vision_y_alcance/
 ├── backend/
 ├── frontend/
 ├── gobernanza/

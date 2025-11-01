@@ -4,10 +4,9 @@ site_url: ""
 repo_url: ""
 nav:
   - Inicio: index.md
-  - Gerencia:
-      - Portada: gerencia/readme.md
-      - Visión y alcance: gerencia/vision_y_alcance/readme.md
-      - Glosario de negocio: gerencia/vision_y_alcance/glossary.md
+  - Visión y alcance:
+      - Portada: vision_y_alcance/readme.md
+      - Glosario de negocio: vision_y_alcance/glossary.md
   - Gobernanza: gobernanza/readme.md
   - Requisitos: requisitos/readme.md
   - Arquitectura:
