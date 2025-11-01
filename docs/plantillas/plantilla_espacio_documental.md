@@ -40,7 +40,7 @@ Lista las páginas del espacio maestro y mapea su equivalente local. Utiliza tab
 - [ ] Registrar hallazgos en `../gobernanza/backlog.md` u otro artefacto de gestión.
 
 ### Integraciones relevantes
-Describe dependencias con otros espacios (`../vision_y_alcance/`, `../qa/`, etc.) y qué información consumen o proveen.
+Describe dependencias con otros espacios (`../gerencia/vision_y_alcance/`, `../qa/`, etc.) y qué información consumen o proveen.
 
 ## Ejemplo de front matter
 ```yaml

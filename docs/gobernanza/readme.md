@@ -35,7 +35,7 @@ Define el marco de decisión y coordinación que sostiene el flujo documental. A
 | Calendario de rituales con enlaces | No | Aún no se documenta el calendario detallado. |
 
 ## Integración con el flujo documental principal
-- Recibe objetivos estratégicos desde [`../vision_y_alcance/readme.md`](../vision_y_alcance/readme.md).
+- Recibe objetivos estratégicos desde [`../gerencia/vision_y_alcance/readme.md`](../gerencia/vision_y_alcance/readme.md).
 - Retroalimenta la priorización de [`../requisitos/readme.md`](../requisitos/readme.md).
 - Escala decisiones técnicas hacia [`../arquitectura/readme.md`](../arquitectura/readme.md) mediante ADR.
 

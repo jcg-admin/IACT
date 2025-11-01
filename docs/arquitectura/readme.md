@@ -36,7 +36,7 @@ Agrupa decisiones técnicas, diagramas y lineamientos de código que sostienen e
 | Inventario de diagramas/topologías | No | Debe construirse siguiendo la plantilla SAD. |
 
 ## Integración con el flujo documental principal
-- Recibe restricciones desde [`../vision_y_alcance/readme.md`](../vision_y_alcance/readme.md).
+- Recibe restricciones desde [`../gerencia/vision_y_alcance/readme.md`](../gerencia/vision_y_alcance/readme.md).
 - Alinea decisiones con la priorización de [`../requisitos/readme.md`](../requisitos/readme.md).
 - Provee insumos a [`../diseno_detallado/readme.md`](../diseno_detallado/readme.md) y [`../devops/readme.md`](../devops/readme.md).
 

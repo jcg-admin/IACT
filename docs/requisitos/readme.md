@@ -36,7 +36,7 @@ Centraliza especificaciones funcionales y no funcionales. Este espacio asegura t
 | Backlog priorizado con estado | No | Debe construirse a partir de los acuerdos más recientes. |
 
 ## Integración con el flujo documental principal
-- Depende del contexto establecido en [`../vision_y_alcance/readme.md`](../vision_y_alcance/readme.md).
+- Depende del contexto establecido en [`../gerencia/vision_y_alcance/readme.md`](../gerencia/vision_y_alcance/readme.md).
 - Requiere decisiones operativas de [`../gobernanza/readme.md`](../gobernanza/readme.md).
 - Entrega criterios de diseño a [`../arquitectura/readme.md`](../arquitectura/readme.md) y [`../diseno_detallado/readme.md`](../diseno_detallado/readme.md).
 

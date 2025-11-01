@@ -15,6 +15,11 @@
 - Se actualizaron enlaces relativos y metadatos (`relacionados`) para reflejar el nuevo identificador `DOC-INDEX-GENERAL`.
 - Se ajustó `mkdocs.yml` para utilizar `docs/` como `docs_dir`.
 
+## 2025-02-20 - Separación por dominios (gerencia, backend, frontend)
+- Se creó la jerarquía `docs/gerencia/` y se trasladó allí el espacio `vision_y_alcance` para aislar decisiones estratégicas.
+- Se habilitaron los índices `docs/backend/readme.md` y `docs/frontend/readme.md` como puntos de entrada técnicos diferenciados.
+- Se actualizó `mkdocs.yml`, el índice general y la documentación corporativa para reflejar la nueva separación.
+
 ## Próximos pasos
 - Revisar nuevas contribuciones para validar que respetan la convención.
 - Completar anexos con ejemplos reales a medida que estén disponibles.

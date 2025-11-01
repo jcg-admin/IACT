@@ -165,7 +165,10 @@ Automatizar: aplicar tecnología → requiere inversión y ocurre después de si
 ### 4.1 Estructura general
 ```
 docs/
-├── vision_y_alcance/
+├── gerencia/
+│   └── vision_y_alcance/
+├── backend/
+├── frontend/
 ├── gobernanza/
 ├── requisitos/
 ├── arquitectura/
