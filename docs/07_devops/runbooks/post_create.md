@@ -5,7 +5,7 @@ propietario: equipo-devops
 ultima_actualizacion: 2025-02-14
 relacionados: ["DOC-OPS-001", "ADR-2025-001"]
 ---
-# Runbook post-create de entorno Vagrant
+# Runbook post_create de entorno Vagrant
 
 1. **Crear o actualizar la VM**
    ```bash
@@ -26,4 +26,4 @@ relacionados: ["DOC-OPS-001", "ADR-2025-001"]
    ```
    Si falla alguna prueba, etiqueta el incidente como `infra` y regístralo en el tablero de DevOps.
 5. **Actualizar estado**
-   Documenta fecha y responsable en `docs/07-devops/bitacora.md` (pendiente de crear) para mantener trazabilidad.
+   Documenta fecha y responsable en `docs/07_devops/bitacora.md` (pendiente de crear) para mantener trazabilidad.
