@@ -2,20 +2,29 @@
 id: DOC-ROOT-001
 estado: borrador
 propietario: equipo-arquitectura
-ultima_actualizacion: 2025-02-17
-relacionados: ["ADR-2025-001"]
+ultima_actualizacion: 2025-02-18
+relacionados: ["ADR-2025-001", "DOC-SPACES-INDEX"]
 ---
-Bienvenido a la base documental del proyecto IACT - Call Center Analytics.
-La navegación inicia en los directorios numerados (00 a 07) para ubicar rápido el tema.
-`00_vision_y_alcance` resume contexto estratégico y contiene el glosario oficial.
-`01_gobernanza` agrupa lineamientos de roles, ceremonias y decisiones pendientes.
-`02_requisitos` centraliza requerimientos, trazabilidad y plantillas RQ-ANL.
-`03_arquitectura` recopila ADRs como ADR-2025-001 y diagramas por módulo.
-`04_diseno_detallado` traduce decisiones arquitectónicas a especificaciones técnicas del monolito.
-`05_planificacion_y_releases` conecta roadmap, business case y ventanas de entrega.
-`06_qa` reserva espacio para estrategia y evidencias de pruebas del call center.
-`07_devops` almacena guías, runbooks y verificaciones de infraestructura Vagrant.
-Los directorios posteriores (08 a 15) se crearán conforme se habiliten frentes adicionales.
-Usa los front-matter e IDs sugeridos para mantener trazabilidad entre artefactos.
+# Base documental del proyecto IACT
 
-Para mantener sincronía con la base documental maestra de IACT, consulta la jerarquía replicada en [`spaces/`](spaces/readme.md), donde se documenta el flujo de navegación corporativo (`Home > Supercomputing > SC17`) y se registran las solicitudes de información heredadas del histórico.
+Toda la documentación funcional, técnica y operativa vive ahora en `docs/spaces/`. La estructura replica la jerarquía oficial de espacios corporativos y elimina la numeración heredada (`00_`, `01_`, ...), facilitando la navegación mediante MkDocs.
+
+## Cómo navegar
+- Consulta el índice maestro en [`spaces/index.md`](spaces/index.md) para ubicar rápidamente cada espacio temático.
+- Cada sección cuenta con un archivo `readme.md` que actúa como portada y define responsables, artefactos y relaciones cruzadas.
+- Los anexos, plantillas y checklists siguen disponibles en `spaces/anexos/`, `spaces/plantillas/` y `spaces/checklists/` respectivamente.
+
+## MkDocs
+El repositorio incluye una configuración de MkDocs para visualizar la documentación con una experiencia homogénea.
+
+```bash
+pip install mkdocs
+mkdocs serve
+```
+
+El comando `mkdocs serve` habilita un servidor local con recarga automática para revisar cambios en tiempo real.
+
+## Próximos pasos
+1. Mantener la consistencia de enlaces relativos entre espacios (`../vision_y_alcance/`, `../gobernanza/`, etc.).
+2. Registrar nuevas decisiones estratégicas mediante ADR en `spaces/arquitectura/adr/`.
+3. Integrar métricas de cobertura y evidencias de pruebas en `spaces/qa/` siguiendo la metodología TDD establecida.
