@@ -46,7 +46,7 @@
 ### 0.6 Limitaciones honestas
 - Incluir secciones de limitaciones en cada documento.
 - Explicar alcance probado, dependencias y supuestos.
-- Plantilla: ver [docs/plantillas/plantilla_seccion_limitaciones.md](plantillas/plantilla_seccion_limitaciones.md).
+- Plantilla: ver [plantillas/plantilla_seccion_limitaciones.md](plantillas/plantilla_seccion_limitaciones.md).
 
 ### 0.7 Checklist de validación general
 - [ ] Cumple la regla de cinco minutos.
@@ -165,26 +165,19 @@ Automatizar: aplicar tecnología → requiere inversión y ocurre después de si
 ### 4.1 Estructura general
 ```
 docs/
-├── 00_vision_y_alcance/
-├── 01_gobernanza/
-├── 02_requisitos/
-├── 03_arquitectura/
-├── 04_diseno_detallado/
-├── 05_planificacion_y_releases/
-├── 06_gestion_de_calidad/
-├── 07_devops/
-├── 08_datos_y_integraciones/
-├── 09_seguridad/
-├── 10_operacion_y_monitorizacion/
-├── 11_soporte_y_mantenimiento/
-├── 12_experiencia_de_usuario/
-├── 13_gestion_del_cambio/
-├── 14_metrica_y_analytics/
-├── 15_roadmap_y_vision_futura/
-└── anexos/
+└── spaces/
+    ├── vision_y_alcance/
+    ├── gobernanza/
+    ├── requisitos/
+    ├── arquitectura/
+    ├── diseno_detallado/
+    ├── planificacion_y_releases/
+    ├── qa/
+    ├── devops/
+    ├── anexos/
     ├── plantillas/
     ├── checklists/
-    └── referencias/
+    └── scientific_computing_projects/
 ```
 
 ### 4.2 Configuración de páginas y navegación
@@ -207,7 +200,7 @@ docs/
 
 ### 4.5 Permisos y seguridad
 - Definir grupos de lectura y edición por carpeta.
-- Registrar excepciones y justificaciones en `docs/01_gobernanza/lineamientos_gobernanza.md`.
+- Registrar excepciones y justificaciones en `docs/spaces/gobernanza/lineamientos_gobernanza.md`.
 - Revisar accesos trimestralmente con checklist específico.
 
 ## Sección 5 - Sistema de codificación y nomenclatura
