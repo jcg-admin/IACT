@@ -7,10 +7,10 @@ relacionados: ["DOC-VIS-001", "DOC-GOB-INDEX", "DOC-ARQ-INDEX"]
 ---
 # 00 · Visión y alcance
 
-Esta sección consolida artefactos estratégicos que alimentan el pipeline de documentación. Sirve como punto de partida para
-registrar la narrativa de producto y alinear a todas las áreas con la visión común.
+Esta sección consolida artefactos estratégicos que alimentan el flujo de documentación. Sirve como punto de partida para registrar
+la narrativa de producto y alinear a todas las áreas con la visión común.
 
-## Rol dentro del pipeline
+## Rol dentro del flujo de documentación
 - **Paso 1. Preparar contexto y jerarquía.** Aquí se definen título maestro, parent page y responsables iniciales.
 - **Paso 2. Resumen general.** Se mantiene el objetivo macro y el business case resumido que guiará las sesiones registradas con la plantilla de actividades.
 - **Paso 6. Dependencias.** Documenta cómo la visión impacta en gobernanza, requisitos y arquitectura.
@@ -24,8 +24,8 @@ registrar la narrativa de producto y alinear a todas las áreas con la visión c
 | Identificador | Tarea | Estado | Comentarios |
 | --- | --- | --- | --- |
 | WKF-SDLC-100 | Elaborar visión del producto | Pendiente | Necesita workshop con negocio |
-| WKF-SDLC-101 | Completar business case resumido | Pendiente | Base en pipeline de actividades |
-| WKF-SDLC-102 | Actualizar glosario tras sesiones de discovery | En progreso | Usar pipeline para registrar minutas |
+| WKF-SDLC-101 | Completar business case resumido | Pendiente | Basarse en el flujo de actividades |
+| WKF-SDLC-102 | Actualizar glosario tras sesiones de discovery | En progreso | Usar el flujo para registrar minutas |
 
 ## Relaciones
 - Alimenta los rituales descritos en `docs/01_gobernanza/readme.md`.

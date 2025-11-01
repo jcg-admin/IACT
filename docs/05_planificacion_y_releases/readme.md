@@ -7,10 +7,10 @@ relacionados: ["DOC-VIS-INDEX", "DOC-REQ-INDEX", "DOC-GOB-INDEX"]
 ---
 # 05 · Planificación y releases
 
-Coordina roadmap, releases y compromisos financieros. Vincula directamente la visión estratégica con los resultados medibles
-que surgen del pipeline de documentación.
+Coordina roadmap, releases y compromisos financieros. Vincula directamente la visión estratégica con los resultados medibles que
+surgen del flujo de documentación.
 
-## Rol dentro del pipeline
+## Rol dentro del flujo de documentación
 - Recibe objetivos de los pasos 1 y 2 para construir el roadmap macro.
 - Utiliza action items y seguimiento (pasos 7 y 8) para actualizar entregables por release.
 - Complementa el paso 10 mediante checklists de readiness y métricas de salida.
@@ -25,7 +25,7 @@ que surgen del pipeline de documentación.
 | --- | --- | --- | --- |
 | WKF-SDLC-150 | Definir calendario R1-R3 | Pendiente | Depende de priorización de requisitos |
 | WKF-SDLC-151 | Establecer métricas de éxito por release | Pendiente | Consultar a equipo de datos |
-| WKF-SDLC-152 | Integrar pipeline de actividades con tablero de releases | En progreso | Revisar automatización futura |
+| WKF-SDLC-152 | Integrar el flujo de actividades con tablero de releases | En progreso | Revisar automatización futura |
 
 ## Relaciones
 - Traduce la visión (`docs/00_vision_y_alcance/readme.md`) en compromisos calendarizados.
