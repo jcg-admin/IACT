@@ -12,7 +12,7 @@
 
 ## Revisión y trazabilidad
 - Asociar cada cambio con un issue o ADR.
-- Registrar decisiones relevantes en `docs/03_arquitectura/adr/`.
+- Registrar decisiones relevantes en `adr/`.
 
 ## Checklist rápido
 - [ ] Ejecutar linters y formateadores.
