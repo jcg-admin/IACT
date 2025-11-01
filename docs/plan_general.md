@@ -6,6 +6,8 @@
 | --- | --- |
 | docs/vision_y_alcance/glossary.md | Glosario oficial alineado con negocio. |
 | docs/vision_y_alcance/readme.md | Portada estratégica con backlog de visión. |
+| docs/backend/readme.md | Índice técnico inicial del monolito backend. |
+| docs/frontend/readme.md | Índice técnico inicial del frontend. |
 | docs/gobernanza/lineamientos_gobernanza.md | Lineamientos vigentes para comités y RACI. |
 | docs/gobernanza/readme.md | Portada de gobernanza y backlog operativo. |
 | docs/requisitos/rq_plantilla.md | Plantilla estándar de requisitos. |
@@ -35,6 +37,8 @@
 ```text
 docs/
 ├── vision_y_alcance/
+├── backend/
+├── frontend/
 ├── gobernanza/
 ├── requisitos/
 ├── arquitectura/

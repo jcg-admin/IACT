@@ -166,6 +166,8 @@ Automatizar: aplicar tecnología → requiere inversión y ocurre después de si
 ```
 docs/
 ├── vision_y_alcance/
+├── backend/
+├── frontend/
 ├── gobernanza/
 ├── requisitos/
 ├── arquitectura/
