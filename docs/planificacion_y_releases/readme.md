@@ -17,7 +17,7 @@ Coordina roadmap, releases y compromisos financieros. Vincula directamente la vi
 
 ## Información clave
 ### Rol dentro del flujo de documentación
-- Recibe objetivos definidos en [`../vision_y_alcance/readme.md`](../vision_y_alcance/readme.md) para construir el roadmap macro.
+- Recibe objetivos definidos en [`../gerencia/vision_y_alcance/readme.md`](../gerencia/vision_y_alcance/readme.md) para construir el roadmap macro.
 - Utiliza action items y seguimiento capturados en [`../gobernanza/readme.md`](../gobernanza/readme.md) para actualizar entregables por release.
 - Complementa los criterios de salida documentados en [`../qa/estrategia_qa.md`](../qa/estrategia_qa.md).
 

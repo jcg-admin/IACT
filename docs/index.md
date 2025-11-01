@@ -13,7 +13,8 @@ Este árbol replica la jerarquía de espacios publicada en la base documental ma
 - [`../readme.md`](../readme.md)
 
 ## Páginas hijas
-- [Visión y alcance](vision_y_alcance/readme.md)
+- [Gestión y visión](gerencia/readme.md)
+- [Visión y alcance](gerencia/vision_y_alcance/readme.md)
 - [Gobernanza](gobernanza/readme.md)
 - [Requisitos](requisitos/readme.md)
 - [Arquitectura](arquitectura/readme.md)

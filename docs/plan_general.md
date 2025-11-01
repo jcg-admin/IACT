@@ -28,7 +28,7 @@
 | docs/scientific_computing_projects/index.md | Índice del espacio corporativo SCP. |
 
 ## Convenciones de nomenclatura
-- Directorios en minúsculas con guiones bajos (`vision_y_alcance`, `planificacion_y_releases`).
+- Directorios en minúsculas con guiones bajos (`gerencia`, `planificacion_y_releases`).
 - Archivos `readme.md` como portadas con front matter en YAML.
 - Referencias relativas entre espacios para compatibilidad con GitHub y MkDocs (`../gobernanza/readme.md`).
 - Identificadores de tareas con prefijo `WKF-SDLC-XXX` para mantener trazabilidad.
