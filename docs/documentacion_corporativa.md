@@ -168,6 +168,7 @@ docs/
 ├── vision_y_alcance/
 ├── backend/
 ├── frontend/
+├── infrastructure/
 ├── gobernanza/
 ├── requisitos/
 ├── arquitectura/
@@ -177,8 +178,7 @@ docs/
 ├── devops/
 ├── anexos/
 ├── plantillas/
-├── checklists/
-└── scientific_computing_projects/
+└── checklists/
 ```
 
 ### 4.2 Configuración de páginas y navegación

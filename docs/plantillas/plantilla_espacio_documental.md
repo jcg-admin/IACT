@@ -7,7 +7,7 @@ relacionados: ["DOC-INDEX-GENERAL", "DOC-ROOT-001", "TEMPLATE-README-SPACE"]
 ---
 # Plantilla para espacio documental
 
-Esta plantilla permite replicar la estrategia utilizada en `docs/scientific_computing_projects/` para cualquier espacio local que necesite mantenerse alineado con la base documental maestra de IACT. Usa este formato como punto de partida antes de poblar contenidos específicos.
+Esta plantilla permite replicar la estrategia utilizada en los espacios documentales del repositorio (por ejemplo, `docs/infrastructure/`) para cualquier carpeta local que necesite mantenerse alineada con la base documental maestra de IACT. Usa este formato como punto de partida antes de poblar contenidos específicos.
 
 ## Instrucciones generales
 1. Copia este archivo a la nueva carpeta del espacio y renómbralo como `readme.md`.
@@ -45,9 +45,9 @@ Describe dependencias con otros espacios (`../gerencia/vision_y_alcance/`, `../q
 ## Ejemplo de front matter
 ```yaml
 ---
-id: DOC-SC-INDEX
+id: DOC-INFRA-INDEX
 estado: vigente
-propietario: equipo-scientific-computing
+propietario: equipo-infraestructura
 ultima_actualizacion: 2025-02-18
 relacionados:
   - "DOC-INDEX-GENERAL"

@@ -8,6 +8,7 @@
 | docs/vision_y_alcance/readme.md | Portada estratégica con backlog de visión. |
 | docs/backend/readme.md | Índice técnico inicial del monolito backend. |
 | docs/frontend/readme.md | Índice técnico inicial del frontend. |
+| docs/infrastructure/readme.md | Portada y backlog operativo de infraestructura. |
 | docs/gobernanza/lineamientos_gobernanza.md | Lineamientos vigentes para comités y RACI. |
 | docs/gobernanza/readme.md | Portada de gobernanza y backlog operativo. |
 | docs/requisitos/rq_plantilla.md | Plantilla estándar de requisitos. |
@@ -25,7 +26,6 @@
 | docs/anexos/catalogo_reglas_negocio.md | Catálogo de reglas de negocio del call center. |
 | docs/plantillas/ | Colección de plantillas reutilizables. |
 | docs/checklists/ | Checklists operativos y de control. |
-| docs/scientific_computing_projects/index.md | Índice del espacio corporativo SCP. |
 
 ## Convenciones de nomenclatura
 - Directorios en minúsculas con guiones bajos (`gerencia`, `planificacion_y_releases`).
@@ -39,6 +39,7 @@ docs/
 ├── vision_y_alcance/
 ├── backend/
 ├── frontend/
+├── infrastructure/
 ├── gobernanza/
 ├── requisitos/
 ├── arquitectura/
@@ -48,8 +49,7 @@ docs/
 ├── devops/
 ├── anexos/
 ├── plantillas/
-├── checklists/
-└── scientific_computing_projects/
+└── checklists/
 ```
 
 ## Próximos pasos sugeridos

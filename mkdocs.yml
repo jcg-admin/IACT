@@ -38,9 +38,6 @@ nav:
   - Anexos: anexos/readme.md
   - Plantillas: plantillas/readme.md
   - Checklists: checklists/readme.md
-  - Scientific Computing Projects:
-      - Índice SCP: scientific_computing_projects/index.md
-      - Supercomputing: scientific_computing_projects/supercomputing/readme.md
   - SC17:
       - Portada: sc17/readme.md
       - Meeting Notes: sc17/meeting_and_discussion_notes/readme.md

@@ -30,7 +30,6 @@ Este árbol replica la jerarquía de espacios publicada en la base documental ma
 - [Checklists](checklists/readme.md)
 - [SC17](sc17/readme.md)
 - [Documentación corporativa](documentacion_corporativa.md)
-- [Scientific Computing Projects](scientific_computing_projects/index.md)
 
 ## Información clave
 ### Convenciones
