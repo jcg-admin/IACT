@@ -505,10 +505,10 @@ step_show_access() {
 }
 
 # =============================================================================
-# Pipelines - CORRECCION: Sin espacios en nombres de funciones
+# Flujos - CORRECCION: Sin espacios en nombres de funciones
 # =============================================================================
 
-pipeline_system() {
+flujo_sistema() {
     printf '%s\n' \
         'step_show_header' \
         'step_check_apt' \
@@ -517,7 +517,7 @@ pipeline_system() {
         'step_system_prepare'
 }
 
-pipeline_database() {
+flujo_base_datos() {
     printf '%s\n' \
         'step_mariadb_install' \
         'step_postgres_install' \
@@ -525,26 +525,26 @@ pipeline_database() {
         'step_postgres_setup'
 }
 
-pipeline_info() {
+flujo_informacion() {
     printf '%s\n' \
         'step_show_credentials' \
         'step_show_access'
 }
 
-pipeline_all() {
-    pipeline_system
-    pipeline_database
-    pipeline_info
+flujo_completo() {
+    flujo_sistema
+    flujo_base_datos
+    flujo_informacion
 }
 
 build_steps() {
     local domain="${1:-all}"
 
     case "$domain" in
-        system)   pipeline_system ;;
-        database) pipeline_database ;;
-        info)     pipeline_info ;;
-        all)      pipeline_all ;;
+        system)   flujo_sistema ;;
+        database) flujo_base_datos ;;
+        info)     flujo_informacion ;;
+        all)      flujo_completo ;;
         *)
             iact_log_error "Dominio desconocido: $domain" >&2
             return 1
