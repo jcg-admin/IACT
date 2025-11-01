@@ -5,12 +5,18 @@
 | Ruta | Nombre usa guion bajo? | Observaciones |
 | --- | --- | --- |
 | docs/00_vision_y_alcance/glossary.md | Sí | Ruta normalizada, nombre simple aceptado. |
+| docs/00_vision_y_alcance/readme.md | Sí | Índice seccional que vincula pipeline y backlog. |
 | docs/01_gobernanza/lineamientos_gobernanza.md | Sí | Archivo con convención actualizada. |
+| docs/01_gobernanza/readme.md | Sí | Índice de gobernanza y matriz RACI pendiente. |
 | docs/02_requisitos/rq_plantilla.md | Sí | Prefijo `rq` mantenido con guion bajo. |
 | docs/02_requisitos/trazabilidad.md | Sí | No requiere guiones. |
+| docs/02_requisitos/readme.md | Sí | Índice que enlaza requisitos con pipeline. |
 | docs/03_arquitectura/adr/adr_2025_001_vagrant_mod_wsgi.md | Sí | Convención aplicada a ADR. |
 | docs/03_arquitectura/adr/plantilla_adr.md | Sí | Convención aplicada a plantilla ADR. |
 | docs/03_arquitectura/lineamientos_codigo.md | Sí | Archivo nuevo con guía de estilo. |
+| docs/03_arquitectura/readme.md | Sí | Índice técnico que mapea ADR, diagramas y pipeline. |
+| docs/04_diseno_detallado/readme.md | Sí | Nueva sección creada para enlazar diseño detallado. |
+| docs/05_planificacion_y_releases/readme.md | Sí | Índice de releases con backlog inicial. |
 | docs/06_qa/estrategia_qa.md | Sí | Convención aplicada. |
 | docs/06_qa/registros/2025_02_16_ejecucion_pytest.md | Sí | Fecha normalizada. |
 | docs/07_devops/contenedores_devcontainer.md | Sí | Convención aplicada. |
