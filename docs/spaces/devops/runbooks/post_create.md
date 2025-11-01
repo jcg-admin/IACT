@@ -26,4 +26,4 @@ relacionados: ["DOC-OPS-001", "ADR-2025-001"]
    ```
    Si falla alguna prueba, etiqueta el incidente como `infra` y regístralo en el tablero de DevOps.
 5. **Actualizar estado**
-   Documenta fecha y responsable en `docs/07_devops/bitacora.md` (pendiente de crear) para mantener trazabilidad.
+   Documenta fecha y responsable en `../bitacora.md` (pendiente de crear) para mantener trazabilidad.

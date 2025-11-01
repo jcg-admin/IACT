@@ -2,7 +2,7 @@
 id: SCP-SC17-DOCS
 estado: borrador
 propietario: coordinacion-sc17
-ultima_actualizacion: 2025-02-17
+ultima_actualizacion: 2025-02-18
 relacionados: ["SCP-SC17-INDEX", "DOC-VIS-INDEX"]
 ---
 # SC17 · Documents
@@ -22,8 +22,8 @@ Refleja la página **SC17 Documents** utilizada en la base documental maestra pa
 ## Backlog inmediato
 - [ ] Incorporar la guía de preparación de archivos (`Art and Display File Prep Guide`) como referencia local.
 - [ ] Clasificar documentos existentes por versión y responsable.
-- [ ] Vincular documentos aprobados a la sección `docs/05_planificacion_y_releases`.
+- [ ] Vincular documentos aprobados a la sección `../../../planificacion_y_releases/readme.md`.
 
 ## Dependencias
-- Requiere coordinación con `docs/04_diseno_detallado` para asegurar consistencia visual.
-- Debe alinearse con los acuerdos formales registrados en `docs/01_gobernanza`.
+- Requiere coordinación con `../../../diseno_detallado/readme.md` para asegurar consistencia visual.
+- Debe alinearse con los acuerdos formales registrados en `../../../gobernanza/readme.md`.
