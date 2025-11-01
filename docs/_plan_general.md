@@ -25,10 +25,19 @@
 | docs/07_devops/runbooks/reprocesar_etl_fallido.md | Sí | Convención aplicada. |
 | docs/07_devops/runbooks/verificar_servicios.md | Sí | Convención aplicada. |
 | docs/readme.md | Sí | Referencias internas actualizadas. |
+| docs/spaces/readme.md | Sí | Nuevo índice para replicar la jerarquía de la base documental maestra. |
+| docs/spaces/scientific_computing_projects/readme.md | Sí | Representa el espacio SCP. |
+| docs/spaces/scientific_computing_projects/supercomputing/readme.md | Sí | Categoría intermedia Supercomputing. |
+| docs/spaces/scientific_computing_projects/supercomputing/sc17/readme.md | Sí | Página SC17 con mapeo de elementos. |
+| docs/spaces/scientific_computing_projects/supercomputing/sc17/meeting_and_discussion_notes/readme.md | Sí | Equivalente local de Meeting Notes. |
+| docs/spaces/scientific_computing_projects/supercomputing/sc17/sc17_documents/readme.md | Sí | Repositorio de documentos SC17. |
+| docs/spaces/scientific_computing_projects/supercomputing/sc17/sc17_task_report/readme.md | Sí | Tablero de tareas SC17. |
 
 ## Archivos que requieren normalización a guion bajo
 
 Los archivos inventariados ya utilizan guiones bajos. Mantener vigilancia sobre nuevos documentos para asegurar la convención y actualizar enlaces cuando se generen artefactos adicionales.
+
+La carpeta `docs/spaces/` se reserva para reflejar la navegación oficial definida en la base documental maestra de IACT. No sigue la numeración 00-15, pero comparte las mismas convenciones de front matter e integra pendientes con la estructura de flujo principal.
 
 ## Propuesta de estructura objetivo (15 secciones + anexos)
 

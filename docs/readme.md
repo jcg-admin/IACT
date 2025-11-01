@@ -17,3 +17,5 @@ La navegación inicia en los directorios numerados (00 a 07) para ubicar rápido
 `07_devops` almacena guías, runbooks y verificaciones de infraestructura Vagrant.
 Los directorios posteriores (08 a 15) se crearán conforme se habiliten frentes adicionales.
 Usa los front-matter e IDs sugeridos para mantener trazabilidad entre artefactos.
+
+Para mantener sincronía con la base documental maestra de IACT, consulta la jerarquía replicada en [`spaces/`](spaces/readme.md), donde se documenta el flujo de navegación corporativo (`Home > Supercomputing > SC17`) y se registran las solicitudes de información heredadas del histórico.
