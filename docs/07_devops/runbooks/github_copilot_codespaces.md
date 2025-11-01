@@ -15,13 +15,13 @@ Este runbook confirma que el Codespace corporativo deja lista la integración co
 |-----------|-----------|------------|
 | Extensiones `github.copilot` y `github.copilot-chat` preinstaladas | `.devcontainer/devcontainer.json` → `customizations.vscode.extensions` | Ambas extensiones figuran junto al stack Python/SQL y se distribuyen en cada Codespace. |
 | Políticas `github.copilot.enable` aplicadas | `.devcontainer/devcontainer.json` → `customizations.vscode.settings` | El ajuste deshabilita Copilot en texto plano y entradas de commit conforme a las políticas de seguridad. |
-| Scripts centralizados para aprovisionamiento | `infrastructure/devcontainer/scripts/post-create.sh` y `post-start.sh` | Los comandos de bootstrap se ejecutan desde el repositorio y persisten logs en `infrastructure/devcontainer/logs/`. |
-| Validación automática de Django | `post-create.sh` ejecuta `python manage.py check` tras instalar dependencias. | El resultado queda trazado en `post-create.log`. |
-| Smoke test de `pytest` no bloqueante | `post-create.sh` ejecuta `python -m pytest --maxfail=1 --disable-warnings -q` por defecto y solo registra advertencias ante fallos. | Garantiza visibilidad temprana sin frenar la creación del Codespace. |
+| Scripts centralizados para aprovisionamiento | `infrastructure/devcontainer/scripts/post_create.sh` y `post-start.sh` | Los comandos de bootstrap se ejecutan desde el repositorio y persisten logs en `infrastructure/devcontainer/logs/`. |
+| Validación automática de Django | `post_create.sh` ejecuta `python manage.py check` tras instalar dependencias. | El resultado queda trazado en `post_create.log`. |
+| Smoke test de `pytest` no bloqueante | `post_create.sh` ejecuta `python -m pytest --maxfail=1 --disable-warnings -q` por defecto y solo registra advertencias ante fallos. | Garantiza visibilidad temprana sin frenar la creación del Codespace. |
 | Banderas de aprovisionamiento controladas | `.devcontainer/devcontainer.json` → `containerEnv.DEVCONTAINER_*` | Permiten habilitar/omitir instalación de Copilot, pruebas automáticas y diagnósticos de npm según la necesidad. |
 | Verificación en el arranque | `post-start.sh` relanza `python manage.py check` al iniciarse el contenedor remoto. | La salida se guarda en `post-start.log` para diagnóstico. |
-| Copilot CLI preparado | `post-create.sh` valida `node >=22` y `npm >=10`, ejecuta `npm-diagnostics.sh` (log en `infrastructure/devcontainer/logs/npm-diagnostics.log`) e instala `@github/copilot`. | La instalación cumple el flujo "install once, authenticate, work" sin pasos manuales y conserva trazas para soporte. |
-| Bootstrap de variables de entorno | `post-create.sh` copia `env.example` → `env` en `api/callcentersite/` si el archivo no existe. | Evita errores en `manage.py` tras el primer arranque. |
+| Copilot CLI preparado | `post_create.sh` valida `node >=22` y `npm >=10`, ejecuta `npm-diagnostics.sh` (log en `infrastructure/devcontainer/logs/npm-diagnostics.log`) e instala `@github/copilot`. | La instalación cumple el flujo "install once, authenticate, work" sin pasos manuales y conserva trazas para soporte. |
+| Bootstrap de variables de entorno | `post_create.sh` copia `env.example` → `env` en `api/callcentersite/` si el archivo no existe. | Evita errores en `manage.py` tras el primer arranque. |
 
 ## 2. Procedimiento de auditoría rápida
 
@@ -29,8 +29,8 @@ Este runbook confirma que el Codespace corporativo deja lista la integración co
    ```bash
    Codespaces: Rebuild Container
    ```
-   - Revisar `infrastructure/devcontainer/logs/post-create.log` y confirmar que no existan errores fatales de `pip`.
-   - Verificar que el bloque `[post-create] Ejecutando pytest` aparezca incluso cuando existan fallos en las pruebas.
+   - Revisar `infrastructure/devcontainer/logs/post_create.log` y confirmar que no existan errores fatales de `pip`.
+   - Verificar que el bloque `[post_create] Ejecutando pytest` aparezca incluso cuando existan fallos en las pruebas.
    - Consultar `infrastructure/devcontainer/logs/npm-diagnostics-*.log` para validar `npm ping`, registry y configuración de proxy registrada automáticamente.
 2. **Verificar Copilot CLI**
    ```bash
@@ -68,7 +68,7 @@ Este runbook confirma que el Codespace corporativo deja lista la integración co
 
 ## 4. Checklist para entrega semanal
 
-- [ ] `post-create.log` y `post-start.log` sin errores críticos.
+- [ ] `post_create.log` y `post-start.log` sin errores críticos.
 - [ ] Copilot CLI instalado (`copilot --version`) y accesible desde la terminal.
 - [ ] Extensiones de Copilot visibles en VS Code.
 - [ ] `pytest` ejecutado automáticamente tras la reconstrucción del contenedor.
@@ -95,7 +95,7 @@ Este runbook confirma que el Codespace corporativo deja lista la integración co
 
 ### 6.1 Instalación automatizada
 
-- El script `infrastructure/devcontainer/scripts/post-create.sh` valida versiones (`node --version`, `npm --version`) y exige `node >=22` y `npm >=10` antes de instalar la CLI.
+- El script `infrastructure/devcontainer/scripts/post_create.sh` valida versiones (`node --version`, `npm --version`) y exige `node >=22` y `npm >=10` antes de instalar la CLI.
 - Cuando `DEVCONTAINER_INSTALL_COPILOT_CLI=1` (valor por defecto) se ejecuta `infrastructure/devcontainer/scripts/npm-diagnostics.sh` y el resultado queda en `infrastructure/devcontainer/logs/npm-diagnostics.log`; adjunta este archivo al ticket de soporte cuando existan fallos de red o permisos.
 - Para omitir tanto la instalación como la recopilación de diagnósticos establece `DEVCONTAINER_INSTALL_COPILOT_CLI=0` en `devcontainer.json` o en los Secrets del Codespace y reconstruye el contenedor.
 - El script de diagnósticos acepta `DEVCONTAINER_NPM_DIAGNOSTICS_DRY_RUN=1` para ejecutar `npm install -g @github/copilot --dry-run --verbose` y registrar la traza completa; deja el valor `0` (por defecto) si no requieres el volcado detallado.
@@ -105,7 +105,7 @@ Este runbook confirma que el Codespace corporativo deja lista la integración co
   copilot --help
   ```
 - Si `copilot` no queda disponible, revisar `~/.npm-global/bin` y ajustar `PATH` en `.bashrc`.
-- Registrar en la bitácora `post-create.log` la línea `[post-create] Copilot CLI disponible`.
+- Registrar en la bitácora `post_create.log` la línea `[post_create] Copilot CLI disponible`.
 - El script genera un informe adicional `npm-diagnostics-<fecha>.log` con `npm ping`, proxies configurados y contenidos de `.npmrc`; adjúntalo en cualquier ticket de red.
 
 #### 6.1.1 Error `403 Forbidden` al instalar `@github/copilot`

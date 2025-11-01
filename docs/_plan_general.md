@@ -4,24 +4,25 @@
 
 | Ruta | Nombre usa guion bajo? | Observaciones |
 | --- | --- | --- |
-| docs/00-vision-y-alcance/glossary.md | No | Usa guiones medios en la carpeta y nombre simple en inglés. |
-| docs/01-gobernanza/lineamientos-gobernanza.md | No | Guiones medios para separar palabras. |
-| docs/02-requisitos/rq-plantilla.md | No | Archivo de plantilla con prefijo `rq-`. |
-| docs/02-requisitos/trazabilidad.md | No | Nombre en una sola palabra. |
-| docs/03-arquitectura/adr/adr-2025-001-vagrant-mod-wsgi.md | No | Convención ADR con guiones medios. |
-| docs/03-arquitectura/adr/plantilla-adr.md | No | Plantilla ADR con guiones medios. |
-| docs/06-qa/estrategia-qa.md | No | Nombre corto con guiones medios. |
-| docs/06-qa/registros/2025-02-16-ejecucion-pytest.md | No | Registra fecha y tema separados por guiones. |
-| docs/07-devops/contenedores-devcontainer.md | No | Guiones medios para unir palabras. |
-| docs/07-devops/runbooks/github-copilot-codespaces.md | No | Guiones medios en todo el nombre. |
-| docs/07-devops/runbooks/post-create.md | No | Nombre compuesto con guion medio. |
-| docs/07-devops/runbooks/reprocesar-etl-fallido.md | No | Guiones medios entre términos. |
-| docs/07-devops/runbooks/verificar-servicios.md | No | Guiones medios en el nombre. |
-| docs/readme.md | No | Archivo principal sin guiones bajos. |
+| docs/00_vision_y_alcance/glossary.md | Sí | Ruta normalizada, nombre simple aceptado. |
+| docs/01_gobernanza/lineamientos_gobernanza.md | Sí | Archivo con convención actualizada. |
+| docs/02_requisitos/rq_plantilla.md | Sí | Prefijo `rq` mantenido con guion bajo. |
+| docs/02_requisitos/trazabilidad.md | Sí | No requiere guiones. |
+| docs/03_arquitectura/adr/adr_2025_001_vagrant_mod_wsgi.md | Sí | Convención aplicada a ADR. |
+| docs/03_arquitectura/adr/plantilla_adr.md | Sí | Convención aplicada a plantilla ADR. |
+| docs/03_arquitectura/lineamientos_codigo.md | Sí | Archivo nuevo con guía de estilo. |
+| docs/06_qa/estrategia_qa.md | Sí | Convención aplicada. |
+| docs/06_qa/registros/2025_02_16_ejecucion_pytest.md | Sí | Fecha normalizada. |
+| docs/07_devops/contenedores_devcontainer.md | Sí | Convención aplicada. |
+| docs/07_devops/runbooks/github_copilot_codespaces.md | Sí | Convención aplicada. |
+| docs/07_devops/runbooks/post_create.md | Sí | Convención aplicada. |
+| docs/07_devops/runbooks/reprocesar_etl_fallido.md | Sí | Convención aplicada. |
+| docs/07_devops/runbooks/verificar_servicios.md | Sí | Convención aplicada. |
+| docs/readme.md | Sí | Referencias internas actualizadas. |
 
 ## Archivos que requieren normalización a guion bajo
 
-Todos los archivos listados actualmente utilizan guiones medios. Será necesario definir una convención (por ejemplo, reemplazar `-` por `_`) y planificar los cambios en conjunto con el ajuste de enlaces internos.
+Los archivos inventariados ya utilizan guiones bajos. Mantener vigilancia sobre nuevos documentos para asegurar la convención y actualizar enlaces cuando se generen artefactos adicionales.
 
 ## Propuesta de estructura objetivo (15 secciones + anexos)
 
@@ -156,7 +157,7 @@ Definir órganos de decisión, frecuencia y criterios de escalamiento.
 
 #### Ejemplo
 
-> Comité de arquitectura se reúne cada miércoles a las 10:00 con representantes de tecnología, negocio y compliance. Las decisiones mayores se registran como ADR en [Sección 03 - Arquitectura](#03-arquitectura).
+> Comité de arquitectura se reúne cada miércoles a las 10:00 con representantes de tecnología, negocio y compliance. Las decisiones mayores se registran como ADR en [Sección 03 - Arquitectura](#03_arquitectura).
 
 ### 02 - Requisitos
 
@@ -248,7 +249,7 @@ Definir órganos de decisión, frecuencia y criterios de escalamiento.
 | Identificador | Elemento | Estado | Observaciones |
 | --- | --- | --- | --- |
 | WKF-SDLC-030 | Diagrama de despliegue actualizado | Pendiente | Incorporar módulos devops |
-| WKF-SDLC-031 | ADR críticos revisados | Completo | Referencia a [Sección 07 - DevOps](#07-devops) |
+| WKF-SDLC-031 | ADR críticos revisados | Completo | Referencia a [Sección 07 - DevOps](#07_devops) |
 
 #### Checklist WKF
 
@@ -257,7 +258,7 @@ Definir órganos de decisión, frecuencia y criterios de escalamiento.
 
 #### Ejemplo
 
-> Integración REST con el core bancario mediante API Gateway, autenticación OAuth2 y latencia objetivo < 300 ms. Documentado en `docs/03-arquitectura/integraciones.md`.
+> Integración REST con el core bancario mediante API Gateway, autenticación OAuth2 y latencia objetivo < 300 ms. Documentado en `docs/03_arquitectura/integraciones.md`.
 
 ### 04 - Diseño detallado
 
@@ -390,7 +391,7 @@ Definir niveles, tipos y entornos de prueba.
 
 | Identificador | Elemento | Estado | Observaciones |
 | --- | --- | --- | --- |
-| WKF-SDLC-060 | Coverage TDD ≥ 80% | En progreso | Sincronizar con pipeline de [Sección 07 - DevOps](#07-devops) |
+| WKF-SDLC-060 | Coverage TDD ≥ 80% | En progreso | Sincronizar con pipeline de [Sección 07 - DevOps](#07_devops) |
 | WKF-SDLC-061 | Reporte de métricas semanal | Pendiente | Automatizar dashboard |
 
 #### Checklist WKF
@@ -400,7 +401,7 @@ Definir niveles, tipos y entornos de prueba.
 
 #### Ejemplo
 
-> Ejecución Pytest 2025-02-16 con resultados `92%` de cobertura, registrada en `docs/06-qa/registros/2025-02-16-ejecucion-pytest.md`.
+> Ejecución Pytest 2025-02-16 con resultados `92%` de cobertura, registrada en `docs/06_qa/registros/2025_02_16_ejecucion_pytest.md`.
 
 ### 07 - DevOps
 
@@ -434,7 +435,7 @@ Definir niveles, tipos y entornos de prueba.
 
 | Identificador | Elemento | Estado | Observaciones |
 | --- | --- | --- | --- |
-| WKF-SDLC-070 | Pipeline automatizado | Completo | Referencia a `docs/07-devops/runbooks/` |
+| WKF-SDLC-070 | Pipeline automatizado | Completo | Referencia a `docs/07_devops/runbooks/` |
 | WKF-SDLC-071 | Monitoreo base configurado | En progreso | Coordinar con [Sección 10 - Operación y monitorización](#10-operacion-y-monitorizacion) |
 
 #### Checklist WKF
@@ -478,7 +479,7 @@ Listado de normativas aplicables.
 
 | Identificador | Elemento | Estado | Observaciones |
 | --- | --- | --- | --- |
-| WKF-SDLC-080 | Inventario de integraciones | En progreso | Sincronizar con [Sección 03 - Arquitectura](#03-arquitectura) |
+| WKF-SDLC-080 | Inventario de integraciones | En progreso | Sincronizar con [Sección 03 - Arquitectura](#03_arquitectura) |
 | WKF-SDLC-081 | Reglas de calidad definidas | Pendiente | Priorizar métricas críticas |
 
 #### Checklist WKF
@@ -522,7 +523,7 @@ Pasos detallados, roles y tiempos.
 | Identificador | Elemento | Estado | Observaciones |
 | --- | --- | --- | --- |
 | WKF-SDLC-090 | Análisis de riesgos actualizado | En progreso | Integrar hallazgos de pentesting |
-| WKF-SDLC-091 | Runbook de incidentes publicado | Pendiente | Referenciar [Sección 07 - DevOps](#07-devops) |
+| WKF-SDLC-091 | Runbook de incidentes publicado | Pendiente | Referenciar [Sección 07 - DevOps](#07_devops) |
 
 #### Checklist WKF
 
@@ -564,7 +565,7 @@ Procedimientos, SLAs y runbooks asociados.
 
 | Identificador | Elemento | Estado | Observaciones |
 | --- | --- | --- | --- |
-| WKF-SDLC-100 | Panel de monitoreo activo | En progreso | Datos provenientes de [Sección 07 - DevOps](#07-devops) |
+| WKF-SDLC-100 | Panel de monitoreo activo | En progreso | Datos provenientes de [Sección 07 - DevOps](#07_devops) |
 | WKF-SDLC-101 | Procedimientos N1 documentados | Pendiente | Entrenar al service desk |
 
 #### Checklist WKF
