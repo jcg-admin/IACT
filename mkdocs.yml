@@ -20,6 +20,8 @@ nav:
       - Portada: backend/readme.md
   - Frontend:
       - Portada: frontend/readme.md
+  - Infrastructure:
+      - Portada: infrastructure/readme.md
   - Planificación y releases: planificacion_y_releases/readme.md
   - QA:
       - Estrategia de QA: qa/estrategia_qa.md

@@ -21,6 +21,7 @@ Este árbol replica la jerarquía de espacios publicada en la base documental ma
 - [Diseño detallado](diseno_detallado/readme.md)
 - [Backend](backend/readme.md)
 - [Frontend](frontend/readme.md)
+- [Infrastructure](infrastructure/readme.md)
 - [Planificación y releases](planificacion_y_releases/readme.md)
 - [Gestión de calidad](qa/estrategia_qa.md)
 - [DevOps](devops/readme.md)
