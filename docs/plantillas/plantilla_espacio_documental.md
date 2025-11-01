@@ -3,11 +3,11 @@ id: TEMPLATE-SPACE-DOC
 estado: borrador
 propietario: equipo-documentacion
 ultima_actualizacion: 2025-02-18
-relacionados: ["DOC-SPACES-INDEX", "DOC-ROOT-001", "TEMPLATE-README-SPACE"]
+relacionados: ["DOC-INDEX-GENERAL", "DOC-ROOT-001", "TEMPLATE-README-SPACE"]
 ---
 # Plantilla para espacio documental
 
-Esta plantilla permite replicar la estrategia utilizada en `docs/spaces/scientific_computing_projects/` para cualquier espacio local que necesite mantenerse alineado con la base documental maestra de IACT. Usa este formato como punto de partida antes de poblar contenidos específicos.
+Esta plantilla permite replicar la estrategia utilizada en `docs/scientific_computing_projects/` para cualquier espacio local que necesite mantenerse alineado con la base documental maestra de IACT. Usa este formato como punto de partida antes de poblar contenidos específicos.
 
 ## Instrucciones generales
 1. Copia este archivo a la nueva carpeta del espacio y renómbralo como `readme.md`.
@@ -50,7 +50,7 @@ estado: vigente
 propietario: equipo-scientific-computing
 ultima_actualizacion: 2025-02-18
 relacionados:
-  - "DOC-SPACES-INDEX"
+  - "DOC-INDEX-GENERAL"
   - "DOC-GOB-BACKLOG"
 ---
 ```

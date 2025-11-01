@@ -3,7 +3,7 @@ id: SCP-SC17-MEETINGS
 estado: borrador
 propietario: coordinacion-sc17
 ultima_actualizacion: 2025-02-18
-relacionados: ["SCP-SC17-INDEX", "DOC-GOB-INDEX", "DOC-SPACES-INDEX"]
+relacionados: ["SCP-SC17-INDEX", "DOC-GOB-INDEX", "DOC-INDEX-GENERAL"]
 ---
 # SC17 · Meeting and Discussion Notes
 

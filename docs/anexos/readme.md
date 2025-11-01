@@ -3,7 +3,7 @@ id: DOC-ANEXOS-INDEX
 estado: borrador
 propietario: equipo-documentacion
 ultima_actualizacion: 2025-02-18
-relacionados: ["DOC-SPACES-INDEX", "DOC-REL-INDEX"]
+relacionados: ["DOC-INDEX-GENERAL", "DOC-REL-INDEX"]
 ---
 # Anexos
 

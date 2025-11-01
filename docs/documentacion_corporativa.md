@@ -165,19 +165,18 @@ Automatizar: aplicar tecnología → requiere inversión y ocurre después de si
 ### 4.1 Estructura general
 ```
 docs/
-└── spaces/
-    ├── vision_y_alcance/
-    ├── gobernanza/
-    ├── requisitos/
-    ├── arquitectura/
-    ├── diseno_detallado/
-    ├── planificacion_y_releases/
-    ├── qa/
-    ├── devops/
-    ├── anexos/
-    ├── plantillas/
-    ├── checklists/
-    └── scientific_computing_projects/
+├── vision_y_alcance/
+├── gobernanza/
+├── requisitos/
+├── arquitectura/
+├── diseno_detallado/
+├── planificacion_y_releases/
+├── qa/
+├── devops/
+├── anexos/
+├── plantillas/
+├── checklists/
+└── scientific_computing_projects/
 ```
 
 ### 4.2 Configuración de páginas y navegación
@@ -200,7 +199,7 @@ docs/
 
 ### 4.5 Permisos y seguridad
 - Definir grupos de lectura y edición por carpeta.
-- Registrar excepciones y justificaciones en `docs/spaces/gobernanza/lineamientos_gobernanza.md`.
+- Registrar excepciones y justificaciones en `docs/gobernanza/lineamientos_gobernanza.md`.
 - Revisar accesos trimestralmente con checklist específico.
 
 ## Sección 5 - Sistema de codificación y nomenclatura

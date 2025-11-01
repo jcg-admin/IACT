@@ -39,7 +39,7 @@ nav:
               - Meeting Notes: scientific_computing_projects/supercomputing/sc17/meeting_and_discussion_notes/readme.md
               - Documentos: scientific_computing_projects/supercomputing/sc17/sc17_documents/readme.md
               - Task report: scientific_computing_projects/supercomputing/sc17/sc17_task_report/readme.md
-docs_dir: docs/spaces
+docs_dir: docs
 theme:
   name: readthedocs
 markdown_extensions:

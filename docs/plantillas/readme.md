@@ -3,7 +3,7 @@ id: DOC-PLANTILLAS-INDEX
 estado: borrador
 propietario: equipo-documentacion
 ultima_actualizacion: 2025-02-18
-relacionados: ["DOC-SPACES-INDEX", "DOC-REQ-INDEX"]
+relacionados: ["DOC-INDEX-GENERAL", "DOC-REQ-INDEX"]
 ---
 # Plantillas
 
