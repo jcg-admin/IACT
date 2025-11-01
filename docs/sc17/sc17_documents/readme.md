@@ -22,8 +22,8 @@ Refleja la página **SC17 Documents** utilizada en la base documental maestra pa
 ## Backlog inmediato
 - [ ] Incorporar la guía de preparación de archivos (`Art and Display File Prep Guide`) como referencia local.
 - [ ] Clasificar documentos existentes por versión y responsable.
-- [ ] Vincular documentos aprobados a la sección `../../../planificacion_y_releases/readme.md`.
+- [ ] Vincular documentos aprobados a la sección `../../planificacion_y_releases/readme.md`.
 
 ## Dependencias
-- Requiere coordinación con `../../../diseno_detallado/readme.md` para asegurar consistencia visual.
-- Debe alinearse con los acuerdos formales registrados en `../../../gobernanza/readme.md`.
+- Requiere coordinación con `../../diseno_detallado/readme.md` para asegurar consistencia visual.
+- Debe alinearse con los acuerdos formales registrados en `../../gobernanza/readme.md`.

@@ -14,15 +14,18 @@ Equivale a la página **SC17 Task Report** y funciona como tablero de seguimient
 
 ## Componentes sugeridos
 - Tabla de tareas con estado (To Do / In Progress / Done), responsables y fechas objetivo.
-- Sección de bloqueos y mitigaciones conectada con `../../../devops/runbooks/`.
+- Sección de bloqueos y mitigaciones conectada con `../../devops/runbooks/`.
 - Indicadores resumidos (porcentaje de avance, hitos completados, riesgos abiertos).
 
 ## Integración con el flujo documental
 | Espacio | Uso |
 | --- | --- |
-| `../../../requisitos/readme.md` | Referencias de historias o requisitos SC17. |
-| `../../../planificacion_y_releases/readme.md` | Dependencias con entregables de releases. |
-| `../../../qa/estrategia_qa.md` | Evidencias de validación y pruebas del booth. |
+| `../../requisitos/readme.md` | Referencias de historias o requisitos SC17. |
+| `../../planificacion_y_releases/readme.md` | Dependencias con entregables de releases. |
+| `../../qa/estrategia_qa.md` | Evidencias de validación y pruebas del booth. |
+
+## Solicitudes activas
+- [Solicitud SC01 · Preparación de entorno MkDocs](sc01/readme.md): guía paso a paso para instalar MkDocs y verificar su configuración en los equipos de trabajo.
 
 ## Pendientes
 - [ ] Definir formato de exportación hacia la base documental maestra (Markdown → formato wiki).
