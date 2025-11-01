@@ -1,28 +1,41 @@
-"""Pruebas para utilidades definidas en ``tests.conftest``."""
-
+"""Pruebas para el restablecimiento del registro en memoria en pytest."""
 from __future__ import annotations
 
-import sys
-from types import ModuleType
+import importlib
+import types
+from typing import List
 
-import tests.conftest as conftest
+import pytest
+
+from api.callcentersite.tests import conftest
 
 
-class TestSafeResetInMemoryRegistry:
-    """Validaciones sobre el restablecimiento resiliente del registro."""
+def test_safe_reset_ignora_modulo_faltante(monkeypatch: pytest.MonkeyPatch) -> None:
+    """No debe lanzar excepción si el paquete de usuarios no está disponible."""
 
-    def test_no_falla_sin_modulo_de_usuarios(self) -> None:
-        """Debe ignorar la ausencia de ``callcentersite.apps.users``."""
+    def fake_import(name: str) -> types.ModuleType:
+        raise ModuleNotFoundError(name=name)
 
-        originales: dict[str, ModuleType] = {}
-        claves_relacionadas = [nombre for nombre in sys.modules if nombre.startswith("callcentersite")]
-        for nombre in claves_relacionadas:
-            originales[nombre] = sys.modules.pop(nombre)
+    monkeypatch.setattr(importlib, "import_module", fake_import)
 
-        sys.modules["callcentersite"] = ModuleType("callcentersite")
+    conftest.safe_reset_in_memory_registry()
 
-        try:
-            conftest.safe_reset_in_memory_registry()
-        finally:
-            sys.modules.pop("callcentersite", None)
-            sys.modules.update(originales)
+
+def test_reset_fixture_invoca_reset_en_ambas_fases(monkeypatch: pytest.MonkeyPatch) -> None:
+    """El fixture debe ejecutar el restablecimiento antes y después de la prueba."""
+    llamadas: List[str] = []
+
+    def registrar_llamada() -> None:
+        llamadas.append("reset")
+
+    monkeypatch.setattr(conftest, "safe_reset_in_memory_registry", registrar_llamada)
+
+    fixture = conftest.reset_in_memory_db.__wrapped__()
+
+    assert next(fixture) is None
+    assert llamadas == ["reset"]
+
+    with pytest.raises(StopIteration):
+        next(fixture)
+
+    assert llamadas == ["reset", "reset"]

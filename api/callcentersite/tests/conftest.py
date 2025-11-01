@@ -5,6 +5,7 @@ from contextlib import contextmanager
 from pathlib import Path
 from typing import Callable, ContextManager, Iterator
 
+import importlib
 import sys
 
 import pytest
@@ -70,27 +71,29 @@ def django_assert_num_queries() -> Callable[[int], ContextManager[None]]:
 
 
 def safe_reset_in_memory_registry() -> None:
-    """Restablece el registro en memoria y tolera entornos mínimos.
+    """Restablece el registro en memoria tolerando entornos mínimos.
 
     Permite ejecutar pruebas unitarias aisladas sin requerir que el paquete
-    ``callcentersite`` esté disponible en ``sys.path`` (por ejemplo, al probar
-    scripts que operan sobre un árbol temporal).
+    ``callcentersite`` esté disponible en ``sys.path`` y evita enmascarar
+    importaciones fallidas ajenas al paquete.
     """
 
     try:
-        from callcentersite.apps.users import models
+        models = importlib.import_module("callcentersite.apps.users.models")
     except ModuleNotFoundError as exc:
         missing = exc.name or ""
         if missing.split(".")[0] != "callcentersite":
             raise
         return
 
-    models.reset_registry()
+    reset_registry = getattr(models, "reset_registry", None)
+    if callable(reset_registry):
+        reset_registry()
 
 
 @pytest.fixture(autouse=True)
 def reset_in_memory_db() -> Iterator[None]:
-    """Restablece los registros en memoria antes de cada prueba."""
+    """Restablece los registros en memoria antes y después de cada prueba."""
 
     safe_reset_in_memory_registry()
     yield
