@@ -3,7 +3,7 @@ id: SCP-SC17-INDEX
 estado: borrador
 propietario: coordinacion-sc17
 ultima_actualizacion: 2025-02-18
-relacionados: ["SCP-SUPER-INDEX", "DOC-SPACES-INDEX", "DOC-GOB-INDEX"]
+relacionados: ["SCP-SUPER-INDEX", "DOC-INDEX-GENERAL", "DOC-GOB-INDEX"]
 ---
 # SC17 · Denver, CO
 
@@ -26,7 +26,7 @@ Replica la página principal `SC17` definida en la base documental maestra de IA
 ## Alineación con la base documental maestra
 | Elemento de la página SC17 | Representación local | Estado |
 | --- | --- | --- |
-| Encabezado con breadcrumbs (`Home > Supercomputing > SC17`) | Se refleja mediante la jerarquía de directorios `spaces/scientific_computing_projects/supercomputing/sc17`. | Cumplido |
+| Encabezado con breadcrumbs (`Home > Supercomputing > SC17`) | Se refleja mediante la jerarquía de directorios `docs/scientific_computing_projects/supercomputing/sc17`. | Cumplido |
 | Sección de enlaces (SC17 Documents, Meeting Notes, Task Report) | Directorios dedicados con `readme.md` y listas de pendientes. | Cumplido |
 | Enlaces externos (sitio oficial, fechas, floor plan) | Referenciados en la sección **Información destacada** y **Recursos**. | Cumplido |
 | Solicitudes de información (`<--- input request`) | Convertidas en elementos pendientes dentro de las páginas hijas. | Cumplido |

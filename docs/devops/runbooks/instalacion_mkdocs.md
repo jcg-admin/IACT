@@ -3,7 +3,7 @@ id: RB-DEVOPS-005
 estado: borrador
 propietario: equipo-devops
 ultima_actualizacion: 2025-02-19
-relacionados: ["DOC-SPACES-INDEX", "mkdocs.yml"]
+relacionados: ["DOC-INDEX-GENERAL", "mkdocs.yml"]
 ---
 # Runbook: Instalación de MkDocs
 
@@ -64,11 +64,11 @@ conserva evidencia para auditorías.
 
 1. **Instalación estándar**:
    ```bash
-   pip install mkdocs
+   pip install -r requirements/docs.txt
    ```
    - Alternativa Windows si `pip` no está en PATH:
      ```bash
-     python -m pip install mkdocs
+     python -m pip install -r requirements/docs.txt
      ```
 2. **Validar versión**:
    ```bash

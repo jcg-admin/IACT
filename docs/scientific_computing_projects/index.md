@@ -3,7 +3,7 @@ id: SCP-SPACE-INDEX
 estado: borrador
 propietario: oficina-supercomputing
 ultima_actualizacion: 2025-02-18
-relacionados: ["DOC-SPACES-INDEX", "DOC-GOB-INDEX"]
+relacionados: ["DOC-INDEX-GENERAL", "DOC-GOB-INDEX"]
 ---
 # Scientific Computing Projects (SCP)
 
