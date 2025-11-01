@@ -2,7 +2,7 @@
 id: SCP-SC17-INDEX
 estado: borrador
 propietario: coordinacion-sc17
-ultima_actualizacion: 2025-02-17
+ultima_actualizacion: 2025-02-18
 relacionados: ["SCP-SUPER-INDEX", "DOC-SPACES-INDEX", "DOC-GOB-INDEX"]
 ---
 # SC17 · Denver, CO
@@ -21,7 +21,7 @@ Replica la página principal `SC17` definida en la base documental maestra de IA
 - **Sede:** [Denver Convention Center](http://denverconvention.com)
 - **Fechas de conferencia:** 12-17 noviembre 2017
 - **Fechas de exhibición:** 13-16 noviembre 2017
-- **Guía de archivos:** pendiente de incorporarse como anexo local (`docs/05_planificacion_y_releases`).
+- **Guía de archivos:** pendiente de incorporarse como anexo local (`../../../planificacion_y_releases/readme.md`).
 
 ## Alineación con la base documental maestra
 | Elemento de la página SC17 | Representación local | Estado |
@@ -36,12 +36,12 @@ Replica la página principal `SC17` definida en la base documental maestra de IA
 - [Important Deadlines and Dates](http://sc17.supercomputing.org/attendees/important-deadlines/)
 - [Convention Center Floor plan](http://iebms.heiexpo.com/sc/SC17Floorplan.pdf)
 
-## Integración con el flujo documental 00-07
-- Los acuerdos y minutas registrados en `meeting_and_discussion_notes` alimentan las secciones de gobernanza (`docs/01_gobernanza`).
-- Los artefactos publicados en `sc17_documents` sirven como anexos dentro de `docs/05_planificacion_y_releases`.
-- El seguimiento operativo consignado en `sc17_task_report` complementa los tableros de calidad y DevOps (`docs/06_qa`, `docs/07_devops`).
+## Integración con el flujo documental principal
+- Los acuerdos y minutas registrados en `meeting_and_discussion_notes` alimentan las secciones de gobernanza (`../../../gobernanza/readme.md`).
+- Los artefactos publicados en `sc17_documents` sirven como anexos dentro de `../../../planificacion_y_releases/readme.md`.
+- El seguimiento operativo consignado en `sc17_task_report` complementa los tableros de calidad y DevOps (`../../../qa/estrategia_qa.md`, `../../../devops/runbooks/`).
 
 ## Checklist de verificación
 - [ ] Revisar mensualmente que los enlaces externos continúan vigentes.
 - [ ] Confirmar que los child pages locales están sincronizados con la base documental maestra antes de cada entrega.
-- [ ] Registrar nuevos action items usando `docs/plantillas/plantilla_registro_actividad.md` y vincularlos en las secciones correspondientes.
+- [ ] Registrar nuevos action items usando `../../../plantillas/plantilla_registro_actividad.md` y vincularlos en las secciones correspondientes.

@@ -1,0 +1,49 @@
+site_name: Documentación IACT
+site_description: "Base documental del proyecto IACT - Call Center Analytics"
+site_url: ""
+repo_url: ""
+nav:
+  - Inicio: index.md
+  - Visión y alcance: vision_y_alcance/readme.md
+  - Gobernanza: gobernanza/readme.md
+  - Requisitos: requisitos/readme.md
+  - Arquitectura:
+      - Portada: arquitectura/readme.md
+      - Lineamientos de código: arquitectura/lineamientos_codigo.md
+      - ADR:
+          - ADR-2025-001: arquitectura/adr/adr_2025_001_vagrant_mod_wsgi.md
+          - Plantilla ADR: arquitectura/adr/plantilla_adr.md
+  - Diseño detallado: diseno_detallado/readme.md
+  - Planificación y releases: planificacion_y_releases/readme.md
+  - QA:
+      - Estrategia de QA: qa/estrategia_qa.md
+      - Registros de ejecución:
+          - Pytest 2025-02-16: qa/registros/2025_02_16_ejecucion_pytest.md
+  - DevOps:
+      - Portada: devops/readme.md
+      - Contenedores: devops/contenedores_devcontainer.md
+      - Runbooks:
+          - Post create Vagrant: devops/runbooks/post_create.md
+          - Codespaces con GitHub Copilot: devops/runbooks/github_copilot_codespaces.md
+          - Reprocesar ETL fallido: devops/runbooks/reprocesar_etl_fallido.md
+          - Verificar servicios: devops/runbooks/verificar_servicios.md
+  - Anexos: anexos/readme.md
+  - Plantillas: plantillas/readme.md
+  - Checklists: checklists/readme.md
+  - Scientific Computing Projects:
+      - Índice SCP: scientific_computing_projects/index.md
+      - Supercomputing:
+          - Portada: scientific_computing_projects/supercomputing/readme.md
+          - SC17:
+              - Portada: scientific_computing_projects/supercomputing/sc17/readme.md
+              - Meeting Notes: scientific_computing_projects/supercomputing/sc17/meeting_and_discussion_notes/readme.md
+              - Documentos: scientific_computing_projects/supercomputing/sc17/sc17_documents/readme.md
+              - Task report: scientific_computing_projects/supercomputing/sc17/sc17_task_report/readme.md
+docs_dir: docs/spaces
+theme:
+  name: readthedocs
+markdown_extensions:
+  - toc:
+      permalink: true
+  - admonition
+  - tables

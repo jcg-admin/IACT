@@ -2,7 +2,7 @@
 id: SCP-SUPER-INDEX
 estado: borrador
 propietario: pm-supercomputing
-ultima_actualizacion: 2025-02-17
+ultima_actualizacion: 2025-02-18
 relacionados: ["SCP-SPACE-INDEX", "DOC-ARQ-INDEX"]
 ---
 # Supercomputing
