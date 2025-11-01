@@ -7,10 +7,10 @@ relacionados: ["RQ-ANL-000", "DOC-GOB-INDEX", "DOC-ARQ-INDEX"]
 ---
 # 02 · Requisitos
 
-Centraliza especificaciones funcionales y no funcionales. Vincula el pipeline de actividades con la definición de alcance,
+Centraliza especificaciones funcionales y no funcionales. Vincula el flujo de actividades con la definición de alcance,
 asegurando trazabilidad hacia pruebas y arquitectura.
 
-## Rol dentro del pipeline
+## Rol dentro del flujo de documentación
 - **Paso 5. Agenda y discusiones.** Cada requisito se origina en acuerdos documentados en minutas.
 - **Paso 8. Seguimiento.** Evolución de requisitos, estados y criterios de aceptación quedan rastreados aquí.
 - **Paso 9. Material complementario.** Incluye adjuntos técnicos, diagramas y referencias cruzadas.

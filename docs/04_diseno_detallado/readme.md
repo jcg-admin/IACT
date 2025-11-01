@@ -10,7 +10,7 @@ relacionados: ["DOC-ARQ-INDEX", "DOC-REQ-INDEX", "DOC-UX-INDEX"]
 Extiende las decisiones de arquitectura hacia especificaciones técnicas por módulo. Sirve como puente entre requisitos y el
 trabajo de desarrollo siguiendo TDD.
 
-## Rol dentro del pipeline
+## Rol dentro del flujo de documentación
 - Recibe acuerdos priorizados (pasos 5 a 8) para convertirlos en diseños concretos.
 - Alimenta listas de materiales técnicas para el paso 9 (material complementario).
 - Proporciona checklist de revisión técnica para el paso 10.
@@ -25,7 +25,7 @@ trabajo de desarrollo siguiendo TDD.
 | --- | --- | --- | --- |
 | WKF-SDLC-140 | Documentar módulos iniciales | Pendiente | Priorizar scoring y reporting |
 | WKF-SDLC-141 | Definir convenciones de diagramación | Pendiente | Alinear con Arquitectura |
-| WKF-SDLC-142 | Crear checklist de revisión técnica | Pendiente | Complementar pipeline paso 10 |
+| WKF-SDLC-142 | Crear checklist de revisión técnica | Pendiente | Complementar flujo paso 10 |
 
 ## Relaciones
 - Toma decisiones base de `docs/03_arquitectura/readme.md`.
