@@ -5,12 +5,18 @@
 | Ruta | Nombre usa guion bajo? | Observaciones |
 | --- | --- | --- |
 | docs/00_vision_y_alcance/glossary.md | Sí | Ruta normalizada, nombre simple aceptado. |
+| docs/00_vision_y_alcance/readme.md | Sí | Índice seccional que vincula el flujo de documentación y backlog. |
 | docs/01_gobernanza/lineamientos_gobernanza.md | Sí | Archivo con convención actualizada. |
+| docs/01_gobernanza/readme.md | Sí | Índice de gobernanza y matriz RACI pendiente. |
 | docs/02_requisitos/rq_plantilla.md | Sí | Prefijo `rq` mantenido con guion bajo. |
 | docs/02_requisitos/trazabilidad.md | Sí | No requiere guiones. |
+| docs/02_requisitos/readme.md | Sí | Índice que enlaza requisitos con el flujo de documentación. |
 | docs/03_arquitectura/adr/adr_2025_001_vagrant_mod_wsgi.md | Sí | Convención aplicada a ADR. |
 | docs/03_arquitectura/adr/plantilla_adr.md | Sí | Convención aplicada a plantilla ADR. |
 | docs/03_arquitectura/lineamientos_codigo.md | Sí | Archivo nuevo con guía de estilo. |
+| docs/03_arquitectura/readme.md | Sí | Índice técnico que mapea ADR, diagramas y el flujo de documentación. |
+| docs/04_diseno_detallado/readme.md | Sí | Nueva sección creada para enlazar diseño detallado. |
+| docs/05_planificacion_y_releases/readme.md | Sí | Índice de releases con backlog inicial. |
 | docs/06_qa/estrategia_qa.md | Sí | Convención aplicada. |
 | docs/06_qa/registros/2025_02_16_ejecucion_pytest.md | Sí | Fecha normalizada. |
 | docs/07_devops/contenedores_devcontainer.md | Sí | Convención aplicada. |
@@ -19,10 +25,19 @@
 | docs/07_devops/runbooks/reprocesar_etl_fallido.md | Sí | Convención aplicada. |
 | docs/07_devops/runbooks/verificar_servicios.md | Sí | Convención aplicada. |
 | docs/readme.md | Sí | Referencias internas actualizadas. |
+| docs/spaces/readme.md | Sí | Nuevo índice para replicar la jerarquía de la base documental maestra. |
+| docs/spaces/scientific_computing_projects/readme.md | Sí | Representa el espacio SCP. |
+| docs/spaces/scientific_computing_projects/supercomputing/readme.md | Sí | Categoría intermedia Supercomputing. |
+| docs/spaces/scientific_computing_projects/supercomputing/sc17/readme.md | Sí | Página SC17 con mapeo de elementos. |
+| docs/spaces/scientific_computing_projects/supercomputing/sc17/meeting_and_discussion_notes/readme.md | Sí | Equivalente local de Meeting Notes. |
+| docs/spaces/scientific_computing_projects/supercomputing/sc17/sc17_documents/readme.md | Sí | Repositorio de documentos SC17. |
+| docs/spaces/scientific_computing_projects/supercomputing/sc17/sc17_task_report/readme.md | Sí | Tablero de tareas SC17. |
 
 ## Archivos que requieren normalización a guion bajo
 
 Los archivos inventariados ya utilizan guiones bajos. Mantener vigilancia sobre nuevos documentos para asegurar la convención y actualizar enlaces cuando se generen artefactos adicionales.
+
+La carpeta `docs/spaces/` se reserva para reflejar la navegación oficial definida en la base documental maestra de IACT. No sigue la numeración 00-15, pero comparte las mismas convenciones de front matter e integra pendientes con la estructura de flujo principal.
 
 ## Propuesta de estructura objetivo (15 secciones + anexos)
 
@@ -391,7 +406,7 @@ Definir niveles, tipos y entornos de prueba.
 
 | Identificador | Elemento | Estado | Observaciones |
 | --- | --- | --- | --- |
-| WKF-SDLC-060 | Coverage TDD ≥ 80% | En progreso | Sincronizar con pipeline de [Sección 07 - DevOps](#07_devops) |
+| WKF-SDLC-060 | Coverage TDD ≥ 80% | En progreso | Sincronizar con el flujo de [Sección 07 - DevOps](#07_devops) |
 | WKF-SDLC-061 | Reporte de métricas semanal | Pendiente | Automatizar dashboard |
 
 #### Checklist WKF
