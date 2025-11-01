@@ -20,6 +20,8 @@ nav:
       - Portada: backend/readme.md
   - Frontend:
       - Portada: frontend/readme.md
+  - Infrastructure:
+      - Portada: infrastructure/readme.md
   - Planificación y releases: planificacion_y_releases/readme.md
   - QA:
       - Estrategia de QA: qa/estrategia_qa.md
@@ -36,9 +38,6 @@ nav:
   - Anexos: anexos/readme.md
   - Plantillas: plantillas/readme.md
   - Checklists: checklists/readme.md
-  - Scientific Computing Projects:
-      - Índice SCP: scientific_computing_projects/index.md
-      - Supercomputing: scientific_computing_projects/supercomputing/readme.md
   - SC17:
       - Portada: sc17/readme.md
       - Meeting Notes: sc17/meeting_and_discussion_notes/readme.md
