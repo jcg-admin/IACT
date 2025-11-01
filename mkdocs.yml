@@ -4,7 +4,10 @@ site_url: ""
 repo_url: ""
 nav:
   - Inicio: index.md
-  - Visión y alcance: vision_y_alcance/readme.md
+  - Gerencia:
+      - Portada: gerencia/readme.md
+      - Visión y alcance: gerencia/vision_y_alcance/readme.md
+      - Glosario de negocio: gerencia/vision_y_alcance/glossary.md
   - Gobernanza: gobernanza/readme.md
   - Requisitos: requisitos/readme.md
   - Arquitectura:
@@ -14,6 +17,10 @@ nav:
           - ADR-2025-001: arquitectura/adr/adr_2025_001_vagrant_mod_wsgi.md
           - Plantilla ADR: arquitectura/adr/plantilla_adr.md
   - Diseño detallado: diseno_detallado/readme.md
+  - Backend:
+      - Portada: backend/readme.md
+  - Frontend:
+      - Portada: frontend/readme.md
   - Planificación y releases: planificacion_y_releases/readme.md
   - QA:
       - Estrategia de QA: qa/estrategia_qa.md

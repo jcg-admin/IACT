@@ -4,8 +4,10 @@
 
 | Ruta | Observaciones |
 | --- | --- |
-| docs/vision_y_alcance/glossary.md | Glosario oficial alineado con negocio. |
-| docs/vision_y_alcance/readme.md | Portada estratégica con backlog de visión. |
+| docs/gerencia/vision_y_alcance/glossary.md | Glosario oficial alineado con negocio. |
+| docs/gerencia/vision_y_alcance/readme.md | Portada estratégica con backlog de visión. |
+| docs/backend/readme.md | Índice técnico inicial del monolito backend. |
+| docs/frontend/readme.md | Índice técnico inicial del frontend. |
 | docs/gobernanza/lineamientos_gobernanza.md | Lineamientos vigentes para comités y RACI. |
 | docs/gobernanza/readme.md | Portada de gobernanza y backlog operativo. |
 | docs/requisitos/rq_plantilla.md | Plantilla estándar de requisitos. |
@@ -26,7 +28,7 @@
 | docs/scientific_computing_projects/index.md | Índice del espacio corporativo SCP. |
 
 ## Convenciones de nomenclatura
-- Directorios en minúsculas con guiones bajos (`vision_y_alcance`, `planificacion_y_releases`).
+- Directorios en minúsculas con guiones bajos (`gerencia`, `planificacion_y_releases`).
 - Archivos `readme.md` como portadas con front matter en YAML.
 - Referencias relativas entre espacios para compatibilidad con GitHub y MkDocs (`../gobernanza/readme.md`).
 - Identificadores de tareas con prefijo `WKF-SDLC-XXX` para mantener trazabilidad.
@@ -34,7 +36,10 @@
 ## Estructura objetivo
 ```text
 docs/
-├── vision_y_alcance/
+├── gerencia/
+│   └── vision_y_alcance/
+├── backend/
+├── frontend/
 ├── gobernanza/
 ├── requisitos/
 ├── arquitectura/

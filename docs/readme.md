@@ -40,6 +40,6 @@ El comando `mkdocs serve` habilita un servidor local con recarga automática par
 | Registro de métricas de documentación | No | Debe consolidarse en coordinación con QA y Gobernanza. |
 
 ## Acciones prioritarias
-- [ ] Mantener la consistencia de enlaces relativos entre espacios (`../vision_y_alcance/`, `../gobernanza/`, etc.).
+- [ ] Mantener la consistencia de enlaces relativos entre espacios (`../gerencia/vision_y_alcance/`, `../gobernanza/`, etc.).
 - [ ] Registrar nuevas decisiones estratégicas mediante ADR en `arquitectura/adr/`.
 - [ ] Integrar métricas de cobertura y evidencias de pruebas en `qa/` siguiendo la metodología TDD establecida.
