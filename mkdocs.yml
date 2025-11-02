@@ -40,12 +40,12 @@ nav:
   - Checklists: checklists/readme.md
   - Solicitudes:
       - Portada: solicitudes/readme.md
+      - SC00:
+          - Portada: solicitudes/sc00/readme.md
+          - Meeting Notes: solicitudes/sc00/meeting_and_discussion_notes/readme.md
+          - Documentos: solicitudes/sc00/sc00_documents/readme.md
+          - Task report: solicitudes/sc00/sc00_task_report/readme.md
       - SC01 · Preparación de entorno MkDocs: solicitudes/sc01/readme.md
-  - SC00:
-      - Portada: sc00/readme.md
-      - Meeting Notes: sc00/meeting_and_discussion_notes/readme.md
-      - Documentos: sc00/sc00_documents/readme.md
-      - Task report: sc00/sc00_task_report/readme.md
 docs_dir: docs
 theme:
   name: readthedocs
