@@ -1,13 +1,15 @@
 ---
-id: SCP-SC17-SC01
+id: DOC-SOL-SC01
 estado: en_progreso
-propietario: pmo-supercomputing
+propietario: pmo-documentacion
 ultima_actualizacion: 2025-02-18
-relacionados: ["SCP-SC17-TASKS", "DOC-DEVOPS-INDEX", "DOC-INDEX-GENERAL"]
+relacionados: ["DOC-SOL-INDEX", "DOC-INDEX-GENERAL"]
 ---
 # Solicitud SC01 · Preparación de entorno MkDocs
 
-Esta solicitud documenta los pasos necesarios para instalar MkDocs en los equipos del equipo SC17. Sigue el procedimiento estándar para garantizar compatibilidad con la base documental y las herramientas de automatización de la oficina de proyectos.
+Esta solicitud documenta los pasos necesarios para instalar MkDocs en los equipos de trabajo de IACT. Sigue el procedimiento
+estándar para garantizar compatibilidad con la base documental y las herramientas de automatización del equipo de
+Documentación y DevOps.
 
 ## Requisitos previos
 - Python 3.8 o superior instalado y disponible en la variable de entorno `PATH`.
@@ -39,7 +41,8 @@ Esta solicitud documenta los pasos necesarios para instalar MkDocs en los equipo
   python -m pip install mkdocs
   python -m mkdocs
   ```
-  Para una solución permanente, agrega el directorio `Scripts` de la instalación de Python a la variable `PATH`. Los instaladores recientes incluyen el script `win_add2path.py` en `Tools/Scripts/` para automatizar este paso.
+  Para una solución permanente, agrega el directorio `Scripts` de la instalación de Python a la variable `PATH`. Los instaladores
+  recientes incluyen el script `win_add2path.py` en `Tools/Scripts/` para automatizar este paso.
 
 ## Checklist de finalización
 - [ ] MkDocs instalado y accesible desde la terminal.

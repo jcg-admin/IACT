@@ -1,13 +1,13 @@
 ---
-id: SCP-SC17-TASKS
+id: SCP-SC00-TASKS
 estado: borrador
 propietario: pmo-supercomputing
 ultima_actualizacion: 2025-02-18
-relacionados: ["SCP-SC17-INDEX", "DOC-REL-INDEX", "DOC-QA-001"]
+relacionados: ["SCP-SC00-INDEX", "DOC-REL-INDEX", "DOC-QA-001"]
 ---
-# SC17 · Task Report
+# SC00 · Task Report
 
-Equivale a la página **SC17 Task Report** y funciona como tablero de seguimiento operativo dentro del dominio IACT.
+Equivale a la página **SC00 Task Report** y funciona como tablero de seguimiento operativo dentro del dominio IACT.
 
 ## Página padre
 - [`../readme.md`](../readme.md)
@@ -20,12 +20,13 @@ Equivale a la página **SC17 Task Report** y funciona como tablero de seguimient
 ## Integración con el flujo documental
 | Espacio | Uso |
 | --- | --- |
-| `../../requisitos/readme.md` | Referencias de historias o requisitos SC17. |
+| `../../requisitos/readme.md` | Referencias de historias o requisitos SC00. |
 | `../../planificacion_y_releases/readme.md` | Dependencias con entregables de releases. |
 | `../../qa/estrategia_qa.md` | Evidencias de validación y pruebas del booth. |
 
 ## Solicitudes activas
-- [Solicitud SC01 · Preparación de entorno MkDocs](sc01/readme.md): guía paso a paso para instalar MkDocs y verificar su configuración en los equipos de trabajo.
+- Las solicitudes transversales se administran ahora en [`../../solicitudes/readme.md`](../../solicitudes/readme.md).
+- _No existen solicitudes registradas directamente en este tablero en la iteración actual._
 
 ## Pendientes
 - [ ] Definir formato de exportación hacia la base documental maestra (Markdown → formato wiki).

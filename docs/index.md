@@ -28,7 +28,8 @@ Este árbol replica la jerarquía de espacios publicada en la base documental ma
 - [Anexos](anexos/readme.md)
 - [Plantillas](plantillas/readme.md)
 - [Checklists](checklists/readme.md)
-- [SC17](sc17/readme.md)
+- [Solicitudes](solicitudes/readme.md)
+- [SC00](sc00/readme.md)
 - [Documentación corporativa](documentacion_corporativa.md)
 
 ## Información clave
