@@ -1,32 +1,28 @@
 ---
-id: RQ-BE-PLANTILLA
+id: RQ-ANL-000
 estado: borrador
-propietario: equipo-backend
+propietario: equipo-producto
 ultima_actualizacion: 2025-02-14
-relacionados: ["DOC-REQ-BACKEND", "DOC-REQ-INDEX"]
+relacionados: []
 ---
-> Adaptación backend de la plantilla corporativa de requisitos. Basada en [`../../requisitos/rq_plantilla.md`](../../requisitos/rq_plantilla.md).
+> Plantilla rápida para registrar nuevos requisitos funcionales (copiar y actualizar campos).
 
 ```md
 ---
-id: RQ-BE-###
+id: RQ-ANL-###
 estado: propuesto | aprobado | en_riesgo
 propietario: nombre-del-responsable
 ultima_actualizacion: AAAA-MM-DD
 relacionados:
-  - UC-BE-###
-  - TC-BE-###
-  - Servicio o módulo impactado
+  - UC-DASH-###
+  - RN-###
 ---
 ## Descripción
-Breve narrativa del objetivo del requisito y contexto de integración.
+Breve narrativa del objetivo del requisito.
 
 ## Criterios de aceptación
-- Punto de validación funcional
-- Punto de validación técnico (logs, métricas, contratos)
-
-## Observabilidad y seguridad
-Notas específicas sobre métricas, alertas o políticas de acceso.
+- Punto de validación 1
+- Punto de validación 2
 
 ## Notas
 Decisiones, riesgos o dependencias relevantes.
