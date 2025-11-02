@@ -51,5 +51,5 @@ El script prueba la conectividad contra las bases de datos utilizando las variab
 
 - [Guía de verificación de servicios](docs/verificacion-servicios.md)
 - [ADR de arquitectura](docs/architecture-decision-records/Arquitectura%20GitHub%20Codespaces.md)
-- [Playbooks operativos](tasks/readme.md)
+- [Playbooks operativos](docs/infrastructure/devops/runbooks/playbooks_operativos/readme.md)
 
