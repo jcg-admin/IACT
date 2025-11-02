@@ -4,7 +4,9 @@ site_url: ""
 repo_url: ""
 nav:
   - Inicio: index.md
-  - Visión y alcance: vision_y_alcance/readme.md
+  - Visión y alcance:
+      - Portada: vision_y_alcance/readme.md
+      - Glosario de negocio: vision_y_alcance/glossary.md
   - Gobernanza: gobernanza/readme.md
   - Requisitos: requisitos/readme.md
   - Arquitectura:
@@ -14,6 +16,12 @@ nav:
           - ADR-2025-001: arquitectura/adr/adr_2025_001_vagrant_mod_wsgi.md
           - Plantilla ADR: arquitectura/adr/plantilla_adr.md
   - Diseño detallado: diseno_detallado/readme.md
+  - Backend:
+      - Portada: backend/readme.md
+  - Frontend:
+      - Portada: frontend/readme.md
+  - Infrastructure:
+      - Portada: infrastructure/readme.md
   - Planificación y releases: planificacion_y_releases/readme.md
   - QA:
       - Estrategia de QA: qa/estrategia_qa.md
@@ -30,16 +38,12 @@ nav:
   - Anexos: anexos/readme.md
   - Plantillas: plantillas/readme.md
   - Checklists: checklists/readme.md
-  - Scientific Computing Projects:
-      - Índice SCP: scientific_computing_projects/index.md
-      - Supercomputing:
-          - Portada: scientific_computing_projects/supercomputing/readme.md
-          - SC17:
-              - Portada: scientific_computing_projects/supercomputing/sc17/readme.md
-              - Meeting Notes: scientific_computing_projects/supercomputing/sc17/meeting_and_discussion_notes/readme.md
-              - Documentos: scientific_computing_projects/supercomputing/sc17/sc17_documents/readme.md
-              - Task report: scientific_computing_projects/supercomputing/sc17/sc17_task_report/readme.md
-docs_dir: docs/spaces
+  - SC17:
+      - Portada: sc17/readme.md
+      - Meeting Notes: sc17/meeting_and_discussion_notes/readme.md
+      - Documentos: sc17/sc17_documents/readme.md
+      - Task report: sc17/sc17_task_report/readme.md
+docs_dir: docs
 theme:
   name: readthedocs
 markdown_extensions:
