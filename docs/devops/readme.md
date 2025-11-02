@@ -15,6 +15,7 @@ Este espacio documenta la infraestructura, pipelines de CI/CD, runbooks operativ
 ## Páginas hijas
 - [Contenedores y DevContainer](contenedores_devcontainer.md)
 - [Runbooks Operativos](runbooks/)
+  - [Claude Code](runbooks/claude_code.md)
   - [Post-create Vagrant](runbooks/post_create.md)
   - [Codespaces con GitHub Copilot](runbooks/github_copilot_codespaces.md)
   - [Verificar Servicios](runbooks/verificar_servicios.md)
@@ -300,6 +301,7 @@ git push origin v1.0.0
 
 Los runbooks documentan procedimientos operativos comunes:
 
+- [Claude Code](runbooks/claude_code.md) - Desarrollo con Claude Code, limitaciones y alternativas
 - [Verificar Servicios](runbooks/verificar_servicios.md) - Validar que DB estén operativas
 - [Reprocesar ETL Fallido](runbooks/reprocesar_etl_fallido.md) - Recuperar de fallas ETL
 - [Post-create Vagrant](runbooks/post_create.md) - Setup después de `vagrant up`
@@ -352,7 +354,7 @@ Los runbooks documentan procedimientos operativos comunes:
 | Infraestructura local documentada | ✅ Sí | Vagrant + VirtualBox |
 | Pipeline CI/CD | ❌ No | Planeado para Q2 2025 |
 | Monitoring configurado | ❌ No | Planeado para Q3 2025 |
-| Runbooks creados | ⚠️ Parcial | 4 runbooks existentes |
+| Runbooks creados | ⚠️ Parcial | 5 runbooks existentes |
 | Backup strategy | ⚠️ Parcial | Solo Git, falta DB backups |
 
 ## Acciones prioritarias
