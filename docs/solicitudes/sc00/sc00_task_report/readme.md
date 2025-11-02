@@ -14,18 +14,18 @@ Equivale a la página **SC00 Task Report** y funciona como tablero de seguimient
 
 ## Componentes sugeridos
 - Tabla de tareas con estado (To Do / In Progress / Done), responsables y fechas objetivo.
-- Sección de bloqueos y mitigaciones conectada con `../../devops/runbooks/`.
+- Sección de bloqueos y mitigaciones conectada con `../../../devops/runbooks/`.
 - Indicadores resumidos (porcentaje de avance, hitos completados, riesgos abiertos).
 
 ## Integración con el flujo documental
 | Espacio | Uso |
 | --- | --- |
-| `../../requisitos/readme.md` | Referencias de historias o requisitos SC00. |
-| `../../planificacion_y_releases/readme.md` | Dependencias con entregables de releases. |
-| `../../qa/estrategia_qa.md` | Evidencias de validación y pruebas del booth. |
+| `../../../requisitos/readme.md` | Referencias de historias o requisitos SC00. |
+| `../../../planificacion_y_releases/readme.md` | Dependencias con entregables de releases. |
+| `../../../qa/estrategia_qa.md` | Evidencias de validación y pruebas del booth. |
 
 ## Solicitudes activas
-- Las solicitudes transversales se administran ahora en [`../../solicitudes/readme.md`](../../solicitudes/readme.md).
+- Las solicitudes transversales se administran ahora en [`../../readme.md`](../../readme.md).
 - _No existen solicitudes registradas directamente en este tablero en la iteración actual._
 
 ## Pendientes

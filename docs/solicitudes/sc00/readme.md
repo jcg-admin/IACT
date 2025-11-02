@@ -1,46 +1,61 @@
 ---
-id: DOC-SOL-SC00-ADP
-estado: vigente
+id: SCP-SC00-INDEX
+estado: borrador
 propietario: coordinacion-sc00
 ultima_actualizacion: 2025-02-18
-relacionados: ["DOC-SOL-INDEX", "SCP-SC00-DOCS", "SCP-SC00-INDEX"]
+relacionados: ["SCP-SUPER-INDEX", "DOC-INDEX-GENERAL", "DOC-GOB-INDEX"]
 ---
-# Solicitud SC00 · Guía de preparación de archivos para arte y exhibición
+# SC00 · Denver, CO
 
-Esta guía consolida los requisitos técnicos exigidos por el comité de SC00 para la entrega de materiales gráficos. Al
-reubicarla en el espacio transversal de **solicitudes** aseguramos que esté disponible para otros eventos y campañas que
-compartan criterios similares, manteniendo la trazabilidad con el frente operativo de SC00.
+Replica la página principal `SC00` definida en la base documental maestra de IACT. Permite verificar que la documentación local
+mantiene la misma estructura, enlaces y solicitudes de información asociadas a la iniciativa.
 
-## Objetivo
-- Establecer especificaciones de formato, color y resolución para los archivos de arte.
-- Definir el flujo de revisión y aprobación previo al envío de materiales al proveedor.
-- Documentar responsables y fechas clave para coordinar entregas dentro del cronograma general.
+## Página padre
+- [`../readme.md`](../readme.md)
+- [`../index.md`](../index.md)
 
-## Especificaciones técnicas
-| Elemento | Requisito | Notas |
+## Páginas hijas
+- [`meeting_and_discussion_notes/readme.md`](meeting_and_discussion_notes/readme.md)
+- [`sc00_documents/readme.md`](sc00_documents/readme.md)
+- [`sc00_task_report/readme.md`](sc00_task_report/readme.md)
+- [`guia_preparacion_archivos.md`](guia_preparacion_archivos.md)
+
+## Árbol documental local
+- `meeting_and_discussion_notes/`
+  - `readme.md`
+- `sc00_documents/`
+  - `readme.md`
+- `sc00_task_report/`
+  - `readme.md`
+- `guia_preparacion_archivos.md`
+- `readme.md`
+
+## Información destacada
+- **Sede:** [Denver Convention Center](http://denverconvention.com)
+- **Fechas de conferencia:** 12-17 noviembre 2017
+- **Fechas de exhibición:** 13-16 noviembre 2017
+- **Guía de archivos:** [`./guia_preparacion_archivos.md`](./guia_preparacion_archivos.md) consolida los requisitos de arte y exhibición.
+
+## Alineación con la base documental maestra
+| Elemento de la página SC00 | Representación local | Estado |
 | --- | --- | --- |
-| Formatos aceptados | `.ai`, `.eps`, `.pdf` (vectoriales); `.tiff`, `.png` (rasterizados) | Adjuntar fuentes y empaquetar imágenes vinculadas. |
-| Resolución mínima | 300 DPI para impresos; 150 DPI para piezas de gran formato | Usar perfiles CMYK para impresión y RGB para pantallas. |
-| Margen de seguridad | 5 mm para piezas impresas | Mantener textos y logos fuera del margen. |
-| Sangrado | 3 mm por lado | Exportar archivos con marcas de corte visibles. |
-| Paleta aprobada | Paleta corporativa `IACT-2025` | Disponible en `docs/anexos/diagramas/`. |
+| Encabezado con breadcrumbs (`Home > Supercomputing > SC00`) | Se refleja mediante la jerarquía de directorios `docs/solicitudes/sc00`. | Cumplido |
+| Sección de enlaces (SC00 Documents, Meeting Notes, Task Report) | Directorios dedicados con `readme.md` y listas de pendientes. | Cumplido |
+| Enlaces externos (sitio oficial, fechas, floor plan) | Referenciados en la sección **Información destacada** y **Recursos**. | Cumplido |
+| Solicitudes de información (`<--- input request`) | Referenciadas al espacio transversal [`../readme.md`](../readme.md). | Cumplido |
+| Guías de arte y materiales | Centralizadas en [`./guia_preparacion_archivos.md`](./guia_preparacion_archivos.md). | Cumplido |
 
-## Flujo de entrega
-1. **Diseño inicial:** Equipo creativo genera bocetos y confirma dimensiones con Logística.
-2. **Revisión técnica:** Coordinación SC00 verifica formatos, resolución y uso de paleta.
-3. **Aprobación de contenido:** Gobernanza valida mensajes y disclaimers obligatorios.
-4. **Envío al proveedor:** Se comparte paquete comprimido (`.zip`) con archivos finales y hoja de control.
-5. **Validación de pruebas:** Se reciben pruebas impresas/digitales y se documentan ajustes en
-   `docs/sc00/meeting_and_discussion_notes/readme.md`.
+## Recursos
+- [SC00 Conference Home Page](http://sc00.supercomputing.org)
+- [Important Deadlines and Dates](http://sc00.supercomputing.org/attendees/important-deadlines/)
+- [Convention Center Floor plan](http://iebms.heiexpo.com/sc/SC00Floorplan.pdf)
 
-## Checklists
-- [ ] Archivos vectoriales incluyen fuentes convertidas a contornos o adjuntas en carpeta `fonts/`.
-- [ ] Versiones rasterizadas respetan la resolución mínima y modo de color indicado.
-- [ ] Se adjunta hoja de control con nombre del archivo, responsable y fecha de última edición.
-- [ ] Se suben respaldos al repositorio en `docs/sc00/sc00_documents/material_exhibicion/`.
-- [ ] Se registra la fecha de envío al proveedor en el tablero de seguimiento SC00.
+## Integración con el flujo documental principal
+- Los acuerdos y minutas registrados en `meeting_and_discussion_notes` alimentan las secciones de gobernanza (`../../gobernanza/readme.md`).
+- Los artefactos publicados en `sc00_documents` sirven como anexos dentro de `../../planificacion_y_releases/readme.md`.
+- El seguimiento operativo consignado en `sc00_task_report` complementa los tableros de calidad y DevOps (`../../qa/estrategia_qa.md`, `../../devops/runbooks/`).
 
-## Historial de cambios
-| Fecha | Cambio | Responsable |
-| --- | --- | --- |
-| 2025-02-18 | Traslado desde `docs/sc00/sc00_documents/` a `docs/solicitudes/` con actualización de metadatos. | PMO Documentación |
+## Checklist de verificación
+- [ ] Revisar mensualmente que los enlaces externos continúan vigentes.
+- [ ] Confirmar que los child pages locales están sincronizados con la base documental maestra antes de cada entrega.
+- [ ] Registrar nuevos action items usando `../../plantillas/plantilla_registro_actividad.md` y vincularlos en las secciones correspondientes.
