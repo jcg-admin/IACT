@@ -6,9 +6,6 @@
 | --- | --- |
 | docs/vision_y_alcance/glossary.md | Glosario oficial alineado con negocio. |
 | docs/vision_y_alcance/readme.md | Portada estratégica con backlog de visión. |
-| docs/backend/readme.md | Índice técnico inicial del monolito backend. |
-| docs/frontend/readme.md | Índice técnico inicial del frontend. |
-| docs/infrastructure/readme.md | Portada y backlog operativo de infraestructura. |
 | docs/gobernanza/lineamientos_gobernanza.md | Lineamientos vigentes para comités y RACI. |
 | docs/gobernanza/readme.md | Portada de gobernanza y backlog operativo. |
 | docs/requisitos/rq_plantilla.md | Plantilla estándar de requisitos. |
@@ -26,9 +23,10 @@
 | docs/anexos/catalogo_reglas_negocio.md | Catálogo de reglas de negocio del call center. |
 | docs/plantillas/ | Colección de plantillas reutilizables. |
 | docs/checklists/ | Checklists operativos y de control. |
+| docs/solicitudes/scientific_computing_projects/index.md | Índice del espacio corporativo SCP. |
 
 ## Convenciones de nomenclatura
-- Directorios en minúsculas con guiones bajos (`gerencia`, `planificacion_y_releases`).
+- Directorios en minúsculas con guiones bajos (`vision_y_alcance`, `planificacion_y_releases`).
 - Archivos `readme.md` como portadas con front matter en YAML.
 - Referencias relativas entre espacios para compatibilidad con GitHub y MkDocs (`../gobernanza/readme.md`).
 - Identificadores de tareas con prefijo `WKF-SDLC-XXX` para mantener trazabilidad.
@@ -37,9 +35,6 @@
 ```text
 docs/
 ├── vision_y_alcance/
-├── backend/
-├── frontend/
-├── infrastructure/
 ├── gobernanza/
 ├── requisitos/
 ├── arquitectura/
@@ -49,16 +44,21 @@ docs/
 ├── devops/
 ├── anexos/
 ├── plantillas/
-└── checklists/
+├── checklists/
+├── backend/
+├── frontend/
+├── infrastructure/
+└── solicitudes/
+    └── scientific_computing_projects/
 ```
 
 ## Próximos pasos sugeridos
 1. Completar portadas pendientes en `devops/`, `anexos/`, `plantillas/` y `checklists/`.
 2. Crear `bitacora.md` en `devops/` para registrar ejecuciones de runbooks.
 3. Migrar artefactos adicionales desde repositorios externos manteniendo la convención de enlaces relativos.
-4. Revisar mensualmente que la configuración de [`mkdocs.yml`](mkdocs.yml) refleje esta estructura.
+4. Revisar mensualmente que la configuración de `mkdocs.yml` refleje esta estructura.
 
 ## Integración con MkDocs
-- [`mkdocs.yml`](mkdocs.yml) utiliza `docs` como `docs_dir` y expone un menú principal con los espacios estratégicos.
-- Las nuevas páginas deben añadirse al bloque `nav` para aparecer en la navegación superior.
-- Los anexos pueden omitirse del menú principal y seguir siendo accesibles mediante búsqueda.
+- El directorio `docs/` contiene toda la documentación del proyecto organizada por espacios estratégicos.
+- Las nuevas páginas deben estructurarse siguiendo las convenciones de nomenclatura establecidas.
+- Los anexos y plantillas sirven como material de referencia y apoyo a los espacios principales.
