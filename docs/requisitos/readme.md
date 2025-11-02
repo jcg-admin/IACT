@@ -18,14 +18,14 @@ Centraliza especificaciones funcionales y no funcionales. Este espacio asegura t
 
 ## Información clave
 ### Rol dentro del flujo de documentación
-- **Agenda y discusiones.** Cada requisito nace de acuerdos capturados en minutas y rituales documentados en [`../infrastructure/gobernanza/readme.md`](../infrastructure/gobernanza/readme.md).
+- **Agenda y discusiones.** Cada requisito nace de acuerdos capturados en minutas y rituales documentados en [`../gobernanza/readme.md`](../gobernanza/readme.md).
 - **Seguimiento.** Registra estados, criterios de aceptación y dependencias hacia releases.
 - **Material complementario.** Agrupa anexos técnicos, diagramas y referencias cruzadas necesarias para diseño y desarrollo.
 
 ### Artefactos obligatorios
 - Plantilla de requisitos (`rq_plantilla.md`).
 - Registro de trazabilidad (`trazabilidad.md`).
-- Backlog priorizado (pendiente, derivado de la plantilla [`../plantillas/plantilla_runbook.md`](../plantillas/plantilla_runbook.md)).
+- Backlog priorizado (pendiente, derivado de la plantilla `../plantillas/plantilla_runbook.md`).
 
 ## Estado de cumplimiento
 | Elemento en la base maestra | ¿Existe en repositorio? | Observaciones |
@@ -36,9 +36,9 @@ Centraliza especificaciones funcionales y no funcionales. Este espacio asegura t
 | Backlog priorizado con estado | No | Debe construirse a partir de los acuerdos más recientes. |
 
 ## Integración con el flujo documental principal
-- Depende del contexto establecido en [`../vision_y_alcance/readme.md`](../vision_y_alcance/readme.md).
-- Requiere decisiones operativas de [`../infrastructure/gobernanza/readme.md`](../infrastructure/gobernanza/readme.md).
-- Entrega criterios de diseño a [`../backend/arquitectura/readme.md`](../backend/arquitectura/readme.md), [`../frontend/arquitectura/readme.md`](../frontend/arquitectura/readme.md) y [`../infrastructure/arquitectura/readme.md`](../infrastructure/arquitectura/readme.md).
+- Depende del contexto establecido en [`../gerencia/vision_y_alcance/readme.md`](../gerencia/vision_y_alcance/readme.md).
+- Requiere decisiones operativas de [`../gobernanza/readme.md`](../gobernanza/readme.md).
+- Entrega criterios de diseño a [`../arquitectura/readme.md`](../arquitectura/readme.md) y [`../diseno_detallado/readme.md`](../diseno_detallado/readme.md).
 
 ## Acciones prioritarias
 - [ ] WKF-SDLC-120 – Catalogar requisitos existentes _(Pendiente; importar desde sesiones documentadas)_.
