@@ -7,7 +7,8 @@ relacionados: ["SCP-SC00-INDEX", "DOC-VIS-INDEX"]
 ---
 # SC00 · Documents
 
-Refleja la página **SC00 Documents** utilizada en la base documental maestra para centralizar archivos de soporte, propuestas y materiales de exhibición.
+Refleja la página **SC00 Documents** utilizada en la base documental maestra para centralizar archivos de soporte, propuestas y
+materiales de exhibición.
 
 ## Página padre
 - [`../readme.md`](../readme.md)
@@ -19,10 +20,13 @@ Refleja la página **SC00 Documents** utilizada en la base documental maestra pa
 | `material_exhibicion/` | Videos, gráficos y contenido aprobado para el booth. |
 | `logistica/` | Permisos, contratos, listas de empaque. |
 
+## Recursos de referencia
+- [`../../solicitudes/sc00/readme.md`](../../solicitudes/sc00/readme.md) · Guía de preparación de archivos para arte y exhibición.
+
 ## Backlog inmediato
-- [ ] Incorporar la guía de preparación de archivos (`Art and Display File Prep Guide`) como referencia local.
 - [ ] Clasificar documentos existentes por versión y responsable.
 - [ ] Vincular documentos aprobados a la sección `../../planificacion_y_releases/readme.md`.
+- [ ] Publicar checklist de control de cambios dentro de `material_exhibicion/` enlazando la guía transversal.
 
 ## Dependencias
 - Requiere coordinación con `../../diseno_detallado/readme.md` para asegurar consistencia visual.

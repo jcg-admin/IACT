@@ -15,10 +15,11 @@ el equipo de documentación.
 - [`../index.md`](../index.md)
 
 ## Páginas hijas
+- [`sc00/readme.md`](sc00/readme.md)
 - [`sc01/readme.md`](sc01/readme.md)
 
 ## Propósito
-- Catalogar solicitudes transversales y agruparlas por identificador (`SC01`, `SC02`, ...).
+- Catalogar solicitudes transversales y agruparlas por identificador (`SC00`, `SC01`, `SC02`, ...).
 - Facilitar la reutilización de guías y procedimientos sin acoplarlos a iniciativas temporales.
 - Conectar cada solicitud con los responsables y espacios relevantes dentro de la base documental.
 
