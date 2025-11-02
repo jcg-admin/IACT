@@ -22,6 +22,8 @@ materiales de exhibición.
 
 ## Recursos de referencia
 - [`../guia_preparacion_archivos.md`](../guia_preparacion_archivos.md) · Guía de preparación de archivos para arte y exhibición.
+- [`./guia_documentacion_integrada.md`](./guia_documentacion_integrada.md) · Procedimiento para articular reglas, solicitudes, requisitos y tareas.
+- [`./checklist_control_flujo.md`](./checklist_control_flujo.md) · Puntos de control obligatorios para asegurar el flujo integrado.
 
 ## Backlog inmediato
 - [ ] Clasificar documentos existentes por versión y responsable.
