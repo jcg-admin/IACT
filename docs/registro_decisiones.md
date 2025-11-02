@@ -25,6 +25,11 @@
 - Se conservan los espacios dedicados de backend y frontend sin cambios estructurales.
 - Se sincronizan enlaces, inventario y navegación de MkDocs con el esquema sin carpeta intermedia.
 
+## 2025-02-21 - Relocalización de `mkdocs.yml`
+- Se trasladó el archivo de configuración a `docs/mkdocs.yml` para mantenerlo junto a la base documental.
+- Se actualizó `docs_dir` a `.` y se ajustaron las referencias internas que documentan el uso de MkDocs.
+- Se comunicó el nuevo comando estándar `mkdocs serve -f docs/mkdocs.yml` en la guía principal.
+
 ## Próximos pasos
 - Revisar nuevas contribuciones para validar que respetan la convención.
 - Completar anexos con ejemplos reales a medida que estén disponibles.

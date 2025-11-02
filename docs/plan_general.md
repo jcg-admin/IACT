@@ -56,9 +56,9 @@ docs/
 1. Completar portadas pendientes en `devops/`, `anexos/`, `plantillas/` y `checklists/`.
 2. Crear `bitacora.md` en `devops/` para registrar ejecuciones de runbooks.
 3. Migrar artefactos adicionales desde repositorios externos manteniendo la convención de enlaces relativos.
-4. Revisar mensualmente que la configuración de `mkdocs.yml` refleje esta estructura.
+4. Revisar mensualmente que la configuración de [`mkdocs.yml`](mkdocs.yml) refleje esta estructura.
 
 ## Integración con MkDocs
-- `mkdocs.yml` utiliza `docs` como `docs_dir` y expone un menú principal con los espacios estratégicos.
+- [`mkdocs.yml`](mkdocs.yml) utiliza `docs` como `docs_dir` y expone un menú principal con los espacios estratégicos.
 - Las nuevas páginas deben añadirse al bloque `nav` para aparecer en la navegación superior.
 - Los anexos pueden omitirse del menú principal y seguir siendo accesibles mediante búsqueda.

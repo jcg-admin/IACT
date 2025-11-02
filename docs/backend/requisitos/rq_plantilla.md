@@ -1,29 +1,16 @@
 ---
-id: RQ-ANL-000
+id: DOC-REQ-BACKEND-PLANTILLA
 estado: borrador
-propietario: equipo-producto
+propietario: equipo-backend
 ultima_actualizacion: 2025-02-14
-relacionados: []
+relacionados: ["DOC-REQ-BACKEND", "DOC-REQ-INDEX"]
 ---
-> Plantilla rápida para registrar nuevos requisitos funcionales (copiar y actualizar campos).
+# Plantilla de requisitos del backend
 
-```md
----
-id: RQ-ANL-###
-estado: propuesto | aprobado | en_riesgo
-propietario: nombre-del-responsable
-ultima_actualizacion: AAAA-MM-DD
-relacionados:
-  - UC-DASH-###
-  - RN-###
----
-## Descripción
-Breve narrativa del objetivo del requisito.
+La plantilla maestra se mantiene en [`../../requisitos/rq_plantilla.md`](../../requisitos/rq_plantilla.md). Copia ese contenido como base y añade los siguientes campos adicionales cuando apliquen:
 
-## Criterios de aceptación
-- Punto de validación 1
-- Punto de validación 2
+- **Servicios impactados.** Lista de módulos o endpoints afectados.
+- **Observabilidad.** Métricas, logs o alertas requeridas para validar el requisito.
+- **Seguridad.** Consideraciones de acceso, cifrado o cumplimiento normativo.
 
-## Notas
-Decisiones, riesgos o dependencias relevantes.
-```
+> Nota: Mantén la estructura YAML original para conservar la trazabilidad con QA y planificación.

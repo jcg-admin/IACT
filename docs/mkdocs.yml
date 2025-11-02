@@ -38,12 +38,15 @@ nav:
   - Anexos: anexos/readme.md
   - Plantillas: plantillas/readme.md
   - Checklists: checklists/readme.md
-  - SC17:
-      - Portada: sc17/readme.md
-      - Meeting Notes: sc17/meeting_and_discussion_notes/readme.md
-      - Documentos: sc17/sc17_documents/readme.md
-      - Task report: sc17/sc17_task_report/readme.md
-docs_dir: docs
+  - Solicitudes:
+      - Portada: solicitudes/readme.md
+      - SC00:
+          - Portada: solicitudes/sc00/readme.md
+          - Meeting Notes: solicitudes/sc00/meeting_and_discussion_notes/readme.md
+          - Documentos: solicitudes/sc00/sc00_documents/readme.md
+          - Task report: solicitudes/sc00/sc00_task_report/readme.md
+      - SC01 · Preparación de entorno MkDocs: solicitudes/sc01/readme.md
+docs_dir: .
 theme:
   name: readthedocs
 markdown_extensions:

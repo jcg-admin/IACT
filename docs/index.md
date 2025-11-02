@@ -28,7 +28,8 @@ Este árbol replica la jerarquía de espacios publicada en la base documental ma
 - [Anexos](anexos/readme.md)
 - [Plantillas](plantillas/readme.md)
 - [Checklists](checklists/readme.md)
-- [SC17](sc17/readme.md)
+- [Solicitudes](solicitudes/readme.md)
+- [SC00](solicitudes/sc00/readme.md)
 - [Documentación corporativa](documentacion_corporativa.md)
 
 ## Información clave
@@ -38,7 +39,7 @@ Este árbol replica la jerarquía de espacios publicada en la base documental ma
 - Los enlaces entre secciones deben ser relativos (`../gobernanza/readme.md`) para que funcionen tanto en GitHub como en MkDocs.
 
 ### Uso con MkDocs
-La configuración `mkdocs.yml` apunta a este directorio (`docs`) como `docs_dir`. Cualquier archivo nuevo añadido aquí aparecerá automáticamente en la búsqueda global del sitio generado.
+La configuración [`mkdocs.yml`](mkdocs.yml) apunta a este directorio (`docs`) como `docs_dir`. Cualquier archivo nuevo añadido aquí aparecerá automáticamente en la búsqueda global del sitio generado.
 
 ## Estado de cumplimiento
 | Elemento en la base maestra | ¿Existe en repositorio? | Observaciones |
