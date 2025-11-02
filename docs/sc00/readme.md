@@ -7,7 +7,8 @@ relacionados: ["SCP-SUPER-INDEX", "DOC-INDEX-GENERAL", "DOC-GOB-INDEX"]
 ---
 # SC00 · Denver, CO
 
-Replica la página principal `SC00` definida en la base documental maestra de IACT. Permite verificar que la documentación local mantiene la misma estructura, enlaces y solicitudes de información asociadas a la iniciativa.
+Replica la página principal `SC00` definida en la base documental maestra de IACT. Permite verificar que la documentación local
+mantiene la misma estructura, enlaces y solicitudes de información asociadas a la iniciativa.
 
 ## Página padre
 - [`../readme.md`](../readme.md)
@@ -31,7 +32,7 @@ Replica la página principal `SC00` definida en la base documental maestra de IA
 - **Sede:** [Denver Convention Center](http://denverconvention.com)
 - **Fechas de conferencia:** 12-17 noviembre 2017
 - **Fechas de exhibición:** 13-16 noviembre 2017
-- **Guía de archivos:** pendiente de incorporarse como anexo local (`../planificacion_y_releases/readme.md`).
+- **Guía de archivos:** [`../solicitudes/sc00/readme.md`](../solicitudes/sc00/readme.md) consolida los requisitos de arte y exhibición.
 
 ## Alineación con la base documental maestra
 | Elemento de la página SC00 | Representación local | Estado |
@@ -40,6 +41,7 @@ Replica la página principal `SC00` definida en la base documental maestra de IA
 | Sección de enlaces (SC00 Documents, Meeting Notes, Task Report) | Directorios dedicados con `readme.md` y listas de pendientes. | Cumplido |
 | Enlaces externos (sitio oficial, fechas, floor plan) | Referenciados en la sección **Información destacada** y **Recursos**. | Cumplido |
 | Solicitudes de información (`<--- input request`) | Referenciadas al espacio transversal [`../solicitudes/readme.md`](../solicitudes/readme.md). | Cumplido |
+| Guías de arte y materiales | Centralizadas en [`../solicitudes/sc00/readme.md`](../solicitudes/sc00/readme.md). | Cumplido |
 
 ## Recursos
 - [SC00 Conference Home Page](http://sc00.supercomputing.org)
