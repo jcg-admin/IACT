@@ -14,11 +14,11 @@ Equivalente local de la página **Meeting and Discussion Notes**. Aquí se regis
 
 ## Contenido mínimo
 1. Índice cronológico de reuniones.
-2. Enlaces a minutas detalladas almacenadas bajo `../../gobernanza/minutas/` (pendiente de creación).
+2. Enlaces a minutas detalladas almacenadas bajo `../../../gobernanza/minutas/` (pendiente de creación).
 3. Tablas de action items con responsables, estatus y vínculos a tableros operativos o repositorios internos.
 
 ## Plantillas sugeridas
-- [`plantillas/plantilla_registro_actividad.md`](../../plantillas/plantilla_registro_actividad.md)
+- [`plantillas/plantilla_registro_actividad.md`](../../../plantillas/plantilla_registro_actividad.md)
 
 ## Pendientes heredados del histórico
 | Solicitud | Responsable | Estado |

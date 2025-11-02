@@ -21,13 +21,13 @@ materiales de exhibición.
 | `logistica/` | Permisos, contratos, listas de empaque. |
 
 ## Recursos de referencia
-- [`../../solicitudes/sc00/readme.md`](../../solicitudes/sc00/readme.md) · Guía de preparación de archivos para arte y exhibición.
+- [`../guia_preparacion_archivos.md`](../guia_preparacion_archivos.md) · Guía de preparación de archivos para arte y exhibición.
 
 ## Backlog inmediato
 - [ ] Clasificar documentos existentes por versión y responsable.
-- [ ] Vincular documentos aprobados a la sección `../../planificacion_y_releases/readme.md`.
+- [ ] Vincular documentos aprobados a la sección `../../../planificacion_y_releases/readme.md`.
 - [ ] Publicar checklist de control de cambios dentro de `material_exhibicion/` enlazando la guía transversal.
 
 ## Dependencias
-- Requiere coordinación con `../../diseno_detallado/readme.md` para asegurar consistencia visual.
-- Debe alinearse con los acuerdos formales registrados en `../../gobernanza/readme.md`.
+- Requiere coordinación con `../../../diseno_detallado/readme.md` para asegurar consistencia visual.
+- Debe alinearse con los acuerdos formales registrados en `../../../gobernanza/readme.md`.
