@@ -15,11 +15,11 @@ Documentar el uso de Claude Code como asistente de IA para desarrollo, incluyend
 
 Claude Code es la CLI oficial de Anthropic para Claude, que permite:
 
-- 🤖 Asistencia de IA directamente desde la terminal
-- 📝 Generación y modificación de código
-- 🔍 Análisis de codebase
-- 🛠️ Ejecución de tareas de desarrollo automatizadas
-- 💬 Interacción conversacional para resolver problemas
+- Asistencia de IA directamente desde la terminal
+- Generación y modificación de código
+- Análisis de codebase
+- Ejecución de tareas de desarrollo automatizadas
+- Interacción conversacional para resolver problemas
 
 ## Limitaciones del Entorno
 
@@ -34,19 +34,19 @@ El comando gh no está disponible en este entorno
 ```
 
 **Razones técnicas:**
-1. ❌ **Repositorios bloqueados**: Error 403 al descargar desde GitHub releases
-2. ❌ **Problemas de permisos**: Sistema apt con errores en archivos temporales
-3. ❌ **Red restringida**: Proxy/firewall bloquea acceso a recursos externos
+1. [FAIL] **Repositorios bloqueados**: Error 403 al descargar desde GitHub releases
+2. [FAIL] **Problemas de permisos**: Sistema apt con errores en archivos temporales
+3. [FAIL] **Red restringida**: Proxy/firewall bloquea acceso a recursos externos
 
 **Intentos fallidos de instalación:**
 ```bash
-# ❌ Desde repositorio oficial (403 Forbidden)
+# [FAIL] Desde repositorio oficial (403 Forbidden)
 curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg
 
-# ❌ Desde GitHub releases (403 Forbidden)
+# [FAIL] Desde GitHub releases (403 Forbidden)
 wget https://github.com/cli/cli/releases/download/v2.62.0/gh_2.62.0_linux_amd64.tar.gz
 
-# ❌ Vía apt (errores de permisos)
+# [FAIL] Vía apt (errores de permisos)
 apt install gh
 ```
 
@@ -86,9 +86,9 @@ Cuando Claude Code necesite información de GitHub:
 
 **Issues:**
 ```
-❌ No funciona: gh issue view 123
+[NO] No funciona: gh issue view 123
 
-✅ Alternativa:
+[OK] Alternativa:
 - Ir a https://github.com/2-Coatl/IACT---project/issues/123
 - Copiar título y descripción
 - Pegar en el chat con Claude Code
@@ -96,9 +96,9 @@ Cuando Claude Code necesite información de GitHub:
 
 **Pull Requests:**
 ```
-❌ No funciona: gh pr view 456
+[NO] No funciona: gh pr view 456
 
-✅ Alternativa:
+[OK] Alternativa:
 - Ir a https://github.com/2-Coatl/IACT---project/pull/456
 - Copiar información relevante
 - Proporcionarla a Claude Code
@@ -212,15 +212,15 @@ gh pr create --title "Nueva funcionalidad" --body "Descripción..."
 ### 1. Comunicación Clara
 
 Cuando Claude Code pregunte por información de GitHub:
-- ✅ Proporcionar URLs directas
-- ✅ Copiar/pegar contenido relevante
-- ✅ Incluir números de issue/PR cuando sea relevante
+- [OK] Proporcionar URLs directas
+- [OK] Copiar/pegar contenido relevante
+- [OK] Incluir números de issue/PR cuando sea relevante
 
 ### 2. Uso de Git
 
-- ✅ Hacer commits frecuentes y descriptivos
-- ✅ Usar ramas descriptivas: `feature/`, `fix/`, `docs/`
-- ✅ Seguir convenciones de commit: `feat:`, `fix:`, `docs:`, etc.
+- [OK] Hacer commits frecuentes y descriptivos
+- [OK] Usar ramas descriptivas: `feature/`, `fix/`, `docs/`
+- [OK] Seguir convenciones de commit: `feat:`, `fix:`, `docs:`, etc.
 
 ### 3. Trabajo con Issues
 
@@ -242,9 +242,9 @@ Criterios de aceptación:
 ### Error: "gh no está disponible"
 
 **Solución:**
-- ✅ Usar alternativas con `git` (ver sección "Alternativas")
-- ✅ Proporcionar información manualmente
-- ✅ Si trabajas localmente, agregar `gh` al devcontainer
+- [OK] Usar alternativas con `git` (ver sección "Alternativas")
+- [OK] Proporcionar información manualmente
+- [OK] Si trabajas localmente, agregar `gh` al devcontainer
 
 ### Claude Code no puede crear PR
 
@@ -286,19 +286,19 @@ El entorno de Claude Code puede tener:
 ### Recomendación
 
 Para desarrollo local con todas las herramientas:
-- ✅ Usar DevContainer en VS Code
-- ✅ Instalar herramientas necesarias en el Dockerfile
-- ✅ Configurar features en devcontainer.json
+- [OK] Usar DevContainer en VS Code
+- [OK] Instalar herramientas necesarias en el Dockerfile
+- [OK] Configurar features en devcontainer.json
 
 ## Comparación: Claude Code vs Desarrollo Local
 
 | Aspecto | Claude Code (remoto) | DevContainer (local) |
 |---------|---------------------|---------------------|
-| **GitHub CLI (gh)** | ❌ No disponible | ✅ Instalable |
-| **Git** | ✅ Disponible | ✅ Disponible |
-| **Instalación de paquetes** | ⚠️ Limitado | ✅ Completo |
-| **Acceso a red** | ⚠️ Restringido | ✅ Completo |
-| **Asistencia de IA** | ✅ Claude Code | ⚠️ Requiere configurar |
+| **GitHub CLI (gh)** | [NO] No disponible | [OK] Instalable |
+| **Git** | [OK] Disponible | [OK] Disponible |
+| **Instalación de paquetes** | [WARN] Limitado | [OK] Completo |
+| **Acceso a red** | [WARN] Restringido | [OK] Completo |
+| **Asistencia de IA** | [OK] Claude Code | [WARN] Requiere configurar |
 
 ## Referencias
 
@@ -372,7 +372,10 @@ git push -u origin feature/nueva-feature
 
 ## Changelog
 
-- **2025-11-02**: Creación inicial
+- **2025-11-02 v2**: Aplicar regla de NO emojis (docs/gobernanza/estandares_codigo.md)
+  - Reemplazar emojis con prefijos estándar: [OK], [FAIL], [WARN], [NO]
+  - Mantener compatibilidad con sistemas legacy y logs parseables
+- **2025-11-02 v1**: Creación inicial
   - Documentar limitación de `gh` en Claude Code
   - Agregar alternativas y soluciones
   - Incluir configuración para DevContainer local
