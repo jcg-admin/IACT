@@ -52,7 +52,183 @@ apt install gh
 
 ## Alternativas y Soluciones
 
-### 1. Usar `git` en Lugar de `gh` (Recomendado)
+### 0. Usar Servidor MCP de GitHub (MEJOR ALTERNATIVA)
+
+**MCP (Model Context Protocol)** es un protocolo estándar desarrollado por Anthropic que permite a Claude Code conectarse a servicios externos de forma segura y estandarizada.
+
+**Ventajas sobre gh CLI:**
+- [OK] No requiere instalación local
+- [OK] Evita restricciones de red y permisos
+- [OK] Integración nativa con Claude Code
+- [OK] Actualización automática
+- [OK] Acceso directo a la API de GitHub
+
+#### Configuración del Servidor MCP de GitHub
+
+**Paso 1: Crear GitHub Personal Access Token (PAT)**
+
+1. Ir a: https://github.com/settings/tokens
+2. Click en "Generate new token" > "Generate new token (classic)"
+3. Seleccionar permisos necesarios:
+   - `repo` (acceso completo a repositorios)
+   - `read:packages` (leer paquetes)
+   - `read:org` (leer información de organizaciones)
+4. Copiar el token generado
+
+**Paso 2: Configurar Variable de Entorno**
+
+Agregar al archivo `~/.bashrc`:
+
+```bash
+# GitHub Token for MCP Server
+export GITHUB_TOKEN="tu_token_aqui"
+```
+
+Aplicar cambios:
+```bash
+source ~/.bashrc
+```
+
+**Paso 3: Configurar Claude Code**
+
+Editar `~/.claude.json` y agregar en la sección del proyecto:
+
+```json
+{
+  "projects": {
+    "/ruta/al/proyecto": {
+      "mcpServers": {
+        "github": {
+          "type": "http",
+          "url": "https://api.githubcopilot.com/mcp/",
+          "headers": {
+            "Authorization": "Bearer ${env:GITHUB_TOKEN}"
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+**Paso 4: Reiniciar Claude Code**
+
+Para que los cambios tomen efecto:
+```bash
+# Salir de la sesión actual y reiniciar Claude Code
+exit
+claude
+```
+
+#### Capacidades del Servidor MCP de GitHub
+
+Una vez configurado, Claude Code podrá:
+
+**Gestión de Repositorios:**
+- Navegar y consultar código
+- Buscar archivos
+- Analizar commits
+- Entender estructura del proyecto
+
+**Issues y Pull Requests:**
+- Crear, actualizar y gestionar issues
+- Crear y revisar PRs
+- Automatizar triaje de bugs
+- Revisar cambios de código
+
+**CI/CD y Workflows:**
+- Monitorear GitHub Actions
+- Analizar fallos de builds
+- Gestionar releases
+
+#### Ejemplos de Uso
+
+Una vez configurado el servidor MCP, puedes solicitar a Claude Code:
+
+```
+"Muéstrame los issues abiertos del repositorio"
+"Crea un PR para este branch"
+"Revisa el código del PR #123"
+"Muéstrame los últimos 5 commits"
+"Lista todos los workflows de GitHub Actions"
+"Muéstrame el estado del build más reciente"
+```
+
+#### Comparación: MCP vs gh CLI vs git
+
+| Característica | MCP GitHub | gh CLI | git |
+|---------------|------------|---------|-----|
+| Instalación local | [NO] No requiere | [FAIL] Bloqueado | [OK] Incluido |
+| Restricciones de red | [WARN] Mínimas | [FAIL] Afectado | [OK] Funciona |
+| Integración Claude Code | [OK] Nativa | [NO] Manual | [WARN] Básica |
+| Gestión de Issues/PRs | [OK] Completa | [OK] Completa | [NO] No disponible |
+| Actualización | [OK] Automática | [WARN] Manual | [OK] Con sistema |
+| Acceso API GitHub | [OK] Directo | [OK] Directo | [NO] No disponible |
+
+#### Seguridad del Token
+
+**Mejores prácticas:**
+
+1. [OK] **Usar variables de entorno** (no hardcodear en archivos)
+2. [OK] **Permisos mínimos** necesarios en el PAT
+3. [OK] **Rotar tokens** periódicamente (cada 90 días)
+4. [OK] **Nunca commitear** tokens a git
+5. [OK] **Archivo .bashrc** con permisos restrictivos:
+
+```bash
+chmod 600 ~/.bashrc
+chmod 600 ~/.claude.json
+```
+
+6. [OK] **Agregar a .gitignore** cualquier archivo con tokens:
+
+```gitignore
+# En .gitignore global
+.env
+.env.local
+*.secret
+```
+
+#### Troubleshooting MCP
+
+**Error: "Cannot connect to MCP server"**
+
+```bash
+# Verificar que el token esté configurado
+echo $GITHUB_TOKEN | wc -c
+# Debe mostrar más de 50 caracteres
+
+# Verificar configuración en ~/.claude.json
+cat ~/.claude.json | grep -A 8 "mcpServers"
+
+# Reiniciar Claude Code
+exit
+claude
+```
+
+**Error: "Unauthorized"**
+
+```bash
+# Verificar permisos del token en:
+# https://github.com/settings/tokens
+
+# Regenerar token con permisos correctos:
+# - repo
+# - read:packages
+# - read:org
+```
+
+**MCP server not responding**
+
+```bash
+# Verificar conectividad a GitHub API
+curl -H "Authorization: Bearer $GITHUB_TOKEN" \
+     https://api.github.com/user
+
+# Debe responder con información del usuario
+```
+
+### 1. Usar `git` en Lugar de `gh` (Alternativa Básica)
 
 Para la mayoría de operaciones, `git` es suficiente:
 
@@ -294,6 +470,7 @@ Para desarrollo local con todas las herramientas:
 
 | Aspecto | Claude Code (remoto) | DevContainer (local) |
 |---------|---------------------|---------------------|
+| **GitHub MCP Server** | [OK] Disponible (recomendado) | [OK] Configurable |
 | **GitHub CLI (gh)** | [NO] No disponible | [OK] Instalable |
 | **Git** | [OK] Disponible | [OK] Disponible |
 | **Instalación de paquetes** | [WARN] Limitado | [OK] Completo |
@@ -372,6 +549,12 @@ git push -u origin feature/nueva-feature
 
 ## Changelog
 
+- **2025-11-02 v3**: Agregar servidor MCP de GitHub como alternativa principal
+  - Documentar configuración del servidor MCP de GitHub
+  - Agregar guía completa de instalación y configuración
+  - Incluir ejemplos de uso y troubleshooting
+  - Actualizar comparaciones para incluir MCP
+  - Configurar token de GitHub como variable de entorno
 - **2025-11-02 v2**: Aplicar regla de NO emojis (docs/gobernanza/estandares_codigo.md)
   - Reemplazar emojis con prefijos estándar: [OK], [FAIL], [WARN], [NO]
   - Mantener compatibilidad con sistemas legacy y logs parseables
