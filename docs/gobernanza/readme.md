@@ -13,6 +13,7 @@ Este espacio documenta las políticas, estándares, procesos de revisión y cont
 - [Índice de espacios documentales](../index.md)
 
 ## Páginas hijas
+- [Estándares de Código](estandares_codigo.md)
 - [Backend - Gobernanza](../backend/gobernanza/readme.md)
 - [Frontend - Gobernanza](../frontend/gobernanza/readme.md)
 - [Infrastructure - Gobernanza](../infrastructure/gobernanza/readme.md)
@@ -27,9 +28,12 @@ Este espacio documenta las políticas, estándares, procesos de revisión y cont
 
 ### Estándares de Calidad
 - Análisis estático de código mediante linters
+- **Output profesional**: Prohibido uso de emojis en scripts de producción
 - Revisión de seguridad en dependencias
 - Documentación obligatoria para APIs públicas
 - Pruebas de integración para flujos críticos
+
+Ver detalles completos en: [Estándares de Código](estandares_codigo.md)
 
 ### Proceso de Control de Cambios
 1. Crear issue describiendo el cambio propuesto
@@ -52,7 +56,7 @@ Este espacio documenta las políticas, estándares, procesos de revisión y cont
 | Elemento | Estado | Observaciones |
 |----------|--------|---------------|
 | Políticas documentadas | ✅ Sí | Documentado en este archivo |
-| Estándares de código establecidos | ✅ Sí | Ver `.github/copilot-instructions.md` |
+| Estándares de código establecidos | ✅ Sí | Ver `estandares_codigo.md` |
 | Proceso de revisión definido | ✅ Sí | Requiere PR review antes de merge |
 | Métricas de calidad activas | ⚠️ Parcial | Falta dashboard de métricas |
 
