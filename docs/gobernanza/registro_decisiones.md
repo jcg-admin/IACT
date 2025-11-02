@@ -1,3 +1,10 @@
+---
+id: DOC-GOB-REGISTRO
+estado: activo
+propietario: pmo
+ultima_actualizacion: 2025-11-02
+relacionados: ["DOC-GOB-INDEX"]
+---
 # Registro de decisiones de documentación
 
 ## 2025-02-17 - Normalización de nombres

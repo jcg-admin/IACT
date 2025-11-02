@@ -1,7 +1,7 @@
 # Plantilla Project Charter
 
 ## Datos generales
-- Código: MAC-INIT-PC-XXX
+- Código: MAC-INIT-PC-{número}
 - Patrocinador: ...
 - Product Owner: ...
 

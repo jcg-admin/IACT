@@ -1,7 +1,7 @@
 # Plantilla de caso de uso
 
 ## Identificación
-- Código: REQ-UC-XXX
+- Código: REQ-UC-{número}
 - Nombre: Verbo + Objeto
 - Actor primario: ...
 - Nivel: Usuario | Sistema
@@ -25,7 +25,7 @@ Breve descripción del objetivo del actor.
 - ...
 
 ## Reglas de negocio vinculadas
-- REQ-BR-XXX
+- REQ-BR-{número}
 
 ## Requisitos especiales
 - Seguridad

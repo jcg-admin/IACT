@@ -1,3 +1,10 @@
+---
+id: DOC-ANX-FAQ
+estado: activo
+propietario: equipo-producto
+ultima_actualizacion: 2025-11-02
+relacionados: ["DOC-ANX-INDEX"]
+---
 # Preguntas frecuentes
 
 ## Pregunta 1
