@@ -1,13 +1,13 @@
 ---
-id: SCP-SC17-DOCS
+id: SCP-SC00-DOCS
 estado: borrador
-propietario: coordinacion-sc17
+propietario: coordinacion-sc00
 ultima_actualizacion: 2025-02-18
-relacionados: ["SCP-SC17-INDEX", "DOC-VIS-INDEX"]
+relacionados: ["SCP-SC00-INDEX", "DOC-VIS-INDEX"]
 ---
-# SC17 · Documents
+# SC00 · Documents
 
-Refleja la página **SC17 Documents** utilizada en la base documental maestra para centralizar archivos de soporte, propuestas y materiales de exhibición.
+Refleja la página **SC00 Documents** utilizada en la base documental maestra para centralizar archivos de soporte, propuestas y materiales de exhibición.
 
 ## Página padre
 - [`../readme.md`](../readme.md)
