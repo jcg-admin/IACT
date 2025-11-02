@@ -1,3 +1,10 @@
+---
+id: DOC-ANX-BR
+estado: borrador
+propietario: equipo-producto
+ultima_actualizacion: 2025-11-02
+relacionados: ["DOC-ANX-INDEX", "DOC-REQ-INDEX"]
+---
 # Catálogo de reglas de negocio
 
 | Código | Tipo | Descripción | Fuente | Requisitos afectados | Estado |

@@ -1,3 +1,10 @@
+---
+id: DOC-GOB-PLAN
+estado: activo
+propietario: pmo
+ultima_actualizacion: 2025-11-02
+relacionados: ["DOC-GOB-INDEX", "DOC-ROOT-001"]
+---
 # Plan general de documentación
 
 ## Inventario actual

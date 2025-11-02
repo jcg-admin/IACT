@@ -5,6 +5,8 @@ propietario: equipo-producto
 ultima_actualizacion: 2025-02-14
 relacionados: ["RQ-ANL-001", "UC-DASH-003", "TC-USR-010", "ADR-2025-001"]
 ---
+# Matriz de trazabilidad de requisitos
+
 ## Matriz RQ ↔ UC
 | RQ | UC asociados | Comentario |
 |----|--------------|------------|
