@@ -1,0 +1,275 @@
+name: Lint and Code Quality
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+      - 'feature/**'
+      - 'claude/**'
+  pull_request:
+    branches:
+      - main
+      - develop
+
+jobs:
+  markdown-lint:
+    name: Markdown Linting
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install markdownlint-cli
+        run: npm install -g markdownlint-cli
+
+      - name: Create markdownlint config
+        run: |
+          cat > .markdownlint.json << 'EOF'
+          {
+            "default": true,
+            "MD013": false,
+            "MD033": false,
+            "MD041": false,
+            "MD024": {
+              "siblings_only": true
+            }
+          }
+          EOF
+
+      - name: Lint Markdown files
+        run: |
+          markdownlint 'docs/**/*.md' --config .markdownlint.json || true
+
+      - name: Lint README files
+        run: |
+          find . -name 'readme.md' -o -name 'README.md' | xargs markdownlint --config .markdownlint.json || true
+
+  yaml-lint:
+    name: YAML Linting
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install yamllint
+        run: pip install yamllint
+
+      - name: Create yamllint config
+        run: |
+          cat > .yamllint.yml << 'EOF'
+          extends: default
+          rules:
+            line-length:
+              max: 120
+              level: warning
+            document-start: disable
+            comments:
+              min-spaces-from-content: 1
+          EOF
+
+      - name: Lint YAML files
+        run: |
+          find . -name '*.yml' -o -name '*.yaml' | xargs yamllint -c .yamllint.yml || true
+
+  docs-structure-check:
+    name: Documentation Structure Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check for broken internal links
+        run: |
+          echo "Checking for broken internal links in markdown files..."
+
+          # Find all markdown files
+          find docs -name '*.md' | while read file; do
+            echo "Checking: $file"
+
+            # Extract markdown links [text](path)
+            grep -oP '\[.*?\]\(\K[^)]+' "$file" 2>/dev/null | while read link; do
+              # Skip external links (http/https)
+              if [[ $link =~ ^https?:// ]]; then
+                continue
+              fi
+
+              # Skip anchors
+              if [[ $link =~ ^# ]]; then
+                continue
+              fi
+
+              # Get directory of current file
+              dir=$(dirname "$file")
+
+              # Resolve relative path
+              target="$dir/$link"
+
+              # Check if file exists
+              if [ ! -f "$target" ] && [ ! -d "$target" ]; then
+                echo "❌ Broken link in $file: $link (resolved to $target)"
+              fi
+            done
+          done
+
+      - name: Check frontmatter validity
+        run: |
+          echo "Checking YAML frontmatter in markdown files..."
+
+          python3 << 'PYTHON'
+          import os
+          import re
+          import yaml
+
+          errors = []
+
+          for root, dirs, files in os.walk('docs'):
+              for file in files:
+                  if not file.endswith('.md'):
+                      continue
+
+                  filepath = os.path.join(root, file)
+
+                  with open(filepath, 'r', encoding='utf-8') as f:
+                      content = f.read()
+
+                  # Check for frontmatter
+                  match = re.match(r'^---\n(.*?\n)---\n', content, re.DOTALL)
+                  if match:
+                      frontmatter = match.group(1)
+                      try:
+                          yaml.safe_load(frontmatter)
+                          print(f"✅ {filepath}: Valid frontmatter")
+                      except yaml.YAMLError as e:
+                          errors.append(f"❌ {filepath}: Invalid YAML frontmatter - {e}")
+
+          if errors:
+              print("\n".join(errors))
+              exit(1)
+          else:
+              print("\n✅ All frontmatter is valid")
+          PYTHON
+
+  requirements-frontmatter-check:
+    name: Requirements Frontmatter Validation (ISO 29148)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install PyYAML
+        run: pip install pyyaml
+
+      - name: Validate requirements frontmatter
+        run: |
+          python3 << 'PYTHON'
+          import os
+          import re
+          import yaml
+
+          # Required fields per ISO 29148
+          REQUIRED_FIELDS = {
+              'necesidades': ['id', 'tipo', 'titulo', 'prioridad', 'estado'],
+              'negocio': ['id', 'tipo', 'titulo', 'dominio', 'prioridad', 'estado'],
+              'stakeholders': ['id', 'tipo', 'titulo', 'dominio', 'prioridad', 'estado'],
+              'funcionales': ['id', 'tipo', 'titulo', 'dominio', 'owner', 'prioridad', 'estado', 'trazabilidad_upward'],
+              'no_funcionales': ['id', 'tipo', 'titulo', 'dominio', 'owner', 'prioridad', 'estado']
+          }
+
+          errors = []
+          warnings = []
+
+          # Check implementacion/**/requisitos/**/*.md files
+          for root, dirs, files in os.walk('implementacion'):
+              if 'requisitos' not in root:
+                  continue
+
+              for file in files:
+                  if not file.endswith('.md') or file.startswith('_'):
+                      continue
+
+                  filepath = os.path.join(root, file)
+
+                  with open(filepath, 'r', encoding='utf-8') as f:
+                      content = f.read()
+
+                  # Extract frontmatter
+                  match = re.match(r'^---\n(.*?\n)---\n', content, re.DOTALL)
+                  if not match:
+                      warnings.append(f"⚠️  {filepath}: No frontmatter found")
+                      continue
+
+                  frontmatter = match.group(1)
+
+                  try:
+                      data = yaml.safe_load(frontmatter)
+                  except yaml.YAMLError as e:
+                      errors.append(f"❌ {filepath}: Invalid YAML - {e}")
+                      continue
+
+                  # Determine requirement type from path
+                  req_type = None
+                  for rtype in REQUIRED_FIELDS.keys():
+                      if f'/{rtype}/' in filepath:
+                          req_type = rtype
+                          break
+
+                  if not req_type:
+                      continue
+
+                  # Check required fields
+                  missing_fields = []
+                  for field in REQUIRED_FIELDS[req_type]:
+                      if field not in data:
+                          missing_fields.append(field)
+
+                  if missing_fields:
+                      errors.append(f"❌ {filepath}: Missing required fields: {', '.join(missing_fields)}")
+                  else:
+                      print(f"✅ {filepath}: Valid frontmatter")
+
+          # Print results
+          if warnings:
+              print("\n⚠️  WARNINGS:")
+              print("\n".join(warnings))
+
+          if errors:
+              print("\n❌ ERRORS:")
+              print("\n".join(errors))
+              exit(1)
+          else:
+              print("\n✅ All requirements have valid frontmatter (ISO 29148 compliant)")
+          PYTHON
+
+  summary:
+    name: Lint Summary
+    runs-on: ubuntu-latest
+    needs: [markdown-lint, yaml-lint, docs-structure-check, requirements-frontmatter-check]
+    if: always()
+    steps:
+      - name: Check all jobs status
+        run: |
+          if [ "${{ needs.markdown-lint.result }}" != "success" ] || \
+             [ "${{ needs.yaml-lint.result }}" != "success" ] || \
+             [ "${{ needs.docs-structure-check.result }}" != "success" ] || \
+             [ "${{ needs.requirements-frontmatter-check.result }}" != "success" ]; then
+            echo "❌ Some lint checks failed"
+            exit 1
+          else
+            echo "✅ All lint checks passed"
+          fi
