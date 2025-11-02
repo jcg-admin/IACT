@@ -46,7 +46,7 @@ nav:
           - Documentos: solicitudes/sc00/sc00_documents/readme.md
           - Task report: solicitudes/sc00/sc00_task_report/readme.md
       - SC01 · Preparación de entorno MkDocs: solicitudes/sc01/readme.md
-docs_dir: docs
+docs_dir: .
 theme:
   name: readthedocs
 markdown_extensions:

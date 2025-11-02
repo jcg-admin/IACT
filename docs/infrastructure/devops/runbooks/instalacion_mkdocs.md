@@ -3,7 +3,7 @@ id: RB-DEVOPS-005
 estado: borrador
 propietario: equipo-devops
 ultima_actualizacion: 2025-02-19
-relacionados: ["DOC-INDEX-GENERAL", "mkdocs.yml"]
+relacionados: ["DOC-INDEX-GENERAL", "docs/mkdocs.yml"]
 ---
 # Runbook: Instalación de MkDocs
 

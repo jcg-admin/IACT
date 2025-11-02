@@ -22,14 +22,14 @@ Toda la documentación funcional, técnica y operativa vive ahora en `docs/`. La
 - Los anexos, plantillas y checklists siguen disponibles en `anexos/`, `plantillas/` y `checklists/` respectivamente.
 
 ### Uso con MkDocs
-La configuración `mkdocs.yml` permite visualizar la documentación con una experiencia homogénea.
+La configuración [`mkdocs.yml`](mkdocs.yml) permite visualizar la documentación con una experiencia homogénea.
 
 ```bash
 pip install -r requirements/docs.txt
-mkdocs serve
+mkdocs serve -f docs/mkdocs.yml
 ```
 
-El comando `mkdocs serve` habilita un servidor local con recarga automática para revisar cambios en tiempo real.
+El comando anterior habilita un servidor local con recarga automática para revisar cambios en tiempo real.
 
 ## Estado de cumplimiento
 | Elemento en la base maestra | ¿Existe en repositorio? | Observaciones |
