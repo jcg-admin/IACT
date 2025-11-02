@@ -7,7 +7,7 @@ relacionados: ["RQ-ANL-000", "DOC-GOB-INDEX", "DOC-ARQ-INDEX"]
 ---
 # Requisitos corporativos
 
-Centraliza especificaciones funcionales y no funcionales que aplican a todo el producto. Este espacio asegura trazabilidad entre acuerdos operativos, validaciones de QA y decisiones técnicas sin perder el contexto estratégico.
+Centraliza especificaciones funcionales y no funcionales para todo el producto. Este espacio garantiza trazabilidad entre acuerdos operativos, validaciones de QA y decisiones técnicas sin perder el contexto estratégico.
 
 ## Página padre
 - [`../index.md`](../index.md)
@@ -22,9 +22,9 @@ Centraliza especificaciones funcionales y no funcionales que aplican a todo el p
 - [`../frontend/requisitos/readme.md`](../frontend/requisitos/readme.md)
 - [`../infrastructure/requisitos/readme.md`](../infrastructure/requisitos/readme.md)
 
-## Rol dentro del flujo de documentación
+## Rol dentro del flujo documental
 - **Agenda y discusiones.** Cada requisito nace de acuerdos capturados en minutas y rituales documentados en [`../infrastructure/gobernanza/readme.md`](../infrastructure/gobernanza/readme.md).
-- **Seguimiento.** Registra estados, criterios de aceptación y dependencias hacia releases coordinados en [`../infrastructure/planificacion_y_releases/readme.md`](../infrastructure/planificacion_y_releases/readme.md).
+- **Seguimiento.** Registra estados, criterios de aceptación y dependencias hacia releases coordinados en [`../planificacion_y_releases/readme.md`](../planificacion_y_releases/readme.md).
 - **Material complementario.** Agrupa anexos técnicos, diagramas y referencias cruzadas necesarias para diseño y desarrollo en los tres dominios principales.
 
 ## Artefactos obligatorios
