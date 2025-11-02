@@ -28,8 +28,9 @@ Este árbol replica la jerarquía de espacios publicada en la base documental ma
 - [Plantillas](plantillas/readme.md)
 - [Checklists](checklists/readme.md)
 - [Solicitudes](solicitudes/readme.md)
-- [SC00](solicitudes/sc00/readme.md)
-- [SC01](solicitudes/sc01/readme.md)
+  - [SC00](solicitudes/sc00/readme.md)
+  - [SC01](solicitudes/sc01/readme.md)
+  - [Scientific Computing Projects](solicitudes/scientific_computing_projects/index.md)
 
 ## Información clave
 ### Convenciones
