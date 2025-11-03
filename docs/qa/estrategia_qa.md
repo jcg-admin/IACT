@@ -23,7 +23,12 @@ Hoja de ruta para garantizar calidad del software mediante TDD, métricas de cob
 | --- | --- | --- |
 | Cobertura unitaria | ≥ 80 % | Reportes de `pytest --cov`.
 | Tiempo medio para corregir fallos críticos | ≤ 2 días | Bitácora en `registros/`.
-| Cumplimiento de checklists QA | 100 % por release | [`../checklists/checklist_testing.md`](../checklists/checklist_testing.md).
+| Actividades de control documental completadas | 100 % por release | [`actividades_garantia_documental.md`](actividades_garantia_documental.md).
+
+## Actividades coordinadas
+- Seguir las tareas definidas en [`actividades_garantia_documental.md`](actividades_garantia_documental.md) para revisar plantillas y trazabilidad.
+- Levantar hallazgos en `qa/registros/` cuando se detecten incumplimientos de documentación.
+- Alinear con producto y arquitectura una revisión semanal dedicada a documentación.
 
 ## Acciones prioritarias
 - [ ] Generar reporte inicial de cobertura y publicarlo en `registros/`.
