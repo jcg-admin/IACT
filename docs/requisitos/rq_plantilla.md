@@ -5,6 +5,8 @@ propietario: equipo-producto
 ultima_actualizacion: 2025-02-14
 relacionados: []
 ---
+# Plantilla de requisitos funcionales
+
 > Plantilla rápida para registrar nuevos requisitos funcionales (copiar y actualizar campos).
 
 ```md

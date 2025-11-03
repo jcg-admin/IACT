@@ -1,7 +1,7 @@
 # Plantilla Business Case
 
 ## Identificación
-- Código: MAC-INIT-BC-XXX
+- Código: MAC-INIT-BC-{número}
 - Versión: v1.0.0
 - Responsable: ...
 
