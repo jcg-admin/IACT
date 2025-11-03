@@ -3,11 +3,16 @@ id: SCRIPTS-REQ-INDEX
 tipo: documentacion
 titulo: Scripts para Gestión de Requisitos
 fecha: 2025-11-03
+relacionados: ["DOC-GOB-CODING-STANDARDS", "DOC-GOB-SHELL-GUIDE"]
 ---
 
 # Scripts para Gestión de Requisitos
 
 Scripts simples y fáciles de ejecutar para trabajar con requisitos en `docs/implementacion/`.
+
+**IMPORTANTE**: Estos scripts implementan los estándares definidos en:
+- [Estándares de Código](../../docs/gobernanza/estandares_codigo.md) - Regla de Oro de Output Profesional
+- [Shell Scripting Guide](../../docs/gobernanza/shell_scripting_guide.md) - Guía completa de shell scripting
 
 ---
 
@@ -300,9 +305,15 @@ chmod +x scripts/requisitos/*.py
 
 ## Referencias
 
+**Documentación del Proyecto:**
 - [Estructura de Implementación](../../docs/implementacion/README.md)
 - [Plantillas ISO 29148](../../docs/plantillas/readme.md)
 - [Glosario BABOK/PMBOK/ISO](../../docs/anexos/glosario_babok_pmbok_iso.md)
+
+**Estándares y Guías:**
+- [Estándares de Código - Regla de Oro](../../docs/gobernanza/estandares_codigo.md#regla-de-oro-output-profesional)
+- [Shell Scripting Guide Completa](../../docs/gobernanza/shell_scripting_guide.md)
+- [Plantillas de Scripts](../templates/README.md)
 
 ---
 
