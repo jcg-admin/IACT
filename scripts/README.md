@@ -5,13 +5,13 @@ titulo: Scripts del Proyecto IACT
 fecha: 2025-11-03
 ---
 
-# 🛠️ Scripts del Proyecto IACT
+# Scripts del Proyecto IACT
 
 Scripts organizados por función para facilitar tareas comunes.
 
 ---
 
-## 📁 Estructura
+## Estructura
 
 ```
 scripts/
@@ -26,7 +26,7 @@ scripts/
 
 ---
 
-## 🎯 Scripts de Requisitos
+## Scripts de Requisitos
 
 ### Uso rápido:
 
@@ -48,7 +48,7 @@ python scripts/requisitos/generar_indices.py
 
 ---
 
-## 📋 Flujo de Trabajo Recomendado
+## Flujo de Trabajo Recomendado
 
 ### Al trabajar con requisitos:
 
@@ -60,7 +60,7 @@ python scripts/requisitos/generar_indices.py
 
 ---
 
-## 🔧 Permisos
+## Permisos
 
 Si encuentras problemas de permisos:
 
@@ -71,7 +71,7 @@ chmod +x scripts/requisitos/*.py
 
 ---
 
-## 📚 Referencias
+## Referencias
 
 - [Estructura de Implementación](../docs/implementacion/README.md)
 - [Plantillas ISO 29148](../docs/plantillas/readme.md)
