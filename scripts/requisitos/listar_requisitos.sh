@@ -2,14 +2,14 @@
 # Lista todos los requisitos con su información básica
 
 echo "======================================"
-echo "📋 LISTA DE REQUISITOS"
+echo "LISTA DE REQUISITOS"
 echo "======================================"
 echo ""
 
 IMPL_PATH="docs/implementacion"
 
 if [ ! -d "$IMPL_PATH" ]; then
-    echo "❌ Error: No existe la carpeta $IMPL_PATH"
+    echo "ERROR: No existe la carpeta $IMPL_PATH"
     exit 1
 fi
 
@@ -28,7 +28,7 @@ extract_info() {
 }
 
 # Buscar y listar por tipo
-echo "📋 NECESIDADES DE NEGOCIO (N-XXX):"
+echo "NECESIDADES DE NEGOCIO (N-XXX):"
 necesidades=$(find "$IMPL_PATH" -path "*/necesidades/*.md" -type f ! -name "README.md" ! -name "_*.md" 2>/dev/null)
 if [ -n "$necesidades" ]; then
     echo "$necesidades" | while read file; do
@@ -39,7 +39,7 @@ else
 fi
 echo ""
 
-echo "💼 REQUISITOS DE NEGOCIO (RN-XXX):"
+echo "REQUISITOS DE NEGOCIO (RN-XXX):"
 negocio=$(find "$IMPL_PATH" -path "*/negocio/*.md" -type f ! -name "README.md" ! -name "_*.md" 2>/dev/null)
 if [ -n "$negocio" ]; then
     echo "$negocio" | while read file; do
@@ -50,7 +50,7 @@ else
 fi
 echo ""
 
-echo "👥 REQUISITOS DE STAKEHOLDERS (RS-XXX):"
+echo "REQUISITOS DE STAKEHOLDERS (RS-XXX):"
 stakeholders=$(find "$IMPL_PATH" -path "*/stakeholders/*.md" -type f ! -name "README.md" ! -name "_*.md" 2>/dev/null)
 if [ -n "$stakeholders" ]; then
     echo "$stakeholders" | while read file; do
@@ -61,7 +61,7 @@ else
 fi
 echo ""
 
-echo "⚙️  REQUISITOS FUNCIONALES (RF-XXX):"
+echo "REQUISITOS FUNCIONALES (RF-XXX):"
 funcionales=$(find "$IMPL_PATH" -path "*/funcionales/*.md" -type f ! -name "README.md" ! -name "_*.md" 2>/dev/null)
 if [ -n "$funcionales" ]; then
     echo "$funcionales" | while read file; do
@@ -72,7 +72,7 @@ else
 fi
 echo ""
 
-echo "🎯 REQUISITOS NO FUNCIONALES (RNF-XXX):"
+echo "REQUISITOS NO FUNCIONALES (RNF-XXX):"
 no_funcionales=$(find "$IMPL_PATH" -path "*/no_funcionales/*.md" -type f ! -name "README.md" ! -name "_*.md" 2>/dev/null)
 if [ -n "$no_funcionales" ]; then
     echo "$no_funcionales" | while read file; do

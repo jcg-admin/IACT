@@ -84,7 +84,7 @@ Para modificar, edite los archivos fuente en `docs/implementacion/`.
 
     reqs = requirements.get('negocio', [])
     if not reqs:
-        content += "\n⚠️ **No se encontraron requisitos de negocio.**\n"
+        content += "\n**ADVERTENCIA: No se encontraron requisitos de negocio.**\n"
     else:
         content += f"\n**Total de requisitos de negocio**: {len(reqs)}\n\n"
 
@@ -132,7 +132,7 @@ generado: AUTO-GENERADO - NO EDITAR MANUALMENTE
 
     reqs = requirements.get('stakeholders', [])
     if not reqs:
-        content += "\n⚠️ **No se encontraron requisitos de stakeholders.**\n"
+        content += "\n**ADVERTENCIA: No se encontraron requisitos de stakeholders.**\n"
     else:
         content += f"\n**Total de requisitos de stakeholders**: {len(reqs)}\n\n"
 
@@ -185,7 +185,7 @@ generado: AUTO-GENERADO - NO EDITAR MANUALMENTE
             content += f"- **Estado**: {estado}\n"
             content += f"- **Archivo**: [{relpath}](../{relpath})\n\n"
     else:
-        content += "\n⚠️ **No se encontraron requisitos funcionales.**\n\n"
+        content += "\n**ADVERTENCIA: No se encontraron requisitos funcionales.**\n\n"
 
     content += "\n---\n\n## Requisitos No Funcionales\n\n"
 
@@ -201,7 +201,7 @@ generado: AUTO-GENERADO - NO EDITAR MANUALMENTE
             content += f"- **Categoría**: {categoria}\n"
             content += f"- **Archivo**: [{relpath}](../{relpath})\n\n"
     else:
-        content += "\n⚠️ **No se encontraron requisitos no funcionales.**\n\n"
+        content += "\n**ADVERTENCIA: No se encontraron requisitos no funcionales.**\n\n"
 
     return content
 
@@ -249,25 +249,25 @@ Matriz de trazabilidad bidireccional de todos los requisitos del proyecto.
 
 def main():
     """Función principal."""
-    print("🔍 Recopilando requisitos...")
+    print("INFO: Recopilando requisitos...")
     requirements = collect_requirements()
 
     # Crear directorio de salida
     OUTPUT_PATH.mkdir(parents=True, exist_ok=True)
 
-    print("📝 Generando BRS (Business Requirements Specification)...")
+    print("GENERANDO: BRS (Business Requirements Specification)...")
     brs_content = generate_brs(requirements)
     (OUTPUT_PATH / "brs_business_requirements.md").write_text(brs_content, encoding='utf-8')
 
-    print("📝 Generando StRS (Stakeholder Requirements Specification)...")
+    print("GENERANDO: StRS (Stakeholder Requirements Specification)...")
     strs_content = generate_strs(requirements)
     (OUTPUT_PATH / "strs_stakeholder_requirements.md").write_text(strs_content, encoding='utf-8')
 
-    print("📝 Generando SRS (Software Requirements Specification)...")
+    print("GENERANDO: SRS (Software Requirements Specification)...")
     srs_content = generate_srs(requirements)
     (OUTPUT_PATH / "srs_software_requirements.md").write_text(srs_content, encoding='utf-8')
 
-    print("📝 Generando RTM (Requirements Traceability Matrix)...")
+    print("GENERANDO: RTM (Requirements Traceability Matrix)...")
     rtm_content = generate_rtm(requirements)
     (OUTPUT_PATH / "matriz_trazabilidad_rtm.md").write_text(rtm_content, encoding='utf-8')
 
@@ -279,7 +279,7 @@ generado: AUTO
 
 # Índices de Requisitos (ISO 29148)
 
-**⚠️ ESTOS ARCHIVOS SON AUTO-GENERADOS - NO EDITAR MANUALMENTE**
+**ADVERTENCIA: ESTOS ARCHIVOS SON AUTO-GENERADOS - NO EDITAR MANUALMENTE**
 
 Los índices se regeneran automáticamente mediante GitHub Actions cuando se modifican requisitos en `docs/implementacion/`.
 
@@ -301,11 +301,11 @@ Los índices se regeneran automáticamente mediante GitHub Actions cuando se mod
 
     (OUTPUT_PATH / "README.md").write_text(readme_content, encoding='utf-8')
 
-    print("✅ Índices generados exitosamente en docs/requisitos/")
+    print("SUCCESS: Índices generados exitosamente en docs/requisitos/")
 
     # Estadísticas
     total = sum(len(reqs) for reqs in requirements.values())
-    print(f"\n📊 Estadísticas:")
+    print("\nESTADISTICAS:")
     print(f"   Total de requisitos: {total}")
     for req_type, reqs in requirements.items():
         if reqs:

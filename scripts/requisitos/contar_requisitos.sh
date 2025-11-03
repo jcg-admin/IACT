@@ -2,18 +2,18 @@
 # Cuenta requisitos por tipo en docs/implementacion/
 
 echo "======================================"
-echo "📊 CONTADOR DE REQUISITOS"
+echo "CONTADOR DE REQUISITOS"
 echo "======================================"
 echo ""
 
 IMPL_PATH="docs/implementacion"
 
 if [ ! -d "$IMPL_PATH" ]; then
-    echo "❌ Error: No existe la carpeta $IMPL_PATH"
+    echo "ERROR: No existe la carpeta $IMPL_PATH"
     exit 1
 fi
 
-echo "📁 Buscando en: $IMPL_PATH"
+echo "INFO: Buscando en: $IMPL_PATH"
 echo ""
 
 # Contar por tipo
@@ -26,15 +26,15 @@ no_funcionales=$(find "$IMPL_PATH" -path "*/no_funcionales/*.md" -type f ! -name
 total=$((necesidades + negocio + stakeholders + funcionales + no_funcionales))
 
 echo "Requisitos por tipo:"
-echo "  📋 Necesidades (N-XXX):        $necesidades"
-echo "  💼 Negocio (RN-XXX):           $negocio"
-echo "  👥 Stakeholders (RS-XXX):      $stakeholders"
-echo "  ⚙️  Funcionales (RF-XXX):       $funcionales"
-echo "  🎯 No Funcionales (RNF-XXX):   $no_funcionales"
+echo "  Necesidades (N-XXX):        $necesidades"
+echo "  Negocio (RN-XXX):           $negocio"
+echo "  Stakeholders (RS-XXX):      $stakeholders"
+echo "  Funcionales (RF-XXX):       $funcionales"
+echo "  No Funcionales (RNF-XXX):   $no_funcionales"
 echo ""
-echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-echo "  ✅ TOTAL:                      $total"
-echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "======================================"
+echo "  TOTAL:                      $total"
+echo "======================================"
 echo ""
 
 # Contar por dominio
@@ -43,7 +43,7 @@ backend=$(find "$IMPL_PATH/backend/requisitos" -name "*.md" -type f ! -name "REA
 frontend=$(find "$IMPL_PATH/frontend/requisitos" -name "*.md" -type f ! -name "README.md" ! -name "_*.md" 2>/dev/null | wc -l)
 infrastructure=$(find "$IMPL_PATH/infrastructure/requisitos" -name "*.md" -type f ! -name "README.md" ! -name "_*.md" 2>/dev/null | wc -l)
 
-echo "  🔧 Backend:                    $backend"
-echo "  🎨 Frontend:                   $frontend"
-echo "  ⚡ Infrastructure:             $infrastructure"
+echo "  Backend:                    $backend"
+echo "  Frontend:                   $frontend"
+echo "  Infrastructure:             $infrastructure"
 echo ""

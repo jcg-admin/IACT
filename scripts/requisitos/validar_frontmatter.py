@@ -60,12 +60,12 @@ def validate_file(filepath):
 
 def main():
     print("=" * 70)
-    print("🔍 VALIDADOR DE FRONTMATTER YAML")
+    print("VALIDADOR DE FRONTMATTER YAML")
     print("=" * 70)
     print()
 
     if not IMPL_PATH.exists():
-        print(f"❌ Error: No existe {IMPL_PATH}")
+        print(f"ERROR: No existe {IMPL_PATH}")
         return
 
     # Find all requirement files
@@ -75,7 +75,7 @@ def main():
             files.append(md_file)
 
     if not files:
-        print("ℹ️  No se encontraron archivos de requisitos")
+        print("INFO: No se encontraron archivos de requisitos")
         print()
         print("Los requisitos deben estar en:")
         print("  - docs/implementacion/backend/requisitos/")
@@ -83,7 +83,7 @@ def main():
         print("  - docs/implementacion/infrastructure/requisitos/")
         return
 
-    print(f"📄 Validando {len(files)} archivos...")
+    print(f"INFO: Validando {len(files)} archivos...")
     print()
 
     valid_count = 0
@@ -95,10 +95,10 @@ def main():
 
         if result['valid']:
             valid_count += 1
-            print(f"✅ {filepath.relative_to('docs')}")
+            print(f"VALIDO: {filepath.relative_to('docs')}")
         else:
             invalid_count += 1
-            print(f"❌ {filepath.relative_to('docs')}")
+            print(f"INVALIDO: {filepath.relative_to('docs')}")
             print(f"   Error: {result['error']}")
             if result['missing_fields']:
                 print(f"   Faltan: {', '.join(result['missing_fields'])}")
@@ -109,14 +109,14 @@ def main():
 
     print()
     print("=" * 70)
-    print("📊 RESUMEN")
+    print("RESUMEN")
     print("=" * 70)
-    print(f"✅ Válidos:   {valid_count}")
-    print(f"❌ Inválidos: {invalid_count}")
+    print(f"Validos:   {valid_count}")
+    print(f"Invalidos: {invalid_count}")
     print()
 
     if invalid_count > 0:
-        print("⚠️  Archivos con errores:")
+        print("ADVERTENCIA: Archivos con errores:")
         for error in errors:
             print(f"   - {error['file'].relative_to('docs')}")
         print()
@@ -126,7 +126,7 @@ def main():
         print()
         print("Consulta las plantillas en: docs/plantillas/")
     else:
-        print("🎉 Todos los requisitos tienen frontmatter válido!")
+        print("SUCCESS: Todos los requisitos tienen frontmatter válido!")
 
     print()
 
