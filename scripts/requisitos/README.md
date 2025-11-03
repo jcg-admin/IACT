@@ -5,15 +5,43 @@ titulo: Scripts para Gestión de Requisitos
 fecha: 2025-11-03
 ---
 
-# 🛠️ Scripts para Gestión de Requisitos
+# Scripts para Gestión de Requisitos
 
 Scripts simples y fáciles de ejecutar para trabajar con requisitos en `docs/implementacion/`.
 
 ---
 
-## 📋 Scripts Disponibles
+## Estándares de Formato
 
-### 1. **Generar Índices ISO 29148** 🔄
+Todos los scripts en esta carpeta siguen estos principios de diseño:
+
+### 1. Formato Profesional
+- **Sin emojis**: Código limpio y corporativo sin decoración innecesaria
+- **Etiquetas de texto**: Uso de prefijos claros y consistentes para mensajes
+
+### 2. Etiquetas Estándar
+
+| Etiqueta | Uso | Ejemplo |
+|----------|-----|---------|
+| `ERROR:` | Errores críticos que requieren atención | `ERROR: No existe la carpeta docs/implementacion` |
+| `ADVERTENCIA:` | Alertas que no son críticas | `ADVERTENCIA: No se encontraron requisitos funcionales` |
+| `INFO:` | Información general | `INFO: Recopilando requisitos...` |
+| `SUCCESS:` | Operación completada exitosamente | `SUCCESS: Índices generados exitosamente` |
+| `GENERANDO:` | Proceso en ejecución | `GENERANDO: BRS (Business Requirements Specification)...` |
+| `ACCION REQUERIDA:` | Usuario debe hacer algo | `ACCION REQUERIDA: Instalar dependencias` |
+
+### 3. Principios de Diseño
+- **Enfoque en funcionalidad**: Scripts directos sin complejidad innecesaria
+- **Idempotencia**: Pueden ejecutarse múltiples veces de forma segura
+- **Auto-detección inteligente**: Detectan y manejan problemas automáticamente
+- **Sin opciones YAGNI**: No incluyen flags innecesarios como `--force` si la idempotencia está bien implementada
+- **Información metodológica en documentación**: Explicaciones de metodología van en READMEs, no en código
+
+---
+
+## Scripts Disponibles
+
+### 1. Generar Índices ISO 29148
 
 **Archivo**: `generar_indices.py`
 
@@ -31,6 +59,24 @@ Scripts simples y fáciles de ejecutar para trabajar con requisitos en `docs/imp
 python scripts/requisitos/generar_indices.py
 ```
 
+**Salida ejemplo**:
+```
+INFO: Recopilando requisitos...
+GENERANDO: BRS (Business Requirements Specification)...
+GENERANDO: StRS (Stakeholder Requirements Specification)...
+GENERANDO: SRS (Software Requirements Specification)...
+GENERANDO: RTM (Requirements Traceability Matrix)...
+SUCCESS: Índices generados exitosamente en docs/requisitos/
+
+ESTADISTICAS:
+   Total de requisitos: 22
+   - Necesidades: 2
+   - Negocio: 3
+   - Stakeholders: 5
+   - Funcionales: 8
+   - No_funcionales: 4
+```
+
 **Cuándo ejecutar**:
 - Después de crear/modificar cualquier requisito
 - Antes de commit/push
@@ -38,7 +84,7 @@ python scripts/requisitos/generar_indices.py
 
 ---
 
-### 2. **Contar Requisitos** 📊
+### 2. Contar Requisitos
 
 **Archivo**: `contar_requisitos.sh`
 
@@ -59,27 +105,32 @@ chmod +x scripts/requisitos/contar_requisitos.sh
 
 **Salida ejemplo**:
 ```
-📊 CONTADOR DE REQUISITOS
-====================================
+======================================
+CONTADOR DE REQUISITOS
+======================================
+
+INFO: Buscando en: docs/implementacion
 
 Requisitos por tipo:
-  📋 Necesidades (N-XXX):        2
-  💼 Negocio (RN-XXX):           3
-  👥 Stakeholders (RS-XXX):      5
-  ⚙️  Funcionales (RF-XXX):       8
-  🎯 No Funcionales (RNF-XXX):   4
+  Necesidades (N-XXX):        2
+  Negocio (RN-XXX):           3
+  Stakeholders (RS-XXX):      5
+  Funcionales (RF-XXX):       8
+  No Funcionales (RNF-XXX):   4
 
-  ✅ TOTAL:                      22
+======================================
+  TOTAL:                      22
+======================================
 
 Requisitos por dominio:
-  🔧 Backend:                    15
-  🎨 Frontend:                   5
-  ⚡ Infrastructure:             2
+  Backend:                    15
+  Frontend:                   5
+  Infrastructure:             2
 ```
 
 ---
 
-### 3. **Validar Frontmatter** ✅
+### 3. Validar Frontmatter
 
 **Archivo**: `validar_frontmatter.py`
 
@@ -96,23 +147,40 @@ python scripts/requisitos/validar_frontmatter.py
 
 **Salida ejemplo**:
 ```
-🔍 VALIDADOR DE FRONTMATTER YAML
-====================================
+======================================================================
+VALIDADOR DE FRONTMATTER YAML
+======================================================================
 
-✅ implementacion/backend/requisitos/funcionales/rf001_api_stock.md
-❌ implementacion/backend/requisitos/funcionales/rf002_alertas.md
+INFO: Validando 10 archivos...
+
+VALIDO: implementacion/backend/requisitos/funcionales/rf001_api_stock.md
+INVALIDO: implementacion/backend/requisitos/funcionales/rf002_alertas.md
    Error: Faltan campos obligatorios
    Faltan: trazabilidad_upward, stakeholders
 
-📊 RESUMEN
-====================================
-✅ Válidos:   8
-❌ Inválidos: 2
+======================================================================
+RESUMEN
+======================================================================
+Validos:   8
+Invalidos: 2
+
+ADVERTENCIA: Archivos con errores:
+   - implementacion/backend/requisitos/funcionales/rf002_alertas.md
+
+Campos obligatorios:
+   - id
+   - tipo
+   - titulo
+   - dominio
+   - owner
+   - estado
+
+Consulta las plantillas en: docs/plantillas/
 ```
 
 ---
 
-### 4. **Listar Requisitos** 📋
+### 4. Listar Requisitos
 
 **Archivo**: `listar_requisitos.sh`
 
@@ -132,24 +200,28 @@ chmod +x scripts/requisitos/listar_requisitos.sh
 
 **Salida ejemplo**:
 ```
-📋 LISTA DE REQUISITOS
-====================================
+======================================
+LISTA DE REQUISITOS
+======================================
 
-📋 NECESIDADES DE NEGOCIO (N-XXX):
+NECESIDADES DE NEGOCIO (N-XXX):
   N-001 - Reducir roturas de stock [aprobado]
   N-002 - Mejorar satisfacción cliente [propuesto]
 
-💼 REQUISITOS DE NEGOCIO (RN-XXX):
+REQUISITOS DE NEGOCIO (RN-XXX):
   RN-001 - Sistema de alertas automáticas [aprobado]
 
-⚙️  REQUISITOS FUNCIONALES (RF-XXX):
+REQUISITOS FUNCIONALES (RF-XXX):
   RF-001 - API calcular stock mínimo [aprobado]
   RF-002 - Dashboard de alertas [en_desarrollo]
+
+REQUISITOS NO FUNCIONALES (RNF-XXX):
+  RNF-001 - Tiempo de respuesta < 200ms [aprobado]
 ```
 
 ---
 
-## 🚀 Flujo de Trabajo Típico
+## Flujo de Trabajo Típico
 
 ### Al crear/modificar requisitos:
 
@@ -174,7 +246,7 @@ git push
 
 ---
 
-## 📝 Permisos de Ejecución
+## Permisos de Ejecución
 
 Si encuentras error de permisos:
 
@@ -186,7 +258,7 @@ chmod +x scripts/requisitos/*.py
 
 ---
 
-## 🔍 Ubicaciones Importantes
+## Ubicaciones Importantes
 
 | Carpeta | Contenido |
 |---------|-----------|
@@ -197,7 +269,7 @@ chmod +x scripts/requisitos/*.py
 
 ---
 
-## ⚠️ Recordatorios
+## Recordatorios
 
 1. **Índices auto-generados**: NO editar manualmente archivos en `docs/requisitos/`
 2. **Ejecutar después de cambios**: Siempre ejecutar `generar_indices.py` después de modificar requisitos
@@ -206,7 +278,7 @@ chmod +x scripts/requisitos/*.py
 
 ---
 
-## 🆘 Solución de Problemas
+## Solución de Problemas
 
 ### "No se encontraron archivos"
 - Verificar que estás en la raíz del proyecto
@@ -226,7 +298,7 @@ chmod +x scripts/requisitos/*.py
 
 ---
 
-## 📚 Referencias
+## Referencias
 
 - [Estructura de Implementación](../../docs/implementacion/README.md)
 - [Plantillas ISO 29148](../../docs/plantillas/readme.md)
