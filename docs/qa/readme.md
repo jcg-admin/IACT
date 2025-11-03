@@ -14,6 +14,7 @@ Centraliza la estrategia, métricas y evidencias de aseguramiento de calidad par
 
 ## Páginas hijas
 - [`estrategia_qa.md`](estrategia_qa.md)
+- [`actividades_garantia_documental.md`](actividades_garantia_documental.md)
 - [`registros/`](registros/)
 
 ## Información clave
@@ -24,8 +25,8 @@ Centraliza la estrategia, métricas y evidencias de aseguramiento de calidad par
 
 ### Artefactos obligatorios
 - Estrategia de QA (`estrategia_qa.md`).
+- Actividades de control documental (`actividades_garantia_documental.md`).
 - Registro de ejecuciones y evidencias (`registros/`).
-- Integración con checklists (`../checklists/`).
 
 ## Estado de cumplimiento
 | Elemento en la base maestra | ¿Existe en repositorio? | Observaciones |
