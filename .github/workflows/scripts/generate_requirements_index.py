@@ -17,8 +17,8 @@ import yaml
 
 # Paths
 DOCS_PATH = Path("docs")
-IMPL_PATH = DOCS_PATH / "implementacion"
-OUTPUT_PATH = DOCS_PATH / "requisitos"
+IMPL_PATH = DOCS_PATH / "implementacion"  # docs/implementacion/ (Opción B)
+OUTPUT_PATH = DOCS_PATH / "requisitos"     # docs/requisitos/ (índices auto-generados)
 
 def extract_frontmatter(filepath: Path) -> Dict:
     """Extrae el frontmatter YAML de un archivo markdown."""

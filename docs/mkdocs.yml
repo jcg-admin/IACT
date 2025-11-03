@@ -8,7 +8,15 @@ nav:
       - Portada: vision_y_alcance/readme.md
       - Glosario de negocio: vision_y_alcance/glossary.md
   - Gobernanza: gobernanza/readme.md
-  - Requisitos: requisitos/readme.md
+  - Requisitos (Índices ISO 29148): requisitos/readme.md
+  - Implementación (Source of Truth):
+      - Portada: implementacion/README.md
+      - Backend:
+          - Requisitos: implementacion/backend/requisitos/README.md
+      - Frontend:
+          - Requisitos: implementacion/frontend/requisitos/README.md
+      - Infrastructure:
+          - Requisitos: implementacion/infrastructure/requisitos/README.md
   - Arquitectura:
       - Portada: arquitectura/readme.md
       - Lineamientos de código: arquitectura/lineamientos_codigo.md
