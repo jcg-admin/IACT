@@ -1,7 +1,7 @@
 # Plantilla Caso de Prueba
 
 ## Identificación
-- Código: TEST-TC-XXX
+- Código: TEST-TC-{número}
 - Versión: v1.0.0
 
 ## Objetivo

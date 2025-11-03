@@ -5,6 +5,8 @@ propietario: equipo-producto
 ultima_actualizacion: 2025-02-14
 relacionados: ["RQ-ANL-001", "ADR-2025-001"]
 ---
+# Glosario del proyecto
+
 | Término | Definición breve |
 |---------|------------------|
 | IVR | Respuesta de voz interactiva usada para enrutar llamadas entrantes. |

@@ -1,10 +1,12 @@
 ---
-id: DOC-GOB-001
+id: DOC-GOB-INFRA-001
 estado: borrador
-propietario: pmo
-ultima_actualizacion: 2025-02-14
-relacionados: []
+propietario: equipo-infraestructura
+ultima_actualizacion: 2025-11-02
+relacionados: ["DOC-GOB-INDEX"]
 ---
+# Lineamientos de gobernanza de infraestructura
+
 ## Próximos pasos de gobernanza
 - Definir responsables para aprobar RQ-ANL y RN-###.
 - Programar comité bisemanal para revisar ADR nuevos.

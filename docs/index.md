@@ -13,8 +13,7 @@ Este árbol replica la jerarquía de espacios publicada en la base documental ma
 - [`../readme.md`](../readme.md)
 
 ## Páginas hijas
-- [Gestión y visión](gerencia/readme.md)
-- [Visión y alcance](gerencia/vision_y_alcance/readme.md)
+- [Visión y alcance](vision_y_alcance/readme.md)
 - [Gobernanza](gobernanza/readme.md)
 - [Requisitos](requisitos/readme.md)
 - [Arquitectura](arquitectura/readme.md)
@@ -23,14 +22,15 @@ Este árbol replica la jerarquía de espacios publicada en la base documental ma
 - [Frontend](frontend/readme.md)
 - [Infrastructure](infrastructure/readme.md)
 - [Planificación y releases](planificacion_y_releases/readme.md)
-- [Gestión de calidad](qa/estrategia_qa.md)
+- [Gestión de calidad (QA)](qa/estrategia_qa.md)
 - [DevOps](devops/readme.md)
 - [Anexos](anexos/readme.md)
 - [Plantillas](plantillas/readme.md)
 - [Checklists](checklists/readme.md)
 - [Solicitudes](solicitudes/readme.md)
-- [SC00](solicitudes/sc00/readme.md)
-- [Documentación corporativa](documentacion_corporativa.md)
+  - [SC00](solicitudes/sc00/readme.md)
+  - [SC01](solicitudes/sc01/readme.md)
+  - [Scientific Computing Projects](solicitudes/scientific_computing_projects/index.md)
 
 ## Información clave
 ### Convenciones

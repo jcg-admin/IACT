@@ -1,7 +1,7 @@
 site_name: Documentación IACT
 site_description: "Base documental del proyecto IACT - Call Center Analytics"
-site_url: ""
-repo_url: ""
+site_url: "https://2-coatl.github.io/IACT---project"
+repo_url: "https://github.com/2-Coatl/IACT---project"
 nav:
   - Inicio: index.md
   - Visión y alcance:

@@ -1,9 +1,10 @@
 ---
-id: DOC-PLAN-GENERAL
-estado: borrador
-propietario: equipo-documentacion
-ultima_actualizacion: 2025-02-20
+id: DOC-GOB-PLAN
+estado: activo
+propietario: pmo
+ultima_actualizacion: 2025-11-02
 relacionados:
+  - "DOC-GOB-INDEX"
   - "DOC-ROOT-001"
   - "DOC-INDEX-GENERAL"
   - "DOC-QA-DOC-CONTROL"
@@ -53,6 +54,42 @@ evidencias auditables.
 | docs/arquitectura/adr/plantilla_adr.md | Plantilla base para nuevas decisiones. | Vigente |
 | docs/arquitectura/lineamientos_codigo.md | Guía de estilo para el monolito modular. | Vigente |
 | docs/arquitectura/readme.md | Índice técnico y backlog arquitectónico. | Vigente |
+| docs/diseno_detallado/readme.md | Portada de especificaciones por módulo. | Vigente |
+| docs/planificacion_y_releases/readme.md | Roadmap y calendario de releases. | Vigente |
+| docs/qa/estrategia_qa.md | Línea base de QA y bitácora de pruebas. | Vigente |
+| docs/qa/registros/2025_02_16_ejecucion_pytest.md | Registro histórico de ejecución Pytest. | Vigente |
+| docs/devops/runbooks/post_create.md | Runbook para aprovisionamiento Vagrant. | Vigente |
+| docs/anexos/catalogo_reglas_negocio.md | Catálogo de reglas de negocio del call center. | Vigente |
+| docs/plantillas/ | Colección de plantillas reutilizables. | Vigente |
+| docs/checklists/ | Checklists operativos y de control. | Vigente |
+| docs/solicitudes/scientific_computing_projects/index.md | Índice del espacio corporativo SCP. | Vigente |
+
+## Convenciones de nomenclatura
+- Directorios en minúsculas con guiones bajos (`vision_y_alcance`, `planificacion_y_releases`).
+- Archivos `readme.md` como portadas con front matter en YAML.
+- Referencias relativas entre espacios para compatibilidad con GitHub y MkDocs (`../gobernanza/readme.md`).
+- Identificadores de tareas con prefijo `WKF-SDLC-XXX` para mantener trazabilidad.
+
+## Estructura objetivo
+```text
+docs/
+├── vision_y_alcance/
+├── gobernanza/
+├── requisitos/
+├── arquitectura/
+├── diseno_detallado/
+├── planificacion_y_releases/
+├── qa/
+├── devops/
+├── anexos/
+├── plantillas/
+├── checklists/
+├── backend/
+├── frontend/
+├── infrastructure/
+└── solicitudes/
+    └── scientific_computing_projects/
+```
 
 ## Backlog de sincronización
 
@@ -68,10 +105,21 @@ evidencias auditables.
 3. Producto y arquitectura revisan implicaciones de requisitos y ADR relacionados.
 4. Cualquier hallazgo se registra en `qa/registros/` y se actualiza el backlog anterior.
 
+## Próximos pasos sugeridos
+1. Completar portadas pendientes en `devops/`, `anexos/`, `plantillas/` y `checklists/`.
+2. Crear `bitacora.md` en `devops/` para registrar ejecuciones de runbooks.
+3. Migrar artefactos adicionales desde repositorios externos manteniendo la convención de enlaces relativos.
+4. Revisar mensualmente que la configuración de `mkdocs.yml` refleje esta estructura.
+
 ## Próximas acciones
 - [ ] Documentar criterios de salida de despliegue y vincularlos desde `qa/estrategia_qa.md`.
 - [ ] Incorporar mediciones de cobertura automática y publicar resumen mensual.
 - [ ] Automatizar validaciones de front matter en CI una vez disponible la canalización.
+
+## Integración con MkDocs
+- El directorio `docs/` contiene toda la documentación del proyecto organizada por espacios estratégicos.
+- Las nuevas páginas deben estructurarse siguiendo las convenciones de nomenclatura establecidas.
+- Los anexos y plantillas sirven como material de referencia y apoyo a los espacios principales.
 
 ## Evidencias y enlaces relevantes
 - [`qa/actividades_garantia_documental.md`](qa/actividades_garantia_documental.md): políticas aplicadas a cada revisión.

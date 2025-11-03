@@ -1,7 +1,7 @@
 # Plantilla de regla de negocio
 
 ## Metadatos
-- Código: REQ-BR-XXX
+- Código: REQ-BR-{número}
 - Tipo: Hecho | Restricción | Desencadenador | Inferencia | Cálculo
 - Fuente: ...
 - Estado: Borrador | En revisión | Aprobado

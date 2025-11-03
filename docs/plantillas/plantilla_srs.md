@@ -17,10 +17,10 @@ Listar objetivos estratégicos.
 Listar necesidades por rol.
 
 ## 5. Casos de uso
-Enlaces a documentos REQ-UC-XXX.
+Enlaces a documentos REQ-UC-{número}.
 
 ## 6. Requisitos funcionales
-Enumerar con formato REQ-FUNC-XXX y trazabilidad.
+Enumerar con formato REQ-FUNC-{número} y trazabilidad.
 
 ## 7. Requisitos no funcionales
 Subsecciones por categoría.
