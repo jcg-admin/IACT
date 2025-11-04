@@ -42,7 +42,7 @@ docs/implementacion/backend/requisitos/
 
 ---
 
-## 👥 Componente 2: Gestión de Usuarios (Parcial)
+## Componente 2: Gestión de Usuarios (Parcial)
 
 | ID | Documento | Estado | Tests | Código |
 |----|-----------|--------|-------|--------|
@@ -56,7 +56,7 @@ docs/implementacion/backend/requisitos/
 
 ---
 
-## 🗺️ Mapa de Trazabilidad
+## Mapa de Trazabilidad
 
 ### Reglas de Negocio -> Requisitos Funcionales
 
@@ -120,15 +120,15 @@ Documento: [restricciones_y_lineamientos.md](restricciones_y_lineamientos.md)
 | # | Código | Restricción | Impacto en Requisitos |
 |---|--------|-------------|----------------------|
 | 1 | RESTR-001 | NO NO EMAIL - Solo buzón interno | RF-005, RF-008, RF-009 |
-| 2 | RESTR-002 | 🔒 IVR DB READONLY - Cero escrituras | (Componente IVR) |
-| 3 | RESTR-003 | 🗄️ SESSIONS IN DB - No Redis | RF-005, RF-007, RF-008, RF-010 |
-| 4 | RESTR-004 | ⏱️ NO REAL-TIME - ETL 6-12h | (Componente Analytics) |
+| 2 | RESTR-002 | CRITICO IVR DB READONLY - Cero escrituras | (Componente IVR) |
+| 3 | RESTR-003 | SAVE SESSIONS IN DB - No Redis | RF-005, RF-007, RF-008, RF-010 |
+| 4 | RESTR-004 | ⏱ NO REAL-TIME - ETL 6-12h | (Componente Analytics) |
 | 5 | RESTR-005 | CONFIG DEBUG=FALSE - Siempre producción | Todos los RF |
-| 6 | RESTR-006 | 🔐 JWT + PERMISSIONS - Auth robusta | RF-005, RF-006 |
+| 6 | RESTR-006 | CRITICO JWT + PERMISSIONS - Auth robusta | RF-005, RF-006 |
 | 7 | RESTR-007 | FILE PAGINATION - Siempre activa | (APIs futuras) |
 | 8 | RESTR-008 | NOTA AUDITING - Logs obligatorios | RF-005, RF-007, RF-008, RF-009 |
-| 9 | RESTR-009 | 🔒 NO CVE HIGH - Deps seguras | Todos los RF |
-| 10 | RESTR-010 | 🗑️ LOGICAL DELETE - No físico | Todos los modelos |
+| 9 | RESTR-009 | CRITICO NO CVE HIGH - Deps seguras | Todos los RF |
+| 10 | RESTR-010 | DELETE LOGICAL DELETE - No físico | Todos los modelos |
 
 ---
 
@@ -214,11 +214,11 @@ IMPL-###   -> Implementación del Requisito ###
 - OK **Completo**: Documentado, testeado y implementado
 - WARNING **Parcial**: Avance pero no completo
 - ESPERANDO **Pendiente**: No iniciado
-- 🚫 **Bloqueado**: Dependencias sin resolver
+- NO **Bloqueado**: Dependencias sin resolver
 
 ---
 
-## 🔄 Historial de Cambios
+## Historial de Cambios
 
 | Fecha | Versión | Cambios |
 |-------|---------|---------|
@@ -228,7 +228,7 @@ IMPL-###   -> Implementación del Requisito ###
 
 ---
 
-## 📞 Contactos
+## Contactos
 
 **Owner Backend:** equipo-backend
 **Stakeholders:** usuarios-finales, administradores-sistema, gerentes-seguridad
@@ -236,7 +236,7 @@ IMPL-###   -> Implementación del Requisito ###
 
 ---
 
-## 🔗 Enlaces Útiles
+## Enlaces Útiles
 
 - [ISO/IEC/IEEE 29148:2018](https://www.iso.org/standard/72089.html) - Estándar de requisitos
 - [OWASP ASVS](https://owasp.org/www-project-application-security-verification-standard/) - Estándares de seguridad

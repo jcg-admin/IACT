@@ -203,15 +203,15 @@ until mysqladmin ping -h mariadb -u django_user -pdjango_pass --silent; do
 done
 
 # Instalar dependencias Python (si requirements.txt cambió)
-echo "📦 Instalando dependencias Python..."
+echo "PACKAGE Instalando dependencias Python..."
 pip install -r requirements.txt
 
 # Ejecutar migraciones
-echo "🗄️  Ejecutando migraciones..."
+echo "SAVE  Ejecutando migraciones..."
 python manage.py migrate
 
 # Crear superuser si no existe
-echo "👤 Configurando superuser..."
+echo "USER Configurando superuser..."
 python manage.py shell << EOF
 from django.contrib.auth import get_user_model
 User = get_user_model()

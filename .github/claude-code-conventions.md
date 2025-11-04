@@ -359,29 +359,29 @@ gh pr create --title "Agregar dashboard de analytics" \
 #### 1. Emojis
 ```bash
 # NO HACER ESTO
-echo "✅ Completado"
-echo "❌ Error"
-echo "⚠️ Advertencia"
-echo "🚀 Iniciando"
-echo "📁 Procesando"
-echo "💾 Guardando"
-echo "🔍 Buscando"
-echo "⏳ Esperando"
-echo "✨ Nuevo"
-echo "🎉 Éxito"
+echo "[COMPLETADO]"
+echo "[ERROR]"
+echo "[ADVERTENCIA]"
+echo "[INICIANDO]"
+echo "[PROCESANDO]"
+echo "[GUARDANDO]"
+echo "[BUSCANDO]"
+echo "[ESPERANDO]"
+echo "[NUEVO]"
+echo "[EXITO]"
 ```
 
 #### 2. Iconos Unicode Decorativos
 ```bash
 # NO HACER ESTO
-echo "▶ Ejecutando"
-echo "● Item"
-echo "→ Siguiente"
-echo "★ Importante"
-echo "♦ Nota"
-echo "■ Opción"
-echo "▸ Paso"
-echo "» Info"
+echo "[EJECUTANDO]"
+echo "- Item"
+echo "-> Siguiente"
+echo "[IMPORTANTE]"
+echo "[NOTA]"
+echo "- Opción"
+echo "- Paso"
+echo "[INFO]"
 ```
 
 #### 3. Box Drawing Characters
@@ -466,18 +466,16 @@ echo "  3. Third step"
 #### Script Incorrecto
 ```bash
 #!/bin/bash
-echo "🚀 Iniciando proceso..."
-echo "📁 Procesando archivos"
-echo "  ▶ Archivo 1"
-echo "  ▶ Archivo 2"
-echo "✅ Completado exitosamente"
+echo "[START] Iniciando proceso..."
+echo "[INFO] Procesando archivos"
+echo "  - Archivo 1"
+echo "  - Archivo 2"
+echo "[SUCCESS] Completado exitosamente"
 echo ""
-echo "╔═══════════════╗"
-echo "║   RESUMEN     ║"
-echo "╚═══════════════╝"
-echo "● Archivos: 2"
-echo "● Errores: 0"
-echo "🎉 Proceso finalizado"
+echo "RESUMEN"
+echo "Archivos: 2"
+echo "Errores: 0"
+echo "[DONE] Proceso finalizado"
 ```
 
 #### Script Correcto

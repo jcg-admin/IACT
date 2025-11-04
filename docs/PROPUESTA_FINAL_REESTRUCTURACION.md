@@ -107,12 +107,12 @@ IACT---project/
 │
 ├── .github/
 │   └── workflows/
-│       ├── requirements-index.yml          ★ CRÍTICO: Regenera índices
-│       ├── lint.yml                        ★ Valida frontmatter
-│       └── docs.yml                        ★ Despliega a GitHub Pages
+│       ├── requirements-index.yml          CRITICO CRÍTICO: Regenera índices
+│       ├── lint.yml                        CRITICO Valida frontmatter
+│       └── docs.yml                        CRITICO Despliega a GitHub Pages
 │
 └── scripts/
-    └── generate-requirements-index.js      ★ Generador de índices ISO
+    └── generate-requirements-index.js      CRITICO Generador de índices ISO
 ```
 
 ---
@@ -236,7 +236,7 @@ El sistema **deberá** proporcionar una API REST que calcule el stock mínimo...
 - [ ] Crear glosario: `docs/anexos/glosario_babok_pmbok_iso.md`
 - [ ] Aprobar propuesta con stakeholders
 
-**Criterio GO**: ✅ Plantillas aprobadas, equipo capacitado
+**Criterio GO**: OK Plantillas aprobadas, equipo capacitado
 
 **Responsable**: BA Lead + PMO
 
@@ -258,7 +258,7 @@ git commit -m "feat(ci): agregar workflow generación índices ISO 29148"
 git push
 ```
 
-**Criterio GO**: ✅ Estructura creada, workflows ejecutándose sin errores
+**Criterio GO**: OK Estructura creada, workflows ejecutándose sin errores
 
 **Responsable**: Tech Lead
 
@@ -283,7 +283,7 @@ N-001: Reducir roturas de stock
       └─ RNF-020: Alta disponibilidad 99.9% (infrastructure/requisitos/no_funcionales/)
 ```
 
-**Criterio GO**: ✅ Índices generados correctamente, trazabilidad 100%, 0 errores en CI/CD
+**Criterio GO**: OK Índices generados correctamente, trazabilidad 100%, 0 errores en CI/CD
 
 **Responsable**: BA Senior + Tech Lead
 
@@ -306,7 +306,7 @@ for solicitud in docs/solicitudes/sc*; do
 done
 ```
 
-**Criterio GO**: ✅ ≥80% necesidades migradas, 0% duplicación
+**Criterio GO**: OK ≥80% necesidades migradas, 0% duplicación
 
 **Responsable**: BA Team
 
@@ -328,7 +328,7 @@ done
 - [ ] ISO 29148 clause asignada
 ```
 
-**Criterio GO**: ✅ RTM completa, ≥95% requisitos con frontmatter válido
+**Criterio GO**: OK RTM completa, ≥95% requisitos con frontmatter válido
 
 **Responsable**: Equipos por dominio (Backend Lead, Frontend Lead, DevOps Lead)
 
@@ -343,17 +343,17 @@ done
 
 **Checklist de validación**:
 ```markdown
-✅ BRS generado cumple ISO 9.3
-✅ StRS generado cumple ISO 9.4
-✅ SyRS generado cumple ISO 9.5
-✅ SRS generado cumple ISO 9.6
-✅ RTM completa sin enlaces rotos
-✅ 100% requisitos tienen trazabilidad
-✅ CI/CD regenera en <30 segundos
-✅ Equipo entrenado en nueva estructura
+OK BRS generado cumple ISO 9.3
+OK StRS generado cumple ISO 9.4
+OK SyRS generado cumple ISO 9.5
+OK SRS generado cumple ISO 9.6
+OK RTM completa sin enlaces rotos
+OK 100% requisitos tienen trazabilidad
+OK CI/CD regenera en <30 segundos
+OK Equipo entrenado en nueva estructura
 ```
 
-**Criterio GO**: ✅ Declaración "Full Conformance ISO 29148" aprobada
+**Criterio GO**: OK Declaración "Full Conformance ISO 29148" aprobada
 
 **Responsable**: BA Lead + Auditor externo (recomendado)
 
@@ -379,13 +379,13 @@ git commit -m "chore(docs): archivar estructura antigua - migración completa"
 git push
 ```
 
-**Criterio GO**: ✅ Estructura antigua archivada, 100% enlaces válidos en nueva estructura
+**Criterio GO**: OK Estructura antigua archivada, 100% enlaces válidos en nueva estructura
 
 **Responsable**: PMO
 
 ---
 
-## 📊 MÉTRICAS DE ÉXITO
+## MÉTRICAS DE ÉXITO
 
 | Métrica | Baseline Actual | Target | Método de Medición |
 |---------|-----------------|--------|-------------------|
@@ -399,7 +399,7 @@ git push
 
 ---
 
-## 🎯 CASOS DE USO
+## CASOS DE USO
 
 ### UC1: Developer busca requisito funcional backend
 ```bash
@@ -411,7 +411,7 @@ ls  # ... múltiples archivos ... 10-15 min buscando
 cd implementacion/backend/requisitos/funcionales/
 ls rf*_stock*.md
 # → rf001_api_calcular_stock.md
-# ✅ Encontrado en <30 segundos
+# OK Encontrado en <30 segundos
 ```
 
 ### UC2: BA necesita ver trazabilidad completa
@@ -422,7 +422,7 @@ cat docs/requisitos/matriz_trazabilidad_rtm.md
 # O en GitHub Pages
 open https://2-coatl.github.io/IACT---project/requisitos/rtm/
 
-# ✅ Trazabilidad automática upward/downward
+# OK Trazabilidad automática upward/downward
 ```
 
 ### UC3: Auditor pide BRS conforme ISO 29148
@@ -432,7 +432,7 @@ cat docs/requisitos/brs_business_requirements.md
 
 # Verificar conformance
 grep "ISO/IEC/IEEE 29148:2018 - Clause 9.3" docs/requisitos/brs_business_requirements.md
-# ✅ Full Conformance certificado
+# OK Full Conformance certificado
 ```
 
 ### UC4: PM quiere agregar nueva necesidad
@@ -449,13 +449,13 @@ git add .
 git commit -m "feat(requisitos): agregar necesidad N-002"
 git push
 
-# 4. CI/CD regenera índices automáticamente ✅
-# 5. BRS actualizado en docs/requisitos/ ✅
+# 4. CI/CD regenera índices automáticamente OK
+# 5. BRS actualizado en docs/requisitos/ OK
 ```
 
 ---
 
-## 🔧 HERRAMIENTAS Y SCRIPTS
+## HERRAMIENTAS Y SCRIPTS
 
 ### Script: `scripts/generate-requirements-index.js`
 ```javascript
@@ -471,7 +471,7 @@ git push
 
 ---
 
-## 🏆 VENTAJAS vs Estructura Antigua
+## VENTAJAS vs Estructura Antigua
 
 | Aspecto | Antigua (v0) | Nueva (v4.0) |
 |---------|--------------|--------------|
@@ -486,7 +486,7 @@ git push
 
 ---
 
-## ⚠️ RIESGOS Y MITIGACIONES
+## RIESGOS Y MITIGACIONES
 
 | Riesgo | Probabilidad | Impacto | Mitigación |
 |--------|--------------|---------|------------|
@@ -498,23 +498,23 @@ git push
 
 ---
 
-## ✅ REQUISITOS PARA APROBACIÓN
+## REQUISITOS PARA APROBACIÓN
 
 ### OBLIGATORIOS:
-1. ✅ Aprobación de PMO, Tech Leads, BA Lead
-2. ✅ Capacitación: 10h total (BABOK + PMBOK + ISO)
-3. ✅ Asignar Responsable de Migración (BA Senior)
-4. ✅ Piloto (FASE 2) exitoso antes de migración masiva
-5. ✅ Mantener estructura antigua read-only 3 meses
+1. OK: Aprobación de PMO, Tech Leads, BA Lead
+2. OK: Capacitación: 10h total (BABOK + PMBOK + ISO)
+3. OK: Asignar Responsable de Migración (BA Senior)
+4. OK: Piloto (FASE 2) exitoso antes de migración masiva
+5. OK: Mantener estructura antigua read-only 3 meses
 
 ### RECOMENDADOS:
-6. 🔶 Auditor externo ISO para validación final
-7. 🔶 Certificar ≥1 BA en CBAP
-8. 🔶 Herramienta Requirements Management (JIRA/Azure DevOps)
+6. RECOMENDADO: Auditor externo ISO para validación final
+7. RECOMENDADO: Certificar ≥1 BA en CBAP
+8. RECOMENDADO: Herramienta Requirements Management (JIRA/Azure DevOps)
 
 ---
 
-## 📅 PRÓXIMOS PASOS INMEDIATOS
+## PRÓXIMOS PASOS INMEDIATOS
 
 ### HOY:
 - [ ] Presentar esta propuesta a stakeholders
@@ -534,11 +534,11 @@ git push
 ### SEMANA 3 (FASE 2 - PILOTO):
 - [ ] Migrar 1 necesidad completa
 - [ ] Validar generación de índices
-- [ ] ⚡ **GO/NO-GO para continuar**
+- [ ] CRITICO **GO/NO-GO para continuar**
 
 ---
 
-## 📚 REFERENCIAS
+## REFERENCIAS
 
 - **BABOK v3** (IIBA, 2015): Business Analysis Body of Knowledge
 - **PMBOK Guide 7th Ed** (PMI, 2021): Project Management Body of Knowledge
@@ -546,7 +546,7 @@ git push
 
 ---
 
-## 📝 CONTROL DE VERSIONES
+## CONTROL DE VERSIONES
 
 | Versión | Fecha | Descripción |
 |---------|-------|-------------|
@@ -559,7 +559,7 @@ git push
 
 **FIN DE LA PROPUESTA**
 
-✅ **Estado**: Listo para aprobación ejecutiva
-✅ **Conformance**: Full ISO/IEC/IEEE 29148:2018
-✅ **Automatización**: CI/CD completo
-✅ **Beneficios**: <5% duplicación, <30s búsqueda, 100% trazabilidad
+OK **Estado**: Listo para aprobación ejecutiva
+OK **Conformance**: Full ISO/IEC/IEEE 29148:2018
+OK **Automatización**: CI/CD completo
+OK **Beneficios**: <5% duplicación, <30s búsqueda, 100% trazabilidad

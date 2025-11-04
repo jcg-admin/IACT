@@ -177,7 +177,7 @@ STATS FRECUENCIA ETL:
 
 ---
 
-## 🔐 2. RESTRICCIONES DE SEGURIDAD (DRF SECURE CODE)
+## 2. RESTRICCIONES DE SEGURIDAD (DRF SECURE CODE)
 
 ### 2.1 Configuración Django/DRF
 
@@ -599,8 +599,8 @@ OK PRECEDENCIA (UC-042):
   3. Permisos de Segmento (menor)
 
 OK SEPARACIÓN DE FUNCIONES (SoD):
-  - R016 (SYSTEM_ADMIN) ⚔️ R017 (AUDIT_VIEWER)
-  - R001 (USERS_FULL_MANAGER) ⚔️ R017 (AUDIT_VIEWER)
+  - R016 (SYSTEM_ADMIN) vs R017 (AUDIT_VIEWER)
+  - R001 (USERS_FULL_MANAGER) vs R017 (AUDIT_VIEWER)
   - Validar antes de asignar
 
 OK PERMISOS DIRECTOS:
@@ -823,7 +823,7 @@ OK SECRETS:
 
 ---
 
-## 💻 8. RESTRICCIONES DE DESARROLLO
+## 8. RESTRICCIONES DE DESARROLLO
 
 ### 8.1 Coding Standards
 
@@ -957,7 +957,7 @@ OK IMMUTABILIDAD:
 
 ---
 
-## 🔒 10. RESTRICCIONES DE PRIVACIDAD Y DATOS
+## 10. RESTRICCIONES DE PRIVACIDAD Y DATOS
 
 ### 10.1 Clasificación de Datos
 
@@ -1008,35 +1008,35 @@ OK PII:
 ### 11.1 Pre-Deploy
 
 ```yaml
-☑️ Configuración:
+OK Configuración:
   - DEBUG=False en prod
   - SECRET_KEY desde env
   - ALLOWED_HOSTS correcto
   - SECURE_* flags activos
 
-☑️ Seguridad:
+OK Seguridad:
   - Permisos configurados
   - Throttling activo
   - CORS correcto
   - HTTPS forzado
 
-☑️ Base de Datos:
+OK Base de Datos:
   - Migraciones aplicadas
   - Usuario BD correcto
   - Backups configurados
 
-☑️ Dependencias:
+OK Dependencias:
   - SBOM generado
   - Sin CVE críticos
   - Versiones bloqueadas
 
-☑️ Tests:
+OK Tests:
   - Cobertura >= 80%
   - Todos passing
   - SAST passing
   - check --deploy passing
 
-☑️ Infraestructura:
+OK Infraestructura:
   - Healthchecks funcionando
   - Recursos limitados
   - Secrets configurados
@@ -1048,19 +1048,19 @@ OK PII:
 ### 11.2 Post-Deploy
 
 ```yaml
-☑️ Validaciones:
+OK Validaciones:
   - Smoke tests passing
   - Dashboard carga correctamente
   - Login funciona
   - APIs responden
 
-☑️ Monitoring:
+OK Monitoring:
   - Logs fluyendo
   - Métricas reportando
   - Alertas configuradas
   - Trazabilidad activa
 
-☑️ Rollback Plan:
+OK Rollback Plan:
   - Procedimiento documentado
   - Backups verificados
   - Contactos disponibles
@@ -1068,7 +1068,7 @@ OK PII:
 
 ---
 
-## 🎓 12. GLOSARIO DE RESTRICCIONES
+## 12. GLOSARIO DE RESTRICCIONES
 
 ```yaml
 Términos Clave:
@@ -1100,15 +1100,15 @@ EVITAR:
 
 ### Restricciones Críticas (Top 10)
 
-1. 🚫 **NO EMAIL** - Solo buzón interno
-2. 🔒 **BD IVR READONLY** - Zero escritura
+1. NO **NO EMAIL** - Solo buzón interno
+2. CRITICO **BD IVR READONLY** - Zero escritura
 3. SAVE **SESIONES EN BD** - No Redis
-4. 🔄 **NO REAL-TIME** - Actualización por ETL
-5. 🔐 **DEBUG=FALSE** - Siempre en producción
-6. 🎫 **JWT + PERMISOS** - Autenticación robusta
+4. SYNC **NO REAL-TIME** - Actualización por ETL
+5. CRITICO **DEBUG=FALSE** - Siempre en producción
+6. TICKET **JWT + PERMISOS** - Autenticación robusta
 7. STATS **PAGINACIÓN** - Siempre activa
 8. BUSCAR **AUDITORÍA** - Eventos críticos logged
-9. 🛡️ **SIN CVE HIGH** - Dependencias seguras
+9. SHIELD **SIN CVE HIGH** - Dependencias seguras
 10. NOTA **BAJA LÓGICA** - No eliminación física
 
 ### Cumplimiento Requerido

@@ -82,7 +82,7 @@ docs/implementacion/
 
 ---
 
-## 🔗 Trazabilidad (Obligatoria)
+## Trazabilidad (Obligatoria)
 
 Cada requisito **DEBE** incluir frontmatter YAML con trazabilidad:
 
@@ -147,7 +147,7 @@ python .github/workflows/scripts/generate_requirements_index.py
 
 ---
 
-## 🔄 Migración desde Estructura Legacy
+## Migración desde Estructura Legacy
 
 Si tienes requisitos en `docs/backend/requisitos/` (estructura antigua), consulta la [Guía de Migración](MIGRATION_FROM_LEGACY.md).
 

@@ -30,7 +30,7 @@ Se requiere crear un documento complementario de análisis de amenazas que cubra
 
 ---
 
-## 🔲 Tareas Pendientes
+## Tareas Pendientes
 
 ### 1. Crear Análisis de Amenazas para Módulos de Aplicación
 
@@ -335,11 +335,11 @@ git push -u origin claude/add-api-tdd-tests-011CUnSQ9QwKuZXVsFgTJZcr
    - Contiene: Restricciones críticas del sistema
    - **CRÍTICO:** Incorporar restricciones en el análisis:
      - NO NO EMAIL (solo buzón interno)
-     - 🔒 BD IVR READONLY (solo SELECT)
+     - CRITICO BD IVR READONLY (solo SELECT)
      - SAVE SESIONES EN BD (no Redis)
-     - 🔄 NO REAL-TIME (actualización por ETL 6-12h)
+     - SYNC NO REAL-TIME (actualización por ETL 6-12h)
      - STATS LÍMITES DE EXPORTACIÓN (CSV: 100k, Excel: 100k, PDF: 10k)
-     - ⏱️ TIMEOUTS (Reportes: 5s, Exports: 60-120s)
+     - ⏱ TIMEOUTS (Reportes: 5s, Exports: 60-120s)
 
 3. **Requisitos Funcionales** (RF-001 a RF-010)
    - Ubicación: `docs/implementacion/backend/requisitos/funcionales/`
@@ -401,7 +401,7 @@ El documento `ANALISIS_AMENAZAS_APLICACION.md` estará completo cuando:
 
 ---
 
-## 💡 Notas Adicionales
+## NOTA Notas Adicionales
 
 ### Prioridades de Análisis
 

@@ -164,22 +164,22 @@ graph LR
 
 ```mermaid
 flowchart TB
-    subgraph Internet["🌐 INTERNET (Untrusted)"]
+    subgraph Internet["INTERNET INTERNET (Untrusted)"]
         U[Usuario/Cliente]
     end
 
-    subgraph DMZ["🔶 DMZ"]
+    subgraph DMZ["DMZ DMZ"]
         LB[Load Balancer]
         NGINX[NGINX]
     end
 
-    subgraph AppZone["🔒 Application Zone (Trusted)"]
+    subgraph AppZone["CRITICO Application Zone (Trusted)"]
         API[Django/DRF API]
         Auth[Auth Service]
         RBAC[RBAC Engine]
     end
 
-    subgraph DataZone["🔐 Data Zone (Highly Trusted)"]
+    subgraph DataZone["CRITICO Data Zone (Highly Trusted)"]
         DB[(PostgreSQL)]
         Audit[(Audit Logs)]
     end
@@ -394,7 +394,7 @@ flowchart TD
 
 | Amenaza ID | Control | Tipo | Estado | Responsable | Verificación |
 |------------|---------|------|--------|-------------|--------------|
-| T-001 | Alertas por intentos fallidos masivos | Monitoreo | 🔶 Planificado | DevOps | Dashboard |
+| T-001 | Alertas por intentos fallidos masivos | Monitoreo | DMZ Planificado | DevOps | Dashboard |
 | T-005 | Audit logs de autenticación | Auditoría | OK Implementado | Backend | `TEST-SEC-005` |
 | T-006 | Logging de errores (sin stack trace) | Auditoría | OK Implementado | Backend | Validación manual |
 | T-009 | Logging de decisiones RBAC | Auditoría | OK Implementado | Backend | `TEST-SEC-011` |
@@ -404,12 +404,12 @@ flowchart TD
 | Amenaza ID | Control | Tipo | Estado | Responsable | Verificación |
 |------------|---------|------|--------|-------------|--------------|
 | T-001 | Desbloqueo manual por admin | Proceso | OK Implementado | Soporte | Runbook |
-| T-008 | Auto-scaling en picos de tráfico | Infraestructura | 🔶 Planificado | DevOps | Terraform |
+| T-008 | Auto-scaling en picos de tráfico | Infraestructura | DMZ Planificado | DevOps | Terraform |
 ```
 
 **Estados:**
 - OK Implementado
-- 🔶 Planificado
+- DMZ Planificado
 - NO No planificado (riesgo aceptado)
 
 **Checklist:**

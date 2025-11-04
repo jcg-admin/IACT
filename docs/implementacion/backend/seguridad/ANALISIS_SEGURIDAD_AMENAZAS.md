@@ -60,13 +60,13 @@ Del documento `restricciones_y_lineamientos.md`:
 | ID | Restricción | Impacto en Seguridad |
 |----|-------------|----------------------|
 | RESTR-001 | NO NO EMAIL | Notificaciones solo por buzón interno - no se filtra info por email |
-| RESTR-002 | 🔒 IVR DB READONLY | Base IVR es read-only - previene inyección de datos |
-| RESTR-003 | 🗄️ SESSIONS IN DB | Sesiones en PostgreSQL - no Redis expuesto |
+| RESTR-002 | CRITICO IVR DB READONLY | Base IVR es read-only - previene inyección de datos |
+| RESTR-003 | SAVE SESSIONS IN DB | Sesiones en PostgreSQL - no Redis expuesto |
 | RESTR-005 | CONFIG DEBUG=FALSE | Siempre producción - no leak de stack traces |
-| RESTR-006 | 🔐 JWT + PERMISSIONS | Autenticación robusta obligatoria |
+| RESTR-006 | CRITICO JWT + PERMISSIONS | Autenticación robusta obligatoria |
 | RESTR-008 | NOTA AUDITING | Logs obligatorios - trazabilidad completa |
-| RESTR-009 | 🔒 NO CVE HIGH | Dependencias seguras - escaneo continuo |
-| RESTR-010 | 🗑️ LOGICAL DELETE | Eliminación lógica - mantiene auditoría |
+| RESTR-009 | CRITICO NO CVE HIGH | Dependencias seguras - escaneo continuo |
+| RESTR-010 | DELETE LOGICAL DELETE | Eliminación lógica - mantiene auditoría |
 
 ### 1.3 Activos Críticos
 
@@ -144,23 +144,23 @@ graph LR
 
 ```mermaid
 flowchart TB
-    subgraph Internet["🌐 INTERNET (Untrusted)"]
+    subgraph Internet["INTERNET (Untrusted)"]
         U[Usuario/Cliente]
     end
 
-    subgraph DMZ["🔶 DMZ"]
+    subgraph DMZ["DMZ"]
         LB[Load Balancer]
         NGINX[NGINX]
     end
 
-    subgraph AppZone["🔒 Application Zone (Trusted)"]
+    subgraph AppZone["Application Zone (Trusted)"]
         API[Django/DRF API]
         Auth[Auth Service]
         RBAC[RBAC Engine]
         Jobs[Background Jobs]
     end
 
-    subgraph DataZone["🔐 Data Zone (Highly Trusted)"]
+    subgraph DataZone["Data Zone (Highly Trusted)"]
         DB[(PostgreSQL)]
         Audit[(Audit Logs)]
     end

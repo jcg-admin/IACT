@@ -220,7 +220,7 @@ Estos archivos tienen el mismo nombre pero contenido diferente. Requieren revisi
 
 **Análisis**: Mismo patrón.
 
-**Recomendación**: ⚠️ ELIMINAR stub.
+**Recomendación**: WARNING ELIMINAR stub.
 
 ---
 
