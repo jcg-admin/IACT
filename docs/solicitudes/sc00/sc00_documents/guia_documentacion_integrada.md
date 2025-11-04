@@ -68,7 +68,7 @@ consistencia entre los distintos espacios documentales que conviven en el reposi
 | `../../readme.md` | Define los lineamientos globales de solicitudes documentales |
 | `../../../requisitos/plantillas/srs.md` | Plantilla base para especificaciones de requisitos |
 | `../sc00_task_report/readme.md` | Tablero que centraliza las tareas vinculadas a SC00 |
-| `../../../requirements/docs.txt` | Dependencias técnicas necesarias para compilar la documentación |
+| `../../../requirements.txt` | Dependencias técnicas necesarias para compilar la documentación |
 
 Mantener esta guía actualizada garantiza que cualquier integrante del equipo pueda replicar el proceso de análisis desde la identificación de una
 regla hasta la validación de su cumplimiento a través de solicitudes, requisitos y tareas documentadas.
