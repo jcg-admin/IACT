@@ -66,8 +66,12 @@ Los documentos técnicos se crearán en:
 - [Backend - Arquitectura](../../backend/arquitectura/readme.md)
 - [Backend - Diseño Detallado](../../backend/diseno_detallado/readme.md)
 - [Arquitectura General](../../arquitectura/readme.md)
+- [Patrones Arquitectónicos](../../backend/arquitectura/patrones_arquitectonicos.md) ⭐ NUEVO
+- [Guía de Decisión de Patrones](../../backend/arquitectura/guia_decision_patrones.md) ⭐ NUEVO
 - [Plantilla API Reference](../../plantillas/plantilla_api_reference.md)
 - [Plantilla Database Design](../../plantillas/plantilla_database_design.md)
+- [Plantilla Django App](../../plantillas/plantilla_django_app.md)
+- [Plantilla ETL Job](../../plantillas/plantilla_etl_job.md)
 
 ## Estado actual
 
@@ -77,6 +81,7 @@ Los documentos técnicos se crearán en:
 | Análisis de plantillas | ✅ Completado | Equipo Backend | 2025-11-04 |
 | Análisis estructural API | ✅ Completado | Equipo Backend | 2025-11-04 |
 | Análisis funcional de apps | ✅ Completado | Equipo Backend | 2025-11-04 |
+| Documentación patrones arquitectónicos | ✅ Completado | Equipo Backend | 2025-11-04 |
 | Documentación app analytics | ⏸️ Pendiente | Equipo Backend | Por definir |
 | Documentación app etl | ⏸️ Pendiente | Equipo Backend | Por definir |
 | Documentación app reports | ⏸️ Pendiente | Equipo Backend | Por definir |
@@ -93,12 +98,14 @@ Los documentos técnicos se crearán en:
 
 - [x] Crear estructura de solicitud SC02
 - [x] Definir alcance y objetivos
-- [ ] Analizar estructura de cada app Django
-- [ ] Documentar modelos de datos
-- [ ] Documentar servicios y lógica de negocio
+- [x] Analizar estructura de cada app Django
+- [x] Analizar función real de cada app
+- [x] Documentar patrones arquitectónicos existentes
+- [x] Crear guías de decisión de patrones
+- [ ] Documentar apps individuales (modelos, servicios, vistas)
 - [ ] Crear guía de API endpoints
 - [ ] Revisar con equipo de arquitectura
-- [ ] Publicar en docs/backend/
+- [ ] Publicar documentación de apps en docs/backend/
 - [ ] Actualizar índice de backend
 - [ ] Cerrar solicitud
 

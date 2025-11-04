@@ -35,6 +35,8 @@ nav:
       - Arquitectura:
           - Portada: backend/arquitectura/readme.md
           - Lineamientos de código: backend/arquitectura/lineamientos_codigo.md
+          - Patrones Arquitectónicos: backend/arquitectura/patrones_arquitectonicos.md
+          - Guía de Decisión de Patrones: backend/arquitectura/guia_decision_patrones.md
       - Diseño detallado:
           - Portada: backend/diseno_detallado/readme.md
       - Checklists:
