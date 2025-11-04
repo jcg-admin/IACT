@@ -11,7 +11,7 @@ Esta guía ayuda a migrar requisitos desde la estructura legacy (`docs/backend/r
 
 ---
 
-## 📋 Tabla de Contenidos
+## Tabla de Contenidos
 
 1. [Contexto](#contexto)
 2. [Estructura Legacy vs Nueva](#estructura-legacy-vs-nueva)
@@ -22,30 +22,30 @@ Esta guía ayuda a migrar requisitos desde la estructura legacy (`docs/backend/r
 
 ---
 
-## 🎯 Contexto
+## Contexto
 
 ### ¿Por qué migrar?
 
 La estructura legacy tenía varios problemas:
 
-❌ **Duplicación masiva**: Requisitos repetidos en backend/, frontend/, infrastructure/
-❌ **Sin trazabilidad**: No había jerarquía clara NECESIDAD → REQUISITO → IMPLEMENTACIÓN
-❌ **No conforme ISO**: No seguía ISO/IEC/IEEE 29148:2018
-❌ **Búsqueda difícil**: Requisitos dispersos en múltiples ubicaciones
+PROBLEMA: **Duplicación masiva**: Requisitos repetidos en backend/, frontend/, infrastructure/
+PROBLEMA: **Sin trazabilidad**: No había jerarquía clara NECESIDAD → REQUISITO → IMPLEMENTACIÓN
+PROBLEMA: **No conforme ISO**: No seguía ISO/IEC/IEEE 29148:2018
+PROBLEMA: **Búsqueda difícil**: Requisitos dispersos en múltiples ubicaciones
 
-### ✅ Beneficios de la nueva estructura
+### Beneficios de la nueva estructura
 
-✅ **Source of Truth único**: Un solo lugar para cada requisito
-✅ **Trazabilidad completa**: Frontmatter YAML con upward/downward
-✅ **Conforme ISO 29148**: Full conformance auditable
-✅ **Co-localización con código**: Requisitos cerca de implementación
-✅ **Índices auto-generados**: BRS, StRS, SyRS, SRS, RTM
+BENEFICIO: **Source of Truth único**: Un solo lugar para cada requisito
+BENEFICIO: **Trazabilidad completa**: Frontmatter YAML con upward/downward
+BENEFICIO: **Conforme ISO 29148**: Full conformance auditable
+BENEFICIO: **Co-localización con código**: Requisitos cerca de implementación
+BENEFICIO: **Índices auto-generados**: BRS, StRS, SyRS, SRS, RTM
 
 ---
 
-## 🏗️ Estructura Legacy vs Nueva
+## Estructura Legacy vs Nueva
 
-### Estructura Legacy (Antigua) ❌
+### Estructura Legacy (Antigua)
 
 ```
 docs/
@@ -69,7 +69,7 @@ docs/
 - Sin trazabilidad estructurada
 - Duplicación entre dominios
 
-### Estructura Nueva (Actual) ✅
+### Estructura Nueva (Actual)
 
 ```
 docs/
@@ -102,7 +102,7 @@ docs/
 
 ---
 
-## 🔄 Proceso de Migración
+## Proceso de Migración
 
 ### Fase 1: Inventario (1-2 días)
 
@@ -124,11 +124,11 @@ docs/
 Para cada requisito legacy, determina:
 
 1. **¿Qué tipo es?** (según BABOK/ISO 29148)
-   - 🏢 **Necesidad de Negocio** (N-XXX): Problema u oportunidad del negocio
-   - 📊 **Requisito de Negocio** (RN-XXX): Objetivos y metas organizacionales
-   - 👥 **Requisito de Stakeholder** (RS-XXX): Necesidades de usuarios específicos
-   - ⚙️ **Requisito Funcional** (RF-XXX): Qué debe hacer el sistema
-   - 📈 **Requisito No Funcional** (RNF-XXX): Cómo debe comportarse (calidad)
+   - **Necesidad de Negocio** (N-XXX): Problema u oportunidad del negocio
+   - **Requisito de Negocio** (RN-XXX): Objetivos y metas organizacionales
+   - **Requisito de Stakeholder** (RS-XXX): Necesidades de usuarios específicos
+   - **Requisito Funcional** (RF-XXX): Qué debe hacer el sistema
+   - **Requisito No Funcional** (RNF-XXX): Cómo debe comportarse (calidad)
 
 2. **¿Qué dominio?**
    - Backend, Frontend, Infrastructure
@@ -192,7 +192,7 @@ Copia el contenido del archivo legacy y adapta al formato de la plantilla:
 Añade al archivo legacy una nota:
 
 ```markdown
-> **⚠️ ARCHIVO OBSOLETO**
+> **ADVERTENCIA: ARCHIVO OBSOLETO**
 >
 > Este requisito se ha migrado a la nueva estructura:
 > - **Nuevo ubicación**: `docs/implementacion/backend/requisitos/funcionales/rf001_api_calcular_stock.md`
@@ -233,7 +233,7 @@ mv docs/infrastructure/requisitos/*.md docs/legacy_requirements_archive/
 
 ---
 
-## ✅ Checklist de Migración
+## Checklist de Migración
 
 ### Por Requisito
 
@@ -262,7 +262,7 @@ mv docs/infrastructure/requisitos/*.md docs/legacy_requirements_archive/
 
 ---
 
-## 📚 Ejemplos Prácticos
+## Ejemplos Prácticos
 
 ### Ejemplo 1: Migrar Requisito Funcional Backend
 
@@ -385,7 +385,7 @@ Implementar sistema de alertas predictivas que anticipe roturas con 7 días de a
 
 ---
 
-## ❓ Preguntas Frecuentes
+## Preguntas Frecuentes
 
 ### ¿Debo migrar todo de una vez?
 
@@ -429,7 +429,7 @@ grep -r "docs/backend/requisitos" docs/ --include="*.md"
 
 ---
 
-## 🚀 Script de Ayuda
+## Script de Ayuda
 
 Puedes usar este script para ayudar con la migración:
 
@@ -460,8 +460,8 @@ DEST="docs/implementacion/${DOMINIO}/requisitos/${CARPETA}/${ID,,}_descripcion.m
 
 cp "$TEMPLATE" "$DEST"
 
-echo "✅ Archivo creado: $DEST"
-echo "⚠️  Ahora completa manualmente:"
+echo "SUCCESS: Archivo creado: $DEST"
+echo "ADVERTENCIA: Ahora completa manualmente:"
 echo "   1. Frontmatter YAML"
 echo "   2. Contenido del requisito"
 echo "   3. Trazabilidad upward/downward"

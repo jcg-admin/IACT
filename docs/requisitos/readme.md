@@ -13,7 +13,7 @@ Este espacio contiene los índices consolidados de requisitos del proyecto IACT,
 ## Página padre
 - [Índice de espacios documentales](../index.md)
 
-## 🤖 Documentos Auto-Generados
+## Documentos Auto-Generados
 
 Según [ISO/IEC/IEEE 29148:2018](https://www.iso.org/standard/72089.html), estos documentos se generan automáticamente:
 
@@ -23,7 +23,7 @@ Según [ISO/IEC/IEEE 29148:2018](https://www.iso.org/standard/72089.html), estos
 - **SRS** (Software Requirements Specification) - ISO 29148 Clause 9.6
 - **RTM** (Requirements Traceability Matrix)
 
-## ⚠️ NO EDITAR MANUALMENTE
+## ADVERTENCIA: NO EDITAR MANUALMENTE
 
 Los archivos en esta carpeta son **auto-generados** mediante GitHub Actions desde los requisitos documentados en:
 
@@ -36,12 +36,12 @@ implementacion/
 
 **Cualquier cambio manual será sobrescrito** en la próxima ejecución del workflow.
 
-## 🎯 Source of Truth
+## Source of Truth
 
 El **Source of Truth** para requisitos está en:
 - [Implementación - Requisitos](../implementacion/README.md)
 
-## 🔄 Generación Manual
+## Generación Manual
 
 Si necesitas regenerar los índices manualmente:
 
@@ -52,19 +52,19 @@ python .github/workflows/scripts/generate_requirements_index.py
 # Resultado: docs/requisitos/ actualizado
 ```
 
-## 📊 Estado Actual
+## Estado Actual
 
 | Documento | Estado | Última generación |
 |-----------|--------|-------------------|
-| BRS (Business Requirements) | ⏳ Pendiente | No generado aún |
-| StRS (Stakeholder Requirements) | ⏳ Pendiente | No generado aún |
-| SyRS (System Requirements) | ⏳ Pendiente | No generado aún |
-| SRS (Software Requirements) | ⏳ Pendiente | No generado aún |
-| RTM (Traceability Matrix) | ⏳ Pendiente | No generado aún |
+| BRS (Business Requirements) | Pendiente | No generado aún |
+| StRS (Stakeholder Requirements) | Pendiente | No generado aún |
+| SyRS (System Requirements) | Pendiente | No generado aún |
+| SRS (Software Requirements) | Pendiente | No generado aún |
+| RTM (Traceability Matrix) | Pendiente | No generado aún |
 
 > **Nota:** Los índices se generarán automáticamente una vez que se documenten requisitos en `implementacion/`.
 
-## 📚 Recursos
+## Recursos
 
 ### Para Documentar Requisitos
 - [Guía de Implementación](../implementacion/README.md)
@@ -76,7 +76,7 @@ python .github/workflows/scripts/generate_requirements_index.py
 - [PMBOK Guide 7th Ed](../anexos/glosario_babok_pmbok_iso.md) - Project Management Body of Knowledge
 - ISO/IEC/IEEE 29148:2018 - Systems and software engineering — Life cycle processes — Requirements engineering
 
-## 🔗 Trazabilidad
+## Trazabilidad
 
 La trazabilidad completa se mantiene mediante frontmatter YAML en cada requisito:
 
@@ -92,13 +92,13 @@ trazabilidad_downward:
 ---
 ```
 
-## ✅ Conformidad ISO 29148
+## Conformidad ISO 29148
 
 Una vez generados, estos índices proporcionarán:
-- ✅ Full Conformance con ISO/IEC/IEEE 29148:2018
-- ✅ Trazabilidad bidireccional completa
-- ✅ Documentación auditable y certificable
-- ✅ Separación clara entre requisitos y solución
+- Full Conformance con ISO/IEC/IEEE 29148:2018
+- Trazabilidad bidireccional completa
+- Documentación auditable y certificable
+- Separación clara entre requisitos y solución
 
 ---
 
