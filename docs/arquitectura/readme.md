@@ -2,8 +2,8 @@
 id: DOC-ARQ-INDEX
 estado: activo
 propietario: equipo-arquitectura
-ultima_actualizacion: 2025-11-02
-relacionados: ["DOC-INDEX-GENERAL", "DOC-GOB-INDEX", "ADR-2025-001"]
+ultima_actualizacion: 2025-11-04
+relacionados: ["DOC-INDEX-GENERAL", "DOC-GOB-INDEX", "ADR-2025-001", "ADR-2025-002"]
 ---
 # Arquitectura del Proyecto IACT
 
@@ -120,6 +120,7 @@ Este espacio documenta las decisiones arquitectónicas, patrones de diseño, com
 Las decisiones arquitectónicas significativas se documentan mediante **Architecture Decision Records (ADR)**:
 
 - [ADR-2025-001: Vagrant + mod_wsgi](adr/adr_2025_001_vagrant_mod_wsgi.md)
+- [ADR-2025-002: Suite Completa de Calidad de Código](adr/adr_2025_002_suite_calidad_codigo.md)
 - [Plantilla ADR](adr/plantilla_adr.md)
 
 ## Estado de cumplimiento

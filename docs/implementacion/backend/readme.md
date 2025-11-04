@@ -3,7 +3,7 @@ id: DOC-BACKEND-INDEX
 estado: borrador
 propietario: equipo-backend
 ultima_actualizacion: 2025-11-04
-relacionados: ["DOC-INDEX-GENERAL", "DOC-FRONTEND-INDEX", "DOC-SOL-SC03"]
+relacionados: ["DOC-INDEX-GENERAL", "DOC-FRONTEND-INDEX", "DOC-SOL-SC03", "ADR-2025-002", "DOC-BACKEND-CALIDAD-AUTO"]
 ---
 # Espacio de documentación - Backend
 
@@ -27,6 +27,16 @@ vincular la evidencia correspondiente, siguiendo lo establecido en [documentacio
 - Cualquier automatización experimental debe registrarse como borrador hasta contar con evidencia reproducible.
 
 ##  Documentación Activa
+
+### Calidad de Código y Automatización
+- [`calidad_codigo_automatizacion.md`](calidad_codigo_automatizacion.md) - ✅ **NUEVO** - Guía completa de calidad de código
+  - **Pre-commit hooks**: Ruff, MyPy, Bandit, Detect Secrets
+  - **CI/CD**: GitHub Actions con 4 jobs paralelos
+  - **Testing**: Pytest con ejecución paralela y coverage
+  - **Performance**: Profiling, benchmarking, AsyncIO
+  - **Logging**: Sistema profesional sin servicios externos
+  - **Automatización**: Makefile con 40+ comandos
+  - **Relacionado**: [ADR-2025-002](../../arquitectura/adr/adr_2025_002_suite_calidad_codigo.md)
 
 ### Planificación de Documentación de Apps
 - [`planificacion_documentacion.md`](planificacion_documentacion.md) -  **NUEVO** - Planificación detallada para documentar las 10 apps Django

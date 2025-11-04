@@ -1,6 +1,16 @@
+---
+id: DOC-BACKEND-CALIDAD-AUTO
+estado: activo
+propietario: equipo-desarrollo-backend
+ultima_actualizacion: 2025-11-04
+relacionados: ["ADR-2025-002", "DOC-BACKEND-INDEX", "PROC-DEV-LOCAL", "PROC-QA"]
+tipo: documentacion
+categoria: desarrollo
+---
+
 # Guía de Calidad de Código y Automatización
 
-Esta guía documenta todas las herramientas de calidad de código, automatización y validación implementadas en el proyecto.
+Esta guía documenta todas las herramientas de calidad de código, automatización y validación implementadas en el proyecto Backend Django.
 
 ## Tabla de Contenidos
 
