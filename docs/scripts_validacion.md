@@ -2,20 +2,20 @@
 
 Este directorio contiene scripts shell para validar el cumplimiento de las restricciones del proyecto y la configuración de seguridad.
 
-## 📋 Scripts Disponibles
+## Scripts Disponibles
 
 ### 1. `validate_critical_restrictions.sh`
 **Propósito**: Valida que se cumplan las restricciones críticas del proyecto
 
 **Qué verifica**:
-- ❌ NO uso de email (send_mail, smtp)
-- ❌ NO Sentry
-- ❌ NO Redis/Memcached para sesiones
-- ❌ NO código peligroso (eval, exec, pickle.load)
-- ❌ NO WebSockets/SSE (real-time updates)
-- ✅ Database Router existe y protege BD IVR
-- ✅ SESSION_ENGINE configurado para DB
-- ✅ Modelo InternalMessage existe
+- NO uso de email (send_mail, smtp)
+- NO Sentry
+- NO Redis/Memcached para sesiones
+- NO código peligroso (eval, exec, pickle.load)
+- NO WebSockets/SSE (real-time updates)
+- Database Router existe y protege BD IVR
+- SESSION_ENGINE configurado para DB
+- Modelo InternalMessage existe
 
 **Uso**:
 ```bash
@@ -23,9 +23,9 @@ Este directorio contiene scripts shell para validar el cumplimiento de las restr
 ```
 
 **Cuándo ejecutar**:
-- ✅ Antes de cada commit (pre-commit hook)
-- ✅ En CI/CD pipeline
-- ✅ Antes de deploy a producción
+- Antes de cada commit (pre-commit hook)
+- En CI/CD pipeline
+- Antes de deploy a producción
 
 ---
 
@@ -58,9 +58,9 @@ pip install bandit safety ruff
 ```
 
 **Cuándo ejecutar**:
-- ✅ Antes de cada release
-- ✅ En CI/CD pipeline
-- ✅ Auditorías de seguridad trimestrales
+- Antes de cada release
+- En CI/CD pipeline
+- Auditorías de seguridad trimestrales
 
 **Reportes generados**:
 - `reports/bandit-report.json`
@@ -76,10 +76,10 @@ pip install bandit safety ruff
 - IVRReadOnlyRouter existe
 - Router configurado en DATABASE_ROUTERS
 - Tests unitarios:
-  - Lectura de IVR → `ivr_readonly`
-  - Escritura a IVR → BLOQUEADA (ValueError)
-  - Migraciones en IVR → BLOQUEADAS
-  - Modelos normales → `default`
+  - Lectura de IVR enrutada a `ivr_readonly`
+  - Escritura a IVR BLOQUEADA (ValueError)
+  - Migraciones en IVR BLOQUEADAS
+  - Modelos normales enrutados a `default`
 
 **Uso**:
 ```bash
@@ -87,13 +87,13 @@ pip install bandit safety ruff
 ```
 
 **Cuándo ejecutar**:
-- ✅ Después de cambios en database_router.py
-- ✅ Antes de deploy a producción
-- ✅ Tests de integración
+- Después de cambios en database_router.py
+- Antes de deploy a producción
+- Tests de integración
 
 ---
 
-## 🚀 Uso en CI/CD
+## Uso en CI/CD
 
 ### GitHub Actions / GitLab CI
 
@@ -138,7 +138,7 @@ jobs:
 
 ---
 
-## 🔧 Pre-commit Hook
+## Pre-commit Hook
 
 Para ejecutar validaciones automáticamente antes de cada commit:
 
@@ -149,18 +149,18 @@ Para ejecutar validaciones automáticamente antes de cada commit:
 cat > .git/hooks/pre-commit << 'EOF'
 #!/bin/bash
 
-echo "🔍 Ejecutando validaciones pre-commit..."
+echo "Ejecutando validaciones pre-commit..."
 
 # Validar restricciones críticas
 ./scripts/validate_critical_restrictions.sh
 if [ $? -ne 0 ]; then
     echo ""
-    echo "❌ Pre-commit hook falló: Restricciones críticas no cumplidas"
+    echo "[FAIL] Pre-commit hook falló: Restricciones críticas no cumplidas"
     echo "   Corrige los errores antes de hacer commit"
     exit 1
 fi
 
-echo "✅ Pre-commit validations passed"
+echo "[OK] Pre-commit validations passed"
 exit 0
 EOF
 
@@ -190,25 +190,25 @@ pre-commit install
 
 ---
 
-## 📊 Interpretación de Resultados
+## Interpretación de Resultados
 
 ### Exit Codes
 
-- `0`: ✅ Todas las validaciones pasaron
-- `1`: ❌ Fallos encontrados - BLOQUEA deploy
+- `0`: OK Todas las validaciones pasaron
+- `1`: NO Fallos encontrados - BLOQUEA deploy
 - Otros: Error en ejecución del script
 
 ### Niveles de Severidad
 
 | Nivel | Descripción | Acción |
 |-------|-------------|--------|
-| ✅ OK | Validación pasó | Ninguna |
-| ⚠️ WARNING | Problema no crítico | Revisar antes de producción |
-| ❌ FALLO | Problema crítico | DEBE corregirse |
+| OK | Validación pasó | Ninguna |
+| WARNING | Problema no crítico | Revisar antes de producción |
+| FAIL | Problema crítico | DEBE corregirse |
 
 ---
 
-## 🔍 Troubleshooting
+## Troubleshooting
 
 ### Error: "python: command not found"
 
@@ -242,7 +242,7 @@ chmod +x scripts/*.sh
 
 ---
 
-## 📝 Mantenimiento
+## Mantenimiento
 
 ### Agregar nueva validación
 
@@ -260,7 +260,7 @@ chmod +x scripts/*.sh
 
 ---
 
-## 🔗 Recursos Relacionados
+## Recursos Relacionados
 
 - [Restricciones Completas](../docs/requisitos/restricciones_completas.md)
 - [Checklist de Auditoría](../docs/qa/checklist_auditoria_restricciones.md)
@@ -268,7 +268,7 @@ chmod +x scripts/*.sh
 
 ---
 
-## ✅ Checklist Rápido
+## Checklist Rápido
 
 Antes de deploy a producción, ejecutar en orden:
 
