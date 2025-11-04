@@ -339,54 +339,175 @@ gh pr create --title "Agregar dashboard de analytics" \
 # 7. Esperar revisión y merge
 ```
 
-## 13. Scripts Shell: Regla de Eliminación de Emojis
+## 13. Scripts: Reglas de Output Profesional
 
-### Política Estricta: Sin Emojis en Scripts
+### ⚠️ REGLA DE ORO
 
-**TODOS** los scripts shell (`.sh`, `.bash`) deben estar libres de emojis para garantizar:
-- Compatibilidad con terminales antiguos
-- Profesionalismo en entornos corporativos
-- Robustez en sistemas sin soporte Unicode
-- Mejor legibilidad en logs y archivos
+**NUNCA usar emojis, iconos Unicode decorativos, ni símbolos especiales en el output de scripts de producción.**
 
-### Reemplazos Obligatorios
+### Política Estricta: Output Profesional
 
-| Emoji | Reemplazo | Uso |
-|-------|-----------|-----|
-| ❌ | `ERROR:` | Mensajes de error |
-| 🔧 | `ACCION REQUERIDA:` | Acciones del usuario |
-| ⚠️ | `WARNING:` | Advertencias |
-| ℹ️ | `INFO:` | Información general |
-| ✅ | *(removido)* | Confirmaciones de éxito |
-| 📦 🗄️ 👤 🚀 | *(removidos)* | Pasos del proceso |
-| 🌐 👤 🖥️ | *(removidos)* | Resumen final |
-| 📝 📊 🔒 | *(removidos)* | Mensajes informativos |
-| 🎉 | *(removido)* | Mensaje final |
-| ⚙️ 🔍 🤖 🔄 📄 🗜️ | *(removidos)* | Otros contextos |
+**TODOS** los scripts (`.sh`, `.bash`, `.ps1`, `.py` scripts CLI) deben producir output libre de decoraciones Unicode para garantizar:
+- **Compatibilidad** con terminales antiguos y sistemas legacy
+- **Profesionalismo** en entornos corporativos
+- **Robustez** en sistemas sin soporte Unicode completo
+- **Legibilidad** en logs, archivos y sistemas de CI/CD
+- **Portabilidad** entre diferentes plataformas y encodings
 
-### Ejemplos de Aplicación
+### ❌ PROHIBICIONES ESTRICTAS
 
-**❌ Incorrecto:**
+#### 1. Emojis
 ```bash
-echo "❌ Error: Archivo no encontrado"
-echo "✅ Proceso completado exitosamente"
-echo "📦 Creando paquetes..."
+# ❌ NO HACER ESTO
+echo "✅ Completado"
+echo "❌ Error"
+echo "⚠️ Advertencia"
+echo "🚀 Iniciando"
+echo "📁 Procesando"
+echo "💾 Guardando"
+echo "🔍 Buscando"
+echo "⏳ Esperando"
+echo "✨ Nuevo"
+echo "🎉 Éxito"
 ```
 
-**✅ Correcto:**
+#### 2. Iconos Unicode Decorativos
 ```bash
-echo "ERROR: Archivo no encontrado"
-echo "Proceso completado exitosamente"
-echo "Creando paquetes..."
+# ❌ NO HACER ESTO
+echo "▶ Ejecutando"
+echo "● Item"
+echo "→ Siguiente"
+echo "★ Importante"
+echo "♦ Nota"
+echo "■ Opción"
+echo "▸ Paso"
+echo "» Info"
+```
+
+#### 3. Box Drawing Characters
+```bash
+# ❌ NO HACER ESTO
+echo "╔════════════╗"
+echo "║   Título   ║"
+echo "╚════════════╝"
+echo "┌──────────┐"
+echo "│  Caja    │"
+echo "└──────────┘"
+```
+
+### ✅ SISTEMA DE PREFIJOS ESTÁNDAR
+
+#### Niveles de Log
+```bash
+# ✅ HACER ESTO
+echo "[INFO]    Información general"
+echo "[DEBUG]   Detalles de depuración"
+echo "[WARN]    Advertencia"
+echo "[ERROR]   Error encontrado"
+echo "[FATAL]   Error crítico"
+echo "[SUCCESS] Operación exitosa"
+echo "[OK]      Todo bien"
+echo "[FAIL]    Operación falló"
+```
+
+#### Estados de Proceso
+```bash
+# ✅ HACER ESTO
+echo "[PENDING]  Operación pendiente"
+echo "[RUNNING]  En ejecución"
+echo "[DONE]     Completado"
+echo "[SKIPPED]  Omitido"
+echo "[RETRY]    Reintentando"
+echo "[START]    Iniciando"
+echo "[STOP]     Deteniendo"
+```
+
+#### Viñetas y Listas
+```bash
+# ✅ HACER ESTO - Viñetas
+echo "Options:"
+echo "  - Option 1"
+echo "  - Option 2"
+echo "  * Alternative"
+
+# ✅ HACER ESTO - Numeradas
+echo "Steps:"
+echo "  1. First step"
+echo "  2. Second step"
+echo "  3. Third step"
+```
+
+### 📊 Tabla de Referencia Rápida
+
+| Concepto        | ❌ No Usar | ✅ Usar                  |
+| --------------- | --------- | ----------------------- |
+| **Completado**  | ✅ ✓ ☑     | [OK] [SUCCESS] [DONE]   |
+| **Error**       | ❌ ✗ ☒     | [ERROR] [FAIL] [FAILED] |
+| **Advertencia** | ⚠️ ⚡ ⛔    | [WARN] [WARNING]        |
+| **Información** | ℹ️ 💡 📢  | [INFO] [NOTE]           |
+| **Depuración**  | 🐛 🔍     | [DEBUG]                 |
+| **En proceso**  | ⏳ 🔄 ⌛    | [RUNNING] [PROCESSING]  |
+| **Esperando**   | ⏰ ⏱️      | [PENDING] [WAITING]     |
+| **Inicio**      | 🚀 ▶️     | [START] Starting...     |
+| **Fin**         | 🏁 ⏹️     | [STOP] [END] Finished   |
+| **Archivo**     | 📁 📄 💾  | FILE: file.txt          |
+| **Carpeta**     | 📂 🗂️     | DIRECTORY: /path/       |
+| **Red**         | 🌐 📡     | [NETWORK]               |
+| **Usuario**     | 👤 👥     | USER: username          |
+| **Tiempo**      | ⏰ 🕐      | TIME: 10:30             |
+| **Fecha**       | 📅 🗓️     | DATE: 2025-10-21        |
+| **Viñetas**     | ▶ ● ★ ♦   | - * 1. 2.               |
+| **Flechas**     | → ⇒ ➜ ➔   | -> =>                   |
+| **Check**       | ☑ ✓ ✔     | [OK] PASS               |
+| **Cross**       | ☒ ✗ ✘     | [FAIL] ERROR            |
+
+### Ejemplos Completos
+
+#### ❌ Script Incorrecto
+```bash
+#!/bin/bash
+echo "🚀 Iniciando proceso..."
+echo "📁 Procesando archivos"
+echo "  ▶ Archivo 1"
+echo "  ▶ Archivo 2"
+echo "✅ Completado exitosamente"
+echo ""
+echo "╔═══════════════╗"
+echo "║   RESUMEN     ║"
+echo "╚═══════════════╝"
+echo "● Archivos: 2"
+echo "● Errores: 0"
+echo "🎉 Proceso finalizado"
+```
+
+#### ✅ Script Correcto
+```bash
+#!/bin/bash
+echo "[START] Iniciando proceso..."
+echo "[INFO] Procesando archivos"
+echo "  - Archivo 1"
+echo "  - Archivo 2"
+echo "[SUCCESS] Completado exitosamente"
+echo ""
+echo "RESUMEN"
+echo "-------"
+echo "Archivos: 2"
+echo "Errores: 0"
+echo "[DONE] Proceso finalizado"
 ```
 
 ### Alcance de la Regla
 
 Esta regla aplica a:
-- Scripts en `.github/workflows/scripts/`
-- Scripts en `infrastructure/devcontainer/scripts/`
-- Scripts en `infrastructure/vagrant/scripts/`
-- Scripts en `scripts/` (raíz del proyecto)
+- **Scripts Shell**: `.sh`, `.bash`, `.zsh`
+- **Scripts PowerShell**: `.ps1`, `.psm1`
+- **Scripts Python CLI**: scripts ejecutables que producen output de terminal
+- **Scripts de CI/CD**: GitHub Actions, GitLab CI, Jenkins
+- Ubicaciones específicas:
+  - `.github/workflows/scripts/`
+  - `infrastructure/devcontainer/scripts/`
+  - `infrastructure/vagrant/scripts/`
+  - `scripts/` (raíz del proyecto)
 - **TODOS** los nuevos scripts creados
 - **TODOS** los scripts existentes al modificarlos
 
@@ -395,8 +516,10 @@ Esta regla aplica a:
 **No aplica a:**
 - Archivos Markdown (`.md`) - pueden usar emojis para documentación
 - Archivos de configuración (`.yml`, `.json`, `.toml`)
-- Código fuente (Python, JavaScript, etc.)
+- Interfaces gráficas (GUI)
+- Código fuente NO ejecutable (funciones internas, bibliotecas)
 - Mensajes de commit Git
+- Documentación técnica
 
 ### Verificación
 
@@ -405,7 +528,10 @@ Existe un script de verificación en:
 infrastructure/devcontainer/scripts/check_no_emojis.sh
 ```
 
-**IMPORTANTE**: Al crear o modificar scripts, verificar que no contengan emojis antes de hacer commit.
+**IMPORTANTE**:
+- Al crear o modificar scripts, verificar que no contengan emojis antes de hacer commit
+- Los pre-commit hooks pueden rechazar commits con emojis en scripts
+- En code reviews, verificar cumplimiento de esta regla
 
 ## Referencias
 
