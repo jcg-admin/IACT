@@ -21,6 +21,18 @@ Este documento explica la arquitectura de agentes de automatización utilizada e
 4. [GitHub Actions CI/CD](#github-actions-cicd)
 5. [Mejores Prácticas](#mejores-prácticas)
 
+## IMPORTANTE: Arquitectura de Agentes Especializados
+
+Este documento muestra la implementación inicial con agentes monolíticos. Para la arquitectura CORRECTA usando múltiples agentes especializados, consulta:
+
+**[Arquitectura de Agentes Especializados](./arquitectura_agentes_especializados.md)**
+
+Diferencias clave:
+- 1 agente monolítico → N agentes especializados
+- Mejor mantenibilidad, testeabilidad y reusabilidad
+- Single Responsibility Principle aplicado
+- Orchestrator coordina agentes independientes
+
 ---
 
 ## Agentes Usados en el Proyecto
