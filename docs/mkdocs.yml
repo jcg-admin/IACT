@@ -4,6 +4,7 @@ site_url: "https://2-coatl.github.io/IACT---project"
 repo_url: "https://github.com/2-Coatl/IACT---project"
 nav:
   - Inicio: index.md
+  - Cómo Ver Esta Documentación: COMO_VER_DOCUMENTACION.md
   - Visión y alcance:
       - Portada: vision_y_alcance/readme.md
       - Glosario de negocio: vision_y_alcance/glossary.md
