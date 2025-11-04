@@ -7,7 +7,11 @@ nav:
   - Visión y alcance:
       - Portada: vision_y_alcance/readme.md
       - Glosario de negocio: vision_y_alcance/glossary.md
-  - Gobernanza: gobernanza/readme.md
+  - Gobernanza:
+      - Portada: gobernanza/readme.md
+      - Estándares de Código: gobernanza/estandares_codigo.md
+      - Guía de Casos de Uso: gobernanza/casos_de_uso_guide.md
+      - Guía de Shell Scripting: gobernanza/shell_scripting_guide.md
   - Requisitos ISO 29148:
       - Índices consolidados: requisitos/readme.md
   - Implementación (Source of Truth):
@@ -47,7 +51,11 @@ nav:
           - Codespaces con GitHub Copilot: devops/runbooks/github_copilot_codespaces.md
           - Reprocesar ETL fallido: devops/runbooks/reprocesar_etl_fallido.md
           - Verificar servicios: devops/runbooks/verificar_servicios.md
-  - Anexos: anexos/readme.md
+  - Anexos:
+      - Portada: anexos/readme.md
+      - Diagramas UML: anexos/diagramas/readme.md
+      - Glosario: anexos/glosario.md
+      - Catálogo de Reglas de Negocio: anexos/catalogo_reglas_negocio.md
   - Plantillas: plantillas/readme.md
   - Checklists: checklists/readme.md
   - Solicitudes:
@@ -61,8 +69,44 @@ nav:
 docs_dir: .
 theme:
   name: readthedocs
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - toc.integrate
+
+plugins:
+  - search
+  - kroki:
+      ServerURL: https://kroki.io
+      FileTypes:
+        - plantuml
+        - mermaid
+        - c4plantuml
+      DownloadImages: true
+      DownloadDir: images/diagrams
+
 markdown_extensions:
   - toc:
       permalink: true
+      toc_depth: 3
   - admonition
   - tables
+  - attr_list
+  - md_in_html
+  - pymdownx.superfences:
+      custom_fences:
+        - name: plantuml
+          class: plantuml
+          format: !!python/name:mkdocs_kroki_plugin.fences.fence_kroki
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.details
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - def_list
+  - footnotes
