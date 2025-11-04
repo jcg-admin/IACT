@@ -118,6 +118,8 @@ nav:
           - Alcance: solicitudes/sc02/alcance.md
           - Checklist: solicitudes/sc02/checklist.md
           - Análisis de plantillas: solicitudes/sc02/analisis_plantillas.md
+          - Análisis estructural: solicitudes/sc02/analisis_estructura_api.md
+          - Análisis funcional: solicitudes/sc02/analisis_funcion_real_apps.md
 docs_dir: .
 site_dir: ../site
 theme:

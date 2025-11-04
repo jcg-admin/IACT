@@ -15,6 +15,9 @@ Esta solicitud documenta el proceso de creación de documentación técnica comp
 ## Páginas hijas
 - [`alcance.md`](alcance.md) - Definición del alcance y objetivos
 - [`checklist.md`](checklist.md) - Lista de verificación y seguimiento
+- [`analisis_plantillas.md`](analisis_plantillas.md) - Análisis de plantillas disponibles
+- [`analisis_estructura_api.md`](analisis_estructura_api.md) - Análisis estructural de la carpeta API
+- [`analisis_funcion_real_apps.md`](analisis_funcion_real_apps.md) - ⭐ Análisis funcional crítico de cada app
 - [`entregables/`](entregables/) - Documentos técnicos generados
 
 ## Contexto
@@ -71,7 +74,9 @@ Los documentos técnicos se crearán en:
 | Elemento | Estado | Responsable | Fecha estimada |
 | --- | --- | --- | --- |
 | Definición de alcance | ✅ Completado | Equipo Backend | 2025-11-04 |
-| Análisis de estructura API | 🔄 En progreso | Equipo Backend | 2025-11-04 |
+| Análisis de plantillas | ✅ Completado | Equipo Backend | 2025-11-04 |
+| Análisis estructural API | ✅ Completado | Equipo Backend | 2025-11-04 |
+| Análisis funcional de apps | ✅ Completado | Equipo Backend | 2025-11-04 |
 | Documentación app analytics | ⏸️ Pendiente | Equipo Backend | Por definir |
 | Documentación app etl | ⏸️ Pendiente | Equipo Backend | Por definir |
 | Documentación app reports | ⏸️ Pendiente | Equipo Backend | Por definir |
