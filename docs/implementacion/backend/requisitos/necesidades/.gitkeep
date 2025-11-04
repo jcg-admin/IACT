@@ -1,0 +1,10 @@
+# Necesidades de Negocio (Business Needs)
+
+Esta carpeta contiene documentos N-XXX siguiendo BABOK v3.
+
+Archivos esperados:
+- n001_reducir_roturas_stock.md
+- n002_optimizar_costos_inventario.md
+- etc.
+
+Usa la plantilla: docs/plantillas/template_necesidad.md

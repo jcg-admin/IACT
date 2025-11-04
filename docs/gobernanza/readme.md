@@ -14,6 +14,8 @@ Este espacio documenta las políticas, estándares, procesos de revisión y cont
 
 ## Páginas hijas
 - [Estándares de Código](estandares_codigo.md)
+- [Guía de Casos de Uso](casos_de_uso_guide.md)
+- [Guía de Shell Scripting](shell_scripting_guide.md)
 - [Backend - Gobernanza](../backend/gobernanza/readme.md)
 - [Frontend - Gobernanza](../frontend/gobernanza/readme.md)
 - [Infrastructure - Gobernanza](../infrastructure/gobernanza/readme.md)

@@ -1,0 +1,10 @@
+# Requisitos Funcionales Infrastructure (Functional Requirements)
+
+Esta carpeta contiene documentos RF-XXX específicos de infrastructure siguiendo ISO 29148 Clause 9.6.
+
+Archivos esperados:
+- rf020_ci_cd_pipeline.md
+- rf021_monitoreo_automatizado.md
+- etc.
+
+Usa la plantilla: docs/plantillas/template_requisito_funcional.md

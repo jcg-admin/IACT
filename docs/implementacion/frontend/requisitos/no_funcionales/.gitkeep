@@ -1,0 +1,10 @@
+# Requisitos No Funcionales Frontend (Non-Functional Requirements)
+
+Esta carpeta contiene documentos RNF-XXX específicos del frontend siguiendo ISO 29148 Clause 9.6.
+
+Archivos esperados:
+- rnf010_tiempo_carga_dashboard.md
+- rnf011_compatibilidad_navegadores.md
+- etc.
+
+Usa la plantilla: docs/plantillas/template_requisito_no_funcional.md

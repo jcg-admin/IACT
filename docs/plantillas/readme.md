@@ -29,7 +29,7 @@ Colección de formatos reutilizables para discovery, análisis, diseño, QA y op
 
 ### Categorías destacadas
 - **Producto y alcance:** `plantilla_project_charter.md`, `plantilla_business_case.md`.
-- **Requisitos y análisis:** `plantilla_srs.md`, `plantilla_regla_negocio.md`, `plantilla_caso_de_uso.md`.
+- **Requisitos y análisis:** `plantilla_srs.md`, `plantilla_regla_negocio.md`, `plantilla_caso_de_uso.md` (ver [Guía de Casos de Uso](../gobernanza/casos_de_uso_guide.md) para estándares completos).
 - **Diseño y arquitectura:** `plantilla_sad.md`, `plantilla_database_design.md`, `plantilla_api_reference.md`.
 - **QA y soporte:** `plantilla_plan_pruebas.md`, `plantilla_caso_prueba.md`, `plantilla_runbook.md`.
 - **Documentación corporativa:** `plantilla_espacio_documental.md` para replicar portadas y jerarquías alineadas con la base maestra.

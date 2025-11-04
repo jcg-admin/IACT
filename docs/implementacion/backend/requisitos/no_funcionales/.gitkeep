@@ -1,0 +1,10 @@
+# Requisitos No Funcionales (Non-Functional Requirements)
+
+Esta carpeta contiene documentos RNF-XXX siguiendo ISO 29148 Clause 9.6.
+
+Archivos esperados:
+- rnf001_tiempo_respuesta_200ms.md
+- rnf002_disponibilidad_99_9.md
+- etc.
+
+Usa la plantilla: docs/plantillas/template_requisito_no_funcional.md
