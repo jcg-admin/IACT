@@ -51,10 +51,10 @@ graph LR
 ```
 
 **Ventajas de Mermaid:**
-- ✅ Texto plano (versionable en Git)
-- ✅ Renderiza en GitHub, MkDocs, VS Code
-- ✅ Fácil de mantener y actualizar
-- ✅ No requiere herramientas externas
+- OK: Texto plano (versionable en Git)
+- OK: Renderiza en GitHub, MkDocs, VS Code
+- OK: Fácil de mantener y actualizar
+- OK: No requiere herramientas externas
 
 **Otros formatos aceptados:**
 - PlantUML (.puml)

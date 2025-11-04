@@ -203,13 +203,13 @@ Verificar:
 # Comentarios de revisión
 
 **Contenido**
-- ✅ La nueva sección de tests de integración es clara
-- ⚠️ Falta mencionar timeout de tests
-- ❌ El comando en línea 45 tiene un typo
+- OK La nueva sección de tests de integración es clara
+- WARNING Falta mencionar timeout de tests
+- NO El comando en línea 45 tiene un typo
 
 **Formato**
-- ✅ Markdown correcto
-- ⚠️ Considerar agregar diagrama de flujo
+- OK Markdown correcto
+- WARNING Considerar agregar diagrama de flujo
 
 **Sugerencias**
 - Agregar ejemplo de pytest con fixtures

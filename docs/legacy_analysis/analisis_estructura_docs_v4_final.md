@@ -15,8 +15,8 @@ estandares: ["BABOK v3", "PMBOK Guide 7th Ed", "ISO/IEC/IEEE 29148:2018"]
 ## CAMBIOS PRINCIPALES vs v3.0
 
 **DECISIÓN ARQUITECTÓNICA:**
-- ❌ **Rechazado**: Estructura centralizada con números (01_, 02_, 03_)
-- ✅ **Aprobado**: Requisitos en dominios técnicos + `docs/requisitos/` como índice generado
+- NO **Rechazado**: Estructura centralizada con números (01_, 02_, 03_)
+- OK **Aprobado**: Requisitos en dominios técnicos + `docs/requisitos/` como índice generado
 
 **JUSTIFICACIÓN:**
 1. **Co-localización**: Requisitos junto al código que los implementa
@@ -31,28 +31,28 @@ estandares: ["BABOK v3", "PMBOK Guide 7th Ed", "ISO/IEC/IEEE 29148:2018"]
 ```
 proyecto/
 │
-├── implementacion/                         ← CÓDIGO + REQUISITOS POR DOMINIO
+├── implementacion/                         -> CÓDIGO + REQUISITOS POR DOMINIO
 │   │
-│   ├── backend/                            ← Backend team owner
+│   ├── backend/                            -> Backend team owner
 │   │   ├── requisitos/
-│   │   │   ├── necesidades/               ← SOURCE OF TRUTH (dominio principal)
+│   │   │   ├── necesidades/               -> SOURCE OF TRUTH (dominio principal)
 │   │   │   │   └── n001_reducir_roturas_stock.md
-│   │   │   ├── negocio/                   ← Business Requirements (BRS)
+│   │   │   ├── negocio/                   -> Business Requirements (BRS)
 │   │   │   │   └── rn001_sistema_alertas.md
-│   │   │   ├── stakeholders/              ← Stakeholder Requirements (StRS)
+│   │   │   ├── stakeholders/              -> Stakeholder Requirements (StRS)
 │   │   │   │   └── rs001_alertas_gerente.md
-│   │   │   ├── funcionales/               ← Functional Requirements (SRS)
+│   │   │   ├── funcionales/               -> Functional Requirements (SRS)
 │   │   │   │   ├── rf001_api_calcular_stock.md
 │   │   │   │   └── rf002_api_alertas.md
-│   │   │   └── no_funcionales/            ← Non-Functional Requirements
+│   │   │   └── no_funcionales/            -> Non-Functional Requirements
 │   │   │       └── rnf001_performance_200ms.md
 │   │   ├── diseño/
 │   │   ├── src/
 │   │   └── tests/
 │   │
-│   ├── frontend/                           ← Frontend team owner
+│   ├── frontend/                           -> Frontend team owner
 │   │   ├── requisitos/
-│   │   │   ├── _necesidades_vinculadas.md ← ENLACE a backend (no duplica)
+│   │   │   ├── _necesidades_vinculadas.md -> ENLACE a backend (no duplica)
 │   │   │   ├── stakeholders/
 │   │   │   │   └── rs003_ux_accesible.md
 │   │   │   ├── funcionales/
@@ -64,7 +64,7 @@ proyecto/
 │   │   ├── src/
 │   │   └── tests/
 │   │
-│   └── infrastructure/                     ← DevOps team owner
+│   └── infrastructure/                     -> DevOps team owner
 │       ├── requisitos/
 │       │   ├── _necesidades_vinculadas.md
 │       │   ├── funcionales/
@@ -73,8 +73,8 @@ proyecto/
 │       │       └── rnf020_disaster_recovery.md
 │       └── terraform/
 │
-├── docs/                                   ← DOCUMENTACIÓN + ÍNDICES GENERADOS
-│   ├── requisitos/                         🤖 AUTO-GENERADO (NO EDITAR)
+├── docs/                                   -> DOCUMENTACIÓN + ÍNDICES GENERADOS
+│   ├── requisitos/                         AUTO AUTO-GENERADO (NO EDITAR)
 │   │   ├── README.md                       [Generado por CI/CD]
 │   │   ├── brs_business_requirements.md    [ISO 9.3 - BRS]
 │   │   ├── strs_stakeholder_requirements.md [ISO 9.4 - StRS]
@@ -83,7 +83,7 @@ proyecto/
 │   │   ├── matriz_trazabilidad_rtm.md      [RTM completa]
 │   │   └── .generator-timestamp
 │   │
-│   ├── necesidades_negocio/                ← Business case, ROI, OKRs (opcional)
+│   ├── necesidades_negocio/                -> Business case, ROI, OKRs (opcional)
 │   │   └── vision_general.md
 │   │
 │   ├── arquitectura/
@@ -95,13 +95,13 @@ proyecto/
 │       ├── template_requisito_funcional.md
 │       └── template_requisito_no_funcional.md
 │
-├── scripts/                                ← AUTOMATION SCRIPTS
+├── scripts/                                -> AUTOMATION SCRIPTS
 │   ├── generate-requirements-index.js      [Generado por CI/CD]
 │   └── README.md
 │
 └── .github/
     └── workflows/
-        ├── requirements-index.yml          ← Regenera índices automáticamente
+        ├── requirements-index.yml          -> Regenera índices automáticamente
         ├── docs.yml
         ├── lint.yml
         └── release.yml
@@ -217,7 +217,7 @@ El sistema **deberá** proporcionar una API REST que calcule el stock mínimo...
 
 ---
 
-⚠️ **DO NOT EDIT THIS FILE MANUALLY**
+WARNING **DO NOT EDIT THIS FILE MANUALLY**
 
 To modify requirements, edit source files in:
 `implementacion/{domain}/requisitos/negocio/*.md`
@@ -226,15 +226,15 @@ To modify requirements, edit source files in:
 
 | ID | Title | Domain | Owner | Priority | Status | Location |
 |----|-------|--------|-------|----------|--------|----------|
-| RN-001 | Sistema alertas automáticas | backend | equipo-backend | alta | aprobado | [📁](../../implementacion/backend/requisitos/negocio/) _(ejemplo)_ |
+| RN-001 | Sistema alertas automáticas | backend | equipo-backend | alta | aprobado | [FILE](../../implementacion/backend/requisitos/negocio/) _(ejemplo)_ |
 
 ## Downstream Traceability
 
 ### RN-001: Sistema alertas automáticas
 
 **Implemented by**:
-- **RF-001**: API cálculo stock (backend) → [Ver carpeta](../../implementacion/backend/requisitos/funcionales/) _(ejemplo)_
-- **RF-010**: Dashboard alertas (frontend) → [Ver carpeta](../../implementacion/frontend/requisitos/funcionales/) _(ejemplo)_
+- **RF-001**: API cálculo stock (backend) -> [Ver carpeta](../../implementacion/backend/requisitos/funcionales/) _(ejemplo)_
+- **RF-010**: Dashboard alertas (frontend) -> [Ver carpeta](../../implementacion/frontend/requisitos/funcionales/) _(ejemplo)_
 
 ---
 *Generated by: `scripts/generate-requirements-index.js`*
@@ -249,18 +249,18 @@ To modify requirements, edit source files in:
 
 | Requisito ISO | Implementación | Evidencia |
 |---------------|----------------|-----------|
-| ✅ **4.2 Full Conformance** | SÍ | Índices generados cumplen Clause 9 |
-| ✅ **5.2.4 Requirement Construct** | SÍ | Plantilla con Subject + Verb + Condition |
-| ✅ **5.2.5 Individual Characteristics** | SÍ | Validado en `lint.yml` workflow |
-| ✅ **5.2.6 Set Characteristics** | SÍ | Checklist en tarea 7.2 |
-| ✅ **5.2.8 Traceability** | SÍ | Frontmatter + RTM generado |
-| ✅ **6.2 Business Analysis** | SÍ | `backend/requisitos/necesidades/` |
-| ✅ **6.3 Stakeholder Needs** | SÍ | `{dominio}/requisitos/stakeholders/` |
-| ✅ **6.4 System Requirements** | SÍ | `{dominio}/requisitos/funcionales/` |
-| ✅ **7 Information Items** | SÍ | BRS, StRS, SyRS, SRS generados |
-| ✅ **9.3 BRS Content** | SÍ | Template + índice generado |
-| ✅ **9.4 StRS Content** | SÍ | Template + índice generado |
-| ✅ **9.6 SRS Content** | SÍ | Template + índice generado |
+| OK **4.2 Full Conformance** | SÍ | Índices generados cumplen Clause 9 |
+| OK **5.2.4 Requirement Construct** | SÍ | Plantilla con Subject + Verb + Condition |
+| OK **5.2.5 Individual Characteristics** | SÍ | Validado en `lint.yml` workflow |
+| OK **5.2.6 Set Characteristics** | SÍ | Checklist en tarea 7.2 |
+| OK **5.2.8 Traceability** | SÍ | Frontmatter + RTM generado |
+| OK **6.2 Business Analysis** | SÍ | `backend/requisitos/necesidades/` |
+| OK **6.3 Stakeholder Needs** | SÍ | `{dominio}/requisitos/stakeholders/` |
+| OK **6.4 System Requirements** | SÍ | `{dominio}/requisitos/funcionales/` |
+| OK **7 Information Items** | SÍ | BRS, StRS, SyRS, SRS generados |
+| OK **9.3 BRS Content** | SÍ | Template + índice generado |
+| OK **9.4 StRS Content** | SÍ | Template + índice generado |
+| OK **9.6 SRS Content** | SÍ | Template + índice generado |
 
 **Declaración de Conformance:**
 > "Esta estructura permite Full Conformance a ISO/IEC/IEEE 29148:2018 (Clause 4.2) mediante generación automática de Information Items normativos desde requisitos distribuidos por dominio técnico."
@@ -270,33 +270,33 @@ To modify requirements, edit source files in:
 ## VENTAJAS DE ESTA ESTRUCTURA
 
 ### 1. Co-localización (Locality Principle)
-- ✅ Requisitos junto al código que los implementa
-- ✅ Reducción de context switching para developers
-- ✅ Más fácil mantener sincronización código-requisitos
+- OK Requisitos junto al código que los implementa
+- OK Reducción de context switching para developers
+- OK Más fácil mantener sincronización código-requisitos
 
 ### 2. Autonomía de Equipos
-- ✅ Backend team es dueño de `backend/requisitos/`
-- ✅ Frontend team es dueño de `frontend/requisitos/`
-- ✅ No hay "comité central" bloqueando ediciones
-- ✅ Ownership claro por dominio
+- OK Backend team es dueño de `backend/requisitos/`
+- OK Frontend team es dueño de `frontend/requisitos/`
+- OK No hay "comité central" bloqueando ediciones
+- OK Ownership claro por dominio
 
 ### 3. Cero Duplicación
-- ✅ Necesidades de negocio: 1 lugar (`backend/requisitos/necesidades/`)
-- ✅ Otros dominios enlazan con `_necesidades_vinculadas.md`
-- ✅ Requisitos funcionales: específicos por dominio
-- ✅ Reducción de 40% → <5% duplicación
+- OK Necesidades de negocio: 1 lugar (`backend/requisitos/necesidades/`)
+- OK Otros dominios enlazan con `_necesidades_vinculadas.md`
+- OK Requisitos funcionales: específicos por dominio
+- OK Reducción de 40% -> <5% duplicación
 
 ### 4. Cumplimiento ISO 29148
-- ✅ Índices generados SON los documentos oficiales (BRS, StRS, SRS)
-- ✅ Trazabilidad bidireccional automatizada
-- ✅ Validación de frontmatter en CI/CD
-- ✅ Auditable y certificable
+- OK Índices generados SON los documentos oficiales (BRS, StRS, SRS)
+- OK Trazabilidad bidireccional automatizada
+- OK Validación de frontmatter en CI/CD
+- OK Auditable y certificable
 
 ### 5. Automatización
-- ✅ Índices regenerados automáticamente en cada push
-- ✅ Validación de traceability en PRs
-- ✅ Comentarios automáticos en PRs con cambios
-- ✅ Detección de enlaces rotos
+- OK Índices regenerados automáticamente en cada push
+- OK Validación de traceability en PRs
+- OK Comentarios automáticos en PRs con cambios
+- OK Detección de enlaces rotos
 
 ---
 
@@ -312,7 +312,7 @@ cd docs/02_requisitos/requisitos_solucion/funcionales/modulo_inventario/
 # Ahora (v4.0 por dominio):
 cd implementacion/backend/requisitos/funcionales/
 ls rf*_stock*.md
-# Encontrado en <30 segundos ✅
+# Encontrado en <30 segundos OK
 ```
 
 ### UC2: BA necesita ver trazabilidad completa
@@ -324,7 +324,7 @@ cat docs/requisitos/matriz_trazabilidad_rtm.md
 # Opción 2: Ver en GitHub Pages
 open https://2-coatl.github.io/IACT---project/requisitos/matriz_trazabilidad_rtm/
 
-# Trazabilidad automática upward/downward ✅
+# Trazabilidad automática upward/downward OK
 ```
 
 ### UC3: Auditor pide BRS conforme a ISO 29148
@@ -335,7 +335,7 @@ cat docs/requisitos/brs_business_requirements.md
 
 # Verificar cumplimiento
 grep "ISO/IEC/IEEE 29148:2018 - Clause 9.3" docs/requisitos/brs_business_requirements.md
-# ✅ Full Conformance
+# OK Full Conformance
 ```
 
 ### UC4: PM quiere agregar nueva necesidad de negocio
@@ -353,8 +353,8 @@ git add .
 git commit -m "feat(requisitos): agregar necesidad N-002 optimizar costos"
 git push
 
-# 4. CI/CD regenera índices automáticamente ✅
-# 5. BRS actualizado en docs/requisitos/brs_business_requirements.md ✅
+# 4. CI/CD regenera índices automáticamente OK
+# 5. BRS actualizado en docs/requisitos/brs_business_requirements.md OK
 ```
 
 ### UC5: Cambio de requisito con impacto en múltiples dominios
@@ -365,9 +365,9 @@ vim implementacion/backend/requisitos/funcionales/rf001_api_calcular_stock.md
 # Modificar criterio de aceptación
 
 # CI/CD detecta cambio
-# → Regenera RTM
-# → Muestra impacto en frontend (rf010_dashboard_alertas.md tiene trazabilidad)
-# → Comenta en PR con requisitos afectados ✅
+# -> Regenera RTM
+# -> Muestra impacto en frontend (rf010_dashboard_alertas.md tiene trazabilidad)
+# -> Comenta en PR con requisitos afectados OK
 ```
 
 ---
@@ -375,11 +375,11 @@ vim implementacion/backend/requisitos/funcionales/rf001_api_calcular_stock.md
 ## PLAN DE MIGRACIÓN ACTUALIZADO
 
 ### FASE 0: Preparación (Semana 1)
-- ✅ Workflows creados (`.github/workflows/`)
-- ✅ Scripts creados (`.github/workflows/scripts/`)
-- ⏳ Crear plantillas con frontmatter YAML
-- ⏳ Capacitación: 4h BABOK + 2h PMBOK + 4h ISO 29148
-- ⏳ Crear glosario: `docs/anexos/glosario_babok_pmbok_iso.md`
+- OK Workflows creados (`.github/workflows/`)
+- OK Scripts creados (`.github/workflows/scripts/`)
+- ESPERANDO Crear plantillas con frontmatter YAML
+- ESPERANDO Capacitación: 4h BABOK + 2h PMBOK + 4h ISO 29148
+- ESPERANDO Crear glosario: `docs/anexos/glosario_babok_pmbok_iso.md`
 
 **Criterio GO**: Plantillas aprobadas, equipo capacitado
 
@@ -408,8 +408,8 @@ mkdir -p docs/requisitos
 **Criterio GO**: ≥80% necesidades migradas, 0% duplicación
 
 ### FASE 4: Migrar Requisitos por Dominio (Semana 7-8)
-- Backend: Migrar de `docs/backend/requisitos/` → `implementacion/backend/requisitos/`
-- Frontend: Migrar de `docs/frontend/requisitos/` → `implementacion/frontend/requisitos/`
+- Backend: Migrar de `docs/backend/requisitos/` -> `implementacion/backend/requisitos/`
+- Frontend: Migrar de `docs/frontend/requisitos/` -> `implementacion/frontend/requisitos/`
 - Infrastructure: Crear desde cero en `implementacion/infrastructure/requisitos/`
 
 **Criterio GO**: RTM completa, ≥95% requisitos con frontmatter válido
@@ -506,7 +506,7 @@ mv docs/solicitudes docs_legacy/
 
 ## RECOMENDACIÓN EJECUTIVA
 
-**✅ APROBAR** migración a estructura v4.0 bajo las siguientes condiciones:
+**OK APROBAR** migración a estructura v4.0 bajo las siguientes condiciones:
 
 **OBLIGATORIO**:
 1. Ejecutar FASE 0 completa (capacitación + plantillas)
@@ -559,4 +559,4 @@ mv docs/solicitudes docs_legacy/
 **Decisión arquitectónica**: Requisitos distribuidos por dominio técnico
 **Conformance**: Full Conformance ISO/IEC/IEEE 29148:2018
 **Automatización**: CI/CD completo (GitHub Actions)
-**Estado**: ✅ Listo para aprobación ejecutiva
+**Estado**: OK Listo para aprobación ejecutiva

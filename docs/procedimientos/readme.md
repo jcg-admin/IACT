@@ -23,7 +23,7 @@ Los procedimientos definen **cómo** hacer las cosas en el proyecto:
 
 ## Procedimientos Disponibles
 
-### 🚀 Desarrollo
+### START Desarrollo
 
 #### [Procedimiento: Instalación de Entorno](../gobernanza/procesos/procedimiento_instalacion_entorno.md)
 **Cuándo usar**: Primera vez configurando tu entorno de desarrollo
@@ -59,7 +59,7 @@ Los procedimientos definen **cómo** hacer las cosas en el proyecto:
 
 **Cubre**:
 - Tipos de cambios (feat, fix, refactor, etc.)
-- Flujo completo de Git (branch → PR → merge)
+- Flujo completo de Git (branch -> PR -> merge)
 - Conventional Commits
 - Code review guidelines
 - Cambios de emergencia (hotfix)
@@ -69,7 +69,7 @@ Los procedimientos definen **cómo** hacer las cosas en el proyecto:
 
 ---
 
-### 🔍 Quality Assurance
+### BUSCAR Quality Assurance
 
 #### [Procedimiento: QA](../gobernanza/procesos/procedimiento_qa.md)
 **Cuándo usar**: Testing de features antes de release
@@ -87,7 +87,7 @@ Los procedimientos definen **cómo** hacer las cosas en el proyecto:
 
 ---
 
-### 📝 Documentación
+### NOTA Documentación
 
 #### [Procedimiento: Revisión Documental](../gobernanza/procesos/procedimiento_revision_documental.md)
 **Cuándo usar**: Al crear o modificar documentación
@@ -148,7 +148,7 @@ Los procedimientos definen **cómo** hacer las cosas en el proyecto:
 - [Procedimiento QA](../gobernanza/procesos/procedimiento_qa.md)
 
 **Por release**:
-- [Procedimiento QA](../gobernanza/procesos/procedimiento_qa.md) → [Procedure Release](../gobernanza/procesos/procedimiento_release.md)
+- [Procedimiento QA](../gobernanza/procesos/procedimiento_qa.md) -> [Procedure Release](../gobernanza/procesos/procedimiento_release.md)
 
 ### Para DevOps
 
@@ -193,10 +193,10 @@ Los procedimientos siguen lineamientos establecidos:
 ### Buscar un Procedimiento
 
 **Por situación**:
-- "Necesito configurar mi máquina" → [Instalación de Entorno](../gobernanza/procesos/procedimiento_instalacion_entorno.md)
-- "Voy a hacer un cambio" → [Gestión de Cambios](../gobernanza/procesos/procedimiento_gestion_cambios.md)
-- "Debo probar una feature" → [QA](../gobernanza/procesos/procedimiento_qa.md)
-- "Vamos a hacer release" → [Release](../gobernanza/procesos/procedimiento_release.md)
+- "Necesito configurar mi máquina" -> [Instalación de Entorno](../gobernanza/procesos/procedimiento_instalacion_entorno.md)
+- "Voy a hacer un cambio" -> [Gestión de Cambios](../gobernanza/procesos/procedimiento_gestion_cambios.md)
+- "Debo probar una feature" -> [QA](../gobernanza/procesos/procedimiento_qa.md)
+- "Vamos a hacer release" -> [Release](../gobernanza/procesos/procedimiento_release.md)
 
 **Por rol**:
 - Ver sección "Guía Rápida por Rol" arriba
@@ -297,12 +297,12 @@ Medir efectividad:
 
 | Procedimiento | Estado | Última Actualización | Próxima Revisión |
 |---------------|--------|----------------------|------------------|
-| Instalación Entorno | ✅ Activo | 2025-11-04 | 2025-12-04 |
-| Desarrollo Local | ✅ Activo | 2025-11-04 | 2025-12-04 |
-| Gestión Cambios | ✅ Activo | 2025-11-04 | 2025-12-04 |
-| QA | ✅ Activo | 2025-11-04 | 2025-12-04 |
-| Revisión Documental | ✅ Activo | 2025-11-04 | 2025-12-04 |
-| Release | ✅ Activo | 2025-11-04 | 2025-12-04 |
+| Instalación Entorno | OK Activo | 2025-11-04 | 2025-12-04 |
+| Desarrollo Local | OK Activo | 2025-11-04 | 2025-12-04 |
+| Gestión Cambios | OK Activo | 2025-11-04 | 2025-12-04 |
+| QA | OK Activo | 2025-11-04 | 2025-12-04 |
+| Revisión Documental | OK Activo | 2025-11-04 | 2025-12-04 |
+| Release | OK Activo | 2025-11-04 | 2025-12-04 |
 
 ---
 

@@ -42,7 +42,7 @@ Crear documentos de diseño técnico con arquitectura, diagramas de secuencia, f
 **Artefactos generados:**
 - `DISENO_TECNICO_{COMPONENTE}.md`
 - Diagramas Mermaid (secuencia, flujo, estados, ER)
-- Matriz de trazabilidad (Requisitos → Diseño → Tests)
+- Matriz de trazabilidad (Requisitos -> Diseño -> Tests)
 
 ---
 
@@ -187,12 +187,12 @@ graph TB
    - Aplicar: **PROC-TRAZABILIDAD-001**
 
 3. **Diseño Técnico**
-   - Si funcionalidad ≥ 3 RF → Crear diseño técnico
+   - Si funcionalidad ≥ 3 RF -> Crear diseño técnico
    - Aplicar: **PROC-DISENO-TEC-001**
    - Output: `DISENO_TECNICO_{COMPONENTE}.md`
 
 4. **Análisis de Seguridad**
-   - Si maneja autenticación/autorización/datos sensibles → Crear análisis
+   - Si maneja autenticación/autorización/datos sensibles -> Crear análisis
    - Aplicar: **PROC-SEGURIDAD-001**
    - Output: `ANALISIS_SEGURIDAD_AMENAZAS_{COMPONENTE}.md`
 
@@ -253,12 +253,12 @@ graph TB
 
 | Elemento | Estado | Observaciones |
 |----------|--------|---------------|
-| Procedimientos documentados | ✅ Sí | 3 procedimientos core creados (2025-11-04) |
-| Integración con plantillas | ✅ Sí | Referencian `plantillas/template_*.md` |
-| Alineación con PROPUESTA_FINAL_REESTRUCTURACION | ✅ Sí | Sigue estructura ISO 29148 + BABOK v3 |
+| Procedimientos documentados | OK Sí | 3 procedimientos core creados (2025-11-04) |
+| Integración con plantillas | OK Sí | Referencian `plantillas/template_*.md` |
+| Alineación con PROPUESTA_FINAL_REESTRUCTURACION | OK Sí | Sigue estructura ISO 29148 + BABOK v3 |
 | Workflows CI/CD configurados | 🔶 Parcial | Pendiente implementar `requirements-index.yml` |
 | Scripts de validación operativos | 🔶 Parcial | Pendiente implementar `validate_traceability.py` |
-| Auditoría trimestral programada | ❌ No | Pendiente programar primera auditoría |
+| Auditoría trimestral programada | NO No | Pendiente programar primera auditoría |
 
 ---
 
@@ -329,11 +329,11 @@ graph TB
 ### ¿Los procedimientos son obligatorios?
 
 **Sí** para:
-- PROC-TRAZABILIDAD-001 → Obligatorio para todos los requisitos
-- PROC-SEGURIDAD-001 → Obligatorio para componentes críticos de seguridad
+- PROC-TRAZABILIDAD-001 -> Obligatorio para todos los requisitos
+- PROC-SEGURIDAD-001 -> Obligatorio para componentes críticos de seguridad
 
 **Recomendado** para:
-- PROC-DISENO-TEC-001 → Funcionalidades complejas o arquitectónicas
+- PROC-DISENO-TEC-001 -> Funcionalidades complejas o arquitectónicas
 
 ---
 
@@ -359,9 +359,9 @@ git commit -m "feat(requisitos): agregar RF-010 con diseño y análisis segurida
 git push
 
 # 5. CI/CD valida y genera índices automáticamente
-# → Workflow requirements-index.yml ejecuta
-# → Genera BRS, StRS, SyRS, SRS, RTM
-# → Valida trazabilidad con validate_traceability.py
+# -> Workflow requirements-index.yml ejecuta
+# -> Genera BRS, StRS, SyRS, SRS, RTM
+# -> Valida trazabilidad con validate_traceability.py
 ```
 
 ---

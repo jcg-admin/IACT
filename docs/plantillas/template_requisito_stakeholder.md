@@ -495,14 +495,14 @@ Otros requisitos de stakeholders relacionados:
 
 **Notas para el Autor:**
 
-1. ✅ Los requisitos de stakeholders deben expresarse en lenguaje del stakeholder (no técnico)
-2. ✅ Cada RS debe tener un stakeholder primario identificado y contactable
-3. ✅ Debe validarse directamente con el stakeholder (entrevistas, demos, UAT)
-4. ✅ El formato User Story ("Como...Necesito...Para...") es altamente recomendado
-5. ✅ Debe ser independiente de la solución técnica (describe necesidad, no implementación)
-6. ✅ Los criterios de aceptación deben ser observables por el stakeholder
-7. ✅ Debe derivarse en requisitos funcionales y no funcionales específicos del sistema
-8. ✅ Mantener trazabilidad hacia arriba (RN) y hacia abajo (RF/RNF)
+1. OK Los requisitos de stakeholders deben expresarse en lenguaje del stakeholder (no técnico)
+2. OK Cada RS debe tener un stakeholder primario identificado y contactable
+3. OK Debe validarse directamente con el stakeholder (entrevistas, demos, UAT)
+4. OK El formato User Story ("Como...Necesito...Para...") es altamente recomendado
+5. OK Debe ser independiente de la solución técnica (describe necesidad, no implementación)
+6. OK Los criterios de aceptación deben ser observables por el stakeholder
+7. OK Debe derivarse en requisitos funcionales y no funcionales específicos del sistema
+8. OK Mantener trazabilidad hacia arriba (RN) y hacia abajo (RF/RNF)
 
 ---
 

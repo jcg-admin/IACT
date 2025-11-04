@@ -47,7 +47,7 @@ Colección de formatos reutilizables para discovery, análisis, diseño, QA y op
 | Plantillas de discovery y negocio | Sí | Incluyen Project Charter y Business Case. |
 | Plantillas de ingeniería y QA | Sí | Están disponibles las guías de SRS, SAD, plan de pruebas y runbooks. |
 | Plantilla para espacios documentales | Sí | Documentada en [`plantilla_espacio_documental.md`](plantilla_espacio_documental.md). |
-| Plantillas específicas de Django | ✅ Sí | ⭐ Creadas `plantilla_django_app.md` y `plantilla_etl_job.md` para SC02 (2025-11-04). |
+| Plantillas específicas de Django | OK Sí | ⭐ Creadas `plantilla_django_app.md` y `plantilla_etl_job.md` para SC02 (2025-11-04). |
 | Registro de versiones y owners | No | Falta crear un inventario que detalle responsables y fecha de vigencia. |
 
 ## Acciones prioritarias

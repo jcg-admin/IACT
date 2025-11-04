@@ -107,7 +107,7 @@ python manage.py runserver
 #### Actual (Manual)
 
 ```
-Developer → Git Push → Manual Review → Manual Tests → Manual Deploy
+Developer -> Git Push -> Manual Review -> Manual Tests -> Manual Deploy
 ```
 
 #### Objetivo Q2 2025
@@ -118,11 +118,11 @@ Developer
 Git Push
    ↓
 GitHub Actions
-   ├→ Lint (Pylint, Flake8, Black)
-   ├→ Type Check (mypy)
-   ├→ Unit Tests (pytest)
-   ├→ Integration Tests
-   └→ Security Scan (bandit)
+   ├-> Lint (Pylint, Flake8, Black)
+   ├-> Type Check (mypy)
+   ├-> Unit Tests (pytest)
+   ├-> Integration Tests
+   └-> Security Scan (bandit)
    ↓
 Build Docker Image
    ↓
@@ -351,11 +351,11 @@ Los runbooks documentan procedimientos operativos comunes:
 
 | Elemento | Estado | Observaciones |
 |----------|--------|---------------|
-| Infraestructura local documentada | ✅ Sí | Vagrant + VirtualBox |
-| Pipeline CI/CD | ❌ No | Planeado para Q2 2025 |
-| Monitoring configurado | ❌ No | Planeado para Q3 2025 |
-| Runbooks creados | ⚠️ Parcial | 5 runbooks existentes |
-| Backup strategy | ⚠️ Parcial | Solo Git, falta DB backups |
+| Infraestructura local documentada | OK Sí | Vagrant + VirtualBox |
+| Pipeline CI/CD | NO No | Planeado para Q2 2025 |
+| Monitoring configurado | NO No | Planeado para Q3 2025 |
+| Runbooks creados | WARNING Parcial | 5 runbooks existentes |
+| Backup strategy | WARNING Parcial | Solo Git, falta DB backups |
 
 ## Acciones prioritarias
 - [ ] Implementar GitHub Actions para CI/CD

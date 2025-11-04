@@ -67,12 +67,12 @@ Ver detalles completos en: [Estándares de Código](estandares_codigo.md)
 
 | Elemento | Estado | Observaciones |
 |----------|--------|---------------|
-| Políticas documentadas | ✅ Sí | Documentado en este archivo |
-| Estándares de código establecidos | ✅ Sí | Ver `estandares_codigo.md` |
-| Proceso de revisión definido | ✅ Sí | Requiere PR review antes de merge |
-| Procedimientos operativos | ✅ Sí | 3 procedimientos core creados (2025-11-04) |
+| Políticas documentadas | OK Sí | Documentado en este archivo |
+| Estándares de código establecidos | OK Sí | Ver `estandares_codigo.md` |
+| Proceso de revisión definido | OK Sí | Requiere PR review antes de merge |
+| Procedimientos operativos | OK Sí | 3 procedimientos core creados (2025-11-04) |
 | Trazabilidad ISO 29148 | 🔶 Parcial | Procedimiento creado, pendiente workflows CI/CD |
-| Métricas de calidad activas | ⚠️ Parcial | Falta dashboard de métricas |
+| Métricas de calidad activas | WARNING Parcial | Falta dashboard de métricas |
 
 ## Acciones prioritarias
 

@@ -335,7 +335,7 @@ Eventualmente se creará un script que automatice estos pasos:
 
 set -e
 
-echo "🚀 Ejecutando post-create setup..."
+echo "START Ejecutando post-create setup..."
 
 # 1. Verificar servicios
 ./scripts/verificar_servicios.sh
@@ -368,7 +368,7 @@ EOF
 # 7. Ejecutar tests
 pytest
 
-echo "✅ Setup completado!"
+echo "OK Setup completado!"
 ```
 
 ## Tiempo Estimado

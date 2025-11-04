@@ -77,11 +77,11 @@ export PRERELEASE="false"  # optional
 ```
 
 **Output**: `CHANGELOG-v1.2.3.md` with sections:
-- ✨ Features (`feat:` commits)
-- 🐛 Bug Fixes (`fix:` commits)
-- 📚 Documentation (`docs:` commits)
-- 🔧 Maintenance (`chore:`, `refactor:` commits)
-- 📋 All Commits
+- Features (`feat:` commits)
+- Bug Fixes (`fix:` commits)
+- Documentation (`docs:` commits)
+- Maintenance (`chore:`, `refactor:` commits)
+- All Commits
 
 **Used by**: `release.yml` workflow
 

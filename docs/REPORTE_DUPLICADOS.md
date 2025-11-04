@@ -1,4 +1,4 @@
-# 📋 REPORTE DE ARCHIVOS DUPLICADOS EN docs/
+# REPORTE DE ARCHIVOS DUPLICADOS EN docs/
 
 **Fecha de análisis**: 2025-11-04  
 **Rama**: claude/reorganize-docs-folders-011CUneVZ43BHmb7pSbeFxK1  
@@ -6,37 +6,37 @@
 
 ---
 
-## 📊 Resumen Ejecutivo
+## Resumen Ejecutivo
 
 Se encontraron **13 archivos con nombres duplicados** en diferentes ubicaciones:
 
 | Archivo | Ubicaciones | Idénticos | Diferentes |
 |---------|------------|-----------|------------|
-| checklist_testing.md | 2 | ✅ Sí | |
-| checklist_trazabilidad_requisitos.md | 2 | ✅ Sí | |
-| checklist_cambios_documentales.md | 2 | ✅ Sí | |
-| checklist_desarrollo.md | 2 | | ⚠️ Diferentes |
-| contenedores_devcontainer.md | 2 | | ⚠️ Diferentes |
-| github_copilot_codespaces.md | 2 | | ⚠️ Diferentes |
-| lineamientos_codigo.md | 2 | | ⚠️ Diferentes |
-| lineamientos_gobernanza.md | 2 | | ⚠️ Diferentes |
-| reprocesar_etl_fallido.md | 2 | | ⚠️ Diferentes |
-| verificar_servicios.md | 2 | | ⚠️ Diferentes |
-| post_create.md | 2 | | ⚠️ Diferentes |
-| adr_2025_001_vagrant_mod_wsgi.md | 2 | | ⚠️ Diferentes |
-| plantilla_adr.md | 2 | | ⚠️ Diferentes |
+| checklist_testing.md | 2 | OK | |
+| checklist_trazabilidad_requisitos.md | 2 | OK | |
+| checklist_cambios_documentales.md | 2 | OK | |
+| checklist_desarrollo.md | 2 | | WARNING Diferentes |
+| contenedores_devcontainer.md | 2 | | WARNING Diferentes |
+| github_copilot_codespaces.md | 2 | | WARNING Diferentes |
+| lineamientos_codigo.md | 2 | | WARNING Diferentes |
+| lineamientos_gobernanza.md | 2 | | WARNING Diferentes |
+| reprocesar_etl_fallido.md | 2 | | WARNING Diferentes |
+| verificar_servicios.md | 2 | | WARNING Diferentes |
+| post_create.md | 2 | | WARNING Diferentes |
+| adr_2025_001_vagrant_mod_wsgi.md | 2 | | WARNING Diferentes |
+| plantilla_adr.md | 2 | | WARNING Diferentes |
 
 **Total**: 3 idénticos, 10 diferentes
 
 ---
 
-## ✅ ARCHIVOS IDÉNTICOS (Eliminar duplicados)
+## ARCHIVOS IDÉNTICOS (Eliminar duplicados)
 
 ### 1. checklist_testing.md
 **MD5**: `e5f5bac2865cf269307336867b4c82a2`
 
 
-📄 **checklist_testing.md**
+FILE: **checklist_testing.md**
 - MD5: `e5f5bac2865cf269307336867b4c82a2`
 - Tamaño: 297 bytes
 
@@ -47,7 +47,7 @@ Se encontraron **13 archivos con nombres duplicados** en diferentes ubicaciones:
 **Recomendación**: Estos archivos son 100% idénticos. Mantener solo la versión en `docs/checklists/` (general) o en `docs/implementacion/` (específica). Se recomienda eliminar el duplicado según el propósito del archivo.
 
 
-📄 **checklist_trazabilidad_requisitos.md**
+FILE: **checklist_trazabilidad_requisitos.md**
 - MD5: `38567ea7af2e76bc3e5625ee20c4e15a`
 - Tamaño: 440 bytes
 
@@ -58,7 +58,7 @@ Se encontraron **13 archivos con nombres duplicados** en diferentes ubicaciones:
 **Recomendación**: Estos archivos son 100% idénticos. Mantener solo la versión en `docs/checklists/` (general) o en `docs/implementacion/` (específica). Se recomienda eliminar el duplicado según el propósito del archivo.
 
 
-📄 **checklist_cambios_documentales.md**
+FILE: **checklist_cambios_documentales.md**
 - MD5: `24f0fb136a60243ac9a79c20344addba`
 - Tamaño: 304 bytes
 
@@ -71,7 +71,7 @@ Se encontraron **13 archivos con nombres duplicados** en diferentes ubicaciones:
 
 ---
 
-## ⚠️ ARCHIVOS DIFERENTES (Revisar propósito)
+## ARCHIVOS DIFERENTES (Revisar propósito)
 
 
 Estos archivos tienen el mismo nombre pero contenido diferente. Requieren revisión para determinar si:
@@ -94,7 +94,7 @@ Estos archivos tienen el mismo nombre pero contenido diferente. Requieren revisi
 
 **Análisis**: La versión general (docs/checklists) es mucho más completa con reglas de output profesional y estándares de código. La versión de backend es más simple.
 
-**Recomendación**: ✅ MANTENER AMBOS. La versión general tiene contenido más robusto que debería aplicarse a todo el proyecto. La versión de backend es un stub que podría expandirse con elementos específicos del backend.
+**Recomendación**: OK MANTENER AMBOS. La versión general tiene contenido más robusto que debería aplicarse a todo el proyecto. La versión de backend es un stub que podría expandirse con elementos específicos del backend.
 
 ---
 
@@ -112,7 +112,7 @@ Estos archivos tienen el mismo nombre pero contenido diferente. Requieren revisi
 
 **Análisis**: Versión en docs/devops es 4.4x más grande y mucho más completa. La versión en implementacion/infrastructure parece ser un placeholder o resumen.
 
-**Recomendación**: ⚠️ ELIMINAR versión en implementacion/infrastructure/devops/ (es redundante). Mantener solo la versión completa en docs/devops/.
+**Recomendación**: WARNING ELIMINAR versión en implementacion/infrastructure/devops/ (es redundante). Mantener solo la versión completa en docs/devops/.
 
 ---
 
@@ -130,7 +130,7 @@ Estos archivos tienen el mismo nombre pero contenido diferente. Requieren revisi
 
 **Análisis**: Ambas versiones son extensas pero con contenido diferente. La versión en implementacion es más grande en bytes pero tiene menos líneas.
 
-**Recomendación**: ⚠️ REVISAR MANUALMENTE. Pueden ser versiones diferentes o una puede estar más actualizada. Comparar contenido para decidir cuál conservar.
+**Recomendación**: WARNING REVISAR MANUALMENTE. Pueden ser versiones diferentes o una puede estar más actualizada. Comparar contenido para decidir cuál conservar.
 
 ---
 
@@ -148,7 +148,7 @@ Estos archivos tienen el mismo nombre pero contenido diferente. Requieren revisi
 
 **Análisis**: Versión general es 17.8x más grande. Versión de backend es un placeholder.
 
-**Recomendación**: ⚠️ EXPANDIR versión de backend con lineamientos específicos de Django/Python, o eliminarla y referenciar a la general.
+**Recomendación**: WARNING EXPANDIR versión de backend con lineamientos específicos de Django/Python, o eliminarla y referenciar a la general.
 
 ---
 
@@ -166,7 +166,7 @@ Estos archivos tienen el mismo nombre pero contenido diferente. Requieren revisi
 
 **Análisis**: Tamaños similares pero checksums diferentes. Misma cantidad de líneas.
 
-**Recomendación**: ⚠️ REVISAR contenido para identificar diferencias. Pueden fusionarse o mantener separados según el alcance.
+**Recomendación**: WARNING REVISAR contenido para identificar diferencias. Pueden fusionarse o mantener separados según el alcance.
 
 ---
 
@@ -184,7 +184,7 @@ Estos archivos tienen el mismo nombre pero contenido diferente. Requieren revisi
 
 **Análisis**: Versión general es 8x más grande. Versión de backend es un resumen/stub.
 
-**Recomendación**: ⚠️ ELIMINAR stub de backend y mantener solo la versión completa en docs/devops/. Los runbooks deberían ser transversales.
+**Recomendación**: WARNING ELIMINAR stub de backend y mantener solo la versión completa en docs/devops/. Los runbooks deberían ser transversales.
 
 ---
 
@@ -202,7 +202,7 @@ Estos archivos tienen el mismo nombre pero contenido diferente. Requieren revisi
 
 **Análisis**: Mismo patrón - versión general completa, versión específica es stub.
 
-**Recomendación**: ⚠️ ELIMINAR stub. Los runbooks operativos deberían centralizarse en docs/devops/.
+**Recomendación**: WARNING ELIMINAR stub. Los runbooks operativos deberían centralizarse en docs/devops/.
 
 ---
 
@@ -238,7 +238,7 @@ Estos archivos tienen el mismo nombre pero contenido diferente. Requieren revisi
 
 **Análisis**: ADR completo vs stub.
 
-**Recomendación**: ⚠️ ELIMINAR stub. Los ADRs deberían centralizarse en docs/arquitectura/adr/.
+**Recomendación**: WARNING ELIMINAR stub. Los ADRs deberían centralizarse en docs/arquitectura/adr/.
 
 ---
 
@@ -256,11 +256,11 @@ Estos archivos tienen el mismo nombre pero contenido diferente. Requieren revisi
 
 **Análisis**: Plantilla completa vs simplificada.
 
-**Recomendación**: ⚠️ ELIMINAR versión simplificada. Las plantillas deberían estar en docs/plantillas/ o docs/arquitectura/adr/.
+**Recomendación**: WARNING ELIMINAR versión simplificada. Las plantillas deberían estar en docs/plantillas/ o docs/arquitectura/adr/.
 
 ---
 
-## 📋 Resumen de Recomendaciones
+## Resumen de Recomendaciones
 
 ### Acción Inmediata - Eliminar Duplicados Idénticos (3 archivos)
 
@@ -296,7 +296,7 @@ rm docs/implementacion/backend/arquitectura/lineamientos_codigo.md  # opcional -
 
 ---
 
-## 📊 Estadísticas Finales
+## Estadísticas Finales
 
 - **Total archivos duplicados encontrados**: 13
 - **Duplicados idénticos (100%)**: 3 archivos
@@ -306,7 +306,7 @@ rm docs/implementacion/backend/arquitectura/lineamientos_codigo.md  # opcional -
 
 ---
 
-## 🎯 Conclusión
+## Conclusión
 
 La reorganización movió correctamente las carpetas a docs/implementacion/, pero creó duplicación con documentación general que ya existía en docs/ raíz. La estrategia recomendada es:
 

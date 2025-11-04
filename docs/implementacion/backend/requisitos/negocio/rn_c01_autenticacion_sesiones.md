@@ -20,7 +20,7 @@ estado: completo_definitivo
 
 ---
 
-## 📋 ÍNDICE DE REGLAS
+## NOTA ÍNDICE DE REGLAS
 
 ### Reglas MUST (14 reglas - 100%)
 
@@ -43,11 +43,11 @@ estado: completo_definitivo
 
 ---
 
-## 📖 REGLAS DETALLADAS
+## INFO REGLAS DETALLADAS
 
 ---
 
-### **RN-C01-01: Login con Credenciales Locales** 🔴 MUST
+### **RN-C01-01: Login con Credenciales Locales** CRITICO MUST
 
 **Código:** RN-C01-01
 **Tipo:** ACTIVADOR
@@ -62,7 +62,7 @@ El sistema debe permitir a los usuarios autenticarse **únicamente** mediante cr
 #### **Restricciones Aplicables**
 
 ```yaml
-❌ PROHIBIDO:
+NO PROHIBIDO:
   - LDAP/Active Directory
   - OAuth2 (Google, Microsoft, GitHub, etc.)
   - SAML
@@ -71,7 +71,7 @@ El sistema debe permitir a los usuarios autenticarse **únicamente** mediante cr
   - Validación de IP address
   - Bloqueo por cambio de IP
 
-✅ OBLIGATORIO:
+OK OBLIGATORIO:
   - Solo autenticación local
   - Credenciales en PostgreSQL
   - Almacenar user_agent (NO validar)
@@ -173,7 +173,7 @@ def login(username: str, password: str, request) -> dict:
     session = UserSession.objects.create(
         user=user,
         session_key=request.session.session_key,
-        user_agent=request.META.get('HTTP_USER_AGENT', 'Unknown'),  # ✅ Almacenar
+        user_agent=request.META.get('HTTP_USER_AGENT', 'Unknown'),  # OK Almacenar
         is_active=True,
         created_at=now(),
         last_activity_at=now()
@@ -203,7 +203,7 @@ def login(username: str, password: str, request) -> dict:
     AuditLog.create(
         event_type='LOGIN_SUCCESS',
         user_id=user.id,
-        user_agent=request.META.get('HTTP_USER_AGENT'),  # ✅ Para auditoría
+        user_agent=request.META.get('HTTP_USER_AGENT'),  # OK Para auditoría
         details={
             'username': user.username,
             'method': 'local',
@@ -350,7 +350,7 @@ HTTP 429 Too Many Requests
 
 ---
 
-### **RN-C01-02: Validación de Credenciales** 🔴 MUST
+### **RN-C01-02: Validación de Credenciales** CRITICO MUST
 
 **Código:** RN-C01-02
 **Tipo:** RESTRICCIÓN
@@ -364,14 +364,14 @@ Las credenciales proporcionadas deben ser validadas contra los valores almacenad
 #### **Restricciones Aplicables**
 
 ```yaml
-✅ OBLIGATORIO:
+OK OBLIGATORIO:
   - bcrypt con cost factor 12
   - Solo base de datos local (PostgreSQL)
   - Validar estado del usuario (ACTIVO)
   - Verificar bloqueo de cuenta
   - Desbloqueo automático si tiempo expiró
 
-❌ PROHIBIDO:
+NO PROHIBIDO:
   - Validar contra LDAP/AD
   - Validar contra OAuth2
   - Validar contra servicios externos
@@ -525,16 +525,16 @@ Optimizaciones:
 
 ```yaml
 Fortalezas:
-  ✅ bcrypt resistente a rainbow tables
-  ✅ Salt único por password
-  ✅ Cost factor ajustable (futureproof)
-  ✅ Timing attack mitigation (bcrypt constante)
-  ✅ No revela si username existe
+  OK bcrypt resistente a rainbow tables
+  OK Salt único por password
+  OK Cost factor ajustable (futureproof)
+  OK Timing attack mitigation (bcrypt constante)
+  OK No revela si username existe
 
 Consideraciones:
-  ⚠️ Mismo mensaje de error para username y password
-  ⚠️ No especificar cuál campo es incorrecto
-  ⚠️ Rate limiting en endpoint de login (5/5min)
+  WARNING Mismo mensaje de error para username y password
+  WARNING No especificar cuál campo es incorrecto
+  WARNING Rate limiting en endpoint de login (5/5min)
 ```
 
 #### **Reglas Relacionadas**
@@ -545,7 +545,7 @@ Consideraciones:
 
 ---
 
-### **RN-C01-03: Generación de Tokens JWT** 🔴 MUST
+### **RN-C01-03: Generación de Tokens JWT** CRITICO MUST
 
 **Código:** RN-C01-03
 **Tipo:** ACTIVADOR
@@ -559,7 +559,7 @@ Al autenticarse exitosamente, el sistema genera tokens JWT (JSON Web Tokens) usa
 #### **Restricciones Aplicables**
 
 ```yaml
-✅ OBLIGATORIO:
+OK OBLIGATORIO:
   - Access token: 15 minutos exactos
   - Refresh token: 7 días exactos
   - Rotate refresh tokens: True
@@ -567,7 +567,7 @@ Al autenticarse exitosamente, el sistema genera tokens JWT (JSON Web Tokens) usa
   - Algoritmo: HS256
   - Claims personalizados: username, email, segment, roles
 
-❌ PROHIBIDO:
+NO PROHIBIDO:
   - Tokens de larga duración
   - Tokens sin expiración
   - Algoritmos inseguros (None, HS1)
@@ -766,11 +766,11 @@ if (isTokenExpired(accessToken)) {
 
 ```yaml
 Secret Key:
-  ✅ Mínimo 256 bits (32 caracteres)
-  ✅ Desde variable de entorno
-  ✅ Nunca en código fuente
-  ✅ Único por ambiente (dev/staging/prod)
-  ✅ Rotación cada 90 días
+  OK Mínimo 256 bits (32 caracteres)
+  OK Desde variable de entorno
+  OK Nunca en código fuente
+  OK Único por ambiente (dev/staging/prod)
+  OK Rotación cada 90 días
 
 Generación segura:
   python -c "import secrets; print(secrets.token_urlsafe(32))"
@@ -828,7 +828,7 @@ CREATE TABLE token_blacklist_blacklistedtoken (
 
 ---
 
-### **RN-C01-04: Validación de Tokens JWT** 🔴 MUST
+### **RN-C01-04: Validación de Tokens JWT** CRITICO MUST
 
 **Código:** RN-C01-04
 **Tipo:** RESTRICCIÓN
@@ -842,14 +842,14 @@ Cada request a endpoints protegidos debe validar el JWT access token enviado en 
 #### **Restricciones Aplicables**
 
 ```yaml
-✅ OBLIGATORIO:
+OK OBLIGATORIO:
   - Verificar firma con SECRET_KEY
   - Validar expiración (exp claim)
   - Validar estructura del token
   - Verificar que no esté blacklisted
   - Validar tipo de token (access vs refresh)
 
-❌ PROHIBIDO:
+NO PROHIBIDO:
   - Aceptar tokens sin firma
   - Aceptar tokens expirados
   - Permitir algoritmo "None"
@@ -915,7 +915,7 @@ def validate_access_token(request):
 
 ---
 
-### **RN-C01-05: Logout Manual** 🔴 MUST
+### **RN-C01-05: Logout Manual** CRITICO MUST
 
 **Código:** RN-C01-05
 **Tipo:** ACTIVADOR
@@ -929,14 +929,14 @@ El usuario puede cerrar su sesión manualmente en cualquier momento mediante el 
 #### **Restricciones Aplicables**
 
 ```yaml
-✅ OBLIGATORIO:
+OK OBLIGATORIO:
   - Invalidar refresh token (blacklist)
   - Cerrar sesión en user_sessions (is_active=False)
   - Cerrar sesión en django_session (delete)
   - Auditar logout
   - Access token sigue válido hasta expirar (stateless JWT)
 
-❌ PROHIBIDO:
+NO PROHIBIDO:
   - Invalidar access tokens (no hay blacklist para access)
   - Mantener sesión activa después de logout
 ```
@@ -1012,7 +1012,7 @@ Authorization: Bearer <access_token>
 
 ---
 
-### **RN-C01-06: Cierre por Inactividad** 🔴 MUST
+### **RN-C01-06: Cierre por Inactividad** CRITICO MUST
 
 **Código:** RN-C01-06
 **Tipo:** ACTIVADOR
@@ -1026,14 +1026,14 @@ Las sesiones se cierran automáticamente tras **30 minutos de inactividad** (sin
 #### **Restricciones Aplicables**
 
 ```yaml
-✅ OBLIGATORIO:
+OK OBLIGATORIO:
   - Timeout: 30 minutos exactos
   - Actualizar last_activity_at en cada request válido
   - Job programado cada 5 minutos verifica sesiones inactivas
   - Cerrar sesión automáticamente
   - Auditar cierre por inactividad
 
-❌ PROHIBIDO:
+NO PROHIBIDO:
   - Extender sesiones indefinidamente
   - No registrar actividad
 ```
@@ -1131,7 +1131,7 @@ scheduler.start()
 
 ---
 
-### **RN-C01-07: Complejidad de Contraseñas** 🔴 MUST
+### **RN-C01-07: Complejidad de Contraseñas** CRITICO MUST
 
 **Código:** RN-C01-07
 **Tipo:** RESTRICCIÓN
@@ -1145,7 +1145,7 @@ Las contraseñas deben cumplir requisitos mínimos de complejidad para garantiza
 #### **Restricciones Aplicables**
 
 ```yaml
-✅ OBLIGATORIO:
+OK OBLIGATORIO:
   - Longitud mínima: 8 caracteres
   - Longitud máxima: 100 caracteres
   - Al menos 1 letra mayúscula
@@ -1156,7 +1156,7 @@ Las contraseñas deben cumplir requisitos mínimos de complejidad para garantiza
   - NO puede contener nombre o apellido del usuario
   - NO puede ser igual a las últimas 5 contraseñas
 
-❌ PROHIBIDO:
+NO PROHIBIDO:
   - Contraseñas débiles (123456, password, etc.)
   - Reutilizar contraseñas recientes
 ```
@@ -1249,7 +1249,7 @@ def validate_password_history(user, new_password: str) -> None:
 
 ---
 
-### **RN-C01-08: Intentos Fallidos Limitados** 🔴 MUST
+### **RN-C01-08: Intentos Fallidos Limitados** CRITICO MUST
 
 **Código:** RN-C01-08
 **Tipo:** RESTRICCIÓN
@@ -1263,14 +1263,14 @@ El sistema limita los intentos de login a **3 intentos fallidos**. Al tercer int
 #### **Restricciones Aplicables**
 
 ```yaml
-✅ OBLIGATORIO:
+OK OBLIGATORIO:
   - Máximo 3 intentos fallidos
   - Contador NO se resetea por tiempo
   - Contador solo se resetea con login exitoso
   - Bloqueo automático al 3er intento
   - Notificar vía buzón interno (NO email)
 
-❌ PROHIBIDO:
+NO PROHIBIDO:
   - Permitir intentos ilimitados
   - Resetear contador automáticamente por tiempo
 ```
@@ -1329,7 +1329,7 @@ def handle_failed_login(username: str):
 
 ---
 
-### **RN-C01-09: Bloqueo Temporal de Cuenta** 🔴 MUST
+### **RN-C01-09: Bloqueo Temporal de Cuenta** CRITICO MUST
 
 **Código:** RN-C01-09
 **Tipo:** ACTIVADOR
@@ -1343,14 +1343,14 @@ Cuando una cuenta es bloqueada por intentos fallidos, permanece bloqueada exacta
 #### **Restricciones Aplicables**
 
 ```yaml
-✅ OBLIGATORIO:
+OK OBLIGATORIO:
   - Duración: 15 minutos exactos
   - Desbloqueo automático al cumplirse el tiempo
   - Desbloqueo manual por administrador (role R016)
   - Notificar vía buzón interno (NO email)
   - Auditar desbloqueo
 
-❌ PROHIBIDO:
+NO PROHIBIDO:
   - Bloqueos permanentes sin intervención admin
   - No notificar al usuario
 ```
@@ -1421,7 +1421,7 @@ def unlock_user_manual(admin_user, target_user):
 
 ---
 
-### **RN-C01-10: Hash Seguro de Passwords** 🔴 MUST
+### **RN-C01-10: Hash Seguro de Passwords** CRITICO MUST
 
 **Código:** RN-C01-10
 **Tipo:** HECHO
@@ -1435,13 +1435,13 @@ Las contraseñas NUNCA se almacenan en texto plano. Se usa **bcrypt** con **cost
 #### **Restricciones Aplicables**
 
 ```yaml
-✅ OBLIGATORIO:
+OK OBLIGATORIO:
   - Algoritmo: bcrypt
   - Cost factor: 12
   - Salt automático por password
   - Guardar historial (últimas 5 passwords)
 
-❌ PROHIBIDO:
+NO PROHIBIDO:
   - MD5
   - SHA1
   - Texto plano
@@ -1524,7 +1524,7 @@ class PasswordHistory(models.Model):
 
 ---
 
-### **RN-C01-11: Refresh Token** 🔴 MUST
+### **RN-C01-11: Refresh Token** CRITICO MUST
 
 **Código:** RN-C01-11
 **Tipo:** ACTIVADOR
@@ -1538,14 +1538,14 @@ Los refresh tokens permiten obtener nuevos access tokens sin requerir credencial
 #### **Restricciones Aplicables**
 
 ```yaml
-✅ OBLIGATORIO:
+OK OBLIGATORIO:
   - Duración: 7 días exactos
   - Rotar refresh token al usarlo (generar nuevo)
   - Blacklist refresh token viejo
   - Validar que no esté blacklisted
   - Validar que no haya expirado
 
-❌ PROHIBIDO:
+NO PROHIBIDO:
   - Reutilizar refresh tokens
   - Refresh tokens sin expiración
 ```
@@ -1621,7 +1621,7 @@ SIMPLE_JWT = {
 
 ---
 
-### **RN-C01-12: Auditoría de Login** 🔴 MUST
+### **RN-C01-12: Auditoría de Login** CRITICO MUST
 
 **Código:** RN-C01-12
 **Tipo:** ACTIVADOR
@@ -1635,7 +1635,7 @@ Todos los eventos de autenticación (login exitoso, fallido, logout, bloqueo) de
 #### **Restricciones Aplicables**
 
 ```yaml
-✅ OBLIGATORIO:
+OK OBLIGATORIO:
   - Auditar login exitoso
   - Auditar login fallido
   - Auditar logout (manual, inactividad, nueva sesión)
@@ -1643,7 +1643,7 @@ Todos los eventos de autenticación (login exitoso, fallido, logout, bloqueo) de
   - Almacenar user_agent (NO IP address)
   - Timestamp UTC
 
-❌ PROHIBIDO:
+NO PROHIBIDO:
   - NO almacenar IP address
   - NO auditar acciones triviales
 ```
@@ -1685,7 +1685,7 @@ class AuditLog(models.Model):
 
 ---
 
-### **RN-C01-13: Sesiones en PostgreSQL** 🔴 MUST
+### **RN-C01-13: Sesiones en PostgreSQL** CRITICO MUST
 
 **Código:** RN-C01-13
 **Tipo:** HECHO
@@ -1699,14 +1699,14 @@ Las sesiones se almacenan en **PostgreSQL** usando las tablas `django_session` (
 #### **Restricciones Aplicables**
 
 ```yaml
-✅ OBLIGATORIO:
+OK OBLIGATORIO:
   - Backend: django.contrib.sessions.backends.db
   - Base de datos: PostgreSQL
   - NO Redis
   - NO Memcached
   - NO file-based sessions
 
-❌ PROHIBIDO:
+NO PROHIBIDO:
   - Redis como session store
   - Cached sessions
   - Cookie-only sessions
@@ -1755,7 +1755,7 @@ CREATE TABLE user_sessions (
 
 ---
 
-### **RN-C01-14: Sesión Única por Usuario** 🔴 MUST
+### **RN-C01-14: Sesión Única por Usuario** CRITICO MUST
 
 **Código:** RN-C01-14
 **Tipo:** RESTRICCIÓN
@@ -1769,14 +1769,14 @@ Cada usuario puede tener **solo UNA sesión activa** a la vez. Si inicia sesión
 #### **Restricciones Aplicables**
 
 ```yaml
-✅ OBLIGATORIO:
+OK OBLIGATORIO:
   - Máximo 1 sesión activa por usuario
   - Cerrar sesión anterior automáticamente
   - Cerrar en django_session Y user_sessions
   - Notificar vía buzón interno (NO email, SIN IP)
   - Auditar cierre de sesión anterior
 
-❌ PROHIBIDO:
+NO PROHIBIDO:
   - Múltiples sesiones simultáneas
   - NO notificar al usuario
 ```
@@ -1833,7 +1833,7 @@ if active_sessions.exists():
 
 ---
 
-## 📊 RESUMEN Y PRÓXIMOS PASOS
+## STATS RESUMEN Y PRÓXIMOS PASOS
 
 ### **Estado de Completitud**
 
@@ -1844,7 +1844,7 @@ if active_sessions.exists():
 | COULD | 0 | 0 | 0 | N/A |
 | WON'T | 0 | 0 | 0 | N/A |
 
-**✅ COMPONENTE 1 COMPLETO - 14/14 reglas documentadas**
+**OK COMPONENTE 1 COMPLETO - 14/14 reglas documentadas**
 
 ### **Próximos Pasos**
 

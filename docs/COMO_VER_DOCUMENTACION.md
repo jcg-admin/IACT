@@ -134,14 +134,14 @@ code /path/to/IACT---project
 
 | Característica | MkDocs Local | GitHub Pages | GitHub Raw | VSCode |
 |----------------|--------------|--------------|------------|--------|
-| Navegación estructurada | ✅ | ✅ | ❌ | ❌ |
-| Búsqueda global | ✅ | ✅ | ❌ | ⚠️ (parcial) |
-| PlantUML renderizado | ✅ | ✅ | ❌ | ✅ |
-| Live reload | ✅ | ❌ | ❌ | ✅ |
-| Sin instalación | ❌ | ✅ | ✅ | ❌ |
-| Offline | ✅ | ❌ | ❌ | ✅ |
-| Theme completo | ✅ | ✅ | ❌ | ⚠️ |
-| Enlaces internos | ✅ | ✅ | ✅ | ⚠️ |
+| Navegación estructurada | OK | OK | NO | NO |
+| Búsqueda global | OK | OK | NO | WARNING (parcial) |
+| PlantUML renderizado | OK | OK | NO | OK |
+| Live reload | OK | NO | NO | OK |
+| Sin instalación | NO | OK | OK | NO |
+| Offline | OK | NO | NO | OK |
+| Theme completo | OK | OK | NO | WARNING |
+| Enlaces internos | OK | OK | OK | WARNING |
 
 ---
 

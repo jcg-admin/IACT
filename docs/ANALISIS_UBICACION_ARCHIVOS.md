@@ -1,4 +1,4 @@
-# 📍 UBICACIÓN CORRECTA DE ARCHIVOS DUPLICADOS
+# UBICACIÓN CORRECTA DE ARCHIVOS DUPLICADOS
 
 Según la estructura propuesta donde:
 - **docs/ raíz**: Documentación GENERAL/TRANSVERSAL del proyecto
@@ -6,13 +6,13 @@ Según la estructura propuesta donde:
 
 ---
 
-## 📋 Análisis por Archivo
+## Análisis por Archivo
 
 ### 1. checklist_desarrollo.md
 
 **Naturaleza**: Checklist de desarrollo transversal
 
-**Ubicación correcta**: `docs/checklists/checklist_desarrollo.md` ✅
+**Ubicación correcta**: `docs/checklists/checklist_desarrollo.md` OK
 
 **Razón**: 
 - Es un checklist que aplica a TODO el desarrollo del proyecto
@@ -20,9 +20,9 @@ Según la estructura propuesta donde:
 - No es específico de backend, frontend o infrastructure
 - La versión general (883 bytes) es más completa que el stub de backend (299 bytes)
 
-**Acción**: 
-- ✅ MANTENER: `docs/checklists/checklist_desarrollo.md`
-- ❌ ELIMINAR: `docs/implementacion/backend/checklists/checklist_desarrollo.md`
+**Acción**:
+- OK MANTENER: `docs/checklists/checklist_desarrollo.md`
+- NO ELIMINAR: `docs/implementacion/backend/checklists/checklist_desarrollo.md`
 
 ---
 
@@ -30,15 +30,15 @@ Según la estructura propuesta donde:
 
 **Naturaleza**: Checklist de testing transversal
 
-**Ubicación correcta**: `docs/checklists/checklist_testing.md` ✅
+**Ubicación correcta**: `docs/checklists/checklist_testing.md` OK
 
 **Razón**:
 - Aplica a tests de cualquier capa (backend, frontend, infrastructure)
 - Es documentación general de QA
 
 **Acción**:
-- ✅ MANTENER: `docs/checklists/checklist_testing.md`
-- ❌ ELIMINAR: `docs/implementacion/backend/checklists/checklist_testing.md` (idéntico)
+- OK MANTENER: `docs/checklists/checklist_testing.md`
+- NO ELIMINAR: `docs/implementacion/backend/checklists/checklist_testing.md` (idéntico)
 
 ---
 
@@ -46,15 +46,15 @@ Según la estructura propuesta donde:
 
 **Naturaleza**: Checklist de trazabilidad transversal
 
-**Ubicación correcta**: `docs/checklists/checklist_trazabilidad_requisitos.md` ✅
+**Ubicación correcta**: `docs/checklists/checklist_trazabilidad_requisitos.md` OK
 
 **Razón**:
 - La trazabilidad de requisitos es un proceso general del proyecto
 - Aplica a requisitos de cualquier área
 
 **Acción**:
-- ✅ MANTENER: `docs/checklists/checklist_trazabilidad_requisitos.md`
-- ❌ ELIMINAR: `docs/implementacion/backend/checklists/checklist_trazabilidad_requisitos.md` (idéntico)
+- OK MANTENER: `docs/checklists/checklist_trazabilidad_requisitos.md`
+- NO ELIMINAR: `docs/implementacion/backend/checklists/checklist_trazabilidad_requisitos.md` (idéntico)
 
 ---
 
@@ -62,15 +62,15 @@ Según la estructura propuesta donde:
 
 **Naturaleza**: Checklist de gobernanza documental
 
-**Ubicación correcta**: `docs/checklists/checklist_cambios_documentales.md` ✅
+**Ubicación correcta**: `docs/checklists/checklist_cambios_documentales.md` OK
 
 **Razón**:
 - Es un proceso de gobernanza que aplica a TODA la documentación
 - No es específico de infrastructure
 
 **Acción**:
-- ✅ MANTENER: `docs/checklists/checklist_cambios_documentales.md`
-- ❌ ELIMINAR: `docs/implementacion/infrastructure/checklists/checklist_cambios_documentales.md` (idéntico)
+- OK MANTENER: `docs/checklists/checklist_cambios_documentales.md`
+- NO ELIMINAR: `docs/implementacion/infrastructure/checklists/checklist_cambios_documentales.md` (idéntico)
 
 ---
 
@@ -78,7 +78,7 @@ Según la estructura propuesta donde:
 
 **Naturaleza**: Documentación de infraestructura de desarrollo general
 
-**Ubicación correcta**: `docs/devops/contenedores_devcontainer.md` ✅
+**Ubicación correcta**: `docs/devops/contenedores_devcontainer.md` OK
 
 **Razón**:
 - Los devcontainers son configuración GENERAL del entorno de desarrollo
@@ -87,8 +87,8 @@ Según la estructura propuesta donde:
 - La versión general (8.5KB) es mucho más completa que el stub (1.9KB)
 
 **Acción**:
-- ✅ MANTENER: `docs/devops/contenedores_devcontainer.md`
-- ❌ ELIMINAR: `docs/implementacion/infrastructure/devops/contenedores_devcontainer.md` (stub)
+- OK MANTENER: `docs/devops/contenedores_devcontainer.md`
+- NO ELIMINAR: `docs/implementacion/infrastructure/devops/contenedores_devcontainer.md` (stub)
 
 ---
 
@@ -96,7 +96,7 @@ Según la estructura propuesta donde:
 
 **Naturaleza**: Runbook operativo de infraestructura de desarrollo
 
-**Ubicación correcta**: `docs/devops/runbooks/github_copilot_codespaces.md` ⚠️
+**Ubicación correcta**: `docs/devops/runbooks/github_copilot_codespaces.md` WARNING
 
 **Razón**:
 - Es un runbook operativo que aplica al entorno general de desarrollo
@@ -105,7 +105,7 @@ Según la estructura propuesta donde:
 **PERO**: Las dos versiones tienen contenido diferente (9.5KB vs 13.6KB)
 
 **Acción**:
-- 🔍 REVISAR MANUALMENTE: Comparar ambas versiones para determinar cuál es más actual
+- REVISAR MANUALMENTE: Comparar ambas versiones para determinar cuál es más actual
 - Luego mantener solo una en `docs/devops/runbooks/`
 - Eliminar la versión en `docs/implementacion/infrastructure/`
 
@@ -115,7 +115,7 @@ Según la estructura propuesta donde:
 
 **Naturaleza**: Lineamientos arquitectónicos generales
 
-**Ubicación correcta**: `docs/arquitectura/lineamientos_codigo.md` ✅
+**Ubicación correcta**: `docs/arquitectura/lineamientos_codigo.md` OK
 
 **Razón**:
 - Los lineamientos de código son TRANSVERSALES a todo el proyecto
@@ -123,8 +123,8 @@ Según la estructura propuesta donde:
 - La versión general (11KB) es 18x más completa que el stub de backend (618 bytes)
 
 **Acción**:
-- ✅ MANTENER: `docs/arquitectura/lineamientos_codigo.md`
-- ⚠️ OPCIONES para `docs/implementacion/backend/arquitectura/lineamientos_codigo.md`:
+- OK MANTENER: `docs/arquitectura/lineamientos_codigo.md`
+- WARNING OPCIONES para `docs/implementacion/backend/arquitectura/lineamientos_codigo.md`:
   - **Opción A**: Eliminar el stub
   - **Opción B**: Expandir con lineamientos ESPECÍFICOS de Django/Python (herencia del general)
 
@@ -150,16 +150,16 @@ Ver lineamientos base en: `docs/arquitectura/lineamientos_codigo.md`
 
 **Naturaleza**: Lineamientos de gobernanza
 
-**Ubicación correcta**: `docs/gobernanza/lineamientos_gobernanza.md` ⚠️
+**Ubicación correcta**: `docs/gobernanza/lineamientos_gobernanza.md` WARNING
 
 **Razón**:
 - La gobernanza puede tener aspectos generales Y específicos por área
 - Ambas versiones son pequeñas (358 vs 417 bytes) y diferentes
 
 **Acción**:
-- 🔍 REVISAR MANUALMENTE: Comparar contenido
-- Si el contenido de infrastructure es un SUBSET del general → Eliminar versión de infrastructure
-- Si el contenido de infrastructure tiene ESPECIFICIDADES → Mantener ambas con herencia clara
+- REVISAR MANUALMENTE: Comparar contenido
+- Si el contenido de infrastructure es un SUBSET del general -> Eliminar versión de infrastructure
+- Si el contenido de infrastructure tiene ESPECIFICIDADES -> Mantener ambas con herencia clara
 
 ---
 
@@ -167,7 +167,7 @@ Ver lineamientos base en: `docs/arquitectura/lineamientos_codigo.md`
 
 **Naturaleza**: Runbook operativo
 
-**Ubicación correcta**: `docs/devops/runbooks/reprocesar_etl_fallido.md` ✅
+**Ubicación correcta**: `docs/devops/runbooks/reprocesar_etl_fallido.md` OK
 
 **Razón**:
 - Los runbooks operativos deben estar CENTRALIZADOS en devops
@@ -175,8 +175,8 @@ Ver lineamientos base en: `docs/arquitectura/lineamientos_codigo.md`
 - La versión general (9.6KB) es 8x más completa que el stub (1.2KB)
 
 **Acción**:
-- ✅ MANTENER: `docs/devops/runbooks/reprocesar_etl_fallido.md`
-- ❌ ELIMINAR: `docs/implementacion/backend/devops/runbooks/reprocesar_etl_fallido.md` (stub)
+- OK MANTENER: `docs/devops/runbooks/reprocesar_etl_fallido.md`
+- NO ELIMINAR: `docs/implementacion/backend/devops/runbooks/reprocesar_etl_fallido.md` (stub)
 
 **Nota**: Si el backend necesita documentación de diseño del ETL, eso va en `docs/implementacion/backend/diseno/` (no runbooks)
 
@@ -186,7 +186,7 @@ Ver lineamientos base en: `docs/arquitectura/lineamientos_codigo.md`
 
 **Naturaleza**: Runbook operativo de verificación
 
-**Ubicación correcta**: `docs/devops/runbooks/verificar_servicios.md` ✅
+**Ubicación correcta**: `docs/devops/runbooks/verificar_servicios.md` OK
 
 **Razón**:
 - Runbook operativo transversal (verifica TODOS los servicios)
@@ -194,8 +194,8 @@ Ver lineamientos base en: `docs/arquitectura/lineamientos_codigo.md`
 - Versión general (7.5KB) es 7x más completa
 
 **Acción**:
-- ✅ MANTENER: `docs/devops/runbooks/verificar_servicios.md`
-- ❌ ELIMINAR: `docs/implementacion/infrastructure/devops/runbooks/verificar_servicios.md` (stub)
+- OK MANTENER: `docs/devops/runbooks/verificar_servicios.md`
+- NO ELIMINAR: `docs/implementacion/infrastructure/devops/runbooks/verificar_servicios.md` (stub)
 
 ---
 
@@ -203,7 +203,7 @@ Ver lineamientos base en: `docs/arquitectura/lineamientos_codigo.md`
 
 **Naturaleza**: Runbook de inicialización de entorno
 
-**Ubicación correcta**: `docs/devops/runbooks/post_create.md` ✅
+**Ubicación correcta**: `docs/devops/runbooks/post_create.md` OK
 
 **Razón**:
 - Script de post-create aplica al entorno general de desarrollo
@@ -211,8 +211,8 @@ Ver lineamientos base en: `docs/arquitectura/lineamientos_codigo.md`
 - Versión general (8KB) es 8x más completa
 
 **Acción**:
-- ✅ MANTENER: `docs/devops/runbooks/post_create.md`
-- ❌ ELIMINAR: `docs/implementacion/infrastructure/devops/runbooks/post_create.md` (stub)
+- OK MANTENER: `docs/devops/runbooks/post_create.md`
+- NO ELIMINAR: `docs/implementacion/infrastructure/devops/runbooks/post_create.md` (stub)
 
 ---
 
@@ -220,7 +220,7 @@ Ver lineamientos base en: `docs/arquitectura/lineamientos_codigo.md`
 
 **Naturaleza**: ADR (Architecture Decision Record)
 
-**Ubicación correcta**: `docs/arquitectura/adr/adr_2025_001_vagrant_mod_wsgi.md` ✅
+**Ubicación correcta**: `docs/arquitectura/adr/adr_2025_001_vagrant_mod_wsgi.md` OK
 
 **Razón**:
 - Los ADRs deben estar CENTRALIZADOS en un solo lugar
@@ -229,8 +229,8 @@ Ver lineamientos base en: `docs/arquitectura/lineamientos_codigo.md`
 - Versión general (7.5KB) es 6x más completa
 
 **Acción**:
-- ✅ MANTENER: `docs/arquitectura/adr/`
-- ❌ ELIMINAR: `docs/implementacion/infrastructure/arquitectura/adr/` (stub)
+- OK MANTENER: `docs/arquitectura/adr/`
+- NO ELIMINAR: `docs/implementacion/infrastructure/arquitectura/adr/` (stub)
 
 **Principio**: Un proyecto debe tener UNA ÚNICA fuente de ADRs
 
@@ -240,7 +240,7 @@ Ver lineamientos base en: `docs/arquitectura/lineamientos_codigo.md`
 
 **Naturaleza**: Plantilla de ADR
 
-**Ubicación correcta**: `docs/arquitectura/adr/plantilla_adr.md` ✅
+**Ubicación correcta**: `docs/arquitectura/adr/plantilla_adr.md` OK
 
 **Alternativa aceptable**: `docs/plantillas/plantilla_adr.md`
 
@@ -250,37 +250,37 @@ Ver lineamientos base en: `docs/arquitectura/lineamientos_codigo.md`
 - Versión general (4.6KB) es 6.5x más completa
 
 **Acción**:
-- ✅ MANTENER: `docs/arquitectura/adr/plantilla_adr.md`
-- ❌ ELIMINAR: `docs/implementacion/infrastructure/arquitectura/adr/plantilla_adr.md` (simplificada)
+- OK MANTENER: `docs/arquitectura/adr/plantilla_adr.md`
+- NO ELIMINAR: `docs/implementacion/infrastructure/arquitectura/adr/plantilla_adr.md` (simplificada)
 
 ---
 
-## 📊 RESUMEN DE UBICACIONES
+## RESUMEN DE UBICACIONES
 
 ### Checklists → `docs/checklists/`
-- ✅ checklist_desarrollo.md
-- ✅ checklist_testing.md
-- ✅ checklist_trazabilidad_requisitos.md
-- ✅ checklist_cambios_documentales.md
+- OK: checklist_desarrollo.md
+- OK: checklist_testing.md
+- OK: checklist_trazabilidad_requisitos.md
+- OK: checklist_cambios_documentales.md
 
 ### DevOps → `docs/devops/`
-- ✅ contenedores_devcontainer.md
-- ✅ runbooks/github_copilot_codespaces.md (revisar cuál versión)
-- ✅ runbooks/reprocesar_etl_fallido.md
-- ✅ runbooks/verificar_servicios.md
-- ✅ runbooks/post_create.md
+- OK: contenedores_devcontainer.md
+- OK: runbooks/github_copilot_codespaces.md (revisar cuál versión)
+- OK: runbooks/reprocesar_etl_fallido.md
+- OK: runbooks/verificar_servicios.md
+- OK: runbooks/post_create.md
 
 ### Arquitectura → `docs/arquitectura/`
-- ✅ lineamientos_codigo.md
-- ✅ adr/adr_2025_001_vagrant_mod_wsgi.md
-- ✅ adr/plantilla_adr.md
+- OK: lineamientos_codigo.md
+- OK: adr/adr_2025_001_vagrant_mod_wsgi.md
+- OK: adr/plantilla_adr.md
 
 ### Gobernanza → `docs/gobernanza/`
-- ⚠️ lineamientos_gobernanza.md (revisar si mantener ambos)
+- WARNING: lineamientos_gobernanza.md (revisar si mantener ambos)
 
 ---
 
-## 🎯 PRINCIPIO DE DECISIÓN
+## PRINCIPIO DE DECISIÓN
 
 **Regla de oro**: Preguntarse:
 
@@ -299,7 +299,7 @@ Ver lineamientos base en: `docs/arquitectura/lineamientos_codigo.md`
 
 ---
 
-## 🛠️ ACCIONES RECOMENDADAS
+## ACCIONES RECOMENDADAS
 
 ### Eliminar inmediatamente (10 archivos):
 ```bash

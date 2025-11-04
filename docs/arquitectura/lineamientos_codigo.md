@@ -268,16 +268,16 @@ class Call(models.Model):
 ### Consultas Eficientes
 
 ```python
-# ✅ BIEN: Usar select_related para FK
+# OK BIEN: Usar select_related para FK
 calls = Call.objects.select_related('agent', 'queue').all()
 
-# ✅ BIEN: Usar prefetch_related para M2M
+# OK BIEN: Usar prefetch_related para M2M
 agents = Agent.objects.prefetch_related('skills').all()
 
-# ✅ BIEN: Filtrar en DB, no en Python
+# OK BIEN: Filtrar en DB, no en Python
 expensive_calls = Call.objects.filter(duration__gte=300)
 
-# ❌ MAL: N+1 queries
+# NO MAL: N+1 queries
 for call in Call.objects.all():
     print(call.agent.name)  # Query por cada iteración
 ```
@@ -328,13 +328,13 @@ repos:
 ### Variables de Entorno
 
 ```python
-# ✅ BIEN: Usar python-decouple o django-environ
+# OK BIEN: Usar python-decouple o django-environ
 from decouple import config
 
 DATABASE_PASSWORD = config('DB_PASSWORD')
 SECRET_KEY = config('SECRET_KEY')
 
-# ❌ MAL: Hardcodear secrets
+# NO MAL: Hardcodear secrets
 DATABASE_PASSWORD = 'my_password_123'
 ```
 
@@ -389,17 +389,17 @@ def process_important_data(data: dict) -> None:
 ### Database Query Optimization
 
 ```python
-# ✅ BIEN: Usar only() para limitar campos
+# OK BIEN: Usar only() para limitar campos
 calls = Call.objects.only('id', 'duration', 'created_at')
 
-# ✅ BIEN: Usar valores agregados en DB
+# OK BIEN: Usar valores agregados en DB
 from django.db.models import Avg, Count
 stats = Call.objects.aggregate(
     avg_duration=Avg('duration'),
     total_calls=Count('id')
 )
 
-# ✅ BIEN: Bulk operations
+# OK BIEN: Bulk operations
 Call.objects.bulk_create([
     Call(call_id='1', duration=100),
     Call(call_id='2', duration=200),
@@ -438,11 +438,11 @@ def get_daily_metrics(date: str) -> dict:
 
 | Elemento | Estado | Herramienta |
 |----------|--------|-------------|
-| Formateo automático | ⚠️ Pendiente | Black |
-| Linting configurado | ⚠️ Pendiente | Pylint + Flake8 |
-| Type checking | ⚠️ Pendiente | mypy |
-| Pre-commit hooks | ⚠️ Pendiente | pre-commit |
-| Import sorting | ⚠️ Pendiente | isort |
+| Formateo automático | WARNING Pendiente | Black |
+| Linting configurado | WARNING Pendiente | Pylint + Flake8 |
+| Type checking | WARNING Pendiente | mypy |
+| Pre-commit hooks | WARNING Pendiente | pre-commit |
+| Import sorting | WARNING Pendiente | isort |
 
 ## Acciones Prioritarias
 

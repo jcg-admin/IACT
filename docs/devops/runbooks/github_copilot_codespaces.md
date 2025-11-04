@@ -13,7 +13,7 @@ Guía para configurar y usar GitHub Codespaces con GitHub Copilot para el desarr
 
 ## Estado Actual
 
-⚠️ **Nota**: Esta funcionalidad está en planificación. El proyecto actualmente usa Vagrant (ver [ADR-2025-001](../../arquitectura/adr/adr_2025_001_vagrant_mod_wsgi.md)).
+WARNING **Nota**: Esta funcionalidad está en planificación. El proyecto actualmente usa Vagrant (ver [ADR-2025-001](../../arquitectura/adr/adr_2025_001_vagrant_mod_wsgi.md)).
 
 Este runbook documenta el proceso futuro cuando se implemente DevContainers y Codespaces.
 
@@ -28,18 +28,18 @@ Este runbook documenta el proceso futuro cuando se implemente DevContainers y Co
 
 GitHub Codespaces es un entorno de desarrollo en la nube que:
 
-- 🚀 Se configura automáticamente desde `.devcontainer/`
+- START Se configura automáticamente desde `.devcontainer/`
 - ☁️ Corre en servidores de GitHub (o Azure)
 - 💻 Accesible desde navegador o VS Code
-- 🔧 Incluye todas las herramientas y dependencias
+- HERRAMIENTA Incluye todas las herramientas y dependencias
 
 ## ¿Qué es GitHub Copilot?
 
 GitHub Copilot es un asistente de programación con IA que:
 
-- 🤖 Sugiere código mientras escribes
-- 📝 Genera funciones completas desde comentarios
-- 🔍 Ayuda con tests, documentación, refactoring
+- AUTO Sugiere código mientras escribes
+- NOTA Genera funciones completas desde comentarios
+- BUSCAR Ayuda con tests, documentación, refactoring
 - 🧠 Aprende del contexto de tu proyecto
 
 ## Crear un Codespace

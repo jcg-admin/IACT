@@ -6,7 +6,7 @@
 
 ---
 
-## 📚 Estructura de Documentación
+## DOCS Estructura de Documentación
 
 ```
 docs/implementacion/backend/requisitos/
@@ -22,20 +22,20 @@ docs/implementacion/backend/requisitos/
 
 ---
 
-## 🎯 Componentes del Sistema
+## OBJETIVO Componentes del Sistema
 
 ### Componente 1: Autenticación y Sesiones
-**Estado:** ✅ Requisitos Completos | ⏳ Tests Pendientes | ⏳ Implementación Pendiente
+**Estado:** OK Requisitos Completos | ESPERANDO Tests Pendientes | ESPERANDO Implementación Pendiente
 
 | ID | Documento | Estado | Tests | Código |
 |----|-----------|--------|-------|--------|
-| RN-C01 | [Reglas de Negocio](negocio/rn_c01_autenticacion_sesiones.md) | ✅ Completo (14/14) | - | - |
-| RF-005 | [Login con Credenciales Locales](funcionales/rf005_login_credenciales_locales.md) | ✅ Documentado | ⏳ Pendiente (0/11) | ⏳ Pendiente |
-| RF-006 | [Tokens JWT](funcionales/rf006_tokens_jwt.md) | ✅ Documentado | ⏳ Pendiente (0/15) | ⏳ Pendiente |
-| RF-007 | [Logout Manual](funcionales/rf007_logout_manual.md) | ✅ Documentado | ⏳ Pendiente (0/11) | ⏳ Pendiente |
-| RF-008 | [Cierre por Inactividad](funcionales/rf008_cierre_inactividad.md) | ✅ Documentado | ⏳ Pendiente (0/10) | ⏳ Pendiente |
-| RF-009 | [Passwords e Intentos Fallidos](funcionales/rf009_gestion_passwords_intentos_fallidos.md) | ✅ Documentado | ⏳ Pendiente (0/23) | ⏳ Pendiente |
-| RF-010 | [Sesión Única](funcionales/rf010_sesion_unica.md) | ✅ Documentado | ⏳ Pendiente (0/11) | ⏳ Pendiente |
+| RN-C01 | [Reglas de Negocio](negocio/rn_c01_autenticacion_sesiones.md) | OK Completo (14/14) | - | - |
+| RF-005 | [Login con Credenciales Locales](funcionales/rf005_login_credenciales_locales.md) | OK Documentado | ESPERANDO Pendiente (0/11) | ESPERANDO Pendiente |
+| RF-006 | [Tokens JWT](funcionales/rf006_tokens_jwt.md) | OK Documentado | ESPERANDO Pendiente (0/15) | ESPERANDO Pendiente |
+| RF-007 | [Logout Manual](funcionales/rf007_logout_manual.md) | OK Documentado | ESPERANDO Pendiente (0/11) | ESPERANDO Pendiente |
+| RF-008 | [Cierre por Inactividad](funcionales/rf008_cierre_inactividad.md) | OK Documentado | ESPERANDO Pendiente (0/10) | ESPERANDO Pendiente |
+| RF-009 | [Passwords e Intentos Fallidos](funcionales/rf009_gestion_passwords_intentos_fallidos.md) | OK Documentado | ESPERANDO Pendiente (0/23) | ESPERANDO Pendiente |
+| RF-010 | [Sesión Única](funcionales/rf010_sesion_unica.md) | OK Documentado | ESPERANDO Pendiente (0/11) | ESPERANDO Pendiente |
 
 **Total Tests Definidos:** 81 casos de prueba
 **Total Escenarios Gherkin:** 53 escenarios
@@ -46,10 +46,10 @@ docs/implementacion/backend/requisitos/
 
 | ID | Documento | Estado | Tests | Código |
 |----|-----------|--------|-------|--------|
-| RF-001 | [Evaluación de Permisos (3 niveles)](funcionales/rf001_evaluacion_permisos_tres_niveles.md) | ✅ Documentado | ✅ Completo (10/10) | ⏳ Pendiente |
-| RF-002 | [Gestión de Permisos Granulares](funcionales/rf002_gestion_permisos_granulares.md) | ✅ Documentado | ✅ Completo (27/27) | ⏳ Pendiente |
-| RF-003 | [Obtener Permisos Efectivos](funcionales/rf003_obtener_permisos_efectivos_usuario.md) | ✅ Documentado | ✅ Completo (10/10) | ⏳ Pendiente |
-| RF-004 | [Segmentos con Criterios Dinámicos](funcionales/rf004_segmentos_criterios_dinamicos.md) | ✅ Documentado | ✅ Completo (27/27) | ⏳ Pendiente |
+| RF-001 | [Evaluación de Permisos (3 niveles)](funcionales/rf001_evaluacion_permisos_tres_niveles.md) | OK Documentado | OK Completo (10/10) | ESPERANDO Pendiente |
+| RF-002 | [Gestión de Permisos Granulares](funcionales/rf002_gestion_permisos_granulares.md) | OK Documentado | OK Completo (27/27) | ESPERANDO Pendiente |
+| RF-003 | [Obtener Permisos Efectivos](funcionales/rf003_obtener_permisos_efectivos_usuario.md) | OK Documentado | OK Completo (10/10) | ESPERANDO Pendiente |
+| RF-004 | [Segmentos con Criterios Dinámicos](funcionales/rf004_segmentos_criterios_dinamicos.md) | OK Documentado | OK Completo (27/27) | ESPERANDO Pendiente |
 
 **Total Tests Definidos:** 37 casos de prueba (implementados)
 **Estado:** Tests creados pero no ejecutables (configuración pendiente)
@@ -58,7 +58,7 @@ docs/implementacion/backend/requisitos/
 
 ## 🗺️ Mapa de Trazabilidad
 
-### Reglas de Negocio → Requisitos Funcionales
+### Reglas de Negocio -> Requisitos Funcionales
 
 ```mermaid
 graph TD
@@ -98,7 +98,7 @@ graph TD
     RN14 --> RF010
 ```
 
-### Requisitos Funcionales → Tests
+### Requisitos Funcionales -> Tests
 
 | Requisito | Archivo de Tests | Tests Unitarios | Tests Integración | Tests Seguridad |
 |-----------|------------------|-----------------|-------------------|-----------------|
@@ -111,7 +111,7 @@ graph TD
 
 ---
 
-## 📋 Restricciones Críticas del Proyecto
+## NOTA Restricciones Críticas del Proyecto
 
 Documento: [restricciones_y_lineamientos.md](restricciones_y_lineamientos.md)
 
@@ -119,20 +119,20 @@ Documento: [restricciones_y_lineamientos.md](restricciones_y_lineamientos.md)
 
 | # | Código | Restricción | Impacto en Requisitos |
 |---|--------|-------------|----------------------|
-| 1 | RESTR-001 | ❌ NO EMAIL - Solo buzón interno | RF-005, RF-008, RF-009 |
+| 1 | RESTR-001 | NO NO EMAIL - Solo buzón interno | RF-005, RF-008, RF-009 |
 | 2 | RESTR-002 | 🔒 IVR DB READONLY - Cero escrituras | (Componente IVR) |
 | 3 | RESTR-003 | 🗄️ SESSIONS IN DB - No Redis | RF-005, RF-007, RF-008, RF-010 |
 | 4 | RESTR-004 | ⏱️ NO REAL-TIME - ETL 6-12h | (Componente Analytics) |
-| 5 | RESTR-005 | ⚙️ DEBUG=FALSE - Siempre producción | Todos los RF |
+| 5 | RESTR-005 | CONFIG DEBUG=FALSE - Siempre producción | Todos los RF |
 | 6 | RESTR-006 | 🔐 JWT + PERMISSIONS - Auth robusta | RF-005, RF-006 |
-| 7 | RESTR-007 | 📄 PAGINATION - Siempre activa | (APIs futuras) |
-| 8 | RESTR-008 | 📝 AUDITING - Logs obligatorios | RF-005, RF-007, RF-008, RF-009 |
+| 7 | RESTR-007 | FILE PAGINATION - Siempre activa | (APIs futuras) |
+| 8 | RESTR-008 | NOTA AUDITING - Logs obligatorios | RF-005, RF-007, RF-008, RF-009 |
 | 9 | RESTR-009 | 🔒 NO CVE HIGH - Deps seguras | Todos los RF |
 | 10 | RESTR-010 | 🗑️ LOGICAL DELETE - No físico | Todos los modelos |
 
 ---
 
-## 📊 Dashboard de Progreso
+## STATS Dashboard de Progreso
 
 ### Por Fase de Desarrollo
 
@@ -145,18 +145,18 @@ Implementación: ░░░░░░░░░░░░░░░░░░░░   
 ### Por Componente
 
 **Componente 1: Autenticación y Sesiones**
-- Documentación: ✅ 100% (6/6 RF completos)
-- Tests: ⏳ 0% (0/81 implementados)
-- Código: ⏳ 0%
+- Documentación: OK 100% (6/6 RF completos)
+- Tests: ESPERANDO 0% (0/81 implementados)
+- Código: ESPERANDO 0%
 
 **Componente 2: Gestión de Usuarios**
-- Documentación: ✅ 100% (4/4 RF completos)
-- Tests: ⚠️ 100% implementados pero no ejecutables (37/37)
-- Código: ⏳ 0%
+- Documentación: OK 100% (4/4 RF completos)
+- Tests: WARNING 100% implementados pero no ejecutables (37/37)
+- Código: ESPERANDO 0%
 
 ---
 
-## 🔍 Búsqueda Rápida
+## BUSCAR Búsqueda Rápida
 
 ### Por Funcionalidad
 
@@ -191,29 +191,29 @@ Implementación: ░░░░░░░░░░░░░░░░░░░░   
 
 ---
 
-## 📝 Convenciones de Nomenclatura
+## NOTA Convenciones de Nomenclatura
 
 ### Códigos de Requisitos
 
 ```
-RN-C##-##  → Regla de Negocio - Componente ## - Número ##
+RN-C##-##  -> Regla de Negocio - Componente ## - Número ##
             Ejemplo: RN-C01-03 (Componente 1, Regla 3)
 
-RF-###     → Requisito Funcional - Número ###
+RF-###     -> Requisito Funcional - Número ###
             Ejemplo: RF-005
 
-TEST-###-### → Test del Requisito ### - Número ###
+TEST-###-### -> Test del Requisito ### - Número ###
                Ejemplo: TEST-005-001
 
-IMPL-###   → Implementación del Requisito ###
+IMPL-###   -> Implementación del Requisito ###
             Ejemplo: IMPL-005
 ```
 
 ### Estados
 
-- ✅ **Completo**: Documentado, testeado y implementado
-- ⚠️ **Parcial**: Avance pero no completo
-- ⏳ **Pendiente**: No iniciado
+- OK **Completo**: Documentado, testeado y implementado
+- WARNING **Parcial**: Avance pero no completo
+- ESPERANDO **Pendiente**: No iniciado
 - 🚫 **Bloqueado**: Dependencias sin resolver
 
 ---

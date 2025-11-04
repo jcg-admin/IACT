@@ -454,14 +454,14 @@ Requisitos relacionados que deben considerarse:
 
 **Notas para el Autor:**
 
-1. ✅ El ID del requisito (RF-XXX) debe ser único en todo el proyecto
-2. ✅ Use DEBERÁ/SHALL para requisitos obligatorios, DEBERÍA/SHOULD para deseables
-3. ✅ Cada requisito debe ser atómico (una sola funcionalidad)
-4. ✅ Criterios de aceptación deben ser verificables (testeable)
-5. ✅ Mantenga trazabilidad bidireccional (upward/downward)
-6. ✅ Actualice cuando el requisito cambie (control de versiones)
-7. ✅ Vincule a tests específicos (coverage)
-8. ✅ Obtenga aprobaciones formales antes de implementar
+1. OK El ID del requisito (RF-XXX) debe ser único en todo el proyecto
+2. OK Use DEBERÁ/SHALL para requisitos obligatorios, DEBERÍA/SHOULD para deseables
+3. OK Cada requisito debe ser atómico (una sola funcionalidad)
+4. OK Criterios de aceptación deben ser verificables (testeable)
+5. OK Mantenga trazabilidad bidireccional (upward/downward)
+6. OK Actualice cuando el requisito cambie (control de versiones)
+7. OK Vincule a tests específicos (coverage)
+8. OK Obtenga aprobaciones formales antes de implementar
 
 ---
 

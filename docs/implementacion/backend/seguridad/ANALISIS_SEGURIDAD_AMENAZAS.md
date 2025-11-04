@@ -8,7 +8,7 @@
 
 ---
 
-## 📋 Índice
+## NOTA Índice
 
 1. [Contexto y Alcance](#1-contexto-y-alcance)
 2. [Superficie de Ataque](#2-superficie-de-ataque)
@@ -59,12 +59,12 @@ Del documento `restricciones_y_lineamientos.md`:
 
 | ID | Restricción | Impacto en Seguridad |
 |----|-------------|----------------------|
-| RESTR-001 | ❌ NO EMAIL | Notificaciones solo por buzón interno - no se filtra info por email |
+| RESTR-001 | NO NO EMAIL | Notificaciones solo por buzón interno - no se filtra info por email |
 | RESTR-002 | 🔒 IVR DB READONLY | Base IVR es read-only - previene inyección de datos |
 | RESTR-003 | 🗄️ SESSIONS IN DB | Sesiones en PostgreSQL - no Redis expuesto |
-| RESTR-005 | ⚙️ DEBUG=FALSE | Siempre producción - no leak de stack traces |
+| RESTR-005 | CONFIG DEBUG=FALSE | Siempre producción - no leak de stack traces |
 | RESTR-006 | 🔐 JWT + PERMISSIONS | Autenticación robusta obligatoria |
-| RESTR-008 | 📝 AUDITING | Logs obligatorios - trazabilidad completa |
+| RESTR-008 | NOTA AUDITING | Logs obligatorios - trazabilidad completa |
 | RESTR-009 | 🔒 NO CVE HIGH | Dependencias seguras - escaneo continuo |
 | RESTR-010 | 🗑️ LOGICAL DELETE | Eliminación lógica - mantiene auditoría |
 
@@ -238,10 +238,10 @@ flowchart TB
     DIR -->|Query| DB1[(user_permissions)]
 
     DIR -->|Si no encontrado| ROL[Permisos por Rol]
-    ROL -->|Query| DB2[(user_roles → role_permissions)]
+    ROL -->|Query| DB2[(user_roles -> role_permissions)]
 
     ROL -->|Si no encontrado| SEG[Permisos por Segmento]
-    SEG -->|Query| DB3[(segments → segment_permissions)]
+    SEG -->|Query| DB3[(segments -> segment_permissions)]
 
     DIR -->|ALLOW/DENY| DEC[Decisión]
     ROL -->|ALLOW/DENY| DEC
@@ -274,38 +274,38 @@ flowchart TB
 
 ### 4.2 STRIDE per Interaction
 
-#### Interacción: Usuario → API Gateway
+#### Interacción: Usuario -> API Gateway
 
 | Categoría | Amenaza | Control Actual | Gap |
 |-----------|---------|----------------|-----|
-| **S** | Suplantación de usuario con credenciales robadas | bcrypt cost 12 + 15min bloqueo | ✅ Adicionar: MFA opcional |
-| **T** | MITM modificando payload | TLS obligatorio | ✅ Verificar: Certificate pinning |
-| **R** | Usuario niega haber hecho login | Auditoría completa | ✅ OK |
-| **I** | Leak de username válido en error | Mensaje genérico | ✅ OK |
-| **D** | Brute force de login | Rate limiting 5/5min | ✅ OK |
+| **S** | Suplantación de usuario con credenciales robadas | bcrypt cost 12 + 15min bloqueo | OK Adicionar: MFA opcional |
+| **T** | MITM modificando payload | TLS obligatorio | OK Verificar: Certificate pinning |
+| **R** | Usuario niega haber hecho login | Auditoría completa | OK OK |
+| **I** | Leak de username válido en error | Mensaje genérico | OK OK |
+| **D** | Brute force de login | Rate limiting 5/5min | OK OK |
 | **E** | N/A | N/A | N/A |
 
-#### Interacción: API Gateway → Auth Service
+#### Interacción: API Gateway -> Auth Service
 
 | Categoría | Amenaza | Control Actual | Gap |
 |-----------|---------|----------------|-----|
-| **S** | Falsificación de llamada interna | Autenticación de servicio | ❌ Adicionar: mTLS interno |
-| **T** | Modificación de parámetros | Validación de esquema | ✅ OK |
-| **R** | Acción sin traza | Logs completos | ✅ OK |
-| **I** | Leak de password_hash | No se retorna nunca | ✅ OK |
-| **D** | Saturación de bcrypt | Timeout + circuit breaker | ⚠️ Mejorar |
-| **E** | Bypass de validación | Lógica centralizada | ✅ OK |
+| **S** | Falsificación de llamada interna | Autenticación de servicio | NO Adicionar: mTLS interno |
+| **T** | Modificación de parámetros | Validación de esquema | OK OK |
+| **R** | Acción sin traza | Logs completos | OK OK |
+| **I** | Leak de password_hash | No se retorna nunca | OK OK |
+| **D** | Saturación de bcrypt | Timeout + circuit breaker | WARNING Mejorar |
+| **E** | Bypass de validación | Lógica centralizada | OK OK |
 
-#### Interacción: RBAC Engine → Base de Datos
+#### Interacción: RBAC Engine -> Base de Datos
 
 | Categoría | Amenaza | Control Actual | Gap |
 |-----------|---------|----------------|-----|
-| **S** | Spoofing de consulta | Parametrización ORM | ✅ OK |
-| **T** | SQL injection | Django ORM | ✅ OK |
-| **R** | Cambio sin auditoría | Triggers de auditoría | ❌ Adicionar |
-| **I** | Dump de permisos | Least privilege | ⚠️ Verificar grants |
-| **D** | Query bombing | Connection pooling | ⚠️ Adicionar query timeout |
-| **E** | Modificación directa de BD | No acceso directo en app | ✅ OK |
+| **S** | Spoofing de consulta | Parametrización ORM | OK OK |
+| **T** | SQL injection | Django ORM | OK OK |
+| **R** | Cambio sin auditoría | Triggers de auditoría | NO Adicionar |
+| **I** | Dump de permisos | Least privilege | WARNING Verificar grants |
+| **D** | Query bombing | Connection pooling | WARNING Adicionar query timeout |
+| **E** | Modificación directa de BD | No acceso directo en app | OK OK |
 
 ---
 
@@ -315,31 +315,31 @@ flowchart TB
 
 | ID | Descripción | STRIDE | Componente | Probabilidad | Impacto | Riesgo |
 |----|-------------|--------|------------|--------------|---------|--------|
-| **THR-001** | Credenciales comprometidas permiten acceso total | S | Login | Alta (3) | Crítico (3) | 9 🔴 |
-| **THR-002** | JWT SECRET_KEY filtrada permite falsificación | S | TokenService | Media (2) | Crítico (3) | 6 🟠 |
-| **THR-003** | Bypass de precedencia RBAC permite elevación | E | RBAC Engine | Media (2) | Crítico (3) | 6 🟠 |
-| **THR-004** | Alteración de audit_logs oculta actividad maliciosa | T,R | Audit | Media (2) | Alto (3) | 6 🟠 |
-| **THR-005** | DoS por brute force de login satura bcrypt | D | Auth Service | Alta (3) | Medio (2) | 6 🟠 |
-| **THR-006** | Usuario sin bloqueo después de 3 intentos | E | Login | Baja (1) | Alto (3) | 3 🟡 |
+| **THR-001** | Credenciales comprometidas permiten acceso total | S | Login | Alta (3) | Crítico (3) | 9 CRITICO |
+| **THR-002** | JWT SECRET_KEY filtrada permite falsificación | S | TokenService | Media (2) | Crítico (3) | 6 MEDIO |
+| **THR-003** | Bypass de precedencia RBAC permite elevación | E | RBAC Engine | Media (2) | Crítico (3) | 6 MEDIO |
+| **THR-004** | Alteración de audit_logs oculta actividad maliciosa | T,R | Audit | Media (2) | Alto (3) | 6 MEDIO |
+| **THR-005** | DoS por brute force de login satura bcrypt | D | Auth Service | Alta (3) | Medio (2) | 6 MEDIO |
+| **THR-006** | Usuario sin bloqueo después de 3 intentos | E | Login | Baja (1) | Alto (3) | 3 ALTO |
 
 ### 5.2 Amenazas Altas (Riesgo 4-6)
 
 | ID | Descripción | STRIDE | Componente | Probabilidad | Impacto | Riesgo |
 |----|-------------|--------|------------|--------------|---------|--------|
-| **THR-007** | Token replay después de logout | S | TokenService | Media (2) | Medio (2) | 4 🟡 |
-| **THR-008** | Leak de estructura de permisos en errores | I | RBAC Engine | Media (2) | Bajo (1) | 2 🟢 |
-| **THR-009** | Session fixation por reutilización de session_key | S | SessionManager | Baja (1) | Medio (2) | 2 🟢 |
-| **THR-010** | Timing attack en bcrypt revela username válido | I | PasswordService | Baja (1) | Bajo (1) | 1 🟢 |
+| **THR-007** | Token replay después de logout | S | TokenService | Media (2) | Medio (2) | 4 ALTO |
+| **THR-008** | Leak de estructura de permisos en errores | I | RBAC Engine | Media (2) | Bajo (1) | 2 BAJO |
+| **THR-009** | Session fixation por reutilización de session_key | S | SessionManager | Baja (1) | Medio (2) | 2 BAJO |
+| **THR-010** | Timing attack en bcrypt revela username válido | I | PasswordService | Baja (1) | Bajo (1) | 1 BAJO |
 
 ### 5.3 Amenazas Específicas por Restricción
 
 | Restricción | Amenaza Derivada | Mitigación |
 |-------------|------------------|------------|
-| **NO EMAIL** | No se puede notificar incidentes por email | ✅ Buzón interno + alertas en app |
-| **SESSIONS IN DB** | PostgreSQL down = pérdida de todas las sesiones | ⚠️ Replicación de BD + alta disponibilidad |
-| **NO REDIS** | No cache distribuido para RBAC = latencia | ✅ Cache local por request + índices BD |
-| **JWT stateless** | Access token válido hasta expirar (no revocable) | ✅ Tiempo corto (15min) + blacklist refresh |
-| **DEBUG=FALSE** | Menos información para depurar ataques | ✅ Logs centralizados estructurados |
+| **NO EMAIL** | No se puede notificar incidentes por email | OK Buzón interno + alertas en app |
+| **SESSIONS IN DB** | PostgreSQL down = pérdida de todas las sesiones | WARNING Replicación de BD + alta disponibilidad |
+| **NO REDIS** | No cache distribuido para RBAC = latencia | OK Cache local por request + índices BD |
+| **JWT stateless** | Access token válido hasta expirar (no revocable) | OK Tiempo corto (15min) + blacklist refresh |
+| **DEBUG=FALSE** | Menos información para depurar ataques | OK Logs centralizados estructurados |
 
 ---
 
@@ -348,11 +348,11 @@ flowchart TB
 ### 6.1 Matriz Visual
 
 ```
-     IMPACTO →
+     IMPACTO ->
 P    │  1-Bajo  │  2-Medio  │  3-Alto  │
-R  3 │    3🟡   │    6🟠    │   9🔴    │ THR-001, THR-005
-O  2 │    2🟢   │    4🟡    │   6🟠    │ THR-002, THR-003, THR-004
-B  1 │    1🟢   │    2🟢    │   3🟡    │ THR-006
+R  3 │    3ALTO   │    6MEDIO    │   9CRITICO    │ THR-001, THR-005
+O  2 │    2BAJO   │    4ALTO    │   6MEDIO    │ THR-002, THR-003, THR-004
+B  1 │    1BAJO   │    2BAJO    │   3ALTO    │ THR-006
    ↓
 ```
 
@@ -360,12 +360,12 @@ B  1 │    1🟢   │    2🟢    │   3🟡    │ THR-006
 
 | ID | Prob | Imp | Riesgo | Control Principal | Control Secundario | Due Date | Owner | Estado |
 |----|------|-----|--------|-------------------|-------------------|----------|-------|--------|
-| THR-001 | 3 | 3 | 9🔴 | MFA opcional | Rate limit + bloqueo | 2025-12-31 | SecApp | Abierta |
-| THR-002 | 2 | 3 | 6🟠 | SECRET_KEY en secrets manager | Rotación trimestral | 2025-12-15 | DevSecOps | Abierta |
-| THR-003 | 2 | 3 | 6🟠 | Tests de precedencia | Code review obligatorio | 2025-11-30 | Dev | En progreso |
-| THR-004 | 2 | 3 | 6🟠 | Hash encadenado en logs | WORM storage | 2026-01-15 | SRE | Planificada |
-| THR-005 | 3 | 2 | 6🟠 | Rate limit 5/5min | Circuit breaker | 2025-11-30 | InfraSec | En progreso |
-| THR-006 | 1 | 3 | 3🟡 | Tests de bloqueo | Monitoreo de intentos | 2025-11-20 | QA | En progreso |
+| THR-001 | 3 | 3 | 9CRITICO | MFA opcional | Rate limit + bloqueo | 2025-12-31 | SecApp | Abierta |
+| THR-002 | 2 | 3 | 6MEDIO | SECRET_KEY en secrets manager | Rotación trimestral | 2025-12-15 | DevSecOps | Abierta |
+| THR-003 | 2 | 3 | 6MEDIO | Tests de precedencia | Code review obligatorio | 2025-11-30 | Dev | En progreso |
+| THR-004 | 2 | 3 | 6MEDIO | Hash encadenado en logs | WORM storage | 2026-01-15 | SRE | Planificada |
+| THR-005 | 3 | 2 | 6MEDIO | Rate limit 5/5min | Circuit breaker | 2025-11-30 | InfraSec | En progreso |
+| THR-006 | 1 | 3 | 3ALTO | Tests de bloqueo | Monitoreo de intentos | 2025-11-20 | QA | En progreso |
 
 ### 6.3 Backlog Priorizado
 
@@ -483,26 +483,26 @@ CREATE INDEX idx_overrides_active ON user_permission_overrides(user_id, permissi
 
 | Control | Descripción | Componente | Estado |
 |---------|-------------|------------|--------|
-| **CNT-001** | Rate limiting 5 requests/5min en login | NGINX | ✅ Implementado |
-| **CNT-002** | bcrypt cost factor 12 | PasswordService | ✅ Implementado |
-| **CNT-003** | Bloqueo tras 3 intentos fallidos | AuthService | ✅ Implementado |
-| **CNT-004** | JWT expiración 15min access, 7días refresh | TokenService | ✅ Implementado |
-| **CNT-005** | Sesión única por usuario | SessionManager | ✅ Implementado |
-| **CNT-006** | Parametrización de queries (ORM) | RBAC Engine | ✅ Implementado |
-| **CNT-007** | Validación de esquemas de input | Serializers | ⏳ En progreso |
-| **CNT-008** | SECRET_KEY >= 256 bits desde env | Settings | ✅ Implementado |
-| **CNT-009** | TLS 1.3 obligatorio | NGINX | ⏳ Verificar |
-| **CNT-010** | Least privilege en DB grants | PostgreSQL | ⏳ Auditar |
+| **CNT-001** | Rate limiting 5 requests/5min en login | NGINX | OK Implementado |
+| **CNT-002** | bcrypt cost factor 12 | PasswordService | OK Implementado |
+| **CNT-003** | Bloqueo tras 3 intentos fallidos | AuthService | OK Implementado |
+| **CNT-004** | JWT expiración 15min access, 7días refresh | TokenService | OK Implementado |
+| **CNT-005** | Sesión única por usuario | SessionManager | OK Implementado |
+| **CNT-006** | Parametrización de queries (ORM) | RBAC Engine | OK Implementado |
+| **CNT-007** | Validación de esquemas de input | Serializers | ESPERANDO En progreso |
+| **CNT-008** | SECRET_KEY >= 256 bits desde env | Settings | OK Implementado |
+| **CNT-009** | TLS 1.3 obligatorio | NGINX | ESPERANDO Verificar |
+| **CNT-010** | Least privilege en DB grants | PostgreSQL | ESPERANDO Auditar |
 
 ### 8.2 Controles Detectivos
 
 | Control | Descripción | Implementación | Estado |
 |---------|-------------|----------------|--------|
-| **CNT-011** | Auditoría completa de decisiones RBAC | audit_access table | ✅ Implementado |
-| **CNT-012** | Monitoreo de intentos fallidos | Logs + alertas | ⏳ Planificado |
-| **CNT-013** | Detección de anomalías en accesos | SIEM | ⏳ Planificado |
-| **CNT-014** | Alertas de bloqueos masivos | Prometheus | ⏳ Planificado |
-| **CNT-015** | Verificación de hash de logs | Job diario | ❌ Pendiente |
+| **CNT-011** | Auditoría completa de decisiones RBAC | audit_access table | OK Implementado |
+| **CNT-012** | Monitoreo de intentos fallidos | Logs + alertas | ESPERANDO Planificado |
+| **CNT-013** | Detección de anomalías en accesos | SIEM | ESPERANDO Planificado |
+| **CNT-014** | Alertas de bloqueos masivos | Prometheus | ESPERANDO Planificado |
+| **CNT-015** | Verificación de hash de logs | Job diario | NO Pendiente |
 
 ### 8.3 Controles Correctivos
 
@@ -627,7 +627,7 @@ graph TB
     end
 
     subgraph "Métricas de Amenazas"
-        T1[Open Threats: 3🔴 2🟠]
+        T1[Open Threats: 3CRITICO 2MEDIO]
         T2[MTTR: 3.2 hrs]
         T3[Coverage: 94%]
     end
@@ -719,12 +719,12 @@ def test_sql_injection_prevention():
 
 ### 12.1 Q4 2025
 
-- ✅ **Noviembre:**
+- OK **Noviembre:**
   - Completar tests de seguridad (THR-006, THR-003)
   - Implementar circuit breaker para bcrypt (THR-005)
   - Auditar grants de PostgreSQL (CNT-010)
 
-- ⏳ **Diciembre:**
+- ESPERANDO **Diciembre:**
   - Implementar hash encadenado en logs (THR-004)
   - Rotación de SECRET_KEY (THR-002)
   - MFA opcional para admins (THR-001)
@@ -788,7 +788,7 @@ evaluacion:
   probabilidad: <1-Baja|2-Media|3-Alta>
   impacto: <1-Bajo|2-Medio|3-Alto>
   riesgo_calculado: <1-9>
-  clasificacion: <🟢|🟡|🟠|🔴>
+  clasificacion: <BAJO|ALTO|MEDIO|CRITICO>
 
 controles:
   preventivos:

@@ -14,7 +14,7 @@ estado: definitivo
 
 ---
 
-## 📋 INFORMACIÓN DEL DOCUMENTO
+## NOTA INFORMACIÓN DEL DOCUMENTO
 
 |Atributo|Valor|
 |---|---|
@@ -26,7 +26,7 @@ estado: definitivo
 
 ---
 
-## 🎯 CATEGORÍAS DE RESTRICCIONES
+## OBJETIVO CATEGORÍAS DE RESTRICCIONES
 
 1. **Restricciones Técnicas Críticas** (No negociables)
 2. **Restricciones de Seguridad** (DRF Secure Code)
@@ -39,12 +39,12 @@ estado: definitivo
 
 ---
 
-## 🔴 1. RESTRICCIONES TÉCNICAS CRÍTICAS (NO NEGOCIABLES)
+## CRITICO 1. RESTRICCIONES TÉCNICAS CRÍTICAS (NO NEGOCIABLES)
 
 ### 1.1 Comunicaciones
 
 ```yaml
-❌ PROHIBIDO ABSOLUTO:
+NO PROHIBIDO ABSOLUTO:
   - Envío de correos electrónicos
   - SMTP/SendGrid/Mailgun/cualquier servicio de email
   - Templates de email
@@ -52,7 +52,7 @@ estado: definitivo
   - Notificaciones por email
   - Alertas por email
 
-✅ OBLIGATORIO:
+OK OBLIGATORIO:
   - Todas las notificaciones vía buzón interno
   - Modelo InternalMessage
   - UC-037: Sistema de mensajería interno completo
@@ -73,20 +73,20 @@ estado: definitivo
 ### 1.2 Gestión de Sesiones
 
 ```yaml
-❌ PROHIBIDO:
+NO PROHIBIDO:
   - Redis para sesiones
   - Memcached para sesiones
   - Sesiones en memoria sin respaldo
   - Cualquier backend volátil
 
-✅ OBLIGATORIO:
+OK OBLIGATORIO:
   - Sesiones en base de datos MySQL
   - Tabla: user_sessions
   - SESSION_ENGINE = 'django.contrib.sessions.backends.db'
   - Timeout: 15 minutos exactos
   - Sesión única por usuario (cerrar previas automáticamente)
 
-⚠️ VALIDACIONES:
+WARNING VALIDACIONES:
   - Verificar IP + User-Agent en cada request
   - Cerrar sesión automática por inactividad
   - Bloquear si cambio de IP sospechoso
@@ -106,7 +106,7 @@ estado: definitivo
 ### 1.3 Base de Datos Dual
 
 ```yaml
-❌ PROHIBIDO EN BD IVR:
+NO PROHIBIDO EN BD IVR:
   - Permisos INSERT
   - Permisos UPDATE
   - Permisos DELETE
@@ -115,19 +115,19 @@ estado: definitivo
   - Cualquier operación de escritura
   - Conexión con usuario con privilegios
 
-✅ OBLIGATORIO:
+OK OBLIGATORIO:
   - Usuario con permisos SELECT únicamente
   - Conexión 'ivr_readonly' en settings
   - ETL solo lectura de datos
   - Zero impacto en operación IVR 24/7
 
-✅ BD ANALYTICS (Write):
+OK BD ANALYTICS (Write):
   - Permisos completos
   - Modelos Django
   - Migraciones permitidas
   - Conexión 'default'
 
-⚠️ CRÍTICO:
+WARNING CRÍTICO:
   - Protección absoluta de BD IVR
   - Cualquier escritura accidental = incidente mayor
 ```
@@ -146,7 +146,7 @@ estado: definitivo
 ### 1.4 Actualización de Datos
 
 ```yaml
-❌ PROHIBIDO:
+NO PROHIBIDO:
   - Real-time updates
   - WebSockets
   - Server-Sent Events (SSE)
@@ -154,13 +154,13 @@ estado: definitivo
   - Push notifications
   - Auto-refresh de dashboard
 
-✅ OBLIGATORIO:
+OK OBLIGATORIO:
   - Dashboard actualizado según frecuencia ETL (6-12 horas)
   - Usuario debe refrescar manualmente (F5)
   - Mostrar "Última actualización: timestamp"
   - Mostrar "Próxima actualización: timestamp"
 
-📊 FRECUENCIA ETL:
+STATS FRECUENCIA ETL:
   - Configurable: 6-12 horas
   - No menor a 6 horas
   - Ejecutado por APScheduler
@@ -182,7 +182,7 @@ estado: definitivo
 ### 2.1 Configuración Django/DRF
 
 ```yaml
-✅ OBLIGATORIO EN PRODUCCIÓN:
+OK OBLIGATORIO EN PRODUCCIÓN:
   DEBUG = False
   SECRET_KEY desde variables de entorno
   ALLOWED_HOSTS explícitamente definidos
@@ -191,14 +191,14 @@ estado: definitivo
   CSRF_COOKIE_SECURE = True
   SECURE_HSTS_SECONDS = 31536000  # 1 año
 
-✅ MIDDLEWARE REQUERIDO:
+OK MIDDLEWARE REQUERIDO:
   - SecurityMiddleware (primero)
   - SessionMiddleware
   - CsrfViewMiddleware
   - AuthenticationMiddleware
   - django-cors-headers.CorsMiddleware
 
-✅ HEADERS DE SEGURIDAD:
+OK HEADERS DE SEGURIDAD:
   X-Content-Type-Options: nosniff
   X-Frame-Options: DENY
   X-XSS-Protection: 1; mode=block
@@ -212,26 +212,26 @@ estado: definitivo
 ### 2.2 Autenticación y Autorización
 
 ```yaml
-❌ PROHIBIDO:
+NO PROHIBIDO:
   - AllowAny en endpoints sensibles
   - Autenticación básica (Basic Auth)
   - Contraseñas en plain text
   - Tokens sin expiración
 
-✅ OBLIGATORIO:
+OK OBLIGATORIO:
   - JWT con djangorestframework-simplejwt
   - Access token: 15 minutos
   - Refresh token: 7 días
   - Rotate refresh tokens: True
   - Blacklist after rotation: True
 
-✅ PERMISOS:
+OK PERMISOS:
   - DEFAULT_PERMISSION_CLASSES = [IsAuthenticated]
   - Permisos personalizados por endpoint
   - check_object_permissions() siempre que aplique
   - Precedencia: Directo > Rol > Segmento
 
-✅ THROTTLING OBLIGATORIO:
+OK THROTTLING OBLIGATORIO:
   - AnonRateThrottle: 100/hour
   - UserRateThrottle: 10000/day
   - ScopedRateThrottle por endpoint crítico
@@ -245,21 +245,21 @@ estado: definitivo
 ### 2.3 Serializers y Exposición de Datos
 
 ```yaml
-❌ PROHIBIDO:
+NO PROHIBIDO:
   - fields = '__all__'
   - exclude = [...]
   - Exponer contraseñas/tokens
   - Exponer PII sin justificación
   - Serializers sin validación
 
-✅ OBLIGATORIO:
+OK OBLIGATORIO:
   - fields explícitos y mínimos
   - read_only_fields para campos sensibles
   - write_only_fields para contraseñas
   - Métodos validate_field() para validaciones
   - Enmascarar PII cuando sea necesario
 
-✅ PAGINACIÓN:
+OK PAGINACIÓN:
   - DEFAULT_PAGINATION_CLASS obligatorio
   - PAGE_SIZE = 50 (default)
   - MAX_PAGE_SIZE = 1000
@@ -273,7 +273,7 @@ estado: definitivo
 ### 2.4 Prevención de Vulnerabilidades
 
 ```yaml
-❌ PROHIBIDO ABSOLUTAMENTE:
+NO PROHIBIDO ABSOLUTAMENTE:
   - eval()
   - exec()
   - pickle.load() sin validación
@@ -282,7 +282,7 @@ estado: definitivo
   - extra() con input del usuario
   - cursor.execute() con f-strings
 
-✅ OBLIGATORIO:
+OK OBLIGATORIO:
   - Queries parametrizadas siempre
   - Django ORM para consultas
   - URLValidator para URLs externas
@@ -290,7 +290,7 @@ estado: definitivo
   - Validación de tipos MIME en uploads
   - Content-Type verification en uploads
 
-⚠️ VALIDACIONES UPLOAD:
+WARNING VALIDACIONES UPLOAD:
   - MAX_UPLOAD_SIZE configurado
   - Extensiones permitidas (allowlist)
   - Verificar magic bytes del archivo
@@ -304,20 +304,20 @@ estado: definitivo
 ### 2.5 Dependencias y SBOM
 
 ```yaml
-✅ OBLIGATORIO:
+OK OBLIGATORIO:
   - SBOM generado en cada release (CycloneDX/SPDX)
   - Escaneo con safety check / pip-audit
   - Sin CVE High/Critical en producción
   - Dependencias bloqueadas con hashes
   - requirements.txt con versiones exactas
 
-✅ CI/CD:
+OK CI/CD:
   - safety check en cada PR
   - Bandit (SAST) en cada PR
   - Semgrep con reglas DRF
   - python manage.py check --deploy
 
-❌ PROHIBIDO:
+NO PROHIBIDO:
   - Dependency confusion
   - Instalar desde PyPI público sin validación
   - Versiones con rangos (~=, >=)
@@ -327,56 +327,56 @@ estado: definitivo
 
 ---
 
-## 🏗️ 3. RESTRICCIONES DE ARQUITECTURA
+## BUILD 3. RESTRICCIONES DE ARQUITECTURA
 
 ### 3.1 Antipatrones Prohibidos
 
 ```yaml
-❌ 1. LAVA FLOW:
+NO 1. LAVA FLOW:
   - No métodos pass sin implementación
   - No código muerto en producción
   - Eliminar o implementar completamente
 
-❌ 2. GOD OBJECT:
+NO 2. GOD OBJECT:
   - Clases con máximo 5 responsabilidades
   - Separar lógica de negocio de infraestructura
   - Single Responsibility Principle
 
-❌ 3. SEQUENTIAL COUPLING:
+NO 3. SEQUENTIAL COUPLING:
   - APIs sin orden obligatorio de llamadas
   - Fail fast en constructores
   - Validaciones en entrada
 
-❌ 4. POLTERGEIST:
+NO 4. POLTERGEIST:
   - Clases deben agregar valor, no solo delegar
   - Eliminar capas innecesarias
 
-❌ 5. SHOTGUN SURGERY:
+NO 5. SHOTGUN SURGERY:
   - Cambios deben ser locales
   - Configuración centralizada
   - Open/Closed Principle
 
-❌ 6. CIRCULAR DEPENDENCY:
+NO 6. CIRCULAR DEPENDENCY:
   - Sin ciclos en imports
   - Dependency Injection
   - Django Signals para desacoplar
 
-❌ 7. MAGIC NUMBERS/STRINGS:
+NO 7. MAGIC NUMBERS/STRINGS:
   - Constantes en constants.py
   - Enums para estados
   - Configuración en settings
 
-❌ 8. PRIMITIVE OBSESSION:
+NO 8. PRIMITIVE OBSESSION:
   - Objetos de valor para resultados
   - DTOs para transferencia
   - No tuplas/dicts primitivos
 
-❌ 9. INAPPROPRIATE INTIMACY:
+NO 9. INAPPROPRIATE INTIMACY:
   - Encapsulación
   - Law of Demeter
   - Interfaces públicas claras
 
-❌ 10. REINVENTING THE WHEEL:
+NO 10. REINVENTING THE WHEEL:
   - Usar Django/DRF built-ins
   - No reimplementar lo que existe
   - Aprovechar el framework
@@ -387,7 +387,7 @@ estado: definitivo
 ### 3.2 Patrones Permitidos
 
 ```yaml
-✅ USAR CUANDO APLIQUE:
+OK USAR CUANDO APLIQUE:
 
 Singleton:
   - Scheduler (única instancia necesaria)
@@ -420,7 +420,7 @@ Managers/QuerySets:
 ### 3.3 Principios SOLID
 
 ```yaml
-✅ OBLIGATORIO:
+OK OBLIGATORIO:
 
 S - Single Responsibility:
   - Una clase = una razón para cambiar
@@ -446,23 +446,23 @@ D - Dependency Inversion:
 
 ---
 
-## 💾 4. RESTRICCIONES DE BASE DE DATOS
+## SAVE 4. RESTRICCIONES DE BASE DE DATOS
 
 ### 4.1 Estructura de BD IVR (Readonly)
 
 ```yaml
-✅ ACCESO:
+OK ACCESO:
   - Solo SELECT
   - Usuario: ivr_readonly_user
   - Conexión: 'ivr_readonly'
 
-📋 TABLAS:
+NOTA TABLAS:
   - tbl_historico_t1_YYYY (Trimestre 1)
   - tbl_historico_t2_YYYY (Trimestre 2)
   - tbl_historico_t3_YYYY (Trimestre 3)
   - Trimestre 4: ??? (pendiente clarificar)
 
-⚠️ CAMPOS (Pendiente definición exacta):
+WARNING CAMPOS (Pendiente definición exacta):
   - dFecha
   - centro_transferencia (o variantes legacy)
   - servicio_800
@@ -475,7 +475,7 @@ D - Dependency Inversion:
   - transferido_a
   - comentarios
 
-🔴 CRÍTICO:
+CRITICO CRÍTICO:
   - Estructura NO documentada completamente
   - Requiere diccionario de datos del cliente
   - Adapter debe manejar variaciones de nombres
@@ -486,7 +486,7 @@ D - Dependency Inversion:
 ### 4.2 BD Analytics (Write)
 
 ```yaml
-✅ MODELOS DJANGO:
+OK MODELOS DJANGO:
   - User (extendido)
   - Role, UserRole
   - DirectPermission
@@ -500,12 +500,12 @@ D - Dependency Inversion:
   - ExportHistory
   - AuditLog
 
-✅ MIGRACIONES:
+OK MIGRACIONES:
   - Django migrations estándar
   - Versionadas en git
   - Squash periódicamente
 
-⚠️ RETENCIÓN:
+WARNING RETENCIÓN:
   - Datos reportes: 3 años online
   - Sesiones: eliminar expiradas diariamente
   - Notificaciones: 30 días después de leídas
@@ -519,7 +519,7 @@ D - Dependency Inversion:
 ### 4.3 ETL
 
 ```yaml
-✅ PROCESO:
+OK PROCESO:
   1. Extraer de BD IVR (readonly)
   2. Transformar (limpiar, normalizar)
   3. Cargar en BD Analytics
@@ -530,12 +530,12 @@ D - Dependency Inversion:
   - Scheduler: APScheduler
   - Job: ETLJob.run()
 
-✅ TRANSACCIONALIDAD:
+OK TRANSACCIONALIDAD:
   - @transaction.atomic en todo el proceso
   - Rollback completo si falla cualquier paso
   - DataAvailability solo si count > 0
 
-⚠️ VALIDACIONES:
+WARNING VALIDACIONES:
   - Manejo de NULL
   - Duplicados (consolidar)
   - Inconsistencias (loguear)
@@ -544,7 +544,7 @@ D - Dependency Inversion:
 
 ---
 
-## 🎯 5. RESTRICCIONES FUNCIONALES (SRS v2.0)
+## OBJETIVO 5. RESTRICCIONES FUNCIONALES (SRS v2.0)
 
 ### 5.1 Autenticación y Usuarios
 
@@ -586,24 +586,24 @@ UC-008: Eliminar usuario
 ### 5.2 Roles y Permisos (RBAC)
 
 ```yaml
-✅ MODELO:
+OK MODELO:
   - Flat RBAC (NIST)
   - 18 roles funcionales (R001-R018)
   - Sin jerarquía automática
   - Usuarios pueden tener múltiples roles
   - Permisos se acumulan (unión)
 
-✅ PRECEDENCIA (UC-042):
+OK PRECEDENCIA (UC-042):
   1. Permisos Directos (mayor)
   2. Permisos de Roles
   3. Permisos de Segmento (menor)
 
-✅ SEPARACIÓN DE FUNCIONES (SoD):
+OK SEPARACIÓN DE FUNCIONES (SoD):
   - R016 (SYSTEM_ADMIN) ⚔️ R017 (AUDIT_VIEWER)
   - R001 (USERS_FULL_MANAGER) ⚔️ R017 (AUDIT_VIEWER)
   - Validar antes de asignar
 
-✅ PERMISOS DIRECTOS:
+OK PERMISOS DIRECTOS:
   - Justificación obligatoria (min 20 chars)
   - Vencimiento obligatorio (max 6 meses)
   - Auditar todas las asignaciones
@@ -643,7 +643,7 @@ UC-022/023/024: Exportaciones
     - Timeout: 120 segundos
     - Logo, encabezados, paginación
 
-✅ LÍMITES DIARIOS:
+OK LÍMITES DIARIOS:
   - BÁSICO: 5 exportaciones
   - ANALISTA: sin límite
   - COORDINACIÓN: 20 exportaciones
@@ -662,7 +662,7 @@ UC-025: Dashboard Principal
   - NO real-time updates
   - Usuario debe refrescar manualmente
 
-✅ WIDGETS:
+OK WIDGETS:
   1. Llamadas Último Período (CRÍTICO)
   2. Distribución por Servicio (CRÍTICO)
   3. Top 5 Centros (ALTA)
@@ -684,67 +684,67 @@ UC-030: Personalizar Dashboard
 ```yaml
 UC-036 a UC-040: Sistema de Alertas
 
-✅ TIPOS:
+OK TIPOS:
   - THRESHOLD: Valor vs umbral
   - ANOMALY: ±2σ (desviación estándar)
   - PATTERN: Tendencias sostenidas
   - TREND: Variación porcentual
 
-✅ SEVERIDADES:
+OK SEVERIDADES:
   - INFO (azul)
   - WARNING (amarillo)
   - CRITICAL (rojo)
 
-✅ FRECUENCIAS:
+OK FRECUENCIAS:
   - IMMEDIATE: al instante
   - HOURLY: cada hora
   - DAILY: diaria
   - ONCE: una sola vez
 
-✅ SNOOZE:
+OK SNOOZE:
   - 1 hora
   - 8 horas
   - 24 horas
   - Personalizado
 
-⚠️ LÍMITES:
+WARNING LÍMITES:
   - Máximo 50 destinatarios por alerta
   - Evaluación cada 5 minutos
   - Consolidar alertas repetitivas
   - Retención: 6 meses + 2 años archivado
 
-🔴 CRÍTICO:
+CRITICO CRÍTICO:
   - SOLO notificación vía buzón interno
   - NO email bajo ninguna circunstancia
 ```
 
 ---
 
-## ⚡ 6. RESTRICCIONES DE PERFORMANCE (SLA)
+## FAST 6. RESTRICCIONES DE PERFORMANCE (SLA)
 
 ### 6.1 Tiempos de Respuesta
 
 ```yaml
-✅ REPORTES:
+OK REPORTES:
   - Principales: < 5 segundos
   - Complejos: < 10 segundos
   - Análisis exploratorio: < 300 segundos (5 min)
 
-✅ EXPORTACIONES:
+OK EXPORTACIONES:
   - CSV: 60 segundos máximo
   - Excel: 90 segundos máximo
   - PDF: 120 segundos máximo
 
-✅ DASHBOARD:
+OK DASHBOARD:
   - Carga inicial: < 3 segundos
   - Carga de widget: < 2 segundos
 
-✅ APIs:
+OK APIs:
   - GET simples: < 500ms
   - POST/PUT: < 1 segundo
   - Búsquedas: < 2 segundos
 
-⚠️ OPTIMIZACIONES:
+WARNING OPTIMIZACIONES:
   - Índices en campos de filtro
   - Caché de queries frecuentes
   - Paginación obligatoria
@@ -756,42 +756,42 @@ UC-036 a UC-040: Sistema de Alertas
 ### 6.2 Límites de Datos
 
 ```yaml
-✅ RESULTADOS EN PANTALLA:
+OK RESULTADOS EN PANTALLA:
   - Máximo: 50,000 registros
   - Paginación: 50 items default
   - Cursor pagination para grandes datasets
 
-✅ EXPORTACIONES:
+OK EXPORTACIONES:
   - CSV: 100,000 registros
   - Excel: 100,000 registros
   - PDF: 10,000 registros
   - División automática si excede
 
-✅ QUERIES:
+OK QUERIES:
   - Rango fechas: máximo 2 años
   - Timeout análisis: 5 minutos
 ```
 
 ---
 
-## 🚀 7. RESTRICCIONES DE INFRAESTRUCTURA
+## START 7. RESTRICCIONES DE INFRAESTRUCTURA
 
 ### 7.1 Contenedores
 
 ```yaml
-✅ DOCKERFILE:
+OK DOCKERFILE:
   - Multi-stage build obligatorio
   - Imagen base: python:3.11-slim
   - Usuario non-root
   - No secrets en imagen
   - Layer caching optimizado
 
-✅ ESCANEO:
+OK ESCANEO:
   - Trivy en cada build
   - Sin vulnerabilidades High/Critical
   - SBOM de imagen generado
 
-✅ HEALTHCHECKS:
+OK HEALTHCHECKS:
   - /health (liveness)
   - /health/ready (readiness)
   - Timeout: 5 segundos
@@ -802,19 +802,19 @@ UC-036 a UC-040: Sistema de Alertas
 ### 7.2 Deployment
 
 ```yaml
-✅ KUBERNETES:
+OK KUBERNETES:
   - Recursos limitados (requests/limits)
   - HPA configurado
   - PodDisruptionBudget
   - NetworkPolicies
 
-✅ STRATEGY:
+OK STRATEGY:
   - RollingUpdate para cambios menores
   - Blue-Green para cambios mayores
   - Canary para features críticos
   - Rollback automatizado si falla
 
-✅ SECRETS:
+OK SECRETS:
   - Kubernetes Secrets
   - Vault/KMS para producción
   - Rotación periódica
@@ -828,28 +828,28 @@ UC-036 a UC-040: Sistema de Alertas
 ### 8.1 Coding Standards
 
 ```yaml
-✅ PYTHON:
+OK PYTHON:
   - PEP 8 obligatorio
   - Black para formateo
   - Flake8 para linting
   - isort para imports
   - Type hints (Python 3.10+)
 
-✅ DJANGO/DRF:
+OK DJANGO/DRF:
   - Serializers explícitos (no __all__)
   - Permisos en cada endpoint
   - Throttling configurado
   - Paginación siempre
   - Validaciones exhaustivas
 
-✅ TESTING:
+OK TESTING:
   - Cobertura: mínimo 80%
   - Tests unitarios + integración
   - Factory Boy para fixtures
   - Pytest como runner
   - Tests de seguridad (Bandit)
 
-✅ DOCUMENTACIÓN:
+OK DOCUMENTACIÓN:
   - Docstrings en funciones/clases
   - OpenAPI/Swagger actualizado
   - README con setup
@@ -861,18 +861,18 @@ UC-036 a UC-040: Sistema de Alertas
 ### 8.2 Git y CI/CD
 
 ```yaml
-✅ COMMITS:
+OK COMMITS:
   - Conventional Commits
   - Formato: type(scope): description
   - Firmar commits (GPG)
 
-✅ BRANCHES:
+OK BRANCHES:
   - main: producción
   - develop: integración
   - feature/*: features
   - hotfix/*: urgentes
 
-✅ CI/CD PIPELINE:
+OK CI/CD PIPELINE:
   1. Linting (Black, Flake8)
   2. Tests (pytest)
   3. SAST (Bandit, Semgrep)
@@ -882,7 +882,7 @@ UC-036 a UC-040: Sistema de Alertas
   7. Deploy
   8. Smoke tests
 
-✅ GATES:
+OK GATES:
   - Sin tests failing
   - Cobertura >= 80%
   - Sin CVE High/Critical
@@ -892,12 +892,12 @@ UC-036 a UC-040: Sistema de Alertas
 
 ---
 
-## 📊 9. RESTRICCIONES DE LOGGING Y AUDITORÍA
+## STATS 9. RESTRICCIONES DE LOGGING Y AUDITORÍA
 
 ### 9.1 Logging
 
 ```yaml
-❌ PROHIBIDO EN LOGS:
+NO PROHIBIDO EN LOGS:
   - Contraseñas
   - Tokens
   - API Keys
@@ -905,19 +905,19 @@ UC-036 a UC-040: Sistema de Alertas
   - Números de tarjeta
   - SSN/CURP/RFC
 
-✅ OBLIGATORIO:
+OK OBLIGATORIO:
   - Request ID único
   - User ID si autenticado
   - Timestamp ISO 8601
   - Level correcto
   - Masking de PII
 
-✅ FORMATO:
+OK FORMATO:
   - JSON estructurado
   - Campos estándar
   - Trazabilidad end-to-end
 
-✅ RETENCIÓN:
+OK RETENCIÓN:
   - Aplicación: 30 días
   - Acceso: 90 días
   - Auditoría: 2+ años
@@ -929,7 +929,7 @@ UC-036 a UC-040: Sistema de Alertas
 ### 9.2 Auditoría
 
 ```yaml
-✅ EVENTOS A AUDITAR:
+OK EVENTOS A AUDITAR:
   - Login/Logout
   - Cambios de permisos
   - Creación/modificación usuarios
@@ -938,7 +938,7 @@ UC-036 a UC-040: Sistema de Alertas
   - Cambios de configuración
   - Fallos de autenticación
 
-✅ INFORMACIÓN:
+OK INFORMACIÓN:
   - Usuario (quién)
   - Acción (qué)
   - Recurso (sobre qué)
@@ -948,7 +948,7 @@ UC-036 a UC-040: Sistema de Alertas
   - Resultado (éxito/fallo)
   - Valores antes/después
 
-✅ IMMUTABILIDAD:
+OK IMMUTABILIDAD:
   - Logs de auditoría inmutables
   - Solo append
   - No eliminación
@@ -987,13 +987,13 @@ RESTRINGIDOS:
 ### 10.2 Minimización de Datos
 
 ```yaml
-✅ PRINCIPIOS:
+OK PRINCIPIOS:
   - Recolectar solo lo necesario
   - Retener solo el tiempo necesario
   - Compartir solo con quien necesita
   - Eliminar cuando ya no se requiere
 
-✅ PII:
+OK PII:
   - Enmascarar en logs
   - Cifrar en tránsito
   - Cifrar en reposo si necesario
@@ -1003,7 +1003,7 @@ RESTRINGIDOS:
 
 ---
 
-## 📋 11. CHECKLIST DE CUMPLIMIENTO
+## NOTA 11. CHECKLIST DE CUMPLIMIENTO
 
 ### 11.1 Pre-Deploy
 
@@ -1096,26 +1096,26 @@ EVITAR:
 
 ---
 
-## ✅ RESUMEN EJECUTIVO
+## OK RESUMEN EJECUTIVO
 
 ### Restricciones Críticas (Top 10)
 
 1. 🚫 **NO EMAIL** - Solo buzón interno
 2. 🔒 **BD IVR READONLY** - Zero escritura
-3. 💾 **SESIONES EN BD** - No Redis
+3. SAVE **SESIONES EN BD** - No Redis
 4. 🔄 **NO REAL-TIME** - Actualización por ETL
 5. 🔐 **DEBUG=FALSE** - Siempre en producción
 6. 🎫 **JWT + PERMISOS** - Autenticación robusta
-7. 📊 **PAGINACIÓN** - Siempre activa
-8. 🔍 **AUDITORÍA** - Eventos críticos logged
+7. STATS **PAGINACIÓN** - Siempre activa
+8. BUSCAR **AUDITORÍA** - Eventos críticos logged
 9. 🛡️ **SIN CVE HIGH** - Dependencias seguras
-10. 📝 **BAJA LÓGICA** - No eliminación física
+10. NOTA **BAJA LÓGICA** - No eliminación física
 
 ### Cumplimiento Requerido
 
-- ✅ **100%** restricciones críticas
-- ✅ **95%** restricciones obligatorias
-- ✅ **80%** restricciones recomendadas
+- OK **100%** restricciones críticas
+- OK **95%** restricciones obligatorias
+- OK **80%** restricciones recomendadas
 
 ### Consecuencias de Incumplimiento
 

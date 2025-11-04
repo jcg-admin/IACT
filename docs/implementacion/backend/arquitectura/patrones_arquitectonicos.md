@@ -12,7 +12,7 @@ relacionados: ["DOC-SOL-SC02", "DOC-ARQ-BACKEND"]
 
 # Patrones Arquitectónicos del Backend
 
-## 📋 Índice
+## NOTA Índice
 
 1. [Introducción](#introducción)
 2. [Filosofía de Diseño](#filosofía-de-diseño)
@@ -47,16 +47,16 @@ El backend es un **monolito modular Django** con 10 aplicaciones:
 
 ```
 api/callcentersite/callcentersite/apps/
-├── analytics/         → Data sink (almacenamiento de métricas)
-├── audit/            → Sistema de auditoría inmutable
-├── authentication/   → Autenticación y seguridad
-├── common/           → Utilidades compartidas
-├── dashboard/        → Orquestación de widgets
-├── etl/              → Pipeline de datos IVR → Analytics
-├── ivr_legacy/       → Integración con BD legacy (read-only)
-├── notifications/    → Mensajería interna
-├── reports/          → Generación de reportes
-└── users/            → Sistema custom de permisos
+├── analytics/         -> Data sink (almacenamiento de métricas)
+├── audit/            -> Sistema de auditoría inmutable
+├── authentication/   -> Autenticación y seguridad
+├── common/           -> Utilidades compartidas
+├── dashboard/        -> Orquestación de widgets
+├── etl/              -> Pipeline de datos IVR -> Analytics
+├── ivr_legacy/       -> Integración con BD legacy (read-only)
+├── notifications/    -> Mensajería interna
+├── reports/          -> Generación de reportes
+└── users/            -> Sistema custom de permisos
 ```
 
 Cada app tiene **diferentes responsabilidades** y por lo tanto usa **diferentes patrones arquitectónicos**.
@@ -96,7 +96,7 @@ Nuestro diseño sigue estos principios (en orden de prioridad):
 
 **Ejemplo de lo que NO hacemos**:
 ```python
-# ❌ ANTI-PATRÓN: Service layer innecesario
+# NO ANTI-PATRÓN: Service layer innecesario
 class AnalyticsService:
     """Servicio que solo hace CRUD básico."""
 
@@ -119,23 +119,23 @@ class AnalyticsService:
 
 ### Service Layer Pattern
 
-#### 📖 Definición
+#### INFO Definición
 
 El **Service Layer** define el límite de la aplicación y encapsula la lógica de negocio. Coordina operaciones complejas que involucran múltiples modelos o sistemas externos.
 
-#### 🎯 Cuándo usarlo
+#### OBJETIVO Cuándo usarlo
 
 Usar Service Layer cuando:
-- ✅ La operación involucra múltiples modelos
-- ✅ Hay lógica de negocio compleja
-- ✅ Se coordina con sistemas externos
-- ✅ La operación requiere transacciones
-- ✅ Se quiere reutilizar lógica desde múltiples puntos
+- OK La operación involucra múltiples modelos
+- OK Hay lógica de negocio compleja
+- OK Se coordina con sistemas externos
+- OK La operación requiere transacciones
+- OK Se quiere reutilizar lógica desde múltiples puntos
 
 **NO usar cuando**:
-- ❌ Solo se hace CRUD básico
-- ❌ La lógica es trivial (1-2 líneas)
-- ❌ El modelo puede manejar su propia lógica
+- NO Solo se hace CRUD básico
+- NO La lógica es trivial (1-2 líneas)
+- NO El modelo puede manejar su propia lógica
 
 #### 💻 Implementación en el proyecto
 
@@ -203,10 +203,10 @@ def some_view(request):
 ```
 
 **¿Por qué Service Layer aquí?**
-- ✅ Usado desde múltiples apps (centralización)
-- ✅ Desacopla el "cómo se registra" del "qué se registra"
-- ✅ Permite cambiar implementación sin afectar consumidores
-- ✅ API clara y simple: `AuditService.log(...)`
+- OK Usado desde múltiples apps (centralización)
+- OK Desacopla el "cómo se registra" del "qué se registra"
+- OK Permite cambiar implementación sin afectar consumidores
+- OK API clara y simple: `AuditService.log(...)`
 
 ---
 
@@ -264,10 +264,10 @@ class DashboardOverviewView(APIView):
 ```
 
 **¿Por qué Service Layer aquí?**
-- ✅ Orquesta múltiples componentes (widgets)
-- ✅ Lógica de negocio (¿qué widgets mostrar?)
-- ✅ Desacopla la vista del "cómo" construir el dashboard
-- ✅ Reutilizable (podría usarse en reportes, emails, etc.)
+- OK Orquesta múltiples componentes (widgets)
+- OK Lógica de negocio (¿qué widgets mostrar?)
+- OK Desacopla la vista del "cómo" construir el dashboard
+- OK Reutilizable (podría usarse en reportes, emails, etc.)
 
 ---
 
@@ -326,14 +326,14 @@ class PermissionService:
 ```
 
 **¿Por qué Service Layer aquí?**
-- ✅ Lógica compleja de evaluación de permisos
-- ✅ Orquesta 3 fuentes diferentes de permisos
-- ✅ Define reglas de precedencia (negocio)
-- ✅ Sin service, esta lógica estaría duplicada en views
+- OK Lógica compleja de evaluación de permisos
+- OK Orquesta 3 fuentes diferentes de permisos
+- OK Define reglas de precedencia (negocio)
+- OK Sin service, esta lógica estaría duplicada en views
 
 ---
 
-#### ✅ Ventajas del Service Layer
+#### OK Ventajas del Service Layer
 
 1. **Centralización**: Lógica en un solo lugar
 2. **Reutilización**: Múltiples consumidores usan el mismo código
@@ -341,7 +341,7 @@ class PermissionService:
 4. **Desacoplamiento**: Views delgadas, lógica en services
 5. **Transacciones**: Fácil manejar transacciones complejas
 
-#### ⚠️ Desventajas (si se usa mal)
+#### WARNING Desventajas (si se usa mal)
 
 1. **Over-engineering**: Si solo hace CRUD básico
 2. **Indirección innecesaria**: Añade capas sin valor
@@ -352,22 +352,22 @@ class PermissionService:
 
 ### Adapter Pattern
 
-#### 📖 Definición
+#### INFO Definición
 
 El **Adapter Pattern** permite que interfaces incompatibles trabajen juntas. Encapsula el acceso a sistemas externos con una interfaz limpia.
 
-#### 🎯 Cuándo usarlo
+#### OBJETIVO Cuándo usarlo
 
 Usar Adapter cuando:
-- ✅ Integras con sistema externo/legacy
-- ✅ No controlas la interfaz del sistema externo
-- ✅ Quieres aislar el código de cambios externos
-- ✅ Necesitas traducir entre interfaces incompatibles
+- OK Integras con sistema externo/legacy
+- OK No controlas la interfaz del sistema externo
+- OK Quieres aislar el código de cambios externos
+- OK Necesitas traducir entre interfaces incompatibles
 
 **NO usar cuando**:
-- ❌ Tienes control total del sistema
-- ❌ La interfaz ya es compatible
-- ❌ Es una simple operación CRUD interna
+- NO Tienes control total del sistema
+- NO La interfaz ya es compatible
+- NO Es una simple operación CRUD interna
 
 #### 💻 Implementación en el proyecto
 
@@ -378,25 +378,25 @@ Usar Adapter cuando:
 **Arquitectura**:
 ```
 ┌─────────────┐
-│  ETL Job    │  → Necesita datos de IVR
+│  ETL Job    │  -> Necesita datos de IVR
 └──────┬──────┘
        │
        │ usa
        ↓
 ┌─────────────────┐
-│ IVRDataAdapter  │  → Interfaz limpia
+│ IVRDataAdapter  │  -> Interfaz limpia
 └──────┬──────────┘
        │
        │ encapsula
        ↓
 ┌─────────────────┐
-│ IVRCall model   │  → Modelo read-only (managed=False)
+│ IVRCall model   │  -> Modelo read-only (managed=False)
 └──────┬──────────┘
        │
        │ mapea a
        ↓
 ┌─────────────────┐
-│ MariaDB Legacy  │  → Base de datos externa
+│ MariaDB Legacy  │  -> Base de datos externa
 └─────────────────┘
 ```
 
@@ -440,8 +440,8 @@ class IVRCall(models.Model):
     # ... más campos ...
 
     class Meta:
-        managed = False  # ← Django NO gestiona esta tabla
-        db_table = "calls"  # ← Nombre exacto en BD externa
+        managed = False  # -> Django NO gestiona esta tabla
+        db_table = "calls"  # -> Nombre exacto en BD externa
 ```
 
 **Protección read-only**:
@@ -468,7 +468,7 @@ class IVRDataExtractor:
     """Extrae llamadas desde la BD IVR."""
 
     def __init__(self) -> None:
-        self.adapter = IVRDataAdapter()  # ← Usa el adapter
+        self.adapter = IVRDataAdapter()  # -> Usa el adapter
 
     def extract_calls(self, start_date: datetime, end_date: datetime):
         # Interfaz limpia, sin preocuparse por detalles de BD
@@ -476,15 +476,15 @@ class IVRDataExtractor:
 ```
 
 **¿Por qué Adapter Pattern aquí?**
-- ✅ Sistema externo que no controlamos
-- ✅ Aísla cambios en la BD IVR
-- ✅ Interfaz limpia para el ETL
-- ✅ Maneja configuración de base de datos
-- ✅ Previene escrituras accidentales
+- OK Sistema externo que no controlamos
+- OK Aísla cambios en la BD IVR
+- OK Interfaz limpia para el ETL
+- OK Maneja configuración de base de datos
+- OK Previene escrituras accidentales
 
 ---
 
-#### ✅ Ventajas del Adapter Pattern
+#### OK Ventajas del Adapter Pattern
 
 1. **Aislamiento**: Cambios externos no afectan código interno
 2. **Interfaz limpia**: API simple para consumidores
@@ -492,7 +492,7 @@ class IVRDataExtractor:
 4. **Protección**: Encapsula restricciones (read-only)
 5. **Documentación**: El adapter documenta el sistema externo
 
-#### ⚠️ Cuándo NO usarlo
+#### WARNING Cuándo NO usarlo
 
 - Sistema interno que controlas completamente
 - Operaciones simples que no justifican la abstracción
@@ -502,22 +502,22 @@ class IVRDataExtractor:
 
 ### Strategy Pattern
 
-#### 📖 Definición
+#### INFO Definición
 
 El **Strategy Pattern** define una familia de algoritmos, encapsula cada uno y los hace intercambiables. Permite que el algoritmo varíe independientemente de los clientes que lo usan.
 
-#### 🎯 Cuándo usarlo
+#### OBJETIVO Cuándo usarlo
 
 Usar Strategy cuando:
-- ✅ Múltiples variantes de un algoritmo
-- ✅ Comportamiento debe elegirse en runtime
-- ✅ Quieres añadir nuevas estrategias sin modificar código existente
-- ✅ Lógica compleja con muchos condicionales
+- OK Múltiples variantes de un algoritmo
+- OK Comportamiento debe elegirse en runtime
+- OK Quieres añadir nuevas estrategias sin modificar código existente
+- OK Lógica compleja con muchos condicionales
 
 **NO usar cuando**:
-- ❌ Solo existe una implementación
-- ❌ El comportamiento no varía
-- ❌ La lógica es simple
+- NO Solo existe una implementación
+- NO El comportamiento no varía
+- NO La lógica es simple
 
 #### 💻 Implementación en el proyecto
 
@@ -528,13 +528,13 @@ Usar Strategy cuando:
 **Arquitectura**:
 ```
 ┌──────────────────┐
-│ ReportTemplate   │  → Configuración del reporte
+│ ReportTemplate   │  -> Configuración del reporte
 └────────┬─────────┘
          │
          │ usa estrategia según "format"
          ↓
 ┌──────────────────────┐
-│ BaseReportGenerator  │  → Interfaz abstracta
+│ BaseReportGenerator  │  -> Interfaz abstracta
 └──────────┬───────────┘
            │
            │ implementaciones concretas
@@ -662,15 +662,15 @@ def generate_report(template: ReportTemplate):
 ```
 
 **¿Por qué Strategy Pattern aquí?**
-- ✅ Múltiples formatos (CSV, Excel, PDF)
-- ✅ Fácil añadir nuevos formatos sin modificar código existente
-- ✅ Cada generador tiene su propia lógica compleja
-- ✅ El formato se elige en runtime
-- ✅ Open/Closed Principle
+- OK Múltiples formatos (CSV, Excel, PDF)
+- OK Fácil añadir nuevos formatos sin modificar código existente
+- OK Cada generador tiene su propia lógica compleja
+- OK El formato se elige en runtime
+- OK Open/Closed Principle
 
 ---
 
-#### ✅ Ventajas del Strategy Pattern
+#### OK Ventajas del Strategy Pattern
 
 1. **Extensibilidad**: Añadir estrategias sin modificar código
 2. **Encapsulación**: Cada algoritmo está aislado
@@ -678,7 +678,7 @@ def generate_report(template: ReportTemplate):
 4. **Testabilidad**: Probar cada estrategia independientemente
 5. **Principio Open/Closed**: Abierto a extensión, cerrado a modificación
 
-#### ⚠️ Cuándo NO usarlo
+#### WARNING Cuándo NO usarlo
 
 - Solo una implementación (no hay variantes)
 - Lógica simple que no justifica abstracción
@@ -688,26 +688,26 @@ def generate_report(template: ReportTemplate):
 
 ### ETL Pipeline Pattern
 
-#### 📖 Definición
+#### INFO Definición
 
 El **ETL Pipeline Pattern** estructura el procesamiento de datos en tres fases claramente separadas:
 1. **Extract**: Extracción de datos desde fuentes
 2. **Transform**: Transformación y limpieza de datos
 3. **Load**: Carga de datos al destino
 
-#### 🎯 Cuándo usarlo
+#### OBJETIVO Cuándo usarlo
 
 Usar ETL Pipeline cuando:
-- ✅ Procesas datos de fuentes externas
-- ✅ Necesitas transformar/limpiar datos
-- ✅ Los datos vienen de sistemas legacy
-- ✅ Hay múltiples fuentes o destinos
-- ✅ El pipeline se ejecuta periódicamente
+- OK Procesas datos de fuentes externas
+- OK Necesitas transformar/limpiar datos
+- OK Los datos vienen de sistemas legacy
+- OK Hay múltiples fuentes o destinos
+- OK El pipeline se ejecuta periódicamente
 
 **NO usar cuando**:
-- ❌ Operaciones en tiempo real (usa streaming)
-- ❌ No hay transformación significativa
-- ❌ Los datos ya están en el formato correcto
+- NO Operaciones en tiempo real (usa streaming)
+- NO No hay transformación significativa
+- NO Los datos ya están en el formato correcto
 
 #### 💻 Implementación en el proyecto
 
@@ -715,11 +715,11 @@ Usar ETL Pipeline cuando:
 
 ```
 api/callcentersite/callcentersite/apps/etl/
-├── extractors.py     → EXTRACT: Obtiene datos de fuentes
-├── transformers.py   → TRANSFORM: Limpia y transforma datos
-├── loaders.py        → LOAD: Carga datos al destino
-├── jobs.py           → Orquestación del pipeline completo
-└── scheduler.py      → Automatización con APScheduler
+├── extractors.py     -> EXTRACT: Obtiene datos de fuentes
+├── transformers.py   -> TRANSFORM: Limpia y transforma datos
+├── loaders.py        -> LOAD: Carga datos al destino
+├── jobs.py           -> Orquestación del pipeline completo
+└── scheduler.py      -> Automatización con APScheduler
 ```
 
 **Flujo de datos**:
@@ -732,19 +732,19 @@ api/callcentersite/callcentersite/apps/etl/
          │ EXTRACT
          ↓
 ┌─────────────────┐
-│ IVRDataExtractor│  → Obtiene llamadas crudas
+│ IVRDataExtractor│  -> Obtiene llamadas crudas
 └────────┬────────┘
          │
          │ raw_calls (List[IVRCall])
          ↓
 ┌──────────────────┐
-│CallDataTransformer│  → Limpia, valida, enriquece
+│CallDataTransformer│  -> Limpia, valida, enriquece
 └────────┬─────────┘
          │
          │ transformed_calls (List[dict])
          ↓
 ┌──────────────────┐
-│AnalyticsDataLoader│  → Inserta en PostgreSQL
+│AnalyticsDataLoader│  -> Inserta en PostgreSQL
 └────────┬─────────┘
          │
          ↓
@@ -948,15 +948,15 @@ def scheduled_etl() -> None:
 ```
 
 **¿Por qué ETL Pipeline Pattern aquí?**
-- ✅ Datos de sistema externo (IVR legacy)
-- ✅ Necesita transformación (validación, limpieza)
-- ✅ Separación clara de responsabilidades
-- ✅ Fácil debuggear cada fase
-- ✅ Reutilizable (extractors, transformers, loaders independientes)
+- OK Datos de sistema externo (IVR legacy)
+- OK Necesita transformación (validación, limpieza)
+- OK Separación clara de responsabilidades
+- OK Fácil debuggear cada fase
+- OK Reutilizable (extractors, transformers, loaders independientes)
 
 ---
 
-#### ✅ Ventajas del ETL Pipeline Pattern
+#### OK Ventajas del ETL Pipeline Pattern
 
 1. **Separación de responsabilidades**: Cada fase tiene un propósito claro
 2. **Testabilidad**: Probar extractors, transformers, loaders independientemente
@@ -965,7 +965,7 @@ def scheduled_etl() -> None:
 5. **Monitoreo**: Medir rendimiento de cada fase
 6. **Escalabilidad**: Paralelizar transformaciones si es necesario
 
-#### ⚠️ Desventajas
+#### WARNING Desventajas
 
 - No apropiado para streaming en tiempo real
 - Latencia entre extract y load
@@ -975,22 +975,22 @@ def scheduled_etl() -> None:
 
 ### Active Record Pattern
 
-#### 📖 Definición
+#### INFO Definición
 
 El **Active Record Pattern** combina datos y comportamiento en el mismo objeto. Los modelos Django naturalmente siguen este patrón.
 
-#### 🎯 Cuándo usarlo
+#### OBJETIVO Cuándo usarlo
 
 Usar Active Record cuando:
-- ✅ Lógica está fuertemente acoplada al modelo
-- ✅ Operación afecta solo a ese modelo
-- ✅ Lógica es simple (1-3 líneas)
-- ✅ Es comportamiento del "objeto"
+- OK Lógica está fuertemente acoplada al modelo
+- OK Operación afecta solo a ese modelo
+- OK Lógica es simple (1-3 líneas)
+- OK Es comportamiento del "objeto"
 
 **NO usar cuando**:
-- ❌ Lógica involucra múltiples modelos
-- ❌ Hay lógica de negocio compleja
-- ❌ Se necesita coordinar transacciones
+- NO Lógica involucra múltiples modelos
+- NO Hay lógica de negocio compleja
+- NO Se necesita coordinar transacciones
 
 #### 💻 Implementación en el proyecto
 
@@ -1046,10 +1046,10 @@ if question.verify_answer("azul"):
 ```
 
 **¿Por qué Active Record aquí?**
-- ✅ Lógica acoplada al modelo (hash de SU respuesta)
-- ✅ No involucra otros modelos
-- ✅ Es comportamiento del objeto SecurityQuestion
-- ✅ Simple y claro
+- OK Lógica acoplada al modelo (hash de SU respuesta)
+- OK No involucra otros modelos
+- OK Es comportamiento del objeto SecurityQuestion
+- OK Simple y claro
 
 ---
 
@@ -1092,17 +1092,17 @@ class InternalMessage(models.Model):
 # Vista de notificaciones
 def mark_notification_read(request, message_id):
     message = InternalMessage.objects.get(id=message_id, recipient=request.user)
-    message.mark_as_read()  # ← Método del modelo
+    message.mark_as_read()  # -> Método del modelo
     return redirect("notifications")
 ```
 
 **¿Por qué Active Record aquí?**
-- ✅ Operación simple sobre el mismo objeto
-- ✅ Solo afecta a este modelo
-- ✅ 3 líneas de lógica (no justifica service)
-- ✅ Clara semántica: "message.mark_as_read()"
+- OK Operación simple sobre el mismo objeto
+- OK Solo afecta a este modelo
+- OK 3 líneas de lógica (no justifica service)
+- OK Clara semántica: "message.mark_as_read()"
 
-**❌ Lo que NO haríamos (over-engineering)**:
+**NO Lo que NO haríamos (over-engineering)**:
 ```python
 # ANTI-PATRÓN: Service innecesario
 class NotificationService:
@@ -1116,7 +1116,7 @@ Esto no añade valor, solo añade indirección.
 
 ---
 
-#### ✅ Ventajas del Active Record Pattern
+#### OK Ventajas del Active Record Pattern
 
 1. **Simplicidad**: Datos y comportamiento juntos
 2. **Encapsulación**: El modelo conoce su propia lógica
@@ -1124,7 +1124,7 @@ Esto no añade valor, solo añade indirección.
 4. **Natural en Django**: Los modelos Django son Active Record
 5. **Claridad**: `obj.method()` es claro
 
-#### ⚠️ Cuándo NO usarlo
+#### WARNING Cuándo NO usarlo
 
 - Lógica compleja que involucra múltiples modelos
 - Coordinación de transacciones
@@ -1134,21 +1134,21 @@ Esto no añade valor, solo añade indirección.
 
 ### Registry Pattern
 
-#### 📖 Definición
+#### INFO Definición
 
 El **Registry Pattern** mantiene un registro de objetos disponibles, permitiendo descubrimiento y extensión dinámica.
 
-#### 🎯 Cuándo usarlo
+#### OBJETIVO Cuándo usarlo
 
 Usar Registry cuando:
-- ✅ Tienes componentes pluggeables
-- ✅ Quieres descubrir componentes en runtime
-- ✅ Necesitas extensión sin modificar código core
-- ✅ Múltiples implementaciones de una interfaz
+- OK Tienes componentes pluggeables
+- OK Quieres descubrir componentes en runtime
+- OK Necesitas extensión sin modificar código core
+- OK Múltiples implementaciones de una interfaz
 
 **NO usar cuando**:
-- ❌ Conjunto fijo de componentes conocidos en compile-time
-- ❌ No hay necesidad de extensión dinámica
+- NO Conjunto fijo de componentes conocidos en compile-time
+- NO No hay necesidad de extensión dinámica
 
 #### 💻 Implementación en el proyecto
 
@@ -1272,25 +1272,25 @@ class CustomWidget(Widget):
     def get_data(self) -> dict:
         return {"custom_data": "value"}
 
-# ← Se registra automáticamente, aparecerá en el dashboard
+# -> Se registra automáticamente, aparecerá en el dashboard
 ```
 
 **¿Por qué Registry Pattern aquí?**
-- ✅ Widgets pluggeables (fácil añadir nuevos)
-- ✅ Descubrimiento dinámico en runtime
-- ✅ No hay que modificar código core para añadir widgets
-- ✅ Open/Closed Principle
+- OK Widgets pluggeables (fácil añadir nuevos)
+- OK Descubrimiento dinámico en runtime
+- OK No hay que modificar código core para añadir widgets
+- OK Open/Closed Principle
 
 ---
 
-#### ✅ Ventajas del Registry Pattern
+#### OK Ventajas del Registry Pattern
 
 1. **Extensibilidad**: Añadir componentes sin modificar código
 2. **Descubrimiento**: Encontrar componentes en runtime
 3. **Desacoplamiento**: Core no conoce implementaciones específicas
 4. **Plugin Architecture**: Base para sistema de plugins
 
-#### ⚠️ Desventajas
+#### WARNING Desventajas
 
 - Más complejo que lista hardcoded
 - Debugging puede ser más difícil (¿de dónde salió este widget?)
@@ -1304,26 +1304,26 @@ class CustomWidget(Widget):
 
 ```
 ¿Estoy integrando con un sistema externo/legacy?
-├─ SÍ → ADAPTER PATTERN
+├─ SÍ -> ADAPTER PATTERN
 │         (ivr_legacy.adapters.IVRDataAdapter)
 │
-└─ NO → ¿Es un pipeline de procesamiento de datos?
-    ├─ SÍ → ETL PIPELINE PATTERN
+└─ NO -> ¿Es un pipeline de procesamiento de datos?
+    ├─ SÍ -> ETL PIPELINE PATTERN
     │         (etl/extractors, transformers, loaders)
     │
-    └─ NO → ¿Tengo múltiples variantes de un algoritmo?
-        ├─ SÍ → STRATEGY PATTERN
+    └─ NO -> ¿Tengo múltiples variantes de un algoritmo?
+        ├─ SÍ -> STRATEGY PATTERN
         │         (reports.generators)
         │
-        └─ NO → ¿Necesito componentes pluggeables/extensibles?
-            ├─ SÍ → REGISTRY PATTERN
+        └─ NO -> ¿Necesito componentes pluggeables/extensibles?
+            ├─ SÍ -> REGISTRY PATTERN
             │         (dashboard.widgets)
             │
-            └─ NO → ¿La lógica involucra múltiples modelos o es compleja?
-                ├─ SÍ → SERVICE LAYER PATTERN
+            └─ NO -> ¿La lógica involucra múltiples modelos o es compleja?
+                ├─ SÍ -> SERVICE LAYER PATTERN
                 │         (audit, dashboard, users)
                 │
-                └─ NO → ACTIVE RECORD PATTERN
+                └─ NO -> ACTIVE RECORD PATTERN
                           (notifications, authentication)
 ```
 
@@ -1331,15 +1331,15 @@ class CustomWidget(Widget):
 
 | Característica | Service Layer | Adapter | Strategy | ETL Pipeline | Active Record | Registry |
 |----------------|---------------|---------|----------|--------------|---------------|----------|
-| **Lógica simple (1-3 líneas)** | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ |
-| **Lógica compleja o multi-modelo** | ✅ | ⚠️ | ⚠️ | ⚠️ | ❌ | ❌ |
-| **Integración externa** | ⚠️ | ✅ | ❌ | ⚠️ | ❌ | ❌ |
-| **Múltiples variantes** | ❌ | ❌ | ✅ | ❌ | ❌ | ⚠️ |
-| **Pipeline de datos** | ❌ | ⚠️ | ❌ | ✅ | ❌ | ❌ |
-| **Componentes extensibles** | ❌ | ❌ | ⚠️ | ❌ | ❌ | ✅ |
-| **Reutilización desde múltiples lugares** | ✅ | ✅ | ✅ | ⚠️ | ⚠️ | ✅ |
+| **Lógica simple (1-3 líneas)** | NO | NO | NO | NO | OK | NO |
+| **Lógica compleja o multi-modelo** | OK | WARNING | WARNING | WARNING | NO | NO |
+| **Integración externa** | WARNING | OK | NO | WARNING | NO | NO |
+| **Múltiples variantes** | NO | NO | OK | NO | NO | WARNING |
+| **Pipeline de datos** | NO | WARNING | NO | OK | NO | NO |
+| **Componentes extensibles** | NO | NO | WARNING | NO | NO | OK |
+| **Reutilización desde múltiples lugares** | OK | OK | OK | WARNING | WARNING | OK |
 
-**Leyenda**: ✅ Ideal | ⚠️ Posible | ❌ No apropiado
+**Leyenda**: OK Ideal | WARNING Posible | NO No apropiado
 
 ---
 
@@ -1347,7 +1347,7 @@ class CustomWidget(Widget):
 
 ### 1. Service Layer innecesario
 
-**❌ Mal**:
+**NO Mal**:
 ```python
 class AnalyticsService:
     """Service que solo hace CRUD."""
@@ -1360,7 +1360,7 @@ class AnalyticsService:
         )
 ```
 
-**✅ Bien**:
+**OK Bien**:
 ```python
 # Usar directamente el modelo
 CallAnalytics.objects.create(call_id=call_id, duration=duration)
@@ -1372,7 +1372,7 @@ CallAnalytics.objects.create(call_id=call_id, duration=duration)
 
 ### 2. Lógica de negocio en las vistas
 
-**❌ Mal**:
+**NO Mal**:
 ```python
 def dashboard_view(request):
     # 50 líneas de lógica de negocio aquí
@@ -1382,7 +1382,7 @@ def dashboard_view(request):
     return render(request, "dashboard.html", context)
 ```
 
-**✅ Bien**:
+**OK Bien**:
 ```python
 def dashboard_view(request):
     data = DashboardService.overview()  # Lógica en service
@@ -1395,7 +1395,7 @@ def dashboard_view(request):
 
 ### 3. God Object (modelo que hace todo)
 
-**❌ Mal**:
+**NO Mal**:
 ```python
 class Report(models.Model):
     # ... campos ...
@@ -1408,7 +1408,7 @@ class Report(models.Model):
     # 500 líneas de métodos
 ```
 
-**✅ Bien**:
+**OK Bien**:
 ```python
 class Report(models.Model):
     # Solo datos y lógica simple
@@ -1424,7 +1424,7 @@ class ExcelGenerator: ...
 
 ### 4. Tight coupling a sistema externo
 
-**❌ Mal**:
+**NO Mal**:
 ```python
 def process_calls():
     # Directamente contra BD externa
@@ -1432,7 +1432,7 @@ def process_calls():
     # Lógica esparcida por todo el código
 ```
 
-**✅ Bien**:
+**OK Bien**:
 ```python
 def process_calls():
     adapter = IVRDataAdapter()  # Aislamiento
@@ -1445,7 +1445,7 @@ def process_calls():
 
 ### 5. Duplicación de lógica
 
-**❌ Mal**:
+**NO Mal**:
 ```python
 # En view1
 if user.permissions.filter(codename="perm").exists():
@@ -1456,7 +1456,7 @@ if user.permissions.filter(codename="perm").exists():
     ...
 ```
 
-**✅ Bien**:
+**OK Bien**:
 ```python
 # Centralizado en service
 if PermissionService.has_permission(user, "perm"):

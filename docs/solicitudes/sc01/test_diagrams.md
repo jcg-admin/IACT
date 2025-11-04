@@ -212,9 +212,9 @@ endif
 ## Resultado esperado
 
 Si el plugin Kroki está configurado correctamente, deberías ver:
-- ✅ 5 diagramas renderizados como imágenes SVG
-- ✅ Los diagramas deberían ser interactivos y escalables
-- ✅ No deberían aparecer bloques de código PlantUML sin renderizar
+- OK 5 diagramas renderizados como imágenes SVG
+- OK Los diagramas deberían ser interactivos y escalables
+- OK No deberían aparecer bloques de código PlantUML sin renderizar
 
 ## Verificación
 
@@ -227,12 +227,12 @@ Para verificar que funciona:
 ## Troubleshooting
 
 Si los diagramas NO se renderizan:
-- ❌ Verificar que `mkdocs-kroki-plugin` esté instalado
-- ❌ Verificar conexión a internet (Kroki usa https://kroki.io)
-- ❌ Revisar configuración en `mkdocs.yml`:
+- NO Verificar que `mkdocs-kroki-plugin` esté instalado
+- NO Verificar conexión a internet (Kroki usa https://kroki.io)
+- NO Revisar configuración en `mkdocs.yml`:
   ```yaml
   plugins:
     - kroki:
         ServerURL: https://kroki.io
   ```
-- ❌ Verificar que `pymdownx.superfences` esté en `markdown_extensions`
+- NO Verificar que `pymdownx.superfences` esté en `markdown_extensions`
