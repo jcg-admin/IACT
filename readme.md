@@ -2,6 +2,17 @@
 
 Repositorio monolítico para la plataforma de analítica de centros de contacto (IACT). El sistema opera con Django 5, PostgreSQL para persistencia analítica y MariaDB para lectura de IVR.
 
+## Inicio rápido
+
+El proyecto incluye un `Makefile` con comandos comunes:
+
+```bash
+make help          # Ver todos los comandos disponibles
+make setup         # Configurar entorno completo
+make vagrant-up    # Levantar bases de datos
+make docs-serve    # Ver documentación
+```
+
 ## Requisitos locales
 
 - Python 3.11+
@@ -9,6 +20,7 @@ Repositorio monolítico para la plataforma de analítica de centros de contacto 
 - VirtualBox 7+
 - Cliente PostgreSQL (`postgresql-client`)
 - Cliente MariaDB (`mariadb-client`)
+- GNU Make (para usar el Makefile)
 
 ## Levantar infraestructura de datos
 
@@ -32,6 +44,31 @@ Una vez que la VM esté en ejecución:
 ```
 
 El script prueba la conectividad contra las bases de datos utilizando las variables de entorno disponibles y reporta cualquier dependencia faltante.
+
+## Documentación
+
+El proyecto utiliza MkDocs para generar documentación estática. Usa el Makefile para gestionar la documentación:
+
+```bash
+# Instalar dependencias de documentación
+make docs-install
+
+# Construir documentación
+make docs-build
+
+# Servir documentación con live reload
+make docs-serve
+
+# Limpiar archivos generados
+make docs-clean
+
+# Desplegar a GitHub Pages
+make docs-deploy
+```
+
+La documentación estará disponible en:
+- **Local**: http://127.0.0.1:8000 (con `make docs-serve`)
+- **GitHub Pages**: https://2-coatl.github.io/IACT---project/
 
 ## Flujo de desarrollo
 
