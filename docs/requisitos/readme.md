@@ -39,7 +39,7 @@ implementacion/
 ## Source of Truth
 
 El **Source of Truth** para requisitos está en:
-- [Implementación - Requisitos](../implementacion/README.md)
+- [Implementación - Requisitos](../implementacion/readme.md)
 
 ## Generación Manual
 
@@ -67,7 +67,7 @@ python .github/workflows/scripts/generate_requirements_index.py
 ## Recursos
 
 ### Para Documentar Requisitos
-- [Guía de Implementación](../implementacion/README.md)
+- [Guía de Implementación](../implementacion/readme.md)
 - [Plantillas de Requisitos](../plantillas/readme.md)
 - [Propuesta de Reestructuración](../PROPUESTA_FINAL_REESTRUCTURACION.md)
 

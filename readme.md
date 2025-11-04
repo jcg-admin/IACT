@@ -21,7 +21,7 @@ El `vagrantfile` provisiona una VM Ubuntu que instala PostgreSQL y MariaDB media
 - PostgreSQL: `127.0.0.1:15432`
 - MariaDB: `127.0.0.1:13306`
 
-Las credenciales creadas son `django_user` / `django_pass` para ambos motores. Puedes ajustar las variables de entorno en tu `.env` siguiendo la tabla incluida en [docs/verificacion-servicios.md](docs/verificacion-servicios.md).
+Las credenciales creadas son `django_user` / `django_pass` para ambos motores. Puedes ajustar las variables de entorno en tu `.env` siguiendo la tabla incluida en [docs/devops/runbooks/verificar_servicios.md](docs/devops/runbooks/verificar_servicios.md).
 
 ## Verificar servicios
 
@@ -49,7 +49,7 @@ El script prueba la conectividad contra las bases de datos utilizando las variab
 
 ## Recursos adicionales
 
-- [Guía de verificación de servicios](docs/verificacion-servicios.md)
-- [ADR de arquitectura](docs/architecture-decision-records/Arquitectura%20GitHub%20Codespaces.md)
+- [Guía de verificación de servicios](docs/devops/runbooks/verificar_servicios.md)
+- [ADR de arquitectura](docs/arquitectura/adr/adr_2025_001_vagrant_mod_wsgi.md)
 - [Playbooks operativos](docs/infrastructure/devops/runbooks/playbooks_operativos/readme.md)
 

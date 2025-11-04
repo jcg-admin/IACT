@@ -16,13 +16,13 @@ nav:
   - Requisitos ISO 29148:
       - Índices consolidados: requisitos/readme.md
   - Implementación (Source of Truth):
-      - Portada: implementacion/README.md
+      - Portada: implementacion/readme.md
       - Backend:
-          - Requisitos: implementacion/backend/requisitos/README.md
+          - Requisitos: implementacion/backend/requisitos/readme.md
       - Frontend:
-          - Requisitos: implementacion/frontend/requisitos/README.md
+          - Requisitos: implementacion/frontend/requisitos/readme.md
       - Infrastructure:
-          - Requisitos: implementacion/infrastructure/requisitos/README.md
+          - Requisitos: implementacion/infrastructure/requisitos/readme.md
   - Arquitectura:
       - Portada: arquitectura/readme.md
       - Lineamientos de código: arquitectura/lineamientos_codigo.md

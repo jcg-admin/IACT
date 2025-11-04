@@ -19,7 +19,7 @@ docs/implementacion/backend/requisitos/
 └── no_funcionales/
 ```
 
-**👉 [IR A IMPLEMENTACION/BACKEND/REQUISITOS](../../implementacion/backend/requisitos/README.md)**
+**👉 [IR A IMPLEMENTACION/BACKEND/REQUISITOS](../../implementacion/backend/requisitos/readme.md)**
 
 ---
 
@@ -85,7 +85,7 @@ git push
 
 ## 📚 Recursos
 
-- [Estructura completa](../../implementacion/README.md)
+- [Estructura completa](../../implementacion/readme.md)
 - [Plantillas ISO 29148](../../plantillas/readme.md)
 - [Glosario BABOK/PMBOK/ISO](../../anexos/glosario_babok_pmbok_iso.md)
 - [Propuesta de Reestructuración](../../PROPUESTA_FINAL_REESTRUCTURACION.md)

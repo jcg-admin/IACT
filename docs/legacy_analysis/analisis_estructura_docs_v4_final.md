@@ -174,7 +174,7 @@ El sistema **deberá** proporcionar una API REST que calcule el stock mínimo...
 - **RN-001**: Requisito de negocio - Sistema de alertas _(ejemplo ilustrativo)_
 - **RS-001**: Requisito stakeholder - Alertas para gerente _(ejemplo ilustrativo)_
 
-> **Nota**: Los enlaces anteriores eran ejemplos. Para la estructura real de requisitos, consulta [docs/implementacion/](../implementacion/README.md).
+> **Nota**: Los enlaces anteriores eran ejemplos. Para la estructura real de requisitos, consulta [docs/implementacion/](../implementacion/readme.md).
 ```
 
 ---
