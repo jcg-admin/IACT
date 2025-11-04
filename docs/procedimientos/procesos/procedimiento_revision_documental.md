@@ -80,7 +80,7 @@ find docs -name "*.md" -exec grep -l "](.*)" {} \; | \
   xargs -I {} bash -c 'echo "Checking {}"; grep -o "](.*)" {}'
 
 # Spell check (opcional)
-aspell check docs/procedimientos/procedimiento_qa.md
+aspell check docs/procedimientos/procesos/procedimiento_qa.md
 ```
 
 ### 2. Checklist de Auto-Revisión
