@@ -296,6 +296,11 @@ Las condiciones que DEBEN cumplirse antes de iniciar el caso de uso:
   - Extend (flecha punteada con <<extend>>): Extensión opcional
   - Generalización (flecha con triángulo): Herencia
 
+**Archivos de ejemplo disponibles**:
+- [UC-001_generar_reporte_metricas.puml](../anexos/diagramas/casos_de_uso/UC-001_generar_reporte_metricas.puml)
+- [UC-002_registrar_llamada_entrante.puml](../anexos/diagramas/casos_de_uso/UC-002_registrar_llamada_entrante.puml)
+- [UC-003_consultar_estado_pedido.puml](../anexos/diagramas/casos_de_uso/UC-003_consultar_estado_pedido.puml)
+
 **Ejemplo PlantUML**:
 
 ```plantuml
@@ -322,30 +327,14 @@ IVR --> UC001 : proporciona datos
 @enduml
 ```
 
-**Renderizado**:
-```
-┌─────────────┐
-│   Analista  │
-│   de Negocio│
-└──────┬──────┘
-       │
-       │ usa
-       ▼
-   ╭─────────────────────────╮
-   │ Generar Reporte de      │
-   │ Métricas                │
-   ╰───────┬─────────────────╯
-           │
-           ├──<<include>>──► Seleccionar Período
-           │
-           ├──<<extend>>───► Exportar a PDF
-           │
-           └──<<extend>>───► Enviar por Email
-```
-
 ### 3.2 Diagrama de Secuencia (Sequence Diagram)
 
 **Propósito**: Mostrar la secuencia de interacciones entre actor y sistema.
+
+**Archivos de ejemplo disponibles**:
+- [UC-001_generar_reporte_metricas_seq.puml](../anexos/diagramas/secuencia/UC-001_generar_reporte_metricas_seq.puml)
+- [UC-002_registrar_llamada_entrante_seq.puml](../anexos/diagramas/secuencia/UC-002_registrar_llamada_entrante_seq.puml)
+- [UC-003_consultar_estado_pedido_seq.puml](../anexos/diagramas/secuencia/UC-003_consultar_estado_pedido_seq.puml)
 
 **Ejemplo PlantUML**:
 
@@ -391,6 +380,11 @@ deactivate Sistema
 ### 3.3 Diagrama de Actividad (Activity Diagram)
 
 **Propósito**: Mostrar el flujo de control completo, incluyendo flujos alternos.
+
+**Archivos de ejemplo disponibles**:
+- [UC-001_generar_reporte_metricas_act.puml](../anexos/diagramas/actividad/UC-001_generar_reporte_metricas_act.puml)
+- [UC-002_registrar_llamada_entrante_act.puml](../anexos/diagramas/actividad/UC-002_registrar_llamada_entrante_act.puml)
+- [UC-003_consultar_estado_pedido_act.puml](../anexos/diagramas/actividad/UC-003_consultar_estado_pedido_act.puml)
 
 **Ejemplo PlantUML**:
 
@@ -783,15 +777,30 @@ graph TD
 
 ### UC-001: Generar Reporte de Métricas
 
-Ver archivo: `docs/casos_de_uso/UC-001_generar_reporte_metricas.md`
+**Especificación**: `docs/casos_de_uso/UC-001_generar_reporte_metricas.md` (pendiente)
+
+**Diagramas**:
+- [Casos de Uso](../anexos/diagramas/casos_de_uso/UC-001_generar_reporte_metricas.puml)
+- [Secuencia](../anexos/diagramas/secuencia/UC-001_generar_reporte_metricas_seq.puml)
+- [Actividad](../anexos/diagramas/actividad/UC-001_generar_reporte_metricas_act.puml)
 
 ### UC-002: Registrar Llamada Entrante
 
-Ver archivo: `docs/casos_de_uso/UC-002_registrar_llamada_entrante.md`
+**Especificación**: `docs/casos_de_uso/UC-002_registrar_llamada_entrante.md` (pendiente)
+
+**Diagramas**:
+- [Casos de Uso](../anexos/diagramas/casos_de_uso/UC-002_registrar_llamada_entrante.puml)
+- [Secuencia](../anexos/diagramas/secuencia/UC-002_registrar_llamada_entrante_seq.puml)
+- [Actividad](../anexos/diagramas/actividad/UC-002_registrar_llamada_entrante_act.puml)
 
 ### UC-003: Consultar Estado de Pedido
 
-Ver archivo: `docs/casos_de_uso/UC-003_consultar_estado_pedido.md`
+**Especificación**: `docs/casos_de_uso/UC-003_consultar_estado_pedido.md` (pendiente)
+
+**Diagramas**:
+- [Casos de Uso](../anexos/diagramas/casos_de_uso/UC-003_consultar_estado_pedido.puml)
+- [Secuencia](../anexos/diagramas/secuencia/UC-003_consultar_estado_pedido_seq.puml)
+- [Actividad](../anexos/diagramas/actividad/UC-003_consultar_estado_pedido_act.puml)
 
 ---
 
