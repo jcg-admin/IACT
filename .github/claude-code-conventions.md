@@ -341,7 +341,7 @@ gh pr create --title "Agregar dashboard de analytics" \
 
 ## 13. Scripts: Reglas de Output Profesional
 
-### ⚠️ REGLA DE ORO
+### ⚠️ REGLA FUNDAMENTAL
 
 **NUNCA usar emojis, iconos Unicode decorativos, ni símbolos especiales en el output de scripts de producción.**
 
