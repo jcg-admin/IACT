@@ -1,0 +1,98 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "callcentersite"
+version = "0.1.0"
+description = "CallCenter Django API Application"
+requires-python = ">=3.12"
+readme = "readme.md"
+authors = [
+    {name = "CallCenter Team"}
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Framework :: Django :: 4.2",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3.12",
+]
+
+[tool.black]
+line-length = 100
+target-version = ['py312']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # directories
+  \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | build
+  | dist
+  | migrations
+)/
+'''
+
+[tool.isort]
+profile = "black"
+line_length = 100
+skip_gitignore = true
+known_first_party = ["callcentersite"]
+skip = ["migrations"]
+
+[tool.mypy]
+python_version = "3.12"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false
+ignore_missing_imports = true
+exclude = [
+    "migrations/",
+    "venv/",
+]
+
+[tool.pylint.messages_control]
+disable = [
+    "C0111",  # missing-docstring
+    "C0103",  # invalid-name
+    "R0903",  # too-few-public-methods
+]
+
+[tool.pylint.format]
+max-line-length = 100
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "callcentersite.settings"
+python_files = ["tests.py", "test_*.py", "*_tests.py"]
+testpaths = ["."]
+addopts = "-v --strict-markers --tb=short"
+
+[tool.coverage.run]
+source = ["."]
+omit = [
+    "*/migrations/*",
+    "*/tests/*",
+    "*/test_*.py",
+    "*/__pycache__/*",
+    "manage.py",
+    "*/wsgi.py",
+    "*/asgi.py",
+]
+branch = true
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:",
+    "@abstractmethod",
+]
+precision = 2
+show_missing = true
