@@ -1,0 +1,10 @@
+# Requisitos Funcionales Frontend (Functional Requirements)
+
+Esta carpeta contiene documentos RF-XXX específicos del frontend siguiendo ISO 29148 Clause 9.6.
+
+Archivos esperados:
+- rf010_dashboard_alertas.md
+- rf011_filtros_tiempo_real.md
+- etc.
+
+Usa la plantilla: docs/plantillas/template_requisito_funcional.md

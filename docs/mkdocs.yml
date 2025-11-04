@@ -8,7 +8,8 @@ nav:
       - Portada: vision_y_alcance/readme.md
       - Glosario de negocio: vision_y_alcance/glossary.md
   - Gobernanza: gobernanza/readme.md
-  - Requisitos (Índices ISO 29148): requisitos/readme.md
+  - Requisitos ISO 29148:
+      - Índices consolidados: requisitos/readme.md
   - Implementación (Source of Truth):
       - Portada: implementacion/README.md
       - Backend:
@@ -35,6 +36,9 @@ nav:
       - Estrategia de QA: qa/estrategia_qa.md
       - Registros de ejecución:
           - Pytest 2025-02-16: qa/registros/2025_02_16_ejecucion_pytest.md
+          - Revisión docs 2025-02-20: qa/registros/2025_02_20_revision_documentacion.md
+          - Revisión backend 2025-02-21: qa/registros/2025_02_21_revision_backend.md
+          - Pytest 2025-11-02: qa/registros/2025_11_02_ejecucion_pytest.md
   - DevOps:
       - Portada: devops/readme.md
       - Contenedores: devops/contenedores_devcontainer.md
