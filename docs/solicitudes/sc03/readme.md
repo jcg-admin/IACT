@@ -140,6 +140,7 @@ Los documentos técnicos finales se publicarán en:
 ## Referencias cruzadas
 
 - [SC02 - Documentación de API](../sc02/readme.md)
+- [Planificación Detallada](../../backend/planificacion_documentacion.md) ⭐ **NUEVO** - Plan completo de ejecución
 - [Patrones Arquitectónicos](../../backend/arquitectura/patrones_arquitectonicos.md)
 - [Guía de Decisión de Patrones](../../backend/arquitectura/guia_decision_patrones.md)
 - [Análisis Funcional de Apps](../sc02/analisis_funcion_real_apps.md)

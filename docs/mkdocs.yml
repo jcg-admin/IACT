@@ -32,6 +32,7 @@ nav:
   - Diseño detallado: diseno_detallado/readme.md
   - Backend:
       - Portada: backend/readme.md
+      - Planificación de Documentación: backend/planificacion_documentacion.md
       - Arquitectura:
           - Portada: backend/arquitectura/readme.md
           - Lineamientos de código: backend/arquitectura/lineamientos_codigo.md

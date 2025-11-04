@@ -2,8 +2,8 @@
 id: DOC-BACKEND-INDEX
 estado: borrador
 propietario: equipo-backend
-ultima_actualizacion: 2025-02-20
-relacionados: ["DOC-INDEX-GENERAL", "DOC-FRONTEND-INDEX"]
+ultima_actualizacion: 2025-11-04
+relacionados: ["DOC-INDEX-GENERAL", "DOC-FRONTEND-INDEX", "DOC-SOL-SC03"]
 ---
 # Espacio de documentación - Backend
 
@@ -26,14 +26,29 @@ vincular la evidencia correspondiente, siguiendo lo establecido en [documentacio
 - Las decisiones de infraestructura compartida se documentan en `../infrastructure/` y se enlazan desde este espacio.
 - Cualquier automatización experimental debe registrarse como borrador hasta contar con evidencia reproducible.
 
+## 📋 Documentación Activa
+
+### Planificación de Documentación de Apps
+- [`planificacion_documentacion.md`](planificacion_documentacion.md) - ⭐ **NUEVO** - Planificación detallada para documentar las 10 apps Django
+  - **Alcance**: ~12,000 líneas, 40 diagramas
+  - **Timeline**: 5 semanas (238 horas)
+  - **Fases**: Apps críticas, soporte, integración
+  - **Estado**: En ejecución (SC03)
+
+### Arquitectura
+- [`arquitectura/patrones_arquitectonicos.md`](arquitectura/patrones_arquitectonicos.md) - ✅ 6 patrones documentados
+- [`arquitectura/guia_decision_patrones.md`](arquitectura/guia_decision_patrones.md) - ✅ Decision tree para elegir patrones
+- [`arquitectura/lineamientos_codigo.md`](arquitectura/lineamientos_codigo.md) - Lineamientos de código
+
 ## Árbol de páginas espejo
 
 | Página origen | Ubicación local | Estado | Comentarios |
 | --- | --- | --- | --- |
-| docs/backend/arquitectura/readme.md | `arquitectura/readme.md` | Pendiente | Migrar desde repositorio maestro.
+| docs/backend/planificacion_documentacion.md | `planificacion_documentacion.md` | ✅ Completado | Planificación detallada SC03 |
+| docs/backend/arquitectura/readme.md | `arquitectura/readme.md` | ✅ Completado | Patrones arquitectónicos documentados |
 | docs/backend/checklists/readme.md | `checklists/readme.md` | Pendiente | Crear checklist de despliegues.
 | docs/backend/devops/readme.md | `devops/readme.md` | Pendiente | Definir scripts de CI/CD.
-| docs/backend/diseno_detallado/readme.md | `diseno_detallado/readme.md` | Pendiente | Incorporar modelos de datos.
+| docs/backend/diseno_detallado/readme.md | `diseno_detallado/readme.md` | 🔄 En progreso | SC03: Documentar 10 apps Django |
 | docs/backend/planificacion_y_releases/readme.md | `planificacion_y_releases/readme.md` | Pendiente | Necesita cronograma vigente.
 | docs/backend/qa/readme.md | `qa/readme.md` | Pendiente | Documentar métricas de cobertura.
 | docs/backend/requisitos/readme.md | `requisitos/readme.md` | Pendiente | Sincronizar historias de usuario.
