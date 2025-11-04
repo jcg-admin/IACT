@@ -6,7 +6,7 @@ set -e
 
 BUMP_TYPE="${1:-auto}"
 
-echo "🔍 Calculating next version..."
+echo "Calculating next version..."
 
 # Get current version from latest tag
 CURRENT_VERSION=$(git describe --tags --abbrev=0 2>/dev/null || echo "v0.0.0")
@@ -20,7 +20,7 @@ IFS='.' read -r MAJOR MINOR PATCH <<< "$CURRENT_VERSION_NUMBER"
 
 # Auto-detect bump type from commits
 if [ "$BUMP_TYPE" = "auto" ]; then
-    echo "🤖 Auto-detecting version bump type from commits..."
+    echo "Auto-detecting version bump type from commits..."
 
     # Get commits since last tag
     if [ "$CURRENT_VERSION" = "v0.0.0" ]; then
@@ -62,7 +62,7 @@ case $BUMP_TYPE in
         NEXT_PATCH=$((PATCH + 1))
         ;;
     *)
-        echo "❌ Invalid bump type: $BUMP_TYPE"
+        echo "ERROR: Invalid bump type: $BUMP_TYPE"
         echo "Valid types: major, minor, patch, auto"
         exit 1
         ;;
@@ -71,7 +71,7 @@ esac
 NEXT_VERSION="v${NEXT_MAJOR}.${NEXT_MINOR}.${NEXT_PATCH}"
 
 echo ""
-echo "📦 Version Calculation:"
+echo "Version Calculation:"
 echo "  Current: $CURRENT_VERSION"
 echo "  Bump Type: $BUMP_TYPE"
 echo "  Next: $NEXT_VERSION"

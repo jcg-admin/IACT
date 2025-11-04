@@ -8,12 +8,12 @@ VERSION="$1"
 VERSION_NUMBER="${VERSION#v}"
 
 if [ -z "$VERSION" ]; then
-    echo "❌ Error: Version argument required"
+    echo "ERROR: Version argument required"
     echo "Usage: $0 v1.2.3"
     exit 1
 fi
 
-echo "📦 Creating release packages for $VERSION..."
+echo "Creating release packages for $VERSION..."
 
 # Create dist directory
 mkdir -p dist
@@ -26,7 +26,7 @@ TEMP_DIR="dist/${PACKAGE_NAME}"
 # Create temporary directory structure
 mkdir -p "$TEMP_DIR"
 
-echo "📋 Collecting files for release package..."
+echo "Collecting files for release package..."
 
 # Copy documentation
 if [ -d "docs" ]; then
@@ -70,15 +70,15 @@ EOF
 echo "  - Created RELEASE_INFO.txt"
 
 # Create ZIP archive
-echo "🗜️  Creating ZIP archive..."
+echo "Creating ZIP archive..."
 cd dist
 zip -r "${PACKAGE_NAME}.zip" "${PACKAGE_NAME}" -q
-echo "✅ Created: dist/${PACKAGE_NAME}.zip"
+echo "Created: dist/${PACKAGE_NAME}.zip"
 
 # Create TAR.GZ archive
-echo "🗜️  Creating TAR.GZ archive..."
+echo "Creating TAR.GZ archive..."
 tar -czf "${PACKAGE_NAME}.tar.gz" "${PACKAGE_NAME}"
-echo "✅ Created: dist/${PACKAGE_NAME}.tar.gz"
+echo "Created: dist/${PACKAGE_NAME}.tar.gz"
 
 # Cleanup temp directory
 rm -rf "${PACKAGE_NAME}"
@@ -86,14 +86,14 @@ rm -rf "${PACKAGE_NAME}"
 # Show package info
 cd ..
 echo ""
-echo "📊 Package Information:"
+echo "Package Information:"
 echo "-----------------------------------"
 ls -lh dist/
 echo "-----------------------------------"
 
 # Calculate checksums
 echo ""
-echo "🔒 Checksums:"
+echo "Checksums:"
 cd dist
 for file in *.zip *.tar.gz; do
     if [ -f "$file" ]; then
@@ -107,8 +107,8 @@ cd ..
 # Create checksums file
 cd dist
 sha256sum *.zip *.tar.gz > "${PACKAGE_NAME}.sha256"
-echo "✅ Created: dist/${PACKAGE_NAME}.sha256"
+echo "Created: dist/${PACKAGE_NAME}.sha256"
 cd ..
 
 echo ""
-echo "✅ Release packages created successfully in dist/"
+echo "Release packages created successfully in dist/"
