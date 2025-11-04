@@ -22,10 +22,10 @@ Esta solicitud documenta el proceso de creación de documentación técnica deta
 ## Contexto
 
 La solicitud SC02 estableció la **base arquitectónica** del proyecto:
-- ✅ Análisis estructural y funcional de las apps
-- ✅ Documentación de patrones arquitectónicos existentes
-- ✅ Guías de decisión para nuevos desarrollos
-- ✅ Plantillas especializadas (Django App, ETL Job)
+-  Análisis estructural y funcional de las apps
+-  Documentación de patrones arquitectónicos existentes
+-  Guías de decisión para nuevos desarrollos
+-  Plantillas especializadas (Django App, ETL Job)
 
 **SC03 construye sobre esa base** para documentar cada app individual con:
 - Modelos de datos y relaciones
@@ -102,16 +102,16 @@ Los documentos técnicos finales se publicarán en:
 
 | App | Estado | Responsable | Fecha estimada |
 | --- | --- | --- | --- |
-| etl | ⏸️ Pendiente | Equipo Backend | Por definir |
-| analytics | ⏸️ Pendiente | Equipo Backend | Por definir |
-| reports | ⏸️ Pendiente | Equipo Backend | Por definir |
-| audit | ⏸️ Pendiente | Equipo Backend | Por definir |
-| dashboard | ⏸️ Pendiente | Equipo Backend | Por definir |
-| authentication | ⏸️ Pendiente | Equipo Backend | Por definir |
-| users | ⏸️ Pendiente | Equipo Backend | Por definir |
-| ivr_legacy | ⏸️ Pendiente | Equipo Backend | Por definir |
-| notifications | ⏸️ Pendiente | Equipo Backend | Por definir |
-| common | ⏸️ Pendiente | Equipo Backend | Por definir |
+| etl |  Pendiente | Equipo Backend | Por definir |
+| analytics |  Pendiente | Equipo Backend | Por definir |
+| reports |  Pendiente | Equipo Backend | Por definir |
+| audit |  Pendiente | Equipo Backend | Por definir |
+| dashboard |  Pendiente | Equipo Backend | Por definir |
+| authentication |  Pendiente | Equipo Backend | Por definir |
+| users |  Pendiente | Equipo Backend | Por definir |
+| ivr_legacy |  Pendiente | Equipo Backend | Por definir |
+| notifications |  Pendiente | Equipo Backend | Por definir |
+| common |  Pendiente | Equipo Backend | Por definir |
 
 ## Checklist operativo
 
@@ -129,9 +129,9 @@ Los documentos técnicos finales se publicarán en:
 ## Dependencias
 
 **Requiere completar (de SC02)**:
-- ✅ Análisis funcional de apps
-- ✅ Documentación de patrones arquitectónicos
-- ✅ Plantillas especializadas (Django App, ETL Job)
+-  Análisis funcional de apps
+-  Documentación de patrones arquitectónicos
+-  Plantillas especializadas (Django App, ETL Job)
 
 **Bloquea**:
 - Documentación de API REST (necesita conocer endpoints)
@@ -140,7 +140,7 @@ Los documentos técnicos finales se publicarán en:
 ## Referencias cruzadas
 
 - [SC02 - Documentación de API](../sc02/readme.md)
-- [Planificación Detallada](../../backend/planificacion_documentacion.md) ⭐ **NUEVO** - Plan completo de ejecución
+- [Planificación Detallada](../../backend/planificacion_documentacion.md)  **NUEVO** - Plan completo de ejecución
 - [Patrones Arquitectónicos](../../backend/arquitectura/patrones_arquitectonicos.md)
 - [Guía de Decisión de Patrones](../../backend/arquitectura/guia_decision_patrones.md)
 - [Análisis Funcional de Apps](../sc02/analisis_funcion_real_apps.md)

@@ -9,7 +9,7 @@ relacionados: ["DOC-SOL-SC03", "DOC-ARQ-BACKEND", "DOC-BACKEND-INDEX"]
 
 # Planificación de Documentación de Apps Django
 
-## 📋 Índice
+##  Índice
 
 1. [Visión General](#visión-general)
 2. [Desglose por App](#desglose-por-app)
@@ -56,7 +56,7 @@ Documentar exhaustivamente las **10 aplicaciones Django** del backend siguiendo 
 
 #### 1. ETL (Extract-Transform-Load)
 
-**Prioridad**: 🔴 CRÍTICA | **Complejidad**: Alta | **Estimación**: 2-3 días
+**Prioridad**:  CRÍTICA | **Complejidad**: Alta | **Estimación**: 2-3 días
 
 ##### Información General
 - **Propósito**: Pipeline de datos desde IVR legacy a Analytics
@@ -145,7 +145,7 @@ Documentar exhaustivamente las **10 aplicaciones Django** del backend siguiendo 
 
 #### 2. Analytics
 
-**Prioridad**: 🔴 CRÍTICA | **Complejidad**: Media | **Estimación**: 1-2 días
+**Prioridad**:  CRÍTICA | **Complejidad**: Media | **Estimación**: 1-2 días
 
 ##### Información General
 - **Propósito**: Almacenamiento de métricas y KPIs
@@ -231,7 +231,7 @@ Documentar exhaustivamente las **10 aplicaciones Django** del backend siguiendo 
 
 #### 3. Reports
 
-**Prioridad**: 🔴 CRÍTICA | **Complejidad**: Media-Alta | **Estimación**: 2 días
+**Prioridad**:  CRÍTICA | **Complejidad**: Media-Alta | **Estimación**: 2 días
 
 ##### Información General
 - **Propósito**: Generación de reportes en múltiples formatos
@@ -312,7 +312,7 @@ Documentar exhaustivamente las **10 aplicaciones Django** del backend siguiendo 
 
 #### 4. Audit
 
-**Prioridad**: 🟡 MEDIA | **Complejidad**: Media | **Estimación**: 1 día
+**Prioridad**:  MEDIA | **Complejidad**: Media | **Estimación**: 1 día
 
 ##### Información General
 - **Propósito**: Sistema de auditoría inmutable
@@ -380,7 +380,7 @@ Documentar exhaustivamente las **10 aplicaciones Django** del backend siguiendo 
 
 #### 5. Dashboard
 
-**Prioridad**: 🟡 MEDIA | **Complejidad**: Media-Alta | **Estimación**: 2 días
+**Prioridad**:  MEDIA | **Complejidad**: Media-Alta | **Estimación**: 2 días
 
 ##### Información General
 - **Propósito**: Orquestación de widgets, API REST
@@ -461,7 +461,7 @@ Documentar exhaustivamente las **10 aplicaciones Django** del backend siguiendo 
 
 #### 6. Authentication
 
-**Prioridad**: 🟡 MEDIA | **Complejidad**: Media | **Estimación**: 1-2 días
+**Prioridad**:  MEDIA | **Complejidad**: Media | **Estimación**: 1-2 días
 
 ##### Información General
 - **Propósito**: Autenticación y seguridad
@@ -514,7 +514,7 @@ Documentar exhaustivamente las **10 aplicaciones Django** del backend siguiendo 
 
 #### 7. Users
 
-**Prioridad**: 🟡 MEDIA | **Complejidad**: Alta | **Estimación**: 2 días
+**Prioridad**:  MEDIA | **Complejidad**: Alta | **Estimación**: 2 días
 
 ##### Información General
 - **Propósito**: Sistema custom de permisos
@@ -605,7 +605,7 @@ Documentar exhaustivamente las **10 aplicaciones Django** del backend siguiendo 
 
 #### 8. IVR Legacy
 
-**Prioridad**: 🟢 BAJA | **Complejidad**: Media | **Estimación**: 1 día
+**Prioridad**:  BAJA | **Complejidad**: Media | **Estimación**: 1 día
 
 ##### Información General
 - **Propósito**: Integración read-only con BD legacy
@@ -684,7 +684,7 @@ Documentar exhaustivamente las **10 aplicaciones Django** del backend siguiendo 
 
 #### 9. Notifications
 
-**Prioridad**: 🟢 BAJA | **Complejidad**: Baja | **Estimación**: 1 día
+**Prioridad**:  BAJA | **Complejidad**: Baja | **Estimación**: 1 día
 
 ##### Información General
 - **Propósito**: Mensajería interna del sistema
@@ -741,7 +741,7 @@ Documentar exhaustivamente las **10 aplicaciones Django** del backend siguiendo 
 
 #### 10. Common
 
-**Prioridad**: 🟢 BAJA | **Complejidad**: Baja | **Estimación**: 1 día
+**Prioridad**:  BAJA | **Complejidad**: Baja | **Estimación**: 1 día
 
 ##### Información General
 - **Propósito**: Utilidades compartidas (abstract models)
@@ -885,21 +885,21 @@ Documentar exhaustivamente las **10 aplicaciones Django** del backend siguiendo 
 
 | Herramienta | Propósito | Estado |
 |-------------|-----------|--------|
-| **MkDocs** | Generar sitio estático | ✅ Instalado |
-| **PlantUML** | Crear diagramas | ✅ Disponible vía Kroki |
-| **Kroki plugin** | Renderizar PlantUML en MkDocs | ✅ Configurado |
-| **VS Code** | Editor de markdown | ✅ Disponible |
-| **Git** | Control de versiones | ✅ Configurado |
-| **GitHub** | Repositorio y PRs | ✅ Acceso |
+| **MkDocs** | Generar sitio estático |  Instalado |
+| **PlantUML** | Crear diagramas |  Disponible vía Kroki |
+| **Kroki plugin** | Renderizar PlantUML en MkDocs |  Configurado |
+| **VS Code** | Editor de markdown |  Disponible |
+| **Git** | Control de versiones |  Configurado |
+| **GitHub** | Repositorio y PRs |  Acceso |
 
 ### Acceso Requerido
 
-- ✅ Código fuente en `api/callcentersite/`
-- ✅ Tests en `api/callcentersite/tests/`
-- ✅ Settings en `api/callcentersite/callcentersite/settings/`
-- ✅ Base de datos de desarrollo (para validar queries)
-- ✅ Logs de aplicación (para troubleshooting)
-- ⚠️ Acceso a desarrolladores originales (para consultas)
+-  Código fuente en `api/callcentersite/`
+-  Tests en `api/callcentersite/tests/`
+-  Settings en `api/callcentersite/callcentersite/settings/`
+-  Base de datos de desarrollo (para validar queries)
+-  Logs de aplicación (para troubleshooting)
+-  Acceso a desarrolladores originales (para consultas)
 
 ---
 
@@ -1065,24 +1065,24 @@ Documentar exhaustivamente las **10 aplicaciones Django** del backend siguiendo 
 
 ### Dependencias Internas
 
-- ✅ SC02 completado (patrones, plantillas)
-- ✅ MkDocs configurado
-- ✅ Kroki plugin funcionando
-- ✅ Plantillas creadas
+-  SC02 completado (patrones, plantillas)
+-  MkDocs configurado
+-  Kroki plugin funcionando
+-  Plantillas creadas
 
 ### Dependencias Externas
 
-- ⚠️ Acceso a desarrolladores originales (para consultas)
-- ⚠️ Tiempo del arquitecto (para revisiones)
-- ⚠️ Tiempo del revisor técnico
-- ⚠️ Ambiente de desarrollo funcional
+-  Acceso a desarrolladores originales (para consultas)
+-  Tiempo del arquitecto (para revisiones)
+-  Tiempo del revisor técnico
+-  Ambiente de desarrollo funcional
 
 ### Bloqueadores Potenciales
 
-- 🚫 Código en refactorización activa
-- 🚫 Cambios mayores en arquitectura
-- 🚫 Prioridades del equipo cambian
-- 🚫 Recursos reasignados
+-  Código en refactorización activa
+-  Cambios mayores en arquitectura
+-  Prioridades del equipo cambian
+-  Recursos reasignados
 
 ---
 
@@ -1090,25 +1090,25 @@ Documentar exhaustivamente las **10 aplicaciones Django** del backend siguiendo 
 
 ### Por App
 
-- ✅ Documento completo siguiendo plantilla
-- ✅ Todas las secciones documentadas
-- ✅ Mínimo 3 ejemplos de código
-- ✅ Todos los diagramas creados y renderizando
-- ✅ Sección de troubleshooting completa
-- ✅ Referencias cruzadas funcionando
-- ✅ En navegación de MkDocs
+-  Documento completo siguiendo plantilla
+-  Todas las secciones documentadas
+-  Mínimo 3 ejemplos de código
+-  Todos los diagramas creados y renderizando
+-  Sección de troubleshooting completa
+-  Referencias cruzadas funcionando
+-  En navegación de MkDocs
 
 ### Global
 
-- ✅ 10 apps documentadas
-- ✅ 40 diagramas funcionando
-- ✅ Guía de APIs REST creada
-- ✅ Mapa de dependencias creado
-- ✅ Troubleshooting general creado
-- ✅ Índices actualizados
-- ✅ `mkdocs build` exitoso (0 errores)
-- ✅ Revisión por equipo completada
-- ✅ PR aprobado y mergeado
+-  10 apps documentadas
+-  40 diagramas funcionando
+-  Guía de APIs REST creada
+-  Mapa de dependencias creado
+-  Troubleshooting general creado
+-  Índices actualizados
+-  `mkdocs build` exitoso (0 errores)
+-  Revisión por equipo completada
+-  PR aprobado y mergeado
 
 ---
 

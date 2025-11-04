@@ -68,12 +68,12 @@ Crear documentación técnica completa que permita a cualquier desarrollador:
 
 ### 3.2 Fuera del Alcance
 
-- ❌ Creación de nuevos tests (solo documentar existentes)
-- ❌ Refactorización de código
-- ❌ Implementación de nuevas funcionalidades
-- ❌ Migración de bases de datos
-- ❌ Optimización de queries
-- ❌ Documentación de frontend (fuera de backend)
+-  Creación de nuevos tests (solo documentar existentes)
+-  Refactorización de código
+-  Implementación de nuevas funcionalidades
+-  Migración de bases de datos
+-  Optimización de queries
+-  Documentación de frontend (fuera de backend)
 
 ## 4. Apps a Documentar
 
@@ -209,12 +209,12 @@ Crear documentación técnica completa que permita a cualquier desarrollador:
 ### 6.2 Control de calidad
 
 Cada documento debe cumplir:
-- ✅ Sigue la plantilla apropiada
-- ✅ Incluye todos los diagramas requeridos
-- ✅ Los diagramas renderizan correctamente
-- ✅ El código de ejemplo compila
-- ✅ Las referencias cruzadas funcionan
-- ✅ Está en la navegación de MkDocs
+-  Sigue la plantilla apropiada
+-  Incluye todos los diagramas requeridos
+-  Los diagramas renderizan correctamente
+-  El código de ejemplo compila
+-  Las referencias cruzadas funcionan
+-  Está en la navegación de MkDocs
 
 ## 7. Timeline Estimado
 
@@ -233,21 +233,21 @@ Cada documento debe cumplir:
 ### 8.1 Dependencias
 
 **Requiere completar (de SC02)**:
-- ✅ Análisis funcional de apps
-- ✅ Documentación de patrones arquitectónicos
-- ✅ Plantillas especializadas
+-  Análisis funcional de apps
+-  Documentación de patrones arquitectónicos
+-  Plantillas especializadas
 
 **Requiere acceso a**:
-- ✅ Código fuente en `api/callcentersite/`
-- ✅ Tests en `api/callcentersite/tests/`
-- ✅ Settings en `api/callcentersite/callcentersite/settings/`
+-  Código fuente en `api/callcentersite/`
+-  Tests en `api/callcentersite/tests/`
+-  Settings en `api/callcentersite/callcentersite/settings/`
 
 ### 8.2 Bloqueadores potenciales
 
-- ⚠️ Código sin comentarios (requiere análisis profundo)
-- ⚠️ Lógica compleja sin documentar (requiere consulta con autores)
-- ⚠️ Tests faltantes (dificulta entender casos de uso)
-- ⚠️ Configuración no documentada (requiere experimentación)
+-  Código sin comentarios (requiere análisis profundo)
+-  Lógica compleja sin documentar (requiere consulta con autores)
+-  Tests faltantes (dificulta entender casos de uso)
+-  Configuración no documentada (requiere experimentación)
 
 ### 8.3 Riesgos
 
@@ -262,23 +262,23 @@ Cada documento debe cumplir:
 
 ### 9.1 Por cada app
 
-- ✅ Documento completo siguiendo plantilla
-- ✅ Todos los modelos documentados
-- ✅ Todos los servicios documentados (si existen)
-- ✅ Diagramas incluidos y renderizando
-- ✅ Sección de troubleshooting completa
-- ✅ Referencias cruzadas funcionando
-- ✅ En navegación de MkDocs
+-  Documento completo siguiendo plantilla
+-  Todos los modelos documentados
+-  Todos los servicios documentados (si existen)
+-  Diagramas incluidos y renderizando
+-  Sección de troubleshooting completa
+-  Referencias cruzadas funcionando
+-  En navegación de MkDocs
 
 ### 9.2 Global
 
-- ✅ Las 10 apps documentadas
-- ✅ Guía de APIs REST creada
-- ✅ Mapa de dependencias creado
-- ✅ Índices actualizados
-- ✅ MkDocs build exitoso
-- ✅ Revisión por equipo completada
-- ✅ Pull Request aprobado
+-  Las 10 apps documentadas
+-  Guía de APIs REST creada
+-  Mapa de dependencias creado
+-  Índices actualizados
+-  MkDocs build exitoso
+-  Revisión por equipo completada
+-  Pull Request aprobado
 
 ## 10. Métricas de Éxito
 

@@ -11,7 +11,7 @@ relacionados: ["DOC-SOL-SC02", "DOC-ARQ-BACKEND"]
 
 Análisis completo de la estructura del directorio `api/callcentersite` para evaluar si cumple con las mejores prácticas de Django y identificar oportunidades de mejora.
 
-**Resultado**: ✅ **BUENA ESTRUCTURA GENERAL** con algunas oportunidades de mejora.
+**Resultado**:  **BUENA ESTRUCTURA GENERAL** con algunas oportunidades de mejora.
 
 ---
 
@@ -26,7 +26,7 @@ api/
     ├── coveragerc                     # Configuración de cobertura
     ├── env.example                    # Ejemplo de variables de entorno
     │
-    ├── requirements/                  # ✅ EXCELENTE: requirements separados
+    ├── requirements/                  #  EXCELENTE: requirements separados
     │   ├── base.txt
     │   ├── dev.txt
     │   └── test.txt
@@ -35,9 +35,9 @@ api/
     │   ├── __init__.py
     │   ├── urls.py                   # URLs principales
     │   ├── wsgi.py                   # Punto de entrada WSGI
-    │   ├── database_router.py        # ✅ EXCELENTE: Router multi-database
+    │   ├── database_router.py        #  EXCELENTE: Router multi-database
     │   │
-    │   ├── settings/                 # ✅ EXCELENTE: Settings por ambiente
+    │   ├── settings/                 #  EXCELENTE: Settings por ambiente
     │   │   ├── __init__.py
     │   │   ├── base.py
     │   │   ├── development.py
@@ -45,11 +45,11 @@ api/
     │   │   ├── production.py
     │   │   └── infrastructure_test.py
     │   │
-    │   ├── middleware/               # ✅ BUENO: Middleware personalizado
+    │   ├── middleware/               #  BUENO: Middleware personalizado
     │   │   ├── __init__.py
     │   │   └── session_security.py
     │   │
-    │   └── apps/                     # ✅ EXCELENTE: Apps organizadas
+    │   └── apps/                     #  EXCELENTE: Apps organizadas
     │       ├── __init__.py
     │       ├── analytics/
     │       ├── audit/
@@ -70,7 +70,7 @@ api/
     │   ├── http/
     │   └── test/
     │
-    └── tests/                        # ✅ EXCELENTE: Tests pytest organizados
+    └── tests/                        #  EXCELENTE: Tests pytest organizados
         ├── conftest.py
         ├── devcontainer/
         ├── infrastructure/
@@ -83,72 +83,72 @@ api/
 
 ## 2. Evaluación por componente
 
-### 2.1 Estructura de proyecto: ✅ EXCELENTE
+### 2.1 Estructura de proyecto:  EXCELENTE
 
 | Aspecto | Estado | Comentario |
 |---------|--------|------------|
-| Separación de concerns | ✅ Excelente | Apps separadas por dominio funcional |
-| Settings por ambiente | ✅ Excelente | `settings/` con base, dev, test, prod |
-| Requirements separados | ✅ Excelente | base.txt, dev.txt, test.txt |
-| Configuración de tests | ✅ Bueno | pytest.ini + coveragerc presentes |
-| Ejemplo de variables | ✅ Bueno | env.example para onboarding |
+| Separación de concerns |  Excelente | Apps separadas por dominio funcional |
+| Settings por ambiente |  Excelente | `settings/` con base, dev, test, prod |
+| Requirements separados |  Excelente | base.txt, dev.txt, test.txt |
+| Configuración de tests |  Bueno | pytest.ini + coveragerc presentes |
+| Ejemplo de variables |  Bueno | env.example para onboarding |
 
-**Cumple con**: Django best practices ✅
+**Cumple con**: Django best practices 
 **Patrón**: Monolito modular bien estructurado
 
 ---
 
-### 2.2 Organización de apps: ✅ BUENA con mejoras menores
+### 2.2 Organización de apps:  BUENA con mejoras menores
 
 #### Apps encontradas (10 apps)
 
 | App | Archivos encontrados | Evaluación |
 |-----|---------------------|------------|
-| **analytics** | models, apps, migrations | ⚠️ Falta services.py |
-| **audit** | models, apps, services, decorators, migrations | ✅ Completa |
-| **authentication** | models, apps, services, migrations | ✅ Completa |
-| **common** | models, apps, permissions, utils, migrations | ✅ Completa |
-| **dashboard** | views, urls, services, widgets, apps, migrations | ✅ Completa |
-| **etl** | extractors, transformers, loaders, jobs, scheduler, management/commands, migrations | ✅ Muy completa |
-| **ivr_legacy** | models, apps, adapters, migrations | ✅ Completa |
-| **notifications** | models, apps, migrations | ⚠️ Falta services.py |
-| **reports** | models, apps, generators/ (4 archivos), migrations | ✅ Muy completa |
-| **users** | models, apps, services, migrations | ✅ Completa |
+| **analytics** | models, apps, migrations |  Falta services.py |
+| **audit** | models, apps, services, decorators, migrations |  Completa |
+| **authentication** | models, apps, services, migrations |  Completa |
+| **common** | models, apps, permissions, utils, migrations |  Completa |
+| **dashboard** | views, urls, services, widgets, apps, migrations |  Completa |
+| **etl** | extractors, transformers, loaders, jobs, scheduler, management/commands, migrations |  Muy completa |
+| **ivr_legacy** | models, apps, adapters, migrations |  Completa |
+| **notifications** | models, apps, migrations |  Falta services.py |
+| **reports** | models, apps, generators/ (4 archivos), migrations |  Muy completa |
+| **users** | models, apps, services, migrations |  Completa |
 
 #### Estructura típica encontrada
 
 ```python
 app/
 ├── __init__.py
-├── apps.py               # ✅ Presente en todas
-├── models.py             # ✅ Presente en casi todas
-├── services.py           # ⚠️ Solo en algunas (audit, auth, dashboard, users)
-├── views.py              # ⚠️ Solo dashboard
-├── urls.py               # ⚠️ Solo dashboard
+├── apps.py               #  Presente en todas
+├── models.py             #  Presente en casi todas
+├── services.py           #  Solo en algunas (audit, auth, dashboard, users)
+├── views.py              #  Solo dashboard
+├── urls.py               #  Solo dashboard
 ├── decorators.py         # Solo audit
 ├── adapters.py           # Solo ivr_legacy
 ├── widgets.py            # Solo dashboard
 ├── permissions.py        # Solo common
 ├── utils.py              # Solo common
-├── migrations/           # ✅ En todas
+├── migrations/           #  En todas
 └── management/           # Solo etl
     └── commands/
 ```
 
 **Observaciones**:
-- ✅ **Buena práctica**: Uso de `services.py` en varias apps (service layer pattern)
-- ✅ **Excelente**: App `etl` con estructura completa (extractors, transformers, loaders)
-- ✅ **Excelente**: App `reports` con generadores organizados en subdirectorio
-- ⚠️ **Falta**: `views.py`, `serializers.py` en la mayoría (⚠️ ver sección 2.5)
-- ⚠️ **Inconsistencia**: Solo algunas apps tienen `services.py`
+-  **Buena práctica**: Uso de `services.py` en varias apps (service layer pattern)
+-  **Excelente**: App `etl` con estructura completa (extractors, transformers, loaders)
+-  **Excelente**: App `reports` con generadores organizados en subdirectorio
+-  **Falta**: `views.py`, `serializers.py` en la mayoría ( ver sección 2.5)
+-  **Inconsistencia**: Solo algunas apps tienen `services.py`
 
 ---
 
-### 2.3 Settings y configuración: ✅ EXCELENTE
+### 2.3 Settings y configuración:  EXCELENTE
 
 #### Puntos fuertes
 
-1. **Settings separados por ambiente** ✅
+1. **Settings separados por ambiente** 
    ```
    settings/
    ├── base.py          # Configuración compartida
@@ -158,7 +158,7 @@ app/
    └── infrastructure_test.py  # Para tests de infra
    ```
 
-2. **Multi-database correctamente configurado** ✅
+2. **Multi-database correctamente configurado** 
    ```python
    DATABASES = {
        "default": {  # PostgreSQL Analytics
@@ -172,16 +172,16 @@ app/
    }
    ```
 
-3. **Database Router implementado** ✅
+3. **Database Router implementado** 
    - Archivo: `database_router.py`
    - Protege IVR de escrituras accidentales
    - Enruta lecturas correctamente
    - Previene migraciones en IVR
 
-4. **Middleware personalizado** ✅
+4. **Middleware personalizado** 
    - `session_security.py` para seguridad de sesiones
 
-5. **REST Framework configurado** ✅
+5. **REST Framework configurado** 
    ```python
    INSTALLED_APPS = [
        ...
@@ -194,7 +194,7 @@ app/
 
 ---
 
-### 2.4 Testing: ✅ BUENO
+### 2.4 Testing:  BUENO
 
 #### Estructura de tests
 
@@ -204,12 +204,12 @@ app/
    tests/         # Tests pytest organizados
    ```
 
-2. **Configuración presente** ✅:
+2. **Configuración presente** :
    - `pytest.ini`
    - `coveragerc`
    - `conftest.py`
 
-3. **Tests organizados por tema** ✅:
+3. **Tests organizados por tema** :
    ```
    tests/
    ├── conftest.py              # Fixtures globales
@@ -220,29 +220,29 @@ app/
    └── devcontainer/            # Tests de devcontainer
    ```
 
-**Observación**: ⚠️ Faltan tests de apps individuales (analytics, etl, reports, etc.)
+**Observación**:  Faltan tests de apps individuales (analytics, etl, reports, etc.)
 
 ---
 
-### 2.5 APIs y endpoints: ⚠️ ÁREA DE OPORTUNIDAD
+### 2.5 APIs y endpoints:  ÁREA DE OPORTUNIDAD
 
 #### Estado actual
 
 **ENCONTRADO**:
-- ✅ REST Framework instalado
-- ✅ JWT authentication configurado
-- ✅ `drf_spectacular` (OpenAPI) instalado
-- ✅ Una app con URLs: `dashboard/urls.py`
+-  REST Framework instalado
+-  JWT authentication configurado
+-  `drf_spectacular` (OpenAPI) instalado
+-  Una app con URLs: `dashboard/urls.py`
 
 **NO ENCONTRADO** (esperado para API REST):
-- ❌ `serializers.py` en apps
-- ❌ `views.py` o `viewsets.py` en la mayoría de apps
-- ❌ `urls.py` en apps (solo dashboard tiene)
-- ❌ `api/` subdirectorio en apps para versioning
+-  `serializers.py` en apps
+-  `views.py` o `viewsets.py` en la mayoría de apps
+-  `urls.py` en apps (solo dashboard tiene)
+-  `api/` subdirectorio en apps para versioning
 
 **Conclusión**:
 - El proyecto tiene las bases para APIs REST (DRF instalado)
-- ⚠️ **Implementación pendiente o mínima** de endpoints REST
+-  **Implementación pendiente o mínima** de endpoints REST
 - Probablemente en fase de desarrollo o usando principalmente Django views
 
 **Recomendación**: Si se planea exponer APIs REST:
@@ -258,21 +258,21 @@ app/
 
 ---
 
-### 2.6 Seguridad: ✅ EXCELENTE
+### 2.6 Seguridad:  EXCELENTE
 
 | Aspecto | Implementación | Estado |
 |---------|---------------|--------|
-| IVR read-only | Database router con protección | ✅ Excelente |
-| Session security | Middleware personalizado | ✅ Bueno |
-| JWT authentication | rest_framework_simplejwt | ✅ Bueno |
-| Variables de entorno | env.example + os.getenv() | ✅ Bueno |
-| ALLOWED_HOSTS | Configurado desde env var | ✅ Bueno |
-| SECRET_KEY | Configurado desde env var | ✅ Bueno |
+| IVR read-only | Database router con protección |  Excelente |
+| Session security | Middleware personalizado |  Bueno |
+| JWT authentication | rest_framework_simplejwt |  Bueno |
+| Variables de entorno | env.example + os.getenv() |  Bueno |
+| ALLOWED_HOSTS | Configurado desde env var |  Bueno |
+| SECRET_KEY | Configurado desde env var |  Bueno |
 
 **Puntos fuertes**:
-1. ✅ IVR database protegido contra escrituras con `ValueError` explícito
-2. ✅ Configuración sensible en variables de entorno
-3. ✅ Middleware de seguridad de sesiones
+1.  IVR database protegido contra escrituras con `ValueError` explícito
+2.  Configuración sensible en variables de entorno
+3.  Middleware de seguridad de sesiones
 
 ---
 
@@ -282,36 +282,36 @@ app/
 
 | Práctica | Cumple | Comentario |
 |----------|--------|------------|
-| Settings separados por ambiente | ✅ Sí | Excelente implementación |
-| Apps reutilizables | ✅ Sí | Apps bien separadas |
-| Service layer | ⚠️ Parcial | Solo en algunas apps |
-| Fat models, thin views | ⚠️ Desconocido | Requiere revisar código |
-| Use Django forms | ⚠️ Desconocido | No se encontraron forms.py |
-| Use Django REST Framework | ⚠️ Parcial | Instalado pero poco usado |
-| Tests organizados | ✅ Sí | pytest + estructura por tema |
+| Settings separados por ambiente |  Sí | Excelente implementación |
+| Apps reutilizables |  Sí | Apps bien separadas |
+| Service layer |  Parcial | Solo en algunas apps |
+| Fat models, thin views |  Desconocido | Requiere revisar código |
+| Use Django forms |  Desconocido | No se encontraron forms.py |
+| Use Django REST Framework |  Parcial | Instalado pero poco usado |
+| Tests organizados |  Sí | pytest + estructura por tema |
 
 ### 3.2 Cumplimiento de 12 Factor App
 
 | Factor | Cumple | Implementación |
 |--------|--------|----------------|
-| I. Codebase | ✅ Sí | Git |
-| II. Dependencies | ✅ Sí | requirements/*.txt |
-| III. Config | ✅ Sí | Variables de entorno |
-| IV. Backing services | ✅ Sí | Databases configurables |
-| V. Build, release, run | ⚠️ Parcial | Falta verificar CI/CD |
-| VI. Processes | ✅ Sí | Stateless (Django) |
-| VII. Port binding | ✅ Sí | WSGI |
-| VIII. Concurrency | ⚠️ Desconocido | Falta verificar |
-| IX. Disposability | ✅ Sí | Django graceful shutdown |
-| X. Dev/prod parity | ✅ Sí | Settings por ambiente |
-| XI. Logs | ⚠️ Desconocido | Falta verificar logging config |
-| XII. Admin processes | ✅ Sí | Management commands |
+| I. Codebase |  Sí | Git |
+| II. Dependencies |  Sí | requirements/*.txt |
+| III. Config |  Sí | Variables de entorno |
+| IV. Backing services |  Sí | Databases configurables |
+| V. Build, release, run |  Parcial | Falta verificar CI/CD |
+| VI. Processes |  Sí | Stateless (Django) |
+| VII. Port binding |  Sí | WSGI |
+| VIII. Concurrency |  Desconocido | Falta verificar |
+| IX. Disposability |  Sí | Django graceful shutdown |
+| X. Dev/prod parity |  Sí | Settings por ambiente |
+| XI. Logs |  Desconocido | Falta verificar logging config |
+| XII. Admin processes |  Sí | Management commands |
 
 ---
 
 ## 4. Análisis por patrones arquitectónicos
 
-### 4.1 Patrón: Monolito Modular ✅
+### 4.1 Patrón: Monolito Modular 
 
 **Implementado correctamente**:
 - Apps separadas por dominio (analytics, reports, etl, etc.)
@@ -319,18 +319,18 @@ app/
 - Apps se comunican via servicios compartidos (`common`)
 - Database routing para separación de datos
 
-**Score**: 9/10 ✅
+**Score**: 9/10 
 
-### 4.2 Patrón: Service Layer ⚠️
+### 4.2 Patrón: Service Layer 
 
 **Implementación inconsistente**:
-- ✅ Presente en: audit, authentication, dashboard, users
-- ❌ Ausente en: analytics, notifications
-- ⚠️ ETL usa patrón diferente: extractors/transformers/loaders
+-  Presente en: audit, authentication, dashboard, users
+-  Ausente en: analytics, notifications
+-  ETL usa patrón diferente: extractors/transformers/loaders
 
 **Recomendación**: Estandarizar uso de `services.py` en todas las apps
 
-**Score**: 6/10 ⚠️
+**Score**: 6/10 
 
 ### 4.3 Patrón: Repository ❓
 
@@ -342,25 +342,25 @@ app/
 
 **Score**: N/A
 
-### 4.4 Patrón: Adapter (para IVR) ✅
+### 4.4 Patrón: Adapter (para IVR) 
 
 **Bien implementado**:
 - `ivr_legacy/adapters.py` presente
 - Aísla lógica de integración con sistema heredado
 
-**Score**: 9/10 ✅
+**Score**: 9/10 
 
 ---
 
 ## 5. Problemas identificados
 
-### 5.1 Críticos: ❌ NINGUNO
+### 5.1 Críticos:  NINGUNO
 
 No se identificaron problemas críticos. La estructura es sólida.
 
-### 5.2 Importantes: ⚠️ 2 ENCONTRADOS
+### 5.2 Importantes:  2 ENCONTRADOS
 
-#### ⚠️ 1. Inconsistencia en uso de Service Layer
+####  1. Inconsistencia en uso de Service Layer
 
 **Problema**:
 - Algunas apps tienen `services.py` (audit, auth, dashboard, users)
@@ -380,7 +380,7 @@ notifications/services.py
 reports/services.py  # si tiene lógica además de generators
 ```
 
-#### ⚠️ 2. APIs REST no completamente desarrolladas
+####  2. APIs REST no completamente desarrolladas
 
 **Problema**:
 - DRF instalado pero poco usado
@@ -402,9 +402,9 @@ app/
     └── permissions.py
 ```
 
-### 5.3 Menores: 💡 4 ENCONTRADOS
+### 5.3 Menores:  4 ENCONTRADOS
 
-#### 💡 1. Tests de apps faltantes
+####  1. Tests de apps faltantes
 
 **Problema**: Tests organizados por tema (infraestructura, routers) pero no por app individual
 
@@ -422,7 +422,7 @@ tests/
 ...
 ```
 
-#### 💡 2. Falta documentación inline
+####  2. Falta documentación inline
 
 **Problema**: No se encontraron README.md en apps individuales
 
@@ -435,7 +435,7 @@ etl/
 ...
 ```
 
-#### 💡 3. No hay `admin.py` visible
+####  3. No hay `admin.py` visible
 
 **Problema**: No se encontraron archivos `admin.py` en apps (pueden estar vacíos o no creados)
 
@@ -443,7 +443,7 @@ etl/
 
 **Recomendación**: Registrar modelos en Django Admin para facilitar gestión
 
-#### 💡 4. Estructura de ETL podría mejorarse
+####  4. Estructura de ETL podría mejorarse
 
 **Sugerencia**: La app ETL es grande y compleja
 ```
@@ -481,20 +481,20 @@ Beneficios:
 
 | Aspecto | Típico | Este proyecto | Evaluación |
 |---------|--------|---------------|------------|
-| Apps | 5-15 | 10 | ✅ Apropiado |
-| Settings | Separados | ✅ Separados | ✅ Bien |
-| Tests | pytest | ✅ pytest | ✅ Bien |
-| API REST | Sí | ⚠️ Parcial | ⚠️ Pendiente |
-| Service layer | A veces | ⚠️ Inconsistente | ⚠️ Mejorable |
+| Apps | 5-15 | 10 |  Apropiado |
+| Settings | Separados |  Separados |  Bien |
+| Tests | pytest |  pytest |  Bien |
+| API REST | Sí |  Parcial |  Pendiente |
+| Service layer | A veces |  Inconsistente |  Mejorable |
 
 ### 6.2 Django analytics/data (similar a este)
 
 | Aspecto | Proyectos data | Este proyecto | Evaluación |
 |---------|---------------|---------------|------------|
-| ETL pipeline | Sí | ✅ Sí (completo) | ✅ Excelente |
-| Multi-database | Sí | ✅ Sí | ✅ Excelente |
-| Reportes | Sí | ✅ Sí (generators) | ✅ Excelente |
-| Dashboards | Sí | ✅ Sí | ✅ Bien |
+| ETL pipeline | Sí |  Sí (completo) |  Excelente |
+| Multi-database | Sí |  Sí |  Excelente |
+| Reportes | Sí |  Sí (generators) |  Excelente |
+| Dashboards | Sí |  Sí |  Bien |
 | Celery/tasks | A veces | ❓ Desconocido | ❓ Verificar |
 
 **Conclusión**: Proyecto bien estructurado para analytics/data processing
@@ -505,34 +505,34 @@ Beneficios:
 
 ### 7.1 Corto plazo (1-2 sprints)
 
-1. ⚠️ **Estandarizar Service Layer**
+1.  **Estandarizar Service Layer**
    - Crear `services.py` en analytics
    - Crear `services.py` en notifications
    - Documentar cuándo usar services vs métodos de modelo
 
-2. 💡 **Mejorar estructura de tests**
+2.  **Mejorar estructura de tests**
    - Crear `tests/analytics/`
    - Crear `tests/etl/`
    - Crear `tests/reports/`
    - Mover tests de apps a subdirectorios
 
-3. 💡 **Agregar admin.py**
+3.  **Agregar admin.py**
    - Registrar modelos principales en Django Admin
    - Facilita gestión y troubleshooting
 
 ### 7.2 Mediano plazo (1-2 meses)
 
-4. ⚠️ **Completar APIs REST** (si es requerimiento)
+4.  **Completar APIs REST** (si es requerimiento)
    - Crear `serializers.py` en apps
    - Crear `api/` subdirectorios
    - Implementar endpoints
    - Documentar con drf-spectacular
 
-5. 💡 **Reorganizar ETL**
+5.  **Reorganizar ETL**
    - Separar extractors/ transformers/ loaders/ en subdirectorios
    - Facilita mantenibilidad
 
-6. 💡 **Agregar README por app**
+6.  **Agregar README por app**
    - Documentación inline en cada app
    - Explicar responsabilidad de cada app
 
@@ -556,40 +556,40 @@ Beneficios:
 
 | Categoría | Score | Comentario |
 |-----------|-------|------------|
-| **Estructura de proyecto** | 9/10 | ✅ Excelente organización |
-| **Organización de apps** | 8/10 | ✅ Buena, mejorable |
-| **Settings y configuración** | 10/10 | ✅ Excelente multi-env |
-| **Testing** | 7/10 | ⚠️ Bien organizado, faltan tests de apps |
-| **APIs REST** | 5/10 | ⚠️ Instalado pero no desarrollado |
-| **Seguridad** | 9/10 | ✅ Muy buena (IVR read-only) |
-| **Documentación** | 3/10 | ❌ Inexistente (razón de SC02) |
-| **Patrones arquitectónicos** | 7/10 | ⚠️ Bien, inconsistencias menores |
+| **Estructura de proyecto** | 9/10 |  Excelente organización |
+| **Organización de apps** | 8/10 |  Buena, mejorable |
+| **Settings y configuración** | 10/10 |  Excelente multi-env |
+| **Testing** | 7/10 |  Bien organizado, faltan tests de apps |
+| **APIs REST** | 5/10 |  Instalado pero no desarrollado |
+| **Seguridad** | 9/10 |  Muy buena (IVR read-only) |
+| **Documentación** | 3/10 |  Inexistente (razón de SC02) |
+| **Patrones arquitectónicos** | 7/10 |  Bien, inconsistencias menores |
 
-**SCORE TOTAL**: **7.2/10** ✅ **BUENO**
+**SCORE TOTAL**: **7.2/10**  **BUENO**
 
 ---
 
 ## 9. Conclusión
 
-### Veredicto: ✅ LA ESTRUCTURA ESTÁ **BIEN**
+### Veredicto:  LA ESTRUCTURA ESTÁ **BIEN**
 
 El proyecto tiene una **excelente base arquitectónica**:
-- ✅ Monolito modular bien organizado
-- ✅ Apps separadas por dominio
-- ✅ Settings por ambiente
-- ✅ Multi-database correctamente implementado
-- ✅ Security por diseño (IVR read-only)
-- ✅ ETL bien estructurado
+-  Monolito modular bien organizado
+-  Apps separadas por dominio
+-  Settings por ambiente
+-  Multi-database correctamente implementado
+-  Security por diseño (IVR read-only)
+-  ETL bien estructurado
 
 ### Áreas de mejora identificadas:
 
 **Corto plazo** (crítico):
-1. ⚠️ Estandarizar Service Layer
-2. 💡 Mejorar cobertura de tests
+1.  Estandarizar Service Layer
+2.  Mejorar cobertura de tests
 
 **Mediano plazo** (importante):
-3. ⚠️ Completar implementación de APIs REST (si es requerimiento)
-4. 💡 Reorganizar estructura interna de ETL
+3.  Completar implementación de APIs REST (si es requerimiento)
+4.  Reorganizar estructura interna de ETL
 
 **Largo plazo** (nice to have):
 5. 🔮 Considerar patrones adicionales (Repository, CQRS)
@@ -599,10 +599,10 @@ El proyecto tiene una **excelente base arquitectónica**:
 **NO se requieren cambios estructurales mayores**. La arquitectura es sólida y permite escalar.
 
 Se recomienda:
-1. ✅ **Mantener** la estructura actual (monolito modular con apps)
-2. ⚠️ **Mejorar** consistencia en uso de Service Layer
-3. 💡 **Completar** implementación de APIs REST si es requerimiento
-4. 📝 **Documentar** (razón de SC02)
+1.  **Mantener** la estructura actual (monolito modular con apps)
+2.  **Mejorar** consistencia en uso de Service Layer
+3.  **Completar** implementación de APIs REST si es requerimiento
+4.  **Documentar** (razón de SC02)
 
 ---
 
@@ -629,30 +629,30 @@ api/callcentersite/callcentersite/apps/
 api/callcentersite/callcentersite/apps/
 ├── analytics/
 │   ├── models.py
-│   ├── services.py          # ⭐ AGREGAR
-│   ├── admin.py             # ⭐ AGREGAR
-│   ├── README.md            # ⭐ AGREGAR
-│   └── api/                 # ⭐ AGREGAR (si REST)
+│   ├── services.py          #  AGREGAR
+│   ├── admin.py             #  AGREGAR
+│   ├── README.md            #  AGREGAR
+│   └── api/                 #  AGREGAR (si REST)
 │       ├── serializers.py
 │       ├── views.py
 │       └── urls.py
 ├── etl/
-│   ├── extractors/          # ⭐ REORGANIZAR
+│   ├── extractors/          #  REORGANIZAR
 │   │   ├── base.py
 │   │   └── ivr_extractor.py
-│   ├── transformers/        # ⭐ REORGANIZAR
+│   ├── transformers/        #  REORGANIZAR
 │   │   └── ...
-│   ├── loaders/             # ⭐ REORGANIZAR
+│   ├── loaders/             #  REORGANIZAR
 │   │   └── ...
-│   ├── jobs/                # ⭐ REORGANIZAR
+│   ├── jobs/                #  REORGANIZAR
 │   │   └── ...
 │   └── management/
 │       └── commands/
 └── notifications/
     ├── models.py
-    ├── services.py          # ⭐ AGREGAR
-    ├── admin.py             # ⭐ AGREGAR
-    └── README.md            # ⭐ AGREGAR
+    ├── services.py          #  AGREGAR
+    ├── admin.py             #  AGREGAR
+    └── README.md            #  AGREGAR
 ```
 
 ---

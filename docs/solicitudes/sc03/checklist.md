@@ -6,7 +6,7 @@ estado: en_progreso
 
 # Checklist de SC03 - Documentación Individual de Apps Django
 
-## 📋 Progreso General
+##  Progreso General
 
 | Fase | Apps | Completadas | Progreso |
 |------|------|-------------|----------|
@@ -21,7 +21,7 @@ estado: en_progreso
 
 ### ☐ App: ETL
 
-**Prioridad**: 🔴 ALTA | **Complejidad**: Alta | **Plantilla**: plantilla_etl_job.md
+**Prioridad**:  ALTA | **Complejidad**: Alta | **Plantilla**: plantilla_etl_job.md
 
 #### Análisis
 - [ ] Leer extractors.py
@@ -59,7 +59,7 @@ estado: en_progreso
 
 ### ☐ App: Analytics
 
-**Prioridad**: 🔴 ALTA | **Complejidad**: Media | **Plantilla**: plantilla_django_app.md
+**Prioridad**:  ALTA | **Complejidad**: Media | **Plantilla**: plantilla_django_app.md
 
 #### Análisis
 - [ ] Leer models.py (CallAnalytics, DailyMetrics)
@@ -93,7 +93,7 @@ estado: en_progreso
 
 ### ☐ App: Reports
 
-**Prioridad**: 🔴 ALTA | **Complejidad**: Media-Alta | **Plantilla**: plantilla_django_app.md
+**Prioridad**:  ALTA | **Complejidad**: Media-Alta | **Plantilla**: plantilla_django_app.md
 
 #### Análisis
 - [ ] Leer models.py (ReportTemplate, GeneratedReport)
@@ -129,7 +129,7 @@ estado: en_progreso
 
 ### ☐ App: Audit
 
-**Prioridad**: 🟡 MEDIA | **Complejidad**: Media | **Plantilla**: plantilla_django_app.md
+**Prioridad**:  MEDIA | **Complejidad**: Media | **Plantilla**: plantilla_django_app.md
 
 #### Análisis
 - [ ] Leer models.py (AuditLog)
@@ -163,7 +163,7 @@ estado: en_progreso
 
 ### ☐ App: Dashboard
 
-**Prioridad**: 🟡 MEDIA | **Complejidad**: Media-Alta | **Plantilla**: plantilla_django_app.md
+**Prioridad**:  MEDIA | **Complejidad**: Media-Alta | **Plantilla**: plantilla_django_app.md
 
 #### Análisis
 - [ ] Leer models.py (si existen)
@@ -198,7 +198,7 @@ estado: en_progreso
 
 ### ☐ App: Authentication
 
-**Prioridad**: 🟡 MEDIA | **Complejidad**: Media | **Plantilla**: plantilla_django_app.md
+**Prioridad**:  MEDIA | **Complejidad**: Media | **Plantilla**: plantilla_django_app.md
 
 #### Análisis
 - [ ] Leer models.py (SecurityQuestion, LoginAttempt)
@@ -231,7 +231,7 @@ estado: en_progreso
 
 ### ☐ App: Users
 
-**Prioridad**: 🟡 MEDIA | **Complejidad**: Alta | **Plantilla**: plantilla_django_app.md
+**Prioridad**:  MEDIA | **Complejidad**: Alta | **Plantilla**: plantilla_django_app.md
 
 #### Análisis
 - [ ] Leer models.py (User, Permission, Role, Segment)
@@ -267,7 +267,7 @@ estado: en_progreso
 
 ### ☐ App: IVR Legacy
 
-**Prioridad**: 🟢 BAJA | **Complejidad**: Media | **Plantilla**: plantilla_django_app.md
+**Prioridad**:  BAJA | **Complejidad**: Media | **Plantilla**: plantilla_django_app.md
 
 #### Análisis
 - [ ] Leer models.py (IVRCall, IVRClient, managed=False)
@@ -300,7 +300,7 @@ estado: en_progreso
 
 ### ☐ App: Notifications
 
-**Prioridad**: 🟢 BAJA | **Complejidad**: Baja | **Plantilla**: plantilla_django_app.md (simplificada)
+**Prioridad**:  BAJA | **Complejidad**: Baja | **Plantilla**: plantilla_django_app.md (simplificada)
 
 #### Análisis
 - [ ] Leer models.py (InternalMessage)
@@ -331,7 +331,7 @@ estado: en_progreso
 
 ### ☐ App: Common
 
-**Prioridad**: 🟢 BAJA | **Complejidad**: Baja | **Plantilla**: plantilla_django_app.md (simplificada)
+**Prioridad**:  BAJA | **Complejidad**: Baja | **Plantilla**: plantilla_django_app.md (simplificada)
 
 #### Análisis
 - [ ] Leer models.py (TimeStampedModel, SoftDeleteModel, BaseModel)
@@ -412,7 +412,7 @@ estado: en_progreso
 
 ---
 
-## 📊 Métricas
+##  Métricas
 
 ### Completitud
 - **Apps documentadas**: 0/10 (0%)
@@ -422,7 +422,7 @@ estado: en_progreso
 ### Calidad
 - **Broken links**: 0 (objetivo)
 - **Diagramas rotos**: 0 (objetivo)
-- **MkDocs build**: ⏸️ Pendiente verificar
+- **MkDocs build**:  Pendiente verificar
 
 ### Timeline
 - **Inicio**: 2025-11-04
@@ -432,7 +432,7 @@ estado: en_progreso
 
 ---
 
-## 🎯 Hitos
+##  Hitos
 
 - [ ] **Hito 1**: Fase 1 completada (etl, analytics, reports)
 - [ ] **Hito 2**: Fase 2 completada (audit, dashboard, authentication, users)
