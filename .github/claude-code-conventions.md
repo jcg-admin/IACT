@@ -339,6 +339,74 @@ gh pr create --title "Agregar dashboard de analytics" \
 # 7. Esperar revisión y merge
 ```
 
+## 13. Scripts Shell: Regla de Eliminación de Emojis
+
+### Política Estricta: Sin Emojis en Scripts
+
+**TODOS** los scripts shell (`.sh`, `.bash`) deben estar libres de emojis para garantizar:
+- Compatibilidad con terminales antiguos
+- Profesionalismo en entornos corporativos
+- Robustez en sistemas sin soporte Unicode
+- Mejor legibilidad en logs y archivos
+
+### Reemplazos Obligatorios
+
+| Emoji | Reemplazo | Uso |
+|-------|-----------|-----|
+| ❌ | `ERROR:` | Mensajes de error |
+| 🔧 | `ACCION REQUERIDA:` | Acciones del usuario |
+| ⚠️ | `WARNING:` | Advertencias |
+| ℹ️ | `INFO:` | Información general |
+| ✅ | *(removido)* | Confirmaciones de éxito |
+| 📦 🗄️ 👤 🚀 | *(removidos)* | Pasos del proceso |
+| 🌐 👤 🖥️ | *(removidos)* | Resumen final |
+| 📝 📊 🔒 | *(removidos)* | Mensajes informativos |
+| 🎉 | *(removido)* | Mensaje final |
+| ⚙️ 🔍 🤖 🔄 📄 🗜️ | *(removidos)* | Otros contextos |
+
+### Ejemplos de Aplicación
+
+**❌ Incorrecto:**
+```bash
+echo "❌ Error: Archivo no encontrado"
+echo "✅ Proceso completado exitosamente"
+echo "📦 Creando paquetes..."
+```
+
+**✅ Correcto:**
+```bash
+echo "ERROR: Archivo no encontrado"
+echo "Proceso completado exitosamente"
+echo "Creando paquetes..."
+```
+
+### Alcance de la Regla
+
+Esta regla aplica a:
+- Scripts en `.github/workflows/scripts/`
+- Scripts en `infrastructure/devcontainer/scripts/`
+- Scripts en `infrastructure/vagrant/scripts/`
+- Scripts en `scripts/` (raíz del proyecto)
+- **TODOS** los nuevos scripts creados
+- **TODOS** los scripts existentes al modificarlos
+
+### Excepciones
+
+**No aplica a:**
+- Archivos Markdown (`.md`) - pueden usar emojis para documentación
+- Archivos de configuración (`.yml`, `.json`, `.toml`)
+- Código fuente (Python, JavaScript, etc.)
+- Mensajes de commit Git
+
+### Verificación
+
+Existe un script de verificación en:
+```bash
+infrastructure/devcontainer/scripts/check_no_emojis.sh
+```
+
+**IMPORTANTE**: Al crear o modificar scripts, verificar que no contengan emojis antes de hacer commit.
+
 ## Referencias
 
 - [Copilot Instructions](copilot-instructions.md) - Guía general del proyecto
@@ -347,7 +415,7 @@ gh pr create --title "Agregar dashboard de analytics" \
 
 ---
 
-**Última actualización**: 2025-11-02
+**Última actualización**: 2025-11-04
 **Mantenedores**: Equipo de Desarrollo IACT
 
 Este documento debe actualizarse cuando se establezcan nuevas convenciones o se identifiquen patrones recurrentes.
