@@ -1,15 +1,20 @@
 ---
 id: DOC-SOL-SC01
-estado: en_progreso
+estado: completado
 propietario: pmo-documentacion
 ultima_actualizacion: 2025-11-04
+fecha_completado: 2025-11-04
 relacionados: ["DOC-SOL-INDEX", "DOC-INDEX-GENERAL", "DOC-ANEXO-DIAGRAMAS"]
 ---
-# Solicitud SC01 · Preparación de entorno MkDocs
+# Solicitud SC01 · Preparación de entorno MkDocs ✅
+
+**Estado**: COMPLETADO
 
 Esta solicitud documenta los pasos necesarios para instalar MkDocs en los equipos de trabajo de IACT. Sigue el procedimiento
 estándar para garantizar compatibilidad con la base documental y las herramientas de automatización del equipo de
 Documentación y DevOps.
+
+**Validación**: Ver [validacion_2025_11_04.md](validacion_2025_11_04.md) para detalles de la verificación.
 
 ## Requisitos previos
 - Python 3.8 o superior instalado y disponible en la variable de entorno `PATH`.
