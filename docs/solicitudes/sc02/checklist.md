@@ -312,15 +312,15 @@ relacionados: ["DOC-SOL-SC02", "DOC-SOL-SC02-ALCANCE"]
 
 ### Publicación
 
-- [ ] **Migrar a docs/backend/**
+- [ ] **Migrar a docs/implementacion/backend/**
   - [ ] Copiar documentos a diseno_detallado/
   - [ ] Copiar guías a arquitectura/
   - [ ] Actualizar enlaces
 
 - [ ] **Actualizar índices**
-  - [ ] Actualizar docs/backend/readme.md
-  - [ ] Actualizar docs/backend/arquitectura/readme.md
-  - [ ] Actualizar docs/backend/diseno_detallado/readme.md
+  - [ ] Actualizar docs/implementacion/backend/readme.md
+  - [ ] Actualizar docs/implementacion/backend/arquitectura/readme.md
+  - [ ] Actualizar docs/implementacion/backend/diseno_detallado/readme.md
   - [ ] Actualizar docs/index.md
 
 - [ ] **Verificación final**

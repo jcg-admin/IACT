@@ -42,9 +42,9 @@ evidencias auditables.
 | --- | --- | --- |
 | docs/vision_y_alcance/glossary.md | Glosario oficial alineado con negocio. | Vigente |
 | docs/vision_y_alcance/readme.md | Portada estratégica con backlog de visión. | Vigente |
-| docs/backend/readme.md | Índice técnico inicial del monolito backend. | Revisar enlaces cruzados |
-| docs/frontend/readme.md | Índice técnico inicial del frontend. | Vigente |
-| docs/infrastructure/readme.md | Portada y backlog operativo de infraestructura. | Vigente |
+| docs/implementacion/backend/readme.md | Índice técnico inicial del monolito backend. | Revisar enlaces cruzados |
+| docs/implementacion/frontend/readme.md | Índice técnico inicial del frontend. | Vigente |
+| docs/implementacion/infrastructure/readme.md | Portada y backlog operativo de infraestructura. | Vigente |
 | docs/gobernanza/lineamientos_gobernanza.md | Lineamientos vigentes para comités y RACI. | En actualización |
 | docs/gobernanza/readme.md | Portada de gobernanza y backlog operativo. | Vigente |
 | docs/requisitos/rq_plantilla.md | Plantilla estándar de requisitos. | Vigente |
@@ -95,7 +95,7 @@ docs/
 
 | Identificador | Actividad | Responsable | Estado | Comentarios |
 | --- | --- | --- | --- | --- |
-| DOC-SYNC-001 | Completar checklist editorial para `docs/backend/`. | QA documental | En progreso | Validar secciones de limitaciones. |
+| DOC-SYNC-001 | Completar checklist editorial para `docs/implementacion/backend/`. | QA documental | En progreso | Validar secciones de limitaciones. |
 | DOC-SYNC-002 | Publicar reporte de cobertura en `qa/registros/`. | Equipo QA | Pendiente | Depende de métricas de `pytest --cov`. |
 | DOC-SYNC-003 | Revisar enlaces relativos para navegación MkDocs. | Equipo documentación | Pendiente | Priorizar antes del primer release. |
 

@@ -7,7 +7,7 @@ relacionados: ["DOC-SOL-SC02"]
 ---
 # SC02 - Entregables
 
-Esta carpeta contiene los borradores y versiones de trabajo de la documentación de la API antes de su publicación final en `docs/backend/`.
+Esta carpeta contiene los borradores y versiones de trabajo de la documentación de la API antes de su publicación final en `docs/implementacion/backend/`.
 
 ## Estructura
 
@@ -40,7 +40,7 @@ entregables/
 2. **Revisión técnica**: El equipo revisa y comenta
 3. **Iteración**: Se incorporan cambios y mejoras
 4. **Revisión editorial**: QA documental verifica formato y estándares
-5. **Publicación**: Se copia a `docs/backend/` y se actualiza índice
+5. **Publicación**: Se copia a `docs/implementacion/backend/` y se actualiza índice
 6. **Archivo**: El borrador se mantiene aquí para referencia histórica
 
 ## Estado de entregables

@@ -7,7 +7,7 @@ relacionados: ["DOC-INDEX-GENERAL", "DOC-ROOT-001", "TEMPLATE-README-SPACE"]
 ---
 # Plantilla para espacio documental
 
-Esta plantilla permite replicar la estrategia utilizada en los espacios documentales del repositorio (por ejemplo, `docs/infrastructure/`) para cualquier carpeta local que necesite mantenerse alineada con la base documental maestra de IACT. Usa este formato como punto de partida antes de poblar contenidos específicos.
+Esta plantilla permite replicar la estrategia utilizada en los espacios documentales del repositorio (por ejemplo, `docs/implementacion/infrastructure/`) para cualquier carpeta local que necesite mantenerse alineada con la base documental maestra de IACT. Usa este formato como punto de partida antes de poblar contenidos específicos.
 
 ## Instrucciones generales
 1. Copia este archivo a la nueva carpeta del espacio y renómbralo como `readme.md`.

@@ -95,7 +95,7 @@ Cada app será documentada según su **patrón arquitectónico identificado**:
 ## Ubicación de entregables
 
 Los documentos técnicos finales se publicarán en:
-- `docs/backend/diseno_detallado/apps/` - Documentación de cada app
+- `docs/implementacion/backend/diseno_detallado/apps/` - Documentación de cada app
 - `docs/solicitudes/sc03/entregables/` - Versiones de trabajo
 
 ## Estado actual
@@ -122,7 +122,7 @@ Los documentos técnicos finales se publicarán en:
 - [ ] Documentar apps Fase 3 (ivr_legacy, notifications, common)
 - [ ] Crear diagramas para cada app
 - [ ] Revisar con equipo de arquitectura
-- [ ] Publicar en docs/backend/diseno_detallado/
+- [ ] Publicar en docs/implementacion/backend/diseno_detallado/
 - [ ] Actualizar índice de backend
 - [ ] Cerrar solicitud
 

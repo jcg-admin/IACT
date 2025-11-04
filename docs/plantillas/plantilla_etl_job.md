@@ -10,7 +10,7 @@ relacionados: ["plantilla_django_app.md", "plantilla_database_design.md", "plant
 # Plantilla: Documentación de Job ETL
 
 > **Instrucciones de uso**:
-> 1. Copiar esta plantilla a la ubicación deseada (ej: `docs/backend/diseno_detallado/etl_job_<nombre>.md`)
+> 1. Copiar esta plantilla a la ubicación deseada (ej: `docs/implementacion/backend/diseno_detallado/etl_job_<nombre>.md`)
 > 2. Reemplazar `[NOMBRE_JOB]` con el nombre real del job ETL
 > 3. Completar cada sección con la información específica del job
 > 4. Generar diagramas en PlantUML para el flujo de datos

@@ -381,8 +381,8 @@ estado: en_progreso
 
 ### ☐ Actualización de Índices
 
-- [ ] Actualizar docs/backend/diseno_detallado/readme.md
-- [ ] Actualizar docs/backend/readme.md
+- [ ] Actualizar docs/implementacion/backend/diseno_detallado/readme.md
+- [ ] Actualizar docs/implementacion/backend/readme.md
 - [ ] Actualizar docs/mkdocs.yml (navegación)
 - [ ] Verificar todos los links
 
