@@ -159,7 +159,7 @@ Crear documentación técnica completa que permita a cualquier desarrollador:
 
 1. **Documento técnico completo** siguiendo plantilla
    - Ubicación trabajo: `docs/solicitudes/sc03/entregables/{app_name}.md`
-   - Ubicación final: `docs/backend/diseno_detallado/apps/{app_name}.md`
+   - Ubicación final: `docs/implementacion/backend/diseno_detallado/apps/{app_name}.md`
 
 2. **Diagramas**
    - Diagrama de clases (PlantUML)
@@ -168,7 +168,7 @@ Crear documentación técnica completa que permita a cualquier desarrollador:
    - Ubicación: Embebidos en el documento markdown
 
 3. **Índice actualizado**
-   - Actualizar `docs/backend/diseno_detallado/readme.md`
+   - Actualizar `docs/implementacion/backend/diseno_detallado/readme.md`
    - Actualizar navegación en `docs/mkdocs.yml`
 
 ### 5.2 Documento consolidado

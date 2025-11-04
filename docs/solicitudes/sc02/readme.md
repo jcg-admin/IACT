@@ -62,8 +62,8 @@ Crear documentación técnica completa que incluya:
 ## Ubicación de entregables
 
 Los documentos técnicos se crearán en:
-- `docs/backend/diseno_detallado/` - Documentación de diseño detallado
-- `docs/backend/arquitectura/` - Documentación arquitectónica
+- `docs/implementacion/backend/diseno_detallado/` - Documentación de diseño detallado
+- `docs/implementacion/backend/arquitectura/` - Documentación arquitectónica
 - `docs/solicitudes/sc02/entregables/` - Versiones de trabajo y borradores
 
 ## Referencias cruzadas

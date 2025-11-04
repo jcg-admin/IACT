@@ -10,7 +10,7 @@ relacionados: ["plantilla_tdd.md", "plantilla_database_design.md", "plantilla_ap
 # Plantilla: Documentación de Aplicación Django
 
 > **Instrucciones de uso**:
-> 1. Copiar esta plantilla a la ubicación deseada (ej: `docs/backend/diseno_detallado/app_<nombre>.md`)
+> 1. Copiar esta plantilla a la ubicación deseada (ej: `docs/implementacion/backend/diseno_detallado/app_<nombre>.md`)
 > 2. Reemplazar `[NOMBRE_APP]` con el nombre real de la app Django
 > 3. Completar cada sección con la información específica de la app
 > 4. Eliminar secciones no aplicables y agregar nota explicativa

@@ -128,7 +128,7 @@ Documentar completamente la carpeta `api/` para facilitar el desarrollo, manteni
 ## Alcance excluido
 
 - Documentación de frontend (fuera del alcance actual)
-- Documentación de infraestructura de despliegue (cubierta en docs/infrastructure/)
+- Documentación de infraestructura de despliegue (cubierta en docs/implementacion/infrastructure/)
 - Documentación de bases de datos IVR heredadas (sistema externo)
 - Manuales de usuario final
 - Documentación de herramientas third-party (Django, DRF, etc.)
@@ -137,68 +137,68 @@ Documentar completamente la carpeta `api/` para facilitar el desarrollo, manteni
 
 ### Documentos principales
 
-1. **docs/backend/arquitectura/arquitectura_apps.md**
+1. **docs/implementacion/backend/arquitectura/arquitectura_apps.md**
    - Visión general de todas las apps
    - Diagrama de dependencias
    - Patrones arquitectónicos
 
-2. **docs/backend/diseno_detallado/modelos_datos.md**
+2. **docs/implementacion/backend/diseno_detallado/modelos_datos.md**
    - Catálogo completo de modelos
    - Diagramas ER
    - Documentación del database router
 
-3. **docs/backend/diseno_detallado/api_analytics.md**
+3. **docs/implementacion/backend/diseno_detallado/api_analytics.md**
    - Documentación completa app analytics
 
-4. **docs/backend/diseno_detallado/api_etl.md**
+4. **docs/implementacion/backend/diseno_detallado/api_etl.md**
    - Documentación completa app ETL
    - Flujos de procesamiento
    - Comandos disponibles
 
-5. **docs/backend/diseno_detallado/api_reports.md**
+5. **docs/implementacion/backend/diseno_detallado/api_reports.md**
    - Documentación completa app reports
    - Formatos soportados
    - Templates disponibles
 
-6. **docs/backend/diseno_detallado/api_dashboard.md**
+6. **docs/implementacion/backend/diseno_detallado/api_dashboard.md**
    - Documentación completa app dashboard
 
-7. **docs/backend/diseno_detallado/api_authentication.md**
+7. **docs/implementacion/backend/diseno_detallado/api_authentication.md**
    - Documentación completa app authentication
    - Flujos de autenticación
 
-8. **docs/backend/diseno_detallado/api_users.md**
+8. **docs/implementacion/backend/diseno_detallado/api_users.md**
    - Documentación completa app users
    - Sistema de permisos
 
-9. **docs/backend/diseno_detallado/api_audit.md**
+9. **docs/implementacion/backend/diseno_detallado/api_audit.md**
    - Documentación completa app audit
    - Uso de decoradores
 
-10. **docs/backend/diseno_detallado/api_ivr_legacy.md**
+10. **docs/implementacion/backend/diseno_detallado/api_ivr_legacy.md**
     - Documentación completa app ivr_legacy
     - Adaptadores disponibles
 
-11. **docs/backend/diseno_detallado/api_notifications.md**
+11. **docs/implementacion/backend/diseno_detallado/api_notifications.md**
     - Documentación completa app notifications
 
-12. **docs/backend/diseno_detallado/api_common.md**
+12. **docs/implementacion/backend/diseno_detallado/api_common.md**
     - Documentación completa app common
     - Utilidades disponibles
 
 ### Guías complementarias
 
-1. **docs/backend/arquitectura/guia_desarrollo.md**
+1. **docs/implementacion/backend/arquitectura/guia_desarrollo.md**
    - Convenciones del proyecto
    - Cómo agregar nuevas apps
    - Cómo trabajar con multi-database
 
-2. **docs/backend/arquitectura/guia_etl.md**
+2. **docs/implementacion/backend/arquitectura/guia_etl.md**
    - Cómo crear nuevos extractors
    - Cómo crear nuevos transformers
    - Cómo programar jobs
 
-3. **docs/backend/arquitectura/guia_testing.md**
+3. **docs/implementacion/backend/arquitectura/guia_testing.md**
    - Estrategias de testing por capa
    - Uso de fixtures
    - Tests de integración
@@ -237,7 +237,7 @@ Documentar completamente la carpeta `api/` para facilitar el desarrollo, manteni
 - Acceso al código fuente en `api/callcentersite/`
 - Conocimiento del equipo de desarrollo actual
 - Plantillas documentales en `docs/plantillas/`
-- Estructura de backend en `docs/backend/`
+- Estructura de backend en `docs/implementacion/backend/`
 
 ## Riesgos y mitigaciones
 

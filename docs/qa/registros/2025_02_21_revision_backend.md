@@ -10,7 +10,7 @@ relacionados:
 # Bitácora de revisión documental - Backend
 
 ## Contexto
-- **Espacio revisado:** `docs/backend/`
+- **Espacio revisado:** `docs/implementacion/backend/`
 - **Objetivo:** Alinear el `readme.md` del backend con la plantilla corporativa del espacio documental.
 - **Checklist ejecutado:** [`docs/documentacion_corporativa.md`](../../documentacion_corporativa.md).
 

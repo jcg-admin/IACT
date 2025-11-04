@@ -419,6 +419,16 @@ Si el problema persiste después de 3 intentos:
 - [Arquitectura](../../arquitectura/readme.md)
 - [Runbook: Verificar Servicios](verificar_servicios.md)
 
+## Referencias Adicionales
+
+**Nota**: El stub previo en `docs/implementacion/backend/devops/runbooks/` incluía referencias a:
+- UC-REP-004: Caso de uso relacionado con reportes
+- RQ-ANL-003: Requisito de análisis relacionado
+- Comando `python manage.py check_etl --job-id` para validación
+
+Estas referencias se mantendrán cuando los documentos de requisitos y casos de uso estén completos.
+
 ## Changelog
 
 - 2025-11-02: Creación inicial (draft - ETL en desarrollo)
+- 2025-11-04: Fusionado contenido de stub previo (referencias UC-REP-004, RQ-ANL-003)

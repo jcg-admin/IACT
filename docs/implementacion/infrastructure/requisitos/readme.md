@@ -1,120 +1,28 @@
 ---
-id: DOC-IMPL-BACKEND-REQ
-dominio: infrastructure
-owner: equipo-infrastructure
-fecha_creacion: 2025-11-03
+id: DOC-REQ-INFRA
+estado: borrador
+propietario: equipo-infraestructura
+ultima_actualizacion: 2025-02-20
+relacionados: ["DOC-REQ-INDEX", "DOC-ARQ-INFRA"]
 ---
+# Requisitos de infraestructura
 
-# Requisitos del Dominio Infrastructure
+Extiende el espacio corporativo de [`../../requisitos/readme.md`](../../requisitos/readme.md) con políticas operativas, guardrails y SLOs específicos de la plataforma.
 
-**Source of Truth** para todos los requisitos relacionados con el infrastructure del proyecto IACT.
+## Página padre
+- [`../readme.md`](../readme.md)
 
----
+## Referencias clave
+- Arquitectura de infraestructura: [`../arquitectura/readme.md`](../arquitectura/readme.md)
+- Runbooks y checklists: [`../checklists/readme.md`](../checklists/readme.md)
+- Planificación y releases: [`../planificacion_y_releases/readme.md`](../planificacion_y_releases/readme.md)
 
-## 📁 Estructura
+## Aspectos a documentar
+- Requisitos de disponibilidad, recuperación ante desastres y escalabilidad.
+- Controles de seguridad y cumplimiento regulatorio.
+- Acuerdos sobre observabilidad, alertamiento y gestión de capacidad.
 
-| Carpeta | Contenido | IDs |
-|---------|-----------|-----|
-| **necesidades/** | Necesidades de negocio que originan requisitos infrastructure | N-001, N-002, ... |
-| **negocio/** | Requisitos de negocio específicos del infrastructure | RN-001, RN-002, ... |
-| **stakeholders/** | Requisitos de stakeholders del infrastructure | RS-001, RS-002, ... |
-| **funcionales/** | Requisitos funcionales del infrastructure | RF-001, RF-002, ... |
-| **no_funcionales/** | Requisitos no funcionales del infrastructure | RNF-001, RNF-002, ... |
-
----
-
-## 🎯 Responsabilidad
-
-Las **necesidades de negocio** (N-XXX) se documentan aquí en infrastructure porque:
-- Infrastructure es el dominio principal del sistema IACT
-- Frontend e Infrastructure **enlazan** a estas necesidades (no duplican)
-- Un solo source of truth para cada necesidad
-
----
-
-## ✅ Convenciones
-
-### Nombres de Archivo
-```
-necesidades/n001_reducir_roturas_stock.md
-negocio/rn001_sistema_alertas_automaticas.md
-stakeholders/rs001_alertas_para_gerente_compras.md
-funcionales/rf001_api_calcular_stock_minimo.md
-no_funcionales/rnf001_tiempo_respuesta_200ms.md
-```
-
-### Estructura del Frontmatter
-```yaml
----
-id: RF-001
-tipo: funcional
-titulo: [Título conciso]
-dominio: infrastructure
-owner: equipo-infrastructure
-prioridad: [critica|alta|media|baja]
-estado: [propuesto|aprobado|en_desarrollo|implementado|verificado]
-
-trazabilidad_upward:
-  - N-001
-  - RN-001
-
-trazabilidad_downward:
-  - TEST-001
-
-stakeholders:
-  - [stakeholder-1]
----
-```
-
----
-
-## 🔗 Trazabilidad Típica Infrastructure
-
-```
-N-001: Reducir roturas de stock
-  └─ RN-001: Sistema de alertas automáticas
-      ├─ RS-001: Gerente necesita alertas en dashboard
-      │   └─ RF-001: API calcular stock mínimo
-      │       └─ RNF-001: Tiempo respuesta < 200ms
-      │           └─ TEST-001: Test performance API
-      └─ RF-002: Servicio notificación email
-          └─ RNF-002: Disponibilidad 99.9%
-```
-
----
-
-## 🚀 Crear Nuevo Requisito Infrastructure
-
-```bash
-# 1. Navegar a la carpeta correcta
-cd docs/implementacion/infrastructure/requisitos/funcionales/
-
-# 2. Copiar template
-cp ../../../../plantillas/template_requisito_funcional.md rf999_nuevo_requisito.md
-
-# 3. Editar con tu editor favorito
-vim rf999_nuevo_requisito.md
-
-# 4. Completar frontmatter y contenido
-
-# 5. Commit y push
-git add rf999_nuevo_requisito.md
-git commit -m "feat(req): agregar RF-999 nuevo requisito infrastructure"
-git push
-```
-
-Los índices ISO 29148 se regenerarán automáticamente.
-
----
-
-## 📚 Plantillas
-
-- [Necesidad](../../../plantillas/template_necesidad.md)
-- [Req. Negocio](../../../plantillas/template_requisito_negocio.md)
-- [Req. Stakeholder](../../../plantillas/template_requisito_stakeholder.md)
-- [Req. Funcional](../../../plantillas/template_requisito_funcional.md)
-- [Req. No Funcional](../../../plantillas/template_requisito_no_funcional.md)
-
----
-
-**Owner**: equipo-infrastructure
+## Próximos pasos sugeridos
+- [ ] Definir catálogo de requisitos no funcionales compartidos con backend y frontend.
+- [ ] Documentar políticas de backup, retención y respuesta a incidentes.
+- [ ] Vincular métricas SLO/SLA con tableros de observabilidad.

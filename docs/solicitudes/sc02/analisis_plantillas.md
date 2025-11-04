@@ -74,9 +74,9 @@ Análisis de las plantillas disponibles en `docs/plantillas/` para determinar cu
   - Plan de pruebas técnicas
 
 **Archivos a crear**:
-- `docs/backend/diseno_detallado/tdd_etl.md`
-- `docs/backend/diseno_detallado/tdd_analytics.md`
-- `docs/backend/diseno_detallado/tdd_reports.md`
+- `docs/implementacion/backend/diseno_detallado/tdd_etl.md`
+- `docs/implementacion/backend/diseno_detallado/tdd_analytics.md`
+- `docs/implementacion/backend/diseno_detallado/tdd_reports.md`
 - etc.
 
 **Estado**: ✅ Adecuada - Cubre la mayoría de necesidades
@@ -93,7 +93,7 @@ Análisis de las plantillas disponibles en `docs/plantillas/` para determinar cu
 - Relaciones entre modelos
 
 **Archivos a crear**:
-- `docs/backend/diseno_detallado/database_design.md`
+- `docs/implementacion/backend/diseno_detallado/database_design.md`
 
 **Estado**: ✅ Adecuada - Perfecta para modelos Django
 
@@ -108,7 +108,7 @@ Análisis de las plantillas disponibles en `docs/plantillas/` para determinar cu
 - Por ahora, documentar APIs internas entre servicios
 
 **Archivos a crear** (futuro):
-- `docs/backend/diseno_detallado/api_reference.md`
+- `docs/implementacion/backend/diseno_detallado/api_reference.md`
 
 **Estado**: ⚠️ Básica - Requiere expansión para APIs internas
 
@@ -132,7 +132,7 @@ Análisis de las plantillas disponibles en `docs/plantillas/` para determinar cu
 - Vistas de despliegue
 
 **Archivos a crear**:
-- `docs/backend/arquitectura/arquitectura_apps.md`
+- `docs/implementacion/backend/arquitectura/arquitectura_apps.md`
 
 **Estado**: ✅ Adecuada
 
@@ -147,7 +147,7 @@ Análisis de las plantillas disponibles en `docs/plantillas/` para determinar cu
 - Errores de integración con IVR
 
 **Archivos a crear**:
-- `docs/backend/arquitectura/troubleshooting_etl.md`
+- `docs/implementacion/backend/arquitectura/troubleshooting_etl.md`
 
 **Estado**: ✅ Adecuada
 
