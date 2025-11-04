@@ -18,6 +18,99 @@ classifiers = [
     "Programming Language :: Python :: 3.12",
 ]
 
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+extend-exclude = [
+    "migrations",
+    ".venv",
+    ".git",
+    "__pycache__",
+    ".mypy_cache",
+    ".pytest_cache",
+    "*.egg-info",
+]
+
+[tool.ruff.lint]
+select = [
+    "E",     # pycodestyle errors
+    "W",     # pycodestyle warnings
+    "F",     # pyflakes
+    "I",     # isort
+    "C",     # flake8-comprehensions
+    "B",     # flake8-bugbear
+    "UP",    # pyupgrade
+    "N",     # pep8-naming
+    "YTT",   # flake8-2020
+    "ASYNC", # flake8-async
+    "S",     # flake8-bandit (security)
+    "BLE",   # flake8-blind-except
+    "FBT",   # flake8-boolean-trap
+    "A",     # flake8-builtins
+    "COM",   # flake8-commas
+    "C4",    # flake8-comprehensions
+    "DTZ",   # flake8-datetimez
+    "T10",   # flake8-debugger
+    "DJ",    # flake8-django
+    "EM",    # flake8-errmsg
+    "ISC",   # flake8-implicit-str-concat
+    "ICN",   # flake8-import-conventions
+    "G",     # flake8-logging-format
+    "PIE",   # flake8-pie
+    "T20",   # flake8-print
+    "PYI",   # flake8-pyi
+    "PT",    # flake8-pytest-style
+    "Q",     # flake8-quotes
+    "RSE",   # flake8-raise
+    "RET",   # flake8-return
+    "SLF",   # flake8-self
+    "SIM",   # flake8-simplify
+    "TID",   # flake8-tidy-imports
+    "ARG",   # flake8-unused-arguments
+    "PTH",   # flake8-use-pathlib
+    "ERA",   # eradicate
+    "PL",    # pylint
+    "TRY",   # tryceratops
+    "RUF",   # ruff-specific rules
+]
+ignore = [
+    "E501",    # line too long (handled by formatter)
+    "B008",    # do not perform function calls in argument defaults (Django uses this)
+    "DJ001",   # avoid nullable CharField/TextField (legacy code)
+    "S101",    # use of assert (OK in tests)
+    "S105",    # hardcoded password (false positives)
+    "S106",    # hardcoded password (false positives)
+    "PLR0913", # too many arguments
+    "PLR2004", # magic value in comparison
+    "TRY003",  # avoid long messages outside exception class
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*.py" = [
+    "S101",    # assert allowed in tests
+    "PLR2004", # magic values OK in tests
+    "ARG",     # unused arguments in fixtures
+]
+"**/migrations/*.py" = ["ALL"]
+"manage.py" = ["T201"]  # print allowed in manage.py
+"settings/**/*.py" = [
+    "S105",    # hardcoded passwords in settings
+    "F405",    # may be undefined from star imports
+]
+
+[tool.ruff.lint.isort]
+known-first-party = ["callcentersite"]
+section-order = ["future", "standard-library", "third-party", "first-party", "local-folder"]
+
+[tool.ruff.lint.mccabe]
+max-complexity = 10
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
+
 [tool.black]
 line-length = 100
 target-version = ['py312']
@@ -48,11 +141,50 @@ skip = ["migrations"]
 python_version = "3.12"
 warn_return_any = true
 warn_unused_configs = true
-disallow_untyped_defs = false
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+warn_unreachable = true
+strict_optional = true
+strict_equality = true
+check_untyped_defs = true
+disallow_untyped_defs = false  # Gradual typing - enable later
+disallow_any_unimported = false
+disallow_any_generics = false
+disallow_subclassing_any = false
 ignore_missing_imports = true
+no_implicit_optional = true
+show_error_codes = true
+show_column_numbers = true
+pretty = true
+plugins = ["mypy_django_plugin.main", "mypy_drf_plugin.main"]
+
 exclude = [
     "migrations/",
     "venv/",
+    "tests/",
+]
+
+[[tool.mypy.overrides]]
+module = [
+    "*.migrations.*",
+    "*.tests.*",
+    "manage",
+]
+ignore_errors = true
+
+[tool.django-stubs]
+django_settings_module = "callcentersite.settings.development"
+
+[tool.bandit]
+exclude_dirs = [
+    "tests",
+    "migrations",
+    ".venv",
+]
+skips = [
+    "B101",  # assert_used - OK in tests
+    "B601",  # paramiko_calls - not applicable
 ]
 
 [tool.pylint.messages_control]

@@ -17,6 +17,19 @@ ruff>=0.3.0
 
 # Type checking
 mypy>=1.9.0
+django-stubs>=5.1.0
+djangorestframework-stubs>=3.15.0
+types-python-dateutil
+types-pytz
+types-requests
+
+# Pre-commit hooks
+pre-commit>=3.6.0
+
+# Security
+bandit[toml]>=1.7.0
+safety>=3.0.0
+pip-audit>=2.6.0
 
 # ============================================
 # DEBUGGING
@@ -29,6 +42,13 @@ django-debug-toolbar>=4.2.0
 # DJANGO EXTENSIONS
 # ============================================
 django-extensions>=3.2.0
+
+# ============================================
+# PERFORMANCE PROFILING
+# ============================================
+memory-profiler>=0.61.0
+snakeviz>=2.2.0
+pytest-benchmark>=4.0.0
 
 # ============================================
 # DOCUMENTATION (opcional)
