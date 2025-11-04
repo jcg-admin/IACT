@@ -75,11 +75,6 @@ LOGGING_CONFIG: dict[str, Any] = {
             "class": "django.utils.log.AdminEmailHandler",
             "include_html": True,
         },
-        "sentry": {
-            "level": "ERROR",
-            "class": "sentry_sdk.integrations.logging.EventHandler",
-            "filters": ["require_debug_false"],
-        },
     },
     "loggers": {
         "django": {
@@ -88,12 +83,12 @@ LOGGING_CONFIG: dict[str, Any] = {
             "propagate": False,
         },
         "django.request": {
-            "handlers": ["error_file", "mail_admins", "sentry"],
+            "handlers": ["error_file", "mail_admins"],
             "level": "ERROR",
             "propagate": False,
         },
         "django.security": {
-            "handlers": ["error_file", "sentry"],
+            "handlers": ["error_file"],
             "level": "WARNING",
             "propagate": False,
         },
@@ -103,7 +98,7 @@ LOGGING_CONFIG: dict[str, Any] = {
             "propagate": False,
         },
         "callcentersite": {
-            "handlers": ["console", "file", "error_file", "sentry"],
+            "handlers": ["console", "file", "error_file"],
             "level": os.getenv("APP_LOG_LEVEL", "INFO"),
             "propagate": False,
         },

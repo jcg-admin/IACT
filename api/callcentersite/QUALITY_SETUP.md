@@ -9,7 +9,7 @@ Esta guía documenta todas las herramientas de calidad de código, automatizaci�
 3. [MyPy - Validación de Tipos](#mypy---validación-de-tipos)
 4. [Testing con Pytest](#testing-con-pytest)
 5. [GitHub Actions CI/CD](#github-actions-cicd)
-6. [Logging y Sentry](#logging-y-sentry)
+6. [Logging Profesional](#logging-profesional)
 7. [Medición de Rendimiento](#medición-de-rendimiento)
 8. [AsyncIO y HTTPX](#asyncio-y-httpx)
 9. [Makefile - Automatización](#makefile---automatización)
@@ -216,7 +216,7 @@ Archivo: `.github/workflows/python-ci.yml`
 
 ---
 
-## Logging y Sentry
+## Logging Profesional
 
 ### Configuración de Logging
 
@@ -230,37 +230,36 @@ LOGGING = get_logging_config()
 
 #### Handlers:
 
-- **console**: Logs a stdout
-- **file**: Logs rotativos a archivo
-- **error_file**: Solo errores
-- **sentry**: Envía errores a Sentry
+- **console**: Logs a stdout (nivel INFO)
+- **console_debug**: Logs de debug solo en desarrollo
+- **file**: Logs rotativos a archivo (10MB, 5 backups)
+- **file_debug**: Logs de debug en archivo separado
+- **error_file**: Solo errores (10MB, 10 backups)
+- **mail_admins**: Envía errores críticos por email a administradores
+
+#### Formatters:
+
+- **verbose**: Formato completo con nivel, timestamp, módulo, proceso, thread
+- **simple**: Formato simple con nivel y mensaje
+- **json**: Formato JSON para parseo automático
 
 #### Loggers por App:
 
 - `django`: Logs generales de Django
-- `django.request`: Errores de requests
+- `django.request`: Errores de requests HTTP
+- `django.security`: Advertencias de seguridad
+- `django.db.backends`: Queries SQL (solo en debug)
 - `callcentersite`: Logs de la aplicación
 - `callcentersite.apps.etl`: Logs específicos de ETL
 - `callcentersite.apps.authentication`: Logs de autenticación
-
-### Configuración de Sentry
-
-Archivo: `callcentersite/settings/sentry_config.py`
-
-```python
-from callcentersite.settings.sentry_config import init_sentry
-
-# En settings/production.py
-init_sentry()
-```
+- `callcentersite.apps.audit`: Logs de auditoría
 
 #### Variables de Entorno:
 
 ```bash
-SENTRY_DSN=https://your-sentry-dsn
-SENTRY_ENVIRONMENT=production
-SENTRY_TRACES_SAMPLE_RATE=0.1
-SENTRY_PROFILES_SAMPLE_RATE=0.1
+LOG_DIR=/var/log/callcentersite  # Directorio para archivos de log
+DJANGO_LOG_LEVEL=INFO            # Nivel de log de Django
+APP_LOG_LEVEL=INFO               # Nivel de log de la aplicación
 ```
 
 ### Uso en Código
@@ -277,8 +276,35 @@ def my_function():
         logger.debug("Detalles de debug")
     except Exception as e:
         logger.error(f"Error: {e}", exc_info=True)
-        # Sentry captura automáticamente
+        # Los errores se registran en error_file y se envían por email
+
+# Logging estructurado con extra fields
+logger.info(
+    "Operación completada",
+    extra={
+        "user_id": user.id,
+        "operation": "export",
+        "duration": elapsed_time,
+    }
+)
 ```
+
+### Rotación de Logs
+
+Los archivos de log se rotan automáticamente:
+
+- **django.log**: 10MB máximo, 5 archivos de respaldo
+- **django_debug.log**: 10MB máximo, 3 archivos de respaldo
+- **django_errors.log**: 10MB máximo, 10 archivos de respaldo
+
+### Retención de Logs
+
+Según restricciones del proyecto:
+
+- **Aplicación**: 30 días
+- **Acceso**: 90 días
+- **Auditoría**: 2+ años
+- **Rotación**: Automática por tamaño
 
 ---
 
@@ -600,13 +626,6 @@ pre-commit autoupdate
 # type: ignore[attr-defined]
 ```
 
-### Sentry No Envía Eventos
-
-Verifica:
-1. `SENTRY_DSN` está configurado
-2. `SENTRY_ENVIRONMENT` no es `development` (a menos que lo desees)
-3. El nivel de log es >= `ERROR`
-
 ---
 
 ## Recursos
@@ -616,7 +635,7 @@ Verifica:
 - [Pytest Documentation](https://docs.pytest.org/)
 - [HTTPX Documentation](https://www.python-httpx.org/)
 - [AsyncIO Documentation](https://docs.python.org/3/library/asyncio.html)
-- [Sentry Python SDK](https://docs.sentry.io/platforms/python/)
+- [Django Logging](https://docs.djangoproject.com/en/5.2/topics/logging/)
 
 ---
 
