@@ -64,11 +64,11 @@ conserva evidencia para auditorías.
 
 1. **Instalación estándar**:
    ```bash
-   pip install -r docs/requirements/docs.txt
+   pip install -r docs/requirements.txt
    ```
    - Alternativa Windows si `pip` no está en PATH:
      ```bash
-    python -m pip install -r docs/requirements/docs.txt
+    python -m pip install -r docs/requirements.txt
      ```
 2. **Validar versión**:
    ```bash

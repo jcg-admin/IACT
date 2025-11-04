@@ -12,7 +12,7 @@ Esta carpeta contiene versiones anteriores de análisis de estructura documental
 > **⚠️ NOTA IMPORTANTE**: Los documentos de análisis en esta carpeta contienen **ejemplos ilustrativos** de requisitos (N-001, RN-001, RF-001, etc.) con enlaces que pueden no apuntar a archivos reales. Estos ejemplos fueron creados para propósitos de demostración y diseño de la estructura.
 >
 > Para la **estructura real de requisitos**, consulta:
-> - [docs/implementacion/](../implementacion/README.md) - Source of Truth actual
+> - [docs/implementacion/](../implementacion/readme.md) - Source of Truth actual
 > - [Guía de Migración](../implementacion/MIGRATION_FROM_LEGACY.md) - Proceso de migración
 
 ## Archivos archivados

@@ -16,13 +16,13 @@ nav:
   - Requisitos ISO 29148:
       - Índices consolidados: requisitos/readme.md
   - Implementación (Source of Truth):
-      - Portada: implementacion/README.md
+      - Portada: implementacion/readme.md
       - Backend:
-          - Requisitos: implementacion/backend/requisitos/README.md
+          - Requisitos: implementacion/backend/requisitos/readme.md
       - Frontend:
-          - Requisitos: implementacion/frontend/requisitos/README.md
+          - Requisitos: implementacion/frontend/requisitos/readme.md
       - Infrastructure:
-          - Requisitos: implementacion/infrastructure/requisitos/README.md
+          - Requisitos: implementacion/infrastructure/requisitos/readme.md
   - Arquitectura:
       - Portada: arquitectura/readme.md
       - Lineamientos de código: arquitectura/lineamientos_codigo.md
@@ -68,6 +68,7 @@ nav:
           - Task report: solicitudes/sc00/sc00_task_report/readme.md
       - SC01 · Preparación de entorno MkDocs: solicitudes/sc01/readme.md
 docs_dir: .
+site_dir: ../site
 theme:
   name: readthedocs
   features:
@@ -79,12 +80,6 @@ plugins:
   - search
   - kroki:
       ServerURL: https://kroki.io
-      FileTypes:
-        - plantuml
-        - mermaid
-        - c4plantuml
-      DownloadImages: true
-      DownloadDir: images/diagrams
 
 markdown_extensions:
   - toc:
@@ -94,14 +89,7 @@ markdown_extensions:
   - tables
   - attr_list
   - md_in_html
-  - pymdownx.superfences:
-      custom_fences:
-        - name: plantuml
-          class: plantuml
-          format: !!python/name:mkdocs_kroki_plugin.fences.fence_kroki
-        - name: mermaid
-          class: mermaid
-          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.superfences
   - pymdownx.tabbed:
       alternate_style: true
   - pymdownx.details

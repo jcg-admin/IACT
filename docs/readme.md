@@ -25,7 +25,7 @@ Toda la documentación funcional, técnica y operativa vive ahora en `docs/`. La
 La configuración [`mkdocs.yml`](mkdocs.yml) permite visualizar la documentación con una experiencia homogénea.
 
 ```bash
-pip install -r docs/requirements/docs.txt
+pip install -r docs/requirements.txt
 mkdocs serve -f docs/mkdocs.yml
 ```
 
