@@ -25,7 +25,7 @@ Los procedimientos definen **cómo** hacer las cosas en el proyecto:
 
 ### 🚀 Desarrollo
 
-#### [Procedimiento: Instalación de Entorno](procesos/procedimiento_instalacion_entorno.md)
+#### [Procedimiento: Instalación de Entorno](../gobernanza/procesos/procedimiento_instalacion_entorno.md)
 **Cuándo usar**: Primera vez configurando tu entorno de desarrollo
 
 **Cubre**:
@@ -39,7 +39,7 @@ Los procedimientos definen **cómo** hacer las cosas en el proyecto:
 
 ---
 
-#### [Procedimiento: Desarrollo Local](procesos/procedimiento_desarrollo_local.md)
+#### [Procedimiento: Desarrollo Local](../gobernanza/procesos/procedimiento_desarrollo_local.md)
 **Cuándo usar**: Cada día que trabajes en el proyecto
 
 **Cubre**:
@@ -54,7 +54,7 @@ Los procedimientos definen **cómo** hacer las cosas en el proyecto:
 
 ---
 
-#### [Procedimiento: Gestión de Cambios](procesos/procedimiento_gestion_cambios.md)
+#### [Procedimiento: Gestión de Cambios](../gobernanza/procesos/procedimiento_gestion_cambios.md)
 **Cuándo usar**: Al proponer cualquier cambio al código
 
 **Cubre**:
@@ -71,7 +71,7 @@ Los procedimientos definen **cómo** hacer las cosas en el proyecto:
 
 ### 🔍 Quality Assurance
 
-#### [Procedimiento: QA](procesos/procedimiento_qa.md)
+#### [Procedimiento: QA](../gobernanza/procesos/procedimiento_qa.md)
 **Cuándo usar**: Testing de features antes de release
 
 **Cubre**:
@@ -89,7 +89,7 @@ Los procedimientos definen **cómo** hacer las cosas en el proyecto:
 
 ### 📝 Documentación
 
-#### [Procedimiento: Revisión Documental](procesos/procedimiento_revision_documental.md)
+#### [Procedimiento: Revisión Documental](../gobernanza/procesos/procedimiento_revision_documental.md)
 **Cuándo usar**: Al crear o modificar documentación
 
 **Cubre**:
@@ -106,7 +106,7 @@ Los procedimientos definen **cómo** hacer las cosas en el proyecto:
 
 ### 🚢 Release y Deployment
 
-#### [Procedimiento: Release](procesos/procedimiento_release.md)
+#### [Procedimiento: Release](../gobernanza/procesos/procedimiento_release.md)
 **Cuándo usar**: Al crear una nueva versión oficial
 
 **Cubre**:
@@ -127,36 +127,36 @@ Los procedimientos definen **cómo** hacer las cosas en el proyecto:
 
 ### Para Nuevos Desarrolladores
 
-1. **Día 1**: [Instalación de Entorno](procesos/procedimiento_instalacion_entorno.md)
-2. **Día 2+**: [Desarrollo Local](procesos/procedimiento_desarrollo_local.md)
-3. **Primera feature**: [Gestión de Cambios](procesos/procedimiento_gestion_cambios.md)
+1. **Día 1**: [Instalación de Entorno](../gobernanza/procesos/procedimiento_instalacion_entorno.md)
+2. **Día 2+**: [Desarrollo Local](../gobernanza/procesos/procedimiento_desarrollo_local.md)
+3. **Primera feature**: [Gestión de Cambios](../gobernanza/procesos/procedimiento_gestion_cambios.md)
 
 ### Para Desarrolladores Existentes
 
 **Diariamente**:
-- [Desarrollo Local](procesos/procedimiento_desarrollo_local.md) (referencia)
+- [Desarrollo Local](../gobernanza/procesos/procedimiento_desarrollo_local.md) (referencia)
 
 **Por feature/fix**:
-- [Gestión de Cambios](procesos/procedimiento_gestion_cambios.md)
+- [Gestión de Cambios](../gobernanza/procesos/procedimiento_gestion_cambios.md)
 
 **Documentación**:
-- [Revisión Documental](procesos/procedimiento_revision_documental.md)
+- [Revisión Documental](../gobernanza/procesos/procedimiento_revision_documental.md)
 
 ### Para QA
 
 **Por feature**:
-- [Procedimiento QA](procesos/procedimiento_qa.md)
+- [Procedimiento QA](../gobernanza/procesos/procedimiento_qa.md)
 
 **Por release**:
-- [Procedimiento QA](procesos/procedimiento_qa.md) → [Procedure Release](procesos/procedimiento_release.md)
+- [Procedimiento QA](../gobernanza/procesos/procedimiento_qa.md) → [Procedure Release](../gobernanza/procesos/procedimiento_release.md)
 
 ### Para DevOps
 
 **Configuración inicial**:
-- [Instalación de Entorno](procesos/procedimiento_instalacion_entorno.md)
+- [Instalación de Entorno](../gobernanza/procesos/procedimiento_instalacion_entorno.md)
 
 **Releases**:
-- [Procedimiento Release](procesos/procedimiento_release.md)
+- [Procedimiento Release](../gobernanza/procesos/procedimiento_release.md)
 
 **Operaciones**:
 - Ver [Runbooks DevOps](../devops/runbooks/)
@@ -193,10 +193,10 @@ Los procedimientos siguen lineamientos establecidos:
 ### Buscar un Procedimiento
 
 **Por situación**:
-- "Necesito configurar mi máquina" → [Instalación de Entorno](procesos/procedimiento_instalacion_entorno.md)
-- "Voy a hacer un cambio" → [Gestión de Cambios](procesos/procedimiento_gestion_cambios.md)
-- "Debo probar una feature" → [QA](procesos/procedimiento_qa.md)
-- "Vamos a hacer release" → [Release](procesos/procedimiento_release.md)
+- "Necesito configurar mi máquina" → [Instalación de Entorno](../gobernanza/procesos/procedimiento_instalacion_entorno.md)
+- "Voy a hacer un cambio" → [Gestión de Cambios](../gobernanza/procesos/procedimiento_gestion_cambios.md)
+- "Debo probar una feature" → [QA](../gobernanza/procesos/procedimiento_qa.md)
+- "Vamos a hacer release" → [Release](../gobernanza/procesos/procedimiento_release.md)
 
 **Por rol**:
 - Ver sección "Guía Rápida por Rol" arriba
@@ -232,7 +232,7 @@ Para agregar un nuevo procedimiento:
    - Recursos relacionados
    - Changelog
 
-3. Crear PR siguiendo [Procedimiento de Revisión Documental](procesos/procedimiento_revision_documental.md)
+3. Crear PR siguiendo [Procedimiento de Revisión Documental](../gobernanza/procesos/procedimiento_revision_documental.md)
 
 4. Actualizar este índice
 
@@ -274,12 +274,12 @@ Historial de cambios
 
 | Procedimiento | ID | Propietario | Categoría |
 |---------------|-----|-------------|-----------|
-| [Desarrollo Local](procesos/procedimiento_desarrollo_local.md) | PROC-DEV-LOCAL | desarrollo | desarrollo |
-| [Gestión de Cambios](procesos/procedimiento_gestion_cambios.md) | PROC-CAMBIOS | desarrollo | desarrollo |
-| [Instalación de Entorno](procesos/procedimiento_instalacion_entorno.md) | PROC-INSTALL | devops | infrastructure |
-| [QA](procesos/procedimiento_qa.md) | PROC-QA | qa | qa |
-| [Release](procesos/procedimiento_release.md) | PROC-RELEASE | devops | devops |
-| [Revisión Documental](procesos/procedimiento_revision_documental.md) | PROC-REV-DOC | qa | qa |
+| [Desarrollo Local](../gobernanza/procesos/procedimiento_desarrollo_local.md) | PROC-DEV-LOCAL | desarrollo | desarrollo |
+| [Gestión de Cambios](../gobernanza/procesos/procedimiento_gestion_cambios.md) | PROC-CAMBIOS | desarrollo | desarrollo |
+| [Instalación de Entorno](../gobernanza/procesos/procedimiento_instalacion_entorno.md) | PROC-INSTALL | devops | infrastructure |
+| [QA](../gobernanza/procesos/procedimiento_qa.md) | PROC-QA | qa | qa |
+| [Release](../gobernanza/procesos/procedimiento_release.md) | PROC-RELEASE | devops | devops |
+| [Revisión Documental](../gobernanza/procesos/procedimiento_revision_documental.md) | PROC-REV-DOC | qa | qa |
 
 ---
 
