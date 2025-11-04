@@ -30,12 +30,12 @@ help: ## Mostrar esta ayuda
 docs-install: ## Instalar dependencias de MkDocs
 	@echo "$(BLUE)Instalando dependencias de documentación...$(NC)"
 	$(PIP) install -r $(DOCS_REQUIREMENTS)
-	@echo "$(GREEN)✓ Dependencias instaladas$(NC)"
+	@echo "$(GREEN)[OK] Dependencias instaladas$(NC)"
 
 docs-build: ## Construir documentación estática
 	@echo "$(BLUE)Construyendo documentación...$(NC)"
 	mkdocs build -f $(MKDOCS_CONFIG)
-	@echo "$(GREEN)✓ Documentación construida en $(SITE_DIR)/$(NC)"
+	@echo "$(GREEN)[OK] Documentación construida en $(SITE_DIR)/$(NC)"
 
 docs-serve: ## Servir documentación con live reload (http://127.0.0.1:8000)
 	@echo "$(BLUE)Iniciando servidor de documentación...$(NC)"
@@ -45,43 +45,43 @@ docs-serve: ## Servir documentación con live reload (http://127.0.0.1:8000)
 docs-clean: ## Limpiar archivos de documentación generados
 	@echo "$(BLUE)Limpiando archivos de documentación...$(NC)"
 	rm -rf $(SITE_DIR)
-	@echo "$(GREEN)✓ Archivos de documentación eliminados$(NC)"
+	@echo "$(GREEN)[OK] Archivos de documentación eliminados$(NC)"
 
 docs-deploy: ## Desplegar documentación a GitHub Pages
 	@echo "$(BLUE)Desplegando documentación a GitHub Pages...$(NC)"
 	mkdocs gh-deploy -f $(MKDOCS_CONFIG)
-	@echo "$(GREEN)✓ Documentación desplegada$(NC)"
+	@echo "$(GREEN)[OK] Documentación desplegada$(NC)"
 	@echo "$(YELLOW)URL: https://2-coatl.github.io/IACT---project/$(NC)"
 
 docs-check: ## Verificar enlaces y estructura de documentación
 	@echo "$(BLUE)Verificando documentación...$(NC)"
 	mkdocs build -f $(MKDOCS_CONFIG) --strict
-	@echo "$(GREEN)✓ Documentación verificada$(NC)"
+	@echo "$(GREEN)[OK] Documentación verificada$(NC)"
 
 ##@ Desarrollo
 
 vagrant-up: ## Levantar VM Vagrant (PostgreSQL + MariaDB)
 	@echo "$(BLUE)Levantando infraestructura Vagrant...$(NC)"
 	vagrant up
-	@echo "$(GREEN)✓ VM levantada$(NC)"
+	@echo "$(GREEN)[OK] VM levantada$(NC)"
 	@echo "$(YELLOW)PostgreSQL: 127.0.0.1:15432$(NC)"
 	@echo "$(YELLOW)MariaDB: 127.0.0.1:13306$(NC)"
 
 vagrant-down: ## Apagar VM Vagrant
 	@echo "$(BLUE)Apagando VM Vagrant...$(NC)"
 	vagrant halt
-	@echo "$(GREEN)✓ VM apagada$(NC)"
+	@echo "$(GREEN)[OK] VM apagada$(NC)"
 
 vagrant-ssh: ## Conectar a VM Vagrant por SSH
 	vagrant ssh
 
 vagrant-destroy: ## Destruir VM Vagrant completamente
-	@echo "$(YELLOW)⚠️  Esto eliminará completamente la VM$(NC)"
+	@echo "$(YELLOW)[WARN] Esto eliminará completamente la VM$(NC)"
 	@read -p "¿Continuar? [y/N] " -n 1 -r; \
 	echo; \
 	if [[ $$REPLY =~ ^[Yy]$$ ]]; then \
 		vagrant destroy -f; \
-		echo "$(GREEN)✓ VM destruida$(NC)"; \
+		echo "$(GREEN)[OK] VM destruida$(NC)"; \
 	else \
 		echo "$(YELLOW)Cancelado$(NC)"; \
 	fi
@@ -93,7 +93,7 @@ check-services: ## Verificar servicios de base de datos
 ##@ Testing
 
 test: ## Ejecutar pruebas del proyecto (cuando estén disponibles)
-	@echo "$(YELLOW)⚠️  No hay tests configurados actualmente$(NC)"
+	@echo "$(YELLOW)[WARN] No hay tests configurados actualmente$(NC)"
 	@echo "$(BLUE)Para configurar tests, crear pytest.ini y tests/$(NC)"
 
 ##@ Limpieza
@@ -104,13 +104,13 @@ clean: docs-clean ## Limpiar todos los archivos generados
 	find . -type f -name "*.pyc" -delete 2>/dev/null || true
 	find . -type f -name "*.pyo" -delete 2>/dev/null || true
 	find . -type d -name "*.egg-info" -exec rm -rf {} + 2>/dev/null || true
-	@echo "$(GREEN)✓ Archivos limpiados$(NC)"
+	@echo "$(GREEN)[OK] Archivos limpiados$(NC)"
 
 ##@ Instalación completa
 
 setup: docs-install ## Configurar entorno completo del proyecto
 	@echo "$(BLUE)Configurando entorno del proyecto...$(NC)"
-	@echo "$(GREEN)✓ Configuración completada$(NC)"
+	@echo "$(GREEN)[OK] Configuración completada$(NC)"
 	@echo ""
 	@echo "$(YELLOW)Próximos pasos:$(NC)"
 	@echo "  1. make vagrant-up      # Levantar bases de datos"

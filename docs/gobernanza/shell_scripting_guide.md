@@ -219,9 +219,9 @@ Ver sección [Plantillas](#plantillas) para templates completos.
 
 ## Estándares de Salida
 
-**IMPORTANTE**: Esta sección implementa la "Regla de Oro" definida en [Estándares de Código](estandares_codigo.md#regla-de-oro-output-profesional).
+**IMPORTANTE**: Esta sección implementa la "Regla Fundamental" definida en [Estándares de Código](estandares_codigo.md#regla-fundamental-output-profesional).
 
-### Regla de Oro
+### Regla Fundamental
 
 **NUNCA usar emojis, iconos Unicode decorativos, ni símbolos especiales en el output de scripts de producción.**
 
@@ -726,7 +726,7 @@ shellcheck --shell=bash script.sh
 
 Ubicación: `infrastructure/devcontainer/scripts/check_no_emojis.sh`
 
-Este script valida que no haya emojis en scripts de producción, implementando la Regla de Oro de Output Profesional.
+Este script valida que no haya emojis en scripts de producción, implementando la Regla Fundamental de Output Profesional.
 
 ---
 
@@ -801,7 +801,7 @@ Este script valida que no haya emojis en scripts de producción, implementando l
 
 ## Documentos Relacionados
 
-- [Estándares de Código - Regla de Oro](estandares_codigo.md#regla-de-oro-output-profesional)
+- [Estándares de Código - Regla Fundamental](estandares_codigo.md#regla-fundamental-output-profesional)
 - [Scripts de Requisitos - README](../../scripts/requisitos/README.md)
 - [Scripts del Proyecto - Índice](../../scripts/README.md)
 

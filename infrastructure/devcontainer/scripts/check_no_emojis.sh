@@ -14,7 +14,7 @@
 #   1 - Se encontraron emojis en scripts
 #
 # Relacionado:
-#   docs/gobernanza/estandares_codigo.md - Regla de Oro sobre Output Profesional
+#   docs/gobernanza/estandares_codigo.md - Regla Fundamental sobre Output Profesional
 #
 
 set -euo pipefail

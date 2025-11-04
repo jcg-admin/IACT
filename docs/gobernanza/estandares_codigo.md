@@ -29,7 +29,7 @@ Estos estándares aplican a:
 
 ## Tabla de Contenidos
 
-1. [Regla de Oro: Output Profesional](#regla-de-oro-output-profesional)
+1. [Regla Fundamental: Output Profesional](#regla-fundamental-output-profesional)
 2. [Estándares de Python](#estándares-de-python)
 3. [Estándares de Scripts de Shell](#estándares-de-scripts-de-shell)
 4. [Estándares de PowerShell](#estándares-de-powershell)
@@ -37,7 +37,7 @@ Estos estándares aplican a:
 
 ---
 
-## Regla de Oro: Output Profesional
+## Regla Fundamental: Output Profesional
 
 ### Principio Fundamental
 
@@ -551,6 +551,6 @@ Cualquier excepción a estos estándares debe:
 ## Changelog
 
 - **2025-11-02**: Creación inicial
-  - Agregar regla de oro sobre emojis
+  - Agregar regla fundamental sobre emojis
   - Definir estándares de Python, Bash, PowerShell
   - Incluir script de validación y pre-commit hooks

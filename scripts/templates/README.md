@@ -115,7 +115,7 @@ Al usar una plantilla, asegúrate de:
 
 ## Estándares de Output
 
-**CRÍTICO**: Todos los scripts deben seguir la Regla de Oro de Output Profesional.
+**CRÍTICO**: Todos los scripts deben seguir la Regla Fundamental de Output Profesional.
 
 NUNCA usar:
 - Emojis (✅ ❌ 🚀 📁 etc.)
