@@ -1,101 +1,124 @@
-# Project Scripts
+---
+id: SCRIPTS-INDEX
+tipo: documentacion
+titulo: Scripts del Proyecto IACT
+fecha: 2025-11-03
+---
 
-This directory contains utility scripts for project automation and maintenance.
+# Scripts del Proyecto IACT
 
-## Available Scripts
+Scripts organizados por función para facilitar tareas comunes.
 
-### `generate-requirements-index.js`
+**IMPORTANTE**: Al crear nuevos scripts, seguir:
+- [Shell Scripting Guide](../docs/gobernanza/shell_scripting_guide.md) - Guía completa de shell scripting
+- [Estándares de Código](../docs/gobernanza/estandares_codigo.md) - Regla de Oro de Output Profesional
+- [Plantillas de Scripts](templates/README.md) - Templates estandarizados
 
-**Purpose**: Generate ISO 29148-compliant requirement indices from domain-specific requirement files.
+---
 
-**Created by**: GitHub Actions workflow (`.github/workflows/requirements-index.yml`)
+## Estructura
 
-**Auto-generated**: This script is created dynamically during CI/CD runs.
+```
+scripts/
+├── README.md                    ← Este archivo
+├── templates/                   ← Plantillas de scripts estandarizadas
+│   ├── README.md                ← Guía de plantillas
+│   ├── bash-script-template.sh
+│   ├── posix-script-template.sh
+│   └── library-template.sh
+└── requisitos/                  ← Scripts para gestión de requisitos
+    ├── README.md                ← Documentación detallada
+    ├── generar_indices.py       ← Genera índices ISO 29148
+    ├── contar_requisitos.sh     ← Cuenta requisitos por tipo/dominio
+    ├── validar_frontmatter.py   ← Valida YAML de requisitos
+    └── listar_requisitos.sh     ← Lista todos los requisitos
+```
 
-**Manual Usage**:
+---
+
+## Scripts de Requisitos
+
+### Uso rápido:
+
 ```bash
-# Install dependencies first
-npm install -g glob gray-matter js-yaml
+# Contar requisitos
+bash scripts/requisitos/contar_requisitos.sh
 
-# Run generator
-node scripts/generate-requirements-index.js
+# Listar todos los requisitos
+bash scripts/requisitos/listar_requisitos.sh
+
+# Validar frontmatter
+python scripts/requisitos/validar_frontmatter.py
+
+# Generar índices ISO 29148
+python scripts/requisitos/generar_indices.py
 ```
 
-**Input**:
-- `implementacion/backend/requisitos/**/*.md`
-- `implementacion/frontend/requisitos/**/*.md`
-- `implementacion/infrastructure/requisitos/**/*.md`
+**Documentación completa**: [scripts/requisitos/README.md](requisitos/README.md)
 
-**Output**:
-- `docs/requisitos/brs_business_requirements.md` (ISO 9.3)
-- `docs/requisitos/strs_stakeholder_requirements.md` (ISO 9.4)
-- `docs/requisitos/syrs_system_requirements.md` (ISO 9.5)
-- `docs/requisitos/srs_software_requirements.md` (ISO 9.6)
-- `docs/requisitos/matriz_trazabilidad_rtm.md` (Traceability Matrix)
-- `docs/requisitos/README.md`
-
-**Features**:
-- Parses YAML frontmatter from markdown files
-- Validates requirement structure
-- Generates bidirectional traceability (upward/downward)
-- Creates ISO 29148-compliant documentation
-- Detects broken traceability references
-
-**Requirements in frontmatter**:
-```yaml
 ---
-id: RF-001
-tipo: funcional
-titulo: API para cálculo de stock
-dominio: backend
-owner: equipo-backend
-prioridad: alta
-estado: aprobado
-trazabilidad_upward:
-  - RN-001
-  - RS-003
-trazabilidad_downward:
-  - TEST-001
-iso29148_clause: "9.6"
+
+## Flujo de Trabajo Recomendado
+
+### Al trabajar con requisitos:
+
+1. **Crear/Editar** requisito en `docs/implementacion/`
+2. **Validar** frontmatter: `python scripts/requisitos/validar_frontmatter.py`
+3. **Generar** índices: `python scripts/requisitos/generar_indices.py`
+4. **Verificar** conteo: `bash scripts/requisitos/contar_requisitos.sh`
+5. **Commit** y push
+
 ---
+
+## Permisos
+
+Si encuentras problemas de permisos:
+
+```bash
+chmod +x scripts/requisitos/*.sh
+chmod +x scripts/requisitos/*.py
 ```
 
 ---
 
-## Future Scripts
+## Crear Nuevos Scripts
 
-This directory will contain additional automation scripts as the project grows:
+Para crear un nuevo script en el proyecto:
 
-- `validate-docs-links.sh` - Check for broken links in documentation
-- `sync-adr-index.sh` - Update ADR (Architecture Decision Records) index
-- `generate-glossary.sh` - Build project glossary from terms
-- `check-requirements-coverage.sh` - Verify test coverage for requirements
+1. **Seleccionar plantilla apropiada** de `templates/`:
+   - `bash-script-template.sh` - Scripts complejos con características bash
+   - `posix-script-template.sh` - Scripts simples y portables
+   - `library-template.sh` - Bibliotecas de funciones reutilizables
 
----
+2. **Copiar y personalizar**:
+   ```bash
+   cp scripts/templates/bash-script-template.sh scripts/mi-nuevo-script.sh
+   # Editar y personalizar
+   ```
 
-## Standards Compliance
+3. **Validar antes de commit**:
+   ```bash
+   shellcheck scripts/mi-nuevo-script.sh
+   bash -n scripts/mi-nuevo-script.sh
+   ```
 
-All scripts in this directory should follow:
-
-1. **ISO/IEC/IEEE 29148:2018** - Requirements Engineering
-2. **BABOK v3** - Business Analysis practices
-3. **PMBOK Guide 7th Edition** - Project management standards
-
-For more details, see: `docs/analisis_estructura_docs_v3_final.md`
-
----
-
-## Contributing
-
-When adding new scripts:
-
-1. Document purpose and usage in this README
-2. Include error handling and validation
-3. Use exit codes: 0 (success), 1 (error)
-4. Add to `.gitignore` if script is auto-generated
-5. Test locally before committing
+Ver: [Plantillas de Scripts](templates/README.md) para guía completa.
 
 ---
 
-**Maintained by**: Development Team
-**Last Updated**: 2025-11-02
+## Referencias
+
+**Documentación del Proyecto:**
+- [Estructura de Implementación](../docs/implementacion/README.md)
+- [Plantillas ISO 29148](../docs/plantillas/readme.md)
+- [Propuesta de Reestructuración](../docs/PROPUESTA_FINAL_REESTRUCTURACION.md)
+
+**Estándares y Guías:**
+- [Shell Scripting Guide Completa](../docs/gobernanza/shell_scripting_guide.md)
+- [Estándares de Código](../docs/gobernanza/estandares_codigo.md)
+- [Plantillas de Scripts](templates/README.md)
+
+---
+
+**Última actualización**: 2025-11-03
+**Mantenedor**: equipo-arquitectura

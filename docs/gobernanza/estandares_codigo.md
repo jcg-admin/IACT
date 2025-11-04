@@ -2,8 +2,8 @@
 id: DOC-GOB-CODING-STANDARDS
 estado: activo
 propietario: equipo-arquitectura
-ultima_actualizacion: 2025-11-02
-relacionados: ["DOC-GOB-INDEX", "DOC-ARQ-INDEX"]
+ultima_actualizacion: 2025-11-03
+relacionados: ["DOC-GOB-INDEX", "DOC-ARQ-INDEX", "DOC-GOB-SHELL-GUIDE"]
 ---
 # Estándares de Código - Proyecto IACT
 
@@ -20,6 +20,12 @@ Estos estándares aplican a:
 - Scripts de automatización y DevOps
 - Configuraciones de CI/CD
 - Documentación técnica (cuando incluya código)
+
+## Documentación Relacionada
+
+**Para scripts de shell**, consultar también:
+- [Shell Scripting Guide Completa](shell_scripting_guide.md) - Guía exhaustiva de shell scripting
+- [Plantillas de Scripts](../../scripts/templates/README.md) - Templates estandarizados
 
 ## Tabla de Contenidos
 
@@ -297,7 +303,24 @@ logger.error("❌ Database connection failed")
 
 ## Estándares de Scripts de Shell
 
-### Bash Scripts
+**IMPORTANTE**: Para desarrollo avanzado de shell scripts, consultar la [Shell Scripting Guide Completa](shell_scripting_guide.md) que incluye:
+- Criterios de decisión para ubicación de scripts
+- Selección de shell (POSIX vs bash)
+- Manejo avanzado de errores y seguridad
+- Organización de código modular
+- Requerimientos de testing
+- Plantillas completas
+
+### Plantillas Disponibles
+
+El proyecto proporciona plantillas estandarizadas en `scripts/templates/`:
+- `bash-script-template.sh` - Para scripts complejos con características bash
+- `posix-script-template.sh` - Para máxima portabilidad
+- `library-template.sh` - Para bibliotecas de funciones reutilizables
+
+Ver: [Scripts Templates README](../../scripts/templates/README.md)
+
+### Ejemplo Mínimo (Bash)
 
 ```bash
 #!/usr/bin/env bash
@@ -340,6 +363,8 @@ main() {
 # Ejecutar main
 main "$@"
 ```
+
+**Nota**: Este es un ejemplo mínimo. Para scripts de producción, usar las plantillas completas en `scripts/templates/`.
 
 ---
 

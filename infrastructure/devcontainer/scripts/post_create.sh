@@ -389,7 +389,7 @@ print_summary() {
         iact_log_success "postCreate completed successfully"
         iact_log_info "Errors: 0, Warnings: 0"
         echo ""
-        iact_log_success "🎉 DevContainer is ready to use!"
+        iact_log_success "DevContainer is ready to use!"
         iact_log_info "Run Django: cd api/callcentersite && python manage.py runserver"
     elif [[ $ERRORS -eq 0 ]]; then
         iact_log_success "postCreate completed with warnings"
