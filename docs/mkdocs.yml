@@ -115,13 +115,17 @@ nav:
           - Portada: solicitudes/sc01/readme.md
           - Validación: solicitudes/sc01/validacion_2025_11_04.md
           - Test de diagramas PlantUML: solicitudes/sc01/test_diagrams.md
-      - SC02 · Documentación de API:
+      - SC02 · Documentación de API ✅:
           - Portada: solicitudes/sc02/readme.md
           - Alcance: solicitudes/sc02/alcance.md
           - Checklist: solicitudes/sc02/checklist.md
           - Análisis de plantillas: solicitudes/sc02/analisis_plantillas.md
           - Análisis estructural: solicitudes/sc02/analisis_estructura_api.md
           - Análisis funcional: solicitudes/sc02/analisis_funcion_real_apps.md
+      - SC03 · Documentación de Apps:
+          - Portada: solicitudes/sc03/readme.md
+          - Alcance: solicitudes/sc03/alcance.md
+          - Checklist: solicitudes/sc03/checklist.md
 docs_dir: .
 site_dir: ../site
 theme:

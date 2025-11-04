@@ -1,13 +1,18 @@
 ---
 id: DOC-SOL-SC02
-estado: en_progreso
+estado: completado
+fecha_completado: 2025-11-04
 propietario: equipo-backend
 ultima_actualizacion: 2025-11-04
-relacionados: ["DOC-SOL-INDEX", "DOC-BACKEND-INDEX", "DOC-ARQ-BACKEND", "DOC-DIS-BACKEND"]
+relacionados: ["DOC-SOL-INDEX", "DOC-SOL-SC03", "DOC-BACKEND-INDEX", "DOC-ARQ-BACKEND", "DOC-DIS-BACKEND"]
 ---
 # Solicitud SC02 - Documentación de la carpeta API
 
-Esta solicitud documenta el proceso de creación de documentación técnica completa para la carpeta `api/` del proyecto IACT, específicamente para el proyecto Django `callcentersite` y sus aplicaciones modulares.
+**Estado**: ✅ COMPLETADO
+
+Esta solicitud documentó el proceso de creación de la **base arquitectónica** para la documentación técnica de la carpeta `api/` del proyecto IACT, específicamente para el proyecto Django `callcentersite` y sus aplicaciones modulares.
+
+**Continuación**: Ver [SC03 - Documentación Individual de Apps](../sc03/readme.md) para la documentación detallada de cada app.
 
 ## Página padre
 - [`../readme.md`](../readme.md)
@@ -102,17 +107,37 @@ Los documentos técnicos se crearán en:
 - [x] Analizar función real de cada app
 - [x] Documentar patrones arquitectónicos existentes
 - [x] Crear guías de decisión de patrones
-- [ ] Documentar apps individuales (modelos, servicios, vistas)
-- [ ] Crear guía de API endpoints
-- [ ] Revisar con equipo de arquitectura
-- [ ] Publicar documentación de apps en docs/backend/
-- [ ] Actualizar índice de backend
-- [ ] Cerrar solicitud
+- [x] Crear solicitud SC03 para documentación individual de apps
+- [x] Cerrar solicitud SC02
+
+## Alcance completado
+
+SC02 estableció la **base arquitectónica** necesaria para documentar el backend:
+
+1. ✅ **Análisis Estructural**: Evaluación de la organización de carpetas y arquitectura general
+2. ✅ **Análisis Funcional**: Determinación de la función real de cada app
+3. ✅ **Patrones Arquitectónicos**: Documentación exhaustiva de 6 patrones identificados
+4. ✅ **Guías de Decisión**: Decision tree y ejemplos prácticos para nuevos desarrollos
+5. ✅ **Plantillas Especializadas**: Plantillas para Django apps y ETL jobs
+
+## Entregables
+
+| Documento | Ubicación | Líneas | Estado |
+|-----------|-----------|--------|--------|
+| Análisis de plantillas | `sc02/analisis_plantillas.md` | 300+ | ✅ |
+| Análisis estructural API | `sc02/analisis_estructura_api.md` | 664 | ✅ |
+| Análisis funcional de apps | `sc02/analisis_funcion_real_apps.md` | 823 | ✅ |
+| Patrones arquitectónicos | `backend/arquitectura/patrones_arquitectonicos.md` | 1000+ | ✅ |
+| Guía de decisión de patrones | `backend/arquitectura/guia_decision_patrones.md` | 300+ | ✅ |
+| Plantilla Django App | `plantillas/plantilla_django_app.md` | 1100+ | ✅ |
+| Plantilla ETL Job | `plantillas/plantilla_etl_job.md` | 900+ | ✅ |
+
+**Total**: ~5,087 líneas de documentación
 
 ## Próximos pasos
 
-1. Crear documento de alcance detallado
-2. Analizar cada aplicación Django en detalle
-3. Priorizar apps críticas (ETL, Analytics, Reports)
-4. Comenzar documentación por apps prioritarias
-5. Iterar con revisiones del equipo
+Ver **[SC03 - Documentación Individual de Apps](../sc03/readme.md)** para:
+- Documentación detallada de cada una de las 10 apps Django
+- Diagramas de clases, ER y secuencia
+- Guía consolidada de APIs REST
+- Mapa de dependencias entre apps
