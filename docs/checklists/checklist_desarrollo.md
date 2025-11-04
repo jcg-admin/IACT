@@ -8,7 +8,7 @@
 - [ ] Linters ejecutados sin errores (Black, Flake8, Pylint).
 - [ ] Referencia a ADRs relevantes.
 
-## Output Profesional (Regla de Oro)
+## Output Profesional (Regla Fundamental)
 - [ ] Scripts NO usan emojis en output (✅❌⚠️🚀 etc.).
 - [ ] Se usan prefijos estándar: [INFO], [ERROR], [WARN], [SUCCESS].
 - [ ] Separadores usan caracteres ASCII estándar (-, =, _).

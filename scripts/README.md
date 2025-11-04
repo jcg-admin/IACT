@@ -11,7 +11,7 @@ Scripts organizados por función para facilitar tareas comunes.
 
 **IMPORTANTE**: Al crear nuevos scripts, seguir:
 - [Shell Scripting Guide](../docs/gobernanza/shell_scripting_guide.md) - Guía completa de shell scripting
-- [Estándares de Código](../docs/gobernanza/estandares_codigo.md) - Regla de Oro de Output Profesional
+- [Estándares de Código](../docs/gobernanza/estandares_codigo.md) - Regla Fundamental de Output Profesional
 - [Plantillas de Scripts](templates/README.md) - Templates estandarizados
 
 ---

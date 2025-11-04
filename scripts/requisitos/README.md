@@ -11,7 +11,7 @@ relacionados: ["DOC-GOB-CODING-STANDARDS", "DOC-GOB-SHELL-GUIDE"]
 Scripts simples y fáciles de ejecutar para trabajar con requisitos en `docs/implementacion/`.
 
 **IMPORTANTE**: Estos scripts implementan los estándares definidos en:
-- [Estándares de Código](../../docs/gobernanza/estandares_codigo.md) - Regla de Oro de Output Profesional
+- [Estándares de Código](../../docs/gobernanza/estandares_codigo.md) - Regla Fundamental de Output Profesional
 - [Shell Scripting Guide](../../docs/gobernanza/shell_scripting_guide.md) - Guía completa de shell scripting
 
 ---
@@ -311,7 +311,7 @@ chmod +x scripts/requisitos/*.py
 - [Glosario BABOK/PMBOK/ISO](../../docs/anexos/glosario_babok_pmbok_iso.md)
 
 **Estándares y Guías:**
-- [Estándares de Código - Regla de Oro](../../docs/gobernanza/estandares_codigo.md#regla-de-oro-output-profesional)
+- [Estándares de Código - Regla Fundamental](../../docs/gobernanza/estandares_codigo.md#regla-fundamental-output-profesional)
 - [Shell Scripting Guide Completa](../../docs/gobernanza/shell_scripting_guide.md)
 - [Plantillas de Scripts](../templates/README.md)
 
