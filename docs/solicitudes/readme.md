@@ -2,7 +2,7 @@
 id: DOC-SOL-INDEX
 estado: borrador
 propietario: pmo-documentacion
-ultima_actualizacion: 2025-02-18
+ultima_actualizacion: 2025-11-04
 relacionados: ["DOC-INDEX-GENERAL", "DOC-ROOT-001"]
 ---
 # Solicitudes documentales
@@ -15,8 +15,9 @@ el equipo de documentación.
 - [`../index.md`](../index.md)
 
 ## Páginas hijas
-- [`sc00/readme.md`](sc00/readme.md)
-- [`sc01/readme.md`](sc01/readme.md)
+- [`sc00/readme.md`](sc00/readme.md) - Denver, CO (conferencia)
+- [`sc01/readme.md`](sc01/readme.md) - Preparación de entorno MkDocs
+- [`sc02/readme.md`](sc02/readme.md) - Documentación de la carpeta API
 
 ## Propósito
 - Catalogar solicitudes transversales y agruparlas por identificador (`SC00`, `SC01`, `SC02`, ...).
