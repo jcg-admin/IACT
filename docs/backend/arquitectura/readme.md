@@ -15,6 +15,8 @@ los acuerdos de negocio con documentación formal como ADR, modelos de despliegu
 
 ## Páginas hijas
 - [`lineamientos_codigo.md`](lineamientos_codigo.md)
+- [`patrones_arquitectonicos.md`](patrones_arquitectonicos.md) ⭐ NUEVO
+- [`guia_decision_patrones.md`](guia_decision_patrones.md) ⭐ NUEVO
 - [`../../infrastructure/arquitectura/adr/`](../../infrastructure/arquitectura/adr/)
 
 ## Información clave
@@ -25,6 +27,8 @@ los acuerdos de negocio con documentación formal como ADR, modelos de despliegu
 
 ### Artefactos obligatorios
 - Lineamientos de código del backend (`lineamientos_codigo.md`).
+- Patrones arquitectónicos (`patrones_arquitectonicos.md`) ⭐ NUEVO.
+- Guía de decisión de patrones (`guia_decision_patrones.md`) ⭐ NUEVO.
 - ADR vigentes (`../../infrastructure/arquitectura/adr/`).
 - Inventario de diagramas y topologías (pendiente, referenciar `../../plantillas/plantilla_sad.md`).
 
@@ -33,6 +37,8 @@ los acuerdos de negocio con documentación formal como ADR, modelos de despliegu
 | --- | --- | --- |
 | Portada del espacio de arquitectura | Sí | Este archivo replica la estructura y metadatos corporativos adaptados al backend. |
 | Lineamientos de codificación actualizados | Sí | Documentados en [`lineamientos_codigo.md`](lineamientos_codigo.md). |
+| Patrones arquitectónicos documentados | Sí | Documentados en [`patrones_arquitectonicos.md`](patrones_arquitectonicos.md). 6 patrones identificados con ejemplos reales. |
+| Guía de decisión de patrones | Sí | Documentada en [`guia_decision_patrones.md`](guia_decision_patrones.md). Decision tree y ejemplos prácticos. |
 | Registro de ADR vigente | Parcial | Carpeta [`../../infrastructure/arquitectura/adr/`](../../infrastructure/arquitectura/adr/) gestionada por Infraestructura. |
 | Inventario de diagramas/topologías | No | Debe construirse siguiendo la plantilla SAD. |
 
@@ -43,5 +49,7 @@ los acuerdos de negocio con documentación formal como ADR, modelos de despliegu
 
 ## Acciones prioritarias
 - [ ] WKF-SDLC-130 – Crear repositorio de diagramas _(Pendiente; seguir formato documentado en el flujo)_.
-- [ ] WKF-SDLC-131 – Documentar arquitectura actual del monolito _(En progreso; basarse en ADR-2025-001)_.
+- [x] WKF-SDLC-131 – Documentar arquitectura actual del monolito _(Completado; ver patrones_arquitectonicos.md)_.
+- [x] Documentar patrones arquitectónicos existentes _(Completado 2025-11-04; 6 patrones identificados)_.
+- [x] Crear guía de decisión de patrones _(Completado 2025-11-04; decision tree y ejemplos)_.
 - [ ] WKF-SDLC-132 – Definir criterios de revisión técnica _(Pendiente; coordinar con Gobernanza)_.

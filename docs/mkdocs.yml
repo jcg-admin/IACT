@@ -32,10 +32,56 @@ nav:
   - Diseño detallado: diseno_detallado/readme.md
   - Backend:
       - Portada: backend/readme.md
+      - Planificación de Documentación: backend/planificacion_documentacion.md
+      - Arquitectura:
+          - Portada: backend/arquitectura/readme.md
+          - Lineamientos de código: backend/arquitectura/lineamientos_codigo.md
+          - Patrones Arquitectónicos: backend/arquitectura/patrones_arquitectonicos.md
+          - Guía de Decisión de Patrones: backend/arquitectura/guia_decision_patrones.md
+      - Diseño detallado:
+          - Portada: backend/diseno_detallado/readme.md
+      - Checklists:
+          - Portada: backend/checklists/readme.md
+          - Desarrollo: backend/checklists/checklist_desarrollo.md
+          - Testing: backend/checklists/checklist_testing.md
+          - Trazabilidad de requisitos: backend/checklists/checklist_trazabilidad_requisitos.md
+      - DevOps:
+          - Portada: backend/devops/readme.md
+          - Runbooks:
+              - Reprocesar ETL fallido: backend/devops/runbooks/reprocesar_etl_fallido.md
+      - QA:
+          - Portada: backend/qa/readme.md
+      - Gobernanza:
+          - Portada: backend/gobernanza/readme.md
   - Frontend:
       - Portada: frontend/readme.md
+      - Arquitectura:
+          - Portada: frontend/arquitectura/readme.md
+      - Diseño detallado:
+          - Portada: frontend/diseno_detallado/readme.md
+      - QA:
+          - Portada: frontend/qa/readme.md
   - Infrastructure:
       - Portada: infrastructure/readme.md
+      - Arquitectura:
+          - Portada: infrastructure/arquitectura/readme.md
+          - ADR:
+              - ADR-2025-001 Vagrant + mod_wsgi: infrastructure/arquitectura/adr/adr_2025_001_vagrant_mod_wsgi.md
+              - Plantilla ADR: infrastructure/arquitectura/adr/plantilla_adr.md
+      - DevOps:
+          - Portada: infrastructure/devops/readme.md
+          - Contenedores DevContainer: infrastructure/devops/contenedores_devcontainer.md
+          - Runbooks:
+              - Post create: infrastructure/devops/runbooks/post_create.md
+              - GitHub Copilot Codespaces: infrastructure/devops/runbooks/github_copilot_codespaces.md
+              - Verificar servicios: infrastructure/devops/runbooks/verificar_servicios.md
+      - Checklists:
+          - Portada: infrastructure/checklists/readme.md
+          - Cambios documentales: infrastructure/checklists/checklist_cambios_documentales.md
+      - QA:
+          - Portada: infrastructure/qa/readme.md
+      - Gobernanza:
+          - Portada: infrastructure/gobernanza/readme.md
   - Planificación y releases: planificacion_y_releases/readme.md
   - QA:
       - Estrategia de QA: qa/estrategia_qa.md
@@ -66,7 +112,21 @@ nav:
           - Meeting Notes: solicitudes/sc00/meeting_and_discussion_notes/readme.md
           - Documentos: solicitudes/sc00/sc00_documents/readme.md
           - Task report: solicitudes/sc00/sc00_task_report/readme.md
-      - SC01 · Preparación de entorno MkDocs: solicitudes/sc01/readme.md
+      - SC01 · Preparación de entorno MkDocs:
+          - Portada: solicitudes/sc01/readme.md
+          - Validación: solicitudes/sc01/validacion_2025_11_04.md
+          - Test de diagramas PlantUML: solicitudes/sc01/test_diagrams.md
+      - SC02 · Documentación de API ✅:
+          - Portada: solicitudes/sc02/readme.md
+          - Alcance: solicitudes/sc02/alcance.md
+          - Checklist: solicitudes/sc02/checklist.md
+          - Análisis de plantillas: solicitudes/sc02/analisis_plantillas.md
+          - Análisis estructural: solicitudes/sc02/analisis_estructura_api.md
+          - Análisis funcional: solicitudes/sc02/analisis_funcion_real_apps.md
+      - SC03 · Documentación de Apps:
+          - Portada: solicitudes/sc03/readme.md
+          - Alcance: solicitudes/sc03/alcance.md
+          - Checklist: solicitudes/sc03/checklist.md
 docs_dir: .
 site_dir: ../site
 theme:
