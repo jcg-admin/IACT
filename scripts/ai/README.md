@@ -46,14 +46,23 @@ pip install anthropic openai pytest pytest-cov ruff black isort mypy
 ### Variables de Entorno
 
 ```bash
-# Para usar Anthropic Claude
-export ANTHROPIC_API_KEY="sk-ant-..."
+# Para usar Anthropic Claude (Recomendado)
+export ANTHROPIC_API_KEY="sk-ant-api03-..."
 
-# O para usar OpenAI
+# O para usar OpenAI (próximamente)
 export OPENAI_API_KEY="sk-..."
 ```
 
-### Archivo de Configuración
+### Configuraciones Predefinidas
+
+El sistema incluye 4 configuraciones listas para usar:
+
+1. **test_generation.json** - Por defecto (85% cobertura, 5 tests)
+2. **test_generation_aggressive.json** - Agresiva (90% cobertura, 10 tests)
+3. **test_generation_conservative.json** - Conservadora (80% cobertura, 3 tests)
+4. **test_generation_dry_run.json** - Simulación (sin modificar código)
+
+### Personalizar Configuración
 
 Editar `scripts/ai/config/test_generation.json`:
 
@@ -78,16 +87,33 @@ Editar `scripts/ai/config/test_generation.json`:
 }
 ```
 
-## Uso
+## Inicio Rápido
 
-### Modo Básico
+### La Forma Más Fácil (Recomendado)
+
+```bash
+cd scripts/ai/examples
+
+# Validar entorno
+./quickstart.sh check
+
+# Ejecutar demo (sin modificar código)
+./quickstart.sh demo
+
+# Ejecución real
+./quickstart.sh basic
+```
+
+### Modo Avanzado
+
+#### Ejecución Directa
 
 ```bash
 cd scripts/ai
 python test_generation_orchestrator.py --project-path ../../api/callcentersite
 ```
 
-### Dry Run (sin crear PR)
+#### Dry Run (sin crear PR)
 
 ```bash
 python test_generation_orchestrator.py \
@@ -95,13 +121,15 @@ python test_generation_orchestrator.py \
   --dry-run
 ```
 
-### Con Configuración Custom
+#### Con Configuración Custom
 
 ```bash
 python test_generation_orchestrator.py \
   --project-path ../../api/callcentersite \
-  --config my_config.json
+  --config config/my_custom_config.json
 ```
+
+Ver más ejemplos en: [`examples/`](./examples/README.md)
 
 ## Salida
 
@@ -224,23 +252,89 @@ PULL REQUEST:
 
 Ver: `docs/desarrollo/arquitectura_agentes_especializados.md`
 
+## Ejemplos y Guías
+
+Este directorio incluye ejemplos completos de uso:
+
+- **[GUIA_INICIO_RAPIDO.md](./examples/GUIA_INICIO_RAPIDO.md)** - Guía paso a paso para principiantes
+- **[examples/README.md](./examples/README.md)** - Catálogo completo de ejemplos
+- **quickstart.sh** - Script interactivo de inicio rápido
+- **validate_environment.sh** - Validación exhaustiva del entorno
+- **example_single_file.sh** - Tests para un archivo específico
+- **example_specific_module.py** - Uso programático avanzado
+- **example_ci_integration.sh** - Integración con CI/CD
+
+### Casos de Uso Comunes
+
+```bash
+# Primera vez usando el sistema
+cd examples && ./quickstart.sh demo
+
+# Generar tests para todo el proyecto
+cd examples && ./quickstart.sh basic
+
+# Tests para un archivo específico
+cd examples && ./example_single_file.sh ../../api/app/models.py
+
+# Integrar en CI/CD
+cd examples && ./example_ci_integration.sh
+
+# Validación completa del entorno
+cd examples && ./validate_environment.sh
+```
+
 ## Troubleshooting
 
 ### Error: "ANTHROPIC_API_KEY no encontrada"
 ```bash
-export ANTHROPIC_API_KEY="tu-api-key"
+export ANTHROPIC_API_KEY="sk-ant-api03-..."
+
+# Validar
+cd examples && ./quickstart.sh check
+```
+
+### Error: Dependencias Faltantes
+```bash
+pip install pytest pytest-cov anthropic ruff black isort mypy
 ```
 
 ### Error: "gh not found"
-Instalar GitHub CLI: https://cli.github.com/
+**Opción 1**: Instalar GitHub CLI: https://cli.github.com/
+
+**Opción 2**: Deshabilitar PR creation en configuración:
+```json
+{
+  "agents": {
+    "pr_creator": { "enabled": false }
+  }
+}
+```
 
 ### Tests generados no pasan
-El agente LLM puede generar tests incorrectos. Revisar logs en `output/test_generation/`
+El agente LLM puede generar tests incorrectos ocasionalmente.
+
+**Solución**:
+1. Revisar logs: `output/test_generation/03_LLMGenerator.json`
+2. Bajar temperature: `"temperature": 0.2` en configuración
+3. Agregar few-shot examples
+4. Usar configuración conservadora
 
 ### Cobertura no aumenta
-- Verificar que los archivos target sean relevantes
-- Ajustar `threshold_low` en configuración
-- Revisar `max_tests_per_run`
+**Causas comunes**:
+- Los archivos priorizados ya tienen buena cobertura
+- Tests generados no cubren las líneas correctas
+
+**Solución**:
+1. Revisar: `output/test_generation/01_CoverageAnalyzer.json`
+2. Bajar `threshold_low` para incluir más archivos
+3. Aumentar `max_tests_per_run`
+4. Usar filtros `include_patterns`, `exclude_patterns`
+
+### Más Ayuda
+
+- Ver [Guía de Inicio Rápido](./examples/GUIA_INICIO_RAPIDO.md) completa
+- Ejecutar validación: `./examples/validate_environment.sh`
+- Revisar [ejemplos](./examples/README.md)
 
 ## Mejoras Futuras
 
