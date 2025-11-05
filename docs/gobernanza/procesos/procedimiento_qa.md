@@ -201,8 +201,8 @@ Usar checklist de QA:
 
 | Test Case | Pasos | Resultado Esperado | Resultado Real | Status |
 |-----------|-------|-------------------|----------------|--------|
-| TC-001 | 1. Ir a /login<br>2. Ingresar credenciales<br>3. Click Login | Token recibido | Token recibido | ✅ PASS |
-| TC-002 | 1. Ir a /login<br>2. Ingresar credenciales inválidas<br>3. Click Login | Error 401 | Error 401 | ✅ PASS |
+| TC-001 | 1. Ir a /login<br>2. Ingresar credenciales<br>3. Click Login | Token recibido | Token recibido | OK PASS |
+| TC-002 | 1. Ir a /login<br>2. Ingresar credenciales inválidas<br>3. Click Login | Error 401 | Error 401 | OK PASS |
 
 Ver: [Checklist de Testing](../checklists/checklist_testing.md)
 
@@ -296,17 +296,17 @@ Feature autenticación JWT lista para producción.
 | #234 | Low | Open | Typo en mensaje de error |
 
 ## Performance
-- Average response time: 145ms ✅
-- P95 response time: 220ms ✅
-- Peak load: 100 req/s ✅
+- Average response time: 145ms OK
+- P95 response time: 220ms OK
+- Peak load: 100 req/s OK
 
 ## Security
-- No SQL injection vulnerabilities ✅
-- Passwords hashed correctly ✅
-- Tokens encrypted ✅
+- No SQL injection vulnerabilities OK
+- Passwords hashed correctly OK
+- Tokens encrypted OK
 
 ## Recommendation
-✅ **APPROVED** for production release
+OK **APPROVED** for production release
 
 ## Notes
 - Bug #234 puede ser fixed en próximo release

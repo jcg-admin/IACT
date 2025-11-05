@@ -64,7 +64,7 @@ etl/
 
 **Diagrama de Flujo:**
 ```
-IVR DB (MariaDB) → Extractor → Transformer → Loader → Analytics DB (PostgreSQL)
+IVR DB (MariaDB) -> Extractor -> Transformer -> Loader -> Analytics DB (PostgreSQL)
                                     ↓
                             Metrics Calculator
                                     ↓
@@ -230,7 +230,7 @@ class ExtractorFactory:
 ### Optimización de Queries
 
 ```python
-# ✅ EFICIENTE: Aggregación en DB
+# OK EFICIENTE: Aggregación en DB
 from django.db.models import Avg, Count
 
 metrics = Call.objects.filter(
@@ -240,7 +240,7 @@ metrics = Call.objects.filter(
     total_calls=Count('id')
 )
 
-# ❌ INEFICIENTE: Aggregación en Python
+# NO INEFICIENTE: Aggregación en Python
 calls = Call.objects.filter(start_time__date=target_date)
 avg_duration = sum(c.duration for c in calls) / len(calls)
 ```
@@ -282,11 +282,11 @@ avg_duration = sum(c.duration for c in calls) / len(calls)
 
 | Elemento | Estado | Observaciones |
 |----------|--------|---------------|
-| Diagramas de clases | ⚠️ Parcial | Existen ejemplos en código, falta documentar |
-| Diagramas de secuencia | ❌ Pendiente | Crear para flujos críticos |
-| Esquema DB documentado | ✅ Sí | Incluido arriba |
-| Contratos API | ❌ Pendiente | Backend no expone APIs REST aún |
-| Patrones documentados | ✅ Sí | Repository, Service, Factory |
+| Diagramas de clases | WARNING Parcial | Existen ejemplos en código, falta documentar |
+| Diagramas de secuencia | NO Pendiente | Crear para flujos críticos |
+| Esquema DB documentado | OK Sí | Incluido arriba |
+| Contratos API | NO Pendiente | Backend no expone APIs REST aún |
+| Patrones documentados | OK Sí | Repository, Service, Factory |
 
 ## Acciones prioritarias
 - [ ] Crear diagramas UML de clases principales

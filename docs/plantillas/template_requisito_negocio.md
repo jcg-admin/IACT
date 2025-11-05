@@ -192,15 +192,15 @@ urgencia: [critica|alta|media|baja]
 
 El requisito se considerará exitoso cuando:
 
-1. ✅ **[Criterio 1]**: [Descripción específica y medible]
+1. OK **[Criterio 1]**: [Descripción específica y medible]
    - Método de verificación: [Cómo se verificará]
    - Responsable de verificación: [Rol/Persona]
 
-2. ✅ **[Criterio 2]**: [Descripción específica y medible]
+2. OK **[Criterio 2]**: [Descripción específica y medible]
    - Método de verificación: [Cómo se verificará]
    - Responsable de verificación: [Rol/Persona]
 
-3. ✅ **[Criterio 3]**: [Descripción específica y medible]
+3. OK **[Criterio 3]**: [Descripción específica y medible]
    - Método de verificación: [Cómo se verificará]
    - Responsable de verificación: [Rol/Persona]
 
@@ -267,13 +267,13 @@ Este requisito de negocio se descompone en los siguientes requisitos de stakehol
 
 ### 9.2 Requisitos Funcionales Derivados
 
-- [ ] **RF-[XXX]**: [Título requisito funcional 1] → [Dominio: backend]
-- [ ] **RF-[YYY]**: [Título requisito funcional 2] → [Dominio: frontend]
+- [ ] **RF-[XXX]**: [Título requisito funcional 1] -> [Dominio: backend]
+- [ ] **RF-[YYY]**: [Título requisito funcional 2] -> [Dominio: frontend]
 
 ### 9.3 Requisitos No Funcionales Derivados
 
-- [ ] **RNF-[XXX]**: [Título requisito no funcional 1] → [Performance]
-- [ ] **RNF-[YYY]**: [Título requisito no funcional 2] → [Security]
+- [ ] **RNF-[XXX]**: [Título requisito no funcional 1] -> [Performance]
+- [ ] **RNF-[YYY]**: [Título requisito no funcional 2] -> [Security]
 
 ---
 
@@ -427,14 +427,14 @@ Este requisito genera:
 
 **Notas para el Autor:**
 
-1. ✅ Los requisitos de negocio deben expresarse en términos de RESULTADOS de negocio, no soluciones técnicas
-2. ✅ Debe ser medible con KPIs claros y cuantificables
-3. ✅ Debe estar directamente vinculado a objetivos estratégicos organizacionales
-4. ✅ Los beneficios deben estar cuantificados (financieros, operacionales, estratégicos)
-5. ✅ Debe incluir análisis de impacto organizacional completo
-6. ✅ Requiere aprobación de nivel ejecutivo/sponsor
-7. ✅ Debe derivarse en requisitos de stakeholders y requisitos de solución
-8. ✅ Mantener trazabilidad bidireccional con necesidades y objetivos estratégicos
+1. OK Los requisitos de negocio deben expresarse en términos de RESULTADOS de negocio, no soluciones técnicas
+2. OK Debe ser medible con KPIs claros y cuantificables
+3. OK Debe estar directamente vinculado a objetivos estratégicos organizacionales
+4. OK Los beneficios deben estar cuantificados (financieros, operacionales, estratégicos)
+5. OK Debe incluir análisis de impacto organizacional completo
+6. OK Requiere aprobación de nivel ejecutivo/sponsor
+7. OK Debe derivarse en requisitos de stakeholders y requisitos de solución
+8. OK Mantener trazabilidad bidireccional con necesidades y objetivos estratégicos
 
 ---
 

@@ -281,13 +281,13 @@ Esta necesidad genera:
 
 **Notas para el Autor:**
 
-1. ✅ Completar TODOS los campos del frontmatter YAML
-2. ✅ Usar verbos en infinitivo para describir la necesidad
-3. ✅ Cuantificar impactos y beneficios siempre que sea posible
-4. ✅ Vincular con objetivos estratégicos organizacionales
-5. ✅ Obtener aprobación de sponsor antes de derivar a requisitos
-6. ✅ Asegurar que ID sea único en el proyecto (formato: N-XXX)
-7. ✅ Actualizar matriz de trazabilidad cuando se deriven requisitos
+1. OK Completar TODOS los campos del frontmatter YAML
+2. OK Usar verbos en infinitivo para describir la necesidad
+3. OK Cuantificar impactos y beneficios siempre que sea posible
+4. OK Vincular con objetivos estratégicos organizacionales
+5. OK Obtener aprobación de sponsor antes de derivar a requisitos
+6. OK Asegurar que ID sea único en el proyecto (formato: N-XXX)
+7. OK Actualizar matriz de trazabilidad cuando se deriven requisitos
 
 ---
 

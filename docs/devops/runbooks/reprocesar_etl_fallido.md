@@ -13,7 +13,7 @@ Procedimiento para recuperar y reprocesar jobs de ETL que fallaron, asegurando i
 
 ## Estado Actual
 
-⚠️ **Nota**: Este runbook es preparatorio. El sistema ETL está en desarrollo (Q1-Q2 2025).
+WARNING **Nota**: Este runbook es preparatorio. El sistema ETL está en desarrollo (Q1-Q2 2025).
 
 ## Cuándo Usar
 
@@ -65,12 +65,12 @@ WHERE job_id = 12345;
 
 | Tipo | Descripción | Recuperable |
 |------|-------------|-------------|
-| **Conexión DB** | No puede conectar a IVR/Analytics | ✅ Sí |
-| **Datos inválidos** | Datos IVR no cumplen schema | ⚠️ Requiere corrección |
-| **Timeout** | Query tarda demasiado | ✅ Sí (con ajustes) |
-| **Duplicados** | Datos ya existen en analytics | ✅ Sí (con verificación) |
-| **Transformación** | Error en lógica de negocio | ❌ Requiere fix de código |
-| **Espacio disco** | Sin espacio en servidor | ✅ Sí (después de limpieza) |
+| **Conexión DB** | No puede conectar a IVR/Analytics | OK Sí |
+| **Datos inválidos** | Datos IVR no cumplen schema | WARNING Requiere corrección |
+| **Timeout** | Query tarda demasiado | OK Sí (con ajustes) |
+| **Duplicados** | Datos ya existen en analytics | OK Sí (con verificación) |
+| **Transformación** | Error en lógica de negocio | NO Requiere fix de código |
+| **Espacio disco** | Sin espacio en servidor | OK Sí (después de limpieza) |
 
 ## Procedimiento de Recuperación
 

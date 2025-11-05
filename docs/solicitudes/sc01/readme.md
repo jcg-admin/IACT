@@ -6,7 +6,7 @@ ultima_actualizacion: 2025-11-04
 fecha_completado: 2025-11-04
 relacionados: ["DOC-SOL-INDEX", "DOC-INDEX-GENERAL", "DOC-ANEXO-DIAGRAMAS"]
 ---
-# Solicitud SC01 · Preparación de entorno MkDocs ✅
+# Solicitud SC01 · Preparación de entorno MkDocs OK
 
 **Estado**: COMPLETADO
 

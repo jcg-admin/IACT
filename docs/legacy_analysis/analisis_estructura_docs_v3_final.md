@@ -46,9 +46,9 @@ Según **Clause 7 - Information Items**, el proyecto **SHALL produce**:
 | **SRS - Software Requirements Specification** | Requisitos específicos de elementos software | `02_requisitos/requisitos_solucion/software/` |
 
 **VALIDACIÓN:**
-- ✅ La estructura propuesta **CUMPLE** con los 4 information items
-- ✅ Cada uno tiene ubicación clara y contenido según Clause 9
-- ✅ Permite "Full Conformance" a ISO 29148:2018 (Clause 4.2)
+- OK La estructura propuesta **CUMPLE** con los 4 information items
+- OK Cada uno tiene ubicación clara y contenido según Clause 9
+- OK Permite "Full Conformance" a ISO 29148:2018 (Clause 4.2)
 
 ### 1.2 Los 3 Procesos NORMATIVOS de ISO 29148
 
@@ -61,9 +61,9 @@ Según **Clause 6.1**, el proyecto **SHALL implement**:
 | **System Requirements Definition** | ISO/IEC/IEEE 15288:2015, 6.4.3 | - SyRS<br>- Software SRS<br>- Requirements Traceability Matrix (RTM) | `02_requisitos/requisitos_solucion/`<br>`02_requisitos/trazabilidad_general.md` |
 
 **VALIDACIÓN:**
-- ✅ Cada proceso tiene carpeta dedicada para sus artefactos
-- ✅ Las tareas BABOK mapean 1:1 con actividades ISO 29148
-- ✅ Trazabilidad bidireccional (upward/downward) soportada
+- OK Cada proceso tiene carpeta dedicada para sus artefactos
+- OK Las tareas BABOK mapean 1:1 con actividades ISO 29148
+- OK Trazabilidad bidireccional (upward/downward) soportada
 
 ### 1.3 Características OBLIGATORIAS de Requisitos según ISO 29148
 
@@ -96,9 +96,9 @@ Cada conjunto **SHALL possess**:
 | **Able to be validated** | Criterios de validación definidos en 6.5.3 |
 
 **VALIDACIÓN:**
-- ✅ Todas las características tienen proceso/tarea asignada
-- ✅ Herramientas: Plantillas + Checklists + Matrices de verificación
-- ✅ Control: Configuration Management (6.6.2.2)
+- OK Todas las características tienen proceso/tarea asignada
+- OK Herramientas: Plantillas + Checklists + Matrices de verificación
+- OK Control: Configuration Management (6.6.2.2)
 
 ---
 
@@ -191,9 +191,9 @@ docs/
 │   PROCESOS APLICADOS:
 │   - ISO 29148: 6.2 Business or Mission Analysis
 │   - BABOK KA 6: Strategic Analysis
-│     • 6.1 Analyze Current State
-│     • 6.2 Define Future State
-│     • 6.4 Define Change Strategy
+│     - 6.1 Analyze Current State
+│     - 6.2 Define Future State
+│     - 6.4 Define Change Strategy
 │
 ├── 02_requisitos/                             ════════════════════════════
 │   ├── readme.md                              ║ BABOK: Requirements       ║
@@ -268,13 +268,13 @@ docs/
 │   - ISO 29148: 6.3 Stakeholder Needs & Req Definition
 │                6.4 System Requirements Definition
 │   - BABOK KA 7: Requirements Analysis & Design Definition
-│     • 7.1 Specify & Model Requirements
-│     • 7.2 Verify Requirements
-│     • 7.3 Validate Requirements
+│     - 7.1 Specify & Model Requirements
+│     - 7.2 Verify Requirements
+│     - 7.3 Validate Requirements
 │   - BABOK KA 5: Requirements Lifecycle Management
-│     • 5.1 Trace Requirements
-│     • 5.3 Prioritize Requirements
-│     • 5.5 Approve Requirements
+│     - 5.1 Trace Requirements
+│     - 5.3 Prioritize Requirements
+│     - 5.5 Approve Requirements
 │
 ├── 03_tareas_analisis/                        ════════════════════════════
 │   ├── readme.md                              ║ BABOK: 30 Tasks en 6 KAs ║
@@ -429,7 +429,7 @@ docs/
 │   │       - Test                             [ISO 6.5.2.2: Test]
 │   │
 │   ├── casos_prueba/                          [ISO 6.5.2: Verification]
-│   │   ├── por_requisito/                     [Trazabilidad Req → Test]
+│   │   ├── por_requisito/                     [Trazabilidad Req -> Test]
 │   │   │   ├── rb_001_test_cases.md
 │   │   │   └── rf_001_test_cases.md
 │   │   └── por_modulo/
@@ -452,14 +452,14 @@ docs/
 │   │   └── lecciones_aprendidas.md
 │   │
 │   └── trazabilidad_pruebas.md                [ISO 5.2.8 + 6.5.2.3]
-│       - Requisito → Método Verificación → Test Case → Resultado
+│       - Requisito -> Método Verificación -> Test Case -> Resultado
 │
 │   PROCESOS APLICADOS:
 │   - ISO 29148: 6.5.2 Verification Process
 │                6.5.3 Validation Process
 │   - BABOK KA 8: Solution Evaluation
-│     • 8.1 Measure Solution Performance
-│     • 8.2 Analyze Performance Measures
+│     - 8.1 Measure Solution Performance
+│     - 8.2 Analyze Performance Measures
 │
 ├── 99_gobernanza/                             ════════════════════════════
 │   ├── readme.md                              ║ ISO: Requirements Mgmt    ║
@@ -506,9 +506,9 @@ docs/
 │
 │   PROCESOS APLICADOS:
 │   - ISO 29148: 6.6 Requirements Management
-│     • 6.6.2.2 Configuration Management
-│     • 6.6.2.3 Information Management
-│     • 6.6.3 Measurement for Requirements
+│     - 6.6.2.2 Configuration Management
+│     - 6.6.2.3 Information Management
+│     - 6.6.3 Measurement for Requirements
 │   - BABOK KA 5: Requirements Lifecycle Management
 │
 ├── plantillas/                                [PMBOK: Artefactos - Templates]
@@ -580,10 +580,10 @@ La estructura propuesta permite alcanzar **FULL CONFORMANCE** según ISO/IEC/IEE
 
 | REQUISITO ISO | CUMPLIMIENTO | EVIDENCIA |
 |---------------|--------------|-----------|
-| ✅ Conformance to 5.2.4, 5.2.5, 5.2.6, 5.2.7 | SÍ | Plantillas con características obligatorias + checklists |
-| ✅ Conformance to processes in 6.1 | SÍ | Carpetas dedicadas para cada proceso + tareas documentadas |
-| ✅ Conformance to information items in Clause 7 | SÍ | BRS, StRS, SyRS, SRS tienen ubicación y plantilla |
-| ✅ Conformance to content in Clause 9 & Annex A | SÍ | Plantillas siguen estructura normativa de Clause 9 |
+| OK Conformance to 5.2.4, 5.2.5, 5.2.6, 5.2.7 | SÍ | Plantillas con características obligatorias + checklists |
+| OK Conformance to processes in 6.1 | SÍ | Carpetas dedicadas para cada proceso + tareas documentadas |
+| OK Conformance to information items in Clause 7 | SÍ | BRS, StRS, SyRS, SRS tienen ubicación y plantilla |
+| OK Conformance to content in Clause 9 & Annex A | SÍ | Plantillas siguen estructura normativa de Clause 9 |
 
 **Certificación:**
 > "Esta estructura documental cumple con ISO/IEC/IEEE 29148:2018 - Full Conformance"
@@ -636,8 +636,8 @@ La estructura propuesta permite alcanzar **FULL CONFORMANCE** según ISO/IEC/IEE
 Auditor: "¿Cumplen con ISO 29148 para requisitos?"
 Equipo: "Sí, Full Conformance certificado en 99_gobernanza/estandares/taxonomia_babok_pmbok_iso.md"
 Auditor: "Muestren la Requirements Traceability Matrix"
-Equipo: "02_requisitos/trazabilidad_general.md - trazabilidad bidireccional Need→Req→Design→Test"
-✅ APROBADO
+Equipo: "02_requisitos/trazabilidad_general.md - trazabilidad bidireccional Need->Req->Design->Test"
+OK APROBADO
 ```
 
 **CASO 2: Onboarding de Business Analyst Junior**
@@ -646,7 +646,7 @@ BA Junior: "¿Dónde documento las sesiones de elicitación?"
 BA Senior: "Sigue BABOK KA 4. Carpeta: 03_tareas_analisis/elicitacion_colaboracion/sesiones/"
 BA Junior: "¿Qué plantilla uso?"
 BA Senior: "plantillas/nivel_3_tareas/plantilla_acta_sesion.md - cumple ISO 6.3.3"
-✅ GUIADO POR ESTÁNDAR
+OK GUIADO POR ESTÁNDAR
 ```
 
 **CASO 3: Project Manager Planning**
@@ -655,27 +655,27 @@ PM: "¿Qué artefactos debo planificar según PMBOK 7?"
 Respuesta: Revisa plantillas/ organizadas por nivel (necesidades/requisitos/tareas/diseño/impl/validación)
 PM: "¿Cuáles son obligatorios vs opcionales?"
 Respuesta: ISO 29148 Clause 7: BRS, StRS, SyRS, SRS son SHALL. PMBOK 7: aplica principios de adaptación
-✅ PLANIFICACIÓN INFORMADA
+OK PLANIFICACIÓN INFORMADA
 ```
 
 **CASO 4: Búsqueda Rápida de Requisito**
 ```
 Dev: "¿Dónde está el requisito de tiempo de respuesta?"
-→ 02_requisitos/requisitos_solucion/no_funcionales/rendimiento/rnf_001_tiempo_respuesta.md
+-> 02_requisitos/requisitos_solucion/no_funcionales/rendimiento/rnf_001_tiempo_respuesta.md
   [ISO 9.5.7: Performance Requirements]
   [BABOK: Solution Requirement - Quality]
   [PMBOK: Artefacto - Non-Functional Requirement]
-✅ ENCONTRADO EN < 30 SEGUNDOS (vs 10-15 min antes)
+OK ENCONTRADO EN < 30 SEGUNDOS (vs 10-15 min antes)
 ```
 
 **CASO 5: Cambio de Requisito**
 ```
 Stakeholder: "Necesito cambiar el requisito RS-010"
-→ Proceso: 99_gobernanza/procesos/proceso_gestion_cambios.md [ISO 6.6.2.2.3]
-→ Formulario: 03_tareas_analisis/gestion_ciclo_vida_requisitos/t_5.4_evaluar_cambios/solicitud_cambio_XXX.md
-→ Análisis impacto usando RTM en 02_requisitos/trazabilidad_general.md
-→ Aprobación: 03_tareas_analisis/gestion_ciclo_vida_requisitos/t_5.5_aprobar/
-✅ CAMBIO CONTROLADO Y TRAZADO
+-> Proceso: 99_gobernanza/procesos/proceso_gestion_cambios.md [ISO 6.6.2.2.3]
+-> Formulario: 03_tareas_analisis/gestion_ciclo_vida_requisitos/t_5.4_evaluar_cambios/solicitud_cambio_XXX.md
+-> Análisis impacto usando RTM en 02_requisitos/trazabilidad_general.md
+-> Aprobación: 03_tareas_analisis/gestion_ciclo_vida_requisitos/t_5.5_aprobar/
+OK CAMBIO CONTROLADO Y TRAZADO
 ```
 
 ---
@@ -724,7 +724,7 @@ Stakeholder: "Necesito cambiar el requisito RS-010"
 - Crear `06_validacion_evaluacion/`
 - Documentar 4 métodos de verificación ISO (Inspection/Analysis/Demo/Test)
 - Integrar con BABOK KA 8
-- **Criterio GO:** Métodos ISO documentados, RTM Req→Test completa
+- **Criterio GO:** Métodos ISO documentados, RTM Req->Test completa
 
 **FASE 7: Actualizar Gobernanza (Semana 9)**
 - Renombrar a `99_gobernanza/`
@@ -760,12 +760,12 @@ Stakeholder: "Necesito cambiar el requisito RS-010"
 **APROBAR MIGRACIÓN INCREMENTAL** bajo las siguientes condiciones **CRÍTICAS**:
 
 **REQUISITOS OBLIGATORIOS:**
-1. ✅ Aprobación de PMO, Tech Leads, BA Lead
-2. ✅ Capacitación: 4h BABOK + 2h PMBOK + 4h ISO 29148 (10h total)
-3. ✅ Crear glosario integrado ANTES de FASE 1
-4. ✅ Asignar Responsable de Migración (BA Senior con conocimiento ISO)
-5. ✅ Mantener estructura antigua en read-only 3 meses
-6. ✅ Piloto con 1 proyecto COMPLETO antes de migrar todo
+1. OK Aprobación de PMO, Tech Leads, BA Lead
+2. OK Capacitación: 4h BABOK + 2h PMBOK + 4h ISO 29148 (10h total)
+3. OK Crear glosario integrado ANTES de FASE 1
+4. OK Asignar Responsable de Migración (BA Senior con conocimiento ISO)
+5. OK Mantener estructura antigua en read-only 3 meses
+6. OK Piloto con 1 proyecto COMPLETO antes de migrar todo
 
 **REQUISITOS RECOMENDADOS:**
 - Contratar auditor externo ISO para validación final (FASE 8)
@@ -777,14 +777,14 @@ Stakeholder: "Necesito cambiar el requisito RS-010"
 **ÚNICA EN EL MERCADO:**
 
 La mayoría de organizaciones implementan:
-- ❌ Solo BABOK → Falta rigor normativo
-- ❌ Solo PMBOK → Falta profundidad en requisitos
-- ❌ Solo ISO 29148 → Falta guía práctica de implementación
+- NO Solo BABOK -> Falta rigor normativo
+- NO Solo PMBOK -> Falta profundidad en requisitos
+- NO Solo ISO 29148 -> Falta guía práctica de implementación
 
 **ESTA PROPUESTA:**
-- ✅ **BABOK v3:** Guía práctica (30 tareas detalladas)
-- ✅ **PMBOK 7:** Adaptabilidad y categorización (Modelos/Métodos/Artefactos)
-- ✅ **ISO 29148:** Conformance internacional certificable
+- OK **BABOK v3:** Guía práctica (30 tareas detalladas)
+- OK **PMBOK 7:** Adaptabilidad y categorización (Modelos/Métodos/Artefactos)
+- OK **ISO 29148:** Conformance internacional certificable
 
 **RESULTADO:** Estructura **certificable, auditable y práctica** simultáneamente
 

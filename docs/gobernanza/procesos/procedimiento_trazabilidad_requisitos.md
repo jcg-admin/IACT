@@ -37,10 +37,10 @@ Aplica a todos los requisitos del proyecto IACT clasificados según jerarquía B
 
 Este procedimiento implementa **Full Conformance** a ISO/IEC/IEEE 29148:2018 Clause 4.2, cumpliendo:
 
-- ✅ **Clause 5.2.8**: Traceability requirements
-- ✅ **Clause 6**: Process requirements (Stakeholder needs, System requirements)
-- ✅ **Clause 7**: Information items (BRS, StRS, SyRS, SRS)
-- ✅ **Clause 9**: Content outlines (9.3 BRS, 9.4 StRS, 9.5 SyRS, 9.6 SRS)
+- OK **Clause 5.2.8**: Traceability requirements
+- OK **Clause 6**: Process requirements (Stakeholder needs, System requirements)
+- OK **Clause 7**: Information items (BRS, StRS, SyRS, SRS)
+- OK **Clause 9**: Content outlines (9.3 BRS, 9.4 StRS, 9.5 SyRS, 9.6 SRS)
 
 ### Tipos de Trazabilidad (ISO 29148 - 5.2.8)
 
@@ -85,8 +85,8 @@ graph TB
 |-----|-----------------|
 | **BA Lead** | Mantener matriz de trazabilidad (RTM), validar upward traceability |
 | **Product Owner** | Aprobar necesidades de negocio (N-XXX), priorizar requisitos |
-| **Tech Lead** | Validar downward traceability (Requisitos → Diseño → Código) |
-| **QA Lead** | Validar trazabilidad a tests (Requisitos → Tests), verificar cobertura |
+| **Tech Lead** | Validar downward traceability (Requisitos -> Diseño -> Código) |
+| **QA Lead** | Validar trazabilidad a tests (Requisitos -> Tests), verificar cobertura |
 | **Desarrollador** | Actualizar frontmatter YAML con trazabilidad en cada commit |
 | **CI/CD System** | Generar índices ISO 29148 automáticamente |
 
@@ -193,13 +193,13 @@ complejidad: baja | media | alta
 ```
 
 **Campos obligatorios:**
-- ✅ `id`: Identificador único (N-XXX, RN-XXX, RS-XXX, RF-XXX, RNF-XXX)
-- ✅ `tipo`: Clasificación BABOK
-- ✅ `titulo`: Descripción corta (<80 caracteres)
-- ✅ `dominio`: backend | frontend | infrastructure
-- ✅ `trazabilidad_upward`: Lista de requisitos origen
-- ✅ `trazabilidad_downward`: Lista de artefactos derivados (diseños, tests)
-- ✅ `estado`: Estado del ciclo de vida
+- OK `id`: Identificador único (N-XXX, RN-XXX, RS-XXX, RF-XXX, RNF-XXX)
+- OK `tipo`: Clasificación BABOK
+- OK `titulo`: Descripción corta (<80 caracteres)
+- OK `dominio`: backend | frontend | infrastructure
+- OK `trazabilidad_upward`: Lista de requisitos origen
+- OK `trazabilidad_downward`: Lista de artefactos derivados (diseños, tests)
+- OK `estado`: Estado del ciclo de vida
 
 **Campos recomendados:**
 - 🔶 `iso29148_clause`: Mapeo a cláusula del estándar
@@ -220,7 +220,7 @@ complejidad: baja | media | alta
 
 **Regla de oro:**
 > Toda derivación de requisitos debe seguir la jerarquía BABOK v3:
-> **NECESIDAD (N) → NEGOCIO (RN) → STAKEHOLDERS (RS) → SOLUCIÓN (RF/RNF)**
+> **NECESIDAD (N) -> NEGOCIO (RN) -> STAKEHOLDERS (RS) -> SOLUCIÓN (RF/RNF)**
 
 **Ejemplo completo:**
 
@@ -559,12 +559,12 @@ def validate_traceability():
             errors.append(f"{req.id}: Requisito funcional sin tests")
 
     if errors:
-        print("❌ ERRORES DE TRAZABILIDAD:")
+        print("NO ERRORES DE TRAZABILIDAD:")
         for error in errors:
             print(f"  - {error}")
         sys.exit(1)
     else:
-        print("✅ Trazabilidad válida - 100% integridad")
+        print("OK Trazabilidad válida - 100% integridad")
         sys.exit(0)
 
 if __name__ == "__main__":
@@ -732,7 +732,7 @@ razon_obsolescencia: "Cambio de arquitectura a microservicios"
 El workflow falla con mensaje específico:
 
 ```
-❌ ERRORES DE TRAZABILIDAD:
+NO ERRORES DE TRAZABILIDAD:
   - implementacion/backend/requisitos/funcionales/rf005.md: Upward ID 'RN-999' no existe
   - RF-010: Requisito funcional sin tests
 ```

@@ -5,10 +5,10 @@ Este documento muestra exactamente cómo el usuario final ve la documentación d
 ## Build Exitoso
 
 ```
-✓ MkDocs instalado: v1.6.1
-✓ Sitio construido en: /home/user/IACT---project/site/
-✓ Tamaño total: ~2.5 MB
-✓ Archivos HTML generados: 100+
+OK: MkDocs instalado: v1.6.1
+OK: Sitio construido en: /home/user/IACT---project/site/
+OK: Tamaño total: ~2.5 MB
+OK: Archivos HTML generados: 100+
 ```
 
 ## Estructura del sitio generado
@@ -42,15 +42,15 @@ site/
 
 ```html
 ┌──────────────────────────────────────────────────────────────────┐
-│  📘 Documentación IACT              [🔍 Buscar]    📱 GitHub     │
+│  Documentación IACT              [Buscar]    GitHub     │
 ├──────────────────────────────────────────────────────────────────┤
 │                                                                   │
 │  NAVEGACIÓN (sidebar)           CONTENIDO PRINCIPAL              │
 │  ─────────────────              ─────────────────                │
 │                                                                   │
-│  ▾ Inicio                       # Índice de Espacios             │
-│  ▾ Cómo Ver Esta Documentación  Documentales IACT               │
-│  ▸ Gobernanza                                                     │
+│  > Inicio                       # Índice de Espacios             │
+│  > Cómo Ver Esta Documentación  Documentales IACT               │
+│  + Gobernanza                                                     │
 │    • Portada                    Portada del repositorio...       │
 │    • Guía de Casos de Uso                                        │
 │  ▸ Anexos                       ## Página padre                  │
@@ -253,7 +253,7 @@ Usuario presiona `/` o escribe en el campo de búsqueda:
 
 ```
 ┌──────────────────────────────────────────┐
-│ 🔍 Search docs                           │
+│ Search docs                              │
 ├──────────────────────────────────────────┤
 │ > plantuml                               │
 │                                          │
@@ -261,13 +261,13 @@ Usuario presiona `/` o escribe en el campo de búsqueda:
 │                                          │
 │ Results (5):                             │
 │                                          │
-│ 📄 Cómo Ver Esta Documentación           │
+│ FILE: Cómo Ver Esta Documentación        │
 │    ...PlantUML se renderiza con Kroki... │
 │                                          │
-│ 📄 Guía de Casos de Uso                  │
+│ FILE: Guía de Casos de Uso               │
 │    ...Crear diagramas PlantUML...        │
 │                                          │
-│ 📄 Diagramas UML                         │
+│ FILE: Diagramas UML                      │
 │    ...10 diagramas PlantUML organizados...│
 │                                          │
 └──────────────────────────────────────────┘
@@ -284,14 +284,14 @@ Inicio > Gobernanza > Guía de Casos de Uso
 Panel derecho con:
 ```
 En esta página:
-• Nomenclatura de Casos de Uso
+- Nomenclatura de Casos de Uso
   - Regla fundamental: VERBO + OBJETO
   - Ejemplos correctos
   - Catálogo de verbos
-• Estructura de Especificación
+- Estructura de Especificación
   - Frontmatter YAML
   - Secciones obligatorias
-• Diagramas UML
+- Diagramas UML
   - Diagrama de Casos de Uso
   - Diagrama de Secuencia
   - Diagrama de Actividad
@@ -362,19 +362,19 @@ Se renderizan con colores y iconos:
 
 ```
 ┌─────────────────────────────────────────┐
-│ ℹ️ INFO                                  │
+│ INFO                                    │
 │ Las precondiciones deben ser            │
 │ verificables y específicas.             │
 └─────────────────────────────────────────┘
 
 ┌─────────────────────────────────────────┐
-│ ⚠️ WARNING                               │
+│ WARNING                                 │
 │ NO usar emojis en producción            │
 │ (docs/gobernanza/estandares_codigo.md)  │
 └─────────────────────────────────────────┘
 
 ┌─────────────────────────────────────────┐
-│ ✓ SUCCESS                                │
+│ SUCCESS                                 │
 │ Sitio construido exitosamente           │
 └─────────────────────────────────────────┘
 ```
@@ -393,14 +393,14 @@ Se renderizan con colores y iconos:
 ### Tablet (768px - 1024px)
 ```
 ┌──────────────────────────────┐
-│ ☰ Menu │ Content  │ TOC      │
+│ Menu │ Content  │ TOC      │
 └──────────────────────────────┘
 ```
 
 ### Mobile (< 768px)
 ```
 ┌────────────┐
-│ ☰ Menu     │
+│ Menu     │
 │            │
 │ Content    │
 │ (full)     │
@@ -413,7 +413,7 @@ Se renderizan con colores y iconos:
 ## Performance
 
 ```
-📊 Métricas del sitio generado:
+Métricas del sitio generado:
 
 - Archivos HTML: 100+
 - Tamaño total: ~2.5 MB
@@ -424,7 +424,7 @@ Se renderizan con colores y iconos:
 - Tiempo de carga inicial: < 2 segundos
 - Search index: 450 KB
 
-🚀 Optimizaciones:
+Optimizaciones:
 - Lazy loading de imágenes
 - CSS/JS minificado
 - Gzip compression (si servidor lo soporta)
@@ -517,5 +517,5 @@ mkdocs gh-deploy
 ---
 
 **Creado**: 2025-11-04
-**Sitio construido**: ✓ /home/user/IACT---project/site/
+**Sitio construido**: OK /home/user/IACT---project/site/
 **Estado**: Listo para despliegue

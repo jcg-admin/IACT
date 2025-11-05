@@ -9,7 +9,7 @@ relacionados: ["DOC-ROOT-001", "PROPUESTA_FINAL_REESTRUCTURACION"]
 
 Esta carpeta contiene versiones anteriores de análisis de estructura documental que fueron útiles durante el proceso de reestructuración de la documentación del proyecto, pero que ya no son necesarias para el día a día.
 
-> **⚠️ NOTA IMPORTANTE**: Los documentos de análisis en esta carpeta contienen **ejemplos ilustrativos** de requisitos (N-001, RN-001, RF-001, etc.) con enlaces que pueden no apuntar a archivos reales. Estos ejemplos fueron creados para propósitos de demostración y diseño de la estructura.
+> **WARNING NOTA IMPORTANTE**: Los documentos de análisis en esta carpeta contienen **ejemplos ilustrativos** de requisitos (N-001, RN-001, RF-001, etc.) con enlaces que pueden no apuntar a archivos reales. Estos ejemplos fueron creados para propósitos de demostración y diseño de la estructura.
 >
 > Para la **estructura real de requisitos**, consulta:
 > - [docs/implementacion/](../implementacion/readme.md) - Source of Truth actual

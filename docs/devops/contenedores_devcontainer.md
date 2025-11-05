@@ -25,15 +25,15 @@ Este documento prepara la estrategia de migración futura a contenedores Docker 
 DevContainers permiten definir entornos de desarrollo completos usando contenedores Docker, integrados nativamente con VS Code y GitHub Codespaces.
 
 **Ventajas:**
-- ✅ Entorno consistente para todo el equipo
-- ✅ Onboarding en minutos
-- ✅ Integración con VS Code Remote
-- ✅ Compatible con GitHub Codespaces
-- ✅ Sin instalación de servicios en host
+- OK Entorno consistente para todo el equipo
+- OK Onboarding en minutos
+- OK Integración con VS Code Remote
+- OK Compatible con GitHub Codespaces
+- OK Sin instalación de servicios en host
 
 **Desventajas:**
-- ❌ Requiere Docker Desktop (licencia para empresas grandes)
-- ❌ Limitado a editores compatibles (VS Code principalmente)
+- NO Requiere Docker Desktop (licencia para empresas grandes)
+- NO Limitado a editores compatibles (VS Code principalmente)
 
 ## Configuración Propuesta
 
@@ -189,45 +189,45 @@ volumes:
 #!/bin/bash
 set -e
 
-echo "🚀 Iniciando configuración post-creación..."
+echo "START Iniciando configuración post-creación..."
 
 # Esperar que bases de datos estén listas
-echo "⏳ Esperando PostgreSQL..."
+echo "ESPERANDO Esperando PostgreSQL..."
 until pg_isready -h postgres -U django_user; do
   sleep 1
 done
 
-echo "⏳ Esperando MariaDB..."
+echo "ESPERANDO Esperando MariaDB..."
 until mysqladmin ping -h mariadb -u django_user -pdjango_pass --silent; do
   sleep 1
 done
 
 # Instalar dependencias Python (si requirements.txt cambió)
-echo "📦 Instalando dependencias Python..."
+echo "PACKAGE Instalando dependencias Python..."
 pip install -r requirements.txt
 
 # Ejecutar migraciones
-echo "🗄️  Ejecutando migraciones..."
+echo "SAVE  Ejecutando migraciones..."
 python manage.py migrate
 
 # Crear superuser si no existe
-echo "👤 Configurando superuser..."
+echo "USER Configurando superuser..."
 python manage.py shell << EOF
 from django.contrib.auth import get_user_model
 User = get_user_model()
 if not User.objects.filter(username='admin').exists():
     User.objects.create_superuser('admin', 'admin@example.com', 'admin123')
-    print('✅ Superuser creado: admin/admin123')
+    print('OK Superuser creado: admin/admin123')
 else:
-    print('✅ Superuser ya existe')
+    print('OK Superuser ya existe')
 EOF
 
 # Verificar conexiones a bases de datos
-echo "✅ Verificando conexiones..."
+echo "OK Verificando conexiones..."
 python manage.py check --database default
 python manage.py check --database ivr
 
-echo "✨ Configuración completada! Entorno listo para desarrollo."
+echo "NUEVO Configuración completada! Entorno listo para desarrollo."
 ```
 
 ## Comparación: Vagrant vs DevContainers
@@ -236,12 +236,12 @@ echo "✨ Configuración completada! Entorno listo para desarrollo."
 |---------|---------------------|---------------|
 | **Boot time** | ~2 min | ~30 seg |
 | **Consumo RAM** | ~2 GB | ~500 MB |
-| **Compatibilidad OS** | ✅ Todos | ✅ Todos (con Docker) |
-| **Integración IDE** | ⚠️ Manual | ✅ Nativa (VS Code) |
-| **Curva aprendizaje** | 📊 Baja | 📊 Media |
-| **Costo licencia** | ✅ Gratis | ⚠️ Docker Desktop (empresas) |
-| **GitHub Codespaces** | ❌ No | ✅ Sí |
-| **Snapshot/Restore** | ✅ Sí | ⚠️ Limitado |
+| **Compatibilidad OS** | OK Todos | OK Todos (con Docker) |
+| **Integración IDE** | WARNING Manual | OK Nativa (VS Code) |
+| **Curva aprendizaje** | STATS Baja | STATS Media |
+| **Costo licencia** | OK Gratis | WARNING Docker Desktop (empresas) |
+| **GitHub Codespaces** | NO No | OK Sí |
+| **Snapshot/Restore** | OK Sí | WARNING Limitado |
 
 ## GitHub Codespaces
 
@@ -261,22 +261,22 @@ GitHub Codespaces utiliza automáticamente la configuración de DevContainers:
 ### Uso
 
 1. Ir a repositorio en GitHub
-2. Click en "Code" → "Codespaces" → "Create codespace on main"
+2. Click en "Code" -> "Codespaces" -> "Create codespace on main"
 3. Esperar ~2 minutos (primera vez)
 4. Entorno completo listo en navegador o VS Code
 
 ### Ventajas
 
-- ✅ Cero configuración local
-- ✅ Desarrollo desde cualquier máquina
-- ✅ Recursos en la nube (potencialmente más potentes)
-- ✅ Colaboración en tiempo real
+- OK Cero configuración local
+- OK Desarrollo desde cualquier máquina
+- OK Recursos en la nube (potencialmente más potentes)
+- OK Colaboración en tiempo real
 
 ### Limitaciones
 
-- ❌ Requiere conexión a internet
-- ❌ Cuota mensual gratuita limitada (60h free tier)
-- ❌ Puede tener latencia según ubicación
+- NO Requiere conexión a internet
+- NO Cuota mensual gratuita limitada (60h free tier)
+- NO Puede tener latencia según ubicación
 
 ## Plan de Migración (Futuro)
 

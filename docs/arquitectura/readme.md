@@ -127,10 +127,10 @@ Las decisiones arquitectónicas significativas se documentan mediante **Architec
 
 | Elemento | Estado | Observaciones |
 |----------|--------|---------------|
-| Diagrama de arquitectura | ⚠️ Parcial | Diagrama ASCII incluido, falta diagrama C4 |
-| Stack tecnológico documentado | ✅ Sí | Detallado en este documento |
-| ADRs de decisiones clave | ⚠️ Parcial | Existe ADR-2025-001, faltan otros |
-| Patrones de diseño establecidos | ✅ Sí | Documentados arriba |
+| Diagrama de arquitectura | WARNING Parcial | Diagrama ASCII incluido, falta diagrama C4 |
+| Stack tecnológico documentado | OK Sí | Detallado en este documento |
+| ADRs de decisiones clave | WARNING Parcial | Existe ADR-2025-001, faltan otros |
+| Patrones de diseño establecidos | OK Sí | Documentados arriba |
 
 ## Acciones prioritarias
 - [ ] Crear diagramas C4 (Context, Container, Component, Code)

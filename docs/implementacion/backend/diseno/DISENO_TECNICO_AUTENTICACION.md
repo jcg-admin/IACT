@@ -7,7 +7,7 @@
 
 ---
 
-## 📋 Tabla de Contenidos
+## NOTA Tabla de Contenidos
 
 1. [Arquitectura General](#1-arquitectura-general)
 2. [Diagramas de Secuencia](#2-diagramas-de-secuencia)

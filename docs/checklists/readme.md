@@ -18,11 +18,11 @@ Este espacio contiene checklists operativos y de calidad para asegurar consisten
 
 Los checklists sirven para:
 
-- ✅ Asegurar que no se olviden pasos críticos
-- ✅ Mantener calidad consistente entre diferentes personas
-- ✅ Facilitar onboarding de nuevos miembros
-- ✅ Documentar mejores prácticas
-- ✅ Base para automatización futura
+- OK Asegurar que no se olviden pasos críticos
+- OK Mantener calidad consistente entre diferentes personas
+- OK Facilitar onboarding de nuevos miembros
+- OK Documentar mejores prácticas
+- OK Base para automatización futura
 
 ### Tipos de Checklists
 
@@ -373,14 +373,14 @@ jobs:
 
 | Checklist | Estado | Automatizado |
 |-----------|--------|--------------|
-| Pre-Commit | ✅ Documentado | ⚠️ Parcial (pre-commit hooks) |
-| Pull Request | ✅ Documentado | ❌ No |
-| Code Review | ✅ Documentado | ❌ No |
-| Testing | ✅ Documentado | ⚠️ Parcial (pytest) |
-| Deployment | ✅ Documentado | ❌ No |
-| Onboarding | ✅ Documentado | ❌ No |
-| Incident Response | ✅ Documentado | ❌ No |
-| Security Review | ✅ Documentado | ⚠️ Parcial (safety, pip-audit) |
+| Pre-Commit | OK Documentado | WARNING Parcial (pre-commit hooks) |
+| Pull Request | OK Documentado | NO No |
+| Code Review | OK Documentado | NO No |
+| Testing | OK Documentado | WARNING Parcial (pytest) |
+| Deployment | OK Documentado | NO No |
+| Onboarding | OK Documentado | NO No |
+| Incident Response | OK Documentado | NO No |
+| Security Review | OK Documentado | WARNING Parcial (safety, pip-audit) |
 
 ## Acciones prioritarias
 

@@ -51,18 +51,18 @@ El proyecto IACT requiere un entorno de desarrollo local que replique la infraes
 Usar Vagrant para gestionar una VM Ubuntu con VirtualBox como provider. Aprovisionar PostgreSQL y MariaDB mediante script shell (`provisioning/bootstrap.sh`).
 
 **Pros:**
-- ✅ Aislamiento completo de servicios
-- ✅ Funciona en Windows, macOS, Linux
-- ✅ Fácil de versionar (Vagrantfile + scripts)
-- ✅ No requiere Docker
-- ✅ Familiaridad del equipo con Vagrant
-- ✅ Configuración explícita y auditable
+- OK: Aislamiento completo de servicios
+- OK: Funciona en Windows, macOS, Linux
+- OK: Fácil de versionar (Vagrantfile + scripts)
+- OK: No requiere Docker
+- OK: Familiaridad del equipo con Vagrant
+- OK: Configuración explícita y auditable
 
 **Contras:**
-- ❌ Requiere VirtualBox (software adicional)
-- ❌ Mayor consumo de recursos vs Docker
-- ❌ Boot time más lento que contenedores
-- ❌ Gestión de snapshots menos elegante
+- NO: Requiere VirtualBox (software adicional)
+- NO: Mayor consumo de recursos vs Docker
+- NO: Boot time más lento que contenedores
+- NO: Gestión de snapshots menos elegante
 
 **Implementación:**
 ```ruby
@@ -92,16 +92,16 @@ end
 Usar Docker Compose para levantar contenedores de PostgreSQL y MariaDB con configuración mediante docker-compose.yml.
 
 **Pros:**
-- ✅ Menor consumo de recursos
-- ✅ Boot time rápido (segundos)
-- ✅ Ecosistema amplio de imágenes oficiales
-- ✅ Fácil gestión de volúmenes y redes
+- OK: Menor consumo de recursos
+- OK: Boot time rápido (segundos)
+- OK: Ecosistema amplio de imágenes oficiales
+- OK: Fácil gestión de volúmenes y redes
 
 **Contras:**
-- ❌ Docker Desktop requiere licencia en empresas grandes
-- ❌ Problemas de performance en Windows con WSL2
-- ❌ Equipo tiene menos experiencia con Docker
-- ❌ Configuración menos explícita (imágenes pre-built)
+- NO: Docker Desktop requiere licencia en empresas grandes
+- NO: Problemas de performance en Windows con WSL2
+- NO: Equipo tiene menos experiencia con Docker
+- NO: Configuración menos explícita (imágenes pre-built)
 
 ---
 
@@ -111,15 +111,15 @@ Usar Docker Compose para levantar contenedores de PostgreSQL y MariaDB con confi
 Cada desarrollador instala PostgreSQL y MariaDB directamente en su máquina host.
 
 **Pros:**
-- ✅ Máximo rendimiento (sin virtualización)
-- ✅ Sin overhead de memoria/CPU
+- OK: Máximo rendimiento (sin virtualización)
+- OK: Sin overhead de memoria/CPU
 
 **Contras:**
-- ❌ Inconsistencia entre entornos
-- ❌ Contamina máquina host
-- ❌ Difícil de versionar
-- ❌ Onboarding complejo y propenso a errores
-- ❌ Conflictos con otras instalaciones
+- NO: Inconsistencia entre entornos
+- NO: Contamina máquina host
+- NO: Difícil de versionar
+- NO: Onboarding complejo y propenso a errores
+- NO: Conflictos con otras instalaciones
 
 ---
 
@@ -129,14 +129,14 @@ Cada desarrollador instala PostgreSQL y MariaDB directamente en su máquina host
 Usar DevContainers (basado en Docker) con configuración en `.devcontainer/`.
 
 **Pros:**
-- ✅ Integración nativa con VS Code
-- ✅ Entorno completo (IDE + servicios)
-- ✅ Reproducible
+- OK: Integración nativa con VS Code
+- OK: Entorno completo (IDE + servicios)
+- OK: Reproducible
 
 **Contras:**
-- ❌ Requiere VS Code (limita elección de editor)
-- ❌ Requiere Docker
-- ❌ Mayor curva de aprendizaje inicial
+- NO: Requiere VS Code (limita elección de editor)
+- NO: Requiere Docker
+- NO: Mayor curva de aprendizaje inicial
 
 ## Decisión
 
@@ -158,35 +158,35 @@ Usar DevContainers (basado en Docker) con configuración en `.devcontainer/`.
 ## Consecuencias
 
 ### Positivas
-- ✅ Onboarding reducido de 2-3 días a 1 hora
-- ✅ Cero instalaciones en máquina host
-- ✅ Configuración versionada en Git
-- ✅ Puertos customizados (15432, 13306) evitan conflictos
+- OK: Onboarding reducido de 2-3 días a 1 hora
+- OK: Cero instalaciones en máquina host
+- OK: Configuración versionada en Git
+- OK: Puertos customizados (15432, 13306) evitan conflictos
 
 ### Negativas
-- ⚠️ Requiere ~2GB RAM adicionales cuando VM está corriendo
-- ⚠️ Boot time de ~2 minutos en primera ejecución
-- ⚠️ Necesita VirtualBox 7+ instalado
+- WARNING: Requiere ~2GB RAM adicionales cuando VM está corriendo
+- WARNING: Boot time de ~2 minutos en primera ejecución
+- WARNING: Necesita VirtualBox 7+ instalado
 
 ### Neutrales
-- ℹ️ Desarrolladores necesitan aprender comandos básicos de Vagrant
-- ℹ️ Scripts de aprovisionamiento deben mantenerse actualizados
+- INFO: Desarrolladores necesitan aprender comandos básicos de Vagrant
+- INFO: Scripts de aprovisionamiento deben mantenerse actualizados
 
 ## Plan de Implementación
 
-1. **Fase 1: Configuración Inicial** ✅ COMPLETADO
+1. **Fase 1: Configuración Inicial** OK COMPLETADO
    - Crear Vagrantfile
    - Crear provisioning/bootstrap.sh
    - Configurar forwarding de puertos
    - Timeframe: 1 día
 
-2. **Fase 2: Validación** ✅ COMPLETADO
+2. **Fase 2: Validación** OK COMPLETADO
    - Probar en Windows, macOS, Linux
    - Crear script de verificación (`scripts/verificar_servicios.sh`)
    - Documentar en README
    - Timeframe: 2 días
 
-3. **Fase 3: Documentación** ✅ COMPLETADO
+3. **Fase 3: Documentación** OK COMPLETADO
    - Guía de instalación
    - Troubleshooting común
    - Variables de entorno
@@ -195,16 +195,16 @@ Usar DevContainers (basado en Docker) con configuración en `.devcontainer/`.
 ## Validación y Métricas
 
 **Criterios de Éxito:**
-- ✅ Tiempo de onboarding: < 2 horas (vs 2-3 días anterior)
-- ✅ Tasa de éxito en primera ejecución: > 90%
-- ✅ Tiempo de `vagrant up` primera vez: < 5 minutos
-- ✅ Tiempo de `vagrant up` subsecuente: < 2 minutos
+- OK: Tiempo de onboarding: < 2 horas (vs 2-3 días anterior)
+- OK: Tasa de éxito en primera ejecución: > 90%
+- OK: Tiempo de `vagrant up` primera vez: < 5 minutos
+- OK: Tiempo de `vagrant up` subsecuente: < 2 minutos
 
 **Resultados Obtenidos:**
-- ✅ Onboarding promedio: 1 hora
-- ✅ Primera ejecución exitosa: 95%
-- ✅ Vagrant up inicial: ~3 minutos
-- ✅ Vagrant up subsecuente: ~1.5 minutos
+- OK: Onboarding promedio: 1 hora
+- OK: Primera ejecución exitosa: 95%
+- OK: Vagrant up inicial: ~3 minutos
+- OK: Vagrant up subsecuente: ~1.5 minutos
 
 **Revisión:**
 - Fecha de revisión: 2025-06-01

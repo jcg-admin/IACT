@@ -158,7 +158,7 @@ pytest tests/smoke/
 
 ### 5. Deployment a Producción
 
-⚠️ **IMPORTANTE**: Solo después de validación en staging
+WARNING **IMPORTANTE**: Solo después de validación en staging
 
 #### 5.1 Preparación
 
@@ -210,7 +210,7 @@ sudo systemctl restart apache2
 
 **Release v1.2.0 Deployed to Production**
 
-✅ Deployment completado exitosamente
+OK Deployment completado exitosamente
 
 **Nuevas Funcionalidades:**
 - Autenticación JWT

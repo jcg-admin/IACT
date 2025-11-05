@@ -31,17 +31,17 @@ El proyecto IACT sigue una metodología ágil adaptada:
 
 ### Roadmap 2025
 
-#### Q1 2025 (Enero - Marzo) - Fundación ✅ EN PROGRESO
+#### Q1 2025 (Enero - Marzo) - Fundación OK EN PROGRESO
 
 **Objetivos:**
-- ✅ Configurar infraestructura local (Vagrant + VirtualBox)
-- ✅ Establecer base documental con MkDocs
-- ⚠️ Implementar ETL básico IVR → Analytics
-- ⚠️ Desarrollar modelos de datos principales
+- OK Configurar infraestructura local (Vagrant + VirtualBox)
+- OK Establecer base documental con MkDocs
+- WARNING Implementar ETL básico IVR -> Analytics
+- WARNING Desarrollar modelos de datos principales
 
 **Hitos:**
-- ✅ 2025-01-15: Infraestructura local funcional
-- ✅ 2025-02-18: Documentación estructurada
+- OK 2025-01-15: Infraestructura local funcional
+- OK 2025-02-18: Documentación estructurada
 - 🔄 2025-03-31: ETL v1.0 operativo (EN PROGRESO)
 
 #### Q2 2025 (Abril - Junio) - Core Analytics
@@ -144,7 +144,7 @@ Ejemplo: 1.2.3
 
 ### Gestión de Sprints
 
-#### Sprint Actual: Sprint 5 (2025-11-01 → 2025-11-14)
+#### Sprint Actual: Sprint 5 (2025-11-01 -> 2025-11-14)
 
 **Objetivo del Sprint:**
 Completar correcciones en estructura documental y establecer base sólida para ETL.
@@ -160,11 +160,11 @@ Completar correcciones en estructura documental y establecer base sólida para E
 **Burndown:**
 ```
 Story Points
-40 |●
-35 |  ●
-30 |    ●
-25 |      ●
-20 |        ●
+40 |-
+35 |  -
+30 |    -
+25 |      -
+20 |        -
 15 |
 10 |
  5 |
@@ -174,12 +174,12 @@ Story Points
 
 #### Sprints Planificados
 
-**Sprint 6 (2025-11-15 → 2025-11-28):**
+**Sprint 6 (2025-11-15 -> 2025-11-28):**
 - Implementar transformer para datos de llamadas
 - Crear loader para PostgreSQL
 - Tests de integración ETL
 
-**Sprint 7 (2025-11-29 → 2025-12-12):**
+**Sprint 7 (2025-11-29 -> 2025-12-12):**
 - Calculadora de AHT
 - Calculadora de ASA
 - Agregador diario
@@ -225,17 +225,17 @@ Velocidad promedio: 33 SP/sprint
 - Completados: 133 (47%)
 - Restantes: 147 (53%)
 - Sprints restantes: 5
-- Estado: ⚠️ En riesgo (velocity necesaria: 29 SP)
+- Estado: WARNING En riesgo (velocity necesaria: 29 SP)
 
 ## Estado de cumplimiento
 
 | Elemento | Estado | Observaciones |
 |----------|--------|---------------|
-| Roadmap documentado | ✅ Sí | Q1-Q4 2025 definido |
-| Proceso de release establecido | ✅ Sí | SemVer + checklist |
-| Sprints planificados | ✅ Sí | 3 sprints adelante |
-| Métricas de velocidad | ⚠️ Parcial | Falta automatizar tracking |
-| Registro de riesgos | ✅ Sí | Documentado arriba |
+| Roadmap documentado | OK Sí | Q1-Q4 2025 definido |
+| Proceso de release establecido | OK Sí | SemVer + checklist |
+| Sprints planificados | OK Sí | 3 sprints adelante |
+| Métricas de velocidad | WARNING Parcial | Falta automatizar tracking |
+| Registro de riesgos | OK Sí | Documentado arriba |
 
 ## Acciones prioritarias
 - [ ] Automatizar tracking de burndown charts

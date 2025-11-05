@@ -7,15 +7,15 @@ estrategia: Opción B - Separación clara requisitos vs docs técnicas
 relacionados: ["DOC-PROPUESTA-FINAL-REESTRUCTURACION"]
 ---
 
-# 📋 Implementación - Source of Truth para Requisitos
+# NOTA Implementación - Source of Truth para Requisitos
 
 Esta carpeta contiene **todos los requisitos del proyecto IACT**, organizados por dominio técnico y siguiendo estándares BABOK v3, PMBOK 7th Ed e ISO/IEC/IEEE 29148:2018.
 
 ---
 
-## 🎯 Separación Clara de Responsabilidades
+## OBJETIVO Separación Clara de Responsabilidades
 
-### ✅ `docs/implementacion/` = **REQUISITOS**
+### OK `docs/implementacion/` = **REQUISITOS**
 - Necesidades de negocio (N-XXX)
 - Requisitos de negocio (RN-XXX)
 - Requisitos de stakeholders (RS-XXX)
@@ -23,7 +23,7 @@ Esta carpeta contiene **todos los requisitos del proyecto IACT**, organizados po
 - Requisitos no funcionales (RNF-XXX)
 - Documentación de tests relacionados
 
-### ✅ `docs/backend/`, `docs/frontend/`, `docs/infrastructure/` = **DOCUMENTACIÓN TÉCNICA**
+### OK `docs/backend/`, `docs/frontend/`, `docs/infrastructure/` = **DOCUMENTACIÓN TÉCNICA**
 - Arquitectura y ADRs
 - Checklists operativos
 - DevOps y runbooks
@@ -31,46 +31,46 @@ Esta carpeta contiene **todos los requisitos del proyecto IACT**, organizados po
 - Gobernanza y políticas
 - QA y estrategias de testing
 
-**Regla de oro**: Si es un requisito (describe QUÉ debe hacer el sistema) → va en `implementacion/`. Si es documentación técnica (describe CÓMO funciona) → va en `backend/`, `frontend/`, `infrastructure/`.
+**Regla de oro**: Si es un requisito (describe QUÉ debe hacer el sistema) -> va en `implementacion/`. Si es documentación técnica (describe CÓMO funciona) -> va en `backend/`, `frontend/`, `infrastructure/`.
 
 ---
 
-## 📁 Estructura
+## FILE Estructura
 
 ```
 docs/implementacion/
 │
-├── backend/                           ★ Owner: equipo-backend
+├── backend/                           * Owner: equipo-backend
 │   ├── requisitos/
-│   │   ├── necesidades/               ← N-001, N-002 (Business Needs)
-│   │   ├── negocio/                   ← RN-001 (Business Requirements)
-│   │   ├── stakeholders/              ← RS-001 (Stakeholder Requirements)
-│   │   ├── funcionales/               ← RF-001, RF-002 (Functional)
-│   │   └── no_funcionales/            ← RNF-001 (Non-Functional)
-│   ├── diseño/                        ← Documentos de diseño detallado
-│   └── tests/                         ← Documentación de estrategia de tests
+│   │   ├── necesidades/               -> N-001, N-002 (Business Needs)
+│   │   ├── negocio/                   -> RN-001 (Business Requirements)
+│   │   ├── stakeholders/              -> RS-001 (Stakeholder Requirements)
+│   │   ├── funcionales/               -> RF-001, RF-002 (Functional)
+│   │   └── no_funcionales/            -> RNF-001 (Non-Functional)
+│   ├── diseño/                        -> Documentos de diseño detallado
+│   └── tests/                         -> Documentación de estrategia de tests
 │
-├── frontend/                          ★ Owner: equipo-frontend
+├── frontend/                          * Owner: equipo-frontend
 │   ├── requisitos/
-│   │   ├── necesidades/               ← Enlaza a backend (no duplica)
-│   │   ├── negocio/                   ← RN específicos frontend
-│   │   ├── stakeholders/              ← RS específicos frontend
-│   │   ├── funcionales/               ← RF específicos frontend
-│   │   └── no_funcionales/            ← RNF específicos frontend
-│   └── tests/                         ← Docs de tests frontend
+│   │   ├── necesidades/               -> Enlaza a backend (no duplica)
+│   │   ├── negocio/                   -> RN específicos frontend
+│   │   ├── stakeholders/              -> RS específicos frontend
+│   │   ├── funcionales/               -> RF específicos frontend
+│   │   └── no_funcionales/            -> RNF específicos frontend
+│   └── tests/                         -> Docs de tests frontend
 │
-└── infrastructure/                    ★ Owner: equipo-devops
+└── infrastructure/                    * Owner: equipo-devops
     ├── requisitos/
-    │   ├── necesidades/               ← Enlaza a backend (no duplica)
-    │   ├── negocio/                   ← RN específicos infra
-    │   ├── funcionales/               ← RF específicos infra
-    │   └── no_funcionales/            ← RNF específicos infra
-    └── tests/                         ← Docs de tests infra
+    │   ├── necesidades/               -> Enlaza a backend (no duplica)
+    │   ├── negocio/                   -> RN específicos infra
+    │   ├── funcionales/               -> RF específicos infra
+    │   └── no_funcionales/            -> RNF específicos infra
+    └── tests/                         -> Docs de tests infra
 ```
 
 ---
 
-## 📝 Convenciones de Nombrado
+## NOTA Convenciones de Nombrado
 
 | Tipo | Prefijo | Ejemplo | Template |
 |------|---------|---------|----------|
@@ -82,7 +82,7 @@ docs/implementacion/
 
 ---
 
-## 🔗 Trazabilidad (Obligatoria)
+## Trazabilidad (Obligatoria)
 
 Cada requisito **DEBE** incluir frontmatter YAML con trazabilidad:
 
@@ -109,7 +109,7 @@ trazabilidad_downward:
 
 ---
 
-## 🤖 Generación Automática de Índices ISO 29148
+## AUTO Generación Automática de Índices ISO 29148
 
 Los índices se generan **automáticamente** en `docs/requisitos/` mediante GitHub Actions:
 
@@ -119,7 +119,7 @@ Los índices se generan **automáticamente** en `docs/requisitos/` mediante GitH
 - **SRS** (Software Requirements Specification) - ISO 29148 Clause 9.6
 - **RTM** (Requirements Traceability Matrix)
 
-**⚠️ NO edite manualmente** los archivos en `docs/requisitos/` - son auto-generados.
+**WARNING NO edite manualmente** los archivos en `docs/requisitos/` - son auto-generados.
 
 ### Generación Manual
 
@@ -132,7 +132,7 @@ python .github/workflows/scripts/generate_requirements_index.py
 
 ---
 
-## 📚 Recursos
+## DOCS Recursos
 
 ### Plantillas
 - [Template Necesidad](../plantillas/template_necesidad.md)
@@ -147,7 +147,7 @@ python .github/workflows/scripts/generate_requirements_index.py
 
 ---
 
-## 🔄 Migración desde Estructura Legacy
+## Migración desde Estructura Legacy
 
 Si tienes requisitos en `docs/backend/requisitos/` (estructura antigua), consulta la [Guía de Migración](MIGRATION_FROM_LEGACY.md).
 
@@ -155,14 +155,14 @@ Si tienes requisitos en `docs/backend/requisitos/` (estructura antigua), consult
 
 ---
 
-## 🚀 Cómo Crear un Nuevo Requisito
+## START Cómo Crear un Nuevo Requisito
 
 ### 1. Identificar el tipo de requisito
-- ¿Es una necesidad de negocio? → `necesidades/`
-- ¿Es un objetivo de negocio? → `negocio/`
-- ¿Es necesidad de un stakeholder? → `stakeholders/`
-- ¿Es funcionalidad del sistema? → `funcionales/`
-- ¿Es característica de calidad? → `no_funcionales/`
+- ¿Es una necesidad de negocio? -> `necesidades/`
+- ¿Es un objetivo de negocio? -> `negocio/`
+- ¿Es necesidad de un stakeholder? -> `stakeholders/`
+- ¿Es funcionalidad del sistema? -> `funcionales/`
+- ¿Es característica de calidad? -> `no_funcionales/`
 
 ### 2. Elegir el dominio
 - ¿Backend, Frontend, Infrastructure?
@@ -185,7 +185,7 @@ cp ../../../../../plantillas/template_requisito_funcional.md rf001_mi_requisito.
 
 ---
 
-## ✅ Checklist para Nuevos Requisitos
+## OK Checklist para Nuevos Requisitos
 
 - [ ] ID único asignado (no duplicado)
 - [ ] Frontmatter YAML completo
@@ -199,7 +199,7 @@ cp ../../../../../plantillas/template_requisito_funcional.md rf001_mi_requisito.
 
 ---
 
-## 📊 Métricas
+## STATS Métricas
 
 Para ver estadísticas de requisitos:
 

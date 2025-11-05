@@ -327,7 +327,7 @@ Cuando todo está correcto, deberías ver:
 ✓ Permisos de usuario validados
 ✓ Django puede conectarse a ambas DBs
 
-✅ Todos los servicios están operativos
+OK Todos los servicios están operativos
 ```
 
 ## Próximos Pasos

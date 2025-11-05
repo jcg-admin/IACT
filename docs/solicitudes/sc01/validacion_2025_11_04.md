@@ -11,7 +11,7 @@ relacionados: ["DOC-SOL-SC01"]
 
 Validación realizada el 2025-11-04 para verificar el estado de implementación de la solicitud SC01 (Preparación de entorno MkDocs).
 
-## Resultado: ✅ COMPLETADO
+## Resultado: OK COMPLETADO
 
 La solicitud SC01 ha sido **implementada exitosamente**. Todos los componentes requeridos están instalados y funcionando correctamente.
 
@@ -19,9 +19,9 @@ La solicitud SC01 ha sido **implementada exitosamente**. Todos los componentes r
 
 ### Instalación de MkDocs
 
-- ✅ **MkDocs instalado**: Versión 1.6.1
-- ✅ **Versión cumple requisito**: >= 1.5.3 (especificado en SC01)
-- ✅ **Comando disponible**: `mkdocs --version` funciona correctamente
+- OK **MkDocs instalado**: Versión 1.6.1
+- OK **Versión cumple requisito**: >= 1.5.3 (especificado en SC01)
+- OK **Comando disponible**: `mkdocs --version` funciona correctamente
 
 ```bash
 $ mkdocs --version
@@ -30,9 +30,9 @@ mkdocs, version 1.6.1 from /usr/local/lib/python3.11/dist-packages/mkdocs (Pytho
 
 ### Plugins instalados
 
-- ✅ **mkdocs-kroki-plugin**: Versión 0.9.0 (requisito >= 0.6.0)
-- ✅ **pymdown-extensions**: Versión 10.16.1 (requisito >= 10.3)
-- ✅ **mkdocs-get-deps**: 0.2.0 (dependencia instalada)
+- OK **mkdocs-kroki-plugin**: Versión 0.9.0 (requisito >= 0.6.0)
+- OK **pymdown-extensions**: Versión 10.16.1 (requisito >= 10.3)
+- OK **mkdocs-get-deps**: 0.2.0 (dependencia instalada)
 
 ```bash
 $ pip list | grep -E "mkdocs|kroki|pymdown"
@@ -44,11 +44,11 @@ pymdown-extensions  10.16.1
 
 ### Archivos de configuración
 
-- ✅ **requirements.txt existe**: `/home/user/IACT---project/docs/requirements.txt`
-- ✅ **Contenido correcto**: Incluye mkdocs>=1.5.3, mkdocs-kroki-plugin>=0.6.0, pymdown-extensions>=10.3
-- ✅ **mkdocs.yml existe**: `/home/user/IACT---project/docs/mkdocs.yml`
-- ✅ **Plugin Kroki configurado**: ServerURL apunta a https://kroki.io
-- ✅ **PyMdown Extensions configurado**: Incluye pymdownx.superfences y otras extensiones
+- OK **requirements.txt existe**: `/home/user/IACT---project/docs/requirements.txt`
+- OK **Contenido correcto**: Incluye mkdocs>=1.5.3, mkdocs-kroki-plugin>=0.6.0, pymdown-extensions>=10.3
+- OK **mkdocs.yml existe**: `/home/user/IACT---project/docs/mkdocs.yml`
+- OK **Plugin Kroki configurado**: ServerURL apunta a https://kroki.io
+- OK **PyMdown Extensions configurado**: Incluye pymdownx.superfences y otras extensiones
 
 ### Configuración de mkdocs.yml
 
@@ -80,9 +80,9 @@ markdown_extensions:
 
 ### Pruebas funcionales
 
-- ✅ **mkdocs serve funciona**: Servidor inicia correctamente
-- ✅ **mkdocs build funciona**: Build completa exitosamente en 1.77 segundos
-- ✅ **Sin errores críticos**: Solo advertencias sobre enlaces internos (no bloquean)
+- OK **mkdocs serve funciona**: Servidor inicia correctamente
+- OK **mkdocs build funciona**: Build completa exitosamente en 1.77 segundos
+- OK **Sin errores críticos**: Solo advertencias sobre enlaces internos (no bloquean)
 
 ```bash
 $ mkdocs build -f docs/mkdocs.yml --clean
@@ -94,8 +94,8 @@ INFO    -  Documentation built in 1.77 seconds
 
 ### Renderizado de diagramas PlantUML
 
-- ✅ **Plugin Kroki activo**: Configurado para usar https://kroki.io
-- ⚠️ **Renderizado de diagramas**: No probado con diagramas reales en esta validación
+- OK **Plugin Kroki activo**: Configurado para usar https://kroki.io
+- WARNING **Renderizado de diagramas**: No probado con diagramas reales en esta validación
   - **Nota**: Se requiere conexión a internet para que Kroki funcione
   - **Recomendación**: Probar con diagramas existentes en `docs/anexos/diagramas/`
 
@@ -132,14 +132,14 @@ markdown_extensions:
 
 Verificación contra el checklist especificado en `docs/solicitudes/sc01/readme.md`:
 
-- ✅ MkDocs instalado y accesible desde la terminal
-- ✅ Versión 1.5.3+ verificada (1.6.1 instalada)
-- ✅ Plugin Kroki instalado (0.9.0)
-- ✅ PyMdown Extensions instalado (10.16.1)
-- ✅ `mkdocs serve` ejecuta sin errores
-- ⚠️ Diagramas PlantUML se renderizan correctamente (NO VERIFICADO - requiere prueba manual)
-- ✅ Navegación a secciones principales funciona
-- ⚠️ Manpages generadas (NO APLICABLE - opcional según SC01)
+- OK MkDocs instalado y accesible desde la terminal
+- OK Versión 1.5.3+ verificada (1.6.1 instalada)
+- OK Plugin Kroki instalado (0.9.0)
+- OK PyMdown Extensions instalado (10.16.1)
+- OK `mkdocs serve` ejecuta sin errores
+- WARNING Diagramas PlantUML se renderizan correctamente (NO VERIFICADO - requiere prueba manual)
+- OK Navegación a secciones principales funciona
+- WARNING Manpages generadas (NO APLICABLE - opcional según SC01)
 - N/A Actualización de `PATH` confirmada en equipos Windows (entorno Linux)
 
 ## Comandos útiles verificados
@@ -190,10 +190,10 @@ Hay múltiples páginas en `docs/` que no están incluidas en la configuración 
 
 La solicitud SC01 está **COMPLETADA** y funcionando correctamente. El entorno MkDocs está listo para:
 
-1. ✅ Generar documentación estática
-2. ✅ Servir documentación en modo desarrollo
-3. ✅ Renderizar diagramas PlantUML mediante Kroki (requiere internet)
-4. ✅ Utilizar extensiones avanzadas de Markdown
+1. OK Generar documentación estática
+2. OK Servir documentación en modo desarrollo
+3. OK Renderizar diagramas PlantUML mediante Kroki (requiere internet)
+4. OK Utilizar extensiones avanzadas de Markdown
 
 ## Próximos pasos recomendados
 

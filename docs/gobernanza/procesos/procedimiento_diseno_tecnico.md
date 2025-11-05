@@ -28,7 +28,7 @@ Aplica a todo diseño técnico de componentes, módulos o funcionalidades signif
 
 ## Cuándo Usar Este Procedimiento
 
-### ✅ Usar cuando:
+### OK Usar cuando:
 
 - Se inicia el diseño de una nueva funcionalidad con ≥ 3 requisitos funcionales
 - Se requiere modificación arquitectónica de componentes existentes
@@ -36,7 +36,7 @@ Aplica a todo diseño técnico de componentes, módulos o funcionalidades signif
 - Stakeholders solicitan especificación técnica antes de implementación
 - Se implementan componentes críticos de seguridad o RBAC
 
-### ❌ No usar para:
+### NO No usar para:
 
 - Cambios triviales o refactoring sin impacto arquitectónico
 - Documentación de APIs (usar `plantilla_api_reference.md`)
@@ -112,7 +112,7 @@ trazabilidad_upward:
 
 ---
 
-## 📋 Tabla de Contenidos
+## NOTA Tabla de Contenidos
 
 1. [Arquitectura General](#1-arquitectura-general)
 2. [Diagramas de Secuencia](#2-diagramas-de-secuencia)
@@ -201,7 +201,7 @@ graph LR
 
 **Checklist:**
 - [ ] Diagrama de alto nivel incluye frontend, backend, database
-- [ ] Diagrama de capas sigue patrón Presentación → Servicio → Dominio → Persistencia
+- [ ] Diagrama de capas sigue patrón Presentación -> Servicio -> Dominio -> Persistencia
 - [ ] Subgrafos agrupan componentes relacionados
 - [ ] Estilos visuales aplicados (fill colors)
 
@@ -352,7 +352,7 @@ stateDiagram-v2
 - [ ] Estados en MAYÚSCULAS
 - [ ] Transiciones con triggers claros
 - [ ] Estado inicial `[*]` y final `[*]` definidos
-- [ ] Transiciones reflexivas cuando aplica (ACTIVE → ACTIVE)
+- [ ] Transiciones reflexivas cuando aplica (ACTIVE -> ACTIVE)
 
 ---
 
@@ -435,7 +435,7 @@ Crear tabla que mapee cada componente/diagrama a sus requisitos origen.
 ```markdown
 ## 7. Trazabilidad a Requisitos
 
-### 7.1 Matriz de Trazabilidad Forward (Requisitos → Diseño)
+### 7.1 Matriz de Trazabilidad Forward (Requisitos -> Diseño)
 
 | Requisito | Tipo | Título | Componentes de Diseño |
 |-----------|------|--------|-----------------------|
@@ -446,7 +446,7 @@ Crear tabla que mapee cada componente/diagrama a sus requisitos origen.
 | RF-007 | Funcional | Refresh token | Diagrama 2.3, TokenService |
 | RNF-001 | No Funcional | Tiempo de respuesta < 200ms | Rate limiting, Índices DB |
 
-### 7.2 Matriz de Trazabilidad Backward (Diseño → Tests)
+### 7.2 Matriz de Trazabilidad Backward (Diseño -> Tests)
 
 | Componente de Diseño | Test ID | Ubicación del Test |
 |----------------------|---------|-------------------|
@@ -484,8 +484,8 @@ Antes de solicitar revisión, validar:
 - [ ] Modelo de datos ER completo
 
 **Trazabilidad:**
-- [ ] Matriz Forward: Requisitos → Diseño
-- [ ] Matriz Backward: Diseño → Tests
+- [ ] Matriz Forward: Requisitos -> Diseño
+- [ ] Matriz Backward: Diseño -> Tests
 - [ ] Todos los RF-XXX cubiertos
 - [ ] Test IDs asignados
 
@@ -500,7 +500,7 @@ Antes de solicitar revisión, validar:
 #### 4.2 Proceso de Revisión
 
 **Revisor 1: BA Lead**
-- Valida trazabilidad upward (Diseño → Requisitos)
+- Valida trazabilidad upward (Diseño -> Requisitos)
 - Confirma que todos los RF-XXX están cubiertos
 - Aprueba alcance y prioridad
 
@@ -510,7 +510,7 @@ Antes de solicitar revisión, validar:
 - Aprueba decisiones de diseño
 
 **Revisor 3: QA Lead**
-- Valida trazabilidad downward (Diseño → Tests)
+- Valida trazabilidad downward (Diseño -> Tests)
 - Confirma criterios de aceptación medibles
 - Aprueba estrategia de testing
 
@@ -588,7 +588,7 @@ Una vez aprobado:
 
 | Métrica | Target | Medición |
 |---------|--------|----------|
-| Tiempo de creación de diseño | < 2 semanas | Fecha creación → Fecha aprobación |
+| Tiempo de creación de diseño | < 2 semanas | Fecha creación -> Fecha aprobación |
 | % de requisitos cubiertos | 100% | (RF mapeados / RF totales) × 100 |
 | % de diseños con tests trazables | 100% | (Diagramas con TEST-XXX / Total diagramas) × 100 |
 | Ciclos de revisión | ≤ 2 | Número de rondas de feedback |
@@ -620,7 +620,7 @@ Si un RF-XXX tiene múltiples escenarios complejos (ej: RF-010 con RBAC de 3 niv
 
 1. Documentar el cambio en un ADR (`arquitectura/adr/`)
 2. Actualizar el documento de diseño técnico
-3. Incrementar versión (1.0 → 1.1)
+3. Incrementar versión (1.0 -> 1.1)
 4. Actualizar matriz de trazabilidad si cambian componentes
 
 ---

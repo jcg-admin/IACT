@@ -29,7 +29,7 @@ vincular la evidencia correspondiente, siguiendo lo establecido en [documentacio
 ##  Documentación Activa
 
 ### Calidad de Código y Automatización
-- [`calidad_codigo_automatizacion.md`](calidad_codigo_automatizacion.md) - ✅ **NUEVO** - Guía completa de calidad de código
+- [`calidad_codigo_automatizacion.md`](calidad_codigo_automatizacion.md) - OK **NUEVO** - Guía completa de calidad de código
   - **Pre-commit hooks**: Ruff, MyPy, Bandit, Detect Secrets
   - **CI/CD**: GitHub Actions con 4 jobs paralelos
   - **Testing**: Pytest con ejecución paralela y coverage

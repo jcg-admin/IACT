@@ -9,7 +9,7 @@
 - [ ] Referencia a ADRs relevantes.
 
 ## Output Profesional (Regla Fundamental)
-- [ ] Scripts NO usan emojis en output (✅❌⚠️🚀 etc.).
+- [ ] Scripts NO usan emojis en output (OKNOWARNINGSTART etc.).
 - [ ] Se usan prefijos estándar: [INFO], [ERROR], [WARN], [SUCCESS].
 - [ ] Separadores usan caracteres ASCII estándar (-, =, _).
 - [ ] Logs son parseables con herramientas estándar (grep, awk).

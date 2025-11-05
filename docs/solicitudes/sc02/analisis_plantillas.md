@@ -32,10 +32,10 @@ Análisis de las plantillas disponibles en `docs/plantillas/` para determinar cu
 - template_requisito_stakeholder.md
 
 #### Diseño y arquitectura
-- ✅ **plantilla_sad.md** - Software Architecture Document
-- ✅ **plantilla_tdd.md** - Technical Design Document
-- ✅ **plantilla_database_design.md** - Diseño de base de datos
-- ✅ **plantilla_api_reference.md** - Referencia de APIs
+- OK **plantilla_sad.md** - Software Architecture Document
+- OK **plantilla_tdd.md** - Technical Design Document
+- OK **plantilla_database_design.md** - Diseño de base de datos
+- OK **plantilla_api_reference.md** - Referencia de APIs
 
 #### Infraestructura y despliegue
 - plantilla_deployment_guide.md
@@ -61,7 +61,7 @@ Análisis de las plantillas disponibles en `docs/plantillas/` para determinar cu
 
 ## Plantillas que usaré para SC02
 
-### 1. ✅ plantilla_tdd.md - Technical Design Document
+### 1. OK plantilla_tdd.md - Technical Design Document
 **Uso**: Documentar cada aplicación Django en detalle
 
 **Aplicación**:
@@ -79,11 +79,11 @@ Análisis de las plantillas disponibles en `docs/plantillas/` para determinar cu
 - `docs/implementacion/backend/diseno_detallado/tdd_reports.md`
 - etc.
 
-**Estado**: ✅ Adecuada - Cubre la mayoría de necesidades
+**Estado**: OK Adecuada - Cubre la mayoría de necesidades
 
 ---
 
-### 2. ✅ plantilla_database_design.md - Database Design
+### 2. OK plantilla_database_design.md - Database Design
 **Uso**: Documentar modelos de datos consolidados
 
 **Aplicación**:
@@ -95,11 +95,11 @@ Análisis de las plantillas disponibles en `docs/plantillas/` para determinar cu
 **Archivos a crear**:
 - `docs/implementacion/backend/diseno_detallado/database_design.md`
 
-**Estado**: ✅ Adecuada - Perfecta para modelos Django
+**Estado**: OK Adecuada - Perfecta para modelos Django
 
 ---
 
-### 3. ⚠️ plantilla_api_reference.md - API Reference
+### 3. WARNING plantilla_api_reference.md - API Reference
 **Uso**: Documentar endpoints REST (futuro)
 
 **Aplicación**:
@@ -110,7 +110,7 @@ Análisis de las plantillas disponibles en `docs/plantillas/` para determinar cu
 **Archivos a crear** (futuro):
 - `docs/implementacion/backend/diseno_detallado/api_reference.md`
 
-**Estado**: ⚠️ Básica - Requiere expansión para APIs internas
+**Estado**: WARNING Básica - Requiere expansión para APIs internas
 
 **Observación**: La plantilla actual es muy simple, solo tiene:
 - Introducción
@@ -122,7 +122,7 @@ Análisis de las plantillas disponibles en `docs/plantillas/` para determinar cu
 
 ---
 
-### 4. ✅ plantilla_sad.md - Software Architecture Document
+### 4. OK plantilla_sad.md - Software Architecture Document
 **Uso**: Documentar arquitectura general de las apps
 
 **Aplicación**:
@@ -134,11 +134,11 @@ Análisis de las plantillas disponibles en `docs/plantillas/` para determinar cu
 **Archivos a crear**:
 - `docs/implementacion/backend/arquitectura/arquitectura_apps.md`
 
-**Estado**: ✅ Adecuada
+**Estado**: OK Adecuada
 
 ---
 
-### 5. ✅ plantilla_troubleshooting.md - Troubleshooting
+### 5. OK plantilla_troubleshooting.md - Troubleshooting
 **Uso**: Guías de resolución de problemas
 
 **Aplicación**:
@@ -149,13 +149,13 @@ Análisis de las plantillas disponibles en `docs/plantillas/` para determinar cu
 **Archivos a crear**:
 - `docs/implementacion/backend/arquitectura/troubleshooting_etl.md`
 
-**Estado**: ✅ Adecuada
+**Estado**: OK Adecuada
 
 ---
 
 ## Plantillas que ME FALTAN
 
-### 1. ❌ plantilla_django_app.md - Django Application Documentation
+### 1. NO plantilla_django_app.md - Django Application Documentation
 **Necesidad**: Alta
 **Razón**: Las apps Django tienen componentes específicos que no están bien cubiertos por TDD
 
@@ -213,11 +213,11 @@ Análisis de las plantillas disponibles en `docs/plantillas/` para determinar cu
 - Diagrama de secuencia (flujos principales)
 ```
 
-**Estado**: ❌ No existe - DEBE CREARSE
+**Estado**: NO No existe - DEBE CREARSE
 
 ---
 
-### 2. ❌ plantilla_service_layer.md - Service Layer Documentation
+### 2. NO plantilla_service_layer.md - Service Layer Documentation
 **Necesidad**: Media
 **Razón**: Los servicios de negocio son componentes clave que merecen documentación específica
 
@@ -253,11 +253,11 @@ Análisis de las plantillas disponibles en `docs/plantillas/` para determinar cu
 - Caché
 ```
 
-**Estado**: ❌ No existe - RECOMENDABLE CREAR
+**Estado**: NO No existe - RECOMENDABLE CREAR
 
 ---
 
-### 3. ❌ plantilla_etl_job.md - ETL Job Documentation
+### 3. NO plantilla_etl_job.md - ETL Job Documentation
 **Necesidad**: Alta (específico para este proyecto)
 **Razón**: El ETL es crítico para el negocio y tiene componentes únicos
 
@@ -302,11 +302,11 @@ Análisis de las plantillas disponibles en `docs/plantillas/` para determinar cu
 - Procedimiento de reproceso manual
 ```
 
-**Estado**: ❌ No existe - MUY NECESARIA
+**Estado**: NO No existe - MUY NECESARIA
 
 ---
 
-### 4. ❌ plantilla_django_command.md - Django Management Command
+### 4. NO plantilla_django_command.md - Django Management Command
 **Necesidad**: Media
 **Razón**: Los comandos de management son importantes para operaciones
 
@@ -344,7 +344,7 @@ python manage.py <comando> [opciones]
 - Idempotencia
 ```
 
-**Estado**: ❌ No existe - ÚTIL
+**Estado**: NO No existe - ÚTIL
 
 ---
 
@@ -425,20 +425,20 @@ python manage.py <comando> [opciones]
 
 | Plantilla | Prioridad | Razón | Acción |
 |-----------|-----------|-------|---------|
-| plantilla_django_app.md | 🔴 Alta | Estructura específica de Django no cubierta | Crear AHORA |
-| plantilla_etl_job.md | 🔴 Alta | ETL es crítico para el negocio | Crear AHORA |
-| Mejora a plantilla_api_reference.md | 🟡 Media | Actual muy básica | Mejorar después |
-| plantilla_service_layer.md | 🟡 Media | Servicios son componentes clave | Crear si hay tiempo |
-| plantilla_django_command.md | 🟢 Baja | Nice to have | Opcional |
+| plantilla_django_app.md | CRITICO Alta | Estructura específica de Django no cubierta | Crear AHORA |
+| plantilla_etl_job.md | CRITICO Alta | ETL es crítico para el negocio | Crear AHORA |
+| Mejora a plantilla_api_reference.md | ALTO Media | Actual muy básica | Mejorar después |
+| plantilla_service_layer.md | ALTO Media | Servicios son componentes clave | Crear si hay tiempo |
+| plantilla_django_command.md | BAJO Baja | Nice to have | Opcional |
 
 ### Plantillas existentes SUFICIENTES
 
 | Plantilla | Evaluación | Uso en SC02 |
 |-----------|------------|-------------|
-| plantilla_tdd.md | ✅ Buena | Documentar diseño técnico por app |
-| plantilla_database_design.md | ✅ Buena | Modelos Django consolidados |
-| plantilla_sad.md | ✅ Buena | Arquitectura general |
-| plantilla_troubleshooting.md | ✅ Buena | Guías de troubleshooting ETL |
+| plantilla_tdd.md | OK Buena | Documentar diseño técnico por app |
+| plantilla_database_design.md | OK Buena | Modelos Django consolidados |
+| plantilla_sad.md | OK Buena | Arquitectura general |
+| plantilla_troubleshooting.md | OK Buena | Guías de troubleshooting ETL |
 
 ## Propuesta de acción
 
@@ -469,8 +469,8 @@ python manage.py <comando> [opciones]
 **OPCIÓN 3: Crear plantillas críticas primero**
 
 ### Justificación:
-1. Django apps son el 100% de lo que vamos a documentar → necesitamos plantilla específica
-2. ETL es componente crítico con estructura única → merece plantilla propia
+1. Django apps son el 100% de lo que vamos a documentar -> necesitamos plantilla específica
+2. ETL es componente crítico con estructura única -> merece plantilla propia
 3. Con estas 2 plantillas + las existentes (TDD, Database Design, SAD) cubrimos el 95% de necesidades
 4. Inversión de 1 día ahorra semanas de refactoring después
 

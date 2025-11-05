@@ -118,8 +118,8 @@ Al usar una plantilla, asegúrate de:
 **CRÍTICO**: Todos los scripts deben seguir la Regla Fundamental de Output Profesional.
 
 NUNCA usar:
-- Emojis (✅ ❌ 🚀 📁 etc.)
-- Iconos Unicode (▶ ● → ★ etc.)
+- Emojis (OK NO START FILE etc.)
+- Iconos Unicode (> - -> * etc.)
 - Box drawing characters (╔ ║ ═ etc.)
 
 SIEMPRE usar:

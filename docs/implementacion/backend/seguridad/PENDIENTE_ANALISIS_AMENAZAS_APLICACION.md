@@ -7,7 +7,7 @@
 
 ---
 
-## 📋 Resumen
+## NOTA Resumen
 
 Se requiere crear un documento complementario de análisis de amenazas que cubra los módulos de aplicación del sistema IACT. Actualmente existe `ANALISIS_SEGURIDAD_AMENAZAS.md` que cubre Autenticación y RBAC, pero falta el análisis para:
 
@@ -22,7 +22,7 @@ Se requiere crear un documento complementario de análisis de amenazas que cubra
 
 ---
 
-## ✅ Completado
+## OK Completado
 
 - [x] Análisis de estructura y módulos del sistema IACT
 - [x] Identificación de componentes principales
@@ -30,7 +30,7 @@ Se requiere crear un documento complementario de análisis de amenazas que cubra
 
 ---
 
-## 🔲 Tareas Pendientes
+## Tareas Pendientes
 
 ### 1. Crear Análisis de Amenazas para Módulos de Aplicación
 
@@ -50,35 +50,35 @@ Se requiere crear un documento complementario de análisis de amenazas que cubra
 Crear Data Flow Diagrams (DFDs) que muestren:
 
 - **DFD Nivel 0:** Vista general de la aplicación completa
-  - Usuario autenticado → Sistema IACT → BD IVR (readonly) + BD Analytics
+  - Usuario autenticado -> Sistema IACT -> BD IVR (readonly) + BD Analytics
 
 - **DFD Nivel 1 - Módulo de Reportes:**
   - Actor: Analista
-  - Flujos: Request → ReportService → Query Engine → BD Analytics/IVR
+  - Flujos: Request -> ReportService -> Query Engine -> BD Analytics/IVR
   - Aplicación de filtros de segmento (RBAC)
   - Generación de resultados con paginación
 
 - **DFD Nivel 1 - Módulo de Dashboard:**
   - Actor: Usuario con rol específico
-  - Flujos: Dashboard View → Widget Service → Cache → BD Analytics
+  - Flujos: Dashboard View -> Widget Service -> Cache -> BD Analytics
   - Personalización según permisos
   - Widgets configurables
 
 - **DFD Nivel 1 - Módulo de Exportaciones:**
   - Actor: Usuario autorizado
-  - Flujos: Export Request → Export Service → Limit Validation → File Generation
+  - Flujos: Export Request -> Export Service -> Limit Validation -> File Generation
   - Límites por rol
   - Validación de volumen de datos
 
 - **DFD Nivel 1 - Módulo de Alertas:**
   - Actor: Sistema (scheduler)
-  - Flujos: Alert Evaluator → Threshold Check → InternalMessage → User Inbox
+  - Flujos: Alert Evaluator -> Threshold Check -> InternalMessage -> User Inbox
   - NO email (restricción crítica)
   - Gestión de severidades
 
 - **DFD Nivel 1 - ETL:**
   - Actor: Scheduler (APScheduler)
-  - Flujos: ETL Job → BD IVR (readonly) → Transform → BD Analytics
+  - Flujos: ETL Job -> BD IVR (readonly) -> Transform -> BD Analytics
   - Transaccional (rollback completo)
   - Actualización de DataAvailability
 
@@ -130,13 +130,13 @@ Analizar cada componente identificado usando la metodología STRIDE:
 
 | Interacción | S | T | R | I | D | E |
 |-------------|---|---|---|---|---|---|
-| Usuario → ReportService | ? | ? | ? | ? | ? | ? |
-| ReportService → BD IVR | ? | ? | ? | ? | ? | ? |
-| ExportService → File System | ? | ? | ? | ? | ? | ? |
-| ETL → BD IVR (readonly) | ? | ? | ? | ? | ? | ? |
-| ETL → BD Analytics (write) | ? | ? | ? | ? | ? | ? |
-| AlertEvaluator → InternalMessage | ? | ? | ? | ? | ? | ? |
-| DashboardService → Cache | ? | ? | ? | ? | ? | ? |
+| Usuario -> ReportService | ? | ? | ? | ? | ? | ? |
+| ReportService -> BD IVR | ? | ? | ? | ? | ? | ? |
+| ExportService -> File System | ? | ? | ? | ? | ? | ? |
+| ETL -> BD IVR (readonly) | ? | ? | ? | ? | ? | ? |
+| ETL -> BD Analytics (write) | ? | ? | ? | ? | ? | ? |
+| AlertEvaluator -> InternalMessage | ? | ? | ? | ? | ? | ? |
+| DashboardService -> Cache | ? | ? | ? | ? | ? | ? |
 
 **Formato:** Tablas y descripciones detalladas por cada celda
 
@@ -321,7 +321,7 @@ git push -u origin claude/add-api-tdd-tests-011CUnSQ9QwKuZXVsFgTJZcr
 
 ---
 
-## 📚 Referencias y Contexto
+## DOCS Referencias y Contexto
 
 ### Documentos de Referencia
 
@@ -334,12 +334,12 @@ git push -u origin claude/add-api-tdd-tests-011CUnSQ9QwKuZXVsFgTJZcr
    - Ubicación: `docs/implementacion/backend/requisitos/restricciones_y_lineamientos.md`
    - Contiene: Restricciones críticas del sistema
    - **CRÍTICO:** Incorporar restricciones en el análisis:
-     - ❌ NO EMAIL (solo buzón interno)
-     - 🔒 BD IVR READONLY (solo SELECT)
-     - 💾 SESIONES EN BD (no Redis)
-     - 🔄 NO REAL-TIME (actualización por ETL 6-12h)
-     - 📊 LÍMITES DE EXPORTACIÓN (CSV: 100k, Excel: 100k, PDF: 10k)
-     - ⏱️ TIMEOUTS (Reportes: 5s, Exports: 60-120s)
+     - NO NO EMAIL (solo buzón interno)
+     - CRITICO BD IVR READONLY (solo SELECT)
+     - SAVE SESIONES EN BD (no Redis)
+     - SYNC NO REAL-TIME (actualización por ETL 6-12h)
+     - STATS LÍMITES DE EXPORTACIÓN (CSV: 100k, Excel: 100k, PDF: 10k)
+     - ⏱ TIMEOUTS (Reportes: 5s, Exports: 60-120s)
 
 3. **Requisitos Funcionales** (RF-001 a RF-010)
    - Ubicación: `docs/implementacion/backend/requisitos/funcionales/`
@@ -384,7 +384,7 @@ graph LR
 
 ---
 
-## 🎯 Criterios de Aceptación
+## OBJETIVO Criterios de Aceptación
 
 El documento `ANALISIS_AMENAZAS_APLICACION.md` estará completo cuando:
 
@@ -401,7 +401,7 @@ El documento `ANALISIS_AMENAZAS_APLICACION.md` estará completo cuando:
 
 ---
 
-## 💡 Notas Adicionales
+## NOTA Notas Adicionales
 
 ### Prioridades de Análisis
 
@@ -413,11 +413,11 @@ El documento `ANALISIS_AMENAZAS_APLICACION.md` estará completo cuando:
 
 ### Restricciones Críticas a Destacar en Análisis
 
-- **NO EMAIL:** Todas las notificaciones van por buzón interno → analizar amenazas de suplantación de mensajes
-- **BD IVR READONLY:** Usuario con solo SELECT → analizar si hay riesgo de escalación a WRITE
-- **SESIONES EN BD:** No Redis → analizar rendimiento como DoS potencial
-- **NO REAL-TIME:** ETL cada 6-12h → analizar integridad de datos obsoletos
-- **LÍMITES DE EXPORTACIÓN:** Controlados por rol → analizar bypass de límites
+- **NO EMAIL:** Todas las notificaciones van por buzón interno -> analizar amenazas de suplantación de mensajes
+- **BD IVR READONLY:** Usuario con solo SELECT -> analizar si hay riesgo de escalación a WRITE
+- **SESIONES EN BD:** No Redis -> analizar rendimiento como DoS potencial
+- **NO REAL-TIME:** ETL cada 6-12h -> analizar integridad de datos obsoletos
+- **LÍMITES DE EXPORTACIÓN:** Controlados por rol -> analizar bypass de límites
 
 ### Formato de Entrega
 

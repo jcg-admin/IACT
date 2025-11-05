@@ -46,14 +46,14 @@ Lista de factores que influyen en la decisión:
 [Explicación detallada de esta opción]
 
 **Pros:**
-- ✅ Ventaja 1
-- ✅ Ventaja 2
-- ✅ Ventaja 3
+- OK Ventaja 1
+- OK Ventaja 2
+- OK Ventaja 3
 
 **Contras:**
-- ❌ Desventaja 1
-- ❌ Desventaja 2
-- ❌ Desventaja 3
+- NO Desventaja 1
+- NO Desventaja 2
+- NO Desventaja 3
 
 **Ejemplo/Implementación:**
 ```python
@@ -68,12 +68,12 @@ Lista de factores que influyen en la decisión:
 [Explicación detallada de esta opción]
 
 **Pros:**
-- ✅ Ventaja 1
-- ✅ Ventaja 2
+- OK Ventaja 1
+- OK Ventaja 2
 
 **Contras:**
-- ❌ Desventaja 1
-- ❌ Desventaja 2
+- NO Desventaja 1
+- NO Desventaja 2
 
 **Ejemplo/Implementación:**
 ```python
@@ -100,18 +100,18 @@ Explica por qué se eligió esta opción sobre las demás. Debe ser claro y conv
 ## Consecuencias
 
 ### Positivas
-- ✅ Beneficio inmediato 1
-- ✅ Beneficio a largo plazo 2
-- ✅ Mejora en aspecto 3
+- OK Beneficio inmediato 1
+- OK Beneficio a largo plazo 2
+- OK Mejora en aspecto 3
 
 ### Negativas
-- ⚠️ Costo o limitación 1
-- ⚠️ Deuda técnica introducida 2
-- ⚠️ Riesgo identificado 3
+- WARNING Costo o limitación 1
+- WARNING Deuda técnica introducida 2
+- WARNING Riesgo identificado 3
 
 ### Neutrales
-- ℹ️ Cambio necesario 1
-- ℹ️ Consideración adicional 2
+- INFO Cambio necesario 1
+- INFO Consideración adicional 2
 
 ## Plan de Implementación
 

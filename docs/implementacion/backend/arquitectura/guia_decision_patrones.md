@@ -9,7 +9,7 @@ relacionados: ["DOC-ARQ-PATRONES"]
 
 # Guía Rápida de Decisión de Patrones
 
-## 🎯 Propósito
+## OBJETIVO Propósito
 
 Esta guía te ayuda a **decidir rápidamente qué patrón usar** cuando escribes código nuevo o refactorizas código existente.
 
@@ -17,14 +17,14 @@ Esta guía te ayuda a **decidir rápidamente qué patrón usar** cuando escribes
 
 ---
 
-## ⚡ Decision Tree (5 Preguntas)
+## FAST Decision Tree (5 Preguntas)
 
 ### Pregunta 1: ¿Estoy integrando con un sistema externo que no controlo?
 
-**SÍ** → Usa **ADAPTER PATTERN**
+**SÍ** -> Usa **ADAPTER PATTERN**
 
 ```python
-# ✅ Ejemplo: ivr_legacy/adapters.py
+# OK Ejemplo: ivr_legacy/adapters.py
 class IVRDataAdapter:
     def get_calls(self, start_date, end_date):
         return models.IVRCall.objects.using("ivr_readonly").filter(...)
@@ -44,10 +44,10 @@ class IVRDataAdapter:
 
 ### Pregunta 2: ¿Es un pipeline de procesamiento de datos por lotes?
 
-**SÍ** → Usa **ETL PIPELINE PATTERN**
+**SÍ** -> Usa **ETL PIPELINE PATTERN**
 
 ```python
-# ✅ Ejemplo: etl/
+# OK Ejemplo: etl/
 extractors.py   # EXTRACT: Obtener datos
 transformers.py # TRANSFORM: Limpiar/validar
 loaders.py      # LOAD: Insertar destino
@@ -68,10 +68,10 @@ jobs.py         # Orquestación
 
 ### Pregunta 3: ¿Tengo múltiples variantes de un algoritmo que se eligen en runtime?
 
-**SÍ** → Usa **STRATEGY PATTERN**
+**SÍ** -> Usa **STRATEGY PATTERN**
 
 ```python
-# ✅ Ejemplo: reports/generators/
+# OK Ejemplo: reports/generators/
 class BaseReportGenerator(ABC):
     @abstractmethod
     def generate(self, queryset, parameters) -> str:
@@ -100,10 +100,10 @@ def get_generator(format: str) -> BaseReportGenerator:
 
 ### Pregunta 4: ¿Necesito componentes pluggeables/extensibles?
 
-**SÍ** → Usa **REGISTRY PATTERN**
+**SÍ** -> Usa **REGISTRY PATTERN**
 
 ```python
-# ✅ Ejemplo: dashboard/widgets.py
+# OK Ejemplo: dashboard/widgets.py
 WIDGET_REGISTRY = {}
 
 def register_widget(widget_class):
@@ -130,10 +130,10 @@ class CallMetricsWidget(Widget):
 
 ### Pregunta 5: ¿La lógica involucra múltiples modelos o es compleja?
 
-#### **SÍ** → Usa **SERVICE LAYER PATTERN**
+#### **SÍ** -> Usa **SERVICE LAYER PATTERN**
 
 ```python
-# ✅ Ejemplo: audit/services.py
+# OK Ejemplo: audit/services.py
 class AuditService:
     @staticmethod
     def log(action: str, user: User, resource: str, ...):
@@ -153,10 +153,10 @@ class AuditService:
 - Testabilidad
 - Desacoplamiento
 
-#### **NO** → Usa **ACTIVE RECORD PATTERN**
+#### **NO** -> Usa **ACTIVE RECORD PATTERN**
 
 ```python
-# ✅ Ejemplo: notifications/models.py
+# OK Ejemplo: notifications/models.py
 class InternalMessage(models.Model):
     # ... campos ...
 
@@ -179,7 +179,7 @@ class InternalMessage(models.Model):
 
 ---
 
-## 📊 Tabla Comparativa Rápida
+## STATS Tabla Comparativa Rápida
 
 | Pregunta | Patrón | Apps que lo usan | Cuándo usarlo |
 |----------|--------|-------------------|---------------|
@@ -194,30 +194,30 @@ class InternalMessage(models.Model):
 
 ## 🚫 Cuándo NO Usar Service Layer
 
-**❌ NO USAR** si la operación es:
+**NO NO USAR** si la operación es:
 
 ### 1. CRUD básico
 ```python
-# ❌ MAL: Service innecesario
+# NO MAL: Service innecesario
 class AnalyticsService:
     @staticmethod
     def create_analytics(call_id, duration):
         return CallAnalytics.objects.create(call_id=call_id, duration=duration)
 
-# ✅ BIEN: Usar directamente el modelo
+# OK BIEN: Usar directamente el modelo
 CallAnalytics.objects.create(call_id=call_id, duration=duration)
 ```
 
 ### 2. Lógica trivial (1-3 líneas)
 ```python
-# ❌ MAL: Service para lógica trivial
+# NO MAL: Service para lógica trivial
 class NotificationService:
     @staticmethod
     def mark_as_read(message):
         message.is_read = True
         message.save()
 
-# ✅ BIEN: Método en el modelo
+# OK BIEN: Método en el modelo
 class InternalMessage(models.Model):
     def mark_as_read(self):
         self.is_read = True
@@ -226,13 +226,13 @@ class InternalMessage(models.Model):
 
 ### 3. Solo se usa en un lugar
 ```python
-# ❌ MAL: Service que solo se usa una vez
+# NO MAL: Service que solo se usa una vez
 class ReportService:
     @staticmethod
     def build_title(report):
         return f"{report.name} - {report.date}"
 
-# ✅ BIEN: Propiedad del modelo
+# OK BIEN: Propiedad del modelo
 class Report(models.Model):
     @property
     def full_title(self):
@@ -241,38 +241,38 @@ class Report(models.Model):
 
 ---
 
-## ✅ Cuándo SÍ Usar Service Layer
+## OK Cuándo SÍ Usar Service Layer
 
-**✅ USAR** si cumple al menos 2 de estos criterios:
+**OK USAR** si cumple al menos 2 de estos criterios:
 
-1. ✅ Involucra **múltiples modelos**
+1. OK Involucra **múltiples modelos**
    ```python
    # Dashboard agrega datos de analytics, reports, notifications
    ```
 
-2. ✅ Tiene **lógica de negocio compleja**
+2. OK Tiene **lógica de negocio compleja**
    ```python
    # PermissionService evalúa precedencia (directo > rol > segmento)
    ```
 
-3. ✅ Se **reutiliza desde múltiples lugares**
+3. OK Se **reutiliza desde múltiples lugares**
    ```python
    # AuditService.log() se llama desde todas las apps
    ```
 
-4. ✅ Coordina con **sistemas externos**
+4. OK Coordina con **sistemas externos**
    ```python
    # EmailService envía emails, registra en BD, notifica
    ```
 
-5. ✅ Requiere **transacciones complejas**
+5. OK Requiere **transacciones complejas**
    ```python
    # OrderService crea orden, reserva inventario, cobra, notifica
    ```
 
 ---
 
-## 📝 Ejemplos Reales del Proyecto
+## NOTA Ejemplos Reales del Proyecto
 
 ### Ejemplo 1: ¿Dónde poner lógica de reportes?
 
@@ -283,7 +283,7 @@ class Report(models.Model):
 - ¿Pipeline datos? NO
 - ¿Múltiples variantes? **SÍ** (CSV, Excel, PDF)
 
-**✅ Solución**: **Strategy Pattern**
+**OK Solución**: **Strategy Pattern**
 ```python
 reports/
 ├── generators/
@@ -307,7 +307,7 @@ reports/
 - ¿Extensible? NO
 - ¿Lógica compleja? **SÍ** (evalúa 3 fuentes con precedencia)
 
-**✅ Solución**: **Service Layer**
+**OK Solución**: **Service Layer**
 ```python
 users/
 ├── models.py    # Permission, Role, Segment
@@ -327,7 +327,7 @@ users/
 - ¿Extensible? NO
 - ¿Lógica compleja? NO (3 líneas simples)
 
-**✅ Solución**: **Active Record**
+**OK Solución**: **Active Record**
 ```python
 notifications/
 └── models.py
@@ -345,7 +345,7 @@ notifications/
 **Decision Tree**:
 - ¿Sistema externo? **SÍ** (BD legacy que no controlamos)
 
-**✅ Solución**: **Adapter Pattern**
+**OK Solución**: **Adapter Pattern**
 ```python
 ivr_legacy/
 ├── models.py    # IVRCall (managed=False)
@@ -369,7 +369,7 @@ Si hay múltiples variantes: Refactorizar a Strategy
 ### 2. No todos los modelos necesitan un service
 
 ```
-✅ CORRECTO: Mezclar patrones según la necesidad
+OK CORRECTO: Mezclar patrones según la necesidad
 - analytics/: Solo modelos (data sink)
 - audit/: Service Layer (centralización)
 - etl/: ETL Pipeline (procesamiento)
@@ -379,15 +379,15 @@ Si hay múltiples variantes: Refactorizar a Strategy
 ### 3. Pregúntate: "¿Esto añade valor?"
 
 ```python
-# ❌ Si el service solo envuelve un .create() → NO AÑADE VALOR
-# ✅ Si el service orquesta múltiples operaciones → AÑADE VALOR
+# NO Si el service solo envuelve un .create() -> NO AÑADE VALOR
+# OK Si el service orquesta múltiples operaciones -> AÑADE VALOR
 ```
 
 ### 4. Pragmatismo sobre dogmatismo
 
 ```
-❌ "Todas las apps deben tener services.py"
-✅ "Cada app usa el patrón apropiado para su función"
+NO "Todas las apps deben tener services.py"
+OK "Cada app usa el patrón apropiado para su función"
 ```
 
 ### 5. YAGNI (You Aren't Gonna Need It)
@@ -399,23 +399,23 @@ Si hay múltiples variantes: Refactorizar a Strategy
 
 ---
 
-## 🔍 Checklist de Decisión
+## BUSCAR Checklist de Decisión
 
 Antes de crear un nuevo service/adapter/strategy, pregúntate:
 
-- [ ] ¿La lógica involucra múltiples modelos? → Service Layer
-- [ ] ¿Se va a reutilizar desde múltiples lugares? → Service Layer
-- [ ] ¿Integro con sistema externo? → Adapter
-- [ ] ¿Tengo múltiples variantes del algoritmo? → Strategy
-- [ ] ¿Necesito extensibilidad/plugins? → Registry
-- [ ] ¿Es lógica simple de un solo modelo? → Active Record
-- [ ] ¿Es un pipeline de datos? → ETL Pipeline
+- [ ] ¿La lógica involucra múltiples modelos? -> Service Layer
+- [ ] ¿Se va a reutilizar desde múltiples lugares? -> Service Layer
+- [ ] ¿Integro con sistema externo? -> Adapter
+- [ ] ¿Tengo múltiples variantes del algoritmo? -> Strategy
+- [ ] ¿Necesito extensibilidad/plugins? -> Registry
+- [ ] ¿Es lógica simple de un solo modelo? -> Active Record
+- [ ] ¿Es un pipeline de datos? -> ETL Pipeline
 
 **Si todas son NO**: Probablemente es lógica simple que va en el modelo o la vista.
 
 ---
 
-## 📚 Referencias
+## DOCS Referencias
 
 - **Documento completo**: [patrones_arquitectonicos.md](patrones_arquitectonicos.md)
 - **Análisis funcional**: [../../solicitudes/sc02/analisis_funcion_real_apps.md](../../solicitudes/sc02/analisis_funcion_real_apps.md)

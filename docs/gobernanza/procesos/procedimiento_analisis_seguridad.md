@@ -164,22 +164,22 @@ graph LR
 
 ```mermaid
 flowchart TB
-    subgraph Internet["🌐 INTERNET (Untrusted)"]
+    subgraph Internet["INTERNET INTERNET (Untrusted)"]
         U[Usuario/Cliente]
     end
 
-    subgraph DMZ["🔶 DMZ"]
+    subgraph DMZ["DMZ DMZ"]
         LB[Load Balancer]
         NGINX[NGINX]
     end
 
-    subgraph AppZone["🔒 Application Zone (Trusted)"]
+    subgraph AppZone["CRITICO Application Zone (Trusted)"]
         API[Django/DRF API]
         Auth[Auth Service]
         RBAC[RBAC Engine]
     end
 
-    subgraph DataZone["🔐 Data Zone (Highly Trusted)"]
+    subgraph DataZone["CRITICO Data Zone (Highly Trusted)"]
         DB[(PostgreSQL)]
         Audit[(Audit Logs)]
     end
@@ -382,35 +382,35 @@ flowchart TD
 
 | Amenaza ID | Control | Tipo | Estado | Responsable | Verificación |
 |------------|---------|------|--------|-------------|--------------|
-| T-001 | Rate limiting (5 req/min por IP) | Técnico | ✅ Implementado | DevOps | `TEST-SEC-001` |
-| T-001 | Bloqueo de cuenta (3 intentos, 15 min) | Técnico | ✅ Implementado | Backend | `TEST-SEC-002` |
-| T-002 | SECRET_KEY >= 256 bits | Técnico | ✅ Implementado | DevOps | Audit config |
-| T-002 | Firma HMAC-SHA256 en JWT | Técnico | ✅ Implementado | Backend | `TEST-SEC-003` |
-| T-003 | Django ORM (sin queries raw) | Técnico | ✅ Implementado | Backend | Code review |
-| T-004 | bcrypt cost factor 12 | Técnico | ✅ Implementado | Backend | `TEST-SEC-004` |
-| T-009 | RBAC short-circuit evaluation | Lógico | ✅ Implementado | Backend | `TEST-SEC-010` |
+| T-001 | Rate limiting (5 req/min por IP) | Técnico | OK Implementado | DevOps | `TEST-SEC-001` |
+| T-001 | Bloqueo de cuenta (3 intentos, 15 min) | Técnico | OK Implementado | Backend | `TEST-SEC-002` |
+| T-002 | SECRET_KEY >= 256 bits | Técnico | OK Implementado | DevOps | Audit config |
+| T-002 | Firma HMAC-SHA256 en JWT | Técnico | OK Implementado | Backend | `TEST-SEC-003` |
+| T-003 | Django ORM (sin queries raw) | Técnico | OK Implementado | Backend | Code review |
+| T-004 | bcrypt cost factor 12 | Técnico | OK Implementado | Backend | `TEST-SEC-004` |
+| T-009 | RBAC short-circuit evaluation | Lógico | OK Implementado | Backend | `TEST-SEC-010` |
 
 ### 8.2 Controles Detectivos
 
 | Amenaza ID | Control | Tipo | Estado | Responsable | Verificación |
 |------------|---------|------|--------|-------------|--------------|
-| T-001 | Alertas por intentos fallidos masivos | Monitoreo | 🔶 Planificado | DevOps | Dashboard |
-| T-005 | Audit logs de autenticación | Auditoría | ✅ Implementado | Backend | `TEST-SEC-005` |
-| T-006 | Logging de errores (sin stack trace) | Auditoría | ✅ Implementado | Backend | Validación manual |
-| T-009 | Logging de decisiones RBAC | Auditoría | ✅ Implementado | Backend | `TEST-SEC-011` |
+| T-001 | Alertas por intentos fallidos masivos | Monitoreo | DMZ Planificado | DevOps | Dashboard |
+| T-005 | Audit logs de autenticación | Auditoría | OK Implementado | Backend | `TEST-SEC-005` |
+| T-006 | Logging de errores (sin stack trace) | Auditoría | OK Implementado | Backend | Validación manual |
+| T-009 | Logging de decisiones RBAC | Auditoría | OK Implementado | Backend | `TEST-SEC-011` |
 
 ### 8.3 Controles Correctivos
 
 | Amenaza ID | Control | Tipo | Estado | Responsable | Verificación |
 |------------|---------|------|--------|-------------|--------------|
-| T-001 | Desbloqueo manual por admin | Proceso | ✅ Implementado | Soporte | Runbook |
-| T-008 | Auto-scaling en picos de tráfico | Infraestructura | 🔶 Planificado | DevOps | Terraform |
+| T-001 | Desbloqueo manual por admin | Proceso | OK Implementado | Soporte | Runbook |
+| T-008 | Auto-scaling en picos de tráfico | Infraestructura | DMZ Planificado | DevOps | Terraform |
 ```
 
 **Estados:**
-- ✅ Implementado
-- 🔶 Planificado
-- ❌ No planificado (riesgo aceptado)
+- OK Implementado
+- DMZ Planificado
+- NO No planificado (riesgo aceptado)
 
 **Checklist:**
 - [ ] Controles preventivos cubren amenazas CRÍTICAS/ALTAS
@@ -460,7 +460,7 @@ flowchart TD
 
 **Checklist:**
 - [ ] Todas las amenazas tienen riesgo inherente calculado
-- [ ] Controles reducen riesgo inherente → riesgo residual
+- [ ] Controles reducen riesgo inherente -> riesgo residual
 - [ ] Prioridades asignadas (P1-P4)
 - [ ] Riesgos residuales ALTOS tienen plan de remediación
 

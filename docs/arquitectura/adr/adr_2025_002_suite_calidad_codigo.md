@@ -29,12 +29,12 @@ El proyecto IACT Django API necesita garantizar la calidad del código, segurida
 - Tareas repetitivas sin automatizar
 
 **Restricciones del proyecto:**
-- ❌ **NO Sentry**: Prohibido usar servicios externos de monitoreo
-- ❌ **NO Redis**: Sesiones deben estar en base de datos
-- ❌ **NO Email**: Solo notificaciones por buzón interno
-- ✅ Logging debe ser local (archivos rotativos)
-- ✅ Cumplimiento con ISO 29148 y STRIDE
-- ✅ Cobertura de tests >= 80%
+- NO **NO Sentry**: Prohibido usar servicios externos de monitoreo
+- NO **NO Redis**: Sesiones deben estar en base de datos
+- NO **NO Email**: Solo notificaciones por buzón interno
+- OK Logging debe ser local (archivos rotativos)
+- OK Cumplimiento con ISO 29148 y STRIDE
+- OK Cobertura de tests >= 80%
 
 ## Factores de Decisión
 
@@ -62,26 +62,26 @@ Implementar una suite integrada de herramientas modernas para calidad de código
 - **Logging profesional**: Sistema robusto sin servicios externos
 
 **Pros:**
-- ✅ Ruff es 10-100x más rápido que flake8+black+isort combinados
-- ✅ MyPy detecta errores de tipos antes de runtime
-- ✅ Pre-commit evita commits con código problemático
-- ✅ Bandit detecta vulnerabilidades de seguridad
-- ✅ AsyncIO mejora rendimiento en operaciones I/O
-- ✅ GitHub Actions gratuito para repos públicos/privados
-- ✅ Makefile simplifica comandos complejos
-- ✅ Cumple restricción: NO servicios externos (sin Sentry)
-- ✅ Tests paralelos con pytest-xdist reducen tiempo 60-80%
-- ✅ Logging local cumple con retención de auditoría
-- ✅ Safety + pip-audit detectan CVEs en dependencias
-- ✅ Coverage tracking con reportes HTML
-- ✅ Todo open source, sin costos
+- OK Ruff es 10-100x más rápido que flake8+black+isort combinados
+- OK MyPy detecta errores de tipos antes de runtime
+- OK Pre-commit evita commits con código problemático
+- OK Bandit detecta vulnerabilidades de seguridad
+- OK AsyncIO mejora rendimiento en operaciones I/O
+- OK GitHub Actions gratuito para repos públicos/privados
+- OK Makefile simplifica comandos complejos
+- OK Cumple restricción: NO servicios externos (sin Sentry)
+- OK Tests paralelos con pytest-xdist reducen tiempo 60-80%
+- OK Logging local cumple con retención de auditoría
+- OK Safety + pip-audit detectan CVEs en dependencias
+- OK Coverage tracking con reportes HTML
+- OK Todo open source, sin costos
 
 **Contras:**
-- ❌ Curva de aprendizaje para el equipo (1-2 semanas)
-- ❌ Configuración inicial toma tiempo (ya completado)
-- ❌ Puede rechazar commits si hay errores (positivo a largo plazo)
-- ❌ Tests más lentos si no se usa -n auto
-- ❌ Requiere disciplina en type hints
+- NO Curva de aprendizaje para el equipo (1-2 semanas)
+- NO Configuración inicial toma tiempo (ya completado)
+- NO Puede rechazar commits si hay errores (positivo a largo plazo)
+- NO Tests más lentos si no se usa -n auto
+- NO Requiere disciplina en type hints
 
 **Implementación:**
 - `.pre-commit-config.yaml`: Configuración de hooks
@@ -122,20 +122,20 @@ Makefile comandos (40+):
 Mantener setup básico con black para formateo, flake8 para linting, y tests manuales sin automatización.
 
 **Pros:**
-- ✅ Simple y conocido por el equipo
-- ✅ Sin curva de aprendizaje
-- ✅ Herramientas maduras
+- OK Simple y conocido por el equipo
+- OK Sin curva de aprendizaje
+- OK Herramientas maduras
 
 **Contras:**
-- ❌ Más lento que Ruff (10-100x)
-- ❌ Sin validación de tipos
-- ❌ Sin análisis de seguridad automatizado
-- ❌ Sin pre-commit hooks
-- ❌ Tests lentos (secuenciales)
-- ❌ Sin profiling de rendimiento
-- ❌ Sin async/await para I/O
-- ❌ Tareas manuales propensas a error
-- ❌ No cumple con nivel de calidad esperado
+- NO Más lento que Ruff (10-100x)
+- NO Sin validación de tipos
+- NO Sin análisis de seguridad automatizado
+- NO Sin pre-commit hooks
+- NO Tests lentos (secuenciales)
+- NO Sin profiling de rendimiento
+- NO Sin async/await para I/O
+- NO Tareas manuales propensas a error
+- NO No cumple con nivel de calidad esperado
 
 ### Opción 3: Suite Comercial (SonarQube + Sentry + DataDog)
 
@@ -143,16 +143,16 @@ Mantener setup básico con black para formateo, flake8 para linting, y tests man
 Usar herramientas comerciales para calidad de código y monitoreo.
 
 **Pros:**
-- ✅ Dashboards avanzados
-- ✅ Métricas en tiempo real
-- ✅ Soporte comercial
+- OK Dashboards avanzados
+- OK Métricas en tiempo real
+- OK Soporte comercial
 
 **Contras:**
-- ❌ **Viola restricción crítica**: NO Sentry permitido
-- ❌ Costo significativo (SonarQube ~$150/dev/año)
-- ❌ Requiere infraestructura adicional
-- ❌ Vendor lock-in
-- ❌ No cumple con restricciones del proyecto
+- NO **Viola restricción crítica**: NO Sentry permitido
+- NO Costo significativo (SonarQube ~$150/dev/año)
+- NO Requiere infraestructura adicional
+- NO Vendor lock-in
+- NO No cumple con restricciones del proyecto
 
 ## Decisión
 
@@ -171,8 +171,8 @@ Implementar la suite completa de herramientas de calidad de código y automatiza
 8. **CI/CD**: GitHub Actions incluido, sin costo adicional
 
 **Decisión sobre Sentry:**
-- ❌ **NO implementar Sentry** por restricción explícita del proyecto
-- ✅ **SÍ implementar logging robusto** con:
+- NO **NO implementar Sentry** por restricción explícita del proyecto
+- OK **SÍ implementar logging robusto** con:
   - Handlers: console, file (rotativo), error_file, mail_admins
   - Formatters: verbose, simple, json
   - Retención: 30 días (aplicación), 90 días (acceso), 2+ años (auditoría)
@@ -182,37 +182,37 @@ Implementar la suite completa de herramientas de calidad de código y automatiza
 
 ### Positivas
 
-- ✅ **Calidad de código garantizada**: Pre-commit evita código problemático
-- ✅ **Detección temprana de bugs**: MyPy + tests reducen bugs en producción
-- ✅ **Seguridad mejorada**: Bandit + Safety detectan vulnerabilidades antes de deploy
-- ✅ **CI/CD robusto**: 4 jobs paralelos validan código automáticamente
-- ✅ **Tests 60-80% más rápidos**: pytest-xdist paraleliza ejecución
-- ✅ **Mejor rendimiento I/O**: AsyncIO + HTTPX para llamadas no bloqueantes
-- ✅ **Productividad aumentada**: Makefile simplifica tareas comunes
-- ✅ **Cumplimiento con restricciones**: Sin servicios externos
-- ✅ **Documentación completa**: QUALITY_SETUP.md con guías y ejemplos
-- ✅ **Logging profesional**: Sistema robusto sin dependencias externas
-- ✅ **Auditoría completa**: Logs estructurados con retención según política
+- OK **Calidad de código garantizada**: Pre-commit evita código problemático
+- OK **Detección temprana de bugs**: MyPy + tests reducen bugs en producción
+- OK **Seguridad mejorada**: Bandit + Safety detectan vulnerabilidades antes de deploy
+- OK **CI/CD robusto**: 4 jobs paralelos validan código automáticamente
+- OK **Tests 60-80% más rápidos**: pytest-xdist paraleliza ejecución
+- OK **Mejor rendimiento I/O**: AsyncIO + HTTPX para llamadas no bloqueantes
+- OK **Productividad aumentada**: Makefile simplifica tareas comunes
+- OK **Cumplimiento con restricciones**: Sin servicios externos
+- OK **Documentación completa**: QUALITY_SETUP.md con guías y ejemplos
+- OK **Logging profesional**: Sistema robusto sin dependencias externas
+- OK **Auditoría completa**: Logs estructurados con retención según política
 
 ### Negativas
 
-- ❌ **Curva de aprendizaje**: Equipo necesita familiarizarse (1-2 semanas)
-- ❌ **Pre-commit puede rechazar commits**: Requiere disciplina (positivo a largo plazo)
-- ❌ **Tiempo de setup**: Configuración inicial tomó tiempo (ya completado)
-- ❌ **Sin monitoreo externo**: Al no usar Sentry, depender de logs locales
+- NO **Curva de aprendizaje**: Equipo necesita familiarizarse (1-2 semanas)
+- NO **Pre-commit puede rechazar commits**: Requiere disciplina (positivo a largo plazo)
+- NO **Tiempo de setup**: Configuración inicial tomó tiempo (ya completado)
+- NO **Sin monitoreo externo**: Al no usar Sentry, depender de logs locales
 
 ### Neutrales
 
-- 🔷 **Type hints requeridos**: Gradual, no forzado inicialmente
-- 🔷 **Mantenimiento de config**: pyproject.toml, .pre-commit-config.yaml
-- 🔷 **Logs en archivos**: Requiere rotación y limpieza periódica
+- INFO **Type hints requeridos**: Gradual, no forzado inicialmente
+- INFO **Mantenimiento de config**: pyproject.toml, .pre-commit-config.yaml
+- INFO **Logs en archivos**: Requiere rotación y limpieza periódica
 
 ## Plan de Implementación
 
-### Fase 1: Setup Base ✅ COMPLETADO
+### Fase 1: Setup Base OK COMPLETADO
 
 ```bash
-✅ Archivos creados:
+OK Archivos creados:
    - .pre-commit-config.yaml
    - pyproject.toml (extendido)
    - .github/workflows/python-ci.yml
@@ -220,13 +220,13 @@ Implementar la suite completa de herramientas de calidad de código y automatiza
    - Makefile
    - .secrets.baseline
 
-✅ Utilidades creadas:
+OK Utilidades creadas:
    - apps/common/utils/performance.py
    - apps/common/utils/async_http.py
    - apps/common/utils/async_helpers.py
    - apps/common/management/commands/profile_code.py
 
-✅ Dependencias agregadas:
+OK Dependencias agregadas:
    - pre-commit, bandit, safety, pip-audit
    - django-stubs, djangorestframework-stubs
    - python-json-logger
@@ -234,10 +234,10 @@ Implementar la suite completa de herramientas de calidad de código y automatiza
    - pytest-benchmark
 ```
 
-### Fase 2: Documentación ✅ COMPLETADO
+### Fase 2: Documentación OK COMPLETADO
 
 ```bash
-✅ Documentación:
+OK Documentación:
    - QUALITY_SETUP.md (guía completa)
    - Ejemplos de uso
    - Troubleshooting
@@ -247,7 +247,7 @@ Implementar la suite completa de herramientas de calidad de código y automatiza
 ### Fase 3: Integración con Equipo (En Progreso)
 
 ```bash
-⏳ Tareas pendientes:
+ESPERANDO Tareas pendientes:
    1. Instalar dependencias: make dev-install
    2. Instalar hooks: make pre-commit-install
    3. Ejecutar CI local: make ci
@@ -277,7 +277,7 @@ Implementar la suite completa de herramientas de calidad de código y automatiza
 | Tiempo de tests | ~5min | <2min | TBD (-n auto) |
 | Pre-commit adoption | 0% | 100% | 100% |
 | Type hints coverage | <10% | 60% | Gradual |
-| CI/CD pipeline | No | Sí | ✅ Implementado |
+| CI/CD pipeline | No | Sí | OK Implementado |
 
 ### KPIs de Calidad
 
@@ -305,24 +305,24 @@ Performance:
 ## Alternativas Descartadas
 
 ### 1. Pylint en lugar de Ruff
-- ❌ Más lento (10x)
-- ❌ Configuración más compleja
-- ❌ No formatea código
+- NO Más lento (10x)
+- NO Configuración más compleja
+- NO No formatea código
 
 ### 2. Docker Compose para CI
-- ❌ Más complejo que GitHub Actions
-- ❌ Requiere mantenimiento de imágenes
-- ❌ GitHub Actions es gratuito y integrado
+- NO Más complejo que GitHub Actions
+- NO Requiere mantenimiento de imágenes
+- NO GitHub Actions es gratuito y integrado
 
 ### 3. Tox para testing multi-env
-- ❌ Overhead innecesario (solo Python 3.12)
-- ❌ Más lento que pytest directo
-- ❌ Mayor complejidad
+- NO Overhead innecesario (solo Python 3.12)
+- NO Más lento que pytest directo
+- NO Mayor complejidad
 
 ### 4. Sentry para monitoreo
-- ❌ **Prohibido por restricciones del proyecto**
-- ❌ Servicio externo
-- ✅ Reemplazado por logging robusto local
+- NO **Prohibido por restricciones del proyecto**
+- NO Servicio externo
+- OK Reemplazado por logging robusto local
 
 ## Referencias
 
@@ -343,7 +343,7 @@ Performance:
 ### Documentos del Proyecto
 - [QUALITY_SETUP.md](../../implementacion/backend/calidad_codigo_automatizacion.md) - Guía completa
 - [Restricciones Completas](../../requisitos/restricciones_completas.md) - Documento maestro
-- [Procedimiento QA](../../procedimientos/procesos/procedimiento_qa.md)
+- [Procedimiento QA](../../gobernanza/procesos/procedimiento_qa.md)
 
 ## Notas Adicionales
 
@@ -360,11 +360,11 @@ El proyecto originalmente consideró Sentry para monitoreo de errores en producc
 - Sin dependencias externas ni servicios cloud
 
 **Trade-offs:**
-- ✅ Cumple restricciones del cliente
-- ✅ Sin costos recurrentes
-- ✅ Control total de datos
-- ❌ Sin dashboards visuales en tiempo real
-- ❌ Requiere análisis manual de logs
+- OK Cumple restricciones del cliente
+- OK Sin costos recurrentes
+- OK Control total de datos
+- NO Sin dashboards visuales en tiempo real
+- NO Requiere análisis manual de logs
 
 ### Comunicación con Equipo
 

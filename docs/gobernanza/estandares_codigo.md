@@ -60,56 +60,56 @@ Estos estándares aplican a:
 
 5. **Codificación**: Problemas con UTF-8/ASCII en diferentes sistemas
 
-### ❌ PROHIBIDO
+### NO PROHIBIDO
 
 #### Emojis
 
 ```bash
-# ❌ NO HACER ESTO
-echo "✅ Completado"
-echo "❌ Error"
-echo "⚠️ Advertencia"
-echo "🚀 Iniciando"
-echo "📁 Procesando archivos"
-echo "💾 Guardando datos"
-echo "🔍 Buscando"
-echo "⏳ Esperando"
-echo "✨ Nuevo"
-echo "🎉 Éxito"
+# NO NO HACER ESTO
+echo "OK Completado"
+echo "NO Error"
+echo "WARNING Advertencia"
+echo "START Iniciando"
+echo "FILE Procesando archivos"
+echo "SAVE Guardando datos"
+echo "BUSCAR Buscando"
+echo "ESPERANDO Esperando"
+echo "NUEVO Nuevo"
+echo "EXITO Éxito"
 ```
 
 ```python
-# ❌ NO HACER ESTO
-print("✅ Test passed")
-print("❌ Test failed")
-logger.info("🔍 Searching for files")
+# NO NO HACER ESTO
+print("OK Test passed")
+print("NO Test failed")
+logger.info("BUSCAR Searching for files")
 ```
 
 ```powershell
-# ❌ NO HACER ESTO
-Write-Host "✅ Completado"
-Write-Host "❌ Error"
-Write-Host "⚠️ Advertencia"
+# NO NO HACER ESTO
+Write-Host "OK Completado"
+Write-Host "NO Error"
+Write-Host "WARNING Advertencia"
 ```
 
 #### Iconos Unicode
 
 ```bash
-# ❌ NO HACER ESTO
-echo "▶ Ejecutando"
-echo "● Item"
-echo "→ Siguiente paso"
-echo "★ Importante"
+# NO NO HACER ESTO
+echo "> Ejecutando"
+echo "- Item"
+echo "-> Siguiente paso"
+echo "* Importante"
 echo "♦ Nota"
 echo "■ Opción"
-echo "▸ Paso"
+echo "> Paso"
 echo "» Info"
 ```
 
 #### Box Drawing Characters
 
 ```bash
-# ❌ NO HACER ESTO
+# NO NO HACER ESTO
 echo "╔════════════╗"
 echo "║   Título   ║"
 echo "╚════════════╝"
@@ -118,12 +118,12 @@ echo "│  Caja    │"
 echo "└──────────┘"
 ```
 
-### ✅ USAR EN SU LUGAR
+### OK USAR EN SU LUGAR
 
 #### Sistema de Prefijos Estándar
 
 ```bash
-# ✅ HACER ESTO
+# OK HACER ESTO
 echo "[INFO]    Información general"
 echo "[DEBUG]   Detalles de depuración"
 echo "[WARN]    Advertencia"
@@ -135,7 +135,7 @@ echo "[FAIL]    Operación falló"
 ```
 
 ```python
-# ✅ HACER ESTO
+# OK HACER ESTO
 logger.info("[INFO] Processing started")
 logger.warning("[WARN] Configuration file not found")
 logger.error("[ERROR] Database connection failed")
@@ -143,7 +143,7 @@ print("[SUCCESS] Migration completed")
 ```
 
 ```powershell
-# ✅ HACER ESTO
+# OK HACER ESTO
 Write-Host "[INFO]    Información general"
 Write-Host "[DEBUG]   Detalles de depuración"
 Write-Host "[WARN]    Advertencia"
@@ -154,7 +154,7 @@ Write-Host "[SUCCESS] Operación exitosa"
 #### Estados de Proceso
 
 ```bash
-# ✅ HACER ESTO
+# OK HACER ESTO
 echo "[PENDING]  Operación pendiente"
 echo "[RUNNING]  En ejecución"
 echo "[DONE]     Completado"
@@ -166,14 +166,14 @@ echo "[TIMEOUT]  Tiempo de espera agotado"
 #### Viñetas y Listas
 
 ```bash
-# ✅ HACER ESTO - Viñetas
+# OK HACER ESTO - Viñetas
 echo "Options:"
 echo "  - Option 1"
 echo "  - Option 2"
 echo "  * Alternative A"
 echo "  * Alternative B"
 
-# ✅ HACER ESTO - Numeradas
+# OK HACER ESTO - Numeradas
 echo "Steps:"
 echo "  1. First step"
 echo "  2. Second step"
@@ -183,7 +183,7 @@ echo "  3. Third step"
 #### Separadores
 
 ```bash
-# ✅ HACER ESTO
+# OK HACER ESTO
 echo ""
 echo "------------------------------------------------------------"
 echo "============================================================"
@@ -197,25 +197,25 @@ echo "$separator_line"
 
 ### Tabla de Referencia Rápida
 
-| Concepto | ❌ No Usar | ✅ Usar |
+| Concepto | NO No Usar | OK Usar |
 |----------|-----------|---------|
-| **Completado** | ✅ ✓ ☑ | [OK] [SUCCESS] [DONE] |
-| **Error** | ❌ ✗ ☒ | [ERROR] [FAIL] [FAILED] |
-| **Advertencia** | ⚠️ ⚡ ⛔ | [WARN] [WARNING] |
-| **Información** | ℹ️ 💡 📢 | [INFO] [NOTE] |
-| **Depuración** | 🐛 🔍 | [DEBUG] |
-| **En proceso** | ⏳ 🔄 ⌛ | [RUNNING] [PROCESSING] |
+| **Completado** | OK ✓ ☑ | [OK] [SUCCESS] [DONE] |
+| **Error** | NO ✗ ☒ | [ERROR] [FAIL] [FAILED] |
+| **Advertencia** | WARNING FAST ⛔ | [WARN] [WARNING] |
+| **Información** | INFO 💡 📢 | [INFO] [NOTE] |
+| **Depuración** | 🐛 BUSCAR | [DEBUG] |
+| **En proceso** | ESPERANDO 🔄 ⌛ | [RUNNING] [PROCESSING] |
 | **Esperando** | ⏰ ⏱️ | [PENDING] [WAITING] |
-| **Inicio** | 🚀 ▶️ | [START] Starting... |
+| **Inicio** | START >️ | [START] Starting... |
 | **Fin** | 🏁 ⏹️ | [STOP] [END] Finished |
-| **Archivo** | 📁 📄 💾 | FILE: file.txt |
+| **Archivo** | FILE FILE SAVE | FILE: file.txt |
 | **Carpeta** | 📂 🗂️ | DIRECTORY: /path/ |
 | **Red** | 🌐 📡 | [NETWORK] |
 | **Usuario** | 👤 👥 | USER: username |
 | **Tiempo** | ⏰ 🕐 | TIME: 10:30 |
-| **Fecha** | 📅 🗓️ | DATE: 2025-10-21 |
-| **Viñetas** | ▶ ● ★ ♦ | - * 1. 2. |
-| **Flechas** | → ⇒ ➜ ➔ | -> => |
+| **Fecha** | 📅 PLAN | DATE: 2025-10-21 |
+| **Viñetas** | > - * ♦ | - * 1. 2. |
+| **Flechas** | -> ⇒ ➜ ➔ | -> => |
 | **Check** | ☑ ✓ ✔ | [OK] PASS |
 | **Cross** | ☒ ✗ ✘ | [FAIL] ERROR |
 
@@ -285,7 +285,7 @@ def calcular_aht(llamadas: List[dict]) -> float:
 ```python
 import logging
 
-# ✅ HACER ESTO
+# OK HACER ESTO
 logger = logging.getLogger(__name__)
 
 logger.info("[INFO] Processing started")
@@ -294,9 +294,9 @@ logger.warning("[WARN] Deprecated function called")
 logger.error("[ERROR] Database connection failed: %s", error)
 logger.critical("[FATAL] System shutdown initiated")
 
-# ❌ NO HACER ESTO
-logger.info("🚀 Processing started")
-logger.error("❌ Database connection failed")
+# NO NO HACER ESTO
+logger.info("START Processing started")
+logger.error("NO Database connection failed")
 ```
 
 ---
@@ -473,7 +473,7 @@ files="$@"
 found_emojis=0
 
 # Lista de emojis comunes a detectar
-emoji_pattern='[✅❌⚠️🚀📁💾🔍⏳✨🎉▶●→★♦■▸»╔═╗║╚╝┌─┐│└┘]'
+emoji_pattern='[OKNOWARNINGSTARTFILESAVEBUSCARESPERANDONUEVOEXITO>-->*♦■>»╔═╗║╚╝┌─┐│└┘]'
 
 for file in $files; do
     # Saltar archivos de documentación

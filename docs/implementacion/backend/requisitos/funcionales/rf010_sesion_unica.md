@@ -226,9 +226,9 @@ SESSION_COOKIE_SECURE = True  # HTTPS only
 SESSION_COOKIE_SAMESITE = 'Lax'
 
 # PROHIBIDO usar estas configuraciones:
-# SESSION_ENGINE = 'django.contrib.sessions.backends.cache'  # ❌ NO Redis
-# SESSION_ENGINE = 'django.contrib.sessions.backends.cached_db'  # ❌ NO Redis
-# SESSION_ENGINE = 'django.contrib.sessions.backends.file'  # ❌ NO archivos
+# SESSION_ENGINE = 'django.contrib.sessions.backends.cache'  # NO NO Redis
+# SESSION_ENGINE = 'django.contrib.sessions.backends.cached_db'  # NO NO Redis
+# SESSION_ENGINE = 'django.contrib.sessions.backends.file'  # NO NO archivos
 ```
 
 #### 3.2.2 Modelo UserSession

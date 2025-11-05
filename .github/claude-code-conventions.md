@@ -22,11 +22,11 @@ feature/<descripción-kebab-case>-<timestamp>
 ### Ejemplos del Repositorio
 Basado en el historial del proyecto:
 
-- ✅ `feature/update-documentation-structure-20-07-56`
-- ✅ `feature/organize-documentation-into-respective-folders-02-11-38`
-- ✅ `feature/add-infrastructure-folder-in-docs-20-56-36`
-- ✅ `feature/fix-missing-.devcontainer/dockerfile-09-46-11`
-- ❌ `claude/code-session-setup-*` (solo para sesiones, NO para features)
+- OK: `feature/update-documentation-structure-20-07-56`
+- OK: `feature/organize-documentation-into-respective-folders-02-11-38`
+- OK: `feature/add-infrastructure-folder-in-docs-20-56-36`
+- OK: `feature/fix-missing-.devcontainer/dockerfile-09-46-11`
+- NO: `claude/code-session-setup-*` (solo para sesiones, NO para features)
 
 ### Otros Prefijos Permitidos
 - `hotfix/` - Para correcciones urgentes en producción
@@ -37,8 +37,8 @@ Basado en el historial del proyecto:
 
 ### Ramas Especiales de Claude Code
 - `claude/code-session-setup-<session-id>` - **ÚNICAMENTE** para sesiones de trabajo
-- ⚠️ **NUNCA** crear PRs desde ramas `claude/*` hacia main/develop
-- ⚠️ **SIEMPRE** crear una rama `feature/*` antes de hacer un PR
+- WARNING: **NUNCA** crear PRs desde ramas `claude/*` hacia main/develop
+- WARNING: **SIEMPRE** crear una rama `feature/*` antes de hacer un PR
 
 ## 2. Flujo de Trabajo con Git
 
@@ -96,11 +96,11 @@ git push -u origin <branch-name>
 
 ### Ejemplos del Proyecto
 ```bash
-✅ docs(mkdocs): reubicar configuración en directorio documental
-✅ docs(solicitudes): centralizar guia sc00
-✅ feat: agregar estructura transversal de requisitos
-✅ feat: agregar tests de infraestructura y configuración
-✅ merge: integrar cambios de documentación desde docs
+OK: docs(mkdocs): reubicar configuración en directorio documental
+OK: docs(solicitudes): centralizar guia sc00
+OK: feat: agregar estructura transversal de requisitos
+OK: feat: agregar tests de infraestructura y configuración
+OK: merge: integrar cambios de documentación desde docs
 ```
 
 ## 4. Pull Requests
@@ -267,7 +267,7 @@ Antes de crear Pull Request, verificar:
 
 ## 11. Prohibiciones Estrictas
 
-### ❌ NUNCA hacer esto:
+### NUNCA hacer esto:
 1. Push directo a `main` o `master`
 2. Commit de secrets, API keys, credenciales
 3. Push force a ramas compartidas
@@ -279,7 +279,7 @@ Antes de crear Pull Request, verificar:
 9. PRs desde ramas `claude/*`
 10. Ignorar fallos en tests
 
-### ⚠️ Requiere autorización explícita:
+### Requiere autorización explícita:
 - Force push a main/master
 - Amend commits
 - Rebase interactivo
@@ -341,7 +341,7 @@ gh pr create --title "Agregar dashboard de analytics" \
 
 ## 13. Scripts: Reglas de Output Profesional
 
-### ⚠️ REGLA FUNDAMENTAL
+### REGLA FUNDAMENTAL
 
 **NUNCA usar emojis, iconos Unicode decorativos, ni símbolos especiales en el output de scripts de producción.**
 
@@ -354,39 +354,39 @@ gh pr create --title "Agregar dashboard de analytics" \
 - **Legibilidad** en logs, archivos y sistemas de CI/CD
 - **Portabilidad** entre diferentes plataformas y encodings
 
-### ❌ PROHIBICIONES ESTRICTAS
+### PROHIBICIONES ESTRICTAS
 
 #### 1. Emojis
 ```bash
-# ❌ NO HACER ESTO
-echo "✅ Completado"
-echo "❌ Error"
-echo "⚠️ Advertencia"
-echo "🚀 Iniciando"
-echo "📁 Procesando"
-echo "💾 Guardando"
-echo "🔍 Buscando"
-echo "⏳ Esperando"
-echo "✨ Nuevo"
-echo "🎉 Éxito"
+# NO HACER ESTO
+echo "[COMPLETADO]"
+echo "[ERROR]"
+echo "[ADVERTENCIA]"
+echo "[INICIANDO]"
+echo "[PROCESANDO]"
+echo "[GUARDANDO]"
+echo "[BUSCANDO]"
+echo "[ESPERANDO]"
+echo "[NUEVO]"
+echo "[EXITO]"
 ```
 
 #### 2. Iconos Unicode Decorativos
 ```bash
-# ❌ NO HACER ESTO
-echo "▶ Ejecutando"
-echo "● Item"
-echo "→ Siguiente"
-echo "★ Importante"
-echo "♦ Nota"
-echo "■ Opción"
-echo "▸ Paso"
-echo "» Info"
+# NO HACER ESTO
+echo "[EJECUTANDO]"
+echo "- Item"
+echo "-> Siguiente"
+echo "[IMPORTANTE]"
+echo "[NOTA]"
+echo "- Opción"
+echo "- Paso"
+echo "[INFO]"
 ```
 
 #### 3. Box Drawing Characters
 ```bash
-# ❌ NO HACER ESTO
+# NO HACER ESTO
 echo "╔════════════╗"
 echo "║   Título   ║"
 echo "╚════════════╝"
@@ -395,11 +395,11 @@ echo "│  Caja    │"
 echo "└──────────┘"
 ```
 
-### ✅ SISTEMA DE PREFIJOS ESTÁNDAR
+### SISTEMA DE PREFIJOS ESTÁNDAR
 
 #### Niveles de Log
 ```bash
-# ✅ HACER ESTO
+# HACER ESTO
 echo "[INFO]    Información general"
 echo "[DEBUG]   Detalles de depuración"
 echo "[WARN]    Advertencia"
@@ -412,7 +412,7 @@ echo "[FAIL]    Operación falló"
 
 #### Estados de Proceso
 ```bash
-# ✅ HACER ESTO
+# HACER ESTO
 echo "[PENDING]  Operación pendiente"
 echo "[RUNNING]  En ejecución"
 echo "[DONE]     Completado"
@@ -424,63 +424,61 @@ echo "[STOP]     Deteniendo"
 
 #### Viñetas y Listas
 ```bash
-# ✅ HACER ESTO - Viñetas
+# HACER ESTO - Viñetas
 echo "Options:"
 echo "  - Option 1"
 echo "  - Option 2"
 echo "  * Alternative"
 
-# ✅ HACER ESTO - Numeradas
+# HACER ESTO - Numeradas
 echo "Steps:"
 echo "  1. First step"
 echo "  2. Second step"
 echo "  3. Third step"
 ```
 
-### 📊 Tabla de Referencia Rápida
+### Tabla de Referencia Rápida
 
-| Concepto        | ❌ No Usar | ✅ Usar                  |
+| Concepto        | No Usar   | Usar                    |
 | --------------- | --------- | ----------------------- |
-| **Completado**  | ✅ ✓ ☑     | [OK] [SUCCESS] [DONE]   |
-| **Error**       | ❌ ✗ ☒     | [ERROR] [FAIL] [FAILED] |
-| **Advertencia** | ⚠️ ⚡ ⛔    | [WARN] [WARNING]        |
-| **Información** | ℹ️ 💡 📢  | [INFO] [NOTE]           |
-| **Depuración**  | 🐛 🔍     | [DEBUG]                 |
-| **En proceso**  | ⏳ 🔄 ⌛    | [RUNNING] [PROCESSING]  |
-| **Esperando**   | ⏰ ⏱️      | [PENDING] [WAITING]     |
-| **Inicio**      | 🚀 ▶️     | [START] Starting...     |
-| **Fin**         | 🏁 ⏹️     | [STOP] [END] Finished   |
-| **Archivo**     | 📁 📄 💾  | FILE: file.txt          |
-| **Carpeta**     | 📂 🗂️     | DIRECTORY: /path/       |
-| **Red**         | 🌐 📡     | [NETWORK]               |
-| **Usuario**     | 👤 👥     | USER: username          |
-| **Tiempo**      | ⏰ 🕐      | TIME: 10:30             |
-| **Fecha**       | 📅 🗓️     | DATE: 2025-10-21        |
-| **Viñetas**     | ▶ ● ★ ♦   | - * 1. 2.               |
-| **Flechas**     | → ⇒ ➜ ➔   | -> =>                   |
-| **Check**       | ☑ ✓ ✔     | [OK] PASS               |
-| **Cross**       | ☒ ✗ ✘     | [FAIL] ERROR            |
+| **Completado**  | emojis    | [OK] [SUCCESS] [DONE]   |
+| **Error**       | emojis    | [ERROR] [FAIL] [FAILED] |
+| **Advertencia** | emojis    | [WARN] [WARNING]        |
+| **Información** | emojis    | [INFO] [NOTE]           |
+| **Depuración**  | emojis    | [DEBUG]                 |
+| **En proceso**  | emojis    | [RUNNING] [PROCESSING]  |
+| **Esperando**   | emojis    | [PENDING] [WAITING]     |
+| **Inicio**      | emojis    | [START] Starting...     |
+| **Fin**         | emojis    | [STOP] [END] Finished   |
+| **Archivo**     | emojis    | FILE: file.txt          |
+| **Carpeta**     | emojis    | DIRECTORY: /path/       |
+| **Red**         | emojis    | [NETWORK]               |
+| **Usuario**     | emojis    | USER: username          |
+| **Tiempo**      | emojis    | TIME: 10:30             |
+| **Fecha**       | emojis    | DATE: 2025-10-21        |
+| **Viñetas**     | Unicode   | - * 1. 2.               |
+| **Flechas**     | Unicode   | -> =>                   |
+| **Check**       | Unicode   | [OK] PASS               |
+| **Cross**       | Unicode   | [FAIL] ERROR            |
 
 ### Ejemplos Completos
 
-#### ❌ Script Incorrecto
+#### Script Incorrecto
 ```bash
 #!/bin/bash
-echo "🚀 Iniciando proceso..."
-echo "📁 Procesando archivos"
-echo "  ▶ Archivo 1"
-echo "  ▶ Archivo 2"
-echo "✅ Completado exitosamente"
+echo "[START] Iniciando proceso..."
+echo "[INFO] Procesando archivos"
+echo "  - Archivo 1"
+echo "  - Archivo 2"
+echo "[SUCCESS] Completado exitosamente"
 echo ""
-echo "╔═══════════════╗"
-echo "║   RESUMEN     ║"
-echo "╚═══════════════╝"
-echo "● Archivos: 2"
-echo "● Errores: 0"
-echo "🎉 Proceso finalizado"
+echo "RESUMEN"
+echo "Archivos: 2"
+echo "Errores: 0"
+echo "[DONE] Proceso finalizado"
 ```
 
-#### ✅ Script Correcto
+#### Script Correcto
 ```bash
 #!/bin/bash
 echo "[START] Iniciando proceso..."

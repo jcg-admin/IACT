@@ -4,7 +4,7 @@ fecha: 2025-11-03
 estrategia: Opción B - Separación clara
 ---
 
-# ⚠️ AVISO: Requisitos Movidos a `docs/implementacion/`
+# WARNING AVISO: Requisitos Movidos a `docs/implementacion/`
 
 ## 📍 Nueva Ubicación
 
@@ -23,7 +23,7 @@ docs/implementacion/backend/requisitos/
 
 ---
 
-## 🎯 Razón del Cambio
+## OBJETIVO Razón del Cambio
 
 Se implementó **Opción B** de la propuesta de reestructuración:
 
@@ -31,14 +31,14 @@ Se implementó **Opción B** de la propuesta de reestructuración:
 
 | Ubicación | Responsabilidad |
 |-----------|-----------------|
-| **`docs/implementacion/`** | ✅ REQUISITOS (N-XXX, RN-XXX, RS-XXX, RF-XXX, RNF-XXX) |
-| **`docs/backend/`** | ✅ DOCUMENTACIÓN TÉCNICA (arquitectura, ADRs, checklists, devops, diseño) |
+| **`docs/implementacion/`** | OK REQUISITOS (N-XXX, RN-XXX, RS-XXX, RF-XXX, RNF-XXX) |
+| **`docs/backend/`** | OK DOCUMENTACIÓN TÉCNICA (arquitectura, ADRs, checklists, devops, diseño) |
 
 **Beneficios**:
-- ✅ Source of Truth único para requisitos
-- ✅ No más duplicación entre `docs/requisitos/` y `docs/backend/requisitos/`
-- ✅ Conformidad total con ISO/IEC/IEEE 29148:2018
-- ✅ Escalabilidad y claridad conceptual
+- OK Source of Truth único para requisitos
+- OK No más duplicación entre `docs/requisitos/` y `docs/backend/requisitos/`
+- OK Conformidad total con ISO/IEC/IEEE 29148:2018
+- OK Escalabilidad y claridad conceptual
 
 ---
 
@@ -55,7 +55,7 @@ Esta carpeta (`docs/backend/requisitos/`) contiene archivos legacy:
 
 ---
 
-## 📖 Guía de Migración
+## INFO Guía de Migración
 
 Si necesitas migrar un requisito legacy a la nueva estructura, consulta:
 
@@ -63,7 +63,7 @@ Si necesitas migrar un requisito legacy a la nueva estructura, consulta:
 
 ---
 
-## 🚀 Crear Nuevo Requisito Backend
+## START Crear Nuevo Requisito Backend
 
 ```bash
 # Ir a la nueva ubicación
@@ -83,7 +83,7 @@ git push
 
 ---
 
-## 📚 Recursos
+## DOCS Recursos
 
 - [Estructura completa](../../implementacion/readme.md)
 - [Plantillas ISO 29148](../../plantillas/readme.md)

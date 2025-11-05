@@ -1,6 +1,6 @@
 # Guía de Resolución: Error 403 al Instalar GitHub Copilot CLI
 
-## 📋 Tabla de Contenidos
+## NOTA Tabla de Contenidos
 1. [Contexto](#contexto)
 2. [Información Crítica](#información-crítica)
 3. [Requisitos Previos](#requisitos-previos)
@@ -28,13 +28,13 @@ Esta guía aborda el error `403 Forbidden` que puede ocurrir en estaciones corpo
 
 ## Información Crítica
 
-### ⚠️ Aclaraciones Importantes
+### WARNING Aclaraciones Importantes
 
 **El paquete `@github/copilot` se distribuye a través del registro PÚBLICO de npm**
-- ✅ Registry correcto: `https://registry.npmjs.org/`
-- ❌ NO requiere GitHub Packages (`npm.pkg.github.com`)
-- ❌ NO requiere tokens con scope `read:packages` para instalación
-- ✅ La autenticación con GitHub es POSTERIOR a la instalación
+- OK Registry correcto: `https://registry.npmjs.org/`
+- NO NO requiere GitHub Packages (`npm.pkg.github.com`)
+- NO NO requiere tokens con scope `read:packages` para instalación
+- OK La autenticación con GitHub es POSTERIOR a la instalación
 
 ### Diferencia entre Instalación y Autenticación
 
@@ -167,7 +167,7 @@ npm install -g @github/copilot
 
 **Nota sobre credenciales en proxy:**
 - Si el proxy requiere autenticación, incluye `usuario:password@` en la URL
-- Para caracteres especiales en la contraseña, codificarlos en URL (ej: `@` → `%40`)
+- Para caracteres especiales en la contraseña, codificarlos en URL (ej: `@` -> `%40`)
 - Considera usar variables de entorno para no guardar contraseñas en archivos
 
 ### Solución 3: Gestionar Restricciones Corporativas
@@ -342,13 +342,13 @@ Para entornos automatizados o sin navegador:
 
 #### Paso 1: Generar PAT
 1. Ir a: https://github.com/settings/tokens?type=beta
-2. Clic en "Generate new token" → "Fine-grained personal access token"
+2. Clic en "Generate new token" -> "Fine-grained personal access token"
 3. Configurar:
    - **Token name**: `Copilot CLI - [Nombre Máquina]`
    - **Expiration**: Según política corporativa
    - **Permissions**: 
      - Repository access: No es necesario
-     - Account permissions → Copilot: **Access: Read-only** ✅
+     - Account permissions -> Copilot: **Access: Read-only** OK
 4. Copiar el token generado (comienza con `github_pat_...`)
 
 #### Paso 2: Configurar Token
@@ -397,40 +397,40 @@ export GH_TOKEN=$(pass show github/copilot-cli-token)
 
 Checklist de verificación post-instalación:
 
-### ✅ Checklist de Configuración npm
+### OK Checklist de Configuración npm
 
 ```bash
 # 1. Registry correcto
 npm config get registry
-# ✅ Debe retornar: https://registry.npmjs.org/
+# OK Debe retornar: https://registry.npmjs.org/
 
 # 2. Caché limpio (opcional pero recomendado)
 npm cache verify
-# ✅ Debe completar sin errores
+# OK Debe completar sin errores
 
 # 3. Conectividad a npm registry
 npm ping
-# ✅ Debe retornar: Ping success
+# OK Debe retornar: Ping success
 ```
 
-### ✅ Checklist de Instalación
+### OK Checklist de Instalación
 
 ```bash
 # 1. Paquete instalado globalmente
 npm list -g @github/copilot
-# ✅ Debe mostrar la versión instalada
+# OK Debe mostrar la versión instalada
 
 # 2. Binario disponible
 which copilot  # Linux/Mac
 where copilot  # Windows
-# ✅ Debe retornar la ruta del ejecutable
+# OK Debe retornar la ruta del ejecutable
 
 # 3. Versión correcta
 copilot --version
-# ✅ Debe mostrar: GitHub Copilot CLI version X.X.X
+# OK Debe mostrar: GitHub Copilot CLI version X.X.X
 ```
 
-### ✅ Checklist de Autenticación
+### OK Checklist de Autenticación
 
 ```bash
 # 1. Iniciar CLI
@@ -438,15 +438,15 @@ copilot
 
 # 2. Dentro de la CLI, verificar usuario
 /user
-# ✅ Debe mostrar tu usuario de GitHub
+# OK Debe mostrar tu usuario de GitHub
 
 # 3. Verificar acceso a Copilot
 # Hacer una pregunta simple:
 # "What is Node.js?"
-# ✅ Debe responder correctamente sin errores de autenticación
+# OK Debe responder correctamente sin errores de autenticación
 ```
 
-### ✅ Checklist de Funcionalidad Básica
+### OK Checklist de Funcionalidad Básica
 
 Dentro de `copilot`, probar:
 
@@ -616,7 +616,7 @@ ln -s $(npm root -g)/@github/copilot/bin/copilot.js /usr/local/bin/copilot
 copilot --version
 ```
 
-**⚠️ ADVERTENCIA:** Este método bypasea el proceso normal de npm y puede:
+**WARNING ADVERTENCIA:** Este método bypasea el proceso normal de npm y puede:
 - Violar políticas de seguridad corporativa
 - Causar problemas de actualización
 - No incluir dependencias del sistema
@@ -689,11 +689,11 @@ Este documento fue creado corrigiendo errores conceptuales en una versión anter
 4. Búsquedas web de casos reales de error 403 en instalación de paquetes npm
 
 **Correcciones principales aplicadas:**
-- ❌ Eliminada configuración incorrecta de GitHub Packages
-- ❌ Eliminado uso innecesario de tokens con scope `read:packages`
-- ✅ Enfoque en causas reales de error 403 en entornos corporativos
-- ✅ Separación clara entre instalación y autenticación
-- ✅ Soluciones basadas en problemas reales de proxy/firewall/registry
+- NO Eliminada configuración incorrecta de GitHub Packages
+- NO Eliminado uso innecesario de tokens con scope `read:packages`
+- OK Enfoque en causas reales de error 403 en entornos corporativos
+- OK Separación clara entre instalación y autenticación
+- OK Soluciones basadas en problemas reales de proxy/firewall/registry
 
 ---
 
