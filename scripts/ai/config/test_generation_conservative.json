@@ -1,0 +1,44 @@
+{
+  "save_results": true,
+  "output_dir": "output/test_generation",
+  "agents": {
+    "coverage_analyzer": {
+      "min_coverage": 80,
+      "threshold_low": 60,
+      "comment": "Configuración conservadora - objetivo más alcanzable"
+    },
+    "test_planner": {
+      "max_tests_per_run": 3,
+      "prioritize_critical_files": true,
+      "comment": "Solo 3 archivos más importantes por vez"
+    },
+    "llm_generator": {
+      "llm_provider": "anthropic",
+      "model": "claude-3-5-sonnet-20241022",
+      "temperature": 0.5,
+      "max_tokens": 2048,
+      "comment": "Balance entre creatividad y precisión"
+    },
+    "syntax_validator": {
+      "run_mypy": false,
+      "run_ruff": true,
+      "run_black": true,
+      "comment": "Validación básica sin type checking"
+    },
+    "test_runner": {
+      "timeout": 120,
+      "fail_fast": true,
+      "comment": "2 minutos timeout, detener en primer fallo"
+    },
+    "coverage_verifier": {
+      "min_coverage_increase": 3.0,
+      "allow_regression": false,
+      "comment": "Requiere mínimo 3% de incremento (más fácil)"
+    },
+    "pr_creator": {
+      "enabled": true,
+      "auto_assign": false,
+      "labels": ["bot-generated-tests", "needs-review"]
+    }
+  }
+}
