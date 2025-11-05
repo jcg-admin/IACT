@@ -262,3 +262,9 @@ secrets/
 *.pfx
 *.box
 infrastructure/vagrant/*.box
+
+
+## Devcontainer
+
+.init_completed
+/infrastructure/state/
