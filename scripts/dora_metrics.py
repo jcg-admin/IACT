@@ -395,15 +395,15 @@ def print_report(report: Dict, format: str = 'text') -> None:
         value = f"{metric_data['value']} {metric_data['unit']}"
         classification = metric_data['classification']
 
-        # Color based on classification
-        emoji = {
-            'Elite': '🟢',
-            'High': '🟡',
-            'Medium': '🟠',
-            'Low': '🔴'
+        # Symbol based on classification
+        symbol = {
+            'Elite': '[ELITE]',
+            'High': '[HIGH]',
+            'Medium': '[MEDIUM]',
+            'Low': '[LOW]'
         }.get(classification, '')
 
-        print(f"{name:<30} {value:>15} {emoji} {classification:>12}")
+        print(f"{name:<30} {value:>15} {symbol:>10} {classification:>12}")
 
     print("\n" + "-" * 80)
     print(f"Clasificación General: {report['overall_classification']}")
@@ -430,14 +430,14 @@ def print_markdown_report(report: Dict) -> None:
         classification = metric_data['classification']
         description = metric_data['description']
 
-        emoji = {
-            'Elite': '🟢',
-            'High': '🟡',
-            'Medium': '🟠',
-            'Low': '🔴'
+        symbol = {
+            'Elite': '[ELITE]',
+            'High': '[HIGH]',
+            'Medium': '[MEDIUM]',
+            'Low': '[LOW]'
         }.get(classification, '')
 
-        print(f"| {name} | {value} | {emoji} {classification} | {description} |")
+        print(f"| {name} | {value} | {symbol} {classification} | {description} |")
 
     print(f"""
 ## Interpretación
