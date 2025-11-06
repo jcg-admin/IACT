@@ -1,7 +1,7 @@
 ---
 id: DOC-BRS
 titulo: Business Requirements Specification (BRS)
-generado: 2025-11-06 11:41:40
+generado: 2025-11-06 11:42:06
 estandar: ISO/IEC/IEEE 29148:2018 - Clause 9.3
 conformance: Full Conformance
 ---
@@ -39,4 +39,4 @@ Por dominio:
 
 ---
 
-Generado: 2025-11-06 11:41:40
+Generado: 2025-11-06 11:42:06

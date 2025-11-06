@@ -1,7 +1,7 @@
 ---
 id: DOC-RTM
 titulo: Requirements Traceability Matrix (RTM)
-generado: 2025-11-06 11:41:40
+generado: 2025-11-06 11:42:06
 estandar: ISO/IEC/IEEE 29148:2018 - Clause 5.2.8
 ---
 
@@ -25,16 +25,16 @@ Matriz de trazabilidad bidireccional de todos los requisitos.
 | N-003 | Visibilidad de metricas operativas en tiempo casi real | necesidad | backend | aprobado | - | - |
 | RF-001 | Sistema de evaluación de permisos con tres niveles de precedencia | funcional | backend | implementado | N-001  # Necesidad de control de acceso granular | TEST-001  # test_permission_precedence.py |
 | RF-001 | Login con credenciales username/password | funcional | backend | aprobado | N-001   # Prevenir accesos fraudulentos mediante autenticacion robusta, RN-001  # Sistema de autenticacion seguro con prevencion de fraude, RS-001  # Auditoria requiere trazabilidad completa, RS-002  # Usuarios requieren acceso rapido | TEST-RF-001  # Suite de tests para RF-001, CODE-authentication-services  # apps/authentication/services.py, CODE-authentication-views  # apps/authentication/views.py |
-| RF-002 | Gestión de permisos granulares basados en recurso y acción | funcional | backend | implementado | N-001  # Necesidad de control de acceso granular | TEST-002  # Tests de Permission model |
 | RF-002 | Generacion de tokens JWT (access 15min, refresh 7dias) | funcional | backend | aprobado | [, N, -, 0, 0, 1, ,,  , R, N, -, 0, 0, 1, ,,  , R, S, -, 0, 0, 2, ] | [, T, E, S, T, -, R, F, -, 0, 0, 2, ,,  , C, O, D, E, -, j, w, t, -, s, e, r, v, i, c, e, ] |
+| RF-002 | Gestión de permisos granulares basados en recurso y acción | funcional | backend | implementado | N-001  # Necesidad de control de acceso granular | TEST-002  # Tests de Permission model |
 | RF-003 | Obtener todos los permisos efectivos de un usuario | funcional | backend | implementado | N-001  # Necesidad de control de acceso granular | TEST-003  # Tests de permissions_for_user |
 | RF-003 | Bloqueo automatico tras 5 intentos fallidos en 5 minutos | funcional | backend | aprobado | [, N, -, 0, 0, 1, ,,  , R, N, -, 0, 0, 1, ,,  , R, S, -, 0, 0, 1, ] | [, T, E, S, T, -, R, F, -, 0, 0, 3, ,,  , C, O, D, E, -, l, o, g, i, n, -, a, t, t, e, m, p, t, -, s, e, r, v, i, c, e, ] |
-| RF-004 | Segmentación de usuarios con criterios dinámicos | funcional | backend | implementado | N-001  # Necesidad de control de acceso granular | TEST-004  # Tests de Segment matching |
 | RF-004 | Sesion unica con cierre de sesiones previas | funcional | backend | aprobado | [, N, -, 0, 0, 1, ,,  , R, N, -, 0, 0, 1, ,,  , R, S, -, 0, 0, 1, ] | [, T, E, S, T, -, R, F, -, 0, 0, 4, ,,  , C, O, D, E, -, s, e, s, s, i, o, n, -, s, e, r, v, i, c, e, ] |
+| RF-004 | Segmentación de usuarios con criterios dinámicos | funcional | backend | implementado | N-001  # Necesidad de control de acceso granular | TEST-004  # Tests de Segment matching |
 | RF-005 | Login con credenciales locales y validación | funcional | backend | pendiente | RN-C01-01  # Login con Credenciales Locales, RN-C01-02  # Validación de Credenciales | TEST-005  # Tests de login |
 | RF-005 | Logout manual con invalidacion de tokens | funcional | backend | aprobado | [, N, -, 0, 0, 1, ,,  , R, N, -, 0, 0, 1, ,,  , R, S, -, 0, 0, 1, ] | [, T, E, S, T, -, R, F, -, 0, 0, 5, ,,  , C, O, D, E, -, l, o, g, o, u, t, -, v, i, e, w, ] |
-| RF-006 | Generación y validación de tokens JWT | funcional | backend | pendiente | RN-C01-03  # Generación de Tokens JWT, RN-C01-04  # Validación de Tokens JWT, RN-C01-11  # Refresh Token | TEST-006  # Tests de tokens JWT |
 | RF-006 | Recuperacion de password sin email mediante 3 preguntas seguridad | funcional | backend | aprobado | [, N, -, 0, 0, 1, ,,  , R, N, -, 0, 0, 1, ] | [, T, E, S, T, -, R, F, -, 0, 0, 6, ,,  , C, O, D, E, -, p, a, s, s, w, o, r, d, -, r, e, c, o, v, e, r, y, ] |
+| RF-006 | Generación y validación de tokens JWT | funcional | backend | pendiente | RN-C01-03  # Generación de Tokens JWT, RN-C01-04  # Validación de Tokens JWT, RN-C01-11  # Refresh Token | TEST-006  # Tests de tokens JWT |
 | RF-007 | Logout manual y cierre de sesión | funcional | backend | pendiente | RN-C01-05  # Logout Manual, RN-C01-12  # Auditoría de Login | TEST-007  # Tests de logout |
 | RF-008 | Cierre automático de sesiones por inactividad | funcional | backend | pendiente | RN-C01-06  # Cierre por Inactividad, RN-C01-12  # Auditoría de Login | TEST-008  # Tests de cierre por inactividad |
 | RF-009 | Gestión de contraseñas seguras e intentos fallidos | funcional | backend | pendiente | RN-C01-07  # Complejidad de Contraseñas, RN-C01-08  # Intentos Fallidos Limitados, RN-C01-09  # Bloqueo Temporal de Cuenta, RN-C01-10  # Hash Seguro de Passwords | TEST-009  # Tests de passwords e intentos fallidos |
@@ -53,5 +53,5 @@ Matriz de trazabilidad bidireccional de todos los requisitos.
 
 ---
 
-Generado: 2025-11-06 11:41:40
+Generado: 2025-11-06 11:42:06
 Total requisitos: 33

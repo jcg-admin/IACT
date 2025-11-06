@@ -1,7 +1,7 @@
 ---
 id: DOC-SRS
 titulo: Software Requirements Specification (SRS)
-generado: 2025-11-06 11:41:40
+generado: 2025-11-06 11:42:06
 estandar: ISO/IEC/IEEE 29148:2018 - Clause 9.6
 conformance: Full Conformance
 ---
@@ -47,15 +47,6 @@ Por dominio:
 - **Deriva de**: N-001   # Prevenir accesos fraudulentos mediante autenticacion robusta, RN-001  # Sistema de autenticacion seguro con prevencion de fraude, RS-001  # Auditoria requiere trazabilidad completa, RS-002  # Usuarios requieren acceso rapido
 - **Verificación**: test
 
-### RF-002: Gestión de permisos granulares basados en recurso y acción
-
-- **Owner**: equipo-backend
-- **Prioridad**: alta
-- **Estado**: implementado
-- **Archivo**: `implementacion/backend/requisitos/funcionales/rf002_gestion_permisos_granulares.md`
-- **Deriva de**: N-001  # Necesidad de control de acceso granular
-- **Verificación**: test
-
 ### RF-002: Generacion de tokens JWT (access 15min, refresh 7dias)
 
 - **Owner**: equipo-backend
@@ -63,6 +54,15 @@ Por dominio:
 - **Estado**: aprobado
 - **Archivo**: `implementacion/backend/requisitos/funcionales/rf002_jwt_tokens.md`
 - **Deriva de**: [, N, -, 0, 0, 1, ,,  , R, N, -, 0, 0, 1, ,,  , R, S, -, 0, 0, 2, ]
+- **Verificación**: test
+
+### RF-002: Gestión de permisos granulares basados en recurso y acción
+
+- **Owner**: equipo-backend
+- **Prioridad**: alta
+- **Estado**: implementado
+- **Archivo**: `implementacion/backend/requisitos/funcionales/rf002_gestion_permisos_granulares.md`
+- **Deriva de**: N-001  # Necesidad de control de acceso granular
 - **Verificación**: test
 
 ### RF-003: Obtener todos los permisos efectivos de un usuario
@@ -83,15 +83,6 @@ Por dominio:
 - **Deriva de**: [, N, -, 0, 0, 1, ,,  , R, N, -, 0, 0, 1, ,,  , R, S, -, 0, 0, 1, ]
 - **Verificación**: test
 
-### RF-004: Segmentación de usuarios con criterios dinámicos
-
-- **Owner**: equipo-backend
-- **Prioridad**: alta
-- **Estado**: implementado
-- **Archivo**: `implementacion/backend/requisitos/funcionales/rf004_segmentos_criterios_dinamicos.md`
-- **Deriva de**: N-001  # Necesidad de control de acceso granular
-- **Verificación**: test
-
 ### RF-004: Sesion unica con cierre de sesiones previas
 
 - **Owner**: equipo-backend
@@ -99,6 +90,15 @@ Por dominio:
 - **Estado**: aprobado
 - **Archivo**: `implementacion/backend/requisitos/funcionales/rf004_sesion_unica.md`
 - **Deriva de**: [, N, -, 0, 0, 1, ,,  , R, N, -, 0, 0, 1, ,,  , R, S, -, 0, 0, 1, ]
+- **Verificación**: test
+
+### RF-004: Segmentación de usuarios con criterios dinámicos
+
+- **Owner**: equipo-backend
+- **Prioridad**: alta
+- **Estado**: implementado
+- **Archivo**: `implementacion/backend/requisitos/funcionales/rf004_segmentos_criterios_dinamicos.md`
+- **Deriva de**: N-001  # Necesidad de control de acceso granular
 - **Verificación**: test
 
 ### RF-005: Login con credenciales locales y validación
@@ -119,15 +119,6 @@ Por dominio:
 - **Deriva de**: [, N, -, 0, 0, 1, ,,  , R, N, -, 0, 0, 1, ,,  , R, S, -, 0, 0, 1, ]
 - **Verificación**: test
 
-### RF-006: Generación y validación de tokens JWT
-
-- **Owner**: equipo-backend
-- **Prioridad**: critica
-- **Estado**: pendiente
-- **Archivo**: `implementacion/backend/requisitos/funcionales/rf006_tokens_jwt.md`
-- **Deriva de**: RN-C01-03  # Generación de Tokens JWT, RN-C01-04  # Validación de Tokens JWT, RN-C01-11  # Refresh Token
-- **Verificación**: test
-
 ### RF-006: Recuperacion de password sin email mediante 3 preguntas seguridad
 
 - **Owner**: equipo-backend
@@ -135,6 +126,15 @@ Por dominio:
 - **Estado**: aprobado
 - **Archivo**: `implementacion/backend/requisitos/funcionales/rf006_recuperacion_sin_email.md`
 - **Deriva de**: [, N, -, 0, 0, 1, ,,  , R, N, -, 0, 0, 1, ]
+- **Verificación**: test
+
+### RF-006: Generación y validación de tokens JWT
+
+- **Owner**: equipo-backend
+- **Prioridad**: critica
+- **Estado**: pendiente
+- **Archivo**: `implementacion/backend/requisitos/funcionales/rf006_tokens_jwt.md`
+- **Deriva de**: RN-C01-03  # Generación de Tokens JWT, RN-C01-04  # Validación de Tokens JWT, RN-C01-11  # Refresh Token
 - **Verificación**: test
 
 ### RF-007: Logout manual y cierre de sesión
@@ -207,4 +207,4 @@ Por dominio:
 
 ---
 
-Generado: 2025-11-06 11:41:40
+Generado: 2025-11-06 11:42:06
