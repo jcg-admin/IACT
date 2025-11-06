@@ -2,9 +2,9 @@
 id: DOC-DEV-AGENTES
 tipo: documentacion
 categoria: desarrollo
-version: 1.1.0
+version: 1.2.0
 fecha_creacion: 2025-11-04
-fecha_actualizacion: 2025-11-05
+fecha_actualizacion: 2025-11-06
 propietario: equipo-desarrollo
 relacionados: ["DOC-GOB-ESTANDARES", "DOC-SCRIPTS-VALIDACION", "RUNBOOK-GIT-MERGE-CLEANUP"]
 ---
@@ -20,6 +20,9 @@ Este documento explica la arquitectura de agentes de automatización utilizada e
    - [Agente de Exploración de Código](#1-agente-de-exploración-de-código)
    - [Agente General Purpose (Remoción de Emojis)](#2-agente-general-purpose-remoción-de-emojis)
    - [Agente GitOps (Operaciones Git y DevOps)](#3-agente-gitops-operaciones-git-y-devops)
+   - [Agente Release (Gestión de Releases)](#4-agente-release-gestión-de-releases)
+   - [Agente Dependency (Gestión de Dependencias)](#5-agente-dependency-gestión-de-dependencias)
+   - [Agente Security (Auditorías de Seguridad)](#6-agente-security-auditorías-de-seguridad)
 2. [Arquitectura Propuesta de CI/CD](#arquitectura-propuesta-de-cicd)
 3. [Implementación de Pre-commit Hooks](#implementación-de-pre-commit-hooks)
 4. [GitHub Actions CI/CD](#github-actions-cicd)
@@ -392,6 +395,208 @@ git branch -r  # Debe mostrar solo 4 ramas
 - `docs/devops/runbooks/merge_y_limpieza_ramas.md` - Procedimiento completo
 - `docs/gobernanza/procesos/procedimiento_gestion_cambios.md` - Política de branching
 - `docs/gobernanza/procesos/procedimiento_release.md` - Sincronización pre-release
+
+---
+
+### 4. Agente Release (Gestión de Releases)
+
+**Tipo**: Agente personalizado `ReleaseAgent`
+
+**Ubicación**: `.github/agents/release-agent.md`
+
+**Propósito**: Gestión completa del proceso de release, versionado semántico, generación de changelogs y creación de tags Git.
+
+**Capacidades principales**:
+
+- Versionado semántico (SemVer 2.0.0)
+- Análisis de commits con Conventional Commits
+- Generación automática de changelogs (formato Keep a Changelog)
+- Creación y gestión de tags Git anotados
+- Actualización de versiones en múltiples archivos (package.json, pyproject.toml, __version__.py)
+- Preparación de release notes y GitHub releases
+- Soporte para hotfixes y release candidates
+
+**Cuándo usarlo**:
+
+- Crear nuevo release (major, minor, patch)
+- Generar changelog desde commits
+- Crear release candidate antes de producción
+- Hotfix urgente para bug crítico
+- Auditoría de versiones del proyecto
+
+**Ejemplo de uso**:
+
+```
+ReleaseAgent: Crear nuevo release minor.
+Analiza commits desde último tag, genera changelog,
+actualiza versiones en archivos del proyecto y crea tag.
+```
+
+**Herramientas que utiliza**:
+
+- `Bash` - Comandos Git (tag, log, describe, push)
+- `Read` - Leer archivos de versión actuales
+- `Edit` - Actualizar números de versión
+- `Write` - Generar CHANGELOG.md
+- `Grep` - Buscar versiones en archivos
+
+**Integración con procesos**:
+
+- `docs/gobernanza/procesos/procedimiento_release.md` - Proceso completo de release
+- `docs/gobernanza/procesos/procedimiento_gestion_cambios.md` - Conventional Commits
+- `.github/workflows/release.yml` - Workflow de release automatizado
+
+---
+
+### 5. Agente Dependency (Gestión de Dependencias)
+
+**Tipo**: Agente personalizado `DependencyAgent`
+
+**Ubicación**: `.github/agents/dependency-agent.md`
+
+**Propósito**: Gestión de dependencias, actualizaciones, escaneo de vulnerabilidades y auditoría de licencias.
+
+**Capacidades principales**:
+
+- Actualización de dependencias con estrategias configurables (conservadora/moderada/agresiva)
+- Escaneo de vulnerabilidades (CVEs) con pip-audit, safety, npm audit
+- Auditoría de licencias y compatibilidad
+- Limpieza de dependencias no usadas
+- Gestión de lockfiles (requirements.txt, package-lock.json)
+- Análisis de impacto de actualizaciones
+- Generación de reportes de dependencias
+
+**Cuándo usarlo**:
+
+- Actualización mensual de dependencias
+- Respuesta a alerta de CVE crítico
+- Auditoría de licencias antes de release
+- Limpieza de dependencias obsoletas
+- Preparación para actualización de framework
+
+**Ejemplo de uso**:
+
+```
+DependencyAgent: Actualiza dependencias con estrategia conservadora.
+Solo patches y minors que resuelvan vulnerabilidades.
+Excluir: Django (actualizar manualmente)
+Generar reporte detallado.
+```
+
+**Estrategias de actualización**:
+
+- **Conservadora**: Solo patches (1.2.3 -> 1.2.4)
+- **Moderada**: Patches + minors (1.2.3 -> 1.3.0)
+- **Agresiva**: Todos los updates incluyendo majors (1.2.3 -> 2.0.0)
+
+**Herramientas que utiliza**:
+
+- `Bash` - pip-audit, safety, npm audit, pip list
+- `Read` - Leer requirements.txt, package.json
+- `Edit` - Actualizar versiones de dependencias
+- `Grep` - Buscar uso de paquetes en código
+
+**Restricciones del proyecto IACT**:
+
+- NO actualizar a bibliotecas de pago (Stripe, PayPal)
+- NO agregar servicios de monitoreo externos (Sentry)
+- NO integrar APIs externas no aprobadas
+- Validar compatibilidad con Django, PostgreSQL, MariaDB
+
+---
+
+### 6. Agente Security (Auditorías de Seguridad)
+
+**Tipo**: Agente personalizado `SecurityAgent`
+
+**Ubicación**: `.github/agents/security-agent.md`
+
+**Propósito**: Auditorías de seguridad, escaneo de vulnerabilidades, detección de secrets y análisis de amenazas según metodología STRIDE.
+
+**Capacidades principales**:
+
+- Análisis estático de código con Bandit (Python)
+- Detección de secrets con gitleaks y detect-secrets
+- Escaneo de vulnerabilidades en dependencias
+- Análisis de amenazas STRIDE (Spoofing, Tampering, Repudiation, etc.)
+- Validación de restricciones de seguridad del proyecto
+- Auditoría de configuración (Django settings, CORS, CSRF)
+- Verificación de compliance con estándares
+
+**Cuándo usarlo**:
+
+- Antes de cada release
+- Auditoría mensual de seguridad
+- Después de cambios en autenticación/autorización
+- Respuesta a incidente de seguridad
+- Preparación para auditoría externa
+- Implementación de funcionalidad crítica
+
+**Ejemplo de uso**:
+
+```
+SecurityAgent: Ejecuta auditoría completa de seguridad.
+Incluye: código, dependencias, secrets, configuración.
+Genera reporte priorizado por severidad.
+```
+
+**Herramientas que utiliza**:
+
+- `Bash` - bandit, gitleaks, pip-audit, safety
+- `Read` - Leer configuraciones de seguridad
+- `Grep` - Buscar patrones inseguros
+- Scripts personalizados:
+  - `scripts/validate_critical_restrictions.sh`
+  - `scripts/validate_security_config.sh`
+  - `scripts/validate_database_router.sh`
+
+**Restricciones validadas**:
+
+- Base de datos local con docker-compose
+- Base de datos remota: solo MariaDB y PostgreSQL
+- Autenticación local (no OAuth externo)
+- Sin servicios externos (pagos, SMS, email, push)
+- Manejo de secrets via environment variables
+- Database router para multi-database
+- Sin Sentry ni servicios de monitoreo externos
+
+**Formato de reporte**:
+
+```markdown
+# Auditoría de Seguridad - 2025-11-05
+
+## Resumen Ejecutivo
+- CRITICAL: 0
+- HIGH: 1
+- MEDIUM: 3
+- LOW: 5
+
+## Hallazgos HIGH
+**H-001: Hardcoded Database Password**
+- Archivo: settings/development.py:45
+- Remediación: Usar variable de entorno
+
+## Cumplimiento de Restricciones
+- Database router: PASS
+- Autenticación local: PASS
+- Secrets management: FAIL (1 violación)
+```
+
+**Frecuencia recomendada**:
+
+| Actividad | Frecuencia |
+|-----------|------------|
+| Escaneo de secrets | Pre-commit (automático) |
+| Escaneo de código | Semanal |
+| Auditoría dependencias | Semanal |
+| Auditoría completa | Mensual |
+| Análisis STRIDE | Por feature crítica |
+
+**Integración con procesos**:
+
+- `docs/gobernanza/procesos/procedimiento_analisis_seguridad.md` - Procedimiento STRIDE
+- `docs/implementacion/backend/seguridad/ANALISIS_SEGURIDAD_AMENAZAS.md` - Análisis de amenazas
+- `docs/qa/checklist_auditoria_restricciones.md` - Checklist de auditoría
 
 ---
 
@@ -1264,9 +1469,10 @@ BAJO: Mutation + fuzzing + LLM
 
 ---
 
-**Última actualización**: 2025-11-05
+**Última actualización**: 2025-11-06
 **Autor**: Equipo de Desarrollo
 **Revisores**: Equipo QA, Equipo DevOps
 **Changelog**:
-- 2025-11-05: Agregado Agente GitOps con caso de uso real de sincronización de ramas
-- 2025-11-04: Versión inicial con agentes de exploración y remoción de emojis
+- 2025-11-06: Agregados ReleaseAgent, DependencyAgent, SecurityAgent - v1.2.0
+- 2025-11-05: Agregado Agente GitOps con caso de uso real de sincronización de ramas - v1.1.0
+- 2025-11-04: Versión inicial con agentes de exploración y remoción de emojis - v1.0.0
