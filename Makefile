@@ -134,7 +134,7 @@ build-cpython: ## Compilar CPython en Vagrant (uso: make build-cpython VERSION=3
 		exit 1; \
 	fi
 	@echo "$(BLUE)Compilando CPython $(VERSION) build $(BUILD)...$(NC)"
-	./infrastructure/cpython/scripts/build-cpython.sh $(VERSION) $(BUILD)
+	./infrastructure/cpython/builder/scripts/build-wrapper.sh $(VERSION) $(BUILD)
 
 validate-cpython: ## Validar artefacto CPython (uso: make validate-cpython ARTIFACT=cpython-X.Y.Z-ubuntu22.04-build1.tgz)
 	@if [ -z "$(ARTIFACT)" ]; then \
@@ -142,7 +142,7 @@ validate-cpython: ## Validar artefacto CPython (uso: make validate-cpython ARTIF
 		exit 1; \
 	fi
 	@echo "$(BLUE)Validando artefacto: $(ARTIFACT)$(NC)"
-	./infrastructure/cpython/scripts/validate-cpython.sh $(ARTIFACT)
+	./infrastructure/cpython/builder/scripts/validate-wrapper.sh $(ARTIFACT)
 
 list-artifacts: ## Listar artefactos CPython disponibles
 	@echo "$(BLUE)Artefactos CPython disponibles:$(NC)"
