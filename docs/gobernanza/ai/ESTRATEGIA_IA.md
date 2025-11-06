@@ -2,11 +2,12 @@
 id: DOC-GOBERNANZA-ESTRATEGIA-IA
 tipo: estrategia
 categoria: ai
-version: 1.2.0
+version: 1.3.0
 fecha_creacion: 2025-11-06
 fecha_actualizacion: 2025-11-06
 propietario: arquitecto-senior
-fuente: DORA Report 2025 - Section 3 & 4 (AI Practices + Platform Engineering)
+fuente: DORA Report 2025 (Sections 3, 4, 6)
+muestra: 5000 profesionales, 50+ paises, Abril-Junio 2025
 relacionados: ["AGENTES_SDLC.md", "ROADMAP.md", "AI_CAPABILITIES.md"]
 ---
 
@@ -14,8 +15,12 @@ relacionados: ["AGENTES_SDLC.md", "ROADMAP.md", "AI_CAPABILITIES.md"]
 
 Estrategia de adopcion y uso de IA en desarrollo de software, basada en DORA Report 2025.
 
-**Version:** 1.2.0
-**Fuente:** [DORA Report 2025 - Section 3 & 4](https://dora.dev/dora-report-2025)
+**Version:** 1.3.0
+**Fuente:** [DORA Report 2025](https://dora.dev/dora-report-2025)
+- Section 3: AI Practices & Capabilities
+- Section 4: Platform Engineering & Organizational Systems
+- Section 6: Methodology (5,000 profesionales, 50+ países)
+
 **Ultima actualizacion:** 2025-11-06
 
 ---
@@ -29,6 +34,95 @@ Estrategia de adopcion y uso de IA en desarrollo de software, basada en DORA Rep
 - ✅ **7 Agentes SDLC implementados**: Planning, Feasibility, Design, Testing, Deployment, Orchestrator
 - ✅ **Workflows automatizados**: 8 workflows CI/CD con IA integration
 - ✅ **Documentacion living**: Sistema de asociacion workflow-template
+
+---
+
+## Metodologia DORA 2025 (Section 6)
+
+**Contexto:** Esta estrategia se basa en el **DORA Report 2025**, el primer estudio DORA en integrar explícitamente **variables de IA** en el análisis de software delivery performance.
+
+### Survey Design & Data Collection
+
+**Escala del estudio:**
+- **5,000 profesionales tecnológicos** encuestados (Abril-Junio 2025)
+- **50+ países** representados
+- Roles: Software engineers, architects, data scientists, product managers, executives
+- Muestra balanceada: Industrias, tamaños de empresa, niveles de madurez
+
+**Criterios de inclusión:**
+- Profesionales activos en software development, DevOps, o platform engineering
+- Mínimo 1 año de experiencia con AI-assisted tools o workflows
+- Consentimiento para compartir respuestas anonimizadas
+
+**Estructura del survey:**
+1. AI adoption, frecuencia de uso, beneficios percibidos
+2. Developer productivity y experience
+3. Organizational capabilities y platform maturity
+4. Consideraciones éticas, governance, change management
+
+**Validación de datos:**
+- Cross-checking de distribuciones demográficas vs benchmarks 2024
+- Statistical consistency testing para variables clave
+- 100+ entrevistas cualitativas para enriquecer findings estadísticos
+
+> "The survey combined Likert-scale, multiple-choice, and open-ended questions to capture both breadth and depth of responses."
+> — DORA Report 2025, Section 6.1
+
+---
+
+### DORA Core Metrics (Performance Tiers)
+
+El análisis DORA correlaciona AI adoption practices con **4 métricas core** de software delivery performance:
+
+| Categoría | Métrica DORA | Definición |
+|:--|:--|:--|
+| **Throughput** | **Deployment Frequency** | How often an organization successfully releases software |
+| **Speed** | **Lead Time for Changes** | Time between code committed and running in production |
+| **Stability** | **Change Failure Rate** | Percentage of deployments causing incidents or rollbacks |
+| **Recovery** | **Mean Time to Restore (MTTR)** | Time to recover from a production incident |
+
+**Performance Tiers DORA:**
+
+| Tier | Deployment Frequency | Lead Time | Change Failure Rate | MTTR |
+|:--|:--|:--|:--|:--|
+| **Elite** | >= 2/día | < 1 día | < 5% | < 1 hora |
+| **High** | 1/día - 2/semana | 1 día - 1 semana | 5-15% | 1 hora - 1 día |
+| **Medium** | 1/semana - 1/mes | 1 semana - 1 mes | 15-30% | 1 día - 1 semana |
+| **Low** | < 1/mes | > 1 mes | > 30% | > 1 semana |
+
+**Metodología de análisis:**
+- Regression analysis y correlation testing para identificar relaciones entre AI practices y performance outcomes
+- Clustering segmenta respondents en performance tiers: Elite, High, Medium, Low
+- Comparaciones entre AI-mature organizations vs non-AI-adopting organizations
+
+> "The model isolates the impact of AI while controlling for confounding variables such as organization size, industry, and platform maturity."
+> — DORA Report 2025, Section 6.3
+
+---
+
+### DORA 2025 vs Previous Years
+
+**Cambio histórico:** 2025 marca el inicio de una **nueva era de investigación DORA** al integrar explícitamente variables de IA.
+
+**Nuevos indicadores 2025:**
+- Ethical governance frameworks
+- Data ecosystem health
+- Developer well-being metrics
+- AI adoption practices (7 AI Capabilities)
+- Platform engineering maturity
+
+**Trends confirmados:**
+- AI ha pasado de "experimental" a "expected" en high-performing organizations
+- Steady improvements en delivery performance, especialmente entre teams usando IA responsibly
+- Correlación directa entre platform maturity y AI effectiveness
+
+> "The inclusion of AI-specific capabilities marks the beginning of a new era for DORA research, linking engineering excellence with intelligent automation."
+> — DORA Report 2025, Section 6.4
+
+**Validez estadística:**
+- Quantitative data analizados usando standard statistical methods
+- Qualitative insights codificados y clustered mediante thematic analysis
+- Results son tanto **statistically valid** como **practically meaningful**
 
 ---
 

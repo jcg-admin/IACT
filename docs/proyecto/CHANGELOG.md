@@ -37,6 +37,70 @@ Registro cronologico de cambios, features y mejoras completadas.
 
 ---
 
+## [1.4.3] - 2025-11-06
+
+### Changed - ESTRATEGIA_IA.md (v1.2.0 -> v1.3.0)
+
+Integracion de **DORA Report 2025 - Section 6: Methodology** con contexto completo del estudio.
+
+**Metodologia DORA 2025 - Primera integracion explicita de variables AI:**
+
+> "The inclusion of AI-specific capabilities marks the beginning of a new era for DORA research, linking engineering excellence with intelligent automation."
+> — DORA Report 2025, Section 6.4
+
+**Escala del estudio:**
+- **5,000 profesionales tecnológicos** encuestados (Abril-Junio 2025)
+- **50+ países** representados
+- Muestra balanceada: Industrias, tamaños de empresa, niveles de madurez
+- Roles: Software engineers, architects, data scientists, product managers, executives
+
+**Criterios de inclusión:**
+- Profesionales activos en software development, DevOps, o platform engineering
+- Mínimo 1 año de experiencia con AI-assisted tools o workflows
+- 100+ entrevistas cualitativas para enriquecer findings estadísticos
+
+**Cambios implementados:**
+
+1. **Metodologia DORA 2025 - Nueva seccion:**
+   - Survey design & data collection documentado
+   - Escala: 5,000 profesionales, 50+ países
+   - Estructura del survey: 4 secciones (AI adoption, Productivity, Capabilities, Ethics)
+   - Validación de datos: Cross-checking, statistical consistency, qualitative interviews
+   - Quote: "Both breadth and depth of responses captured"
+
+2. **DORA Core Metrics - Performance Tiers:**
+   - 4 métricas core definidas con claridad:
+     - Throughput: Deployment Frequency
+     - Speed: Lead Time for Changes
+     - Stability: Change Failure Rate
+     - Recovery: Mean Time to Restore (MTTR)
+   - Performance tiers table: Elite, High, Medium, Low con thresholds específicos
+   - Elite tier: >= 2/día deployment, < 1 día lead time, < 5% failure rate, < 1 hora MTTR
+   - Metodología de análisis: Regression, clustering, comparaciones AI-mature vs non-AI
+
+3. **DORA 2025 vs Previous Years:**
+   - 2025 marca nueva era: Primera integración explícita de variables AI
+   - Nuevos indicadores 2025: Ethical governance, Data ecosystem health, Developer well-being, AI practices, Platform maturity
+   - Trends confirmados: AI pasó de "experimental" a "expected" en high-performers
+   - Validez estadística: Standard statistical methods + thematic analysis
+
+**Metadata actualizado:**
+- Fuente: DORA Report 2025 (Sections 3, 4, 6)
+- Muestra agregada: 5000 profesionales, 50+ países, Abril-Junio 2025
+- Version: v1.3.0
+
+**Impacto:**
+- Estrategia IA ahora documenta fuente completa y metodología del estudio DORA
+- Performance tiers claramente definidos para medir progreso IACT
+- Validez estadística establecida: 5,000 profesionales vs sample pequeño
+- Contexto histórico: 2025 es el PRIMER año con AI variables explícitas
+- Thresholds Elite tier documentados como targets aspiracionales
+
+**Archivos:**
+- `docs/gobernanza/ai/ESTRATEGIA_IA.md` (v1.2.0 -> v1.3.0)
+
+---
+
 ## [1.4.2] - 2025-11-06
 
 ### Changed - ESTRATEGIA_IA.md (v1.1.0 -> v1.2.0)
