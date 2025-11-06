@@ -40,7 +40,7 @@ puts "  Default Python: #{DEFAULT_PYTHON_VERSION}"
 puts "  Build Mode: PGO + LTO optimizations"
 puts ""
 puts "Artifacts Output:"
-puts "  ./artifacts/ (within builder/)"
+puts "  ./artifacts/"
 puts "=" * 70
 puts ""
 
@@ -103,8 +103,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     puts "[OK] APT cache enabled: #{cache_dir}"
   end
 
-  # Builder directory with UTF-8 encoding
-  # This mounts the entire builder/ directory (including artifacts/, scripts/, etc.)
+  # CPython directory with UTF-8 encoding
+  # This mounts the entire cpython/ directory (including artifacts/, scripts/, etc.)
   config.vm.synced_folder ".", "/vagrant",
     create: true,
     mount_options: [
@@ -252,7 +252,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       ./scripts/build-cpython.sh 3.12.6
 
     # From host (via wrapper):
-      ./infrastructure/cpython/builder/scripts/build-wrapper.sh 3.12.6
+      ./infrastructure/cpython/scripts/build-wrapper.sh 3.12.6
 
   VALIDATION:
     ./scripts/validate-build.sh cpython-3.12.6-ubuntu22.04-build1.tgz
