@@ -100,8 +100,8 @@ make check-services
 ./scripts/verificar_servicios.sh
 
 # Output esperado:
-# ✓ PostgreSQL: Conectado correctamente
-# ✓ MariaDB: Conectado correctamente
+# PostgreSQL: Conectado correctamente
+# MariaDB: Conectado correctamente
 ```
 
 ### 1.4 Configurar Entorno Virtual Python
@@ -334,9 +334,9 @@ git log --oneline -1
 ### 4.1 Filosofía: Test-Driven Development
 
 **Ciclo TDD:**
-1. 🔴 **Red**: Escribir test que falla
-2. 🟢 **Green**: Escribir código mínimo para que pase
-3. 🔵 **Refactor**: Mejorar código manteniendo tests verdes
+1. **Red**: Escribir test que falla
+2. **Green**: Escribir código mínimo para que pase
+3. **Refactor**: Mejorar código manteniendo tests verdes
 
 ### 4.2 Crear Archivo de Tests Primero
 
@@ -1027,14 +1027,14 @@ Al hacer commit, se ejecutan automáticamente:
 
 ```bash
 # Pre-commit hooks configurados:
-✓ Ruff (linting)
-✓ MyPy (type checking)
-✓ Bandit (security)
-✓ detect-secrets (secrets)
-✓ trailing-whitespace
-✓ end-of-file-fixer
-✓ check-yaml
-✓ check-json
+- Ruff (linting)
+- MyPy (type checking)
+- Bandit (security)
+- detect-secrets (secrets)
+- trailing-whitespace
+- end-of-file-fixer
+- check-yaml
+- check-json
 
 # Si algún hook falla:
 # 1. Revisar el error
@@ -1179,7 +1179,7 @@ gh pr create \
 - [x] Cobertura total: 95%
 - [x] Security scan con Bandit: 0 issues
 - [x] Secret detection: 0 secrets detectados
-- [x] Validación manual en desarrollo: ✓
+- [x] Validación manual en desarrollo
 
 ## Related Issues
 Closes #123
@@ -1256,30 +1256,30 @@ Al crear el PR, se ejecutan automáticamente:
 
 **Workflow: python-ci.yml**
 ```yaml
-✓ Ruff linting
-✓ Ruff formatting check
-✓ MyPy type checking
-✓ Bandit security scan
-✓ pytest (todos los tests)
-✓ Coverage report
-✓ Upload artifacts
+- Ruff linting
+- Ruff formatting check
+- MyPy type checking
+- Bandit security scan
+- pytest (todos los tests)
+- Coverage report
+- Upload artifacts
 ```
 
 **Workflow: lint.yml**
 ```yaml
-✓ Markdown linting
-✓ YAML linting
-✓ Pre-commit hooks
+- Markdown linting
+- YAML linting
+- Pre-commit hooks
 ```
 
 ### 9.2 Requisitos para Aprobar
 
-- [ ] ✅ Mínimo 1 review aprobado
-- [ ] ✅ Todos los CI checks pasan (verde)
-- [ ] ✅ Sin conflictos con main
-- [ ] ✅ Cobertura >= 80%
-- [ ] ✅ Sin secretos detectados
-- [ ] ✅ Bandit security scan sin issues HIGH/CRITICAL
+- [ ] Mínimo 1 review aprobado
+- [ ] Todos los CI checks pasan (verde)
+- [ ] Sin conflictos con main
+- [ ] Cobertura >= 80%
+- [ ] Sin secretos detectados
+- [ ] Bandit security scan sin issues HIGH/CRITICAL
 
 ### 9.3 Como Autor del PR
 
@@ -1313,7 +1313,7 @@ git push
 gh pr review --request @reviewer-username
 
 # O comentar en el PR
-gh pr comment --body "✅ Cambios aplicados. Listo para re-review."
+gh pr comment --body "Cambios aplicados. Listo para re-review."
 ```
 
 ### 9.4 Como Reviewer
@@ -1376,12 +1376,12 @@ gh pr checkout <PR_NUMBER>
 
 ```bash
 # Aprobar
-gh pr review <PR_NUMBER> --approve --body "LGTM! 🚀
+gh pr review <PR_NUMBER> --approve --body "LGTM!
 
-✅ Código limpio y bien estructurado
-✅ Tests completos con 95% coverage
-✅ Security scan pasó
-✅ Documentación actualizada
+- Código limpio y bien estructurado
+- Tests completos con 95% coverage
+- Security scan pasó
+- Documentación actualizada
 
 Excelente trabajo!"
 
@@ -1441,11 +1441,11 @@ gh pr merge <PR_NUMBER> --rebase --delete-branch
 
 Después del merge, automáticamente:
 
-✅ **Issue cierra** (si usaste `Closes #123`)
-✅ **Branch se elimina** (si seleccionaste delete branch)
-✅ **Docs se regeneran** (workflow `docs.yml` se ejecuta)
-✅ **Índices ISO 29148 se actualizan** (workflow `requirements-index.yml`)
-✅ **Main se actualiza** con tu código
+- **Issue cierra** (si usaste `Closes #123`)
+- **Branch se elimina** (si seleccionaste delete branch)
+- **Docs se regeneran** (workflow `docs.yml` se ejecuta)
+- **Índices ISO 29148 se actualizan** (workflow `requirements-index.yml`)
+- **Main se actualiza** con tu código
 
 ---
 
@@ -1510,10 +1510,10 @@ git branch --merged main | grep -v "main" | xargs git branch -d
 
 ### Cuándo Usar Hotfix
 
-- ✅ Bug crítico en producción
-- ✅ Vulnerabilidad de seguridad
-- ✅ Pérdida de servicio o funcionalidad crítica
-- ✅ Datos corruptos o pérdida de datos
+- Bug crítico en producción
+- Vulnerabilidad de seguridad
+- Pérdida de servicio o funcionalidad crítica
+- Datos corruptos o pérdida de datos
 
 ### Procedimiento Acelerado
 
@@ -1554,10 +1554,10 @@ git push -u origin hotfix/corregir-login-roto-20251106
 
 # 7. PR urgente con labels críticos
 gh pr create \
-  --title "🚨 HOTFIX: Corregir validación de login" \
+  --title "HOTFIX: Corregir validación de login" \
   --label "hotfix,urgent,priority-critical,security" \
   --reviewer @equipo-backend @tech-lead \
-  --body "## 🚨 HOTFIX CRÍTICO
+  --body "## HOTFIX CRÍTICO
 
 **Vulnerabilidad**: Login permite credenciales vacías
 
@@ -1574,7 +1574,7 @@ gh pr create \
 - [x] Verificación manual
 
 ## Deployment
-⚠️ REQUIERE DEPLOY INMEDIATO A PRODUCCIÓN
+REQUIERE DEPLOY INMEDIATO A PRODUCCIÓN
 
 Closes #789"
 
@@ -1588,7 +1588,7 @@ git tag -a v1.2.1 -m "Hotfix: Critical login validation fix"
 git push origin v1.2.1
 
 # 10. Notificar a stakeholders
-echo "🚨 HOTFIX v1.2.1 deployed - Critical security fix" | \
+echo "HOTFIX v1.2.1 deployed - Critical security fix" | \
   gh issue comment 789 --body-file -
 ```
 
@@ -1819,12 +1819,12 @@ act pull_request
 ### Cuando Pedir Ayuda
 
 Pide ayuda si:
-- ❓ No entiendes un requisito
-- ❓ El fix parece muy complejo
-- ❓ Tests fallan sin razón aparente
-- ❓ Conflictos de merge muy grandes
-- ❓ Decisión arquitectónica significativa
-- ❓ Bloqueado por > 2 horas
+- No entiendes un requisito
+- El fix parece muy complejo
+- Tests fallan sin razón aparente
+- Conflictos de merge muy grandes
+- Decisión arquitectónica significativa
+- Bloqueado por > 2 horas
 
 ### Canales de Comunicación
 
@@ -1836,4 +1836,4 @@ Pide ayuda si:
 
 ---
 
-**¡Bienvenido al equipo de desarrollo IACT! 🚀**
+**Bienvenido al equipo de desarrollo IACT**
