@@ -46,7 +46,7 @@ ARTIFACT_NAME="$1"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 
-VAGRANT_DIR="$PROJECT_ROOT/vagrant/cpython-builder"
+VAGRANT_DIR="$PROJECT_ROOT/infrastructure/vagrant/cpython-builder"
 ARTIFACT_PATH="$PROJECT_ROOT/artifacts/cpython/$ARTIFACT_NAME"
 
 # Verificar que existe artefacto

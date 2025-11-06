@@ -51,7 +51,7 @@ sudo apt install virtualbox
 Desde el directorio raíz del proyecto:
 
 ```bash
-cd vagrant/cpython-builder
+cd infrastructure/vagrant/cpython-builder
 vagrant up
 ```
 
@@ -69,7 +69,7 @@ Primera vez: ~10-15 minutos (descarga box + provisioning)
 ```bash
 vagrant ssh
 cd /vagrant
-./build-cpython.sh 3.12.6
+./scripts/build-cpython.sh 3.12.6
 ```
 
 Tiempo de compilación: ~10-15 minutos (con PGO)
@@ -85,7 +85,7 @@ Tiempo de compilación: ~10-15 minutos (con PGO)
 ```bash
 vagrant ssh
 cd /vagrant
-./validate-build.sh cpython-3.12.6-ubuntu22.04-build1.tgz
+./scripts/validate-build.sh cpython-3.12.6-ubuntu22.04-build1.tgz
 ```
 
 ### 4. Resultado
@@ -94,8 +94,8 @@ Artefactos generados en: `artifacts/cpython/`
 
 ```
 artifacts/cpython/
-├── cpython-3.12.6-ubuntu22.04-build1.tgz
-└── cpython-3.12.6-ubuntu22.04-build1.tgz.sha256
+  +-- cpython-3.12.6-ubuntu22.04-build1.tgz
+  +-- cpython-3.12.6-ubuntu22.04-build1.tgz.sha256
 ```
 
 ---
@@ -110,7 +110,7 @@ artifacts/cpython/
 
 **Sintaxis**:
 ```bash
-./build-cpython.sh <version> [build-number]
+./scripts/build-cpython.sh <version> [build-number]
 ```
 
 **Argumentos**:
@@ -119,9 +119,9 @@ artifacts/cpython/
 
 **Ejemplos**:
 ```bash
-./build-cpython.sh 3.12.6        # Build 1 de Python 3.12.6
-./build-cpython.sh 3.12.6 2      # Build 2 (rebuild)
-./build-cpython.sh 3.11.9        # Python 3.11.9
+./scripts/build-cpython.sh 3.12.6        # Build 1 de Python 3.12.6
+./scripts/build-cpython.sh 3.12.6 2      # Build 2 (rebuild)
+./scripts/build-cpython.sh 3.11.9        # Python 3.11.9
 ```
 
 **Flags de compilación**:
@@ -141,7 +141,7 @@ artifacts/cpython/
 
 **Sintaxis**:
 ```bash
-./validate-build.sh <artifact-name>
+./scripts/validate-build.sh <artifact-name>
 ```
 
 **Validaciones realizadas** (11 checks):
@@ -208,14 +208,20 @@ vb.cpus = 8         # 8 cores
 ## Estructura de Directorios
 
 ```
-vagrant/cpython-builder/
-├── Vagrantfile             # Configuración de VM
-├── build-cpython.sh        # Script de compilación
-├── validate-build.sh       # Script de validación
-└── README.md               # Este archivo
+infrastructure/vagrant/cpython-builder/
+|
++-- Vagrantfile             # Configuración de VM
++-- bootstrap.sh            # Script de aprovisionamiento
++-- scripts/
+|   +-- build-cpython.sh    # Script de compilación
+|   +-- validate-build.sh   # Script de validación
++-- utils/                  # Utilidades compartidas
++-- logs/                   # Logs de compilación
++-- config/                 # Configuraciones
++-- README.md               # Este archivo
 
 Carpetas compartidas:
-  /vagrant/artifacts/ <-> ../../artifacts/
+  /vagrant/artifacts/ <-> ../../../artifacts/
 ```
 
 ---
@@ -250,7 +256,7 @@ tail -50 /tmp/cpython-build/Python-*/make.log
 
 # Limpiar y reintentar
 rm -rf /tmp/cpython-build
-./build-cpython.sh 3.12.6
+./scripts/build-cpython.sh 3.12.6
 ```
 
 ### Error: "Module X not found"
@@ -264,7 +270,7 @@ sudo apt-get install lib<X>-dev  # Ejemplo: libssl-dev
 
 # Re-compilar
 cd /vagrant
-./build-cpython.sh 3.12.6 2  # Nuevo build number
+./scripts/build-cpython.sh 3.12.6 2  # Nuevo build number
 ```
 
 ### VM muy lenta
@@ -332,7 +338,7 @@ vagrant destroy -f
 vagrant up
 
 # Compilar versiones activas
-./build-cpython.sh 3.12.6 <nuevo-build-number>
+./scripts/build-cpython.sh 3.12.6 <nuevo-build-number>
 ```
 
 ---
@@ -358,8 +364,8 @@ Una vez generado y validado el artefacto:
 
 ## Referencias
 
-- [SPEC-INFRA-001](../../docs/specs/SPEC-INFRA-001-cpython-precompilado.md)
-- [ADR-008: Features vs Imagen Base](../../docs/adr/ADR-008-cpython-features-vs-imagen-base.md)
+- [SPEC-INFRA-001](../../../docs/specs/SPEC-INFRA-001-cpython-precompilado.md)
+- [ADR-008: Features vs Imagen Base](../../../docs/adr/ADR-008-cpython-features-vs-imagen-base.md)
 - [CPython Build Instructions](https://devguide.python.org/getting-started/setup-building/)
 - [Vagrant Documentation](https://www.vagrantup.com/docs)
 

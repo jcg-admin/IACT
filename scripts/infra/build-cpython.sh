@@ -48,7 +48,7 @@ BUILD_NUMBER="${2:-1}"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 
-VAGRANT_DIR="$PROJECT_ROOT/vagrant/cpython-builder"
+VAGRANT_DIR="$PROJECT_ROOT/infrastructure/vagrant/cpython-builder"
 
 # Verificar que existe directorio Vagrant
 if [ ! -d "$VAGRANT_DIR" ]; then

@@ -13,7 +13,7 @@ import os
 
 # Paths del proyecto
 BASE_DIR = Path(__file__).parent.parent.parent
-VAGRANT_DIR = BASE_DIR / "vagrant" / "cpython-builder"
+VAGRANT_DIR = BASE_DIR / "infrastructure" / "vagrant" / "cpython-builder"
 SCRIPTS_INFRA_DIR = BASE_DIR / "scripts" / "infra"
 ARTIFACTS_DIR = BASE_DIR / "artifacts" / "cpython"
 

@@ -157,15 +157,15 @@ list-artifacts: ## Listar artefactos CPython disponibles
 
 vagrant-cpython-up: ## Iniciar VM de compilación CPython
 	@echo "$(BLUE)Iniciando VM de compilación CPython...$(NC)"
-	cd vagrant/cpython-builder && vagrant up
+	cd infrastructure/vagrant/cpython-builder && vagrant up
 
 vagrant-cpython-ssh: ## Conectar a VM de compilación CPython
 	@echo "$(BLUE)Conectando a VM...$(NC)"
-	cd vagrant/cpython-builder && vagrant ssh
+	cd infrastructure/vagrant/cpython-builder && vagrant ssh
 
 vagrant-cpython-halt: ## Detener VM de compilación CPython
 	@echo "$(BLUE)Deteniendo VM...$(NC)"
-	cd vagrant/cpython-builder && vagrant halt
+	cd infrastructure/vagrant/cpython-builder && vagrant halt
 
 ##@ Testing
 
