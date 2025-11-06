@@ -23,9 +23,9 @@ scripts/
 ├── README.md                    ← Este archivo
 ├── templates/                   ← Plantillas de scripts estandarizadas
 │   ├── README.md                ← Guía de plantillas
-│   ├── bash-script-template.sh
-│   ├── posix-script-template.sh
-│   └── library-template.sh
+│   ├── bash_script_template.sh
+│   ├── posix_script_template.sh
+│   └── library_template.sh
 └── requisitos/                  ← Scripts para gestión de requisitos
     ├── README.md                ← Documentación detallada
     ├── generar_indices.py       ← Genera índices ISO 29148
@@ -86,13 +86,13 @@ chmod +x scripts/requisitos/*.py
 Para crear un nuevo script en el proyecto:
 
 1. **Seleccionar plantilla apropiada** de `templates/`:
-   - `bash-script-template.sh` - Scripts complejos con características bash
-   - `posix-script-template.sh` - Scripts simples y portables
-   - `library-template.sh` - Bibliotecas de funciones reutilizables
+   - `bash_script_template.sh` - Scripts complejos con características bash
+   - `posix_script_template.sh` - Scripts simples y portables
+   - `library_template.sh` - Bibliotecas de funciones reutilizables
 
 2. **Copiar y personalizar**:
    ```bash
-   cp scripts/templates/bash-script-template.sh scripts/mi-nuevo-script.sh
+   cp scripts/templates/bash_script_template.sh scripts/mi-nuevo-script.sh
    # Editar y personalizar
    ```
 

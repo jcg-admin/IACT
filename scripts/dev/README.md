@@ -4,21 +4,21 @@ Scripts de utilidad para desarrollo local guiado por especificaciones formales.
 
 ## Scripts Disponibles
 
-### 1. validate-spec.sh
+### 1. validate_spec.sh
 
 Valida especificaciones de features contra esquema requerido.
 
 **Uso**:
 ```bash
 # Validar una spec específica
-./scripts/dev/validate-spec.sh docs/specs/mi-feature.md
+./scripts/dev/validate_spec.sh docs/specs/mi-feature.md
 
 # Validar todas las specs en docs/specs/
-./scripts/dev/validate-spec.sh --all
+./scripts/dev/validate_spec.sh --all
 
 # Usando Makefile
-make validate-spec SPEC=docs/specs/mi-feature.md
-make validate-spec  # Valida todas
+make validate_spec SPEC=docs/specs/mi-feature.md
+make validate_spec  # Valida todas
 ```
 
 **Validaciones que realiza**:
@@ -36,24 +36,24 @@ make validate-spec  # Valida todas
 
 ---
 
-### 2. check-all.sh
+### 2. check_all.sh
 
 Ejecuta todos los checks de calidad localmente antes de commit/push.
 
 **Uso**:
 ```bash
 # Ejecutar todos los checks
-./scripts/dev/check-all.sh
+./scripts/dev/check_all.sh
 
 # Con auto-corrección
-./scripts/dev/check-all.sh --fix
+./scripts/dev/check_all.sh --fix
 
 # Output detallado
-./scripts/dev/check-all.sh --verbose
+./scripts/dev/check_all.sh --verbose
 
 # Usando Makefile
-make check-all
-make check-all-fix
+make check_all
+make check_all-fix
 ```
 
 **Checks que ejecuta**:
@@ -83,20 +83,20 @@ make check-all-fix
 
 ---
 
-### 3. generate-plan.sh
+### 3. generate_plan.sh
 
 Genera plan de implementación desde una especificación existente.
 
 **Uso**:
 ```bash
 # Generar plan (nombre auto-generado)
-./scripts/dev/generate-plan.sh docs/specs/mi-feature.md
+./scripts/dev/generate_plan.sh docs/specs/mi-feature.md
 
 # Especificar nombre del plan
-./scripts/dev/generate-plan.sh docs/specs/mi-feature.md docs/plans/custom-plan.md
+./scripts/dev/generate_plan.sh docs/specs/mi-feature.md docs/plans/custom-plan.md
 
 # Usando Makefile
-make generate-plan SPEC=docs/specs/mi-feature.md
+make generate_plan SPEC=docs/specs/mi-feature.md
 ```
 
 **Qué hace**:
@@ -135,12 +135,12 @@ make generate-plan SPEC=docs/specs/mi-feature.md
 
 2. **Validar especificación**:
    ```bash
-   make validate-spec SPEC=docs/specs/mi-feature.md
+   make validate_spec SPEC=docs/specs/mi-feature.md
    ```
 
 3. **Generar plan de implementación**:
    ```bash
-   make generate-plan SPEC=docs/specs/mi-feature.md
+   make generate_plan SPEC=docs/specs/mi-feature.md
    # Editar y completar plan
    ```
 
@@ -148,12 +148,12 @@ make generate-plan SPEC=docs/specs/mi-feature.md
 
 5. **Validar antes de commit**:
    ```bash
-   make check-all
+   make check_all
    ```
 
 6. **Auto-corregir si hay errores menores**:
    ```bash
-   make check-all-fix
+   make check_all-fix
    ```
 
 7. **Commit y push**
@@ -164,7 +164,7 @@ make generate-plan SPEC=docs/specs/mi-feature.md
 
 2. **Validar antes de commit**:
    ```bash
-   make check-all
+   make check_all
    ```
 
 3. **Commit y push**
@@ -173,10 +173,10 @@ make generate-plan SPEC=docs/specs/mi-feature.md
 
 ## Integración con CI/CD
 
-Estos scripts son complementarios a los workflows de GitHub Actions. Se recomienda ejecutar `check-all.sh` localmente antes de push para detectar problemas temprano.
+Estos scripts son complementarios a los workflows de GitHub Actions. Se recomienda ejecutar `check_all.sh` localmente antes de push para detectar problemas temprano.
 
 Los mismos checks se ejecutan en CI/CD:
-- `.github/workflows/python-ci.yml`: Ruff, MyPy, Bandit, pytest
+- `.github/workflows/python_ci.yml`: Ruff, MyPy, Bandit, pytest
 - `.github/workflows/lint.yml`: Markdown, YAML linting
 
 ---

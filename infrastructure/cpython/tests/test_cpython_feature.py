@@ -1,7 +1,7 @@
 """
 Integration tests for CPython Prebuilt Dev Container Feature
 
-Reference: SPEC-INFRA-001
+Reference: SPEC_INFRA_001
 """
 
 import json
@@ -27,10 +27,10 @@ def test_feature_directory_exists():
 
 @pytest.mark.critical
 def test_devcontainer_feature_json_exists():
-    """Verifica que devcontainer-feature.json existe y es valido."""
-    feature_json = INSTALLER_DIR / "devcontainer-feature.json"
+    """Verifica que devcontainer_feature.json existe y es valido."""
+    feature_json = INSTALLER_DIR / "devcontainer_feature.json"
 
-    assert feature_json.exists(), "devcontainer-feature.json not found"
+    assert feature_json.exists(), "devcontainer_feature.json not found"
 
     # Parse JSON
     with open(feature_json) as f:
@@ -143,13 +143,13 @@ def test_install_sh_has_module_validation():
 
 
 def test_install_sh_has_spec_reference():
-    """Verifica que install.sh referencia SPEC-INFRA-001."""
+    """Verifica que install.sh referencia SPEC_INFRA_001."""
     install_sh = INSTALLER_DIR / "install.sh"
 
     with open(install_sh) as f:
         content = f.read()
 
-    assert "SPEC-INFRA-001" in content, "Missing SPEC-INFRA-001 reference"
+    assert "SPEC_INFRA_001" in content, "Missing SPEC_INFRA_001 reference"
 
 
 @pytest.mark.critical
@@ -157,7 +157,7 @@ def test_feature_files_no_emojis():
     """Verifica que archivos de feature no contienen emojis."""
     files_to_check = [
         INSTALLER_DIR / "install.sh",
-        INSTALLER_DIR / "devcontainer-feature.json",
+        INSTALLER_DIR / "devcontainer_feature.json",
         INSTALLER_DIR / "README.md",
     ]
 
@@ -257,7 +257,7 @@ def test_readme_has_troubleshooting():
 def test_feature_has_all_required_files():
     """Verifica que feature tiene todos los archivos requeridos."""
     required_files = [
-        "devcontainer-feature.json",
+        "devcontainer_feature.json",
         "install.sh",
         "README.md",
     ]
@@ -293,7 +293,7 @@ def test_install_sh_cleanup_function():
 
 def test_devcontainer_feature_json_vscode_extensions():
     """Verifica que feature recomienda extensiones de VS Code."""
-    feature_json = INSTALLER_DIR / "devcontainer-feature.json"
+    feature_json = INSTALLER_DIR / "devcontainer_feature.json"
 
     with open(feature_json) as f:
         data = json.load(f)
@@ -341,13 +341,13 @@ def test_install_sh_exit_codes():
 
 
 def test_readme_references_spec():
-    """Verifica que README referencia SPEC-INFRA-001."""
+    """Verifica que README referencia SPEC_INFRA_001."""
     readme = INSTALLER_DIR / "README.md"
 
     with open(readme) as f:
         content = f.read()
 
-    assert "SPEC-INFRA-001" in content, "Missing SPEC-INFRA-001 reference"
+    assert "SPEC_INFRA_001" in content, "Missing SPEC_INFRA_001 reference"
 
 
 def test_readme_license_info():

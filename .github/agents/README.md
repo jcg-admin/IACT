@@ -6,7 +6,7 @@ Este directorio contiene la definición de agentes especializados para automatiz
 
 ### 1. GitOpsAgent
 
-**Archivo**: `gitops-agent.md`
+**Archivo**: `gitops_agent.md`
 
 **Propósito**: Operaciones Git y gestión de repositorio
 
@@ -32,7 +32,7 @@ y genera reporte completo de cambios.
 
 ### 2. ReleaseAgent
 
-**Archivo**: `release-agent.md`
+**Archivo**: `release_agent.md`
 
 **Propósito**: Gestión de releases y versionado semántico
 
@@ -60,7 +60,7 @@ actualiza versiones y crea tag.
 
 ### 3. DependencyAgent
 
-**Archivo**: `dependency-agent.md`
+**Archivo**: `dependency_agent.md`
 
 **Propósito**: Gestión de dependencias y vulnerabilidades
 
@@ -87,7 +87,7 @@ Solo patches y minors. Genera reporte de cambios.
 
 ### 4. SecurityAgent
 
-**Archivo**: `security-agent.md`
+**Archivo**: `security_agent.md`
 
 **Propósito**: Auditorías de seguridad y compliance
 
@@ -116,7 +116,7 @@ Genera reporte priorizado por severidad.
 
 ### 5. CodeTasker (Original)
 
-**Archivo**: `my-agent.md`
+**Archivo**: `my_agent.md`
 
 **Propósito**: Tareas de programación asíncronas
 
@@ -227,7 +227,7 @@ Los agentes se integran con los procesos del proyecto:
 
 ### Pre-commit
 ```yaml
-# .pre-commit-config.yaml
+# .pre_commit_config.yaml
 - repo: local
   hooks:
     - id: security-check

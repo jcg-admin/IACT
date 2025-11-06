@@ -33,7 +33,7 @@ Sistema de documentacion del proyecto IACT (IVR Analytics & Customer Tracking) o
 
 ### Infraestructura
 - [Infraestructura](infraestructura/README.md)
-  - [CPython Precompilado](infraestructura/cpython-precompilado/README.md)
+  - [CPython Precompilado](infraestructura/cpython_precompilado/README.md)
 
 ### Gobernanza y Plantillas
 - [Plantillas](plantillas/) - Templates para requisitos
@@ -47,7 +47,7 @@ Sistema de documentacion del proyecto IACT (IVR Analytics & Customer Tracking) o
 ## Convenciones
 
 ### Organizacion por Dominio
-El proyecto sigue ADR-010 (Organizacion por Dominio):
+El proyecto sigue ADR_010 (Organizacion por Dominio):
 - Codigo por dominio: `/api/`, `/ui/`, `/infrastructure/`
 - Documentacion de implementacion: `docs/implementacion/{dominio}/`
 - Requisitos co-localizados con codigo
@@ -68,7 +68,7 @@ El proyecto sigue ADR-010 (Organizacion por Dominio):
 La configuracion `mkdocs.yml` apunta a este directorio como `docs_dir`. Para ver la documentacion:
 
 ```bash
-./ver-documentacion.sh
+./ver_documentacion.sh
 ```
 
 ## Estado de Conformidad ISO 29148
@@ -100,4 +100,4 @@ Total requisitos rastreados: 36
 - **BABOK v3**: Business Analysis Body of Knowledge
 - **PMBOK 7th Ed**: Project Management Body of Knowledge
 - **ISO/IEC/IEEE 29148:2018**: Requirements engineering
-- **ADR-010**: Organizacion del Proyecto por Dominio
+- **ADR_010**: Organizacion del Proyecto por Dominio

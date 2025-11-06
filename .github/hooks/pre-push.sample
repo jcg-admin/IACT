@@ -9,7 +9,7 @@
 # 4. Que no haya emojis en archivos staged
 #
 # Para instalar este hook:
-#   ./scripts/install-hooks.sh
+#   ./scripts/install_hooks.sh
 # O manualmente:
 #   cp .github/hooks/pre-push.sample .git/hooks/pre-push
 #   chmod +x .git/hooks/pre-push
@@ -75,8 +75,8 @@ check_feature_spec() {
                 spec_found=true
 
                 # Validar la spec si existe el script
-                if [[ -f "scripts/dev/validate-spec.sh" ]]; then
-                    if ./scripts/dev/validate-spec.sh "$spec_file"; then
+                if [[ -f "scripts/dev/validate_spec.sh" ]]; then
+                    if ./scripts/dev/validate_spec.sh "$spec_file"; then
                         echo -e "${GREEN}OK: Especificación válida${NC}"
                     else
                         echo -e "${RED}ERROR: Especificación inválida${NC}"
@@ -91,7 +91,7 @@ check_feature_spec() {
     if [[ "$spec_found" == false ]]; then
         echo -e "${YELLOW}ADVERTENCIA: No se encontró especificación para feature '${feature_name}'${NC}"
         echo "Se recomienda crear especificación en docs/specs/${feature_name}.md"
-        echo "Usar: make generate-plan SPEC=docs/specs/${feature_name}.md"
+        echo "Usar: make generate_plan SPEC=docs/specs/${feature_name}.md"
         echo ""
         echo -e "${YELLOW}¿Continuar sin spec? (y/N)${NC}"
         read -r -n 1 response

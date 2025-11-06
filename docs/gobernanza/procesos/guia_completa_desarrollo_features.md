@@ -49,7 +49,7 @@ Documentar el proceso end-to-end para desarrollar features de DevContainer sigui
 
 ```
 features/nombre-feature/
-├── devcontainer-feature.json
+├── devcontainer_feature.json
 ├── install.sh
 ├── README.md
 ├── test/
@@ -60,5 +60,5 @@ features/nombre-feature/
 
 ## Referencias
 
-- ADR-008: Features vs Imagen Base
-- docs/infraestructura/cpython-precompilado/
+- ADR_008: Features vs Imagen Base
+- docs/infraestructura/cpython_precompilado/

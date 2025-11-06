@@ -1,7 +1,7 @@
 # CPython Prebuilt Feature
 
 **Version**: 1.0.0
-**Reference**: SPEC-INFRA-001
+**Reference**: SPEC_INFRA_001
 **License**: Python Software Foundation License
 
 ---
@@ -356,7 +356,7 @@ All artifacts are validated with SHA256 checksums before installation. This ensu
 
 - **Phase 2 (current)**: Local filesystem paths
 - **Phase 3+**: GitHub Releases (HTTPS with TLS 1.3)
-- **Future**: GPG signature verification (ADR-009)
+- **Future**: GPG signature verification (ADR_009)
 
 ### CVE Monitoring
 
@@ -366,7 +366,7 @@ Python versions are monitored for security vulnerabilities. When a CVE is publis
 3. Update `artifacts/ARTIFACTS.md`
 4. Notify projects to upgrade
 
-See: `docs/specs/SPEC-INFRA-001-cpython-precompilado.md` section 10.1
+See: `docs/specs/SPEC_INFRA_001_cpython_precompilado.md` section 10.1
 
 ---
 
@@ -376,7 +376,7 @@ See: `docs/specs/SPEC-INFRA-001-cpython-precompilado.md` section 10.1
 
 1. Build artifact locally:
 ```bash
-make build-cpython VERSION=3.12.6
+make build_cpython VERSION=3.12.6
 make validate-cpython ARTIFACT=cpython-3.12.6-ubuntu22.04-build1.tgz
 ```
 
@@ -420,16 +420,16 @@ This feature follows Semantic Versioning (semver):
 - **1.2.0**: GPG signature verification (Fase 4)
 - **2.0.0**: Breaking changes (if any)
 
-See: `infrastructure/cpython/installer/devcontainer-feature.json`
+See: `infrastructure/cpython/installer/devcontainer_feature.json`
 
 ---
 
 ## References
 
-- **Specification**: docs/specs/SPEC-INFRA-001-cpython-precompilado.md
-- **Architecture**: docs/infraestructura/cpython-precompilado/arquitectura.md
-- **ADR-008**: Features vs Docker Base Image
-- **ADR-009**: Distribution Strategy
+- **Specification**: docs/specs/SPEC_INFRA_001_cpython_precompilado.md
+- **Architecture**: docs/infraestructura/cpython_precompilado/arquitectura.md
+- **ADR_008**: Features vs Docker Base Image
+- **ADR_009**: Distribution Strategy
 - **Dev Containers Spec**: https://containers.dev/
 - **CPython License**: https://docs.python.org/3/license.html
 
@@ -443,7 +443,7 @@ To contribute:
 1. Create feature branch following spec-driven development
 2. Ensure all tests pass
 3. Follow the no-emoji rule
-4. Reference SPEC-INFRA-001 in commits
+4. Reference SPEC_INFRA_001 in commits
 5. Update this README if adding new options
 
 ---

@@ -185,9 +185,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     required_files=(
       "/vagrant/utils/logging.sh"
       "/vagrant/bootstrap.sh"
-      "/vagrant/scripts/system-prepare.sh"
-      "/vagrant/scripts/mariadb-install.sh"
-      "/vagrant/scripts/postgres-install.sh"
+      "/vagrant/scripts/system_prepare.sh"
+      "/vagrant/scripts/mariadb_install.sh"
+      "/vagrant/scripts/postgres_install.sh"
     )
 
     for file in "${required_files[@]}"; do
@@ -292,7 +292,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   VERIFICATION:
     vagrant ssh
-    bash /vagrant/scripts/verify-connections.sh
+    bash /vagrant/scripts/verify_connections.sh
 
   LOGS:
     /vagrant/logs/

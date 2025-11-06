@@ -1,1 +1,1 @@
-../builder/scripts/feature-install.sh
+../scripts/feature_install.sh

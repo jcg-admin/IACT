@@ -1,7 +1,7 @@
 ---
 id: DOC-SRS
 titulo: Software Requirements Specification (SRS)
-generado: 2025-11-06 12:00:45
+generado: 2025-11-06 12:24:27
 estandar: ISO/IEC/IEEE 29148:2018 - Clause 9.6
 conformance: Full Conformance
 ---
@@ -65,15 +65,6 @@ Por dominio:
 - **Deriva de**: N-001  # Necesidad de control de acceso granular
 - **Verificación**: test
 
-### RF-003: Obtener todos los permisos efectivos de un usuario
-
-- **Owner**: equipo-backend
-- **Prioridad**: alta
-- **Estado**: implementado
-- **Archivo**: `docs/implementacion/backend/requisitos/funcionales/rf003_obtener_permisos_efectivos_usuario.md`
-- **Deriva de**: N-001  # Necesidad de control de acceso granular
-- **Verificación**: test
-
 ### RF-003: Bloqueo automatico tras 5 intentos fallidos en 5 minutos
 
 - **Owner**: equipo-backend
@@ -81,6 +72,15 @@ Por dominio:
 - **Estado**: aprobado
 - **Archivo**: `docs/implementacion/backend/requisitos/funcionales/rf003_bloqueo_intentos_fallidos.md`
 - **Deriva de**: [, N, -, 0, 0, 1, ,,  , R, N, -, 0, 0, 1, ,,  , R, S, -, 0, 0, 1, ]
+- **Verificación**: test
+
+### RF-003: Obtener todos los permisos efectivos de un usuario
+
+- **Owner**: equipo-backend
+- **Prioridad**: alta
+- **Estado**: implementado
+- **Archivo**: `docs/implementacion/backend/requisitos/funcionales/rf003_obtener_permisos_efectivos_usuario.md`
+- **Deriva de**: N-001  # Necesidad de control de acceso granular
 - **Verificación**: test
 
 ### RF-004: Sesion unica con cierre de sesiones previas
@@ -101,15 +101,6 @@ Por dominio:
 - **Deriva de**: N-001  # Necesidad de control de acceso granular
 - **Verificación**: test
 
-### RF-005: Login con credenciales locales y validación
-
-- **Owner**: equipo-backend
-- **Prioridad**: critica
-- **Estado**: pendiente
-- **Archivo**: `docs/implementacion/backend/requisitos/funcionales/rf005_login_credenciales_locales.md`
-- **Deriva de**: RN-C01-01  # Login con Credenciales Locales, RN-C01-02  # Validación de Credenciales
-- **Verificación**: test
-
 ### RF-005: Logout manual con invalidacion de tokens
 
 - **Owner**: equipo-backend
@@ -117,6 +108,15 @@ Por dominio:
 - **Estado**: aprobado
 - **Archivo**: `docs/implementacion/backend/requisitos/funcionales/rf005_logout.md`
 - **Deriva de**: [, N, -, 0, 0, 1, ,,  , R, N, -, 0, 0, 1, ,,  , R, S, -, 0, 0, 1, ]
+- **Verificación**: test
+
+### RF-005: Login con credenciales locales y validación
+
+- **Owner**: equipo-backend
+- **Prioridad**: critica
+- **Estado**: pendiente
+- **Archivo**: `docs/implementacion/backend/requisitos/funcionales/rf005_login_credenciales_locales.md`
+- **Deriva de**: RN-C01-01  # Login con Credenciales Locales, RN-C01-02  # Validación de Credenciales
 - **Verificación**: test
 
 ### RF-006: Recuperacion de password sin email mediante 3 preguntas seguridad
@@ -207,4 +207,4 @@ Por dominio:
 
 ---
 
-Generado: 2025-11-06 12:00:45
+Generado: 2025-11-06 12:24:27

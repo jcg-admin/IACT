@@ -246,11 +246,11 @@ show_env_snapshot() {
 # Verificacion de scripts
 get_required_scripts() {
     printf '%s\n' \
-        "$PROJECT_ROOT/scripts/system-prepare.sh" \
-        "$PROJECT_ROOT/scripts/mariadb-install.sh" \
-        "$PROJECT_ROOT/scripts/postgres-install.sh" \
-        "$PROJECT_ROOT/scripts/setup-mariadb-database.sh" \
-        "$PROJECT_ROOT/scripts/setup-postgres-database.sh"
+        "$PROJECT_ROOT/scripts/system_prepare.sh" \
+        "$PROJECT_ROOT/scripts/mariadb_install.sh" \
+        "$PROJECT_ROOT/scripts/postgres_install.sh" \
+        "$PROJECT_ROOT/scripts/setup_mariadb_database.sh" \
+        "$PROJECT_ROOT/scripts/setup_postgres_database.sh"
 }
 
 count_script_issues() {
@@ -392,7 +392,7 @@ step_check_cache() {
 step_system_prepare() {
     local current="$1"
     local total="$2"
-    local script="$PROJECT_ROOT/scripts/system-prepare.sh"
+    local script="$PROJECT_ROOT/scripts/system_prepare.sh"
 
     if ! file_exists "$script"; then
         iact_log_error "Script no encontrado: $script"
@@ -400,7 +400,7 @@ step_system_prepare() {
     fi
 
     if ! run_script "$script" "$current" "$total"; then
-        iact_log_error "Error ejecutando system-prepare.sh"
+        iact_log_error "Error ejecutando system_prepare.sh"
         return 1
     fi
     return 0
@@ -413,7 +413,7 @@ step_system_prepare() {
 step_mariadb_install() {
     local current="$1"
     local total="$2"
-    local script="$PROJECT_ROOT/scripts/mariadb-install.sh"
+    local script="$PROJECT_ROOT/scripts/mariadb_install.sh"
 
     if ! file_exists "$script"; then
         iact_log_error "Script no encontrado: $script"
@@ -421,7 +421,7 @@ step_mariadb_install() {
     fi
 
     if ! run_script "$script" "$current" "$total"; then
-        iact_log_error "Error ejecutando mariadb-install.sh"
+        iact_log_error "Error ejecutando mariadb_install.sh"
         return 1
     fi
     return 0
@@ -430,7 +430,7 @@ step_mariadb_install() {
 step_postgres_install() {
     local current="$1"
     local total="$2"
-    local script="$PROJECT_ROOT/scripts/postgres-install.sh"
+    local script="$PROJECT_ROOT/scripts/postgres_install.sh"
 
     if ! file_exists "$script"; then
         iact_log_error "Script no encontrado: $script"
@@ -438,7 +438,7 @@ step_postgres_install() {
     fi
 
     if ! run_script "$script" "$current" "$total"; then
-        iact_log_error "Error ejecutando postgres-install.sh"
+        iact_log_error "Error ejecutando postgres_install.sh"
         return 1
     fi
     return 0
@@ -447,7 +447,7 @@ step_postgres_install() {
 step_mariadb_setup() {
     local current="$1"
     local total="$2"
-    local script="$PROJECT_ROOT/scripts/setup-mariadb-database.sh"
+    local script="$PROJECT_ROOT/scripts/setup_mariadb_database.sh"
 
     if ! file_exists "$script"; then
         iact_log_error "Script no encontrado: $script"
@@ -455,7 +455,7 @@ step_mariadb_setup() {
     fi
 
     if ! run_script "$script" "$current" "$total"; then
-        iact_log_error "Error ejecutando setup-mariadb-database.sh"
+        iact_log_error "Error ejecutando setup_mariadb_database.sh"
         return 1
     fi
     return 0
@@ -464,7 +464,7 @@ step_mariadb_setup() {
 step_postgres_setup() {
     local current="$1"
     local total="$2"
-    local script="$PROJECT_ROOT/scripts/setup-postgres-database.sh"
+    local script="$PROJECT_ROOT/scripts/setup_postgres_database.sh"
 
     if ! file_exists "$script"; then
         iact_log_error "Script no encontrado: $script"
@@ -472,7 +472,7 @@ step_postgres_setup() {
     fi
 
     if ! run_script "$script" "$current" "$total"; then
-        iact_log_error "Error ejecutando setup-postgres-database.sh"
+        iact_log_error "Error ejecutando setup_postgres_database.sh"
         return 1
     fi
     return 0

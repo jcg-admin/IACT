@@ -305,7 +305,7 @@ flake8 .
 Configurar pre-commit hooks para validar antes de commit:
 
 ```yaml
-# .pre-commit-config.yaml
+# .pre_commit_config.yaml
 repos:
   - repo: https://github.com/psf/black
     rev: 23.0.0

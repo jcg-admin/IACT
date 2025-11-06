@@ -25,9 +25,9 @@ Centraliza runbooks, bitácoras y lineamientos operativos para mantener los ento
   - [`verificar_servicios.md`](runbooks/verificar_servicios.md).
 - Playbooks operativos (`runbooks/playbooks_operativos/`):
   - [`README.md`](runbooks/playbooks_operativos/README.md).
-  - [`copilot-codespaces.md`](runbooks/playbooks_operativos/copilot-codespaces.md).
-  - [`github-copilot-cli.md`](runbooks/playbooks_operativos/github-copilot-cli.md).
-  - [`github-copilot-cli-403-forbidden.md`](runbooks/playbooks_operativos/github-copilot-cli-403-forbidden.md).
+  - [`copilot_codespaces.md`](runbooks/playbooks_operativos/copilot_codespaces.md).
+  - [`github_copilot_cli.md`](runbooks/playbooks_operativos/github_copilot_cli.md).
+  - [`github_copilot_cli_403_forbidden.md`](runbooks/playbooks_operativos/github_copilot_cli_403_forbidden.md).
 - Guías de contenedores (`contenedores_devcontainer.md`).
 - Bitácora de ejecución (pendiente, crear `bitacora.md`).
 

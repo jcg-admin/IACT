@@ -1,7 +1,7 @@
 # Registro de Artefactos CPython Precompilados
 
 **Proyecto**: IACT - CPython Precompilado
-**Referencia**: SPEC-INFRA-001
+**Referencia**: SPEC_INFRA_001
 **Propósito**: Registro centralizado de artefactos de CPython compilados
 
 ---
@@ -61,7 +61,7 @@ Artefactos archivados pueden ser eliminados del release (después de >1 año sin
 
 ## Política de Retención
 
-Según SPEC-INFRA-001:
+Según SPEC_INFRA_001:
 
 - **Activos**: Últimas 3 versiones de Python
 - **Deprecados**: Versiones con >6 meses de antigüedad

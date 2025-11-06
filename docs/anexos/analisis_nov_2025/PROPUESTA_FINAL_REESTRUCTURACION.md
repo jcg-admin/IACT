@@ -107,7 +107,7 @@ IACT---project/
 │
 ├── .github/
 │   └── workflows/
-│       ├── requirements-index.yml          CRITICO CRÍTICO: Regenera índices
+│       ├── requirements_index.yml          CRITICO CRÍTICO: Regenera índices
 │       ├── lint.yml                        CRITICO Valida frontmatter
 │       └── docs.yml                        CRITICO Despliega a GitHub Pages
 │
@@ -182,7 +182,7 @@ El sistema **deberá** proporcionar una API REST que calcule el stock mínimo...
 
 ## AUTOMATIZACIÓN CI/CD
 
-### Workflow: `.github/workflows/requirements-index.yml`
+### Workflow: `.github/workflows/requirements_index.yml`
 
 **Trigger**:
 - Push a `implementacion/**/requisitos/**/*.md`
@@ -253,7 +253,7 @@ mkdir -p docs/requisitos
 cp docs/plantillas/template_*.md implementacion/backend/requisitos/
 
 # Verificar workflows
-git add .github/workflows/requirements-index.yml
+git add .github/workflows/requirements_index.yml
 git commit -m "feat(ci): agregar workflow generación índices ISO 29148"
 git push
 ```
@@ -465,7 +465,7 @@ git push
 ```
 
 ### Workflows GitHub Actions
-1. **requirements-index.yml** - Regenera índices ISO
+1. **requirements_index.yml** - Regenera índices ISO
 2. **lint.yml** - Valida frontmatter y enlaces
 3. **docs.yml** - Despliega a GitHub Pages
 

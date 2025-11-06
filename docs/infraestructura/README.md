@@ -18,15 +18,15 @@ Esta sección contiene documentación técnica sobre la infraestructura del proy
 
 Sistema de distribución de CPython precompilado para Dev Containers que reduce tiempos de build de 20 minutos a menos de 2 minutos.
 
-- [Guía de Usuario](./cpython-precompilado/README.md) - Cómo usar el sistema
-- [Arquitectura Técnica](./cpython-precompilado/arquitectura.md) - Diseño y componentes
-- [Preguntas Frecuentes](./cpython-precompilado/preguntas-frecuentes.md) - FAQ y troubleshooting
-- [Especificación SPEC-INFRA-001](../specs/SPEC-INFRA-001-cpython-precompilado.md) - Especificación formal
-- [Plan de Implementación](../plans/SPEC-INFRA-001-cpython-precompilado-plan.md) - Plan de desarrollo
+- [Guía de Usuario](./cpython_precompilado/README.md) - Cómo usar el sistema
+- [Arquitectura Técnica](./cpython_precompilado/arquitectura.md) - Diseño y componentes
+- [Preguntas Frecuentes](./cpython_precompilado/preguntas_frecuentes.md) - FAQ y troubleshooting
+- [Especificación SPEC_INFRA_001](../specs/SPEC_INFRA_001-cpython_precompilado.md) - Especificación formal
+- [Plan de Implementación](../plans/SPEC_INFRA_001-cpython_precompilado-plan.md) - Plan de desarrollo
 
 **Decisiones de Arquitectura**:
-- [ADR-008: Features vs Imagen Base](../adr/ADR-008-cpython-features-vs-imagen-base.md)
-- [ADR-009: Distribución de Artefactos](../adr/ADR-009-distribucion-artefactos-strategy.md)
+- [ADR_008: Features vs Imagen Base](../adr/ADR_008-cpython-features-vs-imagen-base.md)
+- [ADR_009: Distribución de Artefactos](../adr/ADR_009-distribucion-artefactos-strategy.md)
 
 ---
 

@@ -1,7 +1,7 @@
 # CPython Builder - Vagrant VM
 
 **Versión**: 1.0.0
-**Referencia**: SPEC-INFRA-001
+**Referencia**: SPEC_INFRA_001
 **Propósito**: Compilar CPython precompilado en entorno reproducible
 
 ---
@@ -62,14 +62,14 @@ Primera vez: ~10-15 minutos (descarga box + provisioning)
 **Opción A: Desde fuera de VM (recomendado)**:
 ```bash
 # Desde raíz del proyecto
-./infrastructure/cpython/scripts/build-cpython.sh 3.12.6
+./infrastructure/cpython/scripts/build_cpython.sh 3.12.6
 ```
 
 **Opción B: Dentro de VM**:
 ```bash
 vagrant ssh
 cd /vagrant
-./scripts/build-cpython.sh 3.12.6
+./scripts/build_cpython.sh 3.12.6
 ```
 
 Tiempo de compilación: ~10-15 minutos (con PGO)
@@ -85,7 +85,7 @@ Tiempo de compilación: ~10-15 minutos (con PGO)
 ```bash
 vagrant ssh
 cd /vagrant
-./scripts/validate-build.sh cpython-3.12.6-ubuntu22.04-build1.tgz
+./scripts/validate_build.sh cpython-3.12.6-ubuntu22.04-build1.tgz
 ```
 
 ### 4. Resultado
@@ -104,13 +104,13 @@ infrastructure/cpython/artifacts/
 
 ### Scripts Disponibles
 
-#### build-cpython.sh
+#### build_cpython.sh
 
 **Propósito**: Compilar CPython desde código fuente
 
 **Sintaxis**:
 ```bash
-./scripts/build-cpython.sh <version> [build-number]
+./scripts/build_cpython.sh <version> [build-number]
 ```
 
 **Argumentos**:
@@ -119,9 +119,9 @@ infrastructure/cpython/artifacts/
 
 **Ejemplos**:
 ```bash
-./scripts/build-cpython.sh 3.12.6        # Build 1 de Python 3.12.6
-./scripts/build-cpython.sh 3.12.6 2      # Build 2 (rebuild)
-./scripts/build-cpython.sh 3.11.9        # Python 3.11.9
+./scripts/build_cpython.sh 3.12.6        # Build 1 de Python 3.12.6
+./scripts/build_cpython.sh 3.12.6 2      # Build 2 (rebuild)
+./scripts/build_cpython.sh 3.11.9        # Python 3.11.9
 ```
 
 **Flags de compilación**:
@@ -135,13 +135,13 @@ infrastructure/cpython/artifacts/
 - Checksum: `cpython-<version>-ubuntu22.04-build<N>.tgz.sha256`
 - Build info: Incluido en `.build-info` dentro del tarball
 
-#### validate-build.sh
+#### validate_build.sh
 
 **Propósito**: Validar integridad y funcionalidad del artefacto
 
 **Sintaxis**:
 ```bash
-./scripts/validate-build.sh <artifact-name>
+./scripts/validate_build.sh <artifact-name>
 ```
 
 **Validaciones realizadas** (11 checks):
@@ -213,8 +213,8 @@ infrastructure/cpython/
 +-- Vagrantfile             # Configuración de VM
 +-- bootstrap.sh            # Script de aprovisionamiento
 +-- scripts/
-|   +-- build-cpython.sh    # Script de compilación
-|   +-- validate-build.sh   # Script de validación
+|   +-- build_cpython.sh    # Script de compilación
+|   +-- validate_build.sh   # Script de validación
 +-- utils/                  # Utilidades compartidas
 +-- logs/                   # Logs de compilación
 +-- config/                 # Configuraciones
@@ -256,7 +256,7 @@ tail -50 /tmp/cpython-build/Python-*/make.log
 
 # Limpiar y reintentar
 rm -rf /tmp/cpython-build
-./scripts/build-cpython.sh 3.12.6
+./scripts/build_cpython.sh 3.12.6
 ```
 
 ### Error: "Module X not found"
@@ -270,7 +270,7 @@ sudo apt-get install lib<X>-dev  # Ejemplo: libssl-dev
 
 # Re-compilar
 cd /vagrant
-./scripts/build-cpython.sh 3.12.6 2  # Nuevo build number
+./scripts/build_cpython.sh 3.12.6 2  # Nuevo build number
 ```
 
 ### VM muy lenta
@@ -328,7 +328,7 @@ sudo rm -rf /opt/python-*
 
 ### Rebuild semestral
 
-Según SPEC-INFRA-001, se recomienda rebuild cada 6 meses:
+Según SPEC_INFRA_001, se recomienda rebuild cada 6 meses:
 
 ```bash
 # Destruir VM antigua
@@ -338,7 +338,7 @@ vagrant destroy -f
 vagrant up
 
 # Compilar versiones activas
-./scripts/build-cpython.sh 3.12.6 <nuevo-build-number>
+./scripts/build_cpython.sh 3.12.6 <nuevo-build-number>
 ```
 
 ---
@@ -364,8 +364,8 @@ Una vez generado y validado el artefacto:
 
 ## Referencias
 
-- [SPEC-INFRA-001](../../../docs/specs/SPEC-INFRA-001-cpython-precompilado.md)
-- [ADR-008: Features vs Imagen Base](../../../docs/adr/ADR-008-cpython-features-vs-imagen-base.md)
+- [SPEC_INFRA_001](../../../docs/specs/SPEC_INFRA_001_cpython_precompilado.md)
+- [ADR_008: Features vs Imagen Base](../../../docs/adr/ADR_008_cpython_features_vs_imagen_base.md)
 - [CPython Build Instructions](https://devguide.python.org/getting-started/setup-building/)
 - [Vagrant Documentation](https://www.vagrantup.com/docs)
 

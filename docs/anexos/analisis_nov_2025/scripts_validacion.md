@@ -170,7 +170,7 @@ chmod +x .git/hooks/pre-commit
 ### Opción 2: Pre-commit Framework
 
 ```yaml
-# .pre-commit-config.yaml
+# .pre_commit_config.yaml
 repos:
   - repo: local
     hooks:

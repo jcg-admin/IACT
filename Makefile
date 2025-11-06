@@ -1,7 +1,7 @@
 # Makefile para Proyecto IACT
 # Gestión de documentación, pruebas y desarrollo
 
-.PHONY: help docs-install docs-build docs-serve docs-clean docs-deploy clean test vagrant-up vagrant-down vagrant-ssh validate-spec check-all generate-plan install-hooks
+.PHONY: help docs-install docs-build docs-serve docs-clean docs-deploy clean test vagrant-up vagrant-down vagrant-ssh validate_spec check_all generate_plan install_hooks
 
 # Variables
 MKDOCS_CONFIG = docs/mkdocs.yml
@@ -92,49 +92,49 @@ check-services: ## Verificar servicios de base de datos
 
 ##@ Spec-Driven Development
 
-validate-spec: ## Validar especificaciones de features
+validate_spec: ## Validar especificaciones de features
 	@echo "$(BLUE)Validando especificaciones...$(NC)"
 	@if [ -z "$(SPEC)" ]; then \
-		./scripts/dev/validate-spec.sh --all; \
+		./scripts/dev/validate_spec.sh --all; \
 	else \
-		./scripts/dev/validate-spec.sh $(SPEC); \
+		./scripts/dev/validate_spec.sh $(SPEC); \
 	fi
 
-check-all: ## Ejecutar todos los checks de calidad (pre-commit, emojis, specs)
+check_all: ## Ejecutar todos los checks de calidad (pre-commit, emojis, specs)
 	@echo "$(BLUE)Ejecutando todos los checks...$(NC)"
-	./scripts/dev/check-all.sh
+	./scripts/dev/check_all.sh
 
-check-all-fix: ## Ejecutar checks con auto-corrección
+check_all-fix: ## Ejecutar checks con auto-corrección
 	@echo "$(BLUE)Ejecutando checks con auto-corrección...$(NC)"
-	./scripts/dev/check-all.sh --fix
+	./scripts/dev/check_all.sh --fix
 
-generate-plan: ## Generar plan de implementación desde spec
+generate_plan: ## Generar plan de implementación desde spec
 	@if [ -z "$(SPEC)" ]; then \
-		echo "$(YELLOW)Uso: make generate-plan SPEC=docs/specs/mi-feature.md$(NC)"; \
+		echo "$(YELLOW)Uso: make generate_plan SPEC=docs/specs/mi-feature.md$(NC)"; \
 		exit 1; \
 	fi
 	@echo "$(BLUE)Generando plan desde: $(SPEC)$(NC)"
-	./scripts/dev/generate-plan.sh $(SPEC)
+	./scripts/dev/generate_plan.sh $(SPEC)
 
-install-hooks: ## Instalar git hooks (pre-push)
+install_hooks: ## Instalar git hooks (pre-push)
 	@echo "$(BLUE)Instalando git hooks...$(NC)"
-	./scripts/install-hooks.sh
+	./scripts/install_hooks.sh
 	@echo ""
 	@echo "$(GREEN)[OK] Hooks instalados$(NC)"
 	@echo "$(YELLOW)Los hooks se ejecutarán automáticamente antes de push$(NC)"
 	@echo ""
-	@echo "Para verificar: ./scripts/install-hooks.sh --verify"
-	@echo "Para desinstalar: ./scripts/install-hooks.sh --uninstall"
+	@echo "Para verificar: ./scripts/install_hooks.sh --verify"
+	@echo "Para desinstalar: ./scripts/install_hooks.sh --uninstall"
 
 ##@ CPython Build System
 
-build-cpython: ## Compilar CPython en Vagrant (uso: make build-cpython VERSION=3.12.6 BUILD=1)
+build_cpython: ## Compilar CPython en Vagrant (uso: make build_cpython VERSION=3.12.6 BUILD=1)
 	@if [ -z "$(VERSION)" ]; then \
-		echo "$(YELLOW)Uso: make build-cpython VERSION=3.12.6 [BUILD=1]$(NC)"; \
+		echo "$(YELLOW)Uso: make build_cpython VERSION=3.12.6 [BUILD=1]$(NC)"; \
 		exit 1; \
 	fi
 	@echo "$(BLUE)Compilando CPython $(VERSION) build $(BUILD)...$(NC)"
-	./infrastructure/cpython/scripts/build-wrapper.sh $(VERSION) $(BUILD)
+	./infrastructure/cpython/scripts/build_wrapper.sh $(VERSION) $(BUILD)
 
 validate-cpython: ## Validar artefacto CPython (uso: make validate-cpython ARTIFACT=cpython-X.Y.Z-ubuntu22.04-build1.tgz)
 	@if [ -z "$(ARTIFACT)" ]; then \
@@ -142,7 +142,7 @@ validate-cpython: ## Validar artefacto CPython (uso: make validate-cpython ARTIF
 		exit 1; \
 	fi
 	@echo "$(BLUE)Validando artefacto: $(ARTIFACT)$(NC)"
-	./infrastructure/cpython/scripts/validate-wrapper.sh $(ARTIFACT)
+	./infrastructure/cpython/scripts/validate_wrapper.sh $(ARTIFACT)
 
 list-artifacts: ## Listar artefactos CPython disponibles
 	@echo "$(BLUE)Artefactos CPython disponibles:$(NC)"
@@ -193,8 +193,8 @@ setup: docs-install ## Configurar entorno completo del proyecto
 	@echo "  1. make vagrant-up      # Levantar bases de datos"
 	@echo "  2. make check-services  # Verificar conectividad"
 	@echo "  3. make docs-serve      # Ver documentación"
-	@echo "  4. make install-hooks   # Instalar git hooks (pre-push)"
-	@echo "  5. make check-all       # Validar código antes de commit"
+	@echo "  4. make install_hooks   # Instalar git hooks (pre-push)"
+	@echo "  5. make check_all       # Validar código antes de commit"
 	@echo ""
 
 ##@ Atajos comunes

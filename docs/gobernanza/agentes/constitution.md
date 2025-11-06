@@ -36,7 +36,7 @@ Los agentes DEBEN respetar todas las restricciones del proyecto:
 - Tests >70% coverage
 
 ### 5. Organizacion por Dominio
-Seguir ADR-010:
+Seguir ADR_010:
 - Codigo en: `/api/`, `/ui/`, `/infrastructure/`
 - Documentacion en: `docs/implementacion/{dominio}/`
 - Requisitos co-localizados con codigo
@@ -106,5 +106,5 @@ function procesarDatos(archivos) {
 ## Referencias
 
 - docs/gobernanza/GUIA_ESTILO.md
-- ADR-010: Organizacion por Dominio
+- ADR_010: Organizacion por Dominio
 - ISO/IEC/IEEE 29148:2018

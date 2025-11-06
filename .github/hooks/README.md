@@ -6,7 +6,7 @@ Este directorio contiene la documentación de los Git hooks configurados para el
 
 ## Hooks Configurados
 
-Los hooks se configuran en `api/callcentersite/.pre-commit-config.yaml` y se ejecutan automáticamente antes de cada commit.
+Los hooks se configuran en `api/callcentersite/.pre_commit_config.yaml` y se ejecutan automáticamente antes de cada commit.
 
 ### 1. Ruff - Linting y Formateo Python
 
@@ -147,14 +147,14 @@ Además de los pre-commit hooks configurados via framework, el proyecto incluye 
 
 **Propósito**: Validaciones antes de git push para prevenir errores en remote.
 
-**Ubicación**: `.github/hooks/pre-push.sample` (instalable con `make install-hooks`)
+**Ubicación**: `.github/hooks/pre-push.sample` (instalable con `make install_hooks`)
 
 **Validaciones que realiza**:
 
 1. **Specs para feature branches**:
    - Detecta si el branch es `feature/*`
    - Busca especificación relacionada en `docs/specs/`
-   - Valida la spec usando `validate-spec.sh`
+   - Valida la spec usando `validate_spec.sh`
    - Pregunta si continuar si no hay spec
 
 2. **Detección de secrets**:
@@ -175,13 +175,13 @@ Además de los pre-commit hooks configurados via framework, el proyecto incluye 
 **Instalación**:
 ```bash
 # Usando Makefile (recomendado)
-make install-hooks
+make install_hooks
 
 # O manualmente
-./scripts/install-hooks.sh
+./scripts/install_hooks.sh
 
 # Verificar instalación
-./scripts/install-hooks.sh --verify
+./scripts/install_hooks.sh --verify
 ```
 
 **Ejecutar manualmente**:
@@ -207,7 +207,7 @@ git push --no-verify
 
 **Desinstalar**:
 ```bash
-./scripts/install-hooks.sh --uninstall
+./scripts/install_hooks.sh --uninstall
 ```
 
 ---
@@ -235,10 +235,10 @@ pre-commit install
 
 ```bash
 # Desde la raíz del proyecto
-make install-hooks
+make install_hooks
 
 # O manualmente
-./scripts/install-hooks.sh
+./scripts/install_hooks.sh
 ```
 
 Este comando instalará:
@@ -248,7 +248,7 @@ Este comando instalará:
 
 **Verificar instalación**:
 ```bash
-./scripts/install-hooks.sh --verify
+./scripts/install_hooks.sh --verify
 ```
 
 ### Instalación completa (recomendado)
@@ -263,10 +263,10 @@ pre-commit install
 
 # 3. Instalar hooks nativos de Git
 cd ../..  # Volver a raíz
-make install-hooks
+make install_hooks
 
 # 4. Verificar todo
-make check-all
+make check_all
 ```
 
 ---
@@ -410,7 +410,7 @@ git commit -m "chore: actualizar baseline de secrets"
 
 El proyecto usa [pre-commit.ci](https://pre-commit.ci) para ejecutar hooks automáticamente en PRs.
 
-**Configuración**: Ver `ci:` section en `.pre-commit-config.yaml`
+**Configuración**: Ver `ci:` section en `.pre_commit_config.yaml`
 
 **Features**:
 - Auto-fix en PRs
@@ -419,7 +419,7 @@ El proyecto usa [pre-commit.ci](https://pre-commit.ci) para ejecutar hooks autom
 
 ### Deshabilitar hook temporalmente en CI
 
-Editar `.pre-commit-config.yaml`:
+Editar `.pre_commit_config.yaml`:
 ```yaml
 ci:
   skip: [mypy, bandit]  # Hooks a saltar en CI
@@ -454,7 +454,7 @@ pre-commit autoupdate
 
 ### Auto-update semanal (CI)
 
-Configurado en `.pre-commit-config.yaml`:
+Configurado en `.pre_commit_config.yaml`:
 ```yaml
 ci:
   autoupdate_schedule: weekly

@@ -64,4 +64,4 @@ Asegurar calidad del codigo y documentacion antes de integracion.
 ## Referencias
 
 - GUIA_ESTILO.md
-- ADR-014: Testing Strategy
+- ADR_014: Testing Strategy

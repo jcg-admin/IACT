@@ -5,7 +5,7 @@
 # IACT CPython Builder - Vagrant Configuration
 # CPython Precompiled Build Environment
 # =============================================================================
-# Referencia: SPEC-INFRA-001
+# Referencia: SPEC_INFRA_001
 # Propósito: Compilar CPython precompilado en entorno reproducible
 # =============================================================================
 
@@ -249,13 +249,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     # Inside VM:
       vagrant ssh
       cd /vagrant
-      ./scripts/build-cpython.sh 3.12.6
+      ./scripts/build_cpython.sh 3.12.6
 
     # From host (via wrapper):
-      ./infrastructure/cpython/scripts/build-wrapper.sh 3.12.6
+      ./infrastructure/cpython/scripts/build_wrapper.sh 3.12.6
 
   VALIDATION:
-    ./scripts/validate-build.sh cpython-3.12.6-ubuntu22.04-build1.tgz
+    ./scripts/validate_build.sh cpython-3.12.6-ubuntu22.04-build1.tgz
 
   VM MANAGEMENT:
     Connect:  vagrant ssh
@@ -269,7 +269,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   DOCUMENTATION:
     README: /vagrant/README.md
-    SPEC:   ../../../docs/specs/SPEC-INFRA-001-cpython-precompilado.md
+    SPEC:   ../../../docs/specs/SPEC_INFRA_001-cpython_precompilado.md
 
   ========================================================================
   MESSAGE

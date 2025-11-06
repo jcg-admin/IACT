@@ -5,7 +5,7 @@
   // DOCKER CONFIGURATION
   // ==========================================================================
 
-  "dockerComposeFile": "docker-compose.yml",
+  "dockerComposeFile": "docker_compose.yml",
   "service": "app",
   "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
 
@@ -40,8 +40,8 @@
   // ==========================================================================
 
   "features": {
-    // CPython Precompilado (Instalador Personalizado - SPEC-INFRA-001 Fase 3)
-    // Para generar el artefacto: make build-cpython VERSION=3.12.6
+    // CPython Precompilado (Instalador Personalizado - SPEC_INFRA_001 Fase 3)
+    // Para generar el artefacto: make build_cpython VERSION=3.12.6
     // Para desarrollo local: usa artifactUrl con path local
     // Para producción: usa GitHub Release URL
     "./infrastructure/cpython/installer": {

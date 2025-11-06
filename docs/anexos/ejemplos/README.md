@@ -205,7 +205,7 @@ jobs:
 
 **Ejemplo:**
 ```yaml
-# docker-compose.yml
+# docker_compose.yml
 version: '3.8'
 
 services:
@@ -280,7 +280,7 @@ volumes:
 
 **Ejemplo:**
 ```yaml
-# .pre-commit-config.yaml
+# .pre_commit_config.yaml
 repos:
   - repo: https://github.com/psf/black
     rev: 23.11.0

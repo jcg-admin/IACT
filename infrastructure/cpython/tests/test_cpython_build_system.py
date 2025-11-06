@@ -1,7 +1,7 @@
 """
 Tests de integración para sistema de compilación de CPython.
 
-Referencia: SPEC-INFRA-001
+Referencia: SPEC_INFRA_001
 Propósito: Validar infraestructura de compilación (Fase 1)
 """
 
@@ -40,35 +40,35 @@ def test_vagrantfile_exists():
 @pytest.mark.critical
 def test_build_script_exists_and_executable():
     """Verifica que script de build existe y es ejecutable."""
-    build_script = VAGRANT_DIR / "scripts" / "build-cpython.sh"
-    assert build_script.exists(), "build-cpython.sh no encontrado"
+    build_script = VAGRANT_DIR / "scripts" / "build_cpython.sh"
+    assert build_script.exists(), "build_cpython.sh no encontrado"
 
     # Verificar que es ejecutable
-    assert os.access(build_script, os.X_OK), "build-cpython.sh no es ejecutable"
+    assert os.access(build_script, os.X_OK), "build_cpython.sh no es ejecutable"
 
     # Verificar contenido básico
     content = build_script.read_text()
-    assert "#!/bin/bash" in content, "build-cpython.sh no tiene shebang"
-    assert "PYTHON_VERSION" in content, "build-cpython.sh no maneja versión"
-    assert "--enable-optimizations" in content, "build-cpython.sh no tiene PGO"
+    assert "#!/bin/bash" in content, "build_cpython.sh no tiene shebang"
+    assert "PYTHON_VERSION" in content, "build_cpython.sh no maneja versión"
+    assert "--enable-optimizations" in content, "build_cpython.sh no tiene PGO"
 
 
 @pytest.mark.critical
 def test_validate_script_exists_and_executable():
     """Verifica que script de validación existe y es ejecutable."""
-    validate_script = VAGRANT_DIR / "scripts" / "validate-build.sh"
-    assert validate_script.exists(), "validate-build.sh no encontrado"
+    validate_script = VAGRANT_DIR / "scripts" / "validate_build.sh"
+    assert validate_script.exists(), "validate_build.sh no encontrado"
 
-    assert os.access(validate_script, os.X_OK), "validate-build.sh no es ejecutable"
+    assert os.access(validate_script, os.X_OK), "validate_build.sh no es ejecutable"
 
     content = validate_script.read_text()
-    assert "#!/bin/bash" in content, "validate-build.sh no tiene shebang"
-    assert "sha256sum" in content, "validate-build.sh no valida checksum"
+    assert "#!/bin/bash" in content, "validate_build.sh no tiene shebang"
+    assert "sha256sum" in content, "validate_build.sh no valida checksum"
 
 
 def test_wrapper_scripts_exist():
     """Verifica que scripts wrapper en scripts/infra/ existen."""
-    build_wrapper = SCRIPTS_INFRA_DIR / "build-cpython.sh"
+    build_wrapper = SCRIPTS_INFRA_DIR / "build_cpython.sh"
     validate_wrapper = SCRIPTS_INFRA_DIR / "validate-cpython.sh"
 
     assert build_wrapper.exists(), "Wrapper de build no encontrado"
@@ -98,7 +98,7 @@ def test_vagrant_readme_exists():
 
     content = readme.read_text()
     assert "CPython Builder" in content, "README no documenta propósito"
-    assert "SPEC-INFRA-001" in content, "README no referencia spec"
+    assert "SPEC_INFRA_001" in content, "README no referencia spec"
     assert "vagrant up" in content, "README no documenta uso de Vagrant"
 
 
@@ -106,9 +106,9 @@ def test_vagrant_readme_exists():
 def test_build_script_no_emojis():
     """Verifica que scripts no contienen emojis."""
     scripts_to_check = [
-        VAGRANT_DIR / "scripts" / "build-cpython.sh",
-        VAGRANT_DIR / "scripts" / "validate-build.sh",
-        SCRIPTS_INFRA_DIR / "build-cpython.sh",
+        VAGRANT_DIR / "scripts" / "build_cpython.sh",
+        VAGRANT_DIR / "scripts" / "validate_build.sh",
+        SCRIPTS_INFRA_DIR / "build_cpython.sh",
         SCRIPTS_INFRA_DIR / "validate-cpython.sh",
     ]
 
@@ -127,7 +127,7 @@ def test_makefile_has_cpython_targets():
     assert makefile.exists(), "Makefile no encontrado"
 
     content = makefile.read_text()
-    assert "build-cpython" in content, "Makefile no tiene target build-cpython"
+    assert "build_cpython" in content, "Makefile no tiene target build_cpython"
     assert "validate-cpython" in content, "Makefile no tiene target validate-cpython"
     assert "list-artifacts" in content, "Makefile no tiene target list-artifacts"
 
@@ -151,37 +151,37 @@ def test_vagrant_config_resources():
 
 def test_scripts_have_error_handling():
     """Verifica que scripts tienen manejo de errores básico."""
-    build_script = VAGRANT_DIR / "build-cpython.sh"
+    build_script = VAGRANT_DIR / "build_cpython.sh"
     content = build_script.read_text()
 
     # set -e hace que el script falle en cualquier error
     assert "set -e" in content or "set -euo pipefail" in content, \
-        "build-cpython.sh no tiene manejo de errores con set -e"
+        "build_cpython.sh no tiene manejo de errores con set -e"
 
 
 def test_validate_script_checks_sha256():
     """Verifica que script de validación verifica SHA256."""
-    validate_script = VAGRANT_DIR / "validate-build.sh"
+    validate_script = VAGRANT_DIR / "validate_build.sh"
     content = validate_script.read_text()
 
-    assert "sha256sum" in content, "validate-build.sh no usa sha256sum"
+    assert "sha256sum" in content, "validate_build.sh no usa sha256sum"
     assert "-c" in content or "check" in content.lower(), \
-        "validate-build.sh no verifica checksum"
+        "validate_build.sh no verifica checksum"
 
 
 def test_scripts_reference_spec():
-    """Verifica que scripts referencian SPEC-INFRA-001."""
+    """Verifica que scripts referencian SPEC_INFRA_001."""
     scripts_to_check = [
-        VAGRANT_DIR / "scripts" / "build-cpython.sh",
-        VAGRANT_DIR / "scripts" / "validate-build.sh",
+        VAGRANT_DIR / "scripts" / "build_cpython.sh",
+        VAGRANT_DIR / "scripts" / "validate_build.sh",
         VAGRANT_DIR / "README.md",
     ]
 
     for script in scripts_to_check:
         if script.exists():
             content = script.read_text()
-            assert "SPEC-INFRA-001" in content, \
-                f"{script.name} no referencia SPEC-INFRA-001"
+            assert "SPEC_INFRA_001" in content, \
+                f"{script.name} no referencia SPEC_INFRA_001"
 
 
 def test_gitkeep_in_artifacts():

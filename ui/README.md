@@ -13,7 +13,7 @@ Frontend de React para el sistema IACT (IVR Analytics & Customer Tracking).
 
 ## Arquitectura
 
-**Patrón**: Modular Monolith (ver ADR-011)
+**Patrón**: Modular Monolith (ver ADR_011)
 
 El frontend está organizado como un **monolito modular**, no microfrontends. Cada módulo es autónomo pero todos comparten:
 - Redux store único
@@ -98,15 +98,15 @@ modules/example/
 | Tecnología | Versión | Propósito |
 |------------|---------|-----------|
 | **React** | 18.3.1 | UI library |
-| **Redux Toolkit** | 2.2.5 | State management (ver ADR-012) |
-| **Webpack** | 5.95.0 | Module bundler (ver ADR-013) |
+| **Redux Toolkit** | 2.2.5 | State management (ver ADR_012) |
+| **Webpack** | 5.95.0 | Module bundler (ver ADR_013) |
 | **Babel** | 7.25.2 | Transpilación |
 | **Jest** | 29.7.0 | Testing framework |
 | **Testing Library** | 16.0.0 | React testing utilities |
 
 ### ¿Por qué Redux Toolkit y no Context API?
 
-Ver **ADR-012** para justificación completa. Resumen:
+Ver **ADR_012** para justificación completa. Resumen:
 - Dashboard con 10 widgets requiere estado complejo
 - Performance crítica (<3s carga)
 - DevTools para debugging
@@ -114,7 +114,7 @@ Ver **ADR-012** para justificación completa. Resumen:
 
 ### ¿Por qué Webpack y no Vite?
 
-Ver **ADR-013**. Resumen:
+Ver **ADR_013**. Resumen:
 - Ecosistema maduro y estable
 - Configuración explícita y predecible
 - Alias paths configurados (@app, @modules, @components)
@@ -431,10 +431,10 @@ El UI debe respetar las restricciones del backend:
 
 ### ADRs (Architecture Decision Records)
 
-- **ADR-011**: Modular Monolith vs Microfrontends
-- **ADR-012**: Redux Toolkit vs Context API
-- **ADR-013**: Webpack vs Vite
-- **ADR-014**: Testing Strategy
+- **ADR_011**: Modular Monolith vs Microfrontends
+- **ADR_012**: Redux Toolkit vs Context API
+- **ADR_013**: Webpack vs Vite
+- **ADR_014**: Testing Strategy
 
 Ver: `docs/adr/`
 

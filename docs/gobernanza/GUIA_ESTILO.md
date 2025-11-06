@@ -90,6 +90,6 @@ Tipos: `feat`, `fix`, `docs`, `refactor`, `test`, `chore`
 
 ## Referencias
 
-- ADR-010: Organizacion por Dominio
+- ADR_010: Organizacion por Dominio
 - ISO/IEC/IEEE 29148:2018
 - BABOK v3

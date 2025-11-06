@@ -4,7 +4,7 @@ set -euo pipefail
 # =============================================================================
 # CPython Builder - Bootstrap Script
 # =============================================================================
-# Referencia: SPEC-INFRA-001
+# Referencia: SPEC_INFRA_001
 # Propósito: Aprovisionar VM con dependencias de compilación de CPython
 # =============================================================================
 
@@ -162,11 +162,11 @@ display_summary() {
     make --version | head -1 | sed 's/^/    /'
     echo ""
     echo "  Scripts disponibles:"
-    echo "    ./scripts/build-cpython.sh <version> [build-number]"
-    echo "    ./scripts/validate-build.sh <artifact-name>"
+    echo "    ./scripts/build_cpython.sh <version> [build-number]"
+    echo "    ./scripts/validate_build.sh <artifact-name>"
     echo ""
     echo "  Ejemplo de uso:"
-    echo "    ./scripts/build-cpython.sh 3.12.6"
+    echo "    ./scripts/build_cpython.sh 3.12.6"
     echo ""
     echo "  Artefactos se generarán en:"
     echo "    $PROJECT_ROOT/artifacts/cpython/"

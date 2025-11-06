@@ -89,7 +89,7 @@ end
 ### Opción 2: Docker Compose
 
 **Descripción:**
-Usar Docker Compose para levantar contenedores de PostgreSQL y MariaDB con configuración mediante docker-compose.yml.
+Usar Docker Compose para levantar contenedores de PostgreSQL y MariaDB con configuración mediante docker_compose.yml.
 
 **Pros:**
 - OK: Menor consumo de recursos

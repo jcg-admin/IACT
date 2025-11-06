@@ -18,7 +18,7 @@ Esta guía ayuda a migrar requisitos desde la estructura legacy (`docs/backend/r
 3. [Proceso de Migración](#proceso-de-migración)
 4. [Checklist de Migración](#checklist-de-migración)
 5. [Ejemplos Prácticos](#ejemplos-prácticos)
-6. [Preguntas Frecuentes](#preguntas-frecuentes)
+6. [Preguntas Frecuentes](#preguntas_frecuentes)
 
 ---
 

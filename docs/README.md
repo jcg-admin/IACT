@@ -49,20 +49,20 @@ IACT---project/
 ├── docs/                                   ← DOCUMENTACIÓN TRANSVERSAL
 │   ├── README.md                           Este archivo
 │   ├── adr/                                Architecture Decision Records (consolidado)
-│   │   ├── ADR-008-cpython-features-vs-imagen-base.md
-│   │   ├── ADR-009-distribucion-artefactos-strategy.md
-│   │   ├── ADR-010-organizacion-proyecto-por-dominio.md
+│   │   ├── ADR_008-cpython-features-vs-imagen-base.md
+│   │   ├── ADR_009-distribucion-artefactos-strategy.md
+│   │   ├── ADR_010-organizacion-proyecto-por-dominio.md
 │   │   ├── adr_2025_001_vagrant_mod_wsgi.md
 │   │   └── adr_2025_002_suite_calidad_codigo.md
 │   │
 │   ├── specs/                              Especificaciones técnicas
-│   │   └── SPEC-INFRA-001-cpython-precompilado.md
+│   │   └── SPEC_INFRA_001-cpython_precompilado.md
 │   │
 │   ├── arquitectura/                       Arquitectura del sistema
 │   │   └── lineamientos_codigo.md
 │   │
 │   ├── infraestructura/                    Documentación de infraestructura
-│   │   └── cpython-precompilado/
+│   │   └── cpython_precompilado/
 │   │
 │   ├── requisitos/                         ÍNDICES ISO 29148 (auto-generados en futuro)
 │   │
@@ -183,7 +183,7 @@ cd docs/arquitectura/
 ### FASE 4: Automatización (Futuro)
 
 - [ ] Script `generate-requirements-index.js`
-- [ ] Workflow `.github/workflows/requirements-index.yml`
+- [ ] Workflow `.github/workflows/requirements_index.yml`
 - [ ] Auto-generar BRS, StRS, SyRS, SRS, RTM
 
 ---

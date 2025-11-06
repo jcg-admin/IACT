@@ -120,5 +120,5 @@ Dashboard operativo con:
 ## Referencias
 
 - docs/implementacion/backend/requisitos/necesidades/n001_visibilidad_metricas_ivr_tiempo_real.md
-- ADR-010: Organizacion por Dominio
+- ADR_010: Organizacion por Dominio
 - ISO/IEC/IEEE 29148:2018

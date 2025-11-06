@@ -24,7 +24,7 @@ PROJECT_ROOT="$(cd "${SCRIPT_DIR}/../../.." && pwd)"
 # Django project directory
 DJANGO_DIR="${PROJECT_ROOT}/api/callcentersite"
 
-# Database configuration (from docker-compose.yml)
+# Database configuration (from docker_compose.yml)
 POSTGRES_USER="${POSTGRES_USER:-postgres}"
 POSTGRES_PASSWORD="${POSTGRES_PASSWORD:-postgres}"
 POSTGRES_HOST="${POSTGRES_HOST:-db_postgres}"

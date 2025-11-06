@@ -170,8 +170,8 @@ Este espacio documenta normas, estándares, artículos técnicos, libros y recur
 ### Recursos del Proyecto
 
 **Internos:**
-- [Copilot Instructions](../../.github/copilot-instructions.md)
-- [Claude Code Conventions](../../.github/claude-code-conventions.md)
+- [Copilot Instructions](../../.github/copilot_instructions.md)
+- [Claude Code Conventions](../../.github/claude_code_conventions.md)
 - [Lineamientos de Código](../../arquitectura/lineamientos_codigo.md)
 - [ADRs](../../arquitectura/adr/)
 

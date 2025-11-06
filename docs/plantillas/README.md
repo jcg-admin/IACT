@@ -158,7 +158,7 @@ iso29148_clause: "[X.X]"
 
 Los requisitos creados con estas plantillas alimentan:
 
-1. **Workflow de Índices ISO** (`.github/workflows/requirements-index.yml`)
+1. **Workflow de Índices ISO** (`.github/workflows/requirements_index.yml`)
    - Genera automáticamente: BRS, StRS, SyRS, SRS, RTM
    - Ubicación: `docs/requisitos/`
 

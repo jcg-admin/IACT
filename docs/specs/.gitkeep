@@ -11,6 +11,6 @@ cp docs/plantillas/desarrollo/plantilla_spec.md docs/specs/nombre-feature.md
 
 Para validar specs:
 ```bash
-make validate-spec SPEC=docs/specs/nombre-feature.md
-make validate-spec  # Valida todas
+make validate_spec SPEC=docs/specs/nombre-feature.md
+make validate_spec  # Valida todas
 ```

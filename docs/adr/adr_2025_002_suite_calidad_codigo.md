@@ -84,9 +84,9 @@ Implementar una suite integrada de herramientas modernas para calidad de código
 - NO Requiere disciplina en type hints
 
 **Implementación:**
-- `.pre-commit-config.yaml`: Configuración de hooks
+- `.pre_commit_config.yaml`: Configuración de hooks
 - `pyproject.toml`: Configuración de Ruff, MyPy, Coverage
-- `.github/workflows/python-ci.yml`: Pipeline CI/CD
+- `.github/workflows/python_ci.yml`: Pipeline CI/CD
 - `Makefile`: Comandos automatizados
 - `logging_config.py`: Logging profesional sin Sentry
 - Utilidades: `performance.py`, `async_http.py`, `async_helpers.py`
@@ -204,7 +204,7 @@ Implementar la suite completa de herramientas de calidad de código y automatiza
 ### Neutrales
 
 - INFO **Type hints requeridos**: Gradual, no forzado inicialmente
-- INFO **Mantenimiento de config**: pyproject.toml, .pre-commit-config.yaml
+- INFO **Mantenimiento de config**: pyproject.toml, .pre_commit_config.yaml
 - INFO **Logs en archivos**: Requiere rotación y limpieza periódica
 
 ## Plan de Implementación
@@ -213,9 +213,9 @@ Implementar la suite completa de herramientas de calidad de código y automatiza
 
 ```bash
 OK Archivos creados:
-   - .pre-commit-config.yaml
+   - .pre_commit_config.yaml
    - pyproject.toml (extendido)
-   - .github/workflows/python-ci.yml
+   - .github/workflows/python_ci.yml
    - callcentersite/settings/logging_config.py
    - Makefile
    - .secrets.baseline

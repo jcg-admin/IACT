@@ -6,7 +6,7 @@ Usar plantilla: `docs/plantillas/desarrollo/plantilla_plan.md`
 
 Para generar un plan desde una spec:
 ```bash
-make generate-plan SPEC=docs/specs/nombre-feature.md
+make generate_plan SPEC=docs/specs/nombre-feature.md
 ```
 
 O manualmente:
