@@ -11,7 +11,7 @@ Plantillas estandarizadas para crear nuevos scripts siguiendo las mejores práct
 
 ## Plantillas Disponibles
 
-### 1. bash-script-template.sh
+### 1. bash_script_template.sh
 
 **Cuándo usar**: Scripts complejos con lógica avanzada, manejo de errores robusto, o que necesitan características específicas de bash.
 
@@ -27,14 +27,14 @@ Plantillas estandarizadas para crear nuevos scripts siguiendo las mejores práct
 
 **Uso**:
 ```bash
-cp scripts/templates/bash-script-template.sh scripts/mi-nuevo-script.sh
+cp scripts/templates/bash_script_template.sh scripts/mi-nuevo-script.sh
 # Editar y personalizar
 vim scripts/mi-nuevo-script.sh
 ```
 
 ---
 
-### 2. posix-script-template.sh
+### 2. posix_script_template.sh
 
 **Cuándo usar**: Scripts simples que necesitan máxima portabilidad entre diferentes sistemas Unix/Linux.
 
@@ -48,14 +48,14 @@ vim scripts/mi-nuevo-script.sh
 
 **Uso**:
 ```bash
-cp scripts/templates/posix-script-template.sh scripts/mi-script-portable.sh
+cp scripts/templates/posix_script_template.sh scripts/mi-script-portable.sh
 # Editar y personalizar
 vim scripts/mi-script-portable.sh
 ```
 
 ---
 
-### 3. library-template.sh
+### 3. library_template.sh
 
 **Cuándo usar**: Crear bibliotecas de funciones reutilizables que serán sourced por otros scripts.
 
@@ -69,7 +69,7 @@ vim scripts/mi-script-portable.sh
 
 **Uso**:
 ```bash
-cp scripts/templates/library-template.sh infrastructure/utils/mi-libreria.sh
+cp scripts/templates/library_template.sh infrastructure/utils/mi-libreria.sh
 # Personalizar funciones
 vim infrastructure/utils/mi-libreria.sh
 
@@ -84,14 +84,14 @@ log_info "Usando funciones de la biblioteca"
 
 | Necesitas | Usa Plantilla |
 |-----------|---------------|
-| Arrays, asociative arrays | bash-script-template.sh |
-| `set -o pipefail` | bash-script-template.sh |
-| `[[  ]]` tests | bash-script-template.sh |
-| Máxima portabilidad | posix-script-template.sh |
-| Funcionalidad simple | posix-script-template.sh |
-| Correr en cualquier shell Unix | posix-script-template.sh |
-| Funciones reutilizables | library-template.sh |
-| Utilidades compartidas | library-template.sh |
+| Arrays, asociative arrays | bash_script_template.sh |
+| `set -o pipefail` | bash_script_template.sh |
+| `[[  ]]` tests | bash_script_template.sh |
+| Máxima portabilidad | posix_script_template.sh |
+| Funcionalidad simple | posix_script_template.sh |
+| Correr en cualquier shell Unix | posix_script_template.sh |
+| Funciones reutilizables | library_template.sh |
+| Utilidades compartidas | library_template.sh |
 
 ---
 

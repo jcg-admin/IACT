@@ -1473,7 +1473,7 @@ if PermissionService.has_permission(user, "perm"):
 
 - [Análisis Funcional de Apps](../../solicitudes/sc02/analisis_funcion_real_apps.md)
 - [Análisis Estructural de API](../../solicitudes/sc02/analisis_estructura_api.md)
-- [Solicitud SC02](../../solicitudes/sc02/readme.md)
+- [Solicitud SC02](../../solicitudes/sc02/README.md)
 
 ### Libros y recursos
 

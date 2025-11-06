@@ -678,6 +678,86 @@ result = pipeline.execute(input_data)
 
 ---
 
+## Constitution para Agentes AI
+
+Todos los agentes en este sistema cargan y adhieren automáticamente a los principios definidos en la **Constitution** (`docs/gobernanza/agentes/constitution.md`).
+
+### Principios Clave
+
+Los agentes validan su comportamiento contra 12 principios fundamentales:
+
+1. **Calidad sobre Velocidad**: Sin placeholders o código incompleto
+2. **Adherencia a Estándares**: Cumplimiento de GUIA_ESTILO.md y estándares del proyecto
+3. **Trazabilidad Completa**: Referencias a REQ-*, SPEC-*, ADR-* en todo output
+4. **Límites de Autoridad**: Escalación para cambios arquitectónicos o críticos
+5. **Documentación Obligatoria**: Docstrings completos con formato Google
+6. **Testing y Validación**: Código siempre acompañado de tests
+
+### Integración Automática
+
+Todos los agentes heredan de `Agent` (base.py) que automáticamente:
+
+- **Carga constitution** al inicializar
+- **Valida output** contra principios en `apply_guardrails()`
+- **Verifica autoridad** con `check_authority()` antes de acciones críticas
+- **Bloquea ejecución** si hay violaciones a constitution
+
+### Ejemplo de Uso
+
+```python
+from business_analysis_generator import BusinessAnalysisGenerator
+
+# Agente carga constitution automáticamente
+agent = BusinessAnalysisGenerator()
+
+# Constitution cargada y disponible
+print(f"Principios cargados: {len(agent.constitution.principles)}")
+
+# Validación automática en execute()
+result = agent.execute(input_data)
+
+if result.is_blocked():
+    # Output violó principios de constitution
+    print(f"Bloqueado: {result.errors}")
+```
+
+### Validaciones Automáticas
+
+Cuando un agente ejecuta `apply_guardrails()`, se valida:
+
+- **Sin emojis**: Prohibidos por GUIA_ESTILO.md
+- **Trazabilidad**: Output contiene referencias a requisitos
+- **Calidad**: Sin placeholders (TODO, FIXME, etc.)
+- **Testing**: Código incluye tests asociados
+- **Documentación**: Docstrings presentes y completos
+
+### Escalación de Autoridad
+
+Acciones que requieren escalación humana:
+
+- Modificar arquitectura del sistema
+- Cambiar esquemas de base de datos
+- Modificar APIs públicas
+- Eliminar código o archivos
+- Cambiar configuración de seguridad
+- Merge a branches protegidas (main, develop)
+
+```python
+# Verificar antes de acción crítica
+if not agent.check_authority("modificar_arquitectura"):
+    agent.logger.error("ESCALACIÓN REQUERIDA: Cambio arquitectónico")
+    return AgentResult(status=AgentStatus.BLOCKED)
+```
+
+### Referencias
+
+- **Constitution completa**: `docs/gobernanza/agentes/constitution.md`
+- **Constitution loader**: `scripts/ai/agents/constitution_loader.py`
+- **Base class**: `scripts/ai/agents/base.py`
+- **Tests de integración**: `scripts/ai/agents/test_constitution_integration.py`
+
+---
+
 ## Contribuir
 
 Para agregar nuevos agentes o mejorar existentes:
@@ -687,6 +767,7 @@ Para agregar nuevos agentes o mejorar existentes:
 3. Agregar tests en `test_business_analysis_agents.py`
 4. Actualizar este README
 5. Seguir estándares IACT (sin emojis, nomenclatura consistente)
+6. **NUEVO**: Asegurar adherencia a constitution (cargada automáticamente)
 
 ---
 

@@ -1,0 +1,28 @@
+---
+id: DOC-REQ-FRONTEND
+estado: borrador
+propietario: equipo-frontend
+ultima_actualizacion: 2025-02-20
+relacionados: ["DOC-REQ-INDEX", "DOC-ARQ-FRONTEND"]
+---
+# Requisitos del frontend
+
+Complementa los lineamientos corporativos de [`../../requisitos/README.md`](../../requisitos/README.md) con criterios de experiencia de usuario y comportamiento del cliente web.
+
+## Página padre
+- [`../README.md`](../README.md)
+
+## Enlaces relevantes
+- Arquitectura UX/UI: [`../arquitectura/README.md`](../arquitectura/README.md)
+- Diseño detallado: [`../diseno_detallado/README.md`](../diseno_detallado/README.md)
+- Estrategia de QA: [`../qa/README.md`](../qa/README.md)
+
+## Aspectos a documentar
+- Requisitos funcionales por flujo y rol, alineados con los casos de uso corporativos.
+- Reglas de accesibilidad, rendimiento percibido y soporte multidioma.
+- Dependencias con APIs y eventos publicados por el backend.
+
+## Próximos pasos sugeridos
+- [ ] Catalogar requisitos priorizados para MVP web.
+- [ ] Documentar compromisos de accesibilidad (WCAG) y usabilidad.
+- [ ] Definir métricas de experiencia de usuario y enlazarlas con tableros de observabilidad.

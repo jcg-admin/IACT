@@ -58,7 +58,7 @@ jobs:
 
       - name: Check if release exists
         run: |
-          bash .github/workflows/scripts/check-release-exists.sh "${{ steps.get-version.outputs.version }}"
+          bash .github/workflows/scripts/check_release_exists.sh "${{ steps.get-version.outputs.version }}"
 
   generate-changelog:
     name: Generate Release Notes
@@ -75,7 +75,7 @@ jobs:
       - name: Generate release notes
         id: generate-notes
         run: |
-          bash .github/workflows/scripts/generate-release-notes.sh "${{ needs.validate-version.outputs.version }}"
+          bash .github/workflows/scripts/generate_release_notes.sh "${{ needs.validate-version.outputs.version }}"
 
       - name: Upload changelog artifact
         uses: actions/upload-artifact@v4
@@ -96,7 +96,7 @@ jobs:
 
       - name: Create release packages
         run: |
-          bash .github/workflows/scripts/create-release-packages.sh "${{ needs.validate-version.outputs.version }}"
+          bash .github/workflows/scripts/create_release_packages.sh "${{ needs.validate-version.outputs.version }}"
 
       - name: Upload release artifacts
         uses: actions/upload-artifact@v4
@@ -119,7 +119,7 @@ jobs:
 
       - name: Update version in files
         run: |
-          bash .github/workflows/scripts/update-version.sh "${{ needs.validate-version.outputs.version_number }}"
+          bash .github/workflows/scripts/update_version.sh "${{ needs.validate-version.outputs.version_number }}"
 
       - name: Commit version updates
         run: |
@@ -159,7 +159,7 @@ jobs:
           VERSION: ${{ needs.validate-version.outputs.version }}
           PRERELEASE: ${{ github.event.inputs.prerelease || 'false' }}
         run: |
-          bash .github/workflows/scripts/create-github-release.sh
+          bash .github/workflows/scripts/create_github_release.sh
 
       - name: Update release with packages
         env:

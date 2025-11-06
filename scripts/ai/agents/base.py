@@ -3,6 +3,9 @@ Módulo base para agentes especializados de generación de tests.
 
 Este módulo define la clase base Agent que implementa el patrón
 Single Responsibility Principle para agentes especializados.
+
+Todos los agentes cargan y adhieren a los principios definidos en la
+constitution (docs/gobernanza/agentes/constitution.md).
 """
 
 import json
@@ -13,6 +16,15 @@ from datetime import datetime
 from enum import Enum
 from pathlib import Path
 from typing import Any, Dict, List, Optional
+
+try:
+    from .constitution_loader import load_constitution, create_validator, Constitution, ConstitutionValidator
+except ImportError:
+    # Fallback si constitution_loader no está disponible
+    Constitution = None
+    ConstitutionValidator = None
+    load_constitution = None
+    create_validator = None
 
 
 class AgentStatus(Enum):
@@ -81,6 +93,20 @@ class Agent(ABC):
         self.logger = self._setup_logger()
         self.status = AgentStatus.IDLE
         self._result: Optional[AgentResult] = None
+
+        # Cargar constitution y validator
+        self.constitution: Optional[Constitution] = None
+        self.constitution_validator: Optional[ConstitutionValidator] = None
+
+        if load_constitution is not None and create_validator is not None:
+            try:
+                self.constitution = load_constitution()
+                self.constitution_validator = create_validator(self.constitution)
+                self.logger.info(f"Constitution cargada: {len(self.constitution.principles)} principios")
+            except Exception as e:
+                self.logger.warning(f"No se pudo cargar constitution: {e}")
+        else:
+            self.logger.warning("Constitution loader no disponible")
 
     def _setup_logger(self) -> logging.Logger:
         """Configura el logger del agente."""
@@ -182,13 +208,47 @@ class Agent(ABC):
         """
         Aplica guardrails a los resultados.
 
+        Valida el output contra los principios de la constitution:
+        - Calidad sobre velocidad (sin placeholders)
+        - Trazabilidad completa (referencias a REQ/SPEC/ADR)
+        - Sin emojis (prohibidos por GUIA_ESTILO.md)
+        - Testing y validación (código con tests)
+
         Args:
             output_data: Datos de salida a validar
 
         Returns:
             Lista de errores de guardrails (vacía si pasa)
         """
-        # Implementación por defecto: no aplica guardrails
+        errors = []
+
+        # Aplicar validaciones de constitution si está disponible
+        if self.constitution_validator is not None:
+            violations = self.constitution_validator.validate_all(output_data)
+
+            for category, category_violations in violations.items():
+                if category_violations:
+                    errors.extend([f"[{category}] {v}" for v in category_violations])
+
+        # Permitir que subclases agreguen validaciones adicionales
+        custom_errors = self._custom_guardrails(output_data)
+        errors.extend(custom_errors)
+
+        return errors
+
+    def _custom_guardrails(self, output_data: Dict[str, Any]) -> List[str]:
+        """
+        Guardrails personalizados específicos del agente.
+
+        Subclases pueden override este método para agregar validaciones
+        específicas adicionales.
+
+        Args:
+            output_data: Datos de salida a validar
+
+        Returns:
+            Lista de errores personalizados (vacía si pasa)
+        """
         return []
 
     def get_result(self) -> Optional[AgentResult]:
@@ -198,6 +258,38 @@ class Agent(ABC):
     def get_config(self, key: str, default: Any = None) -> Any:
         """Obtiene un valor de configuración."""
         return self.config.get(key, default)
+
+    def check_authority(self, action: str, context: Optional[Dict[str, Any]] = None) -> bool:
+        """
+        Verifica si el agente tiene autoridad para realizar una acción.
+
+        Según el Principio 4 de la constitution (Límites de Autoridad),
+        ciertas acciones requieren escalación humana.
+
+        Args:
+            action: Acción a realizar
+            context: Contexto adicional de la acción
+
+        Returns:
+            True si tiene autoridad, False si requiere escalación
+
+        Example:
+            >>> agent = Agent("test")
+            >>> if not agent.check_authority("modificar_arquitectura"):
+            ...     agent.logger.error("ESCALACIÓN REQUERIDA: Cambio arquitectónico")
+            ...     return AgentResult(status=AgentStatus.BLOCKED)
+        """
+        if self.constitution_validator is None:
+            self.logger.warning("Constitution validator no disponible, asumiendo autoridad")
+            return True
+
+        context = context or {}
+        has_authority = self.constitution_validator.validate_authority_limits(action, context)
+
+        if not has_authority:
+            self.logger.warning(f"ESCALACIÓN REQUERIDA: Acción '{action}' fuera de autoridad")
+
+        return has_authority
 
     def save_result(self, output_path: Path) -> None:
         """

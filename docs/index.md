@@ -1,55 +1,103 @@
 ---
 id: DOC-INDEX-GENERAL
-estado: borrador
+estado: activo
 propietario: equipo-documentacion
-ultima_actualizacion: 2025-02-18
-relacionados: ["DOC-ROOT-001", "DOC-VIS-INDEX"]
+ultima_actualizacion: 2025-11-06
+version: 4.0
+estandares: ["ISO/IEC/IEEE 29148:2018", "BABOK v3", "PMBOK 7th Ed"]
 ---
-# Índice de espacios documentales
+# Indice de Documentacion - IACT Project
 
-Este árbol replica la jerarquía de espacios publicada en la base documental maestra de IACT. Todas las secciones del proyecto se ubican aquí y conservan metadatos de trazabilidad, responsables y pendientes.
+Sistema de documentacion del proyecto IACT (IVR Analytics & Customer Tracking) organizado segun ISO/IEC/IEEE 29148:2018.
 
-## Página padre
-- [`../readme.md`](../readme.md)
+## Pagina padre
+- [README Principal](../README.md)
 
-## Páginas hijas
-- [Visión y alcance](vision_y_alcance/readme.md)
-- [Gobernanza](gobernanza/readme.md)
-- [Requisitos](requisitos/readme.md)
-- [Arquitectura](arquitectura/readme.md)
-- [Diseño detallado](diseno_detallado/readme.md)
-- [Backend](backend/readme.md)
-- [Frontend](frontend/readme.md)
-- [Infrastructure](infrastructure/readme.md)
-- [Planificación y releases](planificacion_y_releases/readme.md)
-- [Gestión de calidad (QA)](qa/estrategia_qa.md)
-- [DevOps](devops/readme.md)
-- [Anexos](anexos/readme.md)
-- [Plantillas](plantillas/readme.md)
-- [Checklists](checklists/readme.md)
-- [Solicitudes](solicitudes/readme.md)
-  - [SC00](solicitudes/sc00/readme.md)
-  - [SC01](solicitudes/sc01/readme.md)
-  - [Scientific Computing Projects](solicitudes/scientific_computing_projects/index.md)
+## Estructura de Documentacion v4.0
 
-## Información clave
-### Convenciones
-- Cada carpeta representa un espacio, categoría o página corporativa.
-- Las portadas utilizan `readme.md` con front matter en YAML para registrar propietarios y relaciones.
-- Los enlaces entre secciones deben ser relativos (`../gobernanza/readme.md`) para que funcionen tanto en GitHub como en MkDocs.
+### Requisitos (ISO 29148)
+- [Requisitos - Indices Auto-generados](requisitos/README.md)
+  - BRS (Business Requirements Specification)
+  - StRS (Stakeholder Requirements Specification)
+  - SRS (Software Requirements Specification)
+  - RTM (Requirements Traceability Matrix)
 
-### Uso con MkDocs
-La configuración [`mkdocs.yml`](mkdocs.yml) apunta a este directorio (`docs`) como `docs_dir`. Cualquier archivo nuevo añadido aquí aparecerá automáticamente en la búsqueda global del sitio generado.
+### Implementacion por Dominio
+- [Implementacion](implementacion/README.md)
+  - [Backend](implementacion/backend/README.md) - Requisitos, arquitectura, diseno
+  - [Frontend](implementacion/frontend/README.md) - Requisitos, arquitectura, diseno
+  - [Infrastructure](implementacion/infrastructure/README.md) - Requisitos, arquitectura, diseno
 
-## Estado de cumplimiento
-| Elemento en la base maestra | ¿Existe en repositorio? | Observaciones |
-| --- | --- | --- |
-| Jerarquía de espacios corporativos | Sí | Todas las secciones principales tienen portada con front matter. |
-| Índice de navegación actualizado | Sí | Se refleja en la sección **Páginas hijas** y en MkDocs. |
-| Matriz de responsables por espacio | Parcial | Cada portada incluye propietario; falta consolidar inventario global. |
-| Sincronización periódica con la base maestra | Pendiente | Requiere revisión mensual coordinada con Gobernanza. |
+### Decisiones de Arquitectura
+- [ADRs (Architecture Decision Records)](adr/) - 14 ADRs documentados
 
-## Acciones prioritarias
-- [ ] Verificar mensualmente que la jerarquía local coincide con la base documental maestra.
-- [ ] Registrar diferencias relevantes en `gobernanza/backlog.md` o documento equivalente.
-- [ ] Revisar que los enlaces del menú de MkDocs coincidan con esta estructura.
+### Infraestructura
+- [Infraestructura](infraestructura/README.md)
+  - [CPython Precompilado](infraestructura/cpython_precompilado/README.md)
+
+### Gobernanza y Plantillas
+- [Plantillas](plantillas/) - Templates para requisitos
+- [Arquitectura](arquitectura/) - Guias y lineamientos
+
+### Anexos y Referencias
+- [Anexos](anexos/) - Glosarios, FAQs, analisis
+- [Especificaciones](specs/) - Especificaciones tecnicas
+- [Planes](plans/) - Planes de implementacion
+
+## Convenciones
+
+### Organizacion por Dominio
+El proyecto sigue ADR_010 (Organizacion por Dominio):
+- Codigo por dominio: `/api/`, `/ui/`, `/infrastructure/`
+- Documentacion de implementacion: `docs/implementacion/{dominio}/`
+- Requisitos co-localizados con codigo
+
+### Nomenclatura
+- Archivos README: Siempre `README.md` (mayusculas)
+- Documentos markdown: `nombre_descriptivo.md` o `nombre-descriptivo.md`
+- Sin emojis en ningun archivo (restriccion IACT)
+
+### Requisitos (ISO 29148)
+- **Source of truth**: `docs/implementacion/{dominio}/requisitos/`
+- **Indices auto-generados**: `docs/requisitos/` (NO editar manualmente)
+- **Conformidad**: Full ISO/IEC/IEEE 29148:2018
+- **Generacion**: Script Python `scripts/requisitos/generate_requirements_index.py`
+
+## Uso con MkDocs
+
+La configuracion `mkdocs.yml` apunta a este directorio como `docs_dir`. Para ver la documentacion:
+
+```bash
+./ver_documentacion.sh
+```
+
+## Estado de Conformidad ISO 29148
+
+| Clausula ISO 29148 | Estado | Evidencia |
+|-------------------|--------|-----------|
+| 4.2 Full Conformance | COMPLETO | Indices BRS, StRS, SRS generados |
+| 5.2.8 Traceability | COMPLETO | RTM con trazabilidad bidireccional |
+| 6.2 Business Analysis | COMPLETO | 3 Necesidades documentadas |
+| 6.3 Stakeholder Needs | COMPLETO | 4 Requisitos stakeholder |
+| 9.3-9.6 Information Items | COMPLETO | BRS, StRS, SRS generados |
+
+Total requisitos rastreados: 36
+- Necesidades (N-XXX): 3
+- Requisitos Negocio (RN-XXX): 3
+- Stakeholder (RS-XXX): 4
+- Funcionales (RF-XXX): 18
+- No Funcionales (RNF-XXX): 8
+
+## Acciones Prioritarias
+
+- [ ] Verificar indices ISO 29148 actualizados mensualmente
+- [ ] Revisar ADRs cuando se tomen decisiones arquitectonicas
+- [ ] Mantener requisitos sincronizados con codigo
+- [ ] Actualizar MkDocs navigation cuando se agreguen secciones
+
+## Referencias
+
+- **BABOK v3**: Business Analysis Body of Knowledge
+- **PMBOK 7th Ed**: Project Management Body of Knowledge
+- **ISO/IEC/IEEE 29148:2018**: Requirements engineering
+- **ADR_010**: Organizacion del Proyecto por Dominio

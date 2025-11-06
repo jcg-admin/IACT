@@ -202,7 +202,7 @@ markers = [
 
 ### Workflow Configurado
 
-Archivo: `.github/workflows/python-ci.yml`
+Archivo: `.github/workflows/python_ci.yml`
 
 #### Jobs:
 
@@ -654,7 +654,7 @@ pre-commit autoupdate
 Para agregar nuevas herramientas de calidad:
 
 1. Actualizar `pyproject.toml` con la configuración
-2. Agregar al `.pre-commit-config.yaml` si aplica
+2. Agregar al `.pre_commit_config.yaml` si aplica
 3. Agregar comando al `Makefile`
 4. Documentar en este archivo
-5. Actualizar CI en `.github/workflows/python-ci.yml`
+5. Actualizar CI en `.github/workflows/python_ci.yml`

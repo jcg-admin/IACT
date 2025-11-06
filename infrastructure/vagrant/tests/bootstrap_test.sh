@@ -135,11 +135,11 @@ SCRIPT
 prepare_required_scripts() {
     local root="$1"
     local -a names=(
-        system-prepare.sh
-        mariadb-install.sh
-        postgres-install.sh
-        setup-mariadb-database.sh
-        setup-postgres-database.sh
+        system_prepare.sh
+        mariadb_install.sh
+        postgres_install.sh
+        setup_mariadb_database.sh
+        setup_postgres_database.sh
     )
 
     local name
@@ -161,7 +161,7 @@ __test_build_bootstrap_steps_trims_impl() {
     local last_index=$(( ${#steps[@]} - 1 ))
 
     assert_equals 'func:display_bootstrap_header' "${steps[0]}" 'Primer paso incorrecto' || return 1
-    assert_equals 'script:'"${_fixture_dir}"'/scripts/system-prepare.sh' "${steps[4]}" 'Ruta de script de sistema incorrecta' || return 1
+    assert_equals 'script:'"${_fixture_dir}"'/scripts/system_prepare.sh' "${steps[4]}" 'Ruta de script de sistema incorrecta' || return 1
     assert_equals 'func:display_access_information' "${steps[last_index]}" 'Último paso incorrecto' || return 1
     return 0
 }
@@ -239,10 +239,10 @@ __test_verify_required_scripts_detects_missing_impl() {
 
     define_database_steps() {
         printf '%s\n' \
-            "script:$fixture_dir/scripts/mariadb-install.sh" \
-            "script:$fixture_dir/scripts/postgres-install.sh" \
-            "script:$fixture_dir/scripts/setup-mariadb-database.sh" \
-            "script:$fixture_dir/scripts/setup-postgres-database.sh" \
+            "script:$fixture_dir/scripts/mariadb_install.sh" \
+            "script:$fixture_dir/scripts/postgres_install.sh" \
+            "script:$fixture_dir/scripts/setup_mariadb_database.sh" \
+            "script:$fixture_dir/scripts/setup_postgres_database.sh" \
             "script:$fixture_dir/scripts/custom-migration.sh"
     }
 

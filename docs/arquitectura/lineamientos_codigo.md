@@ -10,7 +10,7 @@ relacionados: ["DOC-ARQ-INDEX", "DOC-GOB-INDEX"]
 Este documento establece los estándares de código, convenciones de nombrado, y mejores prácticas que deben seguirse en el desarrollo del proyecto IACT.
 
 ## Página padre
-- [Arquitectura](readme.md)
+- [Arquitectura](README.md)
 
 ## Python / Django
 
@@ -305,7 +305,7 @@ flake8 .
 Configurar pre-commit hooks para validar antes de commit:
 
 ```yaml
-# .pre-commit-config.yaml
+# .pre_commit_config.yaml
 repos:
   - repo: https://github.com/psf/black
     rev: 23.0.0
@@ -432,7 +432,7 @@ def get_daily_metrics(date: str) -> dict:
 - [PEP 8 - Style Guide for Python Code](https://peps.python.org/pep-0008/)
 - [Django Coding Style](https://docs.djangoproject.com/en/dev/internals/contributing/writing-code/coding-style/)
 - [Google Python Style Guide](https://google.github.io/styleguide/pyguide.html)
-- [Gobernanza del Proyecto](../gobernanza/readme.md)
+- [Gobernanza del Proyecto](../gobernanza/README.md)
 
 ## Cumplimiento
 

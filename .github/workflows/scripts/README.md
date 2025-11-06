@@ -4,13 +4,13 @@ This directory contains utility scripts used by GitHub Actions workflows for aut
 
 ## Scripts Overview
 
-### 1. `check-release-exists.sh`
+### 1. `check_release_exists.sh`
 
 **Purpose**: Verify if a release/tag already exists before creating a new one.
 
 **Usage**:
 ```bash
-./check-release-exists.sh v1.2.3
+./check_release_exists.sh v1.2.3
 ```
 
 **Used by**: `release.yml` workflow
@@ -21,7 +21,7 @@ This directory contains utility scripts used by GitHub Actions workflows for aut
 
 ---
 
-### 2. `create-github-release.sh`
+### 2. `create_github_release.sh`
 
 **Purpose**: Create a GitHub release using `gh` CLI.
 
@@ -31,7 +31,7 @@ export GITHUB_TOKEN="ghp_xxx"
 export VERSION="v1.2.3"
 export PRERELEASE="false"  # optional
 
-./create-github-release.sh
+./create_github_release.sh
 ```
 
 **Requirements**:
@@ -43,13 +43,13 @@ export PRERELEASE="false"  # optional
 
 ---
 
-### 3. `create-release-packages.sh`
+### 3. `create_release_packages.sh`
 
 **Purpose**: Create distribution packages (ZIP and TAR.GZ) for releases.
 
 **Usage**:
 ```bash
-./create-release-packages.sh v1.2.3
+./create_release_packages.sh v1.2.3
 ```
 
 **Output**:
@@ -67,13 +67,13 @@ export PRERELEASE="false"  # optional
 
 ---
 
-### 4. `generate-release-notes.sh`
+### 4. `generate_release_notes.sh`
 
 **Purpose**: Generate structured release notes from git commit history.
 
 **Usage**:
 ```bash
-./generate-release-notes.sh v1.2.3
+./generate_release_notes.sh v1.2.3
 ```
 
 **Output**: `CHANGELOG-v1.2.3.md` with sections:
@@ -87,19 +87,19 @@ export PRERELEASE="false"  # optional
 
 ---
 
-### 5. `get-next-version.sh`
+### 5. `get_next_version.sh`
 
 **Purpose**: Calculate the next semantic version based on commits.
 
 **Usage**:
 ```bash
 # Auto-detect from commits
-./get-next-version.sh auto
+./get_next_version.sh auto
 
 # Specify bump type
-./get-next-version.sh major   # 1.0.0 → 2.0.0
-./get-next-version.sh minor   # 1.0.0 → 1.1.0
-./get-next-version.sh patch   # 1.0.0 → 1.0.1
+./get_next_version.sh major   # 1.0.0 → 2.0.0
+./get_next_version.sh minor   # 1.0.0 → 1.1.0
+./get_next_version.sh patch   # 1.0.0 → 1.0.1
 ```
 
 **Auto-detection rules**:
@@ -113,13 +113,13 @@ export PRERELEASE="false"  # optional
 
 ---
 
-### 6. `update-version.sh`
+### 6. `update_version.sh`
 
 **Purpose**: Update version number across project files.
 
 **Usage**:
 ```bash
-./update-version.sh 1.2.3  # without 'v' prefix
+./update_version.sh 1.2.3  # without 'v' prefix
 ```
 
 **Files updated**:
@@ -141,29 +141,29 @@ These scripts are called by the following workflows:
 ### `release.yml` (Release Management)
 
 ```
-validate-version (check-release-exists.sh)
+validate-version (check_release_exists.sh)
     ↓
-generate-changelog (generate-release-notes.sh)
+generate-changelog (generate_release_notes.sh)
     ↓
-create-packages (create-release-packages.sh)
+create-packages (create_release_packages.sh)
     ↓
-update-versions (update-version.sh)
+update-versions (update_version.sh)
     ↓
-create-release (create-github-release.sh)
+create-release (create_github_release.sh)
 ```
 
 ### Manual Release Process
 
 ```bash
 # 1. Get next version
-NEXT_VERSION=$(./get-next-version.sh auto)
+NEXT_VERSION=$(./get_next_version.sh auto)
 echo "Next version: $NEXT_VERSION"
 
 # 2. Check if it already exists
-./check-release-exists.sh $NEXT_VERSION
+./check_release_exists.sh $NEXT_VERSION
 
 # 3. Update version files
-./update-version.sh ${NEXT_VERSION#v}
+./update_version.sh ${NEXT_VERSION#v}
 
 # 4. Commit changes
 git add -A
@@ -208,18 +208,18 @@ permissions:
 
 ```bash
 # Test version detection
-./get-next-version.sh auto
+./get_next_version.sh auto
 
 # Test release notes generation
-./generate-release-notes.sh v1.0.0
+./generate_release_notes.sh v1.0.0
 
 # Test package creation
-./create-release-packages.sh v1.0.0
+./create_release_packages.sh v1.0.0
 ls -lh dist/
 
 # Test version update (dry-run)
 git stash  # save your changes
-./update-version.sh 1.0.0
+./update_version.sh 1.0.0
 git diff   # review changes
 git reset --hard  # revert
 git stash pop

@@ -3,11 +3,11 @@ id: RB-DEVOPS-004
 estado: vigente
 propietario: equipo-devops
 ultima_actualizacion: 2025-02-16
-relacionados: ["DOC-OPS-001", "playbooks_operativos/copilot-codespaces.md"]
+relacionados: ["DOC-OPS-001", "playbooks_operativos/copilot_codespaces.md"]
 ---
 # Runbook de verificación: GitHub Copilot y Codespaces
 
-Este runbook confirma que el Codespace corporativo deja lista la integración con GitHub Copilot y registra las evidencias clave descritas en `playbooks_operativos/copilot-codespaces.md`.
+Este runbook confirma que el Codespace corporativo deja lista la integración con GitHub Copilot y registra las evidencias clave descritas en `playbooks_operativos/copilot_codespaces.md`.
 
 ## 1. Matriz de cumplimiento
 
@@ -241,7 +241,7 @@ entorno no permite escribir en `$HOME/.npmrc`, exporta `NPM_CONFIG_USERCONFIG` a
 
 ### 6.8 Extensión con MCP adicionales
 
-1. Revisar lineamientos de seguridad en `playbooks_operativos/copilot-codespaces.md` antes de agregar servidores.
+1. Revisar lineamientos de seguridad en `playbooks_operativos/copilot_codespaces.md` antes de agregar servidores.
 2. Solicitar la instalación de nuevas herramientas:
    ```text
    /mcp add

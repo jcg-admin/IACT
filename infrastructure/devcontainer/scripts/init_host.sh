@@ -188,7 +188,7 @@ validate_critical_files() {
 
     local required_files=(
         "api/callcentersite/manage.py"
-        ".devcontainer/docker-compose.yml"
+        ".devcontainer/docker_compose.yml"
         ".devcontainer/Dockerfile"
         ".devcontainer/devcontainer.json"
     )
@@ -284,7 +284,7 @@ setup_env_file() {
         cat > "$env_file" << 'EOF'
 # Django Environment Variables
 # This file is for LOCAL developer configuration only
-# Most variables come from docker-compose.yml
+# Most variables come from docker_compose.yml
 
 # Uncomment and customize as needed:
 # DEBUG=True
