@@ -63,8 +63,8 @@ For local development and testing with locally built artifacts:
   "features": {
     "./features/cpython-prebuilt": {
       "version": "3.12.6",
-      "artifactUrl": "/workspaces/IACT---project/artifacts/cpython/cpython-3.12.6-ubuntu22.04-build1.tgz",
-      "checksumUrl": "/workspaces/IACT---project/artifacts/cpython/cpython-3.12.6-ubuntu22.04-build1.tgz.sha256"
+      "artifactUrl": "/workspaces/IACT---project/infrastructure/artifacts/cpython/cpython-3.12.6-ubuntu22.04-build1.tgz",
+      "checksumUrl": "/workspaces/IACT---project/infrastructure/artifacts/cpython/cpython-3.12.6-ubuntu22.04-build1.tgz.sha256"
     }
   }
 }
@@ -106,7 +106,7 @@ URL or local path to the precompiled CPython tarball.
 
 ```json
 {
-  "artifactUrl": "/workspaces/project/artifacts/cpython-3.12.6.tgz"
+  "artifactUrl": "/workspaces/project/infrastructure/artifacts/cpython-3.12.6.tgz"
 }
 ```
 
@@ -331,7 +331,7 @@ Project B (Python 3.11):
   "features": {
     "./features/cpython-prebuilt": {
       "version": "3.12.6",
-      "artifactUrl": "/workspaces/IACT---project/artifacts/cpython/cpython-3.12.6-ubuntu22.04-build1.tgz"
+      "artifactUrl": "/workspaces/IACT---project/infrastructure/artifacts/cpython/cpython-3.12.6-ubuntu22.04-build1.tgz"
     }
   }
 }
@@ -387,7 +387,7 @@ make validate-cpython ARTIFACT=cpython-3.12.6-ubuntu22.04-build1.tgz
   "features": {
     "./features/cpython-prebuilt": {
       "version": "3.12.6",
-      "artifactUrl": "/workspaces/IACT---project/artifacts/cpython/cpython-3.12.6-ubuntu22.04-build1.tgz"
+      "artifactUrl": "/workspaces/IACT---project/infrastructure/artifacts/cpython/cpython-3.12.6-ubuntu22.04-build1.tgz"
     }
   }
 }

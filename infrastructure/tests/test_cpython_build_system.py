@@ -14,8 +14,8 @@ import os
 # Paths del proyecto
 BASE_DIR = Path(__file__).parent.parent.parent
 VAGRANT_DIR = BASE_DIR / "infrastructure" / "vagrant" / "cpython-builder"
-SCRIPTS_INFRA_DIR = BASE_DIR / "scripts" / "infra"
-ARTIFACTS_DIR = BASE_DIR / "artifacts" / "cpython"
+SCRIPTS_INFRA_DIR = BASE_DIR / "infrastructure" / "scripts"
+ARTIFACTS_DIR = BASE_DIR / "infrastructure" / "artifacts" / "cpython"
 
 
 @pytest.mark.critical
@@ -40,7 +40,7 @@ def test_vagrantfile_exists():
 @pytest.mark.critical
 def test_build_script_exists_and_executable():
     """Verifica que script de build existe y es ejecutable."""
-    build_script = VAGRANT_DIR / "build-cpython.sh"
+    build_script = VAGRANT_DIR / "scripts" / "build-cpython.sh"
     assert build_script.exists(), "build-cpython.sh no encontrado"
 
     # Verificar que es ejecutable
@@ -56,7 +56,7 @@ def test_build_script_exists_and_executable():
 @pytest.mark.critical
 def test_validate_script_exists_and_executable():
     """Verifica que script de validación existe y es ejecutable."""
-    validate_script = VAGRANT_DIR / "validate-build.sh"
+    validate_script = VAGRANT_DIR / "scripts" / "validate-build.sh"
     assert validate_script.exists(), "validate-build.sh no encontrado"
 
     assert os.access(validate_script, os.X_OK), "validate-build.sh no es ejecutable"
@@ -83,7 +83,7 @@ def test_artifacts_directory_structure():
     assert ARTIFACTS_DIR.exists(), f"Directorio de artefactos no existe: {ARTIFACTS_DIR}"
     assert ARTIFACTS_DIR.is_dir(), "Artifacts path no es directorio"
 
-    artifacts_md = BASE_DIR / "artifacts" / "ARTIFACTS.md"
+    artifacts_md = BASE_DIR / "infrastructure" / "artifacts" / "ARTIFACTS.md"
     assert artifacts_md.exists(), "ARTIFACTS.md no encontrado"
 
     content = artifacts_md.read_text()
@@ -106,8 +106,8 @@ def test_vagrant_readme_exists():
 def test_build_script_no_emojis():
     """Verifica que scripts no contienen emojis."""
     scripts_to_check = [
-        VAGRANT_DIR / "build-cpython.sh",
-        VAGRANT_DIR / "validate-build.sh",
+        VAGRANT_DIR / "scripts" / "build-cpython.sh",
+        VAGRANT_DIR / "scripts" / "validate-build.sh",
         SCRIPTS_INFRA_DIR / "build-cpython.sh",
         SCRIPTS_INFRA_DIR / "validate-cpython.sh",
     ]
@@ -172,8 +172,8 @@ def test_validate_script_checks_sha256():
 def test_scripts_reference_spec():
     """Verifica que scripts referencian SPEC-INFRA-001."""
     scripts_to_check = [
-        VAGRANT_DIR / "build-cpython.sh",
-        VAGRANT_DIR / "validate-build.sh",
+        VAGRANT_DIR / "scripts" / "build-cpython.sh",
+        VAGRANT_DIR / "scripts" / "validate-build.sh",
         VAGRANT_DIR / "README.md",
     ]
 
@@ -197,7 +197,7 @@ def test_directory_structure_complete():
         VAGRANT_DIR,
         SCRIPTS_INFRA_DIR,
         ARTIFACTS_DIR,
-        BASE_DIR / "tests" / "integration",
+        BASE_DIR / "infrastructure" / "tests",
     ]
 
     for dir_path in required_dirs:

@@ -134,7 +134,7 @@ build-cpython: ## Compilar CPython en Vagrant (uso: make build-cpython VERSION=3
 		exit 1; \
 	fi
 	@echo "$(BLUE)Compilando CPython $(VERSION) build $(BUILD)...$(NC)"
-	./scripts/infra/build-cpython.sh $(VERSION) $(BUILD)
+	./infrastructure/scripts/build-cpython.sh $(VERSION) $(BUILD)
 
 validate-cpython: ## Validar artefacto CPython (uso: make validate-cpython ARTIFACT=cpython-X.Y.Z-ubuntu22.04-build1.tgz)
 	@if [ -z "$(ARTIFACT)" ]; then \
@@ -142,18 +142,18 @@ validate-cpython: ## Validar artefacto CPython (uso: make validate-cpython ARTIF
 		exit 1; \
 	fi
 	@echo "$(BLUE)Validando artefacto: $(ARTIFACT)$(NC)"
-	./scripts/infra/validate-cpython.sh $(ARTIFACT)
+	./infrastructure/scripts/validate-cpython.sh $(ARTIFACT)
 
 list-artifacts: ## Listar artefactos CPython disponibles
 	@echo "$(BLUE)Artefactos CPython disponibles:$(NC)"
 	@echo ""
-	@if [ -d "artifacts/cpython" ] && [ "$$(ls -A artifacts/cpython/*.tgz 2>/dev/null)" ]; then \
-		ls -lh artifacts/cpython/*.tgz | awk '{print "  " $$9 " (" $$5 ")"}'; \
+	@if [ -d "infrastructure/artifacts/cpython" ] && [ "$$(ls -A infrastructure/artifacts/cpython/*.tgz 2>/dev/null)" ]; then \
+		ls -lh infrastructure/artifacts/cpython/*.tgz | awk '{print "  " $$9 " (" $$5 ")"}'; \
 	else \
 		echo "  $(YELLOW)No hay artefactos generados aún$(NC)"; \
 	fi
 	@echo ""
-	@echo "Ver registro completo: cat artifacts/ARTIFACTS.md"
+	@echo "Ver registro completo: cat infrastructure/artifacts/ARTIFACTS.md"
 
 vagrant-cpython-up: ## Iniciar VM de compilación CPython
 	@echo "$(BLUE)Iniciando VM de compilación CPython...$(NC)"

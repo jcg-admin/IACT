@@ -134,7 +134,7 @@ Implementar un sistema de CPython precompilado distribuido mediante Feature pers
 **Precondiciones**:
 - VM Vagrant está disponible y funcionando
 - Conexión a internet para descargar código fuente de CPython
-- Directorio `artifacts/cpython/` existe
+- Directorio `infrastructure/artifacts/cpython/` existe
 
 **Flujo Principal**:
 1. Desarrollador ejecuta `make build-cpython`
@@ -145,7 +145,7 @@ Implementar un sistema de CPython precompilado distribuido mediante Feature pers
 6. Sistema compila CPython con todas las extensiones nativas
 7. Sistema empaqueta binario en tarball versionado
 8. Sistema genera checksum SHA256
-9. Sistema copia artefacto a `artifacts/cpython/`
+9. Sistema copia artefacto a `infrastructure/artifacts/cpython/`
 
 **Flujo Alterno 1a**: Descarga de código fuente falla
 1. Sistema reintenta hasta 3 veces
@@ -158,7 +158,7 @@ Implementar un sistema de CPython precompilado distribuido mediante Feature pers
 3. Desarrollador reintenta compilación
 
 **Postcondiciones**:
-- Artefacto `.tgz` existe en `artifacts/cpython/`
+- Artefacto `.tgz` existe en `infrastructure/artifacts/cpython/`
 - Archivo `.sha256` con checksum está presente
 - Validación de módulos nativos pasa correctamente
 

@@ -129,7 +129,7 @@ Para desarrollo completamente offline o para testing de artefactos compilados lo
   "features": {
     "./features/cpython-prebuilt": {
       "version": "3.12.6",
-      "artifactUrl": "${localWorkspaceFolder}/artifacts/cpython/cpython-3.12.6-ubuntu22.04-build1.tgz"
+      "artifactUrl": "${localWorkspaceFolder}/infrastructure/artifacts/cpython/cpython-3.12.6-ubuntu22.04-build1.tgz"
     }
   }
 }
@@ -138,11 +138,11 @@ Para desarrollo completamente offline o para testing de artefactos compilados lo
 **Opción 1: Descargar artefacto manualmente**
 
 ```bash
-mkdir -p artifacts/cpython/
+mkdir -p infrastructure/artifacts/cpython/
 curl -L https://github.com/2-Coatl/IACT---project/releases/download/cpython-3.12.6-build1/cpython-3.12.6-ubuntu22.04-build1.tgz \
-  -o artifacts/cpython/cpython-3.12.6-ubuntu22.04-build1.tgz
+  -o infrastructure/artifacts/cpython/cpython-3.12.6-ubuntu22.04-build1.tgz
 curl -L https://github.com/2-Coatl/IACT---project/releases/download/cpython-3.12.6-build1/cpython-3.12.6-ubuntu22.04-build1.tgz.sha256 \
-  -o artifacts/cpython/cpython-3.12.6-ubuntu22.04-build1.tgz.sha256
+  -o infrastructure/artifacts/cpython/cpython-3.12.6-ubuntu22.04-build1.tgz.sha256
 ```
 
 **Opción 2: Compilar artefacto localmente (Fase 2)**
@@ -156,7 +156,7 @@ make build-cpython VERSION=3.12.6
 # Validar artefacto
 make validate-cpython ARTIFACT=cpython-3.12.6-ubuntu22.04-build1.tgz
 
-# El artefacto estará en artifacts/cpython/ listo para usar
+# El artefacto estará en infrastructure/artifacts/cpython/ listo para usar
 ```
 
 Ver: `infrastructure/vagrant/cpython-builder/README.md` para más detalles sobre compilación local.

@@ -177,7 +177,7 @@ Los proyectos opt-in agregando la Feature a su `devcontainer.json`:
   "features": {
     "./features/cpython-prebuilt": {
       "version": "3.12.6",
-      "artifactUrl": "${localWorkspaceFolder}/artifacts/cpython/cpython-3.12.6-ubuntu22.04-build1.tgz"
+      "artifactUrl": "${localWorkspaceFolder}/infrastructure/artifacts/cpython/cpython-3.12.6-ubuntu22.04-build1.tgz"
     }
   }
 }

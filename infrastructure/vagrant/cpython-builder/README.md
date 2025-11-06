@@ -62,7 +62,7 @@ Primera vez: ~10-15 minutos (descarga box + provisioning)
 **Opción A: Desde fuera de VM (recomendado)**:
 ```bash
 # Desde raíz del proyecto
-./scripts/infra/build-cpython.sh 3.12.6
+./infrastructure/scripts/build-cpython.sh 3.12.6
 ```
 
 **Opción B: Dentro de VM**:
@@ -78,7 +78,7 @@ Tiempo de compilación: ~10-15 minutos (con PGO)
 
 **Opción A: Desde fuera de VM (recomendado)**:
 ```bash
-./scripts/infra/validate-cpython.sh cpython-3.12.6-ubuntu22.04-build1.tgz
+./infrastructure/scripts/validate-cpython.sh cpython-3.12.6-ubuntu22.04-build1.tgz
 ```
 
 **Opción B: Dentro de VM**:
@@ -90,10 +90,10 @@ cd /vagrant
 
 ### 4. Resultado
 
-Artefactos generados en: `artifacts/cpython/`
+Artefactos generados en: `infrastructure/artifacts/cpython/`
 
 ```
-artifacts/cpython/
+infrastructure/artifacts/cpython/
   +-- cpython-3.12.6-ubuntu22.04-build1.tgz
   +-- cpython-3.12.6-ubuntu22.04-build1.tgz.sha256
 ```
@@ -296,7 +296,7 @@ find . -name "*.pyc" -delete
 
 # Re-empaquetar
 cd /opt
-sudo tar czf /vagrant/artifacts/cpython/cpython-X.Y.Z-ubuntu22.04-build2.tgz python-X.Y.Z
+sudo tar czf /vagrant/infrastructure/artifacts/cpython/cpython-X.Y.Z-ubuntu22.04-build2.tgz python-X.Y.Z
 ```
 
 ---
@@ -350,13 +350,13 @@ Una vez generado y validado el artefacto:
 1. Publicar en GitHub Releases:
    ```bash
    gh release create cpython-3.12.6-build1 \
-     artifacts/cpython/cpython-3.12.6-ubuntu22.04-build1.tgz \
-     artifacts/cpython/cpython-3.12.6-ubuntu22.04-build1.tgz.sha256 \
+     infrastructure/artifacts/cpython/cpython-3.12.6-ubuntu22.04-build1.tgz \
+     infrastructure/artifacts/cpython/cpython-3.12.6-ubuntu22.04-build1.tgz.sha256 \
      --title "CPython 3.12.6 Build 1" \
      --notes "CPython 3.12.6 precompilado para Ubuntu 22.04"
    ```
 
-2. Actualizar `artifacts/ARTIFACTS.md`
+2. Actualizar `infrastructure/artifacts/ARTIFACTS.md`
 
 3. Proceder a Fase 2: Feature de Dev Container
 

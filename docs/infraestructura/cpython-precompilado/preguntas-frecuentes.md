@@ -71,9 +71,9 @@ Tres pasos:
 
 1. Descargar artefacto manualmente:
    ```bash
-   mkdir -p artifacts/cpython/
+   mkdir -p infrastructure/artifacts/cpython/
    curl -L https://github.com/.../releases/download/.../cpython-3.12.6-ubuntu22.04-build1.tgz \
-     -o artifacts/cpython/cpython-3.12.6-ubuntu22.04-build1.tgz
+     -o infrastructure/artifacts/cpython/cpython-3.12.6-ubuntu22.04-build1.tgz
    ```
 
 2. Usar path local en Feature:
@@ -82,7 +82,7 @@ Tres pasos:
      "features": {
        "./features/cpython-prebuilt": {
          "version": "3.12.6",
-         "artifactUrl": "${localWorkspaceFolder}/artifacts/cpython/cpython-3.12.6-ubuntu22.04-build1.tgz"
+         "artifactUrl": "${localWorkspaceFolder}/infrastructure/artifacts/cpython/cpython-3.12.6-ubuntu22.04-build1.tgz"
        }
      }
    }
@@ -445,7 +445,7 @@ Las versiones deprecadas **siguen disponibles** en GitHub Releases indefinidamen
 3. Leer `README.md` para instrucciones
 4. Ejecutar `vagrant up && vagrant ssh`
 5. Ejecutar `/vagrant/scripts/infra/build-cpython.sh`
-6. Artefacto generado en `/vagrant/artifacts/cpython/`
+6. Artefacto generado en `/vagrant/infrastructure/artifacts/cpython/`
 
 ---
 

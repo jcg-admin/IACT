@@ -48,7 +48,7 @@ Esto haría que clones del repositorio sean extremadamente lentos y consumidores
 
 ```bash
 # Después de compilar en Vagrant
-cd artifacts/cpython/
+cd infrastructure/artifacts/cpython/
 gh release create cpython-3.12.6-build1 \
   cpython-3.12.6-ubuntu22.04-build1.tgz \
   cpython-3.12.6-ubuntu22.04-build1.tgz.sha256 \
@@ -231,7 +231,7 @@ Mantener `artifacts/ARTIFACTS.md` en Git (archivo pequeño de texto):
 
 ```bash
 # En Vagrant después de compilar exitosamente
-cd /vagrant/artifacts/cpython/
+cd /vagrant/infrastructure/artifacts/cpython/
 
 # Crear release con gh CLI
 gh release create cpython-3.12.6-build1 \
@@ -288,16 +288,16 @@ jobs:
 
       - name: Download artifact from Vagrant
         run: |
-          # Asumir que artefacto ya está en artifacts/cpython/
-          ls -lh artifacts/cpython/
+          # Asumir que artefacto ya está en infrastructure/artifacts/cpython/
+          ls -lh infrastructure/artifacts/cpython/
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
           tag_name: cpython-${{ inputs.version }}-build${{ inputs.build_number }}
           files: |
-            artifacts/cpython/cpython-${{ inputs.version }}-ubuntu22.04-build${{ inputs.build_number }}.tgz
-            artifacts/cpython/cpython-${{ inputs.version }}-ubuntu22.04-build${{ inputs.build_number }}.tgz.sha256
+            infrastructure/artifacts/cpython/cpython-${{ inputs.version }}-ubuntu22.04-build${{ inputs.build_number }}.tgz
+            infrastructure/artifacts/cpython/cpython-${{ inputs.version }}-ubuntu22.04-build${{ inputs.build_number }}.tgz.sha256
 ```
 
 ### Consumo en Feature
@@ -344,9 +344,9 @@ ldconfig
 
 1. Descargar artefacto manualmente antes de tiempo:
    ```bash
-   mkdir -p artifacts/cpython/
+   mkdir -p infrastructure/artifacts/cpython/
    curl -L https://github.com/.../releases/download/.../cpython-3.12.6-ubuntu22.04-build1.tgz \
-     -o artifacts/cpython/cpython-3.12.6-ubuntu22.04-build1.tgz
+     -o infrastructure/artifacts/cpython/cpython-3.12.6-ubuntu22.04-build1.tgz
    ```
 
 2. Modificar Feature para usar path local:
@@ -355,7 +355,7 @@ ldconfig
      "features": {
        "./features/cpython-prebuilt": {
          "version": "3.12.6",
-         "artifactUrl": "${localWorkspaceFolder}/artifacts/cpython/cpython-3.12.6-ubuntu22.04-build1.tgz"
+         "artifactUrl": "${localWorkspaceFolder}/infrastructure/artifacts/cpython/cpython-3.12.6-ubuntu22.04-build1.tgz"
        }
      }
    }

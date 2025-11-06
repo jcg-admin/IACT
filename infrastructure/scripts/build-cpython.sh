@@ -1,15 +1,16 @@
 #!/bin/bash
 #
-# scripts/infra/validate-cpython.sh - Wrapper para validación en Vagrant
+# infrastructure/scripts/build-cpython.sh - Wrapper para compilación en Vagrant
 #
 # Referencia: SPEC-INFRA-001
-# Propósito: Facilitar validación desde fuera de Vagrant
+# Propósito: Facilitar compilación desde fuera de Vagrant
 #
 # Uso:
-#   ./scripts/infra/validate-cpython.sh <artifact-name>
+#   ./infrastructure/scripts/build-cpython.sh <version> [build-number]
 #
-# Ejemplo:
-#   ./scripts/infra/validate-cpython.sh cpython-3.12.6-ubuntu22.04-build1.tgz
+# Ejemplos:
+#   ./infrastructure/scripts/build-cpython.sh 3.12.6
+#   ./infrastructure/scripts/build-cpython.sh 3.12.6 2
 #
 
 set -euo pipefail
@@ -35,25 +36,19 @@ log_error() {
 
 # Validar argumentos
 if [ $# -lt 1 ]; then
-    log_error "Uso: $0 <artifact-name>"
-    log_error "Ejemplo: $0 cpython-3.12.6-ubuntu22.04-build1.tgz"
+    log_error "Uso: $0 <version> [build-number]"
+    log_error "Ejemplo: $0 3.12.6 1"
     exit 1
 fi
 
-ARTIFACT_NAME="$1"
+PYTHON_VERSION="$1"
+BUILD_NUMBER="${2:-1}"
 
 # Detectar directorio raíz del proyecto
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 
 VAGRANT_DIR="$PROJECT_ROOT/infrastructure/vagrant/cpython-builder"
-ARTIFACT_PATH="$PROJECT_ROOT/artifacts/cpython/$ARTIFACT_NAME"
-
-# Verificar que existe artefacto
-if [ ! -f "$ARTIFACT_PATH" ]; then
-    log_error "Artefacto no encontrado: $ARTIFACT_PATH"
-    exit 1
-fi
 
 # Verificar que existe directorio Vagrant
 if [ ! -d "$VAGRANT_DIR" ]; then
@@ -61,8 +56,9 @@ if [ ! -d "$VAGRANT_DIR" ]; then
     exit 1
 fi
 
-log_info "=== Wrapper de validación de artefacto CPython ==="
-log_info "Artefacto: $ARTIFACT_NAME"
+log_info "=== Wrapper de compilación de CPython ==="
+log_info "Versión: $PYTHON_VERSION"
+log_info "Build number: $BUILD_NUMBER"
 log_info "Vagrant dir: $VAGRANT_DIR"
 echo ""
 
@@ -89,20 +85,26 @@ fi
 
 log_success "VM está corriendo"
 
-# Ejecutar validación en VM
-log_info "Ejecutando validación en VM..."
+# Ejecutar compilación en VM
+log_info "Ejecutando compilación en VM..."
 echo ""
 
-vagrant ssh -c "cd /vagrant && ./validate-build.sh $ARTIFACT_NAME"
+vagrant ssh -c "cd /vagrant && ./scripts/build-cpython.sh $PYTHON_VERSION $BUILD_NUMBER"
 
 EXIT_CODE=$?
 
 if [ $EXIT_CODE -eq 0 ]; then
     echo ""
-    log_success "=== Validación completada exitosamente ==="
-    log_info "El artefacto es válido y listo para distribución"
+    log_success "=== Compilación completada exitosamente ==="
+    log_info "Artefacto generado en: $PROJECT_ROOT/infrastructure/artifacts/cpython/"
+    echo ""
+    log_info "Siguiente paso:"
+    log_info "  ./infrastructure/scripts/validate-cpython.sh cpython-${PYTHON_VERSION}-ubuntu22.04-build${BUILD_NUMBER}.tgz"
 else
     echo ""
-    log_error "Validación falló con código: $EXIT_CODE"
+    log_error "Compilación falló con código: $EXIT_CODE"
+    log_info "Para debugging, conectarse a VM:"
+    log_info "  cd $VAGRANT_DIR"
+    log_info "  vagrant ssh"
     exit $EXIT_CODE
 fi
