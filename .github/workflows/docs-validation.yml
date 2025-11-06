@@ -63,7 +63,7 @@ jobs:
             echo "  - docs/implementacion/infrastructure/ → docs/infrastructure/"
             exit 1
           else
-            echo "✓ No references to old structure found"
+            echo "[OK] No references to old structure found"
           fi
 
           echo "::endgroup::"
@@ -81,7 +81,7 @@ jobs:
             echo "Please update these references to use: docs/infrastructure/"
             exit 1
           else
-            echo "✓ No references to old 'infraestructura/' found"
+            echo "[OK] No references to old 'infraestructura/' found"
           fi
 
           echo "::endgroup::"
@@ -127,7 +127,7 @@ jobs:
             echo "Please review and fix broken links"
             # Don't fail the build for broken links, just warn
           else
-            echo "✓ All checked links are valid"
+            echo "[OK] All checked links are valid"
           fi
 
           echo "::endgroup::"
@@ -179,7 +179,7 @@ jobs:
             echo "::error::Found $ERROR_COUNT validation errors in auto-generated docs"
             exit 1
           else
-            echo "✓ All auto-generated docs have proper metadata"
+            echo "[OK] All auto-generated docs have proper metadata"
           fi
 
           echo "::endgroup::"
@@ -215,19 +215,19 @@ jobs:
           echo "📁 Structure validation:"
 
           if [ -d "docs/backend" ]; then
-            echo "  ✓ docs/backend/ exists"
+            echo "  [OK] docs/backend/ exists"
           else
             echo "  ✗ docs/backend/ missing"
           fi
 
           if [ -d "docs/frontend" ]; then
-            echo "  ✓ docs/frontend/ exists"
+            echo "  [OK] docs/frontend/ exists"
           else
             echo "  ✗ docs/frontend/ missing"
           fi
 
           if [ -d "docs/infrastructure" ]; then
-            echo "  ✓ docs/infrastructure/ exists"
+            echo "  [OK] docs/infrastructure/ exists"
           else
             echo "  ✗ docs/infrastructure/ missing"
           fi
@@ -235,7 +235,7 @@ jobs:
           if [ -d "docs/implementacion" ]; then
             echo "  ✗ docs/implementacion/ still exists (should be removed)"
           else
-            echo "  ✓ docs/implementacion/ properly removed"
+            echo "  [OK] docs/implementacion/ properly removed"
           fi
 
           echo "::endgroup::"
@@ -259,11 +259,11 @@ jobs:
           if [ "${{ needs.validate-structure.result }}" == "success" ] && \
              [ "${{ needs.check-old-references.result }}" == "success" ] && \
              [ "${{ needs.validate-auto-generated-docs.result }}" == "success" ]; then
-            echo "✅ All documentation validation checks passed!"
+            echo "[PASS] All documentation validation checks passed!"
             echo ""
             echo "Documentation structure is valid and consistent."
           else
-            echo "❌ Some documentation validation checks failed"
+            echo "[FAIL] Some documentation validation checks failed"
             echo ""
             echo "Results:"
             echo "  - Structure validation: ${{ needs.validate-structure.result }}"

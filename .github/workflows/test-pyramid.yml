@@ -144,32 +144,32 @@ jobs:
 
           # Unit tests should be >= 50% (allowing 10% tolerance)
           if [ $UNIT_PCT -lt 50 ]; then
-            echo "❌ FAIL: Unit tests are only $UNIT_PCT% (should be >= 50%)"
+            echo "[FAIL] FAIL: Unit tests are only $UNIT_PCT% (should be >= 50%)"
             VALID=false
           else
-            echo "✅ PASS: Unit tests are $UNIT_PCT% (>= 50%)"
+            echo "[PASS] PASS: Unit tests are $UNIT_PCT% (>= 50%)"
           fi
 
           # Integration tests should be 20-40%
           if [ $INT_PCT -lt 20 ] || [ $INT_PCT -gt 40 ]; then
-            echo "⚠️  WARNING: Integration tests are $INT_PCT% (should be 20-40%)"
+            echo "[WARNING]  WARNING: Integration tests are $INT_PCT% (should be 20-40%)"
             # Warning only, not blocking
           else
-            echo "✅ PASS: Integration tests are $INT_PCT% (20-40%)"
+            echo "[PASS] PASS: Integration tests are $INT_PCT% (20-40%)"
           fi
 
           # E2E tests should be <= 20%
           if [ $E2E_PCT -gt 20 ]; then
-            echo "⚠️  WARNING: E2E tests are $E2E_PCT% (should be <= 20%)"
+            echo "[WARNING]  WARNING: E2E tests are $E2E_PCT% (should be <= 20%)"
             # Warning only, not blocking
           else
-            echo "✅ PASS: E2E tests are $E2E_PCT% (<= 20%)"
+            echo "[PASS] PASS: E2E tests are $E2E_PCT% (<= 20%)"
           fi
 
           echo ""
 
           if [ "$VALID" != "true" ]; then
-            echo "❌ Test pyramid validation FAILED"
+            echo "[FAIL] Test pyramid validation FAILED"
             echo ""
             echo "Recommendations:"
             echo "  - Add more unit tests (target: 60%)"
@@ -178,7 +178,7 @@ jobs:
             exit 1
           fi
 
-          echo "✅ Test pyramid validation PASSED"
+          echo "[PASS] Test pyramid validation PASSED"
 
       - name: Generate Test Pyramid Visualization
         run: |
@@ -204,9 +204,9 @@ jobs:
 
           | Type | Target | Actual | Status |
           |------|--------|--------|--------|
-          | Unit | 60% | ${{ steps.pyramid_metrics.outputs.unit_pct }}% | $([ ${{ steps.pyramid_metrics.outputs.unit_pct }} -ge 50 ] && echo "✅" || echo "❌") |
-          | Integration | 30% | ${{ steps.pyramid_metrics.outputs.int_pct }}% | $([ ${{ steps.pyramid_metrics.outputs.int_pct }} -ge 20 ] && [ ${{ steps.pyramid_metrics.outputs.int_pct }} -le 40 ] && echo "✅" || echo "⚠️ ") |
-          | E2E | 10% | ${{ steps.pyramid_metrics.outputs.e2e_pct }}% | $([ ${{ steps.pyramid_metrics.outputs.e2e_pct }} -le 20 ] && echo "✅" || echo "⚠️ ") |
+          | Unit | 60% | ${{ steps.pyramid_metrics.outputs.unit_pct }}% | $([ ${{ steps.pyramid_metrics.outputs.unit_pct }} -ge 50 ] && echo "[PASS]" || echo "[FAIL]") |
+          | Integration | 30% | ${{ steps.pyramid_metrics.outputs.int_pct }}% | $([ ${{ steps.pyramid_metrics.outputs.int_pct }} -ge 20 ] && [ ${{ steps.pyramid_metrics.outputs.int_pct }} -le 40 ] && echo "[PASS]" || echo "[WARNING] ") |
+          | E2E | 10% | ${{ steps.pyramid_metrics.outputs.e2e_pct }}% | $([ ${{ steps.pyramid_metrics.outputs.e2e_pct }} -le 20 ] && echo "[PASS]" || echo "[WARNING] ") |
 
           ## Backend Breakdown
 
@@ -281,9 +281,9 @@ jobs:
           echo "Unit tests execution time: ${UNIT_TIME}s"
 
           if [ $UNIT_TIME -gt 30 ]; then
-            echo "⚠️  WARNING: Unit tests took ${UNIT_TIME}s (should be < 30s)"
+            echo "[WARNING]  WARNING: Unit tests took ${UNIT_TIME}s (should be < 30s)"
           else
-            echo "✅ Unit tests execution time is acceptable"
+            echo "[PASS] Unit tests execution time is acceptable"
           fi
 
       - name: Check for slow tests
@@ -312,8 +312,8 @@ jobs:
           echo "  Execution Time: ${{ needs.test-execution-time.result }}"
 
           if [ "${{ needs.analyze-test-pyramid.result }}" != "success" ]; then
-            echo "❌ Test Pyramid validation FAILED"
+            echo "[FAIL] Test Pyramid validation FAILED"
             exit 1
           fi
 
-          echo "✅ Test Pyramid validation PASSED"
+          echo "[PASS] Test Pyramid validation PASSED"

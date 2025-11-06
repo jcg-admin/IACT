@@ -420,7 +420,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: ${{ needs.create-incident-issue.outputs.issue_number }},
-              body: '✅ Team notified via InternalMessage system (IACT RNF-002 compliant - NO EMAIL)'
+              body: '[PASS] Team notified via InternalMessage system (IACT RNF-002 compliant - NO EMAIL)'
             });
 
   summary:

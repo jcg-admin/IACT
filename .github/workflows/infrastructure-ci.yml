@@ -33,12 +33,12 @@ jobs:
           find scripts/ -name "*.sh" -type f | while read script; do
             echo "Checking: $script"
             shellcheck -x "$script" || {
-              echo "❌ Shellcheck failed for: $script"
+              echo "[FAIL] Shellcheck failed for: $script"
               exit 1
             }
           done
 
-          echo "✅ All shell scripts passed shellcheck"
+          echo "[PASS] All shell scripts passed shellcheck"
 
       - name: Check script permissions
         run: |
@@ -46,7 +46,7 @@ jobs:
 
           find scripts/ -name "*.sh" -type f | while read script; do
             if [ ! -x "$script" ]; then
-              echo "⚠️  WARNING: $script is not executable"
+              echo "[WARNING]  WARNING: $script is not executable"
               echo "  Run: chmod +x $script"
             fi
           done
@@ -87,7 +87,7 @@ jobs:
             echo "Testing validate_critical_restrictions.sh..."
             bash scripts/validate_critical_restrictions.sh
           else
-            echo "⚠️  WARNING: validate_critical_restrictions.sh not found"
+            echo "[WARNING]  WARNING: validate_critical_restrictions.sh not found"
           fi
 
       - name: Test validate_security_config.sh
@@ -96,7 +96,7 @@ jobs:
             echo "Testing validate_security_config.sh..."
             bash scripts/validate_security_config.sh
           else
-            echo "⚠️  WARNING: validate_security_config.sh not found"
+            echo "[WARNING]  WARNING: validate_security_config.sh not found"
           fi
 
       - name: Test validate_database_router.sh
@@ -105,7 +105,7 @@ jobs:
             echo "Testing validate_database_router.sh..."
             bash scripts/validate_database_router.sh
           else
-            echo "⚠️  WARNING: validate_database_router.sh not found"
+            echo "[WARNING]  WARNING: validate_database_router.sh not found"
           fi
 
   validate-terraform:
@@ -199,12 +199,12 @@ jobs:
           find . -name "*.yml" -o -name "*.yaml" | while read yaml_file; do
             echo "Checking: $yaml_file"
             python -c "import yaml; yaml.safe_load(open('$yaml_file'))" || {
-              echo "❌ Invalid YAML: $yaml_file"
+              echo "[FAIL] Invalid YAML: $yaml_file"
               exit 1
             }
           done
 
-          echo "✅ All YAML files are valid"
+          echo "[PASS] All YAML files are valid"
 
       - name: Validate JSON files
         run: |
@@ -213,12 +213,12 @@ jobs:
           find . -name "*.json" | while read json_file; do
             echo "Checking: $json_file"
             python -c "import json; json.load(open('$json_file'))" || {
-              echo "❌ Invalid JSON: $json_file"
+              echo "[FAIL] Invalid JSON: $json_file"
               exit 1
             }
           done
 
-          echo "✅ All JSON files are valid"
+          echo "[PASS] All JSON files are valid"
 
       - name: Check for secrets in code
         run: |
@@ -226,10 +226,10 @@ jobs:
 
           # Simple pattern matching for common secrets
           if grep -r -E "(password|secret|api_key|token).*=.*['\"].*['\"]" api/ scripts/ | grep -v "test" | grep -v ".pyc"; then
-            echo "⚠️  WARNING: Potential hardcoded secrets found"
+            echo "[WARNING]  WARNING: Potential hardcoded secrets found"
             echo "Review the matches above and ensure they are not real secrets"
           else
-            echo "✅ No obvious hardcoded secrets found"
+            echo "[PASS] No obvious hardcoded secrets found"
           fi
 
   test-health-check:
@@ -285,11 +285,11 @@ jobs:
           echo "Testing health check endpoint..."
 
           curl -f http://localhost:8000/api/health || {
-            echo "❌ Health check endpoint failed"
+            echo "[FAIL] Health check endpoint failed"
             exit 1
           }
 
-          echo "✅ Health check endpoint working"
+          echo "[PASS] Health check endpoint working"
 
       - name: Stop server
         if: always()
@@ -321,8 +321,8 @@ jobs:
              [ "${{ needs.validate-docker.result }}" != "success" ] || \
              [ "${{ needs.validate-configurations.result }}" != "success" ] || \
              [ "${{ needs.test-health-check.result }}" != "success" ]; then
-            echo "❌ Infrastructure CI FAILED"
+            echo "[FAIL] Infrastructure CI FAILED"
             exit 1
           fi
 
-          echo "✅ Infrastructure CI PASSED"
+          echo "[PASS] Infrastructure CI PASSED"

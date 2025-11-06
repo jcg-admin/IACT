@@ -217,7 +217,7 @@ jobs:
             exit 1
           fi
 
-          echo "✓ No Redis usage detected"
+          echo "[OK] No Redis usage detected"
 
       - name: Validate session backend (MySQL required - RNF-002)
         run: |
@@ -227,7 +227,7 @@ jobs:
             exit 1
           fi
 
-          echo "✓ Session backend correctly configured (MySQL)"
+          echo "[OK] Session backend correctly configured (MySQL)"
 
       - name: Check for Email usage (PROHIBITED)
         run: |
@@ -237,7 +237,7 @@ jobs:
             # Warning only, not blocking
           fi
 
-          echo "✓ Email check completed"
+          echo "[OK] Email check completed"
 
       - name: Validate database router
         run: |
@@ -324,8 +324,8 @@ jobs:
              [ "${{ needs.test-postgresql.result }}" != "success" ] || \
              [ "${{ needs.validate-restrictions.result }}" != "success" ] || \
              [ "${{ needs.integration-tests.result }}" != "success" ]; then
-            echo "❌ Backend CI FAILED"
+            echo "[FAIL] Backend CI FAILED"
             exit 1
           fi
 
-          echo "✅ Backend CI PASSED"
+          echo "[PASS] Backend CI PASSED"

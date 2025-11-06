@@ -102,11 +102,11 @@ jobs:
           echo "Checking migration files for common issues..."
 
           python manage.py makemigrations --check --dry-run || {
-            echo "❌ Unapplied model changes detected. Run makemigrations."
+            echo "[FAIL] Unapplied model changes detected. Run makemigrations."
             exit 1
           }
 
-          echo "✅ No unapplied model changes"
+          echo "[PASS] No unapplied model changes"
 
       - name: Lint migrations
         run: |
@@ -115,7 +115,7 @@ jobs:
           echo "Linting migrations for potential issues..."
 
           python manage.py lintmigrations --warnings-as-errors || {
-            echo "⚠️  Migration linting found issues"
+            echo "[WARNING]  Migration linting found issues"
           }
 
       - name: Test migrations on MySQL
@@ -137,7 +137,7 @@ jobs:
           # Show applied migrations
           python manage.py showmigrations
 
-          echo "✅ MySQL migrations successful"
+          echo "[PASS] MySQL migrations successful"
 
       - name: Test migrations on PostgreSQL
         env:
@@ -158,7 +158,7 @@ jobs:
           # Show applied migrations
           python manage.py showmigrations
 
-          echo "✅ PostgreSQL migrations successful"
+          echo "[PASS] PostgreSQL migrations successful"
 
       - name: Test migration reversibility
         env:
@@ -181,7 +181,7 @@ jobs:
 
             # Try to reverse last migration
             python manage.py migrate $(echo $LAST_MIGRATION | cut -d. -f1) $(echo $LAST_MIGRATION | cut -d_ -f1-2) || {
-              echo "⚠️  Migration not reversible: $LAST_MIGRATION"
+              echo "[WARNING]  Migration not reversible: $LAST_MIGRATION"
               echo "This is acceptable for data migrations, but document it"
             }
 
@@ -216,25 +216,25 @@ jobs:
 
             # Check for DROP COLUMN (data loss)
             if grep -q "RemoveField\|AlterField.*null=False" "$migration_file"; then
-              echo "⚠️  WARNING: $migration_file contains potentially destructive operations"
+              echo "[WARNING]  WARNING: $migration_file contains potentially destructive operations"
               DANGEROUS=true
             fi
 
             # Check for DROP TABLE (data loss)
             if grep -q "DeleteModel" "$migration_file"; then
-              echo "⚠️  WARNING: $migration_file deletes models (tables)"
+              echo "[WARNING]  WARNING: $migration_file deletes models (tables)"
               DANGEROUS=true
             fi
 
             # Check for RENAME operations (risky)
             if grep -q "RenameField\|RenameModel" "$migration_file"; then
-              echo "⚠️  WARNING: $migration_file renames fields/models"
+              echo "[WARNING]  WARNING: $migration_file renames fields/models"
               DANGEROUS=true
             fi
 
             # Check for NOT NULL without default (will fail on existing data)
             if grep -q "null=False" "$migration_file" && ! grep -q "default=" "$migration_file"; then
-              echo "⚠️  WARNING: $migration_file adds NOT NULL field without default"
+              echo "[WARNING]  WARNING: $migration_file adds NOT NULL field without default"
               DANGEROUS=true
             fi
 
@@ -242,7 +242,7 @@ jobs:
 
           if [ "$DANGEROUS" == "true" ]; then
             echo ""
-            echo "❌ DANGEROUS MIGRATIONS DETECTED"
+            echo "[FAIL] DANGEROUS MIGRATIONS DETECTED"
             echo ""
             echo "Review these migrations carefully:"
             echo "1. Ensure data migration is in place if needed"
@@ -256,10 +256,10 @@ jobs:
             if ! grep -q "# DANGEROUS_MIGRATION_APPROVED" "$migration_file"; then
               exit 1
             else
-              echo "✅ Dangerous migration approved by developer"
+              echo "[PASS] Dangerous migration approved by developer"
             fi
           else
-            echo "✅ No dangerous operations detected"
+            echo "[PASS] No dangerous operations detected"
           fi
 
   generate-migration-report:
@@ -379,8 +379,8 @@ jobs:
 
           if [ "${{ needs.validate-migrations.result }}" != "success" ] || \
              [ "${{ needs.check-migration-safety.result }}" != "success" ]; then
-            echo "❌ Migration CI FAILED"
+            echo "[FAIL] Migration CI FAILED"
             exit 1
           fi
 
-          echo "✅ Migration CI PASSED"
+          echo "[PASS] Migration CI PASSED"

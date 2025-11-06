@@ -159,10 +159,10 @@ jobs:
             ### 🔍 Revisión Requerida
 
             Por favor revisa:
-            1. ✅ Que la información auto-generada es correcta
-            2. ✅ Que los modelos detectados son actuales
-            3. ✅ Que no hay información sensible expuesta
-            4. ✅ Que las secciones "Documentar..." fueron completadas si aplica
+            1. [PASS] Que la información auto-generada es correcta
+            2. [PASS] Que los modelos detectados son actuales
+            3. [PASS] Que no hay información sensible expuesta
+            4. [PASS] Que las secciones "Documentar..." fueron completadas si aplica
 
             ### 📄 Reporte Completo
 

@@ -257,8 +257,8 @@ jobs:
              [ "${{ needs.build.result }}" != "success" ] || \
              [ "${{ needs.accessibility.result }}" != "success" ] || \
              [ "${{ needs.security.result }}" != "success" ]; then
-            echo "❌ Frontend CI FAILED"
+            echo "[FAIL] Frontend CI FAILED"
             exit 1
           fi
 
-          echo "✅ Frontend CI PASSED"
+          echo "[PASS] Frontend CI PASSED"

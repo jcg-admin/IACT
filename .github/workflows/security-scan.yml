@@ -68,12 +68,12 @@ jobs:
           echo "Critical vulnerabilities: $CRITICAL_VULNS"
 
           if [ "$CRITICAL_VULNS" -gt 0 ]; then
-            echo "❌ CRITICAL vulnerabilities found!"
+            echo "[FAIL] CRITICAL vulnerabilities found!"
             exit 1
           fi
 
           if [ "$HIGH_VULNS" -gt 5 ]; then
-            echo "⚠️  WARNING: High number of HIGH vulnerabilities"
+            echo "[WARNING]  WARNING: High number of HIGH vulnerabilities"
           fi
 
       - name: Upload npm audit report
@@ -136,19 +136,19 @@ jobs:
 
           python manage.py check --deploy --settings=callcentersite.settings
 
-          echo "✅ Django security checks passed"
+          echo "[PASS] Django security checks passed"
 
       - name: Check for DEBUG=True in production settings
         run: |
           if grep -q "DEBUG = True" api/callcentersite/settings.py; then
-            echo "⚠️  WARNING: DEBUG=True found in settings"
+            echo "[WARNING]  WARNING: DEBUG=True found in settings"
             echo "Ensure DEBUG is False in production"
           fi
 
       - name: Check for weak SECRET_KEY
         run: |
           if grep -q "SECRET_KEY = ['\"].*['\"]" api/callcentersite/settings.py; then
-            echo "⚠️  WARNING: SECRET_KEY might be hardcoded"
+            echo "[WARNING]  WARNING: SECRET_KEY might be hardcoded"
             echo "Use environment variable for SECRET_KEY"
           fi
 
@@ -158,17 +158,17 @@ jobs:
 
           # Check session backend is MySQL
           if ! grep -q "django.contrib.sessions.backends.db" api/callcentersite/settings*.py; then
-            echo "❌ ERROR: SESSION_ENGINE not set to MySQL backend (RNF-002)"
+            echo "[FAIL] ERROR: SESSION_ENGINE not set to MySQL backend (RNF-002)"
             exit 1
           fi
 
           # Check NO Redis
           if grep -q "redis" api/callcentersite/settings*.py; then
-            echo "❌ ERROR: Redis detected (prohibited by RNF-002)"
+            echo "[FAIL] ERROR: Redis detected (prohibited by RNF-002)"
             exit 1
           fi
 
-          echo "✅ Session security validated (MySQL, NO Redis)"
+          echo "[PASS] Session security validated (MySQL, NO Redis)"
 
   trivy-scan:
     name: Container Security Scan (Trivy)
@@ -228,7 +228,7 @@ jobs:
 
           # Look for raw SQL queries
           if grep -r "\.raw\|\.execute" api/callcentersite/*.py | grep -v "test_" | grep -v ".pyc"; then
-            echo "⚠️  WARNING: Raw SQL queries found"
+            echo "[WARNING]  WARNING: Raw SQL queries found"
             echo "Ensure they use parameterized queries"
             echo ""
             echo "Found in:"
@@ -237,11 +237,11 @@ jobs:
 
           # Look for string formatting in queries
           if grep -r "f\".*SELECT\|\.format.*SELECT" api/callcentersite/*.py | grep -v "test_" | grep -v ".pyc"; then
-            echo "❌ ERROR: String formatting in SQL queries (SQL injection risk!)"
+            echo "[FAIL] ERROR: String formatting in SQL queries (SQL injection risk!)"
             exit 1
           fi
 
-          echo "✅ No obvious SQL injection vulnerabilities"
+          echo "[PASS] No obvious SQL injection vulnerabilities"
 
   xss-check:
     name: XSS Protection Check
@@ -256,17 +256,17 @@ jobs:
 
           # Check for unescaped template variables
           if find . -name "*.html" -type f -exec grep -l "|safe\|{% autoescape off %}" {} \; | grep -v node_modules; then
-            echo "⚠️  WARNING: Unescaped template variables found"
+            echo "[WARNING]  WARNING: Unescaped template variables found"
             echo "Review these files for potential XSS"
           fi
 
           # Check for dangerous React patterns
           if grep -r "dangerouslySetInnerHTML" frontend/src/ 2>/dev/null; then
-            echo "⚠️  WARNING: dangerouslySetInnerHTML used"
+            echo "[WARNING]  WARNING: dangerouslySetInnerHTML used"
             echo "Ensure HTML is properly sanitized"
           fi
 
-          echo "✅ XSS check completed"
+          echo "[PASS] XSS check completed"
 
   csrf-check:
     name: CSRF Protection Check
@@ -281,17 +281,17 @@ jobs:
 
           # Check Django CSRF middleware is enabled
           if ! grep -q "django.middleware.csrf.CsrfViewMiddleware" api/callcentersite/settings.py; then
-            echo "❌ ERROR: CSRF middleware not enabled"
+            echo "[FAIL] ERROR: CSRF middleware not enabled"
             exit 1
           fi
 
           # Check for @csrf_exempt decorators
           if grep -r "@csrf_exempt" api/callcentersite/*.py | grep -v "test_"; then
-            echo "⚠️  WARNING: @csrf_exempt found"
+            echo "[WARNING]  WARNING: @csrf_exempt found"
             echo "Review these views - they bypass CSRF protection"
           fi
 
-          echo "✅ CSRF protection enabled"
+          echo "[PASS] CSRF protection enabled"
 
   generate-security-report:
     name: Generate Security Report
@@ -382,7 +382,7 @@ jobs:
           fi
 
           if [ "$CRITICAL_FAILED" == "true" ]; then
-            echo "❌ CRITICAL security checks FAILED"
+            echo "[FAIL] CRITICAL security checks FAILED"
             exit 1
           fi
 
@@ -390,7 +390,7 @@ jobs:
           if [ "${{ needs.bandit-scan.result }}" != "success" ] || \
              [ "${{ needs.npm-audit.result }}" != "success" ] || \
              [ "${{ needs.safety-check.result }}" != "success" ]; then
-            echo "⚠️  Some security scans found issues (review reports)"
+            echo "[WARNING]  Some security scans found issues (review reports)"
           fi
 
-          echo "✅ Security scan completed"
+          echo "[PASS] Security scan completed"
