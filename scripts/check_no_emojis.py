@@ -34,6 +34,9 @@ EMOJI_PATTERNS = [
     r'[\U0001F170-\U0001F189]',  # Símbolos alfanuméricos encerrados suplementarios
 ]
 
+# Box Drawing Characters (U+2500-U+257F) - PERMITIDOS para árboles de directorios
+BOX_DRAWING_REGEX = re.compile(r'[\u2500-\u257F]')
+
 # Combinar todos los patrones
 EMOJI_REGEX = re.compile('|'.join(EMOJI_PATTERNS))
 
@@ -74,12 +77,18 @@ def detect_emojis_in_line(line: str, line_num: int) -> List[Tuple[int, str, str]
     matches = EMOJI_REGEX.finditer(line)
     for match in matches:
         emoji = match.group()
+        # Filtrar box-drawing characters (permitidos para árboles de directorios)
+        if BOX_DRAWING_REGEX.match(emoji):
+            continue
         context = line.strip()
         findings.append((line_num, emoji, context))
 
     # Buscar emojis comunes específicos
     for emoji in COMMON_EMOJIS:
         if emoji in line:
+            # Filtrar box-drawing characters
+            if BOX_DRAWING_REGEX.match(emoji):
+                continue
             context = line.strip()
             findings.append((line_num, emoji, context))
 

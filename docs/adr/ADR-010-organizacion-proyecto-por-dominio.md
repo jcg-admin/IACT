@@ -41,42 +41,42 @@ Cada dominio principal tendrá su propio directorio que contendrá TODO lo relac
 
 ```
 /IACT---project/
-+-- api/                      # Dominio: Backend Django
-|   +-- (código de API)
-|   +-- tests/               # (futuro: tests de API)
-|   +-- scripts/             # (futuro: scripts específicos de API)
-|
-+-- ui/                       # Dominio: Frontend React (futuro)
-|   +-- (código de UI)
-|   +-- tests/               # (futuro: tests de UI)
-|   +-- scripts/             # (futuro: scripts de build UI)
-|
-+-- infrastructure/           # Dominio: Infraestructura
-|   +-- cpython/             # Subdomain: CPython (builder, feature, artifacts)
-|   +-- devcontainer/        # Configuración DevContainer
-|   +-- artifacts/           # Outputs compartidos (no CPython)
-|   +-- scripts/             # Scripts de infraestructura no-CPython
-|   +-- tests/               # Tests de infraestructura no-CPython
-|   +-- vagrant/             # VMs de infraestructura no-CPython
-|   +-- box/
-|
-+-- docs/                     # Dominio: Documentación
-|   +-- specs/
-|   +-- adr/
-|   +-- infraestructura/
-|   +-- api/
-|   +-- gobernanza/
-|
-+-- features/                 # Features de DevContainer (convención)
-|
-+-- scripts/                  # Scripts cross-cutting
-|   +-- dev/                 # Herramientas de desarrollo
-|   +-- ai/                  # Generación con IA
-|   +-- templates/           # Templates compartidos
-|
-+-- .devcontainer/            # Convención VS Code
-+-- .github/                  # Convención GitHub
-+-- respaldo/                 # Temporal/legacy
+├── api/                      # Dominio: Backend Django
+│   ├── (código de API)
+│   ├── tests/               # (futuro: tests de API)
+│   └── scripts/             # (futuro: scripts específicos de API)
+│
+├── ui/                       # Dominio: Frontend React (futuro)
+│   ├── (código de UI)
+│   ├── tests/               # (futuro: tests de UI)
+│   └── scripts/             # (futuro: scripts de build UI)
+│
+├── infrastructure/           # Dominio: Infraestructura
+│   ├── cpython/             # Subdomain: CPython (builder, feature, artifacts)
+│   ├── devcontainer/        # Configuración DevContainer
+│   ├── artifacts/           # Outputs compartidos (no CPython)
+│   ├── scripts/             # Scripts de infraestructura no-CPython
+│   ├── tests/               # Tests de infraestructura no-CPython
+│   ├── vagrant/             # VMs de infraestructura no-CPython
+│   └── box/
+│
+├── docs/                     # Dominio: Documentación
+│   ├── specs/
+│   ├── adr/
+│   ├── infraestructura/
+│   ├── api/
+│   └── gobernanza/
+│
+├── features/                 # Features de DevContainer (convención)
+│
+├── scripts/                  # Scripts cross-cutting
+│   ├── dev/                 # Herramientas de desarrollo
+│   ├── ai/                  # Generación con IA
+│   └── templates/           # Templates compartidos
+│
+├── .devcontainer/            # Convención VS Code
+├── .github/                  # Convención GitHub
+└── respaldo/                 # Temporal/legacy
 ```
 
 ---
@@ -116,18 +116,18 @@ Cada dominio principal tendrá su propio directorio que contendrá TODO lo relac
 **Ejemplos problemáticos con tipo de archivo:**
 ```
 /
-+-- scripts/
-|   +-- api/          # Scripts de API
-|   +-- infra/        # Scripts de infra
-|   +-- ui/           # Scripts de UI
-+-- tests/
-|   +-- api/          # Tests de API
-|   +-- infra/        # Tests de infra
-|   +-- ui/           # Tests de UI
-+-- artifacts/
-|   +-- api/          # Artifacts de API
-|   +-- infra/        # Artifacts de infra
-|   +-- ui/           # Artifacts de UI
+├── scripts/
+│   ├── api/          # Scripts de API
+│   ├── infra/        # Scripts de infra
+│   └── ui/           # Scripts de UI
+├── tests/
+│   ├── api/          # Tests de API
+│   ├── infra/        # Tests de infra
+│   └── ui/           # Tests de UI
+└── artifacts/
+    ├── api/          # Artifacts de API
+    ├── infra/        # Artifacts de infra
+    └── ui/           # Artifacts de UI
 ```
 
 Resultado: para trabajar en infraestructura hay que tocar 3+ directorios raíz.
@@ -216,19 +216,19 @@ infrastructure/tests/test_cpython_*.py   → infrastructure/cpython/tests/test_c
 ```bash
 # Antes (tipo de archivo):
 tests/
-  +-- api/
-  |   +-- test_endpoints.py
-  +-- infra/
-      +-- test_vagrant.py
+  ├── api/
+  │   └── test_endpoints.py
+  └── infra/
+      └── test_vagrant.py
 
 # Después (por dominio):
 api/
-  +-- tests/
-      +-- test_endpoints.py
+  └── tests/
+      └── test_endpoints.py
 
 infrastructure/
-  +-- tests/
-      +-- test_vagrant.py
+  └── tests/
+      └── test_vagrant.py
 ```
 
 ### Agregar Scripts de UI
@@ -236,11 +236,11 @@ infrastructure/
 ```bash
 # Después (por dominio):
 ui/
-  +-- src/
-  +-- scripts/
-  |   +-- build.sh         # Build de producción
-  |   +-- analyze.sh       # Análisis de bundle
-  +-- tests/
+  ├── src/
+  ├── scripts/
+  │   ├── build.sh         # Build de producción
+  │   └── analyze.sh       # Análisis de bundle
+  └── tests/
 ```
 
 ### Scripts Cross-Cutting
@@ -249,14 +249,14 @@ Scripts que sirven a TODOS los dominios permanecen en raíz:
 
 ```bash
 scripts/
-  +-- dev/
-  |   +-- check-all.sh        # Valida todo el proyecto
-  |   +-- validate-spec.sh    # Valida specs
-  |   +-- generate-plan.sh    # Genera planes
-  +-- ai/
-  |   +-- run_test_generation.sh
-  +-- templates/
-      +-- bash-script-template.sh
+  ├── dev/
+  │   ├── check-all.sh        # Valida todo el proyecto
+  │   ├── validate-spec.sh    # Valida specs
+  │   └── generate-plan.sh    # Genera planes
+  ├── ai/
+  │   └── run_test_generation.sh
+  └── templates/
+      └── bash-script-template.sh
 ```
 
 ---
@@ -297,25 +297,25 @@ Cuando un dominio (como infrastructure) contiene subsistemas complejos con múlt
 **Estructura de infrastructure/cpython/**:
 ```
 infrastructure/
-+-- cpython/                  # Subdomain: Todo CPython
-    +-- builder/              # Sistema de compilación (Vagrant)
-    |   +-- Vagrantfile
-    |   +-- bootstrap.sh
-    |   +-- scripts/          # Scripts de VM
-    |   +-- utils/
-    |   +-- README.md
-    +-- feature/              # Dev Container Feature
-    |   +-- devcontainer-feature.json
-    |   +-- install.sh
-    |   +-- README.md
-    +-- artifacts/            # Binarios compilados
-    |   +-- .gitkeep
-    +-- scripts/              # Scripts wrapper (host)
-    |   +-- build-cpython.sh
-    |   +-- validate-cpython.sh
-    +-- tests/                # Tests de integración
-        +-- test_cpython_build_system.py
-        +-- test_cpython_feature.py
+└── cpython/                  # Subdomain: Todo CPython
+    ├── builder/              # Sistema de compilación (Vagrant)
+    │   ├── Vagrantfile
+    │   ├── bootstrap.sh
+    │   ├── scripts/          # Scripts de VM
+    │   ├── utils/
+    │   └── README.md
+    ├── feature/              # Dev Container Feature
+    │   ├── devcontainer-feature.json
+    │   ├── install.sh
+    │   └── README.md
+    ├── artifacts/            # Binarios compilados
+    │   └── .gitkeep
+    ├── scripts/              # Scripts wrapper (host)
+    │   ├── build-cpython.sh
+    │   └── validate-cpython.sh
+    └── tests/                # Tests de integración
+        ├── test_cpython_build_system.py
+        └── test_cpython_feature.py
 ```
 
 **Ventajas del subdomain**:
