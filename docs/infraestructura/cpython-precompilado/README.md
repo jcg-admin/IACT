@@ -122,7 +122,7 @@ Versiones disponibles: Ver sección "Versiones Disponibles" más abajo.
 
 ### Usar artefacto local (sin descarga de internet)
 
-Para desarrollo completamente offline:
+Para desarrollo completamente offline o para testing de artefactos compilados localmente:
 
 ```json
 {
@@ -135,13 +135,31 @@ Para desarrollo completamente offline:
 }
 ```
 
-Descargar manualmente el artefacto antes:
+**Opción 1: Descargar artefacto manualmente**
 
 ```bash
 mkdir -p artifacts/cpython/
 curl -L https://github.com/2-Coatl/IACT---project/releases/download/cpython-3.12.6-build1/cpython-3.12.6-ubuntu22.04-build1.tgz \
   -o artifacts/cpython/cpython-3.12.6-ubuntu22.04-build1.tgz
+curl -L https://github.com/2-Coatl/IACT---project/releases/download/cpython-3.12.6-build1/cpython-3.12.6-ubuntu22.04-build1.tgz.sha256 \
+  -o artifacts/cpython/cpython-3.12.6-ubuntu22.04-build1.tgz.sha256
 ```
+
+**Opción 2: Compilar artefacto localmente (Fase 2)**
+
+Si necesitas compilar una versión custom o para testing:
+
+```bash
+# Compilar CPython en Vagrant
+make build-cpython VERSION=3.12.6
+
+# Validar artefacto
+make validate-cpython ARTIFACT=cpython-3.12.6-ubuntu22.04-build1.tgz
+
+# El artefacto estará en artifacts/cpython/ listo para usar
+```
+
+Ver: `infrastructure/vagrant/cpython-builder/README.md` para más detalles sobre compilación local.
 
 ### Combinar con otras Features
 
