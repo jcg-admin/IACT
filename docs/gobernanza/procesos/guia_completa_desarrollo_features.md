@@ -2,10 +2,11 @@
 id: PROC-GUIA-FEATURES
 tipo: procedimiento
 categoria: desarrollo
-version: 1.0.0
+version: 1.1.0
 fecha_creacion: 2025-11-06
+fecha_actualizacion: 2025-11-06
 propietario: equipo-desarrollo
-relacionados: ["PROC-CAMBIOS", "PROC-DEV-LOCAL", "PROC-QA", "PROC-RELEASE"]
+relacionados: ["PROC-CAMBIOS", "PROC-DEV-LOCAL", "PROC-QA", "PROC-RELEASE", "PLANTILLA-SPEC", "PLANTILLA-PLAN", "DOC-GOB-CONSTITUTION-AI"]
 ---
 # Guía Completa: Desarrollo de Features en IACT
 
@@ -21,7 +22,7 @@ Esta guía aplica a todos los desarrolladores que necesiten implementar nuevas f
 
 ```
 1. Setup Entorno     → Clonar + Vagrant + venv
-2. Crear Issue       → Planificación en GitHub
+2. Planificación     → Spec + Plan + Issue en GitHub
 3. Feature Branch    → git checkout -b feature/nombre-fecha
 4. Desarrollo TDD    → Tests → Código → Validación
 5. Commits           → Conventional Commits + pre-commit hooks
@@ -31,6 +32,8 @@ Esta guía aplica a todos los desarrolladores que necesiten implementar nuevas f
 9. Merge             → Squash and merge + delete branch
 10. Post-Merge       → Issue cierra + docs regeneran
 ```
+
+**Nota**: Para features complejas, el paso 2 incluye crear especificación formal (spec) usando `docs/plantillas/desarrollo/plantilla_spec.md` y plan de implementación usando `docs/plantillas/desarrollo/plantilla_plan.md`.
 
 ---
 
@@ -194,6 +197,83 @@ Antes de crear una feature, define claramente:
 - [ ] ¿Requiere cambios en BD, API, o ambos?
 - [ ] ¿Hay dependencias con otros issues?
 - [ ] ¿Es una feature completa o un spike de investigación?
+
+### 2.1.1 Crear Especificación de Feature (Spec)
+
+Para features complejas o significativas, crear una especificación formal usando la plantilla:
+
+**Plantilla**: `docs/plantillas/desarrollo/plantilla_spec.md`
+
+**Cuándo crear una spec**:
+- Features que afectan múltiples componentes
+- Cambios en modelos de datos o arquitectura
+- Features con requisitos de negocio complejos
+- Cuando se necesite aprobación de stakeholders antes de implementar
+
+**Pasos**:
+
+```bash
+# 1. Copiar plantilla
+cp docs/plantillas/desarrollo/plantilla_spec.md \
+   docs/specs/nombre-feature.md
+
+# 2. Completar todas las secciones requeridas
+# Editar docs/specs/nombre-feature.md con tu editor
+
+# 3. Commit de spec
+git add docs/specs/nombre-feature.md
+git commit -m "docs: agregar especificación de nombre-feature"
+```
+
+**Secciones clave a completar**:
+- Metadata y trazabilidad (requisitos, issues, ADRs)
+- Requisitos funcionales y criterios de aceptación
+- Requisitos no funcionales (performance, seguridad)
+- Diseño de solución (arquitectura, modelos, APIs)
+- Plan de testing y despliegue
+- Riesgos e impacto
+
+**Referencia**: Ver `docs/plantillas/desarrollo/plantilla_spec.md` para estructura completa.
+
+### 2.1.2 Crear Plan de Implementación (Plan)
+
+Una vez aprobada la spec, crear un plan detallado de implementación:
+
+**Plantilla**: `docs/plantillas/desarrollo/plantilla_plan.md`
+
+**Cuándo crear un plan**:
+- Siempre que exista una spec
+- Features que tomen más de 2 días de desarrollo
+- Cuando múltiples desarrolladores trabajen en paralelo
+- Features que requieran coordinación con otros equipos
+
+**Pasos**:
+
+```bash
+# 1. Copiar plantilla
+cp docs/plantillas/desarrollo/plantilla_plan.md \
+   docs/plans/nombre-feature.md
+
+# 2. Completar plan de tareas
+# Editar docs/plans/nombre-feature.md con tu editor
+
+# 3. Commit de plan
+git add docs/plans/nombre-feature.md
+git commit -m "docs: agregar plan de implementación de nombre-feature"
+```
+
+**Secciones clave a completar**:
+- Pre-requisitos (conocimientos, setup, documentación)
+- Arquitectura de la solución
+- Plan de tareas detallado por fases
+- Estimaciones de tiempo por tarea
+- Plan de testing y deploy
+- Riesgos y mitigaciones
+- Checklist final de completitud
+
+**Referencia**: Ver `docs/plantillas/desarrollo/plantilla_plan.md` para estructura completa.
+
+**Nota**: El plan es un documento vivo. Actualízalo a medida que avanzas en la implementación, documentando cambios y lecciones aprendidas.
 
 ### 2.2 Crear Issue en GitHub
 
