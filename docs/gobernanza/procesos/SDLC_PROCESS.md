@@ -10,7 +10,7 @@ relacionados: [PROC-AGILE-001, ADR-SDLC-MODEL]
 
 # Proceso SDLC del Proyecto IACT
 
-## Introducción
+## Introducci?n
 
 Este documento define el **Software Development Life Cycle (SDLC)** oficial para el proyecto IACT. Todo desarrollo de software, cambios en infraestructura, y modificaciones significativas deben seguir este proceso.
 
@@ -18,50 +18,50 @@ Este documento define el **Software Development Life Cycle (SDLC)** oficial para
 
 **Modelo**: **Agile + DevOps Hybrid**
 
-**Justificación**:
-- Proyecto complejo con requisitos cambiantes → Agile
-- Necesidad de CI/CD y deployment continuo → DevOps
-- Compliance ISO 27001 requiere documentación → Documentación formal
-- Equipo distribuido → Necesita sprints y ceremonias claras
+**Justificaci?n**:
+- Proyecto complejo con requisitos cambiantes -> Agile
+- Necesidad de CI/CD y deployment continuo -> DevOps
+- Compliance ISO 27001 requiere documentaci?n -> Documentaci?n formal
+- Equipo distribuido -> Necesita sprints y ceremonias claras
 
 ---
 
 ## Las 7 Fases del SDLC en IACT
 
 ```
-┌─────────────────────────────────────────────────────────┐
-│                   SDLC LIFECYCLE                         │
-│                                                          │
-│  ┌──────────┐   ┌──────────┐   ┌──────────┐           │
-│  │ Planning │──>│Feasibility│──>│  Design  │           │
-│  └──────────┘   └──────────┘   └──────────┘           │
-│       │              │               │                  │
-│       ▼              ▼               ▼                  │
-│  ┌──────────┐   ┌──────────┐   ┌──────────┐           │
-│  │Implement │<──│  Testing │<──│ Deploy   │           │
-│  └──────────┘   └──────────┘   └──────────┘           │
-│       │                              │                  │
-│       └──────────────┬───────────────┘                  │
-│                      ▼                                  │
-│               ┌──────────────┐                          │
-│               │ Maintenance  │                          │
-│               └──────────────┘                          │
-└─────────────────────────────────────────────────────────┘
++---------------------------------------------------------+
+|                   SDLC LIFECYCLE                         |
+|                                                          |
+|  +----------+   +----------+   +----------+           |
+|  | Planning |-->|Feasibility|-->|  Design  |           |
+|  +----------+   +----------+   +----------+           |
+|       |              |               |                  |
+|       ?              ?               ?                  |
+|  +----------+   +----------+   +----------+           |
+|  |Implement |<--|  Testing |<--| Deploy   |           |
+|  +----------+   +----------+   +----------+           |
+|       |                              |                  |
+|       +--------------+---------------+                  |
+|                      ?                                  |
+|               +--------------+                          |
+|               | Maintenance  |                          |
+|               +--------------+                          |
++---------------------------------------------------------+
 ```
 
 ---
 
-## Fase 1: Planning (Planificación)
+## Fase 1: Planning (Planificaci?n)
 
 ### Objetivo
-Definir **QUÉ** se va a construir y **POR QUÉ**.
+Definir **QU?** se va a construir y **POR QU?**.
 
 ### Actividades
 
-#### 1.1 Creación de Issues/Tickets
+#### 1.1 Creaci?n de Issues/Tickets
 Toda feature, bug fix, o mejora debe tener un issue/ticket.
 
-**Herramienta**: GitHub Issues (para features técnicas) o Jira (para features de negocio)
+**Herramienta**: GitHub Issues (para features t?cnicas) o Jira (para features de negocio)
 
 **Template de Issue**:
 ```markdown
@@ -89,7 +89,7 @@ Story Points: [1, 2, 3, 5, 8, 13]
 ```
 
 #### 1.2 Sprint Planning
-**Frecuencia**: Cada 2 semanas (Sprint de 10 días laborables)
+**Frecuencia**: Cada 2 semanas (Sprint de 10 d?as laborables)
 
 **Participantes**:
 - Product Owner
@@ -101,14 +101,14 @@ Story Points: [1, 2, 3, 5, 8, 13]
 2. Seleccionar issues para el sprint
 3. Estimar story points (Planning Poker)
 4. Definir Sprint Goal
-5. Crear tareas técnicas si es necesario
+5. Crear tareas t?cnicas si es necesario
 
 **Output**:
 - Sprint Backlog definido
 - Sprint Goal claro
 - Capacidad del equipo (velocity) considerada
 
-#### 1.3 Documentación de Requisitos
+#### 1.3 Documentaci?n de Requisitos
 **Para features P0/P1**: Crear documento de requisitos formal.
 
 **Template**: `docs/requisitos/funcionales/rfXXX_nombre_feature.md`
@@ -126,13 +126,13 @@ relacionados: [N-XXX, RN-XXX]
 
 # RF-XXX: Nombre del Requisito
 
-## Descripción
-[Descripción detallada]
+## Descripci?n
+[Descripci?n detallada]
 
-## Justificación de Negocio
-[Por qué es necesario]
+## Justificaci?n de Negocio
+[Por qu? es necesario]
 
-## Criterios de Aceptación
+## Criterios de Aceptaci?n
 1. [Criterio 1]
 2. [Criterio 2]
 
@@ -148,53 +148,53 @@ relacionados: [N-XXX, RN-XXX]
 ```
 
 ### Artefactos Generados
-- ✅ Issues/tickets en sistema de gestión
-- ✅ Sprint Backlog
-- ✅ Documentos de requisitos (para features grandes)
-- ✅ Estimaciones de esfuerzo
+-  Issues/tickets en sistema de gesti?n
+-  Sprint Backlog
+-  Documentos de requisitos (para features grandes)
+-  Estimaciones de esfuerzo
 
 ### Responsable
-- **Product Owner**: Priorización
-- **Tech Lead**: Estimación técnica
-- **Scrum Master**: Facilitación
+- **Product Owner**: Priorizaci?n
+- **Tech Lead**: Estimaci?n t?cnica
+- **Scrum Master**: Facilitaci?n
 
 ---
 
-## Fase 2: Feasibility Analysis (Análisis de Viabilidad)
+## Fase 2: Feasibility Analysis (An?lisis de Viabilidad)
 
 ### Objetivo
-Determinar si el proyecto es **VIABLE** técnica, económica y operativamente.
+Determinar si el proyecto es **VIABLE** t?cnica, econ?mica y operativamente.
 
 ### Actividades
 
 #### 2.1 Technical Feasibility
 **Preguntas clave**:
-- ¿Tenemos la tecnología necesaria?
-- ¿El equipo tiene las skills requeridas?
-- ¿Es compatible con nuestra arquitectura actual?
-- ¿Existen limitaciones técnicas?
+- ?Tenemos la tecnolog?a necesaria?
+- ?El equipo tiene las skills requeridas?
+- ?Es compatible con nuestra arquitectura actual?
+- ?Existen limitaciones t?cnicas?
 
-**Output**: Documento de viabilidad técnica
+**Output**: Documento de viabilidad t?cnica
 
 #### 2.2 Risk Assessment
 Usar matriz de riesgos:
 
-| Riesgo | Probabilidad | Impacto | Severidad | Mitigación |
+| Riesgo | Probabilidad | Impacto | Severidad | Mitigaci?n |
 |--------|--------------|---------|-----------|------------|
-| Falta de tests | Alta | Alto | **CRÍTICO** | Sprint dedicado de testing |
+| Falta de tests | Alta | Alto | **CR?TICO** | Sprint dedicado de testing |
 | CI/CD falla | Media | Alto | ALTO | Testing en staging primero |
 | Equipo no conoce tech | Baja | Medio | MEDIO | Training antes de implementar |
 
-**Severidad**: Probabilidad × Impacto
+**Severidad**: Probabilidad x Impacto
 
 #### 2.3 Cost-Benefit Analysis
 **Costo**:
-- Horas de desarrollo (story points × velocity)
+- Horas de desarrollo (story points x velocity)
 - Infraestructura adicional
 - Licencias/herramientas
 
 **Beneficio**:
-- Reducción de tiempo de desarrollo futuro
+- Reducci?n de tiempo de desarrollo futuro
 - Mejora de calidad
 - Compliance/seguridad
 - ROI estimado
@@ -203,28 +203,28 @@ Usar matriz de riesgos:
 **Decision Makers**: Tech Lead + Product Owner + Arquitecto
 
 **Criterios**:
-- ✅ Viabilidad técnica confirmada
-- ✅ Riesgos mitigables
-- ✅ ROI positivo
-- ✅ Recursos disponibles
+-  Viabilidad t?cnica confirmada
+-  Riesgos mitigables
+-  ROI positivo
+-  Recursos disponibles
 
 ### Artefactos Generados
-- ✅ Documento de viabilidad técnica
-- ✅ Risk assessment matrix
-- ✅ Cost-benefit analysis
-- ✅ Go/No-Go decision documentada
+-  Documento de viabilidad t?cnica
+-  Risk assessment matrix
+-  Cost-benefit analysis
+-  Go/No-Go decision documentada
 
 ### Responsable
-- **Arquitecto Senior**: Viabilidad técnica
+- **Arquitecto Senior**: Viabilidad t?cnica
 - **Tech Lead**: Risk assessment
 - **Product Owner**: Cost-benefit
 
 ---
 
-## Fase 3: System Design (Diseño del Sistema)
+## Fase 3: System Design (Dise?o del Sistema)
 
 ### Objetivo
-Definir **CÓMO** se va a construir la solución.
+Definir **C?MO** se va a construir la soluci?n.
 
 ### Actividades
 
@@ -233,7 +233,7 @@ Definir **CÓMO** se va a construir la solución.
 - Arquitectura general del sistema
 - Componentes principales
 - Interacciones entre componentes
-- Tecnologías a utilizar
+- Tecnolog?as a utilizar
 - Decisiones de arquitectura (ADRs)
 
 **Output**: Documento HLD en `docs/arquitectura/diseno/HLD_feature_name.md`
@@ -243,7 +243,7 @@ Definir **CÓMO** se va a construir la solución.
 - Especificaciones detalladas de cada componente
 - Modelos de datos (schemas, ER diagrams)
 - APIs (endpoints, payloads, responses)
-- Algoritmos críticos
+- Algoritmos cr?ticos
 - Diagramas de flujo
 - Diagramas de secuencia
 
@@ -264,14 +264,14 @@ date: 2025-11-XX
 # ADR-XXX: [Decision Title]
 
 ## Context
-[Por qué necesitamos tomar esta decisión]
+[Por qu? necesitamos tomar esta decisi?n]
 
 ## Decision
-[Qué decidimos hacer]
+[Qu? decidimos hacer]
 
 ## Alternatives Considered
-1. [Opción A] - Pros/Cons
-2. [Opción B] - Pros/Cons
+1. [Opci?n A] - Pros/Cons
+2. [Opci?n B] - Pros/Cons
 
 ## Consequences
 - Positive: ...
@@ -287,41 +287,41 @@ date: 2025-11-XX
 - Security Engineer (para features sensibles)
 
 **Checklist**:
-- [ ] Diseño alineado con requisitos
+- [ ] Dise?o alineado con requisitos
 - [ ] Considera casos edge
 - [ ] Escalabilidad evaluada
 - [ ] Seguridad considerada
 - [ ] Performance considerada
 - [ ] Mantenibilidad considerada
-- [ ] Documentación clara y completa
+- [ ] Documentaci?n clara y completa
 
 ### Artefactos Generados
-- ✅ HLD document
-- ✅ LLD document
-- ✅ ADRs (si aplica)
-- ✅ Diagramas (arquitectura, flujo, secuencia)
-- ✅ Design review approved
+-  HLD document
+-  LLD document
+-  ADRs (si aplica)
+-  Diagramas (arquitectura, flujo, secuencia)
+-  Design review approved
 
 ### Responsable
-- **Arquitecto Senior**: Design review y aprobación
-- **Tech Lead**: HLD y coordinación
+- **Arquitecto Senior**: Design review y aprobaci?n
+- **Tech Lead**: HLD y coordinaci?n
 - **Developers**: LLD de componentes asignados
 
 ---
 
-## Fase 4: Implementation (Implementación)
+## Fase 4: Implementation (Implementaci?n)
 
 ### Objetivo
-Construir la solución siguiendo el diseño aprobado.
+Construir la soluci?n siguiendo el dise?o aprobado.
 
 ### Actividades
 
 #### 4.1 Development Environment Setup
 Antes de codear, asegurar:
-- ✅ Branch creada desde `develop` o `main`
-- ✅ Dependencias instaladas
-- ✅ Tests existentes pasan
-- ✅ Linters/formatters configurados
+-  Branch creada desde `develop` o `main`
+-  Dependencias instaladas
+-  Tests existentes pasan
+-  Linters/formatters configurados
 
 **Naming Convention**:
 ```bash
@@ -338,7 +338,7 @@ hotfix/critical-security-fix
 - Type hints en Python (mypy)
 - PropTypes en React
 
-**Documentación de código**:
+**Documentaci?n de c?digo**:
 ```python
 def function_name(param1: str, param2: int) -> bool:
     """
@@ -358,7 +358,7 @@ def function_name(param1: str, param2: int) -> bool:
 ```
 
 #### 4.3 Atomic Commits
-**Regla**: 1 commit = 1 cambio lógico
+**Regla**: 1 commit = 1 cambio l?gico
 
 **Mensaje de commit** (Conventional Commits):
 ```
@@ -372,7 +372,7 @@ def function_name(param1: str, param2: int) -> bool:
 **Types**:
 - `feat`: Nueva feature
 - `fix`: Bug fix
-- `docs`: Solo documentación
+- `docs`: Solo documentaci?n
 - `style`: Formatting, missing semicolons, etc.
 - `refactor`: Refactoring sin cambio de funcionalidad
 - `test`: Agregar tests
@@ -382,11 +382,11 @@ def function_name(param1: str, param2: int) -> bool:
 ```
 feat(authentication): agregar bloqueo por intentos fallidos
 
-Implementa RF-003: Bloqueo de cuenta después de 5 intentos
+Implementa RF-003: Bloqueo de cuenta despu?s de 5 intentos
 fallidos en 15 minutos.
 
 - LoginAttemptService.count_recent_failures()
-- Lógica de bloqueo en AuthenticationService
+- L?gica de bloqueo en AuthenticationService
 - Tests unitarios para bloqueo
 
 Closes #123
@@ -394,17 +394,17 @@ Closes #123
 
 #### 4.4 Test-Driven Development (TDD)
 **Proceso**:
-1. ✅ Escribir test que falla (RED)
-2. ✅ Escribir código mínimo para pasar test (GREEN)
-3. ✅ Refactorizar manteniendo tests verdes (REFACTOR)
+1.  Escribir test que falla (RED)
+2.  Escribir c?digo m?nimo para pasar test (GREEN)
+3.  Refactorizar manteniendo tests verdes (REFACTOR)
 
-**Coverage target**: 80% para código nuevo
+**Coverage target**: 80% para c?digo nuevo
 
 #### 4.5 Code Review Process
 **Antes de crear PR**:
-- [ ] Código sigue standards
+- [ ] C?digo sigue standards
 - [ ] Tests escritos y pasan
-- [ ] Documentación actualizada
+- [ ] Documentaci?n actualizada
 - [ ] No hay secretos/passwords hardcodeados
 - [ ] Linters pasan
 - [ ] Build local exitoso
@@ -412,7 +412,7 @@ Closes #123
 **Pull Request Template**:
 ```markdown
 ## Description
-[Descripción de los cambios]
+[Descripci?n de los cambios]
 
 ## Related Issue
 Closes #123
@@ -442,29 +442,29 @@ Closes #123
 ```
 
 **Code Review Checklist** (Reviewer):
-- [ ] Código legible y mantenible
-- [ ] Lógica correcta
+- [ ] C?digo legible y mantenible
+- [ ] L?gica correcta
 - [ ] Tests adecuados
 - [ ] Sin vulnerabilidades de seguridad
 - [ ] Performance aceptable
-- [ ] Documentación suficiente
-- [ ] Alineado con diseño aprobado
+- [ ] Documentaci?n suficiente
+- [ ] Alineado con dise?o aprobado
 
 **Approval Required**:
-- 1 aprobación mínimo
-- Para código crítico (authentication, audit, payments): 2 aprobaciones + arquitecto
+- 1 aprobaci?n m?nimo
+- Para c?digo cr?tico (authentication, audit, payments): 2 aprobaciones + arquitecto
 
 ### Artefactos Generados
-- ✅ Código funcional
-- ✅ Tests (unit + integration)
-- ✅ Commits atómicos con mensajes claros
-- ✅ Pull Request con descripción completa
-- ✅ Code review aprobado
+-  C?digo funcional
+-  Tests (unit + integration)
+-  Commits at?micos con mensajes claros
+-  Pull Request con descripci?n completa
+-  Code review aprobado
 
 ### Responsable
-- **Developers**: Implementación y tests
+- **Developers**: Implementaci?n y tests
 - **Tech Lead**: Code reviews
-- **Arquitecto**: Review de cambios arquitectónicos
+- **Arquitecto**: Review de cambios arquitect?nicos
 
 ---
 
@@ -480,7 +480,7 @@ Verificar que el software funciona correctamente y cumple requisitos.
 
 **Herramientas**: pytest (Python), Jest (JavaScript)
 
-**Estándar**: Coverage ≥ 80%
+**Est?ndar**: Coverage >= 80%
 
 **Ejecutar**:
 ```bash
@@ -488,7 +488,7 @@ pytest api/callcentersite/tests/ --cov --cov-report=html
 ```
 
 #### 5.2 Integration Testing
-**Objetivo**: Testear interacción entre componentes.
+**Objetivo**: Testear interacci?n entre componentes.
 
 **Herramientas**: pytest con fixtures, Docker Compose
 
@@ -499,16 +499,16 @@ pytest api/callcentersite/tests/ --cov --cov-report=html
 
 **Herramientas**: Cypress, Playwright, Selenium
 
-**Ejemplo**: Login → Dashboard → Create Campaign → Logout
+**Ejemplo**: Login -> Dashboard -> Create Campaign -> Logout
 
 #### 5.4 Performance Testing
 **Objetivo**: Verificar que cumple requisitos de performance.
 
 **Herramientas**: Locust, JMeter, k6
 
-**Métricas**:
+**M?tricas**:
 - Response time < 500ms (p95)
-- Throughput ≥ 100 req/s
+- Throughput >= 100 req/s
 - Error rate < 1%
 
 #### 5.5 Security Testing
@@ -521,7 +521,7 @@ pytest api/callcentersite/tests/ --cov --cov-report=html
 - Secret scanning: GitGuardian, TruffleHog
 
 #### 5.6 Acceptance Testing (UAT)
-**Objetivo**: Validar que cumple criterios de aceptación.
+**Objetivo**: Validar que cumple criterios de aceptaci?n.
 
 **Responsable**: Product Owner + Stakeholders
 
@@ -545,11 +545,11 @@ jobs:
 ```
 
 ### Artefactos Generados
-- ✅ Test suites (unit, integration, E2E)
-- ✅ Coverage reports (≥80%)
-- ✅ Performance test results
-- ✅ Security scan reports
-- ✅ UAT sign-off
+-  Test suites (unit, integration, E2E)
+-  Coverage reports (>=80%)
+-  Performance test results
+-  Security scan reports
+-  UAT sign-off
 
 ### Responsable
 - **Developers**: Unit + integration tests
@@ -562,12 +562,12 @@ jobs:
 ## Fase 6: Deployment (Despliegue)
 
 ### Objetivo
-Llevar el software a producción de forma segura y controlada.
+Llevar el software a producci?n de forma segura y controlada.
 
 ### Estrategias de Deployment
 
 #### 6.1 Deployment a Staging
-**Antes de producción, siempre staging.**
+**Antes de producci?n, siempre staging.**
 
 ```bash
 # Deploy a staging
@@ -586,25 +586,25 @@ git merge --no-ff feature/ISSUE-123
 
 #### 6.2 Deployment Strategies
 
-**Opción A: Blue-Green Deployment**
+**Opci?n A: Blue-Green Deployment**
 - Deploy a "green" environment (idle)
 - Validar green
-- Switch traffic: blue → green
-- Rollback rápido si falla: green → blue
+- Switch traffic: blue -> green
+- Rollback r?pido si falla: green -> blue
 
-**Opción B: Canary Deployment**
-- Deploy a 5% de tráfico
+**Opci?n B: Canary Deployment**
+- Deploy a 5% de tr?fico
 - Monitor metrics
-- Si OK, gradualmente 10% → 25% → 50% → 100%
-- Rollback si métricas empeoran
+- Si OK, gradualmente 10% -> 25% -> 50% -> 100%
+- Rollback si m?tricas empeoran
 
-**Opción C: Rolling Deployment**
+**Opci?n C: Rolling Deployment**
 - Deploy a 1 nodo/pod
 - Validar
 - Deploy al siguiente
 - Repetir hasta completar cluster
 
-**Opción seleccionada para IACT**: **Canary** (para features grandes), **Rolling** (para bug fixes)
+**Opci?n seleccionada para IACT**: **Canary** (para features grandes), **Rolling** (para bug fixes)
 
 #### 6.3 Deployment Checklist
 Pre-deployment:
@@ -624,8 +624,8 @@ Durante deployment:
 - [ ] Ejecutar smoke tests post-deploy
 
 Post-deployment:
-- [ ] Verificar métricas (error rate, latency)
-- [ ] Verificar funcionalidad crítica
+- [ ] Verificar m?tricas (error rate, latency)
+- [ ] Verificar funcionalidad cr?tica
 - [ ] Monitor por 24h
 - [ ] Documentar deployment
 
@@ -647,10 +647,10 @@ curl -X POST /api/feature-flags/disable \
 - Database corruption
 
 ### Artefactos Generados
-- ✅ Deployment plan
-- ✅ Rollback plan
-- ✅ Deployment logs
-- ✅ Post-deployment validation report
+-  Deployment plan
+-  Rollback plan
+-  Deployment logs
+-  Post-deployment validation report
 
 ### Responsable
 - **DevOps Engineer**: Ejecutar deployment
@@ -667,9 +667,9 @@ Mantener el software funcional, actualizado y seguro post-deployment.
 ### Actividades
 
 #### 7.1 Monitoring y Alerting
-**Métricas clave**:
+**M?tricas clave**:
 - **Golden Signals**: Latency, Traffic, Errors, Saturation
-- **Business metrics**: Users activos, Conversión, Revenue
+- **Business metrics**: Users activos, Conversi?n, Revenue
 - **Infrastructure**: CPU, Memory, Disk, Network
 
 **Herramientas**:
@@ -693,10 +693,10 @@ alerts:
 
 #### 7.2 Incident Response
 **Severidad**:
-- **P0 (Critical)**: Sistema completamente caído → Response: <15 min
-- **P1 (High)**: Funcionalidad crítica afectada → Response: <1 hour
-- **P2 (Medium)**: Funcionalidad no crítica afectada → Response: <4 hours
-- **P3 (Low)**: Issue menor → Response: <24 hours
+- **P0 (Critical)**: Sistema completamente ca?do -> Response: <15 min
+- **P1 (High)**: Funcionalidad cr?tica afectada -> Response: <1 hour
+- **P2 (Medium)**: Funcionalidad no cr?tica afectada -> Response: <4 hours
+- **P3 (Low)**: Issue menor -> Response: <24 hours
 
 **Proceso**:
 1. Alerta recibida
@@ -708,7 +708,7 @@ alerts:
 #### 7.3 Bug Fixes
 **Process**:
 ```
-Bug report → Triage → Priority → Sprint planning → Fix → Deploy
+Bug report -> Triage -> Priority -> Sprint planning -> Fix -> Deploy
 ```
 
 **Hotfix process** (para P0):
@@ -776,11 +776,11 @@ Mantener docs actualizada:
 ```
 
 ### Artefactos Generados
-- ✅ Monitoring dashboards
-- ✅ Alert configurations
-- ✅ Incident reports
-- ✅ Post-mortems
-- ✅ Runbooks actualizados
+-  Monitoring dashboards
+-  Alert configurations
+-  Incident reports
+-  Post-mortems
+-  Runbooks actualizados
 
 ### Responsable
 - **SRE/DevOps**: Monitoring, incident response
@@ -828,7 +828,7 @@ Mantener docs actualizada:
 
 ---
 
-## Métricas y KPIs
+## M?tricas y KPIs
 
 ### Sprint Metrics
 - **Velocity**: Story points completed per sprint
@@ -836,7 +836,7 @@ Mantener docs actualizada:
 - **Sprint goal achievement**: % of sprint goals met
 
 ### Quality Metrics
-- **Test coverage**: % of code covered by tests (target: ≥80%)
+- **Test coverage**: % of code covered by tests (target: >=80%)
 - **Bug density**: Bugs per KLOC
 - **Defect escape rate**: Bugs found in prod vs total bugs
 
@@ -852,20 +852,20 @@ Mantener docs actualizada:
 
 ---
 
-## Compliance y Auditoría
+## Compliance y Auditor?a
 
 ### ISO 27001 Requirements
-- ✅ Todos los cambios documentados
-- ✅ Code reviews obligatorios
-- ✅ Tests obligatorios
-- ✅ Deployment aprobado
-- ✅ Audit trail completo (Git + AuditLog)
+-  Todos los cambios documentados
+-  Code reviews obligatorios
+-  Tests obligatorios
+-  Deployment aprobado
+-  Audit trail completo (Git + AuditLog)
 
 ### SOC 2 Requirements
-- ✅ Change management process
-- ✅ Separation of duties (developer ≠ approver)
-- ✅ Security testing
-- ✅ Incident response
+-  Change management process
+-  Separation of duties (developer ? approver)
+-  Security testing
+-  Incident response
 
 ---
 
@@ -879,12 +879,12 @@ Mantener docs actualizada:
 - `docs/plantillas/adr_template.md`
 - `docs/plantillas/postmortem_template.md`
 
-### Scripts de Automatización
+### Scripts de Automatizaci?n
 - `scripts/create_issue.sh` - Crear issue desde CLI
 - `scripts/start_sprint.sh` - Inicializar sprint
 - `scripts/deploy_staging.sh` - Deploy a staging
-- `scripts/deploy_production.sh` - Deploy a producción
-- `scripts/rollback.sh` - Rollback a versión anterior
+- `scripts/deploy_production.sh` - Deploy a producci?n
+- `scripts/rollback.sh` - Rollback a versi?n anterior
 
 ### Runbooks
 - `docs/infrastructure/devops/runbooks/deployment.md`
@@ -893,7 +893,7 @@ Mantener docs actualizada:
 
 ---
 
-## Revisión y Mejora Continua
+## Revisi?n y Mejora Continua
 
 ### Sprint Retrospectives
 **Frecuencia**: Al final de cada sprint
@@ -907,13 +907,13 @@ Mantener docs actualizada:
 ### Process Improvement
 **Review de proceso SDLC**: Quarterly
 
-**Métricas a revisar**:
+**M?tricas a revisar**:
 - Lead time
 - Deployment frequency
 - MTTR
 - Developer satisfaction
 
-**Ajustar proceso** basándose en feedback y métricas.
+**Ajustar proceso** bas?ndose en feedback y m?tricas.
 
 ---
 
@@ -922,8 +922,8 @@ Mantener docs actualizada:
 ### Hotfixes
 **Pueden saltear algunas fases** para velocidad:
 - Planning: Ticket creado pero no sprint
-- Design: Diseño rápido, no formal
-- Testing: Unit tests mínimos, E2E post-deploy
+- Design: Dise?o r?pido, no formal
+- Testing: Unit tests m?nimos, E2E post-deploy
 - Deployment: Fast-track approval
 
 **Pero NUNCA saltear**:
@@ -931,7 +931,7 @@ Mantener docs actualizada:
 - Security review (para security fixes)
 - Rollback plan
 
-### Escalación
+### Escalaci?n
 **Cuando proceso se bloquea**:
 - Issue: Reportar a Tech Lead
 - Tech Lead bloqueado: Escalar a Arquitecto
@@ -946,12 +946,12 @@ Mantener docs actualizada:
 **Cambios requieren**:
 - Propuesta de cambio (PR)
 - Review de Tech Leads
-- Aprobación de Arquitecto + CTO
+- Aprobaci?n de Arquitecto + CTO
 
 **Historial de cambios**: Ver Git log de este archivo
 
 ---
 
-**Última actualización**: 2025-11-06
-**Versión**: 1.0
-**Próxima revisión**: 2026-02-06 (Quarterly)
+**?ltima actualizaci?n**: 2025-11-06
+**Versi?n**: 1.0
+**Pr?xima revisi?n**: 2026-02-06 (Quarterly)

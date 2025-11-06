@@ -9,58 +9,58 @@ fecha: 2025-11-06
 
 Sistema de agentes IA que automatizan y asisten en cada fase del Software Development Life Cycle (SDLC) del proyecto IACT.
 
-## Visión General
+## Visi?n General
 
-Los agentes SDLC transforman el desarrollo de software al automatizar tareas repetitivas de planificación, análisis, diseño, testing y deployment, permitiendo al equipo enfocarse en resolver problemas complejos.
+Los agentes SDLC transforman el desarrollo de software al automatizar tareas repetitivas de planificaci?n, an?lisis, dise?o, testing y deployment, permitiendo al equipo enfocarse en resolver problemas complejos.
 
 **Beneficios**:
-- Planificación consistente y completa de features
-- Análisis de viabilidad automatizado
-- Generación de documentación de diseño
+- Planificaci?n consistente y completa de features
+- An?lisis de viabilidad automatizado
+- Generaci?n de documentaci?n de dise?o
 - Testing comprehensivo automatizado
 - Deployment seguro con rollback plans
 - Trazabilidad completa del ciclo de vida
 
 ## Arquitectura
 
-Ver documentación completa: `scripts/ai/agents/ARCHITECTURE_SDLC_AGENTS.md`
+Ver documentaci?n completa: `scripts/ai/agents/ARCHITECTURE_SDLC_AGENTS.md`
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                     SDLC Agent System                            │
-│                                                                  │
-│  ┌────────────────┐  ┌────────────────┐  ┌────────────────┐   │
-│  │  Planning      │─>│ Feasibility    │─>│  Design        │   │
-│  │  Agent         │  │ Agent          │  │  Agent         │   │
-│  └────────────────┘  └────────────────┘  └────────────────┘   │
-│         │                   │                    │              │
-│         ▼                   ▼                    ▼              │
-│  ┌────────────────┐  ┌────────────────┐  ┌────────────────┐   │
-│  │Implementation  │<─│  Testing       │<─│  Deployment    │   │
-│  │  Assistant     │  │  Agent         │  │  Agent         │   │
-│  └────────────────┘  └────────────────┘  └────────────────┘   │
-│                                                                  │
-│  ┌──────────────────────────────────────────────────────────┐  │
-│  │              Maintenance & Monitoring Agent              │  │
-│  └──────────────────────────────────────────────────────────┘  │
-│                                                                  │
-│  ┌──────────────────────────────────────────────────────────┐  │
-│  │                   Orchestrator Agent                      │  │
-│  │          (Coordina todo el pipeline SDLC)                │  │
-│  └──────────────────────────────────────────────────────────┘  │
-└─────────────────────────────────────────────────────────────────┘
++-----------------------------------------------------------------+
+|                     SDLC Agent System                            |
+|                                                                  |
+|  +----------------+  +----------------+  +----------------+   |
+|  |  Planning      |->| Feasibility    |->|  Design        |   |
+|  |  Agent         |  | Agent          |  |  Agent         |   |
+|  +----------------+  +----------------+  +----------------+   |
+|         |                   |                    |              |
+|         ?                   ?                    ?              |
+|  +----------------+  +----------------+  +----------------+   |
+|  |Implementation  |<-|  Testing       |<-|  Deployment    |   |
+|  |  Assistant     |  |  Agent         |  |  Agent         |   |
+|  +----------------+  +----------------+  +----------------+   |
+|                                                                  |
+|  +----------------------------------------------------------+  |
+|  |              Maintenance & Monitoring Agent              |  |
+|  +----------------------------------------------------------+  |
+|                                                                  |
+|  +----------------------------------------------------------+  |
+|  |                   Orchestrator Agent                      |  |
+|  |          (Coordina todo el pipeline SDLC)                |  |
+|  +----------------------------------------------------------+  |
++-----------------------------------------------------------------+
 ```
 
 ## Agentes Implementados
 
 ### SDLCPlannerAgent (Fase 1: Planning)
 
-**Estado**: ✅ Implementado
+**Estado**: [IMPLEMENTADO]
 
-**Responsabilidad**: Convierte feature requests en issues/tickets completos con user stories, acceptance criteria, estimación y priorización.
+**Responsabilidad**: Convierte feature requests en issues/tickets completos con user stories, acceptance criteria, estimaci?n y priorizaci?n.
 
 **Inputs**:
-- `feature_request` (str): Descripción del feature
+- `feature_request` (str): Descripci?n del feature
 - `project_context` (str, opcional): Contexto del proyecto
 - `backlog` (List[Dict], opcional): Backlog actual
 
@@ -76,44 +76,44 @@ Ver documentación completa: `scripts/ai/agents/ARCHITECTURE_SDLC_AGENTS.md`
 **Ejemplo de uso**:
 ```bash
 python scripts/sdlc_agent.py --phase planning \
-  --input "Implementar sistema de autenticación de 2 factores"
+  --input "Implementar sistema de autenticaci?n de 2 factores"
 ```
 
 **Output**:
 ```
 ================================================================================
-RESULTADO DE EJECUCIÓN
+RESULTADO DE EJECUCI?N
 ================================================================================
 
 Estado: SUCCESS
 
 Issue generado:
-  Título: Implementar sistema de autenticación de 2 factores
+  T?tulo: Implementar sistema de autenticaci?n de 2 factores
   Story Points: 8
   Prioridad: P1
   Artefacto: docs/sdlc_outputs/planning/ISSUE_20251106_150610.md
 
 Acceptance Criteria (7):
-  1. Sistema de autenticación funciona correctamente
-  2. Validación de credenciales implementada
+  1. Sistema de autenticaci?n funciona correctamente
+  2. Validaci?n de credenciales implementada
   3. API endpoints documentados en OpenAPI/Swagger
-  4. Validación de inputs implementada
-  5. El feature está implementado según especificación
+  4. Validaci?n de inputs implementada
+  5. El feature est? implementado seg?n especificaci?n
   ...
 
-Requisitos Técnicos:
+Requisitos T?cnicos:
   - Django REST API endpoint
-  - Serializers y validación
+  - Serializers y validaci?n
   - Tests de API (pytest)
   - Authentication/Authorization
   - Permission checks
   - Audit logging
 
-Decisión de fase: GO
+Decisi?n de fase: GO
 Confianza: 85.0%
 
 Recomendaciones:
-  - Issue generado con éxito
+  - Issue generado con ?xito
   - Story points estimados: 8
   - Prioridad recomendada: P1
   - Siguiente fase: Feasibility Analysis
@@ -121,7 +121,7 @@ Recomendaciones:
 
 ### Agentes Pendientes
 
-**Estado**: 🔄 En desarrollo
+**Estado**: [EN DESARROLLO]
 
 - SDLCFeasibilityAgent (Fase 2: Feasibility Analysis)
 - SDLCDesignAgent (Fase 3: System Design)
@@ -132,18 +132,18 @@ Recomendaciones:
 
 ## Uso
 
-### CLI Básico
+### CLI B?sico
 
 ```bash
 # Ejecutar planning phase
 python scripts/sdlc_agent.py --phase planning \
-  --input "Feature request aquí"
+  --input "Feature request aqu?"
 
 # Leer desde archivo
 python scripts/sdlc_agent.py --phase planning \
   --input-file feature_request.txt
 
-# Output en JSON (para integración)
+# Output en JSON (para integraci?n)
 python scripts/sdlc_agent.py --phase planning \
   --input "..." \
   --format json
@@ -164,20 +164,20 @@ python scripts/sdlc_agent.py --phase planning \
   --verbose
 ```
 
-### Pipeline Completo (Cuando esté implementado)
+### Pipeline Completo (Cuando est? implementado)
 
 ```bash
 # Ejecutar todo el pipeline SDLC
 python scripts/sdlc_agent.py --pipeline \
-  --input "Feature: Dashboard de métricas"
+  --input "Feature: Dashboard de m?tricas"
 
-# Auto-proceder sin confirmación humana
+# Auto-proceder sin confirmaci?n humana
 python scripts/sdlc_agent.py --pipeline \
   --input "..." \
   --auto-proceed
 ```
 
-### Configuración Personalizada
+### Configuraci?n Personalizada
 
 Crear `config/sdlc_agents.json`:
 
@@ -218,31 +218,31 @@ Los agentes guardan sus outputs en `docs/sdlc_outputs/` organizados por fase:
 
 ```
 docs/sdlc_outputs/
-├── planning/
-│   ├── ISSUE_20251106_150610.md
-│   ├── ISSUE_20251106_150615.md
-│   └── ...
-├── feasibility/
-│   ├── FEASIBILITY_REPORT_20251106_160000.md
-│   └── ...
-├── design/
-│   ├── HLD_feature_name.md
-│   ├── LLD_feature_name.md
-│   ├── ADR_001_decision_name.md
-│   └── diagrams/
-│       ├── architecture.mermaid
-│       └── sequence.mermaid
-├── testing/
-│   ├── TEST_PLAN_feature_name.md
-│   └── TEST_REPORT_20251106_170000.md
-└── deployment/
-    ├── DEPLOYMENT_PLAN_feature_name.md
-    └── ROLLBACK_PLAN_feature_name.md
++-- planning/
+|   +-- ISSUE_20251106_150610.md
+|   +-- ISSUE_20251106_150615.md
+|   +-- ...
++-- feasibility/
+|   +-- FEASIBILITY_REPORT_20251106_160000.md
+|   +-- ...
++-- design/
+|   +-- HLD_feature_name.md
+|   +-- LLD_feature_name.md
+|   +-- ADR_001_decision_name.md
+|   +-- diagrams/
+|       +-- architecture.mermaid
+|       +-- sequence.mermaid
++-- testing/
+|   +-- TEST_PLAN_feature_name.md
+|   +-- TEST_REPORT_20251106_170000.md
++-- deployment/
+    +-- DEPLOYMENT_PLAN_feature_name.md
+    +-- ROLLBACK_PLAN_feature_name.md
 ```
 
-## Integración con Workflow Existente
+## Integraci?n con Workflow Existente
 
-### 1. Integración con GitHub Issues
+### 1. Integraci?n con GitHub Issues
 
 ```bash
 # Generar issue con CLI
@@ -256,7 +256,7 @@ gh issue create \
   --body "$(jq -r '.data.issue_body' issue.json)"
 ```
 
-### 2. Integración con CI/CD
+### 2. Integraci?n con CI/CD
 
 Agregar a `.github/workflows/sdlc-planning.yml`:
 
@@ -300,25 +300,25 @@ Aplicar proceso SDLC a trabajo ya completado:
 ```bash
 # Generar issue retrospectivo
 python scripts/sdlc_agent.py --phase planning \
-  --input "RETROSPECTIVO: Implementé CODEOWNERS para docs/ con asignación automática de revisores para backend, frontend, infrastructure y requisitos."
+  --input "RETROSPECTIVO: Implement? CODEOWNERS para docs/ con asignaci?n autom?tica de revisores para backend, frontend, infrastructure y requisitos."
 
-# El issue generado documenta lo que debería haberse hecho en Planning
-# Útil para auditoría y aprendizaje
+# El issue generado documenta lo que deber?a haberse hecho en Planning
+# ?til para auditor?a y aprendizaje
 ```
 
-## Buenas Prácticas
+## Buenas Pr?cticas
 
 ### 1. Usar Planning Antes de Implementar
 
-**INCORRECTO** ❌:
+**INCORRECTO**:
 ```bash
-# Implementar directamente sin planificación
+# Implementar directamente sin planificaci?n
 git checkout -b feature/2fa
 # ... codear ...
 git commit -m "Add 2FA"
 ```
 
-**CORRECTO** ✅:
+**CORRECTO**:
 ```bash
 # 1. Planificar primero
 python scripts/sdlc_agent.py --phase planning \
@@ -332,15 +332,15 @@ gh issue create --title "..." --body "..."
 
 # 4. LUEGO implementar
 git checkout -b feature/2fa-issue-123
-# ... codear según plan ...
+# ... codear seg?n plan ...
 ```
 
-### 2. Estimación Realista
+### 2. Estimaci?n Realista
 
 Los story points son Fibonacci (1, 2, 3, 5, 8, 13, 21):
 - **1-2**: Cambios triviales (< 2 horas)
-- **3-5**: Features pequeños (1-2 días)
-- **8**: Features medianos (3-5 días)
+- **3-5**: Features peque?os (1-2 d?as)
+- **8**: Features medianos (3-5 d?as)
 - **13**: Features grandes (1-2 semanas)
 - **21**: Epic (> 2 semanas) - considerar dividir
 
@@ -354,15 +354,15 @@ Cada issue generado debe linkear a:
 - Especificaciones (SPEC-XXX)
 - ADRs relacionados
 
-### 4. Iteración y Mejora
+### 4. Iteraci?n y Mejora
 
 Si el planning generado no es satisfactorio:
 
 ```bash
-# Regenerar con más contexto
+# Regenerar con m?s contexto
 python scripts/sdlc_agent.py --phase planning \
   --input "Feature: 2FA" \
-  --project-context "Stack: Django + React. Ya tenemos autenticación básica con JWT. El feature debe integrarse con sistema existente de users y audit." \
+  --project-context "Stack: Django + React. Ya tenemos autenticaci?n b?sica con JWT. El feature debe integrarse con sistema existente de users y audit." \
   --verbose
 ```
 
@@ -372,7 +372,7 @@ python scripts/sdlc_agent.py --phase planning \
 
 **Causa**: El agente requiere API key de Anthropic para LLM.
 
-**Solución**:
+**Soluci?n**:
 ```bash
 export ANTHROPIC_API_KEY="sk-ant-..."
 python scripts/sdlc_agent.py --phase planning --input "..."
@@ -382,17 +382,17 @@ python scripts/sdlc_agent.py --phase planning --input "..."
 
 **Causa**: Constitution loader busca `docs/gobernanza/agentes/constitution.md` que no existe en la ruta esperada.
 
-**Solución**: Ignorar el warning. Los agentes SDLC tienen guardrails personalizados que no dependen de constitution.
+**Soluci?n**: Ignorar el warning. Los agentes SDLC tienen guardrails personalizados que no dependen de constitution.
 
 ### Issue generado tiene Technical Requirements incorrectos
 
-**Causa**: El agente usa heurísticas simples para detectar requisitos técnicos.
+**Causa**: El agente usa heur?sticas simples para detectar requisitos t?cnicos.
 
-**Solución**: Especificar contexto técnico explícitamente:
+**Soluci?n**: Especificar contexto t?cnico expl?citamente:
 
 ```bash
 python scripts/sdlc_agent.py --phase planning \
-  --input "Feature: Dashboard de métricas. TECH: Backend Django REST API, Frontend React + Redux, Database PostgreSQL con agregaciones, Caching Redis" \
+  --input "Feature: Dashboard de m?tricas. TECH: Backend Django REST API, Frontend React + Redux, Database PostgreSQL con agregaciones, Caching Redis" \
   --verbose
 ```
 
@@ -401,27 +401,27 @@ python scripts/sdlc_agent.py --phase planning \
 ### v1.0 (Actual)
 - [x] SDLCPlannerAgent
 - [x] Base classes (SDLCAgent, SDLCPipeline)
-- [x] CLI básico
-- [x] Documentación completa
+- [x] CLI b?sico
+- [x] Documentaci?n completa
 
-### v1.1 (Próxima)
+### v1.1 (Pr?xima)
 - [ ] SDLCFeasibilityAgent
-- [ ] SDLCDesignAgent con generación de diagramas Mermaid
-- [ ] Integración con GitHub API para crear issues automáticamente
-- [ ] Mejora de estimación con ML
+- [ ] SDLCDesignAgent con generaci?n de diagramas Mermaid
+- [ ] Integraci?n con GitHub API para crear issues autom?ticamente
+- [ ] Mejora de estimaci?n con ML
 
 ### v1.2
 - [ ] SDLCTestingAgent
 - [ ] SDLCDeploymentAgent
 - [ ] SDLCOrchestratorAgent (pipeline completo)
-- [ ] Integración LLM real (Anthropic/OpenAI)
+- [ ] Integraci?n LLM real (Anthropic/OpenAI)
 
 ### v2.0 (Futuro)
 - [ ] SDLCMaintenanceAgent
 - [ ] Real-time monitoring
 - [ ] Predictive analytics (predecir bugs, delays)
-- [ ] Integración con Jira
-- [ ] Dashboard web para visualización
+- [ ] Integraci?n con Jira
+- [ ] Dashboard web para visualizaci?n
 
 ## Contribuir
 
@@ -441,7 +441,7 @@ class SDLCFeasibilityAgent(SDLCAgent):
         )
 
     def run(self, input_data):
-        # Tu lógica aquí
+        # Tu l?gica aqu?
         ...
 
         return {
@@ -455,7 +455,7 @@ class SDLCFeasibilityAgent(SDLCAgent):
         }
 
     def _custom_guardrails(self, output_data):
-        # Validaciones específicas
+        # Validaciones espec?ficas
         return []
 ```
 
@@ -474,6 +474,6 @@ class SDLCFeasibilityAgent(SDLCAgent):
 
 ---
 
-**Última actualización**: 2025-11-06
-**Versión**: 1.0
+**?ltima actualizaci?n**: 2025-11-06
+**Versi?n**: 1.0
 **Mantenedor**: @arquitecto-senior

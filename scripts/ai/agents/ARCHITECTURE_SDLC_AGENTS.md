@@ -8,36 +8,36 @@ owner: arquitecto-senior
 
 # Arquitectura de Agentes SDLC
 
-## Visión General
+## Visi?n General
 
 Sistema de agentes IA que automatizan y asisten en cada fase del SDLC del proyecto IACT.
 
 ## Arquitectura del Sistema
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                     SDLC Agent System                            │
-│                                                                  │
-│  ┌────────────────┐  ┌────────────────┐  ┌────────────────┐   │
-│  │  Planning      │─>│ Feasibility    │─>│  Design        │   │
-│  │  Agent         │  │ Agent          │  │  Agent         │   │
-│  └────────────────┘  └────────────────┘  └────────────────┘   │
-│         │                   │                    │              │
-│         ▼                   ▼                    ▼              │
-│  ┌────────────────┐  ┌────────────────┐  ┌────────────────┐   │
-│  │Implementation  │<─│  Testing       │<─│  Deployment    │   │
-│  │  Assistant     │  │  Agent         │  │  Agent         │   │
-│  └────────────────┘  └────────────────┘  └────────────────┘   │
-│                                                                  │
-│  ┌──────────────────────────────────────────────────────────┐  │
-│  │              Maintenance & Monitoring Agent              │  │
-│  └──────────────────────────────────────────────────────────┘  │
-│                                                                  │
-│  ┌──────────────────────────────────────────────────────────┐  │
-│  │                   Orchestrator Agent                      │  │
-│  │          (Coordina todo el pipeline SDLC)                │  │
-│  └──────────────────────────────────────────────────────────┘  │
-└─────────────────────────────────────────────────────────────────┘
++-----------------------------------------------------------------+
+|                     SDLC Agent System                            |
+|                                                                  |
+|  +----------------+  +----------------+  +----------------+   |
+|  |  Planning      |->| Feasibility    |->|  Design        |   |
+|  |  Agent         |  | Agent          |  |  Agent         |   |
+|  +----------------+  +----------------+  +----------------+   |
+|         |                   |                    |              |
+|         ?                   ?                    ?              |
+|  +----------------+  +----------------+  +----------------+   |
+|  |Implementation  |<-|  Testing       |<-|  Deployment    |   |
+|  |  Assistant     |  |  Agent         |  |  Agent         |   |
+|  +----------------+  +----------------+  +----------------+   |
+|                                                                  |
+|  +----------------------------------------------------------+  |
+|  |              Maintenance & Monitoring Agent              |  |
+|  +----------------------------------------------------------+  |
+|                                                                  |
+|  +----------------------------------------------------------+  |
+|  |                   Orchestrator Agent                      |  |
+|  |          (Coordina todo el pipeline SDLC)                |  |
+|  +----------------------------------------------------------+  |
++-----------------------------------------------------------------+
 ```
 
 ## Agentes Especializados
@@ -60,10 +60,10 @@ Sistema de agentes IA que automatizan y asisten en cada fase del SDLC del proyec
 
 **Capacidades**:
 - Analizar feature request y extraer requisitos
-- Generar user stories en formato estándar
+- Generar user stories en formato est?ndar
 - Estimar complejidad (story points)
-- Identificar dependencias con código existente
-- Sugerir prioridad basándose en impacto/esfuerzo
+- Identificar dependencias con c?digo existente
+- Sugerir prioridad bas?ndose en impacto/esfuerzo
 
 ### 2. SDLCFeasibilityAgent
 **Responsabilidad**: Fase 2 (Feasibility Analysis)
@@ -75,15 +75,15 @@ Sistema de agentes IA que automatizan y asisten en cada fase del SDLC del proyec
 - Budget constraints
 
 **Outputs**:
-- Feasibility report (viabilidad técnica, económica, operativa)
+- Feasibility report (viabilidad t?cnica, econ?mica, operativa)
 - Risk assessment matrix
 - Cost-benefit analysis
 - Go/No-Go recommendation
-- Mitigación de riesgos
+- Mitigaci?n de riesgos
 
 **Capacidades**:
-- Analizar viabilidad técnica (compatibilidad con stack actual)
-- Identificar riesgos (técnicos, schedule, recursos)
+- Analizar viabilidad t?cnica (compatibilidad con stack actual)
+- Identificar riesgos (t?cnicos, schedule, recursos)
 - Calcular esfuerzo estimado
 - Recomendar alternativas si no es viable
 
@@ -93,7 +93,7 @@ Sistema de agentes IA que automatizan y asisten en cada fase del SDLC del proyec
 **Inputs**:
 - Requirements aprobados
 - Arquitectura actual
-- Patrones de diseño del proyecto
+- Patrones de dise?o del proyecto
 
 **Outputs**:
 - High-Level Design (HLD) document
@@ -104,10 +104,10 @@ Sistema de agentes IA que automatizan y asisten en cada fase del SDLC del proyec
 - Database schemas
 
 **Capacidades**:
-- Generar HLD basándose en requisitos
+- Generar HLD bas?ndose en requisitos
 - Crear LLD detallado para cada componente
 - Generar diagramas automatizados
-- Sugerir patrones de diseño apropiados
+- Sugerir patrones de dise?o apropiados
 - Identificar decisiones de arquitectura significativas
 - Generar ADRs
 
@@ -115,9 +115,9 @@ Sistema de agentes IA que automatizan y asisten en cada fase del SDLC del proyec
 **Responsabilidad**: Fase 5 (Testing)
 
 **Inputs**:
-- Código implementado
+- C?digo implementado
 - Requisitos y acceptance criteria
-- Diseño (HLD/LLD)
+- Dise?o (HLD/LLD)
 
 **Outputs**:
 - Test cases (unit, integration, E2E)
@@ -138,7 +138,7 @@ Sistema de agentes IA que automatizan y asisten en cada fase del SDLC del proyec
 **Responsabilidad**: Fase 6 (Deployment)
 
 **Inputs**:
-- Código listo para deploy
+- C?digo listo para deploy
 - Environment config
 - Deployment strategy
 
@@ -155,7 +155,7 @@ Sistema de agentes IA que automatizan y asisten en cada fase del SDLC del proyec
 - Ejecutar smoke tests pre/post-deployment
 - Generar rollback plan
 - Monitor deployment metrics
-- Alertar si métricas anormales
+- Alertar si m?tricas anormales
 
 ### 6. SDLCMaintenanceAgent
 **Responsabilidad**: Fase 7 (Maintenance)
@@ -175,7 +175,7 @@ Sistema de agentes IA que automatizan y asisten en cada fase del SDLC del proyec
 
 **Capacidades**:
 - Analizar logs y detectar patrones anormales
-- Generar post-mortems automáticamente
+- Generar post-mortems autom?ticamente
 - Identificar tech debt acumulado
 - Recomendar refactorings
 - Priorizar bugs por impacto
@@ -185,10 +185,10 @@ Sistema de agentes IA que automatizan y asisten en cada fase del SDLC del proyec
 
 **Inputs**:
 - Feature request inicial
-- Configuración del pipeline
+- Configuraci?n del pipeline
 
 **Outputs**:
-- Ejecución completa del pipeline
+- Ejecuci?n completa del pipeline
 - Reporte de cada fase
 - Decisiones tomadas en cada fase
 - Recomendaciones finales
@@ -196,77 +196,77 @@ Sistema de agentes IA que automatizan y asisten en cada fase del SDLC del proyec
 **Capacidades**:
 - Ejecutar agentes en secuencia
 - Pasar outputs de un agente como inputs del siguiente
-- Tomar decisiones de Go/No-Go automáticamente
+- Tomar decisiones de Go/No-Go autom?ticamente
 - Escalar a humanos cuando necesario
 - Generar reporte completo del ciclo
 
-## Flujo de Ejecución
+## Flujo de Ejecuci?n
 
 ### Modo Completo (Feature Nueva)
 ```
-User: "Quiero implementar autenticación de 2 factores"
-  │
-  ▼
-┌─────────────────────────────────────────────────┐
-│ 1. SDLCOrchestratorAgent                        │
-│    - Inicia pipeline completo                   │
-└─────────────────────────────────────────────────┘
-  │
-  ▼
-┌─────────────────────────────────────────────────┐
-│ 2. SDLCPlannerAgent                             │
-│    Output: Issue + User Story + Estimates      │
-└─────────────────────────────────────────────────┘
-  │
-  ▼
-┌─────────────────────────────────────────────────┐
-│ 3. SDLCFeasibilityAgent                         │
-│    Output: Feasibility Report + Go/No-Go       │
-└─────────────────────────────────────────────────┘
-  │
-  ├─> No-Go: Stop pipeline, reportar a usuario
-  │
-  ├─> Go: Continue
-  ▼
-┌─────────────────────────────────────────────────┐
-│ 4. SDLCDesignAgent                              │
-│    Output: HLD + LLD + ADRs + Diagramas        │
-└─────────────────────────────────────────────────┘
-  │
-  ▼
-┌─────────────────────────────────────────────────┐
-│ 5. Human: Implement code                        │
-│    (Agente no escribe código, solo asiste)     │
-└─────────────────────────────────────────────────┘
-  │
-  ▼
-┌─────────────────────────────────────────────────┐
-│ 6. SDLCTestingAgent                             │
-│    - Generate test cases                        │
-│    - Analyze coverage                           │
-│    - Execute tests                              │
-│    Output: Test Report + Coverage Analysis     │
-└─────────────────────────────────────────────────┘
-  │
-  ▼
-┌─────────────────────────────────────────────────┐
-│ 7. SDLCDeploymentAgent                          │
-│    - Validate pre-deployment                    │
-│    - Generate plans                             │
-│    Output: Deployment Plan + Rollback Plan     │
-└─────────────────────────────────────────────────┘
-  │
-  ▼
-┌─────────────────────────────────────────────────┐
-│ 8. Human: Execute deployment                    │
-└─────────────────────────────────────────────────┘
-  │
-  ▼
-┌─────────────────────────────────────────────────┐
-│ 9. SDLCMaintenanceAgent                         │
-│    - Monitor production                         │
-│    - Generate post-mortem si incident          │
-└─────────────────────────────────────────────────┘
+User: "Quiero implementar autenticaci?n de 2 factores"
+  |
+  ?
++-------------------------------------------------+
+| 1. SDLCOrchestratorAgent                        |
+|    - Inicia pipeline completo                   |
++-------------------------------------------------+
+  |
+  ?
++-------------------------------------------------+
+| 2. SDLCPlannerAgent                             |
+|    Output: Issue + User Story + Estimates      |
++-------------------------------------------------+
+  |
+  ?
++-------------------------------------------------+
+| 3. SDLCFeasibilityAgent                         |
+|    Output: Feasibility Report + Go/No-Go       |
++-------------------------------------------------+
+  |
+  +-> No-Go: Stop pipeline, reportar a usuario
+  |
+  +-> Go: Continue
+  ?
++-------------------------------------------------+
+| 4. SDLCDesignAgent                              |
+|    Output: HLD + LLD + ADRs + Diagramas        |
++-------------------------------------------------+
+  |
+  ?
++-------------------------------------------------+
+| 5. Human: Implement code                        |
+|    (Agente no escribe c?digo, solo asiste)     |
++-------------------------------------------------+
+  |
+  ?
++-------------------------------------------------+
+| 6. SDLCTestingAgent                             |
+|    - Generate test cases                        |
+|    - Analyze coverage                           |
+|    - Execute tests                              |
+|    Output: Test Report + Coverage Analysis     |
++-------------------------------------------------+
+  |
+  ?
++-------------------------------------------------+
+| 7. SDLCDeploymentAgent                          |
+|    - Validate pre-deployment                    |
+|    - Generate plans                             |
+|    Output: Deployment Plan + Rollback Plan     |
++-------------------------------------------------+
+  |
+  ?
++-------------------------------------------------+
+| 8. Human: Execute deployment                    |
++-------------------------------------------------+
+  |
+  ?
++-------------------------------------------------+
+| 9. SDLCMaintenanceAgent                         |
+|    - Monitor production                         |
+|    - Generate post-mortem si incident          |
++-------------------------------------------------+
 ```
 
 ### Modo Parcial (Solo una fase)
@@ -284,7 +284,7 @@ python scripts/sdlc_agent.py --phase design --input RF-045
 python scripts/sdlc_agent.py --phase testing --path api/apps/auth/
 ```
 
-## Implementación Técnica
+## Implementaci?n T?cnica
 
 ### Base Classes
 ```python
@@ -359,7 +359,7 @@ class SDLCPipeline(Pipeline):
 }
 ```
 
-## Configuración
+## Configuraci?n
 
 ### Environment Variables
 ```bash
@@ -411,16 +411,16 @@ agents:
     monitor_interval: 300  # 5 min
 
 pipeline:
-  auto_proceed: false  # Si true, no pide confirmación humana
+  auto_proceed: false  # Si true, no pide confirmaci?n humana
   save_artifacts: true
   output_format: markdown
 ```
 
-## Integración con Herramientas Existentes
+## Integraci?n con Herramientas Existentes
 
 ### GitHub
 ```python
-# Crear issue automáticamente
+# Crear issue autom?ticamente
 gh_client.create_issue(
     title=planner_output["title"],
     body=planner_output["body"],
@@ -456,15 +456,15 @@ jobs:
 ## Seguridad y Compliance
 
 ### No Code Generation
-**IMPORTANTE**: Agentes NO generan código de producción directamente.
+**IMPORTANTE**: Agentes NO generan c?digo de producci?n directamente.
 
 **Solo generan**:
-- Documentación
-- Tests (código de test sí)
-- Configuración
+- Documentaci?n
+- Tests (c?digo de test s?)
+- Configuraci?n
 - Planes y reportes
 
-**Razón**: Seguridad y control de calidad.
+**Raz?n**: Seguridad y control de calidad.
 
 ### Audit Trail
 Todas las decisiones de agentes se registran en AuditLog:
@@ -484,22 +484,22 @@ AuditLog.objects.create(
 ```
 
 ### Human-in-the-Loop
-Decisiones críticas requieren aprobación humana:
+Decisiones cr?ticas requieren aprobaci?n humana:
 - Go/No-Go de feasibility
 - Approval de design
 - Approval de deployment plan
 
-## Métricas y Monitoreo
+## M?tricas y Monitoreo
 
 ### Agent Performance
-- Tiempo de ejecución por fase
+- Tiempo de ejecuci?n por fase
 - Accuracy de estimaciones (story points)
 - % de Go vs No-Go decisions
 - Feedback de desarrolladores (useful/not useful)
 
 ### Business Impact
 - Tiempo ahorrado en planning
-- Reducción de bugs (por tests generados)
+- Reducci?n de bugs (por tests generados)
 - Velocidad de deployment
 
 ## Roadmap
@@ -523,5 +523,5 @@ Decisiones críticas requieren aprobación humana:
 
 ---
 
-**Última actualización**: 2025-11-06
-**Versión**: 1.0
+**?ltima actualizaci?n**: 2025-11-06
+**Versi?n**: 1.0

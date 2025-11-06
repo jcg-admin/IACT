@@ -13,11 +13,11 @@ relacionado:
 
 # DevOps Automation - Proyecto IACT
 
-Automatización DevOps con shell scripts locales, integrada con SDLC.
+Automatizaci?n DevOps con shell scripts locales, integrada con SDLC.
 
-## Restricciones Críticas IACT
+## Restricciones Cr?ticas IACT
 
-**ANTES DE CUALQUIER AUTOMATIZACIÓN**:
+**ANTES DE CUALQUIER AUTOMATIZACI?N**:
 
 ```yaml
 NO PROHIBIDO:
@@ -25,23 +25,23 @@ NO PROHIBIDO:
   - Email/SMTP
   - Dependencias externas no aprobadas
 
-SÍ OBLIGATORIO:
+S? OBLIGATORIO:
   - Sesiones en MySQL (django.contrib.sessions.backends.db)
-  - Notificaciones via buzón interno
+  - Notificaciones via buz?n interno
   - Scripts shell que funcionan offline
 ```
 
-## Integración con SDLC
+## Integraci?n con SDLC
 
 ```
-Planning → Feasibility → Design → Implementation → Testing → Deployment → Maintenance
-              ↓              ↓          ↓             ↓           ↓            ↓
+Planning -> Feasibility -> Design -> Implementation -> Testing -> Deployment -> Maintenance
+              ?              ?          ?             ?           ?            ?
            Scripts      Scripts    Scripts       Scripts     Scripts      Scripts
 ```
 
-## Áreas de Automatización
+## ?reas de Automatizaci?n
 
-### 1. Validación Pre-Commit
+### 1. Validaci?n Pre-Commit
 
 **Scripts existentes**:
 
@@ -50,7 +50,7 @@ Planning → Feasibility → Design → Implementation → Testing → Deploymen
 #!/bin/bash
 # Valida que NO se use Redis, email, etc.
 
-echo "Validando restricciones críticas IACT..."
+echo "Validando restricciones cr?ticas IACT..."
 
 # Check Redis prohibido
 if grep -r "redis" api/callcentersite/settings*.py; then
@@ -70,20 +70,20 @@ if grep -r "EmailMessage\|send_mail\|EmailMultiAlternatives" api/callcentersite/
     exit 1
 fi
 
-echo "✓ Todas las restricciones críticas validadas"
+echo "? Todas las restricciones cr?ticas validadas"
 ```
 
-**Instalación**:
+**Instalaci?n**:
 
 ```bash
 # scripts/install_hooks.sh
 #!/bin/bash
-# Instala hooks de validación
+# Instala hooks de validaci?n
 
 cp scripts/validate_critical_restrictions.sh .git/hooks/pre-commit
 chmod +x .git/hooks/pre-commit
 
-echo "✓ Pre-commit hooks instalados"
+echo "? Pre-commit hooks instalados"
 ```
 
 ### 2. Testing Automatizado
@@ -125,7 +125,7 @@ echo -e "\n[5/5] Critical Restrictions..."
 bash ../../scripts/validate_critical_restrictions.sh
 
 echo -e "\n========================================="
-echo "✓ TODOS LOS TESTS PASARON"
+echo "? TODOS LOS TESTS PASARON"
 echo "========================================="
 ```
 
@@ -160,7 +160,7 @@ cd api/callcentersite
 python manage.py migrate --no-input
 
 # 4. Collect static
-echo "Colectando archivos estáticos..."
+echo "Colectando archivos est?ticos..."
 python manage.py collectstatic --no-input
 
 # 5. Restart services
@@ -172,15 +172,15 @@ sudo systemctl restart nginx
 echo "Health check..."
 sleep 5
 curl -f http://localhost/api/health || {
-    echo "ERROR: Health check falló. Rollback..."
+    echo "ERROR: Health check fall?. Rollback..."
     mysql -h $DB_HOST -u $DB_USER -p$DB_PASSWORD iact_$ENV < backup_*.sql
     exit 1
 }
 
-echo "✓ Deploy exitoso a $ENV"
+echo "? Deploy exitoso a $ENV"
 ```
 
-### 4. Monitoreo y Métricas
+### 4. Monitoreo y M?tricas
 
 **Script de health check**:
 
@@ -193,10 +193,10 @@ check_service() {
     URL=$2
 
     if curl -sf "$URL" > /dev/null; then
-        echo "✓ $SERVICE: OK"
+        echo "? $SERVICE: OK"
         return 0
     else
-        echo "✗ $SERVICE: FAIL"
+        echo "? $SERVICE: FAIL"
         return 1
     fi
 }
@@ -211,9 +211,9 @@ check_service "Sessions (MySQL)" "http://localhost:8000/api/session-check"
 # Check session storage (debe ser MySQL, NO Redis)
 SESSION_BACKEND=$(grep SESSION_ENGINE api/callcentersite/settings.py | grep -o "django.contrib.sessions.backends.db")
 if [ -n "$SESSION_BACKEND" ]; then
-    echo "✓ Sessions: MySQL (Correcto - RNF-002)"
+    echo "? Sessions: MySQL (Correcto - RNF-002)"
 else
-    echo "✗ Sessions: NO en MySQL (Violación RNF-002)"
+    echo "? Sessions: NO en MySQL (Violaci?n RNF-002)"
     exit 1
 fi
 ```
@@ -232,7 +232,7 @@ cd api/callcentersite
 # Limpiar sesiones viejas
 python manage.py clearsessions
 
-# Obtener estadísticas
+# Obtener estad?sticas
 SESSION_COUNT=$(mysql -h $DB_HOST -u $DB_USER -p$DB_PASSWORD -se \
     "SELECT COUNT(*) FROM django_session WHERE expire_date < NOW();" iact_production)
 
@@ -244,7 +244,7 @@ TOTAL_SESSIONS=$(mysql -h $DB_HOST -u $DB_USER -p$DB_PASSWORD -se \
 
 if [ "$TOTAL_SESSIONS" -gt 100000 ]; then
     echo "WARNING: Tabla django_session tiene $TOTAL_SESSIONS registros"
-    echo "Considerar ejecutar cleanup más frecuente"
+    echo "Considerar ejecutar cleanup m?s frecuente"
 fi
 ```
 
@@ -258,7 +258,7 @@ fi
 */5 * * * * /path/to/scripts/health_check.sh >> /var/log/iact/health.log 2>&1
 ```
 
-### 6. Métricas DORA
+### 6. M?tricas DORA
 
 **Script local de DORA metrics**:
 
@@ -268,13 +268,13 @@ fi
 
 DAYS=${1:-30}
 
-echo "DORA Metrics Report - Últimos $DAYS días"
+echo "DORA Metrics Report - ?ltimos $DAYS d?as"
 echo "=========================================="
 
 # 1. Deployment Frequency
 DEPLOYMENTS=$(git log --since="$DAYS days ago" --grep="deploy:" --oneline | wc -l)
 DEPLOY_FREQ=$(echo "scale=2; $DEPLOYMENTS / $DAYS" | bc)
-echo "Deployment Frequency: $DEPLOY_FREQ deployments/día"
+echo "Deployment Frequency: $DEPLOY_FREQ deployments/d?a"
 
 # 2. Lead Time for Changes
 # Tiempo promedio entre commit y deploy
@@ -304,13 +304,13 @@ echo "=========================================="
 
 ### 7. Analytics Service Management
 
-**Template para gestión de requests de analytics**:
+**Template para gesti?n de requests de analytics**:
 
-El proyecto IACT gestiona requests de análisis de métricas IVR mediante:
+El proyecto IACT gestiona requests de an?lisis de m?tricas IVR mediante:
 
 1. **Request Types Definidos**:
-   - N-001: Dashboard métricas IVR en tiempo real
-   - Análisis de call flows
+   - N-001: Dashboard m?tricas IVR en tiempo real
+   - An?lisis de call flows
    - Reportes de abandono
    - Trending de volumen de llamadas
 
@@ -327,15 +327,15 @@ cat > api/callcentersite/templates/analytics_requests.md <<EOF
 # Analytics Request Types
 
 ## 1. Dashboard Metrics (N-001)
-**Descripción**: Dashboard de métricas IVR en tiempo real
+**Descripci?n**: Dashboard de m?tricas IVR en tiempo real
 **SLA**: 2 horas
 **Datos requeridos**:
-- Período
-- Métricas específicas
+- Per?odo
+- M?tricas espec?ficas
 - Nivel de granularidad
 
 ## 2. Call Flow Analysis
-**Descripción**: Análisis de flujos de llamadas
+**Descripci?n**: An?lisis de flujos de llamadas
 **SLA**: 4 horas
 **Datos requeridos**:
 - IVR flow ID
@@ -343,22 +343,22 @@ cat > api/callcentersite/templates/analytics_requests.md <<EOF
 - Filtros opcionales
 
 ## 3. Abandonment Report
-**Descripción**: Reporte de llamadas abandonadas
+**Descripci?n**: Reporte de llamadas abandonadas
 **SLA**: 2 horas
 **Datos requeridos**:
-- Período
+- Per?odo
 - Umbral de abandono
-- Desglose (por hora/día)
+- Desglose (por hora/d?a)
 EOF
 
-echo "✓ Analytics portal configurado"
+echo "? Analytics portal configurado"
 ```
 
-3. **Automatización de Requests**:
+3. **Automatizaci?n de Requests**:
 ```bash
 # scripts/process_analytics_request.sh
 #!/bin/bash
-# Procesa request de analytics automáticamente
+# Procesa request de analytics autom?ticamente
 
 REQUEST_TYPE=$1
 REQUEST_ID=$2
@@ -379,11 +379,11 @@ case "$REQUEST_TYPE" in
         ;;
 esac
 
-# Notificar vía buzón interno (NO email)
+# Notificar v?a buz?n interno (NO email)
 python manage.py notify_request_complete --request-id=$REQUEST_ID
 ```
 
-4. **Queues y Priorización**:
+4. **Queues y Priorizaci?n**:
 ```bash
 # scripts/triage_analytics_requests.sh
 #!/bin/bash
@@ -408,15 +408,15 @@ ORDER BY priority DESC, created_at ASC;
 EOF
 ```
 
-### 8. Validación de Documentación
+### 8. Validaci?n de Documentaci?n
 
-**Script de validación docs** (ya existente mejorado):
+**Script de validaci?n docs** (ya existente mejorado):
 
 ```bash
 # scripts/validar_estructura_docs.sh
 #!/bin/bash
 
-echo "Validando estructura de documentación..."
+echo "Validando estructura de documentaci?n..."
 
 # 1. No references a 'implementacion/'
 if grep -r "docs/implementacion" docs/; then
@@ -426,7 +426,7 @@ fi
 
 # 2. Todas las referencias a restricciones son correctas
 if grep -r "Redis" docs/ | grep -v "NO Redis" | grep -v "prohibido"; then
-    echo "ERROR: Referencias a Redis sin aclarar que está prohibido"
+    echo "ERROR: Referencias a Redis sin aclarar que est? prohibido"
     exit 1
 fi
 
@@ -437,14 +437,14 @@ find docs/ -name "*.md" -type f | while read file; do
     fi
 done
 
-echo "✓ Estructura de docs validada"
+echo "? Estructura de docs validada"
 ```
 
 ## Best Practices IACT
 
-### 1. Scripts Primero, CI/CD Después
+### 1. Scripts Primero, CI/CD Despu?s
 
-**CORRECTO** ✓:
+**CORRECTO** ?:
 ```bash
 # Local primero
 ./scripts/run_all_tests.sh
@@ -452,14 +452,14 @@ echo "✓ Estructura de docs validada"
 # Si funciona local, agregar a CI/CD
 ```
 
-**INCORRECTO** ✗:
+**INCORRECTO** ?:
 ```yaml
 # Solo en GitHub Actions, no funciona local
 ```
 
 ### 2. MySQL para Todo
 
-**CORRECTO** ✓:
+**CORRECTO** ?:
 ```python
 # settings.py
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'  # MySQL
@@ -471,15 +471,15 @@ CACHES = {
 }
 ```
 
-**INCORRECTO** ✗:
+**INCORRECTO** ?:
 ```python
-SESSION_ENGINE = 'django.contrib.sessions.backends.cache'  # Redis ✗
-CACHES = { 'default': { 'BACKEND': 'django_redis...' } }  # Redis ✗
+SESSION_ENGINE = 'django.contrib.sessions.backends.cache'  # Redis ?
+CACHES = { 'default': { 'BACKEND': 'django_redis...' } }  # Redis ?
 ```
 
-### 3. Buzón Interno, No Email
+### 3. Buz?n Interno, No Email
 
-**CORRECTO** ✓:
+**CORRECTO** ?:
 ```python
 # Notificar via InternalMessage
 InternalMessage.objects.create(
@@ -489,9 +489,9 @@ InternalMessage.objects.create(
 )
 ```
 
-**INCORRECTO** ✗:
+**INCORRECTO** ?:
 ```python
-send_mail(  # ✗ EMAIL PROHIBIDO
+send_mail(  # ? EMAIL PROHIBIDO
     "Request Complete",
     "...",
     "noreply@iact.com",
@@ -506,7 +506,7 @@ send_mail(  # ✗ EMAIL PROHIBIDO
 # Usar set -e para exit on error
 set -e
 
-# Detectar PROJECT_ROOT dinámicamente
+# Detectar PROJECT_ROOT din?micamente
 PROJECT_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$PROJECT_ROOT"
 
@@ -518,7 +518,7 @@ DB_USER=${DB_USER:-iact}
 command -v python >/dev/null 2>&1 || { echo "Python requerido"; exit 1; }
 ```
 
-## Roadmap de Automatización
+## Roadmap de Automatizaci?n
 
 ### Fase 1: Scripts Locales (COMPLETADO)
 - [x] validate_critical_restrictions.sh
@@ -528,18 +528,18 @@ command -v python >/dev/null 2>&1 || { echo "Python requerido"; exit 1; }
 
 ### Fase 2: Testing y Deploy (EN PROGRESO)
 - [ ] run_all_tests.sh (test completo local)
-- [ ] deploy.sh (deploy automatizado con validación)
+- [ ] deploy.sh (deploy automatizado con validaci?n)
 - [ ] health_check.sh (monitoring continuo)
 - [ ] cleanup_sessions.sh (maintenance MySQL)
 
-### Fase 3: Analytics Service Management (PRÓXIMO)
+### Fase 3: Analytics Service Management (PR?XIMO)
 - [ ] analytics_portal_setup.sh
 - [ ] process_analytics_request.sh
 - [ ] triage_analytics_requests.sh
 - [ ] generate_analytics_reports.sh
 
-### Fase 4: Métricas y Observability (FUTURO)
-- [ ] dora_report.sh (métricas DORA locales)
+### Fase 4: M?tricas y Observability (FUTURO)
+- [ ] dora_report.sh (m?tricas DORA locales)
 - [ ] performance_baseline.sh
 - [ ] capacity_planning.sh
 - [ ] incident_postmortem.sh
@@ -577,7 +577,7 @@ command -v python >/dev/null 2>&1 || { echo "Python requerido"; exit 1; }
 
 ---
 
-**Última actualización**: 2025-11-06
-**Versión**: 2.0
+**?ltima actualizaci?n**: 2025-11-06
+**Versi?n**: 2.0
 **Mantenedor**: @devops-lead
 **Cambios v2.0**: Enfoque en shell scripts, eliminado Redis, agregado Analytics Service Management

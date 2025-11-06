@@ -8,23 +8,23 @@ owner: arquitecto-senior
 
 # TODO - Proyecto IACT
 
-Lista maestra de tareas del proyecto, organizada por prioridad y área.
+Lista maestra de tareas del proyecto, organizada por prioridad y ?rea.
 
-**Última actualización**: 2025-11-06
+**?ltima actualizaci?n**: 2025-11-06
 
 ---
 
-## 🔴 CRÍTICO - Hacer AHORA
+## CR?TICO - Hacer AHORA
 
-### Validación de Restricciones
+### Validaci?n de Restricciones
 
-- [ ] **Ejecutar validation completa de restricciones críticas**
+- [ ] **Ejecutar validation completa de restricciones cr?ticas**
   ```bash
   ./scripts/validate_critical_restrictions.sh
   ./scripts/validate_security_config.sh
   ./scripts/validate_database_router.sh
   ```
-  - **Por qué**: Asegurar que NO se viola RNF-002 (NO Redis)
+  - **Por qu?**: Asegurar que NO se viola RNF-002 (NO Redis)
   - **Estimado**: 5 minutos
   - **Asignado**: @backend-lead
 
@@ -33,18 +33,18 @@ Lista maestra de tareas del proyecto, organizada por prioridad y área.
   grep SESSION_ENGINE api/callcentersite/*/settings*.py
   # Debe ser: django.contrib.sessions.backends.db
   ```
-  - **Por qué**: Cumplir RNF-002 (sesiones en MySQL)
+  - **Por qu?**: Cumplir RNF-002 (sesiones en MySQL)
   - **Estimado**: 2 minutos
   - **Asignado**: @backend-lead
 
 ### Testing
 
-- [ ] **Ejecutar tests de auditoría inmutable (TEST-AUDIT-002)**
+- [ ] **Ejecutar tests de auditor?a inmutable (TEST-AUDIT-002)**
   ```bash
   cd api/callcentersite
   pytest tests/audit/test_audit_log.py -v
   ```
-  - **Por qué**: Validar compliance ISO 27001
+  - **Por qu?**: Validar compliance ISO 27001
   - **Estimado**: 5 minutos
   - **Asignado**: @backend-lead
   - **Archivo**: `api/callcentersite/tests/audit/test_audit_log.py`
@@ -53,28 +53,28 @@ Lista maestra de tareas del proyecto, organizada por prioridad y área.
   ```bash
   pytest --cov=callcentersite --cov-report=term --cov-fail-under=80
   ```
-  - **Por qué**: Estándar de calidad del proyecto
+  - **Por qu?**: Est?ndar de calidad del proyecto
   - **Estimado**: 10 minutos
   - **Asignado**: @qa-team
 
-### Documentación
+### Documentaci?n
 
 - [ ] **Validar estructura de docs**
   ```bash
   ./scripts/validar_estructura_docs.sh
   ```
-  - **Por qué**: Asegurar que no hay referencias obsoletas a `implementacion/`
+  - **Por qu?**: Asegurar que no hay referencias obsoletas a `implementacion/`
   - **Estimado**: 2 minutos
   - **Asignado**: @tech-writer
 
 ---
 
-## 🟡 ALTA PRIORIDAD - Esta Semana
+## ALTA PRIORIDAD - Esta Semana
 
 ### Agentes SDLC
 
 - [ ] **Implementar SDLCFeasibilityAgent**
-  - Análisis de viabilidad técnica
+  - An?lisis de viabilidad t?cnica
   - Risk assessment matrix
   - Go/No-Go recommendations
   - **Estimado**: 8 story points
@@ -86,13 +86,13 @@ Lista maestra de tareas del proyecto, organizada por prioridad y área.
 - [ ] **Implementar SDLCDesignAgent**
   - Generar HLD (High-Level Design)
   - Generar LLD (Low-Level Design)
-  - Crear ADRs automáticamente
+  - Crear ADRs autom?ticamente
   - Generar diagramas Mermaid
   - **Estimado**: 13 story points
   - **Asignado**: Pendiente
   - **Referencias**: `scripts/ai/agents/ARCHITECTURE_SDLC_AGENTS.md`
 
-- [ ] **Integración GitHub API para crear issues automáticamente**
+- [ ] **Integraci?n GitHub API para crear issues autom?ticamente**
   ```bash
   python scripts/sdlc_agent.py --phase planning \
     --input "Feature: X" \
@@ -111,10 +111,10 @@ Lista maestra de tareas del proyecto, organizada por prioridad y área.
   - **Template**: Ver `docs/gobernanza/procesos/DEVOPS_AUTOMATION.md`
 
 - [ ] **Crear deploy.sh**
-  - Deploy automatizado con validación
+  - Deploy automatizado con validaci?n
   - Backup database antes de deploy
   - Health check post-deploy
-  - Rollback automático si falla
+  - Rollback autom?tico si falla
   - **Estimado**: 5 story points
   - **Asignado**: @devops-lead
   - **Template**: Ver `docs/gobernanza/procesos/DEVOPS_AUTOMATION.md`
@@ -129,7 +129,7 @@ Lista maestra de tareas del proyecto, organizada por prioridad y área.
 
 - [ ] **Crear cleanup_sessions.sh**
   - Limpieza de django_session en MySQL
-  - Estadísticas de sesiones
+  - Estad?sticas de sesiones
   - Alert si tabla > 100K rows
   - **Estimado**: 2 story points
   - **Asignado**: @devops-lead
@@ -142,7 +142,7 @@ Lista maestra de tareas del proyecto, organizada por prioridad y área.
   export GITHUB_TOKEN="..."
   python scripts/dora_metrics.py --repo 2-Coatl/IACT---project --days 30 --format markdown > DORA_REPORT_$(date +%Y%m%d).md
   ```
-  - **Por qué**: Establecer baseline de métricas actuales
+  - **Por qu?**: Establecer baseline de m?tricas actuales
   - **Estimado**: 15 minutos
   - **Asignado**: @devops-lead
 
@@ -164,12 +164,12 @@ Lista maestra de tareas del proyecto, organizada por prioridad y área.
 
 - [ ] **Implementar process_analytics_request.sh**
   - Automatizar processing de requests
-  - Notificación via InternalMessage (NO email)
+  - Notificaci?n via InternalMessage (NO email)
   - **Estimado**: 5 story points
   - **Asignado**: @analytics-team
 
 - [ ] **Implementar triage_analytics_requests.sh**
-  - Priorización por SLA
+  - Priorizaci?n por SLA
   - Dashboard metrics (N-001): 2h
   - Call flow analysis: 4h
   - **Estimado**: 3 story points
@@ -177,12 +177,12 @@ Lista maestra de tareas del proyecto, organizada por prioridad y área.
 
 ---
 
-## 🟢 MEDIA PRIORIDAD - Este Mes
+## MEDIA PRIORIDAD - Este Mes
 
 ### Agentes SDLC
 
 - [ ] **Implementar SDLCTestingAgent**
-  - Generación de test cases
+  - Generaci?n de test cases
   - Coverage analysis
   - Bug report automation
   - **Estimado**: 8 story points
@@ -203,9 +203,9 @@ Lista maestra de tareas del proyecto, organizada por prioridad y área.
   - **Asignado**: Pendiente
 
 - [ ] **Mejorar SDLCPlannerAgent con LLM real**
-  - Integración Anthropic/OpenAI
+  - Integraci?n Anthropic/OpenAI
   - Mejores user stories
-  - Mejor estimación de story points
+  - Mejor estimaci?n de story points
   - **Estimado**: 8 story points
   - **Asignado**: Pendiente
 
@@ -254,7 +254,7 @@ Lista maestra de tareas del proyecto, organizada por prioridad y área.
   - **Template**: Ver `docs/gobernanza/procesos/DEVOPS_AUTOMATION.md`
 
 - [ ] **Implementar automated incident response**
-  - Create incident tickets automáticamente
+  - Create incident tickets autom?ticamente
   - Auto-scale en high load
   - Notify on-call via InternalMessage
   - **Estimado**: 8 story points
@@ -276,7 +276,7 @@ Lista maestra de tareas del proyecto, organizada por prioridad y área.
 - [ ] **Implementar migrations.yml workflow**
   - Check backwards incompatible changes
   - Backup database antes de migrations
-  - Rollback automático si falla
+  - Rollback autom?tico si falla
   - **Estimado**: 5 story points
   - **Asignado**: @backend-lead
 
@@ -301,7 +301,7 @@ Lista maestra de tareas del proyecto, organizada por prioridad y área.
 
 ---
 
-## 🔵 BAJA PRIORIDAD - Backlog
+## BAJA PRIORIDAD - Backlog
 
 ### Agentes SDLC Avanzados
 
@@ -312,8 +312,8 @@ Lista maestra de tareas del proyecto, organizada por prioridad y área.
   - **Estimado**: 8 story points
 
 - [ ] **Dashboard web para agentes SDLC**
-  - Visualización de pipeline
-  - Métricas en tiempo real
+  - Visualizaci?n de pipeline
+  - M?tricas en tiempo real
   - **Estimado**: 21 story points
 
 - [ ] **Predictive analytics para SDLC**
@@ -354,18 +354,18 @@ Lista maestra de tareas del proyecto, organizada por prioridad y área.
 
 ---
 
-## 📋 COMPLETADO
+## COMPLETADO
 
-### Sesión 2025-11-06
+### Sesi?n 2025-11-06
 
 - [x] **Documentar proceso SDLC completo** (PROC-SDLC-001)
   - Completado: `docs/gobernanza/procesos/SDLC_PROCESS.md`
   - 7 fases: Planning, Feasibility, Design, Implementation, Testing, Deployment, Maintenance
   - Modelo Agile + DevOps Hybrid
 
-- [x] **Diseñar arquitectura de agentes SDLC**
+- [x] **Dise?ar arquitectura de agentes SDLC**
   - Completado: `scripts/ai/agents/ARCHITECTURE_SDLC_AGENTS.md`
-  - 7 agentes especializados diseñados
+  - 7 agentes especializados dise?ados
   - Pipeline pattern con Go/No-Go decisions
 
 - [x] **Implementar SDLCPlannerAgent**
@@ -400,11 +400,11 @@ Lista maestra de tareas del proyecto, organizada por prioridad y área.
 
 - [x] **Implementar DORA metrics calculator**
   - Completado: `scripts/dora_metrics.py`
-  - 4 métricas DORA calculables
+  - 4 m?tricas DORA calculables
   - Output en text, JSON, markdown
-  - Clasificación Elite/High/Medium/Low
+  - Clasificaci?n Elite/High/Medium/Low
 
-- [x] **Corregir restricciones críticas en documentación**
+- [x] **Corregir restricciones cr?ticas en documentaci?n**
   - Eliminado TODAS las referencias a Redis
   - Sesiones en MySQL documentado
   - Notificaciones via InternalMessage (NO email)
@@ -417,33 +417,33 @@ Lista maestra de tareas del proyecto, organizada por prioridad y área.
 
 ### Sesiones Previas
 
-- [x] **Reorganización de estructura docs/**
+- [x] **Reorganizaci?n de estructura docs/**
   - Eliminado nivel `implementacion/`
-  - 1:1 mapping con código
+  - 1:1 mapping con c?digo
   - 128 archivos movidos
 
-- [x] **Generación automática de documentación**
-  - authentication.md (354 líneas)
-  - users.md (166 líneas)
-  - audit.md (223 líneas)
+- [x] **Generaci?n autom?tica de documentaci?n**
+  - authentication.md (354 l?neas)
+  - users.md (166 l?neas)
+  - audit.md (223 l?neas)
 
-- [x] **Implementación de CODEOWNERS**
+- [x] **Implementaci?n de CODEOWNERS**
   - Completado: `.github/CODEOWNERS`
   - Ownership por dominio
 
 - [x] **CI/CD workflows base**
-  - docs-validation.yml (260+ líneas)
-  - sync-docs.yml (300+ líneas)
+  - docs-validation.yml (260+ l?neas)
+  - sync-docs.yml (300+ l?neas)
 
 - [x] **Tests para app audit**
   - Completado: `api/callcentersite/tests/audit/test_audit_log.py`
-  - TEST-AUDIT-002: Inmutabilidad (CRÍTICO)
+  - TEST-AUDIT-002: Inmutabilidad (CR?TICO)
 
 ---
 
-## 📊 Estadísticas del Proyecto
+## Estad?sticas del Proyecto
 
-### Commits Esta Sesión
+### Commits Esta Sesi?n
 - **Total commits**: 3
 - **Lines added**: 4,317
 - **Lines deleted**: 938
@@ -460,36 +460,36 @@ Lista maestra de tareas del proyecto, organizada por prioridad y área.
 - **MTTR**: Por medir
 
 ### Story Points
-- **Completados esta sesión**: ~30 SP
+- **Completados esta sesi?n**: ~30 SP
 - **En backlog**: ~300 SP
 - **Velocity estimada**: 20 SP/semana (2 devs)
 
 ---
 
-## 🎯 Objetivos por Fase
+## Objetivos por Fase
 
-### Fase 1: Fundamentos SDLC (COMPLETADO ✅)
+### Fase 1: Fundamentos SDLC [COMPLETADO]
 - [x] Proceso SDLC documentado
-- [x] Arquitectura de agentes diseñada
+- [x] Arquitectura de agentes dise?ada
 - [x] SDLCPlannerAgent implementado
 - [x] CLI funcional
-- [x] Documentación completa
+- [x] Documentaci?n completa
 
-### Fase 2: DevOps Base (EN PROGRESO 🔄)
-- [x] Documentación DevOps
+### Fase 2: DevOps Base [EN PROGRESO]
+- [x] Documentaci?n DevOps
 - [x] DORA metrics calculator
 - [ ] Scripts shell implementados (5/8)
 - [ ] CI/CD workflows (0/4)
 - [ ] Pre-commit hooks instalados
 
-### Fase 3: Agentes SDLC Completos (PRÓXIMO ⏳)
+### Fase 3: Agentes SDLC Completos [PENDIENTE]
 - [ ] SDLCFeasibilityAgent
 - [ ] SDLCDesignAgent
 - [ ] SDLCTestingAgent
 - [ ] SDLCDeploymentAgent
 - [ ] SDLCOrchestratorAgent
 
-### Fase 4: Analytics & Observability (FUTURO 📅)
+### Fase 4: Analytics & Observability [BACKLOG]
 - [ ] Analytics Service Management
 - [ ] Prometheus + Grafana
 - [ ] Automated incident response
@@ -497,9 +497,9 @@ Lista maestra de tareas del proyecto, organizada por prioridad y área.
 
 ---
 
-## 📚 Referencias Rápidas
+## Referencias R?pidas
 
-### Documentación Clave
+### Documentaci?n Clave
 - **Proceso SDLC**: `docs/gobernanza/procesos/SDLC_PROCESS.md`
 - **DevOps Automation**: `docs/gobernanza/procesos/DEVOPS_AUTOMATION.md`
 - **Agentes SDLC README**: `scripts/ai/agents/README_SDLC_AGENTS.md`
@@ -510,14 +510,14 @@ Lista maestra de tareas del proyecto, organizada por prioridad y área.
 - **DORA Metrics**: `scripts/dora_metrics.py`
 - **Validaciones**: `scripts/validate_*.sh`
 
-### Restricciones Críticas
+### Restricciones Cr?ticas
 ```yaml
 NO PROHIBIDO:
   - Redis/Memcached (RNF-002)
   - Email/SMTP
   - Dependencias externas no aprobadas
 
-SÍ OBLIGATORIO:
+S? OBLIGATORIO:
   - Sesiones en MySQL
   - Notificaciones via InternalMessage
   - Scripts shell locales
@@ -525,10 +525,10 @@ SÍ OBLIGATORIO:
 
 ---
 
-## 🚀 Quick Start para Nuevos Desarrolladores
+## Quick Start para Nuevos Desarrolladores
 
 ```bash
-# 1. Validar restricciones críticas
+# 1. Validar restricciones cr?ticas
 ./scripts/validate_critical_restrictions.sh
 
 # 2. Ejecutar tests
@@ -537,9 +537,9 @@ pytest --cov=callcentersite --cov-report=term
 
 # 3. Generar issue con SDLC Planner
 python scripts/sdlc_agent.py --phase planning \
-  --input "Tu feature request aquí"
+  --input "Tu feature request aqu?"
 
-# 4. Validar documentación
+# 4. Validar documentaci?n
 ./scripts/validar_estructura_docs.sh
 
 # 5. Ver DORA metrics
@@ -549,5 +549,5 @@ python scripts/dora_metrics.py --days 30
 ---
 
 **Mantenedor**: @arquitecto-senior
-**Última revisión**: 2025-11-06
-**Próxima revisión**: 2025-11-13
+**?ltima revisi?n**: 2025-11-06
+**Pr?xima revisi?n**: 2025-11-13
