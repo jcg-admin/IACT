@@ -1,0 +1,126 @@
+# CODEOWNERS - Ownership y Revisión de Documentación
+#
+# Este archivo define los owners por área de documentación.
+# Los owners son automáticamente solicitados para review en PRs que modifican sus áreas.
+#
+# Formato: <path pattern> <@github-username> <@github-team>
+# Documentación: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# ============================================================================
+# DOCUMENTACIÓN TÉCNICA
+# ============================================================================
+
+# Documentación Backend
+# Owner: Equipo Backend Lead + Arquitecto Senior
+docs/backend/**                              @equipo-backend-lead @arquitecto-senior
+docs/backend/requisitos/**                   @product-owner @equipo-backend-lead
+docs/backend/arquitectura/**                 @arquitecto-senior
+docs/backend/diseno/**                       @arquitecto-senior @equipo-backend-lead
+docs/backend/devops/**                       @devops-lead
+docs/backend/qa/**                           @qa-lead
+
+# Documentación Frontend
+# Owner: Equipo Frontend Lead
+docs/frontend/**                             @equipo-frontend-lead @arquitecto-senior
+docs/frontend/requisitos/**                  @product-owner @equipo-frontend-lead
+docs/frontend/arquitectura/**                @arquitecto-senior @equipo-frontend-lead
+docs/frontend/devops/**                      @devops-lead
+docs/frontend/qa/**                          @qa-lead
+
+# Documentación Infrastructure
+# Owner: DevOps Lead
+docs/infrastructure/**                       @devops-lead @arquitecto-senior
+docs/infrastructure/requisitos/**            @product-owner @devops-lead
+docs/infrastructure/devops/**                @devops-lead
+docs/infrastructure/cpython_precompilado/**  @devops-lead
+
+# ============================================================================
+# DOCUMENTACIÓN TRANSVERSAL
+# ============================================================================
+
+# Arquitectura Transversal
+# Owner: Arquitecto Senior
+docs/arquitectura/**                         @arquitecto-senior
+docs/adr/**                                  @arquitecto-senior
+
+# Requisitos de Negocio
+# Owner: Product Owner + Arquitecto Senior
+docs/requisitos/**                           @product-owner @arquitecto-senior
+docs/vision_y_alcance/**                     @product-owner @arquitecto-senior
+
+# Gobernanza y Procesos
+# Owner: Arquitecto Senior + Tech Lead
+docs/gobernanza/**                           @arquitecto-senior @tech-lead
+
+# Plantillas y Estándares
+# Owner: Arquitecto Senior
+docs/plantillas/**                           @arquitecto-senior
+
+# ============================================================================
+# DOCUMENTACIÓN AUTO-GENERADA
+# ============================================================================
+
+# Docs auto-generados requieren revisión especial
+# Verificar que info auto-generada es correcta y completa
+docs/**/arquitectura/*.md                    @arquitecto-senior
+
+# ============================================================================
+# ANÁLISIS Y REPORTES
+# ============================================================================
+
+# Análisis y reportes de documentación
+docs/anexos/**                               @arquitecto-senior
+docs/specs/**                                @arquitecto-senior @product-owner
+
+# ============================================================================
+# SCRIPTS DE AUTOMATIZACIÓN
+# ============================================================================
+
+# Scripts de documentación y sincronización
+scripts/sync_documentation.py                @arquitecto-senior @devops-lead
+scripts/reorganizar_docs_por_dominio.sh      @arquitecto-senior @devops-lead
+scripts/validar_estructura_docs.sh           @arquitecto-senior @devops-lead
+scripts/ai/agents/documentation_sync_agent.py @arquitecto-senior
+
+# Scripts de requisitos
+scripts/requisitos/**                        @arquitecto-senior @product-owner
+
+# ============================================================================
+# CONFIGURACIÓN DE DOCUMENTACIÓN
+# ============================================================================
+
+# MkDocs y configuración de documentación
+docs/mkdocs.yml                              @arquitecto-senior @tech-lead
+docs/requirements.txt                        @devops-lead
+docs/index.md                                @arquitecto-senior
+docs/README.md                               @arquitecto-senior
+
+# ============================================================================
+# CI/CD WORKFLOWS
+# ============================================================================
+
+# Workflows de documentación
+.github/workflows/docs.yml                   @devops-lead @arquitecto-senior
+.github/workflows/sync-docs.yml              @devops-lead @arquitecto-senior
+.github/workflows/docs-validation.yml        @devops-lead @arquitecto-senior
+.github/workflows/requirements_*.yml         @arquitecto-senior @product-owner
+
+# ============================================================================
+# NOTAS
+# ============================================================================
+#
+# Roles definidos:
+# - @arquitecto-senior: Responsable de arquitectura y diseño técnico
+# - @equipo-backend-lead: Lead del equipo backend
+# - @equipo-frontend-lead: Lead del equipo frontend
+# - @devops-lead: Lead de DevOps e infrastructure
+# - @product-owner: Product Owner / Requirements Owner
+# - @qa-lead: Lead de QA y testing
+# - @tech-lead: Tech Lead general del proyecto
+#
+# Proceso de revisión:
+# 1. PR que modifica docs/ requiere aprobación de owner correspondiente
+# 2. Docs auto-generados requieren verificación de arquitecto
+# 3. Cambios en requisitos requieren aprobación de PO + Arquitecto
+# 4. Cambios en scripts requieren aprobación de Arquitecto + DevOps
+#
