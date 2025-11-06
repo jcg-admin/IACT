@@ -39,7 +39,7 @@ El sistema de CPython precompilado sigue una arquitectura de 4 componentes indep
 
 **Ubicación en proyecto**:
 ```
-vagrant/cpython-builder/
+infrastructure/cpython/
 ├── Vagrantfile
 ├── build-cpython.sh
 ├── validate-build.sh
@@ -164,7 +164,7 @@ cpython-3.12.6-build1/cpython-3.12.6-ubuntu22.04-build1.tgz
 
 **Ubicación en proyecto**:
 ```
-.devcontainer/infrastructure/cpython/installer/
+infrastructure/cpython/installer/
 ├── devcontainer-feature.json    # Metadata y opciones
 ├── install.sh                   # Lógica de instalación
 └── README.md                    # Documentación de Feature
@@ -387,7 +387,7 @@ Total: <20 segundos
 
 | Ubicación | Tipo | Tamaño | Versionado |
 |-----------|------|--------|------------|
-| `vagrant/cpython-builder/` | Scripts de build | ~10 KB | Git |
+| `infrastructure/cpython/` | Scripts de build | ~10 KB | Git |
 | `infrastructure/cpython/artifacts/` (local Vagrant) | Tarball compilado | 50-80 MB | No versionado (temporal) |
 | GitHub Releases | Tarball publicado | 50-80 MB | Tag de Git |
 | `artifacts/ARTIFACTS.md` (Git) | Metadata de artefactos | <10 KB | Git |
@@ -553,7 +553,7 @@ El sistema escala horizontalmente sin modificaciones:
 
 **Build de Vagrant**:
 ```
-vagrant/cpython-builder/.vagrant/logs/build-YYYY-MM-DD.log
+infrastructure/cpython/.vagrant/logs/build-YYYY-MM-DD.log
 ```
 
 **Instalación de Feature**:

@@ -267,7 +267,7 @@ sha256sum -c cpython-3.12.6-ubuntu22.04-build1.tgz.sha256
 
 El equipo de Infraestructura IACT compila los artefactos en VMs Vagrant controladas.
 
-El proceso está documentado y auditado. Los scripts de compilación están en el repositorio: `vagrant/cpython-builder/`
+El proceso está documentado y auditado. Los scripts de compilación están en el repositorio: `infrastructure/cpython/`
 
 ### ¿Los artefactos tienen firma digital?
 
@@ -366,7 +366,7 @@ ln -sf /opt/python-3.12.6/bin/python3 /usr/local/bin/python3
 **Solución**:
 1. Verificar que Feature está correctamente referenciada en `devcontainer.json`
 2. Verificar que path de Feature es correcto: `./infrastructure/cpython/installer`
-3. Verificar que `install.sh` tiene permisos de ejecución: `chmod +x .devcontainer/infrastructure/cpython/installer/install.sh`
+3. Verificar que `install.sh` tiene permisos de ejecución: `chmod +x infrastructure/cpython/installer/install.sh`
 
 ### VS Code no detecta el intérprete Python
 
@@ -441,7 +441,7 @@ Las versiones deprecadas **siguen disponibles** en GitHub Releases indefinidamen
 **SÍ**. Todo el proceso está documentado:
 
 1. Clonar repositorio
-2. Navegar a `vagrant/cpython-builder/`
+2. Navegar a `infrastructure/cpython/`
 3. Leer `README.md` para instrucciones
 4. Ejecutar `vagrant up && vagrant ssh`
 5. Ejecutar `/vagrant/scripts/infra/build-cpython.sh`

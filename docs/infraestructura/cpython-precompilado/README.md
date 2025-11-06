@@ -340,8 +340,8 @@ Ver: [Preguntas Frecuentes completas](./preguntas-frecuentes.md)
 
 Si necesitas compilar artefactos o modificar la Feature:
 
-- [Guía de compilación en Vagrant](../../../vagrant/cpython-builder/README.md)
-- [Guía de desarrollo de Features](../../../.devcontainer/infrastructure/cpython/installer/README.md)
+- [Guía de compilación en Vagrant](../../../infrastructure/cpython/README.md)
+- [Guía de desarrollo de Features](../../../infrastructure/cpython/installer/README.md)
 - [Especificación completa: SPEC-INFRA-001](../../specs/SPEC-INFRA-001-cpython-precompilado.md)
 
 ---
