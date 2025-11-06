@@ -1,0 +1,278 @@
+#!/bin/bash
+#
+# Pre-push hook para proyecto IACT
+#
+# Este hook se ejecuta antes de git push y valida:
+# 1. Que exista especificación si es feature branch
+# 2. Que tests críticos pasen localmente
+# 3. Que no haya secrets expuestos
+# 4. Que no haya emojis en archivos staged
+#
+# Para instalar este hook:
+#   ./scripts/install-hooks.sh
+# O manualmente:
+#   cp .github/hooks/pre-push.sample .git/hooks/pre-push
+#   chmod +x .git/hooks/pre-push
+#
+# Para omitir este hook temporalmente:
+#   git push --no-verify
+#
+# Trazabilidad:
+#   - Constitution AI: Principio 6 (Testing y Validación)
+#   - Fase 3: Pre-push Validation
+#
+
+set -e
+
+# Colores
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+NC='\033[0m' # No Color
+
+# Variables
+CURRENT_BRANCH=$(git symbolic-ref --short HEAD 2>/dev/null || echo "detached")
+REMOTE="$1"
+URL="$2"
+
+echo -e "${BLUE}========================================${NC}"
+echo -e "${BLUE}Pre-push Hook - Validaciones${NC}"
+echo -e "${BLUE}========================================${NC}"
+echo ""
+echo -e "Branch: ${YELLOW}${CURRENT_BRANCH}${NC}"
+echo -e "Remote: ${YELLOW}${REMOTE}${NC}"
+echo ""
+
+# Contador de errores
+ERRORS=0
+
+# ============================================
+# Check 1: Validar specs para feature branches
+# ============================================
+check_feature_spec() {
+    echo -e "${BLUE}[1/4] Verificando especificación de feature...${NC}"
+
+    # Solo verificar en feature branches
+    if [[ ! "$CURRENT_BRANCH" =~ ^feature/ ]]; then
+        echo -e "${GREEN}OK: No es feature branch, omitiendo validación de spec${NC}"
+        return 0
+    fi
+
+    # Extraer nombre de feature del branch
+    local feature_name
+    feature_name=$(echo "$CURRENT_BRANCH" | sed 's/^feature\///' | sed 's/-[0-9]\{8\}$//')
+
+    echo "Feature branch detectado: ${feature_name}"
+
+    # Buscar spec relacionada
+    local spec_found=false
+    if [[ -d "docs/specs" ]]; then
+        # Buscar archivos que contengan el nombre de la feature
+        while IFS= read -r spec_file; do
+            if [[ -n "$spec_file" ]]; then
+                echo -e "${GREEN}OK: Encontrada especificación: ${spec_file}${NC}"
+                spec_found=true
+
+                # Validar la spec si existe el script
+                if [[ -f "scripts/dev/validate-spec.sh" ]]; then
+                    if ./scripts/dev/validate-spec.sh "$spec_file"; then
+                        echo -e "${GREEN}OK: Especificación válida${NC}"
+                    else
+                        echo -e "${RED}ERROR: Especificación inválida${NC}"
+                        ((ERRORS++))
+                    fi
+                fi
+                break
+            fi
+        done < <(find docs/specs -name "*.md" -type f 2>/dev/null | grep -i "$feature_name" || true)
+    fi
+
+    if [[ "$spec_found" == false ]]; then
+        echo -e "${YELLOW}ADVERTENCIA: No se encontró especificación para feature '${feature_name}'${NC}"
+        echo "Se recomienda crear especificación en docs/specs/${feature_name}.md"
+        echo "Usar: make generate-plan SPEC=docs/specs/${feature_name}.md"
+        echo ""
+        echo -e "${YELLOW}¿Continuar sin spec? (y/N)${NC}"
+        read -r -n 1 response
+        echo
+        if [[ ! "$response" =~ ^[Yy]$ ]]; then
+            ((ERRORS++))
+        fi
+    fi
+
+    echo ""
+}
+
+# ============================================
+# Check 2: Detectar secrets
+# ============================================
+check_secrets() {
+    echo -e "${BLUE}[2/4] Detectando secrets...${NC}"
+
+    if ! command -v detect-secrets &> /dev/null; then
+        echo -e "${YELLOW}ADVERTENCIA: detect-secrets no instalado${NC}"
+        echo "Instalar con: pip install detect-secrets"
+        echo ""
+        return 0
+    fi
+
+    # Escanear archivos staged
+    local staged_files
+    staged_files=$(git diff --cached --name-only --diff-filter=ACM)
+
+    if [[ -z "$staged_files" ]]; then
+        echo -e "${GREEN}OK: No hay archivos staged para verificar${NC}"
+        echo ""
+        return 0
+    fi
+
+    local secrets_found=false
+    while IFS= read -r file; do
+        if [[ -f "$file" ]]; then
+            if detect-secrets scan "$file" 2>&1 | grep -q "True"; then
+                echo -e "${RED}ERROR: Secrets detectados en ${file}${NC}"
+                secrets_found=true
+            fi
+        fi
+    done <<< "$staged_files"
+
+    if [[ "$secrets_found" == true ]]; then
+        echo -e "${RED}ERROR: Se detectaron secrets en archivos staged${NC}"
+        echo "Revisar archivos antes de hacer push"
+        ((ERRORS++))
+    else
+        echo -e "${GREEN}OK: No se detectaron secrets${NC}"
+    fi
+
+    echo ""
+}
+
+# ============================================
+# Check 3: Validar emojis
+# ============================================
+check_emojis() {
+    echo -e "${BLUE}[3/4] Validando ausencia de emojis...${NC}"
+
+    if [[ ! -f "scripts/check_no_emojis.py" ]]; then
+        echo -e "${YELLOW}ADVERTENCIA: check_no_emojis.py no encontrado${NC}"
+        echo ""
+        return 0
+    fi
+
+    # Verificar archivos staged
+    local staged_files
+    staged_files=$(git diff --cached --name-only --diff-filter=ACM)
+
+    if [[ -z "$staged_files" ]]; then
+        echo -e "${GREEN}OK: No hay archivos staged para verificar${NC}"
+        echo ""
+        return 0
+    fi
+
+    local emoji_errors=false
+    while IFS= read -r file; do
+        if [[ -f "$file" && "$file" =~ \.(md|py|js|ts|yaml|yml|json|sh|bash)$ ]]; then
+            if ! python scripts/check_no_emojis.py "$file" 2>/dev/null; then
+                echo -e "${RED}ERROR: Emojis detectados en ${file}${NC}"
+                emoji_errors=true
+            fi
+        fi
+    done <<< "$staged_files"
+
+    if [[ "$emoji_errors" == true ]]; then
+        echo -e "${RED}ERROR: Se detectaron emojis en archivos staged${NC}"
+        echo "Los emojis están prohibidos según docs/gobernanza/GUIA_ESTILO.md"
+        ((ERRORS++))
+    else
+        echo -e "${GREEN}OK: No se detectaron emojis${NC}"
+    fi
+
+    echo ""
+}
+
+# ============================================
+# Check 4: Tests críticos
+# ============================================
+check_critical_tests() {
+    echo -e "${BLUE}[4/4] Verificando tests críticos...${NC}"
+
+    # Solo ejecutar si hay pytest configurado
+    if [[ ! -f "api/callcentersite/pytest.ini" ]] && [[ ! -f "pytest.ini" ]]; then
+        echo -e "${YELLOW}INFO: pytest no configurado, omitiendo tests${NC}"
+        echo ""
+        return 0
+    fi
+
+    # Verificar si hay cambios en código Python
+    local python_changes
+    python_changes=$(git diff --cached --name-only --diff-filter=ACM | grep "\.py$" || true)
+
+    if [[ -z "$python_changes" ]]; then
+        echo -e "${GREEN}OK: No hay cambios en archivos Python${NC}"
+        echo ""
+        return 0
+    fi
+
+    echo "Cambios en Python detectados, ejecutando tests críticos..."
+    echo -e "${YELLOW}INFO: Tests completos se ejecutan en CI/CD${NC}"
+    echo -e "${YELLOW}Aquí solo se ejecutan tests marcados como 'critical'${NC}"
+    echo ""
+
+    # Ejecutar solo tests marcados como critical (si existen)
+    if command -v pytest &> /dev/null; then
+        cd api/callcentersite 2>/dev/null || true
+
+        if pytest -m critical --tb=short 2>&1 | tee /tmp/pytest_output.txt; then
+            echo -e "${GREEN}OK: Tests críticos pasaron${NC}"
+        else
+            if grep -q "no tests ran" /tmp/pytest_output.txt; then
+                echo -e "${YELLOW}INFO: No hay tests marcados como 'critical'${NC}"
+            else
+                echo -e "${RED}ERROR: Tests críticos fallaron${NC}"
+                ((ERRORS++))
+            fi
+        fi
+
+        cd - > /dev/null || true
+    else
+        echo -e "${YELLOW}INFO: pytest no instalado, omitiendo tests${NC}"
+    fi
+
+    echo ""
+}
+
+# ============================================
+# Ejecutar todos los checks
+# ============================================
+main() {
+    check_feature_spec
+    check_secrets
+    check_emojis
+    check_critical_tests
+
+    # Resumen
+    echo -e "${BLUE}========================================${NC}"
+    echo -e "${BLUE}Resumen Pre-push${NC}"
+    echo -e "${BLUE}========================================${NC}"
+    echo ""
+
+    if [[ $ERRORS -eq 0 ]]; then
+        echo -e "${GREEN}ÉXITO: Todas las validaciones pasaron${NC}"
+        echo "Procediendo con push..."
+        echo ""
+        exit 0
+    else
+        echo -e "${RED}FALLO: ${ERRORS} validaciones fallaron${NC}"
+        echo ""
+        echo "Opciones:"
+        echo "  1. Corregir los errores y reintentar"
+        echo "  2. Omitir este hook: git push --no-verify"
+        echo ""
+        echo -e "${YELLOW}ADVERTENCIA: Usar --no-verify solo cuando sea absolutamente necesario${NC}"
+        echo ""
+        exit 1
+    fi
+}
+
+main "$@"

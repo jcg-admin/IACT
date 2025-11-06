@@ -2,10 +2,11 @@
 id: PROC-DEV-LOCAL
 tipo: procedimiento
 categoria: desarrollo
-version: 1.0.0
+version: 1.1.0
 fecha_creacion: 2025-11-04
+fecha_actualizacion: 2025-11-06
 propietario: equipo-desarrollo
-relacionados: ["PROC-INSTALL-ENV", "PROC-QA"]
+relacionados: ["PROC-INSTALL-ENV", "PROC-QA", "PROC-GIT-HOOKS"]
 ---
 # Procedimiento: Desarrollo Local
 
@@ -77,7 +78,29 @@ python manage.py migrate
 python manage.py loaddata fixtures/initial_data.json
 ```
 
-### 4. Ejecutar Servidor de Desarrollo
+### 4. Instalar Git Hooks
+
+Instalar hooks de validación antes de commit y push:
+
+```bash
+# Desde la raíz del proyecto
+make install-hooks
+
+# O manualmente
+./scripts/install-hooks.sh
+```
+
+Los hooks instalados realizan validaciones automáticas:
+- **Pre-push**: Valida specs, secrets, emojis y tests antes de push
+
+Verificar instalación:
+```bash
+./scripts/install-hooks.sh --verify
+```
+
+Para más información sobre hooks: [Git Hooks README](../.github/hooks/README.md)
+
+### 5. Ejecutar Servidor de Desarrollo
 
 ```bash
 # Iniciar servidor Django
@@ -87,7 +110,7 @@ python manage.py runserver 0.0.0.0:8000
 # http://localhost:8000 (o http://localhost:8080 si estás en Vagrant)
 ```
 
-### 5. Ejecutar Tests
+### 6. Ejecutar Tests
 
 ```bash
 # Tests completos
@@ -100,7 +123,7 @@ pytest --cov=. --cov-report=html
 pytest api/tests/test_authentication.py
 ```
 
-### 6. Trabajar con Git
+### 7. Trabajar con Git
 
 #### Crear Nueva Feature
 
@@ -138,7 +161,7 @@ git diff
 
 Ver: [Checklist de Desarrollo](../checklists/checklist_desarrollo.md)
 
-### 7. Crear Pull Request
+### 8. Crear Pull Request
 
 ```bash
 # Push a tu rama

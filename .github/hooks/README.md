@@ -139,9 +139,82 @@ python scripts/check_no_emojis.py --all
 
 ---
 
+## Git Hooks Nativos
+
+Además de los pre-commit hooks configurados via framework, el proyecto incluye hooks nativos de Git para validaciones adicionales.
+
+### 8. Pre-push Hook (Git Native)
+
+**Propósito**: Validaciones antes de git push para prevenir errores en remote.
+
+**Ubicación**: `.github/hooks/pre-push.sample` (instalable con `make install-hooks`)
+
+**Validaciones que realiza**:
+
+1. **Specs para feature branches**:
+   - Detecta si el branch es `feature/*`
+   - Busca especificación relacionada en `docs/specs/`
+   - Valida la spec usando `validate-spec.sh`
+   - Pregunta si continuar si no hay spec
+
+2. **Detección de secrets**:
+   - Escanea archivos staged con detect-secrets
+   - Previene push de credenciales o tokens
+   - Bloquea push si se detectan secrets
+
+3. **Validación de emojis**:
+   - Verifica archivos staged usando `check_no_emojis.py`
+   - Previene push de emojis prohibidos
+   - Bloquea push si se detectan emojis
+
+4. **Tests críticos**:
+   - Detecta cambios en archivos Python
+   - Ejecuta tests marcados como `@pytest.mark.critical`
+   - Bloquea push si tests críticos fallan
+
+**Instalación**:
+```bash
+# Usando Makefile (recomendado)
+make install-hooks
+
+# O manualmente
+./scripts/install-hooks.sh
+
+# Verificar instalación
+./scripts/install-hooks.sh --verify
+```
+
+**Ejecutar manualmente**:
+```bash
+# Simular pre-push sin hacer push real
+.git/hooks/pre-push origin https://github.com/2-Coatl/IACT---project
+```
+
+**Bypass temporal** (solo para emergencias):
+```bash
+git push --no-verify
+```
+
+**Razones válidas para bypass**:
+- Hotfix crítico en producción
+- CI/CD está caído y necesitas push urgente
+- False positive conocido que está siendo investigado
+
+**NUNCA hacer bypass para**:
+- Evitar crear especificación de feature
+- Evitar corregir secrets expuestos
+- Evitar corregir tests fallidos
+
+**Desinstalar**:
+```bash
+./scripts/install-hooks.sh --uninstall
+```
+
+---
+
 ## Instalación
 
-### Instalar pre-commit
+### Instalar pre-commit framework
 
 ```bash
 # Con pip
@@ -151,18 +224,49 @@ pip install pre-commit
 brew install pre-commit
 ```
 
-### Instalar hooks en el repositorio
+### Instalar hooks de pre-commit en el repositorio
 
 ```bash
 cd api/callcentersite
 pre-commit install
 ```
 
-### Instalar hooks de commit-msg (opcional)
+### Instalar hooks nativos de Git (pre-push)
 
 ```bash
+# Desde la raíz del proyecto
+make install-hooks
+
+# O manualmente
+./scripts/install-hooks.sh
+```
+
+Este comando instalará:
+- Hook pre-push con validaciones antes de push
+- Backups de hooks existentes (si los hay)
+- Configuración automática de permisos
+
+**Verificar instalación**:
+```bash
+./scripts/install-hooks.sh --verify
+```
+
+### Instalación completa (recomendado)
+
+```bash
+# 1. Instalar pre-commit framework
+pip install pre-commit
+
+# 2. Instalar hooks de pre-commit
 cd api/callcentersite
-pre-commit install --hook-type commit-msg
+pre-commit install
+
+# 3. Instalar hooks nativos de Git
+cd ../..  # Volver a raíz
+make install-hooks
+
+# 4. Verificar todo
+make check-all
 ```
 
 ---
@@ -373,7 +477,8 @@ ci:
 
 | Versión | Fecha | Cambios |
 |---------|-------|---------|
-| 1.0.0 | 2025-11-06 | Creación inicial con 7 hooks configurados |
+| 1.1.0 | 2025-11-06 | Agregado hook pre-push nativo con 4 validaciones |
+| 1.0.0 | 2025-11-06 | Creación inicial con 7 hooks de pre-commit configurados |
 
 ---
 

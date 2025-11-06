@@ -1,7 +1,7 @@
 # Makefile para Proyecto IACT
 # Gestión de documentación, pruebas y desarrollo
 
-.PHONY: help docs-install docs-build docs-serve docs-clean docs-deploy clean test vagrant-up vagrant-down vagrant-ssh validate-spec check-all generate-plan
+.PHONY: help docs-install docs-build docs-serve docs-clean docs-deploy clean test vagrant-up vagrant-down vagrant-ssh validate-spec check-all generate-plan install-hooks
 
 # Variables
 MKDOCS_CONFIG = docs/mkdocs.yml
@@ -116,6 +116,16 @@ generate-plan: ## Generar plan de implementación desde spec
 	@echo "$(BLUE)Generando plan desde: $(SPEC)$(NC)"
 	./scripts/dev/generate-plan.sh $(SPEC)
 
+install-hooks: ## Instalar git hooks (pre-push)
+	@echo "$(BLUE)Instalando git hooks...$(NC)"
+	./scripts/install-hooks.sh
+	@echo ""
+	@echo "$(GREEN)[OK] Hooks instalados$(NC)"
+	@echo "$(YELLOW)Los hooks se ejecutarán automáticamente antes de push$(NC)"
+	@echo ""
+	@echo "Para verificar: ./scripts/install-hooks.sh --verify"
+	@echo "Para desinstalar: ./scripts/install-hooks.sh --uninstall"
+
 ##@ Testing
 
 test: ## Ejecutar pruebas del proyecto (cuando estén disponibles)
@@ -142,7 +152,8 @@ setup: docs-install ## Configurar entorno completo del proyecto
 	@echo "  1. make vagrant-up      # Levantar bases de datos"
 	@echo "  2. make check-services  # Verificar conectividad"
 	@echo "  3. make docs-serve      # Ver documentación"
-	@echo "  4. make check-all       # Validar código antes de commit"
+	@echo "  4. make install-hooks   # Instalar git hooks (pre-push)"
+	@echo "  5. make check-all       # Validar código antes de commit"
 	@echo ""
 
 ##@ Atajos comunes
