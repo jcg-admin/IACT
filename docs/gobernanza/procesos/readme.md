@@ -2,7 +2,7 @@
 id: DOC-GOB-PROCESOS-INDEX
 estado: activo
 propietario: equipo-gobernanza
-ultima_actualizacion: 2025-11-04
+ultima_actualizacion: 2025-11-06
 relacionados: ["DOC-GOB-INDEX", "PROPUESTA_FINAL_REESTRUCTURACION.md"]
 ---
 
@@ -109,6 +109,113 @@ Gestionar trazabilidad bidireccional de requisitos conforme a ISO/IEC/IEEE 29148
 - SyRS (System Requirements Specification) - auto-generado
 - SRS (Software Requirements Specification) - auto-generado
 - RTM (Requirements Traceability Matrix) - auto-generado
+
+---
+
+### 4. Gestión de Cambios
+**Archivo:** [`procedimiento_gestion_cambios.md`](procedimiento_gestion_cambios.md)
+
+**Propósito:**
+Definir el proceso estándar para proponer, revisar, aprobar e implementar cambios en el proyecto IACT.
+
+**Estándares aplicados:**
+- Conventional Commits
+- GitHub Flow
+- Semantic Versioning
+
+**Tipos de cambios:**
+- **feat**: Nueva funcionalidad
+- **fix**: Corrección de bug
+- **refactor**: Refactorización sin cambio funcional
+- **perf**: Mejoras de performance
+- **test**: Agregar o modificar tests
+- **docs**: Solo cambios en documentación
+
+**Flujo del proceso:**
+1. Planificación del cambio (crear issue)
+2. Desarrollo (feature branch + TDD)
+3. Pre-Pull Request (validación local)
+4. Crear Pull Request (template estandarizado)
+5. Code Review (checklist de calidad)
+6. Merge (squash and merge preferido)
+7. Post-Merge (cierre automático issue)
+
+**Roles clave:**
+- Desarrollador (implementación)
+- Reviewer (mínimo 1 aprobación)
+- Tech Lead (decisiones arquitectónicas)
+
+---
+
+### 5. Desarrollo Local
+**Archivo:** [`procedimiento_desarrollo_local.md`](procedimiento_desarrollo_local.md)
+
+**Propósito:**
+Guía paso a paso para configurar y trabajar en el entorno de desarrollo local del proyecto IACT.
+
+**Alcance:**
+Todos los desarrolladores (backend, frontend, infrastructure) que necesiten trabajar localmente.
+
+**Pre-requisitos:**
+- Vagrant + VirtualBox 7+
+- Python 3.11+
+- Git configurado
+- VS Code (recomendado)
+
+**Configuración incluye:**
+- Setup de entorno virtual Python
+- Levantar infraestructura Vagrant (PostgreSQL + MariaDB)
+- Configurar base de datos
+- Ejecutar tests
+- Workflow Git básico
+
+**Herramientas recomendadas:**
+- VS Code Extensions (Python, Pylance, Black, Django, GitLens)
+- Configuración `.vscode/settings.json`
+
+---
+
+### 6. Guía Completa de Desarrollo de Features
+**Archivo:** [`guia_completa_desarrollo_features.md`](guia_completa_desarrollo_features.md)
+
+**Propósito:**
+Guía práctica y detallada paso a paso para crear nuevas funcionalidades en el proyecto IACT, desde la planificación hasta el merge, con ejemplos concretos y mejores prácticas.
+
+**Alcance:**
+Desarrolladores implementando nuevas features, refactorizaciones, o cambios significativos.
+
+**Contenido:**
+- **Paso 0-1**: Pre-requisitos y setup inicial del entorno
+- **Paso 2**: Planificación de la feature (crear issues en GitHub)
+- **Paso 3**: Crear feature branch (nomenclatura estándar)
+- **Paso 4**: Desarrollo con TDD (Red-Green-Refactor cycle)
+- **Paso 5**: Validaciones locales (formateo, linting, security, tests)
+- **Paso 6**: Commits (Conventional Commits + pre-commit hooks)
+- **Paso 7**: Pre-Pull Request (rebase con main, squash si necesario)
+- **Paso 8**: Crear Pull Request (template completo + gh CLI)
+- **Paso 9**: Code Review (checklist exhaustivo + CI/CD automático)
+- **Paso 10**: Merge (squash and merge preferido)
+- **Paso 11**: Post-Merge (verificación y limpieza)
+
+**Incluye:**
+- Ejemplos completos de código (serializers, views, tests)
+- Comandos exactos para cada paso
+- Caso especial de hotfix para bugs críticos
+- Troubleshooting común
+- Métricas de calidad (cobertura >= 80%, PR < 400 líneas)
+
+**Filosofía:**
+- Test-Driven Development (TDD)
+- Commits atómicos
+- PRs pequeños y enfocados
+- Review rápido (< 48 horas)
+- Documentación completa
+- Calidad sobre velocidad
+
+**Roles clave:**
+- Desarrollador (implementación)
+- Reviewer (code review con checklist)
+- CI/CD (validación automática)
 
 ---
 
@@ -253,12 +360,13 @@ graph TB
 
 | Elemento | Estado | Observaciones |
 |----------|--------|---------------|
-| Procedimientos documentados | OK Sí | 3 procedimientos core creados (2025-11-04) |
-| Integración con plantillas | OK Sí | Referencian `plantillas/template_*.md` |
-| Alineación con PROPUESTA_FINAL_REESTRUCTURACION | OK Sí | Sigue estructura ISO 29148 + BABOK v3 |
+| Procedimientos documentados | ✅ Sí | 6 procedimientos completados (actualizado 2025-11-06) |
+| Integración con plantillas | ✅ Sí | Referencian `plantillas/template_*.md` |
+| Alineación con PROPUESTA_FINAL_REESTRUCTURACION | ✅ Sí | Sigue estructura ISO 29148 + BABOK v3 |
+| Guía práctica de desarrollo | ✅ Sí | Nueva guía completa con ejemplos de código |
 | Workflows CI/CD configurados | 🔶 Parcial | Pendiente implementar `requirements-index.yml` |
 | Scripts de validación operativos | 🔶 Parcial | Pendiente implementar `validate_traceability.py` |
-| Auditoría trimestral programada | NO No | Pendiente programar primera auditoría |
+| Auditoría trimestral programada | ❌ No | Pendiente programar primera auditoría |
 
 ---
 
@@ -371,6 +479,7 @@ git push
 | Versión | Fecha | Cambios | Autor |
 |---------|-------|---------|-------|
 | 1.0.0 | 2025-11-04 | Creación inicial con 3 procedimientos core | Equipo Gobernanza |
+| 1.1.0 | 2025-11-06 | Agregar procedimientos de desarrollo (gestión cambios, desarrollo local, guía features) | Equipo Desarrollo |
 
 ---
 
