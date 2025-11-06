@@ -2,21 +2,23 @@
 id: DOC-INDICE-GENERAL
 tipo: indice
 categoria: documentacion
-version: 1.0.0
+version: 1.1.0
 fecha_creacion: 2025-11-06
 fecha_migracion: 2025-11-06
+fecha_actualizacion: 2025-11-06
 propietario: equipo-gobernanza
-archivos_totales: 56
+archivos_totales: 89
 lineas_totales: 24827
 relacionados: ["docs_legacy/README.md"]
 ---
 
 # INDICE GENERAL - Documentacion IACT
 
-**VERSION:** 1.0.0
+**VERSION:** 1.1.0
 **FECHA MIGRACION:** 2025-11-06
-**ARCHIVOS MIGRADOS:** 56
-**LINEAS MIGRADAS:** 24,827
+**FECHA ACTUALIZACION:** 2025-11-06
+**ARCHIVOS MIGRADOS:** 89
+**LINEAS MIGRADAS:** 24,827+
 **ESTRUCTURA:** BABOK v3 + PMBOK 7 + ISO/IEC/IEEE 29148:2018
 
 ---
@@ -31,13 +33,13 @@ Este indice documenta la estructura completa de documentacion del proyecto IACT 
 
 | Seccion | Descripcion | Archivos |
 |---------|-------------|----------|
-| [1. Gobernanza](#1-gobernanza) | Estilos, procesos, lineamientos | 23 |
+| [1. Gobernanza](#1-gobernanza) | Estilos, procesos, procedimientos, lineamientos | 34 |
 | [2. Requisitos](#2-requisitos) | Analisis de negocio, Business Needs | 8 |
 | [3. Implementacion](#3-implementacion) | Infrastructure, agentes, runbooks | 13 |
-| [4. Plantillas](#4-plantillas) | Templates reutilizables | 12 |
+| [4. Plantillas](#4-plantillas) | Templates reutilizables | 34 |
 | [5. Vision y Alcance](#5-vision-y-alcance) | Glossary, vision del proyecto | 2 |
 
-**Total:** 58 archivos de documentacion
+**Total:** 91 archivos de documentacion
 
 ---
 
@@ -126,6 +128,34 @@ Documentacion de estilos, estandares, procesos y lineamientos del proyecto.
 - [EJEMPLOS.md](gobernanza/ci_cd/EJEMPLOS.md) - Ejemplos end-to-end
 
 **Workflows implementados:** 8 (backend-ci, frontend-ci, test-pyramid, deploy, migrations, infrastructure-ci, security-scan, incident-response)
+
+---
+
+#### 1.2.5 Procedimientos
+
+**Ubicacion:** `docs/gobernanza/procesos/procedimientos/`
+
+**Total:** 11 procedimientos operativos detallados
+
+| Archivo | Descripcion | Prioridad |
+|---------|-------------|-----------|
+| [README.md](gobernanza/procesos/procedimientos/README.md) | Indice de procedimientos | ALTA |
+| [procedimiento_instalacion_entorno.md](gobernanza/procesos/procedimientos/procedimiento_instalacion_entorno.md) | Setup inicial de entorno de desarrollo | ALTA |
+| [procedimiento_desarrollo_local.md](gobernanza/procesos/procedimientos/procedimiento_desarrollo_local.md) | Desarrollo en entorno local | ALTA |
+| [procedimiento_qa.md](gobernanza/procesos/procedimientos/procedimiento_qa.md) | Procedimiento de QA | ALTA |
+| [procedimiento_diseno_tecnico.md](gobernanza/procesos/procedimientos/procedimiento_diseno_tecnico.md) | Diseno tecnico de features | ALTA |
+| [procedimiento_trazabilidad_requisitos.md](gobernanza/procesos/procedimientos/procedimiento_trazabilidad_requisitos.md) | Trazabilidad de requisitos | ALTA |
+| [procedimiento_release.md](gobernanza/procesos/procedimientos/procedimiento_release.md) | Procedimiento de release | ALTA |
+| [procedimiento_analisis_seguridad.md](gobernanza/procesos/procedimientos/procedimiento_analisis_seguridad.md) | Analisis de seguridad | ALTA |
+| [guia_completa_desarrollo_features.md](gobernanza/procesos/procedimientos/guia_completa_desarrollo_features.md) | Guia completa de desarrollo | ALTA |
+| [procedimiento_revision_documental.md](gobernanza/procesos/procedimientos/procedimiento_revision_documental.md) | Revision de documentos | MEDIA |
+| [procedimiento_gestion_cambios.md](gobernanza/procesos/procedimientos/procedimiento_gestion_cambios.md) | Gestion de cambios | MEDIA |
+
+**Caracteristicas:**
+- Procedimientos paso a paso para operaciones criticas
+- Incluyen comandos especificos
+- Troubleshooting integrado
+- Ejemplos practicos
 
 ---
 
@@ -273,24 +303,83 @@ Templates reutilizables para desarrollo, documentacion, y procesos.
 
 **Ubicacion:** `docs/plantillas/`
 
-**Total:** 12 templates
+**Total:** 34 templates
 
 ### 4.1 Indice de Plantillas
 
+#### 4.1.1 Templates de Requisitos (5)
+
+| Plantilla | Descripcion | Prioridad |
+|-----------|-------------|-----------|
+| [template_necesidad.md](plantillas/template_necesidad.md) | Template para necesidad de negocio | ALTA |
+| [template_requisito_negocio.md](plantillas/template_requisito_negocio.md) | Template para requisito de negocio | ALTA |
+| [template_requisito_funcional.md](plantillas/template_requisito_funcional.md) | Template para requisito funcional | ALTA |
+| [template_requisito_no_funcional.md](plantillas/template_requisito_no_funcional.md) | Template para requisito no funcional | ALTA |
+| [template_requisito_stakeholder.md](plantillas/template_requisito_stakeholder.md) | Template para requisito stakeholder | MEDIA |
+
+#### 4.1.2 Templates de Desarrollo (10)
+
 | Plantilla | Descripcion | Tamano | Prioridad |
 |-----------|-------------|--------|-----------|
-| [README.md](plantillas/README.md) | Indice de plantillas | - | - |
 | [plantilla_django_app.md](plantillas/plantilla_django_app.md) | Template para crear apps Django | 19 KB | ALTA |
 | [plantilla_etl_job.md](plantillas/plantilla_etl_job.md) | Template para crear ETL jobs | 25 KB | ALTA |
-| [plantilla_caso_de_uso.md](plantillas/plantilla_caso_de_uso.md) | Template para casos de uso | - | ALTA |
-| [plantilla_database_design.md](plantillas/plantilla_database_design.md) | Template para diseno de base de datos | - | ALTA |
-| [plantilla_api_reference.md](plantillas/plantilla_api_reference.md) | Template para documentacion de APIs | - | MEDIA |
-| [plantilla_plan_pruebas.md](plantillas/plantilla_plan_pruebas.md) | Template para plan de pruebas | - | MEDIA |
-| [plantilla_caso_prueba.md](plantillas/plantilla_caso_prueba.md) | Template para casos de prueba | - | MEDIA |
-| [plantilla_espacio_documental.md](plantillas/plantilla_espacio_documental.md) | Template para espacios documentales | 3.3 KB | BAJA |
-| [plantilla_registro_actividad.md](plantillas/plantilla_registro_actividad.md) | Template para registros de actividad | 2.1 KB | BAJA |
+| [plantilla_regla_negocio.md](plantillas/plantilla_regla_negocio.md) | Template para reglas de negocio | - | ALTA |
+| [plantilla_spec.md](plantillas/plantilla_spec.md) | Template para especificacion tecnica | - | ALTA |
+| [plantilla_srs.md](plantillas/plantilla_srs.md) | Template para Software Requirements Specification | - | ALTA |
+| [plantilla_tdd.md](plantillas/plantilla_tdd.md) | Template para Test Driven Development | - | ALTA |
+| [plantilla_troubleshooting.md](plantillas/plantilla_troubleshooting.md) | Template para troubleshooting | - | ALTA |
+| [plantilla_plan.md](plantillas/plantilla_plan.md) | Template para plan generico | - | MEDIA |
+| [plantilla_sad.md](plantillas/plantilla_sad.md) | Template para Software Architecture Document | - | MEDIA |
+| [plantilla_ui_ux.md](plantillas/plantilla_ui_ux.md) | Template para diseno UI/UX | - | MEDIA |
+
+#### 4.1.3 Templates de Testing (2)
+
+| Plantilla | Descripcion | Prioridad |
+|-----------|-------------|-----------|
+| [plantilla_plan_pruebas.md](plantillas/plantilla_plan_pruebas.md) | Template para plan de pruebas | MEDIA |
+| [plantilla_caso_prueba.md](plantillas/plantilla_caso_prueba.md) | Template para casos de prueba | MEDIA |
+
+#### 4.1.4 Templates de Diseño (2)
+
+| Plantilla | Descripcion | Prioridad |
+|-----------|-------------|-----------|
+| [plantilla_database_design.md](plantillas/plantilla_database_design.md) | Template para diseno de base de datos | ALTA |
+| [plantilla_caso_de_uso.md](plantillas/plantilla_caso_de_uso.md) | Template para casos de uso | ALTA |
+
+#### 4.1.5 Templates de Documentacion (4)
+
+| Plantilla | Descripcion | Prioridad |
+|-----------|-------------|-----------|
+| [plantilla_api_reference.md](plantillas/plantilla_api_reference.md) | Template para documentacion de APIs | MEDIA |
+| [plantilla_espacio_documental.md](plantillas/plantilla_espacio_documental.md) | Template para espacios documentales | BAJA |
+| [plantilla_manual_usuario.md](plantillas/plantilla_manual_usuario.md) | Template para manual de usuario | BAJA |
+| [plantilla_seccion_limitaciones.md](plantillas/plantilla_seccion_limitaciones.md) | Template para seccion de limitaciones | BAJA |
+
+#### 4.1.6 Templates de Infraestructura y DevOps (4)
+
+| Plantilla | Descripcion | Prioridad |
+|-----------|-------------|-----------|
+| [plantilla_runbook.md](plantillas/plantilla_runbook.md) | Template para runbook operacional | ALTA |
+| [plantilla_deployment_guide.md](plantillas/plantilla_deployment_guide.md) | Template para guia de deployment | MEDIA |
+| [plantilla_setup_entorno.md](plantillas/plantilla_setup_entorno.md) | Template para setup de entorno | MEDIA |
+| [plantilla_setup_qa.md](plantillas/plantilla_setup_qa.md) | Template para setup QA | MEDIA |
+
+#### 4.1.7 Templates de Gestion (6)
+
+| Plantilla | Descripcion | Tamano | Prioridad |
+|-----------|-------------|--------|-----------|
+| [plantilla_release_plan.md](plantillas/plantilla_release_plan.md) | Template para plan de release | - | ALTA |
 | [plantilla_business_case.md](plantillas/plantilla_business_case.md) | Template para business cases | - | BAJA |
 | [plantilla_project_charter.md](plantillas/plantilla_project_charter.md) | Template para project charters | - | BAJA |
+| [plantilla_project_management_plan.md](plantillas/plantilla_project_management_plan.md) | Template para plan de gestion | - | MEDIA |
+| [plantilla_stakeholder_analysis.md](plantillas/plantilla_stakeholder_analysis.md) | Template para analisis de stakeholders | - | MEDIA |
+| [plantilla_registro_actividad.md](plantillas/plantilla_registro_actividad.md) | Template para registros de actividad | 2.1 KB | BAJA |
+
+#### 4.1.8 Indice
+
+| Archivo | Descripcion |
+|---------|-------------|
+| [README.md](plantillas/README.md) | Indice de plantillas |
 
 ### 4.2 Uso de Plantillas
 
@@ -439,34 +528,44 @@ docs/
 **Empezar aqui:**
 1. [vision_y_alcance/README.md](vision_y_alcance/README.md) - Vision general del proyecto
 2. [gobernanza/estilos/GUIA_ESTILO.md](gobernanza/estilos/GUIA_ESTILO.md) - Convenciones obligatorias
-3. [gobernanza/procesos/checklists/](gobernanza/procesos/checklists/) - Checklists operacionales
+3. [gobernanza/procesos/procedimientos/procedimiento_instalacion_entorno.md](gobernanza/procesos/procedimientos/procedimiento_instalacion_entorno.md) - Setup inicial
+4. [gobernanza/procesos/checklists/](gobernanza/procesos/checklists/) - Checklists operacionales
 
 **Por rol:**
 
 **Developer:**
+- [gobernanza/procesos/procedimientos/procedimiento_desarrollo_local.md](gobernanza/procesos/procedimientos/procedimiento_desarrollo_local.md) - Desarrollo local
 - [gobernanza/ci_cd/GUIA_USO.md](gobernanza/ci_cd/GUIA_USO.md) - Seccion Developer
 - [gobernanza/procesos/checklists/checklist_desarrollo.md](gobernanza/procesos/checklists/checklist_desarrollo.md)
 - [plantillas/plantilla_django_app.md](plantillas/plantilla_django_app.md)
+- [gobernanza/procesos/procedimientos/guia_completa_desarrollo_features.md](gobernanza/procesos/procedimientos/guia_completa_desarrollo_features.md)
 
 **QA:**
 - [gobernanza/procesos/qa/ESTRATEGIA_QA.md](gobernanza/procesos/qa/ESTRATEGIA_QA.md)
+- [gobernanza/procesos/procedimientos/procedimiento_qa.md](gobernanza/procesos/procedimientos/procedimiento_qa.md)
 - [gobernanza/procesos/checklists/checklist_testing.md](gobernanza/procesos/checklists/checklist_testing.md)
 - [gobernanza/ci_cd/GUIA_USO.md](gobernanza/ci_cd/GUIA_USO.md) - Seccion QA
 
 **DevOps:**
 - [implementacion/infrastructure/runbooks/](implementacion/infrastructure/runbooks/)
+- [gobernanza/procesos/procedimientos/procedimiento_release.md](gobernanza/procesos/procedimientos/procedimiento_release.md)
 - [gobernanza/ci_cd/GUIA_USO.md](gobernanza/ci_cd/GUIA_USO.md) - Seccion DevOps
 - [gobernanza/ci_cd/TROUBLESHOOTING.md](gobernanza/ci_cd/TROUBLESHOOTING.md)
+- [plantillas/plantilla_runbook.md](plantillas/plantilla_runbook.md)
 
 **Business Analyst:**
 - [requisitos/analisis_negocio/marco_integrado/00_resumen_ejecutivo_mejores_practicas.md](requisitos/analisis_negocio/marco_integrado/00_resumen_ejecutivo_mejores_practicas.md)
 - [gobernanza/casos_de_uso_guide.md](gobernanza/casos_de_uso_guide.md)
+- [gobernanza/procesos/procedimientos/procedimiento_trazabilidad_requisitos.md](gobernanza/procesos/procedimientos/procedimiento_trazabilidad_requisitos.md)
+- [plantillas/template_necesidad.md](plantillas/template_necesidad.md)
 - [plantillas/plantilla_caso_de_uso.md](plantillas/plantilla_caso_de_uso.md)
 
 **Tech Lead:**
 - [gobernanza/procesos/AGENTES_SDLC.md](gobernanza/procesos/AGENTES_SDLC.md)
+- [gobernanza/procesos/procedimientos/procedimiento_diseno_tecnico.md](gobernanza/procesos/procedimientos/procedimiento_diseno_tecnico.md)
 - [gobernanza/registro_decisiones.md](gobernanza/registro_decisiones.md)
 - [gobernanza/ci_cd/INDICE.md](gobernanza/ci_cd/INDICE.md)
+- [gobernanza/procesos/procedimientos/procedimiento_analisis_seguridad.md](gobernanza/procesos/procedimientos/procedimiento_analisis_seguridad.md)
 
 ---
 
@@ -541,15 +640,24 @@ docs/
 
 | Fecha | Version | Cambios | Archivos | Commit |
 |-------|---------|---------|----------|--------|
-| 2025-11-06 | 1.0.0 | Migracion inicial desde docs_legacy/ | 56 | 2700591 |
+| 2025-11-06 | 1.0.0 | Migracion inicial desde docs_legacy/ (Fases 1-5) | 56 | 2700591 |
+| 2025-11-06 | 1.0.1 | Creacion de INDICE.md maestro | +1 | 0062e64 |
+| 2025-11-06 | 1.1.0 | Fases 6-7: Procedimientos (11) + Plantillas (22) | +33 | PENDING |
+
+**Total migrado:** 89 archivos
 
 **Detalles de migracion:**
 - Origen: `docs_legacy/` (estructura anterior pre-BABOK v3 + PMBOK 7)
 - Destino: `docs/` (nueva estructura organizacional)
-- Archivos migrados: 56
-- Lineas migradas: 24,827
-- Transformaciones: Limpieza de emojis en 9 archivos
-- Archivos NO migrados: Registros historicos (qa/registros/), legacy_analysis/
+- Archivos migrados: 89 (de 125 totales)
+- Lineas migradas: 24,827+
+- Transformaciones: Limpieza de emojis en 10 archivos
+- Archivos NO migrados: Registros historicos (qa/registros/), legacy_analysis/, solicitudes/
+
+**Fases completadas:**
+- FASE 1-5: Fundamentos, Operaciones, Framework BA, Agentes, Archivos root
+- FASE 6: Procedimientos gobernanza (11 archivos)
+- FASE 7: Plantillas faltantes (22 archivos)
 
 **Ver:** [docs_legacy/README.md](../docs_legacy/README.md) para detalles de archivado
 
@@ -557,11 +665,15 @@ docs/
 
 ## 13. Proximos Pasos (Pendientes)
 
-### 13.1 Migracion Pendiente
+### 13.1 Migracion Pendiente (Prioridad BAJA)
 
-- [ ] Migrar solicitudes SC00-SC03 desde `docs_legacy/solicitudes/` a `docs/requisitos/business_needs/`
+- [ ] Migrar solicitudes SC00-SC03 desde `docs_legacy/solicitudes/` a `docs/requisitos/business_needs/` (22 archivos)
+- [ ] Migrar archivos restantes de baja prioridad (planificacion_y_releases, diseno_detallado, procedimientos) (4 archivos)
 - [ ] Revisar overlap entre `docs/implementacion/agentes/legacy/` y `docs/gobernanza/procesos/AGENTES_SDLC.md`
 - [ ] Consolidar documentacion duplicada si existe
+
+**Archivos pendientes:** 26 de 125 (21%)
+**Progreso:** 89 migrados (71%), 10 archivados (8%)
 
 ### 13.2 Mejoras Futuras
 
