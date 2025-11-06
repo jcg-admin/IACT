@@ -54,6 +54,7 @@ docs/gobernanza/**                           @arquitecto-senior @tech-lead
 docs/gobernanza/metodologias/**              @arquitecto-senior @tech-lead
 docs/gobernanza/marco_integrado/**           @arquitecto-senior @tech-lead
 docs/gobernanza/agentes/**                   @arquitecto-senior @tech-lead
+docs/gobernanza/ai/**                        @arquitecto-senior @tech-lead
 
 # SDLC Outputs (issues, plans, reports auto-generados)
 # Owner: Arquitecto Senior

@@ -175,8 +175,8 @@ Checklist diario de las 7 practicas clave del DORA AI Capabilities Model.
 
 - [ ] **Restricciones validadas?**
   - `./scripts/validate_critical_restrictions.sh`
-  - RNF-002: NO Redis? ✓
-  - NO Email? ✓
+  - RNF-002: NO Redis? [OK]
+  - NO Email? [OK]
 
 ---
 

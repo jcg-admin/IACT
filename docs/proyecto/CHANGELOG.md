@@ -37,6 +37,41 @@ Registro cronologico de cambios, features y mejoras completadas.
 
 ---
 
+## [1.4.4] - 2025-11-06
+
+### Fixed - Limpieza de emojis (RNF violation)
+
+**Restriccion violada:** RNF-NO-EMOJIS - NO usar emojis UTF-8 en codigo, docs, commits
+
+**Archivos afectados:**
+- `docs/gobernanza/ai/ESTRATEGIA_IA.md`
+- `docs/gobernanza/ai/AI_CAPABILITIES.md`
+
+**Reemplazos realizados:**
+- Emoji checkmark -> `[x]` o `[OK]`
+- Warning emoji -> `[WARNING]`
+- Yellow circle emoji -> `[PARCIAL]`, `[EN PROGRESO]`, `[DISTRIBUIDO]`
+- New emoji -> `[NUEVO]`
+- Circular arrow emoji -> `[PENDIENTE]`
+- Em-dash arrow -> `->`
+
+**Script usado:** `./scripts/clean_emojis.sh docs/gobernanza/ai/`
+
+**CODEOWNERS actualizado:**
+- Agregada linea especifica para `docs/gobernanza/ai/**` -> @arquitecto-senior @tech-lead
+
+**Impacto:**
+- Documentacion ahora cumple con restriccion critica RNF-NO-EMOJIS
+- Texto ASCII usado exclusivamente: [OK], [FAIL], [WARNING], [PARCIAL], [PENDIENTE]
+- Validacion futura: Usar `./scripts/clean_emojis.sh` antes de commit
+
+**Archivos:**
+- `docs/gobernanza/ai/ESTRATEGIA_IA.md` (emojis eliminados)
+- `docs/gobernanza/ai/AI_CAPABILITIES.md` (emojis eliminados)
+- `.github/CODEOWNERS` (nueva linea agregada)
+
+---
+
 ## [1.4.3] - 2025-11-06
 
 ### Changed - ESTRATEGIA_IA.md (v1.2.0 -> v1.3.0)

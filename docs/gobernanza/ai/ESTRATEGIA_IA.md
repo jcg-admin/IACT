@@ -30,10 +30,10 @@ Estrategia de adopcion y uso de IA en desarrollo de software, basada en DORA Rep
 **IA como amplificador:** El rol principal de la IA en desarrollo de software es **amplificar** las capacidades del equipo, no reemplazarlas.
 
 **Estado actual IACT:**
-- ✅ **90% adoption target MET**: Usamos Claude Code diariamente
-- ✅ **7 Agentes SDLC implementados**: Planning, Feasibility, Design, Testing, Deployment, Orchestrator
-- ✅ **Workflows automatizados**: 8 workflows CI/CD con IA integration
-- ✅ **Documentacion living**: Sistema de asociacion workflow-template
+- [x] **90% adoption target MET**: Usamos Claude Code diariamente
+- [x] **7 Agentes SDLC implementados**: Planning, Feasibility, Design, Testing, Deployment, Orchestrator
+- [x] **Workflows automatizados**: 8 workflows CI/CD con IA integration
+- [x] **Documentacion living**: Sistema de asociacion workflow-template
 
 ---
 
@@ -130,15 +130,15 @@ El análisis DORA correlaciona AI adoption practices con **4 métricas core** de
 
 Framework de **7 practicas clave** para amplificar el impacto positivo de IA.
 
-### Practica 1: User-centric Focus ✅ IMPLEMENTADO
+### Practica 1: User-centric Focus [x] IMPLEMENTADO
 
 **Definicion DORA:** Enfoque centrado en el usuario final y sus necesidades.
 
 **Estado IACT:**
-- ✅ `docs/proyecto/vision_y_alcance.md` - Vision clara de usuarios
-- ✅ Templates de requisitos: `template_necesidad.md`, `template_requisito_stakeholder.md`
-- ✅ Agente SDLCPlannerAgent genera user stories con acceptance criteria
-- ✅ Trazabilidad completa: Business Need -> Stakeholder Requirement -> User Story -> Code
+- [x] `docs/proyecto/vision_y_alcance.md` - Vision clara de usuarios
+- [x] Templates de requisitos: `template_necesidad.md`, `template_requisito_stakeholder.md`
+- [x] Agente SDLCPlannerAgent genera user stories con acceptance criteria
+- [x] Trazabilidad completa: Business Need -> Stakeholder Requirement -> User Story -> Code
 
 **Metricas actuales:**
 - User stories generadas por IA: 100% incluyen acceptance criteria
@@ -151,16 +151,16 @@ Framework de **7 practicas clave** para amplificar el impacto positivo de IA.
 
 ---
 
-### Practica 2: Strong Version Control Practices ✅ IMPLEMENTADO
+### Practica 2: Strong Version Control Practices [x] IMPLEMENTADO
 
 **Definicion DORA:** Practicas robustas de control de versiones.
 
 **Estado IACT:**
-- ✅ Git con conventional commits obligatorio
-- ✅ CODEOWNERS configurado (141 lineas, 12 areas)
-- ✅ Branch strategy: feature branches -> main
-- ✅ PR reviews obligatorios
-- ✅ CI/CD en cada push (8 workflows)
+- [x] Git con conventional commits obligatorio
+- [x] CODEOWNERS configurado (141 lineas, 12 areas)
+- [x] Branch strategy: feature branches -> main
+- [x] PR reviews obligatorios
+- [x] CI/CD en cada push (8 workflows)
 
 **Metricas actuales:**
 - Commits con formato convencional: ~95%
@@ -175,17 +175,17 @@ Framework de **7 practicas clave** para amplificar el impacto positivo de IA.
 
 ---
 
-### Practica 3: AI-accessible Internal Data 🟡 PARCIAL
+### Practica 3: AI-accessible Internal Data [PARCIAL]
 
 **Definicion DORA:** Datos internos accesibles para herramientas IA.
 
 **Estado IACT:**
-- ✅ Documentacion completa en Markdown (118 archivos, ~35K lineas)
-- ✅ INDICE.md maestro con metadata
-- ✅ Sistema de asociacion workflow-template (.claude/workflow_template_mapping.json)
-- ✅ Scripts con --help completo
-- ⚠️ Metricas en archivos dispersos (no centralizadas)
-- ⚠️ Logs no estructurados
+- [x] Documentacion completa en Markdown (118 archivos, ~35K lineas)
+- [x] INDICE.md maestro con metadata
+- [x] Sistema de asociacion workflow-template (.claude/workflow_template_mapping.json)
+- [x] Scripts con --help completo
+- [WARNING] Metricas en archivos dispersos (no centralizadas)
+- [WARNING] Logs no estructurados
 
 **Gaps identificados:**
 - Sistema de metrics interno (MySQL) - Pendiente Q1 2026
@@ -201,16 +201,16 @@ Framework de **7 practicas clave** para amplificar el impacto positivo de IA.
 
 ---
 
-### Practica 4: Working in Small Batches ✅ IMPLEMENTADO
+### Practica 4: Working in Small Batches [x] IMPLEMENTADO
 
 **Definicion DORA:** Trabajo en lotes pequenos con entregas frecuentes.
 
 **Estado IACT:**
-- ✅ Metodologia de desarrollo por lotes documentada
-- ✅ Story points con Fibonacci (max 13 SP por tarea)
-- ✅ Sprints de 2 semanas
-- ✅ CI/CD en cada push (feedback rapido)
-- ✅ Feature flags preparados
+- [x] Metodologia de desarrollo por lotes documentada
+- [x] Story points con Fibonacci (max 13 SP por tarea)
+- [x] Sprints de 2 semanas
+- [x] CI/CD en cada push (feedback rapido)
+- [x] Feature flags preparados
 
 **Metricas actuales:**
 - Tamano promedio PR: <300 lineas
@@ -225,16 +225,16 @@ Framework de **7 practicas clave** para amplificar el impacto positivo de IA.
 
 ---
 
-### Practica 5: Clear + Communicated AI Stance 🟡 ESTE DOCUMENTO
+### Practica 5: Clear + Communicated AI Stance [EN PROGRESO] ESTE DOCUMENTO
 
 **Definicion DORA:** Postura clara y comunicada sobre uso de IA.
 
 **Estado IACT:**
-- ✅ 7 agentes SDLC documentados (docs/gobernanza/procesos/AGENTES_SDLC.md)
-- ✅ Uso de Claude Code establecido
-- 🆕 Este documento define la estrategia
-- ⚠️ Falta comunicacion formal al equipo
-- ⚠️ Faltan guidelines de cuando usar/no usar IA
+- [x] 7 agentes SDLC documentados (docs/gobernanza/procesos/AGENTES_SDLC.md)
+- [x] Uso de Claude Code establecido
+- [NUEVO] Este documento define la estrategia
+- [WARNING] Falta comunicacion formal al equipo
+- [WARNING] Faltan guidelines de cuando usar/no usar IA
 
 **Stance de IA del Proyecto IACT:**
 
@@ -267,7 +267,7 @@ Framework de **7 practicas clave** para amplificar el impacto positivo de IA.
 
 ---
 
-### Practica 6: Quality Internal Platform ✅ IMPLEMENTADO
+### Practica 6: Quality Internal Platform [x] IMPLEMENTADO
 
 **Definicion DORA:** Plataforma interna de alta calidad.
 
@@ -286,14 +286,14 @@ Framework de **7 practicas clave** para amplificar el impacto positivo de IA.
 > — DORA Report 2025, Section 4.2
 
 **Estado IACT:**
-- ✅ Django como base platform
-- ✅ API backend bien estructurado
-- ✅ Database routing multi-platform (PostgreSQL + MySQL)
-- ✅ Django Admin como dashboard
-- ✅ 8 workflows CI/CD
-- ✅ 13 scripts shell automatizacion
-- ✅ Git + GitHub Actions (CI/CD platform)
-- ✅ Documentacion as code (120 archivos Markdown)
+- [x] Django como base platform
+- [x] API backend bien estructurado
+- [x] Database routing multi-platform (PostgreSQL + MySQL)
+- [x] Django Admin como dashboard
+- [x] 8 workflows CI/CD
+- [x] 13 scripts shell automatizacion
+- [x] Git + GitHub Actions (CI/CD platform)
+- [x] Documentacion as code (120 archivos Markdown)
 
 **IACT Platform Statistics:**
 - **Platform adoption:** 100% (Django + Git + CI/CD)
@@ -345,20 +345,20 @@ Platform Foundation          AI Capabilities
 
 ---
 
-### Practica 7: Healthy Data Ecosystems ✅ PARCIAL
+### Practica 7: Healthy Data Ecosystems [x] PARCIAL
 
 **Definicion DORA:** Ecosistemas de datos saludables y bien mantenidos que permiten AI-enhanced decision making.
 
 **DORA Report:** "AI-enabled telemetry mejora continuous learning, incident management, y risk calibration."
 
 **Estado IACT:**
-- ✅ PostgreSQL (app data)
-- ✅ MySQL (sessions, compliance)
-- ✅ Git (codigo, docs)
-- ✅ GitHub Actions artifacts
-- ⚠️ Metrics no centralizados
-- ⚠️ Logs no estructurados
-- ⚠️ AI-enabled telemetry - Pendiente
+- [x] PostgreSQL (app data)
+- [x] MySQL (sessions, compliance)
+- [x] Git (codigo, docs)
+- [x] GitHub Actions artifacts
+- [WARNING] Metrics no centralizados
+- [WARNING] Logs no estructurados
+- [WARNING] AI-enabled telemetry - Pendiente
 
 **Data flows actuales:**
 ```
@@ -411,7 +411,7 @@ Code (Git) -> CI/CD -> Tests + Security -> Deploy
 
 ## Tres Imperativos para la Era de Plataformas
 
-### 1. Embrace the Holistic Experience ✅ EN PROGRESO
+### 1. Embrace the Holistic Experience [x] EN PROGRESO
 
 **DORA:** Experiencia holistica de la plataforma.
 
@@ -428,7 +428,7 @@ Code (Git) -> CI/CD -> Tests + Security -> Deploy
 
 ---
 
-### 2. Make Your Platform the Foundation for AI ✅ IMPLEMENTADO
+### 2. Make Your Platform the Foundation for AI [x] IMPLEMENTADO
 
 **DORA:** Plataforma como foundation para IA.
 
@@ -461,16 +461,16 @@ Code (Git) -> CI/CD -> Tests + Security -> Deploy
 
 ---
 
-### 3. Use Your Platform to Calibrate Your Risk Appetite 🟡 EN DESARROLLO
+### 3. Use Your Platform to Calibrate Your Risk Appetite [EN DESARROLLO]
 
 **DORA:** Plataforma para calibrar appetite de riesgo.
 
 **IACT implementacion actual:**
-- ✅ Validaciones criticas automatizadas (validate_critical_restrictions.sh)
-- ✅ Security scan en CI/CD
-- ✅ Pre-commit hooks preparados
-- ⚠️ Falta: Risk dashboard
-- ⚠️ Falta: Automated incident response
+- [x] Validaciones criticas automatizadas (validate_critical_restrictions.sh)
+- [x] Security scan en CI/CD
+- [x] Pre-commit hooks preparados
+- [WARNING] Falta: Risk dashboard
+- [WARNING] Falta: Automated incident response
 
 **Risk tiers definidos:**
 - **P0 (CRITICO)**: Bloquea deploy - RNF-002, security critical, coverage <80%
@@ -488,30 +488,30 @@ Code (Git) -> CI/CD -> Tests + Security -> Deploy
 
 ## Consejos para Lideres Tecnologicos (DORA)
 
-### 1. Have a Systems View ✅ IMPLEMENTADO
+### 1. Have a Systems View [x] IMPLEMENTADO
 
 **DORA:** Vista sistemica para resolver problemas correctos.
 
 **IACT:**
-- ✅ MAPEO_PROCESOS_TEMPLATES.md: Vista completa proceso->template->workflow
-- ✅ ROADMAP.md: 5 epicas interrelacionadas
-- ✅ INDICE.md: Mapa completo de documentacion
-- ✅ Arquitectura de agentes: Pipeline pattern con Go/No-Go
+- [x] MAPEO_PROCESOS_TEMPLATES.md: Vista completa proceso->template->workflow
+- [x] ROADMAP.md: 5 epicas interrelacionadas
+- [x] INDICE.md: Mapa completo de documentacion
+- [x] Arquitectura de agentes: Pipeline pattern con Go/No-Go
 
 **Evidencia:** Sistema de asociacion workflow-template muestra pensamiento sistemico.
 
 ---
 
-### 2. Invest in Foundational Systems ✅ EN PROGRESO
+### 2. Invest in Foundational Systems [x] EN PROGRESO
 
 **DORA:** Invertir en sistemas fundamentales.
 
 **IACT inversiones:**
-- ✅ Internal platform (Django)
-- ✅ Data ecosystems (PostgreSQL + MySQL)
-- ✅ Core engineering (CI/CD, tests, docs)
-- 🟡 Monitoring/Observability (Q1 2026)
-- 🟡 Analytics platform (Q1-Q2 2026)
+- [x] Internal platform (Django)
+- [x] Data ecosystems (PostgreSQL + MySQL)
+- [x] Core engineering (CI/CD, tests, docs)
+- [PARCIAL] Monitoring/Observability (Q1 2026)
+- [PARCIAL] Analytics platform (Q1-Q2 2026)
 
 **ROI actual:**
 - 7 agentes SDLC funcionando sobre foundation solida
@@ -521,14 +521,14 @@ Code (Git) -> CI/CD -> Tests + Security -> Deploy
 
 ---
 
-### 3. Focus on Effective Use ✅ IMPLEMENTADO
+### 3. Focus on Effective Use [x] IMPLEMENTADO
 
 **DORA:** Enfoque en uso efectivo para guiar, evaluar y validar trabajo generado por IA.
 
 **IACT:**
-- ✅ **Guia**: ESTRATEGIA_IA.md (este documento), stance clara
-- ✅ **Evalua**: Code review obligatorio, CI/CD automated checks
-- ✅ **Valida**: Tests >=80% coverage, security scan, lint
+- [x] **Guia**: ESTRATEGIA_IA.md (este documento), stance clara
+- [x] **Evalua**: Code review obligatorio, CI/CD automated checks
+- [x] **Valida**: Tests >=80% coverage, security scan, lint
 
 **Proceso de validacion IA-generated code:**
 1. AI genera codigo
@@ -544,7 +544,7 @@ Code (Git) -> CI/CD -> Tests + Security -> Deploy
 
 **DORA Report:** "Platform teams are evolving from infrastructure operators to **strategic enablers of AI adoption**."
 
-### Evolution: Infrastructure Operators → Strategic Enablers
+### Evolution: Infrastructure Operators -> Strategic Enablers
 
 **Traditional Platform Team (Pre-AI):**
 - Infrastructure provisioning
@@ -562,10 +562,10 @@ Code (Git) -> CI/CD -> Tests + Security -> Deploy
 
 | Role | Responsibility | IACT Status |
 |:--|:--|:--|
-| **Platform Engineer** | Build and maintain standardized environments and tools | 🟡 Distribuido (arquitecto-senior + tech-lead) |
-| **Data Engineer** | Ensure high-quality, AI-ready data pipelines | ⚠️ Pendiente formalizacion |
-| **MLOps Engineer** | Integrate machine learning models into CI/CD workflows | ⚠️ No formal (agentes SDLC scripts) |
-| **Governance Lead** | Define policies for responsible and ethical AI usage | 🟡 Arquitecto-senior (ESTRATEGIA_IA.md) |
+| **Platform Engineer** | Build and maintain standardized environments and tools | [DISTRIBUIDO] (arquitecto-senior + tech-lead) |
+| **Data Engineer** | Ensure high-quality, AI-ready data pipelines | [WARNING] Pendiente formalizacion |
+| **MLOps Engineer** | Integrate machine learning models into CI/CD workflows | [WARNING] No formal (agentes SDLC scripts) |
+| **Governance Lead** | Define policies for responsible and ethical AI usage | [PARCIAL] Arquitecto-senior (ESTRATEGIA_IA.md) |
 
 ### IACT Platform Team - Current State
 
@@ -589,23 +589,23 @@ Code (Git) -> CI/CD -> Tests + Security -> Deploy
 
 ### IACT Platform Team Responsibilities (Current + Target)
 
-**Foundational Systems (✅ Current):**
+**Foundational Systems ([x] Current):**
 - Security: Django auth, audit logging, security-scan.yml
-- Telemetry: health_check.sh, CI/CD artifacts (⚠️ metrics centralizados pending)
+- Telemetry: health_check.sh, CI/CD artifacts ([WARNING] metrics centralizados pending)
 - Reliability: deploy.sh con rollback, cleanup_sessions.sh, test automation
 
-**Risk Management (🟡 In Progress):**
+**Risk Management ([EN PROGRESO] In Progress):**
 - Automated validations: validate_critical_restrictions.sh, CI/CD gates
 - Risk tiers defined: P0-P3
 - Risk dashboard pending (Q1 2026)
 
-**Data Governance (✅ Current):**
+**Data Governance ([x] Current):**
 - RNF-002 enforcement (NO Redis)
 - Database routing (PostgreSQL + MySQL)
 - Session cleanup automation
 - Audit logging inmutable
 
-**Developer Enablement (✅ Current):**
+**Developer Enablement ([x] Current):**
 - Scripts con --help completo
 - Runbooks operacionales (6 runbooks)
 - Documentacion completa (120 archivos)
@@ -643,20 +643,20 @@ Code (Git) -> CI/CD -> Tests + Security -> Deploy
 ### Metricas Actuales (Baseline)
 
 **Adoption (DORA target: 90%)**
-- ✅ IACT: 100% del equipo usa Claude Code diariamente
-- ✅ IACT: 7 agentes SDLC implementados
+- [x] IACT: 100% del equipo usa Claude Code diariamente
+- [x] IACT: 7 agentes SDLC implementados
 
 **Productivity (DORA target: 70% perciben aumento)**
-- 🔄 Por medir: Encuesta al equipo
-- 🔄 Por medir: Tiempo promedio para completar tasks
+- [PENDIENTE] Por medir: Encuesta al equipo
+- [PENDIENTE] Por medir: Tiempo promedio para completar tasks
 
 **Reliance (DORA target: 82% usan moderadamente o mas)**
-- ✅ IACT: 60% de code reviews incluyen AI suggestions
-- ✅ IACT: 100% de documentacion generada con AI assist
+- [x] IACT: 60% de code reviews incluyen AI suggestions
+- [x] IACT: 100% de documentacion generada con AI assist
 
 **Code Quality (DORA: mejoras entre frequent users)**
-- ✅ IACT: Coverage objetivo 80% (enforced en CI/CD)
-- ✅ IACT: 0 security critical issues (security-scan.yml)
+- [x] IACT: Coverage objetivo 80% (enforced en CI/CD)
+- [x] IACT: 0 security critical issues (security-scan.yml)
 
 ---
 
@@ -769,20 +769,20 @@ Code (Git) -> CI/CD -> Tests + Security -> Deploy
 **IMPORTANTE:** Todas las practicas DORA deben cumplir restricciones IACT:
 
 ### RNF-002: NO Redis/Memcached
-- ✅ Sessions en MySQL (django.contrib.sessions.backends.db)
-- ✅ Cache en database si necesario
-- ❌ NO Prometheus/Grafana (violan esta restriccion)
-- ✅ Alternativa: Metrics en MySQL + Django Admin dashboards
+- [x] Sessions en MySQL (django.contrib.sessions.backends.db)
+- [x] Cache en database si necesario
+- [ ] NO Prometheus/Grafana (violan esta restriccion)
+- [x] Alternativa: Metrics en MySQL + Django Admin dashboards
 
 ### NO Email/SMTP
-- ✅ Notificaciones via InternalMessage
-- ✅ Alerts via scripts shell + InternalMessage
-- ❌ NO email-based alerting
+- [x] Notificaciones via InternalMessage
+- [x] Alerts via scripts shell + InternalMessage
+- [ ] NO email-based alerting
 
 ### Scripts First
-- ✅ Scripts shell funcionan offline
-- ✅ CI/CD workflows llaman scripts
-- ✅ Validacion manual siempre posible
+- [x] Scripts shell funcionan offline
+- [x] CI/CD workflows llaman scripts
+- [x] Validacion manual siempre posible
 
 ---
 
