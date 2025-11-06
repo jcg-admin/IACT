@@ -1,0 +1,629 @@
+---
+id: DOC-INDICE-GENERAL
+tipo: indice
+categoria: documentacion
+version: 1.0.0
+fecha_creacion: 2025-11-06
+fecha_migracion: 2025-11-06
+propietario: equipo-gobernanza
+archivos_totales: 56
+lineas_totales: 24827
+relacionados: ["docs_legacy/README.md"]
+---
+
+# INDICE GENERAL - Documentacion IACT
+
+**VERSION:** 1.0.0
+**FECHA MIGRACION:** 2025-11-06
+**ARCHIVOS MIGRADOS:** 56
+**LINEAS MIGRADAS:** 24,827
+**ESTRUCTURA:** BABOK v3 + PMBOK 7 + ISO/IEC/IEEE 29148:2018
+
+---
+
+## Proposito
+
+Este indice documenta la estructura completa de documentacion del proyecto IACT despues de la migracion desde docs_legacy/. Toda la documentacion sigue los estandares definidos en GUIA_ESTILO.md.
+
+---
+
+## Navegacion Rapida
+
+| Seccion | Descripcion | Archivos |
+|---------|-------------|----------|
+| [1. Gobernanza](#1-gobernanza) | Estilos, procesos, lineamientos | 23 |
+| [2. Requisitos](#2-requisitos) | Analisis de negocio, Business Needs | 8 |
+| [3. Implementacion](#3-implementacion) | Infrastructure, agentes, runbooks | 13 |
+| [4. Plantillas](#4-plantillas) | Templates reutilizables | 12 |
+| [5. Vision y Alcance](#5-vision-y-alcance) | Glossary, vision del proyecto | 2 |
+
+**Total:** 58 archivos de documentacion
+
+---
+
+## 1. Gobernanza
+
+Documentacion de estilos, estandares, procesos y lineamientos del proyecto.
+
+### 1.1 Estilos y Estandares
+
+**Ubicacion:** `docs/gobernanza/estilos/`
+
+| Archivo | Descripcion | Lineas | Prioridad |
+|---------|-------------|--------|-----------|
+| [GUIA_ESTILO.md](gobernanza/estilos/GUIA_ESTILO.md) | Guia oficial de estilo del proyecto (NO emojis, conventional commits, etc) | 786 | CRITICA |
+| [estandares_codigo.md](gobernanza/estilos/estandares_codigo.md) | Estandares de codigo Python, JavaScript | - | ALTA |
+| [shell_scripting_guide.md](gobernanza/estilos/shell_scripting_guide.md) | Guia de scripting Bash | - | MEDIA |
+
+**Reglas clave:**
+- NO usar emojis en ningun documento
+- Conventional Commits obligatorio
+- Black + isort para Python
+- Coverage >= 80%
+- Scripts primero, CI/CD despues
+
+---
+
+### 1.2 Procesos
+
+**Ubicacion:** `docs/gobernanza/procesos/`
+
+#### 1.2.1 Agentes
+
+**Ubicacion:** `docs/gobernanza/procesos/agentes/`
+
+| Archivo | Descripcion |
+|---------|-------------|
+| [README.md](gobernanza/procesos/agentes/README.md) | Indice de agentes y uso |
+| [constitution.md](gobernanza/procesos/agentes/constitution.md) | Constitucion de agentes AI |
+
+**Ver tambien:** [AGENTES_SDLC.md](gobernanza/procesos/AGENTES_SDLC.md) - Documentacion completa de 5 agentes SDLC
+
+---
+
+#### 1.2.2 Checklists
+
+**Ubicacion:** `docs/gobernanza/procesos/checklists/`
+
+| Archivo | Descripcion | Uso |
+|---------|-------------|-----|
+| [README.md](gobernanza/procesos/checklists/README.md) | Indice de checklists | Referencia |
+| [checklist_desarrollo.md](gobernanza/procesos/checklists/checklist_desarrollo.md) | Pre-commit, pre-push, PR | Diario |
+| [checklist_testing.md](gobernanza/procesos/checklists/checklist_testing.md) | Unit, integration, E2E, coverage | Diario |
+| [checklist_cambios_documentales.md](gobernanza/procesos/checklists/checklist_cambios_documentales.md) | Cambios en documentacion | Por necesidad |
+| [checklist_trazabilidad_requisitos.md](gobernanza/procesos/checklists/checklist_trazabilidad_requisitos.md) | Trazabilidad Business Need -> Code | Por feature |
+
+**Integracion:** Estos checklists estan integrados en [GUIA_USO.md](gobernanza/ci_cd/GUIA_USO.md) para Developer/QA/DevOps
+
+---
+
+#### 1.2.3 QA
+
+**Ubicacion:** `docs/gobernanza/procesos/qa/`
+
+| Archivo | Descripcion | Prioridad |
+|---------|-------------|-----------|
+| [ESTRATEGIA_QA.md](gobernanza/procesos/qa/ESTRATEGIA_QA.md) | Estrategia QA oficial (coverage 80%, TDD, metricas) | CRITICA |
+| [README.md](gobernanza/procesos/qa/README.md) | Indice de documentos QA | ALTA |
+| [actividades_garantia_documental.md](gobernanza/procesos/qa/actividades_garantia_documental.md) | Actividades de garantia documental | MEDIA |
+| [checklist_auditoria_restricciones.md](gobernanza/procesos/qa/checklist_auditoria_restricciones.md) | Auditoria de restricciones IACT (RNF-002, NO Redis) | ALTA |
+
+**Metricas QA:**
+- Cobertura unitaria: >= 80%
+- Tiempo medio para corregir fallos criticos: <= 2 dias
+- Actividades de control documental: 100% por release
+
+---
+
+#### 1.2.4 CI/CD
+
+**Ubicacion:** `docs/gobernanza/ci_cd/`
+
+**Ver documentacion completa en:**
+- [INDICE.md](gobernanza/ci_cd/INDICE.md) - Indice completo de workflows CI/CD
+- [GUIA_USO.md](gobernanza/ci_cd/GUIA_USO.md) - Guias por rol (Developer/QA/DevOps/TechLead)
+- [TROUBLESHOOTING.md](gobernanza/ci_cd/TROUBLESHOOTING.md) - Problemas comunes
+- [EJEMPLOS.md](gobernanza/ci_cd/EJEMPLOS.md) - Ejemplos end-to-end
+
+**Workflows implementados:** 8 (backend-ci, frontend-ci, test-pyramid, deploy, migrations, infrastructure-ci, security-scan, incident-response)
+
+---
+
+### 1.3 Archivos Root de Gobernanza
+
+**Ubicacion:** `docs/gobernanza/`
+
+| Archivo | Descripcion |
+|---------|-------------|
+| [README.md](gobernanza/README.md) | Indice de gobernanza |
+| [casos_de_uso_guide.md](gobernanza/casos_de_uso_guide.md) | Guia de casos de uso |
+| [documentacion_corporativa.md](gobernanza/documentacion_corporativa.md) | Estandares de documentacion corporativa |
+| [lineamientos_gobernanza.md](gobernanza/lineamientos_gobernanza.md) | Lineamientos generales de gobernanza |
+| [plan_general.md](gobernanza/plan_general.md) | Plan general del proyecto |
+| [registro_decisiones.md](gobernanza/registro_decisiones.md) | Registro de decisiones arquitectonicas (ADRs) |
+
+---
+
+## 2. Requisitos
+
+Documentacion de requisitos, analisis de negocio, y business needs.
+
+### 2.1 Analisis de Negocio - Marco Integrado
+
+**Ubicacion:** `docs/requisitos/analisis_negocio/marco_integrado/`
+
+**Total:** 7,419 lineas | **Estandares:** ISO/IEC/IEEE 29148:2018, BABOK v3, UML 2.5
+
+| Archivo | Descripcion | Lineas | Seccion |
+|---------|-------------|--------|---------|
+| [00_resumen_ejecutivo_mejores_practicas.md](requisitos/analisis_negocio/marco_integrado/00_resumen_ejecutivo_mejores_practicas.md) | Resumen ejecutivo del marco integrado | ~800 | Inicio |
+| [01_marco_conceptual_iact.md](requisitos/analisis_negocio/marco_integrado/01_marco_conceptual_iact.md) | Marco conceptual IACT | ~1000 | Fundamentos |
+| [02_relaciones_fundamentales_iact.md](requisitos/analisis_negocio/marco_integrado/02_relaciones_fundamentales_iact.md) | Relaciones entre conceptos BA | ~900 | Fundamentos |
+| [03_matrices_trazabilidad_iact.md](requisitos/analisis_negocio/marco_integrado/03_matrices_trazabilidad_iact.md) | Matrices de trazabilidad completas | ~1200 | Trazabilidad |
+| [04_metodologia_analisis_iact.md](requisitos/analisis_negocio/marco_integrado/04_metodologia_analisis_iact.md) | Metodologia de analisis reproducible | ~1000 | Metodologia |
+| [05a_casos_practicos_iact.md](requisitos/analisis_negocio/marco_integrado/05a_casos_practicos_iact.md) | Casos practicos reales del proyecto | ~1300 | Ejemplos |
+| [05b_caso_didactico_generico.md](requisitos/analisis_negocio/marco_integrado/05b_caso_didactico_generico.md) | Caso didactico generico | ~700 | Ejemplos |
+| [06_plantillas_integradas_iact.md](requisitos/analisis_negocio/marco_integrado/06_plantillas_integradas_iact.md) | Plantillas integradas | ~519 | Templates |
+
+**Navegacion:** Los documentos tienen enlaces entre si, empezar por 00_resumen_ejecutivo
+
+**Proposito:** Framework completo de analisis de negocio con:
+- Trazabilidad completa desde necesidades hasta implementacion
+- Metodologia reproducible para derivar requisitos
+- Patrones probados con ejemplos reales
+- Conformidad con estandares internacionales
+
+---
+
+### 2.2 Business Needs
+
+**Ubicacion:** `docs/requisitos/business_needs/`
+
+**Estado:** Directorio creado, pendiente migrar solicitudes de cambio (SC00-SC03) desde docs_legacy/solicitudes/
+
+**Estructura futura:**
+```
+business_needs/
+├── BN-001-nombre-corto.md
+├── BN-002-nombre-corto.md
+└── ...
+```
+
+---
+
+## 3. Implementacion
+
+Documentacion tecnica de implementacion, infrastructure, agentes, y runbooks operacionales.
+
+### 3.1 Infrastructure
+
+**Ubicacion:** `docs/implementacion/infrastructure/`
+
+#### 3.1.1 Archivos Root
+
+| Archivo | Descripcion |
+|---------|-------------|
+| [README.md](implementacion/infrastructure/README.md) | Indice de infrastructure |
+| [contenedores_devcontainer.md](implementacion/infrastructure/contenedores_devcontainer.md) | Configuracion de devcontainers |
+| [mcp-github-quickstart.md](implementacion/infrastructure/mcp-github-quickstart.md) | Quickstart para MCP GitHub integration |
+
+---
+
+#### 3.1.2 Runbooks
+
+**Ubicacion:** `docs/implementacion/infrastructure/runbooks/`
+
+**Total:** 6 runbooks operacionales
+
+| Runbook | Descripcion | Cuando Usar | Lineas |
+|---------|-------------|-------------|--------|
+| [verificar_servicios.md](implementacion/infrastructure/runbooks/verificar_servicios.md) | Validar PostgreSQL y MariaDB operativos | Despues de vagrant up, troubleshooting DB | 353 |
+| [reprocesar_etl_fallido.md](implementacion/infrastructure/runbooks/reprocesar_etl_fallido.md) | Reprocesar ETL jobs fallidos | Cuando ETL falla | - |
+| [merge_y_limpieza_ramas.md](implementacion/infrastructure/runbooks/merge_y_limpieza_ramas.md) | Merge de feature branch y limpieza | Despues de merge a main | - |
+| [post_create.md](implementacion/infrastructure/runbooks/post_create.md) | Post-creacion de ambiente | Despues de crear nuevo ambiente | - |
+| [claude_code.md](implementacion/infrastructure/runbooks/claude_code.md) | Uso de Claude Code CLI | Troubleshooting Claude Code | - |
+| [github_copilot_codespaces.md](implementacion/infrastructure/runbooks/github_copilot_codespaces.md) | GitHub Copilot en Codespaces | Setup de Copilot | - |
+
+**Caracteristicas:**
+- Procedimientos paso a paso
+- Troubleshooting incluido
+- Comandos listos para copiar/pegar
+- Output esperado documentado
+
+---
+
+### 3.2 Agentes
+
+**Ubicacion:** `docs/implementacion/agentes/`
+
+#### 3.2.1 Agentes SDLC (Activos)
+
+**Ver:** [docs/gobernanza/procesos/AGENTES_SDLC.md](gobernanza/procesos/AGENTES_SDLC.md)
+
+**Agentes implementados:** 5
+1. SDLCPlannerAgent - Planning phase
+2. SDLCFeasibilityAgent - Go/No-Go decisions
+3. SDLCDesignAgent - HLD/LLD/ADRs
+4. SDLCTestingAgent - Test plan/cases
+5. SDLCDeploymentAgent - Deployment plans
+6. SDLCOrchestratorAgent - Pipeline coordination
+
+**Scripts:** `scripts/ai/agents/sdlc_*.py`
+
+---
+
+#### 3.2.2 Agentes Legacy (Archivado)
+
+**Ubicacion:** `docs/implementacion/agentes/legacy/`
+
+| Archivo | Descripcion |
+|---------|-------------|
+| [METODOLOGIA_DESARROLLO_POR_LOTES.md](implementacion/agentes/legacy/METODOLOGIA_DESARROLLO_POR_LOTES.md) | Metodologia de desarrollo por lotes (version anterior) |
+| [WORKFLOWS_COMPLETOS.md](implementacion/agentes/legacy/WORKFLOWS_COMPLETOS.md) | Workflows completos (version anterior) |
+| [agentes_automatizacion.md](implementacion/agentes/legacy/agentes_automatizacion.md) | Agentes de automatizacion (version anterior) |
+| [arquitectura_agentes_especializados.md](implementacion/agentes/legacy/arquitectura_agentes_especializados.md) | Arquitectura de agentes (version anterior) |
+
+**Nota:** Contenido legacy para referencia historica. Ver AGENTES_SDLC.md para documentacion actual.
+
+---
+
+## 4. Plantillas
+
+Templates reutilizables para desarrollo, documentacion, y procesos.
+
+**Ubicacion:** `docs/plantillas/`
+
+**Total:** 12 templates
+
+### 4.1 Indice de Plantillas
+
+| Plantilla | Descripcion | Tamano | Prioridad |
+|-----------|-------------|--------|-----------|
+| [README.md](plantillas/README.md) | Indice de plantillas | - | - |
+| [plantilla_django_app.md](plantillas/plantilla_django_app.md) | Template para crear apps Django | 19 KB | ALTA |
+| [plantilla_etl_job.md](plantillas/plantilla_etl_job.md) | Template para crear ETL jobs | 25 KB | ALTA |
+| [plantilla_caso_de_uso.md](plantillas/plantilla_caso_de_uso.md) | Template para casos de uso | - | ALTA |
+| [plantilla_database_design.md](plantillas/plantilla_database_design.md) | Template para diseno de base de datos | - | ALTA |
+| [plantilla_api_reference.md](plantillas/plantilla_api_reference.md) | Template para documentacion de APIs | - | MEDIA |
+| [plantilla_plan_pruebas.md](plantillas/plantilla_plan_pruebas.md) | Template para plan de pruebas | - | MEDIA |
+| [plantilla_caso_prueba.md](plantillas/plantilla_caso_prueba.md) | Template para casos de prueba | - | MEDIA |
+| [plantilla_espacio_documental.md](plantillas/plantilla_espacio_documental.md) | Template para espacios documentales | 3.3 KB | BAJA |
+| [plantilla_registro_actividad.md](plantillas/plantilla_registro_actividad.md) | Template para registros de actividad | 2.1 KB | BAJA |
+| [plantilla_business_case.md](plantillas/plantilla_business_case.md) | Template para business cases | - | BAJA |
+| [plantilla_project_charter.md](plantillas/plantilla_project_charter.md) | Template para project charters | - | BAJA |
+
+### 4.2 Uso de Plantillas
+
+**Proceso:**
+1. Copiar plantilla correspondiente
+2. Renombrar segun convencion (ej: `BN-001-nombre.md`)
+3. Completar metadata en header YAML
+4. Completar secciones marcadas con TODO
+5. Validar con checklist correspondiente
+
+**Ver tambien:** [plantillas_integradas_iact.md](requisitos/analisis_negocio/marco_integrado/06_plantillas_integradas_iact.md) del marco integrado
+
+---
+
+## 5. Vision y Alcance
+
+Documentacion de vision del proyecto y glosario de terminos.
+
+**Ubicacion:** `docs/vision_y_alcance/`
+
+| Archivo | Descripcion |
+|---------|-------------|
+| [README.md](vision_y_alcance/README.md) | Vision general del proyecto IACT |
+| [glossary.md](vision_y_alcance/glossary.md) | Glosario de terminos y acronimos |
+
+---
+
+## 6. Scripts de Utilidad
+
+Scripts para automatizacion y mantenimiento de documentacion.
+
+**Ubicacion:** `scripts/`
+
+| Script | Descripcion | Uso |
+|--------|-------------|-----|
+| [clean_emojis.sh](../scripts/clean_emojis.sh) | Limpiar emojis de archivos markdown | `./scripts/clean_emojis.sh <directorio>` |
+
+**Ejemplo:**
+```bash
+# Limpiar emojis de toda la documentacion
+./scripts/clean_emojis.sh docs/
+
+# Limpiar emojis de directorio especifico
+./scripts/clean_emojis.sh docs/gobernanza/
+```
+
+---
+
+## 7. Estructura Visual Completa
+
+```
+docs/
+├── INDICE.md                                  [ESTE ARCHIVO]
+│
+├── gobernanza/
+│   ├── estilos/
+│   │   ├── GUIA_ESTILO.md                    [786 lines - CRITICA]
+│   │   ├── estandares_codigo.md
+│   │   └── shell_scripting_guide.md
+│   ├── procesos/
+│   │   ├── agentes/
+│   │   │   ├── README.md
+│   │   │   └── constitution.md
+│   │   ├── checklists/
+│   │   │   ├── README.md
+│   │   │   ├── checklist_desarrollo.md
+│   │   │   ├── checklist_testing.md
+│   │   │   ├── checklist_cambios_documentales.md
+│   │   │   └── checklist_trazabilidad_requisitos.md
+│   │   ├── qa/
+│   │   │   ├── ESTRATEGIA_QA.md              [CRITICA]
+│   │   │   ├── README.md
+│   │   │   ├── actividades_garantia_documental.md
+│   │   │   └── checklist_auditoria_restricciones.md
+│   │   ├── AGENTES_SDLC.md                   [109 KB]
+│   │   └── INDICE_WORKFLOWS.md
+│   ├── ci_cd/
+│   │   ├── INDICE.md
+│   │   ├── GUIA_USO.md                       [104 KB]
+│   │   ├── TROUBLESHOOTING.md                [90 KB]
+│   │   └── EJEMPLOS.md                       [85 KB]
+│   ├── README.md
+│   ├── casos_de_uso_guide.md
+│   ├── documentacion_corporativa.md
+│   ├── lineamientos_gobernanza.md
+│   ├── plan_general.md
+│   └── registro_decisiones.md
+│
+├── requisitos/
+│   ├── analisis_negocio/
+│   │   └── marco_integrado/                  [7,419 lines total]
+│   │       ├── 00_resumen_ejecutivo_mejores_practicas.md
+│   │       ├── 01_marco_conceptual_iact.md
+│   │       ├── 02_relaciones_fundamentales_iact.md
+│   │       ├── 03_matrices_trazabilidad_iact.md
+│   │       ├── 04_metodologia_analisis_iact.md
+│   │       ├── 05a_casos_practicos_iact.md
+│   │       ├── 05b_caso_didactico_generico.md
+│   │       └── 06_plantillas_integradas_iact.md
+│   └── business_needs/                       [PENDIENTE migrar SC00-SC03]
+│
+├── implementacion/
+│   ├── infrastructure/
+│   │   ├── runbooks/
+│   │   │   ├── verificar_servicios.md        [353 lines]
+│   │   │   ├── reprocesar_etl_fallido.md
+│   │   │   ├── merge_y_limpieza_ramas.md
+│   │   │   ├── post_create.md
+│   │   │   ├── claude_code.md
+│   │   │   └── github_copilot_codespaces.md
+│   │   ├── README.md
+│   │   ├── contenedores_devcontainer.md
+│   │   └── mcp-github-quickstart.md
+│   └── agentes/
+│       └── legacy/
+│           ├── METODOLOGIA_DESARROLLO_POR_LOTES.md
+│           ├── WORKFLOWS_COMPLETOS.md
+│           ├── agentes_automatizacion.md
+│           └── arquitectura_agentes_especializados.md
+│
+├── plantillas/                               [12 templates]
+│   ├── README.md
+│   ├── plantilla_django_app.md              [19 KB]
+│   ├── plantilla_etl_job.md                 [25 KB]
+│   ├── plantilla_caso_de_uso.md
+│   ├── plantilla_database_design.md
+│   ├── plantilla_api_reference.md
+│   ├── plantilla_plan_pruebas.md
+│   ├── plantilla_caso_prueba.md
+│   ├── plantilla_espacio_documental.md
+│   ├── plantilla_registro_actividad.md
+│   ├── plantilla_business_case.md
+│   └── plantilla_project_charter.md
+│
+└── vision_y_alcance/
+    ├── README.md
+    └── glossary.md
+```
+
+---
+
+## 8. Puntos de Entrada Recomendados
+
+### Para Nuevos Miembros del Equipo
+
+**Empezar aqui:**
+1. [vision_y_alcance/README.md](vision_y_alcance/README.md) - Vision general del proyecto
+2. [gobernanza/estilos/GUIA_ESTILO.md](gobernanza/estilos/GUIA_ESTILO.md) - Convenciones obligatorias
+3. [gobernanza/procesos/checklists/](gobernanza/procesos/checklists/) - Checklists operacionales
+
+**Por rol:**
+
+**Developer:**
+- [gobernanza/ci_cd/GUIA_USO.md](gobernanza/ci_cd/GUIA_USO.md) - Seccion Developer
+- [gobernanza/procesos/checklists/checklist_desarrollo.md](gobernanza/procesos/checklists/checklist_desarrollo.md)
+- [plantillas/plantilla_django_app.md](plantillas/plantilla_django_app.md)
+
+**QA:**
+- [gobernanza/procesos/qa/ESTRATEGIA_QA.md](gobernanza/procesos/qa/ESTRATEGIA_QA.md)
+- [gobernanza/procesos/checklists/checklist_testing.md](gobernanza/procesos/checklists/checklist_testing.md)
+- [gobernanza/ci_cd/GUIA_USO.md](gobernanza/ci_cd/GUIA_USO.md) - Seccion QA
+
+**DevOps:**
+- [implementacion/infrastructure/runbooks/](implementacion/infrastructure/runbooks/)
+- [gobernanza/ci_cd/GUIA_USO.md](gobernanza/ci_cd/GUIA_USO.md) - Seccion DevOps
+- [gobernanza/ci_cd/TROUBLESHOOTING.md](gobernanza/ci_cd/TROUBLESHOOTING.md)
+
+**Business Analyst:**
+- [requisitos/analisis_negocio/marco_integrado/00_resumen_ejecutivo_mejores_practicas.md](requisitos/analisis_negocio/marco_integrado/00_resumen_ejecutivo_mejores_practicas.md)
+- [gobernanza/casos_de_uso_guide.md](gobernanza/casos_de_uso_guide.md)
+- [plantillas/plantilla_caso_de_uso.md](plantillas/plantilla_caso_de_uso.md)
+
+**Tech Lead:**
+- [gobernanza/procesos/AGENTES_SDLC.md](gobernanza/procesos/AGENTES_SDLC.md)
+- [gobernanza/registro_decisiones.md](gobernanza/registro_decisiones.md)
+- [gobernanza/ci_cd/INDICE.md](gobernanza/ci_cd/INDICE.md)
+
+---
+
+## 9. Restricciones IACT (Criticas)
+
+**Definidas en:** [gobernanza/procesos/qa/checklist_auditoria_restricciones.md](gobernanza/procesos/qa/checklist_auditoria_restricciones.md)
+
+### RNF-002: NO Redis/Memcached
+- Sesiones DEBEN estar en MySQL: `django.contrib.sessions.backends.db`
+- Cache PUEDE usar MySQL o filesystem
+- PROHIBIDO: Redis, Memcached, cualquier servicio externo de cache
+
+### NO Email/SMTP
+- PROHIBIDO: Envio de emails por SMTP
+- USAR: `InternalMessage.objects.create()` para notificaciones internas
+- ALTERNATIVA: Notificaciones in-app
+
+### NO Emojis/Iconos
+- PROHIBIDO: Emojis UTF-8 en codigo, docs, commits
+- USAR: Texto ASCII ([OK], [FAIL], [WARNING])
+- VALIDACION: Script `clean_emojis.sh`
+
+### Scripts Primero, CI/CD Despues
+- Scripts shell DEBEN funcionar offline/local
+- Workflows CI/CD SOLO llaman scripts
+- NO duplicar logica en workflows
+
+**Ver:** [gobernanza/estilos/GUIA_ESTILO.md](gobernanza/estilos/GUIA_ESTILO.md) para todas las restricciones
+
+---
+
+## 10. Metricas de Calidad
+
+**Definidas en:** [gobernanza/procesos/qa/ESTRATEGIA_QA.md](gobernanza/procesos/qa/ESTRATEGIA_QA.md)
+
+| Metrica | Target | Fuente |
+|---------|--------|--------|
+| Cobertura de codigo | >= 80% | pytest --cov |
+| Test Pyramid | 60% Unit / 30% Integration / 10% E2E | pytest |
+| Complejidad ciclomatica | <= 10 | radon |
+| Longitud de funciones | <= 50 lineas | manual |
+| Longitud de archivos | <= 500 lineas | manual |
+| Tamano de PR | <= 400 lineas | manual |
+| MTTR (criticos) | <= 2 dias | registros QA |
+
+---
+
+## 11. Workflows CI/CD
+
+**Ver documentacion completa:** [gobernanza/ci_cd/INDICE.md](gobernanza/ci_cd/INDICE.md)
+
+**Workflows implementados:** 8
+
+1. **backend-ci.yml** - CI para backend (tests, coverage, RNF-002)
+2. **frontend-ci.yml** - CI para frontend (tests, lint, build)
+3. **test-pyramid.yml** - Validacion test pyramid (60/30/10)
+4. **deploy.yml** - Deployment staging/production (blue-green)
+5. **migrations.yml** - Validacion de migraciones Django
+6. **infrastructure-ci.yml** - CI para infrastructure as code
+7. **security-scan.yml** - Security scanning (Bandit, secrets, SQL injection)
+8. **incident-response.yml** - Automatizacion de respuesta a incidentes
+
+**Scripts locales:**
+- `scripts/ci/backend_test.sh`
+- `scripts/ci/frontend_test.sh`
+- `scripts/ci/test_pyramid_check.sh`
+- `scripts/ci/security_scan.sh`
+
+---
+
+## 12. Historial de Migracion
+
+| Fecha | Version | Cambios | Archivos | Commit |
+|-------|---------|---------|----------|--------|
+| 2025-11-06 | 1.0.0 | Migracion inicial desde docs_legacy/ | 56 | 2700591 |
+
+**Detalles de migracion:**
+- Origen: `docs_legacy/` (estructura anterior pre-BABOK v3 + PMBOK 7)
+- Destino: `docs/` (nueva estructura organizacional)
+- Archivos migrados: 56
+- Lineas migradas: 24,827
+- Transformaciones: Limpieza de emojis en 9 archivos
+- Archivos NO migrados: Registros historicos (qa/registros/), legacy_analysis/
+
+**Ver:** [docs_legacy/README.md](../docs_legacy/README.md) para detalles de archivado
+
+---
+
+## 13. Proximos Pasos (Pendientes)
+
+### 13.1 Migracion Pendiente
+
+- [ ] Migrar solicitudes SC00-SC03 desde `docs_legacy/solicitudes/` a `docs/requisitos/business_needs/`
+- [ ] Revisar overlap entre `docs/implementacion/agentes/legacy/` y `docs/gobernanza/procesos/AGENTES_SDLC.md`
+- [ ] Consolidar documentacion duplicada si existe
+
+### 13.2 Mejoras Futuras
+
+- [ ] Crear indice de ADRs (Architecture Decision Records)
+- [ ] Automatizar validacion de metadata en headers YAML
+- [ ] Crear script de validacion de links rotos
+- [ ] Generar visualizacion grafica de estructura (Mermaid diagrams)
+
+---
+
+## 14. Mantenimiento de Este Indice
+
+**Responsable:** Equipo Gobernanza
+
+**Cuando actualizar:**
+- Al agregar nuevos directorios bajo `docs/`
+- Al migrar contenido desde `docs_legacy/`
+- Al crear nuevas plantillas
+- Al agregar nuevos procesos/checklists
+- Cambios mayores en estructura
+
+**Proceso:**
+1. Actualizar este INDICE.md
+2. Actualizar metadata (version, fecha)
+3. Commit con mensaje: `docs(indice): actualizar INDICE.md - <descripcion>`
+4. Notificar al equipo
+
+---
+
+## 15. Contacto y Soporte
+
+**Para preguntas sobre:**
+- **Estructura de documentacion:** Equipo Gobernanza
+- **GUIA_ESTILO.md:** Tech Lead
+- **Requisitos y BA:** BA Lead
+- **QA y Testing:** QA Lead
+- **CI/CD:** DevOps Lead
+- **Runbooks:** Equipo DevOps
+
+---
+
+## 16. Referencias Externas
+
+### Estandares
+
+- [BABOK v3](https://www.iiba.org/standards-and-resources/babok/) - Business Analysis Body of Knowledge
+- [PMBOK 7](https://www.pmi.org/pmbok-guide-standards) - Project Management Body of Knowledge
+- [ISO/IEC/IEEE 29148:2018](https://www.iso.org/standard/72089.html) - Requirements Engineering
+- [Conventional Commits](https://www.conventionalcommits.org/)
+- [Semantic Versioning](https://semver.org/)
+
+### Guias de Estilo
+
+- [Google Python Style Guide](https://google.github.io/styleguide/pyguide.html)
+- [PEP 8](https://pep8.org/) - Style Guide for Python Code
+- [PEP 257](https://www.python.org/dev/peps/pep-0257/) - Docstring Conventions
+
+---
+
+**FIN DEL INDICE**
+
+**VERSION:** 1.0.0
+**ULTIMA ACTUALIZACION:** 2025-11-06
+**ARCHIVOS TOTALES:** 58
+**ESTRUCTURA COMPLETA Y OPERACIONAL**
