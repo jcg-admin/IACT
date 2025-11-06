@@ -341,7 +341,7 @@ Performance:
 - AsyncIO Performance: https://www.python.org/dev/peps/pep-0492/
 
 ### Documentos del Proyecto
-- [QUALITY_SETUP.md](../../implementacion/backend/calidad_codigo_automatizacion.md) - Guía completa
+- [QUALITY_SETUP.md](../../backend/calidad_codigo_automatizacion.md) - Guía completa
 - [Restricciones Completas](../../requisitos/restricciones_completas.md) - Documento maestro
 - [Procedimiento QA](../../gobernanza/procesos/procedimiento_qa.md)
 

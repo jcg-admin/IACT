@@ -27,7 +27,7 @@ La estructura de documentación presenta **inconsistencia arquitectónica críti
 1. **Nivel innecesario**: `docs/implementacion/` añade complejidad sin valor
 2. **Mapeo inconsistente**: No refleja la estructura real del código
 3. **Mezcla de responsabilidades**: Requisitos + docs técnicas mezclados
-4. **Duplicación confusa**: `implementacion/infrastructure/` vs `infraestructura/`
+4. **Duplicación confusa**: `infrastructure/` vs `infraestructura/`
 
 ### Solución Propuesta
 
@@ -97,7 +97,7 @@ Script principal que ejecuta toda la reorganización automáticamente:
 **Funcionalidades:**
 - Crea backup automático en `respaldo/docs_backup_YYYYMMDD_HHMMSS.tar.gz`
 - Mueve directorios (implementacion/backend → backend/, etc.)
-- Fusiona `implementacion/infrastructure/` + `infraestructura/` → `infrastructure/`
+- Fusiona `infrastructure/` + `infraestructura/` → `infrastructure/`
 - Actualiza TODAS las referencias en archivos .md automáticamente
 - Actualiza scripts Python de generación de índices
 - Valida estructura final
@@ -206,7 +206,7 @@ docs/
         ├── requisitos/
         └── [...]
 
-├── infraestructura/    <- CONFUSIÓN: ¿Qué diferencia con implementacion/infrastructure/?
+├── infraestructura/    <- CONFUSIÓN: ¿Qué diferencia con infrastructure/?
 └── [otros]
 ```
 
@@ -216,9 +216,9 @@ docs/
 
 | Código | Docs Actual | Mapeo |
 |--------|-------------|-------|
-| `api/` | `docs/implementacion/backend/` | NO No coincide |
-| `ui/` | `docs/implementacion/frontend/` | NO No coincide |
-| `infrastructure/` | `docs/implementacion/infrastructure/` + `docs/infraestructura/` | NO Duplicado |
+| `api/` | `docs/backend/` | NO No coincide |
+| `ui/` | `docs/frontend/` | NO No coincide |
+| `infrastructure/` | `docs/infrastructure/` + `docs/infrastructure/` | NO Duplicado |
 
 **Impacto**: Desarrolladores confundidos sobre dónde buscar documentación de cada componente.
 
@@ -241,8 +241,8 @@ El archivo `docs/implementacion/README.md` líneas 26-34 declara:
 
 ```bash
 # Actual (58+ caracteres)
-docs/implementacion/backend/requisitos/funcionales/rf001_api_autenticacion.md
-docs/implementacion/frontend/arquitectura/componentes_react.md
+docs/backend/requisitos/funcionales/rf001_api_autenticacion.md
+docs/frontend/arquitectura/componentes_react.md
 
 # Propuesto (46 caracteres)
 docs/backend/requisitos/funcionales/rf001_api_autenticacion.md
@@ -254,11 +254,11 @@ docs/frontend/arquitectura/componentes_react.md
 #### Problema 4: Duplicación Confusa
 
 Existen DOS directorios para infraestructura:
-- `docs/implementacion/infrastructure/`
-- `docs/infraestructura/`
+- `docs/infrastructure/`
+- `docs/infrastructure/`
 
 **Contenido**:
-- `implementacion/infrastructure/`: 43 archivos (requisitos + runbooks + arquitectura)
+- `infrastructure/`: 43 archivos (requisitos + runbooks + arquitectura)
 - `infraestructura/`: 3 archivos (documentación CPython)
 
 **Impacto**: ¿Dónde documento infraestructura? Confusión total.
@@ -366,7 +366,7 @@ docs/
 │   │   └── README.md
 │   ├── qa/
 │   │   └── README.md
-│   └── cpython_precompilado/               Fusionado desde docs/infraestructura/
+│   └── cpython_precompilado/               Fusionado desde docs/infrastructure/
 │       └── [contenido CPython]
 │
 ├── arquitectura/                           <- Arquitectura TRANSVERSAL
@@ -507,7 +507,7 @@ find docs/implementacion/infrastructure -type f -name "*.md" | wc -l > /tmp/infr
 ```bash
 cd /home/user/IACT---project/docs/
 
-# Mover implementacion/backend/ a backend/
+# Mover backend/ a backend/
 mv implementacion/backend ./backend
 
 # Verificar
@@ -518,7 +518,7 @@ tree -L 2 backend/
 #### 1.2 Mover Frontend
 
 ```bash
-# Mover implementacion/frontend/ a frontend/
+# Mover frontend/ a frontend/
 mv implementacion/frontend ./frontend
 
 # Verificar
@@ -530,8 +530,8 @@ tree -L 2 frontend/
 
 ```bash
 # Listar contenido de ambos directorios
-echo "=== implementacion/infrastructure/ ===" > /tmp/infra_comparison.txt
-ls -lR implementacion/infrastructure/ >> /tmp/infra_comparison.txt
+echo "=== infrastructure/ ===" > /tmp/infra_comparison.txt
+ls -lR infrastructure/ >> /tmp/infra_comparison.txt
 
 echo "=== infraestructura/ ===" >> /tmp/infra_comparison.txt
 ls -lR infraestructura/ >> /tmp/infra_comparison.txt
@@ -541,12 +541,12 @@ cat /tmp/infra_comparison.txt
 # Crear nuevo directorio infrastructure/
 mkdir -p infrastructure_temp/
 
-# Mover contenido de implementacion/infrastructure/
-cp -r implementacion/infrastructure/* infrastructure_temp/
+# Mover contenido de infrastructure/
+cp -r infrastructure/* infrastructure_temp/
 
 # Fusionar contenido de infraestructura/
 # NOTA: infraestructura/ tiene cpython_precompilado/
-cp -r infraestructura/cpython_precompilado infrastructure_temp/
+cp -r infrastructure/cpython_precompilado infrastructure_temp/
 
 # Renombrar
 mv infrastructure_temp infrastructure
@@ -557,7 +557,7 @@ tree -L 2 infrastructure/
 
 # Eliminar directorios antiguos (después de verificar)
 # NO EJECUTAR AÚN - Verificar primero
-# rm -rf implementacion/infrastructure/
+# rm -rf infrastructure/
 # rm -rf infraestructura/
 ```
 
@@ -618,7 +618,7 @@ cat /tmp/referencias_implementacion.txt | wc -l
 echo "Referencias encontradas. Revisar /tmp/referencias_implementacion.txt"
 
 # Buscar referencias a infraestructura/ (antiguo)
-grep -r "docs/infraestructura/" docs/ --include="*.md" > /tmp/referencias_infraestructura.txt
+grep -r "docs/infrastructure/" docs/ --include="*.md" > /tmp/referencias_infraestructura.txt
 cat /tmp/referencias_infraestructura.txt
 ```
 
@@ -631,29 +631,29 @@ cat > /tmp/fix_references.sh << 'EOF'
 
 # Reemplazar referencias en todos los archivos .md
 find docs/ -name "*.md" -type f -exec sed -i \
-    -e 's|docs/implementacion/backend/|docs/backend/|g' \
-    -e 's|implementacion/backend/|backend/|g' \
-    -e 's|\.\./\.\./\.\./implementacion/backend/|../../backend/|g' \
-    -e 's|\.\./implementacion/backend/|../backend/|g' \
+    -e 's|docs/backend/|docs/backend/|g' \
+    -e 's|backend/|backend/|g' \
+    -e 's|\.\./\.\./\.\./backend/|../../backend/|g' \
+    -e 's|\.\./backend/|../backend/|g' \
     {} +
 
 find docs/ -name "*.md" -type f -exec sed -i \
-    -e 's|docs/implementacion/frontend/|docs/frontend/|g' \
-    -e 's|implementacion/frontend/|frontend/|g' \
-    -e 's|\.\./\.\./\.\./implementacion/frontend/|../../frontend/|g' \
-    -e 's|\.\./implementacion/frontend/|../frontend/|g' \
+    -e 's|docs/frontend/|docs/frontend/|g' \
+    -e 's|frontend/|frontend/|g' \
+    -e 's|\.\./\.\./\.\./frontend/|../../frontend/|g' \
+    -e 's|\.\./frontend/|../frontend/|g' \
     {} +
 
 find docs/ -name "*.md" -type f -exec sed -i \
-    -e 's|docs/implementacion/infrastructure/|docs/infrastructure/|g' \
-    -e 's|implementacion/infrastructure/|infrastructure/|g' \
-    -e 's|\.\./\.\./\.\./implementacion/infrastructure/|../../infrastructure/|g' \
-    -e 's|\.\./implementacion/infrastructure/|../infrastructure/|g' \
+    -e 's|docs/infrastructure/|docs/infrastructure/|g' \
+    -e 's|infrastructure/|infrastructure/|g' \
+    -e 's|\.\./\.\./\.\./infrastructure/|../../infrastructure/|g' \
+    -e 's|\.\./infrastructure/|../infrastructure/|g' \
     {} +
 
 find docs/ -name "*.md" -type f -exec sed -i \
-    -e 's|docs/infraestructura/|docs/infrastructure/|g' \
-    -e 's|infraestructura/cpython|infrastructure/cpython|g' \
+    -e 's|docs/infrastructure/|docs/infrastructure/|g' \
+    -e 's|infrastructure/cpython|infrastructure/cpython|g' \
     {} +
 
 echo "Referencias actualizadas"
@@ -686,7 +686,7 @@ vim docs/mkdocs.yml
 # Cambiar:
 #   - Implementación:
 #     - implementacion/README.md
-#     - Backend: implementacion/backend/README.md
+#     - Backend: backend/README.md
 #
 # Por:
 #   - Backend: backend/README.md
@@ -1009,9 +1009,9 @@ git commit -m "refactor(docs): reorganizar estructura por dominio eliminando niv
 BREAKING CHANGE: Estructura de documentación reorganizada
 
 - Eliminar nivel docs/implementacion/
-- Mover implementacion/backend/ -> docs/backend/
-- Mover implementacion/frontend/ -> docs/frontend/
-- Fusionar implementacion/infrastructure/ + infraestructura/ -> docs/infrastructure/
+- Mover backend/ -> docs/backend/
+- Mover frontend/ -> docs/frontend/
+- Fusionar infrastructure/ + infraestructura/ -> docs/infrastructure/
 - Actualizar ~50 referencias en archivos .md
 - Actualizar mkdocs.yml con nueva navegación
 - Regenerar índices ISO 29148
@@ -1066,9 +1066,9 @@ mkdocs gh-deploy
 AVISO: Reorganización de Documentación - docs/implementacion/ eliminado
 
 Estructura nueva:
-- docs/backend/          (antes: docs/implementacion/backend/)
-- docs/frontend/         (antes: docs/implementacion/frontend/)
-- docs/infrastructure/   (antes: docs/implementacion/infrastructure/ + docs/infraestructura/)
+- docs/backend/          (antes: docs/backend/)
+- docs/frontend/         (antes: docs/frontend/)
+- docs/infrastructure/   (antes: docs/infrastructure/ + docs/infrastructure/)
 
 Beneficios:
 - Mapeo 1:1 con código (api/ -> backend/, ui/ -> frontend/)
@@ -1162,8 +1162,8 @@ git push
 
 ### Migración
 
-- [ ] Mover implementacion/backend/ -> backend/
-- [ ] Mover implementacion/frontend/ -> frontend/
+- [ ] Mover backend/ -> backend/
+- [ ] Mover frontend/ -> frontend/
 - [ ] Fusionar infrastructure + infraestructura -> infrastructure/
 - [ ] Eliminar directorio implementacion/ vacío
 - [ ] Verificar estructura final (tree -L 3)

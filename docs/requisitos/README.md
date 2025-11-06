@@ -166,7 +166,7 @@ Todos los requisitos IACT respetan las siguientes restricciones tecnicas:
 ### Documentacion Relacionada
 
 - [Glosario BABOK+PMBOK+ISO](../glosario_babok_pmbok_iso.md)
-- [Restricciones y Lineamientos IACT](../../implementacion/backend/requisitos/restricciones_y_lineamientos.md)
+- [Restricciones y Lineamientos IACT](../../backend/requisitos/restricciones_y_lineamientos.md)
 
 ---
 

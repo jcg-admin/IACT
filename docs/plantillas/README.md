@@ -18,14 +18,14 @@ Este directorio contiene las plantillas oficiales para documentar requisitos en 
 ### 1. Necesidades de Negocio (Business Needs)
 **Archivo**: [`template_necesidad.md`](./template_necesidad.md)
 **Uso**: Documentar problemas u oportunidades que deben abordarse
-**Ubicación**: `implementacion/backend/requisitos/necesidades/`
+**Ubicación**: `backend/requisitos/necesidades/`
 **Prefijo ID**: `N-XXX`
 **Estándar**: BABOK v3 + ISO 29148 Clause 6.2
 
 ```bash
 # Crear nueva necesidad
 cp docs/plantillas/template_necesidad.md \
-   implementacion/backend/requisitos/necesidades/n001_reducir_roturas_stock.md
+   backend/requisitos/necesidades/n001_reducir_roturas_stock.md
 ```
 
 ---
@@ -40,7 +40,7 @@ cp docs/plantillas/template_necesidad.md \
 ```bash
 # Crear requisito de negocio
 cp docs/plantillas/template_requisito_negocio.md \
-   implementacion/backend/requisitos/negocio/rn001_sistema_alertas.md
+   backend/requisitos/negocio/rn001_sistema_alertas.md
 ```
 
 ---
@@ -55,7 +55,7 @@ cp docs/plantillas/template_requisito_negocio.md \
 ```bash
 # Crear requisito de stakeholder
 cp docs/plantillas/template_requisito_stakeholder.md \
-   implementacion/backend/requisitos/stakeholders/rs001_alertas_gerente.md
+   backend/requisitos/stakeholders/rs001_alertas_gerente.md
 ```
 
 ---
@@ -70,7 +70,7 @@ cp docs/plantillas/template_requisito_stakeholder.md \
 ```bash
 # Crear requisito funcional
 cp docs/plantillas/template_requisito_funcional.md \
-   implementacion/backend/requisitos/funcionales/rf001_api_calcular_stock.md
+   backend/requisitos/funcionales/rf001_api_calcular_stock.md
 ```
 
 ---
@@ -85,7 +85,7 @@ cp docs/plantillas/template_requisito_funcional.md \
 ```bash
 # Crear requisito no funcional
 cp docs/plantillas/template_requisito_no_funcional.md \
-   implementacion/backend/requisitos/no_funcionales/rnf001_tiempo_respuesta.md
+   backend/requisitos/no_funcionales/rnf001_tiempo_respuesta.md
 ```
 
 ---

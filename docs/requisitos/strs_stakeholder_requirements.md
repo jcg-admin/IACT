@@ -32,7 +32,7 @@ Por dominio:
 - **Owner**: equipo-ba
 - **Prioridad**: alta
 - **Estado**: aprobado
-- **Archivo**: `docs/implementacion/backend/requisitos/stakeholders/rs001_auditoria_requiere_trazabilidad_completa.md`
+- **Archivo**: `docs/backend/requisitos/stakeholders/rs001_auditoria_requiere_trazabilidad_completa.md`
 - **Deriva de**: N-001  # Prevenir accesos fraudulentos mediante autenticacion robusta, RN-001 # Sistema de autenticacion seguro con prevencion de fraude
 
 ### RS-002: Usuarios requieren acceso rapido menor 2 segundos
@@ -40,7 +40,7 @@ Por dominio:
 - **Owner**: equipo-ba
 - **Prioridad**: alta
 - **Estado**: aprobado
-- **Archivo**: `docs/implementacion/backend/requisitos/stakeholders/rs002_usuarios_requieren_acceso_rapido.md`
+- **Archivo**: `docs/backend/requisitos/stakeholders/rs002_usuarios_requieren_acceso_rapido.md`
 - **Deriva de**: N-001  # Prevenir accesos fraudulentos mediante autenticacion robusta, RN-001 # Sistema de autenticacion seguro con prevencion de fraude
 
 ### RS-002: Reportes automatizados de compliance
@@ -48,7 +48,7 @@ Por dominio:
 - **Owner**: equipo-ba
 - **Prioridad**: alta
 - **Estado**: aprobado
-- **Archivo**: `docs/implementacion/backend/requisitos/stakeholders/rs002_reportes_automatizados_compliance.md`
+- **Archivo**: `docs/backend/requisitos/stakeholders/rs002_reportes_automatizados_compliance.md`
 - **Deriva de**: N-001, RN-001
 
 
