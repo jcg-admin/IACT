@@ -23,6 +23,7 @@ Registro cronologico de cambios, features y mejoras completadas.
 
 ### Pendiente
 - Sistema de metrics interno (MySQL) - Para completar DORA practicas 3 y 7
+- **Centralized log storage MySQL (ADR-2025-004)** - 27 SP, 6 fases, alternativa a Grafana/Prometheus
 - Custom dashboards Django Admin
 - Pre-commit hooks instalados
 - DORA metrics baseline establecida
