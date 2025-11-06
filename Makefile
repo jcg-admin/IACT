@@ -153,7 +153,7 @@ list-artifacts: ## Listar artefactos CPython disponibles
 		echo "  $(YELLOW)No hay artefactos generados aún$(NC)"; \
 	fi
 	@echo ""
-	@echo "Ver registro completo: cat infrastructure/artifacts/ARTIFACTS.md"
+	@echo "Ver registro completo: cat infrastructure/cpython/builder/artifacts/ARTIFACTS.md"
 
 vagrant-cpython-up: ## Iniciar VM de compilación CPython
 	@echo "$(BLUE)Iniciando VM de compilación CPython...$(NC)"
