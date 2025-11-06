@@ -63,9 +63,10 @@ class DocumentSplitter(Agent):
         elif not input_data["document"]:
             errors.append("Documento está vacío")
         elif len(input_data["document"].split('\n')) < self.min_lines_per_module:
+            doc_lines = len(input_data['document'].split('\n'))
             errors.append(
                 f"Documento muy pequeño para dividir: "
-                f"{len(input_data['document'].split('\n'))} líneas "
+                f"{doc_lines} líneas "
                 f"< {self.min_lines_per_module} líneas mínimas"
             )
 
