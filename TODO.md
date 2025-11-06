@@ -8,9 +8,42 @@ owner: arquitecto-senior
 
 # TODO - Proyecto IACT
 
-Lista maestra de tareas del proyecto, organizada por prioridad y ?rea.
+**NOTA IMPORTANTE:** Este archivo esta OBSOLETO (v1.0, 2025-11-06).
 
-**?ltima actualizaci?n**: 2025-11-06
+**Nueva ubicacion de tracking:**
+- **ROADMAP.md**: Vision estrategica y planificacion quarters -> `docs/proyecto/ROADMAP.md`
+- **TAREAS_ACTIVAS.md**: Tareas activas < 2 semanas -> `docs/proyecto/TAREAS_ACTIVAS.md`
+- **CHANGELOG.md**: Historial de cambios completados -> `docs/proyecto/CHANGELOG.md`
+
+**Por que se cambio:**
+- Muchos items marcados como pendientes YA ESTAN IMPLEMENTADOS
+- Mejor organizacion dentro de `docs/` (documentacion centralizada)
+- Sistema moderno: ROADMAP (largo plazo) + TAREAS_ACTIVAS (corto plazo) + CHANGELOG (historico)
+- Versionado semantico y formato Keep a Changelog
+- Integracion con INDICE.md
+
+**Usar nueva estructura:**
+```bash
+# Vision largo plazo (quarters)
+cat docs/proyecto/ROADMAP.md
+
+# Tareas activas (< 2 semanas)
+cat docs/proyecto/TAREAS_ACTIVAS.md
+
+# Historial completados
+cat docs/proyecto/CHANGELOG.md
+
+# Ver en INDICE
+cat docs/INDICE.md | grep -A 20 "2.2 Tracking"
+```
+
+---
+
+## CONTENIDO OBSOLETO DEBAJO - SOLO REFERENCIA HISTORICA
+
+Lista maestra de tareas del proyecto, organizada por prioridad y area.
+
+**Ultima actualizacion**: 2025-11-06
 
 ---
 

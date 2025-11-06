@@ -264,6 +264,30 @@ Documentacion de vision, alcance y planificacion del proyecto.
 
 ---
 
+### 2.2 Tracking y Planificacion
+
+**Ubicacion:** `docs/proyecto/`
+
+| Archivo | Descripcion | Prioridad |
+|---------|-------------|-----------|
+| [ROADMAP.md](proyecto/ROADMAP.md) | Vision estrategica Q4 2025 - Q2 2026, epicas, hitos, metricas DORA | CRITICA |
+| [TAREAS_ACTIVAS.md](proyecto/TAREAS_ACTIVAS.md) | Tareas activas < 2 semanas, tracking diario, story points | CRITICA |
+| [CHANGELOG.md](proyecto/CHANGELOG.md) | Historial completo de cambios, features completadas, versiones | ALTA |
+
+**Caracteristicas:**
+- **ROADMAP.md**: Planificacion quarters, 5 epicas mayores, 3 hitos criticos
+- **TAREAS_ACTIVAS.md**: Sistema P0-P3, estados, velocity tracking, burndown
+- **CHANGELOG.md**: Formato Keep a Changelog, versionado semantico
+
+**Uso:**
+- **ROADMAP.md**: Consultar mensualmente para vision de largo plazo
+- **TAREAS_ACTIVAS.md**: Consultar diariamente (standup), actualizar tareas
+- **CHANGELOG.md**: Actualizar al completar features mayores o releases
+
+**Reemplaza:** TODO.md en raiz (obsoleto) - Ver nota en TODO.md
+
+---
+
 ## 3. Requisitos
 
 Documentacion de requisitos, analisis de negocio, y business needs.
