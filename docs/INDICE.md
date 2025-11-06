@@ -2,23 +2,23 @@
 id: DOC-INDICE-GENERAL
 tipo: indice
 categoria: documentacion
-version: 1.1.0
+version: 1.2.0
 fecha_creacion: 2025-11-06
 fecha_migracion: 2025-11-06
 fecha_actualizacion: 2025-11-06
 propietario: equipo-gobernanza
-archivos_totales: 89
-lineas_totales: 24827
-relacionados: ["docs_legacy/README.md"]
+archivos_totales: 90
+lineas_totales: 30000
+relacionados: ["docs_legacy/README.md", "gobernanza/procesos/MAPEO_PROCESOS_TEMPLATES.md"]
 ---
 
 # INDICE GENERAL - Documentacion IACT
 
-**VERSION:** 1.1.0
+**VERSION:** 1.2.0
 **FECHA MIGRACION:** 2025-11-06
 **FECHA ACTUALIZACION:** 2025-11-06
-**ARCHIVOS MIGRADOS:** 89
-**LINEAS MIGRADAS:** 24,827+
+**ARCHIVOS MIGRADOS:** 90
+**LINEAS MIGRADAS:** ~30,000
 **ESTRUCTURA:** BABOK v3 + PMBOK 7 + ISO/IEC/IEEE 29148:2018
 
 ---
@@ -33,13 +33,13 @@ Este indice documenta la estructura completa de documentacion del proyecto IACT 
 
 | Seccion | Descripcion | Archivos |
 |---------|-------------|----------|
-| [1. Gobernanza](#1-gobernanza) | Estilos, procesos, procedimientos, lineamientos | 34 |
+| [1. Gobernanza](#1-gobernanza) | Estilos, procesos, procedimientos, lineamientos, mapeos | 35 |
 | [2. Requisitos](#2-requisitos) | Analisis de negocio, Business Needs | 8 |
 | [3. Implementacion](#3-implementacion) | Infrastructure, agentes, runbooks | 13 |
 | [4. Plantillas](#4-plantillas) | Templates reutilizables | 34 |
 | [5. Vision y Alcance](#5-vision-y-alcance) | Glossary, vision del proyecto | 2 |
 
-**Total:** 91 archivos de documentacion
+**Total:** 92 archivos de documentacion
 
 ---
 
@@ -156,6 +156,31 @@ Documentacion de estilos, estandares, procesos y lineamientos del proyecto.
 - Incluyen comandos especificos
 - Troubleshooting integrado
 - Ejemplos practicos
+
+---
+
+#### 1.2.6 Mapeo Procesos-Templates-Workflows
+
+**Ubicacion:** `docs/gobernanza/procesos/`
+
+| Archivo | Descripcion | Prioridad |
+|---------|-------------|-----------|
+| [MAPEO_PROCESOS_TEMPLATES.md](gobernanza/procesos/MAPEO_PROCESOS_TEMPLATES.md) | Mapeo completo entre procedimientos, workflows CI/CD, templates y agentes SDLC | CRITICA |
+
+**Contenido clave:**
+- Matriz de trazabilidad completa (Proceso → Workflow → Template)
+- Mapeo por fase SDLC (Planning, Design, Development, Testing, Deployment, Operations)
+- Decision trees: Que template usar, que procedimiento seguir, que workflow se ejecuta
+- Flujos end-to-end completos (Feature, Bugfix, ETL failure)
+- Referencias cruzadas completas
+
+**Uso:** Consultar ANTES de empezar cualquier tarea para saber exactamente que proceso, template y workflow usar.
+
+**Ver tambien:**
+- [AGENTES_SDLC.md](gobernanza/procesos/AGENTES_SDLC.md) - Documentacion de agentes
+- [procedimientos/README.md](gobernanza/procesos/procedimientos/README.md) - Indice de procedimientos
+- [../ci_cd/INDICE.md](gobernanza/ci_cd/INDICE.md) - Indice de workflows
+- [../../plantillas/README.md](plantillas/README.md) - Indice de plantillas
 
 ---
 
@@ -642,15 +667,18 @@ docs/
 |-------|---------|---------|----------|--------|
 | 2025-11-06 | 1.0.0 | Migracion inicial desde docs_legacy/ (Fases 1-5) | 56 | 2700591 |
 | 2025-11-06 | 1.0.1 | Creacion de INDICE.md maestro | +1 | 0062e64 |
-| 2025-11-06 | 1.1.0 | Fases 6-7: Procedimientos (11) + Plantillas (22) | +33 | PENDING |
+| 2025-11-06 | 1.1.0 | Fases 6-7: Procedimientos (11) + Plantillas (22) | +33 | 1c28337 |
+| 2025-11-06 | 1.2.0 | Creacion de MAPEO_PROCESOS_TEMPLATES.md | +1 | PENDING |
 
-**Total migrado:** 89 archivos
+**Total migrado:** 90 archivos
 
 **Detalles de migracion:**
 - Origen: `docs_legacy/` (estructura anterior pre-BABOK v3 + PMBOK 7)
 - Destino: `docs/` (nueva estructura organizacional)
-- Archivos migrados: 89 (de 125 totales)
-- Lineas migradas: 24,827+
+- Archivos migrados: 89 (de 125 totales en docs_legacy/)
+- Archivos creados: 1 (MAPEO_PROCESOS_TEMPLATES.md)
+- Total archivos activos: 90
+- Lineas totales: ~30,000
 - Transformaciones: Limpieza de emojis en 10 archivos
 - Archivos NO migrados: Registros historicos (qa/registros/), legacy_analysis/, solicitudes/
 
@@ -658,6 +686,7 @@ docs/
 - FASE 1-5: Fundamentos, Operaciones, Framework BA, Agentes, Archivos root
 - FASE 6: Procedimientos gobernanza (11 archivos)
 - FASE 7: Plantillas faltantes (22 archivos)
+- MAPEO: Documento maestro de mapeo Procesos-Templates-Workflows (1 archivo)
 
 **Ver:** [docs_legacy/README.md](../docs_legacy/README.md) para detalles de archivado
 
