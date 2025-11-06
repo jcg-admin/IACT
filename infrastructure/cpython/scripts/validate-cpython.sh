@@ -1,15 +1,15 @@
 #!/bin/bash
 #
-# infrastructure/scripts/validate-cpython.sh - Wrapper para validación en Vagrant
+# infrastructure/cpython/scripts/validate-cpython.sh - Wrapper para validación en Vagrant
 #
 # Referencia: SPEC-INFRA-001
 # Propósito: Facilitar validación desde fuera de Vagrant
 #
 # Uso:
-#   ./infrastructure/scripts/validate-cpython.sh <artifact-name>
+#   ./infrastructure/cpython/scripts/validate-cpython.sh <artifact-name>
 #
 # Ejemplo:
-#   ./infrastructure/scripts/validate-cpython.sh cpython-3.12.6-ubuntu22.04-build1.tgz
+#   ./infrastructure/cpython/scripts/validate-cpython.sh cpython-3.12.6-ubuntu22.04-build1.tgz
 #
 
 set -euo pipefail
@@ -44,10 +44,10 @@ ARTIFACT_NAME="$1"
 
 # Detectar directorio raíz del proyecto
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/../../.." && pwd)"
 
-VAGRANT_DIR="$PROJECT_ROOT/infrastructure/vagrant/cpython-builder"
-ARTIFACT_PATH="$PROJECT_ROOT/infrastructure/artifacts/cpython/$ARTIFACT_NAME"
+VAGRANT_DIR="$PROJECT_ROOT/infrastructure/cpython/builder"
+ARTIFACT_PATH="$PROJECT_ROOT/infrastructure/cpython/artifacts/$ARTIFACT_NAME"
 
 # Verificar que existe artefacto
 if [ ! -f "$ARTIFACT_PATH" ]; then

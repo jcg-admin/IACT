@@ -52,11 +52,12 @@ Cada dominio principal tendrá su propio directorio que contendrá TODO lo relac
 |   +-- scripts/             # (futuro: scripts de build UI)
 |
 +-- infrastructure/           # Dominio: Infraestructura
-|   +-- vagrant/             # VMs de build
+|   +-- cpython/             # Subdomain: CPython (builder, feature, artifacts)
 |   +-- devcontainer/        # Configuración DevContainer
-|   +-- artifacts/           # Outputs generados (binarios)
-|   +-- scripts/             # Scripts de infraestructura
-|   +-- tests/               # Tests de infraestructura
+|   +-- artifacts/           # Outputs compartidos (no CPython)
+|   +-- scripts/             # Scripts de infraestructura no-CPython
+|   +-- tests/               # Tests de infraestructura no-CPython
+|   +-- vagrant/             # VMs de infraestructura no-CPython
 |   +-- box/
 |
 +-- docs/                     # Dominio: Documentación
@@ -183,6 +184,29 @@ scripts/infra/       → infrastructure/scripts/
 
 **Commit:** `341f95d` - refactor: reorganizar proyecto por dominio
 
+### Fase 2: Reorganización de CPython como Subdomain
+
+Se reorganizó todo CPython en `infrastructure/cpython/` como subdomain:
+
+```bash
+infrastructure/vagrant/cpython-builder/  → infrastructure/cpython/builder/
+features/cpython-prebuilt/               → infrastructure/cpython/feature/
+infrastructure/artifacts/cpython/        → infrastructure/cpython/artifacts/
+infrastructure/scripts/build-cpython.sh  → infrastructure/cpython/scripts/build-cpython.sh
+infrastructure/scripts/validate-*.sh     → infrastructure/cpython/scripts/validate-*.sh
+infrastructure/tests/test_cpython_*.py   → infrastructure/cpython/tests/test_cpython_*.py
+```
+
+**Archivos actualizados:** 20+
+- Makefile (todos los targets CPython)
+- Vagrantfile (synced folders, documentación)
+- Scripts wrapper (PROJECT_ROOT, VAGRANT_DIR, ARTIFACT_PATH)
+- Tests (BASE_DIR, FEATURE_DIR, paths)
+- devcontainer-feature.json (documentationURL)
+- Documentación (6 archivos en docs/)
+
+**Resultado**: Máxima cohesión de CPython - todo en un solo lugar.
+
 ---
 
 ## Ejemplos de Uso Futuro
@@ -263,6 +287,49 @@ scripts/
 
 **Razón**: Herramientas externas esperan estas ubicaciones
 
+### Subdominios dentro de infrastructure/
+
+**Decisión**: CPython organizado como subdominio en `infrastructure/cpython/`
+**Razón**: Máxima cohesión de componentes relacionados
+
+Cuando un dominio (como infrastructure) contiene subsistemas complejos con múltiples componentes (builder, feature, artifacts, scripts, tests), es mejor organizarlos como subdominios.
+
+**Estructura de infrastructure/cpython/**:
+```
+infrastructure/
++-- cpython/                  # Subdomain: Todo CPython
+    +-- builder/              # Sistema de compilación (Vagrant)
+    |   +-- Vagrantfile
+    |   +-- bootstrap.sh
+    |   +-- scripts/          # Scripts de VM
+    |   +-- utils/
+    |   +-- README.md
+    +-- feature/              # Dev Container Feature
+    |   +-- devcontainer-feature.json
+    |   +-- install.sh
+    |   +-- README.md
+    +-- artifacts/            # Binarios compilados
+    |   +-- .gitkeep
+    +-- scripts/              # Scripts wrapper (host)
+    |   +-- build-cpython.sh
+    |   +-- validate-cpython.sh
+    +-- tests/                # Tests de integración
+        +-- test_cpython_build_system.py
+        +-- test_cpython_feature.py
+```
+
+**Ventajas del subdomain**:
+1. **Cohesión máxima**: Todo CPython en un solo lugar
+2. **Escalabilidad**: Permite agregar infrastructure/go/, infrastructure/node/ en el futuro
+3. **Navegación clara**: "Trabajar en CPython" = "cd infrastructure/cpython/"
+4. **Modularización**: Cada subdomain puede tener su propia documentación y README
+5. **Boundaries claros**: Separación completa entre subsistemas de infraestructura
+
+**Aplicación**:
+- COMPLETADO: Migración de CPython a subdomain (2025-11-06)
+- Todos los componentes reorganizados en infrastructure/cpython/
+- Referencias actualizadas en 20+ archivos (Makefile, Vagrantfile, scripts, tests, docs)
+
 ---
 
 ## Referencias
@@ -320,7 +387,8 @@ Inicialmente puede parecer más complejo, pero:
 
 ## Estado de Implementación
 
-- COMPLETADO: Migración de `infrastructure/` (2025-11-06)
+- COMPLETADO: Migración de `infrastructure/` a dominio (2025-11-06)
+- COMPLETADO: Reorganización de CPython como subdomain `infrastructure/cpython/` (2025-11-06)
 - PENDIENTE: README principal actualizado con mapa de navegación
 - PENDIENTE: Documentar en guía de desarrollo
 - PENDIENTE: Aplicar a `api/` cuando se agreguen tests/scripts

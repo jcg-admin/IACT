@@ -1,16 +1,16 @@
 #!/bin/bash
 #
-# infrastructure/scripts/build-cpython.sh - Wrapper para compilación en Vagrant
+# infrastructure/cpython/scripts/build-cpython.sh - Wrapper para compilación en Vagrant
 #
 # Referencia: SPEC-INFRA-001
 # Propósito: Facilitar compilación desde fuera de Vagrant
 #
 # Uso:
-#   ./infrastructure/scripts/build-cpython.sh <version> [build-number]
+#   ./infrastructure/cpython/scripts/build-cpython.sh <version> [build-number]
 #
 # Ejemplos:
-#   ./infrastructure/scripts/build-cpython.sh 3.12.6
-#   ./infrastructure/scripts/build-cpython.sh 3.12.6 2
+#   ./infrastructure/cpython/scripts/build-cpython.sh 3.12.6
+#   ./infrastructure/cpython/scripts/build-cpython.sh 3.12.6 2
 #
 
 set -euo pipefail
@@ -46,9 +46,9 @@ BUILD_NUMBER="${2:-1}"
 
 # Detectar directorio raíz del proyecto
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/../../.." && pwd)"
 
-VAGRANT_DIR="$PROJECT_ROOT/infrastructure/vagrant/cpython-builder"
+VAGRANT_DIR="$PROJECT_ROOT/infrastructure/cpython/builder"
 
 # Verificar que existe directorio Vagrant
 if [ ! -d "$VAGRANT_DIR" ]; then
@@ -96,10 +96,10 @@ EXIT_CODE=$?
 if [ $EXIT_CODE -eq 0 ]; then
     echo ""
     log_success "=== Compilación completada exitosamente ==="
-    log_info "Artefacto generado en: $PROJECT_ROOT/infrastructure/artifacts/cpython/"
+    log_info "Artefacto generado en: $PROJECT_ROOT/infrastructure/cpython/artifacts/"
     echo ""
     log_info "Siguiente paso:"
-    log_info "  ./infrastructure/scripts/validate-cpython.sh cpython-${PYTHON_VERSION}-ubuntu22.04-build${BUILD_NUMBER}.tgz"
+    log_info "  ./infrastructure/cpython/scripts/validate-cpython.sh cpython-${PYTHON_VERSION}-ubuntu22.04-build${BUILD_NUMBER}.tgz"
 else
     echo ""
     log_error "Compilación falló con código: $EXIT_CODE"

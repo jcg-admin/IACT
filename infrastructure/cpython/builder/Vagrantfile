@@ -40,7 +40,7 @@ puts "  Default Python: #{DEFAULT_PYTHON_VERSION}"
 puts "  Build Mode: PGO + LTO optimizations"
 puts ""
 puts "Artifacts Output:"
-puts "  ../../artifacts/cpython/"
+puts "  ../artifacts/"
 puts "=" * 70
 puts ""
 
@@ -113,8 +113,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     ]
 
   # Artifacts directory (shared with host)
-  # Points to ../../artifacts relative to this Vagrantfile
-  config.vm.synced_folder "../../artifacts", "/vagrant/artifacts",
+  # Points to ../artifacts relative to this Vagrantfile
+  config.vm.synced_folder "../artifacts", "/vagrant/artifacts",
     create: true,
     mount_options: ["dmode=775,fmode=664"]
 
@@ -243,7 +243,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     Toolchain:      GCC with full dev libraries
 
   ARTIFACTS OUTPUT:
-    Location: ../../artifacts/cpython/
+    Location: ../artifacts/
     Format:   cpython-<version>-ubuntu22.04-build<N>.tgz
     Includes: SHA256 checksum, LICENSE, build info
 
@@ -254,7 +254,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       ./scripts/build-cpython.sh 3.12.6
 
     # From host (via wrapper):
-      ./scripts/infra/build-cpython.sh 3.12.6
+      ./infrastructure/cpython/scripts/build-cpython.sh 3.12.6
 
   VALIDATION:
     ./scripts/validate-build.sh cpython-3.12.6-ubuntu22.04-build1.tgz

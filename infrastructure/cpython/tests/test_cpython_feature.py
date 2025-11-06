@@ -12,10 +12,10 @@ from pathlib import Path
 import pytest
 
 # Project root
-BASE_DIR = Path(__file__).resolve().parent.parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent.parent
 
 # Feature directory
-FEATURE_DIR = BASE_DIR / "features" / "cpython-prebuilt"
+FEATURE_DIR = BASE_DIR / "infrastructure" / "cpython" / "feature"
 
 
 @pytest.mark.critical

@@ -51,7 +51,7 @@ sudo apt install virtualbox
 Desde el directorio raíz del proyecto:
 
 ```bash
-cd infrastructure/vagrant/cpython-builder
+cd infrastructure/cpython/builder
 vagrant up
 ```
 
@@ -62,7 +62,7 @@ Primera vez: ~10-15 minutos (descarga box + provisioning)
 **Opción A: Desde fuera de VM (recomendado)**:
 ```bash
 # Desde raíz del proyecto
-./infrastructure/scripts/build-cpython.sh 3.12.6
+./infrastructure/cpython/scripts/build-cpython.sh 3.12.6
 ```
 
 **Opción B: Dentro de VM**:
@@ -78,7 +78,7 @@ Tiempo de compilación: ~10-15 minutos (con PGO)
 
 **Opción A: Desde fuera de VM (recomendado)**:
 ```bash
-./infrastructure/scripts/validate-cpython.sh cpython-3.12.6-ubuntu22.04-build1.tgz
+./infrastructure/cpython/scripts/validate-cpython.sh cpython-3.12.6-ubuntu22.04-build1.tgz
 ```
 
 **Opción B: Dentro de VM**:
@@ -90,10 +90,10 @@ cd /vagrant
 
 ### 4. Resultado
 
-Artefactos generados en: `infrastructure/artifacts/cpython/`
+Artefactos generados en: `infrastructure/cpython/artifacts/`
 
 ```
-infrastructure/artifacts/cpython/
+infrastructure/cpython/artifacts/
   +-- cpython-3.12.6-ubuntu22.04-build1.tgz
   +-- cpython-3.12.6-ubuntu22.04-build1.tgz.sha256
 ```
@@ -208,7 +208,7 @@ vb.cpus = 8         # 8 cores
 ## Estructura de Directorios
 
 ```
-infrastructure/vagrant/cpython-builder/
+infrastructure/cpython/builder/
 |
 +-- Vagrantfile             # Configuración de VM
 +-- bootstrap.sh            # Script de aprovisionamiento
@@ -296,7 +296,7 @@ find . -name "*.pyc" -delete
 
 # Re-empaquetar
 cd /opt
-sudo tar czf /vagrant/infrastructure/artifacts/cpython/cpython-X.Y.Z-ubuntu22.04-build2.tgz python-X.Y.Z
+sudo tar czf /vagrant/infrastructure/cpython/artifacts/cpython-X.Y.Z-ubuntu22.04-build2.tgz python-X.Y.Z
 ```
 
 ---
@@ -350,8 +350,8 @@ Una vez generado y validado el artefacto:
 1. Publicar en GitHub Releases:
    ```bash
    gh release create cpython-3.12.6-build1 \
-     infrastructure/artifacts/cpython/cpython-3.12.6-ubuntu22.04-build1.tgz \
-     infrastructure/artifacts/cpython/cpython-3.12.6-ubuntu22.04-build1.tgz.sha256 \
+     infrastructure/cpython/artifacts/cpython-3.12.6-ubuntu22.04-build1.tgz \
+     infrastructure/cpython/artifacts/cpython-3.12.6-ubuntu22.04-build1.tgz.sha256 \
      --title "CPython 3.12.6 Build 1" \
      --notes "CPython 3.12.6 precompilado para Ubuntu 22.04"
    ```

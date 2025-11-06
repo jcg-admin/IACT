@@ -134,7 +134,7 @@ build-cpython: ## Compilar CPython en Vagrant (uso: make build-cpython VERSION=3
 		exit 1; \
 	fi
 	@echo "$(BLUE)Compilando CPython $(VERSION) build $(BUILD)...$(NC)"
-	./infrastructure/scripts/build-cpython.sh $(VERSION) $(BUILD)
+	./infrastructure/cpython/scripts/build-cpython.sh $(VERSION) $(BUILD)
 
 validate-cpython: ## Validar artefacto CPython (uso: make validate-cpython ARTIFACT=cpython-X.Y.Z-ubuntu22.04-build1.tgz)
 	@if [ -z "$(ARTIFACT)" ]; then \
@@ -142,13 +142,13 @@ validate-cpython: ## Validar artefacto CPython (uso: make validate-cpython ARTIF
 		exit 1; \
 	fi
 	@echo "$(BLUE)Validando artefacto: $(ARTIFACT)$(NC)"
-	./infrastructure/scripts/validate-cpython.sh $(ARTIFACT)
+	./infrastructure/cpython/scripts/validate-cpython.sh $(ARTIFACT)
 
 list-artifacts: ## Listar artefactos CPython disponibles
 	@echo "$(BLUE)Artefactos CPython disponibles:$(NC)"
 	@echo ""
-	@if [ -d "infrastructure/artifacts/cpython" ] && [ "$$(ls -A infrastructure/artifacts/cpython/*.tgz 2>/dev/null)" ]; then \
-		ls -lh infrastructure/artifacts/cpython/*.tgz | awk '{print "  " $$9 " (" $$5 ")"}'; \
+	@if [ -d "infrastructure/cpython/artifacts" ] && [ "$$(ls -A infrastructure/cpython/artifacts/*.tgz 2>/dev/null)" ]; then \
+		ls -lh infrastructure/cpython/artifacts/*.tgz | awk '{print "  " $$9 " (" $$5 ")"}'; \
 	else \
 		echo "  $(YELLOW)No hay artefactos generados aún$(NC)"; \
 	fi
@@ -157,15 +157,15 @@ list-artifacts: ## Listar artefactos CPython disponibles
 
 vagrant-cpython-up: ## Iniciar VM de compilación CPython
 	@echo "$(BLUE)Iniciando VM de compilación CPython...$(NC)"
-	cd infrastructure/vagrant/cpython-builder && vagrant up
+	cd infrastructure/cpython/builder && vagrant up
 
 vagrant-cpython-ssh: ## Conectar a VM de compilación CPython
 	@echo "$(BLUE)Conectando a VM...$(NC)"
-	cd infrastructure/vagrant/cpython-builder && vagrant ssh
+	cd infrastructure/cpython/builder && vagrant ssh
 
 vagrant-cpython-halt: ## Detener VM de compilación CPython
 	@echo "$(BLUE)Deteniendo VM...$(NC)"
-	cd infrastructure/vagrant/cpython-builder && vagrant halt
+	cd infrastructure/cpython/builder && vagrant halt
 
 ##@ Testing
 
