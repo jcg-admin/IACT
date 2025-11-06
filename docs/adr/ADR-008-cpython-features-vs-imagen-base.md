@@ -35,7 +35,7 @@ Se consideraron 4 enfoques principales para distribuir CPython precompilado:
 
 **Usaremos Features personalizadas de Dev Containers** para distribuir CPython precompilado.
 
-La Feature se implementará en `.devcontainer/infrastructure/cpython/builder/feature/` con:
+La Feature se implementará en `.devcontainer/infrastructure/cpython/builder/installer/` con:
 - `devcontainer-feature.json`: Descriptor declarativo
 - `install.sh`: Script de instalación e integración
 - `README.md`: Documentación de uso
@@ -45,7 +45,7 @@ Los proyectos opt-in agregando la Feature a su `devcontainer.json`:
 ```json
 {
   "features": {
-    "./infrastructure/cpython/builder/feature": {
+    "./infrastructure/cpython/builder/installer": {
       "version": "3.12.6"
     }
   }
@@ -175,7 +175,7 @@ Los proyectos opt-in agregando la Feature a su `devcontainer.json`:
     "dockerfile": "Dockerfile"
   },
   "features": {
-    "./infrastructure/cpython/builder/feature": {
+    "./infrastructure/cpython/builder/installer": {
       "version": "3.12.6",
       "artifactUrl": "${localWorkspaceFolder}/infrastructure/cpython/builder/artifacts/cpython-3.12.6-ubuntu22.04-build1.tgz"
     }
@@ -195,7 +195,7 @@ Si en el futuro se requiere publicar la Feature en registry público (dev.contai
 
 1. Crear cuenta en registry
 2. Publicar Feature con `devcontainer features publish`
-3. Actualizar proyectos para usar `ghcr.io/2-Coatl/infrastructure/cpython/builder/feature`
+3. Actualizar proyectos para usar `ghcr.io/2-Coatl/infrastructure/cpython/builder/installer`
 
 Esto es una ventaja de la decisión actual: permite evolución sin romper proyectos existentes.
 

@@ -40,11 +40,11 @@
   // ==========================================================================
 
   "features": {
-    // CPython Precompilado (Feature Personalizada - SPEC-INFRA-001 Fase 3)
+    // CPython Precompilado (Instalador Personalizado - SPEC-INFRA-001 Fase 3)
     // Para generar el artefacto: make build-cpython VERSION=3.12.6
     // Para desarrollo local: usa artifactUrl con path local
     // Para producción: usa GitHub Release URL
-    "./infrastructure/cpython/builder/feature": {
+    "./infrastructure/cpython/builder/installer": {
       "version": "3.12.6",
       // DESARROLLO LOCAL: Path relativo al workspace
       "artifactUrl": "/workspaces/${localWorkspaceFolderBasename}/infrastructure/cpython/builder/artifacts/cpython-3.12.6-ubuntu22.04-build1.tgz",

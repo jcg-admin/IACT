@@ -375,15 +375,15 @@ origin/main          2e9e43a  (474 commits atrás)
 ### Ramas Obsoletas (Pendientes de Eliminación)
 
 ```
-origin/feature/analyze-meeting-notes-format-17-14-21
-origin/feature/analyze-meeting-notes-format-17-24-38
-origin/feature/analyze-meeting-notes-format-17-33-10
-origin/feature/analyze-meeting-notes-format-17-51-53
-origin/feature/config-devcontainr
-origin/feature/create-new-develop-branch-devconta-16-53-42
-origin/feature/create-new-develop-branch-devconta-17-04-55
-origin/feature/update-documentation-structure-20-07-56
-origin/feature/update-documentation-structure-and-style-19-05-16
+origin/installer/analyze-meeting-notes-format-17-14-21
+origin/installer/analyze-meeting-notes-format-17-24-38
+origin/installer/analyze-meeting-notes-format-17-33-10
+origin/installer/analyze-meeting-notes-format-17-51-53
+origin/installer/config-devcontainr
+origin/installer/create-new-develop-branch-devconta-16-53-42
+origin/installer/create-new-develop-branch-devconta-17-04-55
+origin/installer/update-documentation-structure-20-07-56
+origin/installer/update-documentation-structure-and-style-19-05-16
 origin/claude/code-session-setup-011CUiWCQiZowE28eEmsTxVJ
 ```
 

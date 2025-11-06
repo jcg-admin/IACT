@@ -15,20 +15,20 @@ import pytest
 BASE_DIR = Path(__file__).resolve().parent.parent.parent.parent
 
 # Feature directory (now within builder)
-FEATURE_DIR = BASE_DIR / "infrastructure" / "cpython" / "builder" / "feature"
+INSTALLER_DIR = BASE_DIR / "infrastructure" / "cpython" / "builder" / "feature"
 
 
 @pytest.mark.critical
 def test_feature_directory_exists():
     """Verifica que el directorio de la feature existe."""
-    assert FEATURE_DIR.exists(), f"Feature directory {FEATURE_DIR} does not exist"
-    assert FEATURE_DIR.is_dir(), f"{FEATURE_DIR} is not a directory"
+    assert INSTALLER_DIR.exists(), f"Feature directory {INSTALLER_DIR} does not exist"
+    assert INSTALLER_DIR.is_dir(), f"{INSTALLER_DIR} is not a directory"
 
 
 @pytest.mark.critical
 def test_devcontainer_feature_json_exists():
     """Verifica que devcontainer-feature.json existe y es valido."""
-    feature_json = FEATURE_DIR / "devcontainer-feature.json"
+    feature_json = INSTALLER_DIR / "devcontainer-feature.json"
 
     assert feature_json.exists(), "devcontainer-feature.json not found"
 
@@ -65,7 +65,7 @@ def test_devcontainer_feature_json_exists():
 @pytest.mark.critical
 def test_install_sh_exists_and_executable():
     """Verifica que install.sh existe y es ejecutable."""
-    install_sh = FEATURE_DIR / "install.sh"
+    install_sh = INSTALLER_DIR / "install.sh"
 
     assert install_sh.exists(), "install.sh not found"
     assert install_sh.is_file(), "install.sh is not a file"
@@ -78,14 +78,14 @@ def test_install_sh_exists_and_executable():
 
 def test_readme_exists():
     """Verifica que README.md existe."""
-    readme = FEATURE_DIR / "README.md"
+    readme = INSTALLER_DIR / "README.md"
     assert readme.exists(), "README.md not found"
 
 
 @pytest.mark.critical
 def test_install_sh_has_shebang():
     """Verifica que install.sh tiene shebang correcto."""
-    install_sh = FEATURE_DIR / "install.sh"
+    install_sh = INSTALLER_DIR / "install.sh"
 
     with open(install_sh) as f:
         first_line = f.readline().strip()
@@ -96,7 +96,7 @@ def test_install_sh_has_shebang():
 @pytest.mark.critical
 def test_install_sh_has_set_e():
     """Verifica que install.sh tiene 'set -e' para fail-fast."""
-    install_sh = FEATURE_DIR / "install.sh"
+    install_sh = INSTALLER_DIR / "install.sh"
 
     with open(install_sh) as f:
         content = f.read()
@@ -106,7 +106,7 @@ def test_install_sh_has_set_e():
 
 def test_install_sh_has_idempotency_check():
     """Verifica que install.sh tiene deteccion de idempotencia."""
-    install_sh = FEATURE_DIR / "install.sh"
+    install_sh = INSTALLER_DIR / "install.sh"
 
     with open(install_sh) as f:
         content = f.read()
@@ -118,7 +118,7 @@ def test_install_sh_has_idempotency_check():
 
 def test_install_sh_has_checksum_validation():
     """Verifica que install.sh valida checksums SHA256."""
-    install_sh = FEATURE_DIR / "install.sh"
+    install_sh = INSTALLER_DIR / "install.sh"
 
     with open(install_sh) as f:
         content = f.read()
@@ -131,7 +131,7 @@ def test_install_sh_has_checksum_validation():
 
 def test_install_sh_has_module_validation():
     """Verifica que install.sh valida modulos nativos."""
-    install_sh = FEATURE_DIR / "install.sh"
+    install_sh = INSTALLER_DIR / "install.sh"
 
     with open(install_sh) as f:
         content = f.read()
@@ -144,7 +144,7 @@ def test_install_sh_has_module_validation():
 
 def test_install_sh_has_spec_reference():
     """Verifica que install.sh referencia SPEC-INFRA-001."""
-    install_sh = FEATURE_DIR / "install.sh"
+    install_sh = INSTALLER_DIR / "install.sh"
 
     with open(install_sh) as f:
         content = f.read()
@@ -156,9 +156,9 @@ def test_install_sh_has_spec_reference():
 def test_feature_files_no_emojis():
     """Verifica que archivos de feature no contienen emojis."""
     files_to_check = [
-        FEATURE_DIR / "install.sh",
-        FEATURE_DIR / "devcontainer-feature.json",
-        FEATURE_DIR / "README.md",
+        INSTALLER_DIR / "install.sh",
+        INSTALLER_DIR / "devcontainer-feature.json",
+        INSTALLER_DIR / "README.md",
     ]
 
     # Common emoji characters
@@ -181,7 +181,7 @@ def test_feature_files_no_emojis():
 
 def test_install_sh_downloads_artifact():
     """Verifica que install.sh descarga artefactos."""
-    install_sh = FEATURE_DIR / "install.sh"
+    install_sh = INSTALLER_DIR / "install.sh"
 
     with open(install_sh) as f:
         content = f.read()
@@ -195,7 +195,7 @@ def test_install_sh_downloads_artifact():
 
 def test_install_sh_creates_symlinks():
     """Verifica que install.sh crea symlinks."""
-    install_sh = FEATURE_DIR / "install.sh"
+    install_sh = INSTALLER_DIR / "install.sh"
 
     with open(install_sh) as f:
         content = f.read()
@@ -208,7 +208,7 @@ def test_install_sh_creates_symlinks():
 
 def test_install_sh_configures_ld():
     """Verifica que install.sh configura shared libraries."""
-    install_sh = FEATURE_DIR / "install.sh"
+    install_sh = INSTALLER_DIR / "install.sh"
 
     with open(install_sh) as f:
         content = f.read()
@@ -220,7 +220,7 @@ def test_install_sh_configures_ld():
 
 def test_readme_has_usage_examples():
     """Verifica que README tiene ejemplos de uso."""
-    readme = FEATURE_DIR / "README.md"
+    readme = INSTALLER_DIR / "README.md"
 
     with open(readme) as f:
         content = f.read()
@@ -232,7 +232,7 @@ def test_readme_has_usage_examples():
 
 def test_readme_has_security_section():
     """Verifica que README documenta seguridad."""
-    readme = FEATURE_DIR / "README.md"
+    readme = INSTALLER_DIR / "README.md"
 
     with open(readme) as f:
         content = f.read()
@@ -245,7 +245,7 @@ def test_readme_has_security_section():
 
 def test_readme_has_troubleshooting():
     """Verifica que README tiene troubleshooting."""
-    readme = FEATURE_DIR / "README.md"
+    readme = INSTALLER_DIR / "README.md"
 
     with open(readme) as f:
         content = f.read()
@@ -263,13 +263,13 @@ def test_feature_has_all_required_files():
     ]
 
     for filename in required_files:
-        file_path = FEATURE_DIR / filename
+        file_path = INSTALLER_DIR / filename
         assert file_path.exists(), f"Missing required file: {filename}"
 
 
 def test_install_sh_logging_functions():
     """Verifica que install.sh tiene funciones de logging."""
-    install_sh = FEATURE_DIR / "install.sh"
+    install_sh = INSTALLER_DIR / "install.sh"
 
     with open(install_sh) as f:
         content = f.read()
@@ -281,7 +281,7 @@ def test_install_sh_logging_functions():
 
 def test_install_sh_cleanup_function():
     """Verifica que install.sh limpia archivos temporales."""
-    install_sh = FEATURE_DIR / "install.sh"
+    install_sh = INSTALLER_DIR / "install.sh"
 
     with open(install_sh) as f:
         content = f.read()
@@ -293,7 +293,7 @@ def test_install_sh_cleanup_function():
 
 def test_devcontainer_feature_json_vscode_extensions():
     """Verifica que feature recomienda extensiones de VS Code."""
-    feature_json = FEATURE_DIR / "devcontainer-feature.json"
+    feature_json = INSTALLER_DIR / "devcontainer-feature.json"
 
     with open(feature_json) as f:
         data = json.load(f)
@@ -310,7 +310,7 @@ def test_devcontainer_feature_json_vscode_extensions():
 
 def test_install_sh_handles_local_and_remote_urls():
     """Verifica que install.sh maneja URLs locales y remotas."""
-    install_sh = FEATURE_DIR / "install.sh"
+    install_sh = INSTALLER_DIR / "install.sh"
 
     with open(install_sh) as f:
         content = f.read()
@@ -327,7 +327,7 @@ def test_install_sh_handles_local_and_remote_urls():
 @pytest.mark.critical
 def test_install_sh_exit_codes():
     """Verifica que install.sh usa exit codes apropiados."""
-    install_sh = FEATURE_DIR / "install.sh"
+    install_sh = INSTALLER_DIR / "install.sh"
 
     with open(install_sh) as f:
         content = f.read()
@@ -342,7 +342,7 @@ def test_install_sh_exit_codes():
 
 def test_readme_references_spec():
     """Verifica que README referencia SPEC-INFRA-001."""
-    readme = FEATURE_DIR / "README.md"
+    readme = INSTALLER_DIR / "README.md"
 
     with open(readme) as f:
         content = f.read()
@@ -352,7 +352,7 @@ def test_readme_references_spec():
 
 def test_readme_license_info():
     """Verifica que README menciona licencia."""
-    readme = FEATURE_DIR / "README.md"
+    readme = INSTALLER_DIR / "README.md"
 
     with open(readme) as f:
         content = f.read()

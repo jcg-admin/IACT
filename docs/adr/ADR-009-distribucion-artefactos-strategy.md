@@ -303,7 +303,7 @@ jobs:
 ### Consumo en Feature
 
 ```bash
-# .devcontainer/infrastructure/cpython/builder/feature/install.sh
+# .devcontainer/infrastructure/cpython/builder/installer/install.sh
 
 VERSION="${VERSION:-3.12.6}"
 BUILD_NUMBER="${BUILD_NUMBER:-1}"
@@ -353,7 +353,7 @@ ldconfig
    ```json
    {
      "features": {
-       "./infrastructure/cpython/builder/feature": {
+       "./infrastructure/cpython/builder/installer": {
          "version": "3.12.6",
          "artifactUrl": "${localWorkspaceFolder}/infrastructure/cpython/builder/artifacts/cpython-3.12.6-ubuntu22.04-build1.tgz"
        }

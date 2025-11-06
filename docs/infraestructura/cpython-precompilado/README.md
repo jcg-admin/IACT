@@ -70,7 +70,7 @@ Editar `.devcontainer/devcontainer.json` de tu proyecto:
     "dockerfile": "Dockerfile"
   },
   "features": {
-    "./infrastructure/cpython/builder/feature": {
+    "./infrastructure/cpython/builder/installer": {
       "version": "3.12.6"
     }
   }
@@ -111,7 +111,7 @@ Si ambos comandos funcionan correctamente, la instalación es exitosa.
 ```json
 {
   "features": {
-    "./infrastructure/cpython/builder/feature": {
+    "./infrastructure/cpython/builder/installer": {
       "version": "3.12.6"  // Cambiar a versión deseada
     }
   }
@@ -127,7 +127,7 @@ Para desarrollo completamente offline o para testing de artefactos compilados lo
 ```json
 {
   "features": {
-    "./infrastructure/cpython/builder/feature": {
+    "./infrastructure/cpython/builder/installer": {
       "version": "3.12.6",
       "artifactUrl": "${localWorkspaceFolder}/infrastructure/cpython/builder/artifacts/cpython-3.12.6-ubuntu22.04-build1.tgz"
     }
@@ -166,7 +166,7 @@ Ver: `infrastructure/cpython/builder/README.md` para más detalles sobre compila
 ```json
 {
   "features": {
-    "./infrastructure/cpython/builder/feature": {
+    "./infrastructure/cpython/builder/installer": {
       "version": "3.12.6"
     },
     "ghcr.io/devcontainers/features/node:1": {
@@ -229,7 +229,7 @@ Cuando se publica una nueva versión de artefacto:
    ```json
    {
      "features": {
-       "./infrastructure/cpython/builder/feature": {
+       "./infrastructure/cpython/builder/installer": {
          "version": "3.12.7"  // Nueva versión
        }
      }
@@ -341,7 +341,7 @@ Ver: [Preguntas Frecuentes completas](./preguntas-frecuentes.md)
 Si necesitas compilar artefactos o modificar la Feature:
 
 - [Guía de compilación en Vagrant](../../../vagrant/cpython-builder/README.md)
-- [Guía de desarrollo de Features](../../../.devcontainer/infrastructure/cpython/builder/feature/README.md)
+- [Guía de desarrollo de Features](../../../.devcontainer/infrastructure/cpython/builder/installer/README.md)
 - [Especificación completa: SPEC-INFRA-001](../../specs/SPEC-INFRA-001-cpython-precompilado.md)
 
 ---

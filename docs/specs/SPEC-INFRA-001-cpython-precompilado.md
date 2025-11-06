@@ -550,7 +550,7 @@ La "interfaz" es la configuración declarativa en `devcontainer.json`:
 {
   "name": "IACT Django Project",
   "features": {
-    "./infrastructure/cpython/builder/feature": {
+    "./infrastructure/cpython/builder/installer": {
       "version": "3.12.6",
       "artifactUrl": "https://github.com/2-Coatl/IACT---project/releases/download/cpython-3.12.6-build1/cpython-3.12.6-ubuntu22.04-build1.tgz"
     }
@@ -666,7 +666,7 @@ En `.devcontainer/devcontainer.json` (opt-in por proyecto):
 ```json
 {
   "features": {
-    "./infrastructure/cpython/builder/feature": {
+    "./infrastructure/cpython/builder/installer": {
       "version": "3.12.6"
     }
   }

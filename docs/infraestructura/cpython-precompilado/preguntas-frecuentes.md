@@ -52,7 +52,7 @@ Tres pasos:
    ```json
    {
      "features": {
-       "./infrastructure/cpython/builder/feature": {
+       "./infrastructure/cpython/builder/installer": {
          "version": "3.12.6"
        }
      }
@@ -80,7 +80,7 @@ Tres pasos:
    ```json
    {
      "features": {
-       "./infrastructure/cpython/builder/feature": {
+       "./infrastructure/cpython/builder/installer": {
          "version": "3.12.6",
          "artifactUrl": "${localWorkspaceFolder}/infrastructure/cpython/builder/artifacts/cpython-3.12.6-ubuntu22.04-build1.tgz"
        }
@@ -94,10 +94,10 @@ Tres pasos:
 
 ```json
 // Proyecto A
-{"features": {"./infrastructure/cpython/builder/feature": {"version": "3.12.6"}}}
+{"features": {"./infrastructure/cpython/builder/installer": {"version": "3.12.6"}}}
 
 // Proyecto B
-{"features": {"./infrastructure/cpython/builder/feature": {"version": "3.11.9"}}}
+{"features": {"./infrastructure/cpython/builder/installer": {"version": "3.11.9"}}}
 ```
 
 No hay conflictos porque cada Dev Container es aislado.
@@ -365,8 +365,8 @@ ln -sf /opt/python-3.12.6/bin/python3 /usr/local/bin/python3
 
 **Solución**:
 1. Verificar que Feature está correctamente referenciada en `devcontainer.json`
-2. Verificar que path de Feature es correcto: `./infrastructure/cpython/builder/feature`
-3. Verificar que `install.sh` tiene permisos de ejecución: `chmod +x .devcontainer/infrastructure/cpython/builder/feature/install.sh`
+2. Verificar que path de Feature es correcto: `./infrastructure/cpython/builder/installer`
+3. Verificar que `install.sh` tiene permisos de ejecución: `chmod +x .devcontainer/infrastructure/cpython/builder/installer/install.sh`
 
 ### VS Code no detecta el intérprete Python
 

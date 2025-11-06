@@ -62,7 +62,7 @@ Agregar a `.devcontainer/devcontainer.json`:
 ```json
 {
   "features": {
-    "./infrastructure/cpython/builder/feature": {
+    "./infrastructure/cpython/builder/installer": {
       "version": "{VERSION}",
       "artifactUrl": "https://github.com/2-Coatl/IACT---project/releases/download/cpython-{VERSION}-build{BUILD_NUMBER}/cpython-{VERSION}-ubuntu22.04-build{BUILD_NUMBER}.tgz"
     }

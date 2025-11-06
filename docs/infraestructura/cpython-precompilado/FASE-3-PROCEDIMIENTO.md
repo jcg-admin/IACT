@@ -164,7 +164,7 @@ git push origin cpython-3.12.6-build1
 ```json
 {
   "features": {
-    "./infrastructure/cpython/builder/feature": {
+    "./infrastructure/cpython/builder/installer": {
       "version": "3.12.6",
       "artifactUrl": "https://github.com/2-Coatl/IACT---project/releases/download/cpython-3.12.6-build1/cpython-3.12.6-ubuntu22.04-build1.tgz"
     }
@@ -237,7 +237,7 @@ gh release download cpython-3.12.6-build1 -D /tmp/test-release
 -   "ghcr.io/devcontainers/features/python:1": {
 -     "version": "3.11"
 -   },
-+   "./infrastructure/cpython/builder/feature": {
++   "./infrastructure/cpython/builder/installer": {
 +     "version": "3.12.6",
 +     "artifactUrl": "https://github.com/2-Coatl/IACT---project/releases/download/cpython-3.12.6-build1/cpython-3.12.6-ubuntu22.04-build1.tgz"
 +   },
@@ -251,7 +251,7 @@ gh release download cpython-3.12.6-build1 -D /tmp/test-release
 ```json
 {
   "features": {
-    "./infrastructure/cpython/builder/feature": {
+    "./infrastructure/cpython/builder/installer": {
       "version": "3.12.6",
       "artifactUrl": "/workspaces/${localWorkspaceFolderBasename}/infrastructure/cpython/builder/artifacts/cpython-3.12.6-ubuntu22.04-build1.tgz"
     }

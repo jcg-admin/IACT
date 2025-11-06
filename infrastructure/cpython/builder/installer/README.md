@@ -29,7 +29,7 @@ Add to your `.devcontainer/devcontainer.json`:
   "name": "My Django Project",
   "image": "mcr.microsoft.com/devcontainers/base:ubuntu-22.04",
   "features": {
-    "./infrastructure/cpython/builder/feature": {
+    "./infrastructure/cpython/builder/installer": {
       "version": "3.12.6"
     }
   }
@@ -45,7 +45,7 @@ For testing or using a different distribution source:
 ```json
 {
   "features": {
-    "./infrastructure/cpython/builder/feature": {
+    "./infrastructure/cpython/builder/installer": {
       "version": "3.12.6",
       "artifactUrl": "https://custom-host.com/cpython-3.12.6.tgz",
       "checksumUrl": "https://custom-host.com/cpython-3.12.6.tgz.sha256"
@@ -61,7 +61,7 @@ For local development and testing with locally built artifacts:
 ```json
 {
   "features": {
-    "./infrastructure/cpython/builder/feature": {
+    "./infrastructure/cpython/builder/installer": {
       "version": "3.12.6",
       "artifactUrl": "/workspaces/IACT---project/infrastructure/cpython/builder/artifacts/cpython-3.12.6-ubuntu22.04-build1.tgz",
       "checksumUrl": "/workspaces/IACT---project/infrastructure/cpython/builder/artifacts/cpython-3.12.6-ubuntu22.04-build1.tgz.sha256"
@@ -285,7 +285,7 @@ Recommended base images:
   "name": "Django IACT Project",
   "image": "mcr.microsoft.com/devcontainers/base:ubuntu-22.04",
   "features": {
-    "./infrastructure/cpython/builder/feature": {
+    "./infrastructure/cpython/builder/installer": {
       "version": "3.12.6"
     }
   },
@@ -306,7 +306,7 @@ Project A (Python 3.12):
 ```json
 {
   "features": {
-    "./infrastructure/cpython/builder/feature": {
+    "./infrastructure/cpython/builder/installer": {
       "version": "3.12.6"
     }
   }
@@ -317,7 +317,7 @@ Project B (Python 3.11):
 ```json
 {
   "features": {
-    "./infrastructure/cpython/builder/feature": {
+    "./infrastructure/cpython/builder/installer": {
       "version": "3.11.9"
     }
   }
@@ -329,7 +329,7 @@ Project B (Python 3.11):
 ```json
 {
   "features": {
-    "./infrastructure/cpython/builder/feature": {
+    "./infrastructure/cpython/builder/installer": {
       "version": "3.12.6",
       "artifactUrl": "/workspaces/IACT---project/infrastructure/cpython/builder/artifacts/cpython-3.12.6-ubuntu22.04-build1.tgz"
     }
@@ -385,7 +385,7 @@ make validate-cpython ARTIFACT=cpython-3.12.6-ubuntu22.04-build1.tgz
 {
   "image": "mcr.microsoft.com/devcontainers/base:ubuntu-22.04",
   "features": {
-    "./infrastructure/cpython/builder/feature": {
+    "./infrastructure/cpython/builder/installer": {
       "version": "3.12.6",
       "artifactUrl": "/workspaces/IACT---project/infrastructure/cpython/builder/artifacts/cpython-3.12.6-ubuntu22.04-build1.tgz"
     }
@@ -420,7 +420,7 @@ This feature follows Semantic Versioning (semver):
 - **1.2.0**: GPG signature verification (Fase 4)
 - **2.0.0**: Breaking changes (if any)
 
-See: `infrastructure/cpython/builder/feature/devcontainer-feature.json`
+See: `infrastructure/cpython/builder/installer/devcontainer-feature.json`
 
 ---
 

@@ -190,7 +190,7 @@ Se reorganizó todo CPython en `infrastructure/cpython/` como subdomain:
 
 ```bash
 infrastructure/vagrant/cpython-builder/  → infrastructure/cpython/builder/
-features/cpython-prebuilt/               → infrastructure/cpython/feature/
+features/cpython-prebuilt/               → infrastructure/cpython/installer/
 infrastructure/artifacts/cpython/        → infrastructure/cpython/artifacts/
 infrastructure/scripts/build-cpython.sh  → infrastructure/cpython/scripts/build-cpython.sh
 infrastructure/scripts/validate-*.sh     → infrastructure/cpython/scripts/validate-*.sh
@@ -202,13 +202,15 @@ infrastructure/tests/test_cpython_*.py   → infrastructure/cpython/tests/test_c
 Se consolidó TODOS los componentes CPython dentro de `builder/` para máxima cohesión:
 
 ```bash
-infrastructure/cpython/feature/     → infrastructure/cpython/builder/feature/
+infrastructure/cpython/feature/     → infrastructure/cpython/builder/installer/
 infrastructure/cpython/artifacts/   → infrastructure/cpython/builder/artifacts/
 infrastructure/cpython/scripts/     → infrastructure/cpython/builder/scripts/ (renombrados a *-wrapper.sh)
 infrastructure/cpython/tests/       → infrastructure/cpython/builder/tests/
 ```
 
-**Archivos actualizados:** 20+
+**Renombramiento semántico**: `feature/` → `installer/` para reflejar mejor su función real (instalador de CPython en Dev Container).
+
+**Archivos actualizados:** 30+
 - Makefile (todos los targets CPython)
 - Vagrantfile (synced folders, documentación)
 - Scripts wrapper (PROJECT_ROOT, VAGRANT_DIR, ARTIFACT_PATH)
@@ -318,7 +320,7 @@ infrastructure/
         │   ├── build-wrapper.sh          # Wrapper host → VM
         │   ├── validate-wrapper.sh       # Wrapper host → VM
         │   └── feature-install.sh        # Instalación en DevContainer
-        ├── feature/            # Dev Container Feature
+        ├── installer/          # Instalador para Dev Container
         │   ├── devcontainer-feature.json
         │   ├── install.sh      # Symlink → ../scripts/feature-install.sh
         │   └── README.md
@@ -338,7 +340,8 @@ infrastructure/
 4. **Modularización**: Cada subdomain puede tener su propia documentación y README
 5. **Boundaries claros**: Separación completa entre subsistemas de infraestructura
 6. **Eliminación de dispersión**: No más scripts/ separados de builder/, todo unificado
-7. **Convención DevContainer respetada**: Symlink feature/install.sh mantiene compatibilidad
+7. **Convención DevContainer respetada**: Symlink installer/install.sh mantiene compatibilidad
+8. **Nomenclatura descriptiva**: `installer/` describe claramente su función (instalar CPython en DevContainer)
 
 **Aplicación**:
 - COMPLETADO Fase 2: Migración de CPython a subdomain (2025-11-06)

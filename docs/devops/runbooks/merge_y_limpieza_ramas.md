@@ -63,7 +63,7 @@ git rev-list --left-right --count origin/main...develop
 
 ```bash
 # Listar ramas feature remotas
-git branch -r | grep 'origin/feature/'
+git branch -r | grep 'origin/installer/'
 
 # Listar ramas claude remotas
 git branch -r | grep 'origin/claude/'

@@ -164,7 +164,7 @@ cpython-3.12.6-build1/cpython-3.12.6-ubuntu22.04-build1.tgz
 
 **Ubicación en proyecto**:
 ```
-.devcontainer/infrastructure/cpython/builder/feature/
+.devcontainer/infrastructure/cpython/builder/installer/
 ├── devcontainer-feature.json    # Metadata y opciones
 ├── install.sh                   # Lógica de instalación
 └── README.md                    # Documentación de Feature
@@ -255,7 +255,7 @@ fi
     "context": ".."
   },
   "features": {
-    "./infrastructure/cpython/builder/feature": {
+    "./infrastructure/cpython/builder/installer": {
       "version": "3.12.6",
       "buildNumber": "1"
     }
