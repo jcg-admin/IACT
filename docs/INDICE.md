@@ -2,24 +2,24 @@
 id: DOC-INDICE-GENERAL
 tipo: indice
 categoria: documentacion
-version: 1.3.0
+version: 1.4.0
 fecha_creacion: 2025-11-06
 fecha_migracion: 2025-11-06
 fecha_actualizacion: 2025-11-06
 propietario: equipo-gobernanza
-archivos_totales: 118
-lineas_totales: 35000
-relacionados: ["docs_legacy/README.md", "gobernanza/procesos/MAPEO_PROCESOS_TEMPLATES.md", ".claude/workflow_template_mapping.json"]
+archivos_totales: 120
+lineas_totales: 35800
+relacionados: ["docs_legacy/README.md", "gobernanza/procesos/MAPEO_PROCESOS_TEMPLATES.md", ".claude/workflow_template_mapping.json", "gobernanza/ai/ESTRATEGIA_IA.md"]
 ---
 
 # INDICE GENERAL - Documentacion IACT
 
-**VERSION:** 1.3.0
+**VERSION:** 1.4.0
 **FECHA MIGRACION:** 2025-11-06
 **FECHA ACTUALIZACION:** 2025-11-06
-**ARCHIVOS MIGRADOS:** 118
-**LINEAS MIGRADAS:** ~35,000
-**ESTRUCTURA:** BABOK v3 + PMBOK 7 + ISO/IEC/IEEE 29148:2018
+**ARCHIVOS MIGRADOS:** 120
+**LINEAS MIGRADAS:** ~35,800
+**ESTRUCTURA:** BABOK v3 + PMBOK 7 + ISO/IEC/IEEE 29148:2018 + DORA 2025
 
 ---
 
@@ -33,13 +33,13 @@ Este indice documenta la estructura completa de documentacion del proyecto IACT 
 
 | Seccion | Descripcion | Archivos |
 |---------|-------------|----------|
-| [1. Gobernanza](#1-gobernanza) | Estilos, procesos, procedimientos, lineamientos, mapeos | 35 |
-| [2. Requisitos](#2-requisitos) | Analisis de negocio, Business Needs | 8 |
-| [3. Implementacion](#3-implementacion) | Infrastructure, agentes, runbooks | 13 |
-| [4. Plantillas](#4-plantillas) | Templates reutilizables | 34 |
-| [5. Vision y Alcance](#5-vision-y-alcance) | Glossary, vision del proyecto | 2 |
+| [1. Gobernanza](#1-gobernanza) | Estilos, procesos, procedimientos, lineamientos, mapeos, AI | 37 |
+| [2. Proyecto](#2-proyecto) | Vision, tracking, planificacion, roadmap | 5 |
+| [3. Requisitos](#3-requisitos) | Analisis de negocio, Business Needs | 8 |
+| [4. Implementacion](#4-implementacion) | Infrastructure, agentes, runbooks | 13 |
+| [5. Plantillas](#5-plantillas) | Templates reutilizables | 34 |
 
-**Total:** 92 archivos de documentacion
+**Total:** 97 archivos de documentacion
 
 ---
 
@@ -244,6 +244,40 @@ Historico de ejecuciones de pytest y validaciones QA.
 | [lineamientos_gobernanza.md](gobernanza/lineamientos_gobernanza.md) | Lineamientos generales de gobernanza |
 | [plan_general.md](gobernanza/plan_general.md) | Plan general del proyecto |
 | [registro_decisiones.md](gobernanza/registro_decisiones.md) | Registro de decisiones arquitectonicas (ADRs) |
+
+---
+
+### 1.4 IA y Excelencia con IA (DORA 2025)
+
+**Ubicacion:** `docs/gobernanza/ai/`
+
+**Fuente:** [DORA Report 2025 - AI Capabilities Model](https://dora.dev/dora-report-2025)
+
+| Archivo | Descripcion | Prioridad |
+|---------|-------------|-----------|
+| [ESTRATEGIA_IA.md](gobernanza/ai/ESTRATEGIA_IA.md) | Estrategia completa de IA basada en DORA 2025 - 7 practicas AI Capabilities, AI stance del proyecto, roadmap Q4 2025-Q2 2026 | CRITICA |
+| [AI_CAPABILITIES.md](gobernanza/ai/AI_CAPABILITIES.md) | Checklist diario de 7 practicas DORA - Para Developers (diario), Tech Leads (semanal), Arquitectos (mensual), QA (por feature) | ALTA |
+
+**Practicas DORA AI Capabilities (7):**
+1. **User-centric Focus** - Templates, vision, trazabilidad (Implementado)
+2. **Strong Version Control** - Git, CODEOWNERS, CI/CD (Implementado)
+3. **AI-accessible Internal Data** - Docs OK, metrics pendientes (Parcial)
+4. **Working in Small Batches** - Metodologia por lotes (Implementado)
+5. **Clear + Communicated AI Stance** - ESTRATEGIA_IA.md (Implementado)
+6. **Quality Internal Platform** - Django + 8 workflows + 13 scripts (Implementado)
+7. **Healthy Data Ecosystems** - PostgreSQL+MySQL OK, metrics pendientes (Parcial)
+
+**Score actual:** 5/7 (71%) | **Target Q1 2026:** 7/7 (100%)
+
+**Uso:**
+- **ESTRATEGIA_IA.md**: Consultar al inicio de proyecto y mensualmente
+- **AI_CAPABILITIES.md**: Checklist diario para developers, semanal para tech leads
+- **AI stance**: Define cuando usar/no usar IA en el proyecto
+
+**Ver tambien:**
+- [ROADMAP.md](proyecto/ROADMAP.md) - EPICA-006: AI Excellence
+- [TAREAS_ACTIVAS.md](proyecto/TAREAS_ACTIVAS.md) - Tareas AI pendientes
+- [AGENTES_SDLC.md](gobernanza/procesos/AGENTES_SDLC.md) - Agentes IA implementados
 
 ---
 

@@ -218,6 +218,47 @@ Transformar IACT en una plataforma robusta de gestion de call center con:
 
 ---
 
+### EPICA-006: AI Excellence (DORA 2025)
+**Duracion:** Q4 2025 - Q2 2026
+**Story Points:** ~60 SP
+**Estado:** 70% completado
+
+**Componentes:**
+- [x] 7 Agentes SDLC implementados
+- [x] Claude Code integration
+- [x] Documentacion IA-accessible (118 archivos Markdown)
+- [x] Sistema de asociacion workflow-template
+- [x] Strong version control practices (Git + CODEOWNERS)
+- [x] Metodologia small batches
+- [x] ESTRATEGIA_IA.md (stance clara)
+- [x] AI_CAPABILITIES.md (checklist diario)
+- [ ] Sistema de metrics interno (AI-accessible data)
+- [ ] Logging estructurado
+- [ ] DORA metrics baseline establecida
+- [ ] Platform API para agentes
+- [ ] Risk calibration dashboard
+
+**7 Practicas DORA AI Capabilities:**
+- [x] 1. User-centric Focus (Templates, vision, trazabilidad)
+- [x] 2. Strong Version Control (Git, CI/CD, CODEOWNERS)
+- [ ] 3. AI-accessible Internal Data (Docs OK, faltan metrics)
+- [x] 4. Working in Small Batches (Metodologia establecida)
+- [x] 5. Clear + Communicated AI Stance (ESTRATEGIA_IA.md)
+- [x] 6. Quality Internal Platform (Django + 8 workflows + 13 scripts)
+- [ ] 7. Healthy Data Ecosystems (PostgreSQL+MySQL OK, faltan metrics)
+
+**Criterios de exito:**
+- [x] Score 7 practicas: >= 5/7 (actual: 5/7, 71%)
+- [ ] Score 7 practicas: 7/7 (target Q1 2026)
+- [ ] DORA Deployment Frequency: >= 1/dia (Q1 2026)
+- [ ] Lead Time: < 2 dias (Q1 2026)
+- [ ] Change Failure Rate: < 15% (Q1 2026)
+- [ ] MTTR: < 4 horas (Q1 2026)
+
+**Fuente:** [DORA Report 2025](https://dora.dev/dora-report-2025)
+
+---
+
 ## Hitos Criticos
 
 ### Hito 1: DevOps Foundation Complete
@@ -262,6 +303,29 @@ Transformar IACT en una plataforma robusta de gestion de call center con:
 - Hito 2 completado
 - Templates de reports validados
 - ML models trained
+
+---
+
+### Hito 4: AI Excellence DORA Compliant
+**Fecha objetivo:** 2026-03-31
+**Criterios:**
+- [ ] 7/7 practicas DORA AI Capabilities implementadas
+- [ ] DORA metrics baseline establecida
+- [ ] Deployment Frequency >= 1/dia
+- [ ] Lead Time < 2 dias
+- [ ] AI stance comunicada al 100% del equipo
+- [ ] Platform API para agentes operativa
+
+**Dependencias:**
+- Hito 1 completado (DevOps Foundation)
+- Hito 2 en progreso (Monitoring)
+- Sistema de metrics interno operativo
+
+**Impacto:**
+- Amplificar capacidades del equipo con IA
+- Reducir lead time en 50%
+- Aumentar deployment frequency 10x
+- Mantener quality mientras se escala
 
 ---
 

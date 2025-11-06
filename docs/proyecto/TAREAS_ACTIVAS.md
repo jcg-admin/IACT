@@ -136,6 +136,37 @@ Tareas de corto plazo (< 2 semanas) con seguimiento activo.
   - Bloqueadores: DORA report inicial
   - ETA: 2025-11-09
 
+### AI Excellence (DORA 2025)
+
+- [x] **Estrategia de IA completa (DORA Report 2025)** `P1` `5SP`
+  - docs/gobernanza/ai/ESTRATEGIA_IA.md
+  - 7 practicas DORA AI Capabilities implementadas
+  - Stance de IA del proyecto definida
+  - Status: COMPLETADO 2025-11-06
+  - Asignado: @arquitecto-senior
+
+- [x] **Checklist AI Capabilities** `P1` `2SP`
+  - docs/gobernanza/ai/AI_CAPABILITIES.md
+  - Checklist diario para developers, tech leads, arquitectos, QA
+  - Metricas rapidas (adoption, productivity, quality)
+  - Status: COMPLETADO 2025-11-06
+  - Asignado: @arquitecto-senior
+
+- [ ] **Comunicar AI stance al equipo** `P1` `1SP`
+  - Presentacion de ESTRATEGIA_IA.md
+  - Guidelines de cuando usar/no usar IA
+  - Q&A session
+  - Asignado: @arquitecto-senior
+  - Bloqueadores: Ninguno
+  - ETA: 2025-11-08
+
+- [ ] **Agregar AI guidelines a onboarding** `P2` `2SP`
+  - Actualizar onboarding guide con ESTRATEGIA_IA
+  - Checklist AI_CAPABILITIES en proceso onboarding
+  - Asignado: @tech-lead
+  - Bloqueadores: Comunicacion al equipo
+  - ETA: 2025-11-15
+
 ---
 
 ## P2 - MEDIA PRIORIDAD (Próximo Sprint)

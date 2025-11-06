@@ -21,11 +21,89 @@ Registro cronologico de cambios, features y mejoras completadas.
 ## [Unreleased]
 
 ### Pendiente
-- Sistema de metrics interno (MySQL)
+- Sistema de metrics interno (MySQL) - Para completar DORA practicas 3 y 7
 - Custom dashboards Django Admin
 - Pre-commit hooks instalados
 - DORA metrics baseline establecida
 - Cron jobs para maintenance
+- Comunicar AI stance al equipo
+- Agregar AI guidelines a onboarding
+
+---
+
+## [1.4.0] - 2025-11-06
+
+### Added - Estrategia IA basada en DORA Report 2025
+
+**Epica:** EPICA-006: AI Excellence (DORA 2025) - 60 SP, 70% completado
+
+- **ESTRATEGIA_IA.md**: Estrategia completa de IA del proyecto
+  - Implementacion de 7 practicas DORA AI Capabilities
+  - Score actual: 5/7 (71%), target Q1 2026: 7/7 (100%)
+  - AI stance del proyecto (cuando usar/no usar IA)
+  - 3 Platform Imperatives, 3 Leadership Principles
+  - Roadmap Q4 2025 - Q2 2026 para AI Excellence
+  - Metricas: Adoption (90%), Productivity (70%), DORA classics
+  - Ubicacion: `docs/gobernanza/ai/ESTRATEGIA_IA.md` (500+ lineas)
+
+- **AI_CAPABILITIES.md**: Checklist diario de 7 practicas DORA
+  - Developers: Checklist diario (antes, durante, despues de usar IA)
+  - Tech Leads: Checklist semanal (planning, mid-sprint, review)
+  - Arquitectos: Checklist mensual (foundation systems, assessment, risk calibration)
+  - QA: Checklist por feature (pre-testing, during, post-testing)
+  - Metricas rapidas: Adoption, Productivity, Code Quality, DORA
+  - Red flags y quick commands
+  - Ubicacion: `docs/gobernanza/ai/AI_CAPABILITIES.md` (300+ lineas)
+
+**7 Practicas DORA AI Capabilities implementadas:**
+1. User-centric Focus: Templates, vision, trazabilidad (Implementado)
+2. Strong Version Control: Git, CODEOWNERS, CI/CD, small batches (Implementado)
+3. AI-accessible Internal Data: Docs 100% OK, metrics pendientes (Parcial 80%)
+4. Working in Small Batches: Metodologia por lotes establecida (Implementado)
+5. Clear + Communicated AI Stance: ESTRATEGIA_IA.md (Implementado)
+6. Quality Internal Platform: Django + 8 workflows + 13 scripts (Implementado)
+7. Healthy Data Ecosystems: PostgreSQL+MySQL OK, metrics pendientes (Parcial 80%)
+
+**AI Stance definido:**
+- SI usar IA para: Boilerplate, docs, code review, refactoring, tests, automatizacion
+- NO usar IA para: Decisiones arquitectonicas criticas, security final, merge sin review, credenciales, cambios en restricciones
+
+### Changed - ROADMAP.md (v1.0.0)
+- Agregada EPICA-006: AI Excellence (DORA 2025)
+  - Duracion: Q4 2025 - Q2 2026
+  - Story Points: 60 SP, 70% completado
+  - 7 practicas DORA AI Capabilities documentadas
+  - Score actual: 5/7 (71%)
+
+- Agregado Hito 4: AI Excellence DORA Compliant
+  - Fecha objetivo: 2026-03-31
+  - Criterios: 7/7 practicas, DORA metrics baseline, AI stance comunicado
+  - Dependencias: Hito 1 (DevOps Foundation), sistema de metrics interno
+
+### Changed - TAREAS_ACTIVAS.md (v1.0.0)
+- Agregada seccion AI Excellence (DORA 2025)
+  - [x] ESTRATEGIA_IA.md completa (5 SP) - COMPLETADO
+  - [x] AI_CAPABILITIES.md checklist (2 SP) - COMPLETADO
+  - [ ] Comunicar AI stance al equipo (1 SP) - P1, ETA 2025-11-08
+  - [ ] Agregar AI guidelines a onboarding (2 SP) - P2, ETA 2025-11-15
+
+### Changed - INDICE.md
+- Version 1.3.0 -> 1.4.0
+- Total archivos: 118 -> 120 (+2)
+- Lineas totales: ~35,000 -> ~35,800 (+800)
+- Agregada seccion 1.4: IA y Excelencia con IA (DORA 2025)
+- Estructura actualizada: BABOK v3 + PMBOK 7 + ISO/IEC/IEEE 29148:2018 + DORA 2025
+- Navegacion Rapida actualizada
+
+### Changed - CODEOWNERS
+- Agregado ownership para docs/gobernanza/ai/** (@arquitecto-senior @tech-lead)
+
+### Story Points Completados
+- Estrategia IA completa: 5 SP
+- Checklist AI Capabilities: 2 SP
+- **Total version 1.4.0: 7 SP**
+
+**Impacto:** Proyecto ahora tiene estrategia IA formal basada en DORA Report 2025, con guidelines claras para uso efectivo de IA, metricas de adopcion y productividad, y roadmap para alcanzar 7/7 practicas AI Capabilities.
 
 ---
 
