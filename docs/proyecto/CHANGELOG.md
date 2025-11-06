@@ -2,18 +2,18 @@
 id: DOC-PROYECTO-CHANGELOG
 tipo: changelog
 categoria: documentacion
-version: 1.4.5
+version: 1.5.0
 fecha_creacion: 2025-11-06
 fecha_actualizacion: 2025-11-06
 propietario: arquitecto-senior
-relacionados: ["ROADMAP.md", "TAREAS_ACTIVAS.md", "FASES_IMPLEMENTACION_IA.md"]
+relacionados: ["ROADMAP.md", "TAREAS_ACTIVAS.md", "FASES_IMPLEMENTACION_IA.md", "ADR-2025-003"]
 ---
 
 # CHANGELOG - Proyecto IACT
 
 Registro cronologico de cambios, features y mejoras completadas.
 
-**Version:** 1.4.5
+**Version:** 1.5.0
 **Formato:** Basado en [Keep a Changelog](https://keepachangelog.com/)
 **Versionado:** [Semantic Versioning](https://semver.org/)
 
@@ -35,6 +35,80 @@ Registro cronologico de cambios, features y mejoras completadas.
 - Formalizar MLOps Engineer role
 - Documentar collaboration protocols AI specialists + Platform team
 - Establecer ROI metrics para AI + Platform synergy
+
+---
+
+## [1.5.0] - 2025-11-06
+
+### Added - Documentacion completa integracion DORA + SDLC Agents
+
+Documentacion arquitectonica y operacional completa del sistema de integracion
+entre metricas DORA y agentes SDLC del proyecto IACT.
+
+**ADR-2025-003: Integracion DORA + SDLC Agents**
+- Decision arquitectonica: In-Process Tracking (Opcion 3)
+- Justificacion: Automatizacion completa, compatible RNF-002, overhead <1%
+- Plan implementacion 6 fases (Fase 1 completada, Fases 2-6 roadmap)
+- Metricas validacion: Lead Time <4h, DF >=1/dia, CFR <=15%, MTTR <=1h
+- Consecuencias: ROI cuantificable, ciclos PDCA automatizados, escalamiento org
+- Referencias: DORA Report 2025, FASES_IMPLEMENTACION_IA.md, ADR-2025-002
+
+**DORA_SDLC_INTEGRATION_GUIDE.md (500 lineas)**
+- Guia tecnica completa: Arquitectura, componentes, APIs
+- Mapeo fase SDLC -> metrica DORA
+- 3 metodos integracion: DORATrackedSDLCAgent, @dora_tracked, manual
+- Integracion GitHub API (combinar metricas locales + remote)
+- PDCA automation integration
+- Ejemplo completo pipeline SDLC con DORA tracking
+- Storage: .dora_sdlc_metrics.json (formato JSON documentado)
+- CLI tools, mejores practicas, troubleshooting
+
+**WORKFLOW_AGENTES_DORA.md (800 lineas)**
+- Workflow completo feature development (11 fases)
+- Diagrama flujo: Feature Request -> PDCA Analysis
+- Fase-a-fase: Planning, Design, Testing, Deployment, Monitoring, PDCA
+- Ciclo PDCA semanal: PLAN, DO, CHECK, ACT (decision automatica)
+- A/B testing con IA (comparacion variants)
+- Integration GitHub API (sync bidireccional)
+- Dashboards CLI + Django Admin (roadmap)
+- Escalamiento organizacional (Onboarding automation <15 min)
+- Mejores practicas + troubleshooting
+
+**INDICE.md v1.5.0**
+- Agregadas 4 nuevas documentaciones AI:
+  - FASES_IMPLEMENTACION_IA.md (CRITICA)
+  - DORA_SDLC_INTEGRATION_GUIDE.md (ALTA)
+  - WORKFLOW_AGENTES_DORA.md (workflow proceso)
+  - ADR-2025-003 (decision arquitectonica)
+- Contadores actualizados: 122 archivos (+2), ~37,000 lineas (+1,200)
+- Seccion Gobernanza: 39 archivos (+2)
+- Total documentacion: 99 archivos (+2)
+
+**Estructura documentacion creada:**
+```
+docs/
+├── adr/
+│   └── adr_2025_003_dora_sdlc_integration.md (ADR)
+├── gobernanza/
+│   ├── ai/
+│   │   ├── FASES_IMPLEMENTACION_IA.md (metodologia 6 fases)
+│   │   └── DORA_SDLC_INTEGRATION_GUIDE.md (guia tecnica)
+│   └── procesos/
+│       └── agentes/
+│           └── WORKFLOW_AGENTES_DORA.md (workflow operacional)
+└── INDICE.md (v1.5.0)
+```
+
+**Compliance:**
+- RNF-NO-EMOJIS: Todas las docs validadas sin emojis (ASCII only)
+- CODEOWNERS: docs/gobernanza/ai/** -> @arquitecto-senior @tech-lead
+- ADR template seguido (plantilla_adr.md)
+
+**Archivos:**
+- docs/adr/adr_2025_003_dora_sdlc_integration.md (nuevo, 650 lineas)
+- docs/gobernanza/ai/DORA_SDLC_INTEGRATION_GUIDE.md (nuevo, 500 lineas)
+- docs/gobernanza/procesos/agentes/WORKFLOW_AGENTES_DORA.md (nuevo, 800 lineas)
+- docs/INDICE.md (actualizado a v1.5.0)
 
 ---
 

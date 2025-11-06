@@ -2,23 +2,23 @@
 id: DOC-INDICE-GENERAL
 tipo: indice
 categoria: documentacion
-version: 1.4.0
+version: 1.5.0
 fecha_creacion: 2025-11-06
 fecha_migracion: 2025-11-06
 fecha_actualizacion: 2025-11-06
 propietario: equipo-gobernanza
-archivos_totales: 120
-lineas_totales: 35800
-relacionados: ["docs_legacy/README.md", "gobernanza/procesos/MAPEO_PROCESOS_TEMPLATES.md", ".claude/workflow_template_mapping.json", "gobernanza/ai/ESTRATEGIA_IA.md"]
+archivos_totales: 122
+lineas_totales: 37000
+relacionados: ["docs_legacy/README.md", "gobernanza/procesos/MAPEO_PROCESOS_TEMPLATES.md", ".claude/workflow_template_mapping.json", "gobernanza/ai/ESTRATEGIA_IA.md", "gobernanza/ai/FASES_IMPLEMENTACION_IA.md"]
 ---
 
 # INDICE GENERAL - Documentacion IACT
 
-**VERSION:** 1.4.0
+**VERSION:** 1.5.0
 **FECHA MIGRACION:** 2025-11-06
 **FECHA ACTUALIZACION:** 2025-11-06
-**ARCHIVOS MIGRADOS:** 120
-**LINEAS MIGRADAS:** ~35,800
+**ARCHIVOS TOTALES:** 122 (+2)
+**LINEAS TOTALES:** ~37,000 (+1,200)
 **ESTRUCTURA:** BABOK v3 + PMBOK 7 + ISO/IEC/IEEE 29148:2018 + DORA 2025
 
 ---
@@ -33,13 +33,13 @@ Este indice documenta la estructura completa de documentacion del proyecto IACT 
 
 | Seccion | Descripcion | Archivos |
 |---------|-------------|----------|
-| [1. Gobernanza](#1-gobernanza) | Estilos, procesos, procedimientos, lineamientos, mapeos, AI | 37 |
+| [1. Gobernanza](#1-gobernanza) | Estilos, procesos, procedimientos, lineamientos, mapeos, AI | 39 |
 | [2. Proyecto](#2-proyecto) | Vision, tracking, planificacion, roadmap | 5 |
 | [3. Requisitos](#3-requisitos) | Analisis de negocio, Business Needs | 8 |
 | [4. Implementacion](#4-implementacion) | Infrastructure, agentes, runbooks | 13 |
 | [5. Plantillas](#5-plantillas) | Templates reutilizables | 34 |
 
-**Total:** 97 archivos de documentacion
+**Total:** 99 archivos de documentacion (+2)
 
 ---
 
@@ -257,6 +257,8 @@ Historico de ejecuciones de pytest y validaciones QA.
 |---------|-------------|-----------|
 | [ESTRATEGIA_IA.md](gobernanza/ai/ESTRATEGIA_IA.md) | Estrategia completa de IA basada en DORA 2025 - 7 practicas AI Capabilities, AI stance del proyecto, roadmap Q4 2025-Q2 2026 | CRITICA |
 | [AI_CAPABILITIES.md](gobernanza/ai/AI_CAPABILITIES.md) | Checklist diario de 7 practicas DORA - Para Developers (diario), Tech Leads (semanal), Arquitectos (mensual), QA (por feature) | ALTA |
+| [FASES_IMPLEMENTACION_IA.md](gobernanza/ai/FASES_IMPLEMENTACION_IA.md) | Metodologia tecnica 6 fases implementacion IA + Master Workflow Canvas - Planning, Gobierno, Plataforma, Despliegue, Medicion, Escalamiento (144 SP, Q2 2026) | CRITICA |
+| [DORA_SDLC_INTEGRATION_GUIDE.md](gobernanza/ai/DORA_SDLC_INTEGRATION_GUIDE.md) | Guia integracion DORA + SDLC Agents - Rastreo automatico metricas por fase, DORATrackedSDLCAgent, PDCA automation, GitHub sync | ALTA |
 
 **Practicas DORA AI Capabilities (7):**
 1. **User-centric Focus** - Templates, vision, trazabilidad (Implementado)
@@ -270,8 +272,10 @@ Historico de ejecuciones de pytest y validaciones QA.
 **Score actual:** 5/7 (71%) | **Target Q1 2026:** 7/7 (100%)
 
 **Uso:**
-- **ESTRATEGIA_IA.md**: Consultar al inicio de proyecto y mensualmente
+- **ESTRATEGIA_IA.md**: Consultar al inicio de proyecto y mensualmente para vision estrategica
 - **AI_CAPABILITIES.md**: Checklist diario para developers, semanal para tech leads
+- **FASES_IMPLEMENTACION_IA.md**: Roadmap tecnico de implementacion IA en 6 fases - Consultar al planificar sprints
+- **DORA_SDLC_INTEGRATION_GUIDE.md**: Guia para integrar metricas DORA con agentes SDLC - Consultar al desarrollar agentes
 - **AI stance**: Define cuando usar/no usar IA en el proyecto
 
 **Ver tambien:**
