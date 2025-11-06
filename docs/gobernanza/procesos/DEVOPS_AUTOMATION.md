@@ -2,1046 +2,582 @@
 id: PROC-DEVOPS-001
 tipo: proceso_devops
 estado: activo
-version: 1.0
+version: 2.0
 fecha: 2025-11-06
 owner: devops-lead
 relacionado:
   - PROC-SDLC-001
-  - ../workflows/ci-cd-validation.yml
-  - ../workflows/sync-docs.yml
+  - RNF-002 (NO Redis)
+  - restricciones_y_lineamientos.md
 ---
 
-# DevOps Automation Guide - Proyecto IACT
+# DevOps Automation - Proyecto IACT
 
-Guía de automatización DevOps integrada con el proceso SDLC del proyecto IACT.
+Automatización DevOps con shell scripts locales, integrada con SDLC.
 
-## Introducción
+## Restricciones Críticas IACT
 
-DevOps automation es la práctica de automatizar procesos repetitivos en el ciclo de vida de desarrollo y operaciones de software, permitiendo:
+**ANTES DE CUALQUIER AUTOMATIZACIÓN**:
 
-- **Entrega continua** de valor al usuario
-- **Reducción de errores** humanos
-- **Feedback rápido** en cada etapa
-- **Escalabilidad** del proceso de desarrollo
-- **Trazabilidad completa** desde commit hasta producción
+```yaml
+NO PROHIBIDO:
+  - Redis/Memcached (RNF-002)
+  - Email/SMTP
+  - Dependencias externas no aprobadas
+
+SÍ OBLIGATORIO:
+  - Sesiones en MySQL (django.contrib.sessions.backends.db)
+  - Notificaciones via buzón interno
+  - Scripts shell que funcionan offline
+```
 
 ## Integración con SDLC
 
-Este proceso DevOps se integra directamente con las 7 fases SDLC:
-
-```mermaid
-graph LR
-    P[Planning] --> F[Feasibility]
-    F --> D[Design]
-    D --> I[Implementation]
-    I --> T[Testing]
-    T --> Dep[Deployment]
-    Dep --> M[Maintenance]
-
-    CI[CI/CD Pipeline] -.-> I
-    CI -.-> T
-    CI -.-> Dep
-
-    Mon[Monitoring] -.-> M
-    Mon -.-> P
+```
+Planning → Feasibility → Design → Implementation → Testing → Deployment → Maintenance
+              ↓              ↓          ↓             ↓           ↓            ↓
+           Scripts      Scripts    Scripts       Scripts     Scripts      Scripts
 ```
 
 ## Áreas de Automatización
 
-### 1. Continuous Integration (CI)
+### 1. Validación Pre-Commit
 
-**Objetivo**: Validar cada cambio de código automáticamente.
+**Scripts existentes**:
 
-**Automatizaciones en IACT**:
+```bash
+# scripts/validate_critical_restrictions.sh
+#!/bin/bash
+# Valida que NO se use Redis, email, etc.
 
-#### Build Automation
-```yaml
-# .github/workflows/backend-ci.yml
-name: Backend CI
+echo "Validando restricciones críticas IACT..."
 
-on:
-  push:
-    branches: [main, develop, 'claude/**']
-    paths:
-      - 'api/**'
-      - 'scripts/**'
-  pull_request:
-    paths:
-      - 'api/**'
+# Check Redis prohibido
+if grep -r "redis" api/callcentersite/settings*.py; then
+    echo "ERROR: Redis detectado. Prohibido por RNF-002"
+    exit 1
+fi
 
-jobs:
-  build-and-test:
-    runs-on: ubuntu-latest
+# Check SESSION_ENGINE correcto
+if ! grep -q "django.contrib.sessions.backends.db" api/callcentersite/settings*.py; then
+    echo "ERROR: SESSION_ENGINE debe ser django.contrib.sessions.backends.db"
+    exit 1
+fi
 
-    services:
-      postgres:
-        image: postgres:15
-        env:
-          POSTGRES_DB: iact_test
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
+# Check email prohibido
+if grep -r "EmailMessage\|send_mail\|EmailMultiAlternatives" api/callcentersite/*.py; then
+    echo "ERROR: Email prohibido. Usar InternalMessage"
+    exit 1
+fi
 
-      redis:
-        image: redis:7
-        options: >-
-          --health-cmd "redis-cli ping"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Set up Python 3.11
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.11'
-          cache: 'pip'
-
-      - name: Install dependencies
-        run: |
-          pip install -r api/requirements.txt
-          pip install -r api/requirements-dev.txt
-
-      - name: Run linting
-        run: |
-          flake8 api/callcentersite --max-line-length=120
-          black --check api/callcentersite
-          isort --check-only api/callcentersite
-
-      - name: Run Django checks
-        run: |
-          cd api/callcentersite
-          python manage.py check --deploy
-
-      - name: Run migrations check
-        run: |
-          cd api/callcentersite
-          python manage.py makemigrations --check --dry-run
-
-      - name: Run tests with coverage
-        env:
-          DATABASE_URL: postgresql://postgres:postgres@localhost/iact_test
-          REDIS_URL: redis://localhost:6379/0
-        run: |
-          cd api/callcentersite
-          pytest --cov=callcentersite --cov-report=xml --cov-report=term
-
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v3
-        with:
-          file: ./api/callcentersite/coverage.xml
-          flags: backend
-          name: backend-coverage
-
-      - name: Check coverage threshold
-        run: |
-          coverage report --fail-under=80
+echo "✓ Todas las restricciones críticas validadas"
 ```
 
-#### Frontend CI
-```yaml
-# .github/workflows/frontend-ci.yml
-name: Frontend CI
+**Instalación**:
 
-on:
-  push:
-    branches: [main, develop, 'claude/**']
-    paths:
-      - 'frontend/**'
-  pull_request:
-    paths:
-      - 'frontend/**'
+```bash
+# scripts/install_hooks.sh
+#!/bin/bash
+# Instala hooks de validación
 
-jobs:
-  build-and-test:
-    runs-on: ubuntu-latest
+cp scripts/validate_critical_restrictions.sh .git/hooks/pre-commit
+chmod +x .git/hooks/pre-commit
 
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
-          cache-dependency-path: frontend/package-lock.json
-
-      - name: Install dependencies
-        run: |
-          cd frontend
-          npm ci
-
-      - name: Run linting
-        run: |
-          cd frontend
-          npm run lint
-
-      - name: Run TypeScript check
-        run: |
-          cd frontend
-          npm run type-check
-
-      - name: Run tests
-        run: |
-          cd frontend
-          npm run test -- --coverage
-
-      - name: Build
-        run: |
-          cd frontend
-          npm run build
-
-      - name: Upload coverage
-        uses: codecov/codecov-action@v3
-        with:
-          file: ./frontend/coverage/coverage-final.json
-          flags: frontend
-          name: frontend-coverage
+echo "✓ Pre-commit hooks instalados"
 ```
 
-### 2. Continuous Testing
+### 2. Testing Automatizado
 
-**Objetivo**: Ejecutar tests automáticamente en cada cambio.
+**Script de test completo**:
 
-**Niveles de testing en IACT**:
+```bash
+#!/bin/bash
+# scripts/run_all_tests.sh - Test completo local
 
-1. **Unit Tests**: Funciones y métodos individuales
-2. **Integration Tests**: Interacción entre componentes
-3. **API Tests**: Endpoints REST
-4. **E2E Tests**: Flujos completos de usuario
+set -e
 
-#### Test Pyramid Automation
-```yaml
-# .github/workflows/test-pyramid.yml
-name: Test Pyramid
+PROJECT_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+cd "$PROJECT_ROOT"
 
-on:
-  pull_request:
-    types: [opened, synchronize]
+echo "========================================="
+echo "TEST SUITE COMPLETO - IACT"
+echo "========================================="
 
-jobs:
-  unit-tests:
-    name: Unit Tests (70% de tests)
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Run unit tests
-        run: pytest api/callcentersite/tests/unit/ -v
+# 1. Backend tests
+echo -e "\n[1/5] Backend Unit Tests..."
+cd api/callcentersite
+python manage.py test --parallel --keepdb
 
-  integration-tests:
-    name: Integration Tests (20% de tests)
-    runs-on: ubuntu-latest
-    needs: unit-tests
-    steps:
-      - uses: actions/checkout@v4
-      - name: Run integration tests
-        run: pytest api/callcentersite/tests/integration/ -v
+# 2. Coverage check
+echo -e "\n[2/5] Coverage Analysis..."
+pytest --cov=callcentersite --cov-report=term --cov-report=html --cov-fail-under=80
 
-  e2e-tests:
-    name: E2E Tests (10% de tests)
-    runs-on: ubuntu-latest
-    needs: integration-tests
-    steps:
-      - uses: actions/checkout@v4
-      - name: Run E2E tests
-        run: |
-          cd frontend
-          npm run test:e2e
+# 3. Security checks
+echo -e "\n[3/5] Security Validation..."
+bash ../../scripts/validate_security_config.sh
+
+# 4. Database router validation
+echo -e "\n[4/5] Database Router Check..."
+bash ../../scripts/validate_database_router.sh
+
+# 5. Critical restrictions
+echo -e "\n[5/5] Critical Restrictions..."
+bash ../../scripts/validate_critical_restrictions.sh
+
+echo -e "\n========================================="
+echo "✓ TODOS LOS TESTS PASARON"
+echo "========================================="
 ```
 
-### 3. Continuous Deployment (CD)
+### 3. Deployment Local
 
-**Objetivo**: Desplegar automáticamente a ambientes.
+**Deploy script**:
 
-**Estrategia de deployment en IACT**:
+```bash
+#!/bin/bash
+# scripts/deploy.sh - Deploy a ambiente
 
-```mermaid
-graph LR
-    Dev[Development] --> Staging[Staging]
-    Staging --> UAT[UAT]
-    UAT --> Prod[Production]
+ENV=${1:-staging}
 
-    Dev -.->|Auto deploy| Staging
-    Staging -.->|Manual approval| UAT
-    UAT -.->|Manual approval| Prod
-```
+if [ "$ENV" != "staging" ] && [ "$ENV" != "production" ]; then
+    echo "Uso: ./scripts/deploy.sh [staging|production]"
+    exit 1
+fi
 
-#### Deployment Pipeline
-```yaml
-# .github/workflows/deploy.yml
-name: Deploy Pipeline
+echo "Desplegando a $ENV..."
 
-on:
-  push:
-    branches:
-      - develop  # Auto-deploy a staging
-      - main     # Manual approval para production
+# 1. Validaciones pre-deploy
+./scripts/validate_critical_restrictions.sh || exit 1
+./scripts/run_all_tests.sh || exit 1
 
-jobs:
-  deploy-staging:
-    if: github.ref == 'refs/heads/develop'
-    runs-on: ubuntu-latest
-    environment: staging
+# 2. Backup database
+echo "Creando backup de base de datos..."
+mysqldump -h $DB_HOST -u $DB_USER -p$DB_PASSWORD iact_$ENV > backup_$(date +%Y%m%d_%H%M%S).sql
 
-    steps:
-      - uses: actions/checkout@v4
+# 3. Migrations
+echo "Aplicando migrations..."
+cd api/callcentersite
+python manage.py migrate --no-input
 
-      - name: Build Docker images
-        run: |
-          docker build -t iact-backend:${{ github.sha }} ./api
-          docker build -t iact-frontend:${{ github.sha }} ./frontend
+# 4. Collect static
+echo "Colectando archivos estáticos..."
+python manage.py collectstatic --no-input
 
-      - name: Push to registry
-        run: |
-          echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
-          docker push iact-backend:${{ github.sha }}
-          docker push iact-frontend:${{ github.sha }}
+# 5. Restart services
+echo "Reiniciando servicios..."
+sudo systemctl restart gunicorn-iact-$ENV
+sudo systemctl restart nginx
 
-      - name: Deploy to staging
-        run: |
-          # Terraform apply o kubectl apply
-          terraform -chdir=infrastructure/staging apply -auto-approve \
-            -var="backend_image=iact-backend:${{ github.sha }}" \
-            -var="frontend_image=iact-frontend:${{ github.sha }}"
-
-      - name: Run smoke tests
-        run: |
-          curl -f https://staging.iact.example.com/api/health || exit 1
-          curl -f https://staging.iact.example.com/ || exit 1
-
-      - name: Notify Slack
-        uses: slackapi/slack-github-action@v1
-        with:
-          payload: |
-            {
-              "text": "Deployment to staging successful: ${{ github.sha }}"
-            }
-
-  deploy-production:
-    if: github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
-    environment: production  # Requiere approval manual
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Build and push images
-        run: |
-          # Similar a staging
-
-      - name: Blue-Green Deployment
-        run: |
-          # Deploy a green environment
-          terraform -chdir=infrastructure/production apply \
-            -var="target_env=green" \
-            -var="backend_image=iact-backend:${{ github.sha }}"
-
-          # Run health checks on green
-          ./scripts/health-check.sh green
-
-          # Switch traffic to green
-          ./scripts/switch-traffic.sh green
-
-          # Keep blue for rollback (30 min)
-          sleep 1800
-
-          # Destroy blue if no issues
-          terraform -chdir=infrastructure/production destroy \
-            -target=module.blue_environment
-```
-
-### 4. Infrastructure as Code (IaC)
-
-**Objetivo**: Gestionar infraestructura como código versionado.
-
-**Herramientas en IACT**:
-- **Terraform**: Provisioning de infraestructura
-- **Ansible**: Configuración de servidores
-- **Docker**: Containerización
-
-#### Terraform Automation
-```hcl
-# infrastructure/modules/iact-app/main.tf
-terraform {
-  required_version = ">= 1.5"
-
-  backend "s3" {
-    bucket = "iact-terraform-state"
-    key    = "environments/${var.environment}/terraform.tfstate"
-    region = "us-east-1"
-
-    dynamodb_table = "terraform-locks"
-    encrypt        = true
-  }
+# 6. Health check
+echo "Health check..."
+sleep 5
+curl -f http://localhost/api/health || {
+    echo "ERROR: Health check falló. Rollback..."
+    mysql -h $DB_HOST -u $DB_USER -p$DB_PASSWORD iact_$ENV < backup_*.sql
+    exit 1
 }
 
-provider "aws" {
-  region = var.aws_region
+echo "✓ Deploy exitoso a $ENV"
+```
 
-  default_tags {
-    tags = {
-      Project     = "IACT"
-      Environment = var.environment
-      ManagedBy   = "Terraform"
-      Owner       = "devops-team"
-    }
-  }
+### 4. Monitoreo y Métricas
+
+**Script de health check**:
+
+```bash
+#!/bin/bash
+# scripts/health_check.sh
+
+check_service() {
+    SERVICE=$1
+    URL=$2
+
+    if curl -sf "$URL" > /dev/null; then
+        echo "✓ $SERVICE: OK"
+        return 0
+    else
+        echo "✗ $SERVICE: FAIL"
+        return 1
+    fi
 }
 
-module "network" {
-  source = "../network"
+echo "Health Check IACT"
+echo "===================="
 
-  environment = var.environment
-  vpc_cidr    = var.vpc_cidr
+check_service "API Backend" "http://localhost:8000/api/health"
+check_service "Database" "http://localhost:8000/api/db-check"
+check_service "Sessions (MySQL)" "http://localhost:8000/api/session-check"
+
+# Check session storage (debe ser MySQL, NO Redis)
+SESSION_BACKEND=$(grep SESSION_ENGINE api/callcentersite/settings.py | grep -o "django.contrib.sessions.backends.db")
+if [ -n "$SESSION_BACKEND" ]; then
+    echo "✓ Sessions: MySQL (Correcto - RNF-002)"
+else
+    echo "✗ Sessions: NO en MySQL (Violación RNF-002)"
+    exit 1
+fi
+```
+
+### 5. Database Maintenance
+
+**Script de limpieza de sesiones**:
+
+```bash
+#!/bin/bash
+# scripts/cleanup_sessions.sh
+# Limpia sesiones expiradas de MySQL
+
+cd api/callcentersite
+
+# Limpiar sesiones viejas
+python manage.py clearsessions
+
+# Obtener estadísticas
+SESSION_COUNT=$(mysql -h $DB_HOST -u $DB_USER -p$DB_PASSWORD -se \
+    "SELECT COUNT(*) FROM django_session WHERE expire_date < NOW();" iact_production)
+
+echo "Sesiones expiradas eliminadas: $SESSION_COUNT"
+
+# Alert si tabla muy grande
+TOTAL_SESSIONS=$(mysql -h $DB_HOST -u $DB_USER -p$DB_PASSWORD -se \
+    "SELECT COUNT(*) FROM django_session;" iact_production)
+
+if [ "$TOTAL_SESSIONS" -gt 100000 ]; then
+    echo "WARNING: Tabla django_session tiene $TOTAL_SESSIONS registros"
+    echo "Considerar ejecutar cleanup más frecuente"
+fi
+```
+
+**Cron job** (agregar a crontab):
+
+```cron
+# Limpiar sesiones cada 6 horas
+0 */6 * * * /path/to/scripts/cleanup_sessions.sh >> /var/log/iact/cleanup.log 2>&1
+
+# Health check cada 5 minutos
+*/5 * * * * /path/to/scripts/health_check.sh >> /var/log/iact/health.log 2>&1
+```
+
+### 6. Métricas DORA
+
+**Script local de DORA metrics**:
+
+```bash
+#!/bin/bash
+# scripts/dora_report.sh - Genera reporte DORA local
+
+DAYS=${1:-30}
+
+echo "DORA Metrics Report - Últimos $DAYS días"
+echo "=========================================="
+
+# 1. Deployment Frequency
+DEPLOYMENTS=$(git log --since="$DAYS days ago" --grep="deploy:" --oneline | wc -l)
+DEPLOY_FREQ=$(echo "scale=2; $DEPLOYMENTS / $DAYS" | bc)
+echo "Deployment Frequency: $DEPLOY_FREQ deployments/día"
+
+# 2. Lead Time for Changes
+# Tiempo promedio entre commit y deploy
+AVG_LEAD_TIME=$(git log --since="$DAYS days ago" --grep="deploy:" --format="%ct" | awk '{
+    count++;
+    sum += $1;
 }
+END {
+    if (count > 0) print sum/count;
+}')
+echo "Lead Time: $(echo "($AVG_LEAD_TIME / 3600)" | bc) horas promedio"
 
-module "database" {
-  source = "../database"
+# 3. Change Failure Rate
+TOTAL_DEPLOYS=$(git log --since="$DAYS days ago" --grep="deploy:" | wc -l)
+FAILED_DEPLOYS=$(git log --since="$DAYS days ago" --grep="rollback:\|hotfix:" | wc -l)
+if [ "$TOTAL_DEPLOYS" -gt 0 ]; then
+    CFR=$(echo "scale=2; ($FAILED_DEPLOYS / $TOTAL_DEPLOYS) * 100" | bc)
+    echo "Change Failure Rate: $CFR%"
+fi
 
-  environment     = var.environment
-  vpc_id          = module.network.vpc_id
-  subnet_ids      = module.network.private_subnet_ids
-  instance_class  = var.db_instance_class
-  backup_retention = var.db_backup_retention
-}
+# 4. MTTR (Mean Time To Recovery)
+# Tiempo promedio entre incident y resolved
+echo "MTTR: Ver issues con label 'incident' en GitHub"
 
-module "backend" {
-  source = "../ecs-service"
-
-  name            = "iact-backend"
-  environment     = var.environment
-  vpc_id          = module.network.vpc_id
-  subnet_ids      = module.network.private_subnet_ids
-  container_image = var.backend_image
-  container_port  = 8000
-  desired_count   = var.backend_desired_count
-
-  environment_variables = {
-    DATABASE_URL = module.database.connection_string
-    REDIS_URL    = module.redis.endpoint
-    ENV          = var.environment
-  }
-}
-
-module "frontend" {
-  source = "../cloudfront-s3"
-
-  name        = "iact-frontend"
-  environment = var.environment
-  build_dir   = "../../frontend/build"
-}
+echo "=========================================="
 ```
 
-#### CI/CD para Infrastructure
+### 7. Analytics Service Management
+
+**Template para gestión de requests de analytics**:
+
+El proyecto IACT gestiona requests de análisis de métricas IVR mediante:
+
+1. **Request Types Definidos**:
+   - N-001: Dashboard métricas IVR en tiempo real
+   - Análisis de call flows
+   - Reportes de abandono
+   - Trending de volumen de llamadas
+
+2. **Portal de Auto-servicio**:
+```bash
+# scripts/analytics_portal_setup.sh
+#!/bin/bash
+# Configura portal interno de analytics
+
+echo "Configurando Analytics Service Portal..."
+
+# Crear templates de solicitudes comunes
+cat > api/callcentersite/templates/analytics_requests.md <<EOF
+# Analytics Request Types
+
+## 1. Dashboard Metrics (N-001)
+**Descripción**: Dashboard de métricas IVR en tiempo real
+**SLA**: 2 horas
+**Datos requeridos**:
+- Período
+- Métricas específicas
+- Nivel de granularidad
+
+## 2. Call Flow Analysis
+**Descripción**: Análisis de flujos de llamadas
+**SLA**: 4 horas
+**Datos requeridos**:
+- IVR flow ID
+- Rango de fechas
+- Filtros opcionales
+
+## 3. Abandonment Report
+**Descripción**: Reporte de llamadas abandonadas
+**SLA**: 2 horas
+**Datos requeridos**:
+- Período
+- Umbral de abandono
+- Desglose (por hora/día)
+EOF
+
+echo "✓ Analytics portal configurado"
+```
+
+3. **Automatización de Requests**:
+```bash
+# scripts/process_analytics_request.sh
+#!/bin/bash
+# Procesa request de analytics automáticamente
+
+REQUEST_TYPE=$1
+REQUEST_ID=$2
+
+case "$REQUEST_TYPE" in
+    "dashboard_metrics")
+        python manage.py generate_dashboard_report --request-id=$REQUEST_ID
+        ;;
+    "call_flow_analysis")
+        python manage.py analyze_call_flows --request-id=$REQUEST_ID
+        ;;
+    "abandonment_report")
+        python manage.py generate_abandonment_report --request-id=$REQUEST_ID
+        ;;
+    *)
+        echo "Request type desconocido: $REQUEST_TYPE"
+        exit 1
+        ;;
+esac
+
+# Notificar vía buzón interno (NO email)
+python manage.py notify_request_complete --request-id=$REQUEST_ID
+```
+
+4. **Queues y Priorización**:
+```bash
+# scripts/triage_analytics_requests.sh
+#!/bin/bash
+# Organiza requests por prioridad
+
+mysql -h $DB_HOST -u $DB_USER -p$DB_PASSWORD iact_production <<EOF
+-- Priorizar requests por SLA
+SELECT
+    id,
+    request_type,
+    created_at,
+    TIMESTAMPDIFF(HOUR, created_at, NOW()) as age_hours,
+    CASE
+        WHEN request_type = 'dashboard_metrics' AND age_hours > 2 THEN 'OVERDUE'
+        WHEN request_type = 'call_flow_analysis' AND age_hours > 4 THEN 'OVERDUE'
+        WHEN age_hours > 1 THEN 'URGENT'
+        ELSE 'NORMAL'
+    END as priority
+FROM analytics_requests
+WHERE status = 'pending'
+ORDER BY priority DESC, created_at ASC;
+EOF
+```
+
+### 8. Validación de Documentación
+
+**Script de validación docs** (ya existente mejorado):
+
+```bash
+# scripts/validar_estructura_docs.sh
+#!/bin/bash
+
+echo "Validando estructura de documentación..."
+
+# 1. No references a 'implementacion/'
+if grep -r "docs/implementacion" docs/; then
+    echo "ERROR: Referencias obsoletas a implementacion/"
+    exit 1
+fi
+
+# 2. Todas las referencias a restricciones son correctas
+if grep -r "Redis" docs/ | grep -v "NO Redis" | grep -v "prohibido"; then
+    echo "ERROR: Referencias a Redis sin aclarar que está prohibido"
+    exit 1
+fi
+
+# 3. Metadata completo en archivos
+find docs/ -name "*.md" -type f | while read file; do
+    if ! head -20 "$file" | grep -q "^---$"; then
+        echo "WARNING: $file sin metadata YAML frontmatter"
+    fi
+done
+
+echo "✓ Estructura de docs validada"
+```
+
+## Best Practices IACT
+
+### 1. Scripts Primero, CI/CD Después
+
+**CORRECTO** ✓:
+```bash
+# Local primero
+./scripts/run_all_tests.sh
+
+# Si funciona local, agregar a CI/CD
+```
+
+**INCORRECTO** ✗:
 ```yaml
-# .github/workflows/infrastructure-ci.yml
-name: Infrastructure CI
-
-on:
-  pull_request:
-    paths:
-      - 'infrastructure/**'
-
-jobs:
-  validate:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v2
-
-      - name: Terraform Format Check
-        run: terraform fmt -check -recursive infrastructure/
-
-      - name: Terraform Init
-        run: |
-          cd infrastructure/staging
-          terraform init -backend=false
-
-      - name: Terraform Validate
-        run: |
-          cd infrastructure/staging
-          terraform validate
-
-      - name: tfsec Security Scan
-        uses: aquasecurity/tfsec-action@v1
-        with:
-          working_directory: infrastructure/
-
-      - name: Terraform Plan
-        run: |
-          cd infrastructure/staging
-          terraform init
-          terraform plan -out=tfplan
-
-      - name: Comment PR with plan
-        uses: actions/github-script@v6
-        with:
-          script: |
-            const fs = require('fs');
-            const plan = fs.readFileSync('infrastructure/staging/tfplan.txt', 'utf8');
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: `## Terraform Plan\n\n\`\`\`hcl\n${plan}\n\`\`\``
-            });
+# Solo en GitHub Actions, no funciona local
 ```
 
-### 5. Monitoring & Observability
+### 2. MySQL para Todo
 
-**Objetivo**: Monitorear aplicación y detectar problemas automáticamente.
-
-**Stack de observability en IACT**:
-- **Logs**: CloudWatch Logs / ELK Stack
-- **Metrics**: Prometheus + Grafana
-- **Traces**: Jaeger / AWS X-Ray
-- **Alerts**: PagerDuty
-
-#### Prometheus Monitoring
-```yaml
-# infrastructure/monitoring/prometheus.yml
-global:
-  scrape_interval: 15s
-  evaluation_interval: 15s
-  external_labels:
-    cluster: 'iact-production'
-    environment: 'production'
-
-alerting:
-  alertmanagers:
-    - static_configs:
-        - targets:
-            - alertmanager:9093
-
-rule_files:
-  - '/etc/prometheus/alerts/*.yml'
-
-scrape_configs:
-  - job_name: 'django-backend'
-    static_configs:
-      - targets: ['backend:8000']
-    metrics_path: '/metrics'
-
-  - job_name: 'postgresql'
-    static_configs:
-      - targets: ['postgres-exporter:9187']
-
-  - job_name: 'redis'
-    static_configs:
-      - targets: ['redis-exporter:9121']
-
-  - job_name: 'node-exporter'
-    static_configs:
-      - targets: ['node-exporter:9100']
-```
-
-#### Alert Rules
-```yaml
-# infrastructure/monitoring/alerts/sla.yml
-groups:
-  - name: sla_alerts
-    interval: 30s
-    rules:
-      - alert: HighErrorRate
-        expr: |
-          (
-            sum(rate(http_requests_total{status=~"5.."}[5m]))
-            /
-            sum(rate(http_requests_total[5m]))
-          ) > 0.05
-        for: 5m
-        labels:
-          severity: critical
-          team: backend
-        annotations:
-          summary: "Error rate above 5% for 5 minutes"
-          description: "{{ $labels.service }} has error rate of {{ $value | humanizePercentage }}"
-
-      - alert: HighLatency
-        expr: |
-          histogram_quantile(0.95,
-            sum(rate(http_request_duration_seconds_bucket[5m])) by (le, service)
-          ) > 1.0
-        for: 5m
-        labels:
-          severity: warning
-          team: backend
-        annotations:
-          summary: "P95 latency above 1s"
-          description: "{{ $labels.service }} has P95 latency of {{ $value }}s"
-
-      - alert: DatabaseConnectionPoolExhausted
-        expr: |
-          django_db_connections_active / django_db_connections_max > 0.9
-        for: 2m
-        labels:
-          severity: critical
-          team: backend
-        annotations:
-          summary: "Database connection pool near exhaustion"
-
-      - alert: CeleryQueueBacklog
-        expr: |
-          celery_queue_length > 1000
-        for: 10m
-        labels:
-          severity: warning
-          team: backend
-        annotations:
-          summary: "Celery queue has {{ $value }} pending tasks"
-```
-
-#### Automated Incident Response
-```yaml
-# .github/workflows/incident-response.yml
-name: Automated Incident Response
-
-on:
-  repository_dispatch:
-    types: [alert_fired]
-
-jobs:
-  analyze-and-respond:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Parse alert
-        id: alert
-        run: |
-          echo "alert_name=${{ github.event.client_payload.alert }}" >> $GITHUB_OUTPUT
-          echo "severity=${{ github.event.client_payload.severity }}" >> $GITHUB_OUTPUT
-
-      - name: Create incident ticket
-        if: steps.alert.outputs.severity == 'critical'
-        run: |
-          gh issue create \
-            --title "INCIDENT: ${{ steps.alert.outputs.alert_name }}" \
-            --label "incident,p0" \
-            --body "Automated incident created from alert"
-
-      - name: Scale up if high load
-        if: contains(steps.alert.outputs.alert_name, 'HighLoad')
-        run: |
-          # Auto-scale ECS service
-          aws ecs update-service \
-            --cluster iact-production \
-            --service backend \
-            --desired-count 10
-
-      - name: Notify on-call
-        uses: slackapi/slack-github-action@v1
-        with:
-          payload: |
-            {
-              "text": "🚨 INCIDENT: ${{ steps.alert.outputs.alert_name }}",
-              "severity": "${{ steps.alert.outputs.severity }}"
-            }
-```
-
-### 6. Database Migrations Automation
-
-**Objetivo**: Aplicar migrations de forma segura y automatizada.
-
-```yaml
-# .github/workflows/migrations.yml
-name: Database Migrations
-
-on:
-  push:
-    branches: [main, develop]
-    paths:
-      - 'api/**/migrations/**'
-
-jobs:
-  check-migrations:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Check for backwards incompatible changes
-        run: |
-          python scripts/check_migrations_safety.py
-
-      - name: Generate migration plan
-        run: |
-          python scripts/generate_migration_plan.py > migration_plan.txt
-
-      - name: Comment on PR with plan
-        if: github.event_name == 'pull_request'
-        uses: actions/github-script@v6
-        with:
-          script: |
-            const fs = require('fs');
-            const plan = fs.readFileSync('migration_plan.txt', 'utf8');
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              body: `## Migration Plan\n\n${plan}`
-            });
-
-  apply-migrations:
-    if: github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/main'
-    needs: check-migrations
-    runs-on: ubuntu-latest
-    environment:
-      name: ${{ github.ref == 'refs/heads/main' && 'production' || 'staging' }}
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Backup database
-        run: |
-          aws rds create-db-snapshot \
-            --db-instance-identifier iact-${{ env.ENVIRONMENT }} \
-            --db-snapshot-identifier migration-backup-$(date +%Y%m%d-%H%M%S)
-
-      - name: Apply migrations
-        run: |
-          python manage.py migrate --no-input
-
-      - name: Verify data integrity
-        run: |
-          python scripts/verify_data_integrity.py
-
-      - name: Rollback on failure
-        if: failure()
-        run: |
-          aws rds restore-db-instance-from-db-snapshot \
-            --db-instance-identifier iact-${{ env.ENVIRONMENT }} \
-            --db-snapshot-identifier ${{ steps.backup.outputs.snapshot_id }}
-```
-
-### 7. Security Scanning Automation
-
-**Objetivo**: Detectar vulnerabilidades automáticamente.
-
-```yaml
-# .github/workflows/security-scan.yml
-name: Security Scanning
-
-on:
-  push:
-    branches: [main, develop]
-  pull_request:
-  schedule:
-    - cron: '0 0 * * *'  # Daily at midnight
-
-jobs:
-  dependency-scan:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Run Safety (Python dependencies)
-        run: |
-          pip install safety
-          safety check --file api/requirements.txt --json > safety-report.json
-
-      - name: Run npm audit (Node dependencies)
-        run: |
-          cd frontend
-          npm audit --json > ../npm-audit-report.json
-
-      - name: Upload security reports
-        uses: actions/upload-artifact@v3
-        with:
-          name: security-reports
-          path: '*-report.json'
-
-  code-scan:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Run Bandit (Python SAST)
-        run: |
-          pip install bandit
-          bandit -r api/callcentersite -f json -o bandit-report.json
-
-      - name: Run ESLint security plugin
-        run: |
-          cd frontend
-          npm run lint:security
-
-  container-scan:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Build images
-        run: |
-          docker build -t iact-backend:scan ./api
-          docker build -t iact-frontend:scan ./frontend
-
-      - name: Run Trivy scan
-        uses: aquasecurity/trivy-action@master
-        with:
-          image-ref: 'iact-backend:scan'
-          format: 'sarif'
-          output: 'trivy-results.sarif'
-
-      - name: Upload to GitHub Security
-        uses: github/codeql-action/upload-sarif@v2
-        with:
-          sarif_file: 'trivy-results.sarif'
-```
-
-## Métricas DevOps (DORA Metrics)
-
-### Métricas Clave
-
-1. **Deployment Frequency**: Cuántas veces desplegamos a producción
-   - Target: > 1 vez por día
-   - Actual: Medido automáticamente por CI/CD
-
-2. **Lead Time for Changes**: Tiempo desde commit hasta producción
-   - Target: < 1 día
-   - Medido: commit timestamp → deployment timestamp
-
-3. **Change Failure Rate**: % de deployments que causan incidentes
-   - Target: < 15%
-   - Medido: incidents / deployments
-
-4. **Mean Time to Recovery (MTTR)**: Tiempo para recuperar de incidente
-   - Target: < 1 hora
-   - Medido: incident start → incident resolved
-
-### Dashboard de Métricas
-
+**CORRECTO** ✓:
 ```python
-# scripts/dora_metrics.py
-"""
-Script para calcular DORA metrics del proyecto IACT.
-"""
-import json
-from datetime import datetime, timedelta
-from typing import Dict, List
-
-class DORAMetricsCalculator:
-    def __init__(self, github_token: str, start_date: datetime, end_date: datetime):
-        self.github_token = github_token
-        self.start_date = start_date
-        self.end_date = end_date
-
-    def calculate_deployment_frequency(self) -> float:
-        """
-        Calcula deployments por día.
-
-        Returns:
-            Número promedio de deployments por día
-        """
-        deployments = self._get_deployments()
-        days = (self.end_date - self.start_date).days
-        return len(deployments) / days if days > 0 else 0
-
-    def calculate_lead_time(self) -> timedelta:
-        """
-        Calcula lead time promedio (commit → production).
-
-        Returns:
-            Timedelta promedio
-        """
-        lead_times = []
-
-        for deployment in self._get_deployments():
-            commit_time = deployment['commit_timestamp']
-            deploy_time = deployment['deployment_timestamp']
-            lead_time = deploy_time - commit_time
-            lead_times.append(lead_time)
-
-        if not lead_times:
-            return timedelta(0)
-
-        avg_seconds = sum(lt.total_seconds() for lt in lead_times) / len(lead_times)
-        return timedelta(seconds=avg_seconds)
-
-    def calculate_change_failure_rate(self) -> float:
-        """
-        Calcula % de deployments que causaron incidentes.
-
-        Returns:
-            Porcentaje (0.0 - 1.0)
-        """
-        deployments = self._get_deployments()
-        incidents = self._get_incidents()
-
-        failed_deployments = 0
-        for deployment in deployments:
-            deploy_time = deployment['deployment_timestamp']
-            # Check si hubo incident en las siguientes 24h
-            for incident in incidents:
-                incident_time = incident['created_at']
-                if deploy_time <= incident_time <= deploy_time + timedelta(hours=24):
-                    failed_deployments += 1
-                    break
-
-        return failed_deployments / len(deployments) if deployments else 0.0
-
-    def calculate_mttr(self) -> timedelta:
-        """
-        Calcula MTTR promedio.
-
-        Returns:
-            Timedelta promedio de recuperación
-        """
-        incidents = self._get_incidents()
-
-        recovery_times = []
-        for incident in incidents:
-            if incident['resolved_at']:
-                recovery_time = incident['resolved_at'] - incident['created_at']
-                recovery_times.append(recovery_time)
-
-        if not recovery_times:
-            return timedelta(0)
-
-        avg_seconds = sum(rt.total_seconds() for rt in recovery_times) / len(recovery_times)
-        return timedelta(seconds=avg_seconds)
-
-    def generate_report(self) -> Dict:
-        """Genera reporte completo de DORA metrics."""
-        deployment_freq = self.calculate_deployment_frequency()
-        lead_time = self.calculate_lead_time()
-        cfr = self.calculate_change_failure_rate()
-        mttr = self.calculate_mttr()
-
-        # Clasificación según DORA
-        def classify_performance(metric: str, value: float) -> str:
-            thresholds = {
-                'deployment_frequency': {'elite': 1, 'high': 0.14, 'medium': 0.03},  # per day
-                'lead_time': {'elite': 1, 'high': 7, 'medium': 30},  # days
-                'change_failure_rate': {'elite': 0.15, 'high': 0.30, 'medium': 0.45},  # percentage
-                'mttr': {'elite': 1, 'high': 24, 'medium': 168}  # hours
-            }
-
-            t = thresholds[metric]
-            if metric in ['deployment_frequency']:
-                if value >= t['elite']: return 'Elite'
-                elif value >= t['high']: return 'High'
-                elif value >= t['medium']: return 'Medium'
-                else: return 'Low'
-            else:  # Para métricas donde menor es mejor
-                if value <= t['elite']: return 'Elite'
-                elif value <= t['high']: return 'High'
-                elif value <= t['medium']: return 'Medium'
-                else: return 'Low'
-
-        return {
-            'period': {
-                'start': self.start_date.isoformat(),
-                'end': self.end_date.isoformat()
-            },
-            'metrics': {
-                'deployment_frequency': {
-                    'value': deployment_freq,
-                    'unit': 'deployments/day',
-                    'classification': classify_performance('deployment_frequency', deployment_freq)
-                },
-                'lead_time_for_changes': {
-                    'value': lead_time.total_seconds() / 3600,  # hours
-                    'unit': 'hours',
-                    'classification': classify_performance('lead_time', lead_time.days)
-                },
-                'change_failure_rate': {
-                    'value': cfr * 100,
-                    'unit': '%',
-                    'classification': classify_performance('change_failure_rate', cfr)
-                },
-                'mean_time_to_recovery': {
-                    'value': mttr.total_seconds() / 3600,  # hours
-                    'unit': 'hours',
-                    'classification': classify_performance('mttr', mttr.total_seconds() / 3600)
-                }
-            }
-        }
+# settings.py
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'  # MySQL
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',  # MySQL
+        'LOCATION': 'cache_table',
+    }
+}
 ```
 
-## Best Practices
+**INCORRECTO** ✗:
+```python
+SESSION_ENGINE = 'django.contrib.sessions.backends.cache'  # Redis ✗
+CACHES = { 'default': { 'BACKEND': 'django_redis...' } }  # Redis ✗
+```
 
-### 1. Everything as Code
+### 3. Buzón Interno, No Email
 
-- **Infrastructure as Code** (Terraform)
-- **Configuration as Code** (Ansible, Helm)
-- **Policy as Code** (OPA - Open Policy Agent)
-- **Tests as Code** (pytest, Jest)
-- **Documentation as Code** (Markdown en Git)
+**CORRECTO** ✓:
+```python
+# Notificar via InternalMessage
+InternalMessage.objects.create(
+    user=request_user,
+    subject="Analytics Request Complete",
+    body="Your dashboard is ready: /analytics/dashboard/123"
+)
+```
 
-### 2. Immutable Infrastructure
+**INCORRECTO** ✗:
+```python
+send_mail(  # ✗ EMAIL PROHIBIDO
+    "Request Complete",
+    "...",
+    "noreply@iact.com",
+    [user.email]
+)
+```
 
-- Nunca modificar servidores en producción
-- Todo cambio → nuevo deployment
-- Rollback = deployment anterior
+### 4. Shell Scripts Portables
 
-### 3. Shift Left Security
+```bash
+#!/bin/bash
+# Usar set -e para exit on error
+set -e
 
-- Security scanning en desarrollo (pre-commit hooks)
-- SAST en CI
-- Container scanning antes de registry
-- DAST en staging
+# Detectar PROJECT_ROOT dinámicamente
+PROJECT_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+cd "$PROJECT_ROOT"
 
-### 4. GitOps
+# Variables de entorno con defaults
+DB_HOST=${DB_HOST:-localhost}
+DB_USER=${DB_USER:-iact}
 
-- Git como single source of truth
-- Todo cambio via Pull Request
-- Automated deployments basados en Git state
-- Audit trail completo en Git history
-
-### 5. Progressive Delivery
-
-- **Blue-Green Deployments**: Minimize downtime
-- **Canary Releases**: Deploy a subset de usuarios primero
-- **Feature Flags**: Control features sin deployment
-
-### 6. Observability desde el Inicio
-
-- Structured logging desde día 1
-- Distributed tracing configurado
-- Health checks en todos los servicios
-- SLO/SLA definidos y monitoreados
+# Validar prerequisites
+command -v python >/dev/null 2>&1 || { echo "Python requerido"; exit 1; }
+```
 
 ## Roadmap de Automatización
 
-### Fase 1: Fundamentos (COMPLETADO)
-- [x] CI para backend y frontend
-- [x] Docs validation workflow
-- [x] Automated testing
-- [x] CODEOWNERS
+### Fase 1: Scripts Locales (COMPLETADO)
+- [x] validate_critical_restrictions.sh
+- [x] validate_security_config.sh
+- [x] validate_database_router.sh
+- [x] validar_estructura_docs.sh
 
-### Fase 2: CD Básico (EN PROGRESO)
-- [ ] Deployment automation a staging
-- [ ] Blue-green deployments
-- [ ] Rollback automation
-- [ ] Smoke tests post-deployment
+### Fase 2: Testing y Deploy (EN PROGRESO)
+- [ ] run_all_tests.sh (test completo local)
+- [ ] deploy.sh (deploy automatizado con validación)
+- [ ] health_check.sh (monitoring continuo)
+- [ ] cleanup_sessions.sh (maintenance MySQL)
 
-### Fase 3: Observability (PRÓXIMO)
-- [ ] Prometheus + Grafana setup
-- [ ] Structured logging (ELK/CloudWatch)
-- [ ] Distributed tracing (Jaeger)
-- [ ] Alert rules configurados
+### Fase 3: Analytics Service Management (PRÓXIMO)
+- [ ] analytics_portal_setup.sh
+- [ ] process_analytics_request.sh
+- [ ] triage_analytics_requests.sh
+- [ ] generate_analytics_reports.sh
 
-### Fase 4: Avanzado (FUTURO)
-- [ ] Chaos engineering (GameDays)
-- [ ] Automated capacity planning
-- [ ] Self-healing infrastructure
-- [ ] AI-powered incident detection
+### Fase 4: Métricas y Observability (FUTURO)
+- [ ] dora_report.sh (métricas DORA locales)
+- [ ] performance_baseline.sh
+- [ ] capacity_planning.sh
+- [ ] incident_postmortem.sh
+
+## Checklist de Deployment
+
+```bash
+# Pre-Deploy Checklist
+[ ] ./scripts/validate_critical_restrictions.sh  # NO Redis, NO email
+[ ] ./scripts/run_all_tests.sh                   # Coverage > 80%
+[ ] ./scripts/validate_security_config.sh         # Security OK
+[ ] mysqldump backup created                      # Rollback ready
+[ ] python manage.py check --deploy              # Django checks
+
+# Deploy
+[ ] python manage.py migrate                     # DB migrations
+[ ] python manage.py collectstatic               # Static files
+[ ] systemctl restart services                   # Restart
+[ ] ./scripts/health_check.sh                    # Health OK
+
+# Post-Deploy
+[ ] Monitoring 5 minutes                         # No errors
+[ ] Check django_session table                   # Sessions OK (MySQL)
+[ ] Notify team via InternalMessage              # NO email
+[ ] Document in deployment log                   # Audit trail
+```
 
 ## Referencias
 
 - **Proceso SDLC**: `docs/gobernanza/procesos/SDLC_PROCESS.md`
-- **CI/CD Workflows**: `.github/workflows/`
-- **Infrastructure**: `infrastructure/`
-- **DORA Research**: <https://dora.dev/>
-- **The DevOps Handbook**: Gene Kim, Jez Humble
+- **Restricciones**: `docs/backend/requisitos/restricciones_y_lineamientos.md`
+- **RNF-002**: NO Redis - Sesiones en MySQL
+- **Scripts**: `scripts/*.sh`
+- **DORA Calculator**: `scripts/dora_metrics.py`
 
 ---
 
 **Última actualización**: 2025-11-06
-**Versión**: 1.0
+**Versión**: 2.0
 **Mantenedor**: @devops-lead
-**Revisores**: @arquitecto-senior, @backend-lead
+**Cambios v2.0**: Enfoque en shell scripts, eliminado Redis, agregado Analytics Service Management
