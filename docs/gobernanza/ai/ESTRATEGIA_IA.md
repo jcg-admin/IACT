@@ -2,11 +2,11 @@
 id: DOC-GOBERNANZA-ESTRATEGIA-IA
 tipo: estrategia
 categoria: ai
-version: 1.1.0
+version: 1.2.0
 fecha_creacion: 2025-11-06
 fecha_actualizacion: 2025-11-06
 propietario: arquitecto-senior
-fuente: DORA Report 2025 - Section 3 AI Practices & Capabilities
+fuente: DORA Report 2025 - Section 3 & 4 (AI Practices + Platform Engineering)
 relacionados: ["AGENTES_SDLC.md", "ROADMAP.md", "AI_CAPABILITIES.md"]
 ---
 
@@ -14,8 +14,8 @@ relacionados: ["AGENTES_SDLC.md", "ROADMAP.md", "AI_CAPABILITIES.md"]
 
 Estrategia de adopcion y uso de IA en desarrollo de software, basada en DORA Report 2025.
 
-**Version:** 1.1.0
-**Fuente:** [DORA Report 2025 - Section 3](https://dora.dev/dora-report-2025)
+**Version:** 1.2.0
+**Fuente:** [DORA Report 2025 - Section 3 & 4](https://dora.dev/dora-report-2025)
 **Ultima actualizacion:** 2025-11-06
 
 ---
@@ -177,20 +177,45 @@ Framework de **7 practicas clave** para amplificar el impacto positivo de IA.
 
 **Definicion DORA:** Plataforma interna de alta calidad.
 
+**DORA Report Section 4 - Platform Engineering:**
+- "Platform engineering has become the structural backbone of AI-assisted software development"
+- "High-performing organizations are those with mature internal platform strategies"
+- **90%** de organizaciones tienen al menos una plataforma interna
+- **76%** operan en entorno multi-plataforma
+- **29%** mantienen equipo dedicado de plataforma
+- Correlacion directa entre madurez de plataforma y **delivery performance**
+
+> "As AI adoption expands, the quality of a company's internal platforms determines the scalability, security, and effectiveness of AI capabilities."
+> — DORA Report 2025, Section 4
+
+> "The best platforms are invisible — they fade into the background so developers can focus on creating value."
+> — DORA Report 2025, Section 4.2
+
 **Estado IACT:**
 - ✅ Django como base platform
 - ✅ API backend bien estructurado
-- ✅ Database routing (PostgreSQL + MySQL)
+- ✅ Database routing multi-platform (PostgreSQL + MySQL)
 - ✅ Django Admin como dashboard
 - ✅ 8 workflows CI/CD
 - ✅ 13 scripts shell automatizacion
+- ✅ Git + GitHub Actions (CI/CD platform)
+- ✅ Documentacion as code (120 archivos Markdown)
+
+**IACT Platform Statistics:**
+- **Platform adoption:** 100% (Django + Git + CI/CD)
+- **Multi-platform environment:** YES (PostgreSQL + MySQL + Git + GitHub Actions + Cloud deployment)
+- **Dedicated platform team:** NO (distribuido entre arquitecto-senior + tech-lead + devops-lead)
+- **Cross-platform interoperability:** STRONG (standardized APIs, database routers, shared scripts)
 
 **Platform features:**
 - Authentication & Authorization (Django User + JWT)
 - Audit logging (inmutable, ISO 27001 compliant)
-- Session management (MySQL, NO Redis)
+- Session management (MySQL, NO Redis - RNF-002)
 - InternalMessage system (NO Email)
 - Database routers para multi-DB
+- Health checks automatizados (health_check.sh)
+- Deployment automation (deploy.sh)
+- Session cleanup automation (cleanup_sessions.sh)
 
 **DORA Report dice:** "High-quality platforms increase the impact of AI on organizational performance"
 
@@ -199,11 +224,28 @@ Framework de **7 practicas clave** para amplificar el impacto positivo de IA.
 - Scripts shell orquestan workflows
 - CI/CD automatiza validaciones
 - Documentacion estructurada alimenta IA
+- Multi-platform flexibility soporta AI workloads
+
+**Platform + AI Feedback Loop (DORA Section 4.5):**
+```
+Platform Foundation          AI Capabilities
+       |                            |
+       v                            v
+  Stability  <---> Predictive Analytics
+  Governance <---> Automated Scaling
+  Accessibility <-> Intelligent Troubleshooting
+       |                            |
+       +-----------> <--------------+
+             Continuous Improvement
+```
 
 **Acciones:**
 - [x] Platform foundation (Django + PostgreSQL + MySQL)
+- [x] Multi-platform environment established
+- [x] Cross-platform interoperability (APIs, routers, scripts)
 - [x] CI/CD workflows
 - [x] Scripts de automatizacion
+- [ ] Formalize platform team roles (P2 - Q1 2026)
 - [ ] Platform API para agentes (P2 - Q1 2026)
 - [ ] Metrics dashboard Django Admin (P2 - Q1 2026)
 
@@ -401,6 +443,79 @@ Code (Git) -> CI/CD -> Tests + Security -> Deploy
 4. CI/CD ejecuta tests + security scan
 5. Code review humano (CODEOWNERS)
 6. Merge solo si todo pasa
+
+---
+
+## Platform Team Roles & Evolution (DORA Section 4.3)
+
+**DORA Report:** "Platform teams are evolving from infrastructure operators to **strategic enablers of AI adoption**."
+
+### Evolution: Infrastructure Operators → Strategic Enablers
+
+**Traditional Platform Team (Pre-AI):**
+- Infrastructure provisioning
+- CI/CD maintenance
+- Deployment automation
+- Basic monitoring
+
+**Modern Platform Team (AI Era):**
+- **Strategic enablers** de AI adoption
+- **Foundational systems**: Security, telemetry, reliability layers
+- **Extended mandate**: Risk management, data governance, developer enablement
+- **AI collaboration**: Critical partnership con AI specialists para maximizar ROI
+
+### DORA Platform Team Roles
+
+| Role | Responsibility | IACT Status |
+|:--|:--|:--|
+| **Platform Engineer** | Build and maintain standardized environments and tools | 🟡 Distribuido (arquitecto-senior + tech-lead) |
+| **Data Engineer** | Ensure high-quality, AI-ready data pipelines | ⚠️ Pendiente formalizacion |
+| **MLOps Engineer** | Integrate machine learning models into CI/CD workflows | ⚠️ No formal (agentes SDLC scripts) |
+| **Governance Lead** | Define policies for responsible and ethical AI usage | 🟡 Arquitecto-senior (ESTRATEGIA_IA.md) |
+
+### IACT Platform Team - Current State
+
+**Team structure:**
+- **Arquitecto-senior:** Strategic platform decisions, AI governance lead, systems design
+- **Tech-lead:** Platform engineering implementation, CI/CD workflows, script development
+- **DevOps-lead:** Infrastructure automation, deployment pipelines, runbooks
+- **QA-lead:** Test automation, quality gates, coverage enforcement
+- **BA-lead:** Requirements governance, trazabilidad, documentation standards
+
+**Formalization pending:**
+- [ ] Definir Data Engineer role formal
+- [ ] Definir MLOps Engineer role (o integrar en tech-lead)
+- [ ] Documentar collaboration protocols AI specialists + Platform team
+- [ ] Establecer ROI metrics para AI + Platform synergy
+
+**DORA guidance:**
+- Platform teams establecen **foundational systems** que soportan AI-assisted workflows
+- Mandate extends mas alla de automation: incluye **risk management**, **data governance**, **developer enablement**
+- **Collaboration** entre platform teams y AI specialists es critica para maximizar ROI
+
+### IACT Platform Team Responsibilities (Current + Target)
+
+**Foundational Systems (✅ Current):**
+- Security: Django auth, audit logging, security-scan.yml
+- Telemetry: health_check.sh, CI/CD artifacts (⚠️ metrics centralizados pending)
+- Reliability: deploy.sh con rollback, cleanup_sessions.sh, test automation
+
+**Risk Management (🟡 In Progress):**
+- Automated validations: validate_critical_restrictions.sh, CI/CD gates
+- Risk tiers defined: P0-P3
+- Risk dashboard pending (Q1 2026)
+
+**Data Governance (✅ Current):**
+- RNF-002 enforcement (NO Redis)
+- Database routing (PostgreSQL + MySQL)
+- Session cleanup automation
+- Audit logging inmutable
+
+**Developer Enablement (✅ Current):**
+- Scripts con --help completo
+- Runbooks operacionales (6 runbooks)
+- Documentacion completa (120 archivos)
+- CI/CD workflows (8 workflows)
 
 ---
 

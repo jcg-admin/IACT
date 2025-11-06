@@ -30,6 +30,72 @@ Registro cronologico de cambios, features y mejoras completadas.
 - Agregar AI guidelines a onboarding
 - AI-enabled telemetry pipeline (Q1 2026)
 - Predictive analytics dashboard (Q2 2026)
+- Formalizar Data Engineer role
+- Formalizar MLOps Engineer role
+- Documentar collaboration protocols AI specialists + Platform team
+- Establecer ROI metrics para AI + Platform synergy
+
+---
+
+## [1.4.2] - 2025-11-06
+
+### Changed - ESTRATEGIA_IA.md (v1.1.0 -> v1.2.0)
+
+Integracion de **DORA Report 2025 - Section 4: Platform Engineering & Organizational Systems**.
+
+**Platform Engineering como backbone estructural de AI adoption:**
+
+> "Platform engineering has become the structural backbone of AI-assisted software development."
+> — DORA Report 2025, Section 4
+
+**Estadisticas clave de adopcion de plataformas:**
+- **90%** de organizaciones tienen al menos una plataforma interna
+- **76%** operan en entorno multi-plataforma
+- **29%** mantienen equipo dedicado de plataforma
+- Correlacion directa entre madurez de plataforma y **delivery performance**
+
+> "As AI adoption expands, the quality of a company's internal platforms determines the scalability, security, and effectiveness of AI capabilities."
+
+> "The best platforms are invisible — they fade into the background so developers can focus on creating value."
+
+**Cambios implementados:**
+
+1. **Practica 6: Quality Internal Platform - Ampliada:**
+   - Agregadas estadisticas DORA de platform adoption
+   - IACT Platform Statistics documentado:
+     - Platform adoption: 100%
+     - Multi-platform environment: YES (PostgreSQL + MySQL + Git + GitHub Actions)
+     - Dedicated platform team: NO (distribuido)
+     - Cross-platform interoperability: STRONG
+   - Platform + AI Feedback Loop diagram agregado
+   - Quotes DORA: "invisible platforms", "quality determines effectiveness"
+
+2. **Platform Team Roles & Evolution - Nueva seccion:**
+   - Evolucion: Infrastructure Operators → Strategic Enablers
+   - 4 roles DORA documentados con IACT status:
+     - Platform Engineer: 🟡 Distribuido
+     - Data Engineer: ⚠️ Pendiente formalizacion
+     - MLOps Engineer: ⚠️ No formal
+     - Governance Lead: 🟡 Arquitecto-senior
+   - IACT team structure actual documentado (5 roles)
+   - Platform team responsibilities: Foundational systems, Risk mgmt, Data governance, Developer enablement
+   - Formalization pending: 4 tareas identificadas
+
+3. **Platform + AI Feedback Loop (Section 4.5):**
+   - Diagrama de interaccion bidireccional
+   - AI extiende platform: Predictive analytics, Automated scaling, Intelligent troubleshooting
+   - Platform asegura: Stability, Governance, Accessibility
+   - Continuous improvement loop
+
+**Impacto:**
+- Estrategia IA ahora incluye contexto completo de Platform Engineering
+- Platform reconocida como structural backbone de AI adoption
+- Team evolution roadmap documentado (operators → strategic enablers)
+- Multi-platform environment de IACT validado vs benchmarks DORA (76% industry)
+- Quote clave: "Organizations that combine AI maturity with strong platform engineering are the frontrunners in delivery performance and innovation"
+
+**Archivos:**
+- `docs/gobernanza/ai/ESTRATEGIA_IA.md` (v1.1.0 -> v1.2.0)
 
 ---
 
