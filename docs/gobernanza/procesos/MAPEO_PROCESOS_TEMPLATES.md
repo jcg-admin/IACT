@@ -885,6 +885,201 @@ EVENTO: Que accion realice?
 └─> Workflows: (ninguno - fase de diseno)
 ```
 
+### 6.6 Automatizacion: Sistema de Consulta Programatica
+
+Para facilitar la consulta automatica de asociaciones entre workflows, templates, procedimientos y agentes, se ha implementado un sistema de consulta programatica.
+
+#### Archivos del Sistema
+
+**1. Configuracion JSON: `.claude/workflow_template_mapping.json`**
+
+Archivo de configuracion centralizado que contiene:
+
+- **mappings**: Mapeo forward de workflows a templates, procedimientos, scripts, agentes
+- **reverse_mappings**: Mapeo inverso para consultas rapidas
+  - by_template: template -> workflows
+  - by_procedimiento: procedimiento -> workflows
+  - by_agente: agente -> workflows
+  - by_fase_sdlc: fase -> workflows
+- **template_metadata**: Metadata de cada template (categoria, prioridad, fase_sdlc, workflows_requeridos)
+- **workflow_generation_rules**: Reglas de cuando usar cada template/workflow
+
+**2. Script de Consulta: `scripts/generate_workflow_from_template.py`**
+
+Script Python para consultar y validar asociaciones.
+
+**Funcionalidades:**
+- Listar todos los mapeos disponibles
+- Consultar workflows asociados a un template
+- Consultar templates asociados a un workflow
+- Sugerir workflow basado en path de archivo
+- Validar integridad de todos los mapeos
+- Modo interactivo para exploracion
+
+#### Como Usar
+
+**Ejemplo 1: Listar todos los mapeos**
+```bash
+python scripts/generate_workflow_from_template.py --list-mappings
+```
+
+Output:
+```
+MAPEOS DISPONIBLES: TEMPLATE -> WORKFLOW
+================================================================================
+
+Template: plantilla_django_app.md
+  Workflows: backend-ci
+  Fase SDLC: development
+  Categoria: desarrollo
+  Genera: Django app en api/callcentersite/apps/
+```
+
+**Ejemplo 2: Consultar workflows para un template**
+```bash
+python scripts/generate_workflow_from_template.py --template plantilla_django_app.md
+```
+
+Output:
+```
+Workflows para template 'plantilla_django_app.md':
+  - backend-ci.yml
+    Validaciones: RNF-002, tests, coverage>=80, lint
+```
+
+**Ejemplo 3: Consultar templates para un workflow**
+```bash
+python scripts/generate_workflow_from_template.py --workflow backend-ci
+```
+
+Output:
+```
+Templates para workflow 'backend-ci':
+  - plantilla_django_app.md
+  - plantilla_etl_job.md
+  - plantilla_tdd.md
+```
+
+**Ejemplo 4: Sugerir workflow basado en archivo**
+```bash
+python scripts/generate_workflow_from_template.py --file api/callcentersite/apps/myapp/models.py
+```
+
+Output:
+```
+Archivo: api/callcentersite/apps/myapp/models.py
+Workflows sugeridos:
+  - backend-ci.yml
+    Validaciones: RNF-002, tests, coverage>=80, lint
+    Templates relacionados: plantilla_django_app.md, plantilla_etl_job.md, plantilla_tdd.md
+```
+
+**Ejemplo 5: Validar todos los mapeos**
+```bash
+python scripts/generate_workflow_from_template.py --validate
+```
+
+Output:
+```
+VALIDANDO MAPEOS
+================================================================================
+[OK] Todos los mapeos son validos
+```
+
+**Ejemplo 6: Modo interactivo**
+```bash
+python scripts/generate_workflow_from_template.py --interactive
+```
+
+Output:
+```
+MODO INTERACTIVO - Consulta de Mapeos
+================================================================================
+
+Comandos:
+  template <nombre>    - Buscar workflows para un template
+  workflow <nombre>    - Buscar templates para un workflow
+  procedimiento <nombre> - Buscar info de procedimiento
+  file <path>          - Sugerir workflow para archivo
+  list                 - Listar todos los mapeos
+  quit                 - Salir
+
+>>> template plantilla_tdd
+Workflows para 'plantilla_tdd': backend-ci, test-pyramid
+
+>>> quit
+```
+
+#### Integracion en Flujo de Trabajo
+
+**Caso de Uso 1: Developer crea nueva Django app**
+```bash
+# 1. Consultar template a usar
+python scripts/generate_workflow_from_template.py --template plantilla_django_app
+
+# Output: backend-ci.yml se ejecutara al push
+
+# 2. Crear app usando template
+cp docs/plantillas/plantilla_django_app.md api/callcentersite/apps/myapp/design.md
+
+# 3. Desarrollar app siguiendo plantilla
+# ...
+
+# 4. Push a repo
+git add . && git commit -m "feat: nueva app myapp" && git push
+
+# 5. Workflow backend-ci.yml se ejecuta automaticamente
+# Valida: RNF-002, tests, coverage>=80, lint
+```
+
+**Caso de Uso 2: BA identifica archivo sin workflow asociado**
+```bash
+# Consultar si archivo tiene workflow
+python scripts/generate_workflow_from_template.py --file docs/nuevo_documento.md
+
+# Si no hay sugerencia -> consultar Tech Lead
+# Si hay sugerencia -> verificar que workflow existe
+```
+
+**Caso de Uso 3: Validar integridad antes de deployment**
+```bash
+# En CI/CD pipeline
+python scripts/generate_workflow_from_template.py --validate
+
+# Si falla -> bloquear deployment
+# Si OK -> continuar con deployment
+```
+
+#### Mantenimiento del Sistema
+
+**Cuando actualizar `.claude/workflow_template_mapping.json`:**
+
+1. **Nuevo workflow creado**: Agregar entrada en `mappings` con templates, procedimientos, scripts
+2. **Nuevo template creado**: Agregar a workflow existente + actualizar `reverse_mappings.by_template`
+3. **Nuevo procedimiento**: Agregar a workflow + actualizar `reverse_mappings.by_procedimiento`
+4. **Cambio en asociacion**: Actualizar ambos forward y reverse mappings
+
+**Validar cambios:**
+```bash
+# Despues de modificar JSON
+python scripts/generate_workflow_from_template.py --validate
+
+# Si hay errores, corregir antes de commit
+```
+
+**Commit de cambios:**
+```bash
+git add .claude/workflow_template_mapping.json
+git commit -m "docs(mapeo): actualizar asociaciones workflow-template"
+git push
+```
+
+#### Referencias
+
+- **Configuracion**: `.claude/workflow_template_mapping.json`
+- **Script**: `scripts/generate_workflow_from_template.py`
+- **Documentacion**: Este documento (seccion 6.6)
+
 ---
 
 ## 7. Metricas y Validacion
@@ -973,6 +1168,7 @@ EVENTO: Que accion realice?
 
 | Version | Fecha | Cambios | Autor |
 |---------|-------|---------|-------|
+| 1.1.0 | 2025-11-06 | Agregada seccion 6.6: Sistema de consulta programatica workflow-template | Equipo Gobernanza |
 | 1.0.0 | 2025-11-06 | Creacion inicial del documento de mapeo completo | Equipo Gobernanza |
 
 ---
