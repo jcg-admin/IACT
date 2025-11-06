@@ -2,23 +2,23 @@
 id: DOC-INDICE-GENERAL
 tipo: indice
 categoria: documentacion
-version: 1.2.0
+version: 1.3.0
 fecha_creacion: 2025-11-06
 fecha_migracion: 2025-11-06
 fecha_actualizacion: 2025-11-06
 propietario: equipo-gobernanza
-archivos_totales: 90
-lineas_totales: 30000
-relacionados: ["docs_legacy/README.md", "gobernanza/procesos/MAPEO_PROCESOS_TEMPLATES.md"]
+archivos_totales: 118
+lineas_totales: 35000
+relacionados: ["docs_legacy/README.md", "gobernanza/procesos/MAPEO_PROCESOS_TEMPLATES.md", ".claude/workflow_template_mapping.json"]
 ---
 
 # INDICE GENERAL - Documentacion IACT
 
-**VERSION:** 1.2.0
+**VERSION:** 1.3.0
 **FECHA MIGRACION:** 2025-11-06
 **FECHA ACTUALIZACION:** 2025-11-06
-**ARCHIVOS MIGRADOS:** 90
-**LINEAS MIGRADAS:** ~30,000
+**ARCHIVOS MIGRADOS:** 118
+**LINEAS MIGRADAS:** ~35,000
 **ESTRUCTURA:** BABOK v3 + PMBOK 7 + ISO/IEC/IEEE 29148:2018
 
 ---
@@ -101,19 +101,30 @@ Documentacion de estilos, estandares, procesos y lineamientos del proyecto.
 
 #### 1.2.3 QA
 
-**Ubicacion:** `docs/gobernanza/procesos/qa/`
+**Ubicacion:** `docs/gobernanza/procesos/`
 
 | Archivo | Descripcion | Prioridad |
 |---------|-------------|-----------|
-| [ESTRATEGIA_QA.md](gobernanza/procesos/qa/ESTRATEGIA_QA.md) | Estrategia QA oficial (coverage 80%, TDD, metricas) | CRITICA |
-| [README.md](gobernanza/procesos/qa/README.md) | Indice de documentos QA | ALTA |
-| [actividades_garantia_documental.md](gobernanza/procesos/qa/actividades_garantia_documental.md) | Actividades de garantia documental | MEDIA |
-| [checklist_auditoria_restricciones.md](gobernanza/procesos/qa/checklist_auditoria_restricciones.md) | Auditoria de restricciones IACT (RNF-002, NO Redis) | ALTA |
+| [estrategia_qa.md](gobernanza/procesos/estrategia_qa.md) | Estrategia QA oficial (coverage 80%, TDD, metricas) | CRITICA |
+| [actividades_garantia_documental.md](gobernanza/procesos/actividades_garantia_documental.md) | Actividades de garantia documental | MEDIA |
+
+**Checklists QA:**
+| Archivo | Descripcion | Prioridad |
+|---------|-------------|-----------|
+| [checklist_testing.md](gobernanza/procesos/checklists/checklist_testing.md) | Unit, integration, E2E, coverage | ALTA |
+| [checklist_auditoria_restricciones.md](gobernanza/procesos/checklists/checklist_auditoria_restricciones.md) | Auditoria de restricciones IACT (RNF-002, NO Redis) | ALTA |
+
+**Registros de Testing:**
+**Ubicacion:** `docs/testing/registros/`
+
+Historico de ejecuciones de pytest y validaciones QA.
 
 **Metricas QA:**
 - Cobertura unitaria: >= 80%
 - Tiempo medio para corregir fallos criticos: <= 2 dias
 - Actividades de control documental: 100% por release
+
+**Integracion:** Vinculado con workflow test-pyramid y procedimiento_qa.md
 
 ---
 
@@ -184,6 +195,43 @@ Documentacion de estilos, estandares, procesos y lineamientos del proyecto.
 
 ---
 
+#### 1.2.7 Metodologias
+
+**Ubicacion:** `docs/gobernanza/metodologias/`
+
+| Archivo | Descripcion | Prioridad |
+|---------|-------------|-----------|
+| [README.md](gobernanza/metodologias/README.md) | Indice de metodologias | ALTA |
+| [METODOLOGIA_DESARROLLO_POR_LOTES.md](gobernanza/metodologias/METODOLOGIA_DESARROLLO_POR_LOTES.md) | Metodologia de desarrollo incremental por lotes | ALTA |
+| [WORKFLOWS_COMPLETOS.md](gobernanza/metodologias/WORKFLOWS_COMPLETOS.md) | Documentacion completa de workflows CI/CD | ALTA |
+| [agentes_automatizacion.md](gobernanza/metodologias/agentes_automatizacion.md) | Vision general de agentes IA para automatizacion | MEDIA |
+| [arquitectura_agentes_especializados.md](gobernanza/metodologias/arquitectura_agentes_especializados.md) | Arquitectura detallada de agentes SDLC especializados | MEDIA |
+
+**Uso:** Consultar antes de empezar desarrollo para entender metodologia de lotes y uso de agentes IA.
+
+---
+
+#### 1.2.8 Marco Integrado IACT
+
+**Ubicacion:** `docs/gobernanza/marco_integrado/`
+
+**Total:** 8 archivos | **Estandares:** BABOK v3, ISO/IEC/IEEE 29148:2018
+
+| Archivo | Descripcion | Prioridad |
+|---------|-------------|-----------|
+| [00_resumen_ejecutivo_mejores_practicas.md](gobernanza/marco_integrado/00_resumen_ejecutivo_mejores_practicas.md) | Resumen ejecutivo del marco integrado | ALTA |
+| [01_marco_conceptual_iact.md](gobernanza/marco_integrado/01_marco_conceptual_iact.md) | Marco conceptual completo IACT | ALTA |
+| [02_relaciones_fundamentales_iact.md](gobernanza/marco_integrado/02_relaciones_fundamentales_iact.md) | Relaciones entre conceptos BA | ALTA |
+| [03_matrices_trazabilidad_iact.md](gobernanza/marco_integrado/03_matrices_trazabilidad_iact.md) | Matrices de trazabilidad completas | ALTA |
+| [04_metodologia_analisis_iact.md](gobernanza/marco_integrado/04_metodologia_analisis_iact.md) | Metodologia de analisis reproducible | ALTA |
+| [05a_casos_practicos_iact.md](gobernanza/marco_integrado/05a_casos_practicos_iact.md) | Casos practicos reales del proyecto | MEDIA |
+| [05b_caso_didactico_generico.md](gobernanza/marco_integrado/05b_caso_didactico_generico.md) | Caso didactico generico | MEDIA |
+| [06_plantillas_integradas_iact.md](gobernanza/marco_integrado/06_plantillas_integradas_iact.md) | Plantillas integradas | MEDIA |
+
+**Proposito:** Framework completo de analisis de negocio con trazabilidad desde necesidades hasta implementacion.
+
+---
+
 ### 1.3 Archivos Root de Gobernanza
 
 **Ubicacion:** `docs/gobernanza/`
@@ -199,11 +247,28 @@ Documentacion de estilos, estandares, procesos y lineamientos del proyecto.
 
 ---
 
-## 2. Requisitos
+## 2. Proyecto
+
+Documentacion de vision, alcance y planificacion del proyecto.
+
+### 2.1 Vision y Alcance
+
+**Ubicacion:** `docs/proyecto/`
+
+| Archivo | Descripcion | Prioridad |
+|---------|-------------|-----------|
+| [vision_y_alcance.md](proyecto/vision_y_alcance.md) | Vision y alcance del proyecto IACT | CRITICA |
+| [glossary.md](proyecto/glossary.md) | Glosario de terminos del proyecto | ALTA |
+
+**Uso:** Consultar antes de empezar cualquier feature para entender vision y alcance del proyecto.
+
+---
+
+## 3. Requisitos
 
 Documentacion de requisitos, analisis de negocio, y business needs.
 
-### 2.1 Analisis de Negocio - Marco Integrado
+### 3.1 Analisis de Negocio - Marco Integrado
 
 **Ubicacion:** `docs/requisitos/analisis_negocio/marco_integrado/`
 
@@ -230,7 +295,7 @@ Documentacion de requisitos, analisis de negocio, y business needs.
 
 ---
 
-### 2.2 Business Needs
+### 3.2 Business Needs
 
 **Ubicacion:** `docs/requisitos/business_needs/`
 
@@ -246,15 +311,15 @@ business_needs/
 
 ---
 
-## 3. Implementacion
+## 4. Implementacion
 
 Documentacion tecnica de implementacion, infrastructure, agentes, y runbooks operacionales.
 
-### 3.1 Infrastructure
+### 4.1 Infrastructure
 
 **Ubicacion:** `docs/implementacion/infrastructure/`
 
-#### 3.1.1 Archivos Root
+#### 4.1.1 Archivos Root
 
 | Archivo | Descripcion |
 |---------|-------------|
@@ -264,7 +329,7 @@ Documentacion tecnica de implementacion, infrastructure, agentes, y runbooks ope
 
 ---
 
-#### 3.1.2 Runbooks
+#### 4.1.2 Runbooks
 
 **Ubicacion:** `docs/implementacion/infrastructure/runbooks/`
 
@@ -287,11 +352,11 @@ Documentacion tecnica de implementacion, infrastructure, agentes, y runbooks ope
 
 ---
 
-### 3.2 Agentes
+### 4.2 Agentes
 
 **Ubicacion:** `docs/implementacion/agentes/`
 
-#### 3.2.1 Agentes SDLC (Activos)
+#### 4.2.1 Agentes SDLC (Activos)
 
 **Ver:** [docs/gobernanza/procesos/AGENTES_SDLC.md](gobernanza/procesos/AGENTES_SDLC.md)
 

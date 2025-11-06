@@ -51,6 +51,9 @@ docs/vision_y_alcance/**                     @product-owner @arquitecto-senior
 # Gobernanza y Procesos
 # Owner: Arquitecto Senior + Tech Lead
 docs/gobernanza/**                           @arquitecto-senior @tech-lead
+docs/gobernanza/metodologias/**              @arquitecto-senior @tech-lead
+docs/gobernanza/marco_integrado/**           @arquitecto-senior @tech-lead
+docs/gobernanza/agentes/**                   @arquitecto-senior @tech-lead
 
 # SDLC Outputs (issues, plans, reports auto-generados)
 # Owner: Arquitecto Senior
@@ -59,6 +62,14 @@ docs/sdlc_outputs/**                         @arquitecto-senior
 # Plantillas y Estándares
 # Owner: Arquitecto Senior
 docs/plantillas/**                           @arquitecto-senior
+
+# Testing y QA
+# Owner: QA Lead
+docs/testing/**                              @qa-lead @arquitecto-senior
+
+# Proyecto y Vision
+# Owner: Product Owner + Arquitecto Senior
+docs/proyecto/**                             @product-owner @arquitecto-senior
 
 # ============================================================================
 # DOCUMENTACIÓN AUTO-GENERADA

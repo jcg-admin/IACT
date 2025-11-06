@@ -56,13 +56,16 @@
         "docs/plantillas/plantilla_tdd.md"
       ],
       "procedimientos": [
-        "docs/gobernanza/procesos/procedimientos/procedimiento_qa.md"
+        "docs/gobernanza/procesos/procedimientos/procedimiento_qa.md",
+        "docs/gobernanza/procesos/estrategia_qa.md",
+        "docs/gobernanza/procesos/actividades_garantia_documental.md"
       ],
       "scripts": [
         "scripts/ci/test_pyramid_check.sh"
       ],
       "checklists": [
-        "docs/gobernanza/procesos/checklists/checklist_testing.md"
+        "docs/gobernanza/procesos/checklists/checklist_testing.md",
+        "docs/gobernanza/procesos/checklists/checklist_auditoria_restricciones.md"
       ],
       "agentes": [
         "scripts/ai/agents/sdlc_testing.py"
@@ -192,6 +195,8 @@
       "procedimiento_desarrollo_local.md": ["backend-ci", "frontend-ci"],
       "guia_completa_desarrollo_features.md": ["backend-ci"],
       "procedimiento_qa.md": ["test-pyramid"],
+      "estrategia_qa.md": ["test-pyramid"],
+      "actividades_garantia_documental.md": ["test-pyramid"],
       "procedimiento_release.md": ["deploy"],
       "procedimiento_diseno_tecnico.md": ["migrations"],
       "procedimiento_instalacion_entorno.md": ["infrastructure-ci"],
