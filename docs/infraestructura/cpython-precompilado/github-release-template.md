@@ -62,7 +62,7 @@ Agregar a `.devcontainer/devcontainer.json`:
 ```json
 {
   "features": {
-    "./infrastructure/cpython/feature": {
+    "./infrastructure/cpython/builder/feature": {
       "version": "{VERSION}",
       "artifactUrl": "https://github.com/2-Coatl/IACT---project/releases/download/cpython-{VERSION}-build{BUILD_NUMBER}/cpython-{VERSION}-ubuntu22.04-build{BUILD_NUMBER}.tgz"
     }
@@ -194,11 +194,11 @@ Para reportar issues con este artefacto:
 ## Archivos a Adjuntar
 
 1. **cpython-{VERSION}-ubuntu22.04-build{BUILD_NUMBER}.tgz**
-   - Ubicación: `infrastructure/cpython/artifacts/`
+   - Ubicación: `infrastructure/cpython/builder/artifacts/`
    - Generado por: `make build-cpython VERSION={VERSION} BUILD={BUILD_NUMBER}`
 
 2. **cpython-{VERSION}-ubuntu22.04-build{BUILD_NUMBER}.tgz.sha256**
-   - Ubicación: `infrastructure/cpython/artifacts/`
+   - Ubicación: `infrastructure/cpython/builder/artifacts/`
    - Generado automáticamente junto con el tarball
 
 3. **LICENSE**
@@ -235,7 +235,7 @@ Para reportar issues con este artefacto:
 VERSION="3.12.6"
 BUILD="1"
 TAG="cpython-${VERSION}-build${BUILD}"
-ARTIFACTS_DIR="infrastructure/cpython/artifacts"
+ARTIFACTS_DIR="infrastructure/cpython/builder/artifacts"
 
 # Crear release
 gh release create "${TAG}" \

@@ -14,8 +14,8 @@ import os
 # Paths del proyecto
 BASE_DIR = Path(__file__).parent.parent.parent.parent
 VAGRANT_DIR = BASE_DIR / "infrastructure" / "cpython" / "builder"
-SCRIPTS_INFRA_DIR = BASE_DIR / "infrastructure" / "cpython" / "scripts"
-ARTIFACTS_DIR = BASE_DIR / "infrastructure" / "cpython" / "artifacts"
+SCRIPTS_INFRA_DIR = VAGRANT_DIR / "scripts"  # Scripts within builder
+ARTIFACTS_DIR = VAGRANT_DIR / "artifacts"    # Artifacts within builder
 
 
 @pytest.mark.critical

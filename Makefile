@@ -147,8 +147,8 @@ validate-cpython: ## Validar artefacto CPython (uso: make validate-cpython ARTIF
 list-artifacts: ## Listar artefactos CPython disponibles
 	@echo "$(BLUE)Artefactos CPython disponibles:$(NC)"
 	@echo ""
-	@if [ -d "infrastructure/cpython/artifacts" ] && [ "$$(ls -A infrastructure/cpython/artifacts/*.tgz 2>/dev/null)" ]; then \
-		ls -lh infrastructure/cpython/artifacts/*.tgz | awk '{print "  " $$9 " (" $$5 ")"}'; \
+	@if [ -d "infrastructure/cpython/builder/artifacts" ] && [ "$$(ls -A infrastructure/cpython/builder/artifacts/*.tgz 2>/dev/null)" ]; then \
+		ls -lh infrastructure/cpython/builder/artifacts/*.tgz | awk '{print "  " $$9 " (" $$5 ")"}'; \
 	else \
 		echo "  $(YELLOW)No hay artefactos generados aún$(NC)"; \
 	fi

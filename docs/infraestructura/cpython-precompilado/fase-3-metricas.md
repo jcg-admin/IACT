@@ -224,10 +224,10 @@ sha256sum -c cpython-3.12.6-ubuntu22.04-build1.tgz.sha256
 **Cómo medir**:
 ```bash
 # Buscar uso de feature en proyectos
-grep -r "infrastructure/cpython/feature" .devcontainer/devcontainer.json
+grep -r "infrastructure/cpython/builder/feature" .devcontainer/devcontainer.json
 
 # O buscar en GitHub org
-gh search code --owner 2-Coatl 'infrastructure/cpython/feature'
+gh search code --owner 2-Coatl 'infrastructure/cpython/builder/feature'
 ```
 
 ### Descargas de GitHub Release

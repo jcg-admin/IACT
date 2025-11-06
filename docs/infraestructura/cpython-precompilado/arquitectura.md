@@ -70,7 +70,7 @@ vagrant/cpython-builder/
    └─> Incluir LICENSE (PSF)
 
 5. Output
-   └─> Copiar a /vagrant/infrastructure/cpython/artifacts/
+   └─> Copiar a /vagrant/infrastructure/cpython/builder/artifacts/
 ```
 
 **Flags de compilación críticos**:
@@ -123,7 +123,7 @@ Ejemplos:
 **Proceso de publicación**:
 ```bash
 # Desde Vagrant (manual)
-cd /vagrant/infrastructure/cpython/artifacts/
+cd /vagrant/infrastructure/cpython/builder/artifacts/
 
 gh release create cpython-3.12.6-build1 \
   cpython-3.12.6-ubuntu22.04-build1.tgz \
@@ -164,7 +164,7 @@ cpython-3.12.6-build1/cpython-3.12.6-ubuntu22.04-build1.tgz
 
 **Ubicación en proyecto**:
 ```
-.devcontainer/infrastructure/cpython/feature/
+.devcontainer/infrastructure/cpython/builder/feature/
 ├── devcontainer-feature.json    # Metadata y opciones
 ├── install.sh                   # Lógica de instalación
 └── README.md                    # Documentación de Feature
@@ -255,7 +255,7 @@ fi
     "context": ".."
   },
   "features": {
-    "./infrastructure/cpython/feature": {
+    "./infrastructure/cpython/builder/feature": {
       "version": "3.12.6",
       "buildNumber": "1"
     }
@@ -388,7 +388,7 @@ Total: <20 segundos
 | Ubicación | Tipo | Tamaño | Versionado |
 |-----------|------|--------|------------|
 | `vagrant/cpython-builder/` | Scripts de build | ~10 KB | Git |
-| `infrastructure/cpython/artifacts/` (local Vagrant) | Tarball compilado | 50-80 MB | No versionado (temporal) |
+| `infrastructure/cpython/builder/artifacts/` (local Vagrant) | Tarball compilado | 50-80 MB | No versionado (temporal) |
 | GitHub Releases | Tarball publicado | 50-80 MB | Tag de Git |
 | `artifacts/ARTIFACTS.md` (Git) | Metadata de artefactos | <10 KB | Git |
 | `.devcontainer/features/` | Scripts de Feature | ~5 KB | Git |

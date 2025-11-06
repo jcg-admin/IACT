@@ -70,7 +70,7 @@ Editar `.devcontainer/devcontainer.json` de tu proyecto:
     "dockerfile": "Dockerfile"
   },
   "features": {
-    "./infrastructure/cpython/feature": {
+    "./infrastructure/cpython/builder/feature": {
       "version": "3.12.6"
     }
   }
@@ -111,7 +111,7 @@ Si ambos comandos funcionan correctamente, la instalación es exitosa.
 ```json
 {
   "features": {
-    "./infrastructure/cpython/feature": {
+    "./infrastructure/cpython/builder/feature": {
       "version": "3.12.6"  // Cambiar a versión deseada
     }
   }
@@ -127,9 +127,9 @@ Para desarrollo completamente offline o para testing de artefactos compilados lo
 ```json
 {
   "features": {
-    "./infrastructure/cpython/feature": {
+    "./infrastructure/cpython/builder/feature": {
       "version": "3.12.6",
-      "artifactUrl": "${localWorkspaceFolder}/infrastructure/cpython/artifacts/cpython-3.12.6-ubuntu22.04-build1.tgz"
+      "artifactUrl": "${localWorkspaceFolder}/infrastructure/cpython/builder/artifacts/cpython-3.12.6-ubuntu22.04-build1.tgz"
     }
   }
 }
@@ -138,11 +138,11 @@ Para desarrollo completamente offline o para testing de artefactos compilados lo
 **Opción 1: Descargar artefacto manualmente**
 
 ```bash
-mkdir -p infrastructure/cpython/artifacts/
+mkdir -p infrastructure/cpython/builder/artifacts/
 curl -L https://github.com/2-Coatl/IACT---project/releases/download/cpython-3.12.6-build1/cpython-3.12.6-ubuntu22.04-build1.tgz \
-  -o infrastructure/cpython/artifacts/cpython-3.12.6-ubuntu22.04-build1.tgz
+  -o infrastructure/cpython/builder/artifacts/cpython-3.12.6-ubuntu22.04-build1.tgz
 curl -L https://github.com/2-Coatl/IACT---project/releases/download/cpython-3.12.6-build1/cpython-3.12.6-ubuntu22.04-build1.tgz.sha256 \
-  -o infrastructure/cpython/artifacts/cpython-3.12.6-ubuntu22.04-build1.tgz.sha256
+  -o infrastructure/cpython/builder/artifacts/cpython-3.12.6-ubuntu22.04-build1.tgz.sha256
 ```
 
 **Opción 2: Compilar artefacto localmente (Fase 2)**
@@ -156,7 +156,7 @@ make build-cpython VERSION=3.12.6
 # Validar artefacto
 make validate-cpython ARTIFACT=cpython-3.12.6-ubuntu22.04-build1.tgz
 
-# El artefacto estará en infrastructure/cpython/artifacts/ listo para usar
+# El artefacto estará en infrastructure/cpython/builder/artifacts/ listo para usar
 ```
 
 Ver: `infrastructure/cpython/builder/README.md` para más detalles sobre compilación local.
@@ -166,7 +166,7 @@ Ver: `infrastructure/cpython/builder/README.md` para más detalles sobre compila
 ```json
 {
   "features": {
-    "./infrastructure/cpython/feature": {
+    "./infrastructure/cpython/builder/feature": {
       "version": "3.12.6"
     },
     "ghcr.io/devcontainers/features/node:1": {
@@ -229,7 +229,7 @@ Cuando se publica una nueva versión de artefacto:
    ```json
    {
      "features": {
-       "./infrastructure/cpython/feature": {
+       "./infrastructure/cpython/builder/feature": {
          "version": "3.12.7"  // Nueva versión
        }
      }
@@ -341,7 +341,7 @@ Ver: [Preguntas Frecuentes completas](./preguntas-frecuentes.md)
 Si necesitas compilar artefactos o modificar la Feature:
 
 - [Guía de compilación en Vagrant](../../../vagrant/cpython-builder/README.md)
-- [Guía de desarrollo de Features](../../../.devcontainer/infrastructure/cpython/feature/README.md)
+- [Guía de desarrollo de Features](../../../.devcontainer/infrastructure/cpython/builder/feature/README.md)
 - [Especificación completa: SPEC-INFRA-001](../../specs/SPEC-INFRA-001-cpython-precompilado.md)
 
 ---
