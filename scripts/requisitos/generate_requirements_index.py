@@ -2,7 +2,7 @@
 """
 Generador de Índices ISO 29148:2018
 
-Este script escanea todos los requisitos en implementacion/**/requisitos/
+Este script escanea todos los requisitos en docs/implementacion/**/requisitos/
 y genera los siguientes índices:
 - BRS (Business Requirements Specification) - ISO 29148 Clause 9.3
 - StRS (Stakeholder Requirements Specification) - ISO 29148 Clause 9.4
@@ -106,7 +106,7 @@ def parse_frontmatter(content: str) -> Dict:
 
 def scan_requisitos(base_path: Path) -> List[Requisito]:
     """
-    Escanea todos los archivos .md en implementacion/**/requisitos/
+    Escanea todos los archivos .md en docs/implementacion/**/requisitos/
 
     Args:
         base_path: Ruta base del proyecto
@@ -115,7 +115,7 @@ def scan_requisitos(base_path: Path) -> List[Requisito]:
         Lista de objetos Requisito
     """
     requisitos = []
-    implementacion_path = base_path / 'implementacion'
+    implementacion_path = base_path / 'docs' / 'implementacion'
 
     if not implementacion_path.exists():
         print(f"ADVERTENCIA: No existe {implementacion_path}")
@@ -414,7 +414,7 @@ def main():
     docs_requisitos_path.mkdir(parents=True, exist_ok=True)
 
     # Escanear requisitos
-    print(f"\nEscaneando requisitos en: {base_path / 'implementacion'}")
+    print(f"\nEscaneando requisitos en: {base_path / 'docs' / 'implementacion'}")
     requisitos = scan_requisitos(base_path)
     print(f"Total requisitos encontrados: {len(requisitos)}")
 
