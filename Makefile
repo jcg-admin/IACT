@@ -126,6 +126,47 @@ install-hooks: ## Instalar git hooks (pre-push)
 	@echo "Para verificar: ./scripts/install-hooks.sh --verify"
 	@echo "Para desinstalar: ./scripts/install-hooks.sh --uninstall"
 
+##@ CPython Build System
+
+build-cpython: ## Compilar CPython en Vagrant (uso: make build-cpython VERSION=3.12.6 BUILD=1)
+	@if [ -z "$(VERSION)" ]; then \
+		echo "$(YELLOW)Uso: make build-cpython VERSION=3.12.6 [BUILD=1]$(NC)"; \
+		exit 1; \
+	fi
+	@echo "$(BLUE)Compilando CPython $(VERSION) build $(BUILD)...$(NC)"
+	./scripts/infra/build-cpython.sh $(VERSION) $(BUILD)
+
+validate-cpython: ## Validar artefacto CPython (uso: make validate-cpython ARTIFACT=cpython-X.Y.Z-ubuntu22.04-build1.tgz)
+	@if [ -z "$(ARTIFACT)" ]; then \
+		echo "$(YELLOW)Uso: make validate-cpython ARTIFACT=cpython-3.12.6-ubuntu22.04-build1.tgz$(NC)"; \
+		exit 1; \
+	fi
+	@echo "$(BLUE)Validando artefacto: $(ARTIFACT)$(NC)"
+	./scripts/infra/validate-cpython.sh $(ARTIFACT)
+
+list-artifacts: ## Listar artefactos CPython disponibles
+	@echo "$(BLUE)Artefactos CPython disponibles:$(NC)"
+	@echo ""
+	@if [ -d "artifacts/cpython" ] && [ "$$(ls -A artifacts/cpython/*.tgz 2>/dev/null)" ]; then \
+		ls -lh artifacts/cpython/*.tgz | awk '{print "  " $$9 " (" $$5 ")"}'; \
+	else \
+		echo "  $(YELLOW)No hay artefactos generados aún$(NC)"; \
+	fi
+	@echo ""
+	@echo "Ver registro completo: cat artifacts/ARTIFACTS.md"
+
+vagrant-cpython-up: ## Iniciar VM de compilación CPython
+	@echo "$(BLUE)Iniciando VM de compilación CPython...$(NC)"
+	cd vagrant/cpython-builder && vagrant up
+
+vagrant-cpython-ssh: ## Conectar a VM de compilación CPython
+	@echo "$(BLUE)Conectando a VM...$(NC)"
+	cd vagrant/cpython-builder && vagrant ssh
+
+vagrant-cpython-halt: ## Detener VM de compilación CPython
+	@echo "$(BLUE)Deteniendo VM...$(NC)"
+	cd vagrant/cpython-builder && vagrant halt
+
 ##@ Testing
 
 test: ## Ejecutar pruebas del proyecto (cuando estén disponibles)

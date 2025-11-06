@@ -1,0 +1,96 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# Vagrantfile para compilación de CPython
+# Referencia: SPEC-INFRA-001
+# Propósito: Generar artefactos de CPython precompilado reproducibles
+
+Vagrant.configure("2") do |config|
+  # Usar Ubuntu 22.04 LTS (alineado con Dev Containers)
+  config.vm.box = "ubuntu/jammy64"
+  config.vm.box_version = ">= 20230607.0.0"
+
+  # Configuración de red (no necesitamos port forwarding para build)
+  config.vm.network "private_network", type: "dhcp"
+
+  # Recursos asignados
+  config.vm.provider "virtualbox" do |vb|
+    # Nombre descriptivo
+    vb.name = "iact-cpython-builder"
+
+    # Recursos para compilación (PGO requiere recursos)
+    vb.memory = "4096"  # 4 GB RAM
+    vb.cpus = 4         # 4 cores para make -j4
+
+    # Optimizaciones
+    vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
+    vb.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
+  end
+
+  # Carpeta compartida para artefactos
+  # Sincroniza /vagrant con directorio local vagrant/cpython-builder/
+  config.vm.synced_folder "../../artifacts", "/vagrant/artifacts",
+    create: true,
+    mount_options: ["dmode=775,fmode=664"]
+
+  # Provisioning: Instalar dependencias de compilación
+  config.vm.provision "shell", inline: <<-SHELL
+    set -euo pipefail
+
+    echo "=== Actualizando sistema ==="
+    apt-get update
+
+    echo "=== Instalando dependencias de compilación de CPython ==="
+    # Dependencias según: https://devguide.python.org/getting-started/setup-building/
+    DEBIAN_FRONTEND=noninteractive apt-get install -y \
+      build-essential \
+      gdb \
+      lcov \
+      pkg-config \
+      libbz2-dev \
+      libffi-dev \
+      libgdbm-dev \
+      libgdbm-compat-dev \
+      liblzma-dev \
+      libncurses5-dev \
+      libreadline6-dev \
+      libsqlite3-dev \
+      libssl-dev \
+      lzma \
+      lzma-dev \
+      tk-dev \
+      uuid-dev \
+      zlib1g-dev \
+      wget \
+      curl \
+      ca-certificates
+
+    echo "=== Instalando herramientas adicionales ==="
+    apt-get install -y \
+      git \
+      vim \
+      htop
+
+    echo "=== Verificando versiones de librerías críticas ==="
+    dpkg -l | grep -E "libssl-dev|libsqlite3-dev|liblzma-dev|libbz2-dev" | awk '{print $2, $3}'
+
+    echo "=== Provisioning completado ==="
+    echo "Para compilar CPython, ejecutar:"
+    echo "  vagrant ssh"
+    echo "  /vagrant/build-cpython.sh"
+  SHELL
+
+  # Mensaje post-up
+  config.vm.post_up_message = <<-MESSAGE
+  ====================================================================
+  VM de compilación de CPython lista
+
+  Siguiente paso:
+    vagrant ssh
+    cd /vagrant
+    ./build-cpython.sh 3.12.6
+
+  Artefactos se generarán en: artifacts/cpython/
+  ====================================================================
+  MESSAGE
+end
