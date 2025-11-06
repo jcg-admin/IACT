@@ -52,7 +52,7 @@ cd /ruta/al/proyecto/IACT---project
 make vagrant-cpython-up
 
 # Opción B: Manual
-cd infrastructure/cpython/builder
+cd infrastructure/cpython
 vagrant up
 ```
 
@@ -85,8 +85,8 @@ make build-cpython VERSION=3.12.6 BUILD=1
 
 **Resultado esperado**:
 ```
-Artefacto generado: infrastructure/cpython/builder/artifacts/cpython-3.12.6-ubuntu22.04-build1.tgz
-Checksum: infrastructure/cpython/builder/artifacts/cpython-3.12.6-ubuntu22.04-build1.tgz.sha256
+Artefacto generado: infrastructure/cpython/artifacts/cpython-3.12.6-ubuntu22.04-build1.tgz
+Checksum: infrastructure/cpython/artifacts/cpython-3.12.6-ubuntu22.04-build1.tgz.sha256
 Tamaño: ~50-70 MB
 ```
 
@@ -164,7 +164,7 @@ git push origin cpython-3.12.6-build1
 ```json
 {
   "features": {
-    "./infrastructure/cpython/builder/installer": {
+    "./infrastructure/cpython/installer": {
       "version": "3.12.6",
       "artifactUrl": "https://github.com/2-Coatl/IACT---project/releases/download/cpython-3.12.6-build1/cpython-3.12.6-ubuntu22.04-build1.tgz"
     }
@@ -205,8 +205,8 @@ gh release create cpython-3.12.6-build1 \
   --title "CPython 3.12.6 Precompilado - Build 1" \
   --notes-file docs/infraestructura/cpython-precompilado/release-notes-template.md \
   --prerelease \
-  infrastructure/cpython/builder/artifacts/cpython-3.12.6-ubuntu22.04-build1.tgz \
-  infrastructure/cpython/builder/artifacts/cpython-3.12.6-ubuntu22.04-build1.tgz.sha256
+  infrastructure/cpython/artifacts/cpython-3.12.6-ubuntu22.04-build1.tgz \
+  infrastructure/cpython/artifacts/cpython-3.12.6-ubuntu22.04-build1.tgz.sha256
 ```
 
 ### 2.3 Verificar Release
@@ -237,7 +237,7 @@ gh release download cpython-3.12.6-build1 -D /tmp/test-release
 -   "ghcr.io/devcontainers/features/python:1": {
 -     "version": "3.11"
 -   },
-+   "./infrastructure/cpython/builder/installer": {
++   "./infrastructure/cpython/installer": {
 +     "version": "3.12.6",
 +     "artifactUrl": "https://github.com/2-Coatl/IACT---project/releases/download/cpython-3.12.6-build1/cpython-3.12.6-ubuntu22.04-build1.tgz"
 +   },
@@ -251,9 +251,9 @@ gh release download cpython-3.12.6-build1 -D /tmp/test-release
 ```json
 {
   "features": {
-    "./infrastructure/cpython/builder/installer": {
+    "./infrastructure/cpython/installer": {
       "version": "3.12.6",
-      "artifactUrl": "/workspaces/${localWorkspaceFolderBasename}/infrastructure/cpython/builder/artifacts/cpython-3.12.6-ubuntu22.04-build1.tgz"
+      "artifactUrl": "/workspaces/${localWorkspaceFolderBasename}/infrastructure/cpython/artifacts/cpython-3.12.6-ubuntu22.04-build1.tgz"
     }
   }
 }
@@ -376,7 +376,7 @@ Ninguno.
 
 ```bash
 echo "
-| 3.12.6 | ubuntu22.04 | build1 | 2025-11-06 | cpython-3.12.6-ubuntu22.04-build1.tgz | $(sha256sum infrastructure/cpython/builder/artifacts/cpython-3.12.6-ubuntu22.04-build1.tgz | cut -d' ' -f1) | GitHub Release |
+| 3.12.6 | ubuntu22.04 | build1 | 2025-11-06 | cpython-3.12.6-ubuntu22.04-build1.tgz | $(sha256sum infrastructure/cpython/artifacts/cpython-3.12.6-ubuntu22.04-build1.tgz | cut -d' ' -f1) | GitHub Release |
 " >> infrastructure/artifacts/ARTIFACTS.md
 ```
 
@@ -436,7 +436,7 @@ git push origin <branch-name>
 
 ```bash
 # Verificar logs
-cd infrastructure/cpython/builder
+cd infrastructure/cpython
 vagrant up --debug
 
 # Reiniciar

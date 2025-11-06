@@ -52,7 +52,7 @@ Tres pasos:
    ```json
    {
      "features": {
-       "./infrastructure/cpython/builder/installer": {
+       "./infrastructure/cpython/installer": {
          "version": "3.12.6"
        }
      }
@@ -71,18 +71,18 @@ Tres pasos:
 
 1. Descargar artefacto manualmente:
    ```bash
-   mkdir -p infrastructure/cpython/builder/artifacts/
+   mkdir -p infrastructure/cpython/artifacts/
    curl -L https://github.com/.../releases/download/.../cpython-3.12.6-ubuntu22.04-build1.tgz \
-     -o infrastructure/cpython/builder/artifacts/cpython-3.12.6-ubuntu22.04-build1.tgz
+     -o infrastructure/cpython/artifacts/cpython-3.12.6-ubuntu22.04-build1.tgz
    ```
 
 2. Usar path local en Feature:
    ```json
    {
      "features": {
-       "./infrastructure/cpython/builder/installer": {
+       "./infrastructure/cpython/installer": {
          "version": "3.12.6",
-         "artifactUrl": "${localWorkspaceFolder}/infrastructure/cpython/builder/artifacts/cpython-3.12.6-ubuntu22.04-build1.tgz"
+         "artifactUrl": "${localWorkspaceFolder}/infrastructure/cpython/artifacts/cpython-3.12.6-ubuntu22.04-build1.tgz"
        }
      }
    }
@@ -94,10 +94,10 @@ Tres pasos:
 
 ```json
 // Proyecto A
-{"features": {"./infrastructure/cpython/builder/installer": {"version": "3.12.6"}}}
+{"features": {"./infrastructure/cpython/installer": {"version": "3.12.6"}}}
 
 // Proyecto B
-{"features": {"./infrastructure/cpython/builder/installer": {"version": "3.11.9"}}}
+{"features": {"./infrastructure/cpython/installer": {"version": "3.11.9"}}}
 ```
 
 No hay conflictos porque cada Dev Container es aislado.
@@ -365,8 +365,8 @@ ln -sf /opt/python-3.12.6/bin/python3 /usr/local/bin/python3
 
 **Solución**:
 1. Verificar que Feature está correctamente referenciada en `devcontainer.json`
-2. Verificar que path de Feature es correcto: `./infrastructure/cpython/builder/installer`
-3. Verificar que `install.sh` tiene permisos de ejecución: `chmod +x .devcontainer/infrastructure/cpython/builder/installer/install.sh`
+2. Verificar que path de Feature es correcto: `./infrastructure/cpython/installer`
+3. Verificar que `install.sh` tiene permisos de ejecución: `chmod +x .devcontainer/infrastructure/cpython/installer/install.sh`
 
 ### VS Code no detecta el intérprete Python
 
@@ -445,7 +445,7 @@ Las versiones deprecadas **siguen disponibles** en GitHub Releases indefinidamen
 3. Leer `README.md` para instrucciones
 4. Ejecutar `vagrant up && vagrant ssh`
 5. Ejecutar `/vagrant/scripts/infra/build-cpython.sh`
-6. Artefacto generado en `/vagrant/infrastructure/cpython/builder/artifacts/`
+6. Artefacto generado en `/vagrant/infrastructure/cpython/artifacts/`
 
 ---
 

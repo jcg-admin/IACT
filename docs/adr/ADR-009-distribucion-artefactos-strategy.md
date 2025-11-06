@@ -48,7 +48,7 @@ Esto haría que clones del repositorio sean extremadamente lentos y consumidores
 
 ```bash
 # Después de compilar en Vagrant
-cd infrastructure/cpython/builder/artifacts/
+cd infrastructure/cpython/artifacts/
 gh release create cpython-3.12.6-build1 \
   cpython-3.12.6-ubuntu22.04-build1.tgz \
   cpython-3.12.6-ubuntu22.04-build1.tgz.sha256 \
@@ -231,7 +231,7 @@ Mantener `artifacts/ARTIFACTS.md` en Git (archivo pequeño de texto):
 
 ```bash
 # En Vagrant después de compilar exitosamente
-cd /vagrant/infrastructure/cpython/builder/artifacts/
+cd /vagrant/infrastructure/cpython/artifacts/
 
 # Crear release con gh CLI
 gh release create cpython-3.12.6-build1 \
@@ -288,22 +288,22 @@ jobs:
 
       - name: Download artifact from Vagrant
         run: |
-          # Asumir que artefacto ya está en infrastructure/cpython/builder/artifacts/
-          ls -lh infrastructure/cpython/builder/artifacts/
+          # Asumir que artefacto ya está en infrastructure/cpython/artifacts/
+          ls -lh infrastructure/cpython/artifacts/
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
           tag_name: cpython-${{ inputs.version }}-build${{ inputs.build_number }}
           files: |
-            infrastructure/cpython/builder/artifacts/cpython-${{ inputs.version }}-ubuntu22.04-build${{ inputs.build_number }}.tgz
-            infrastructure/cpython/builder/artifacts/cpython-${{ inputs.version }}-ubuntu22.04-build${{ inputs.build_number }}.tgz.sha256
+            infrastructure/cpython/artifacts/cpython-${{ inputs.version }}-ubuntu22.04-build${{ inputs.build_number }}.tgz
+            infrastructure/cpython/artifacts/cpython-${{ inputs.version }}-ubuntu22.04-build${{ inputs.build_number }}.tgz.sha256
 ```
 
 ### Consumo en Feature
 
 ```bash
-# .devcontainer/infrastructure/cpython/builder/installer/install.sh
+# .devcontainer/infrastructure/cpython/installer/install.sh
 
 VERSION="${VERSION:-3.12.6}"
 BUILD_NUMBER="${BUILD_NUMBER:-1}"
@@ -344,18 +344,18 @@ ldconfig
 
 1. Descargar artefacto manualmente antes de tiempo:
    ```bash
-   mkdir -p infrastructure/cpython/builder/artifacts/
+   mkdir -p infrastructure/cpython/artifacts/
    curl -L https://github.com/.../releases/download/.../cpython-3.12.6-ubuntu22.04-build1.tgz \
-     -o infrastructure/cpython/builder/artifacts/cpython-3.12.6-ubuntu22.04-build1.tgz
+     -o infrastructure/cpython/artifacts/cpython-3.12.6-ubuntu22.04-build1.tgz
    ```
 
 2. Modificar Feature para usar path local:
    ```json
    {
      "features": {
-       "./infrastructure/cpython/builder/installer": {
+       "./infrastructure/cpython/installer": {
          "version": "3.12.6",
-         "artifactUrl": "${localWorkspaceFolder}/infrastructure/cpython/builder/artifacts/cpython-3.12.6-ubuntu22.04-build1.tgz"
+         "artifactUrl": "${localWorkspaceFolder}/infrastructure/cpython/artifacts/cpython-3.12.6-ubuntu22.04-build1.tgz"
        }
      }
    }

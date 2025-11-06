@@ -189,7 +189,7 @@ scripts/infra/       → infrastructure/scripts/
 Se reorganizó todo CPython en `infrastructure/cpython/` como subdomain:
 
 ```bash
-infrastructure/vagrant/cpython-builder/  → infrastructure/cpython/builder/
+infrastructure/vagrant/cpython-builder/  → infrastructure/cpython/
 features/cpython-prebuilt/               → infrastructure/cpython/installer/
 infrastructure/artifacts/cpython/        → infrastructure/cpython/artifacts/
 infrastructure/scripts/build-cpython.sh  → infrastructure/cpython/scripts/build-cpython.sh
@@ -209,6 +209,18 @@ infrastructure/cpython/tests/       → infrastructure/cpython/builder/tests/
 ```
 
 **Renombramiento semántico**: `feature/` → `installer/` para reflejar mejor su función real (instalador de CPython en Dev Container).
+
+### Fase 4: Simplificación - Eliminación de `builder/`
+
+Aplicando principio YAGNI (You Aren't Gonna Need It), se eliminó el nivel `builder/` innecesario:
+
+```bash
+infrastructure/cpython/builder/*    → infrastructure/cpython/
+```
+
+**Razón**: TODO el contenido de cpython/ era parte del "builder". No había ni habrá otros componentes fuera de builder/, por lo tanto el directorio agregaba complejidad sin valor.
+
+**Resultado**: Path más simple y directo - `infrastructure/cpython/` contiene TODO directamente.
 
 **Archivos actualizados:** 30+
 - Makefile (todos los targets CPython)
@@ -307,53 +319,58 @@ scripts/
 
 Cuando un dominio (como infrastructure) contiene subsistemas complejos con múltiples componentes (builder, feature, artifacts, scripts, tests), es mejor organizarlos como subdominios.
 
-**Estructura de infrastructure/cpython/** (Fase 3 - Consolidación Completa):
+**Estructura de infrastructure/cpython/** (Fase 4 - Simplificación Final):
 ```
 infrastructure/
-└── cpython/                    # Subdomain: Todo CPython
-    └── builder/                # TODO el sistema CPython consolidado
-        ├── Vagrantfile         # VM de compilación
-        ├── bootstrap.sh        # Provisioning de VM
-        ├── scripts/            # TODOS los scripts (VM + host wrapper)
-        │   ├── build-cpython.sh          # Script de compilación (VM)
-        │   ├── validate-build.sh         # Validación (VM)
-        │   ├── build-wrapper.sh          # Wrapper host → VM
-        │   ├── validate-wrapper.sh       # Wrapper host → VM
-        │   └── feature-install.sh        # Instalación en DevContainer
-        ├── installer/          # Instalador para Dev Container
-        │   ├── devcontainer-feature.json
-        │   ├── install.sh      # Symlink → ../scripts/feature-install.sh
-        │   └── README.md
-        ├── artifacts/          # Binarios compilados (.tgz)
-        │   └── .gitkeep
-        ├── tests/              # Tests de integración
-        │   ├── test_cpython_build_system.py
-        │   └── test_cpython_feature.py
-        ├── utils/              # Utilidades de compilación
-        └── README.md
+└── cpython/                    # Subdomain: Todo CPython (sin nivel extra)
+    ├── Vagrantfile             # VM de compilación
+    ├── bootstrap.sh            # Provisioning de VM
+    ├── scripts/                # TODOS los scripts (VM + host wrapper)
+    │   ├── build-cpython.sh          # Script de compilación (VM)
+    │   ├── validate-build.sh         # Validación (VM)
+    │   ├── build-wrapper.sh          # Wrapper host → VM
+    │   ├── validate-wrapper.sh       # Wrapper host → VM
+    │   └── feature-install.sh        # Instalación en DevContainer
+    ├── installer/              # Instalador para Dev Container
+    │   ├── devcontainer-feature.json
+    │   ├── install.sh          # Symlink → ../scripts/feature-install.sh
+    │   └── README.md
+    ├── artifacts/              # Binarios compilados (.tgz)
+    │   ├── ARTIFACTS.md
+    │   └── .gitkeep
+    ├── tests/                  # Tests de integración
+    │   ├── test_cpython_build_system.py
+    │   └── test_cpython_feature.py
+    ├── utils/                  # Utilidades de compilación
+    ├── config/                 # Configuraciones
+    ├── logs/                   # Logs de compilación
+    └── README.md
 ```
 
-**Ventajas del subdomain consolidado (Fase 3)**:
-1. **Cohesión máxima absoluta**: TODO CPython en `builder/` - un solo punto de entrada
-2. **Escalabilidad**: Permite agregar infrastructure/go/, infrastructure/node/ en el futuro
-3. **Navegación clarísima**: "Trabajar en CPython" = "cd infrastructure/cpython/builder/"
-4. **Modularización**: Cada subdomain puede tener su propia documentación y README
-5. **Boundaries claros**: Separación completa entre subsistemas de infraestructura
-6. **Eliminación de dispersión**: No más scripts/ separados de builder/, todo unificado
-7. **Convención DevContainer respetada**: Symlink installer/install.sh mantiene compatibilidad
-8. **Nomenclatura descriptiva**: `installer/` describe claramente su función (instalar CPython en DevContainer)
+**Ventajas del subdomain simplificado (Fase 4)**:
+1. **Máxima simplicidad**: TODO CPython directamente en `cpython/` - sin niveles extra
+2. **YAGNI aplicado**: Eliminado `builder/` innecesario (no había otros componentes fuera)
+3. **Escalabilidad**: Permite agregar infrastructure/go/, infrastructure/node/ en el futuro
+4. **Navegación directa**: "Trabajar en CPython" = "cd infrastructure/cpython/" y listo
+5. **Modularización**: Cada subdomain puede tener su propia documentación y README
+6. **Boundaries claros**: Separación completa entre subsistemas de infraestructura
+7. **Eliminación total de dispersión**: Todo unificado en un solo lugar
+8. **Convención DevContainer respetada**: Symlink installer/install.sh mantiene compatibilidad
+9. **Nomenclatura descriptiva**: `installer/` describe claramente su función (instalar CPython en DevContainer)
+10. **Pragmatismo**: CPython ES el builder, no hay distinción práctica
 
 **Aplicación**:
 - COMPLETADO Fase 2: Migración de CPython a subdomain (2025-11-06)
 - COMPLETADO Fase 3: Consolidación completa en builder/ (2025-11-06)
-- Todos los componentes unificados en infrastructure/cpython/builder/
-- Referencias actualizadas en 30+ archivos:
-  - Makefile (artifact paths)
+- COMPLETADO Fase 4: Simplificación - eliminación de builder/ innecesario (2025-11-06)
+- Todos los componentes en infrastructure/cpython/ (path más corto y directo)
+- Referencias actualizadas en 40+ archivos:
+  - Makefile (todos los targets cpython)
   - devcontainer.json (feature path, artifact URL)
-  - Vagrantfile (synced folders)
-  - Scripts wrapper (PROJECT_ROOT, paths)
-  - Tests (BASE_DIR, FEATURE_DIR, SCRIPTS_INFRA_DIR)
-  - 11 archivos de documentación (*.md)
+  - Vagrantfile (comentarios, paths)
+  - Scripts wrapper (PROJECT_ROOT: 4→3 niveles, VAGRANT_DIR)
+  - Tests (VAGRANT_DIR, INSTALLER_DIR paths)
+  - 15+ archivos de documentación (*.md)
 
 ---
 

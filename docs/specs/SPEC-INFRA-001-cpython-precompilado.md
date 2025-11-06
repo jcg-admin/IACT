@@ -134,7 +134,7 @@ Implementar un sistema de CPython precompilado distribuido mediante Feature pers
 **Precondiciones**:
 - VM Vagrant está disponible y funcionando
 - Conexión a internet para descargar código fuente de CPython
-- Directorio `infrastructure/cpython/builder/artifacts/` existe
+- Directorio `infrastructure/cpython/artifacts/` existe
 
 **Flujo Principal**:
 1. Desarrollador ejecuta `make build-cpython`
@@ -145,7 +145,7 @@ Implementar un sistema de CPython precompilado distribuido mediante Feature pers
 6. Sistema compila CPython con todas las extensiones nativas
 7. Sistema empaqueta binario en tarball versionado
 8. Sistema genera checksum SHA256
-9. Sistema copia artefacto a `infrastructure/cpython/builder/artifacts/`
+9. Sistema copia artefacto a `infrastructure/cpython/artifacts/`
 
 **Flujo Alterno 1a**: Descarga de código fuente falla
 1. Sistema reintenta hasta 3 veces
@@ -158,7 +158,7 @@ Implementar un sistema de CPython precompilado distribuido mediante Feature pers
 3. Desarrollador reintenta compilación
 
 **Postcondiciones**:
-- Artefacto `.tgz` existe en `infrastructure/cpython/builder/artifacts/`
+- Artefacto `.tgz` existe en `infrastructure/cpython/artifacts/`
 - Archivo `.sha256` con checksum está presente
 - Validación de módulos nativos pasa correctamente
 
@@ -550,7 +550,7 @@ La "interfaz" es la configuración declarativa en `devcontainer.json`:
 {
   "name": "IACT Django Project",
   "features": {
-    "./infrastructure/cpython/builder/installer": {
+    "./infrastructure/cpython/installer": {
       "version": "3.12.6",
       "artifactUrl": "https://github.com/2-Coatl/IACT---project/releases/download/cpython-3.12.6-build1/cpython-3.12.6-ubuntu22.04-build1.tgz"
     }
@@ -666,7 +666,7 @@ En `.devcontainer/devcontainer.json` (opt-in por proyecto):
 ```json
 {
   "features": {
-    "./infrastructure/cpython/builder/installer": {
+    "./infrastructure/cpython/installer": {
       "version": "3.12.6"
     }
   }

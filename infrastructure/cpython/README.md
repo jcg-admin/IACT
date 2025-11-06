@@ -51,7 +51,7 @@ sudo apt install virtualbox
 Desde el directorio raíz del proyecto:
 
 ```bash
-cd infrastructure/cpython/builder
+cd infrastructure/cpython
 vagrant up
 ```
 
@@ -90,10 +90,10 @@ cd /vagrant
 
 ### 4. Resultado
 
-Artefactos generados en: `infrastructure/cpython/builder/artifacts/`
+Artefactos generados en: `infrastructure/cpython/artifacts/`
 
 ```
-infrastructure/cpython/builder/artifacts/
+infrastructure/cpython/artifacts/
   +-- cpython-3.12.6-ubuntu22.04-build1.tgz
   +-- cpython-3.12.6-ubuntu22.04-build1.tgz.sha256
 ```
@@ -208,7 +208,7 @@ vb.cpus = 8         # 8 cores
 ## Estructura de Directorios
 
 ```
-infrastructure/cpython/builder/
+infrastructure/cpython/
 |
 +-- Vagrantfile             # Configuración de VM
 +-- bootstrap.sh            # Script de aprovisionamiento
@@ -296,7 +296,7 @@ find . -name "*.pyc" -delete
 
 # Re-empaquetar
 cd /opt
-sudo tar czf /vagrant/infrastructure/cpython/builder/artifacts/cpython-X.Y.Z-ubuntu22.04-build2.tgz python-X.Y.Z
+sudo tar czf /vagrant/infrastructure/cpython/artifacts/cpython-X.Y.Z-ubuntu22.04-build2.tgz python-X.Y.Z
 ```
 
 ---
@@ -350,8 +350,8 @@ Una vez generado y validado el artefacto:
 1. Publicar en GitHub Releases:
    ```bash
    gh release create cpython-3.12.6-build1 \
-     infrastructure/cpython/builder/artifacts/cpython-3.12.6-ubuntu22.04-build1.tgz \
-     infrastructure/cpython/builder/artifacts/cpython-3.12.6-ubuntu22.04-build1.tgz.sha256 \
+     infrastructure/cpython/artifacts/cpython-3.12.6-ubuntu22.04-build1.tgz \
+     infrastructure/cpython/artifacts/cpython-3.12.6-ubuntu22.04-build1.tgz.sha256 \
      --title "CPython 3.12.6 Build 1" \
      --notes "CPython 3.12.6 precompilado para Ubuntu 22.04"
    ```
