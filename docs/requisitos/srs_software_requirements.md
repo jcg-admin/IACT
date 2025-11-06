@@ -1,7 +1,7 @@
 ---
 id: DOC-SRS
 titulo: Software Requirements Specification (SRS)
-generado: 2025-11-06 11:29:20
+generado: 2025-11-06 11:41:40
 estandar: ISO/IEC/IEEE 29148:2018 - Clause 9.6
 conformance: Full Conformance
 ---
@@ -207,4 +207,4 @@ Por dominio:
 
 ---
 
-Generado: 2025-11-06 11:29:20
+Generado: 2025-11-06 11:41:40

@@ -1,7 +1,7 @@
 ---
 id: DOC-RTM
 titulo: Requirements Traceability Matrix (RTM)
-generado: 2025-11-06 11:29:20
+generado: 2025-11-06 11:41:40
 estandar: ISO/IEC/IEEE 29148:2018 - Clause 5.2.8
 ---
 
@@ -20,8 +20,7 @@ Matriz de trazabilidad bidireccional de todos los requisitos.
 | DOC-REQ-BACKEND-PLANTILLA |  |  |  | borrador | - | - |
 | DOC-REQ-BACKEND-TRACE |  |  |  | borrador | - | - |
 | DOC-RESTRICCIONES-MAESTRO | Documento Maestro de Restricciones y Lineamientos | restricciones | global | definitivo | - | - |
-| N-001 | Prevenir accesos fraudulentos mediante autenticacion robusta | necesidad | backend | aprobado | - | - |
-| N-001 | Garantizar seguridad operacional y cumplimiento normativo mediante auditoría completa | necesidad | backend | aprobado | - | - |
+| N-001 | Obtener visibilidad de metricas operativas del IVR en tiempo casi real | necesidad | backend | aprobado | - | - |
 | N-002 | Datos actualizados para toma de decisiones oportunas | necesidad | backend | aprobado | - | - |
 | N-003 | Visibilidad de metricas operativas en tiempo casi real | necesidad | backend | aprobado | - | - |
 | RF-001 | Sistema de evaluación de permisos con tres niveles de precedencia | funcional | backend | implementado | N-001  # Necesidad de control de acceso granular | TEST-001  # test_permission_precedence.py |
@@ -43,18 +42,16 @@ Matriz de trazabilidad bidireccional de todos los requisitos.
 | RF-010 | Pantalla de login con validaciones | funcional | frontend | aprobado | [, N, -, 0, 0, 1, ,,  , R, N, -, 0, 0, 1, ,,  , R, S, -, 0, 0, 2, ] | [, T, E, S, T, -, R, F, -, 0, 1, 0, -, u, i, ] |
 | RF-011 | Pantalla de cambio de password | funcional | frontend | aprobado | [, N, -, 0, 0, 1, ,,  , R, N, -, 0, 0, 1, ] | [, T, E, S, T, -, R, F, -, 0, 1, 1, -, u, i, ] |
 | RF-020 | CPython 3.12.6 precompilado en Dev Container | funcional | infrastructure | aprobado | [, O, b, j, e, t, i, v, o, -, D, e, v, E, x, p, ] | [, C, O, N, F, I, G, -, d, e, v, c, o, n, t, a, i, n, e, r, ] |
-| RN-001 | Sistema de autenticacion seguro con prevencion de fraude | negocio | backend | aprobado | N-001  # Prevenir accesos fraudulentos mediante autenticacion robusta | RS-001  # Auditoria requiere trazabilidad completa, RS-002  # Usuarios requieren acceso rapido, RF-001  # Login con credenciales, RF-002  # Tokens JWT, RF-003  # Bloqueo intentos fallidos, RF-004  # Sesion unica, RF-005  # Logout manual, RF-006  # Recuperacion password sin email, RNF-001 # Tiempo respuesta login, RNF-002 # Sesiones en BD MySQL |
 | RN-001 | Sistema de seguridad y auditoría conforme a ISO 27001 | negocio | backend | aprobado | N-001 | RS-001, RS-002, RF-001, RF-002, RF-003, RNF-001, RNF-002 |
 | RN-C01-COMPONENTE-1 | Reglas de Negocio - Componente 1 - Autenticación y Sesiones | reglas_negocio | backend | completo_definitivo | - | - |
 | RNF-001 | Tiempo de respuesta login menor 2 segundos (P95) | no_funcional | backend | aprobado | [, N, -, 0, 0, 1, ,,  , R, N, -, 0, 0, 1, ,,  , R, S, -, 0, 0, 2, ] | [, T, E, S, T, -, R, N, F, -, 0, 0, 1, -, p, e, r, f, o, r, m, a, n, c, e, ] |
 | RNF-002 | Sesiones almacenadas en MySQL (NO Redis) | no_funcional | backend | aprobado | [, N, -, 0, 0, 1, ,,  , R, N, -, 0, 0, 1, ] | [, C, O, D, E, -, d, j, a, n, g, o, -, s, e, t, t, i, n, g, s, -, s, e, s, s, i, o, n, s, ] |
 | RNF-020 | Disponibilidad del sistema 99.9% uptime | no_funcional | infrastructure | aprobado | [, R, N, -, 0, 0, 1, ] | [, M, O, N, I, T, O, R, -, u, p, t, i, m, e, ] |
-| RS-001 | Dashboard de seguridad para monitoreo continuo | stakeholder | backend | aprobado | N-001, RN-001 | RF-010, RNF-001 |
 | RS-001 | Auditoria requiere trazabilidad completa de accesos | stakeholder | backend | aprobado | N-001  # Prevenir accesos fraudulentos mediante autenticacion robusta, RN-001 # Sistema de autenticacion seguro con prevencion de fraude | RF-001  # Login con credenciales, RF-003  # Bloqueo intentos fallidos, RF-004  # Sesion unica, RF-005  # Logout manual |
 | RS-002 | Reportes automatizados de compliance | stakeholder | backend | aprobado | N-001, RN-001 | RF-002, RF-003, RNF-001 |
 | RS-002 | Usuarios requieren acceso rapido menor 2 segundos | stakeholder | backend | aprobado | N-001  # Prevenir accesos fraudulentos mediante autenticacion robusta, RN-001 # Sistema de autenticacion seguro con prevencion de fraude | RF-001  # Login con credenciales, RF-002  # Tokens JWT, RNF-001 # Tiempo respuesta login menor 2 segundos |
 
 ---
 
-Generado: 2025-11-06 11:29:20
-Total requisitos: 36
+Generado: 2025-11-06 11:41:40
+Total requisitos: 33

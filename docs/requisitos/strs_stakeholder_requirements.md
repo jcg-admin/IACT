@@ -1,7 +1,7 @@
 ---
 id: DOC-STRS
 titulo: Stakeholder Requirements Specification (StRS)
-generado: 2025-11-06 11:29:20
+generado: 2025-11-06 11:41:40
 estandar: ISO/IEC/IEEE 29148:2018 - Clause 9.4
 conformance: Full Conformance
 ---
@@ -18,22 +18,14 @@ Conforme a: ISO/IEC/IEEE 29148:2018 - Clause 9.4
 
 ## Resumen Ejecutivo
 
-Total de requisitos de stakeholders: 4
+Total de requisitos de stakeholders: 3
 
 Por dominio:
-- backend: 4 requisitos
+- backend: 3 requisitos
 
 ---
 
 ## Dominio: BACKEND
-
-### RS-001: Dashboard de seguridad para monitoreo continuo
-
-- **Owner**: equipo-ba
-- **Prioridad**: alta
-- **Estado**: aprobado
-- **Archivo**: `implementacion/backend/requisitos/stakeholders/rs001_dashboard_seguridad_monitoreo_continuo.md`
-- **Deriva de**: N-001, RN-001
 
 ### RS-001: Auditoria requiere trazabilidad completa de accesos
 
@@ -62,4 +54,4 @@ Por dominio:
 
 ---
 
-Generado: 2025-11-06 11:29:20
+Generado: 2025-11-06 11:41:40

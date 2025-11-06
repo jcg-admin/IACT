@@ -1,7 +1,7 @@
 ---
 id: DOC-BRS
 titulo: Business Requirements Specification (BRS)
-generado: 2025-11-06 11:29:20
+generado: 2025-11-06 11:41:40
 estandar: ISO/IEC/IEEE 29148:2018 - Clause 9.3
 conformance: Full Conformance
 ---
@@ -18,23 +18,14 @@ Conforme a: ISO/IEC/IEEE 29148:2018 - Clause 9.3
 
 ## Resumen Ejecutivo
 
-Total de requisitos de negocio: 2
+Total de requisitos de negocio: 1
 
 Por dominio:
-- backend: 2 requisitos
+- backend: 1 requisitos
 
 ---
 
 ## Dominio: BACKEND
-
-### RN-001: Sistema de autenticacion seguro con prevencion de fraude
-
-- **Owner**: equipo-producto
-- **Prioridad**: critica
-- **Estado**: aprobado
-- **Archivo**: `implementacion/backend/requisitos/negocio/rn001_sistema_autenticacion_seguro_prevencion_fraude.md`
-- **Trazabilidad Upward**: N-001  # Prevenir accesos fraudulentos mediante autenticacion robusta
-- **Stakeholders**: director-operaciones, gerente-seguridad, auditoria-interna, usuarios-finales, administradores-sistema
 
 ### RN-001: Sistema de seguridad y auditoría conforme a ISO 27001
 
@@ -48,4 +39,4 @@ Por dominio:
 
 ---
 
-Generado: 2025-11-06 11:29:20
+Generado: 2025-11-06 11:41:40
