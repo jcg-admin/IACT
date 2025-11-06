@@ -2,17 +2,18 @@
 id: DOC-PROYECTO-CHANGELOG
 tipo: changelog
 categoria: documentacion
-version: 1.0.0
+version: 1.4.5
 fecha_creacion: 2025-11-06
+fecha_actualizacion: 2025-11-06
 propietario: arquitecto-senior
-relacionados: ["ROADMAP.md", "TAREAS_ACTIVAS.md"]
+relacionados: ["ROADMAP.md", "TAREAS_ACTIVAS.md", "FASES_IMPLEMENTACION_IA.md"]
 ---
 
 # CHANGELOG - Proyecto IACT
 
 Registro cronologico de cambios, features y mejoras completadas.
 
-**Version:** 1.0.0
+**Version:** 1.4.5
 **Formato:** Basado en [Keep a Changelog](https://keepachangelog.com/)
 **Versionado:** [Semantic Versioning](https://semver.org/)
 
@@ -34,6 +35,61 @@ Registro cronologico de cambios, features y mejoras completadas.
 - Formalizar MLOps Engineer role
 - Documentar collaboration protocols AI specialists + Platform team
 - Establecer ROI metrics para AI + Platform synergy
+
+---
+
+## [1.4.5] - 2025-11-06
+
+### Added - FASES_IMPLEMENTACION_IA.md (v1.0.0 -> v2.0.0)
+
+Integracion completa de las **6 fases de implementacion IA** basadas en DORA Report 2025, incluyendo Master Workflow Canvas.
+
+**Nuevas fases agregadas:**
+
+**FASE 5: Medicion, Validacion y Mejora Continua**
+- Objetivo: Establecer ciclos de retroalimentacion rapidos para medir impacto IA en metricas DORA
+- 6 tareas tecnicas (T5.1-T5.6)
+- Herramientas: InfluxDB, LaunchDarkly, Grafana, Prometheus Alertmanager
+- Metricas esperadas: DF +30-50%, LT -25-35%, CFR -20-30%, MTTR -15-25%
+- Estado IACT: 40% completado
+- Gaps: Time-series DB (8 SP), A/B testing (8 SP), Alertas (5 SP), PDCA (5 SP)
+
+**FASE 6: Escalamiento Tecnico y Consolidacion**
+- Objetivo: Escalar practicas IA a toda la organizacion, estandarizar pipelines
+- 7 tareas tecnicas (T6.1-T6.7)
+- Herramientas: Terraform, Helm, Backstage, Grafana Cloud, Artifactory
+- Metricas esperadas: >90% cobertura equipos, >85% uniformidad pipelines, <1 dia onboarding
+- Estado IACT: 30% completado
+- Gaps: Templates IaC (8 SP), IDP (21 SP), SDK interno (13 SP), Training (8 SP)
+
+**FASE MASTER: Canvas de Workflow Completo**
+- Vision integrada de las 6 fases con flujo tecnico completo
+- Tabla resumen: Duraciones estimadas, dependencias criticas, entregables clave
+- Metricas de impacto DORA esperadas (baseline vs Elite tier)
+- Riesgos tecnicos y mitigaciones
+- 6 Gates de decision (criterios de salida + validacion)
+- Roadmap visual Q4 2025 - Q3 2026
+
+**Cambios en metricas globales:**
+- Score global actualizado: 82.5% (4 fases) -> 66.7% (6 fases)
+- Esfuerzo total actualizado: 44 SP -> 144 SP (~9 semanas con 2 devs)
+- Target actualizado: Q1 2026 -> Q2 2026 (Elite tier ready Jun 2026)
+
+**Progreso por fase:**
+- Fase 1: 90% | Fase 2: 80% | Fase 3: 75% | Fase 4: 85% (ya existentes)
+- Fase 5: 40% (nuevo) | Fase 6: 30% (nuevo)
+
+**Roadmap extendido:**
+- Q4 2025: Fases 1-4 completadas 100%
+- Q1 2026: Fase 5 completada 100% (metricas DORA validadas)
+- Q2 2026: Fase 6 completada 100% (Elite tier alcanzado, organizacion AI-native)
+
+**Compliance:**
+- RNF-NO-EMOJIS: Validado con `./scripts/clean_emojis.sh` - Sin emojis
+- CODEOWNERS: Ya configurado para `docs/gobernanza/ai/**`
+
+**Archivos:**
+- `docs/gobernanza/ai/FASES_IMPLEMENTACION_IA.md` (v2.0.0, 707 lineas)
 
 ---
 
