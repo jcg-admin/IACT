@@ -1,12 +1,14 @@
 ---
 id: DOC-ESTRATEGIA-REORGANIZACION-DOMINIO
-estado: PROPUESTA
+estado: LISTA_PARA_EJECUTAR
 propietario: equipo-arquitectura
 fecha: 2025-11-06
-version: 1.0
+version: 2.0
 prioridad: CRITICA
 impacto: ALTO
-esfuerzo: 8-12 horas
+esfuerzo_automatizado: 5-10 minutos
+esfuerzo_manual: 8-12 horas
+scripts_incluidos: ["reorganizar_docs_por_dominio.sh", "validar_estructura_docs.sh"]
 relacionados: ["DOC-PROPUESTA-FINAL-REESTRUCTURACION", "DOC-REPORTE-DUPLICADOS", "DOC-ANALISIS-UBICACION-ARCHIVOS"]
 ---
 
@@ -55,6 +57,98 @@ docs/
 | Longitud ruta promedio | 58 caracteres | 46 caracteres | -20% |
 | Tiempo navegación | ~15 clicks | ~10 clicks | -33% |
 | Confusión estructura | Alta | Baja | Elimina ambigüedad |
+
+---
+
+## EJECUCIÓN AUTOMATIZADA (RECOMENDADO)
+
+### Opción A: Ejecución con un Solo Comando (SIN intervención manual)
+
+Se han creado scripts automatizados que ejecutan la reorganización completa:
+
+```bash
+# 1. Probar primero en modo dry-run (simula sin ejecutar)
+./scripts/reorganizar_docs_por_dominio.sh --dry-run
+
+# 2. Si el dry-run se ve bien, ejecutar la reorganización real
+./scripts/reorganizar_docs_por_dominio.sh
+
+# 3. Validar que todo está correcto
+./scripts/validar_estructura_docs.sh
+
+# 4. Regenerar índices ISO 29148
+python scripts/requisitos/generate_requirements_index.py
+
+# 5. Commitear cambios
+git commit -m "refactor(docs): reorganizar estructura por dominio eliminando nivel implementacion/"
+
+# 6. Push
+git push
+```
+
+**Tiempo estimado: 5-10 minutos** (vs 8-12 horas manual)
+
+### Scripts Disponibles
+
+#### `scripts/reorganizar_docs_por_dominio.sh`
+
+Script principal que ejecuta toda la reorganización automáticamente:
+
+**Funcionalidades:**
+- Crea backup automático en `respaldo/docs_backup_YYYYMMDD_HHMMSS.tar.gz`
+- Mueve directorios (implementacion/backend → backend/, etc.)
+- Fusiona `implementacion/infrastructure/` + `infraestructura/` → `infrastructure/`
+- Actualiza TODAS las referencias en archivos .md automáticamente
+- Actualiza scripts Python de generación de índices
+- Valida estructura final
+- Agrega cambios a git staging
+
+**Opciones:**
+- `--dry-run`: Simula la ejecución sin hacer cambios reales (RECOMENDADO probar primero)
+
+**Características de seguridad:**
+- Crea backup antes de cualquier cambio
+- Modo dry-run para previsualizar cambios
+- Validaciones en cada fase
+- Output colorizado para fácil lectura
+- Detección de errores con `set -e`
+
+#### `scripts/validar_estructura_docs.sh`
+
+Script de validación post-migración que verifica:
+
+- Directorio `implementacion/` eliminado
+- Directorios principales existen (backend/, frontend/, infrastructure/)
+- No hay referencias huérfanas a "implementacion/" en archivos .md
+- No hay referencias huérfanas a "infraestructura/"
+- Conteo de archivos por dominio
+- Enlaces markdown en archivos principales no están rotos
+- Estado de git
+
+**Salida:**
+- Exit code 0: Validación exitosa
+- Exit code 1: Errores encontrados
+- Reporte detallado con contadores de errores/warnings
+
+### Ventajas del Método Automatizado
+
+| Aspecto | Manual | Automatizado |
+|---------|--------|--------------|
+| Tiempo de ejecución | 8-12 horas | 5-10 minutos |
+| Errores humanos | Posibles | Eliminados |
+| Backup | Manual | Automático |
+| Validación | Manual | Automática |
+| Rollback | Complejo | Restaurar backup |
+| Repetibilidad | Baja | Alta |
+| Documentación | Requiere actualizar | Auto-documentado |
+
+---
+
+## EJECUCIÓN MANUAL (Alternativa detallada)
+
+Si prefieres ejecutar manualmente paso a paso, sigue las fases detalladas a continuación.
+
+**NOTA:** El método automatizado es más rápido, seguro y no requiere intervención manual.
 
 ---
 
