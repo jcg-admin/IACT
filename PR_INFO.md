@@ -3,7 +3,7 @@
 ## Datos del PR
 
 **Branch**: `claude/fix-docs-references-011CUnyrJn5oJG3NKJcNnuyc`
-**Base branch**: `main` (o `master` según tu configuración)
+**Base branch**: `develop`
 
 ---
 
@@ -50,7 +50,7 @@ Este PR implementa un sistema completo de agentes de IA para automatizar la gene
 - **Agentes implementados**: 5
 - **Tests unitarios**: 40+
 - **Estándares conformes**: ISO 29148:2018, BABOK v3, UML 2.5
-- **Commits**: 4 (3 lotes + documentación metodología)
+- **Commits**: 5 (3 lotes + documentación metodología + PR info)
 - **Tasa de éxito**: 100% (0 rollbacks, 0 errores bloqueantes)
 
 ### Capacidades del Sistema
@@ -156,6 +156,7 @@ La metodología documentada puede reutilizarse en futuros desarrollos grandes de
 ## Commits Incluidos
 
 ```
+5c84b7f - docs: agregar información para creación de Pull Request
 8c63f71 - docs(desarrollo): agregar metodología de desarrollo por lotes
 8181a39 - feat(agents): agregar pipeline, tests y documentación de análisis de negocio (LOTE 3)
 4e45470 - feat(agents): agregar validadores y utilidades de análisis de negocio (LOTE 2)
@@ -166,14 +167,16 @@ b7f88ea - feat(agents): agregar generadores principales de análisis de negocio 
 
 ## Instrucciones para Crear el PR Manualmente
 
-1. Ve al repositorio en GitHub: https://github.com/2-Coatl/IACT---project
-2. Haz clic en "Pull requests" en el menú superior
-3. Haz clic en el botón verde "New pull request"
-4. Selecciona:
-   - **base**: `main` (o la rama principal de tu proyecto)
-   - **compare**: `claude/fix-docs-references-011CUnyrJn5oJG3NKJcNnuyc`
-5. Copia el título y descripción de arriba
-6. Haz clic en "Create pull request"
+1. Haz clic en el link directo: https://github.com/2-Coatl/IACT---project/compare/develop...claude/fix-docs-references-011CUnyrJn5oJG3NKJcNnuyc
+2. O manualmente:
+   - Ve al repositorio en GitHub: https://github.com/2-Coatl/IACT---project
+   - Haz clic en "Pull requests" en el menú superior
+   - Haz clic en el botón verde "New pull request"
+   - Selecciona:
+     - **base**: `develop`
+     - **compare**: `claude/fix-docs-references-011CUnyrJn5oJG3NKJcNnuyc`
+3. Copia el título y descripción de arriba
+4. Haz clic en "Create pull request"
 
 ---
 
@@ -181,5 +184,11 @@ b7f88ea - feat(agents): agregar generadores principales de análisis de negocio 
 
 - **Repository**: 2-Coatl/IACT---project
 - **Branch actual**: claude/fix-docs-references-011CUnyrJn5oJG3NKJcNnuyc
-- **Commits ahead**: 4
-- **Files changed**: 11 archivos nuevos, 1 modificado
+- **Base branch**: develop
+- **Commits ahead**: 5
+- **Files changed**: 12 archivos nuevos, 1 modificado
+
+## Link Directo para Crear el PR
+
+🔗 **Haz clic aquí para crear el PR:**
+https://github.com/2-Coatl/IACT---project/compare/develop...claude/fix-docs-references-011CUnyrJn5oJG3NKJcNnuyc
