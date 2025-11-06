@@ -1,7 +1,7 @@
 # Makefile para Proyecto IACT
 # Gestión de documentación, pruebas y desarrollo
 
-.PHONY: help docs-install docs-build docs-serve docs-clean docs-deploy clean test vagrant-up vagrant-down vagrant-ssh
+.PHONY: help docs-install docs-build docs-serve docs-clean docs-deploy clean test vagrant-up vagrant-down vagrant-ssh validate-spec check-all generate-plan
 
 # Variables
 MKDOCS_CONFIG = docs/mkdocs.yml
@@ -90,6 +90,32 @@ check-services: ## Verificar servicios de base de datos
 	@echo "$(BLUE)Verificando servicios...$(NC)"
 	./scripts/verificar_servicios.sh
 
+##@ Spec-Driven Development
+
+validate-spec: ## Validar especificaciones de features
+	@echo "$(BLUE)Validando especificaciones...$(NC)"
+	@if [ -z "$(SPEC)" ]; then \
+		./scripts/dev/validate-spec.sh --all; \
+	else \
+		./scripts/dev/validate-spec.sh $(SPEC); \
+	fi
+
+check-all: ## Ejecutar todos los checks de calidad (pre-commit, emojis, specs)
+	@echo "$(BLUE)Ejecutando todos los checks...$(NC)"
+	./scripts/dev/check-all.sh
+
+check-all-fix: ## Ejecutar checks con auto-corrección
+	@echo "$(BLUE)Ejecutando checks con auto-corrección...$(NC)"
+	./scripts/dev/check-all.sh --fix
+
+generate-plan: ## Generar plan de implementación desde spec
+	@if [ -z "$(SPEC)" ]; then \
+		echo "$(YELLOW)Uso: make generate-plan SPEC=docs/specs/mi-feature.md$(NC)"; \
+		exit 1; \
+	fi
+	@echo "$(BLUE)Generando plan desde: $(SPEC)$(NC)"
+	./scripts/dev/generate-plan.sh $(SPEC)
+
 ##@ Testing
 
 test: ## Ejecutar pruebas del proyecto (cuando estén disponibles)
@@ -116,6 +142,7 @@ setup: docs-install ## Configurar entorno completo del proyecto
 	@echo "  1. make vagrant-up      # Levantar bases de datos"
 	@echo "  2. make check-services  # Verificar conectividad"
 	@echo "  3. make docs-serve      # Ver documentación"
+	@echo "  4. make check-all       # Validar código antes de commit"
 	@echo ""
 
 ##@ Atajos comunes

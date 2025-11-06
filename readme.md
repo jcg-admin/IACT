@@ -86,6 +86,45 @@ La documentación estará disponible en:
 
 Ver [Guía Completa de Desarrollo de Features](docs/gobernanza/procesos/guia_completa_desarrollo_features.md) para proceso detallado paso a paso.
 
+## Spec-Driven Development
+
+El proyecto implementa desarrollo guiado por especificaciones formales. Para features complejas:
+
+**1. Crear especificación**:
+```bash
+# Usar plantilla de spec
+cp docs/plantillas/desarrollo/plantilla_spec.md docs/specs/mi-feature.md
+
+# Validar spec
+make validate-spec SPEC=docs/specs/mi-feature.md
+```
+
+**2. Generar plan de implementación**:
+```bash
+# Auto-generar plan desde spec
+make generate-plan SPEC=docs/specs/mi-feature.md
+```
+
+**3. Validar código antes de commit**:
+```bash
+# Ejecutar todos los checks (pre-commit, emojis, specs)
+make check-all
+
+# Con auto-corrección
+make check-all-fix
+```
+
+**Comandos disponibles**:
+- `make validate-spec` - Validar todas las especificaciones
+- `make generate-plan SPEC=<file>` - Generar plan desde spec
+- `make check-all` - Ejecutar todos los checks de calidad
+- `make check-all-fix` - Ejecutar checks con auto-corrección
+
+**Referencias**:
+- [Plantilla de Especificación](docs/plantillas/desarrollo/plantilla_spec.md)
+- [Plantilla de Plan](docs/plantillas/desarrollo/plantilla_plan.md)
+- [Constitution para Agentes AI](docs/gobernanza/agentes/constitution.md)
+
 ## Guías y estándares
 
 - **[Guía de Estilo](docs/gobernanza/GUIA_ESTILO.md)** - Convenciones obligatorias del proyecto (incluyendo prohibición de emojis)
