@@ -72,6 +72,17 @@ repos:
         args: [--baseline, .secrets.baseline]
         exclude: (\.env\.example|package-lock\.json)$
 
+  # Custom hooks - Proyecto IACT
+  - repo: local
+    hooks:
+      - id: no-emojis
+        name: Detectar emojis en archivos
+        entry: python scripts/check_no_emojis.py
+        language: system
+        files: \.(md|txt|py|js|ts|jsx|tsx|yaml|yml|json|sh|bash)$
+        pass_filenames: true
+        description: "Prevenir uso de emojis en documentación y código"
+
 # CI skip for performance
 ci:
   autofix_commit_msg: |

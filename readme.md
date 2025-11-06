@@ -84,6 +84,14 @@ La documentación estará disponible en:
 3. Sigue TDD para nuevas funcionalidades.
 4. Mantén una cobertura mínima del 80%.
 
+Ver [Guía Completa de Desarrollo de Features](docs/gobernanza/procesos/guia_completa_desarrollo_features.md) para proceso detallado paso a paso.
+
+## Guías y estándares
+
+- **[Guía de Estilo](docs/gobernanza/GUIA_ESTILO.md)** - Convenciones obligatorias del proyecto (incluyendo prohibición de emojis)
+- [Procedimiento de Gestión de Cambios](docs/gobernanza/procesos/procedimiento_gestion_cambios.md) - Workflow Git estándar
+- [Procedimiento de Desarrollo Local](docs/gobernanza/procesos/procedimiento_desarrollo_local.md) - Setup entorno local
+
 ## Recursos adicionales
 
 - [Guía de verificación de servicios](docs/devops/runbooks/verificar_servicios.md)
