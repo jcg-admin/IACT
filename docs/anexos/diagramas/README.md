@@ -11,7 +11,7 @@ herramientas: ["Mermaid", "PlantUML", "Draw.io"]
 Este espacio almacena diagramas técnicos, arquitectónicos y de proceso del proyecto IACT.
 
 ## Página padre
-- [Anexos](../readme.md)
+- [Anexos](../README.md)
 
 ## Información clave
 
@@ -224,6 +224,6 @@ code --install-extension jebbs.plantuml
 
 ## Recursos relacionados
 - [Guía de Casos de Uso](../../gobernanza/casos_de_uso_guide.md)
-- [Arquitectura](../../arquitectura/readme.md)
-- [Diseño Detallado](../../diseno_detallado/readme.md)
-- [Ejemplos Completos](../ejemplos/readme.md)
+- [Arquitectura](../../arquitectura/README.md)
+- [Diseño Detallado](../../diseno_detallado/README.md)
+- [Ejemplos Completos](../ejemplos/README.md)

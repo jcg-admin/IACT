@@ -90,19 +90,19 @@ tar -xzf cpython-{VERSION}-ubuntu22.04-build{BUILD_NUMBER}.tgz -C /tmp/test-cpyt
 
 ### Tests Ejecutados
 
-- ✓ Checksum SHA256 validado
-- ✓ Python ejecuta correctamente
-- ✓ `python3 --version` muestra {VERSION}
-- ✓ Módulos nativos importan sin errores:
-  - `import ssl` ✓
-  - `import sqlite3` ✓
-  - `import lzma` ✓
-  - `import bz2` ✓
-  - `import uuid` ✓
-  - `import ctypes` ✓
-- ✓ `pip3 --version` funciona
-- ✓ `pip3 list` muestra paquetes base
-- ✓ LICENSE incluido en tarball
+- - Checksum SHA256 validado
+- - Python ejecuta correctamente
+- - `python3 --version` muestra {VERSION}
+- - Módulos nativos importan sin errores:
+  - `import ssl` -
+  - `import sqlite3` -
+  - `import lzma` -
+  - `import bz2` -
+  - `import uuid` -
+  - `import ctypes` -
+- - `pip3 --version` funciona
+- - `pip3 list` muestra paquetes base
+- - LICENSE incluido en tarball
 
 ### Changelog
 

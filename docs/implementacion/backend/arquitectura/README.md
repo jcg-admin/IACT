@@ -11,7 +11,7 @@ Agrupa decisiones técnicas, diagramas y lineamientos de código que sostienen e
 los acuerdos de negocio con documentación formal como ADR, modelos de despliegue y convenciones de desarrollo.
 
 ## Página padre
-- [`../readme.md`](../readme.md)
+- [`../README.md`](../README.md)
 
 ## Páginas hijas
 - [`lineamientos_codigo.md`](lineamientos_codigo.md)
@@ -43,9 +43,9 @@ los acuerdos de negocio con documentación formal como ADR, modelos de despliegu
 | Inventario de diagramas/topologías | No | Debe construirse siguiendo la plantilla SAD. |
 
 ## Integración con el flujo documental principal
-- Recibe restricciones desde [`../../vision_y_alcance/readme.md`](../../vision_y_alcance/readme.md).
-- Alinea decisiones con la priorización de [`../requisitos/readme.md`](../requisitos/readme.md).
-- Provee insumos a [`../diseno_detallado/readme.md`](../diseno_detallado/readme.md) y coordina despliegues con [`../../infrastructure/devops/readme.md`](../../infrastructure/devops/readme.md).
+- Recibe restricciones desde [`../../vision_y_alcance/README.md`](../../vision_y_alcance/README.md).
+- Alinea decisiones con la priorización de [`../requisitos/README.md`](../requisitos/README.md).
+- Provee insumos a [`../diseno_detallado/README.md`](../diseno_detallado/README.md) y coordina despliegues con [`../../infrastructure/devops/README.md`](../../infrastructure/devops/README.md).
 
 ## Acciones prioritarias
 - [ ] WKF-SDLC-130 – Crear repositorio de diagramas _(Pendiente; seguir formato documentado en el flujo)_.

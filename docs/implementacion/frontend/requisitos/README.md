@@ -7,15 +7,15 @@ relacionados: ["DOC-REQ-INDEX", "DOC-ARQ-FRONTEND"]
 ---
 # Requisitos del frontend
 
-Complementa los lineamientos corporativos de [`../../requisitos/readme.md`](../../requisitos/readme.md) con criterios de experiencia de usuario y comportamiento del cliente web.
+Complementa los lineamientos corporativos de [`../../requisitos/README.md`](../../requisitos/README.md) con criterios de experiencia de usuario y comportamiento del cliente web.
 
 ## Página padre
-- [`../readme.md`](../readme.md)
+- [`../README.md`](../README.md)
 
 ## Enlaces relevantes
-- Arquitectura UX/UI: [`../arquitectura/readme.md`](../arquitectura/readme.md)
-- Diseño detallado: [`../diseno_detallado/readme.md`](../diseno_detallado/readme.md)
-- Estrategia de QA: [`../qa/readme.md`](../qa/readme.md)
+- Arquitectura UX/UI: [`../arquitectura/README.md`](../arquitectura/README.md)
+- Diseño detallado: [`../diseno_detallado/README.md`](../diseno_detallado/README.md)
+- Estrategia de QA: [`../qa/README.md`](../qa/README.md)
 
 ## Aspectos a documentar
 - Requisitos funcionales por flujo y rol, alineados con los casos de uso corporativos.

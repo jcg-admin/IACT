@@ -625,7 +625,7 @@ pytest api/subscriptions/ -v --cov=api/subscriptions --cov-report=term-missing
 
 **Archivos a crear/actualizar**:
 - `docs/api/subscriptions.md`
-- `docs/api/readme.md`
+- `docs/api/README.md`
 
 **Contenido**:
 - Endpoints disponibles

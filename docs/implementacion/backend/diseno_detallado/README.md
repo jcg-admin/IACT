@@ -10,7 +10,7 @@ relacionados: ["DOC-ARQ-BACKEND", "DOC-REQ-INDEX", "DOC-UX-INDEX"]
 Extiende las decisiones de arquitectura hacia especificaciones técnicas por módulo del backend. Este espacio sirve como puente entre requisitos priorizados y el trabajo de desarrollo siguiendo TDD.
 
 ## Página padre
-- [`../readme.md`](../readme.md)
+- [`../README.md`](../README.md)
 
 ## Páginas hijas
 - _Pendiente de registrar subpáginas; se crearán conforme se documenten módulos específicos._
@@ -35,7 +35,7 @@ Extiende las decisiones de arquitectura hacia especificaciones técnicas por mó
 | Checklist de revisión técnica | No | Debe derivarse en coordinación con QA y DevOps. |
 
 ## Integración con el flujo documental principal
-- Toma decisiones base de [`../arquitectura/readme.md`](../arquitectura/readme.md).
+- Toma decisiones base de [`../arquitectura/README.md`](../arquitectura/README.md).
 - Mantiene coherencia con [`../devops/runbooks/`](../devops/runbooks/) para despliegue.
 - Coordina validaciones con [`../../qa/estrategia_qa.md`](../../qa/estrategia_qa.md).
 

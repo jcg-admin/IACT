@@ -15,9 +15,9 @@ Este espacio documenta las decisiones arquitectónicas, patrones de diseño, com
 ## Páginas hijas
 - [Lineamientos de código](lineamientos_codigo.md)
 - [Architecture Decision Records (ADR)](adr/plantilla_adr.md)
-- [Backend - Arquitectura](../backend/arquitectura/readme.md)
-- [Frontend - Arquitectura](../frontend/arquitectura/readme.md)
-- [Infrastructure - Arquitectura](../infrastructure/arquitectura/readme.md)
+- [Backend - Arquitectura](../backend/arquitectura/README.md)
+- [Frontend - Arquitectura](../frontend/arquitectura/README.md)
+- [Infrastructure - Arquitectura](../infrastructure/arquitectura/README.md)
 
 ## Información clave
 
@@ -141,7 +141,7 @@ Las decisiones arquitectónicas significativas se documentan mediante **Architec
 - [ ] Crear ADR para elección de Django vs FastAPI
 
 ## Recursos relacionados
-- [Requisitos del Sistema](../requisitos/readme.md)
-- [Diseño Detallado](../diseno_detallado/readme.md)
-- [DevOps](../devops/readme.md)
-- [README principal](../../readme.md)
+- [Requisitos del Sistema](../requisitos/README.md)
+- [Diseño Detallado](../diseno_detallado/README.md)
+- [DevOps](../devops/README.md)
+- [README principal](../../README.md)

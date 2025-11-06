@@ -10,7 +10,7 @@ relacionados: ["DOC-GOB-INDEX", "DOC-REL-INDEX"]
 Listas de verificación enfocadas en la operación documental y la trazabilidad de cambios que afectan a Infraestructura y PMO.
 
 ## Página padre
-- [`../readme.md`](../readme.md)
+- [`../README.md`](../README.md)
 
 ## Páginas hijas
 - [`checklist_cambios_documentales.md`](checklist_cambios_documentales.md)
@@ -21,7 +21,7 @@ Listas de verificación enfocadas en la operación documental y la trazabilidad 
 
 ### Recomendaciones
 - Mantener evidencia de aprobaciones en [`../gobernanza/lineamientos_gobernanza.md`](../gobernanza/lineamientos_gobernanza.md).
-- Coordinar las actualizaciones de documentación con [`../planificacion_y_releases/readme.md`](../planificacion_y_releases/readme.md).
+- Coordinar las actualizaciones de documentación con [`../planificacion_y_releases/README.md`](../planificacion_y_releases/README.md).
 
 ## Estado de cumplimiento
 | Elemento en la base maestra | ¿Existe en repositorio? | Observaciones |

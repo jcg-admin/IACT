@@ -55,14 +55,14 @@ vincular la evidencia correspondiente, siguiendo lo establecido en [documentacio
 | Página origen | Ubicación local | Estado | Comentarios |
 | --- | --- | --- | --- |
 | docs/backend/planificacion_documentacion.md | `planificacion_documentacion.md` |  Completado | Planificación detallada SC03 |
-| docs/backend/arquitectura/readme.md | `arquitectura/readme.md` |  Completado | Patrones arquitectónicos documentados |
-| docs/backend/checklists/readme.md | `checklists/readme.md` | Pendiente | Crear checklist de despliegues.
-| docs/backend/devops/readme.md | `devops/readme.md` | Pendiente | Definir scripts de CI/CD.
-| docs/backend/diseno_detallado/readme.md | `diseno_detallado/readme.md` |  En progreso | SC03: Documentar 10 apps Django |
-| docs/backend/planificacion_y_releases/readme.md | `planificacion_y_releases/readme.md` | Pendiente | Necesita cronograma vigente.
-| docs/backend/qa/readme.md | `qa/readme.md` | Pendiente | Documentar métricas de cobertura.
-| docs/backend/requisitos/readme.md | `requisitos/readme.md` | Pendiente | Sincronizar historias de usuario.
-| docs/backend/gobernanza/readme.md | `gobernanza/readme.md` | Pendiente | Trasladar lineamientos aprobados.
+| docs/backend/arquitectura/README.md | `arquitectura/README.md` |  Completado | Patrones arquitectónicos documentados |
+| docs/backend/checklists/README.md | `checklists/README.md` | Pendiente | Crear checklist de despliegues.
+| docs/backend/devops/README.md | `devops/README.md` | Pendiente | Definir scripts de CI/CD.
+| docs/backend/diseno_detallado/README.md | `diseno_detallado/README.md` |  En progreso | SC03: Documentar 10 apps Django |
+| docs/backend/planificacion_y_releases/README.md | `planificacion_y_releases/README.md` | Pendiente | Necesita cronograma vigente.
+| docs/backend/qa/README.md | `qa/README.md` | Pendiente | Documentar métricas de cobertura.
+| docs/backend/requisitos/README.md | `requisitos/README.md` | Pendiente | Sincronizar historias de usuario.
+| docs/backend/gobernanza/README.md | `gobernanza/README.md` | Pendiente | Trasladar lineamientos aprobados.
 
 ## Backlog de sincronización
 
@@ -82,7 +82,7 @@ vincular la evidencia correspondiente, siguiendo lo establecido en [documentacio
 
 ## Integraciones relevantes
 
-- `../infrastructure/readme.md`: referencia obligada para despliegues y configuraciones compartidas.
+- `../infrastructure/README.md`: referencia obligada para despliegues y configuraciones compartidas.
 - `../qa/`: origen de métricas de pruebas automatizadas y reportes de cobertura.
 - `../vision_y_alcance/`: mantiene alineadas las prioridades del backend con la visión de producto.
 

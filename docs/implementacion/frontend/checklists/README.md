@@ -10,7 +10,7 @@ relacionados: ["DOC-FRONTEND-INDEX", "DOC-QA-FRONTEND"]
 Listas de verificación para asegurar la calidad y completitud de tareas de desarrollo frontend.
 
 ## Página padre
-- [`../readme.md`](../readme.md)
+- [`../README.md`](../README.md)
 
 ## Páginas hijas
 - [`checklist_desarrollo.md`](checklist_desarrollo.md) - Verificación de desarrollo

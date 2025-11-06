@@ -10,7 +10,7 @@ relacionados: ["DOC-FRONTEND-INDEX", "DOC-PLAN-INFRA"]
 Gestión de roadmap, planificación de releases y control de versiones del frontend.
 
 ## Página padre
-- [`../readme.md`](../readme.md)
+- [`../README.md`](../README.md)
 
 ## Páginas hijas
 - Plan de releases

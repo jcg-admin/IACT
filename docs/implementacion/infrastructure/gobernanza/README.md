@@ -10,7 +10,7 @@ relacionados: ["DOC-GOB-001", "DOC-VIS-INDEX", "DOC-REQ-INDEX"]
 Define el marco de decisión y coordinación que sostiene el flujo documental. Aquí se asignan responsables, cadencias y tableros de seguimiento para transformar acuerdos en acciones.
 
 ## Página padre
-- [`../readme.md`](../readme.md)
+- [`../README.md`](../README.md)
 
 ## Páginas hijas
 - [`lineamientos_gobernanza.md`](lineamientos_gobernanza.md)
@@ -35,9 +35,9 @@ Define el marco de decisión y coordinación que sostiene el flujo documental. A
 | Calendario de rituales con enlaces | No | Aún no se documenta el calendario detallado. |
 
 ## Integración con el flujo documental principal
-- Recibe objetivos estratégicos desde [`../../vision_y_alcance/readme.md`](../../vision_y_alcance/readme.md).
-- Retroalimenta la priorización de [`../../backend/requisitos/readme.md`](../../backend/requisitos/readme.md).
-- Escala decisiones técnicas hacia [`../../backend/arquitectura/readme.md`](../../backend/arquitectura/readme.md) mediante ADR gestionados en Infraestructura.
+- Recibe objetivos estratégicos desde [`../../vision_y_alcance/README.md`](../../vision_y_alcance/README.md).
+- Retroalimenta la priorización de [`../../backend/requisitos/README.md`](../../backend/requisitos/README.md).
+- Escala decisiones técnicas hacia [`../../backend/arquitectura/README.md`](../../backend/arquitectura/README.md) mediante ADR gestionados en Infraestructura.
 
 ## Acciones prioritarias
 - [ ] WKF-SDLC-110 – Crear matriz RACI _(Pendiente; requiere insumos de Visión y Requisitos)_.

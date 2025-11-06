@@ -452,9 +452,9 @@ mkdocs serve --clean
 
 ### Guías del proyecto
 
-- [Guía de instalación MkDocs](solicitudes/sc01/readme.md)
+- [Guía de instalación MkDocs](solicitudes/sc01/README.md)
 - [Guía de Casos de Uso](gobernanza/casos_de_uso_guide.md)
-- [Catálogo de Diagramas](anexos/diagramas/readme.md)
+- [Catálogo de Diagramas](anexos/diagramas/README.md)
 - [Estándares de documentación](gobernanza/documentacion_corporativa.md)
 
 ### Soporte

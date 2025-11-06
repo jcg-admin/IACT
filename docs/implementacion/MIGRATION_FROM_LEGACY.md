@@ -57,10 +57,10 @@ docs/
 │   └── [otras carpetas...]
 ├── frontend/
 │   └── requisitos/
-│       └── readme.md
+│       └── README.md
 └── infrastructure/
     └── requisitos/
-        └── readme.md
+        └── README.md
 ```
 
 **Problemas:**
@@ -109,9 +109,9 @@ docs/
 1. **Identifica requisitos existentes** en estructura legacy:
    ```bash
    # Buscar archivos de requisitos legacy
-   find docs/backend/requisitos -name "*.md" ! -name "readme.md"
-   find docs/frontend/requisitos -name "*.md" ! -name "readme.md"
-   find docs/infrastructure/requisitos -name "*.md" ! -name "readme.md"
+   find docs/backend/requisitos -name "*.md" ! -name "README.md"
+   find docs/frontend/requisitos -name "*.md" ! -name "README.md"
+   find docs/infrastructure/requisitos -name "*.md" ! -name "README.md"
    ```
 
 2. **Crea un inventario** en una hoja de cálculo:

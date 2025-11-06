@@ -10,7 +10,7 @@ relacionados: ["DOC-ARQ-BACKEND", "DOC-GOB-INDEX"]
 Centraliza runbooks, bitácoras y lineamientos operativos para mantener los entornos del monolito modular. Conecta las decisiones técnicas con procedimientos repetibles ejecutados por el equipo de Infraestructura.
 
 ## Página padre
-- [`../readme.md`](../readme.md)
+- [`../README.md`](../README.md)
 
 ## Páginas hijas
 - [`contenedores_devcontainer.md`](contenedores_devcontainer.md)
@@ -24,7 +24,7 @@ Centraliza runbooks, bitácoras y lineamientos operativos para mantener los ento
   - [`post_create.md`](runbooks/post_create.md).
   - [`verificar_servicios.md`](runbooks/verificar_servicios.md).
 - Playbooks operativos (`runbooks/playbooks_operativos/`):
-  - [`readme.md`](runbooks/playbooks_operativos/readme.md).
+  - [`README.md`](runbooks/playbooks_operativos/README.md).
   - [`copilot-codespaces.md`](runbooks/playbooks_operativos/copilot-codespaces.md).
   - [`github-copilot-cli.md`](runbooks/playbooks_operativos/github-copilot-cli.md).
   - [`github-copilot-cli-403-forbidden.md`](runbooks/playbooks_operativos/github-copilot-cli-403-forbidden.md).
@@ -32,9 +32,9 @@ Centraliza runbooks, bitácoras y lineamientos operativos para mantener los ento
 - Bitácora de ejecución (pendiente, crear `bitacora.md`).
 
 ### Integraciones operativas
-- Sincroniza despliegues con [`../planificacion_y_releases/readme.md`](../planificacion_y_releases/readme.md).
+- Sincroniza despliegues con [`../planificacion_y_releases/README.md`](../planificacion_y_releases/README.md).
 - Comparte evidencias de pruebas técnicas con [`../../backend/checklists/checklist_testing.md`](../../backend/checklists/checklist_testing.md).
-- Consume lineamientos de [`../../backend/arquitectura/readme.md`](../../backend/arquitectura/readme.md) para asegurar consistencia técnica.
+- Consume lineamientos de [`../../backend/arquitectura/README.md`](../../backend/arquitectura/README.md) para asegurar consistencia técnica.
 
 ## Estado de cumplimiento
 | Elemento en la base maestra | ¿Existe en repositorio? | Observaciones |
@@ -47,4 +47,4 @@ Centraliza runbooks, bitácoras y lineamientos operativos para mantener los ento
 ## Acciones prioritarias
 - [ ] Documentar procedimientos de recuperación y monitoreo.
 - [ ] Crear un índice de runbooks con propietarios y SLAs.
-- [ ] Sincronizar evidencias de despliegue con QA y Planificación (`../planificacion_y_releases/readme.md`, `../../backend/checklists/checklist_testing.md`).
+- [ ] Sincronizar evidencias de despliegue con QA y Planificación (`../planificacion_y_releases/README.md`, `../../backend/checklists/checklist_testing.md`).

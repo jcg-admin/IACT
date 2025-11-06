@@ -236,7 +236,7 @@ MariaDB:    iact_ivr (read-only)
 - [Script de aprovisionamiento](../../../provisioning/bootstrap.sh)
 - [Script de verificación](../../../scripts/verificar_servicios.sh)
 - [Guía de verificación](../../devops/runbooks/verificar_servicios.md)
-- [README principal](../../../readme.md)
+- [README principal](../../../README.md)
 
 ## Notas Adicionales
 

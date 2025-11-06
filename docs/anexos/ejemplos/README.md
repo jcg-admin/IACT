@@ -10,7 +10,7 @@ relacionados: ["DOC-ANEXO-INDEX", "DOC-PLANTILLAS-INDEX"]
 Este espacio contiene ejemplos completos y funcionales de artefactos documentales, código y configuraciones del proyecto IACT.
 
 ## Página padre
-- [Anexos](../readme.md)
+- [Anexos](../README.md)
 
 ## Información clave
 
@@ -338,6 +338,6 @@ repos:
 - Incluir tests cuando sea código
 
 ## Recursos relacionados
-- [Plantillas](../../plantillas/readme.md)
+- [Plantillas](../../plantillas/README.md)
 - [Lineamientos de Código](../../arquitectura/lineamientos_codigo.md)
-- [Checklists](../../checklists/readme.md)
+- [Checklists](../../checklists/README.md)

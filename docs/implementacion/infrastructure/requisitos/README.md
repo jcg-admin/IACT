@@ -7,15 +7,15 @@ relacionados: ["DOC-REQ-INDEX", "DOC-ARQ-INFRA"]
 ---
 # Requisitos de infraestructura
 
-Extiende el espacio corporativo de [`../../requisitos/readme.md`](../../requisitos/readme.md) con políticas operativas, guardrails y SLOs específicos de la plataforma.
+Extiende el espacio corporativo de [`../../requisitos/README.md`](../../requisitos/README.md) con políticas operativas, guardrails y SLOs específicos de la plataforma.
 
 ## Página padre
-- [`../readme.md`](../readme.md)
+- [`../README.md`](../README.md)
 
 ## Referencias clave
-- Arquitectura de infraestructura: [`../arquitectura/readme.md`](../arquitectura/readme.md)
-- Runbooks y checklists: [`../checklists/readme.md`](../checklists/readme.md)
-- Planificación y releases: [`../planificacion_y_releases/readme.md`](../planificacion_y_releases/readme.md)
+- Arquitectura de infraestructura: [`../arquitectura/README.md`](../arquitectura/README.md)
+- Runbooks y checklists: [`../checklists/README.md`](../checklists/README.md)
+- Planificación y releases: [`../planificacion_y_releases/README.md`](../planificacion_y_releases/README.md)
 
 ## Aspectos a documentar
 - Requisitos de disponibilidad, recuperación ante desastres y escalabilidad.

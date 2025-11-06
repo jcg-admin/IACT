@@ -69,12 +69,12 @@ Las contraseñas débiles y los ataques de fuerza bruta son vectores comunes de 
 Given un usuario creando o cambiando contraseña
 When el usuario proporciona contraseña "SecureP@ss123"
 Then el sistema valida que tiene:
-  | Longitud       | 8-100 caracteres  | ✓ (13 chars) |
-  | Mayúscula      | Al menos 1        | ✓ (S, P)     |
-  | Minúscula      | Al menos 1        | ✓ (e,c,u...) |
-  | Dígito         | Al menos 1        | ✓ (1,2,3)    |
-  | Especial       | Al menos 1        | ✓ (@)        |
-  | No contiene username | Verificado   | ✓            |
+  | Longitud       | 8-100 caracteres  | - (13 chars) |
+  | Mayúscula      | Al menos 1        | - (S, P)     |
+  | Minúscula      | Al menos 1        | - (e,c,u...) |
+  | Dígito         | Al menos 1        | - (1,2,3)    |
+  | Especial       | Al menos 1        | - (@)        |
+  | No contiene username | Verificado   | -            |
   And el sistema acepta la contraseña
   And el sistema hashea con bcrypt cost factor 12
 ```

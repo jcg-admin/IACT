@@ -193,6 +193,6 @@ adr_2025_003_postgresql_partitioning.md
 
 ## Enlaces Relacionados
 
-- [Índice de Arquitectura](../readme.md)
+- [Índice de Arquitectura](../README.md)
 - [ADR-2025-001: Vagrant + mod_wsgi](adr_2025_001_vagrant_mod_wsgi.md) (ejemplo existente)
-- [Gobernanza](../../gobernanza/readme.md)
+- [Gobernanza](../../gobernanza/README.md)

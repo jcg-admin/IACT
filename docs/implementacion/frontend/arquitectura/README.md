@@ -10,7 +10,7 @@ relacionados: ["DOC-FRONTEND-INDEX", "DOC-ARQ-INFRA"]
 Decisiones arquitectónicas, patrones de diseño y lineamientos técnicos específicos de la aplicación frontend.
 
 ## Página padre
-- [`../readme.md`](../readme.md)
+- [`../README.md`](../README.md)
 
 ## Páginas hijas
 - [`adr/`](adr/) - Architecture Decision Records específicos del frontend

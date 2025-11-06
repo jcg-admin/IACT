@@ -30,7 +30,7 @@ Repositorio de materiales complementarios: glosarios extendidos, referencias ext
 ### Buenas prácticas
 - Documentar propietario y fecha de actualización en cada anexo.
 - Mantener consistencia con la taxonomía definida en [`../documentacion_corporativa.md`](../documentacion_corporativa.md).
-- Referenciar anexos críticos desde [`../planificacion_y_releases/readme.md`](../planificacion_y_releases/readme.md) o el espacio correspondiente.
+- Referenciar anexos críticos desde [`../planificacion_y_releases/README.md`](../planificacion_y_releases/README.md) o el espacio correspondiente.
 
 ## Estado de cumplimiento
 | Elemento en la base maestra | ¿Existe en repositorio? | Observaciones |

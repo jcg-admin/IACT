@@ -1124,7 +1124,7 @@ Documentar exhaustivamente las **10 aplicaciones Django** del backend siguiendo 
 
 ## Referencias
 
-- [SC03 - Solicitud](../solicitudes/sc03/readme.md)
+- [SC03 - Solicitud](../solicitudes/sc03/README.md)
 - [SC03 - Alcance](../solicitudes/sc03/alcance.md)
 - [SC03 - Checklist](../solicitudes/sc03/checklist.md)
 - [Patrones Arquitectónicos](arquitectura/patrones_arquitectonicos.md)

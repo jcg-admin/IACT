@@ -10,7 +10,7 @@ relacionados: ["DOC-ANEXO-INDEX"]
 Este espacio documenta normas, estándares, artículos técnicos, libros y recursos externos relevantes para el proyecto IACT.
 
 ## Página padre
-- [Anexos](../readme.md)
+- [Anexos](../README.md)
 
 ## Información clave
 
@@ -189,6 +189,6 @@ Este espacio documenta normas, estándares, artículos técnicos, libros y recur
 5. **Fecha de última verificación** (si es crítico)
 
 ## Recursos relacionados
-- [Ejemplos Completos](../ejemplos/readme.md)
-- [Plantillas](../../plantillas/readme.md)
-- [Gobernanza](../../gobernanza/readme.md)
+- [Ejemplos Completos](../ejemplos/README.md)
+- [Plantillas](../../plantillas/README.md)
+- [Gobernanza](../../gobernanza/README.md)

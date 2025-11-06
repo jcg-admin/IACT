@@ -10,7 +10,7 @@ relacionados: ["DOC-DEVOPS-INFRA", "DOC-ARQ-BACKEND"]
 Procedimientos operativos específicos del backend que complementan los runbooks de Infraestructura. Aquí se documentan tareas recurrentes que afectan a servicios y jobs del monolito Python.
 
 ## Página padre
-- [`../readme.md`](../readme.md)
+- [`../README.md`](../README.md)
 
 ## Páginas hijas
 - [`runbooks/`](runbooks/)
@@ -20,8 +20,8 @@ Procedimientos operativos específicos del backend que complementan los runbooks
 - Runbook de recuperación [`reprocesar_etl_fallido.md`](runbooks/reprocesar_etl_fallido.md).
 
 ### Integraciones operativas
-- Coordina ventanas de intervención con [`../../infrastructure/planificacion_y_releases/readme.md`](../../infrastructure/planificacion_y_releases/readme.md).
-- Requiere lineamientos de despliegue publicados en [`../../infrastructure/devops/readme.md`](../../infrastructure/devops/readme.md).
+- Coordina ventanas de intervención con [`../../infrastructure/planificacion_y_releases/README.md`](../../infrastructure/planificacion_y_releases/README.md).
+- Requiere lineamientos de despliegue publicados en [`../../infrastructure/devops/README.md`](../../infrastructure/devops/README.md).
 - Reporta métricas de ejecución a [`../checklists/checklist_testing.md`](../checklists/checklist_testing.md) para garantizar trazabilidad.
 
 ## Estado de cumplimiento

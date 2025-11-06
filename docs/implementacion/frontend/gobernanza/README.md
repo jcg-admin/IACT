@@ -10,7 +10,7 @@ relacionados: ["DOC-FRONTEND-INDEX", "DOC-GOB-INDEX"]
 Políticas, estándares y lineamientos que rigen el desarrollo, mantenimiento y evolución del frontend.
 
 ## Página padre
-- [`../readme.md`](../readme.md)
+- [`../README.md`](../README.md)
 
 ## Páginas hijas
 - [`lineamientos_gobernanza.md`](lineamientos_gobernanza.md) - Lineamientos específicos

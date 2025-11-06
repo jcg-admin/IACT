@@ -118,14 +118,14 @@ IACT---project/
 
 ## Cambios Respecto a Estructura Anterior
 
-### ✅ Mejoras Implementadas
+### COMPLETADO: Mejoras Implementadas
 
 1. **Requisitos co-localizados con código**: Ya no están en `docs/` sino en `implementacion/`
 2. **ADRs consolidados**: Un solo directorio `docs/adr/` en lugar de 2
 3. **Eliminada duplicación**: Sin directorios devops/, qa/, checklists/ duplicados en múltiples lugares
 4. **Estructura archivada**: Antigua estructura preservada en `docs_legacy/` para referencia
 
-### ❌ Eliminado/Archivado
+### ELIMINADO: Eliminado/Archivado
 
 - `docs/implementacion/` → movido a `implementacion/` (raíz)
 - `docs/solicitudes/` → archivado en `docs_legacy/solicitudes/`

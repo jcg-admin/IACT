@@ -10,7 +10,7 @@ relacionados: ["DOC-DEVOPS-INFRA", "DOC-ARQ-FRONTEND"]
 Procedimientos operativos específicos del frontend que complementan los runbooks de Infraestructura. Aquí se documentan tareas recurrentes que afectan a la aplicación web, build process y despliegues del frontend.
 
 ## Página padre
-- [`../readme.md`](../readme.md)
+- [`../README.md`](../README.md)
 
 ## Páginas hijas
 - [`runbooks/`](runbooks/) - Procedimientos operativos específicos del frontend
@@ -23,9 +23,9 @@ Procedimientos operativos específicos del frontend que complementan los runbook
 - Configuración de entornos de desarrollo
 
 ### Integraciones operativas
-- Coordina despliegues con [`../../infrastructure/planificacion_y_releases/readme.md`](../../infrastructure/planificacion_y_releases/readme.md)
-- Requiere lineamientos de build publicados en [`../../infrastructure/devops/readme.md`](../../infrastructure/devops/readme.md)
-- Reporta métricas de performance a [`../qa/readme.md`](../qa/readme.md) para garantizar calidad
+- Coordina despliegues con [`../../infrastructure/planificacion_y_releases/README.md`](../../infrastructure/planificacion_y_releases/README.md)
+- Requiere lineamientos de build publicados en [`../../infrastructure/devops/README.md`](../../infrastructure/devops/README.md)
+- Reporta métricas de performance a [`../qa/README.md`](../qa/README.md) para garantizar calidad
 
 ### Procesos clave
 - Build y optimización de bundle

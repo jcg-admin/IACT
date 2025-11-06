@@ -100,11 +100,11 @@ make validate-cpython ARTIFACT=cpython-3.12.6-ubuntu22.04-build1.tgz
 ```
 
 **Validaciones ejecutadas**:
-- ✓ Checksum SHA256
-- ✓ Estructura de directorios
-- ✓ `python3 --version`
-- ✓ Módulos nativos (ssl, sqlite3, lzma, etc.)
-- ✓ pip funcional
+- - Checksum SHA256
+- - Estructura de directorios
+- - `python3 --version`
+- - Módulos nativos (ssl, sqlite3, lzma, etc.)
+- - pip funcional
 
 **Resultado esperado**:
 ```
@@ -356,12 +356,12 @@ Crear archivo: `docs/infraestructura/cpython-precompilado/fase-3-resultados.md`
 
 ## Validaciones
 
-- ✓ Python 3.12.6 instalado correctamente
-- ✓ Todos los módulos nativos funcionan
-- ✓ pip instala paquetes correctamente
-- ✓ Tests críticos: 25/25 pasaron
-- ✓ Extensiones VS Code funcionan
-- ✓ Checksum validado correctamente
+- - Python 3.12.6 instalado correctamente
+- - Todos los módulos nativos funcionan
+- - pip instala paquetes correctamente
+- - Tests críticos: 25/25 pasaron
+- - Extensiones VS Code funcionan
+- - Checksum validado correctamente
 
 ## Issues Encontrados
 

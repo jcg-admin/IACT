@@ -26,7 +26,7 @@ Todos estos criterios deben cumplirse para considerar Fase 3 como completada:
 | 1 | Artefacto CPython 3.12.6 generado exitosamente | 1 artefacto | Archivo `.tgz` existe | ⏳ Pendiente |
 | 2 | Checksum SHA256 validado | 100% match | `sha256sum -c` pasa | ⏳ Pendiente |
 | 3 | GitHub Release publicado | 1 release | Tag `cpython-3.12.6-build1` existe | ⏳ Pendiente |
-| 4 | Dev Container actualizado | devcontainer.json modificado | Feature personalizada configurada | ✅ Completado |
+| 4 | Dev Container actualizado | devcontainer.json modificado | Feature personalizada configurada | COMPLETADO: Completado |
 | 5 | Tiempo de build Dev Container | < 2 minutos | Cronómetro manual/logs | ⏳ Pendiente |
 | 6 | Tests de integración pasando | 100% (25/25) | pytest results | ⏳ Pendiente |
 | 7 | Módulos nativos verificados | 6/6 importan sin error | Python import tests | ⏳ Pendiente |
@@ -177,9 +177,9 @@ failed = []
 for module in modules:
     try:
         __import__(module)
-        print(f"✓ {module}")
+        print(f"- {module}")
     except ImportError as e:
-        print(f"✗ {module}: {e}")
+        print(f"- {module}: {e}")
         failed.append(module)
 
 if failed:
@@ -264,7 +264,7 @@ Tiempo = (Container ready timestamp) - (Build start timestamp)
 00:30 - Features instaladas
 01:00 - Dependencias Python instaladas
 01:30 - Post-create commands ejecutados
-01:50 - Container ready ✓
+01:50 - Container ready -
 ```
 
 ### Número de Rebuilds Necesarios

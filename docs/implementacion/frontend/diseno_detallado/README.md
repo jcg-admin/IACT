@@ -10,7 +10,7 @@ relacionados: ["DOC-FRONTEND-INDEX", "DOC-ARQ-FRONTEND"]
 Especificaciones técnicas detalladas de componentes, módulos y flujos de la aplicación frontend.
 
 ## Página padre
-- [`../readme.md`](../readme.md)
+- [`../README.md`](../README.md)
 
 ## Páginas hijas
 - Documentos de diseño de componentes

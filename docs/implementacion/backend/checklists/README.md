@@ -10,7 +10,7 @@ relacionados: ["DOC-QA-001", "DOC-ARQ-BACKEND"]
 Listas de verificación para validar entregables clave del backend dentro del SDLC. Cada checklist debe asociarse a un espacio principal y actualizarse conforme evolucione el proceso.
 
 ## Página padre
-- [`../readme.md`](../readme.md)
+- [`../README.md`](../README.md)
 
 ## Páginas hijas
 - [`checklist_desarrollo.md`](checklist_desarrollo.md)
@@ -25,7 +25,7 @@ Listas de verificación para validar entregables clave del backend dentro del SD
 
 ### Recomendaciones
 - Mantener responsables y fechas de revisión en el front matter de cada checklist.
-- Referenciar estos artefactos desde [`../gobernanza/readme.md`](../gobernanza/readme.md) al preparar ceremonias del backend.
+- Referenciar estos artefactos desde [`../gobernanza/README.md`](../gobernanza/README.md) al preparar ceremonias del backend.
 - Registrar el control documental transversal en [`../../infrastructure/checklists/checklist_cambios_documentales.md`](../../infrastructure/checklists/checklist_cambios_documentales.md).
 
 ## Estado de cumplimiento
