@@ -1,0 +1,332 @@
+# ADR-010: Organización del Proyecto por Dominio
+
+**Estado:** Aceptado
+**Fecha:** 2025-11-06
+**Decisor:** Equipo Desarrollo
+**Relacionado:** Estructura general del proyecto
+**Actualizado:** 2025-11-06
+
+---
+
+## Contexto
+
+El proyecto IACT es un sistema complejo que incluye múltiples componentes: backend (API Django), frontend (React - futuro), infraestructura (Vagrant, DevContainers, build systems), y documentación técnica.
+
+### Problema
+
+Tradicionalmente, los proyectos se organizan por **tipo de archivo** (seguir convenciones como src/, tests/, scripts/, docs/), pero esto puede generar problemas de cohesión cuando el proyecto crece:
+
+- Archivos relacionados funcionalmente están dispersos en diferentes directorios raíz
+- Dificulta la navegación: para trabajar en infraestructura, hay que tocar scripts/, tests/, docs/, artifacts/
+- Escalabilidad limitada: cuando se agregan nuevos dominios (ui/, api/), la raíz se satura
+- Falta de boundaries claros entre dominios
+
+### Opciones Evaluadas
+
+Se consideraron 3 enfoques principales:
+
+1. **Organización por dominio** (opción seleccionada)
+2. Organización por tipo de archivo (convención tradicional)
+3. Organización híbrida (mix de ambas)
+
+---
+
+## Decisión
+
+**Usaremos organización por DOMINIO** en la raíz del proyecto.
+
+Cada dominio principal tendrá su propio directorio que contendrá TODO lo relacionado con ese dominio: código, tests, scripts específicos, y artefactos generados.
+
+### Estructura Resultante
+
+```
+/IACT---project/
++-- api/                      # Dominio: Backend Django
+|   +-- (código de API)
+|   +-- tests/               # (futuro: tests de API)
+|   +-- scripts/             # (futuro: scripts específicos de API)
+|
++-- ui/                       # Dominio: Frontend React (futuro)
+|   +-- (código de UI)
+|   +-- tests/               # (futuro: tests de UI)
+|   +-- scripts/             # (futuro: scripts de build UI)
+|
++-- infrastructure/           # Dominio: Infraestructura
+|   +-- vagrant/             # VMs de build
+|   +-- devcontainer/        # Configuración DevContainer
+|   +-- artifacts/           # Outputs generados (binarios)
+|   +-- scripts/             # Scripts de infraestructura
+|   +-- tests/               # Tests de infraestructura
+|   +-- box/
+|
++-- docs/                     # Dominio: Documentación
+|   +-- specs/
+|   +-- adr/
+|   +-- infraestructura/
+|   +-- api/
+|   +-- gobernanza/
+|
++-- features/                 # Features de DevContainer (convención)
+|
++-- scripts/                  # Scripts cross-cutting
+|   +-- dev/                 # Herramientas de desarrollo
+|   +-- ai/                  # Generación con IA
+|   +-- templates/           # Templates compartidos
+|
++-- .devcontainer/            # Convención VS Code
++-- .github/                  # Convención GitHub
++-- respaldo/                 # Temporal/legacy
+```
+
+---
+
+## Justificación
+
+### Por qué Organización por Dominio
+
+**Cohesión:**
+- Todo lo relacionado con infraestructura está en `infrastructure/`
+- Fácil encontrar: scripts → `infrastructure/scripts/`, tests → `infrastructure/tests/`
+- Boundaries claros entre dominios
+
+**Escalabilidad:**
+- Cuando se agregue `ui/`, tendrá su propia estructura completa
+- No satura la raíz con directorios genéricos (scripts/, tests/, artifacts/)
+- Cada dominio puede evolucionar independientemente
+
+**Navegación:**
+- "Trabajar en infraestructura" = entrar a `infrastructure/`
+- "Trabajar en API" = entrar a `api/`
+- No saltar entre 5 directorios raíz diferentes
+
+**Consistencia con arquitectura:**
+- Refleja la arquitectura del sistema (dominios separados)
+- Facilita modularización futura
+- Permite equipos especializados por dominio
+
+### Por qué NO Organización por Tipo de Archivo
+
+**Contra:**
+- Dispersión: infraestructura necesitaría tocar scripts/, tests/, artifacts/ en raíz
+- Raíz saturada: artifacts/, tests/, scripts/, features/, docs/, api/, ui/, etc.
+- Boundaries difusos: ¿un test de infraestructura va en tests/ o infrastructure/?
+- No escala: agregar nuevos dominios satura aún más la raíz
+
+**Ejemplos problemáticos con tipo de archivo:**
+```
+/
++-- scripts/
+|   +-- api/          # Scripts de API
+|   +-- infra/        # Scripts de infra
+|   +-- ui/           # Scripts de UI
++-- tests/
+|   +-- api/          # Tests de API
+|   +-- infra/        # Tests de infra
+|   +-- ui/           # Tests de UI
++-- artifacts/
+|   +-- api/          # Artifacts de API
+|   +-- infra/        # Artifacts de infra
+|   +-- ui/           # Artifacts de UI
+```
+
+Resultado: para trabajar en infraestructura hay que tocar 3+ directorios raíz.
+
+---
+
+## Consecuencias
+
+### Positivas
+
+1. **Cohesión mejorada**: Todo lo de un dominio junto
+2. **Escalabilidad**: Agregar dominios no satura raíz
+3. **Navegación clara**: Un dominio = un directorio
+4. **Modularización**: Boundaries claros entre dominios
+5. **Onboarding más fácil**: Estructura intuitiva
+6. **Migración futura facilitada**: Cada dominio puede convertirse en repo separado si es necesario
+
+### Negativas (mitigadas)
+
+1. **Duplicación de estructura**: Cada dominio tiene tests/, scripts/
+   - **Mitigación**: Scripts cross-cutting en scripts/ raíz
+
+2. **Convenciones tradicionales**: Difiere de proyectos tipo src/, tests/
+   - **Mitigación**: Es más moderno y escalable (usado por monorepos)
+
+3. **Descubrimiento inicial**: Desarrolladores nuevos deben aprender estructura
+   - **Mitigación**: Este ADR + README documentan la decisión
+
+### Neutrales
+
+1. **features/ en raíz**: Mantenido por convención de DevContainers
+2. **scripts/ raíz**: Mantiene herramientas cross-cutting (dev/, ai/)
+3. **.devcontainer/, .github/**: Convenciones de herramientas externas
+
+---
+
+## Migración Realizada
+
+La reorganización se aplicó al dominio `infrastructure/` moviendo:
+
+```bash
+artifacts/           → infrastructure/artifacts/
+tests/integration/   → infrastructure/tests/
+scripts/infra/       → infrastructure/scripts/
+```
+
+**Archivos actualizados:** 16
+- Vagrantfile (synced folders)
+- Makefile (paths de targets)
+- Scripts wrapper (paths internos)
+- Tests (variables BASE_DIR, SCRIPTS_INFRA_DIR, ARTIFACTS_DIR)
+- Features (ejemplos de artifactUrl)
+- Documentación (todas las referencias)
+
+**Commit:** `341f95d` - refactor: reorganizar proyecto por dominio
+
+---
+
+## Ejemplos de Uso Futuro
+
+### Agregar Tests de API
+
+```bash
+# Antes (tipo de archivo):
+tests/
+  +-- api/
+  |   +-- test_endpoints.py
+  +-- infra/
+      +-- test_vagrant.py
+
+# Después (por dominio):
+api/
+  +-- tests/
+      +-- test_endpoints.py
+
+infrastructure/
+  +-- tests/
+      +-- test_vagrant.py
+```
+
+### Agregar Scripts de UI
+
+```bash
+# Después (por dominio):
+ui/
+  +-- src/
+  +-- scripts/
+  |   +-- build.sh         # Build de producción
+  |   +-- analyze.sh       # Análisis de bundle
+  +-- tests/
+```
+
+### Scripts Cross-Cutting
+
+Scripts que sirven a TODOS los dominios permanecen en raíz:
+
+```bash
+scripts/
+  +-- dev/
+  |   +-- check-all.sh        # Valida todo el proyecto
+  |   +-- validate-spec.sh    # Valida specs
+  |   +-- generate-plan.sh    # Genera planes
+  +-- ai/
+  |   +-- run_test_generation.sh
+  +-- templates/
+      +-- bash-script-template.sh
+```
+
+---
+
+## Decisiones Complementarias
+
+### Features en Raíz
+
+**Decisión**: `features/` permanece en raíz
+**Razón**: Convención de DevContainers Specification
+- DevContainers espera features en `./features/` o `.devcontainer/features/`
+- Mantener convención facilita adopción e integración
+
+### Scripts Cross-Cutting
+
+**Decisión**: `scripts/` raíz para herramientas cross-domain
+**Razón**:
+- Algunos scripts sirven a TODO el proyecto (check-all, validate-spec)
+- Evita duplicación innecesaria
+- Herramientas de desarrollo no pertenecen a un dominio específico
+
+### Excepciones de Convenciones Externas
+
+**Mantener en raíz**:
+- `.devcontainer/` - Convención VS Code
+- `.github/` - Convención GitHub Actions
+- `.git/` - Obvio
+
+**Razón**: Herramientas externas esperan estas ubicaciones
+
+---
+
+## Referencias
+
+### Patrones Similares en la Industria
+
+**Monorepos modernos:**
+- Nx (Angular/React): Organiza por `apps/` y `libs/`
+- Turborepo: Organiza por `packages/` (dominios)
+- Lerna: Múltiples `packages/` independientes
+
+**Arquitectura de software:**
+- DDD (Domain-Driven Design): Organiza por dominios de negocio
+- Clean Architecture: Separación por layers/dominios
+- Microservicios: Cada servicio es un dominio separado
+
+**Proyectos referencia:**
+- Kubernetes: Organizado por dominios (api/, cmd/, pkg/)
+- Terraform: Organizado por providers (dominios)
+
+### Documentación del Proyecto
+
+- Este ADR documenta la decisión y justificación
+- README principal debe incluir mapa de navegación
+- Cada dominio (`api/`, `ui/`, `infrastructure/`) debe tener su propio README
+
+---
+
+## Preguntas Frecuentes
+
+### ¿Por qué no seguir la convención src/, tests/ tradicional?
+
+Esa convención funciona bien para proyectos pequeños con un solo dominio. IACT tiene múltiples dominios (api, ui, infrastructure) que crecerán independientemente. Organización por dominio escala mejor.
+
+### ¿Qué pasa con scripts que afectan múltiples dominios?
+
+Van en `scripts/` raíz. Ejemplos:
+- `scripts/dev/check-all.sh` - Valida todo el proyecto
+- `scripts/ai/` - Herramientas de IA cross-cutting
+
+### ¿Dónde van tests end-to-end que tocan API + UI?
+
+Opción 1: En un nuevo directorio `e2e/` raíz
+Opción 2: En el dominio principal que se está testeando
+Decisión pendiente según caso de uso real.
+
+### ¿Esto complica el proyecto?
+
+Inicialmente puede parecer más complejo, pero:
+- Facilita navegación a largo plazo
+- Reduce búsqueda: "trabajar en X" = "cd X/"
+- Escala mejor que saturar la raíz
+
+---
+
+## Estado de Implementación
+
+- COMPLETADO: Migración de `infrastructure/` (2025-11-06)
+- PENDIENTE: README principal actualizado con mapa de navegación
+- PENDIENTE: Documentar en guía de desarrollo
+- PENDIENTE: Aplicar a `api/` cuando se agreguen tests/scripts
+- PENDIENTE: Aplicar a `ui/` cuando se implemente
+
+---
+
+**Mantenido por**: Equipo Desarrollo IACT
+**Última revisión**: 2025-11-06
