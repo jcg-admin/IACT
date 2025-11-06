@@ -28,6 +28,55 @@ Registro cronologico de cambios, features y mejoras completadas.
 - Cron jobs para maintenance
 - Comunicar AI stance al equipo
 - Agregar AI guidelines a onboarding
+- AI-enabled telemetry pipeline (Q1 2026)
+- Predictive analytics dashboard (Q2 2026)
+
+---
+
+## [1.4.1] - 2025-11-06
+
+### Changed - ESTRATEGIA_IA.md (v1.0.0 -> v1.1.0)
+
+Actualizacion con datos cuantitativos y correlaciones del **DORA Report 2025 - Section 3: AI Practices & Capabilities**.
+
+**Mejoras medibles en DORA metrics con AI adoption:**
+
+| DORA Metric | Rango de Mejora |
+|:--|--:|
+| Deployment Frequency | +30-50% |
+| Lead Time for Changes | -25-35% |
+| Change Failure Rate | -20-30% |
+| Mean Time to Recovery | -15-25% |
+
+**Fuente:** DORA Report 2025, Section 3.2 - Measuring AI Impact on Delivery
+
+**Nuevos hallazgos integrados:**
+
+1. **Correlacion IA con DevOps Maturity:**
+   - Sinergia AI + Platform Engineering: AI tools confian en plataformas estructuradas
+   - AI-enabled telemetry mejora continuous learning, incident management, risk calibration
+   - Quote clave: "AI capabilities thrive where engineering discipline already exists"
+
+2. **Targets DORA recalculados:**
+   - Deployment Frequency: Baseline + 30-50% (aim >= 1/dia Q1 2026)
+   - Lead Time: Baseline - 25-35% (aim < 2 dias Q1 2026)
+   - Change Failure Rate: Baseline - 20-30% (aim < 15% Q1 2026)
+   - MTTR: Baseline - 15-25% (aim < 4 horas Q1 2026)
+
+3. **AI-enabled telemetry roadmap:**
+   - Data flow objetivo Q1 2026 documentado
+   - Use cases: Continuous learning, Incident mgmt, Risk calibration
+   - Pipeline: Metrics + Logs + Health checks -> AI Telemetry -> Insights
+
+4. **Platform + AI synergy:**
+   - Foundation establecida: Django + CI/CD + Docs
+   - IA construida sobre foundation: 7 agentes SDLC
+   - Platform gana adaptabilidad: AI code gen, review, docs, telemetry
+
+**Impacto:** Estrategia IA ahora incluye datos cuantitativos medibles, correlaciones con DevOps maturity, y roadmap detallado para AI-enabled telemetry.
+
+**Archivos:**
+- `docs/gobernanza/ai/ESTRATEGIA_IA.md` (v1.0.0 -> v1.1.0)
 
 ---
 

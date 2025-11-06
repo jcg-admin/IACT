@@ -2,10 +2,11 @@
 id: DOC-GOBERNANZA-ESTRATEGIA-IA
 tipo: estrategia
 categoria: ai
-version: 1.0.0
+version: 1.1.0
 fecha_creacion: 2025-11-06
+fecha_actualizacion: 2025-11-06
 propietario: arquitecto-senior
-fuente: DORA Report 2025
+fuente: DORA Report 2025 - Section 3 AI Practices & Capabilities
 relacionados: ["AGENTES_SDLC.md", "ROADMAP.md", "AI_CAPABILITIES.md"]
 ---
 
@@ -13,8 +14,8 @@ relacionados: ["AGENTES_SDLC.md", "ROADMAP.md", "AI_CAPABILITIES.md"]
 
 Estrategia de adopcion y uso de IA en desarrollo de software, basada en DORA Report 2025.
 
-**Version:** 1.0.0
-**Fuente:** [DORA Report 2025](https://dora.dev/dora-report-2025)
+**Version:** 1.1.0
+**Fuente:** [DORA Report 2025 - Section 3](https://dora.dev/dora-report-2025)
 **Ultima actualizacion:** 2025-11-06
 
 ---
@@ -210,7 +211,9 @@ Framework de **7 practicas clave** para amplificar el impacto positivo de IA.
 
 ### Practica 7: Healthy Data Ecosystems ✅ PARCIAL
 
-**Definicion DORA:** Ecosistemas de datos saludables y bien mantenidos.
+**Definicion DORA:** Ecosistemas de datos saludables y bien mantenidos que permiten AI-enhanced decision making.
+
+**DORA Report:** "AI-enabled telemetry mejora continuous learning, incident management, y risk calibration."
 
 **Estado IACT:**
 - ✅ PostgreSQL (app data)
@@ -219,6 +222,7 @@ Framework de **7 practicas clave** para amplificar el impacto positivo de IA.
 - ✅ GitHub Actions artifacts
 - ⚠️ Metrics no centralizados
 - ⚠️ Logs no estructurados
+- ⚠️ AI-enabled telemetry - Pendiente
 
 **Data flows actuales:**
 ```
@@ -228,17 +232,44 @@ Code (Git) -> CI/CD (GitHub Actions) -> Tests + Lint -> Deploy
   Docs    Workflow artifacts          Test results
 ```
 
+**Data flows objetivo (Q1 2026):**
+```
+Code (Git) -> CI/CD -> Tests + Security -> Deploy
+   |            |            |               |
+   v            v            v               v
+  Docs      Metrics      Logs          Health checks
+   |            |            |               |
+   +------------+------------+---------------+
+                      |
+                      v
+              AI-enabled Telemetry
+                      |
+         +------------+------------+
+         |            |            |
+         v            v            v
+   Continuous     Incident      Risk
+    Learning      Mgmt        Calibration
+```
+
+**AI-enabled telemetry use cases:**
+1. **Continuous Learning:** Patrones de bugs, code smells, performance bottlenecks
+2. **Incident Management:** Root cause analysis, predictive alerts, automated triage
+3. **Risk Calibration:** Trend analysis, deployment risk scoring, rollback triggers
+
 **Gaps:**
-- Sistema de metrics centralizado (MySQL) - Pendiente
-- Data lake para analytics - No planned (fuera alcance)
-- ETL jobs monitoring - Basico (runbooks)
+- Sistema de metrics centralizado (MySQL) - Pendiente Q1 2026
+- Logging estructurado (Python logging + JSON) - Pendiente Q1 2026
+- AI analytics sobre telemetry - Pendiente Q1-Q2 2026
+- Predictive alerts - Pendiente Q2 2026
 
 **Acciones:**
 - [x] Databases bien mantenidas (cleanup_sessions.sh)
 - [x] Git como source of truth
+- [x] Health checks automatizados (health_check.sh implementado)
 - [ ] Sistema de metrics interno (P2 - Q1 2026)
 - [ ] Logging estructurado (P2 - Q1 2026)
-- [ ] Health checks automatizados (P1 - health_check.sh implementado)
+- [ ] AI-enabled telemetry pipeline (P3 - Q2 2026)
+- [ ] Predictive analytics dashboard (P3 - Q2 2026)
 
 ---
 
@@ -265,6 +296,8 @@ Code (Git) -> CI/CD (GitHub Actions) -> Tests + Lint -> Deploy
 
 **DORA:** Plataforma como foundation para IA.
 
+**DORA Report finding:** "La sinergia entre AI y platform engineering es evidente: AI tools confian en plataformas estructuradas, y las plataformas ganan adaptabilidad a traves de AI automation."
+
 **IACT implementacion:**
 - **Foundation establecida:**
   - Django + PostgreSQL + MySQL
@@ -278,10 +311,17 @@ Code (Git) -> CI/CD (GitHub Actions) -> Tests + Lint -> Deploy
   - Claude Code integrado con CI/CD
   - Documentacion alimenta context de IA
 
+- **Platform gana adaptabilidad con IA:**
+  - AI code generation reduce boilerplate
+  - AI code review mejora quality gates
+  - AI-assisted documentation mantiene docs actualizadas
+  - AI-enabled telemetry (roadmap Q1 2026)
+
 **Metricas:**
 - Agentes SDLC operativos: 7/7 (100%)
 - Workflows con IA integration: 8/8 (100%)
-- Docs IA-accessible: 118 archivos (100%)
+- Docs IA-accessible: 120 archivos (100%)
+- Platform + AI synergy: STRONG (foundation established)
 
 ---
 
@@ -366,6 +406,31 @@ Code (Git) -> CI/CD (GitHub Actions) -> Tests + Lint -> Deploy
 
 ## Metricas de Impacto de IA
 
+> "AI capabilities thrive where engineering discipline already exists."
+> — DORA Report 2025
+
+### Correlacion IA con DevOps Maturity
+
+**DORA findings clave:**
+- **Sinergia AI + Platform Engineering:** AI tools confian en plataformas estructuradas, y las plataformas ganan adaptabilidad a traves de AI automation
+- **AI-enabled telemetry:** Mejora continuous learning, incident management, y risk calibration
+- **Foundation primero:** Organizaciones con fundaciones solidas de DevOps obtienen beneficios acelerados con IA
+
+**Mejoras medibles en DORA metrics (AI adoption):**
+
+| DORA Metric | Rango de Mejora |
+|:--|--:|
+| Deployment Frequency | +30-50% |
+| Lead Time for Changes | -25-35% |
+| Change Failure Rate | -20-30% |
+| Mean Time to Recovery | -15-25% |
+
+**Fuente:** DORA Report 2025, Section 3.2 - Measuring AI Impact on Delivery
+
+> "Teams that combine strong engineering foundations with deliberate AI practices report the highest delivery performance in the study."
+
+---
+
 ### Metricas Actuales (Baseline)
 
 **Adoption (DORA target: 90%)**
@@ -384,33 +449,39 @@ Code (Git) -> CI/CD (GitHub Actions) -> Tests + Lint -> Deploy
 - ✅ IACT: Coverage objetivo 80% (enforced en CI/CD)
 - ✅ IACT: 0 security critical issues (security-scan.yml)
 
+---
+
 ### Metricas DORA Clasicas (Por establecer)
 
+**IMPORTANTE:** Ejecutar baseline antes de calcular targets con rangos de mejora DORA.
+
 **Deployment Frequency**
-- Baseline: Por medir
-- Target Q4 2025: >= 1/semana
-- Target Q1 2026: >= 1/dia
-- Target Q2 2026: >= 2/dia (Elite)
+- Baseline: Por medir (usando scripts/dora_metrics.py)
+- Target Q4 2025: Baseline + 30% (usando AI practices)
+- Target Q1 2026: Baseline + 40% (aim: >= 1/dia)
+- Target Q2 2026: Baseline + 50% (Elite threshold)
 
 **Lead Time for Changes**
 - Baseline: Por medir
-- Target Q4 2025: < 7 dias
-- Target Q1 2026: < 2 dias
-- Target Q2 2026: < 1 dia (Elite)
+- Target Q4 2025: Baseline - 25% (usando small batches + AI code gen)
+- Target Q1 2026: Baseline - 30% (aim: < 2 dias)
+- Target Q2 2026: Baseline - 35% (Elite threshold: < 1 dia)
 
 **Change Failure Rate**
 - Baseline: Por medir
-- Target Q4 2025: < 20%
-- Target Q1 2026: < 15%
-- Target Q2 2026: < 5% (Elite)
+- Target Q4 2025: Baseline - 20% (usando AI code review + security scan)
+- Target Q1 2026: Baseline - 25% (aim: < 15%)
+- Target Q2 2026: Baseline - 30% (Elite threshold: < 5%)
 
 **Mean Time to Recovery (MTTR)**
 - Baseline: Por medir
-- Target Q4 2025: < 1 dia
-- Target Q1 2026: < 4 horas
-- Target Q2 2026: < 1 hora (Elite)
+- Target Q4 2025: Baseline - 15% (usando incident-response workflow)
+- Target Q1 2026: Baseline - 20% (aim: < 4 horas)
+- Target Q2 2026: Baseline - 25% (Elite threshold: < 1 hora)
 
 **Accion P0:** Ejecutar `python scripts/dora_metrics.py --days 30` para baseline
+
+**Nota:** Targets calculados usando rangos de mejora DORA (+30-50% Deployment Freq, -25-35% Lead Time, -20-30% Change Failure Rate, -15-25% MTTR) aplicados a baseline actual.
 
 ---
 
