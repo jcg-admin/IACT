@@ -2,10 +2,11 @@
 id: DOC-DEV-AGENTES
 tipo: documentacion
 categoria: desarrollo
-version: 1.0.0
+version: 1.1.0
 fecha_creacion: 2025-11-04
+fecha_actualizacion: 2025-11-05
 propietario: equipo-desarrollo
-relacionados: ["DOC-GOB-ESTANDARES", "DOC-SCRIPTS-VALIDACION"]
+relacionados: ["DOC-GOB-ESTANDARES", "DOC-SCRIPTS-VALIDACION", "RUNBOOK-GIT-MERGE-CLEANUP"]
 ---
 # Agentes de Automatización - Proyecto IACT
 
@@ -16,6 +17,9 @@ Este documento explica la arquitectura de agentes de automatización utilizada e
 ## Tabla de Contenidos
 
 1. [Agentes Usados en el Proyecto](#agentes-usados-en-el-proyecto)
+   - [Agente de Exploración de Código](#1-agente-de-exploración-de-código)
+   - [Agente General Purpose (Remoción de Emojis)](#2-agente-general-purpose-remoción-de-emojis)
+   - [Agente GitOps (Operaciones Git y DevOps)](#3-agente-gitops-operaciones-git-y-devops)
 2. [Arquitectura Propuesta de CI/CD](#arquitectura-propuesta-de-cicd)
 3. [Implementación de Pre-commit Hooks](#implementación-de-pre-commit-hooks)
 4. [GitHub Actions CI/CD](#github-actions-cicd)
@@ -161,6 +165,233 @@ done
 4. **Código preservado**: No toca bloques entre backticks
 
 **Resultado**: 72 archivos procesados, 0 emojis remanentes
+
+---
+
+### 3. Agente GitOps (Operaciones Git y DevOps)
+
+**Tipo**: Agente personalizado `GitOpsAgent`
+
+**Cuándo se usó**: Sincronización de ramas principales y limpieza de repositorio (2025-11-05)
+
+**Ubicación**: `.github/agents/gitops-agent.md`
+
+**Cómo funciona**:
+
+El GitOpsAgent es un agente especializado en operaciones Git y DevOps, diseñado para mantener la salud del repositorio mediante:
+
+- Sincronización de ramas principales (develop, docs, devcontainer, main)
+- Limpieza de ramas obsoletas (feature/*, claude/*, hotfix/*)
+- Auditoría de estructura de repositorio
+- Generación de reportes de operaciones
+
+**Arquitectura del agente**:
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    GITOPS AGENT                              │
+├─────────────────────────────────────────────────────────────┤
+│                                                              │
+│  1. ANALYZER (Analizador)                                   │
+│     ├─ git fetch --all                                      │
+│     ├─ git branch -a                                        │
+│     ├─ git rev-list --left-right --count                    │
+│     └─ Determina estado de cada rama                        │
+│                                                              │
+│  2. PLANNER (Planificador)                                  │
+│     ├─ Identifica ramas desactualizadas                     │
+│     ├─ Detecta ramas obsoletas/mergeadas                    │
+│     ├─ Propone plan de acción                               │
+│     └─ Calcula estadísticas de cambios                      │
+│                                                              │
+│  3. EXECUTOR (Ejecutor)                                     │
+│     ├─ Sincronización de ramas                              │
+│     │   ├─ git checkout rama                                │
+│     │   ├─ git merge develop --no-edit                      │
+│     │   └─ Maneja --allow-unrelated-histories si necesario  │
+│     │                                                        │
+│     ├─ Limpieza de ramas                                    │
+│     │   ├─ Verifica merge status                            │
+│     │   ├─ Pide confirmación                                │
+│     │   └─ git push origin --delete rama                    │
+│     │                                                        │
+│     └─ Script automatizado                                  │
+│         ├─ Genera scripts/cleanup_branches.sh               │
+│         ├─ Proceso interactivo con confirmaciones           │
+│         └─ Validaciones de seguridad                        │
+│                                                              │
+│  4. VALIDATOR (Validador)                                   │
+│     ├─ Verifica permisos de push                            │
+│     ├─ Valida estructura final (4 ramas)                    │
+│     ├─ Confirma ausencia de conflictos                      │
+│     └─ git fetch --prune origin                             │
+│                                                              │
+│  5. REPORTER (Reportero)                                    │
+│     ├─ Genera runbook en docs/devops/runbooks/              │
+│     ├─ Crea registro en docs/qa/registros/                  │
+│     ├─ Incluye estadísticas de operación                    │
+│     └─ Documenta limitaciones y próximos pasos              │
+│                                                              │
+└─────────────────────────────────────────────────────────────┘
+```
+
+**Caso de uso real - Sincronización de ramas principales**:
+
+**Contexto inicial**:
+- Repositorio con 16 ramas (4 principales + 9 feature/* + 3 claude/*)
+- Ramas docs, devcontainer, main desactualizadas 282-462 commits
+- Necesidad de consolidar cambios y limpiar ramas obsoletas
+
+**Prompt usado**:
+
+```markdown
+Revisa y haz merge de las ramas que se tienen, vas a trabajar en la rama develop,
+las únicas ramas que deben existir son develop, docs, devcontainer, main
+```
+
+**Proceso ejecutado por el agente**:
+
+**Fase 1: Análisis**
+```bash
+# Análisis de estado
+git fetch origin
+git branch -a  # Identificó 16 ramas
+
+# Comparación de ramas principales
+git rev-list --left-right --count origin/docs...develop
+# Output: 0	282 (docs está 282 commits atrás)
+
+git rev-list --left-right --count origin/devcontainer...develop
+# Output: 0	351 (devcontainer está 351 commits atrás)
+
+git rev-list --left-right --count origin/main...develop
+# Output: 4	462 (main tiene 4 commits únicos, 462 atrás)
+```
+
+**Fase 2: Sincronización**
+```bash
+# Sincronizar docs
+git checkout -b docs origin/docs
+git merge develop --no-edit
+# Resultado: Fast-forward, 322 archivos, +65,248 líneas
+
+# Sincronizar devcontainer
+git checkout -b devcontainer origin/devcontainer
+git merge develop --no-edit
+# Resultado: Fast-forward, 329 archivos, +67,316 líneas
+
+# Sincronizar main (requirió historias no relacionadas)
+git checkout -b main origin/main
+git merge develop --allow-unrelated-histories --no-edit
+# Resultado: Merge commit, 426 archivos, +82,637 líneas
+```
+
+**Fase 3: Documentación**
+
+El agente generó:
+
+1. **Runbook operativo** (`docs/devops/runbooks/merge_y_limpieza_ramas.md`):
+   - Procedimiento paso a paso
+   - Solución de problemas
+   - Comandos de referencia
+   - Mantenimiento preventivo
+
+2. **Registro de actividad** (`docs/qa/registros/2025_11_05_merge_ramas.md`):
+   - Análisis inicial
+   - Trabajo realizado con estadísticas
+   - Limitaciones encontradas (permisos)
+   - Próximos pasos
+
+3. **Script de automatización** (`scripts/cleanup_branches.sh`):
+   - Proceso interactivo con confirmaciones
+   - Push de ramas principales
+   - Eliminación de ramas obsoletas
+   - Verificación final
+
+**Herramientas utilizadas**:
+
+1. `Bash` - Comandos Git (fetch, branch, merge, push)
+2. `Read` - Leer runbooks existentes para mantener formato
+3. `Write` - Generar documentación y scripts
+4. `Grep` - Buscar referencias a ramas en documentación
+
+**Estadísticas de la operación**:
+
+| Métrica | Valor |
+|---------|-------|
+| Ramas sincronizadas | 3 (docs, devcontainer, main) |
+| Total archivos modificados | 1,077 |
+| Líneas añadidas | 215,201 |
+| Líneas eliminadas | 3,108 |
+| Tiempo de ejecución | ~30 minutos |
+| Documentos generados | 3 archivos |
+| Ramas identificadas para eliminar | 12 (9 feature/* + 3 claude/*) |
+
+**Limitaciones encontradas**:
+
+```
+error: RPC failed; HTTP 403 curl 22
+```
+
+**Causa**: Permisos de push limitados a ramas claude/*
+
+**Solución implementada**:
+- Ramas actualizadas localmente
+- Script generado para ejecución manual con permisos
+- Documentación completa de comandos necesarios
+
+**Guardrails implementados**:
+
+1. **Verificación de merge status**: Antes de eliminar, verifica `git branch --merged`
+2. **Confirmación interactiva**: Script pide confirmación antes de cada eliminación
+3. **Preservación de rama actual**: No elimina rama en la que se está trabajando
+4. **Validación de estructura**: Verifica que resultado final sea 4 ramas
+5. **Sin emojis**: Toda documentación cumple restricciones del proyecto
+6. **Ubicación correcta**: Archivos en `docs/` y `scripts/` según estructura
+
+**Resultado final**:
+
+```markdown
+Estado completado (parcial - requiere permisos manuales):
+- Ramas locales sincronizadas: 3/3 (OK)
+- Documentación generada: 3/3 archivos (OK)
+- Ramas pendientes de push: 3 (docs, devcontainer, main)
+- Ramas pendientes de eliminar: 12 (9 feature/* + 3 claude/*)
+```
+
+**Próximos pasos documentados**:
+
+```bash
+# Ejecutar script automatizado
+./scripts/cleanup_branches.sh
+
+# O ejecutar manualmente
+git checkout docs && git push -u origin docs
+git checkout devcontainer && git push -u origin devcontainer
+git checkout main && git push -u origin main
+
+# Eliminar ramas obsoletas
+git push origin --delete feature/[nombre]  # x9
+git push origin --delete claude/[nombre]   # x3
+
+# Verificar estructura final
+git fetch --prune origin
+git branch -r  # Debe mostrar solo 4 ramas
+```
+
+**Lecciones aprendidas**:
+
+1. **Permisos**: Verificar permisos antes de operaciones en ramas protegidas
+2. **Documentación**: Importante documentar mientras se ejecuta el proceso
+3. **Automatización**: Script interactivo facilita ejecución repetible
+4. **Guardrails**: Confirmaciones previenen eliminaciones accidentales
+5. **Formato**: Respetar estructura de docs/ y convenciones del proyecto
+
+**Integración con otros runbooks**:
+
+- `docs/devops/runbooks/merge_y_limpieza_ramas.md` - Procedimiento completo
+- `docs/gobernanza/procesos/procedimiento_gestion_cambios.md` - Política de branching
+- `docs/gobernanza/procesos/procedimiento_release.md` - Sincronización pre-release
 
 ---
 
@@ -1033,6 +1264,9 @@ BAJO: Mutation + fuzzing + LLM
 
 ---
 
-**Última actualización**: 2025-11-04
+**Última actualización**: 2025-11-05
 **Autor**: Equipo de Desarrollo
 **Revisores**: Equipo QA, Equipo DevOps
+**Changelog**:
+- 2025-11-05: Agregado Agente GitOps con caso de uso real de sincronización de ramas
+- 2025-11-04: Versión inicial con agentes de exploración y remoción de emojis
