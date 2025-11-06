@@ -1,7 +1,7 @@
 ---
 id: DOC-RTM
 titulo: Requirements Traceability Matrix (RTM)
-generado: 2025-11-06 11:42:06
+generado: 2025-11-06 12:00:45
 estandar: ISO/IEC/IEEE 29148:2018 - Clause 5.2.8
 ---
 
@@ -53,5 +53,5 @@ Matriz de trazabilidad bidireccional de todos los requisitos.
 
 ---
 
-Generado: 2025-11-06 11:42:06
+Generado: 2025-11-06 12:00:45
 Total requisitos: 33

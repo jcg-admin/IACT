@@ -1,7 +1,7 @@
 ---
 id: DOC-SRS
 titulo: Software Requirements Specification (SRS)
-generado: 2025-11-06 11:42:06
+generado: 2025-11-06 12:00:45
 estandar: ISO/IEC/IEEE 29148:2018 - Clause 9.6
 conformance: Full Conformance
 ---
@@ -34,7 +34,7 @@ Por dominio:
 - **Owner**: equipo-backend
 - **Prioridad**: critica
 - **Estado**: implementado
-- **Archivo**: `implementacion/backend/requisitos/funcionales/rf001_evaluacion_permisos_tres_niveles.md`
+- **Archivo**: `docs/implementacion/backend/requisitos/funcionales/rf001_evaluacion_permisos_tres_niveles.md`
 - **Deriva de**: N-001  # Necesidad de control de acceso granular
 - **Verificación**: test
 
@@ -43,7 +43,7 @@ Por dominio:
 - **Owner**: equipo-backend
 - **Prioridad**: critica
 - **Estado**: aprobado
-- **Archivo**: `implementacion/backend/requisitos/funcionales/rf001_login_credenciales.md`
+- **Archivo**: `docs/implementacion/backend/requisitos/funcionales/rf001_login_credenciales.md`
 - **Deriva de**: N-001   # Prevenir accesos fraudulentos mediante autenticacion robusta, RN-001  # Sistema de autenticacion seguro con prevencion de fraude, RS-001  # Auditoria requiere trazabilidad completa, RS-002  # Usuarios requieren acceso rapido
 - **Verificación**: test
 
@@ -52,7 +52,7 @@ Por dominio:
 - **Owner**: equipo-backend
 - **Prioridad**: critica
 - **Estado**: aprobado
-- **Archivo**: `implementacion/backend/requisitos/funcionales/rf002_jwt_tokens.md`
+- **Archivo**: `docs/implementacion/backend/requisitos/funcionales/rf002_jwt_tokens.md`
 - **Deriva de**: [, N, -, 0, 0, 1, ,,  , R, N, -, 0, 0, 1, ,,  , R, S, -, 0, 0, 2, ]
 - **Verificación**: test
 
@@ -61,7 +61,7 @@ Por dominio:
 - **Owner**: equipo-backend
 - **Prioridad**: alta
 - **Estado**: implementado
-- **Archivo**: `implementacion/backend/requisitos/funcionales/rf002_gestion_permisos_granulares.md`
+- **Archivo**: `docs/implementacion/backend/requisitos/funcionales/rf002_gestion_permisos_granulares.md`
 - **Deriva de**: N-001  # Necesidad de control de acceso granular
 - **Verificación**: test
 
@@ -70,7 +70,7 @@ Por dominio:
 - **Owner**: equipo-backend
 - **Prioridad**: alta
 - **Estado**: implementado
-- **Archivo**: `implementacion/backend/requisitos/funcionales/rf003_obtener_permisos_efectivos_usuario.md`
+- **Archivo**: `docs/implementacion/backend/requisitos/funcionales/rf003_obtener_permisos_efectivos_usuario.md`
 - **Deriva de**: N-001  # Necesidad de control de acceso granular
 - **Verificación**: test
 
@@ -79,7 +79,7 @@ Por dominio:
 - **Owner**: equipo-backend
 - **Prioridad**: critica
 - **Estado**: aprobado
-- **Archivo**: `implementacion/backend/requisitos/funcionales/rf003_bloqueo_intentos_fallidos.md`
+- **Archivo**: `docs/implementacion/backend/requisitos/funcionales/rf003_bloqueo_intentos_fallidos.md`
 - **Deriva de**: [, N, -, 0, 0, 1, ,,  , R, N, -, 0, 0, 1, ,,  , R, S, -, 0, 0, 1, ]
 - **Verificación**: test
 
@@ -88,7 +88,7 @@ Por dominio:
 - **Owner**: equipo-backend
 - **Prioridad**: alta
 - **Estado**: aprobado
-- **Archivo**: `implementacion/backend/requisitos/funcionales/rf004_sesion_unica.md`
+- **Archivo**: `docs/implementacion/backend/requisitos/funcionales/rf004_sesion_unica.md`
 - **Deriva de**: [, N, -, 0, 0, 1, ,,  , R, N, -, 0, 0, 1, ,,  , R, S, -, 0, 0, 1, ]
 - **Verificación**: test
 
@@ -97,7 +97,7 @@ Por dominio:
 - **Owner**: equipo-backend
 - **Prioridad**: alta
 - **Estado**: implementado
-- **Archivo**: `implementacion/backend/requisitos/funcionales/rf004_segmentos_criterios_dinamicos.md`
+- **Archivo**: `docs/implementacion/backend/requisitos/funcionales/rf004_segmentos_criterios_dinamicos.md`
 - **Deriva de**: N-001  # Necesidad de control de acceso granular
 - **Verificación**: test
 
@@ -106,7 +106,7 @@ Por dominio:
 - **Owner**: equipo-backend
 - **Prioridad**: critica
 - **Estado**: pendiente
-- **Archivo**: `implementacion/backend/requisitos/funcionales/rf005_login_credenciales_locales.md`
+- **Archivo**: `docs/implementacion/backend/requisitos/funcionales/rf005_login_credenciales_locales.md`
 - **Deriva de**: RN-C01-01  # Login con Credenciales Locales, RN-C01-02  # Validación de Credenciales
 - **Verificación**: test
 
@@ -115,7 +115,7 @@ Por dominio:
 - **Owner**: equipo-backend
 - **Prioridad**: alta
 - **Estado**: aprobado
-- **Archivo**: `implementacion/backend/requisitos/funcionales/rf005_logout.md`
+- **Archivo**: `docs/implementacion/backend/requisitos/funcionales/rf005_logout.md`
 - **Deriva de**: [, N, -, 0, 0, 1, ,,  , R, N, -, 0, 0, 1, ,,  , R, S, -, 0, 0, 1, ]
 - **Verificación**: test
 
@@ -124,7 +124,7 @@ Por dominio:
 - **Owner**: equipo-backend
 - **Prioridad**: media
 - **Estado**: aprobado
-- **Archivo**: `implementacion/backend/requisitos/funcionales/rf006_recuperacion_sin_email.md`
+- **Archivo**: `docs/implementacion/backend/requisitos/funcionales/rf006_recuperacion_sin_email.md`
 - **Deriva de**: [, N, -, 0, 0, 1, ,,  , R, N, -, 0, 0, 1, ]
 - **Verificación**: test
 
@@ -133,7 +133,7 @@ Por dominio:
 - **Owner**: equipo-backend
 - **Prioridad**: critica
 - **Estado**: pendiente
-- **Archivo**: `implementacion/backend/requisitos/funcionales/rf006_tokens_jwt.md`
+- **Archivo**: `docs/implementacion/backend/requisitos/funcionales/rf006_tokens_jwt.md`
 - **Deriva de**: RN-C01-03  # Generación de Tokens JWT, RN-C01-04  # Validación de Tokens JWT, RN-C01-11  # Refresh Token
 - **Verificación**: test
 
@@ -142,7 +142,7 @@ Por dominio:
 - **Owner**: equipo-backend
 - **Prioridad**: alta
 - **Estado**: pendiente
-- **Archivo**: `implementacion/backend/requisitos/funcionales/rf007_logout_manual.md`
+- **Archivo**: `docs/implementacion/backend/requisitos/funcionales/rf007_logout_manual.md`
 - **Deriva de**: RN-C01-05  # Logout Manual, RN-C01-12  # Auditoría de Login
 - **Verificación**: test
 
@@ -151,7 +151,7 @@ Por dominio:
 - **Owner**: equipo-backend
 - **Prioridad**: alta
 - **Estado**: pendiente
-- **Archivo**: `implementacion/backend/requisitos/funcionales/rf008_cierre_inactividad.md`
+- **Archivo**: `docs/implementacion/backend/requisitos/funcionales/rf008_cierre_inactividad.md`
 - **Deriva de**: RN-C01-06  # Cierre por Inactividad, RN-C01-12  # Auditoría de Login
 - **Verificación**: test
 
@@ -160,7 +160,7 @@ Por dominio:
 - **Owner**: equipo-backend
 - **Prioridad**: critica
 - **Estado**: pendiente
-- **Archivo**: `implementacion/backend/requisitos/funcionales/rf009_gestion_passwords_intentos_fallidos.md`
+- **Archivo**: `docs/implementacion/backend/requisitos/funcionales/rf009_gestion_passwords_intentos_fallidos.md`
 - **Deriva de**: RN-C01-07  # Complejidad de Contraseñas, RN-C01-08  # Intentos Fallidos Limitados, RN-C01-09  # Bloqueo Temporal de Cuenta, RN-C01-10  # Hash Seguro de Passwords
 - **Verificación**: test
 
@@ -169,7 +169,7 @@ Por dominio:
 - **Owner**: equipo-backend
 - **Prioridad**: critica
 - **Estado**: pendiente
-- **Archivo**: `implementacion/backend/requisitos/funcionales/rf010_sesion_unica.md`
+- **Archivo**: `docs/implementacion/backend/requisitos/funcionales/rf010_sesion_unica.md`
 - **Deriva de**: RN-C01-13  # Sesiones en PostgreSQL, RN-C01-14  # Sesión Única por Usuario
 - **Verificación**: test
 
@@ -180,7 +180,7 @@ Por dominio:
 - **Owner**: equipo-frontend
 - **Prioridad**: critica
 - **Estado**: aprobado
-- **Archivo**: `implementacion/frontend/requisitos/funcionales/rf010_pantalla_login.md`
+- **Archivo**: `docs/implementacion/frontend/requisitos/funcionales/rf010_pantalla_login.md`
 - **Deriva de**: [, N, -, 0, 0, 1, ,,  , R, N, -, 0, 0, 1, ,,  , R, S, -, 0, 0, 2, ]
 - **Verificación**: demonstration
 
@@ -189,7 +189,7 @@ Por dominio:
 - **Owner**: equipo-frontend
 - **Prioridad**: media
 - **Estado**: aprobado
-- **Archivo**: `implementacion/frontend/requisitos/funcionales/rf011_cambio_password_ui.md`
+- **Archivo**: `docs/implementacion/frontend/requisitos/funcionales/rf011_cambio_password_ui.md`
 - **Deriva de**: [, N, -, 0, 0, 1, ,,  , R, N, -, 0, 0, 1, ]
 - **Verificación**: demonstration
 
@@ -200,11 +200,11 @@ Por dominio:
 - **Owner**: equipo-infraestructura
 - **Prioridad**: media
 - **Estado**: aprobado
-- **Archivo**: `implementacion/infrastructure/requisitos/funcionales/rf020_cpython_precompilado.md`
+- **Archivo**: `docs/implementacion/infrastructure/requisitos/funcionales/rf020_cpython_precompilado.md`
 - **Deriva de**: [, O, b, j, e, t, i, v, o, -, D, e, v, E, x, p, ]
 - **Verificación**: demonstration
 
 
 ---
 
-Generado: 2025-11-06 11:42:06
+Generado: 2025-11-06 12:00:45

@@ -1,7 +1,7 @@
 ---
 id: DOC-BRS
 titulo: Business Requirements Specification (BRS)
-generado: 2025-11-06 11:42:06
+generado: 2025-11-06 12:00:45
 estandar: ISO/IEC/IEEE 29148:2018 - Clause 9.3
 conformance: Full Conformance
 ---
@@ -32,11 +32,11 @@ Por dominio:
 - **Owner**: equipo-ba
 - **Prioridad**: critica
 - **Estado**: aprobado
-- **Archivo**: `implementacion/backend/requisitos/negocio/rn001_sistema_seguridad_auditoria_conforme_iso27001.md`
+- **Archivo**: `docs/implementacion/backend/requisitos/negocio/rn001_sistema_seguridad_auditoria_conforme_iso27001.md`
 - **Trazabilidad Upward**: N-001
 - **Stakeholders**: ciso, compliance-officer, auditor-interno, legal
 
 
 ---
 
-Generado: 2025-11-06 11:42:06
+Generado: 2025-11-06 12:00:45

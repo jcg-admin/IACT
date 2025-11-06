@@ -1,7 +1,7 @@
 ---
 id: DOC-STRS
 titulo: Stakeholder Requirements Specification (StRS)
-generado: 2025-11-06 11:42:06
+generado: 2025-11-06 12:00:45
 estandar: ISO/IEC/IEEE 29148:2018 - Clause 9.4
 conformance: Full Conformance
 ---
@@ -32,7 +32,7 @@ Por dominio:
 - **Owner**: equipo-ba
 - **Prioridad**: alta
 - **Estado**: aprobado
-- **Archivo**: `implementacion/backend/requisitos/stakeholders/rs001_auditoria_requiere_trazabilidad_completa.md`
+- **Archivo**: `docs/implementacion/backend/requisitos/stakeholders/rs001_auditoria_requiere_trazabilidad_completa.md`
 - **Deriva de**: N-001  # Prevenir accesos fraudulentos mediante autenticacion robusta, RN-001 # Sistema de autenticacion seguro con prevencion de fraude
 
 ### RS-002: Reportes automatizados de compliance
@@ -40,7 +40,7 @@ Por dominio:
 - **Owner**: equipo-ba
 - **Prioridad**: alta
 - **Estado**: aprobado
-- **Archivo**: `implementacion/backend/requisitos/stakeholders/rs002_reportes_automatizados_compliance.md`
+- **Archivo**: `docs/implementacion/backend/requisitos/stakeholders/rs002_reportes_automatizados_compliance.md`
 - **Deriva de**: N-001, RN-001
 
 ### RS-002: Usuarios requieren acceso rapido menor 2 segundos
@@ -48,10 +48,10 @@ Por dominio:
 - **Owner**: equipo-ba
 - **Prioridad**: alta
 - **Estado**: aprobado
-- **Archivo**: `implementacion/backend/requisitos/stakeholders/rs002_usuarios_requieren_acceso_rapido.md`
+- **Archivo**: `docs/implementacion/backend/requisitos/stakeholders/rs002_usuarios_requieren_acceso_rapido.md`
 - **Deriva de**: N-001  # Prevenir accesos fraudulentos mediante autenticacion robusta, RN-001 # Sistema de autenticacion seguro con prevencion de fraude
 
 
 ---
 
-Generado: 2025-11-06 11:42:06
+Generado: 2025-11-06 12:00:45
