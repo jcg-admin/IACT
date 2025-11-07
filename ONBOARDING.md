@@ -3,9 +3,11 @@ id: ONBOARDING-GUIDE
 tipo: guia
 categoria: proyecto
 fecha: 2025-11-07
-version: 1.0.0
+version: 1.1.0
 propietario: tech-lead
-relacionados: ["README.md", "docs/gobernanza/ai/AI_STANCE.md", "docs/proyecto/ROADMAP.md"]
+relacionados: ["README.md", "docs/gobernanza/ai/ESTRATEGIA_IA.md", "docs/proyecto/ROADMAP.md", "docs/gobernanza/ai/AI_CAPABILITIES.md"]
+ultima_actualizacion: 2025-11-07
+actualizaciones: ["TASK-012: Agregar AI Guidelines completas con checklist diario"]
 ---
 
 # Guia de Onboarding - Proyecto IACT
@@ -105,72 +107,143 @@ Ver `docs/README.md` para estructura detallada.
 
 ### 3.1 AI Stance del Proyecto
 
-Este proyecto adopta una **AI Stance proactiva** segun DORA 2025:
+Este proyecto adopta una **AI-Enabled Development** strategy segun DORA Report 2025:
 
-**[OK] AI-Enabled Development:**
-- Uso intensivo de AI assistants (Claude, GitHub Copilot)
+**Postura de IA:**
+- Uso intensivo de AI assistants (Claude Code, GitHub Copilot)
 - AI Code Review antes de human review
-- AI-generated documentation (auto-sync)
-- AI-powered testing (generacion casos de prueba)
+- AI-generated documentation con human oversight
+- AI-powered testing y automated quality gates
 
-**[OK] AI-Accessible Data:**
-- Logs centralizados en Cassandra (AI-queryable)
-- Metrics DORA expuestos via API
-- Documentacion en formato estructurado (YAML frontmatter)
+**Estado DORA AI Capabilities:** 6/7 (86%) - Target: 7/7 (100%) Q1 2026
 
-**Ver**: `docs/gobernanza/ai/AI_STANCE.md` para detalles completos.
+**Documentacion completa:** [ESTRATEGIA_IA.md](docs/gobernanza/ai/ESTRATEGIA_IA.md)
 
-### 3.2 Uso de AI Assistants
+### 3.1.1 Cuando SI usar IA
 
-#### Claude Code (Recomendado)
+1. Generacion de boilerplate (Django models, tests, views)
+2. Documentacion automatica (README, API docs, docstrings)
+3. Code review automatizado (bugs, security, code smells)
+4. Refactoring y sugerencias de mejora
+5. Generacion de test cases y fixtures
+6. Analisis SDLC (planning, design, feasibility)
 
+### 3.1.2 Cuando NO usar IA
+
+1. Decisiones arquitectonicas criticas (requieren human review)
+2. Validacion final de seguridad (human security review obligatorio)
+3. Merge a production sin review (PR review humano siempre)
+4. Generacion de credenciales (security risk)
+5. Cambios en restricciones criticas (RNF-002 - human only)
+
+**Regla de Oro:** Todo codigo generado por IA DEBE ser revisado por un humano antes de commit.
+
+### 3.2 Herramientas de IA Recomendadas
+
+#### Claude Code (Oficial del Proyecto)
+
+Claude Code es la herramienta oficial de IA para el proyecto IACT.
+
+**Uso:**
+- Pair programming
+- Code review automatizado
+- Documentation generation
+- Troubleshooting y debugging
+
+**Capacidades:**
+- Lee y entiende contexto completo del proyecto
+- Genera codigo Django idiomatico
+- Respeta restricciones del proyecto (RNF-002)
+- Sugiere mejoras arquitecturales
+
+#### GitHub Copilot (Opcional)
+
+GitHub Copilot para code completion en tiempo real.
+
+**Uso:**
+- Code completion inline
+- Sugerencias de tests
+- Documentacion de funciones
+
+**Configuracion:**
 ```bash
-# Instalar Claude CLI
-npm install -g @anthropic-ai/claude-cli
-
-# Configurar API key
-export ANTHROPIC_API_KEY=<your-key>
-
-# Uso basico
-claude "Explicame la arquitectura de analytics app"
-claude "Genera tests para el servicio AuditService"
-claude "Documenta el endpoint /api/dashboard/widgets"
+# VS Code: Settings -> Extensions -> GitHub Copilot
+# PyCharm: Settings -> Tools -> GitHub Copilot
 ```
 
-#### GitHub Copilot
+#### ChatGPT (Documentacion y Explanations)
 
-```bash
-# Activar en tu IDE (VS Code, PyCharm, etc.)
-# Settings -> Extensions -> GitHub Copilot
+ChatGPT para consultas generales y explanations.
 
-# Uso:
-# 1. Escribir comentario describiendo funcion
-# 2. Copilot sugiere implementacion
-# 3. Aceptar (Tab) o rechazar (Esc)
-```
+**Uso:**
+- Explicar conceptos tecnicos
+- Generar documentacion inicial
+- Troubleshooting general
 
-### 3.3 Lineamientos AI
+**Restriccion:** NO compartir codigo sensible o credenciales.
 
-1. **Code Review AI-First**:
-   - Antes de crear PR, ejecuta AI code review
-   - AI identifica bugs, security issues, code smells
-   - Corregir issues antes de human review
+### 3.3 Checklist Diario de IA
 
-2. **Documentation AI-Generated**:
-   - Comentarios de codigo: AI genera docstrings
-   - READMEs: AI genera estructura base
-   - Diagramas: AI genera PlantUML desde codigo
+**OBLIGATORIO:** Usar este checklist cada dia antes de crear PR.
 
-3. **Testing AI-Powered**:
-   - AI genera casos de prueba desde requisitos
-   - AI genera fixtures desde modelos Django
-   - AI sugiere edge cases
+#### Uso de IA
+- [ ] Codigo generado por IA revisado por humano
+- [ ] AI suggestions evaluadas criticamente
+- [ ] Documentacion AI-generated verificada por accuracy
+- [ ] Tests AI-generated validados manualmente
 
-4. **Limitaciones AI** (Critical Thinking Required):
-   - NO confiar ciegamente en AI para logica critica de negocio
-   - Validar AI output manualmente
-   - AI es asistente, NO reemplaza pensamiento critico
-   - Decisiones arquitecturales requieren human expertise
+#### Restricciones del Proyecto
+- [ ] NO uso de Redis/Memcached (RNF-002)
+- [ ] NO uso de Prometheus/Grafana (RNF-002)
+- [ ] NO uso de Email/SMTP en codigo
+- [ ] SESSION_ENGINE usa database (no Redis)
+
+#### Quality Gates
+- [ ] Tests pasados localmente (pytest)
+- [ ] Pre-commit hooks pasados
+- [ ] Coverage >= 80% mantenido
+- [ ] Security scan sin issues criticos
+
+#### Human Oversight
+- [ ] Logica critica de negocio revisada
+- [ ] Decisiones arquitecturales validadas
+- [ ] Security implications evaluadas
+- [ ] NO skip de human code review
+
+**Referencia completa:** [AI_CAPABILITIES.md](docs/gobernanza/ai/AI_CAPABILITIES.md)
+
+### 3.4 Lineamientos de Seguridad con IA
+
+**IMPORTANTE:** IA puede introducir vulnerabilidades si no se valida correctamente.
+
+1. **Code Review AI-First, Validation Human-Second**:
+   - AI identifica bugs automaticamente
+   - Humano valida y decide si aplicar fixes
+
+2. **NO confiar ciegamente en AI para:**
+   - Logica de autenticacion/autorizacion
+   - Manejo de credenciales
+   - Queries SQL directas (usar ORM Django)
+   - Configuracion de permisos
+
+3. **Pipeline de Validacion:**
+   - AI genera codigo → Developer revisa → CI/CD security scan → Human review → Merge
+
+### 3.5 FAQ sobre Uso de IA
+
+**Q: Puedo usar IA para generar TODO el codigo de una feature?**
+
+A: SI, pero debes revisar CADA linea generada, ejecutar tests, y validar contra restricciones del proyecto.
+
+**Q: Que hago si IA sugiere usar Redis?**
+
+A: RECHAZAR la sugerencia. RNF-002 prohibe Redis. IA no conoce restricciones especificas del proyecto.
+
+**Q: Como reporto un bug en una IA tool?**
+
+A: Crear issue en GitHub con label "ai-tool-bug", incluir: herramienta usada, input, output incorrecto, output esperado.
+
+**Mas preguntas:** Ver [ESTRATEGIA_IA.md - FAQ](docs/gobernanza/ai/ESTRATEGIA_IA.md#preguntas-frecuentes-faq) (25+ preguntas)
 
 ---
 
@@ -406,7 +479,8 @@ Ver: `.github/CODEOWNERS`
 | `docs/proyecto/ROADMAP.md` | Roadmap features |
 | `docs/proyecto/CHANGELOG.md` | Historial cambios |
 | `docs/adr/` | Decisiones arquitecturales |
-| `docs/gobernanza/ai/AI_STANCE.md` | AI guidelines |
+| `docs/gobernanza/ai/ESTRATEGIA_IA.md` | AI strategy y guidelines (DORA 2025) |
+| `docs/gobernanza/ai/AI_CAPABILITIES.md` | Checklist diario AI |
 
 ### 9.2 Links Externos
 
@@ -502,9 +576,10 @@ Ayudanos a mejorar esta guia: https://github.com/company/IACT---project/issues/n
 ---
 
 **Creado**: 2025-11-07
-**Version**: 1.0.0
+**Version**: 1.1.0
+**Ultima Actualizacion**: 2025-11-07 (TASK-012)
 **Responsable**: Tech Lead
-**Relacionados**: README.md, docs/gobernanza/ai/AI_STANCE.md
+**Relacionados**: README.md, docs/gobernanza/ai/ESTRATEGIA_IA.md, docs/gobernanza/ai/AI_CAPABILITIES.md
 
 ---
 
