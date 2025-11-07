@@ -83,6 +83,13 @@ docs/operaciones/**                          @devops-lead @sre-lead
 # Owner: Tech Lead + Backend Lead
 docs/features/**                             @tech-lead @equipo-backend-lead
 
+# AI Telemetry System (TASK-024)
+# Owner: Arquitecto Senior + Tech Lead
+api/callcentersite/dora_metrics/ai_telemetry.py       @arquitecto-senior @tech-lead
+api/callcentersite/dora_metrics/tests_ai_telemetry.py @arquitecto-senior @qa-lead
+api/callcentersite/dora_metrics/migrations/0003_aitelemetry.py @arquitecto-senior @devops-lead
+docs/gobernanza/ai/TASK-024-ai-telemetry-system.md    @arquitecto-senior @tech-lead
+
 # ============================================================================
 # DOCUMENTACIÓN AUTO-GENERADA
 # ============================================================================

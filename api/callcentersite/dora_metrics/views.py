@@ -606,3 +606,157 @@ def performance_forecast(request):
     forecast = PerformanceForecasting.forecast_next_month(historical_months=historical_months)
 
     return JsonResponse(forecast)
+
+
+# ============================================================================
+# AI TELEMETRY SYSTEM (TASK-024)
+# ============================================================================
+
+from .ai_telemetry import AITelemetryCollector
+
+
+@require_http_methods(["POST"])
+@throttle_classes([BurstRateThrottle, SustainedRateThrottle])
+def ai_telemetry_record(request):
+    """
+    POST /api/dora/ai-telemetry/record/ - Registrar decision IA.
+
+    Body:
+        {
+            "agent_id": "deployment-risk-predictor",
+            "task_type": "deployment_risk",
+            "decision": {"action": "approve", "risk_score": 0.15},
+            "confidence": 0.92,
+            "execution_time_ms": 150,
+            "metadata": {}
+        }
+    """
+    data = json.loads(request.body)
+
+    telemetry = AITelemetryCollector.record_decision(
+        agent_id=data["agent_id"],
+        task_type=data["task_type"],
+        decision=data["decision"],
+        confidence=data["confidence"],
+        execution_time_ms=data["execution_time_ms"],
+        metadata=data.get("metadata", {}),
+    )
+
+    return JsonResponse(
+        {
+            "id": telemetry.id,
+            "agent_id": telemetry.agent_id,
+            "task_type": telemetry.task_type,
+            "confidence_score": float(telemetry.confidence_score),
+            "created_at": telemetry.created_at.isoformat(),
+        },
+        status=201,
+    )
+
+
+@require_http_methods(["POST"])
+@throttle_classes([BurstRateThrottle, SustainedRateThrottle])
+def ai_telemetry_feedback(request, telemetry_id):
+    """
+    POST /api/dora/ai-telemetry/<id>/feedback/ - Registrar feedback humano.
+
+    Body:
+        {
+            "feedback": "correct"  # correct, incorrect, partially_correct
+        }
+    """
+    data = json.loads(request.body)
+
+    telemetry = AITelemetryCollector.record_feedback(
+        telemetry_id=telemetry_id,
+        feedback=data["feedback"],
+    )
+
+    return JsonResponse(
+        {
+            "id": telemetry.id,
+            "human_feedback": telemetry.human_feedback,
+            "accuracy": float(telemetry.accuracy) if telemetry.accuracy else None,
+        }
+    )
+
+
+@require_http_methods(["GET"])
+@throttle_classes([BurstRateThrottle, SustainedRateThrottle])
+def ai_telemetry_stats(request):
+    """
+    GET /api/dora/ai-telemetry/stats/ - Estadisticas generales.
+
+    Query parameters:
+        - days: Number of days to analyze (default: 30)
+    """
+    days = int(request.GET.get("days", 30))
+
+    accuracy_stats = AITelemetryCollector.calculate_accuracy(days=days)
+    confidence_dist = AITelemetryCollector.get_confidence_distribution(days=days)
+    execution_trends = AITelemetryCollector.get_execution_time_trends(days=days)
+
+    return JsonResponse(
+        {
+            "period_days": days,
+            "accuracy": accuracy_stats,
+            "confidence_distribution": confidence_dist,
+            "execution_time": execution_trends,
+        }
+    )
+
+
+@require_http_methods(["GET"])
+@throttle_classes([BurstRateThrottle, SustainedRateThrottle])
+def ai_telemetry_agent_stats(request, agent_id):
+    """
+    GET /api/dora/ai-telemetry/agent/<agent_id>/ - Stats por agente.
+
+    Query parameters:
+        - days: Number of days to analyze (default: 30)
+    """
+    days = int(request.GET.get("days", 30))
+
+    stats = AITelemetryCollector.get_agent_stats(agent_id=agent_id, days=days)
+
+    return JsonResponse(stats)
+
+
+@require_http_methods(["GET"])
+@throttle_classes([BurstRateThrottle, SustainedRateThrottle])
+def ai_telemetry_accuracy(request):
+    """
+    GET /api/dora/ai-telemetry/accuracy/ - Metricas accuracy.
+
+    Query parameters:
+        - agent_id: Filter by agent (optional)
+        - task_type: Filter by task type (optional)
+        - days: Number of days to analyze (default: 30)
+    """
+    agent_id = request.GET.get("agent_id")
+    task_type = request.GET.get("task_type")
+    days = int(request.GET.get("days", 30))
+
+    accuracy_stats = AITelemetryCollector.calculate_accuracy(
+        agent_id=agent_id,
+        task_type=task_type,
+        days=days,
+    )
+
+    confidence_dist = AITelemetryCollector.get_confidence_distribution(
+        agent_id=agent_id,
+        task_type=task_type,
+        days=days,
+    )
+
+    return JsonResponse(
+        {
+            "period_days": days,
+            "filters": {
+                "agent_id": agent_id,
+                "task_type": task_type,
+            },
+            "accuracy": accuracy_stats,
+            "confidence_distribution": confidence_dist,
+        }
+    )

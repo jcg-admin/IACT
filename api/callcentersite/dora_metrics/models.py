@@ -28,3 +28,30 @@ class DORAMetric(models.Model):
 
     def __str__(self):
         return f"{self.cycle_id} - {self.phase_name}"
+
+
+class AITelemetry(models.Model):
+    """Telemetria para rastrear decisiones y performance de agentes IA."""
+
+    agent_id = models.CharField(max_length=100, db_index=True)
+    task_type = models.CharField(max_length=50, db_index=True)
+    decision_made = models.JSONField()
+    confidence_score = models.DecimalField(max_digits=5, decimal_places=4)
+    human_feedback = models.CharField(max_length=20, null=True, blank=True)
+    accuracy = models.DecimalField(max_digits=5, decimal_places=4, null=True, blank=True)
+    execution_time_ms = models.IntegerField()
+    metadata = models.JSONField(default=dict)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = "ai_telemetry"
+        ordering = ["-created_at"]
+        indexes = [
+            models.Index(fields=["agent_id"]),
+            models.Index(fields=["task_type"]),
+            models.Index(fields=["created_at"]),
+            models.Index(fields=["human_feedback"]),
+        ]
+
+    def __str__(self):
+        return f"{self.agent_id} - {self.task_type} - {self.created_at}"

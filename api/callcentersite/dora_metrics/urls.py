@@ -33,4 +33,10 @@ urlpatterns = [
     path("analytics/historical/monthly/", views.historical_monthly_report, name="analytics-historical-monthly"),
     path("analytics/anomalies/", views.anomaly_detection, name="analytics-anomalies"),
     path("analytics/forecast/", views.performance_forecast, name="analytics-forecast"),
+    # AI Telemetry System (TASK-024)
+    path("ai-telemetry/record/", views.ai_telemetry_record, name="ai-telemetry-record"),
+    path("ai-telemetry/<int:telemetry_id>/feedback/", views.ai_telemetry_feedback, name="ai-telemetry-feedback"),
+    path("ai-telemetry/stats/", views.ai_telemetry_stats, name="ai-telemetry-stats"),
+    path("ai-telemetry/agent/<str:agent_id>/", views.ai_telemetry_agent_stats, name="ai-telemetry-agent-stats"),
+    path("ai-telemetry/accuracy/", views.ai_telemetry_accuracy, name="ai-telemetry-accuracy"),
 ]
