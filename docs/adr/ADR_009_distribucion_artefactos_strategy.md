@@ -50,17 +50,17 @@ Esto haría que clones del repositorio sean extremadamente lentos y consumidores
 # Después de compilar en Vagrant
 cd infrastructure/cpython/artifacts/
 gh release create cpython-3.12.6-build1 \
-  cpython-3.12.6-ubuntu22.04-build1.tgz \
-  cpython-3.12.6-ubuntu22.04-build1.tgz.sha256 \
+  cpython-3.12.6-ubuntu20.04-build1.tgz \
+  cpython-3.12.6-ubuntu20.04-build1.tgz.sha256 \
   --title "CPython 3.12.6 Build 1" \
-  --notes "CPython 3.12.6 precompilado para Ubuntu 22.04 con OpenSSL 3.0, SQLite 3.37"
+  --notes "CPython 3.12.6 precompilado para Ubuntu 20.04 con OpenSSL 3.0, SQLite 3.37"
 ```
 
 **Consumo en Feature:**
 
 ```bash
 # install.sh en Feature de Dev Container
-ARTIFACT_URL="https://github.com/2-Coatl/IACT---project/releases/download/cpython-3.12.6-build1/cpython-3.12.6-ubuntu22.04-build1.tgz"
+ARTIFACT_URL="https://github.com/2-Coatl/IACT---project/releases/download/cpython-3.12.6-build1/cpython-3.12.6-ubuntu20.04-build1.tgz"
 
 wget -q "$ARTIFACT_URL" -O /tmp/cpython.tgz
 wget -q "$ARTIFACT_URL.sha256" -O /tmp/cpython.tgz.sha256
@@ -76,7 +76,7 @@ Mantener `artifacts/ARTIFACTS.md` en Git (archivo pequeño de texto):
 ```markdown
 | Versión | Build | Distro | Fecha | SHA256 | Release URL | Estado |
 |---------|-------|--------|-------|--------|-------------|--------|
-| 3.12.6  | 1     | ubuntu22.04 | 2025-11-06 | abc123... | https://github.com/.../releases/download/cpython-3.12.6-build1 | Activo |
+| 3.12.6  | 1     | ubuntu20.04 | 2025-11-06 | abc123... | https://github.com/.../releases/download/cpython-3.12.6-build1 | Activo |
 ```
 
 ---
@@ -235,13 +235,13 @@ cd /vagrant/infrastructure/cpython/artifacts/
 
 # Crear release con gh CLI
 gh release create cpython-3.12.6-build1 \
-  cpython-3.12.6-ubuntu22.04-build1.tgz \
-  cpython-3.12.6-ubuntu22.04-build1.tgz.sha256 \
-  --title "CPython 3.12.6 Build 1 (Ubuntu 22.04)" \
+  cpython-3.12.6-ubuntu20.04-build1.tgz \
+  cpython-3.12.6-ubuntu20.04-build1.tgz.sha256 \
+  --title "CPython 3.12.6 Build 1 (Ubuntu 20.04)" \
   --notes "$(cat <<'EOF'
 ## CPython 3.12.6 Precompilado - Build 1
 
-**Plataforma**: Ubuntu 22.04 LTS
+**Plataforma**: Ubuntu 20.04 LTS
 **Fecha de compilación**: 2025-11-06
 **Flags de optimización**: --enable-optimizations, --with-lto
 
@@ -256,12 +256,12 @@ gh release create cpython-3.12.6-build1 \
 Ver [documentación](https://github.com/2-Coatl/IACT---project/blob/main/docs/infrastructure/cpython_precompilado/README.md)
 
 ### Validación:
-SHA256: $(cat cpython-3.12.6-ubuntu22.04-build1.tgz.sha256)
+SHA256: $(cat cpython-3.12.6-ubuntu20.04-build1.tgz.sha256)
 EOF
 )"
 
 # Actualizar registro
-echo "| 3.12.6 | 1 | ubuntu22.04 | $(date +%Y-%m-%d) | $(cat cpython-3.12.6-ubuntu22.04-build1.tgz.sha256 | cut -d' ' -f1) | https://github.com/2-Coatl/IACT---project/releases/download/cpython-3.12.6-build1 | Activo |" >> ../ARTIFACTS.md
+echo "| 3.12.6 | 1 | ubuntu20.04 | $(date +%Y-%m-%d) | $(cat cpython-3.12.6-ubuntu20.04-build1.tgz.sha256 | cut -d' ' -f1) | https://github.com/2-Coatl/IACT---project/releases/download/cpython-3.12.6-build1 | Activo |" >> ../ARTIFACTS.md
 ```
 
 ### Publicación (Automatizada - Fase 4)
@@ -296,8 +296,8 @@ jobs:
         with:
           tag_name: cpython-${{ inputs.version }}-build${{ inputs.build_number }}
           files: |
-            infrastructure/cpython/artifacts/cpython-${{ inputs.version }}-ubuntu22.04-build${{ inputs.build_number }}.tgz
-            infrastructure/cpython/artifacts/cpython-${{ inputs.version }}-ubuntu22.04-build${{ inputs.build_number }}.tgz.sha256
+            infrastructure/cpython/artifacts/cpython-${{ inputs.version }}-ubuntu20.04-build${{ inputs.build_number }}.tgz
+            infrastructure/cpython/artifacts/cpython-${{ inputs.version }}-ubuntu20.04-build${{ inputs.build_number }}.tgz.sha256
 ```
 
 ### Consumo en Feature
@@ -307,7 +307,7 @@ jobs:
 
 VERSION="${VERSION:-3.12.6}"
 BUILD_NUMBER="${BUILD_NUMBER:-1}"
-DISTRO="ubuntu22.04"
+DISTRO="ubuntu20.04"
 
 ARTIFACT_NAME="cpython-${VERSION}-${DISTRO}-build${BUILD_NUMBER}.tgz"
 BASE_URL="https://github.com/2-Coatl/IACT---project/releases/download/cpython-${VERSION}-build${BUILD_NUMBER}"
@@ -345,8 +345,8 @@ ldconfig
 1. Descargar artefacto manualmente antes de tiempo:
    ```bash
    mkdir -p infrastructure/cpython/artifacts/
-   curl -L https://github.com/.../releases/download/.../cpython-3.12.6-ubuntu22.04-build1.tgz \
-     -o infrastructure/cpython/artifacts/cpython-3.12.6-ubuntu22.04-build1.tgz
+   curl -L https://github.com/.../releases/download/.../cpython-3.12.6-ubuntu20.04-build1.tgz \
+     -o infrastructure/cpython/artifacts/cpython-3.12.6-ubuntu20.04-build1.tgz
    ```
 
 2. Modificar Feature para usar path local:
@@ -355,7 +355,7 @@ ldconfig
      "features": {
        "./infrastructure/cpython/installer": {
          "version": "3.12.6",
-         "artifactUrl": "${localWorkspaceFolder}/infrastructure/cpython/artifacts/cpython-3.12.6-ubuntu22.04-build1.tgz"
+         "artifactUrl": "${localWorkspaceFolder}/infrastructure/cpython/artifacts/cpython-3.12.6-ubuntu20.04-build1.tgz"
        }
      }
    }
@@ -396,8 +396,8 @@ Pero para IACT (repo público actual), no es necesario.
 
 1. **Firma GPG de artefactos**:
    ```bash
-   gpg --armor --detach-sign cpython-3.12.6-ubuntu22.04-build1.tgz
-   gh release upload ... cpython-3.12.6-ubuntu22.04-build1.tgz.asc
+   gpg --armor --detach-sign cpython-3.12.6-ubuntu20.04-build1.tgz
+   gh release upload ... cpython-3.12.6-ubuntu20.04-build1.tgz.asc
    ```
 
 2. **Checksums múltiples** (SHA256 + SHA512):

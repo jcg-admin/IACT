@@ -5,44 +5,15 @@ set -euo pipefail
 # CPython Builder - Bootstrap Script
 # =============================================================================
 # Referencia: SPEC_INFRA_001
-# Propósito: Aprovisionar VM con dependencias de compilación de CPython
+# Proposito: Aprovisionar VM con dependencias de compilacion de CPython
 # =============================================================================
 
 # Cargar utilidades
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="${PROJECT_ROOT:-/vagrant}"
 
-# Colores para output
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-BLUE='\033[0;34m'
-NC='\033[0m' # No Color
-
-# Funciones de logging
-log_info() {
-    echo -e "${BLUE}[INFO]${NC} $*"
-}
-
-log_success() {
-    echo -e "${GREEN}[SUCCESS]${NC} $*"
-}
-
-log_warn() {
-    echo -e "${YELLOW}[WARN]${NC} $*"
-}
-
-log_error() {
-    echo -e "${RED}[ERROR]${NC} $*"
-}
-
-log_step() {
-    local step="$1"
-    local total="$2"
-    local message="$3"
-    echo ""
-    echo -e "${BLUE}[STEP $step/$total]${NC} $message"
-}
+source "$SCRIPT_DIR/utils/logging.sh" 2>/dev/null || source "$PROJECT_ROOT/utils/logging.sh"
+LOGGING_LOADED=1
 
 # =============================================================================
 # FUNCIONES PRINCIPALES
@@ -52,21 +23,28 @@ update_system() {
     log_step 1 3 "Actualizando sistema"
 
     log_info "Actualizando lista de paquetes..."
-    apt-get update -qq
+    if ! apt-get update -qq; then
+        log_error "Fallo al actualizar lista de paquetes"
+        return 1
+    fi
 
     log_info "Actualizando paquetes del sistema..."
-    apt-get upgrade -y -qq
+    if ! apt-get upgrade -y -qq; then
+        log_error "Fallo al actualizar paquetes del sistema"
+        return 1
+    fi
 
     log_success "Sistema actualizado"
 }
 
 install_build_dependencies() {
-    log_step 2 3 "Instalando dependencias de compilación de CPython"
+    log_step 2 3 "Instalando dependencias de compilacion de CPython"
 
-    log_info "Instalando toolchain de compilación..."
+    log_info "Instalando toolchain de compilacion..."
 
-    # Dependencias según: https://devguide.python.org/getting-started/setup-building/
-    apt-get install -y -qq \
+    # Dependencias segun: https://devguide.python.org/getting-started/setup-building/
+    # Usar DEBIAN_FRONTEND=noninteractive para evitar prompts interactivos
+    if ! DEBIAN_FRONTEND=noninteractive apt-get install -y -q \
       build-essential \
       gdb \
       lcov \
@@ -87,26 +65,33 @@ install_build_dependencies() {
       zlib1g-dev \
       wget \
       curl \
-      ca-certificates
+      ca-certificates; then
+        log_error "Fallo al instalar dependencias de compilacion"
+        log_error "Verifique conectividad de red y repositorios APT"
+        return 1
+    fi
 
-    log_success "Dependencias de compilación instaladas"
+    log_success "Dependencias de compilacion instaladas"
 
-    log_info "Versiones de librerías críticas:"
+    log_info "Versiones de librerias criticas:"
     dpkg -l | grep -E "libssl-dev|libsqlite3-dev|liblzma-dev|libbz2-dev|libffi-dev" | \
-      awk '{print "  " $2 ": " $3}'
+      awk '{print "  " $2 ": " $3}' || log_warn "No se pudieron listar versiones de librerias"
 }
 
 install_additional_tools() {
     log_step 3 3 "Instalando herramientas adicionales"
 
     log_info "Instalando git, vim, htop..."
-    apt-get install -y -qq git vim htop
+    if ! DEBIAN_FRONTEND=noninteractive apt-get install -y -qq git vim htop; then
+        log_error "Fallo al instalar herramientas adicionales"
+        return 1
+    fi
 
     log_success "Herramientas adicionales instaladas"
 }
 
 verify_installation() {
-    log_info "Verificando instalación..."
+    log_info "Verificando instalacion..."
 
     # Verificar GCC
     if command -v gcc >/dev/null 2>&1; then
@@ -126,10 +111,10 @@ verify_installation() {
         return 1
     fi
 
-    # Verificar librerías críticas
+    # Verificar librerias criticas
     CRITICAL_LIBS=("libssl-dev" "libsqlite3-dev" "liblzma-dev" "libbz2-dev" "libffi-dev")
     for lib in "${CRITICAL_LIBS[@]}"; do
-        if dpkg -l | grep -q "$lib"; then
+        if dpkg -l "$lib" 2>/dev/null | grep -q "^ii"; then
             log_success "  $lib instalado"
         else
             log_error "  $lib NO instalado"
@@ -137,16 +122,34 @@ verify_installation() {
         fi
     done
 
-    log_success "Verificación completada"
+    log_success "Verificacion completada"
 }
 
 setup_directories() {
     log_info "Configurando directorios..."
 
-    mkdir -p "$PROJECT_ROOT/logs"
-    mkdir -p "$PROJECT_ROOT/artifacts/cpython"
+    if ! mkdir -p "$PROJECT_ROOT/logs"; then
+        log_error "Fallo al crear directorio de logs"
+        return 1
+    fi
 
-    log_success "Directorios configurados"
+    if ! mkdir -p "$PROJECT_ROOT/artifacts/cpython"; then
+        log_error "Fallo al crear directorio de artifacts"
+        return 1
+    fi
+
+    # Verificar que directorios son escribibles
+    if [ ! -w "$PROJECT_ROOT/logs" ]; then
+        log_error "Directorio de logs no es escribible"
+        return 1
+    fi
+
+    if [ ! -w "$PROJECT_ROOT/artifacts/cpython" ]; then
+        log_error "Directorio de artifacts no es escribible"
+        return 1
+    fi
+
+    log_success "Directorios configurados y verificados"
 }
 
 display_summary() {
@@ -155,7 +158,7 @@ display_summary() {
     echo "  CPython Builder - Bootstrap Completado"
     echo "========================================================================="
     echo ""
-    echo "Entorno de compilación listo:"
+    echo "Entorno de compilacion listo:"
     echo ""
     echo "  Toolchain:"
     gcc --version | head -1 | sed 's/^/    /'
@@ -168,7 +171,7 @@ display_summary() {
     echo "  Ejemplo de uso:"
     echo "    ./scripts/build_cpython.sh 3.12.6"
     echo ""
-    echo "  Artefactos se generarán en:"
+    echo "  Artefactos se generaran en:"
     echo "    $PROJECT_ROOT/artifacts/cpython/"
     echo ""
     echo "========================================================================="

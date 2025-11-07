@@ -24,40 +24,43 @@ PYTHON_DIR="${INSTALL_PREFIX}-${VERSION}"
 MARKER_FILE="${PYTHON_DIR}/.installed"
 TEMP_DIR="/tmp/cpython-install-$$"
 
-# Colors for output
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-BLUE='\033[0;34m'
-NC='\033[0m' # No Color
+# Cargar utilidades
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-# ==============================================================================
-# Logging functions
-# ==============================================================================
-log_info() {
-    echo -e "${BLUE}[INFO]${NC} $*"
-}
+# Intentar cargar utilidades si existen
+if [ -f "$SCRIPT_DIR/../utils/logging.sh" ]; then
+    source "$SCRIPT_DIR/../utils/logging.sh"
+    source "$SCRIPT_DIR/../utils/validation.sh" 2>/dev/null || true
+    source "$SCRIPT_DIR/../utils/common.sh" 2>/dev/null || true
+    LOGGING_LOADED=1
+else
+    # Fallback: definir funciones inline si no se encuentran las utilidades
+    RED='\033[0;31m'
+    GREEN='\033[0;32m'
+    YELLOW='\033[1;33m'
+    BLUE='\033[0;34m'
+    NC='\033[0m'
 
-log_success() {
-    echo -e "${GREEN}[SUCCESS]${NC} $*"
-}
-
-log_warning() {
-    echo -e "${YELLOW}[WARNING]${NC} $*"
-}
-
-log_error() {
-    echo -e "${RED}[ERROR]${NC} $*"
-}
-
-log_step() {
-    local step="$1"
-    local total="$2"
-    local message="$3"
-    echo ""
-    echo -e "${BLUE}[STEP $step/$total]${NC} $message"
-    echo "----------------------------------------"
-}
+    log_info() { echo -e "${BLUE}[INFO]${NC} $*"; }
+    log_success() { echo -e "${GREEN}[SUCCESS]${NC} $*"; }
+    log_warning() { echo -e "${YELLOW}[WARNING]${NC} $*"; }
+    log_error() { echo -e "${RED}[ERROR]${NC} $*"; }
+    log_step() {
+        local step="$1"
+        local total="$2"
+        local message="$3"
+        echo ""
+        echo -e "${BLUE}[STEP $step/$total]${NC} $message"
+        echo "----------------------------------------"
+    }
+    cleanup_temp_dir() {
+        local temp_dir="$1"
+        if [ -n "$temp_dir" ] && [ -d "$temp_dir" ]; then
+            log_info "Limpiando archivos temporales: $temp_dir"
+            rm -rf "$temp_dir"
+        fi
+    }
+fi
 
 # ==============================================================================
 # Utility functions
@@ -85,7 +88,7 @@ determine_urls() {
 
     if [ -z "${ARTIFACT_URL}" ]; then
         # Use GitHub Releases (Fase 3+)
-        ARTIFACT_URL="https://github.com/2-Coatl/IACT---project/releases/download/cpython-${VERSION}-build1/cpython-${VERSION}-ubuntu22.04-build1.tgz"
+        ARTIFACT_URL="https://github.com/2-Coatl/IACT---project/releases/download/cpython-${VERSION}-build1/cpython-${VERSION}-ubuntu20.04-build1.tgz"
         log_info "Using GitHub Releases: ${ARTIFACT_URL}"
     else
         log_info "Using provided artifact URL: ${ARTIFACT_URL}"
@@ -113,18 +116,18 @@ download_artifacts() {
         if command -v wget > /dev/null; then
             wget -q --show-progress -O "${TEMP_DIR}/cpython.tgz" "${ARTIFACT_URL}" || {
                 log_error "Failed to download artifact"
-                cleanup
+                cleanup_temp_dir "${TEMP_DIR}"
                 exit 1
             }
         elif command -v curl > /dev/null; then
             curl -fsSL -o "${TEMP_DIR}/cpython.tgz" "${ARTIFACT_URL}" || {
                 log_error "Failed to download artifact"
-                cleanup
+                cleanup_temp_dir "${TEMP_DIR}"
                 exit 1
             }
         else
             log_error "Neither wget nor curl found. Please install one."
-            cleanup
+            cleanup_temp_dir "${TEMP_DIR}"
             exit 1
         fi
     else
@@ -132,7 +135,7 @@ download_artifacts() {
         log_info "Copying from local path: ${ARTIFACT_URL}"
         cp "${ARTIFACT_URL}" "${TEMP_DIR}/cpython.tgz" || {
             log_error "Failed to copy artifact from ${ARTIFACT_URL}"
-            cleanup
+            cleanup_temp_dir "${TEMP_DIR}"
             exit 1
         }
     fi
@@ -143,13 +146,13 @@ download_artifacts() {
         if command -v wget > /dev/null; then
             wget -q --show-progress -O "${TEMP_DIR}/cpython.tgz.sha256" "${CHECKSUM_URL}" || {
                 log_error "Failed to download checksum"
-                cleanup
+                cleanup_temp_dir "${TEMP_DIR}"
                 exit 1
             }
         elif command -v curl > /dev/null; then
             curl -fsSL -o "${TEMP_DIR}/cpython.tgz.sha256" "${CHECKSUM_URL}" || {
                 log_error "Failed to download checksum"
-                cleanup
+                cleanup_temp_dir "${TEMP_DIR}"
                 exit 1
             }
         fi
@@ -157,7 +160,7 @@ download_artifacts() {
         log_info "Copying checksum from local path: ${CHECKSUM_URL}"
         cp "${CHECKSUM_URL}" "${TEMP_DIR}/cpython.tgz.sha256" || {
             log_error "Failed to copy checksum from ${CHECKSUM_URL}"
-            cleanup
+            cleanup_temp_dir "${TEMP_DIR}"
             exit 1
         }
     fi
@@ -177,7 +180,7 @@ validate_checksum() {
 
     if [ ! -f "${TEMP_DIR}/cpython.tgz.sha256" ]; then
         log_error "Checksum file not found at ${TEMP_DIR}/cpython.tgz.sha256"
-        cleanup
+        cleanup_temp_dir "${TEMP_DIR}"
         exit 1
     fi
 
@@ -194,7 +197,7 @@ validate_checksum() {
     if [ "${EXPECTED_HASH}" != "${ACTUAL_HASH}" ]; then
         log_error "Checksum mismatch!"
         log_error "Artifact may be corrupted or tampered with"
-        cleanup
+        cleanup_temp_dir "${TEMP_DIR}"
         exit 1
     fi
 
@@ -208,7 +211,7 @@ extract_tarball() {
     log_info "Extracting to /"
     tar -xzf "${TEMP_DIR}/cpython.tgz" -C / || {
         log_error "Failed to extract tarball"
-        cleanup
+        cleanup_temp_dir "${TEMP_DIR}"
         exit 1
     }
 
@@ -297,14 +300,6 @@ EOF
     log_success "Marker file created at ${MARKER_FILE}"
 }
 
-# Cleanup temporary files
-cleanup() {
-    if [ -d "${TEMP_DIR}" ]; then
-        log_info "Cleaning up temporary files"
-        rm -rf "${TEMP_DIR}"
-    fi
-}
-
 # ==============================================================================
 # Main installation flow
 # ==============================================================================
@@ -326,7 +321,7 @@ main() {
     configure_system
     validate_installation
     create_marker
-    cleanup
+    cleanup_temp_dir "${TEMP_DIR}"
 
     echo ""
     echo "========================================"

@@ -1,9 +1,9 @@
 #!/bin/bash
 #
-# build_cpython.sh - Compilar CPython desde código fuente
+# build_cpython.sh - Compilar CPython desde codigo fuente
 #
 # Referencia: SPEC_INFRA_001
-# Propósito: Generar artefacto de CPython precompilado reproducible
+# Proposito: Generar artefacto de CPython precompilado reproducible
 #
 # Uso:
 #   ./build_cpython.sh <version> [build-number]
@@ -15,75 +15,74 @@
 
 set -euo pipefail
 
-# Colores para output
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-BLUE='\033[0;34m'
-NC='\033[0m' # No Color
+# Cargar utilidades
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="${PROJECT_ROOT:-/vagrant}"
 
-# Funciones de logging
-log_info() {
-    echo -e "${BLUE}[INFO]${NC} $*"
-}
+source "$SCRIPT_DIR/../utils/logging.sh" 2>/dev/null || source "$PROJECT_ROOT/utils/logging.sh"
+source "$SCRIPT_DIR/../utils/validation.sh" 2>/dev/null || source "$PROJECT_ROOT/utils/validation.sh"
+source "$SCRIPT_DIR/../utils/common.sh" 2>/dev/null || source "$PROJECT_ROOT/utils/common.sh"
 
-log_success() {
-    echo -e "${GREEN}[SUCCESS]${NC} $*"
-}
-
-log_warn() {
-    echo -e "${YELLOW}[WARN]${NC} $*"
-}
-
-log_error() {
-    echo -e "${RED}[ERROR]${NC} $*"
-}
+# Cargar configuracion
+if [ -f "$SCRIPT_DIR/../config/versions.conf" ]; then
+    source "$SCRIPT_DIR/../config/versions.conf"
+elif [ -f "$PROJECT_ROOT/config/versions.conf" ]; then
+    source "$PROJECT_ROOT/config/versions.conf"
+fi
 
 # Validar argumentos
 if [ $# -lt 1 ]; then
-    log_error "Uso: $0 <version> [build-number]"
+    log_error "Uso: $0 <version> [build-number] [--force]"
     log_error "Ejemplo: $0 3.12.6 1"
+    log_error "  --force: Sobrescribir artefacto existente sin preguntar"
     exit 1
 fi
 
 PYTHON_VERSION="$1"
-BUILD_NUMBER="${2:-1}"
-DISTRO="ubuntu22.04"
+BUILD_NUMBER="${2:-${DEFAULT_BUILD_NUMBER:-1}}"
+DISTRO="${DISTRO:-ubuntu20.04}"
+FORCE_BUILD=0
 
-# Validar formato de versión (X.Y.Z)
-if ! [[ "$PYTHON_VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-    log_error "Versión inválida: $PYTHON_VERSION"
-    log_error "Formato esperado: X.Y.Z (ejemplo: 3.12.6)"
+# Parsear argumentos opcionales
+for arg in "$@"; do
+    if [ "$arg" = "--force" ]; then
+        FORCE_BUILD=1
+    fi
+done
+
+# Validar formato de version usando utilidad
+if ! validate_python_version "$PYTHON_VERSION"; then
     exit 1
 fi
 
-# Extraer major.minor para directorios
-PYTHON_MAJOR_MINOR=$(echo "$PYTHON_VERSION" | cut -d. -f1,2)
+# Extraer major.minor para directorios usando utilidad
+PYTHON_MAJOR_MINOR=$(get_python_major_minor "$PYTHON_VERSION")
 
-# Configuración
+# Configuracion
 BUILD_DIR="/tmp/cpython-build"
 SOURCE_DIR="$BUILD_DIR/Python-$PYTHON_VERSION"
 INSTALL_PREFIX="/opt/python-$PYTHON_VERSION"
 ARTIFACT_DIR="/vagrant/artifacts/cpython"
-ARTIFACT_NAME="cpython-${PYTHON_VERSION}-${DISTRO}-build${BUILD_NUMBER}.tgz"
+ARTIFACT_NAME=$(get_artifact_name "$PYTHON_VERSION" "$DISTRO" "$BUILD_NUMBER")
 ARTIFACT_PATH="$ARTIFACT_DIR/$ARTIFACT_NAME"
 
-log_info "=== Compilación de CPython $PYTHON_VERSION ==="
+log_info "=== Compilacion de CPython $PYTHON_VERSION ==="
 log_info "Build number: $BUILD_NUMBER"
 log_info "Distro: $DISTRO"
 log_info "Artefacto: $ARTIFACT_NAME"
 echo ""
 
-# Verificar que no existe artefacto previo
+# Verificar que no existe artefacto previo (idempotencia)
 if [ -f "$ARTIFACT_PATH" ]; then
-    log_warn "Artefacto ya existe: $ARTIFACT_PATH"
-    read -p "¿Sobrescribir? (y/N): " -n 1 -r
-    echo
-    if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-        log_info "Abortando compilación"
-        exit 0
+    if [ $FORCE_BUILD -eq 1 ]; then
+        log_warn "Artefacto ya existe: $ARTIFACT_PATH (sobrescribiendo con --force)"
+        rm -f "$ARTIFACT_PATH" "$ARTIFACT_PATH.sha256"
+    else
+        log_error "Artefacto ya existe: $ARTIFACT_PATH"
+        log_error "Use --force para sobrescribir o elimine el artefacto manualmente"
+        log_error "O incremente el build-number: $0 $PYTHON_VERSION $((BUILD_NUMBER + 1))"
+        exit 1
     fi
-    rm -f "$ARTIFACT_PATH" "$ARTIFACT_PATH.sha256"
 fi
 
 # Crear directorios
@@ -91,39 +90,62 @@ log_info "Creando directorios de trabajo..."
 mkdir -p "$BUILD_DIR"
 mkdir -p "$ARTIFACT_DIR"
 
-# Verificar versiones de dependencias críticas
+# Verificar versiones de dependencias criticas
 log_info "Verificando dependencias del sistema..."
 dpkg -l | grep -E "libssl-dev|libsqlite3-dev|liblzma-dev|libbz2-dev|libffi-dev" | awk '{print "  " $2 ": " $3}'
 
-# Descargar código fuente
-log_info "Descargando código fuente de Python $PYTHON_VERSION..."
+# Descargar codigo fuente
+log_info "Descargando codigo fuente de Python $PYTHON_VERSION..."
 cd "$BUILD_DIR"
 
-PYTHON_URL="https://www.python.org/ftp/python/$PYTHON_VERSION/Python-$PYTHON_VERSION.tgz"
+PYTHON_URL="${PYTHON_DOWNLOAD_BASE:-https://www.python.org/ftp/python}/$PYTHON_VERSION/Python-$PYTHON_VERSION.tgz"
+TARBALL="Python-$PYTHON_VERSION.tgz"
 
 if [ -d "$SOURCE_DIR" ]; then
-    log_warn "Directorio de código fuente ya existe, usando existente"
-else
+    log_warn "Directorio de codigo fuente ya existe"
+    if [ $FORCE_BUILD -eq 1 ]; then
+        log_warn "Eliminando directorio existente con --force"
+        rm -rf "$SOURCE_DIR" "$TARBALL"
+    else
+        log_info "Usando codigo fuente existente (use --force para re-descargar)"
+    fi
+fi
+
+if [ ! -d "$SOURCE_DIR" ]; then
     log_info "Descargando desde: $PYTHON_URL"
     if ! wget -q --show-progress "$PYTHON_URL"; then
-        log_error "Fallo al descargar código fuente"
+        log_error "Fallo al descargar codigo fuente"
+        log_error "Verifique que la version $PYTHON_VERSION existe en python.org"
         exit 1
     fi
 
-    log_info "Extrayendo código fuente..."
-    tar xzf "Python-$PYTHON_VERSION.tgz"
+    # Verificar que el tarball se descargo correctamente
+    if [ ! -f "$TARBALL" ] || [ ! -s "$TARBALL" ]; then
+        log_error "Tarball descargado esta vacio o no existe"
+        exit 1
+    fi
+
+    log_info "Extrayendo codigo fuente..."
+    if ! tar xzf "$TARBALL"; then
+        log_error "Fallo al extraer tarball (posible archivo corrupto)"
+        rm -f "$TARBALL"
+        exit 1
+    fi
 
     if [ ! -d "$SOURCE_DIR" ]; then
-        log_error "Directorio de código fuente no encontrado después de extracción"
+        log_error "Directorio de codigo fuente no encontrado despues de extraccion"
+        log_error "Estructura inesperada en tarball"
         exit 1
     fi
+
+    log_success "Codigo fuente extraido correctamente"
 fi
 
 cd "$SOURCE_DIR"
 
-# Configurar compilación
-log_info "Configurando compilación con optimizaciones..."
-log_info "Flags de configuración:"
+# Configurar compilacion
+log_info "Configurando compilacion con optimizaciones..."
+log_info "Flags de configuracion:"
 log_info "  --prefix=$INSTALL_PREFIX"
 log_info "  --enable-optimizations (PGO)"
 log_info "  --with-lto (Link-Time Optimization)"
@@ -154,63 +176,68 @@ echo ""
 
 # make con progress
 if ! make -j"$(nproc)" 2>&1 | tee make.log; then
-    log_error "Compilación falló. Ver make.log para detalles"
+    log_error "Compilacion fallo. Ver make.log para detalles"
     exit 1
 fi
 
-log_success "Compilación completada"
+log_success "Compilacion completada"
+
+# Limpiar instalacion anterior si existe (idempotencia)
+if [ -d "$INSTALL_PREFIX" ]; then
+    log_warn "Instalacion previa encontrada en $INSTALL_PREFIX, eliminando..."
+    if ! sudo rm -rf "$INSTALL_PREFIX"; then
+        log_error "Fallo al eliminar instalacion previa (permisos sudo requeridos)"
+        exit 1
+    fi
+    log_success "Instalacion previa eliminada"
+fi
 
 # Instalar
 log_info "Instalando en $INSTALL_PREFIX..."
 if ! sudo make install 2>&1 | tee make-install.log; then
-    log_error "Instalación falló. Ver make-install.log para detalles"
+    log_error "Instalacion fallo. Ver make-install.log para detalles"
     exit 1
 fi
 
-log_success "Instalación completada"
+log_success "Instalacion completada"
 
-# Validar instalación
-log_info "Validando instalación..."
+# Validar instalacion
+log_info "Validando instalacion..."
 
-if [ ! -f "$INSTALL_PREFIX/bin/python${PYTHON_MAJOR_MINOR}" ]; then
-    log_error "Binario de Python no encontrado en $INSTALL_PREFIX/bin/"
+if ! validate_file_exists "$INSTALL_PREFIX/bin/python${PYTHON_MAJOR_MINOR}" "Binario de Python no encontrado"; then
     exit 1
 fi
 
-# Verificar versión
+# Verificar version
 INSTALLED_VERSION=$("$INSTALL_PREFIX/bin/python${PYTHON_MAJOR_MINOR}" --version 2>&1 | awk '{print $2}')
 if [ "$INSTALLED_VERSION" != "$PYTHON_VERSION" ]; then
-    log_error "Versión instalada ($INSTALLED_VERSION) no coincide con esperada ($PYTHON_VERSION)"
+    log_error "Version instalada ($INSTALLED_VERSION) no coincide con esperada ($PYTHON_VERSION)"
     exit 1
 fi
 
-log_success "Versión correcta: $INSTALLED_VERSION"
+log_success "Version correcta: $INSTALLED_VERSION"
 
-# Validar módulos nativos críticos
-log_info "Validando módulos nativos..."
+# Validar modulos nativos criticos usando utilidad
+log_info "Validando modulos nativos..."
 
-REQUIRED_MODULES=("ssl" "sqlite3" "uuid" "lzma" "bz2" "zlib" "_ctypes")
-for module in "${REQUIRED_MODULES[@]}"; do
-    if "$INSTALL_PREFIX/bin/python${PYTHON_MAJOR_MINOR}" -c "import $module" 2>/dev/null; then
-        log_success "  Módulo $module: OK"
-    else
-        log_error "  Módulo $module: FALLO"
-        log_error "Módulo crítico $module no disponible"
-        exit 1
-    fi
-done
+# Usar REQUIRED_MODULES del config si existe, sino usar default
+MODULES_TO_CHECK=("${REQUIRED_MODULES[@]:-ssl sqlite3 uuid lzma bz2 zlib _ctypes}")
+
+if ! validate_python_modules "$INSTALL_PREFIX/bin/python${PYTHON_MAJOR_MINOR}" "${MODULES_TO_CHECK[@]}"; then
+    log_error "Fallo validacion de modulos"
+    exit 1
+fi
 
 # Verificar pip
-if [ ! -f "$INSTALL_PREFIX/bin/pip${PYTHON_MAJOR_MINOR}" ]; then
-    log_error "pip no encontrado"
+if ! validate_file_exists "$INSTALL_PREFIX/bin/pip${PYTHON_MAJOR_MINOR}" "pip no encontrado"; then
     exit 1
 fi
 
 PIP_VERSION=$("$INSTALL_PREFIX/bin/pip${PYTHON_MAJOR_MINOR}" --version 2>&1)
 log_success "pip disponible: $PIP_VERSION"
 
-# Documentar versiones de librerías
-log_info "Documentando versiones de librerías del sistema..."
+# Documentar versiones de librerias
+log_info "Documentando versiones de librerias del sistema..."
 cat > "$INSTALL_PREFIX/.build-info" <<EOF
 CPython Build Information
 =========================
@@ -233,7 +260,7 @@ Configure Flags:
   --enable-loadable-sqlite-extensions
 
 Validated Modules:
-$(for mod in "${REQUIRED_MODULES[@]}"; do echo "  - $mod"; done)
+$(for mod in "${MODULES_TO_CHECK[@]}"; do echo "  - $mod"; done)
 EOF
 
 log_success "Build info guardado en $INSTALL_PREFIX/.build-info"
@@ -241,10 +268,13 @@ log_success "Build info guardado en $INSTALL_PREFIX/.build-info"
 # Incluir LICENSE de Python (PSF)
 log_info "Copiando LICENSE de Python..."
 if [ -f "LICENSE" ]; then
-    sudo cp LICENSE "$INSTALL_PREFIX/LICENSE"
+    if ! sudo cp LICENSE "$INSTALL_PREFIX/LICENSE"; then
+        log_error "Fallo al copiar LICENSE (permisos sudo requeridos)"
+        exit 1
+    fi
     log_success "LICENSE copiado"
 else
-    log_warn "LICENSE no encontrado en código fuente"
+    log_warn "LICENSE no encontrado en codigo fuente"
 fi
 
 # Empaquetar artefacto
@@ -256,8 +286,19 @@ if ! sudo tar czf "$ARTIFACT_PATH" "python-$PYTHON_VERSION"; then
     exit 1
 fi
 
-# Ajustar permisos
-sudo chown vagrant:vagrant "$ARTIFACT_PATH" 2>/dev/null || chown "$(whoami):$(whoami)" "$ARTIFACT_PATH"
+# Ajustar permisos del artefacto
+if ! sudo chown vagrant:vagrant "$ARTIFACT_PATH" 2>/dev/null; then
+    # Fallback si no existe usuario vagrant
+    CURRENT_USER=$(whoami)
+    if ! chown "$CURRENT_USER:$CURRENT_USER" "$ARTIFACT_PATH" 2>/dev/null; then
+        log_warn "No se pudieron ajustar permisos del artefacto (puede requerir sudo)"
+    fi
+fi
+
+if [ ! -r "$ARTIFACT_PATH" ]; then
+    log_error "Artefacto creado pero no es legible"
+    exit 1
+fi
 
 ARTIFACT_SIZE=$(du -h "$ARTIFACT_PATH" | cut -f1)
 log_success "Artefacto creado: $ARTIFACT_PATH ($ARTIFACT_SIZE)"
@@ -272,7 +313,7 @@ log_success "Checksum: $CHECKSUM"
 
 # Resumen final
 echo ""
-log_success "=== Compilación completada exitosamente ==="
+log_success "=== Compilacion completada exitosamente ==="
 log_info "Artefacto: $ARTIFACT_PATH"
 log_info "Checksum:  $ARTIFACT_PATH.sha256"
 log_info "Tamaño:    $ARTIFACT_SIZE"

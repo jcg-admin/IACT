@@ -18,7 +18,7 @@ Analogía: Es como descargar un programa ya instalado vs descargar el código fu
 
 **Razones**:
 
-1. **Versiones desactualizadas**: Ubuntu 22.04 incluye Python 3.10, pero muchos proyectos necesitan 3.12+
+1. **Versiones desactualizadas**: Ubuntu 20.04 incluye Python 3.10, pero muchos proyectos necesitan 3.12+
 2. **Sin control de optimizaciones**: No podemos controlar flags de compilación (PGO, LTO)
 3. **Actualizaciones inconsistentes**: Diferentes mirrors pueden tener versiones ligeramente diferentes
 
@@ -72,8 +72,8 @@ Tres pasos:
 1. Descargar artefacto manualmente:
    ```bash
    mkdir -p infrastructure/cpython/artifacts/
-   curl -L https://github.com/.../releases/download/.../cpython-3.12.6-ubuntu22.04-build1.tgz \
-     -o infrastructure/cpython/artifacts/cpython-3.12.6-ubuntu22.04-build1.tgz
+   curl -L https://github.com/.../releases/download/.../cpython-3.12.6-ubuntu20.04-build1.tgz \
+     -o infrastructure/cpython/artifacts/cpython-3.12.6-ubuntu20.04-build1.tgz
    ```
 
 2. Usar path local en Feature:
@@ -82,7 +82,7 @@ Tres pasos:
      "features": {
        "./infrastructure/cpython/installer": {
          "version": "3.12.6",
-         "artifactUrl": "${localWorkspaceFolder}/infrastructure/cpython/artifacts/cpython-3.12.6-ubuntu22.04-build1.tgz"
+         "artifactUrl": "${localWorkspaceFolder}/infrastructure/cpython/artifacts/cpython-3.12.6-ubuntu20.04-build1.tgz"
        }
      }
    }
@@ -260,7 +260,7 @@ La Feature descarga el archivo `.sha256` junto con el artefacto y valida integri
 
 ```bash
 # La Feature ejecuta automáticamente:
-sha256sum -c cpython-3.12.6-ubuntu22.04-build1.tgz.sha256
+sha256sum -c cpython-3.12.6-ubuntu20.04-build1.tgz.sha256
 ```
 
 ### ¿Quién compila los artefactos?
@@ -276,7 +276,7 @@ El proceso está documentado y auditado. Los scripts de compilación están en e
 Implementación futura:
 ```bash
 # Firma GPG del artefacto
-gpg --armor --detach-sign cpython-3.12.6-ubuntu22.04-build1.tgz
+gpg --armor --detach-sign cpython-3.12.6-ubuntu20.04-build1.tgz
 ```
 
 Por ahora, la validación SHA256 provee integridad suficiente para uso interno.
@@ -319,11 +319,11 @@ Si persiste, reportar a equipo infraestructura (posible problema con release).
    ```bash
    cat /etc/os-release
    ```
-   Debe ser Ubuntu 22.04 (igual que Vagrant)
+   Debe ser Ubuntu 20.04 (igual que Vagrant)
 
 2. **Usar artefacto correcto**:
    - Si contenedor es Ubuntu 24.04: usar artefacto `ubuntu24.04`
-   - Si es Ubuntu 22.04: usar artefacto `ubuntu22.04`
+   - Si es Ubuntu 20.04: usar artefacto `ubuntu20.04`
 
 3. **Verificar librerías del sistema**:
    ```bash
@@ -360,7 +360,7 @@ ln -sf /opt/python-3.12.6/bin/python3 /usr/local/bin/python3
 **Diagnóstico**:
 ```bash
 # Buscar en logs de VS Code si dice "Downloading" o "Compiling"
-# Debe decir "Downloading cpython-3.12.6-ubuntu22.04-build1.tgz"
+# Debe decir "Downloading cpython-3.12.6-ubuntu20.04-build1.tgz"
 ```
 
 **Solución**:
@@ -466,7 +466,7 @@ Nuestro sistema es más ligero y controlado.
 
 **Razones**:
 
-1. **Versiones desactualizadas**: Ubuntu 22.04 solo tiene Python 3.10
+1. **Versiones desactualizadas**: Ubuntu 20.04 solo tiene Python 3.10
 2. **Sin optimizaciones**: No usa PGO ni LTO
 3. **Inconsistencias**: Diferentes mirrors, diferentes builds
 

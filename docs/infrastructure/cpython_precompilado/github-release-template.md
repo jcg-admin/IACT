@@ -33,7 +33,7 @@ cpython-{VERSION}-build{BUILD_NUMBER}
 
 - **Versión**: Python {VERSION}
 - **Optimizaciones**: PGO + LTO habilitadas
-- **Sistema base**: Ubuntu 22.04 LTS (jammy)
+- **Sistema base**: Ubuntu 20.04 LTS (jammy)
 - **Arquitectura**: x86_64
 - **Build date**: {DATE}
 - **Toolchain**: GCC 11.4.0
@@ -51,8 +51,8 @@ cpython-{VERSION}-build{BUILD_NUMBER}
 
 | Archivo | Tamaño | Descripción |
 |---------|--------|-------------|
-| `cpython-{VERSION}-ubuntu22.04-build{BUILD_NUMBER}.tgz` | ~60 MB | Binario completo con todas las dependencias |
-| `cpython-{VERSION}-ubuntu22.04-build{BUILD_NUMBER}.tgz.sha256` | 89 bytes | Checksum SHA256 para validación |
+| `cpython-{VERSION}-ubuntu20.04-build{BUILD_NUMBER}.tgz` | ~60 MB | Binario completo con todas las dependencias |
+| `cpython-{VERSION}-ubuntu20.04-build{BUILD_NUMBER}.tgz.sha256` | 89 bytes | Checksum SHA256 para validación |
 | `LICENSE` | 14 KB | Python Software Foundation License |
 
 ### Uso en Dev Container
@@ -64,7 +64,7 @@ Agregar a `.devcontainer/devcontainer.json`:
   "features": {
     "./infrastructure/cpython/installer": {
       "version": "{VERSION}",
-      "artifactUrl": "https://github.com/2-Coatl/IACT---project/releases/download/cpython-{VERSION}-build{BUILD_NUMBER}/cpython-{VERSION}-ubuntu22.04-build{BUILD_NUMBER}.tgz"
+      "artifactUrl": "https://github.com/2-Coatl/IACT---project/releases/download/cpython-{VERSION}-build{BUILD_NUMBER}/cpython-{VERSION}-ubuntu20.04-build{BUILD_NUMBER}.tgz"
     }
   }
 }
@@ -74,16 +74,16 @@ Agregar a `.devcontainer/devcontainer.json`:
 
 ```bash
 # Descargar artefactos
-curl -LO https://github.com/2-Coatl/IACT---project/releases/download/cpython-{VERSION}-build{BUILD_NUMBER}/cpython-{VERSION}-ubuntu22.04-build{BUILD_NUMBER}.tgz
-curl -LO https://github.com/2-Coatl/IACT---project/releases/download/cpython-{VERSION}-build{BUILD_NUMBER}/cpython-{VERSION}-ubuntu22.04-build{BUILD_NUMBER}.tgz.sha256
+curl -LO https://github.com/2-Coatl/IACT---project/releases/download/cpython-{VERSION}-build{BUILD_NUMBER}/cpython-{VERSION}-ubuntu20.04-build{BUILD_NUMBER}.tgz
+curl -LO https://github.com/2-Coatl/IACT---project/releases/download/cpython-{VERSION}-build{BUILD_NUMBER}/cpython-{VERSION}-ubuntu20.04-build{BUILD_NUMBER}.tgz.sha256
 
 # Validar checksum
-sha256sum -c cpython-{VERSION}-ubuntu22.04-build{BUILD_NUMBER}.tgz.sha256
-# Esperado: cpython-{VERSION}-ubuntu22.04-build{BUILD_NUMBER}.tgz: OK
+sha256sum -c cpython-{VERSION}-ubuntu20.04-build{BUILD_NUMBER}.tgz.sha256
+# Esperado: cpython-{VERSION}-ubuntu20.04-build{BUILD_NUMBER}.tgz: OK
 
 # Extraer y probar (opcional)
 mkdir /tmp/test-cpython
-tar -xzf cpython-{VERSION}-ubuntu22.04-build{BUILD_NUMBER}.tgz -C /tmp/test-cpython
+tar -xzf cpython-{VERSION}-ubuntu20.04-build{BUILD_NUMBER}.tgz -C /tmp/test-cpython
 /tmp/test-cpython/bin/python3 --version
 # Esperado: Python {VERSION}
 ```
@@ -122,7 +122,7 @@ tar -xzf cpython-{VERSION}-ubuntu22.04-build{BUILD_NUMBER}.tgz -C /tmp/test-cpyt
 ### Compatibilidad
 
 **Dev Containers compatibles:**
-- Ubuntu 22.04 (jammy)
+- Ubuntu 20.04 (jammy)
 - Debian 11 (bullseye) - compatible con glibc 2.31+
 - Debian 12 (bookworm) - compatible
 
@@ -139,7 +139,7 @@ Compilado usando:
 ```
 
 En entorno:
-- Vagrant VM: Ubuntu 22.04 LTS
+- Vagrant VM: Ubuntu 20.04 LTS
 - RAM: 4 GB
 - CPU: 4 cores
 - Tiempo de compilación: ~60 minutos
@@ -193,11 +193,11 @@ Para reportar issues con este artefacto:
 
 ## Archivos a Adjuntar
 
-1. **cpython-{VERSION}-ubuntu22.04-build{BUILD_NUMBER}.tgz**
+1. **cpython-{VERSION}-ubuntu20.04-build{BUILD_NUMBER}.tgz**
    - Ubicación: `infrastructure/cpython/artifacts/`
    - Generado por: `make build_cpython VERSION={VERSION} BUILD={BUILD_NUMBER}`
 
-2. **cpython-{VERSION}-ubuntu22.04-build{BUILD_NUMBER}.tgz.sha256**
+2. **cpython-{VERSION}-ubuntu20.04-build{BUILD_NUMBER}.tgz.sha256**
    - Ubicación: `infrastructure/cpython/artifacts/`
    - Generado automáticamente junto con el tarball
 
@@ -242,8 +242,8 @@ gh release create "${TAG}" \
   --title "CPython ${VERSION} Precompilado - Build ${BUILD}" \
   --notes-file docs/infrastructure/cpython_precompilado/github_release_template.md \
   --prerelease \
-  "${ARTIFACTS_DIR}/cpython-${VERSION}-ubuntu22.04-build${BUILD}.tgz" \
-  "${ARTIFACTS_DIR}/cpython-${VERSION}-ubuntu22.04-build${BUILD}.tgz.sha256"
+  "${ARTIFACTS_DIR}/cpython-${VERSION}-ubuntu20.04-build${BUILD}.tgz" \
+  "${ARTIFACTS_DIR}/cpython-${VERSION}-ubuntu20.04-build${BUILD}.tgz.sha256"
 
 # Verificar
 gh release view "${TAG}"
@@ -258,13 +258,13 @@ Después de publicar el Release:
 1. **Actualizar devcontainer.json** para usar URL de GitHub Release:
    ```json
    {
-     "artifactUrl": "https://github.com/2-Coatl/IACT---project/releases/download/cpython-3.12.6-build1/cpython-3.12.6-ubuntu22.04-build1.tgz"
+     "artifactUrl": "https://github.com/2-Coatl/IACT---project/releases/download/cpython-3.12.6-build1/cpython-3.12.6-ubuntu20.04-build1.tgz"
    }
    ```
 
 2. **Validar descarga funciona**:
    ```bash
-   curl -I https://github.com/2-Coatl/IACT---project/releases/download/cpython-3.12.6-build1/cpython-3.12.6-ubuntu22.04-build1.tgz
+   curl -I https://github.com/2-Coatl/IACT---project/releases/download/cpython-3.12.6-build1/cpython-3.12.6-ubuntu20.04-build1.tgz
    # Esperado: HTTP 200 OK
    ```
 
