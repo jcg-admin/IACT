@@ -12,10 +12,10 @@ Bienvenido al centro de guias operativas del proyecto IACT. Este directorio cont
 
 ## Estado Actual
 
-**Guias completadas: 17 de 147 (11.6%)**
+**Guias completadas: 21 de 147 (14.3%)**
 
-- P0 (Criticas - Onboarding): 17/20 guias (85%)
-- P1 (Alta): 0/40 guias (0%)
+- P0 (Criticas - Onboarding): 18/20 guias (90%)
+- P1 (Alta): 3/40 guias (7.5%)
 - P2 (Media): 0/50 guias (0%)
 - P3 (Baja): 0/37 guias (0%)
 
