@@ -26,4 +26,11 @@ urlpatterns = [
     path("ecosystem/lineage/", views.data_lineage_map, name="ecosystem-lineage"),
     path("ecosystem/health/", views.ecosystem_health_status, name="ecosystem-health"),
     path("ecosystem/metadata/", views.metadata_registry, name="ecosystem-metadata"),
+    # Advanced Analytics
+    path("analytics/trends/deployment-frequency/", views.trend_analysis_deployment_frequency, name="analytics-trend-deployment-frequency"),
+    path("analytics/trends/lead-time/", views.trend_analysis_lead_time, name="analytics-trend-lead-time"),
+    path("analytics/comparative/period-over-period/", views.comparative_period_over_period, name="analytics-comparative-pop"),
+    path("analytics/historical/monthly/", views.historical_monthly_report, name="analytics-historical-monthly"),
+    path("analytics/anomalies/", views.anomaly_detection, name="analytics-anomalies"),
+    path("analytics/forecast/", views.performance_forecast, name="analytics-forecast"),
 ]

@@ -24,6 +24,13 @@ from .data_ecosystem import (
     EcosystemHealth,
     MetadataManagement
 )
+from .advanced_analytics import (
+    TrendAnalyzer,
+    ComparativeAnalytics,
+    HistoricalReporting,
+    AnomalyTrendDetector,
+    PerformanceForecasting
+)
 
 
 @require_http_methods(["GET"])
@@ -481,3 +488,121 @@ def metadata_registry(request):
     metadata = MetadataManagement.get_metadata_registry()
 
     return JsonResponse(metadata)
+
+
+# ============================================================================
+# ADVANCED ANALYTICS
+# ============================================================================
+
+
+@require_http_methods(["GET"])
+@throttle_classes([BurstRateThrottle, SustainedRateThrottle])
+def trend_analysis_deployment_frequency(request):
+    """
+    GET /api/dora/analytics/trends/deployment-frequency/ - Deployment frequency trend.
+
+    Query parameters:
+        - days: Number of days to analyze (default: 90)
+
+    Returns trend analysis for deployment frequency.
+    """
+    days = int(request.GET.get('days', 90))
+
+    trend = TrendAnalyzer.analyze_deployment_frequency_trend(days=days)
+
+    return JsonResponse(trend)
+
+
+@require_http_methods(["GET"])
+@throttle_classes([BurstRateThrottle, SustainedRateThrottle])
+def trend_analysis_lead_time(request):
+    """
+    GET /api/dora/analytics/trends/lead-time/ - Lead time trend analysis.
+
+    Query parameters:
+        - days: Number of days to analyze (default: 90)
+
+    Returns trend analysis for lead time.
+    """
+    days = int(request.GET.get('days', 90))
+
+    trend = TrendAnalyzer.analyze_lead_time_trend(days=days)
+
+    return JsonResponse(trend)
+
+
+@require_http_methods(["GET"])
+@throttle_classes([BurstRateThrottle, SustainedRateThrottle])
+def comparative_period_over_period(request):
+    """
+    GET /api/dora/analytics/comparative/period-over-period/ - Period comparison.
+
+    Query parameters:
+        - current_days: Current period days (default: 30)
+        - previous_days: Previous period days (default: 30)
+
+    Returns comparative analysis between two periods.
+    """
+    current_days = int(request.GET.get('current_days', 30))
+    previous_days = int(request.GET.get('previous_days', 30))
+
+    comparison = ComparativeAnalytics.period_over_period_comparison(
+        current_days=current_days,
+        previous_days=previous_days
+    )
+
+    return JsonResponse(comparison)
+
+
+@require_http_methods(["GET"])
+@throttle_classes([BurstRateThrottle, SustainedRateThrottle])
+def historical_monthly_report(request):
+    """
+    GET /api/dora/analytics/historical/monthly/ - Monthly historical report.
+
+    Query parameters:
+        - months: Number of months to include (default: 6)
+
+    Returns monthly aggregated historical report.
+    """
+    months = int(request.GET.get('months', 6))
+
+    report = HistoricalReporting.generate_monthly_report(months=months)
+
+    return JsonResponse(report)
+
+
+@require_http_methods(["GET"])
+@throttle_classes([BurstRateThrottle, SustainedRateThrottle])
+def anomaly_detection(request):
+    """
+    GET /api/dora/analytics/anomalies/ - Detect anomalies.
+
+    Query parameters:
+        - days: Number of days to analyze (default: 30)
+
+    Returns detected anomalies in deployment durations.
+    """
+    days = int(request.GET.get('days', 30))
+
+    anomalies = AnomalyTrendDetector.detect_duration_anomalies(days=days)
+
+    return JsonResponse(anomalies)
+
+
+@require_http_methods(["GET"])
+@throttle_classes([BurstRateThrottle, SustainedRateThrottle])
+def performance_forecast(request):
+    """
+    GET /api/dora/analytics/forecast/ - Performance forecast.
+
+    Query parameters:
+        - historical_months: Months of historical data to use (default: 6)
+
+    Returns forecasted metrics for next period.
+    """
+    historical_months = int(request.GET.get('historical_months', 6))
+
+    forecast = PerformanceForecasting.forecast_next_month(historical_months=historical_months)
+
+    return JsonResponse(forecast)
