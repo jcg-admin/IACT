@@ -6,7 +6,7 @@ ultima_actualizacion: 2025-11-06
 relacionados: ["ADR-2025-003", "OBSERVABILITY_LAYERS.md", "RNF-002"]
 ---
 
-# ADR-2025-004: Centralized Log Storage en MySQL
+# ADR-2025-004: Centralized Log Storage en Cassandra
 
 **Estado:** propuesta
 
@@ -307,134 +307,112 @@ Script consolida periódicamente.
 
 ---
 
-## Decision
+### Opcion 5: Apache Cassandra (Distributed Column Store)
 
-**Opcion elegida:** "Opcion 1: MySQL con Tablas Estructuradas"
+**Descripcion:**
+Usar Cassandra como base de datos distribuida para logs con alta capacidad de escritura.
+Cassandra usa arquitectura peer-to-peer (sin master/slave) y escala linealmente.
 
-**Justificacion:**
+**Architecture:**
+- Write path: Commit Log (secuencial) → Memtable (memoria) → SSTable (disco)
+- Peer-to-peer: No single point of failure
+- Consistent hashing: Distribución automática
+- Compaction: Limpieza automática via TTL
+- Gossip protocol: Comunicación entre nodos
 
-1. **Cumple RNF-002:**
-   - Solo MySQL, sin Redis/Prometheus/Grafana
-   - Self-hosted, sin APM externo
+**Schema propuesto:**
+```cql
+-- Keyspace: logging (replication factor 3)
+CREATE KEYSPACE logging
+WITH replication = {
+    'class': 'SimpleStrategy',
+    'replication_factor': 3
+};
 
-2. **Performance Aceptable:**
-   - InnoDB optimizado para writes concurrentes
-   - Async logging mitiga overhead (<1ms)
-   - Partitioning para queries rápidas
+-- Column Family: application_logs (Capa 2)
+CREATE TABLE logging.application_logs (
+    log_date DATE,              -- Partition key (dia)
+    timestamp TIMESTAMP,        -- Clustering key (orden cronológico)
+    level TEXT,
+    logger TEXT,
+    message TEXT,
 
-3. **Centralización:**
-   - Un lugar para buscar todos los logs
-   - Django Admin dashboards nativos
-   - Queries SQL directas
+    -- Contexto
+    request_id TEXT,
+    user_id INT,
+    session_id TEXT,
 
-4. **Retention Automático:**
-   - Partitioning mensual
-   - Drop partitions antiguas: `ALTER TABLE ... DROP PARTITION p_2025_10`
-   - Backup selectivo (últimos 3 meses)
+    -- Metadata
+    metadata MAP<TEXT, TEXT>,
+    traceback TEXT,
+    duration_ms DECIMAL,
 
-5. **Escalabilidad:**
-   - 1M logs/día = 30GB/mes (manejable)
-   - Read replicas para queries pesadas (futuro)
-   - Archive a S3 después de 90 días (futuro)
+    PRIMARY KEY ((log_date), timestamp)
+) WITH CLUSTERING ORDER BY (timestamp DESC)
+  AND compaction = {'class': 'TimeWindowCompactionStrategy', 'compaction_window_size': 1, 'compaction_window_unit': 'DAYS'}
+  AND default_time_to_live = 7776000;  -- 90 días TTL
 
-6. **Django Integration:**
-   - Django Admin ModelAdmin nativo
-   - ORM queries: `ApplicationLog.objects.filter(level='ERROR')`
-   - No requiere herramientas externas
+-- Column Family: infrastructure_logs (Capa 3)
+CREATE TABLE logging.infrastructure_logs (
+    log_date DATE,
+    timestamp TIMESTAMP,
+    source TEXT,                -- nginx, postgresql, mysql
+    level TEXT,
+    message TEXT,
+    metadata MAP<TEXT, TEXT>,
 
-**Trade-offs aceptados:**
-- Overhead write ~1-2ms (mitigable con async)
-- Storage crece rápido (30GB/mes)
-- Schema menos flexible que JSONB (pero más performant)
+    PRIMARY KEY ((log_date), timestamp)
+) WITH CLUSTERING ORDER BY (timestamp DESC)
+  AND compaction = {'class': 'TimeWindowCompactionStrategy'}
+  AND default_time_to_live = 7776000;  -- 90 días
 
-## Consecuencias
-
-### Positivas
-
-- OK Logs centralizados y buscables (Django Admin + SQL)
-- OK Dashboards nativos (Django Admin custom views)
-- OK Alertas via queries (cron job detecta errores críticos)
-- OK Retention automático (drop partitions)
-- OK Backup incluido (mysqldump regular)
-- OK Performance queries (<2s p95 con indexes)
-- OK Compliance RNF-002 (solo MySQL)
-- OK Trazabilidad completa (request_id linking)
-
-### Negativas
-
-- WARNING Overhead write 1-2ms por log (usar async logging)
-- WARNING Storage 30GB/mes (monitorear, particionar, archivar)
-- WARNING Schema migrations (agregar campos requiere ALTER TABLE)
-- WARNING No es time-series nativo (menos eficiente que InfluxDB)
-
-### Neutrales
-
-- INFO Backup duplicado: Filesystem (`logs/*.log`) + MySQL
-- INFO Queries SQL vs DSL (Grafana PromQL) - trade-off aceptable
-- INFO Django Admin UI vs Grafana dashboards - funcionalmente equivalente
-
-## Plan de Implementacion
-
-### 1. Fase 1: Schema y Migrations (P1 - 3 SP)
-
-**Acciones:**
-- [x] Crear ADR-2025-004 (este documento)
-- [ ] Diseñar schema completo (application_logs, infrastructure_logs)
-- [ ] Django migration: `python manage.py makemigrations`
-- [ ] Agregar partitioning inicial (3 meses)
-- [ ] Indexes optimizados
-
-**Timeframe:** 2 días
-
-**Validacion:**
-```sql
--- Verificar schema
-SHOW CREATE TABLE application_logs;
-
--- Verificar partitions
-SELECT PARTITION_NAME, TABLE_ROWS
-FROM INFORMATION_SCHEMA.PARTITIONS
-WHERE TABLE_NAME = 'application_logs';
+-- Secondary indexes para queries frecuentes
+CREATE INDEX ON logging.application_logs (level);
+CREATE INDEX ON logging.application_logs (logger);
+CREATE INDEX ON logging.application_logs (request_id);
 ```
 
-### 2. Fase 2: Python Logging Handler (P1 - 5 SP)
-
-**Acciones:**
-- [ ] Implementar `MySQLLogHandler` (async)
-- [ ] Configurar `settings.py` LOGGING
-- [ ] Agregar `request_id` middleware
-- [ ] Tests unitarios (>90% coverage)
-- [ ] Benchmark performance (target: <2ms p95)
-
-**Timeframe:** 3 días
-
-**Implementacion:**
+**Implementacion Python:**
 ```python
-# core/logging/handlers.py
-import asyncio
+from cassandra.cluster import Cluster
+from cassandra.query import BatchStatement
 import logging
-from django.db import connection
+from datetime import datetime, date
 from queue import Queue
 from threading import Thread
 
-class AsyncMySQLLogHandler(logging.Handler):
-    """Handler asíncrono para MySQL - no bloquea request."""
+class CassandraLogHandler(logging.Handler):
+    """Handler asíncrono para Cassandra - no bloquea requests."""
 
-    def __init__(self):
+    def __init__(self, contact_points=['127.0.0.1'], keyspace='logging'):
         super().__init__()
+
+        # Conexión Cassandra
+        self.cluster = Cluster(contact_points)
+        self.session = self.cluster.connect(keyspace)
+
+        # Prepared statement (performance)
+        self.insert_stmt = self.session.prepare("""
+            INSERT INTO application_logs
+            (log_date, timestamp, level, logger, message, request_id, user_id, metadata, traceback, duration_ms)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            USING TTL 7776000
+        """)
+
+        # Async queue
         self.queue = Queue(maxsize=10000)
         self.worker = Thread(target=self._process_queue, daemon=True)
         self.worker.start()
 
     def emit(self, record):
-        # Non-blocking: agregar a queue
+        """Non-blocking: agregar a queue."""
         try:
             self.queue.put_nowait(record)
         except:
             self.handleError(record)
 
     def _process_queue(self):
-        """Worker thread: batch inserts cada 1s o 100 logs."""
+        """Worker thread: batch inserts cada 100 logs o 1s."""
         batch = []
         while True:
             try:
@@ -450,64 +428,328 @@ class AsyncMySQLLogHandler(logging.Handler):
                     batch = []
 
     def _flush_batch(self, batch):
-        """Batch insert: 100 logs en 1 query."""
-        with connection.cursor() as cursor:
-            cursor.executemany("""
-                INSERT INTO application_logs
-                (timestamp, level, logger, message, request_id, metadata)
-                VALUES (%s, %s, %s, %s, %s, %s)
-            """, [(/* ... */)])
+        """Batch insert: 100 logs en 1 batch."""
+        batch_stmt = BatchStatement()
+
+        for record in batch:
+            # Extraer metadata
+            metadata = {
+                'filename': record.filename,
+                'lineno': str(record.lineno),
+                'funcName': record.funcName
+            }
+
+            # Extra fields
+            if hasattr(record, 'request_id'):
+                metadata['request_id_meta'] = record.request_id
+
+            batch_stmt.add(self.insert_stmt, (
+                date.today(),                          # log_date (partition key)
+                datetime.fromtimestamp(record.created), # timestamp
+                record.levelname,                      # level
+                record.name,                           # logger
+                self.format(record),                   # message
+                getattr(record, 'request_id', None),   # request_id
+                getattr(record, 'user_id', None),      # user_id
+                metadata,                              # metadata
+                record.exc_text if record.exc_info else None,  # traceback
+                getattr(record, 'duration_ms', None)   # duration_ms
+            ))
+
+        self.session.execute(batch_stmt)
+
+# Configuración Django settings.py
+LOGGING = {
+    'version': 1,
+    'handlers': {
+        'cassandra': {
+            'class': 'core.logging.handlers.CassandraLogHandler',
+            'level': 'INFO',
+            'contact_points': ['127.0.0.1'],
+            'keyspace': 'logging',
+        },
+        'file': {  # Backup en filesystem
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': 'logs/django.log',
+            'maxBytes': 10485760,
+            'backupCount': 5,
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['cassandra', 'file'],
+            'level': 'INFO',
+        },
+    },
+}
 ```
 
-### 3. Fase 3: Django Admin Dashboards (P2 - 5 SP)
+**Pros:**
+- OK Write throughput: >1M writes/segundo (vs MySQL ~10K/s)
+- OK No single point of failure: Peer-to-peer (vs master-slave)
+- OK Linear scalability: Agregar nodos = más throughput
+- OK TTL nativo: Retention automático con compaction
+- OK Optimizado para append-only: Perfect para logs
+- OK Multi-datacenter: Replicación nativa cross-DC
+- OK Sequential writes: Commit Log optimizado
+- OK No schema migrations: Schema flexible
+- OK Compatible RNF-002: Self-hosted, sin Redis/Prometheus
+
+**Contras:**
+- NO Learning curve: Team debe aprender CQL (vs SQL familiar)
+- NO Django Admin limitado: No ORM nativo (manual queries)
+- NO Complejidad operacional: Cluster management (vs MySQL single)
+- NO Eventual consistency: No ACID (acceptable para logs)
+- NO JVM dependency: Requiere Java 8+ (overhead memoria)
+- NO Backup más complejo: Snapshots por nodo
+
+**Estimación resources:**
+```
+# Write performance
+1M logs/día = 11.5 logs/segundo (easy para Cassandra)
+Peak: 100 logs/segundo = 0.01% capacity Cassandra
+
+# Storage (compression 80%)
+1M logs/día × 1KB/log × 90 días × 0.2 (compressed) = 18GB
+Con replication_factor=3: 54GB cluster total
+
+# Hardware (3 nodes)
+Node: 8GB RAM, 4 cores, 50GB disk
+```
+
+**vs MySQL comparison:**
+| Aspecto | Cassandra | MySQL |
+|---------|-----------|-------|
+| Write throughput | >1M/s | ~10K/s |
+| Single point failure | No (peer-to-peer) | Yes (master) |
+| Horizontal scaling | Linear | Limited (replication) |
+| TTL | Native | Manual partitioning |
+| Multi-DC | Native | Complex |
+| ACID | Eventual | Full |
+| Learning curve | High | Low |
+| Django integration | Manual | ORM native |
+
+---
+
+## Decision
+
+**Opcion elegida:** "Opcion 5: Apache Cassandra (Distributed Column Store)"
+
+**Justificacion:**
+
+1. **Cumple RNF-002:**
+   - Solo Cassandra, sin Redis/Prometheus/Grafana
+   - Self-hosted peer-to-peer, sin APM externo
+   - No single point of failure (vs MySQL master/slave)
+
+2. **Performance Superior para Logs:**
+   - Write throughput >1M/s (vs MySQL ~10K/s = 100x mejor)
+   - Sequential writes optimizadas (Commit Log)
+   - Batch processing nativo (100 logs/batch)
+   - Async logging <0.1ms overhead (vs MySQL ~1-2ms)
+
+3. **Centralización Distribuida:**
+   - Un keyspace para todos los logs
+   - Queries CQL directas
+   - No Django Admin nativo (pero queries programáticas)
+
+4. **Retention Automático TTL:**
+   - TTL nativo: 90 días (vs MySQL manual partitioning)
+   - Compaction automática limpia logs expirados
+   - Sin scripts de mantenimiento cron
+   - Storage auto-optimizado (compression + compaction)
+
+5. **Escalabilidad Horizontal:**
+   - Linear scaling: +1 node = +throughput proporcional
+   - No master bottleneck (peer-to-peer)
+   - Multi-datacenter nativo (futuro)
+   - 1M logs/día = 18GB/mes compressed (vs MySQL 30GB)
+
+6. **Append-Only Optimization:**
+   - Cassandra diseñado para append-only workloads
+   - Logs nunca se actualizan (solo inserts) - perfect fit
+   - No ACID overhead innecesario
+   - Eventual consistency aceptable para logs
+
+**Ventaja crítica sobre MySQL:**
+```
+Scenario: Deploy con 1000 requests/min spike
+
+MySQL:
+- 1000 logs/min × 1ms write = 1000ms overhead
+- Master bottleneck
+- Lock contention en tabla
+
+Cassandra:
+- 1000 logs/min × 0.1ms write = 100ms overhead
+- Distributed writes (sin bottleneck)
+- No locks (append-only)
+```
+
+**Trade-offs aceptados:**
+- Learning curve CQL (vs SQL familiar) - acceptable
+- Django Admin manual queries (vs ORM) - acceptable
+- JVM memory overhead ~1GB (vs MySQL ~500MB) - acceptable
+- Eventual consistency (vs ACID) - acceptable para logs
+
+## Consecuencias
+
+### Positivas
+
+- OK Logs centralizados y buscables (CQL queries programáticas)
+- OK Dashboards custom (Python + Chart.js)
+- OK Alertas via queries (cron job detecta errores críticos)
+- OK Retention automático TTL (sin drop partitions manual)
+- OK Backup distribuido (snapshots por nodo)
+- OK Performance writes <0.1ms overhead (async + batch)
+- OK Performance queries <1s p95 (partition key optimizado)
+- OK Compliance RNF-002 (solo Cassandra self-hosted)
+- OK Trazabilidad completa (request_id linking)
+- OK Linear scaling (sin master bottleneck)
+- OK No single point of failure (peer-to-peer)
+
+### Negativas
+
+- WARNING Learning curve CQL (team training necesario)
+- WARNING JVM overhead ~1GB RAM (vs MySQL ~500MB)
+- WARNING Django Admin no nativo (queries programáticas manual)
+- WARNING Cluster management (3+ nodes, gossip protocol)
+- WARNING Eventual consistency (no ACID) - acceptable para logs
+- WARNING Java dependency (JDK 8+ requerido)
+
+### Neutrales
+
+- INFO Backup duplicado: Filesystem (`logs/*.log`) + Cassandra
+- INFO Queries CQL vs SQL (sintaxis diferente pero similar)
+- INFO Custom dashboards vs Grafana - funcionalmente equivalente
+- INFO Schema flexible MAP<TEXT,TEXT> vs JSON (similar)
+
+## Plan de Implementacion
+
+### 1. Fase 1: Cassandra Cluster Setup y Schema (P1 - 5 SP)
 
 **Acciones:**
-- [ ] ModelAdmin para ApplicationLog
+- [x] Crear ADR-2025-004 (este documento)
+- [ ] Instalar Cassandra en 3 nodos (minimum cluster)
+- [ ] Configurar cassandra.yaml (cluster_name, seeds, listen_address)
+- [ ] Crear keyspace `logging` (replication_factor=3)
+- [ ] Crear schema CQL (application_logs, infrastructure_logs)
+- [ ] Configurar TimeWindowCompactionStrategy
+- [ ] Verificar gossip protocol (nodetool status)
+
+**Timeframe:** 3 días
+
+**Instalacion:**
+```bash
+# Instalar Cassandra (Debian/Ubuntu)
+echo "deb https://debian.cassandra.apache.org 41x main" | sudo tee /etc/apt/sources.list.d/cassandra.list
+curl https://downloads.apache.org/cassandra/KEYS | sudo apt-key add -
+sudo apt-get update
+sudo apt-get install cassandra
+
+# Configurar cassandra.yaml
+sudo nano /etc/cassandra/cassandra.yaml
+# cluster_name: 'iact_logging_cluster'
+# seeds: "node1_ip,node2_ip,node3_ip"
+# listen_address: node_ip
+
+# Iniciar Cassandra
+sudo systemctl start cassandra
+sudo systemctl enable cassandra
+
+# Verificar cluster
+nodetool status
+# Debe mostrar 3 nodos: UN (Up Normal)
+```
+
+**Schema CQL:**
+```bash
+# Conectar a Cassandra
+cqlsh node1_ip
+
+# Ejecutar schema (ver Opcion 5)
+CREATE KEYSPACE logging WITH replication = {'class': 'SimpleStrategy', 'replication_factor': 3};
+CREATE TABLE logging.application_logs (...);
+CREATE TABLE logging.infrastructure_logs (...);
+CREATE INDEX ON logging.application_logs (level);
+```
+
+**Validacion:**
+```bash
+# Verificar keyspace
+cqlsh -e "DESCRIBE KEYSPACE logging;"
+
+# Verificar tablas
+cqlsh -e "SELECT * FROM system_schema.tables WHERE keyspace_name='logging';"
+
+# Verificar replication
+nodetool describering logging
+```
+
+### 2. Fase 2: Python Logging Handler Cassandra (P1 - 5 SP)
+
+**Acciones:**
+- [ ] Instalar cassandra-driver: `pip install cassandra-driver`
+- [ ] Implementar `CassandraLogHandler` (async + batch)
+- [ ] Configurar `settings.py` LOGGING
+- [ ] Agregar `request_id` middleware
+- [ ] Tests unitarios (>90% coverage)
+- [ ] Benchmark performance (target: <0.5ms p95)
+
+**Timeframe:** 3 días
+
+**Script de implementación:** Ver `scripts/logging/cassandra_handler.py` (generado en Fase 2)
+
+### 3. Fase 3: Custom Log Dashboards (P2 - 5 SP)
+
+**Acciones:**
+- [ ] Custom Django view: Logs browser (`/logs/browse/`)
 - [ ] Custom views: Errors dashboard, Slow queries, Top users
 - [ ] Filtros: level, logger, date range, user_id
-- [ ] Export CSV/JSON
+- [ ] Export CSV/JSON via CQL queries
 - [ ] Charts (Chart.js): Errors over time, Requests by endpoint
+- [ ] Pagination Cassandra (token-based)
 
 **Timeframe:** 3 días
 
 **URLs:**
-- `/admin/logs/applicationlog/` - Lista principal
-- `/admin/logs/errors/` - Solo errores
-- `/admin/logs/slow-queries/` - Queries >1s
-- `/admin/logs/charts/` - Gráficos
+- `/logs/browse/` - Browse logs con filtros
+- `/logs/errors/` - Solo errores (level='ERROR')
+- `/logs/slow-queries/` - Queries >1s (duration_ms > 1000)
+- `/logs/charts/` - Gráficos agregados
+
+**Script de implementación:** Ver `scripts/logging/dashboard_views.py` (generado en Fase 3)
 
 ### 4. Fase 4: Infrastructure Logs Integration (P3 - 8 SP)
 
 **Acciones:**
-- [ ] Rsyslog → MySQL (nginx, postgresql)
-- [ ] Filebeat → MySQL (alternativa)
-- [ ] Filtrado: Solo errores críticos
-- [ ] Schema `infrastructure_logs`
+- [ ] Rsyslog → Cassandra via Python script
+- [ ] Python daemon: tail -f /var/log/* → Cassandra
+- [ ] Filtrado: Solo errores críticos (severity <= 3)
+- [ ] Schema `infrastructure_logs` (ya creado Fase 1)
+- [ ] Systemd service para daemon
 
 **Timeframe:** 1 semana
 
-**Configuracion rsyslog:**
+**Script daemon:**
 ```bash
-# /etc/rsyslog.d/50-mysql.conf
-module(load="ommysql")
+# /usr/local/bin/infra-logs-to-cassandra.py
+# Daemon que lee /var/log/nginx/error.log, /var/log/postgresql/*.log
+# y escribe a Cassandra logging.infrastructure_logs
 
-# Nginx errors → MySQL
-if $programname == 'nginx' and $syslogseverity <= 3 then {
-    action(type="ommysql"
-           server="localhost"
-           db="iact_db"
-           uid="logger_user"
-           pwd="***"
-           template="INSERT INTO infrastructure_logs ...")
-}
+# Systemd service
+sudo systemctl enable infra-logs-cassandra
+sudo systemctl start infra-logs-cassandra
 ```
+
+**Script de implementación:** Ver `scripts/logging/infrastructure_logs_daemon.py` (generado en Fase 4)
 
 ### 5. Fase 5: Alerting via Cron (P1 - 3 SP)
 
 **Acciones:**
-- [ ] Script `scripts/alert_on_errors.py`
+- [ ] Script `scripts/logging/alert_on_errors.py` (Cassandra queries)
 - [ ] Cron job cada 5 min
-- [ ] Detectar: >10 errors/min, >5 CRITICAL/min
+- [ ] Detectar: >10 errors/5min, >5 CRITICAL/5min
 - [ ] Notificar: Email, Slack webhook
 
 **Timeframe:** 2 días
@@ -515,79 +757,75 @@ if $programname == 'nginx' and $syslogseverity <= 3 then {
 **Cron:**
 ```bash
 # /etc/cron.d/log-alerts
-*/5 * * * * python /app/scripts/alert_on_errors.py
+*/5 * * * * python /app/scripts/logging/alert_on_errors.py
 ```
 
-**Script:**
-```python
-# scripts/alert_on_errors.py
-from django.db.models import Count
-from datetime import datetime, timedelta
+**Script de implementación:** Ver `scripts/logging/alert_on_errors.py` (generado en Fase 5)
 
-# Contar errores últimos 5 min
-five_min_ago = datetime.now() - timedelta(minutes=5)
-error_count = ApplicationLog.objects.filter(
-    level='ERROR',
-    timestamp__gte=five_min_ago
-).count()
-
-if error_count > 10:
-    send_alert(f"High error rate: {error_count} errors/5min")
-```
-
-### 6. Fase 6: Retention y Archivado (P2 - 3 SP)
+### 6. Fase 6: Retention Monitoring y Archivado (P2 - 2 SP)
 
 **Acciones:**
-- [ ] Script `scripts/manage_log_partitions.py`
-- [ ] Cron mensual: Drop partitions >90 días
-- [ ] Archive a S3 antes de drop (opcional)
+- [ ] Script monitoring TTL: Verificar compaction funcionando
 - [ ] Monitoring storage: Alert si >80% disk
+- [ ] Archive a S3 antes de TTL expira (opcional)
+- [ ] Nodetool repair semanal (cron)
 
-**Timeframe:** 2 días
+**Timeframe:** 1-2 días
 
-**Script:**
-```python
-# scripts/manage_log_partitions.py
-from django.db import connection
+**Nota:** Cassandra TTL es AUTOMATICO (default_time_to_live = 7776000 segundos = 90 días).
+No requiere scripts de drop manual como MySQL partitioning.
 
-def drop_old_partitions(table_name, months_to_keep=3):
-    """Drop partitions older than N months."""
-    cutoff_date = datetime.now() - timedelta(days=30 * months_to_keep)
+**Monitoring script:**
+```bash
+# Verificar compaction funcionando
+nodetool compactionstats
 
-    with connection.cursor() as cursor:
-        # List partitions
-        cursor.execute(f"""
-            SELECT PARTITION_NAME
-            FROM INFORMATION_SCHEMA.PARTITIONS
-            WHERE TABLE_NAME = '{table_name}'
-            AND PARTITION_DESCRIPTION < UNIX_TIMESTAMP('{cutoff_date}')
-        """)
+# Verificar espacio en disco
+nodetool status | awk '{print $1, $6}'
+# Alert si Load > 80% capacity
 
-        for (partition,) in cursor.fetchall():
-            print(f"Dropping partition: {partition}")
-            cursor.execute(f"""
-                ALTER TABLE {table_name} DROP PARTITION {partition}
-            """)
+# Verificar TTL efectivo
+cqlsh -e "SELECT * FROM logging.application_logs WHERE log_date = '2025-11-06' LIMIT 1;"
+# Si no retorna nada después de 90 días = TTL funcionando
 ```
+
+**Cron maintenance:**
+```bash
+# /etc/cron.d/cassandra-maintenance
+# Repair semanal (asegura consistency)
+0 2 * * 0 nodetool repair logging
+
+# Cleanup mensual (libera espacio tombstones)
+0 3 1 * * nodetool cleanup logging
+```
+
+**Script de implementación:** Ver `scripts/logging/cassandra_maintenance.py` (generado en Fase 6)
 
 ## Validacion y Metricas
 
 ### Criterios de Exito
 
+**Fase 1 (Cluster Setup):**
+- Metrica 1: 3 nodes UP Normal (nodetool status)
+- Metrica 2: Replication factor 3 verificado
+- Metrica 3: Schema creado correctamente
+
 **Fase 2 (Logging Handler):**
-- Metrica 1: <2ms p95 overhead write
+- Metrica 1: <0.5ms p95 overhead write (vs <2ms MySQL)
 - Metrica 2: 0 logs perdidos (queue maxsize nunca alcanzado)
 - Metrica 3: >90% test coverage
+- Metrica 4: Batch inserts 100 logs/batch funcionando
 
 **Fase 3 (Dashboards):**
-- Metrica 1: <2s page load time admin
+- Metrica 1: <1s page load time (CQL queries)
 - Metrica 2: >80% developer satisfaction (survey)
 - Metrica 3: 100% logs visibles en UI
+- Metrica 4: Token-based pagination funcionando
 
 **Fase 4 (Infrastructure Logs):**
-- Metrica 1: <5% overhead rsyslog
+- Metrica 1: <5% overhead daemon Python
 - Metrica 2: 100% errores críticos capturados
-- Metrica 3: <10s lag logs → MySQL
+- Metrica 3: <10s lag logs → Cassandra
 
 **Fase 5 (Alerting):**
 - Metrica 1: <5 min time to alert
@@ -595,9 +833,9 @@ def drop_old_partitions(table_name, months_to_keep=3):
 - Metrica 3: 100% critical errors alertados
 
 **Fase 6 (Retention):**
-- Metrica 1: <5 min drop partition execution time
-- Metrica 2: 0 downtime durante drop
-- Metrica 3: <80% disk usage (after retention)
+- Metrica 1: TTL automático funcionando (0 logs >90 días)
+- Metrica 2: 0 downtime (TTL no afecta cluster)
+- Metrica 3: <80% disk usage per node
 
 ### Como medir
 
@@ -614,38 +852,54 @@ for i in range(1000):
 duration = time.time() - start
 
 print(f"1000 logs in {duration:.2f}s = {duration*1000:.2f}ms avg")
-# Target: <2ms avg
+# Target: <0.5ms avg (Cassandra async + batch)
 ```
 
 **Storage growth:**
-```sql
--- Tamaño tabla
-SELECT
-    table_name,
-    ROUND(((data_length + index_length) / 1024 / 1024), 2) AS "Size (MB)"
-FROM information_schema.TABLES
-WHERE table_name = 'application_logs';
+```bash
+# Tamaño por node
+nodetool tablestats logging.application_logs | grep "Space used"
+# Space used (total): 15.2 GB
 
--- Logs por día
-SELECT
-    DATE(timestamp) as date,
-    COUNT(*) as log_count,
-    COUNT(*) * 1 / 1024 AS "MB_estimate"
-FROM application_logs
-WHERE timestamp >= NOW() - INTERVAL 7 DAY
-GROUP BY DATE(timestamp);
+# Logs count por día (CQL)
+cqlsh -e "SELECT log_date, COUNT(*) FROM logging.application_logs GROUP BY log_date;"
+# log_date    | count
+# 2025-11-06  | 1234567
+
+# Storage per node
+nodetool status | awk '{print $1, $6}'
+# UN  45.2 GB
 ```
 
 **Query performance:**
-```sql
--- Test query: Buscar errores últimas 24h
-EXPLAIN SELECT * FROM application_logs
-WHERE level = 'ERROR'
-AND timestamp >= NOW() - INTERVAL 24 HOUR
-ORDER BY timestamp DESC
+```bash
+# Test query: Buscar errores hoy
+time cqlsh -e "
+SELECT * FROM logging.application_logs
+WHERE log_date = '2025-11-06'
+AND level = 'ERROR'
 LIMIT 100;
+"
+# Target: <1s execution time
 
--- Target: <2s execution time
+# Test query: Count errores últimas 24h
+time cqlsh -e "
+SELECT COUNT(*) FROM logging.application_logs
+WHERE log_date = '2025-11-06'
+AND level = 'ERROR';
+"
+# Target: <2s execution time
+```
+
+**Cluster health:**
+```bash
+# Verificar 3 nodes UP
+nodetool status logging
+# UN = Up Normal (debe ser 3/3 nodes)
+
+# Verificar latencia writes
+nodetool tablestats logging.application_logs | grep "Write Latency"
+# Write Latency: 0.123 ms (target: <1ms)
 ```
 
 ### Revision
