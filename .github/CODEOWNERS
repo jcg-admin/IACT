@@ -147,24 +147,71 @@ docs/specs/**                                @arquitecto-senior @product-owner
 # SCRIPTS DE AUTOMATIZACIÓN
 # ============================================================================
 
+# Scripts SDLC Core
+scripts/sdlc_agent.py                        @tech-lead @arquitecto-senior
+scripts/ai/agents/sdlc_orchestrator.py       @tech-lead @arquitecto-senior
+scripts/ai/agents/sdlc_planner.py            @tech-lead @arquitecto-senior
+scripts/ai/agents/sdlc_feasibility.py        @arquitecto-senior @tech-lead
+scripts/ai/agents/sdlc_design.py             @arquitecto-senior @tech-lead
+scripts/ai/agents/sdlc_testing.py            @qa-lead @tech-lead
+scripts/ai/agents/sdlc_deployment.py         @devops-lead @tech-lead
+scripts/ai/agents/sdlc_base.py               @arquitecto-senior @tech-lead
+
+# Scripts de agentes AI
+scripts/ai/agents/**                         @tech-lead @ai-lead
+
 # Scripts de documentación y sincronización
 scripts/sync_documentation.py                @arquitecto-senior @devops-lead
 scripts/reorganizar_docs_por_dominio.sh      @arquitecto-senior @devops-lead
 scripts/validar_estructura_docs.sh           @arquitecto-senior @devops-lead
+scripts/generate_guides.py                   @doc-lead @arquitecto-senior
 scripts/ai/agents/documentation_sync_agent.py @arquitecto-senior
 
-# Scripts de SDLC y DevOps
-scripts/ai/agents/sdlc_base.py               @arquitecto-senior @tech-lead
-scripts/ai/agents/sdlc_planner.py            @arquitecto-senior @tech-lead
-scripts/sdlc_agent.py                        @arquitecto-senior @tech-lead
-scripts/dora_metrics.py                      @devops-lead @arquitecto-senior
-scripts/generate_guides.py                  @doc-lead @arquitecto-senior
+# Scripts de metricas DORA
+scripts/dora_metrics.py                      @devops-lead @tech-lead
+scripts/generate_dora_report.sh              @devops-lead @tech-lead
+scripts/ai/agents/dora_sdlc_integration.py   @devops-lead @tech-lead
+
+# Scripts de CI/CD
+scripts/ci/**                                @devops-lead @tech-lead
+scripts/deploy.sh                            @devops-lead @sre-lead
+scripts/health_check.sh                      @devops-lead @sre-lead
+scripts/run_all_tests.sh                     @qa-lead @tech-lead
+scripts/run_integration_tests.sh             @qa-lead @tech-lead
 
 # Scripts de requisitos
 scripts/requisitos/**                        @arquitecto-senior @product-owner
 
+# Scripts de disaster recovery
+scripts/disaster_recovery/**                 @devops-lead @dba-lead
+
+# Scripts de base de datos
+scripts/cassandra/**                         @dba-lead @devops-lead
+scripts/validate_database_router.sh          @dba-lead @arquitecto-senior
+
+# Scripts de validacion
+scripts/validate_critical_restrictions.sh    @arquitecto-senior @tech-lead
+scripts/validate_security_config.sh          @devops-lead @arquitecto-senior
+scripts/check_no_emojis.py                   @tech-lead
+
 # Scripts de logging (Cassandra centralized logging)
 scripts/logging/**                           @devops-lead @arquitecto-senior
+
+# Scripts de testing
+scripts/ai/agents/test_runner.py             @qa-lead @tech-lead
+scripts/ai/run_test_generation.sh            @qa-lead @tech-lead
+
+# Scripts de utilities
+scripts/cleanup_sessions.sh                  @backend-lead
+scripts/cleanup_branches.sh                  @tech-lead
+scripts/install_hooks.sh                     @tech-lead
+scripts/complete_sync.sh                     @tech-lead
+
+# Templates de scripts
+scripts/templates/**                         @tech-lead @arquitecto-senior
+
+# Documentacion de scripts
+docs/scripts/**                              @doc-lead @tech-lead
 
 # ============================================================================
 # CONFIGURACIÓN DE DOCUMENTACIÓN
