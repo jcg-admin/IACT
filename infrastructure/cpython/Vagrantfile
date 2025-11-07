@@ -87,8 +87,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # NETWORK CONFIGURATION
   # =================================================================
 
-  # Private network with DHCP (no port forwarding needed for build VM)
-  config.vm.network "private_network", type: "dhcp"
+  # Private network with static IP (avoids DHCP conflicts)
+  config.vm.network "private_network", ip: "192.168.56.10"
 
   # =================================================================
   # SYNCED FOLDERS WITH UTF-8 ENCODING
