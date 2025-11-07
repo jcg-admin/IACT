@@ -39,4 +39,9 @@ urlpatterns = [
     path("ai-telemetry/stats/", views.ai_telemetry_stats, name="ai-telemetry-stats"),
     path("ai-telemetry/agent/<str:agent_id>/", views.ai_telemetry_agent_stats, name="ai-telemetry-agent-stats"),
     path("ai-telemetry/accuracy/", views.ai_telemetry_accuracy, name="ai-telemetry-accuracy"),
+    # Predictive Analytics (TASK-033)
+    path("predict/deployment-risk/", views.predict_deployment_risk, name="predict-deployment-risk"),
+    path("predict/model-stats/", views.predict_model_stats, name="predict-model-stats"),
+    path("predict/retrain/", views.predict_retrain_model, name="predict-retrain"),
+    path("predict/feature-importance/", views.predict_feature_importance, name="predict-feature-importance"),
 ]

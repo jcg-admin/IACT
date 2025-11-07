@@ -760,3 +760,171 @@ def ai_telemetry_accuracy(request):
             "confidence_distribution": confidence_dist,
         }
     )
+
+
+# ============================================================================
+# PREDICTIVE ANALYTICS (TASK-033)
+# ============================================================================
+
+from .ml_features import FeatureExtractor
+from .ml_models import DeploymentRiskPredictor
+
+
+@require_http_methods(["POST"])
+@throttle_classes([BurstRateThrottle, SustainedRateThrottle])
+def predict_deployment_risk(request):
+    """
+    POST /api/dora/predict/deployment-risk/ - Predecir riesgo de deployment.
+
+    Body:
+        {
+            "cycle_id": "cycle-123" (opcional, extraer features automaticamente)
+            O
+            "features": {...} (proveer features manualmente)
+        }
+    """
+    data = json.loads(request.body)
+
+    # Cargar modelo
+    predictor = DeploymentRiskPredictor()
+
+    try:
+        # Opcion 1: Usar cycle_id para extraer features
+        if "cycle_id" in data:
+            features = FeatureExtractor.extract_deployment_features(data["cycle_id"])
+            if not features:
+                return JsonResponse(
+                    {"error": f"Cycle {data['cycle_id']} not found"},
+                    status=404,
+                )
+        # Opcion 2: Proveer features manualmente
+        elif "features" in data:
+            features = data["features"]
+        else:
+            return JsonResponse(
+                {"error": "Must provide either cycle_id or features"},
+                status=400,
+            )
+
+        # Obtener prediccion con explicacion
+        explanation = predictor.explain_prediction(features)
+
+        return JsonResponse(
+            {
+                "cycle_id": data.get("cycle_id"),
+                "prediction": explanation,
+                "model_version": predictor.get_model_version(),
+            }
+        )
+
+    except ValueError as e:
+        return JsonResponse(
+            {"error": str(e)},
+            status=400,
+        )
+
+
+@require_http_methods(["GET"])
+@throttle_classes([BurstRateThrottle, SustainedRateThrottle])
+def predict_model_stats(request):
+    """
+    GET /api/dora/predict/model-stats/ - Estadisticas del modelo ML.
+    """
+    predictor = DeploymentRiskPredictor()
+
+    try:
+        stats = predictor.evaluate_model()
+
+        return JsonResponse(
+            {
+                "model_version": predictor.get_model_version(),
+                "statistics": stats,
+            }
+        )
+
+    except ValueError as e:
+        return JsonResponse(
+            {"error": str(e)},
+            status=400,
+        )
+
+
+@require_http_methods(["POST"])
+@throttle_classes([BurstRateThrottle, SustainedRateThrottle])
+def predict_retrain_model(request):
+    """
+    POST /api/dora/predict/retrain/ - Re-entrenar modelo ML.
+
+    Body:
+        {
+            "days": 90 (opcional, default 90)
+        }
+    """
+    data = json.loads(request.body)
+    days = data.get("days", 90)
+
+    # Crear training dataset
+    training_data = FeatureExtractor.create_training_dataset(days=days)
+
+    if len(training_data) < 10:
+        return JsonResponse(
+            {"error": f"Insufficient data for training (found {len(training_data)}, need >= 10)"},
+            status=400,
+        )
+
+    # Entrenar modelo
+    predictor = DeploymentRiskPredictor()
+
+    try:
+        metrics = predictor.train_model(training_data)
+
+        return JsonResponse(
+            {
+                "success": True,
+                "model_version": predictor.get_model_version(),
+                "training_metrics": metrics,
+            },
+            status=201,
+        )
+
+    except Exception as e:
+        return JsonResponse(
+            {"error": str(e)},
+            status=500,
+        )
+
+
+@require_http_methods(["GET"])
+@throttle_classes([BurstRateThrottle, SustainedRateThrottle])
+def predict_feature_importance(request):
+    """
+    GET /api/dora/predict/feature-importance/ - Feature importance del modelo.
+    """
+    predictor = DeploymentRiskPredictor()
+
+    try:
+        importance = predictor._get_feature_importance()
+
+        # Ordenar por importance
+        sorted_importance = sorted(
+            importance.items(),
+            key=lambda x: x[1],
+            reverse=True,
+        )
+
+        return JsonResponse(
+            {
+                "model_version": predictor.get_model_version(),
+                "feature_importance": dict(sorted_importance),
+                "top_features": [
+                    {"feature": feature, "importance": float(imp)}
+                    for feature, imp in sorted_importance[:5]
+                ],
+            }
+        )
+
+    except ValueError as e:
+        return JsonResponse(
+            {"error": str(e)},
+            status=400,
+        )

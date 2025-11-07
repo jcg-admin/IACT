@@ -90,6 +90,14 @@ api/callcentersite/dora_metrics/tests_ai_telemetry.py @arquitecto-senior @qa-lea
 api/callcentersite/dora_metrics/migrations/0003_aitelemetry.py @arquitecto-senior @devops-lead
 docs/gobernanza/ai/TASK-024-ai-telemetry-system.md    @arquitecto-senior @tech-lead
 
+# Predictive Analytics (TASK-033)
+# Owner: Arquitecto Senior + Tech Lead
+api/callcentersite/dora_metrics/ml_features.py             @arquitecto-senior @tech-lead
+api/callcentersite/dora_metrics/ml_models.py               @arquitecto-senior @tech-lead
+api/callcentersite/dora_metrics/tests_predictive_analytics.py @arquitecto-senior @qa-lead
+scripts/ml/retrain_deployment_risk_model.py                @arquitecto-senior @devops-lead
+docs/features/ai/TASK-033-predictive-analytics.md          @arquitecto-senior @tech-lead
+
 # ============================================================================
 # DOCUMENTACIÓN AUTO-GENERADA
 # ============================================================================
