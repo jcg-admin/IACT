@@ -21,5 +21,6 @@ urlpatterns = [
         name="swagger-ui",
     ),
     path("api/v1/dashboard/", include("callcentersite.apps.dashboard.urls")),
+    path("api/dora/", include("dora_metrics.urls")),
     path("health/", health_check, name="health"),
 ]
