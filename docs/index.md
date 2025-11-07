@@ -24,16 +24,16 @@ Sistema de documentacion del proyecto IACT (IVR Analytics & Customer Tracking) o
 
 ### Implementacion por Dominio
 - [Implementacion](implementacion/README.md)
-  - [Backend](implementacion/backend/README.md) - Requisitos, arquitectura, diseno
-  - [Frontend](implementacion/frontend/README.md) - Requisitos, arquitectura, diseno
-  - [Infrastructure](implementacion/infrastructure/README.md) - Requisitos, arquitectura, diseno
+  - [Backend](backend/README.md) - Requisitos, arquitectura, diseno
+  - [Frontend](frontend/README.md) - Requisitos, arquitectura, diseno
+  - [Infrastructure](infrastructure/README.md) - Requisitos, arquitectura, diseno
 
 ### Decisiones de Arquitectura
 - [ADRs (Architecture Decision Records)](adr/) - 14 ADRs documentados
 
 ### Infraestructura
 - [Infraestructura](infraestructura/README.md)
-  - [CPython Precompilado](infraestructura/cpython_precompilado/README.md)
+  - [CPython Precompilado](infrastructure/cpython_precompilado/README.md)
 
 ### Gobernanza y Plantillas
 - [Plantillas](plantillas/) - Templates para requisitos

@@ -678,7 +678,7 @@ En `mkdocs.yml` (documentación):
 nav:
   - Infraestructura:
     - CPython Precompilado:
-      - README: infraestructura/cpython_precompilado/README.md
+      - README: infrastructure/cpython_precompilado/README.md
 ```
 
 **No se requieren cambios en settings.py de Django**
@@ -689,9 +689,9 @@ nav:
 
 ### 8.4 Documentación para Despliegue
 
-- **Runbook**: `docs/infraestructura/cpython_precompilado/README.md`
+- **Runbook**: `docs/infrastructure/cpython_precompilado/README.md`
 - **Rollback procedure**: Remover Feature de `devcontainer.json` y rebuild
-- **Troubleshooting**: `docs/infraestructura/cpython_precompilado/preguntas_frecuentes.md`
+- **Troubleshooting**: `docs/infrastructure/cpython_precompilado/preguntas_frecuentes.md`
 
 ---
 
@@ -775,7 +775,7 @@ No se requiere sistema de feature flags porque cada proyecto decide individualme
 
 ### 11.1 Documentación Técnica
 
-- [x] Arquitectura documentada en `docs/infraestructura/cpython_precompilado/arquitectura.md`
+- [x] Arquitectura documentada en `docs/infrastructure/cpython_precompilado/arquitectura.md`
 - [x] ADR_008 creado: Features vs Imagen Base
 - [x] ADR_009 creado: Estrategia de distribución
 - [ ] Scripts documentados con docstrings y comentarios
@@ -783,7 +783,7 @@ No se requiere sistema de feature flags porque cada proyecto decide individualme
 
 ### 11.2 Documentación de Usuario
 
-- [x] README creado en `docs/infraestructura/cpython_precompilado/README.md`
+- [x] README creado en `docs/infrastructure/cpython_precompilado/README.md`
 - [x] FAQ creado en `preguntas_frecuentes.md`
 - [ ] Release notes para cada versión de artefacto
 - [ ] Tutorial en video (opcional, Fase 4)

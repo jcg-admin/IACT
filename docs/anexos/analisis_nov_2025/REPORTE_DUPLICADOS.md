@@ -42,7 +42,7 @@ FILE: **checklist_testing.md**
 
 **Ubicaciones:**
 - `docs/checklists/checklist_testing.md`
-- `docs/implementacion/backend/checklists/checklist_testing.md`
+- `docs/backend/checklists/checklist_testing.md`
 
 **Recomendación**: Estos archivos son 100% idénticos. Mantener solo la versión en `docs/checklists/` (general) o en `docs/implementacion/` (específica). Se recomienda eliminar el duplicado según el propósito del archivo.
 
@@ -53,7 +53,7 @@ FILE: **checklist_trazabilidad_requisitos.md**
 
 **Ubicaciones:**
 - `docs/checklists/checklist_trazabilidad_requisitos.md`
-- `docs/implementacion/backend/checklists/checklist_trazabilidad_requisitos.md`
+- `docs/backend/checklists/checklist_trazabilidad_requisitos.md`
 
 **Recomendación**: Estos archivos son 100% idénticos. Mantener solo la versión en `docs/checklists/` (general) o en `docs/implementacion/` (específica). Se recomienda eliminar el duplicado según el propósito del archivo.
 
@@ -64,7 +64,7 @@ FILE: **checklist_cambios_documentales.md**
 
 **Ubicaciones:**
 - `docs/checklists/checklist_cambios_documentales.md`
-- `docs/implementacion/infrastructure/checklists/checklist_cambios_documentales.md`
+- `docs/infrastructure/checklists/checklist_cambios_documentales.md`
 
 **Recomendación**: Estos archivos son 100% idénticos. Mantener solo la versión en `docs/checklists/` (general) o en `docs/implementacion/` (específica). Se recomienda eliminar el duplicado según el propósito del archivo.
 
@@ -87,7 +87,7 @@ Estos archivos tienen el mismo nombre pero contenido diferente. Requieren revisi
 - **Tamaño**: 883 bytes (23 líneas)
 - **Propósito**: Checklist GENERAL de desarrollo del proyecto
 
-**Ubicación 2**: `docs/implementacion/backend/checklists/checklist_desarrollo.md`
+**Ubicación 2**: `docs/backend/checklists/checklist_desarrollo.md`
 - **MD5**: `3545127f3d895bd06141f17a681e2c1f`
 - **Tamaño**: 299 bytes (8 líneas)
 - **Propósito**: Checklist ESPECÍFICO de backend
@@ -105,14 +105,14 @@ Estos archivos tienen el mismo nombre pero contenido diferente. Requieren revisi
 - **Tamaño**: 8,590 bytes (320 líneas)
 - **Propósito**: Documentación COMPLETA sobre devcontainers
 
-**Ubicación 2**: `docs/implementacion/infrastructure/devops/contenedores_devcontainer.md`
+**Ubicación 2**: `docs/infrastructure/devops/contenedores_devcontainer.md`
 - **MD5**: `fc4ad99a3387b70ebabeefbb14a59768`
 - **Tamaño**: 1,953 bytes (29 líneas)
 - **Propósito**: Stub/placeholder de documentación
 
 **Análisis**: Versión en docs/devops es 4.4x más grande y mucho más completa. La versión en implementacion/infrastructure parece ser un placeholder o resumen.
 
-**Recomendación**: WARNING ELIMINAR versión en implementacion/infrastructure/devops/ (es redundante). Mantener solo la versión completa en docs/devops/.
+**Recomendación**: WARNING ELIMINAR versión en infrastructure/devops/ (es redundante). Mantener solo la versión completa en docs/devops/.
 
 ---
 
@@ -123,7 +123,7 @@ Estos archivos tienen el mismo nombre pero contenido diferente. Requieren revisi
 - **Tamaño**: 9,526 bytes (428 líneas)
 - **Propósito**: Runbook completo
 
-**Ubicación 2**: `docs/implementacion/infrastructure/devops/runbooks/github_copilot_codespaces.md`
+**Ubicación 2**: `docs/infrastructure/devops/runbooks/github_copilot_codespaces.md`
 - **MD5**: `612a10506a3173e01210c73a951286f9`
 - **Tamaño**: 13,618 bytes (252 líneas)
 - **Propósito**: Runbook completo (¿versión diferente?)
@@ -141,7 +141,7 @@ Estos archivos tienen el mismo nombre pero contenido diferente. Requieren revisi
 - **Tamaño**: 11,041 bytes (453 líneas)
 - **Propósito**: Lineamientos GENERALES de código del proyecto
 
-**Ubicación 2**: `docs/implementacion/backend/arquitectura/lineamientos_codigo.md`
+**Ubicación 2**: `docs/backend/arquitectura/lineamientos_codigo.md`
 - **MD5**: `e13b8c5717cbe1841ce1e844cecd9646`
 - **Tamaño**: 618 bytes (20 líneas)
 - **Propósito**: Lineamientos ESPECÍFICOS de backend (stub)
@@ -159,7 +159,7 @@ Estos archivos tienen el mismo nombre pero contenido diferente. Requieren revisi
 - **Tamaño**: 358 bytes (13 líneas)
 - **Propósito**: Lineamientos generales
 
-**Ubicación 2**: `docs/implementacion/infrastructure/gobernanza/lineamientos_gobernanza.md`
+**Ubicación 2**: `docs/infrastructure/gobernanza/lineamientos_gobernanza.md`
 - **MD5**: `4cc25f2007ed1920d673dea85546ae08`
 - **Tamaño**: 417 bytes (13 líneas)
 - **Propósito**: Lineamientos de infrastructure
@@ -177,7 +177,7 @@ Estos archivos tienen el mismo nombre pero contenido diferente. Requieren revisi
 - **Tamaño**: 9,622 bytes (424 líneas)
 - **Propósito**: Runbook completo general
 
-**Ubicación 2**: `docs/implementacion/backend/devops/runbooks/reprocesar_etl_fallido.md`
+**Ubicación 2**: `docs/backend/devops/runbooks/reprocesar_etl_fallido.md`
 - **MD5**: `58e462ec839120c83f9644c909481e15`
 - **Tamaño**: 1,206 bytes (32 líneas)
 - **Propósito**: Runbook específico de backend (stub)
@@ -195,7 +195,7 @@ Estos archivos tienen el mismo nombre pero contenido diferente. Requieren revisi
 - **Tamaño**: 7,579 bytes (352 líneas)
 - **Propósito**: Runbook completo
 
-**Ubicación 2**: `docs/implementacion/infrastructure/devops/runbooks/verificar_servicios.md`
+**Ubicación 2**: `docs/infrastructure/devops/runbooks/verificar_servicios.md`
 - **MD5**: `78900708eccd59c14003b04f2f46996b`
 - **Tamaño**: 1,028 bytes (30 líneas)
 - **Propósito**: Stub
@@ -213,7 +213,7 @@ Estos archivos tienen el mismo nombre pero contenido diferente. Requieren revisi
 - **Tamaño**: 8,026 bytes (399 líneas)
 - **Propósito**: Runbook completo
 
-**Ubicación 2**: `docs/implementacion/infrastructure/devops/runbooks/post_create.md`
+**Ubicación 2**: `docs/infrastructure/devops/runbooks/post_create.md`
 - **MD5**: `837ac1fbd729eaad74e4499ab48228bc`
 - **Tamaño**: 1,033 bytes (29 líneas)
 - **Propósito**: Stub
@@ -231,7 +231,7 @@ Estos archivos tienen el mismo nombre pero contenido diferente. Requieren revisi
 - **Tamaño**: 7,596 bytes (260 líneas)
 - **Propósito**: ADR completo
 
-**Ubicación 2**: `docs/implementacion/infrastructure/arquitectura/adr/adr_2025_001_vagrant_mod_wsgi.md`
+**Ubicación 2**: `docs/infrastructure/arquitectura/adr/adr_2025_001_vagrant_mod_wsgi.md`
 - **MD5**: `f4edf7e92049505ac76b535d9671fef4`
 - **Tamaño**: 1,263 bytes (23 líneas)
 - **Propósito**: Stub/resumen
@@ -249,7 +249,7 @@ Estos archivos tienen el mismo nombre pero contenido diferente. Requieren revisi
 - **Tamaño**: 4,682 bytes (198 líneas)
 - **Propósito**: Plantilla completa
 
-**Ubicación 2**: `docs/implementacion/infrastructure/arquitectura/adr/plantilla_adr.md`
+**Ubicación 2**: `docs/infrastructure/arquitectura/adr/plantilla_adr.md`
 - **MD5**: `40f698d0ce480636689a983ff4171641`
 - **Tamaño**: 709 bytes (34 líneas)
 - **Propósito**: Plantilla simplificada
@@ -266,9 +266,9 @@ Estos archivos tienen el mismo nombre pero contenido diferente. Requieren revisi
 
 ```bash
 # Eliminar archivos 100% duplicados
-rm docs/implementacion/backend/checklists/checklist_testing.md
-rm docs/implementacion/backend/checklists/checklist_trazabilidad_requisitos.md
-rm docs/implementacion/infrastructure/checklists/checklist_cambios_documentales.md
+rm docs/backend/checklists/checklist_testing.md
+rm docs/backend/checklists/checklist_trazabilidad_requisitos.md
+rm docs/infrastructure/checklists/checklist_cambios_documentales.md
 ```
 
 **Justificación**: Estos archivos están en docs/checklists/ (general) y son idénticos a los movidos.
@@ -277,13 +277,13 @@ rm docs/implementacion/infrastructure/checklists/checklist_cambios_documentales.
 
 ```bash
 # Eliminar stubs que duplican documentación completa en docs/ raíz
-rm docs/implementacion/infrastructure/devops/contenedores_devcontainer.md
-rm docs/implementacion/backend/devops/runbooks/reprocesar_etl_fallido.md
-rm docs/implementacion/infrastructure/devops/runbooks/verificar_servicios.md
-rm docs/implementacion/infrastructure/devops/runbooks/post_create.md
-rm docs/implementacion/infrastructure/arquitectura/adr/adr_2025_001_vagrant_mod_wsgi.md
-rm docs/implementacion/infrastructure/arquitectura/adr/plantilla_adr.md
-rm docs/implementacion/backend/arquitectura/lineamientos_codigo.md  # opcional - puede expandirse
+rm docs/infrastructure/devops/contenedores_devcontainer.md
+rm docs/backend/devops/runbooks/reprocesar_etl_fallido.md
+rm docs/infrastructure/devops/runbooks/verificar_servicios.md
+rm docs/infrastructure/devops/runbooks/post_create.md
+rm docs/infrastructure/arquitectura/adr/adr_2025_001_vagrant_mod_wsgi.md
+rm docs/infrastructure/arquitectura/adr/plantilla_adr.md
+rm docs/backend/arquitectura/lineamientos_codigo.md  # opcional - puede expandirse
 ```
 
 **Justificación**: Estos son stubs/placeholders que duplican documentación más completa en docs/ raíz. Los runbooks, ADRs y lineamientos deberían estar centralizados.

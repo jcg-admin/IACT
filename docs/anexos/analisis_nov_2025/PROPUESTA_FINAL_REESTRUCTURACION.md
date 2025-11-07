@@ -131,7 +131,7 @@ IACT---project/
 
 ## FORMATO ESTÁNDAR (Frontmatter YAML)
 
-### Ejemplo: `implementacion/backend/requisitos/funcionales/rf001_api_calcular_stock.md`
+### Ejemplo: `backend/requisitos/funcionales/rf001_api_calcular_stock.md`
 
 ```yaml
 ---
@@ -250,7 +250,7 @@ mkdir -p implementacion/{backend,frontend,infrastructure}/requisitos/{necesidade
 mkdir -p docs/requisitos
 
 # Copiar plantillas
-cp docs/plantillas/template_*.md implementacion/backend/requisitos/
+cp docs/plantillas/template_*.md backend/requisitos/
 
 # Verificar workflows
 git add .github/workflows/requirements_index.yml
@@ -314,9 +314,9 @@ done
 
 ### FASE 4: Migrar Requisitos por Dominio (Semana 7-8)
 **Objetivos**:
-- [ ] Backend: Migrar de `docs/backend/requisitos/` → `implementacion/backend/requisitos/`
-- [ ] Frontend: Migrar de `docs/frontend/requisitos/` → `implementacion/frontend/requisitos/`
-- [ ] Infrastructure: Crear desde cero en `implementacion/infrastructure/requisitos/`
+- [ ] Backend: Migrar de `docs/backend/requisitos/` → `backend/requisitos/`
+- [ ] Frontend: Migrar de `docs/frontend/requisitos/` → `frontend/requisitos/`
+- [ ] Infrastructure: Crear desde cero en `infrastructure/requisitos/`
 
 **Checklist por requisito**:
 ```markdown
@@ -408,7 +408,7 @@ cd docs/02_requisitos/requisitos_solucion/funcionales/modulo_inventario/
 ls  # ... múltiples archivos ... 10-15 min buscando
 
 # AHORA (v4.0):
-cd implementacion/backend/requisitos/funcionales/
+cd backend/requisitos/funcionales/
 ls rf*_stock*.md
 # → rf001_api_calcular_stock.md
 # OK Encontrado en <30 segundos
@@ -438,7 +438,7 @@ grep "ISO/IEC/IEEE 29148:2018 - Clause 9.3" docs/requisitos/brs_business_require
 ### UC4: PM quiere agregar nueva necesidad
 ```bash
 # 1. Crear archivo
-cd implementacion/backend/requisitos/necesidades/
+cd backend/requisitos/necesidades/
 cp ../../../docs/plantillas/template_necesidad.md n002_optimizar_costos.md
 
 # 2. Editar

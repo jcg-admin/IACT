@@ -32,7 +32,7 @@ Por dominio:
 - **Owner**: equipo-ba
 - **Prioridad**: critica
 - **Estado**: aprobado
-- **Archivo**: `docs/implementacion/backend/requisitos/negocio/rn001_sistema_seguridad_auditoria_conforme_iso27001.md`
+- **Archivo**: `docs/backend/requisitos/negocio/rn001_sistema_seguridad_auditoria_conforme_iso27001.md`
 - **Trazabilidad Upward**: N-001
 - **Stakeholders**: ciso, compliance-officer, auditor-interno, legal
 

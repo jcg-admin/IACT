@@ -2,6 +2,9 @@
 
 from .base import *  # noqa: F401,F403
 
+# Usar modelo User estandar de Django para tests (no el dataclass custom)
+AUTH_USER_MODEL = "auth.User"
+
 PASSWORD_HASHERS = ["django.contrib.auth.hashers.MD5PasswordHasher"]
 EMAIL_BACKEND = "django.core.mail.backends.locmem.EmailBackend"
 

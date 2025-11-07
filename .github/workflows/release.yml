@@ -45,7 +45,7 @@ jobs:
 
           # Validate version format (vX.Y.Z)
           if ! [[ $VERSION =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-            echo "❌ Invalid version format: $VERSION"
+            echo "[FAIL] Invalid version format: $VERSION"
             echo "Expected format: vX.Y.Z (e.g., v1.2.3)"
             exit 1
           fi
@@ -54,7 +54,7 @@ jobs:
 
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "version_number=$VERSION_NUMBER" >> $GITHUB_OUTPUT
-          echo "✅ Version validated: $VERSION"
+          echo "[PASS] Version validated: $VERSION"
 
       - name: Check if release exists
         run: |
@@ -239,8 +239,8 @@ jobs:
       - name: Check overall status
         run: |
           if [ "${{ needs.create-github-release.result }}" != "success" ]; then
-            echo "❌ Release creation failed"
+            echo "[FAIL] Release creation failed"
             exit 1
           else
-            echo "✅ Release ${{ needs.validate-version.outputs.version }} created successfully"
+            echo "[PASS] Release ${{ needs.validate-version.outputs.version }} created successfully"
           fi

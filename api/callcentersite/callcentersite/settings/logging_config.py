@@ -1,6 +1,11 @@
 """
 Configuración profesional de logging para Django.
 Incluye soporte para múltiples handlers, formatters y niveles de log.
+
+TASK-010: Logging Estructurado JSON
+- Layer 2: Application logs to Cassandra (future)
+- JSON format para AI-parseable logs
+- Contexto enriquecido: request_id, user_id, session_id
 """
 
 import os
@@ -21,7 +26,18 @@ LOGGING_CONFIG: dict[str, Any] = {
         },
         "json": {
             "()": "pythonjsonlogger.jsonlogger.JsonFormatter",
-            "format": "%(asctime)s %(name)s %(levelname)s %(message)s %(pathname)s %(lineno)d",
+            "format": "%(asctime)s %(name)s %(levelname)s %(message)s %(pathname)s %(lineno)d %(funcName)s %(process)d %(thread)d %(request_id)s %(user_id)s %(session_id)s",
+            "rename_fields": {
+                "asctime": "timestamp",
+                "name": "logger",
+                "levelname": "level",
+                "pathname": "file",
+                "lineno": "line",
+                "funcName": "function",
+            },
+        },
+        "json_structured": {
+            "()": "callcentersite.logging.JSONStructuredFormatter",
         },
     },
     "filters": {
@@ -69,6 +85,22 @@ LOGGING_CONFIG: dict[str, Any] = {
             "backupCount": 10,
             "formatter": "verbose",
         },
+        "json_file": {
+            "level": "INFO",
+            "class": "logging.handlers.RotatingFileHandler",
+            "filename": os.path.join(os.getenv("LOG_DIR", "/var/log/iact"), "app.json.log"),
+            "maxBytes": 1024 * 1024 * 100,  # 100MB
+            "backupCount": 10,
+            "formatter": "json_structured",
+        },
+        "json_error_file": {
+            "level": "ERROR",
+            "class": "logging.handlers.RotatingFileHandler",
+            "filename": os.path.join(os.getenv("LOG_DIR", "/var/log/iact"), "app_errors.json.log"),
+            "maxBytes": 1024 * 1024 * 100,  # 100MB
+            "backupCount": 20,
+            "formatter": "json_structured",
+        },
         "mail_admins": {
             "level": "ERROR",
             "filters": ["require_debug_false"],
@@ -78,17 +110,17 @@ LOGGING_CONFIG: dict[str, Any] = {
     },
     "loggers": {
         "django": {
-            "handlers": ["console", "file", "error_file"],
+            "handlers": ["console", "file", "error_file", "json_file", "json_error_file"],
             "level": os.getenv("DJANGO_LOG_LEVEL", "INFO"),
             "propagate": False,
         },
         "django.request": {
-            "handlers": ["error_file", "mail_admins"],
+            "handlers": ["error_file", "json_error_file", "mail_admins"],
             "level": "ERROR",
             "propagate": False,
         },
         "django.security": {
-            "handlers": ["error_file"],
+            "handlers": ["error_file", "json_error_file"],
             "level": "WARNING",
             "propagate": False,
         },
@@ -98,22 +130,27 @@ LOGGING_CONFIG: dict[str, Any] = {
             "propagate": False,
         },
         "callcentersite": {
-            "handlers": ["console", "file", "error_file"],
+            "handlers": ["console", "file", "error_file", "json_file", "json_error_file"],
             "level": os.getenv("APP_LOG_LEVEL", "INFO"),
             "propagate": False,
         },
         "callcentersite.apps.etl": {
-            "handlers": ["console", "file"],
+            "handlers": ["console", "file", "json_file"],
             "level": "INFO",
             "propagate": False,
         },
         "callcentersite.apps.authentication": {
-            "handlers": ["console", "file", "error_file"],
+            "handlers": ["console", "file", "error_file", "json_file", "json_error_file"],
             "level": "INFO",
             "propagate": False,
         },
         "callcentersite.apps.audit": {
-            "handlers": ["console", "file"],
+            "handlers": ["console", "file", "json_file"],
+            "level": "INFO",
+            "propagate": False,
+        },
+        "dora_metrics": {
+            "handlers": ["console", "file", "json_file"],
             "level": "INFO",
             "propagate": False,
         },

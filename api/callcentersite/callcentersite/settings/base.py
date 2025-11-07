@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     "callcentersite.apps.reports",
     "callcentersite.apps.audit",
     "callcentersite.apps.dashboard",
+    "dora_metrics",
 ]
 
 MIDDLEWARE = [
@@ -76,6 +77,9 @@ WSGI_APPLICATION = "callcentersite.wsgi.application"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 AUTH_USER_MODEL = "users.User"
+
+# Session Configuration (RNF-002: NO Redis, use database)
+SESSION_ENGINE = "django.contrib.sessions.backends.db"
 
 DATABASES = {
     "default": {

@@ -1,0 +1,277 @@
+name: Documentation Validation
+
+on:
+  pull_request:
+    paths:
+      - 'docs/**'
+      - 'scripts/validar_estructura_docs.sh'
+      - '.github/workflows/docs-validation.yml'
+  push:
+    branches:
+      - main
+      - develop
+      - 'claude/**'
+    paths:
+      - 'docs/**'
+
+jobs:
+  validate-structure:
+    name: Validate Docs Structure
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Make validation script executable
+        run: chmod +x scripts/validar_estructura_docs.sh
+
+      - name: Run structure validation
+        run: |
+          echo "::group::Validating documentation structure"
+          ./scripts/validar_estructura_docs.sh
+          echo "::endgroup::"
+
+      - name: Check validation result
+        if: failure()
+        run: |
+          echo "::error::Documentation structure validation failed"
+          echo "Please review the errors above and fix them"
+          exit 1
+
+  check-old-references:
+    name: Check for Old Structure References
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Check for references to docs/implementacion/
+        run: |
+          echo "::group::Checking for old 'implementacion/' references"
+
+          # Find any references to old structure
+          if grep -r "docs/implementacion/" docs/ --include="*.md" > broken_refs.txt 2>/dev/null; then
+            echo "::error::Found references to old structure 'docs/implementacion/'"
+            echo "The following files contain references to the old structure:"
+            cat broken_refs.txt
+            echo ""
+            echo "Please update these references to use the new structure:"
+            echo "  - docs/implementacion/backend/  → docs/backend/"
+            echo "  - docs/implementacion/frontend/ → docs/frontend/"
+            echo "  - docs/implementacion/infrastructure/ → docs/infrastructure/"
+            exit 1
+          else
+            echo "[OK] No references to old structure found"
+          fi
+
+          echo "::endgroup::"
+
+      - name: Check for references to docs/infraestructura/
+        run: |
+          echo "::group::Checking for old 'infraestructura/' references"
+
+          # Find any references to old infraestructura (Spanish)
+          if grep -r "docs/infraestructura/" docs/ --include="*.md" > broken_refs2.txt 2>/dev/null; then
+            echo "::error::Found references to old structure 'docs/infraestructura/'"
+            echo "The following files contain references to the old structure:"
+            cat broken_refs2.txt
+            echo ""
+            echo "Please update these references to use: docs/infrastructure/"
+            exit 1
+          else
+            echo "[OK] No references to old 'infraestructura/' found"
+          fi
+
+          echo "::endgroup::"
+
+  check-markdown-links:
+    name: Check Markdown Links
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install markdown-link-check
+        run: npm install -g markdown-link-check
+
+      - name: Check internal links in critical docs
+        run: |
+          echo "::group::Checking internal links"
+
+          # Check critical documentation files
+          CRITICAL_DOCS=(
+            "docs/README.md"
+            "docs/backend/README.md"
+            "docs/frontend/README.md"
+            "docs/infrastructure/README.md"
+            "docs/anexos/analisis_nov_2025/RESUMEN_EJECUTIVO_REORGANIZACION.md"
+          )
+
+          ERROR_COUNT=0
+
+          for doc in "${CRITICAL_DOCS[@]}"; do
+            if [ -f "$doc" ]; then
+              echo "Checking: $doc"
+              if ! markdown-link-check "$doc" --config .github/markdown-link-check-config.json 2>/dev/null; then
+                echo "::warning::Broken links found in $doc"
+                ERROR_COUNT=$((ERROR_COUNT + 1))
+              fi
+            fi
+          done
+
+          if [ $ERROR_COUNT -gt 0 ]; then
+            echo "::warning::Found $ERROR_COUNT files with broken links"
+            echo "Please review and fix broken links"
+            # Don't fail the build for broken links, just warn
+          else
+            echo "[OK] All checked links are valid"
+          fi
+
+          echo "::endgroup::"
+        continue-on-error: true
+
+  validate-auto-generated-docs:
+    name: Validate Auto-Generated Docs
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Check auto-generated docs have proper metadata
+        run: |
+          echo "::group::Validating auto-generated documentation metadata"
+
+          ERROR_COUNT=0
+
+          # Find all docs marked as auto-generated
+          for doc in $(find docs/ -name "*.md" -type f); do
+            if grep -q "auto_generado: true" "$doc"; then
+              echo "Checking: $doc"
+
+              # Check for required metadata fields
+              if ! grep -q "^id: " "$doc"; then
+                echo "::error::Missing 'id' field in $doc"
+                ERROR_COUNT=$((ERROR_COUNT + 1))
+              fi
+
+              if ! grep -q "^tipo: " "$doc"; then
+                echo "::error::Missing 'tipo' field in $doc"
+                ERROR_COUNT=$((ERROR_COUNT + 1))
+              fi
+
+              if ! grep -q "^dominio: " "$doc"; then
+                echo "::error::Missing 'dominio' field in $doc"
+                ERROR_COUNT=$((ERROR_COUNT + 1))
+              fi
+
+              if ! grep -q "^fecha: " "$doc"; then
+                echo "::error::Missing 'fecha' field in $doc"
+                ERROR_COUNT=$((ERROR_COUNT + 1))
+              fi
+            fi
+          done
+
+          if [ $ERROR_COUNT -gt 0 ]; then
+            echo "::error::Found $ERROR_COUNT validation errors in auto-generated docs"
+            exit 1
+          else
+            echo "[OK] All auto-generated docs have proper metadata"
+          fi
+
+          echo "::endgroup::"
+
+  count-docs-stats:
+    name: Documentation Statistics
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Generate documentation statistics
+        run: |
+          echo "::group::Documentation Statistics"
+
+          echo "📊 Documentation Overview:"
+          echo "=========================="
+
+          TOTAL=$(find docs/ -name "*.md" -type f | wc -l)
+          BACKEND=$(find docs/backend/ -name "*.md" -type f 2>/dev/null | wc -l || echo 0)
+          FRONTEND=$(find docs/frontend/ -name "*.md" -type f 2>/dev/null | wc -l || echo 0)
+          INFRA=$(find docs/infrastructure/ -name "*.md" -type f 2>/dev/null | wc -l || echo 0)
+          AUTO_GEN=$(grep -r "auto_generado: true" docs/ --include="*.md" -l 2>/dev/null | wc -l || echo 0)
+
+          echo "Total .md files: $TOTAL"
+          echo "  - Backend: $BACKEND"
+          echo "  - Frontend: $FRONTEND"
+          echo "  - Infrastructure: $INFRA"
+          echo "  - Auto-generated: $AUTO_GEN"
+
+          echo ""
+          echo "📁 Structure validation:"
+
+          if [ -d "docs/backend" ]; then
+            echo "  [OK] docs/backend/ exists"
+          else
+            echo "  ✗ docs/backend/ missing"
+          fi
+
+          if [ -d "docs/frontend" ]; then
+            echo "  [OK] docs/frontend/ exists"
+          else
+            echo "  ✗ docs/frontend/ missing"
+          fi
+
+          if [ -d "docs/infrastructure" ]; then
+            echo "  [OK] docs/infrastructure/ exists"
+          else
+            echo "  ✗ docs/infrastructure/ missing"
+          fi
+
+          if [ -d "docs/implementacion" ]; then
+            echo "  ✗ docs/implementacion/ still exists (should be removed)"
+          else
+            echo "  [OK] docs/implementacion/ properly removed"
+          fi
+
+          echo "::endgroup::"
+
+          # Set output for use in PR comments
+          echo "total_docs=$TOTAL" >> $GITHUB_OUTPUT
+          echo "backend_docs=$BACKEND" >> $GITHUB_OUTPUT
+          echo "frontend_docs=$FRONTEND" >> $GITHUB_OUTPUT
+
+  summary:
+    name: Validation Summary
+    runs-on: ubuntu-latest
+    needs: [validate-structure, check-old-references, validate-auto-generated-docs, count-docs-stats]
+    if: always()
+
+    steps:
+      - name: Check overall status
+        run: |
+          echo "::group::Validation Summary"
+
+          if [ "${{ needs.validate-structure.result }}" == "success" ] && \
+             [ "${{ needs.check-old-references.result }}" == "success" ] && \
+             [ "${{ needs.validate-auto-generated-docs.result }}" == "success" ]; then
+            echo "[PASS] All documentation validation checks passed!"
+            echo ""
+            echo "Documentation structure is valid and consistent."
+          else
+            echo "[FAIL] Some documentation validation checks failed"
+            echo ""
+            echo "Results:"
+            echo "  - Structure validation: ${{ needs.validate-structure.result }}"
+            echo "  - Old references check: ${{ needs.check-old-references.result }}"
+            echo "  - Auto-generated docs: ${{ needs.validate-auto-generated-docs.result }}"
+            echo ""
+            echo "Please review the errors above and fix them before merging."
+            exit 1
+          fi
+
+          echo "::endgroup::"

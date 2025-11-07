@@ -91,7 +91,7 @@ IACT---project/
 
 | Tipo de Requisito | Ubicación | Owner |
 |-------------------|-----------|-------|
-| Necesidades de negocio (N-XXX) | `implementacion/backend/requisitos/necesidades/` | BA Lead + PMO |
+| Necesidades de negocio (N-XXX) | `backend/requisitos/necesidades/` | BA Lead + PMO |
 | Requisitos de negocio (RN-XXX) | `implementacion/{dominio}/requisitos/negocio/` | Cada equipo |
 | Requisitos stakeholders (RS-XXX) | `implementacion/{dominio}/requisitos/stakeholders/` | Cada equipo |
 | Requisitos funcionales (RF-XXX) | `implementacion/{dominio}/requisitos/funcionales/` | Cada equipo |
@@ -104,7 +104,7 @@ IACT---project/
 | ADRs | `docs/adr/` | Decisiones arquitecturales (consolidado) |
 | Specs | `docs/specs/` | Especificaciones técnicas detalladas |
 | Arquitectura | `docs/arquitectura/` | Guías y lineamientos de arquitectura |
-| Infraestructura | `docs/infraestructura/` | Documentación de infra (CPython, etc.) |
+| Infraestructura | `docs/infrastructure/` | Documentación de infra (CPython, etc.) |
 | Planes | `docs/plans/` | Planes de implementación generados |
 
 ### Estructura Archivada
@@ -140,7 +140,7 @@ IACT---project/
 
 ```bash
 # Ver requisitos funcionales de backend
-cd implementacion/backend/requisitos/funcionales/
+cd backend/requisitos/funcionales/
 
 # Ver decisiones arquitecturales
 cd docs/adr/
@@ -153,7 +153,7 @@ cd docs/specs/
 
 ```bash
 # Ver necesidades de negocio
-cd implementacion/backend/requisitos/necesidades/
+cd backend/requisitos/necesidades/
 
 # Ver requisitos de stakeholders
 cd implementacion/{backend,frontend,infrastructure}/requisitos/stakeholders/
@@ -176,7 +176,7 @@ cd docs/arquitectura/
 ### FASE 2-3: Migración de Contenido (Futuro)
 
 - [ ] Clasificar `docs_legacy/solicitudes/` → ¿Son Business Needs?
-- [ ] Migrar solicitudes a `implementacion/backend/requisitos/necesidades/`
+- [ ] Migrar solicitudes a `backend/requisitos/necesidades/`
 - [ ] Crear plantillas con frontmatter YAML
 - [ ] Implementar workflows CI/CD para generación de índices ISO 29148
 

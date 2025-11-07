@@ -253,7 +253,7 @@ gh release create cpython-3.12.6-build1 \
 - libbz2 1.0.8
 
 ### Instalación:
-Ver [documentación](https://github.com/2-Coatl/IACT---project/blob/main/docs/infraestructura/cpython_precompilado/README.md)
+Ver [documentación](https://github.com/2-Coatl/IACT---project/blob/main/docs/infrastructure/cpython_precompilado/README.md)
 
 ### Validación:
 SHA256: $(cat cpython-3.12.6-ubuntu22.04-build1.tgz.sha256)

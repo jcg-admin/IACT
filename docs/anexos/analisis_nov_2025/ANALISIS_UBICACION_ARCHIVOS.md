@@ -22,7 +22,7 @@ Según la estructura propuesta donde:
 
 **Acción**:
 - OK MANTENER: `docs/checklists/checklist_desarrollo.md`
-- NO ELIMINAR: `docs/implementacion/backend/checklists/checklist_desarrollo.md`
+- NO ELIMINAR: `docs/backend/checklists/checklist_desarrollo.md`
 
 ---
 
@@ -38,7 +38,7 @@ Según la estructura propuesta donde:
 
 **Acción**:
 - OK MANTENER: `docs/checklists/checklist_testing.md`
-- NO ELIMINAR: `docs/implementacion/backend/checklists/checklist_testing.md` (idéntico)
+- NO ELIMINAR: `docs/backend/checklists/checklist_testing.md` (idéntico)
 
 ---
 
@@ -54,7 +54,7 @@ Según la estructura propuesta donde:
 
 **Acción**:
 - OK MANTENER: `docs/checklists/checklist_trazabilidad_requisitos.md`
-- NO ELIMINAR: `docs/implementacion/backend/checklists/checklist_trazabilidad_requisitos.md` (idéntico)
+- NO ELIMINAR: `docs/backend/checklists/checklist_trazabilidad_requisitos.md` (idéntico)
 
 ---
 
@@ -70,7 +70,7 @@ Según la estructura propuesta donde:
 
 **Acción**:
 - OK MANTENER: `docs/checklists/checklist_cambios_documentales.md`
-- NO ELIMINAR: `docs/implementacion/infrastructure/checklists/checklist_cambios_documentales.md` (idéntico)
+- NO ELIMINAR: `docs/infrastructure/checklists/checklist_cambios_documentales.md` (idéntico)
 
 ---
 
@@ -88,7 +88,7 @@ Según la estructura propuesta donde:
 
 **Acción**:
 - OK MANTENER: `docs/devops/contenedores_devcontainer.md`
-- NO ELIMINAR: `docs/implementacion/infrastructure/devops/contenedores_devcontainer.md` (stub)
+- NO ELIMINAR: `docs/infrastructure/devops/contenedores_devcontainer.md` (stub)
 
 ---
 
@@ -107,7 +107,7 @@ Según la estructura propuesta donde:
 **Acción**:
 - REVISAR MANUALMENTE: Comparar ambas versiones para determinar cuál es más actual
 - Luego mantener solo una en `docs/devops/runbooks/`
-- Eliminar la versión en `docs/implementacion/infrastructure/`
+- Eliminar la versión en `docs/infrastructure/`
 
 ---
 
@@ -124,7 +124,7 @@ Según la estructura propuesta donde:
 
 **Acción**:
 - OK MANTENER: `docs/arquitectura/lineamientos_codigo.md`
-- WARNING OPCIONES para `docs/implementacion/backend/arquitectura/lineamientos_codigo.md`:
+- WARNING OPCIONES para `docs/backend/arquitectura/lineamientos_codigo.md`:
   - **Opción A**: Eliminar el stub
   - **Opción B**: Expandir con lineamientos ESPECÍFICOS de Django/Python (herencia del general)
 
@@ -176,9 +176,9 @@ Ver lineamientos base en: `docs/arquitectura/lineamientos_codigo.md`
 
 **Acción**:
 - OK MANTENER: `docs/devops/runbooks/reprocesar_etl_fallido.md`
-- NO ELIMINAR: `docs/implementacion/backend/devops/runbooks/reprocesar_etl_fallido.md` (stub)
+- NO ELIMINAR: `docs/backend/devops/runbooks/reprocesar_etl_fallido.md` (stub)
 
-**Nota**: Si el backend necesita documentación de diseño del ETL, eso va en `docs/implementacion/backend/diseno/` (no runbooks)
+**Nota**: Si el backend necesita documentación de diseño del ETL, eso va en `docs/backend/diseno/` (no runbooks)
 
 ---
 
@@ -195,7 +195,7 @@ Ver lineamientos base en: `docs/arquitectura/lineamientos_codigo.md`
 
 **Acción**:
 - OK MANTENER: `docs/devops/runbooks/verificar_servicios.md`
-- NO ELIMINAR: `docs/implementacion/infrastructure/devops/runbooks/verificar_servicios.md` (stub)
+- NO ELIMINAR: `docs/infrastructure/devops/runbooks/verificar_servicios.md` (stub)
 
 ---
 
@@ -212,7 +212,7 @@ Ver lineamientos base en: `docs/arquitectura/lineamientos_codigo.md`
 
 **Acción**:
 - OK MANTENER: `docs/devops/runbooks/post_create.md`
-- NO ELIMINAR: `docs/implementacion/infrastructure/devops/runbooks/post_create.md` (stub)
+- NO ELIMINAR: `docs/infrastructure/devops/runbooks/post_create.md` (stub)
 
 ---
 
@@ -230,7 +230,7 @@ Ver lineamientos base en: `docs/arquitectura/lineamientos_codigo.md`
 
 **Acción**:
 - OK MANTENER: `docs/arquitectura/adr/`
-- NO ELIMINAR: `docs/implementacion/infrastructure/arquitectura/adr/` (stub)
+- NO ELIMINAR: `docs/infrastructure/arquitectura/adr/` (stub)
 
 **Principio**: Un proyecto debe tener UNA ÚNICA fuente de ADRs
 
@@ -251,7 +251,7 @@ Ver lineamientos base en: `docs/arquitectura/lineamientos_codigo.md`
 
 **Acción**:
 - OK MANTENER: `docs/arquitectura/adr/plantilla_adr.md`
-- NO ELIMINAR: `docs/implementacion/infrastructure/arquitectura/adr/plantilla_adr.md` (simplificada)
+- NO ELIMINAR: `docs/infrastructure/arquitectura/adr/plantilla_adr.md` (simplificada)
 
 ---
 
@@ -304,20 +304,20 @@ Ver lineamientos base en: `docs/arquitectura/lineamientos_codigo.md`
 ### Eliminar inmediatamente (10 archivos):
 ```bash
 # Duplicados idénticos
-rm docs/implementacion/backend/checklists/checklist_testing.md
-rm docs/implementacion/backend/checklists/checklist_trazabilidad_requisitos.md
-rm docs/implementacion/infrastructure/checklists/checklist_cambios_documentales.md
+rm docs/backend/checklists/checklist_testing.md
+rm docs/backend/checklists/checklist_trazabilidad_requisitos.md
+rm docs/infrastructure/checklists/checklist_cambios_documentales.md
 
 # Stubs de backend
-rm docs/implementacion/backend/checklists/checklist_desarrollo.md
-rm docs/implementacion/backend/devops/runbooks/reprocesar_etl_fallido.md
+rm docs/backend/checklists/checklist_desarrollo.md
+rm docs/backend/devops/runbooks/reprocesar_etl_fallido.md
 
 # Stubs de infrastructure
-rm docs/implementacion/infrastructure/devops/contenedores_devcontainer.md
-rm docs/implementacion/infrastructure/devops/runbooks/verificar_servicios.md
-rm docs/implementacion/infrastructure/devops/runbooks/post_create.md
-rm docs/implementacion/infrastructure/arquitectura/adr/adr_2025_001_vagrant_mod_wsgi.md
-rm docs/implementacion/infrastructure/arquitectura/adr/plantilla_adr.md
+rm docs/infrastructure/devops/contenedores_devcontainer.md
+rm docs/infrastructure/devops/runbooks/verificar_servicios.md
+rm docs/infrastructure/devops/runbooks/post_create.md
+rm docs/infrastructure/arquitectura/adr/adr_2025_001_vagrant_mod_wsgi.md
+rm docs/infrastructure/arquitectura/adr/plantilla_adr.md
 ```
 
 ### Revisar manualmente (2 archivos):
@@ -325,6 +325,6 @@ rm docs/implementacion/infrastructure/arquitectura/adr/plantilla_adr.md
 2. Comparar `lineamientos_gobernanza.md` (contenido diferente)
 
 ### Considerar expandir (1 archivo):
-- `docs/implementacion/backend/arquitectura/lineamientos_codigo.md` 
+- `docs/backend/arquitectura/lineamientos_codigo.md` 
   → Expandir con lineamientos específicos de Django, o eliminar
 

@@ -61,4 +61,4 @@ features/nombre-feature/
 ## Referencias
 
 - ADR_008: Features vs Imagen Base
-- docs/infraestructura/cpython_precompilado/
+- docs/infrastructure/cpython_precompilado/
