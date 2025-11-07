@@ -1,5 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const fs = require('fs');
 
 module.exports = {
   entry: './src/index.jsx',
@@ -44,17 +45,33 @@ module.exports = {
   devServer: {
     static: {
       directory: path.join(__dirname, 'public'),
+      serveIndex: false,
+      watch: {
+        ignored: '*.txt',
+        usePolling: false,
+      },
     },
     compress: true,
     port: 3000,
     hot: true,
     historyApiFallback: true,
-    proxy: {
-      '/api': {
+    proxy: [
+      {
+        context: ['/api'],
         target: 'http://localhost:8000',
         changeOrigin: true,
+        pathRewrite: { '^/api': '' },
+        secure: false,
+      },
+    ],
+    setupExitSignals: true,
+    watchFiles: {
+      paths: ['src/**/*', 'public/**/*'],
+      options: {
+        usePolling: false,
       },
     },
+    webSocketServer: 'ws',
   },
   optimization: {
     splitChunks: {
