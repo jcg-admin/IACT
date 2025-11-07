@@ -103,6 +103,20 @@ docs/features/ai/TASK-033-predictive-analytics.md          @arquitecto-senior @t
 api/callcentersite/dora_metrics/auto_remediation.py        @arquitecto-senior @sre-lead
 docs/features/ai/TASK-034-auto-remediation-system.md       @arquitecto-senior @sre-lead
 
+# Performance Benchmarking (TASK-035)
+# Owner: Arquitecto Senior + DevOps Lead
+scripts/benchmarking/run_benchmarks.sh                     @arquitecto-senior @devops-lead
+docs/arquitectura/TASK-035-performance-benchmarking.md     @arquitecto-senior @devops-lead
+
+# Disaster Recovery (TASK-036)
+# Owner: SRE Lead + DevOps Lead
+scripts/disaster_recovery/*.sh                             @sre-lead @devops-lead
+docs/operaciones/TASK-036-disaster-recovery.md             @sre-lead @devops-lead
+
+# Production Readiness (TASK-038)
+# Owner: Tech Lead + SRE Lead
+docs/operaciones/TASK-038-production-readiness.md          @tech-lead @sre-lead
+
 # ============================================================================
 # DOCUMENTACIÓN AUTO-GENERADA
 # ============================================================================
