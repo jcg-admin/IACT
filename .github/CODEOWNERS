@@ -107,6 +107,9 @@ scripts/dora_metrics.py                      @devops-lead @arquitecto-senior
 # Scripts de requisitos
 scripts/requisitos/**                        @arquitecto-senior @product-owner
 
+# Scripts de logging (Cassandra centralized logging)
+scripts/logging/**                           @devops-lead @arquitecto-senior
+
 # ============================================================================
 # CONFIGURACIÓN DE DOCUMENTACIÓN
 # ============================================================================
@@ -120,6 +123,11 @@ docs/README.md                               @arquitecto-senior
 # Project Management
 # Owner: Arquitecto Senior + Tech Lead
 TODO.md                                      @arquitecto-senior @tech-lead
+
+# Analysis and Verification Reports
+# Owner: Arquitecto Senior
+VERIFICATION_REPORT.md                       @arquitecto-senior
+DOCS_LEGACY_ANALYSIS_REPORT.md               @arquitecto-senior
 
 # ============================================================================
 # CI/CD WORKFLOWS
