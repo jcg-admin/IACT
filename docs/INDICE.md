@@ -2,23 +2,23 @@
 id: DOC-INDICE-GENERAL
 tipo: indice
 categoria: documentacion
-version: 1.5.0
+version: 1.6.0
 fecha_creacion: 2025-11-06
 fecha_migracion: 2025-11-06
-fecha_actualizacion: 2025-11-06
+fecha_actualizacion: 2025-11-07
 propietario: equipo-gobernanza
-archivos_totales: 122
-lineas_totales: 37000
-relacionados: ["docs_legacy/README.md", "gobernanza/procesos/MAPEO_PROCESOS_TEMPLATES.md", ".claude/workflow_template_mapping.json", "gobernanza/ai/ESTRATEGIA_IA.md", "gobernanza/ai/FASES_IMPLEMENTACION_IA.md"]
+archivos_totales: 124
+lineas_totales: 37500
+relacionados: ["docs_legacy/README.md", "gobernanza/procesos/MAPEO_PROCESOS_TEMPLATES.md", ".claude/workflow_template_mapping.json", "gobernanza/ai/ESTRATEGIA_IA.md", "gobernanza/ai/FASES_IMPLEMENTACION_IA.md", "gobernanza/ai/ANALISIS_GAPS_POST_DORA_2025.md", "gobernanza/ai/GAPS_SUMMARY_QUICK_REF.md"]
 ---
 
 # INDICE GENERAL - Documentacion IACT
 
-**VERSION:** 1.5.0
+**VERSION:** 1.6.0
 **FECHA MIGRACION:** 2025-11-06
-**FECHA ACTUALIZACION:** 2025-11-06
-**ARCHIVOS TOTALES:** 122 (+2)
-**LINEAS TOTALES:** ~37,000 (+1,200)
+**FECHA ACTUALIZACION:** 2025-11-07
+**ARCHIVOS TOTALES:** 124 (+4)
+**LINEAS TOTALES:** ~37,500 (+1,700)
 **ESTRUCTURA:** BABOK v3 + PMBOK 7 + ISO/IEC/IEEE 29148:2018 + DORA 2025
 
 ---
@@ -33,13 +33,13 @@ Este indice documenta la estructura completa de documentacion del proyecto IACT 
 
 | Seccion | Descripcion | Archivos |
 |---------|-------------|----------|
-| [1. Gobernanza](#1-gobernanza) | Estilos, procesos, procedimientos, lineamientos, mapeos, AI | 39 |
+| [1. Gobernanza](#1-gobernanza) | Estilos, procesos, procedimientos, lineamientos, mapeos, AI | 41 |
 | [2. Proyecto](#2-proyecto) | Vision, tracking, planificacion, roadmap | 5 |
 | [3. Requisitos](#3-requisitos) | Analisis de negocio, Business Needs | 8 |
 | [4. Implementacion](#4-implementacion) | Infrastructure, agentes, runbooks | 13 |
 | [5. Plantillas](#5-plantillas) | Templates reutilizables | 34 |
 
-**Total:** 99 archivos de documentacion (+2)
+**Total:** 101 archivos de documentacion (+4)
 
 ---
 
@@ -258,7 +258,10 @@ Historico de ejecuciones de pytest y validaciones QA.
 | [ESTRATEGIA_IA.md](gobernanza/ai/ESTRATEGIA_IA.md) | Estrategia completa de IA basada en DORA 2025 - 7 practicas AI Capabilities, AI stance del proyecto, roadmap Q4 2025-Q2 2026 | CRITICA |
 | [AI_CAPABILITIES.md](gobernanza/ai/AI_CAPABILITIES.md) | Checklist diario de 7 practicas DORA - Para Developers (diario), Tech Leads (semanal), Arquitectos (mensual), QA (por feature) | ALTA |
 | [FASES_IMPLEMENTACION_IA.md](gobernanza/ai/FASES_IMPLEMENTACION_IA.md) | Metodologia tecnica 6 fases implementacion IA + Master Workflow Canvas - Planning, Gobierno, Plataforma, Despliegue, Medicion, Escalamiento (144 SP, Q2 2026) | CRITICA |
+| [ANALISIS_GAPS_POST_DORA_2025.md](gobernanza/ai/ANALISIS_GAPS_POST_DORA_2025.md) | Analisis detallado de gaps post-integracion DORA 2025 - Estado 5/7 practicas completas, 2/7 parciales, plan 29 SP para 100%, Q1 2026 | ALTA |
+| [GAPS_SUMMARY_QUICK_REF.md](gobernanza/ai/GAPS_SUMMARY_QUICK_REF.md) | Quick reference de gaps criticos y acciones - Sistema metrics (8 SP), Logging (3 SP), Data centralization (5 SP), Quick wins (3h total) | ALTA |
 | [DORA_SDLC_INTEGRATION_GUIDE.md](gobernanza/ai/DORA_SDLC_INTEGRATION_GUIDE.md) | Guia integracion DORA + SDLC Agents - Rastreo automatico metricas por fase, DORATrackedSDLCAgent, PDCA automation, GitHub sync | ALTA |
+| [DORA_CASSANDRA_INTEGRATION.md](gobernanza/ai/DORA_CASSANDRA_INTEGRATION.md) | Integracion 3 capas observabilidad - DORA (metrics proceso), SDLCAgent (ejecutor), Cassandra (logs runtime), separation of concerns | ALTA |
 
 **Practicas DORA AI Capabilities (7):**
 1. **User-centric Focus** - Templates, vision, trazabilidad (Implementado)
@@ -275,7 +278,10 @@ Historico de ejecuciones de pytest y validaciones QA.
 - **ESTRATEGIA_IA.md**: Consultar al inicio de proyecto y mensualmente para vision estrategica
 - **AI_CAPABILITIES.md**: Checklist diario para developers, semanal para tech leads
 - **FASES_IMPLEMENTACION_IA.md**: Roadmap tecnico de implementacion IA en 6 fases - Consultar al planificar sprints
+- **ANALISIS_GAPS_POST_DORA_2025.md**: Analisis completo de gaps post-DORA, estado 5/7 practicas (71%), plan 29 SP para 100% - Consultar al planificar roadmap Q1 2026
+- **GAPS_SUMMARY_QUICK_REF.md**: Quick reference de gaps criticos P0-P1, quick wins <3h total - Consultar diario/semanal para priorizar tareas
 - **DORA_SDLC_INTEGRATION_GUIDE.md**: Guia para integrar metricas DORA con agentes SDLC - Consultar al desarrollar agentes
+- **DORA_CASSANDRA_INTEGRATION.md**: Arquitectura 3 capas (DORA metrics + SDLCAgent + Cassandra logs), separation of concerns - Consultar al implementar observabilidad
 - **AI stance**: Define cuando usar/no usar IA en el proyecto
 
 **Ver tambien:**

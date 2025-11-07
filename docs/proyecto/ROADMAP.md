@@ -257,6 +257,15 @@ Transformar IACT en una plataforma robusta de gestion de call center con:
 
 **Fuente:** [DORA Report 2025](https://dora.dev/dora-report-2025)
 
+**Documentos de referencia:**
+- [ESTRATEGIA_IA.md](../gobernanza/ai/ESTRATEGIA_IA.md) - Estrategia completa IA basada en DORA 2025
+- [AI_CAPABILITIES.md](../gobernanza/ai/AI_CAPABILITIES.md) - Checklist diario 7 practicas DORA
+- [FASES_IMPLEMENTACION_IA.md](../gobernanza/ai/FASES_IMPLEMENTACION_IA.md) - Metodologia 6 fases (144 SP, Q2 2026)
+- [ANALISIS_GAPS_POST_DORA_2025.md](../gobernanza/ai/ANALISIS_GAPS_POST_DORA_2025.md) - Analisis detallado gaps (5/7 practicas, 29 SP para 100%)
+- [GAPS_SUMMARY_QUICK_REF.md](../gobernanza/ai/GAPS_SUMMARY_QUICK_REF.md) - Quick reference gaps criticos (P0-P1, quick wins <3h)
+- [DORA_SDLC_INTEGRATION_GUIDE.md](../gobernanza/ai/DORA_SDLC_INTEGRATION_GUIDE.md) - Guia integracion DORA + SDLC Agents
+- [DORA_CASSANDRA_INTEGRATION.md](../gobernanza/ai/DORA_CASSANDRA_INTEGRATION.md) - Arquitectura 3 capas observabilidad
+
 ---
 
 ## Hitos Criticos
