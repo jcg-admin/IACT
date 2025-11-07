@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     "callcentersite.apps.common",
     "callcentersite.apps.users",
     "callcentersite.apps.authentication",
+    "callcentersite.apps.permissions",
     "callcentersite.apps.notifications",
     "callcentersite.apps.analytics",
     "callcentersite.apps.ivr_legacy",
