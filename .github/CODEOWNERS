@@ -79,6 +79,10 @@ docs/proyecto/**                             @product-owner @arquitecto-senior
 docs/dora/**                                 @devops-lead @sre-lead
 docs/operaciones/**                          @devops-lead @sre-lead
 
+# Features y Funcionalidades
+# Owner: Tech Lead + Backend Lead
+docs/features/**                             @tech-lead @equipo-backend-lead
+
 # ============================================================================
 # DOCUMENTACIÓN AUTO-GENERADA
 # ============================================================================
