@@ -12,11 +12,14 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from django.utils import timezone
 from django.views.decorators.http import require_http_methods
+from rest_framework.decorators import throttle_classes
+from .throttling import BurstRateThrottle, SustainedRateThrottle
 
 from .models import DORAMetric
 
 
 @require_http_methods(["GET"])
+@throttle_classes([BurstRateThrottle, SustainedRateThrottle])
 def dora_metrics_summary(request):
     """GET /api/dora/metrics - Summary ultimos 30 dias."""
     days = int(request.GET.get("days", 30))
