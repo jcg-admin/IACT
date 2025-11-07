@@ -98,6 +98,11 @@ api/callcentersite/dora_metrics/tests_predictive_analytics.py @arquitecto-senior
 scripts/ml/retrain_deployment_risk_model.py                @arquitecto-senior @devops-lead
 docs/features/ai/TASK-033-predictive-analytics.md          @arquitecto-senior @tech-lead
 
+# Auto-remediation System (TASK-034)
+# Owner: Arquitecto Senior + SRE Lead
+api/callcentersite/dora_metrics/auto_remediation.py        @arquitecto-senior @sre-lead
+docs/features/ai/TASK-034-auto-remediation-system.md       @arquitecto-senior @sre-lead
+
 # ============================================================================
 # DOCUMENTACIÓN AUTO-GENERADA
 # ============================================================================

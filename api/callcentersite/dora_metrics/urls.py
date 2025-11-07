@@ -44,4 +44,9 @@ urlpatterns = [
     path("predict/model-stats/", views.predict_model_stats, name="predict-model-stats"),
     path("predict/retrain/", views.predict_retrain_model, name="predict-retrain"),
     path("predict/feature-importance/", views.predict_feature_importance, name="predict-feature-importance"),
+    # Auto-remediation (TASK-034)
+    path("remediation/problems/", views.remediation_problems, name="remediation-problems"),
+    path("remediation/propose-fix/", views.remediation_propose_fix, name="remediation-propose-fix"),
+    path("remediation/execute/", views.remediation_execute, name="remediation-execute"),
+    path("remediation/rollback/<str:execution_id>/", views.remediation_rollback, name="remediation-rollback"),
 ]

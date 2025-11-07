@@ -928,3 +928,54 @@ def predict_feature_importance(request):
             {"error": str(e)},
             status=400,
         )
+
+
+# ============================================================================
+# AUTO-REMEDIATION SYSTEM (TASK-034)
+# ============================================================================
+
+from .auto_remediation import ProblemDetector, RemediationEngine
+
+
+@require_http_methods(["GET"])
+@throttle_classes([BurstRateThrottle, SustainedRateThrottle])
+def remediation_problems(request):
+    """GET /api/dora/remediation/problems/ - Lista problemas detectados."""
+    problems = ProblemDetector.detect_all_problems()
+    return JsonResponse({"total_problems": len(problems), "problems": [p.to_dict() for p in problems]})
+
+
+@require_http_methods(["POST"])
+@throttle_classes([BurstRateThrottle, SustainedRateThrottle])
+def remediation_propose_fix(request):
+    """POST /api/dora/remediation/propose-fix/ - Proponer fix para problema."""
+    data = json.loads(request.body)
+    problems = ProblemDetector.detect_all_problems()
+    problem = next((p for p in problems if p.problem_type == data.get("problem_type")), None)
+    if not problem:
+        return JsonResponse({"error": "Problem not found"}, status=404)
+    plan = RemediationEngine.propose_fix(problem)
+    return JsonResponse({"plan": plan.to_dict()})
+
+
+@require_http_methods(["POST"])
+@throttle_classes([BurstRateThrottle, SustainedRateThrottle])
+def remediation_execute(request):
+    """POST /api/dora/remediation/execute/ - Ejecutar fix."""
+    data = json.loads(request.body)
+    problems = ProblemDetector.detect_all_problems()
+    problem = next((p for p in problems if p.problem_type == data.get("problem_type")), None)
+    if not problem:
+        return JsonResponse({"error": "Problem not found"}, status=404)
+    plan = RemediationEngine.propose_fix(problem)
+    approved_by = data.get("approved_by")
+    result = RemediationEngine.execute_fix(plan, approved_by=approved_by)
+    return JsonResponse(result)
+
+
+@require_http_methods(["POST"])
+@throttle_classes([BurstRateThrottle, SustainedRateThrottle])
+def remediation_rollback(request, execution_id):
+    """POST /api/dora/remediation/rollback/<id>/ - Rollback fix."""
+    result = RemediationEngine.rollback_fix(execution_id)
+    return JsonResponse(result)
