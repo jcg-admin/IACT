@@ -32,14 +32,23 @@ fi
 
 # Validar argumentos
 if [ $# -lt 1 ]; then
-    log_error "Uso: $0 <version> [build-number]"
+    log_error "Uso: $0 <version> [build-number] [--force]"
     log_error "Ejemplo: $0 3.12.6 1"
+    log_error "  --force: Sobrescribir artefacto existente sin preguntar"
     exit 1
 fi
 
 PYTHON_VERSION="$1"
 BUILD_NUMBER="${2:-${DEFAULT_BUILD_NUMBER:-1}}"
 DISTRO="${DISTRO:-ubuntu20.04}"
+FORCE_BUILD=0
+
+# Parsear argumentos opcionales
+for arg in "$@"; do
+    if [ "$arg" = "--force" ]; then
+        FORCE_BUILD=1
+    fi
+done
 
 # Validar formato de version usando utilidad
 if ! validate_python_version "$PYTHON_VERSION"; then
@@ -63,16 +72,17 @@ log_info "Distro: $DISTRO"
 log_info "Artefacto: $ARTIFACT_NAME"
 echo ""
 
-# Verificar que no existe artefacto previo
+# Verificar que no existe artefacto previo (idempotencia)
 if [ -f "$ARTIFACT_PATH" ]; then
-    log_warn "Artefacto ya existe: $ARTIFACT_PATH"
-    read -p "¿Sobrescribir? (y/N): " -n 1 -r
-    echo
-    if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-        log_info "Abortando compilacion"
-        exit 0
+    if [ $FORCE_BUILD -eq 1 ]; then
+        log_warn "Artefacto ya existe: $ARTIFACT_PATH (sobrescribiendo con --force)"
+        rm -f "$ARTIFACT_PATH" "$ARTIFACT_PATH.sha256"
+    else
+        log_error "Artefacto ya existe: $ARTIFACT_PATH"
+        log_error "Use --force para sobrescribir o elimine el artefacto manualmente"
+        log_error "O incremente el build-number: $0 $PYTHON_VERSION $((BUILD_NUMBER + 1))"
+        exit 1
     fi
-    rm -f "$ARTIFACT_PATH" "$ARTIFACT_PATH.sha256"
 fi
 
 # Crear directorios
@@ -89,23 +99,46 @@ log_info "Descargando codigo fuente de Python $PYTHON_VERSION..."
 cd "$BUILD_DIR"
 
 PYTHON_URL="${PYTHON_DOWNLOAD_BASE:-https://www.python.org/ftp/python}/$PYTHON_VERSION/Python-$PYTHON_VERSION.tgz"
+TARBALL="Python-$PYTHON_VERSION.tgz"
 
 if [ -d "$SOURCE_DIR" ]; then
-    log_warn "Directorio de codigo fuente ya existe, usando existente"
-else
+    log_warn "Directorio de codigo fuente ya existe"
+    if [ $FORCE_BUILD -eq 1 ]; then
+        log_warn "Eliminando directorio existente con --force"
+        rm -rf "$SOURCE_DIR" "$TARBALL"
+    else
+        log_info "Usando codigo fuente existente (use --force para re-descargar)"
+    fi
+fi
+
+if [ ! -d "$SOURCE_DIR" ]; then
     log_info "Descargando desde: $PYTHON_URL"
     if ! wget -q --show-progress "$PYTHON_URL"; then
         log_error "Fallo al descargar codigo fuente"
+        log_error "Verifique que la version $PYTHON_VERSION existe en python.org"
+        exit 1
+    fi
+
+    # Verificar que el tarball se descargo correctamente
+    if [ ! -f "$TARBALL" ] || [ ! -s "$TARBALL" ]; then
+        log_error "Tarball descargado esta vacio o no existe"
         exit 1
     fi
 
     log_info "Extrayendo codigo fuente..."
-    tar xzf "Python-$PYTHON_VERSION.tgz"
+    if ! tar xzf "$TARBALL"; then
+        log_error "Fallo al extraer tarball (posible archivo corrupto)"
+        rm -f "$TARBALL"
+        exit 1
+    fi
 
     if [ ! -d "$SOURCE_DIR" ]; then
         log_error "Directorio de codigo fuente no encontrado despues de extraccion"
+        log_error "Estructura inesperada en tarball"
         exit 1
     fi
+
+    log_success "Codigo fuente extraido correctamente"
 fi
 
 cd "$SOURCE_DIR"
@@ -148,6 +181,16 @@ if ! make -j"$(nproc)" 2>&1 | tee make.log; then
 fi
 
 log_success "Compilacion completada"
+
+# Limpiar instalacion anterior si existe (idempotencia)
+if [ -d "$INSTALL_PREFIX" ]; then
+    log_warn "Instalacion previa encontrada en $INSTALL_PREFIX, eliminando..."
+    if ! sudo rm -rf "$INSTALL_PREFIX"; then
+        log_error "Fallo al eliminar instalacion previa (permisos sudo requeridos)"
+        exit 1
+    fi
+    log_success "Instalacion previa eliminada"
+fi
 
 # Instalar
 log_info "Instalando en $INSTALL_PREFIX..."
@@ -225,7 +268,10 @@ log_success "Build info guardado en $INSTALL_PREFIX/.build-info"
 # Incluir LICENSE de Python (PSF)
 log_info "Copiando LICENSE de Python..."
 if [ -f "LICENSE" ]; then
-    sudo cp LICENSE "$INSTALL_PREFIX/LICENSE"
+    if ! sudo cp LICENSE "$INSTALL_PREFIX/LICENSE"; then
+        log_error "Fallo al copiar LICENSE (permisos sudo requeridos)"
+        exit 1
+    fi
     log_success "LICENSE copiado"
 else
     log_warn "LICENSE no encontrado en codigo fuente"
@@ -240,8 +286,19 @@ if ! sudo tar czf "$ARTIFACT_PATH" "python-$PYTHON_VERSION"; then
     exit 1
 fi
 
-# Ajustar permisos
-sudo chown vagrant:vagrant "$ARTIFACT_PATH" 2>/dev/null || chown "$(whoami):$(whoami)" "$ARTIFACT_PATH"
+# Ajustar permisos del artefacto
+if ! sudo chown vagrant:vagrant "$ARTIFACT_PATH" 2>/dev/null; then
+    # Fallback si no existe usuario vagrant
+    CURRENT_USER=$(whoami)
+    if ! chown "$CURRENT_USER:$CURRENT_USER" "$ARTIFACT_PATH" 2>/dev/null; then
+        log_warn "No se pudieron ajustar permisos del artefacto (puede requerir sudo)"
+    fi
+fi
+
+if [ ! -r "$ARTIFACT_PATH" ]; then
+    log_error "Artefacto creado pero no es legible"
+    exit 1
+fi
 
 ARTIFACT_SIZE=$(du -h "$ARTIFACT_PATH" | cut -f1)
 log_success "Artefacto creado: $ARTIFACT_PATH ($ARTIFACT_SIZE)"

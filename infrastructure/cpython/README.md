@@ -110,19 +110,26 @@ infrastructure/cpython/artifacts/
 
 **Sintaxis**:
 ```bash
-./scripts/build_cpython.sh <version> [build-number]
+./scripts/build_cpython.sh <version> [build-number] [--force]
 ```
 
 **Argumentos**:
 - `version`: Versión de Python (formato X.Y.Z, ejemplo: 3.12.6)
 - `build-number`: Número de build (opcional, default: 1)
+- `--force`: Sobrescribir artefacto existente sin preguntar
 
 **Ejemplos**:
 ```bash
 ./scripts/build_cpython.sh 3.12.6        # Build 1 de Python 3.12.6
 ./scripts/build_cpython.sh 3.12.6 2      # Build 2 (rebuild)
 ./scripts/build_cpython.sh 3.11.9        # Python 3.11.9
+./scripts/build_cpython.sh 3.12.6 1 --force  # Sobrescribir build existente
 ```
+
+**Características**:
+- **Idempotente**: Puede ejecutarse múltiples veces, detecta instalaciones previas
+- **Sin fallas silenciosas**: Todos los errores se reportan con códigos de salida
+- **Validación robusta**: Verifica descargas, extracciones, y compilaciones
 
 **Flags de compilación**:
 - `--enable-optimizations`: Profile-Guided Optimization (PGO)
@@ -160,6 +167,34 @@ infrastructure/cpython/artifacts/
 **Exit codes**:
 - 0: Validación exitosa
 - 1: Validación falló
+
+#### cleanup.sh
+
+**Propósito**: Limpiar entorno de compilación para rebuilds limpios (idempotencia)
+
+**Sintaxis**:
+```bash
+./scripts/cleanup.sh [--all|--build|--artifacts|--install]
+```
+
+**Opciones**:
+- Sin argumentos: Muestra estado actual del entorno
+- `--all`: Limpia todo (builds, instalaciones, artifacts)
+- `--build`: Limpia solo directorios de build temporales (`/tmp/cpython-build`)
+- `--install`: Limpia instalaciones en `/opt/python-*`
+- `--artifacts`: Limpia artifacts generados (`.tgz` y `.sha256`)
+
+**Ejemplos**:
+```bash
+./scripts/cleanup.sh               # Ver estado
+./scripts/cleanup.sh --build       # Limpiar builds temporales
+./scripts/cleanup.sh --all         # Limpieza completa
+```
+
+**Casos de uso**:
+- Antes de rebuild para asegurar ambiente limpio
+- Liberar espacio en disco
+- Troubleshooting de compilaciones fallidas
 
 ---
 

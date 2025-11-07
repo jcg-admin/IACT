@@ -23,10 +23,16 @@ update_system() {
     log_step 1 3 "Actualizando sistema"
 
     log_info "Actualizando lista de paquetes..."
-    apt-get update -qq
+    if ! apt-get update -qq; then
+        log_error "Fallo al actualizar lista de paquetes"
+        return 1
+    fi
 
     log_info "Actualizando paquetes del sistema..."
-    apt-get upgrade -y -qq
+    if ! apt-get upgrade -y -qq; then
+        log_error "Fallo al actualizar paquetes del sistema"
+        return 1
+    fi
 
     log_success "Sistema actualizado"
 }
@@ -37,7 +43,8 @@ install_build_dependencies() {
     log_info "Instalando toolchain de compilacion..."
 
     # Dependencias segun: https://devguide.python.org/getting-started/setup-building/
-    apt-get install -y -q \
+    # Usar DEBIAN_FRONTEND=noninteractive para evitar prompts interactivos
+    if ! DEBIAN_FRONTEND=noninteractive apt-get install -y -q \
       build-essential \
       gdb \
       lcov \
@@ -58,20 +65,27 @@ install_build_dependencies() {
       zlib1g-dev \
       wget \
       curl \
-      ca-certificates
+      ca-certificates; then
+        log_error "Fallo al instalar dependencias de compilacion"
+        log_error "Verifique conectividad de red y repositorios APT"
+        return 1
+    fi
 
     log_success "Dependencias de compilacion instaladas"
 
     log_info "Versiones de librerias criticas:"
     dpkg -l | grep -E "libssl-dev|libsqlite3-dev|liblzma-dev|libbz2-dev|libffi-dev" | \
-      awk '{print "  " $2 ": " $3}'
+      awk '{print "  " $2 ": " $3}' || log_warn "No se pudieron listar versiones de librerias"
 }
 
 install_additional_tools() {
     log_step 3 3 "Instalando herramientas adicionales"
 
     log_info "Instalando git, vim, htop..."
-    apt-get install -y -qq git vim htop
+    if ! DEBIAN_FRONTEND=noninteractive apt-get install -y -qq git vim htop; then
+        log_error "Fallo al instalar herramientas adicionales"
+        return 1
+    fi
 
     log_success "Herramientas adicionales instaladas"
 }
@@ -114,10 +128,28 @@ verify_installation() {
 setup_directories() {
     log_info "Configurando directorios..."
 
-    mkdir -p "$PROJECT_ROOT/logs"
-    mkdir -p "$PROJECT_ROOT/artifacts/cpython"
+    if ! mkdir -p "$PROJECT_ROOT/logs"; then
+        log_error "Fallo al crear directorio de logs"
+        return 1
+    fi
 
-    log_success "Directorios configurados"
+    if ! mkdir -p "$PROJECT_ROOT/artifacts/cpython"; then
+        log_error "Fallo al crear directorio de artifacts"
+        return 1
+    fi
+
+    # Verificar que directorios son escribibles
+    if [ ! -w "$PROJECT_ROOT/logs" ]; then
+        log_error "Directorio de logs no es escribible"
+        return 1
+    fi
+
+    if [ ! -w "$PROJECT_ROOT/artifacts/cpython" ]; then
+        log_error "Directorio de artifacts no es escribible"
+        return 1
+    fi
+
+    log_success "Directorios configurados y verificados"
 }
 
 display_summary() {
