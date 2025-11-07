@@ -41,6 +41,7 @@ docs/infrastructure/cpython_precompilado/**  @devops-lead
 # Arquitectura Transversal
 # Owner: Arquitecto Senior
 docs/arquitectura/**                         @arquitecto-senior
+docs/arquitectura/STORAGE_ARCHITECTURE.md    @arquitecto-senior @devops-lead
 docs/adr/**                                  @arquitecto-senior
 
 # Requisitos de Negocio
