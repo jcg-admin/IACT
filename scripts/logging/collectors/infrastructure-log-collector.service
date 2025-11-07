@@ -1,0 +1,29 @@
+[Unit]
+Description=IACT Infrastructure Log Collector Daemon
+Documentation=https://github.com/2-Coatl/IACT---project
+After=network.target cassandra.service
+
+[Service]
+Type=simple
+User=iact
+Group=iact
+WorkingDirectory=/home/user/IACT---project
+Environment="PYTHONUNBUFFERED=1"
+Environment="CASSANDRA_HOSTS=127.0.0.1"
+Environment="CASSANDRA_PORT=9042"
+Environment="LOG_LEVEL=INFO"
+ExecStart=/usr/bin/python3 /home/user/IACT---project/scripts/logging/collectors/infrastructure_log_collector.py --daemon
+Restart=always
+RestartSec=10s
+StandardOutput=append:/var/log/iact/infrastructure_collector.log
+StandardError=append:/var/log/iact/infrastructure_collector_error.log
+
+# Security
+PrivateTmp=true
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/log/iact
+
+[Install]
+WantedBy=multi-user.target
