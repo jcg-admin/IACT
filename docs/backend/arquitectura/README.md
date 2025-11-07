@@ -1,55 +1,31 @@
----
-id: DOC-ARQ-BACKEND
-estado: borrador
-propietario: equipo-backend
-ultima_actualizacion: 2025-02-18
-relacionados: ["ADR-2025-001", "DOC-REQ-INDEX", "DOC-DIS-BACKEND"]
----
-# Arquitectura del backend
+# Arquitectura del Backend IACT
 
-Agrupa decisiones técnicas, diagramas y lineamientos de código que sostienen el monolito modular del backend. Este espacio conecta
-los acuerdos de negocio con documentación formal como ADR, modelos de despliegue y convenciones de desarrollo.
+**Proposito**: Documentacion de arquitectura de software del backend Django
+**Ultima actualizacion**: 2025-11-07
 
-## Página padre
-- [`../README.md`](../README.md)
+## Contenido
 
-## Páginas hijas
-- [`lineamientos_codigo.md`](lineamientos_codigo.md)
-- [`patrones_arquitectonicos.md`](patrones_arquitectonicos.md) ⭐ NUEVO
-- [`guia_decision_patrones.md`](guia_decision_patrones.md) ⭐ NUEVO
-- [`../../infrastructure/arquitectura/adr/`](../../infrastructure/arquitectura/adr/)
+- Decisiones de Arquitectura (ADRs)
+- Diagramas de arquitectura
+- Patrones de diseño
+- HLD y LLD por modulo
+- Database schema y ERDs
 
-## Información clave
-### Rol dentro del flujo de documentación
-- **Dependencias y relaciones.** Evalúa el impacto técnico de acuerdos capturados en minutas y requisitos priorizados.
-- **Material complementario.** Hospeda diagramas, lineamientos reutilizables y enlaza con los ADR gestionados por Infraestructura.
-- **Checklists técnicos.** Garantiza el cumplimiento de estándares antes de liberar diseños y desarrollos.
+## Principios IACT
 
-### Artefactos obligatorios
-- Lineamientos de código del backend (`lineamientos_codigo.md`).
-- Patrones arquitectónicos (`patrones_arquitectonicos.md`) ⭐ NUEVO.
-- Guía de decisión de patrones (`guia_decision_patrones.md`) ⭐ NUEVO.
-- ADR vigentes (`../../infrastructure/arquitectura/adr/`).
-- Inventario de diagramas y topologías (pendiente, referenciar `../../plantillas/plantilla_sad.md`).
+1. Separacion de concerns
+2. Testabilidad (>= 80% coverage)
+3. Mantenibilidad
+4. Escalabilidad horizontal
+5. Seguridad (OWASP Top 10)
 
-## Estado de cumplimiento
-| Elemento en la base maestra | ¿Existe en repositorio? | Observaciones |
-| --- | --- | --- |
-| Portada del espacio de arquitectura | Sí | Este archivo replica la estructura y metadatos corporativos adaptados al backend. |
-| Lineamientos de codificación actualizados | Sí | Documentados en [`lineamientos_codigo.md`](lineamientos_codigo.md). |
-| Patrones arquitectónicos documentados | Sí | Documentados en [`patrones_arquitectonicos.md`](patrones_arquitectonicos.md). 6 patrones identificados con ejemplos reales. |
-| Guía de decisión de patrones | Sí | Documentada en [`guia_decision_patrones.md`](guia_decision_patrones.md). Decision tree y ejemplos prácticos. |
-| Registro de ADR vigente | Parcial | Carpeta [`../../infrastructure/arquitectura/adr/`](../../infrastructure/arquitectura/adr/) gestionada por Infraestructura. |
-| Inventario de diagramas/topologías | No | Debe construirse siguiendo la plantilla SAD. |
+## Restricciones Criticas
 
-## Integración con el flujo documental principal
-- Recibe restricciones desde [`../../vision_y_alcance/README.md`](../../vision_y_alcance/README.md).
-- Alinea decisiones con la priorización de [`../requisitos/README.md`](../requisitos/README.md).
-- Provee insumos a [`../diseno_detallado/README.md`](../diseno_detallado/README.md) y coordina despliegues con [`../../infrastructure/devops/README.md`](../../infrastructure/devops/README.md).
+- RNF-002: NO Redis (sesiones en MySQL)
+- Multi-database: MySQL + PostgreSQL + Cassandra
+- NO emojis/iconos en codigo
 
-## Acciones prioritarias
-- [ ] WKF-SDLC-130 – Crear repositorio de diagramas _(Pendiente; seguir formato documentado en el flujo)_.
-- [x] WKF-SDLC-131 – Documentar arquitectura actual del monolito _(Completado; ver patrones_arquitectonicos.md)_.
-- [x] Documentar patrones arquitectónicos existentes _(Completado 2025-11-04; 6 patrones identificados)_.
-- [x] Crear guía de decisión de patrones _(Completado 2025-11-04; decision tree y ejemplos)_.
-- [ ] WKF-SDLC-132 – Definir criterios de revisión técnica _(Pendiente; coordinar con Gobernanza)_.
+## Ownership
+
+Maintainer: Arquitecto Senior
+Review: Tech Lead + Arquitecto

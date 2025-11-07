@@ -1,265 +1,82 @@
-# CODEOWNERS - Ownership y Revisión de Documentación
-#
-# Este archivo define los owners por área de documentación.
-# Los owners son automáticamente solicitados para review en PRs que modifican sus áreas.
-#
-# Formato: <path pattern> <@github-username> <@github-team>
-# Documentación: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+# CODEOWNERS - Define ownership de codigo y documentacion
+# Ver: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
 
-# ============================================================================
-# DOCUMENTACIÓN TÉCNICA
-# ============================================================================
+# Global owners (fallback para archivos sin owner especifico)
+* @tech-lead
 
-# Documentación Backend
-# Owner: Equipo Backend Lead + Arquitecto Senior
-docs/backend/**                              @equipo-backend-lead @arquitecto-senior
-docs/backend/requisitos/**                   @product-owner @equipo-backend-lead
-docs/backend/arquitectura/**                 @arquitecto-senior
-docs/backend/diseno/**                       @arquitecto-senior @equipo-backend-lead
-docs/backend/devops/**                       @devops-lead
-docs/backend/qa/**                           @qa-lead
+# === BACKEND ===
+/api/ @backend-lead @tech-lead
+/api/apps/ @backend-lead
+/api/settings/ @backend-lead @arquitecto-senior
+/api/tests/ @qa-lead @backend-lead
 
-# Documentación Frontend
-# Owner: Equipo Frontend Lead
-docs/frontend/**                             @equipo-frontend-lead @arquitecto-senior
-docs/frontend/requisitos/**                  @product-owner @equipo-frontend-lead
-docs/frontend/arquitectura/**                @arquitecto-senior @equipo-frontend-lead
-docs/frontend/devops/**                      @devops-lead
-docs/frontend/qa/**                          @qa-lead
+# === FRONTEND ===
+/frontend/ @frontend-lead @tech-lead
+/frontend/src/components/ @frontend-lead
+/frontend/src/pages/ @frontend-lead
+/frontend/tests/ @qa-lead @frontend-lead
 
-# Documentación Infrastructure
-# Owner: DevOps Lead
-docs/infrastructure/**                       @devops-lead @arquitecto-senior
-docs/infrastructure/requisitos/**            @product-owner @devops-lead
-docs/infrastructure/devops/**                @devops-lead
-docs/infrastructure/cpython_precompilado/**  @devops-lead
+# === INFRASTRUCTURE ===
+/infrastructure/ @devops-lead @tech-lead
+/infrastructure/cpython/ @devops-lead
+/infrastructure/devcontainer/ @devops-lead
+/infrastructure/vagrant/ @devops-lead
 
-# ============================================================================
-# DOCUMENTACIÓN TRANSVERSAL
-# ============================================================================
+# === SCRIPTS ===
+/scripts/ @devops-lead @tech-lead
+/scripts/ai/ @arquitecto-senior @tech-lead
+/scripts/ai/agents/ @arquitecto-senior
+/scripts/ci/ @devops-lead @qa-lead
+/scripts/requisitos/ @arquitecto-senior @product-owner
 
-# Arquitectura Transversal
-# Owner: Arquitecto Senior
-docs/arquitectura/**                         @arquitecto-senior
-docs/arquitectura/STORAGE_ARCHITECTURE.md    @arquitecto-senior @devops-lead
-docs/adr/**                                  @arquitecto-senior
+# === DOCUMENTATION ===
+/docs/ @doc-lead @tech-lead
+/docs/arquitectura/ @arquitecto-senior
+/docs/backend/ @backend-lead @arquitecto-senior
+/docs/backend/requisitos/ @arquitecto-senior @product-owner
+/docs/backend/devops/ @devops-lead
+/docs/backend/diseno/ @arquitecto-senior
+/docs/backend/testing/ @qa-lead
+/docs/backend/deployment/ @devops-lead
+/docs/backend/gobernanza/ @tech-lead @product-owner
+/docs/adr/ @arquitecto-senior @tech-lead
+/docs/guias/ @doc-lead
+/docs/specs/ @arquitecto-senior @product-owner
+/docs/plantillas/ @doc-lead @arquitecto-senior
 
-# Requisitos de Negocio
-# Owner: Product Owner + Arquitecto Senior
-docs/requisitos/**                           @product-owner @arquitecto-senior
-docs/vision_y_alcance/**                     @product-owner @arquitecto-senior
+# === CI/CD ===
+/.github/workflows/ @devops-lead @tech-lead
+/.github/workflows/backend-ci.yml @devops-lead @backend-lead
+/.github/workflows/frontend-ci.yml @devops-lead @frontend-lead
+/.github/workflows/security-scan.yml @devops-lead @security-lead
+/.github/workflows/deploy.yml @devops-lead @tech-lead
 
-# Guias Operativas
-# Owner: Doc Lead + Arquitecto Senior
-docs/guias/**                                @doc-lead @arquitecto-senior
-docs/guias/onboarding/**                     @doc-lead @tech-lead
-docs/guias/workflows/**                      @tech-lead @devops-lead
-docs/guias/testing/**                        @qa-lead @tech-lead
-docs/guias/deployment/**                     @devops-lead @tech-lead
-docs/guias/troubleshooting/**                @tech-lead @devops-lead
-docs/plantillas/guia-template.md             @doc-lead @arquitecto-senior
+# === CONFIGURATION ===
+/.env.example @devops-lead
+/docker-compose.yml @devops-lead
+/Makefile @devops-lead @tech-lead
 
-# Gobernanza y Procesos
-# Owner: Arquitecto Senior + Tech Lead
-docs/gobernanza/**                           @arquitecto-senior @tech-lead
-docs/gobernanza/metodologias/**              @arquitecto-senior @tech-lead
-docs/gobernanza/marco_integrado/**           @arquitecto-senior @tech-lead
-docs/gobernanza/agentes/**                   @arquitecto-senior @tech-lead
-docs/gobernanza/ai/**                        @arquitecto-senior @tech-lead
+# === REQUISITOS ===
+/docs/requisitos/ @arquitecto-senior @product-owner
+/docs/requisitos/funcionales/ @product-owner
+/docs/requisitos/no_funcionales/ @arquitecto-senior @tech-lead
 
-# SDLC Outputs (issues, plans, reports auto-generados)
-# Owner: Arquitecto Senior
-docs/sdlc_outputs/**                         @arquitecto-senior
+# === GOVERNANCE ===
+/docs/gobernanza/ @tech-lead @product-owner
+/docs/gobernanza/procesos/ @tech-lead
+/docs/gobernanza/ci_cd/ @devops-lead
 
-# Plantillas y Estándares
-# Owner: Arquitecto Senior
-docs/plantillas/**                           @arquitecto-senior
+# === TESTING ===
+/tests/ @qa-lead
+**/tests/ @qa-lead
 
-# Testing y QA
-# Owner: QA Lead
-docs/testing/**                              @qa-lead @arquitecto-senior
-docs/qa/**                                   @qa-lead @arquitecto-senior
+# === SECURITY ===
+/.github/workflows/security-scan.yml @security-lead @devops-lead
+/scripts/validate_security_config.sh @security-lead
+/scripts/validate_critical_restrictions.sh @arquitecto-senior @security-lead
 
-# Proyecto y Vision
-# Owner: Product Owner + Arquitecto Senior
-docs/proyecto/**                             @product-owner @arquitecto-senior
-
-# DORA Metrics y Operaciones
-# Owner: DevOps Lead + SRE Lead
-docs/dora/**                                 @devops-lead @sre-lead
-docs/operaciones/**                          @devops-lead @sre-lead
-
-# Features y Funcionalidades
-# Owner: Tech Lead + Backend Lead
-docs/features/**                             @tech-lead @equipo-backend-lead
-
-# AI Telemetry System (TASK-024)
-# Owner: Arquitecto Senior + Tech Lead
-api/callcentersite/dora_metrics/ai_telemetry.py       @arquitecto-senior @tech-lead
-api/callcentersite/dora_metrics/tests_ai_telemetry.py @arquitecto-senior @qa-lead
-api/callcentersite/dora_metrics/migrations/0003_aitelemetry.py @arquitecto-senior @devops-lead
-docs/gobernanza/ai/TASK-024-ai-telemetry-system.md    @arquitecto-senior @tech-lead
-
-# Predictive Analytics (TASK-033)
-# Owner: Arquitecto Senior + Tech Lead
-api/callcentersite/dora_metrics/ml_features.py             @arquitecto-senior @tech-lead
-api/callcentersite/dora_metrics/ml_models.py               @arquitecto-senior @tech-lead
-api/callcentersite/dora_metrics/tests_predictive_analytics.py @arquitecto-senior @qa-lead
-scripts/ml/retrain_deployment_risk_model.py                @arquitecto-senior @devops-lead
-docs/features/ai/TASK-033-predictive-analytics.md          @arquitecto-senior @tech-lead
-
-# Auto-remediation System (TASK-034)
-# Owner: Arquitecto Senior + SRE Lead
-api/callcentersite/dora_metrics/auto_remediation.py        @arquitecto-senior @sre-lead
-docs/features/ai/TASK-034-auto-remediation-system.md       @arquitecto-senior @sre-lead
-
-# Performance Benchmarking (TASK-035)
-# Owner: Arquitecto Senior + DevOps Lead
-scripts/benchmarking/run_benchmarks.sh                     @arquitecto-senior @devops-lead
-docs/arquitectura/TASK-035-performance-benchmarking.md     @arquitecto-senior @devops-lead
-
-# Disaster Recovery (TASK-036)
-# Owner: SRE Lead + DevOps Lead
-scripts/disaster_recovery/*.sh                             @sre-lead @devops-lead
-docs/operaciones/TASK-036-disaster-recovery.md             @sre-lead @devops-lead
-
-# Production Readiness (TASK-038)
-# Owner: Tech Lead + SRE Lead
-docs/operaciones/TASK-038-production-readiness.md          @tech-lead @sre-lead
-
-# ============================================================================
-# DOCUMENTACIÓN AUTO-GENERADA
-# ============================================================================
-
-# Docs auto-generados requieren revisión especial
-# Verificar que info auto-generada es correcta y completa
-docs/**/arquitectura/*.md                    @arquitecto-senior
-
-# ============================================================================
-# ANÁLISIS Y REPORTES
-# ============================================================================
-
-# Análisis y reportes de documentación
-docs/anexos/**                               @arquitecto-senior
-docs/specs/**                                @arquitecto-senior @product-owner
-
-# ============================================================================
-# SCRIPTS DE AUTOMATIZACIÓN
-# ============================================================================
-
-# Scripts SDLC Core
-scripts/sdlc_agent.py                        @tech-lead @arquitecto-senior
-scripts/ai/agents/sdlc_orchestrator.py       @tech-lead @arquitecto-senior
-scripts/ai/agents/sdlc_planner.py            @tech-lead @arquitecto-senior
-scripts/ai/agents/sdlc_feasibility.py        @arquitecto-senior @tech-lead
-scripts/ai/agents/sdlc_design.py             @arquitecto-senior @tech-lead
-scripts/ai/agents/sdlc_testing.py            @qa-lead @tech-lead
-scripts/ai/agents/sdlc_deployment.py         @devops-lead @tech-lead
-scripts/ai/agents/sdlc_base.py               @arquitecto-senior @tech-lead
-
-# Scripts de agentes AI
-scripts/ai/agents/**                         @tech-lead @ai-lead
-
-# Scripts de documentación y sincronización
-scripts/sync_documentation.py                @arquitecto-senior @devops-lead
-scripts/reorganizar_docs_por_dominio.sh      @arquitecto-senior @devops-lead
-scripts/validar_estructura_docs.sh           @arquitecto-senior @devops-lead
-scripts/generate_guides.py                   @doc-lead @arquitecto-senior
-scripts/ai/agents/documentation_sync_agent.py @arquitecto-senior
-
-# Scripts de metricas DORA
-scripts/dora_metrics.py                      @devops-lead @tech-lead
-scripts/generate_dora_report.sh              @devops-lead @tech-lead
-scripts/ai/agents/dora_sdlc_integration.py   @devops-lead @tech-lead
-
-# Scripts de CI/CD
-scripts/ci/**                                @devops-lead @tech-lead
-scripts/deploy.sh                            @devops-lead @sre-lead
-scripts/health_check.sh                      @devops-lead @sre-lead
-scripts/run_all_tests.sh                     @qa-lead @tech-lead
-scripts/run_integration_tests.sh             @qa-lead @tech-lead
-
-# Scripts de requisitos
-scripts/requisitos/**                        @arquitecto-senior @product-owner
-
-# Scripts de disaster recovery
-scripts/disaster_recovery/**                 @devops-lead @dba-lead
-
-# Scripts de base de datos
-scripts/cassandra/**                         @dba-lead @devops-lead
-scripts/validate_database_router.sh          @dba-lead @arquitecto-senior
-
-# Scripts de validacion
-scripts/validate_critical_restrictions.sh    @arquitecto-senior @tech-lead
-scripts/validate_security_config.sh          @devops-lead @arquitecto-senior
-scripts/check_no_emojis.py                   @tech-lead
-
-# Scripts de logging (Cassandra centralized logging)
-scripts/logging/**                           @devops-lead @arquitecto-senior
-
-# Scripts de testing
-scripts/ai/agents/test_runner.py             @qa-lead @tech-lead
-scripts/ai/run_test_generation.sh            @qa-lead @tech-lead
-
-# Scripts de utilities
-scripts/cleanup_sessions.sh                  @backend-lead
-scripts/cleanup_branches.sh                  @tech-lead
-scripts/install_hooks.sh                     @tech-lead
-scripts/complete_sync.sh                     @tech-lead
-
-# Templates de scripts
-scripts/templates/**                         @tech-lead @arquitecto-senior
-
-# Documentacion de scripts
-docs/scripts/**                              @doc-lead @tech-lead
-
-# ============================================================================
-# CONFIGURACIÓN DE DOCUMENTACIÓN
-# ============================================================================
-
-# MkDocs y configuración de documentación
-docs/mkdocs.yml                              @arquitecto-senior @tech-lead
-docs/requirements.txt                        @devops-lead
-docs/index.md                                @arquitecto-senior
-docs/README.md                               @arquitecto-senior
-
-# Project Management
-# Owner: Arquitecto Senior + Tech Lead
-TODO.md                                      @arquitecto-senior @tech-lead
-PLAN_EJECUCION_COMPLETO.md                   @arquitecto-senior @tech-lead
-
-# Analysis and Verification Reports
-# Owner: Arquitecto Senior
-VERIFICATION_REPORT.md                       @arquitecto-senior
-DOCS_LEGACY_ANALYSIS_REPORT.md               @arquitecto-senior
-MAPEO_MIGRACION_LEGACY.md                    @arquitecto-senior
-
-# ============================================================================
-# CI/CD WORKFLOWS
-# ============================================================================
-
-# Workflows de documentación
-.github/workflows/docs.yml                   @devops-lead @arquitecto-senior
-.github/workflows/sync-docs.yml              @devops-lead @arquitecto-senior
-.github/workflows/docs-validation.yml        @devops-lead @arquitecto-senior
-.github/workflows/requirements_*.yml         @arquitecto-senior @product-owner
-
-# ============================================================================
-# NOTAS
-# ============================================================================
-#
-# Roles definidos:
-# - @arquitecto-senior: Responsable de arquitectura y diseño técnico
-# - @equipo-backend-lead: Lead del equipo backend
-# - @equipo-frontend-lead: Lead del equipo frontend
-# - @devops-lead: Lead de DevOps e infrastructure
-# - @product-owner: Product Owner / Requirements Owner
-# - @qa-lead: Lead de QA y testing
-# - @tech-lead: Tech Lead general del proyecto
-#
-# Proceso de revisión:
-# 1. PR que modifica docs/ requiere aprobación de owner correspondiente
-# 2. Docs auto-generados requieren verificación de arquitecto
-# 3. Cambios en requisitos requieren aprobación de PO + Arquitecto
-# 4. Cambios en scripts requieren aprobación de Arquitecto + DevOps
-#
+# === CRITICAL FILES (require multiple approvals) ===
+/README.md @tech-lead @product-owner
+/CONTRIBUTING.md @tech-lead @doc-lead
+/LICENSE @product-owner @tech-lead
+/.github/CODEOWNERS @tech-lead @devops-lead @arquitecto-senior
