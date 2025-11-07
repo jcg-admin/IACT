@@ -22,6 +22,17 @@ if str(APP_ROOT) not in sys.path:
 
 def pytest_addoption(parser: pytest.Parser) -> None:
     """Registra opciones stub para compatibilidad con pytest.ini."""
+    # Solo registrar stubs si pytest-cov y pytest-django NO estan instalados
+    # Si estan instalados, ellos registran sus propias opciones
+    try:
+        import pytest_cov  # noqa: F401
+        import pytest_django  # noqa: F401
+        # Plugins reales instalados, no registrar stubs
+        return
+    except ImportError:
+        pass
+
+    # Fallback: Registrar stubs solo si plugins no estan disponibles
     parser.addoption(
         "--cov",
         action="append",
