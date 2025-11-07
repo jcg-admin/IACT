@@ -12,10 +12,10 @@ Bienvenido al centro de guias operativas del proyecto IACT. Este directorio cont
 
 ## Estado Actual
 
-**Guias completadas: 21 de 147 (14.3%)**
+**Guias completadas: 23 de 147 (15.6%)**
 
 - P0 (Criticas - Onboarding): 18/20 guias (90%)
-- P1 (Alta): 3/40 guias (7.5%)
+- P1 (Alta): 5/40 guias (12.5%)
 - P2 (Media): 0/50 guias (0%)
 - P3 (Baja): 0/37 guias (0%)
 
@@ -91,12 +91,14 @@ Para deployment y operaciones:
 | [GUIA-TESTING-002](testing/testing_002.md) | Ejecutar Tests Frontend Localmente | Desarrollador | 8 min | Completa |
 | [GUIA-TESTING-003](testing/testing_003.md) | Validar Test Pyramid | Desarrollador | 6 min | Completa |
 
-### Deployment (2 guias)
+### Deployment (4 guias)
 
 | ID | Titulo | Audiencia | Tiempo | Estado |
 |----|--------|-----------|--------|--------|
 | [GUIA-DEPLOYMENT-001](deployment/deployment_001.md) | Workflow de Deployment | Desarrollador | 10 min | Completa |
 | [GUIA-DEPLOYMENT-002](deployment/deployment_002.md) | Validar Restricciones Criticas | Desarrollador | 5 min | Completa |
+| [GUIA-DEPLOYMENT-004](deployment/deployment_004_tdd_backend_permisos_granular.md) | Implementacion TDD Backend Permisos Granular | Desarrollador Backend | 30 min | Completa |
+| [GUIA-DEPLOYMENT-005](deployment/deployment_005_tdd_frontend_permisos_granular.md) | Implementacion TDD Frontend Permisos Granular | Desarrollador Frontend | 25 min | Completa |
 
 ### Troubleshooting (1 guia)
 
