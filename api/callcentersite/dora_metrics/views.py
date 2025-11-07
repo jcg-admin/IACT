@@ -17,6 +17,13 @@ from .throttling import BurstRateThrottle, SustainedRateThrottle
 
 from .models import DORAMetric
 from .data_catalog import DataCatalog, DataQueryEngine
+from .data_ecosystem import (
+    DataQualityMonitor,
+    DataGovernance,
+    DataLineage,
+    EcosystemHealth,
+    MetadataManagement
+)
 
 
 @require_http_methods(["GET"])
@@ -399,3 +406,78 @@ def data_catalog_aggregated_stats(request):
     result = DataQueryEngine.get_aggregated_stats(days=days)
 
     return JsonResponse(result)
+
+
+# ============================================================================
+# HEALTHY DATA ECOSYSTEMS (DORA 2025 AI Capability 7)
+# ============================================================================
+
+
+@require_http_methods(["GET"])
+def data_quality_assessment(request):
+    """
+    GET /api/dora/ecosystem/quality/ - Data quality assessment.
+
+    Query parameters:
+        - days: Number of days to assess (default: 30)
+
+    Implements DORA 2025 AI Capability 7: Healthy Data Ecosystems.
+    Returns comprehensive data quality metrics.
+    """
+    days = int(request.GET.get('days', 30))
+
+    assessment = DataQualityMonitor.assess_data_quality(days=days)
+
+    return JsonResponse(assessment)
+
+
+@require_http_methods(["GET"])
+def data_governance_status(request):
+    """
+    GET /api/dora/ecosystem/governance/ - Data governance status.
+
+    Returns current data governance policies and compliance status.
+    """
+    governance = DataGovernance.get_governance_status()
+
+    return JsonResponse(governance)
+
+
+@require_http_methods(["GET"])
+def data_lineage_map(request):
+    """
+    GET /api/dora/ecosystem/lineage/ - Data lineage map.
+
+    Returns complete data lineage and flow information.
+    """
+    lineage = DataLineage.get_lineage_map()
+
+    return JsonResponse(lineage)
+
+
+@require_http_methods(["GET"])
+def ecosystem_health_status(request):
+    """
+    GET /api/dora/ecosystem/health/ - Overall ecosystem health.
+
+    Returns comprehensive ecosystem health status including:
+    - Overall health score
+    - Component health scores
+    - Data pipeline status
+    - Recommendations
+    """
+    health = EcosystemHealth.get_health_status()
+
+    return JsonResponse(health)
+
+
+@require_http_methods(["GET"])
+def metadata_registry(request):
+    """
+    GET /api/dora/ecosystem/metadata/ - Metadata registry.
+
+    Returns complete metadata registry for all datasets.
+    """
+    metadata = MetadataManagement.get_metadata_registry()
+
+    return JsonResponse(metadata)

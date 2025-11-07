@@ -20,4 +20,10 @@ urlpatterns = [
     path("data-catalog/dora-metrics/", views.data_catalog_dora_metrics, name="data-catalog-dora-metrics"),
     path("data-catalog/deployment-cycles/", views.data_catalog_deployment_cycles, name="data-catalog-deployment-cycles"),
     path("data-catalog/aggregated-stats/", views.data_catalog_aggregated_stats, name="data-catalog-aggregated-stats"),
+    # Healthy Data Ecosystems (DORA 2025 AI Capability 7)
+    path("ecosystem/quality/", views.data_quality_assessment, name="ecosystem-quality"),
+    path("ecosystem/governance/", views.data_governance_status, name="ecosystem-governance"),
+    path("ecosystem/lineage/", views.data_lineage_map, name="ecosystem-lineage"),
+    path("ecosystem/health/", views.ecosystem_health_status, name="ecosystem-health"),
+    path("ecosystem/metadata/", views.metadata_registry, name="ecosystem-metadata"),
 ]
