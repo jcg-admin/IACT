@@ -85,18 +85,18 @@ make build_cpython VERSION=3.12.6 BUILD=1
 
 **Resultado esperado**:
 ```
-Artefacto generado: infrastructure/cpython/artifacts/cpython-3.12.6-ubuntu22.04-build1.tgz
-Checksum: infrastructure/cpython/artifacts/cpython-3.12.6-ubuntu22.04-build1.tgz.sha256
+Artefacto generado: infrastructure/cpython/artifacts/cpython-3.12.6-ubuntu20.04-build1.tgz
+Checksum: infrastructure/cpython/artifacts/cpython-3.12.6-ubuntu20.04-build1.tgz.sha256
 Tamaño: ~50-70 MB
 ```
 
 ### 1.4 Validar Artefacto
 
 ```bash
-make validate-cpython ARTIFACT=cpython-3.12.6-ubuntu22.04-build1.tgz
+make validate-cpython ARTIFACT=cpython-3.12.6-ubuntu20.04-build1.tgz
 
 # O manualmente
-./infrastructure/cpython/scripts/validate-cpython.sh cpython-3.12.6-ubuntu22.04-build1.tgz
+./infrastructure/cpython/scripts/validate-cpython.sh cpython-3.12.6-ubuntu20.04-build1.tgz
 ```
 
 **Validaciones ejecutadas**:
@@ -142,7 +142,7 @@ git push origin cpython-3.12.6-build1
 
 - **Versión**: Python 3.12.6
 - **Optimizaciones**: PGO + LTO habilitadas
-- **Sistema base**: Ubuntu 22.04 LTS (jammy)
+- **Sistema base**: Ubuntu 20.04 LTS (jammy)
 - **Arquitectura**: x86_64
 - **Build date**: 2025-11-06
 
@@ -156,8 +156,8 @@ git push origin cpython-3.12.6-build1
 
 ### Artefactos
 
-- `cpython-3.12.6-ubuntu22.04-build1.tgz` - Binario completo (~60 MB)
-- `cpython-3.12.6-ubuntu22.04-build1.tgz.sha256` - Checksum de validación
+- `cpython-3.12.6-ubuntu20.04-build1.tgz` - Binario completo (~60 MB)
+- `cpython-3.12.6-ubuntu20.04-build1.tgz.sha256` - Checksum de validación
 
 ### Uso
 
@@ -166,7 +166,7 @@ git push origin cpython-3.12.6-build1
   "features": {
     "./infrastructure/cpython/installer": {
       "version": "3.12.6",
-      "artifactUrl": "https://github.com/2-Coatl/IACT---project/releases/download/cpython-3.12.6-build1/cpython-3.12.6-ubuntu22.04-build1.tgz"
+      "artifactUrl": "https://github.com/2-Coatl/IACT---project/releases/download/cpython-3.12.6-build1/cpython-3.12.6-ubuntu20.04-build1.tgz"
     }
   }
 }
@@ -176,11 +176,11 @@ git push origin cpython-3.12.6-build1
 
 ```bash
 # Descargar
-curl -LO https://github.com/2-Coatl/IACT---project/releases/download/cpython-3.12.6-build1/cpython-3.12.6-ubuntu22.04-build1.tgz
-curl -LO https://github.com/2-Coatl/IACT---project/releases/download/cpython-3.12.6-build1/cpython-3.12.6-ubuntu22.04-build1.tgz.sha256
+curl -LO https://github.com/2-Coatl/IACT---project/releases/download/cpython-3.12.6-build1/cpython-3.12.6-ubuntu20.04-build1.tgz
+curl -LO https://github.com/2-Coatl/IACT---project/releases/download/cpython-3.12.6-build1/cpython-3.12.6-ubuntu20.04-build1.tgz.sha256
 
 # Validar checksum
-sha256sum -c cpython-3.12.6-ubuntu22.04-build1.tgz.sha256
+sha256sum -c cpython-3.12.6-ubuntu20.04-build1.tgz.sha256
 ```
 
 ### Changelog
@@ -191,8 +191,8 @@ sha256sum -c cpython-3.12.6-ubuntu22.04-build1.tgz.sha256
 ```
 
 5. Adjuntar archivos:
-   - `cpython-3.12.6-ubuntu22.04-build1.tgz`
-   - `cpython-3.12.6-ubuntu22.04-build1.tgz.sha256`
+   - `cpython-3.12.6-ubuntu20.04-build1.tgz`
+   - `cpython-3.12.6-ubuntu20.04-build1.tgz.sha256`
    - `LICENSE` (PSF License)
 
 6. Marcar como **Pre-release** (primera vez)
@@ -205,8 +205,8 @@ gh release create cpython-3.12.6-build1 \
   --title "CPython 3.12.6 Precompilado - Build 1" \
   --notes-file docs/infrastructure/cpython_precompilado/release-notes-template.md \
   --prerelease \
-  infrastructure/cpython/artifacts/cpython-3.12.6-ubuntu22.04-build1.tgz \
-  infrastructure/cpython/artifacts/cpython-3.12.6-ubuntu22.04-build1.tgz.sha256
+  infrastructure/cpython/artifacts/cpython-3.12.6-ubuntu20.04-build1.tgz \
+  infrastructure/cpython/artifacts/cpython-3.12.6-ubuntu20.04-build1.tgz.sha256
 ```
 
 ### 2.3 Verificar Release
@@ -239,7 +239,7 @@ gh release download cpython-3.12.6-build1 -D /tmp/test-release
 -   },
 +   "./infrastructure/cpython/installer": {
 +     "version": "3.12.6",
-+     "artifactUrl": "https://github.com/2-Coatl/IACT---project/releases/download/cpython-3.12.6-build1/cpython-3.12.6-ubuntu22.04-build1.tgz"
++     "artifactUrl": "https://github.com/2-Coatl/IACT---project/releases/download/cpython-3.12.6-build1/cpython-3.12.6-ubuntu20.04-build1.tgz"
 +   },
     "ghcr.io/devcontainers/features/git:1": {
       "version": "latest"
@@ -253,7 +253,7 @@ gh release download cpython-3.12.6-build1 -D /tmp/test-release
   "features": {
     "./infrastructure/cpython/installer": {
       "version": "3.12.6",
-      "artifactUrl": "/workspaces/${localWorkspaceFolderBasename}/infrastructure/cpython/artifacts/cpython-3.12.6-ubuntu22.04-build1.tgz"
+      "artifactUrl": "/workspaces/${localWorkspaceFolderBasename}/infrastructure/cpython/artifacts/cpython-3.12.6-ubuntu20.04-build1.tgz"
     }
   }
 }
@@ -376,7 +376,7 @@ Ninguno.
 
 ```bash
 echo "
-| 3.12.6 | ubuntu22.04 | build1 | 2025-11-06 | cpython-3.12.6-ubuntu22.04-build1.tgz | $(sha256sum infrastructure/cpython/artifacts/cpython-3.12.6-ubuntu22.04-build1.tgz | cut -d' ' -f1) | GitHub Release |
+| 3.12.6 | ubuntu20.04 | build1 | 2025-11-06 | cpython-3.12.6-ubuntu20.04-build1.tgz | $(sha256sum infrastructure/cpython/artifacts/cpython-3.12.6-ubuntu20.04-build1.tgz | cut -d' ' -f1) | GitHub Release |
 " >> infrastructure/artifacts/ARTIFACTS.md
 ```
 
@@ -462,10 +462,10 @@ apt list --installed | grep -E "lib.*-dev"
 
 ```bash
 # Regenerar checksum
-sha256sum cpython-3.12.6-ubuntu22.04-build1.tgz > cpython-3.12.6-ubuntu22.04-build1.tgz.sha256
+sha256sum cpython-3.12.6-ubuntu20.04-build1.tgz > cpython-3.12.6-ubuntu20.04-build1.tgz.sha256
 
 # Validar
-sha256sum -c cpython-3.12.6-ubuntu22.04-build1.tgz.sha256
+sha256sum -c cpython-3.12.6-ubuntu20.04-build1.tgz.sha256
 ```
 
 ### Error: "Dev Container no encuentra artefacto"
@@ -475,7 +475,7 @@ sha256sum -c cpython-3.12.6-ubuntu22.04-build1.tgz.sha256
 cat .devcontainer/devcontainer.json | grep artifactUrl
 
 # Probar descarga manual
-curl -I https://github.com/2-Coatl/IACT---project/releases/download/cpython-3.12.6-build1/cpython-3.12.6-ubuntu22.04-build1.tgz
+curl -I https://github.com/2-Coatl/IACT---project/releases/download/cpython-3.12.6-build1/cpython-3.12.6-ubuntu20.04-build1.tgz
 ```
 
 ---

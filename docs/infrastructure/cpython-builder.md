@@ -28,11 +28,11 @@ relacionados: ["SPEC_INFRA_001", "ADR_008"]
 
 ### Proposito
 
-El CPython Builder es un sistema automatizado para compilar CPython desde codigo fuente en un entorno reproducible. Proporciona artefactos precompilados optimizados para Ubuntu 22.04 LTS que pueden ser consumidos por Dev Containers y entornos de desarrollo.
+El CPython Builder es un sistema automatizado para compilar CPython desde codigo fuente en un entorno reproducible. Proporciona artefactos precompilados optimizados para Ubuntu 20.04 LTS que pueden ser consumidos por Dev Containers y entornos de desarrollo.
 
 ### Caracteristicas Principales
 
-- **Entorno Reproducible**: VM Vagrant con Ubuntu 22.04 LTS
+- **Entorno Reproducible**: VM Vagrant con Ubuntu 20.04 LTS
 - **Compilacion Optimizada**: Profile-Guided Optimization (PGO) + Link-Time Optimization (LTO)
 - **Validacion Automatica**: 11 validaciones de integridad y funcionalidad
 - **Utilidades Compartidas**: Biblioteca de funciones reutilizables para logging, validacion y operaciones comunes
@@ -85,13 +85,13 @@ El CPython Builder es un sistema automatizado para compilar CPython desde codigo
 │  │                                             │   │
 │  │  ┌──────────────────────────────────────┐  │   │
 │  │  │         artifacts/                   │  │   │
-│  │  │  - cpython-X.Y.Z-ubuntu22.04-buildN │  │   │
+│  │  │  - cpython-X.Y.Z-ubuntu20.04-buildN │  │   │
 │  │  │  - *.tgz.sha256                      │  │   │
 │  │  └──────────────────────────────────────┘  │   │
 │  └─────────────────────────────────────────────┘   │
 │                                                     │
 │  ┌─────────────────────────────────────────────┐   │
-│  │          Vagrant VM (Ubuntu 22.04)          │   │
+│  │          Vagrant VM (Ubuntu 20.04)          │   │
 │  │                                             │   │
 │  │  ┌──────────────────────────────────────┐  │   │
 │  │  │  Build Environment                   │  │   │
@@ -127,7 +127,7 @@ El CPython Builder es un sistema automatizado para compilar CPython desde codigo
    └─> Compila con PGO + LTO
    └─> Genera artefacto en artifacts/
 
-3. validate_build.sh cpython-3.12.6-ubuntu22.04-build1.tgz
+3. validate_build.sh cpython-3.12.6-ubuntu20.04-build1.tgz
    └─> Carga utils/ (logging, validation, common)
    └─> Ejecuta 11 validaciones
    └─> Reporta resultado
@@ -142,7 +142,7 @@ El CPython Builder es un sistema automatizado para compilar CPython desde codigo
 **Proposito**: Define el entorno de compilacion reproducible
 
 **Caracteristicas**:
-- Ubuntu 22.04 LTS (jammy64)
+- Ubuntu 20.04 LTS (focal64)
 - 4 GB RAM, 4 CPUs
 - IP estatica: 192.168.56.10 (nuevo: fix DHCP)
 - Synced folders con soporte UTF-8
@@ -331,8 +331,8 @@ OS_VERSION=$(detect_os_version)
 echo "OS Version: $OS_VERSION"
 
 # Generar nombre de artefacto
-ARTIFACT=$(get_artifact_name "3.12.6" "ubuntu22.04" "1")
-# Resultado: cpython-3.12.6-ubuntu22.04-build1.tgz
+ARTIFACT=$(get_artifact_name "3.12.6" "ubuntu20.04" "1")
+# Resultado: cpython-3.12.6-ubuntu20.04-build1.tgz
 
 # Descargar archivo
 download_file "https://example.com/file.tgz" "/tmp/file.tgz"
@@ -391,8 +391,8 @@ cleanup_temp_dir "/tmp/build"
 - `--enable-loadable-sqlite-extensions`: Extensiones SQLite
 
 **Output**:
-- Tarball: `cpython-<version>-ubuntu22.04-build<N>.tgz`
-- Checksum: `cpython-<version>-ubuntu22.04-build<N>.tgz.sha256`
+- Tarball: `cpython-<version>-ubuntu20.04-build<N>.tgz`
+- Checksum: `cpython-<version>-ubuntu20.04-build<N>.tgz.sha256`
 - Ubicacion: `infrastructure/cpython/artifacts/cpython/`
 
 **Tiempo de Compilacion**: 10-15 minutos
@@ -412,7 +412,7 @@ cleanup_temp_dir "/tmp/build"
 **Ejemplo**:
 
 ```bash
-./scripts/validate_build.sh cpython-3.12.6-ubuntu22.04-build1.tgz
+./scripts/validate_build.sh cpython-3.12.6-ubuntu20.04-build1.tgz
 ```
 
 **Validaciones Realizadas** (11 checks):
@@ -487,7 +487,7 @@ cleanup_temp_dir "/tmp/build"
 **Ejemplo**:
 
 ```bash
-./infrastructure/cpython/scripts/validate_wrapper.sh cpython-3.12.6-ubuntu22.04-build1.tgz
+./infrastructure/cpython/scripts/validate_wrapper.sh cpython-3.12.6-ubuntu20.04-build1.tgz
 ```
 
 ## Configuracion
@@ -513,7 +513,7 @@ SUPPORTED_PYTHON_VERSIONS=(
 )
 
 # Sistema operativo
-DISTRO="ubuntu22.04"
+DISTRO="ubuntu20.04"
 UBUNTU_VERSION="22.04"
 
 # Modulos nativos requeridos
@@ -588,7 +588,7 @@ cd /vagrant
 #### 3. Validar Artefacto
 
 ```bash
-./infrastructure/cpython/scripts/validate_build.sh cpython-3.12.6-ubuntu22.04-build1.tgz
+./infrastructure/cpython/scripts/validate_build.sh cpython-3.12.6-ubuntu20.04-build1.tgz
 ```
 
 #### 4. Resultado
@@ -596,8 +596,8 @@ cd /vagrant
 Artefactos en: `infrastructure/cpython/artifacts/cpython/`
 
 ```
-cpython-3.12.6-ubuntu22.04-build1.tgz
-cpython-3.12.6-ubuntu22.04-build1.tgz.sha256
+cpython-3.12.6-ubuntu20.04-build1.tgz
+cpython-3.12.6-ubuntu20.04-build1.tgz.sha256
 ```
 
 ### Gestion de VM
@@ -644,7 +644,7 @@ vagrant provision
 # Rebuild de Python 3.12.6 (incrementa build number)
 ./scripts/build_cpython.sh 3.12.6 2
 
-# Resultado: cpython-3.12.6-ubuntu22.04-build2.tgz
+# Resultado: cpython-3.12.6-ubuntu20.04-build2.tgz
 ```
 
 ## Validacion y Testing
@@ -654,14 +654,14 @@ vagrant provision
 El sistema incluye validacion automatica de 11 checks:
 
 ```bash
-./scripts/validate_build.sh cpython-3.12.6-ubuntu22.04-build1.tgz
+./scripts/validate_build.sh cpython-3.12.6-ubuntu20.04-build1.tgz
 ```
 
 **Output Esperado**:
 
 ```
 === Validacion de artefacto CPython ===
-Artefacto: cpython-3.12.6-ubuntu22.04-build1.tgz
+Artefacto: cpython-3.12.6-ubuntu20.04-build1.tgz
 
 1. Verificando existencia del artefacto...
 [SUCCESS] Artefacto existe
@@ -710,7 +710,7 @@ Artefacto: cpython-3.12.6-ubuntu22.04-build1.tgz
 ```bash
 # Extraer artefacto
 cd /tmp
-tar -xzf /vagrant/artifacts/cpython/cpython-3.12.6-ubuntu22.04-build1.tgz
+tar -xzf /vagrant/artifacts/cpython/cpython-3.12.6-ubuntu20.04-build1.tgz
 
 # Probar Python
 /tmp/opt/python-3.12.6/bin/python3 --version
@@ -800,7 +800,7 @@ vb.memory = "8192"  # 8 GB RAM
 vb.cpus = 8         # 8 cores
 ```
 
-3. Considerar compilacion nativa si OS es Ubuntu 22.04
+3. Considerar compilacion nativa si OS es Ubuntu 20.04
 
 ### Artefacto muy grande (>150 MB)
 
@@ -816,7 +816,7 @@ find . -name "*.pyc" -delete
 
 # Re-empaquetar
 cd /opt
-sudo tar czf /vagrant/artifacts/cpython/cpython-X.Y.Z-ubuntu22.04-build2.tgz python-X.Y.Z
+sudo tar czf /vagrant/artifacts/cpython/cpython-X.Y.Z-ubuntu20.04-build2.tgz python-X.Y.Z
 ```
 
 ### Error: "Cannot find utils/logging.sh"

@@ -129,7 +129,7 @@ Para desarrollo completamente offline o para testing de artefactos compilados lo
   "features": {
     "./infrastructure/cpython/installer": {
       "version": "3.12.6",
-      "artifactUrl": "${localWorkspaceFolder}/infrastructure/cpython/artifacts/cpython-3.12.6-ubuntu22.04-build1.tgz"
+      "artifactUrl": "${localWorkspaceFolder}/infrastructure/cpython/artifacts/cpython-3.12.6-ubuntu20.04-build1.tgz"
     }
   }
 }
@@ -139,10 +139,10 @@ Para desarrollo completamente offline o para testing de artefactos compilados lo
 
 ```bash
 mkdir -p infrastructure/cpython/artifacts/
-curl -L https://github.com/2-Coatl/IACT---project/releases/download/cpython-3.12.6-build1/cpython-3.12.6-ubuntu22.04-build1.tgz \
-  -o infrastructure/cpython/artifacts/cpython-3.12.6-ubuntu22.04-build1.tgz
-curl -L https://github.com/2-Coatl/IACT---project/releases/download/cpython-3.12.6-build1/cpython-3.12.6-ubuntu22.04-build1.tgz.sha256 \
-  -o infrastructure/cpython/artifacts/cpython-3.12.6-ubuntu22.04-build1.tgz.sha256
+curl -L https://github.com/2-Coatl/IACT---project/releases/download/cpython-3.12.6-build1/cpython-3.12.6-ubuntu20.04-build1.tgz \
+  -o infrastructure/cpython/artifacts/cpython-3.12.6-ubuntu20.04-build1.tgz
+curl -L https://github.com/2-Coatl/IACT---project/releases/download/cpython-3.12.6-build1/cpython-3.12.6-ubuntu20.04-build1.tgz.sha256 \
+  -o infrastructure/cpython/artifacts/cpython-3.12.6-ubuntu20.04-build1.tgz.sha256
 ```
 
 **Opción 2: Compilar artefacto localmente (Fase 2)**
@@ -154,7 +154,7 @@ Si necesitas compilar una versión custom o para testing:
 make build_cpython VERSION=3.12.6
 
 # Validar artefacto
-make validate-cpython ARTIFACT=cpython-3.12.6-ubuntu22.04-build1.tgz
+make validate-cpython ARTIFACT=cpython-3.12.6-ubuntu20.04-build1.tgz
 
 # El artefacto estará en infrastructure/cpython/artifacts/ listo para usar
 ```
@@ -185,7 +185,7 @@ Las Features son composables sin conflictos.
 
 | Versión Python | Build | Compatible con | Fecha | Descarga |
 |----------------|-------|----------------|-------|----------|
-| 3.12.6         | 1     | Ubuntu 22.04   | 2025-11-06 | [Release](https://github.com/2-Coatl/IACT---project/releases/tag/cpython-3.12.6-build1) |
+| 3.12.6         | 1     | Ubuntu 20.04   | 2025-11-06 | [Release](https://github.com/2-Coatl/IACT---project/releases/tag/cpython-3.12.6-build1) |
 
 Para ver todas las versiones disponibles:
 
@@ -274,7 +274,7 @@ Si una nueva versión causa problemas:
 **Causa**: Artefacto compilado con versión diferente de OpenSSL que la del contenedor.
 
 **Solución**:
-1. Verificar que el contenedor usa Ubuntu 22.04 (misma base que Vagrant)
+1. Verificar que el contenedor usa Ubuntu 20.04 (misma base que Vagrant)
 2. Verificar compatibilidad en [FAQ](./preguntas_frecuentes.md)
 3. Usar artefacto específico para tu versión de Ubuntu
 

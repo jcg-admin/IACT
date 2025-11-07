@@ -9,7 +9,7 @@
 #   ./validate_build.sh <artifact-name>
 #
 # Ejemplo:
-#   ./validate_build.sh cpython-3.12.6-ubuntu22.04-build1.tgz
+#   ./validate_build.sh cpython-3.12.6-ubuntu20.04-build1.tgz
 #
 
 set -euo pipefail
@@ -32,7 +32,7 @@ fi
 # Validar argumentos
 if [ $# -lt 1 ]; then
     log_error "Uso: $0 <artifact-name>"
-    log_error "Ejemplo: $0 cpython-3.12.6-ubuntu22.04-build1.tgz"
+    log_error "Ejemplo: $0 cpython-3.12.6-ubuntu20.04-build1.tgz"
     exit 1
 fi
 
@@ -236,4 +236,4 @@ log_info "  gh release create cpython-${PYTHON_VERSION}-build<N> \\"
 log_info "    $ARTIFACT_PATH \\"
 log_info "    $ARTIFACT_CHECKSUM \\"
 log_info "    --title 'CPython $PYTHON_VERSION Build <N>' \\"
-log_info "    --notes 'CPython precompilado para Ubuntu 22.04'"
+log_info "    --notes 'CPython precompilado para Ubuntu 20.04'"

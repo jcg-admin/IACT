@@ -14,7 +14,7 @@
 **Campos**:
 - **Versión**: Versión de Python (X.Y.Z)
 - **Build**: Número de build
-- **Distro**: Distribución de Ubuntu (ubuntu22.04, ubuntu24.04, etc.)
+- **Distro**: Distribución de Ubuntu (ubuntu20.04, ubuntu24.04, etc.)
 - **Fecha**: Fecha de compilación (YYYY-MM-DD)
 - **SHA256**: Primeros 12 caracteres del checksum SHA256
 - **URL Release**: URL del GitHub Release donde está publicado

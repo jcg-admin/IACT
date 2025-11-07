@@ -88,7 +88,7 @@ determine_urls() {
 
     if [ -z "${ARTIFACT_URL}" ]; then
         # Use GitHub Releases (Fase 3+)
-        ARTIFACT_URL="https://github.com/2-Coatl/IACT---project/releases/download/cpython-${VERSION}-build1/cpython-${VERSION}-ubuntu22.04-build1.tgz"
+        ARTIFACT_URL="https://github.com/2-Coatl/IACT---project/releases/download/cpython-${VERSION}-build1/cpython-${VERSION}-ubuntu20.04-build1.tgz"
         log_info "Using GitHub Releases: ${ARTIFACT_URL}"
     else
         log_info "Using provided artifact URL: ${ARTIFACT_URL}"

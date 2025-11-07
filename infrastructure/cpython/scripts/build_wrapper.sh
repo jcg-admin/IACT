@@ -92,7 +92,7 @@ if [ $EXIT_CODE -eq 0 ]; then
     log_info "Artefacto generado en: $PROJECT_ROOT/infrastructure/cpython/artifacts/"
     echo ""
     log_info "Siguiente paso:"
-    log_info "  ./infrastructure/cpython/scripts/validate_wrapper.sh cpython-${PYTHON_VERSION}-ubuntu22.04-build${BUILD_NUMBER}.tgz"
+    log_info "  ./infrastructure/cpython/scripts/validate_wrapper.sh cpython-${PYTHON_VERSION}-ubuntu20.04-build${BUILD_NUMBER}.tgz"
 else
     echo ""
     log_error "Compilacion fallo con codigo: $EXIT_CODE"

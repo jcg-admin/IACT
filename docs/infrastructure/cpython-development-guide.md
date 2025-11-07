@@ -554,7 +554,7 @@ fi
 ```bash
 # Sistemas operativos soportados
 SUPPORTED_DISTROS=(
-    "ubuntu22.04"
+    "ubuntu20.04"
     "debian12"
 )
 
@@ -577,7 +577,7 @@ DISTRO=$(detect_distro)
 
 case $DISTRO in
     ubuntu2204)
-        echo "Ubuntu 22.04 detectado"
+        echo "Ubuntu 20.04 detectado"
         ;;
     debian12)
         echo "Debian 12 detectado"
@@ -594,11 +594,11 @@ esac
 
 ```ruby
 # Configuracion multi-distro
-DISTRO = ENV['DISTRO'] || 'ubuntu22.04'
+DISTRO = ENV['DISTRO'] || 'ubuntu20.04'
 
 case DISTRO
-when 'ubuntu22.04'
-  config.vm.box = "ubuntu/jammy64"
+when 'ubuntu20.04'
+  config.vm.box = "ubuntu/focal64"
 when 'debian12'
   config.vm.box = "debian/bookworm64"
 else

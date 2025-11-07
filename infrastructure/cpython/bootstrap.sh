@@ -37,7 +37,7 @@ install_build_dependencies() {
     log_info "Instalando toolchain de compilacion..."
 
     # Dependencias segun: https://devguide.python.org/getting-started/setup-building/
-    apt-get install -y -qq \
+    apt-get install -y -q \
       build-essential \
       gdb \
       lcov \
@@ -100,7 +100,7 @@ verify_installation() {
     # Verificar librerias criticas
     CRITICAL_LIBS=("libssl-dev" "libsqlite3-dev" "liblzma-dev" "libbz2-dev" "libffi-dev")
     for lib in "${CRITICAL_LIBS[@]}"; do
-        if dpkg -l | grep -q "$lib"; then
+        if dpkg -l "$lib" 2>/dev/null | grep -q "^ii"; then
             log_success "  $lib instalado"
         else
             log_error "  $lib NO instalado"

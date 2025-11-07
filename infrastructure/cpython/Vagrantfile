@@ -35,7 +35,7 @@ puts "  Hostname: #{VM_HOSTNAME}"
 puts "  Resources: #{VM_MEMORY}MB RAM, #{VM_CPUS} CPUs"
 puts ""
 puts "Build Environment:"
-puts "  Base OS: Ubuntu 22.04 LTS (jammy64)"
+puts "  Base OS: Ubuntu 20.04 LTS (focal64)"
 puts "  Default Python: #{DEFAULT_PYTHON_VERSION}"
 puts "  Build Mode: PGO + LTO optimizations"
 puts ""
@@ -65,10 +65,10 @@ end
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Base box selection with version pinning
-  # Using Ubuntu 22.04 LTS to match Dev Container target
-  config.vm.box = "ubuntu/jammy64"
+  # Using Ubuntu 20.04 LTS for Guest Additions compatibility
+  config.vm.box = "ubuntu/focal64"
   config.vm.box_check_update = true
-  config.vm.box_version = ">= 20230607.0.0"  # Ensure recent Ubuntu 22.04
+  config.vm.box_version = ">= 20210415.0.0"  # Ensure recent Ubuntu 20.04
 
   # VM hostname
   config.vm.hostname = VM_HOSTNAME
@@ -91,8 +91,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # (prevents DHCP conflicts and works without Guest Additions)
   config.vm.network "private_network",
     ip: "192.168.56.10",
-    virtualbox__intnet: true,
-    type: "dhcp"
+    virtualbox__intnet: true
 
   # =================================================================
   # SYNCED FOLDERS WITH UTF-8 ENCODING
@@ -237,7 +236,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     Hostname: #{VM_HOSTNAME}
     Memory:   #{VM_MEMORY}MB
     CPUs:     #{VM_CPUS}
-    Base OS:  Ubuntu 22.04 LTS
+    Base OS:  Ubuntu 20.04 LTS
 
   BUILD ENVIRONMENT:
     Python Version: #{DEFAULT_PYTHON_VERSION} (default)
@@ -246,7 +245,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   ARTIFACTS OUTPUT:
     Location: ./artifacts/
-    Format:   cpython-<version>-ubuntu22.04-build<N>.tgz
+    Format:   cpython-<version>-ubuntu20.04-build<N>.tgz
     Includes: SHA256 checksum, LICENSE, build info
 
   USAGE:
@@ -259,7 +258,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       ./infrastructure/cpython/scripts/build_wrapper.sh 3.12.6
 
   VALIDATION:
-    ./scripts/validate_build.sh cpython-3.12.6-ubuntu22.04-build1.tgz
+    ./scripts/validate_build.sh cpython-3.12.6-ubuntu20.04-build1.tgz
 
   VM MANAGEMENT:
     Connect:  vagrant ssh

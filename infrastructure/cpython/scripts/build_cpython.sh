@@ -39,7 +39,7 @@ fi
 
 PYTHON_VERSION="$1"
 BUILD_NUMBER="${2:-${DEFAULT_BUILD_NUMBER:-1}}"
-DISTRO="${DISTRO:-ubuntu22.04}"
+DISTRO="${DISTRO:-ubuntu20.04}"
 
 # Validar formato de version usando utilidad
 if ! validate_python_version "$PYTHON_VERSION"; then

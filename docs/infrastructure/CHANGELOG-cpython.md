@@ -210,7 +210,7 @@ Los usuarios pueden continuar usando los scripts exactamente como antes:
 # Estos comandos siguen funcionando igual
 vagrant up
 ./scripts/build_cpython.sh 3.12.6
-./scripts/validate_build.sh cpython-3.12.6-ubuntu22.04-build1.tgz
+./scripts/validate_build.sh cpython-3.12.6-ubuntu20.04-build1.tgz
 ```
 
 ### Testing
@@ -251,7 +251,7 @@ Primera version estable del sistema CPython Builder.
 
 #### Core System
 
-- **Vagrantfile**: Configuracion de VM Ubuntu 22.04 LTS
+- **Vagrantfile**: Configuracion de VM Ubuntu 20.04 LTS
   - 4 GB RAM, 4 CPUs
   - Red privada con DHCP
   - Synced folders con UTF-8
@@ -312,7 +312,7 @@ Primera version estable del sistema CPython Builder.
 
 ### Specifications
 
-- Sistema Operativo: Ubuntu 22.04 LTS
+- Sistema Operativo: Ubuntu 20.04 LTS
 - Python Versions: 3.11.9, 3.12.6, 3.13.0
 - Optimization Flags:
   - `--enable-optimizations` (PGO)

@@ -8,7 +8,7 @@
 
 ## Descripción
 
-Esta VM Vagrant proporciona un entorno controlado para compilar CPython desde código fuente con configuración reproducible. La VM usa Ubuntu 22.04 LTS, la misma versión que los Dev Containers objetivo.
+Esta VM Vagrant proporciona un entorno controlado para compilar CPython desde código fuente con configuración reproducible. La VM usa Ubuntu 20.04 LTS para compatibilidad con VirtualBox Guest Additions.
 
 ---
 
@@ -78,14 +78,14 @@ Tiempo de compilación: ~10-15 minutos (con PGO)
 
 **Opción A: Desde fuera de VM (recomendado)**:
 ```bash
-./infrastructure/cpython/scripts/validate-cpython.sh cpython-3.12.6-ubuntu22.04-build1.tgz
+./infrastructure/cpython/scripts/validate-cpython.sh cpython-3.12.6-ubuntu20.04-build1.tgz
 ```
 
 **Opción B: Dentro de VM**:
 ```bash
 vagrant ssh
 cd /vagrant
-./scripts/validate_build.sh cpython-3.12.6-ubuntu22.04-build1.tgz
+./scripts/validate_build.sh cpython-3.12.6-ubuntu20.04-build1.tgz
 ```
 
 ### 4. Resultado
@@ -94,8 +94,8 @@ Artefactos generados en: `infrastructure/cpython/artifacts/`
 
 ```
 infrastructure/cpython/artifacts/
-  +-- cpython-3.12.6-ubuntu22.04-build1.tgz
-  +-- cpython-3.12.6-ubuntu22.04-build1.tgz.sha256
+  +-- cpython-3.12.6-ubuntu20.04-build1.tgz
+  +-- cpython-3.12.6-ubuntu20.04-build1.tgz.sha256
 ```
 
 ---
@@ -131,8 +131,8 @@ infrastructure/cpython/artifacts/
 - `--with-system-ffi`: Usar libffi del sistema
 
 **Output**:
-- Tarball: `cpython-<version>-ubuntu22.04-build<N>.tgz`
-- Checksum: `cpython-<version>-ubuntu22.04-build<N>.tgz.sha256`
+- Tarball: `cpython-<version>-ubuntu20.04-build<N>.tgz`
+- Checksum: `cpython-<version>-ubuntu20.04-build<N>.tgz.sha256`
 - Build info: Incluido en `.build-info` dentro del tarball
 
 #### validate_build.sh
@@ -289,7 +289,7 @@ cd /vagrant
 **Solución**:
 1. Cerrar aplicaciones que consuman RAM
 2. Aumentar recursos en Vagrantfile
-3. Considerar compilación nativa (sin VM) si OS es Ubuntu 22.04
+3. Considerar compilación nativa (sin VM) si OS es Ubuntu 20.04
 
 ### Artefacto muy grande (>150 MB)
 
@@ -305,7 +305,7 @@ find . -name "*.pyc" -delete
 
 # Re-empaquetar
 cd /opt
-sudo tar czf /vagrant/infrastructure/cpython/artifacts/cpython-X.Y.Z-ubuntu22.04-build2.tgz python-X.Y.Z
+sudo tar czf /vagrant/infrastructure/cpython/artifacts/cpython-X.Y.Z-ubuntu20.04-build2.tgz python-X.Y.Z
 ```
 
 ---
@@ -359,10 +359,10 @@ Una vez generado y validado el artefacto:
 1. Publicar en GitHub Releases:
    ```bash
    gh release create cpython-3.12.6-build1 \
-     infrastructure/cpython/artifacts/cpython-3.12.6-ubuntu22.04-build1.tgz \
-     infrastructure/cpython/artifacts/cpython-3.12.6-ubuntu22.04-build1.tgz.sha256 \
+     infrastructure/cpython/artifacts/cpython-3.12.6-ubuntu20.04-build1.tgz \
+     infrastructure/cpython/artifacts/cpython-3.12.6-ubuntu20.04-build1.tgz.sha256 \
      --title "CPython 3.12.6 Build 1" \
-     --notes "CPython 3.12.6 precompilado para Ubuntu 22.04"
+     --notes "CPython 3.12.6 precompilado para Ubuntu 20.04"
    ```
 
 2. Actualizar `infrastructure/artifacts/ARTIFACTS.md`
