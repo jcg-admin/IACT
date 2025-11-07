@@ -33,7 +33,7 @@ def test_vagrantfile_exists():
 
     content = vagrantfile.read_text()
     assert "Vagrant.configure" in content, "Vagrantfile no tiene configuración válida"
-    assert "ubuntu/jammy64" in content, "Vagrantfile no usa Ubuntu 22.04"
+    assert "ubuntu/focal64" in content, "Vagrantfile no usa Ubuntu 20.04"
     assert "vb.memory" in content, "Vagrantfile no configura RAM"
 
 

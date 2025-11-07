@@ -39,7 +39,7 @@ Benchmarks completos del sistema IACT incluyendo Cassandra, MySQL, API endpoints
 ### Ambiente de Testing
 - Hardware: 8 CPU cores, 16GB RAM, SSD storage
 - Network: 1 Gbps LAN
-- Software: Ubuntu 22.04, MySQL 8.0, Cassandra 4.1
+- Software: Ubuntu 20.04, MySQL 8.0, Cassandra 4.1
 
 ### Criterios de Exito
 - Cassandra: >100K writes/second

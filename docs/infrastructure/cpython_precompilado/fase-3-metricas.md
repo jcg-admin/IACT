@@ -201,10 +201,10 @@ curl -LO <artifact-url>
 curl -LO <checksum-url>
 
 # Validar
-sha256sum -c cpython-3.12.6-ubuntu22.04-build1.tgz.sha256
+sha256sum -c cpython-3.12.6-ubuntu20.04-build1.tgz.sha256
 
 # Esperado output:
-# cpython-3.12.6-ubuntu22.04-build1.tgz: OK
+# cpython-3.12.6-ubuntu20.04-build1.tgz: OK
 ```
 
 **Criterio de éxito**: Comando retorna exit code 0

@@ -1,0 +1,330 @@
+name: Validate Guides
+
+on:
+  pull_request:
+    paths:
+      - 'docs/guias/**'
+      - 'scripts/generate_guides.py'
+      - '.github/workflows/validate-guides.yml'
+  push:
+    branches:
+      - main
+      - develop
+    paths:
+      - 'docs/guias/**'
+  workflow_dispatch:
+
+jobs:
+  validate-structure:
+    name: Validate Guide Structure
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Validate frontmatter
+        run: |
+          echo "Validating frontmatter in all guides..."
+
+          # Script simple para validar frontmatter YAML
+          python3 << 'EOF'
+          import sys
+          from pathlib import Path
+          import re
+
+          guides_dir = Path("docs/guias")
+          errors = []
+
+          for guide_file in guides_dir.rglob("*.md"):
+              if guide_file.name in ["README.md", "METRICS.md"]:
+                  continue
+
+              content = guide_file.read_text()
+
+              # Check frontmatter exists
+              if not content.startswith("---"):
+                  errors.append(f"{guide_file}: Missing frontmatter")
+                  continue
+
+              # Extract frontmatter
+              parts = content.split("---", 2)
+              if len(parts) < 3:
+                  errors.append(f"{guide_file}: Invalid frontmatter format")
+                  continue
+
+              frontmatter = parts[1]
+
+              # Check required fields
+              required_fields = ["id", "tipo", "categoria", "audiencia", "prioridad", "version"]
+              for field in required_fields:
+                  if f"{field}:" not in frontmatter:
+                      errors.append(f"{guide_file}: Missing required field '{field}'")
+
+          if errors:
+              print("ERRORS FOUND:")
+              for error in errors:
+                  print(f"  - {error}")
+              sys.exit(1)
+          else:
+              print(f"✓ All {len(list(guides_dir.rglob('*.md')))} guides have valid frontmatter")
+          EOF
+
+      - name: Validate guide structure
+        run: |
+          echo "Validating guide sections..."
+
+          python3 << 'EOF'
+          import sys
+          from pathlib import Path
+
+          guides_dir = Path("docs/guias")
+          errors = []
+
+          required_sections = [
+              "## Proposito",
+              "## Pre-requisitos",
+              "## Pasos",
+              "## Validacion",
+              "## Troubleshooting",
+              "## Referencias"
+          ]
+
+          for guide_file in guides_dir.rglob("*.md"):
+              if guide_file.name in ["README.md", "METRICS.md"]:
+                  continue
+
+              content = guide_file.read_text()
+
+              for section in required_sections:
+                  if section not in content:
+                      errors.append(f"{guide_file}: Missing section '{section}'")
+
+          if errors:
+              print("ERRORS FOUND:")
+              for error in errors:
+                  print(f"  - {error}")
+              sys.exit(1)
+          else:
+              print(f"✓ All guides have required sections")
+          EOF
+
+  check-broken-links:
+    name: Check for Broken Links
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Check internal links
+        run: |
+          echo "Checking for broken internal links..."
+
+          python3 << 'EOF'
+          import sys
+          from pathlib import Path
+          import re
+
+          guides_dir = Path("docs/guias")
+          errors = []
+
+          # Get all guide files
+          all_files = set()
+          for guide_file in guides_dir.rglob("*.md"):
+              all_files.add(str(guide_file.relative_to(guides_dir)))
+
+          # Check links in each file
+          for guide_file in guides_dir.rglob("*.md"):
+              content = guide_file.read_text()
+
+              # Find markdown links: [text](path)
+              links = re.findall(r'\[([^\]]+)\]\(([^)]+)\)', content)
+
+              for link_text, link_path in links:
+                  # Skip external links
+                  if link_path.startswith(('http://', 'https://', '#')):
+                      continue
+
+                  # Resolve relative path
+                  if link_path.startswith('../'):
+                      # Link outside guides/ - skip for now
+                      continue
+
+                  # Check if file exists
+                  target = guide_file.parent / link_path
+                  if not target.exists():
+                      errors.append(f"{guide_file}: Broken link to '{link_path}'")
+
+          if errors:
+              print("BROKEN LINKS FOUND:")
+              for error in errors:
+                  print(f"  - {error}")
+              print(f"\nTotal: {len(errors)} broken links")
+              # Don't fail build yet, just warn
+              # sys.exit(1)
+          else:
+              print("✓ No broken internal links found")
+          EOF
+
+  generate-coverage-report:
+    name: Generate Coverage Report
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Generate coverage report
+        run: |
+          python scripts/dora_metrics.py --docs-only --format json > docs-coverage.json
+          cat docs-coverage.json
+
+      - name: Print summary
+        run: |
+          python3 << 'EOF'
+          import json
+          from pathlib import Path
+
+          with open("docs-coverage.json") as f:
+              data = json.load(f)
+
+          coverage = data["documentation_metrics"]["coverage"]
+          onboarding = data["documentation_metrics"]["onboarding"]
+
+          print("=" * 80)
+          print("DOCUMENTATION COVERAGE SUMMARY")
+          print("=" * 80)
+          print(f"\nTotal Coverage: {coverage['coverage_percent']}%")
+          print(f"Guides: {coverage['total_guides_actual']}/{coverage['total_guides_planned']}")
+          print(f"\nP0 Coverage: {coverage['by_priority']['P0']['percent']}%")
+          print(f"P0 Guides: {coverage['by_priority']['P0']['actual']}/{coverage['by_priority']['P0']['planned']}")
+          print(f"\nOnboarding Time: {onboarding['estimated_time_minutes']} min (target: {onboarding['target_time_minutes']} min)")
+          print(f"Status: {onboarding['status']}")
+
+          print("\nBy Category:")
+          for cat, count in coverage['by_category'].items():
+              print(f"  - {cat}: {count} guides")
+
+          print("=" * 80)
+          EOF
+
+      - name: Upload coverage artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: docs-coverage-report
+          path: docs-coverage.json
+
+      - name: Comment on PR
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const data = JSON.parse(fs.readFileSync('docs-coverage.json', 'utf8'));
+            const coverage = data.documentation_metrics.coverage;
+            const onboarding = data.documentation_metrics.onboarding;
+
+            const comment = `## Documentation Coverage Report
+
+            **Total Coverage:** ${coverage.coverage_percent}% (${coverage.total_guides_actual}/${coverage.total_guides_planned} guides)
+
+            **P0 Coverage:** ${coverage.by_priority.P0.percent}% (${coverage.by_priority.P0.actual}/${coverage.by_priority.P0.planned} guides)
+
+            **Onboarding Time:** ${onboarding.estimated_time_minutes} min (target: ${onboarding.target_time_minutes} min)
+            **Status:** ${onboarding.status}
+
+            ### By Category
+            ${Object.entries(coverage.by_category).map(([cat, count]) => `- ${cat}: ${count} guides`).join('\n')}
+
+            ---
+            *Generated by validate-guides workflow*
+            `;
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });
+
+  quality-checks:
+    name: Quality Checks
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Check for TODOs and placeholders
+        run: |
+          echo "Checking for TODOs and placeholders..."
+
+          # Check for common placeholders that should be replaced
+          if grep -r "TBD\|TODO\|FIXME\|XXX" docs/guias/**/*.md --exclude="README.md" --exclude="METRICS.md"; then
+            echo "WARNING: Found TODOs or placeholders in guides"
+            echo "Please replace them with actual content before merging"
+            # Don't fail build, just warn
+          else
+            echo "✓ No TODOs or placeholders found"
+          fi
+
+      - name: Check guide length
+        run: |
+          echo "Checking guide lengths..."
+
+          python3 << 'EOF'
+          from pathlib import Path
+
+          guides_dir = Path("docs/guias")
+          warnings = []
+
+          for guide_file in guides_dir.rglob("*.md"):
+              if guide_file.name in ["README.md", "METRICS.md"]:
+                  continue
+
+              lines = len(guide_file.read_text().splitlines())
+
+              # Guides should be comprehensive but not too long
+              if lines < 50:
+                  warnings.append(f"{guide_file}: Only {lines} lines (might be too short)")
+              elif lines > 500:
+                  warnings.append(f"{guide_file}: {lines} lines (might be too long)")
+
+          if warnings:
+              print("LENGTH WARNINGS:")
+              for warning in warnings:
+                  print(f"  - {warning}")
+          else:
+              print("✓ All guides have reasonable length")
+          EOF
+
+  summary:
+    name: Summary
+    runs-on: ubuntu-latest
+    needs: [validate-structure, check-broken-links, generate-coverage-report, quality-checks]
+    if: always()
+
+    steps:
+      - name: Check job results
+        run: |
+          echo "Validation Results:"
+          echo "  - Structure: ${{ needs.validate-structure.result }}"
+          echo "  - Links: ${{ needs.check-broken-links.result }}"
+          echo "  - Coverage: ${{ needs.generate-coverage-report.result }}"
+          echo "  - Quality: ${{ needs.quality-checks.result }}"
+
+          if [[ "${{ needs.validate-structure.result }}" == "failure" ]]; then
+            echo "ERROR: Structure validation failed"
+            exit 1
+          fi

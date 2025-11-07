@@ -9,7 +9,7 @@
 #   ./infrastructure/cpython/scripts/validate_wrapper.sh <artifact-name>
 #
 # Ejemplo:
-#   ./infrastructure/cpython/scripts/validate_wrapper.sh cpython-3.12.6-ubuntu22.04-build1.tgz
+#   ./infrastructure/cpython/scripts/validate_wrapper.sh cpython-3.12.6-ubuntu20.04-build1.tgz
 #
 
 set -euo pipefail
@@ -36,7 +36,7 @@ log_error() {
 # Validar argumentos
 if [ $# -lt 1 ]; then
     log_error "Uso: $0 <artifact-name>"
-    log_error "Ejemplo: $0 cpython-3.12.6-ubuntu22.04-build1.tgz"
+    log_error "Ejemplo: $0 cpython-3.12.6-ubuntu20.04-build1.tgz"
     exit 1
 fi
 

@@ -24,7 +24,7 @@ El sistema de CPython precompilado sigue una arquitectura de 4 componentes indep
 **Tecnologías**:
 - Vagrant >= 2.3.0
 - VirtualBox 7.0 (provider)
-- Ubuntu 22.04 LTS (guest OS)
+- Ubuntu 20.04 LTS (guest OS)
 - Bash scripts para automatización
 
 **Entradas**:
@@ -33,8 +33,8 @@ El sistema de CPython precompilado sigue una arquitectura de 4 componentes indep
 - Flags de optimización definidos
 
 **Salidas**:
-- Tarball: `cpython-X.Y.Z-ubuntu22.04-buildN.tgz`
-- Checksum: `cpython-X.Y.Z-ubuntu22.04-buildN.tgz.sha256`
+- Tarball: `cpython-X.Y.Z-ubuntu20.04-buildN.tgz`
+- Checksum: `cpython-X.Y.Z-ubuntu20.04-buildN.tgz.sha256`
 - Metadata de build (fecha, versión de libs)
 
 **Ubicación en proyecto**:
@@ -103,11 +103,11 @@ infrastructure/cpython/
 **Estructura de Release**:
 ```
 Release Tag: cpython-3.12.6-build1
-├── Title: "CPython 3.12.6 Build 1 (Ubuntu 22.04)"
+├── Title: "CPython 3.12.6 Build 1 (Ubuntu 20.04)"
 ├── Notes: Metadata de compilación, versiones de libs
 └── Assets:
-    ├── cpython-3.12.6-ubuntu22.04-build1.tgz       (50-80 MB)
-    └── cpython-3.12.6-ubuntu22.04-build1.tgz.sha256 (< 1 KB)
+    ├── cpython-3.12.6-ubuntu20.04-build1.tgz       (50-80 MB)
+    └── cpython-3.12.6-ubuntu20.04-build1.tgz.sha256 (< 1 KB)
 ```
 
 **Naming convention** (semántico):
@@ -115,9 +115,9 @@ Release Tag: cpython-3.12.6-build1
 cpython-<major>.<minor>.<patch>-<distro>-build<n>.tgz
 
 Ejemplos:
-- cpython-3.12.6-ubuntu22.04-build1.tgz
+- cpython-3.12.6-ubuntu20.04-build1.tgz
 - cpython-3.12.6-ubuntu24.04-build1.tgz
-- cpython-3.11.9-ubuntu22.04-build2.tgz
+- cpython-3.11.9-ubuntu20.04-build2.tgz
 ```
 
 **Proceso de publicación**:
@@ -126,13 +126,13 @@ Ejemplos:
 cd /vagrant/infrastructure/cpython/artifacts/
 
 gh release create cpython-3.12.6-build1 \
-  cpython-3.12.6-ubuntu22.04-build1.tgz \
-  cpython-3.12.6-ubuntu22.04-build1.tgz.sha256 \
-  --title "CPython 3.12.6 Build 1 (Ubuntu 22.04)" \
+  cpython-3.12.6-ubuntu20.04-build1.tgz \
+  cpython-3.12.6-ubuntu20.04-build1.tgz.sha256 \
+  --title "CPython 3.12.6 Build 1 (Ubuntu 20.04)" \
   --notes "Compilado con OpenSSL 3.0.2, SQLite 3.37.2, ..."
 
 # Actualizar registro
-echo "| 3.12.6 | 1 | ubuntu22.04 | 2025-11-06 | <sha256> | <url> | Activo |" \
+echo "| 3.12.6 | 1 | ubuntu20.04 | 2025-11-06 | <sha256> | <url> | Activo |" \
   >> ../../ARTIFACTS.md
 ```
 
@@ -143,7 +143,7 @@ Base URL: https://github.com/2-Coatl/IACT---project/releases/download/
 
 Ejemplo:
 https://github.com/2-Coatl/IACT---project/releases/download/
-cpython-3.12.6-build1/cpython-3.12.6-ubuntu22.04-build1.tgz
+cpython-3.12.6-build1/cpython-3.12.6-ubuntu20.04-build1.tgz
 ```
 
 **Política de retención**:
@@ -322,7 +322,7 @@ Total: <20 segundos
 │                                                    ▼                     │
 │                                         ┌─────────────────────────┐     │
 │                                         │ cpython-3.12.6-         │     │
-│                                         │ ubuntu22.04-build1.tgz  │     │
+│                                         │ ubuntu20.04-build1.tgz  │     │
 │                                         │ + .sha256 checksum      │     │
 │                                         └─────────────────────────┘     │
 └─────────────────────────────────────────────────────────────────────────┘
@@ -336,8 +336,8 @@ Total: <20 segundos
 │           │         GitHub Releases                        │            │
 │           │  Tag: cpython-3.12.6-build1                    │            │
 │           │  Assets:                                       │            │
-│           │    - cpython-3.12.6-ubuntu22.04-build1.tgz     │            │
-│           │    - cpython-3.12.6-ubuntu22.04-build1.tgz.sha │            │
+│           │    - cpython-3.12.6-ubuntu20.04-build1.tgz     │            │
+│           │    - cpython-3.12.6-ubuntu20.04-build1.tgz.sha │            │
 │           │  URL: https://github.com/.../releases/...      │            │
 │           └────────────────────────────────────────────────┘            │
 └─────────────────────────────────────────────────────────────────────────┘
@@ -411,17 +411,17 @@ Total: <20 segundos
 
 | OS Vagrant | OS Dev Container | Compatible | Notas |
 |------------|------------------|------------|-------|
-| Ubuntu 22.04 | Ubuntu 22.04 | Sí | Configuración recomendada |
-| Ubuntu 22.04 | Ubuntu 24.04 | Probablemente | Validar glibc version |
-| Ubuntu 24.04 | Ubuntu 22.04 | No | glibc too new en build |
-| Ubuntu 22.04 | Debian 11 | Probablemente | Validar libs |
-| Ubuntu 22.04 | Alpine | No | musl vs glibc incompatible |
+| Ubuntu 20.04 | Ubuntu 20.04 | Sí | Configuración recomendada |
+| Ubuntu 20.04 | Ubuntu 24.04 | Probablemente | Validar glibc version |
+| Ubuntu 24.04 | Ubuntu 20.04 | No | glibc too new en build |
+| Ubuntu 20.04 | Debian 11 | Probablemente | Validar libs |
+| Ubuntu 20.04 | Alpine | No | musl vs glibc incompatible |
 
 **Regla de oro**: Vagrant y Dev Container deben usar la misma versión de Ubuntu.
 
 ### Versiones de Python
 
-| Python | Ubuntu 22.04 | Ubuntu 24.04 | Estado |
+| Python | Ubuntu 20.04 | Ubuntu 24.04 | Estado |
 |--------|--------------|--------------|--------|
 | 3.12.6 | Soportado | Soportado | Activo |
 | 3.12.x | Soportado | Soportado | Bajo demanda |
@@ -441,13 +441,13 @@ Total: <20 segundos
 gpg --verify Python-3.12.6.tgz.asc Python-3.12.6.tgz
 
 # Generar checksum del artefacto
-sha256sum cpython-3.12.6-ubuntu22.04-build1.tgz > cpython-3.12.6-ubuntu22.04-build1.tgz.sha256
+sha256sum cpython-3.12.6-ubuntu20.04-build1.tgz > cpython-3.12.6-ubuntu20.04-build1.tgz.sha256
 ```
 
 **En instalación** (Feature):
 ```bash
 # OBLIGATORIO: validar checksum antes de extraer
-sha256sum -c cpython-3.12.6-ubuntu22.04-build1.tgz.sha256
+sha256sum -c cpython-3.12.6-ubuntu20.04-build1.tgz.sha256
 if [ $? -ne 0 ]; then
     echo "ERROR: Checksum inválido, artefacto corrupto o alterado"
     exit 1

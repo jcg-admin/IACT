@@ -1,9 +1,9 @@
 #!/bin/bash
 #
-# infrastructure/cpython/scripts/build_wrapper.sh - Wrapper para compilación en Vagrant
+# infrastructure/cpython/scripts/build_wrapper.sh - Wrapper para compilacion en Vagrant
 #
 # Referencia: SPEC_INFRA_001
-# Propósito: Facilitar compilación desde fuera de Vagrant (host → VM)
+# Proposito: Facilitar compilacion desde fuera de Vagrant (host → VM)
 #
 # Uso:
 #   ./infrastructure/cpython/scripts/build_wrapper.sh <version> [build-number]
@@ -15,23 +15,19 @@
 
 set -euo pipefail
 
-# Colores para output
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-BLUE='\033[0;34m'
-NC='\033[0m' # No Color
+# Cargar utilidades
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/../../.." && pwd)"
 
-log_info() {
-    echo -e "${BLUE}[INFO]${NC} $*"
-}
-
-log_success() {
-    echo -e "${GREEN}[SUCCESS]${NC} $*"
-}
-
-log_error() {
-    echo -e "${RED}[ERROR]${NC} $*"
+source "$SCRIPT_DIR/../utils/logging.sh" 2>/dev/null || {
+    # Fallback si estamos fuera de la VM
+    RED='\033[0;31m'
+    GREEN='\033[0;32m'
+    BLUE='\033[0;34m'
+    NC='\033[0m'
+    log_info() { echo -e "${BLUE}[INFO]${NC} $*"; }
+    log_success() { echo -e "${GREEN}[SUCCESS]${NC} $*"; }
+    log_error() { echo -e "${RED}[ERROR]${NC} $*"; }
 }
 
 # Validar argumentos
@@ -44,10 +40,7 @@ fi
 PYTHON_VERSION="$1"
 BUILD_NUMBER="${2:-1}"
 
-# Detectar directorio raíz del proyecto
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-PROJECT_ROOT="$(cd "$SCRIPT_DIR/../../.." && pwd)"  # 3 levels up from scripts/
-
+# Detectar directorio raiz del proyecto
 VAGRANT_DIR="$PROJECT_ROOT/infrastructure/cpython"
 
 # Verificar que existe directorio Vagrant
@@ -56,15 +49,15 @@ if [ ! -d "$VAGRANT_DIR" ]; then
     exit 1
 fi
 
-log_info "=== Wrapper de compilación de CPython ==="
-log_info "Versión: $PYTHON_VERSION"
+log_info "=== Wrapper de compilacion de CPython ==="
+log_info "Version: $PYTHON_VERSION"
 log_info "Build number: $BUILD_NUMBER"
 log_info "Vagrant dir: $VAGRANT_DIR"
 echo ""
 
-# Verificar que Vagrant está instalado
+# Verificar que Vagrant esta instalado
 if ! command -v vagrant &> /dev/null; then
-    log_error "Vagrant no está instalado"
+    log_error "Vagrant no esta instalado"
     log_error "Instalar: https://www.vagrantup.com/downloads"
     exit 1
 fi
@@ -76,17 +69,17 @@ cd "$VAGRANT_DIR"
 VM_STATUS=$(vagrant status --machine-readable | grep "state," | cut -d, -f4)
 
 if [ "$VM_STATUS" != "running" ]; then
-    log_info "VM no está corriendo. Iniciando..."
+    log_info "VM no esta corriendo. Iniciando..."
     if ! vagrant up; then
         log_error "Fallo al iniciar VM"
         exit 1
     fi
 fi
 
-log_success "VM está corriendo"
+log_success "VM esta corriendo"
 
-# Ejecutar compilación en VM
-log_info "Ejecutando compilación en VM..."
+# Ejecutar compilacion en VM
+log_info "Ejecutando compilacion en VM..."
 echo ""
 
 vagrant ssh -c "cd /vagrant && ./scripts/build_cpython.sh $PYTHON_VERSION $BUILD_NUMBER"
@@ -95,14 +88,14 @@ EXIT_CODE=$?
 
 if [ $EXIT_CODE -eq 0 ]; then
     echo ""
-    log_success "=== Compilación completada exitosamente ==="
+    log_success "=== Compilacion completada exitosamente ==="
     log_info "Artefacto generado en: $PROJECT_ROOT/infrastructure/cpython/artifacts/"
     echo ""
     log_info "Siguiente paso:"
-    log_info "  ./infrastructure/cpython/scripts/validate_wrapper.sh cpython-${PYTHON_VERSION}-ubuntu22.04-build${BUILD_NUMBER}.tgz"
+    log_info "  ./infrastructure/cpython/scripts/validate_wrapper.sh cpython-${PYTHON_VERSION}-ubuntu20.04-build${BUILD_NUMBER}.tgz"
 else
     echo ""
-    log_error "Compilación falló con código: $EXIT_CODE"
+    log_error "Compilacion fallo con codigo: $EXIT_CODE"
     log_info "Para debugging, conectarse a VM:"
     log_info "  cd $VAGRANT_DIR"
     log_info "  vagrant ssh"

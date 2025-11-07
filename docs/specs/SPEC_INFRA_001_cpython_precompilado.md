@@ -138,7 +138,7 @@ Implementar un sistema de CPython precompilado distribuido mediante Feature pers
 
 **Flujo Principal**:
 1. Desarrollador ejecuta `make build_cpython`
-2. Sistema levanta VM Vagrant con Ubuntu 22.04
+2. Sistema levanta VM Vagrant con Ubuntu 20.04
 3. Sistema instala dependencias de compilación (OpenSSL, SQLite, etc.)
 4. Sistema descarga código fuente de CPython desde python.org
 5. Sistema configura compilación con flags de optimización
@@ -235,7 +235,7 @@ Implementar un sistema de CPython precompilado distribuido mediante Feature pers
 
 | ID | Regla | Prioridad | Validación |
 |----|-------|-----------|------------|
-| BR-001 | Mismo sistema base entre Vagrant y contenedor (Ubuntu 22.04 o 24.04) | Alta | Script de build valida versión OS |
+| BR-001 | Mismo sistema base entre Vagrant y contenedor (Ubuntu 20.04 o 24.04) | Alta | Script de build valida versión OS |
 | BR-002 | Checksum SHA256 DEBE validarse antes de instalar artefacto | Crítica | Feature ejecuta `sha256sum -c` |
 | BR-003 | Artefactos DEBEN incluir LICENSE de CPython (PSF) | Media | Validación manual en checklist |
 | BR-004 | Rebuild de CPython cada 6 meses o ante CVE crítico | Alta | Calendario de mantenimiento |
@@ -247,9 +247,9 @@ Implementar un sistema de CPython precompilado distribuido mediante Feature pers
 
 **CA-001**: Build de CPython en Vagrant genera artefacto válido
 ```gherkin
-Given una VM Vagrant limpia con Ubuntu 22.04
+Given una VM Vagrant limpia con Ubuntu 20.04
 When ejecuto el script build_cpython.sh
-Then se genera un tarball cpython-X.Y.Z-ubuntu22.04-buildN.tgz
+Then se genera un tarball cpython-X.Y.Z-ubuntu20.04-buildN.tgz
 And el tarball contiene el directorio opt/python-X.Y.Z/
 And existe archivo .sha256 con checksum correcto
 And python3 --version retorna la versión esperada dentro del artefacto
@@ -350,7 +350,7 @@ And permite el push si todo es válido
 - **Tests críticos**: 100% pasan marcados con @pytest.mark.critical
 - **Documentación**: README en cada componente (vagrant/, features/, scripts/)
 - **Logging**: Logs detallados de compilación y instalación
-- **Versionado semántico**: Artefactos siguen semver (cpython-3.12.6-ubuntu22.04-build1)
+- **Versionado semántico**: Artefactos siguen semver (cpython-3.12.6-ubuntu20.04-build1)
 - **Trazabilidad**: Todos los archivos referencian SPEC_INFRA_001
 
 ---
@@ -415,7 +415,7 @@ And permite el push si todo es válido
 **Artefacto CPython**: Estructura del tarball
 
 ```
-cpython-3.12.6-ubuntu22.04-build1.tgz
+cpython-3.12.6-ubuntu20.04-build1.tgz
   /opt/
     /python-3.12.6/
       /bin/
@@ -445,8 +445,8 @@ cpython-3.12.6-ubuntu22.04-build1.tgz
 ```markdown
 | Versión | Build | Distro | Fecha | SHA256 | URL Release | Estado |
 |---------|-------|--------|-------|--------|-------------|--------|
-| 3.12.6  | 1     | ubuntu22.04 | 2025-11-06 | abc123... | https://... | Activo |
-| 3.12.5  | 2     | ubuntu22.04 | 2025-09-15 | def456... | https://... | Deprecado |
+| 3.12.6  | 1     | ubuntu20.04 | 2025-11-06 | abc123... | https://... | Activo |
+| 3.12.5  | 2     | ubuntu20.04 | 2025-09-15 | def456... | https://... | Deprecado |
 ```
 
 **No se requieren cambios en base de datos Django**
@@ -464,7 +464,7 @@ cpython-3.12.6-ubuntu22.04-build1.tgz
 
 function build_cpython():
     # 1. Preparación
-    validate_os_version()  # Debe ser Ubuntu 22.04 o 24.04
+    validate_os_version()  # Debe ser Ubuntu 20.04 o 24.04
     install_build_dependencies()  # OpenSSL, SQLite, etc.
 
     # 2. Descarga
@@ -552,7 +552,7 @@ La "interfaz" es la configuración declarativa en `devcontainer.json`:
   "features": {
     "./infrastructure/cpython/installer": {
       "version": "3.12.6",
-      "artifactUrl": "https://github.com/2-Coatl/IACT---project/releases/download/cpython-3.12.6-build1/cpython-3.12.6-ubuntu22.04-build1.tgz"
+      "artifactUrl": "https://github.com/2-Coatl/IACT---project/releases/download/cpython-3.12.6-build1/cpython-3.12.6-ubuntu20.04-build1.tgz"
     }
   }
 }
@@ -588,7 +588,7 @@ La "interfaz" es la configuración declarativa en `devcontainer.json`:
 ### 6.3 Dependencias de Infraestructura
 
 **Vagrant VM**:
-- Ubuntu 22.04 LTS (alineado con Dev Containers)
+- Ubuntu 20.04 LTS (alineado con Dev Containers)
 - Mínimo 2 GB RAM, 10 GB disco
 - Conexión a internet para descargas
 
@@ -612,7 +612,7 @@ La "interfaz" es la configuración declarativa en `devcontainer.json`:
 - **Tests Unitarios**: Scripts individuales (build, validate, install) - Cobertura 80%
 - **Tests de Integración**: Build completo en Vagrant → Instalación en Dev Container
 - **Tests Críticos**: Marcados con `@pytest.mark.critical` ejecutados en pre-push
-- **Tests de Compatibilidad**: Validar en Ubuntu 22.04 y 24.04
+- **Tests de Compatibilidad**: Validar en Ubuntu 20.04 y 24.04
 - **Tests de Performance**: Medir tiempos de build <2min
 - **Tests de Seguridad**: Validación de checksums, detección de secrets
 
@@ -633,7 +633,7 @@ La "interfaz" es la configuración declarativa en `devcontainer.json`:
 ### 7.3 Datos de Prueba
 
 **Artefactos de prueba**:
-- CPython 3.12.6 compilado en Ubuntu 22.04
+- CPython 3.12.6 compilado en Ubuntu 20.04
 - Artefacto corrupto (para test de checksum)
 - Artefacto con checksum inválido
 
@@ -747,7 +747,7 @@ No se requiere sistema de feature flags porque cada proyecto decide individualme
 
 | Riesgo | Probabilidad | Impacto | Mitigación |
 |--------|--------------|---------|------------|
-| Incompatibilidad glibc entre Vagrant y Dev Container | Media | Alto | Usar exactamente Ubuntu 22.04 en ambos, validar versión |
+| Incompatibilidad glibc entre Vagrant y Dev Container | Media | Alto | Usar exactamente Ubuntu 20.04 en ambos, validar versión |
 | Artefacto corrupto o alterado | Baja | Crítico | Validación SHA256 obligatoria, firma GPG en Fase 4 |
 | GitHub Releases no disponible | Baja | Medio | Documentar fallback manual, considerar mirror local |
 | Módulos nativos faltan por libs dev ausentes | Media | Alto | Checklist de dependencias, validación automática post-build |

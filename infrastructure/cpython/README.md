@@ -8,7 +8,7 @@
 
 ## Descripción
 
-Esta VM Vagrant proporciona un entorno controlado para compilar CPython desde código fuente con configuración reproducible. La VM usa Ubuntu 22.04 LTS, la misma versión que los Dev Containers objetivo.
+Esta VM Vagrant proporciona un entorno controlado para compilar CPython desde código fuente con configuración reproducible. La VM usa Ubuntu 20.04 LTS para compatibilidad con VirtualBox Guest Additions.
 
 ---
 
@@ -78,14 +78,14 @@ Tiempo de compilación: ~10-15 minutos (con PGO)
 
 **Opción A: Desde fuera de VM (recomendado)**:
 ```bash
-./infrastructure/cpython/scripts/validate-cpython.sh cpython-3.12.6-ubuntu22.04-build1.tgz
+./infrastructure/cpython/scripts/validate-cpython.sh cpython-3.12.6-ubuntu20.04-build1.tgz
 ```
 
 **Opción B: Dentro de VM**:
 ```bash
 vagrant ssh
 cd /vagrant
-./scripts/validate_build.sh cpython-3.12.6-ubuntu22.04-build1.tgz
+./scripts/validate_build.sh cpython-3.12.6-ubuntu20.04-build1.tgz
 ```
 
 ### 4. Resultado
@@ -94,8 +94,8 @@ Artefactos generados en: `infrastructure/cpython/artifacts/`
 
 ```
 infrastructure/cpython/artifacts/
-  +-- cpython-3.12.6-ubuntu22.04-build1.tgz
-  +-- cpython-3.12.6-ubuntu22.04-build1.tgz.sha256
+  +-- cpython-3.12.6-ubuntu20.04-build1.tgz
+  +-- cpython-3.12.6-ubuntu20.04-build1.tgz.sha256
 ```
 
 ---
@@ -110,19 +110,26 @@ infrastructure/cpython/artifacts/
 
 **Sintaxis**:
 ```bash
-./scripts/build_cpython.sh <version> [build-number]
+./scripts/build_cpython.sh <version> [build-number] [--force]
 ```
 
 **Argumentos**:
 - `version`: Versión de Python (formato X.Y.Z, ejemplo: 3.12.6)
 - `build-number`: Número de build (opcional, default: 1)
+- `--force`: Sobrescribir artefacto existente sin preguntar
 
 **Ejemplos**:
 ```bash
 ./scripts/build_cpython.sh 3.12.6        # Build 1 de Python 3.12.6
 ./scripts/build_cpython.sh 3.12.6 2      # Build 2 (rebuild)
 ./scripts/build_cpython.sh 3.11.9        # Python 3.11.9
+./scripts/build_cpython.sh 3.12.6 1 --force  # Sobrescribir build existente
 ```
+
+**Características**:
+- **Idempotente**: Puede ejecutarse múltiples veces, detecta instalaciones previas
+- **Sin fallas silenciosas**: Todos los errores se reportan con códigos de salida
+- **Validación robusta**: Verifica descargas, extracciones, y compilaciones
 
 **Flags de compilación**:
 - `--enable-optimizations`: Profile-Guided Optimization (PGO)
@@ -131,8 +138,8 @@ infrastructure/cpython/artifacts/
 - `--with-system-ffi`: Usar libffi del sistema
 
 **Output**:
-- Tarball: `cpython-<version>-ubuntu22.04-build<N>.tgz`
-- Checksum: `cpython-<version>-ubuntu22.04-build<N>.tgz.sha256`
+- Tarball: `cpython-<version>-ubuntu20.04-build<N>.tgz`
+- Checksum: `cpython-<version>-ubuntu20.04-build<N>.tgz.sha256`
 - Build info: Incluido en `.build-info` dentro del tarball
 
 #### validate_build.sh
@@ -160,6 +167,34 @@ infrastructure/cpython/artifacts/
 **Exit codes**:
 - 0: Validación exitosa
 - 1: Validación falló
+
+#### cleanup.sh
+
+**Propósito**: Limpiar entorno de compilación para rebuilds limpios (idempotencia)
+
+**Sintaxis**:
+```bash
+./scripts/cleanup.sh [--all|--build|--artifacts|--install]
+```
+
+**Opciones**:
+- Sin argumentos: Muestra estado actual del entorno
+- `--all`: Limpia todo (builds, instalaciones, artifacts)
+- `--build`: Limpia solo directorios de build temporales (`/tmp/cpython-build`)
+- `--install`: Limpia instalaciones en `/opt/python-*`
+- `--artifacts`: Limpia artifacts generados (`.tgz` y `.sha256`)
+
+**Ejemplos**:
+```bash
+./scripts/cleanup.sh               # Ver estado
+./scripts/cleanup.sh --build       # Limpiar builds temporales
+./scripts/cleanup.sh --all         # Limpieza completa
+```
+
+**Casos de uso**:
+- Antes de rebuild para asegurar ambiente limpio
+- Liberar espacio en disco
+- Troubleshooting de compilaciones fallidas
 
 ---
 
@@ -215,13 +250,22 @@ infrastructure/cpython/
 +-- scripts/
 |   +-- build_cpython.sh    # Script de compilación
 |   +-- validate_build.sh   # Script de validación
-+-- utils/                  # Utilidades compartidas
+|   +-- feature_install.sh  # Instalación en Dev Container
+|   +-- build_wrapper.sh    # Wrapper para host
+|   +-- validate_wrapper.sh # Wrapper de validación
++-- utils/                  # Utilidades compartidas (NUEVO)
+|   +-- logging.sh          # Funciones de logging
+|   +-- validation.sh       # Funciones de validación
+|   +-- common.sh           # Utilidades generales
++-- config/                 # Configuración centralizada (NUEVO)
+|   +-- versions.conf       # Versiones y parámetros
++-- artifacts/              # Artefactos generados
 +-- logs/                   # Logs de compilación
-+-- config/                 # Configuraciones
++-- tests/                  # Tests del sistema
 +-- README.md               # Este archivo
 
 Carpetas compartidas:
-  /vagrant/artifacts/ <-> ../../../artifacts/
+  /vagrant/ <-> infrastructure/cpython/
 ```
 
 ---
@@ -280,7 +324,7 @@ cd /vagrant
 **Solución**:
 1. Cerrar aplicaciones que consuman RAM
 2. Aumentar recursos en Vagrantfile
-3. Considerar compilación nativa (sin VM) si OS es Ubuntu 22.04
+3. Considerar compilación nativa (sin VM) si OS es Ubuntu 20.04
 
 ### Artefacto muy grande (>150 MB)
 
@@ -296,7 +340,7 @@ find . -name "*.pyc" -delete
 
 # Re-empaquetar
 cd /opt
-sudo tar czf /vagrant/infrastructure/cpython/artifacts/cpython-X.Y.Z-ubuntu22.04-build2.tgz python-X.Y.Z
+sudo tar czf /vagrant/infrastructure/cpython/artifacts/cpython-X.Y.Z-ubuntu20.04-build2.tgz python-X.Y.Z
 ```
 
 ---
@@ -350,10 +394,10 @@ Una vez generado y validado el artefacto:
 1. Publicar en GitHub Releases:
    ```bash
    gh release create cpython-3.12.6-build1 \
-     infrastructure/cpython/artifacts/cpython-3.12.6-ubuntu22.04-build1.tgz \
-     infrastructure/cpython/artifacts/cpython-3.12.6-ubuntu22.04-build1.tgz.sha256 \
+     infrastructure/cpython/artifacts/cpython-3.12.6-ubuntu20.04-build1.tgz \
+     infrastructure/cpython/artifacts/cpython-3.12.6-ubuntu20.04-build1.tgz.sha256 \
      --title "CPython 3.12.6 Build 1" \
-     --notes "CPython 3.12.6 precompilado para Ubuntu 22.04"
+     --notes "CPython 3.12.6 precompilado para Ubuntu 20.04"
    ```
 
 2. Actualizar `infrastructure/artifacts/ARTIFACTS.md`
@@ -361,6 +405,27 @@ Una vez generado y validado el artefacto:
 3. Proceder a Fase 2: Feature de Dev Container
 
 ---
+
+## Cambios Recientes
+
+### Refactorización 2025-11-07
+
+1. **Fix Vagrantfile**: Cambio de DHCP a IP estática (192.168.56.10)
+2. **Utilidades Compartidas**: Nuevo directorio `utils/` con funciones reutilizables
+   - `logging.sh`: Funciones de logging con colores
+   - `validation.sh`: Funciones de validación
+   - `common.sh`: Utilidades generales
+3. **Configuración Centralizada**: Archivo `config/versions.conf`
+4. **Scripts Refactorizados**: 5 scripts actualizados para usar utilidades compartidas
+5. **Mejor Mantenibilidad**: Código DRY, separación de responsabilidades
+
+## Documentación Completa
+
+Para información detallada:
+
+- **[CPython Builder - Documentación Completa](../../docs/infrastructure/cpython-builder.md)**: Arquitectura, componentes, uso detallado
+- **[Guía de Desarrollo](../../docs/infrastructure/cpython-development-guide.md)**: Cómo extender y modificar el sistema
+- **[CHANGELOG](../../docs/infrastructure/CHANGELOG-cpython.md)**: Historial de cambios
 
 ## Referencias
 
@@ -372,4 +437,4 @@ Una vez generado y validado el artefacto:
 ---
 
 **Mantenido por**: Equipo Infraestructura IACT
-**Última actualización**: 2025-11-06
+**Última actualización**: 2025-11-07

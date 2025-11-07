@@ -63,8 +63,8 @@ For local development and testing with locally built artifacts:
   "features": {
     "./infrastructure/cpython/installer": {
       "version": "3.12.6",
-      "artifactUrl": "/workspaces/IACT---project/infrastructure/cpython/artifacts/cpython-3.12.6-ubuntu22.04-build1.tgz",
-      "checksumUrl": "/workspaces/IACT---project/infrastructure/cpython/artifacts/cpython-3.12.6-ubuntu22.04-build1.tgz.sha256"
+      "artifactUrl": "/workspaces/IACT---project/infrastructure/cpython/artifacts/cpython-3.12.6-ubuntu20.04-build1.tgz",
+      "checksumUrl": "/workspaces/IACT---project/infrastructure/cpython/artifacts/cpython-3.12.6-ubuntu20.04-build1.tgz.sha256"
     }
   }
 }
@@ -100,7 +100,7 @@ URL or local path to the precompiled CPython tarball.
 **Examples**:
 ```json
 {
-  "artifactUrl": "https://github.com/2-Coatl/IACT---project/releases/download/cpython-3.12.6-build1/cpython-3.12.6-ubuntu22.04-build1.tgz"
+  "artifactUrl": "https://github.com/2-Coatl/IACT---project/releases/download/cpython-3.12.6-build1/cpython-3.12.6-ubuntu20.04-build1.tgz"
 }
 ```
 
@@ -206,7 +206,7 @@ Skip SHA256 checksum validation. Only use for testing or when checksum is not av
 
 ### Host Requirements
 
-- **OS**: Ubuntu 22.04 LTS (or compatible with glibc >= 2.35)
+- **OS**: Ubuntu 20.04 LTS (or compatible with glibc >= 2.35)
 - **Architecture**: x86_64 (amd64)
 - **Tools**: wget or curl, sha256sum, tar, ldconfig
 
@@ -331,7 +331,7 @@ Project B (Python 3.11):
   "features": {
     "./infrastructure/cpython/installer": {
       "version": "3.12.6",
-      "artifactUrl": "/workspaces/IACT---project/infrastructure/cpython/artifacts/cpython-3.12.6-ubuntu22.04-build1.tgz"
+      "artifactUrl": "/workspaces/IACT---project/infrastructure/cpython/artifacts/cpython-3.12.6-ubuntu20.04-build1.tgz"
     }
   }
 }
@@ -377,7 +377,7 @@ See: `docs/specs/SPEC_INFRA_001_cpython_precompilado.md` section 10.1
 1. Build artifact locally:
 ```bash
 make build_cpython VERSION=3.12.6
-make validate-cpython ARTIFACT=cpython-3.12.6-ubuntu22.04-build1.tgz
+make validate-cpython ARTIFACT=cpython-3.12.6-ubuntu20.04-build1.tgz
 ```
 
 2. Create test devcontainer.json:
@@ -387,7 +387,7 @@ make validate-cpython ARTIFACT=cpython-3.12.6-ubuntu22.04-build1.tgz
   "features": {
     "./infrastructure/cpython/installer": {
       "version": "3.12.6",
-      "artifactUrl": "/workspaces/IACT---project/infrastructure/cpython/artifacts/cpython-3.12.6-ubuntu22.04-build1.tgz"
+      "artifactUrl": "/workspaces/IACT---project/infrastructure/cpython/artifacts/cpython-3.12.6-ubuntu20.04-build1.tgz"
     }
   }
 }
