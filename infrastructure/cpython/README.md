@@ -215,13 +215,22 @@ infrastructure/cpython/
 +-- scripts/
 |   +-- build_cpython.sh    # Script de compilación
 |   +-- validate_build.sh   # Script de validación
-+-- utils/                  # Utilidades compartidas
+|   +-- feature_install.sh  # Instalación en Dev Container
+|   +-- build_wrapper.sh    # Wrapper para host
+|   +-- validate_wrapper.sh # Wrapper de validación
++-- utils/                  # Utilidades compartidas (NUEVO)
+|   +-- logging.sh          # Funciones de logging
+|   +-- validation.sh       # Funciones de validación
+|   +-- common.sh           # Utilidades generales
++-- config/                 # Configuración centralizada (NUEVO)
+|   +-- versions.conf       # Versiones y parámetros
++-- artifacts/              # Artefactos generados
 +-- logs/                   # Logs de compilación
-+-- config/                 # Configuraciones
++-- tests/                  # Tests del sistema
 +-- README.md               # Este archivo
 
 Carpetas compartidas:
-  /vagrant/artifacts/ <-> ../../../artifacts/
+  /vagrant/ <-> infrastructure/cpython/
 ```
 
 ---
@@ -362,6 +371,27 @@ Una vez generado y validado el artefacto:
 
 ---
 
+## Cambios Recientes
+
+### Refactorización 2025-11-07
+
+1. **Fix Vagrantfile**: Cambio de DHCP a IP estática (192.168.56.10)
+2. **Utilidades Compartidas**: Nuevo directorio `utils/` con funciones reutilizables
+   - `logging.sh`: Funciones de logging con colores
+   - `validation.sh`: Funciones de validación
+   - `common.sh`: Utilidades generales
+3. **Configuración Centralizada**: Archivo `config/versions.conf`
+4. **Scripts Refactorizados**: 5 scripts actualizados para usar utilidades compartidas
+5. **Mejor Mantenibilidad**: Código DRY, separación de responsabilidades
+
+## Documentación Completa
+
+Para información detallada:
+
+- **[CPython Builder - Documentación Completa](../../docs/infrastructure/cpython-builder.md)**: Arquitectura, componentes, uso detallado
+- **[Guía de Desarrollo](../../docs/infrastructure/cpython-development-guide.md)**: Cómo extender y modificar el sistema
+- **[CHANGELOG](../../docs/infrastructure/CHANGELOG-cpython.md)**: Historial de cambios
+
 ## Referencias
 
 - [SPEC_INFRA_001](../../../docs/specs/SPEC_INFRA_001_cpython_precompilado.md)
@@ -372,4 +402,4 @@ Una vez generado y validado el artefacto:
 ---
 
 **Mantenido por**: Equipo Infraestructura IACT
-**Última actualización**: 2025-11-06
+**Última actualización**: 2025-11-07
