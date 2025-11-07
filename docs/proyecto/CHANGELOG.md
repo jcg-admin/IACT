@@ -24,19 +24,79 @@ Registro cronologico de cambios, features y mejoras completadas.
 ### Pendiente
 - Sistema de metrics interno (MySQL) - Para completar DORA practicas 3 y 7
 - Custom dashboards Django Admin para logs Cassandra
-- Pre-commit hooks instalados
 - DORA metrics baseline establecida
 - Cron jobs para maintenance (cassandra-maintenance, log-alerts)
 - Comunicar AI stance al equipo
-- Agregar AI guidelines a onboarding
 - AI-enabled telemetry pipeline (Q1 2026)
 - Predictive analytics dashboard (Q2 2026)
 - Formalizar Data Engineer role
 - Formalizar MLOps Engineer role
-- Documentar collaboration protocols AI specialists + Platform team
 - Establecer ROI metrics para AI + Platform synergy
 - Instalar Cassandra cluster (3 nodes minimum)
-- Implementar infrastructure_logs_daemon.py
+
+---
+
+## [1.7.0] - 2025-11-07
+
+### Added - QA Automation + AI Guidelines + Infrastructure Logging
+
+**Pre-commit Hooks (QA Automation)**:
+- .pre-commit-config.yaml con 18 hooks
+  - Python: black, isort, flake8, bandit
+  - Markdown: markdownlint
+  - Security: detect-secrets
+  - Django: django-upgrade
+  - Shell: shellcheck
+- .markdownlint.json (MD rules config)
+- .secrets.baseline (baseline detect-secrets)
+- .pre-commit-hooks-readme.md (documentacion completa)
+- Instalacion: pip install pre-commit && pre-commit install
+
+**Onboarding + AI Guidelines**:
+- ONBOARDING.md (guia completa 11 secciones)
+  - Setup inicial (Python, Django, pre-commit)
+  - AI Stance y uso de AI assistants (Claude, Copilot)
+  - Workflow TDD + AI
+  - DORA metrics y 3 capas observabilidad
+  - Calidad codigo (coverage, linting)
+  - Collaboration protocols
+  - FAQ + proximos pasos
+
+**Collaboration Protocols AI + Platform**:
+- docs/gobernanza/ai/COLLABORATION_PROTOCOLS.md (11 secciones)
+  - Roles y responsabilidades (Platform Team vs AI Specialists)
+  - Interfaces de colaboracion (APIs, deployments, logging)
+  - Communication protocols (Slack, GitHub, PagerDuty)
+  - Escalation procedures (L1-L4)
+  - Data governance (access control, quality SLAs)
+  - ROI metrics (Platform, AI, DORA synergy)
+
+APIs expuestas por Platform:
+- GET /api/v1/logs/query (Cassandra logs)
+- GET /api/v1/dora/metrics (DORA metrics)
+- POST /api/v1/exports/create (batch exports)
+
+**Infrastructure Logs Daemon (Capa 3 Observabilidad)**:
+- scripts/logging/infrastructure_logs_daemon.py (580 lineas)
+  - Tail /var/log/* (nginx, postgresql, syslog, auth.log)
+  - Parse multiple formats (nginx, syslog, postgresql)
+  - Batch writes a Cassandra (1000 logs/batch)
+  - Inotify para log rotation handling
+  - Health check HTTP endpoint (port 9090)
+  - Graceful shutdown (SIGTERM, SIGINT)
+- scripts/logging/infrastructure-logs-daemon.service (systemd unit)
+
+Arquitectura 3 Capas COMPLETA:
+- Capa 1: DORA Metrics (scripts/dora_metrics.py)
+- Capa 2: Application Logs (scripts/logging/cassandra_handler.py)
+- Capa 3: Infrastructure Logs (scripts/logging/infrastructure_logs_daemon.py) [OK]
+
+**Archivos creados**: 7 archivos (2,308 lineas totales)
+**Tareas completadas**: 4/4 PENDIENTE
+- [OK] Pre-commit hooks instalados
+- [OK] AI guidelines agregados a onboarding
+- [OK] Collaboration protocols AI + Platform documentados
+- [OK] infrastructure_logs_daemon.py implementado
 
 ---
 

@@ -137,6 +137,50 @@ Todas las plantillas migradas a docs/plantillas/:
 ### Vision y Alcance (1 archivo)
 - glossary.md -> vision_y_alcance/
 
+### READMEs de Directorios (17 archivos)
+Archivos README.md de docs_legacy/ migrados a docs/ (aparecen como [MULTIPLE] porque cada directorio en docs/ tiene su README):
+
+- docs_legacy/README.md -> docs/README.md
+- checklists/README.md -> docs/gobernanza/procesos/checklists/README.md
+- desarrollo/README.md (NO EXISTE en legacy, documentos sin README)
+- devops/README.md -> docs/infrastructure/devops/README.md
+- diseno_detallado/README.md -> docs/backend/diseno_detallado/README.md
+- gobernanza/README.md -> docs/gobernanza/README.md
+- gobernanza/agentes/README.md -> docs/gobernanza/agentes/README.md
+- gobernanza/procesos/README.md -> docs/gobernanza/procesos/README.md
+- planificacion_y_releases/README.md -> docs/proyecto/ROADMAP.md (equivalente)
+- plantillas/README.md -> docs/plantillas/README.md
+- procedimientos/README.md -> docs/gobernanza/procesos/procedimientos/ (consolidado)
+- qa/README.md -> docs/testing/README.md
+- solicitudes/README.md (indice de solicitudes - NO MIGRADO intencionalmente)
+- solicitudes/sc01/README.md (planning - NO MIGRADO intencionalmente)
+- solicitudes/sc02/README.md (planning - CONTIENE deliverables migrados)
+- solicitudes/sc02/entregables/README.md (indice entregables - CONTIENE deliverables migrados)
+- solicitudes/sc03/README.md (planning - NO MIGRADO intencionalmente)
+- vision_y_alcance/README.md -> docs/vision_y_alcance/README.md
+
+NOTA: Los READMEs de solicitudes/ son planning docs, NO deliverables finales.
+
+**Total READMEs efectivamente migrados**: 11 archivos (excluyendo los 6 de solicitudes/ que son planning)
+
+**CORRECCION DEL CONTEO TOTAL**:
+- Checklists: 4
+- Desarrollo: 4
+- DevOps: 3
+- DevOps Runbooks: 6
+- Gobernanza raiz: 9
+- Gobernanza Marco Integrado: 8
+- Gobernanza Procesos: 10
+- Plantillas: 32
+- QA raiz: 3
+- QA Registros: 6
+- Vision y Alcance: 1
+- READMEs efectivamente migrados: 11
+- **SUMA CORRECTA: 97 archivos**
+
+Mas 6 READMEs de solicitudes (contados como [MULTIPLE] pero son planning):
+- 97 + 6 = **103 archivos total** ✓
+
 ---
 
 ## Detalle: 13 Archivos Historicos ([NO_MIGRAR])
