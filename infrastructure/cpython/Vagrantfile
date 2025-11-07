@@ -147,7 +147,69 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # PROVISIONING
   # =================================================================
 
-  config.vm.provision "shell", inline: <<-SHELL
+  # Install VirtualBox Guest Additions first (required for shared folders)
+  config.vm.provision "shell", name: "install-guest-additions", inline: <<-SHELL
+    set -euo pipefail
+
+    echo ""
+    echo "=================================================="
+    echo "  Installing VirtualBox Guest Additions"
+    echo "=================================================="
+    echo ""
+
+    # Check if Guest Additions are already installed and working
+    if lsmod | grep -q vboxsf; then
+      echo "[OK] VirtualBox Guest Additions already installed and loaded"
+      exit 0
+    fi
+
+    echo "Installing kernel headers and build tools..."
+    apt-get update -qq
+    apt-get install -y -qq linux-headers-$(uname -r) build-essential dkms
+
+    # Mount Guest Additions ISO if available
+    if [ -f /usr/share/virtualbox/VBoxGuestAdditions.iso ]; then
+      echo "Mounting Guest Additions ISO..."
+      mkdir -p /mnt/vbox
+      mount -o loop /usr/share/virtualbox/VBoxGuestAdditions.iso /mnt/vbox || true
+    elif [ -f /opt/VBoxGuestAdditions.iso ]; then
+      echo "Mounting Guest Additions ISO from /opt..."
+      mkdir -p /mnt/vbox
+      mount -o loop /opt/VBoxGuestAdditions.iso /mnt/vbox || true
+    else
+      echo "[WARNING] Guest Additions ISO not found"
+      echo "Guest Additions will be installed via package manager"
+      apt-get install -y -qq virtualbox-guest-utils virtualbox-guest-dkms
+      exit 0
+    fi
+
+    # Run Guest Additions installer
+    if [ -d /mnt/vbox ]; then
+      echo "Installing VirtualBox Guest Additions..."
+      cd /mnt/vbox
+      sh ./VBoxLinuxAdditions.run --nox11 || echo "[WARNING] Guest Additions install had warnings (may be OK)"
+      cd /
+      umount /mnt/vbox || true
+      rmdir /mnt/vbox || true
+    fi
+
+    # Load vboxsf module
+    echo "Loading vboxsf kernel module..."
+    modprobe vboxsf || echo "[WARNING] Could not load vboxsf module (will try on reboot)"
+
+    echo ""
+    echo "=================================================="
+    echo "  [OK] Guest Additions Installation Complete"
+    echo "=================================================="
+    echo ""
+    echo "NOTE: If shared folders still don't work, you may need to:"
+    echo "  1. vagrant reload"
+    echo "  2. Or install plugin: vagrant plugin install vagrant-vbguest"
+    echo ""
+  SHELL
+
+  # Main provisioning script
+  config.vm.provision "shell", name: "bootstrap", inline: <<-SHELL
     set -euo pipefail
 
     echo ""
