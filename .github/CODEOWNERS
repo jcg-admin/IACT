@@ -68,6 +68,7 @@ docs/plantillas/**                           @arquitecto-senior
 # Testing y QA
 # Owner: QA Lead
 docs/testing/**                              @qa-lead @arquitecto-senior
+docs/qa/**                                   @qa-lead @arquitecto-senior
 
 # Proyecto y Vision
 # Owner: Product Owner + Arquitecto Senior
