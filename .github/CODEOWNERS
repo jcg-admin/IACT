@@ -49,6 +49,16 @@ docs/adr/**                                  @arquitecto-senior
 docs/requisitos/**                           @product-owner @arquitecto-senior
 docs/vision_y_alcance/**                     @product-owner @arquitecto-senior
 
+# Guias Operativas
+# Owner: Doc Lead + Arquitecto Senior
+docs/guias/**                                @doc-lead @arquitecto-senior
+docs/guias/onboarding/**                     @doc-lead @tech-lead
+docs/guias/workflows/**                      @tech-lead @devops-lead
+docs/guias/testing/**                        @qa-lead @tech-lead
+docs/guias/deployment/**                     @devops-lead @tech-lead
+docs/guias/troubleshooting/**                @tech-lead @devops-lead
+docs/plantillas/guia-template.md             @doc-lead @arquitecto-senior
+
 # Gobernanza y Procesos
 # Owner: Arquitecto Senior + Tech Lead
 docs/gobernanza/**                           @arquitecto-senior @tech-lead
@@ -148,6 +158,7 @@ scripts/ai/agents/sdlc_base.py               @arquitecto-senior @tech-lead
 scripts/ai/agents/sdlc_planner.py            @arquitecto-senior @tech-lead
 scripts/sdlc_agent.py                        @arquitecto-senior @tech-lead
 scripts/dora_metrics.py                      @devops-lead @arquitecto-senior
+scripts/generate_guides.py                  @doc-lead @arquitecto-senior
 
 # Scripts de requisitos
 scripts/requisitos/**                        @arquitecto-senior @product-owner

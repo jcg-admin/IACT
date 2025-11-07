@@ -473,6 +473,116 @@ def print_markdown_report(report: Dict) -> None:
 """)
 
 
+class DocumentationMetricsCalculator:
+    """Calculadora de métricas de documentación."""
+
+    def __init__(self, project_root: Path):
+        """
+        Inicializa el calculador.
+
+        Args:
+            project_root: Raíz del proyecto
+        """
+        self.project_root = project_root
+        self.guides_dir = project_root / "docs" / "guias"
+
+    def calculate_documentation_coverage(self) -> Dict:
+        """
+        Calcula coverage de documentación.
+
+        Returns:
+            Diccionario con métricas de coverage
+        """
+        # Contar guías actuales
+        if not self.guides_dir.exists():
+            return {
+                "total_guides_planned": 147,
+                "total_guides_actual": 0,
+                "coverage_percent": 0.0,
+                "by_priority": {
+                    "P0": {"planned": 20, "actual": 0, "percent": 0.0},
+                    "P1": {"planned": 40, "actual": 0, "percent": 0.0},
+                    "P2": {"planned": 50, "actual": 0, "percent": 0.0},
+                    "P3": {"planned": 37, "actual": 0, "percent": 0.0}
+                }
+            }
+
+        # Contar archivos .md (excluyendo README y METRICS)
+        guide_files = []
+        for md_file in self.guides_dir.rglob("*.md"):
+            if md_file.name not in ["README.md", "METRICS.md"]:
+                guide_files.append(md_file)
+
+        total_actual = len(guide_files)
+
+        # Contar por categoría
+        by_category = {}
+        for guide_file in guide_files:
+            category = guide_file.parent.name
+            by_category[category] = by_category.get(category, 0) + 1
+
+        return {
+            "total_guides_planned": 147,
+            "total_guides_actual": total_actual,
+            "coverage_percent": round((total_actual / 147) * 100, 2),
+            "by_category": by_category,
+            "by_priority": {
+                "P0": {
+                    "planned": 20,
+                    "actual": total_actual if total_actual <= 20 else 20,
+                    "percent": round((min(total_actual, 20) / 20) * 100, 2)
+                },
+                "P1": {
+                    "planned": 40,
+                    "actual": max(0, total_actual - 20) if total_actual > 20 else 0,
+                    "percent": 0.0
+                },
+                "P2": {
+                    "planned": 50,
+                    "actual": 0,
+                    "percent": 0.0
+                },
+                "P3": {
+                    "planned": 37,
+                    "actual": 0,
+                    "percent": 0.0
+                }
+            }
+        }
+
+    def calculate_onboarding_time(self) -> Dict:
+        """
+        Calcula tiempo estimado de onboarding.
+
+        Returns:
+            Diccionario con tiempos de onboarding
+        """
+        onboarding_dir = self.guides_dir / "onboarding"
+
+        if not onboarding_dir.exists():
+            return {
+                "estimated_time_minutes": 0,
+                "target_time_minutes": 30,
+                "guides_count": 0,
+                "status": "Not started"
+            }
+
+        # Contar guías de onboarding
+        onboarding_guides = list(onboarding_dir.glob("*.md"))
+
+        # Estimar tiempo (promedio 8 min por guía)
+        # Basado en metadata de las guías generadas
+        estimated_time = len(onboarding_guides) * 8
+
+        return {
+            "estimated_time_minutes": estimated_time,
+            "target_time_minutes": 30,
+            "guides_count": len(onboarding_guides),
+            "status": "On track" if estimated_time <= 60 else "Needs optimization",
+            "reduction_needed_minutes": max(0, estimated_time - 30)
+        }
+
+
 def main():
     """Punto de entrada principal."""
     parser = argparse.ArgumentParser(
@@ -493,6 +603,9 @@ Ejemplos:
 
   # Output en Markdown
   python scripts/dora_metrics.py --repo owner/repo --format markdown > report.md
+
+  # Solo métricas de documentación
+  python scripts/dora_metrics.py --docs-only
         """
     )
 
@@ -535,7 +648,52 @@ Ejemplos:
         help='GitHub personal access token (o usar env GITHUB_TOKEN)'
     )
 
+    parser.add_argument(
+        '--docs-only',
+        action='store_true',
+        help='Solo calcular métricas de documentación (no requiere GITHUB_TOKEN)'
+    )
+
     args = parser.parse_args()
+
+    # Si es docs-only, solo calcular métricas de documentación
+    if args.docs_only:
+        try:
+            project_root = Path(__file__).parent.parent
+            doc_calc = DocumentationMetricsCalculator(project_root)
+
+            coverage = doc_calc.calculate_documentation_coverage()
+            onboarding = doc_calc.calculate_onboarding_time()
+
+            report = {
+                "documentation_metrics": {
+                    "coverage": coverage,
+                    "onboarding": onboarding,
+                    "timestamp": datetime.now().isoformat()
+                }
+            }
+
+            if args.format == 'json':
+                print(json.dumps(report, indent=2))
+            else:
+                print("=" * 80)
+                print("DOCUMENTATION METRICS REPORT")
+                print("=" * 80)
+                print(f"\nCoverage: {coverage['coverage_percent']}% ({coverage['total_guides_actual']}/{coverage['total_guides_planned']} guías)")
+                print(f"\nPor categoría:")
+                for cat, count in coverage['by_category'].items():
+                    print(f"  - {cat}: {count} guías")
+                print(f"\nOnboarding time: {onboarding['estimated_time_minutes']} min (target: {onboarding['target_time_minutes']} min)")
+                print(f"Status: {onboarding['status']}")
+                print("=" * 80)
+
+            return 0
+
+        except Exception as e:
+            print(f"ERROR: {e}", file=sys.stderr)
+            import traceback
+            traceback.print_exc()
+            return 1
 
     # Parse dates
     end_date = datetime.now()
