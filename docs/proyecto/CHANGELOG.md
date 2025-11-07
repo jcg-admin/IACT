@@ -25,14 +25,83 @@ Registro cronologico de cambios, features y mejoras completadas.
 - Sistema de metrics interno (MySQL) - Para completar DORA practicas 3 y 7
 - Custom dashboards Django Admin para logs Cassandra
 - DORA metrics baseline establecida
-- Cron jobs para maintenance (cassandra-maintenance, log-alerts)
 - Comunicar AI stance al equipo
 - AI-enabled telemetry pipeline (Q1 2026)
 - Predictive analytics dashboard (Q2 2026)
 - Formalizar Data Engineer role
 - Formalizar MLOps Engineer role
 - Establecer ROI metrics para AI + Platform synergy
-- Instalar Cassandra cluster (3 nodes minimum)
+
+---
+
+## [1.8.0] - 2025-11-07
+
+### Added - Cassandra Cluster Installation (3 nodos)
+
+**Instalacion automatizada Cassandra cluster**:
+- docker-compose.cassandra.yml (cluster 3 nodos Docker)
+  - cassandra-1, cassandra-2, cassandra-3
+  - Replication factor: 3
+  - Heap size: 2GB por nodo
+  - Health checks automaticos
+  - Volumes persistentes
+
+**Scripts de instalacion** (5 archivos, 1,024 lineas):
+
+1. scripts/cassandra/install-cassandra.sh (252 lineas)
+   - Soporte Docker Compose y systemd nativo
+   - Instalacion automatica keyspace + schema
+   - Verificacion cluster status
+   - Uso: ./install-cassandra.sh [docker|systemd]
+
+2. scripts/cassandra/configure-django.sh (93 lineas)
+   - Configuracion automatica Django settings.py
+   - Agregar CassandraLogHandler a LOGGING
+   - Loggers: django, analytics, etl, reports
+   - Backup automatico de settings
+
+3. scripts/cassandra/setup-cron-jobs.sh (64 lineas)
+   - Error alerting: every 5 minutes
+   - Compaction stats: daily 2 AM
+   - Repair: weekly Sunday 3 AM
+   - Cleanup: monthly 1st 4 AM
+   - Disk monitoring: daily 1 AM
+   - Log rotation: daily 5 AM
+
+4. scripts/cassandra/README.md (615 lineas)
+   - Guia completa instalacion (Docker + systemd)
+   - Configuracion Django + Infrastructure daemon
+   - Cron jobs setup
+   - Monitoring y mantenimiento
+   - Troubleshooting
+   - Performance tuning
+   - Backup y restore
+
+**Arquitectura 3 Capas LISTA PARA ACTIVAR:**
+- Capa 1: DORA Metrics [OK]
+- Capa 2: Application Logs [OK]
+- Capa 3: Infrastructure Logs [OK]
+
+**Instrucciones rapidas:**
+```bash
+# Instalar cluster Docker
+./scripts/cassandra/install-cassandra.sh docker
+
+# Configurar Django
+./scripts/cassandra/configure-django.sh
+
+# Setup cron jobs
+./scripts/cassandra/setup-cron-jobs.sh
+
+# Test
+python manage.py shell -c "import logging; logging.getLogger('analytics').info('Test')"
+```
+
+**Tareas completadas**: 4/4
+- [OK] Instalar Cassandra cluster (3 nodes)
+- [OK] Scripts instalacion Docker + systemd
+- [OK] Configuracion Django automatica
+- [OK] Cron jobs maintenance + alerting
 
 ---
 
