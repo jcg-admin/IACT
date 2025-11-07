@@ -786,6 +786,103 @@ Code (Git) -> CI/CD -> Tests + Security -> Deploy
 
 ---
 
+## Preguntas Frecuentes (FAQ)
+
+### General
+
+**Q: Por que necesitamos una estrategia de IA?**
+
+A: El DORA Report 2025 muestra que organizaciones con estrategia clara de IA obtienen mejoras de +30-50 por ciento en deployment frequency, -25-35 por ciento en lead time, etc. Sin estrategia, los beneficios son menores y los riesgos mayores.
+
+**Q: Cambiara nuestra forma de trabajar?**
+
+A: La esencia NO cambia. Seguimos siendo engineers responsables del codigo. IA es una herramienta que amplifica capacidades, no las reemplaza. Human review sigue siendo obligatorio.
+
+**Q: Que pasa si no quiero usar IA?**
+
+A: El uso de IA es opcional para tareas individuales, pero el equipo en conjunto debe alcanzar 90 por ciento adoption (target DORA). Se recomienda empezar con casos simples (documentacion, boilerplate) y gradualmente aumentar uso.
+
+### Uso de IA
+
+**Q: Puedo usar IA para generar todo el codigo de una feature?**
+
+A: SI, pero con condiciones:
+1. Debes revisar cada linea generada
+2. Validar contra restricciones del proyecto (RNF-002)
+3. Ejecutar tests y validaciones (CI/CD)
+4. Pasar por code review humano
+5. NO merge directo a production
+
+**Q: Como valido que el codigo IA es correcto?**
+
+A: Mismo proceso que codigo humano:
+1. Lee y entiende el codigo
+2. Ejecuta tests localmente
+3. Valida security
+4. Revisa documentacion generada
+5. Code review por otro developer
+
+**Q: Que hago si IA sugiere algo que viola RNF-002?**
+
+A: RECHAZAR la sugerencia. IA no conoce restricciones especificas del proyecto. Es responsabilidad del developer validar compliance.
+
+### Herramientas
+
+**Q: Que herramientas de IA puedo usar?**
+
+A: Recomendadas:
+- Claude Code (oficial del proyecto)
+- GitHub Copilot (si disponible)
+- ChatGPT (documentacion, explanations)
+
+NO recomendadas:
+- Tools que envian codigo a cloud sin encryption
+- Tools sin historia de seguridad comprobada
+
+**Q: Como reporto un bug en una IA tool?**
+
+A: Crear issue en GitHub con label "ai-tool-bug", incluir herramienta usada, input dado, output incorrecto, output esperado.
+
+### Security & Compliance
+
+**Q: Puedo usar IA para generar credenciales?**
+
+A: NO. Generar credenciales via IA es un security risk. Usar herramientas especificas (secrets manager).
+
+**Q: IA puede modificar archivos de security?**
+
+A: Solo con human review. Cambios en security configs, authentication, authorization deben ser revisados por security-lead.
+
+**Q: Como aseguro que IA no introduce vulnerabilidades?**
+
+A: Pipeline de validacion: AI genera codigo → Developer revisa → CI/CD security scan → Security review humano → Merge solo si todo pasa
+
+### Restricciones del Proyecto
+
+**Q: IA puede usar Redis para caching?**
+
+A: NO. RNF-002 prohibe Redis/Memcached. IA no conoce esto, es responsabilidad del developer rechazar sugerencias de Redis.
+
+**Q: IA puede configurar email/SMTP?**
+
+A: NO. Proyecto usa InternalMessage, no email. Rechazar sugerencias de email.
+
+**Q: Que pasa si IA sugiere Prometheus/Grafana?**
+
+A: RECHAZAR. RNF-002 prohibe estas tools. Usar alternativa: Metrics en MySQL + Django Admin dashboards.
+
+### Workflow
+
+**Q: Debo documentar cuando uso IA?**
+
+A: SI, en commit message. Ejemplo: "feat(model): generar User model con Claude Code"
+
+**Q: Como reporto feedback sobre estrategia de IA?**
+
+A: Email a arquitecto-senior o crear issue con label "ai-strategy-feedback".
+
+---
+
 ## Referencias
 
 ### DORA
@@ -799,6 +896,7 @@ Code (Git) -> CI/CD -> Tests + Security -> Deploy
 - [TAREAS_ACTIVAS.md](../../proyecto/TAREAS_ACTIVAS.md)
 - [MAPEO_PROCESOS_TEMPLATES.md](../procesos/MAPEO_PROCESOS_TEMPLATES.md)
 - [METODOLOGIA_DESARROLLO_POR_LOTES.md](../metodologias/METODOLOGIA_DESARROLLO_POR_LOTES.md)
+- [TASK-009-comunicacion-ai-stance.md](./TASK-009-comunicacion-ai-stance.md) - Comunicacion al equipo
 
 ### Scripts
 - `scripts/dora_metrics.py` - Calcular metricas DORA
