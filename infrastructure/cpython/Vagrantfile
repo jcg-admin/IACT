@@ -87,8 +87,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # NETWORK CONFIGURATION
   # =================================================================
 
-  # Private network with static IP (avoids DHCP conflicts)
-  config.vm.network "private_network", ip: "192.168.56.10"
+  # Private network with static IP and internal network
+  # (prevents DHCP conflicts and works without Guest Additions)
+  config.vm.network "private_network",
+    ip: "192.168.56.10",
+    virtualbox__intnet: true,
+    type: "dhcp"
 
   # =================================================================
   # SYNCED FOLDERS WITH UTF-8 ENCODING
