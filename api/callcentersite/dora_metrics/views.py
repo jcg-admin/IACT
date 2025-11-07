@@ -16,6 +16,7 @@ from rest_framework.decorators import throttle_classes
 from .throttling import BurstRateThrottle, SustainedRateThrottle
 
 from .models import DORAMetric
+from .data_catalog import DataCatalog, DataQueryEngine
 
 
 @require_http_methods(["GET"])
@@ -314,3 +315,87 @@ def calculate_dora_classification(deployment_count, days, lead_time_hours, cfr, 
         return "Medium"
     else:
         return "Low"
+
+
+# ============================================================================
+# AI-ACCESSIBLE DATA CATALOG (DORA 2025 AI Capability 6)
+# ============================================================================
+
+
+@require_http_methods(["GET"])
+def data_catalog_index(request):
+    """
+    GET /api/dora/data-catalog/ - Complete data catalog.
+
+    Returns structured metadata about all available datasets for AI access.
+    Implements DORA 2025 AI Capability 6: AI-accessible Internal Data.
+    """
+    catalog = DataCatalog.get_catalog()
+    return JsonResponse(catalog)
+
+
+@require_http_methods(["GET"])
+@throttle_classes([BurstRateThrottle, SustainedRateThrottle])
+def data_catalog_dora_metrics(request):
+    """
+    GET /api/dora/data-catalog/dora-metrics/ - Query DORA metrics data.
+
+    Query parameters:
+        - days: Number of days to query (default: 30)
+        - phase_name: Filter by phase (optional)
+        - feature_id: Filter by feature (optional)
+
+    Returns structured DORA metrics data for AI analysis.
+    """
+    days = int(request.GET.get('days', 30))
+    phase_name = request.GET.get('phase_name')
+    feature_id = request.GET.get('feature_id')
+
+    result = DataQueryEngine.query_dora_metrics(
+        days=days,
+        phase_name=phase_name,
+        feature_id=feature_id
+    )
+
+    return JsonResponse(result)
+
+
+@require_http_methods(["GET"])
+@throttle_classes([BurstRateThrottle, SustainedRateThrottle])
+def data_catalog_deployment_cycles(request):
+    """
+    GET /api/dora/data-catalog/deployment-cycles/ - Query deployment cycles.
+
+    Query parameters:
+        - days: Number of days to query (default: 30)
+        - failed_only: Show only failed deployments (default: false)
+
+    Returns deployment cycle data for AI analysis.
+    """
+    days = int(request.GET.get('days', 30))
+    failed_only = request.GET.get('failed_only', 'false').lower() == 'true'
+
+    result = DataQueryEngine.query_deployment_cycles(
+        days=days,
+        failed_only=failed_only
+    )
+
+    return JsonResponse(result)
+
+
+@require_http_methods(["GET"])
+@throttle_classes([BurstRateThrottle, SustainedRateThrottle])
+def data_catalog_aggregated_stats(request):
+    """
+    GET /api/dora/data-catalog/aggregated-stats/ - Get aggregated statistics.
+
+    Query parameters:
+        - days: Number of days to analyze (default: 30)
+
+    Returns comprehensive aggregated statistics for AI analysis.
+    """
+    days = int(request.GET.get('days', 30))
+
+    result = DataQueryEngine.get_aggregated_stats(days=days)
+
+    return JsonResponse(result)

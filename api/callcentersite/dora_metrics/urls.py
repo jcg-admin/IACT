@@ -15,4 +15,9 @@ urlpatterns = [
     path("charts/lead-time-trends/", views.lead_time_trends_chart_data, name="lead-time-trends-chart"),
     path("charts/change-failure-rate/", views.change_failure_rate_chart_data, name="change-failure-rate-chart"),
     path("charts/mttr/", views.mttr_chart_data, name="mttr-chart"),
+    # AI-accessible Data Catalog (DORA 2025 AI Capability 6)
+    path("data-catalog/", views.data_catalog_index, name="data-catalog-index"),
+    path("data-catalog/dora-metrics/", views.data_catalog_dora_metrics, name="data-catalog-dora-metrics"),
+    path("data-catalog/deployment-cycles/", views.data_catalog_deployment_cycles, name="data-catalog-deployment-cycles"),
+    path("data-catalog/aggregated-stats/", views.data_catalog_aggregated_stats, name="data-catalog-aggregated-stats"),
 ]
