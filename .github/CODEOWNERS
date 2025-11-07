@@ -74,6 +74,11 @@ docs/qa/**                                   @qa-lead @arquitecto-senior
 # Owner: Product Owner + Arquitecto Senior
 docs/proyecto/**                             @product-owner @arquitecto-senior
 
+# DORA Metrics y Operaciones
+# Owner: DevOps Lead + SRE Lead
+docs/dora/**                                 @devops-lead @sre-lead
+docs/operaciones/**                          @devops-lead @sre-lead
+
 # ============================================================================
 # DOCUMENTACIÓN AUTO-GENERADA
 # ============================================================================
