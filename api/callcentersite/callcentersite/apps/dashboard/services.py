@@ -9,6 +9,11 @@ from django.core.exceptions import PermissionDenied, ValidationError
 from django.utils import timezone
 
 from callcentersite.apps.users.models_permisos_granular import AuditoriaPermiso
+from callcentersite.apps.users.service_helpers import (
+    auditar_accion_exitosa,
+    validar_usuario_existe,
+    verificar_permiso_y_auditar,
+)
 from callcentersite.apps.users.services_permisos_granular import UserManagementService
 
 from .models import DashboardConfiguracion
@@ -58,24 +63,14 @@ class DashboardService:
 
         Referencia: docs/PLAN_MAESTRO_PRIORIDAD_02.md (Tarea 26)
         """
-        # Verificar permiso
-        tiene_permiso = UserManagementService.usuario_tiene_permiso(
+        # Verificar permiso y auditar
+        verificar_permiso_y_auditar(
             usuario_id=usuario_id,
             capacidad_codigo='sistema.vistas.dashboards.exportar',
+            recurso_tipo='dashboard',
+            accion='exportar',
+            mensaje_error='No tiene permiso para exportar dashboards',
         )
-
-        if not tiene_permiso:
-            AuditoriaPermiso.objects.create(
-                usuario_id=usuario_id,
-                capacidad_codigo='sistema.vistas.dashboards.exportar',
-                recurso_tipo='dashboard',
-                accion='exportar',
-                resultado='denegado',
-                razon='Usuario no tiene permiso sistema.vistas.dashboards.exportar',
-            )
-            raise PermissionDenied(
-                'No tiene permiso para exportar dashboards'
-            )
 
         # Validar formato
         if formato not in ['pdf', 'excel']:
@@ -85,13 +80,12 @@ class DashboardService:
         # Por ahora retornamos un placeholder
         archivo = f'/tmp/dashboard_{usuario_id}_{timezone.now().timestamp()}.{formato}'
 
-        # Auditar accion
-        AuditoriaPermiso.objects.create(
+        # Auditar acción exitosa
+        auditar_accion_exitosa(
             usuario_id=usuario_id,
             capacidad_codigo='sistema.vistas.dashboards.exportar',
             recurso_tipo='dashboard',
             accion='exportar',
-            resultado='permitido',
             detalles=f'Dashboard exportado a {formato}',
         )
 
@@ -122,24 +116,14 @@ class DashboardService:
 
         Referencia: docs/PLAN_MAESTRO_PRIORIDAD_02.md (Tarea 28)
         """
-        # Verificar permiso
-        tiene_permiso = UserManagementService.usuario_tiene_permiso(
+        # Verificar permiso y auditar
+        verificar_permiso_y_auditar(
             usuario_id=usuario_id,
             capacidad_codigo='sistema.vistas.dashboards.personalizar',
+            recurso_tipo='dashboard',
+            accion='personalizar',
+            mensaje_error='No tiene permiso para personalizar dashboards',
         )
-
-        if not tiene_permiso:
-            AuditoriaPermiso.objects.create(
-                usuario_id=usuario_id,
-                capacidad_codigo='sistema.vistas.dashboards.personalizar',
-                recurso_tipo='dashboard',
-                accion='personalizar',
-                resultado='denegado',
-                razon='Usuario no tiene permiso sistema.vistas.dashboards.personalizar',
-            )
-            raise PermissionDenied(
-                'No tiene permiso para personalizar dashboards'
-            )
 
         # Validar que configuracion sea dict
         if not isinstance(configuracion, dict):
@@ -151,14 +135,13 @@ class DashboardService:
             defaults={'configuracion': configuracion},
         )
 
-        # Auditar accion
-        AuditoriaPermiso.objects.create(
+        # Auditar acción exitosa
+        auditar_accion_exitosa(
             usuario_id=usuario_id,
             capacidad_codigo='sistema.vistas.dashboards.personalizar',
             recurso_tipo='dashboard',
-            recurso_id=config.id,
             accion='personalizar',
-            resultado='permitido',
+            recurso_id=config.id,
             detalles=f'Dashboard personalizado. Widgets: {len(configuracion.get("widgets", []))}',
         )
 
@@ -190,24 +173,14 @@ class DashboardService:
 
         Referencia: docs/PLAN_MAESTRO_PRIORIDAD_02.md (Tarea 30)
         """
-        # Verificar permiso
-        tiene_permiso = UserManagementService.usuario_tiene_permiso(
+        # Verificar permiso y auditar
+        verificar_permiso_y_auditar(
             usuario_id=usuario_id,
             capacidad_codigo='sistema.vistas.dashboards.compartir',
+            recurso_tipo='dashboard',
+            accion='compartir',
+            mensaje_error='No tiene permiso para compartir dashboards',
         )
-
-        if not tiene_permiso:
-            AuditoriaPermiso.objects.create(
-                usuario_id=usuario_id,
-                capacidad_codigo='sistema.vistas.dashboards.compartir',
-                recurso_tipo='dashboard',
-                accion='compartir',
-                resultado='denegado',
-                razon='Usuario no tiene permiso sistema.vistas.dashboards.compartir',
-            )
-            raise PermissionDenied(
-                'No tiene permiso para compartir dashboards'
-            )
 
         # Validar que se especifico al menos un receptor
         if not compartir_con_usuario_id and not compartir_con_grupo_codigo:
@@ -247,13 +220,12 @@ class DashboardService:
         # TODO: Implementar logica real de compartir
         # (crear registro en tabla compartidos, enviar notificacion, etc.)
 
-        # Auditar accion
-        AuditoriaPermiso.objects.create(
+        # Auditar acción exitosa
+        auditar_accion_exitosa(
             usuario_id=usuario_id,
             capacidad_codigo='sistema.vistas.dashboards.compartir',
             recurso_tipo='dashboard',
             accion='compartir',
-            resultado='permitido',
             detalles=f'Dashboard compartido con {tipo}: {compartido_con}',
         )
 

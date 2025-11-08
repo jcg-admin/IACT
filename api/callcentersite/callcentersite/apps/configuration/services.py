@@ -16,6 +16,10 @@ from django.core.exceptions import PermissionDenied, ValidationError
 from django.db import transaction
 
 from callcentersite.apps.users.models_permisos_granular import AuditoriaPermiso
+from callcentersite.apps.users.service_helpers import (
+    auditar_accion_exitosa,
+    verificar_permiso_y_auditar,
+)
 from callcentersite.apps.users.services_permisos_granular import UserManagementService
 
 from .models import Configuracion, ConfiguracionHistorial
@@ -44,32 +48,21 @@ class ConfiguracionService:
 
         Referencia: docs/PLAN_MAESTRO_PRIORIDAD_02.md (Tarea 35)
         """
-        # Verificar permiso
-        tiene_permiso = UserManagementService.usuario_tiene_permiso(
-            usuario_id=usuario_id,
-            capacidad_codigo='sistema.tecnico.configuracion.ver',
-        )
-
-        if not tiene_permiso:
-            AuditoriaPermiso.objects.create(
-                usuario_id=usuario_id,
-                capacidad_codigo='sistema.tecnico.configuracion.ver',
-                recurso_tipo='configuracion',
-                accion='ver',
-                resultado='denegado',
-                razon='Usuario no tiene permiso sistema.tecnico.configuracion.ver',
-            )
-            raise PermissionDenied(
-                'No tiene permiso para ver configuraciones'
-            )
-
-        # Auditar acceso
-        AuditoriaPermiso.objects.create(
+        # Verificar permiso y auditar
+        verificar_permiso_y_auditar(
             usuario_id=usuario_id,
             capacidad_codigo='sistema.tecnico.configuracion.ver',
             recurso_tipo='configuracion',
             accion='ver',
-            resultado='permitido',
+            mensaje_error='No tiene permiso para ver configuraciones',
+        )
+
+        # Auditar acceso con detalles
+        auditar_accion_exitosa(
+            usuario_id=usuario_id,
+            capacidad_codigo='sistema.tecnico.configuracion.ver',
+            recurso_tipo='configuracion',
+            accion='ver',
             detalles=f'Categoria: {categoria or "todas"}',
         )
 
@@ -121,24 +114,14 @@ class ConfiguracionService:
 
         Referencia: docs/PLAN_MAESTRO_PRIORIDAD_02.md (Tarea 37)
         """
-        # Verificar permiso
-        tiene_permiso = UserManagementService.usuario_tiene_permiso(
+        # Verificar permiso y auditar
+        verificar_permiso_y_auditar(
             usuario_id=usuario_id,
             capacidad_codigo='sistema.tecnico.configuracion.editar',
+            recurso_tipo='configuracion',
+            accion='editar',
+            mensaje_error='No tiene permiso para editar configuraciones',
         )
-
-        if not tiene_permiso:
-            AuditoriaPermiso.objects.create(
-                usuario_id=usuario_id,
-                capacidad_codigo='sistema.tecnico.configuracion.editar',
-                recurso_tipo='configuracion',
-                accion='editar',
-                resultado='denegado',
-                razon='Usuario no tiene permiso sistema.tecnico.configuracion.editar',
-            )
-            raise PermissionDenied(
-                'No tiene permiso para editar configuraciones'
-            )
 
         # Validar configuracion existe
         try:
@@ -166,14 +149,13 @@ class ConfiguracionService:
                 user_agent=user_agent,
             )
 
-        # Auditar accion
-        AuditoriaPermiso.objects.create(
+        # Auditar acción exitosa
+        auditar_accion_exitosa(
             usuario_id=usuario_id,
             capacidad_codigo='sistema.tecnico.configuracion.editar',
             recurso_tipo='configuracion',
-            recurso_id=configuracion.id,
             accion='editar',
-            resultado='permitido',
+            recurso_id=configuracion.id,
             detalles=f'{clave}: {valor_anterior} -> {nuevo_valor}',
         )
 
@@ -199,24 +181,14 @@ class ConfiguracionService:
 
         Referencia: docs/PLAN_MAESTRO_PRIORIDAD_02.md (Tarea 39)
         """
-        # Verificar permiso
-        tiene_permiso = UserManagementService.usuario_tiene_permiso(
+        # Verificar permiso y auditar
+        verificar_permiso_y_auditar(
             usuario_id=usuario_id,
             capacidad_codigo='sistema.tecnico.configuracion.exportar',
+            recurso_tipo='configuracion',
+            accion='exportar',
+            mensaje_error='No tiene permiso para exportar configuraciones',
         )
-
-        if not tiene_permiso:
-            AuditoriaPermiso.objects.create(
-                usuario_id=usuario_id,
-                capacidad_codigo='sistema.tecnico.configuracion.exportar',
-                recurso_tipo='configuracion',
-                accion='exportar',
-                resultado='denegado',
-                razon='Usuario no tiene permiso sistema.tecnico.configuracion.exportar',
-            )
-            raise PermissionDenied(
-                'No tiene permiso para exportar configuraciones'
-            )
 
         # Obtener todas las configuraciones
         configuraciones = Configuracion.objects.filter(activa=True).values(
@@ -236,13 +208,12 @@ class ConfiguracionService:
                 export_data[categoria] = []
             export_data[categoria].append(config)
 
-        # Auditar accion
-        AuditoriaPermiso.objects.create(
+        # Auditar acción exitosa
+        auditar_accion_exitosa(
             usuario_id=usuario_id,
             capacidad_codigo='sistema.tecnico.configuracion.exportar',
             recurso_tipo='configuracion',
             accion='exportar',
-            resultado='permitido',
             detalles=f'Exportadas {len(configuraciones)} configuraciones',
         )
 
@@ -275,24 +246,14 @@ class ConfiguracionService:
 
         Referencia: docs/PLAN_MAESTRO_PRIORIDAD_02.md (Tarea 40)
         """
-        # Verificar permiso
-        tiene_permiso = UserManagementService.usuario_tiene_permiso(
+        # Verificar permiso y auditar
+        verificar_permiso_y_auditar(
             usuario_id=usuario_id,
             capacidad_codigo='sistema.tecnico.configuracion.importar',
+            recurso_tipo='configuracion',
+            accion='importar',
+            mensaje_error='No tiene permiso para importar configuraciones',
         )
-
-        if not tiene_permiso:
-            AuditoriaPermiso.objects.create(
-                usuario_id=usuario_id,
-                capacidad_codigo='sistema.tecnico.configuracion.importar',
-                recurso_tipo='configuracion',
-                accion='importar',
-                resultado='denegado',
-                razon='Usuario no tiene permiso sistema.tecnico.configuracion.importar',
-            )
-            raise PermissionDenied(
-                'No tiene permiso para importar configuraciones'
-            )
 
         importadas = 0
         actualizadas = 0
@@ -343,13 +304,12 @@ class ConfiguracionService:
                     except (KeyError, ValueError) as e:
                         errores += 1
 
-        # Auditar accion
-        AuditoriaPermiso.objects.create(
+        # Auditar acción exitosa
+        auditar_accion_exitosa(
             usuario_id=usuario_id,
             capacidad_codigo='sistema.tecnico.configuracion.importar',
             recurso_tipo='configuracion',
             accion='importar',
-            resultado='permitido',
             detalles=f'Importadas: {importadas}, Actualizadas: {actualizadas}, Errores: {errores}',
         )
 
@@ -384,24 +344,14 @@ class ConfiguracionService:
 
         Referencia: docs/PLAN_MAESTRO_PRIORIDAD_02.md (Tarea 41)
         """
-        # Verificar permiso (usa mismo permiso que editar)
-        tiene_permiso = UserManagementService.usuario_tiene_permiso(
+        # Verificar permiso y auditar
+        verificar_permiso_y_auditar(
             usuario_id=usuario_id,
             capacidad_codigo='sistema.tecnico.configuracion.restaurar',
+            recurso_tipo='configuracion',
+            accion='restaurar',
+            mensaje_error='No tiene permiso para restaurar configuraciones',
         )
-
-        if not tiene_permiso:
-            AuditoriaPermiso.objects.create(
-                usuario_id=usuario_id,
-                capacidad_codigo='sistema.tecnico.configuracion.restaurar',
-                recurso_tipo='configuracion',
-                accion='restaurar',
-                resultado='denegado',
-                razon='Usuario no tiene permiso sistema.tecnico.configuracion.restaurar',
-            )
-            raise PermissionDenied(
-                'No tiene permiso para restaurar configuraciones'
-            )
 
         # Validar configuracion existe
         try:
@@ -429,14 +379,13 @@ class ConfiguracionService:
                 user_agent=user_agent,
             )
 
-        # Auditar accion
-        AuditoriaPermiso.objects.create(
+        # Auditar acción exitosa
+        auditar_accion_exitosa(
             usuario_id=usuario_id,
             capacidad_codigo='sistema.tecnico.configuracion.restaurar',
             recurso_tipo='configuracion',
-            recurso_id=configuracion.id,
             accion='restaurar',
-            resultado='permitido',
+            recurso_id=configuracion.id,
             detalles=f'{clave} restaurada a valor default: {configuracion.valor_default}',
         )
 

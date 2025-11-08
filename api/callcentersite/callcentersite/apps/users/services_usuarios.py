@@ -284,31 +284,18 @@ class UsuarioService:
 
         Referencia: docs/PLAN_MAESTRO_PRIORIDAD_02.md (Tarea 20)
         """
-        # Verificar permiso
-        tiene_permiso = UserManagementService.usuario_tiene_permiso(
+        # Verificar permiso y auditar
+        verificar_permiso_y_auditar(
             usuario_id=usuario_solicitante_id,
             capacidad_codigo='sistema.administracion.usuarios.eliminar',
+            recurso_tipo='usuario',
+            accion='eliminar',
+            recurso_id=usuario_id,
+            mensaje_error='No tiene permiso para eliminar usuarios',
         )
 
-        if not tiene_permiso:
-            AuditoriaPermiso.objects.create(
-                usuario_id=usuario_solicitante_id,
-                capacidad_codigo='sistema.administracion.usuarios.eliminar',
-                recurso_tipo='usuario',
-                recurso_id=usuario_id,
-                accion='eliminar',
-                resultado='denegado',
-                razon='Usuario no tiene permiso sistema.administracion.usuarios.eliminar',
-            )
-            raise PermissionDenied(
-                'No tiene permiso para eliminar usuarios'
-            )
-
         # Validar usuario existe
-        try:
-            usuario = User.objects.get(id=usuario_id, is_deleted=False)
-        except User.DoesNotExist:
-            raise ValidationError(f'Usuario no encontrado: {usuario_id}')
+        usuario = validar_usuario_existe(usuario_id=usuario_id)
 
         # Marcar como eliminado (soft delete)
         usuario.is_deleted = True
@@ -317,14 +304,13 @@ class UsuarioService:
         usuario.deleted_at = timezone.now()
         usuario.save()
 
-        # Auditar accion
-        AuditoriaPermiso.objects.create(
+        # Auditar acción exitosa
+        auditar_accion_exitosa(
             usuario_id=usuario_solicitante_id,
             capacidad_codigo='sistema.administracion.usuarios.eliminar',
             recurso_tipo='usuario',
-            recurso_id=usuario.id,
             accion='eliminar',
-            resultado='permitido',
+            recurso_id=usuario.id,
             detalles=f'Usuario eliminado: {usuario.email}',
         )
 
@@ -353,35 +339,22 @@ class UsuarioService:
 
         Referencia: docs/PLAN_MAESTRO_PRIORIDAD_02.md (Tarea 21)
         """
-        # Verificar permiso
-        tiene_permiso = UserManagementService.usuario_tiene_permiso(
+        # Verificar permiso y auditar
+        verificar_permiso_y_auditar(
             usuario_id=usuario_solicitante_id,
             capacidad_codigo='sistema.administracion.usuarios.suspender',
+            recurso_tipo='usuario',
+            accion='suspender',
+            recurso_id=usuario_id,
+            mensaje_error='No tiene permiso para suspender usuarios',
         )
-
-        if not tiene_permiso:
-            AuditoriaPermiso.objects.create(
-                usuario_id=usuario_solicitante_id,
-                capacidad_codigo='sistema.administracion.usuarios.suspender',
-                recurso_tipo='usuario',
-                recurso_id=usuario_id,
-                accion='suspender',
-                resultado='denegado',
-                razon='Usuario no tiene permiso sistema.administracion.usuarios.suspender',
-            )
-            raise PermissionDenied(
-                'No tiene permiso para suspender usuarios'
-            )
 
         # Validar no es el mismo usuario
         if usuario_solicitante_id == usuario_id:
             raise ValidationError('No puede suspenderse a si mismo')
 
         # Validar usuario existe
-        try:
-            usuario = User.objects.get(id=usuario_id, is_deleted=False)
-        except User.DoesNotExist:
-            raise ValidationError(f'Usuario no encontrado: {usuario_id}')
+        usuario = validar_usuario_existe(usuario_id=usuario_id)
 
         # Marcar como suspendido
         usuario.is_active = False
@@ -391,14 +364,13 @@ class UsuarioService:
         # from django.contrib.sessions.models import Session
         # Session.objects.filter(user_id=usuario_id).delete()
 
-        # Auditar accion
-        AuditoriaPermiso.objects.create(
+        # Auditar acción exitosa
+        auditar_accion_exitosa(
             usuario_id=usuario_solicitante_id,
             capacidad_codigo='sistema.administracion.usuarios.suspender',
             recurso_tipo='usuario',
-            recurso_id=usuario.id,
             accion='suspender',
-            resultado='permitido',
+            recurso_id=usuario.id,
             detalles=f'Usuario suspendido: {usuario.email}. Motivo: {motivo}',
         )
 
@@ -425,44 +397,30 @@ class UsuarioService:
 
         Referencia: docs/PLAN_MAESTRO_PRIORIDAD_02.md (Tarea 22)
         """
-        # Verificar permiso
-        tiene_permiso = UserManagementService.usuario_tiene_permiso(
+        # Verificar permiso y auditar
+        verificar_permiso_y_auditar(
             usuario_id=usuario_solicitante_id,
             capacidad_codigo='sistema.administracion.usuarios.reactivar',
+            recurso_tipo='usuario',
+            accion='reactivar',
+            recurso_id=usuario_id,
+            mensaje_error='No tiene permiso para reactivar usuarios',
         )
 
-        if not tiene_permiso:
-            AuditoriaPermiso.objects.create(
-                usuario_id=usuario_solicitante_id,
-                capacidad_codigo='sistema.administracion.usuarios.reactivar',
-                recurso_tipo='usuario',
-                recurso_id=usuario_id,
-                accion='reactivar',
-                resultado='denegado',
-                razon='Usuario no tiene permiso sistema.administracion.usuarios.reactivar',
-            )
-            raise PermissionDenied(
-                'No tiene permiso para reactivar usuarios'
-            )
-
         # Validar usuario existe
-        try:
-            usuario = User.objects.get(id=usuario_id, is_deleted=False)
-        except User.DoesNotExist:
-            raise ValidationError(f'Usuario no encontrado: {usuario_id}')
+        usuario = validar_usuario_existe(usuario_id=usuario_id)
 
         # Marcar como activo
         usuario.is_active = True
         usuario.save()
 
-        # Auditar accion
-        AuditoriaPermiso.objects.create(
+        # Auditar acción exitosa
+        auditar_accion_exitosa(
             usuario_id=usuario_solicitante_id,
             capacidad_codigo='sistema.administracion.usuarios.reactivar',
             recurso_tipo='usuario',
-            recurso_id=usuario.id,
             accion='reactivar',
-            resultado='permitido',
+            recurso_id=usuario.id,
             detalles=f'Usuario reactivado: {usuario.email}',
         )
 
@@ -491,31 +449,18 @@ class UsuarioService:
 
         Referencia: docs/PLAN_MAESTRO_PRIORIDAD_02.md (Tarea 23)
         """
-        # Verificar permiso
-        tiene_permiso = UserManagementService.usuario_tiene_permiso(
+        # Verificar permiso y auditar
+        verificar_permiso_y_auditar(
             usuario_id=usuario_solicitante_id,
             capacidad_codigo='sistema.administracion.usuarios.asignar_grupos',
+            recurso_tipo='usuario',
+            accion='asignar_grupos',
+            recurso_id=usuario_id,
+            mensaje_error='No tiene permiso para asignar grupos a usuarios',
         )
 
-        if not tiene_permiso:
-            AuditoriaPermiso.objects.create(
-                usuario_id=usuario_solicitante_id,
-                capacidad_codigo='sistema.administracion.usuarios.asignar_grupos',
-                recurso_tipo='usuario',
-                recurso_id=usuario_id,
-                accion='asignar_grupos',
-                resultado='denegado',
-                razon='Usuario no tiene permiso sistema.administracion.usuarios.asignar_grupos',
-            )
-            raise PermissionDenied(
-                'No tiene permiso para asignar grupos a usuarios'
-            )
-
         # Validar usuario existe
-        try:
-            usuario = User.objects.get(id=usuario_id, is_deleted=False)
-        except User.DoesNotExist:
-            raise ValidationError(f'Usuario no encontrado: {usuario_id}')
+        usuario = validar_usuario_existe(usuario_id=usuario_id)
 
         # Desactivar grupos actuales
         from .models_permisos_granular import UsuarioGrupo
@@ -532,14 +477,13 @@ class UsuarioService:
                 asignado_por_id=usuario_solicitante_id,
             )
 
-        # Auditar accion
-        AuditoriaPermiso.objects.create(
+        # Auditar acción exitosa
+        auditar_accion_exitosa(
             usuario_id=usuario_solicitante_id,
             capacidad_codigo='sistema.administracion.usuarios.asignar_grupos',
             recurso_tipo='usuario',
-            recurso_id=usuario.id,
             accion='asignar_grupos',
-            resultado='permitido',
+            recurso_id=usuario.id,
             detalles=f'Grupos asignados a {usuario.email}: {", ".join(grupos_codigos)}',
         )
 
