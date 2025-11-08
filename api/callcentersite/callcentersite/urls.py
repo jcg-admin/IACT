@@ -20,6 +20,8 @@ urlpatterns = [
         SpectacularSwaggerView.as_view(url_name="schema"),
         name="swagger-ui",
     ),
+    path("api/v1/", include("callcentersite.apps.users.urls")),
+    path("api/v1/", include("callcentersite.apps.configuration.urls")),
     path("api/v1/dashboard/", include("callcentersite.apps.dashboard.urls")),
     path("api/dora/", include("dora_metrics.urls")),
     path("health/", health_check, name="health"),
