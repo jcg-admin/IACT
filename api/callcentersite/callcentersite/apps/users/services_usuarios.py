@@ -16,6 +16,13 @@ from django.core.exceptions import PermissionDenied, ValidationError
 from django.db.models import Q, QuerySet
 
 from .models_permisos_granular import AuditoriaPermiso
+from .service_helpers import (
+    auditar_accion_exitosa,
+    validar_campos_requeridos,
+    validar_email_unico,
+    validar_usuario_existe,
+    verificar_permiso_y_auditar,
+)
 from .services_permisos_granular import UserManagementService
 
 User = get_user_model()
@@ -56,33 +63,13 @@ class UsuarioService:
 
         Referencia: docs/PLAN_MAESTRO_PRIORIDAD_02.md (Tarea 17)
         """
-        # Verificar permiso
-        tiene_permiso = UserManagementService.usuario_tiene_permiso(
-            usuario_id=usuario_solicitante_id,
-            capacidad_codigo='sistema.administracion.usuarios.ver',
-        )
-
-        if not tiene_permiso:
-            # Auditar intento denegado
-            AuditoriaPermiso.objects.create(
-                usuario_id=usuario_solicitante_id,
-                capacidad_codigo='sistema.administracion.usuarios.ver',
-                recurso_tipo='usuario',
-                accion='listar',
-                resultado='denegado',
-                razon='Usuario no tiene permiso sistema.administracion.usuarios.ver',
-            )
-            raise PermissionDenied(
-                'No tiene permiso para listar usuarios'
-            )
-
-        # Auditar acceso permitido
-        AuditoriaPermiso.objects.create(
+        # Verificar permiso y auditar
+        verificar_permiso_y_auditar(
             usuario_id=usuario_solicitante_id,
             capacidad_codigo='sistema.administracion.usuarios.ver',
             recurso_tipo='usuario',
             accion='listar',
-            resultado='permitido',
+            mensaje_error='No tiene permiso para listar usuarios',
         )
 
         # Construir query base (excluir eliminados)
@@ -167,34 +154,23 @@ class UsuarioService:
 
         Referencia: docs/PLAN_MAESTRO_PRIORIDAD_02.md (Tarea 18)
         """
-        # Verificar permiso
-        tiene_permiso = UserManagementService.usuario_tiene_permiso(
+        # Verificar permiso y auditar
+        verificar_permiso_y_auditar(
             usuario_id=usuario_solicitante_id,
             capacidad_codigo='sistema.administracion.usuarios.crear',
+            recurso_tipo='usuario',
+            accion='crear',
+            mensaje_error='No tiene permiso para crear usuarios',
         )
 
-        if not tiene_permiso:
-            AuditoriaPermiso.objects.create(
-                usuario_id=usuario_solicitante_id,
-                capacidad_codigo='sistema.administracion.usuarios.crear',
-                recurso_tipo='usuario',
-                accion='crear',
-                resultado='denegado',
-                razon='Usuario no tiene permiso sistema.administracion.usuarios.crear',
-            )
-            raise PermissionDenied(
-                'No tiene permiso para crear usuarios'
-            )
-
         # Validar datos requeridos
-        campos_requeridos = ['email', 'first_name', 'last_name', 'password']
-        for campo in campos_requeridos:
-            if campo not in datos or not datos[campo]:
-                raise ValidationError(f'Campo requerido: {campo}')
+        validar_campos_requeridos(
+            datos=datos,
+            campos=['email', 'first_name', 'last_name', 'password'],
+        )
 
-        # Validar email unico
-        if User.objects.filter(email=datos['email']).exists():
-            raise ValidationError(f'Email ya existe: {datos["email"]}')
+        # Validar email único
+        validar_email_unico(email=datos['email'])
 
         # Crear usuario
         usuario = User.objects.create_user(
@@ -205,14 +181,13 @@ class UsuarioService:
             is_staff=datos.get('is_staff', False),
         )
 
-        # Auditar accion
-        AuditoriaPermiso.objects.create(
+        # Auditar acción exitosa
+        auditar_accion_exitosa(
             usuario_id=usuario_solicitante_id,
             capacidad_codigo='sistema.administracion.usuarios.crear',
             recurso_tipo='usuario',
-            recurso_id=usuario.id,
             accion='crear',
-            resultado='permitido',
+            recurso_id=usuario.id,
             detalles=f'Usuario creado: {usuario.email}',
         )
 
@@ -245,36 +220,25 @@ class UsuarioService:
 
         Referencia: docs/PLAN_MAESTRO_PRIORIDAD_02.md (Tarea 19)
         """
-        # Verificar permiso
-        tiene_permiso = UserManagementService.usuario_tiene_permiso(
+        # Verificar permiso y auditar
+        verificar_permiso_y_auditar(
             usuario_id=usuario_solicitante_id,
             capacidad_codigo='sistema.administracion.usuarios.editar',
+            recurso_tipo='usuario',
+            accion='editar',
+            recurso_id=usuario_id,
+            mensaje_error='No tiene permiso para editar usuarios',
         )
 
-        if not tiene_permiso:
-            AuditoriaPermiso.objects.create(
-                usuario_id=usuario_solicitante_id,
-                capacidad_codigo='sistema.administracion.usuarios.editar',
-                recurso_tipo='usuario',
-                recurso_id=usuario_id,
-                accion='editar',
-                resultado='denegado',
-                razon='Usuario no tiene permiso sistema.administracion.usuarios.editar',
-            )
-            raise PermissionDenied(
-                'No tiene permiso para editar usuarios'
-            )
-
         # Validar usuario existe
-        try:
-            usuario = User.objects.get(id=usuario_id, is_deleted=False)
-        except User.DoesNotExist:
-            raise ValidationError(f'Usuario no encontrado: {usuario_id}')
+        usuario = validar_usuario_existe(usuario_id=usuario_id)
 
-        # Validar email unico si cambia
+        # Validar email único si cambia
         if 'email' in datos and datos['email'] != usuario.email:
-            if User.objects.filter(email=datos['email']).exists():
-                raise ValidationError(f'Email ya existe: {datos["email"]}')
+            validar_email_unico(
+                email=datos['email'],
+                excluir_usuario_id=usuario_id,
+            )
             usuario.email = datos['email']
 
         # Actualizar campos
@@ -287,14 +251,13 @@ class UsuarioService:
 
         usuario.save()
 
-        # Auditar accion
-        AuditoriaPermiso.objects.create(
+        # Auditar acción exitosa
+        auditar_accion_exitosa(
             usuario_id=usuario_solicitante_id,
             capacidad_codigo='sistema.administracion.usuarios.editar',
             recurso_tipo='usuario',
-            recurso_id=usuario.id,
             accion='editar',
-            resultado='permitido',
+            recurso_id=usuario.id,
             detalles=f'Usuario editado: {usuario.email}',
         )
 
