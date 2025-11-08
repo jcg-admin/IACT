@@ -201,7 +201,7 @@ docs/sdlc_outputs/tdd_logs/
 
 **Ver también:**
 - [TDD Feature Agent - Guía Técnica](../gobernanza/agentes/tdd-feature-agent.md) - Documentación técnica completa
-- [Workflow 007 - TDD Feature Agent](../guias/workflows/workflows_007_tdd_feature_agent.md) - Guía de uso paso a paso
+- [Workflow - Implement Feature with TDD](../guias/workflows/workflow-implement-feature-with-tdd-agent.md) - Guía de uso paso a paso
 
 ---
 

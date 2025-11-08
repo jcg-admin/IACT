@@ -1,5 +1,5 @@
 ---
-id: GUIA-WORKFLOWS-007
+id: GUIA-WORKFLOW-IMPLEMENT-FEATURE-TDD
 tipo: guia_operativa
 categoria: workflows
 audiencia: desarrolladores-backend-fullstack
@@ -10,7 +10,7 @@ fecha: 2025-01-15
 relacionados: ["DOC-GOB-AGENTES", "tdd-feature-agent", "sdlc-agents-reference"]
 ---
 
-# Workflow 007: Implementación de Features con TDD Feature Agent
+# Workflow: Implementación de Features con TDD Feature Agent
 
 ## Descripción
 
