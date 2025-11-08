@@ -155,7 +155,14 @@ class Command(BaseCommand):
                 'nivel_riesgo': 'alto',
                 'requiere_aprobacion': True,
             },
-            # Funcion: dashboards (2 capacidades)
+            {
+                'codigo': 'sistema.administracion.usuarios.eliminar',
+                'nombre': 'Eliminar Usuario',
+                'descripcion': 'Eliminar usuarios del sistema (eliminacion logica)',
+                'nivel_riesgo': 'critico',
+                'requiere_aprobacion': True,
+            },
+            # Funcion: dashboards (4 capacidades)
             {
                 'codigo': 'sistema.vistas.dashboards.ver',
                 'nombre': 'Ver Dashboards',
@@ -168,7 +175,54 @@ class Command(BaseCommand):
                 'descripcion': 'Personalizar widgets de dashboard',
                 'nivel_riesgo': 'bajo',
             },
-            # Funcion: llamadas (7 capacidades - ejemplo parcial)
+            {
+                'codigo': 'sistema.vistas.dashboards.exportar',
+                'nombre': 'Exportar Dashboard',
+                'descripcion': 'Exportar datos de dashboards a Excel o PDF',
+                'nivel_riesgo': 'medio',
+            },
+            {
+                'codigo': 'sistema.vistas.dashboards.compartir',
+                'nombre': 'Compartir Dashboard',
+                'descripcion': 'Compartir dashboards personalizados con otros usuarios',
+                'nivel_riesgo': 'medio',
+            },
+            # Funcion: configuracion (5 capacidades)
+            {
+                'codigo': 'sistema.tecnico.configuracion.ver',
+                'nombre': 'Ver Configuracion',
+                'descripcion': 'Ver parametros de configuracion del sistema',
+                'nivel_riesgo': 'bajo',
+            },
+            {
+                'codigo': 'sistema.tecnico.configuracion.editar',
+                'nombre': 'Editar Configuracion',
+                'descripcion': 'Modificar parametros de configuracion del sistema',
+                'nivel_riesgo': 'critico',
+                'requiere_aprobacion': True,
+            },
+            {
+                'codigo': 'sistema.tecnico.configuracion.exportar',
+                'nombre': 'Exportar Configuracion',
+                'descripcion': 'Exportar configuracion del sistema a archivo',
+                'nivel_riesgo': 'alto',
+                'requiere_aprobacion': True,
+            },
+            {
+                'codigo': 'sistema.tecnico.configuracion.importar',
+                'nombre': 'Importar Configuracion',
+                'descripcion': 'Importar configuracion desde archivo',
+                'nivel_riesgo': 'critico',
+                'requiere_aprobacion': True,
+            },
+            {
+                'codigo': 'sistema.tecnico.configuracion.restaurar',
+                'nombre': 'Restaurar Configuracion',
+                'descripcion': 'Restaurar configuracion a valores por defecto',
+                'nivel_riesgo': 'critico',
+                'requiere_aprobacion': True,
+            },
+            # Funcion: llamadas (3 capacidades - ejemplo parcial)
             {
                 'codigo': 'sistema.operaciones.llamadas.realizar',
                 'nombre': 'Realizar Llamada',
@@ -310,7 +364,7 @@ class Command(BaseCommand):
         """Asigna capacidades a los grupos funcionales."""
         self.stdout.write('Asignando capacidades a grupos...')
 
-        # Grupo: administracion_usuarios (6 capacidades)
+        # Grupo: administracion_usuarios (7 capacidades)
         grupo_admin = GrupoPermiso.objects.get(codigo='administracion_usuarios')
         capacidades_admin = [
             'sistema.administracion.usuarios.ver',
@@ -319,6 +373,7 @@ class Command(BaseCommand):
             'sistema.administracion.usuarios.suspender',
             'sistema.administracion.usuarios.reactivar',
             'sistema.administracion.usuarios.asignar_grupos',
+            'sistema.administracion.usuarios.eliminar',
         ]
         for codigo in capacidades_admin:
             capacidad = Capacidad.objects.get(codigo=codigo)
@@ -327,16 +382,34 @@ class Command(BaseCommand):
                 capacidad=capacidad,
             )
 
-        # Grupo: visualizacion_basica (2 capacidades)
+        # Grupo: visualizacion_basica (4 capacidades)
         grupo_viz = GrupoPermiso.objects.get(codigo='visualizacion_basica')
         capacidades_viz = [
             'sistema.vistas.dashboards.ver',
             'sistema.vistas.dashboards.personalizar',
+            'sistema.vistas.dashboards.exportar',
+            'sistema.vistas.dashboards.compartir',
         ]
         for codigo in capacidades_viz:
             capacidad = Capacidad.objects.get(codigo=codigo)
             GrupoCapacidad.objects.get_or_create(
                 grupo=grupo_viz,
+                capacidad=capacidad,
+            )
+
+        # Grupo: configuracion_sistema (5 capacidades)
+        grupo_config = GrupoPermiso.objects.get(codigo='configuracion_sistema')
+        capacidades_config = [
+            'sistema.tecnico.configuracion.ver',
+            'sistema.tecnico.configuracion.editar',
+            'sistema.tecnico.configuracion.exportar',
+            'sistema.tecnico.configuracion.importar',
+            'sistema.tecnico.configuracion.restaurar',
+        ]
+        for codigo in capacidades_config:
+            capacidad = Capacidad.objects.get(codigo=codigo)
+            GrupoCapacidad.objects.get_or_create(
+                grupo=grupo_config,
                 capacidad=capacidad,
             )
 
