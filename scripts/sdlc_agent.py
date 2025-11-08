@@ -27,6 +27,7 @@ sys.path.insert(0, str(Path(__file__).parent / "ai"))
 
 from agents.sdlc_base import SDLCAgent, SDLCPipeline
 from agents.sdlc_planner import SDLCPlannerAgent
+from agents.tdd_feature_agent import TDDFeatureAgent
 
 
 def setup_logging(verbose: bool = False) -> None:
@@ -92,6 +93,36 @@ def run_planning_phase(
     }
 
     result = agent.execute(input_data)
+
+    return result.to_dict()
+
+
+def run_implementation_phase(
+    issue_data: Dict[str, Any],
+    config: Dict[str, Any],
+    dry_run: bool = False
+) -> Dict[str, Any]:
+    """
+    Ejecuta la fase de Implementation con TDD.
+
+    Args:
+        issue_data: Datos del issue con:
+            - issue_title: str
+            - acceptance_criteria: List[str]
+            - technical_requirements: List[str]
+            - target_module: str
+        config: Configuración
+        dry_run: Si True, no guarda artefactos
+
+    Returns:
+        Resultado de la ejecución
+    """
+    if dry_run:
+        config = {**config, "output_dir": "/tmp/sdlc_outputs"}
+
+    agent = TDDFeatureAgent(config=config)
+
+    result = agent.execute(issue_data)
 
     return result.to_dict()
 
@@ -225,6 +256,9 @@ Ejemplos:
   # Ejecutar planning phase
   python scripts/sdlc_agent.py --phase planning --input "Feature: Sistema de notificaciones push"
 
+  # Ejecutar implementation phase con TDD
+  python scripts/sdlc_agent.py --phase implementation --issue-file issue_data.json
+
   # Leer desde archivo
   python scripts/sdlc_agent.py --phase planning --input-file feature_request.txt
 
@@ -241,7 +275,7 @@ Ejemplos:
 
     parser.add_argument(
         "--phase",
-        choices=["planning", "feasibility", "design", "testing", "deployment", "maintenance"],
+        choices=["planning", "implementation", "feasibility", "design", "testing", "deployment", "maintenance"],
         help="Fase SDLC a ejecutar"
     )
 
@@ -261,6 +295,12 @@ Ejemplos:
         "--input-file",
         type=Path,
         help="Archivo con feature request"
+    )
+
+    parser.add_argument(
+        "--issue-file",
+        type=Path,
+        help="Archivo JSON con issue data (para fase implementation)"
     )
 
     parser.add_argument(
@@ -306,7 +346,11 @@ Ejemplos:
     if not args.phase and not args.pipeline:
         parser.error("Debes especificar --phase o --pipeline")
 
-    if not args.input and not args.input_file:
+    # Validar input segun la fase
+    if args.phase == "implementation":
+        if not args.issue_file:
+            parser.error("Fase implementation requiere --issue-file con datos del issue")
+    elif not args.input and not args.input_file:
         parser.error("Debes especificar --input o --input-file")
 
     # Setup
@@ -335,6 +379,16 @@ Ejemplos:
                 feature_request=feature_request,
                 config=config,
                 project_context=args.project_context,
+                dry_run=args.dry_run
+            )
+        elif args.phase == "implementation":
+            # Leer issue data desde archivo JSON
+            with open(args.issue_file, encoding="utf-8") as f:
+                issue_data = json.load(f)
+
+            result = run_implementation_phase(
+                issue_data=issue_data,
+                config=config,
                 dry_run=args.dry_run
             )
         else:
