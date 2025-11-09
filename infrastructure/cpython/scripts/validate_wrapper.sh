@@ -1,108 +1,147 @@
 #!/bin/bash
 #
-# infrastructure/cpython/scripts/validate_wrapper.sh - Wrapper para validación en Vagrant
+# infrastructure/cpython/scripts/validate_wrapper.sh - Wrapper for validation in Vagrant
 #
-# Referencia: SPEC_INFRA_001
-# Propósito: Facilitar validación desde fuera de Vagrant (host → VM)
+# Reference: SPEC_INFRA_001
+# Purpose: Facilitate validation from outside Vagrant (host → VM)
 #
-# Uso:
+# Usage:
 #   ./infrastructure/cpython/scripts/validate_wrapper.sh <artifact-name>
 #
-# Ejemplo:
+# Example:
 #   ./infrastructure/cpython/scripts/validate_wrapper.sh cpython-3.12.6-ubuntu20.04-build1.tgz
 #
 
 set -euo pipefail
 
-# Colores para output
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-BLUE='\033[0;34m'
-NC='\033[0m' # No Color
+# =============================================================================
+# LOAD UTILITIES (with fallback for host environment)
+# =============================================================================
 
-log_info() {
-    echo -e "${BLUE}[INFO]${NC} $*"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/../../.." && pwd)"
+
+# Try to load logger from utils/ (may not exist on host)
+source "$SCRIPT_DIR/../utils/logger.sh" 2>/dev/null || {
+    # Fallback: simple logging without colors (host environment)
+    log_info() { echo "[INFO] $*"; }
+    log_warning() { echo "[WARNING] $*"; }
+    log_error() { echo "[ERROR] $*" >&2; }
+    log_header() {
+        local msg="$1"
+        local width="${2:-60}"
+        printf '%*s\n' "$width" '' | tr ' ' '='
+        echo "  $msg"
+        printf '%*s\n' "$width" '' | tr ' ' '='
+    }
+    log_separator() {
+        local width="${1:-60}"
+        printf '%*s\n' "$width" '' | tr ' ' '-'
+    }
 }
 
-log_success() {
-    echo -e "${GREEN}[SUCCESS]${NC} $*"
-}
+# =============================================================================
+# ARGUMENT PARSING
+# =============================================================================
 
-log_error() {
-    echo -e "${RED}[ERROR]${NC} $*"
-}
-
-# Validar argumentos
-if [ $# -lt 1 ]; then
-    log_error "Uso: $0 <artifact-name>"
-    log_error "Ejemplo: $0 cpython-3.12.6-ubuntu20.04-build1.tgz"
+# Validate arguments
+if (( $# < 1 )); then
+    log_error "Usage: $0 <artifact-name>"
+    log_error "Example: $0 cpython-3.12.6-ubuntu20.04-build1.tgz"
     exit 1
 fi
 
 ARTIFACT_NAME="$1"
 
-# Detectar directorio raíz del proyecto
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-PROJECT_ROOT="$(cd "$SCRIPT_DIR/../../.." && pwd)"  # 3 levels up from scripts/
-
+# Detect paths
 VAGRANT_DIR="$PROJECT_ROOT/infrastructure/cpython"
-ARTIFACT_PATH="$PROJECT_ROOT/infrastructure/cpython/artifacts/$ARTIFACT_NAME"
+ARTIFACT_PATH="$PROJECT_ROOT/infrastructure/cpython/artifacts/cpython/$ARTIFACT_NAME"
 
-# Verificar que existe artefacto
-if [ ! -f "$ARTIFACT_PATH" ]; then
-    log_error "Artefacto no encontrado: $ARTIFACT_PATH"
+# =============================================================================
+# VERIFY ARTIFACT
+# =============================================================================
+
+# Check artifact exists
+if [[ ! -f "$ARTIFACT_PATH" ]]; then
+    log_error "Artifact not found: $ARTIFACT_PATH"
     exit 1
 fi
 
-# Verificar que existe directorio Vagrant
-if [ ! -d "$VAGRANT_DIR" ]; then
-    log_error "Directorio Vagrant no encontrado: $VAGRANT_DIR"
+# Verify Vagrant directory exists
+if [[ ! -d "$VAGRANT_DIR" ]]; then
+    log_error "Vagrant directory not found: $VAGRANT_DIR"
     exit 1
 fi
 
-log_info "=== Wrapper de validación de artefacto CPython ==="
-log_info "Artefacto: $ARTIFACT_NAME"
+# =============================================================================
+# DISPLAY VALIDATION INFO
+# =============================================================================
+
+log_header "CPython Artifact Validation Wrapper" 60
+log_info "Artifact: $ARTIFACT_NAME"
 log_info "Vagrant dir: $VAGRANT_DIR"
 echo ""
 
-# Verificar que Vagrant está instalado
+# =============================================================================
+# VERIFY VAGRANT
+# =============================================================================
+
+# Check Vagrant is installed
 if ! command -v vagrant &> /dev/null; then
-    log_error "Vagrant no está instalado"
-    log_error "Instalar: https://www.vagrantup.com/downloads"
+    log_error "Vagrant is not installed"
+    log_error "Install: https://www.vagrantup.com/downloads"
     exit 1
 fi
 
-# Verificar estado de VM
-log_info "Verificando estado de VM..."
+# =============================================================================
+# CHECK VM STATUS
+# =============================================================================
+
+log_info "Checking VM status..."
 cd "$VAGRANT_DIR"
 
-VM_STATUS=$(vagrant status --machine-readable | grep "state," | cut -d, -f4)
+VM_STATUS=$(vagrant status --machine-readable 2>/dev/null | grep "state," | cut -d, -f4 || echo "unknown")
 
-if [ "$VM_STATUS" != "running" ]; then
-    log_info "VM no está corriendo. Iniciando..."
+if [[ "$VM_STATUS" != "running" ]]; then
+    log_info "VM is not running. Starting..."
     if ! vagrant up; then
-        log_error "Fallo al iniciar VM"
+        log_error "Failed to start VM"
         exit 1
     fi
 fi
 
-log_success "VM está corriendo"
-
-# Ejecutar validación en VM
-log_info "Ejecutando validación en VM..."
+log_info "VM is running"
 echo ""
 
+# =============================================================================
+# EXECUTE VALIDATION IN VM
+# =============================================================================
+
+log_info "Executing validation in VM..."
+log_separator 60
+echo ""
+
+# Execute validation command in VM
 vagrant ssh -c "cd /vagrant && ./scripts/validate_build.sh $ARTIFACT_NAME"
 
 EXIT_CODE=$?
 
-if [ $EXIT_CODE -eq 0 ]; then
-    echo ""
-    log_success "=== Validación completada exitosamente ==="
-    log_info "El artefacto es válido y listo para distribución"
+# =============================================================================
+# DISPLAY RESULTS
+# =============================================================================
+
+echo ""
+log_separator 60
+
+if (( EXIT_CODE == 0 )); then
+    log_header "Validation completed successfully" 60
+    log_info "The artifact is valid and ready for distribution"
+    log_separator 60
 else
+    log_error "Validation failed with exit code: $EXIT_CODE"
     echo ""
-    log_error "Validación falló con código: $EXIT_CODE"
+    log_info "For debugging, connect to VM:"
+    log_info "  cd $VAGRANT_DIR"
+    log_info "  vagrant ssh"
     exit $EXIT_CODE
 fi

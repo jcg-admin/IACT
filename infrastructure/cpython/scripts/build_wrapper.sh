@@ -1,102 +1,141 @@
 #!/bin/bash
 #
-# infrastructure/cpython/scripts/build_wrapper.sh - Wrapper para compilacion en Vagrant
+# infrastructure/cpython/scripts/build_wrapper.sh - Wrapper for building in Vagrant
 #
-# Referencia: SPEC_INFRA_001
-# Proposito: Facilitar compilacion desde fuera de Vagrant (host → VM)
+# Reference: SPEC_INFRA_001
+# Purpose: Facilitate building from outside Vagrant (host → VM)
 #
-# Uso:
+# Usage:
 #   ./infrastructure/cpython/scripts/build_wrapper.sh <version> [build-number]
 #
-# Ejemplos:
+# Examples:
 #   ./infrastructure/cpython/scripts/build_wrapper.sh 3.12.6
 #   ./infrastructure/cpython/scripts/build_wrapper.sh 3.12.6 2
 #
 
 set -euo pipefail
 
-# Cargar utilidades
+# =============================================================================
+# LOAD UTILITIES (with fallback for host environment)
+# =============================================================================
+
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/../../.." && pwd)"
 
-source "$SCRIPT_DIR/../utils/logging.sh" 2>/dev/null || {
-    # Fallback si estamos fuera de la VM
-    RED='\033[0;31m'
-    GREEN='\033[0;32m'
-    BLUE='\033[0;34m'
-    NC='\033[0m'
-    log_info() { echo -e "${BLUE}[INFO]${NC} $*"; }
-    log_success() { echo -e "${GREEN}[SUCCESS]${NC} $*"; }
-    log_error() { echo -e "${RED}[ERROR]${NC} $*"; }
+# Try to load logger from utils/ (may not exist on host)
+source "$SCRIPT_DIR/../utils/logger.sh" 2>/dev/null || {
+    # Fallback: simple logging without colors (host environment)
+    log_info() { echo "[INFO] $*"; }
+    log_warning() { echo "[WARNING] $*"; }
+    log_error() { echo "[ERROR] $*" >&2; }
+    log_header() {
+        local msg="$1"
+        local width="${2:-60}"
+        printf '%*s\n' "$width" '' | tr ' ' '='
+        echo "  $msg"
+        printf '%*s\n' "$width" '' | tr ' ' '='
+    }
+    log_separator() {
+        local width="${1:-60}"
+        printf '%*s\n' "$width" '' | tr ' ' '-'
+    }
 }
 
-# Validar argumentos
-if [ $# -lt 1 ]; then
-    log_error "Uso: $0 <version> [build-number]"
-    log_error "Ejemplo: $0 3.12.6 1"
+# =============================================================================
+# ARGUMENT PARSING
+# =============================================================================
+
+# Validate arguments
+if (( $# < 1 )); then
+    log_error "Usage: $0 <version> [build-number]"
+    log_error "Example: $0 3.12.6 1"
     exit 1
 fi
 
 PYTHON_VERSION="$1"
 BUILD_NUMBER="${2:-1}"
 
-# Detectar directorio raiz del proyecto
+# Detect Vagrant directory
 VAGRANT_DIR="$PROJECT_ROOT/infrastructure/cpython"
 
-# Verificar que existe directorio Vagrant
-if [ ! -d "$VAGRANT_DIR" ]; then
-    log_error "Directorio Vagrant no encontrado: $VAGRANT_DIR"
+# Verify Vagrant directory exists
+if [[ ! -d "$VAGRANT_DIR" ]]; then
+    log_error "Vagrant directory not found: $VAGRANT_DIR"
     exit 1
 fi
 
-log_info "=== Wrapper de compilacion de CPython ==="
+# =============================================================================
+# DISPLAY BUILD INFO
+# =============================================================================
+
+log_header "CPython Build Wrapper" 60
 log_info "Version: $PYTHON_VERSION"
 log_info "Build number: $BUILD_NUMBER"
 log_info "Vagrant dir: $VAGRANT_DIR"
 echo ""
 
-# Verificar que Vagrant esta instalado
+# =============================================================================
+# VERIFY VAGRANT
+# =============================================================================
+
+# Check Vagrant is installed
 if ! command -v vagrant &> /dev/null; then
-    log_error "Vagrant no esta instalado"
-    log_error "Instalar: https://www.vagrantup.com/downloads"
+    log_error "Vagrant is not installed"
+    log_error "Install: https://www.vagrantup.com/downloads"
     exit 1
 fi
 
-# Verificar estado de VM
-log_info "Verificando estado de VM..."
+# =============================================================================
+# CHECK VM STATUS
+# =============================================================================
+
+log_info "Checking VM status..."
 cd "$VAGRANT_DIR"
 
-VM_STATUS=$(vagrant status --machine-readable | grep "state," | cut -d, -f4)
+VM_STATUS=$(vagrant status --machine-readable 2>/dev/null | grep "state," | cut -d, -f4 || echo "unknown")
 
-if [ "$VM_STATUS" != "running" ]; then
-    log_info "VM no esta corriendo. Iniciando..."
+if [[ "$VM_STATUS" != "running" ]]; then
+    log_info "VM is not running. Starting..."
     if ! vagrant up; then
-        log_error "Fallo al iniciar VM"
+        log_error "Failed to start VM"
         exit 1
     fi
 fi
 
-log_success "VM esta corriendo"
-
-# Ejecutar compilacion en VM
-log_info "Ejecutando compilacion en VM..."
+log_info "VM is running"
 echo ""
 
+# =============================================================================
+# EXECUTE BUILD IN VM
+# =============================================================================
+
+log_info "Executing build in VM..."
+log_separator 60
+echo ""
+
+# Execute build command in VM
 vagrant ssh -c "cd /vagrant && ./scripts/build_cpython.sh $PYTHON_VERSION $BUILD_NUMBER"
 
 EXIT_CODE=$?
 
-if [ $EXIT_CODE -eq 0 ]; then
+# =============================================================================
+# DISPLAY RESULTS
+# =============================================================================
+
+echo ""
+log_separator 60
+
+if (( EXIT_CODE == 0 )); then
+    log_header "Build completed successfully" 60
+    log_info "Artifact generated in: $PROJECT_ROOT/infrastructure/cpython/artifacts/"
     echo ""
-    log_success "=== Compilacion completada exitosamente ==="
-    log_info "Artefacto generado en: $PROJECT_ROOT/infrastructure/cpython/artifacts/"
-    echo ""
-    log_info "Siguiente paso:"
+    log_info "Next step:"
     log_info "  ./infrastructure/cpython/scripts/validate_wrapper.sh cpython-${PYTHON_VERSION}-ubuntu20.04-build${BUILD_NUMBER}.tgz"
+    log_separator 60
 else
+    log_error "Build failed with exit code: $EXIT_CODE"
     echo ""
-    log_error "Compilacion fallo con codigo: $EXIT_CODE"
-    log_info "Para debugging, conectarse a VM:"
+    log_info "For debugging, connect to VM:"
     log_info "  cd $VAGRANT_DIR"
     log_info "  vagrant ssh"
     exit $EXIT_CODE
