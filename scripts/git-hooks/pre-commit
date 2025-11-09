@@ -38,11 +38,17 @@ fi
 # ============================================================================
 
 echo "[1/5] Checking for emojis..."
-if python "$PROJECT_ROOT/scripts/workflows/check_no_emojis.py" $STAGED_FILES; then
-    log_success "No emojis found"
+# Exclude check_no_emojis.sh itself (contains emoji definitions for detection)
+FILES_TO_CHECK=$(echo "$STAGED_FILES" | tr ' ' '\n' | grep -v "check_no_emojis.sh" | tr '\n' ' ')
+if [ -n "$FILES_TO_CHECK" ]; then
+    if bash "$PROJECT_ROOT/scripts/workflows/check_no_emojis.sh" $FILES_TO_CHECK; then
+        log_success "No emojis found"
+    else
+        log_error "Emojis detected (see above)"
+        FAILED=$((FAILED + 1))
+    fi
 else
-    log_error "Emojis detected (see above)"
-    FAILED=$((FAILED + 1))
+    log_info "No files to check for emojis"
 fi
 
 # ============================================================================

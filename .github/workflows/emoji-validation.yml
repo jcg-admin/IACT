@@ -30,17 +30,8 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-
       - name: Check for emojis in changed files
         run: |
-          echo "Checking for emojis in project files..."
-          echo "=========================================="
-          echo ""
-
           # Get list of changed files (for PRs) or all files (for pushes)
           if [ "${{ github.event_name }}" = "pull_request" ]; then
             FILES=$(git diff --name-only ${{ github.event.pull_request.base.sha }} ${{ github.sha }} | grep -E '\.(py|md|txt|js|ts|jsx|tsx|yaml|yml|json|sh|bash)$' || true)
@@ -50,43 +41,9 @@ jobs:
 
           # If no specific files or not a PR, check all files
           if [ -z "$FILES" ]; then
-            echo "Running full project scan..."
-            python scripts/workflows/check_no_emojis.py --all
+            bash scripts/workflows/check_no_emojis.sh --all
           else
-            echo "Checking changed files:"
-            echo "$FILES" | while read file; do
-              echo "  - $file"
-            done
-            echo ""
-            python scripts/workflows/check_no_emojis.py $FILES
-          fi
-
-          EXIT_CODE=$?
-
-          if [ $EXIT_CODE -ne 0 ]; then
-            echo ""
-            echo "=========================================="
-            echo "VALIDATION FAILED: Emojis detected"
-            echo "=========================================="
-            echo ""
-            echo "The IACT project has a strict NO EMOJI policy."
-            echo ""
-            echo "Please remove all emojis from your files."
-            echo "See CONTRIBUTING.md for alternatives to common emojis."
-            echo "See ANALISIS_POLITICA_NO_EMOJIS.md for detailed policy."
-            echo ""
-            echo "Common alternatives:"
-            echo "  Instead of checkmark: [x] or 'OK' or 'PASS'"
-            echo "  Instead of cross: [ ] or 'FAIL'"
-            echo "  Instead of warning: 'WARNING:' or 'Nota:'"
-            echo ""
-            exit 1
-          else
-            echo ""
-            echo "=========================================="
-            echo "VALIDATION PASSED: No emojis detected"
-            echo "=========================================="
-            exit 0
+            bash scripts/workflows/check_no_emojis.sh $FILES
           fi
 
       - name: Summary
