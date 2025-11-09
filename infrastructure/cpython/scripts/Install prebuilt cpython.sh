@@ -1,6 +1,5 @@
 #!/bin/bash
 #
-# install_prebuilt_cpython.sh
 # Installs precompiled CPython with PGO+LTO optimizations
 #
 # Purpose: Install CPython prebuilt artifacts in containers/VMs

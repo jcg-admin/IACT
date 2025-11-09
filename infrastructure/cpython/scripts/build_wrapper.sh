@@ -1,6 +1,5 @@
 #!/bin/bash
 #
-# infrastructure/cpython/scripts/build_wrapper.sh - Wrapper for building in Vagrant
 #
 # Reference: SPEC_INFRA_001
 # Purpose: Facilitate building from outside Vagrant (host → VM)
