@@ -52,14 +52,27 @@ check_xss_protection() {
     log_info "Checking Django templates for unescaped variables..."
 
     if [ -d "$BACKEND_PATH" ]; then
-        local unsafe_templates
-        unsafe_templates=$(find "$BACKEND_PATH" -name "*.html" -type f ! -path "*/node_modules/*" -exec grep -l "|safe\|{% autoescape off %}" {} \; 2>/dev/null || true)
+        local unsafe_templates=""
+
+        # Use explicit exit code handling instead of || true
+        if unsafe_templates=$(find "$BACKEND_PATH" -name "*.html" -type f ! -path "*/node_modules/*" -exec grep -l "|safe\|{% autoescape off %}" {} \; 2>/dev/null); then
+            : # Found matches, continue
+        elif [ $? -eq 1 ]; then
+            : # No matches found (expected, not an error)
+        else
+            log_warning "Error searching for unsafe templates (permission denied or I/O error)"
+            return 2
+        fi
 
         if [ -n "$unsafe_templates" ]; then
             log_warning "Unescaped template variables found in Django templates:"
             echo "$unsafe_templates" | while IFS= read -r file; do
                 echo "  - ${file}"
-                grep -n "|safe\|{% autoescape off %}" "$file" | head -2 || true
+                if grep -n "|safe\|{% autoescape off %}" "$file" 2>/dev/null | head -2; then
+                    : # Printed matches
+                else
+                    : # No matches in file (already filtered, shouldn't happen)
+                fi
             done
             log_warning "Review these files for potential XSS vulnerabilities"
             warnings_found=1
@@ -70,8 +83,17 @@ check_xss_protection() {
     log_info "Checking React components for dangerouslySetInnerHTML..."
 
     if [ -d "$FRONTEND_PATH/src" ]; then
-        local dangerous_react
-        dangerous_react=$(grep -r "dangerouslySetInnerHTML" "$FRONTEND_PATH/src/" 2>/dev/null || true)
+        local dangerous_react=""
+
+        # Use explicit exit code handling instead of || true
+        if dangerous_react=$(grep -r "dangerouslySetInnerHTML" "$FRONTEND_PATH/src/" 2>/dev/null); then
+            : # Found matches, continue
+        elif [ $? -eq 1 ]; then
+            : # No matches found (expected, not an error)
+        else
+            log_warning "Error searching for dangerouslySetInnerHTML (permission denied or I/O error)"
+            return 2
+        fi
 
         if [ -n "$dangerous_react" ]; then
             log_warning "dangerouslySetInnerHTML found in React components:"

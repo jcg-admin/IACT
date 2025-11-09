@@ -46,8 +46,17 @@ check_implementacion_references() {
         return 1
     fi
 
-    local broken_refs
-    broken_refs=$(grep -r "docs/implementacion/" "$DOCS_PATH" --include="*.md" 2>/dev/null || true)
+    local broken_refs=""
+
+    # Use explicit exit code handling instead of || true
+    if broken_refs=$(grep -r "docs/implementacion/" "$DOCS_PATH" --include="*.md" 2>/dev/null); then
+        : # Found matches, continue
+    elif [ $? -eq 1 ]; then
+        : # No matches found (expected, not an error)
+    else
+        log_error "Error searching for old references (permission denied or I/O error)"
+        return 1
+    fi
 
     if [ -n "$broken_refs" ]; then
         log_error "Found references to old structure 'docs/implementacion/'"
@@ -69,8 +78,17 @@ check_implementacion_references() {
 check_infraestructura_references() {
     log_info "Checking for old 'infraestructura/' references..."
 
-    local broken_refs
-    broken_refs=$(grep -r "docs/infraestructura/" "$DOCS_PATH" --include="*.md" 2>/dev/null || true)
+    local broken_refs=""
+
+    # Use explicit exit code handling instead of || true
+    if broken_refs=$(grep -r "docs/infraestructura/" "$DOCS_PATH" --include="*.md" 2>/dev/null); then
+        : # Found matches, continue
+    elif [ $? -eq 1 ]; then
+        : # No matches found (expected, not an error)
+    else
+        log_error "Error searching for old references (permission denied or I/O error)"
+        return 1
+    fi
 
     if [ -n "$broken_refs" ]; then
         log_error "Found references to old structure 'docs/infraestructura/'"
