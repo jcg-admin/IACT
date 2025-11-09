@@ -38,54 +38,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Check internal links
-        run: |
-          echo "Checking for broken internal links..."
-
-          python3 << 'EOF'
-          import sys
-          from pathlib import Path
-          import re
-
-          guides_dir = Path("docs/guias")
-          errors = []
-
-          # Get all guide files
-          all_files = set()
-          for guide_file in guides_dir.rglob("*.md"):
-              all_files.add(str(guide_file.relative_to(guides_dir)))
-
-          # Check links in each file
-          for guide_file in guides_dir.rglob("*.md"):
-              content = guide_file.read_text()
-
-              # Find markdown links: [text](path)
-              links = re.findall(r'\[([^\]]+)\]\(([^)]+)\)', content)
-
-              for link_text, link_path in links:
-                  # Skip external links
-                  if link_path.startswith(('http://', 'https://', '#')):
-                      continue
-
-                  # Resolve relative path
-                  if link_path.startswith('../'):
-                      # Link outside guides/ - skip for now
-                      continue
-
-                  # Check if file exists
-                  target = guide_file.parent / link_path
-                  if not target.exists():
-                      errors.append(f"{guide_file}: Broken link to '{link_path}'")
-
-          if errors:
-              print("BROKEN LINKS FOUND:")
-              for error in errors:
-                  print(f"  - {error}")
-              print(f"\nTotal: {len(errors)} broken links")
-              # Don't fail build yet, just warn
-              # sys.exit(1)
-          else:
-              print("[OK] No broken internal links found")
-          EOF
+        run: bash scripts/validation/guides/check_guides_broken_links.sh
 
   generate-coverage-report:
     name: Generate Coverage Report
