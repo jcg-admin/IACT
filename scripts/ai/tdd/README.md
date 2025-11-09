@@ -35,4 +35,4 @@ result = agent.run({
 - `tests/ai/agents/test_tdd_constitution.py` (30 tests)
 - `tests/ai/agents/test_execution_logger.py` (37 tests)
 
-Todos los tests pasan (67/67) ✅
+Todos los tests pasan (67/67) - OK
