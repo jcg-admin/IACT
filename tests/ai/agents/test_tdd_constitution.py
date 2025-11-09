@@ -222,6 +222,7 @@ class TestTDDComplianceValidation:
             "start_timestamp": "2025-01-15T10:00:00",
             "phases": {
                 "red_phase": {
+                    "timestamp": "2025-01-15T10:00:00",
                     "start_timestamp": "2025-01-15T10:00:00",
                     "end_timestamp": "2025-01-15T10:05:00",
                     "status": "completed",
@@ -230,6 +231,7 @@ class TestTDDComplianceValidation:
                     },
                 },
                 "green_phase": {
+                    "timestamp": "2025-01-15T10:06:00",
                     "start_timestamp": "2025-01-15T10:06:00",
                     "end_timestamp": "2025-01-15T10:15:00",
                     "status": "completed",
@@ -238,6 +240,7 @@ class TestTDDComplianceValidation:
                     },
                 },
                 "refactor_phase": {
+                    "timestamp": "2025-01-15T10:16:00",
                     "start_timestamp": "2025-01-15T10:16:00",
                     "end_timestamp": "2025-01-15T10:20:00",
                     "status": "completed",
@@ -245,28 +248,31 @@ class TestTDDComplianceValidation:
             },
             "test_executions": [
                 {
-                    "phase": "red",
+                    "phase": "red_phase",
                     "timestamp": "2025-01-15T10:04:00",
-                    "total_tests": 5,
-                    "passed": 0,
-                    "failed": 5,
-                    "result": "failed",
+                    "result": {
+                        "total": 5,
+                        "passed": 0,
+                        "failed": 5,
+                    },
                 },
                 {
-                    "phase": "green",
+                    "phase": "green_phase",
                     "timestamp": "2025-01-15T10:14:00",
-                    "total_tests": 5,
-                    "passed": 5,
-                    "failed": 0,
-                    "result": "passed",
+                    "result": {
+                        "total": 5,
+                        "passed": 5,
+                        "failed": 0,
+                    },
                 },
                 {
-                    "phase": "refactor",
+                    "phase": "refactor_phase",
                     "timestamp": "2025-01-15T10:19:00",
-                    "total_tests": 5,
-                    "passed": 5,
-                    "failed": 0,
-                    "result": "passed",
+                    "result": {
+                        "total": 5,
+                        "passed": 5,
+                        "failed": 0,
+                    },
                 },
             ],
             "artifacts": [
@@ -274,11 +280,21 @@ class TestTDDComplianceValidation:
                 {"type": "implementation", "path": "api/feature.py", "phase": "green"},
             ],
             "metrics": {
-                "coverage_percentage": 95.5,
-                "security_issues": [],
-                "linting_passed": True,
-                "type_checking_passed": True,
-                "missing_docstrings": 0,
+                "coverage": {
+                    "percent": 95.5,
+                },
+                "security": {
+                    "issues_count": 0,
+                    "issues": [],
+                },
+                "quality": {
+                    "linting_passed": True,
+                    "type_check_passed": True,
+                },
+                "documentation": {
+                    "missing_docstrings": [],
+                    "total_public_functions": 10,
+                },
             },
         }
 
@@ -323,107 +339,111 @@ class TestTDDComplianceValidation:
         result = TDDConstitution.validate_tdd_compliance(execution_log)
 
         assert result["compliant"] is False
-        violations = [v for v in result["violations"] if v.rule_code == "RED_BEFORE_GREEN"]
+        violations = [v for v in result["violations"] if v["rule_code"] == "RED_BEFORE_GREEN"]
         assert len(violations) > 0
 
     def test_validate_tests_not_failing_first_fails(self):
         """Validate tests passing in RED phase fails TESTS_MUST_FAIL_FIRST."""
         execution_log = self.create_valid_execution_log()
         # Make RED phase tests pass (should fail)
-        execution_log["test_executions"][0]["passed"] = 5
-        execution_log["test_executions"][0]["failed"] = 0
-        execution_log["test_executions"][0]["result"] = "passed"
+        execution_log["test_executions"][0]["result"]["passed"] = 5
+        execution_log["test_executions"][0]["result"]["failed"] = 0
 
         result = TDDConstitution.validate_tdd_compliance(execution_log)
 
         assert result["compliant"] is False
-        violations = [v for v in result["violations"] if v.rule_code == "TESTS_MUST_FAIL_FIRST"]
+        violations = [v for v in result["violations"] if v["rule_code"] == "TESTS_MUST_FAIL_FIRST"]
         assert len(violations) > 0
 
     def test_validate_green_phase_tests_failing_fails(self):
         """Validate tests failing in GREEN phase fails ALL_TESTS_MUST_PASS."""
         execution_log = self.create_valid_execution_log()
         # Make GREEN phase tests fail (should pass)
-        execution_log["test_executions"][1]["passed"] = 3
-        execution_log["test_executions"][1]["failed"] = 2
-        execution_log["test_executions"][1]["result"] = "failed"
+        execution_log["test_executions"][1]["result"]["passed"] = 3
+        execution_log["test_executions"][1]["result"]["failed"] = 2
 
         result = TDDConstitution.validate_tdd_compliance(execution_log)
 
         assert result["compliant"] is False
-        violations = [v for v in result["violations"] if v.rule_code == "ALL_TESTS_MUST_PASS"]
+        violations = [v for v in result["violations"] if v["rule_code"] == "ALL_TESTS_MUST_PASS"]
         assert len(violations) > 0
 
     def test_validate_refactor_phase_tests_failing_fails(self):
         """Validate tests failing after REFACTOR fails TESTS_STAY_GREEN_AFTER_REFACTOR."""
         execution_log = self.create_valid_execution_log()
         # Make REFACTOR phase tests fail (should stay green)
-        execution_log["test_executions"][2]["passed"] = 4
-        execution_log["test_executions"][2]["failed"] = 1
-        execution_log["test_executions"][2]["result"] = "failed"
+        execution_log["test_executions"][2]["result"]["passed"] = 4
+        execution_log["test_executions"][2]["result"]["failed"] = 1
 
         result = TDDConstitution.validate_tdd_compliance(execution_log)
 
         assert result["compliant"] is False
         violations = [
-            v for v in result["violations"] if v.rule_code == "TESTS_STAY_GREEN_AFTER_REFACTOR"
+            v for v in result["violations"] if v["rule_code"] == "TESTS_STAY_GREEN_AFTER_REFACTOR"
         ]
         assert len(violations) > 0
 
     def test_validate_low_coverage_creates_high_severity_violation(self):
         """Validate coverage below 90% creates HIGH severity violation."""
         execution_log = self.create_valid_execution_log()
-        execution_log["metrics"]["coverage_percentage"] = 85.0
+        execution_log["metrics"]["coverage"]["percent"] = 85.0
 
         result = TDDConstitution.validate_tdd_compliance(execution_log)
 
         # Should still be compliant (not CRITICAL), but have violations
-        violations = [v for v in result["violations"] if v.rule_code == "MINIMUM_COVERAGE"]
+        violations = [v for v in result["violations"] if v["rule_code"] == "MINIMUM_COVERAGE"]
         assert len(violations) > 0
-        assert violations[0].severity == Severity.HIGH
+        assert violations[0]["severity"] == "HIGH"
 
     def test_validate_security_issues_creates_high_severity_violation(self):
         """Validate security issues create HIGH severity violation."""
         execution_log = self.create_valid_execution_log()
-        execution_log["metrics"]["security_issues"] = [
+        execution_log["metrics"]["security"]["issues_count"] = 1
+        execution_log["metrics"]["security"]["issues"] = [
             {"severity": "HIGH", "issue": "SQL injection risk"},
         ]
 
         result = TDDConstitution.validate_tdd_compliance(execution_log)
 
-        violations = [v for v in result["violations"] if v.rule_code == "NO_SECURITY_ISSUES"]
+        violations = [v for v in result["violations"] if v["rule_code"] == "NO_SECURITY_ISSUES"]
         assert len(violations) > 0
-        assert violations[0].severity == Severity.HIGH
+        assert violations[0]["severity"] == "HIGH"
 
     def test_validate_linting_failure_creates_medium_severity_violation(self):
         """Validate linting failure creates MEDIUM severity violation."""
         execution_log = self.create_valid_execution_log()
-        execution_log["metrics"]["linting_passed"] = False
+        execution_log["metrics"]["quality"]["linting_passed"] = False
 
         result = TDDConstitution.validate_tdd_compliance(execution_log)
 
-        violations = [v for v in result["violations"] if v.rule_code == "CODE_QUALITY_PASSING"]
+        violations = [v for v in result["violations"] if v["rule_code"] == "CODE_QUALITY_PASSING"]
         assert len(violations) > 0
-        assert violations[0].severity == Severity.MEDIUM
+        assert violations[0]["severity"] == "MEDIUM"
 
     def test_validate_missing_docstrings_creates_medium_severity_violation(self):
         """Validate missing docstrings creates MEDIUM severity violation."""
         execution_log = self.create_valid_execution_log()
-        execution_log["metrics"]["missing_docstrings"] = 5
+        execution_log["metrics"]["documentation"]["missing_docstrings"] = [
+            "function_one",
+            "function_two",
+            "function_three",
+            "function_four",
+            "function_five",
+        ]
 
         result = TDDConstitution.validate_tdd_compliance(execution_log)
 
-        violations = [v for v in result["violations"] if v.rule_code == "DOCUMENTATION_REQUIRED"]
+        violations = [v for v in result["violations"] if v["rule_code"] == "DOCUMENTATION_REQUIRED"]
         assert len(violations) > 0
-        assert violations[0].severity == Severity.MEDIUM
+        assert violations[0]["severity"] == "MEDIUM"
 
     def test_validate_score_calculation_with_violations(self):
         """Validate score calculation decreases with violations."""
         execution_log = self.create_valid_execution_log()
 
         # Add some non-critical violations
-        execution_log["metrics"]["coverage_percentage"] = 85.0
-        execution_log["metrics"]["linting_passed"] = False
+        execution_log["metrics"]["coverage"]["percent"] = 85.0
+        execution_log["metrics"]["quality"]["linting_passed"] = False
 
         result = TDDConstitution.validate_tdd_compliance(execution_log)
 
