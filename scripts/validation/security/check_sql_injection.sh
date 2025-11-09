@@ -56,8 +56,17 @@ check_sql_injection() {
     # Check 1: Look for raw SQL queries (.raw or .execute)
     log_info "Checking for raw SQL queries..."
 
-    local raw_sql_files
-    raw_sql_files=$(find "$BACKEND_PATH" -name "*.py" -type f ! -name "test_*.py" ! -name "*_test.py" -exec grep -l "\.raw\|\.execute" {} \; 2>/dev/null || true)
+    local raw_sql_files=""
+
+    # Use explicit exit code handling instead of || true
+    if raw_sql_files=$(find "$BACKEND_PATH" -name "*.py" -type f ! -name "test_*.py" ! -name "*_test.py" -exec grep -l "\.raw\|\.execute" {} \; 2>/dev/null); then
+        : # Found matches, continue
+    elif [ $? -eq 1 ]; then
+        : # No matches found (expected, not an error)
+    else
+        log_error "Error searching for raw SQL (permission denied or I/O error)"
+        return 1
+    fi
 
     if [ -n "$raw_sql_files" ]; then
         log_warning "Raw SQL queries found in the following files:"
@@ -72,8 +81,17 @@ check_sql_injection() {
     # Check 2: Look for dangerous string formatting in SQL queries (CRITICAL)
     log_info "Checking for string formatting in SQL queries (f-strings or .format)..."
 
-    local format_sql_files
-    format_sql_files=$(find "$BACKEND_PATH" -name "*.py" -type f ! -name "test_*.py" ! -name "*_test.py" -exec grep -l 'f".*SELECT\|\.format.*SELECT' {} \; 2>/dev/null || true)
+    local format_sql_files=""
+
+    # Use explicit exit code handling instead of || true
+    if format_sql_files=$(find "$BACKEND_PATH" -name "*.py" -type f ! -name "test_*.py" ! -name "*_test.py" -exec grep -l 'f".*SELECT\|\.format.*SELECT' {} \; 2>/dev/null); then
+        : # Found matches, continue
+    elif [ $? -eq 1 ]; then
+        : # No matches found (expected, not an error)
+    else
+        log_error "Error searching for string formatting in SQL (permission denied or I/O error)"
+        return 1
+    fi
 
     if [ -n "$format_sql_files" ]; then
         log_error "String formatting detected in SQL queries (SQL injection risk!)"

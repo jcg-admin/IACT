@@ -68,8 +68,17 @@ check_csrf_protection() {
     # Check 2: Look for @csrf_exempt decorators (potential security risks)
     log_info "Checking for @csrf_exempt decorators in views..."
 
-    local csrf_exempt_files
-    csrf_exempt_files=$(find "$BACKEND_PATH" -name "*.py" -type f ! -name "test_*.py" ! -name "*_test.py" -exec grep -l "@csrf_exempt" {} \; 2>/dev/null || true)
+    local csrf_exempt_files=""
+
+    # Use explicit exit code handling instead of || true
+    if csrf_exempt_files=$(find "$BACKEND_PATH" -name "*.py" -type f ! -name "test_*.py" ! -name "*_test.py" -exec grep -l "@csrf_exempt" {} \; 2>/dev/null); then
+        : # Found matches, continue
+    elif [ $? -eq 1 ]; then
+        : # No matches found (expected, not an error)
+    else
+        log_error "Error searching for @csrf_exempt (permission denied or I/O error)"
+        return 1
+    fi
 
     if [ -n "$csrf_exempt_files" ]; then
         log_warning "@csrf_exempt decorator found in the following files:"

@@ -48,8 +48,17 @@ check_email_usage() {
     # Look for Django email functions
     # Patterns: send_mail, EmailMessage, EmailMultiAlternatives
     # Exclude lines with "# PROHIBITED" comment (documented violations)
-    local email_usage
-    email_usage=$(grep -r "send_mail\|EmailMessage\|EmailMultiAlternatives" "$BACKEND_PATH"/*.py 2>/dev/null | grep -v "# PROHIBITED" | grep -v ".pyc" || true)
+    local email_usage=""
+
+    # Use explicit exit code handling instead of || true
+    if email_usage=$(grep -r "send_mail\|EmailMessage\|EmailMultiAlternatives" "$BACKEND_PATH"/*.py 2>/dev/null | grep -v "# PROHIBITED" | grep -v ".pyc"); then
+        : # Found matches, continue
+    elif [ $? -eq 1 ]; then
+        : # No matches found (expected, not an error)
+    else
+        log_warning "Error searching for email usage (permission denied or I/O error)"
+        return 2
+    fi
 
     if [ -n "$email_usage" ]; then
         log_warning "Email usage detected in backend code:"
