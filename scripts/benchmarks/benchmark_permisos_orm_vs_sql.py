@@ -96,9 +96,9 @@ def compare_results(name1: str, stats1: Dict, name2: str, stats2: Dict):
     print(f"P95 speedup:  {speedup_p95:.2f}x")
 
     if speedup_mean > 1:
-        print(f"✓ {name2} is {speedup_mean:.2f}x FASTER (mean)")
+        print(f"[OK] {name2} is {speedup_mean:.2f}x FASTER (mean)")
     else:
-        print(f"✓ {name1} is {1/speedup_mean:.2f}x FASTER (mean)")
+        print(f"[OK] {name1} is {1/speedup_mean:.2f}x FASTER (mean)")
 
 
 # =============================================================================
@@ -294,16 +294,16 @@ def main():
     print("\n\n" + "=" * 60)
     print("RESUMEN Y RECOMENDACIONES")
     print("=" * 60)
-    print("\n✓ Usar ORM para:")
+    print("\n[OK] Usar ORM para:")
     print("  - Desarrollo y prototiping")
     print("  - Testing (fácil mocking)")
     print("  - Admin/CRUD operations")
     print("  - Queries < 50ms son aceptables")
-    print("\n✓ Usar Vistas SQL para:")
+    print("\n[OK] Usar Vistas SQL para:")
     print("  - Queries de lectura frecuentes")
     print("  - Agregaciones complejas")
     print("  - Reportes y analítica")
-    print("\n✓ Usar Funciones SQL para:")
+    print("\n[OK] Usar Funciones SQL para:")
     print("  - Verificación de permisos (hot path)")
     print("  - Generación de menú")
     print("  - Operaciones atómicas")

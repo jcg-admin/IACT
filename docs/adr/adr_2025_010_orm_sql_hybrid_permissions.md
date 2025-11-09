@@ -189,18 +189,18 @@ Implementar AMBAS estrategias y elegir según caso de uso:
 
 ## Plan de Implementacion
 
-### Fase 1: Core ORM (Completado ✅)
+### Fase 1: Core ORM (Completado [OK])
 
 **Implementado**:
 - 8 modelos Django (`models_permisos_granular.py`)
 - Service layer (`services_permisos_granular.py`)
 - Tests unitarios e integración
 
-**Estado**: ✅ COMPLETO (Nov 2025)
+**Estado**: [OK] COMPLETO (Nov 2025)
 
 ---
 
-### Fase 2: Vistas SQL (Completado ✅)
+### Fase 2: Vistas SQL (Completado [OK])
 
 **Implementado**:
 - `vista_capacidades_usuario` - Consolidar capacidades
@@ -209,11 +209,11 @@ Implementar AMBAS estrategias y elegir según caso de uso:
 
 **Archivo**: `0002_create_permission_views.py`
 
-**Estado**: ✅ COMPLETO (Nov 2025)
+**Estado**: [OK] COMPLETO (Nov 2025)
 
 ---
 
-### Fase 3: Funciones SQL (Completado ✅)
+### Fase 3: Funciones SQL (Completado [OK])
 
 **Implementado**:
 - `usuario_tiene_permiso()` - Verificación rápida
@@ -224,7 +224,7 @@ Implementar AMBAS estrategias y elegir según caso de uso:
 
 **Archivo**: `0003_create_permission_functions.py`
 
-**Estado**: ✅ COMPLETO (Nov 2025)
+**Estado**: [OK] COMPLETO (Nov 2025)
 
 ---
 
@@ -236,7 +236,7 @@ Implementar AMBAS estrategias y elegir según caso de uso:
 - Documentar cuándo usar cada estrategia
 - Identificar candidatos para optimización
 
-**Estado**: 🔄 EN CURSO
+**Estado**: [WIP] EN CURSO
 
 ---
 
@@ -244,13 +244,13 @@ Implementar AMBAS estrategias y elegir según caso de uso:
 
 ### Usar ORM Django cuando:
 
-✅ **Desarrollo y prototipado**
+[OK] **Desarrollo y prototipado**
 ```python
 # Rápido de escribir, fácil de debuggear
 capacidades = usuario.grupos.all().prefetch_related('capacidades')
 ```
 
-✅ **Testing**
+[OK] **Testing**
 ```python
 # Fixtures, factories, mocking fácil
 @pytest.fixture
@@ -261,14 +261,14 @@ def usuario_con_permisos():
     return usuario
 ```
 
-✅ **Admin / CRUD operations**
+[OK] **Admin / CRUD operations**
 ```python
 # Django Admin integración
 class GrupoPermisoAdmin(admin.ModelAdmin):
     list_display = ['codigo', 'nombre_display', 'activo']
 ```
 
-✅ **Queries < 50ms son aceptables**
+[OK] **Queries < 50ms son aceptables**
 ```python
 # Endpoints de baja frecuencia
 def listar_usuarios_view(request):
@@ -279,7 +279,7 @@ def listar_usuarios_view(request):
 
 ### Usar Vistas SQL cuando:
 
-✅ **Queries de lectura frecuentes**
+[OK] **Queries de lectura frecuentes**
 ```python
 # Obtener capacidades (50-100ms → 10-20ms)
 with connection.cursor() as cursor:
@@ -289,7 +289,7 @@ with connection.cursor() as cursor:
     """, [usuario_id])
 ```
 
-✅ **Agregaciones complejas**
+[OK] **Agregaciones complejas**
 ```sql
 -- Dashboard stats
 SELECT
@@ -300,7 +300,7 @@ WHERE usuario_id = %s
 GROUP BY dominio;
 ```
 
-✅ **Reportes y analítica**
+[OK] **Reportes y analítica**
 ```sql
 -- Usuarios por grupo
 SELECT
@@ -315,7 +315,7 @@ GROUP BY grupo_codigo;
 
 ### Usar Funciones SQL cuando:
 
-✅ **Verificación de permisos (hot path)**
+[OK] **Verificación de permisos (hot path)**
 ```python
 # Endpoint de alta frecuencia (30-50ms → 5-10ms)
 with connection.cursor() as cursor:
@@ -326,7 +326,7 @@ with connection.cursor() as cursor:
     return cursor.fetchone()[0]
 ```
 
-✅ **Generación de menú**
+[OK] **Generación de menú**
 ```python
 # Login (100-200ms → 20-40ms)
 with connection.cursor() as cursor:
@@ -334,7 +334,7 @@ with connection.cursor() as cursor:
     menu = cursor.fetchone()[0]
 ```
 
-✅ **Operaciones atómicas**
+[OK] **Operaciones atómicas**
 ```sql
 -- Verificar + auditar en una transacción
 SELECT verificar_permiso_y_auditar(
@@ -447,6 +447,6 @@ def benchmark_sql():
 
 ---
 
-**Estado**: ✅ IMPLEMENTADO
+**Estado**: [OK] IMPLEMENTADO
 **Próxima revisión**: 2025-12-09 (1 mes)
 **Impacto**: Performance crítico optimizado (5-10x mejora)

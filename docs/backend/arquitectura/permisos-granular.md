@@ -21,13 +21,13 @@
 
 El Sistema de Permisos Granular implementa un modelo **basado en Grupos Funcionales** (NO roles jerárquicos) que permite:
 
-✅ **Permisos granulares** a nivel de acción sobre recurso
-✅ **Grupos funcionales** sin jerarquía (composición flexible)
-✅ **Permisos excepcionales** (temporales o permanentes)
-✅ **Auditoría completa** de todos los accesos
-✅ **Performance optimizado** con vistas SQL y funciones nativas
+[OK] **Permisos granulares** a nivel de acción sobre recurso
+[OK] **Grupos funcionales** sin jerarquía (composición flexible)
+[OK] **Permisos excepcionales** (temporales o permanentes)
+[OK] **Auditoría completa** de todos los accesos
+[OK] **Performance optimizado** con vistas SQL y funciones nativas
 
-**Estado**: ✅ 100% IMPLEMENTADO (Nov 2025)
+**Estado**: [OK] 100% IMPLEMENTADO (Nov 2025)
 
 ---
 
@@ -205,10 +205,10 @@ activo: bool
 ```
 
 **Características**:
-- ✅ Un usuario puede tener **N grupos** simultáneos
-- ✅ Asignaciones **temporales** (con fecha_expiracion)
-- ✅ Asignaciones **permanentes** (fecha_expiracion = NULL)
-- ✅ Historial (desactivar vs eliminar)
+- [OK] Un usuario puede tener **N grupos** simultáneos
+- [OK] Asignaciones **temporales** (con fecha_expiracion)
+- [OK] Asignaciones **permanentes** (fecha_expiracion = NULL)
+- [OK] Historial (desactivar vs eliminar)
 
 **Ejemplo**:
 ```python
@@ -291,11 +291,11 @@ timestamp: datetime
 ```
 
 **Se audita**:
-- ✅ Accesos permitidos
-- ✅ Accesos denegados
-- ✅ Asignación de grupos
-- ✅ Revocación de grupos
-- ✅ Permisos excepcionales
+- [OK] Accesos permitidos
+- [OK] Accesos denegados
+- [OK] Asignación de grupos
+- [OK] Revocación de grupos
+- [OK] Permisos excepcionales
 
 **Ejemplo de consulta**:
 ```python
