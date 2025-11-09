@@ -1,12 +1,12 @@
 ---
-id: GUIA-workflows-003
+id: GUIA-WORKFLOW-CREATE-PULL-REQUEST
 tipo: guia_operativa
 categoria: workflows
 audiencia: desarrollador
 prioridad: P0
 tiempo_lectura: 10 minutos
 version: 1.0.0
-fecha: 2025-11-07
+fecha: 2025-01-15
 relacionados: []
 ---
 

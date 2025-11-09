@@ -1,12 +1,12 @@
 ---
-id: GUIA-WORKFLOWS-006
+id: GUIA-WORKFLOW-MANAGE-TEAMS-AS-COORDINATOR
 tipo: guia_operativa
 categoria: workflows
 audiencia: coordinadores-equipo
 prioridad: P2
 tiempo_lectura: 12 minutos
 version: 1.0.0
-fecha: 2025-11-07
+fecha: 2025-01-15
 relacionados: ["CASOS_DE_USO_SISTEMA_PERMISOS", "UC-002", "prioridad_04_modulos_gestion"]
 ---
 

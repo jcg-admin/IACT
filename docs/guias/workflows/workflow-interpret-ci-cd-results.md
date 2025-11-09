@@ -1,12 +1,12 @@
 ---
-id: GUIA-workflows-004
+id: GUIA-WORKFLOW-INTERPRET-CI-CD-RESULTS
 tipo: guia_operativa
 categoria: workflows
 audiencia: desarrollador
 prioridad: P0
 tiempo_lectura: 8 minutos
 version: 1.0.0
-fecha: 2025-11-07
+fecha: 2025-01-15
 relacionados: []
 ---
 

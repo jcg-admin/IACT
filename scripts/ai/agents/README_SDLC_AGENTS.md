@@ -1,8 +1,8 @@
 ---
 id: README-SDLC-AGENTS
 tipo: documentation
-version: 1.0
-fecha: 2025-11-06
+version: 1.1
+fecha: 2025-01-15
 ---
 
 # Agentes SDLC del Proyecto IACT
@@ -118,6 +118,106 @@ Recomendaciones:
   - Prioridad recomendada: P1
   - Siguiente fase: Feasibility Analysis
 ```
+
+### TDDFeatureAgent (Fase 4: Implementation)
+
+**Estado**: [IMPLEMENTADO]
+
+**Responsabilidad**: Implementa features siguiendo metodologia TDD (Test-Driven Development) con garantias de calidad y compliance automatizado.
+
+**Inputs**:
+- `issue_title` (str): Titulo del feature
+- `acceptance_criteria` (List[str]): Criterios de aceptacion
+- `technical_requirements` (List[str]): Requisitos tecnicos
+- `target_module` (str): Modulo donde implementar
+
+**Outputs**:
+- Archivos de tests (unit, integration)
+- Archivos de codigo fuente
+- Execution log (JSON completo con audit trail)
+- Markdown report (reporte human-readable)
+- Dashboard visual con badges (compliance, coverage, security)
+- Constitution compliance result (score 0-100)
+
+**Proceso TDD**:
+1. **RED Phase**: Genera tests unitarios que deben fallar
+2. **GREEN Phase**: Implementa codigo para pasar tests
+3. **REFACTOR Phase**: Optimiza codigo manteniendo tests verdes
+4. **VALIDATION**: Valida 8 reglas de TDD constitution
+5. **REPORTING**: Genera reportes y dashboards automaticos
+
+**Constitution Checks** (8 reglas):
+- RED_BEFORE_GREEN (CRITICAL): Tests antes del codigo
+- TESTS_MUST_FAIL_FIRST (CRITICAL): Tests fallan en RED
+- ALL_TESTS_MUST_PASS (CRITICAL): Tests pasan en GREEN
+- TESTS_STAY_GREEN_AFTER_REFACTOR (CRITICAL): Tests siguen pasando
+- MINIMUM_COVERAGE (HIGH): Cobertura >= 90%
+- NO_SECURITY_ISSUES (HIGH): Sin vulnerabilidades
+- CODE_QUALITY_PASSING (MEDIUM): Linting y type checking
+- DOCUMENTATION_REQUIRED (MEDIUM): Docstrings presentes
+
+**Ejemplo de uso**:
+```bash
+# Preparar issue data
+cat > issue_data.json << EOF
+{
+  "issue_title": "Implement user authentication with 2FA",
+  "acceptance_criteria": [
+    "Users can register with email and password",
+    "Users can login with credentials"
+  ],
+  "technical_requirements": [
+    "Use Django authentication backend",
+    "Minimum 90% test coverage"
+  ],
+  "target_module": "apps.users"
+}
+EOF
+
+# Ejecutar TDD agent
+python scripts/sdlc_agent.py \
+  --phase implementation \
+  --issue-file issue_data.json \
+  --verbose
+```
+
+**Output**:
+```
+INFO - Starting TDD implementation: Implement user authentication with 2FA
+INFO - === RED PHASE: Writing failing tests ===
+INFO - Generated 15 test cases
+INFO - Running tests... (should fail)
+INFO - ? RED phase complete: 15/15 tests failed as expected
+
+INFO - === GREEN PHASE: Implementing code ===
+INFO - Running tests... (should pass)
+INFO - ? GREEN phase complete: 15/15 tests passed
+
+INFO - === REFACTOR PHASE: Optimizing code ===
+INFO - Auto-fixing linting issues
+INFO - ? REFACTOR phase complete: 15/15 tests still passing
+
+INFO - === Validating TDD Constitution ===
+INFO - Checking 8 constitution rules...
+INFO - ? All CRITICAL rules passed
+INFO - Compliance Score: 95.5/100
+
+INFO - Status: ? COMPLIANT
+INFO - Execution log: docs/sdlc_outputs/tdd_logs/tdd_execution_*.json
+INFO - Dashboard: docs/sdlc_outputs/tdd_logs/dashboard_*.md
+```
+
+**Herramientas QA Integradas**:
+- pytest + coverage (test execution y cobertura)
+- ruff (code linting)
+- mypy (type checking)
+- bandit (security scanning)
+- AST parser (docstring validation)
+
+**Documentacion completa**:
+- Guia tecnica: `docs/gobernanza/agentes/tdd-feature-agent.md`
+- Workflow de uso: `docs/guias/workflows/workflow-implement-feature-with-tdd-agent.md`
+- Referencia rapida: `docs/scripts/sdlc-agents-reference.md`
 
 ### Agentes Pendientes
 

@@ -1,12 +1,12 @@
 ---
-id: GUIA-workflows-001
+id: GUIA-WORKFLOW-CREATE-FEATURE-BRANCH
 tipo: guia_operativa
 categoria: workflows
 audiencia: desarrollador
 prioridad: P0
 tiempo_lectura: 5 minutos
 version: 1.0.0
-fecha: 2025-11-07
+fecha: 2025-01-15
 relacionados: []
 ---
 

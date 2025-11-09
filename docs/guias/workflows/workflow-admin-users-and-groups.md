@@ -1,12 +1,12 @@
 ---
-id: GUIA-WORKFLOWS-005
+id: GUIA-WORKFLOW-ADMIN-USERS-AND-GROUPS
 tipo: guia_operativa
 categoria: workflows
 audiencia: administradores-tecnicos
 prioridad: P1
 tiempo_lectura: 15 minutos
 version: 1.0.0
-fecha: 2025-11-07
+fecha: 2025-01-15
 relacionados: ["CASOS_DE_USO_SISTEMA_PERMISOS", "CATALOGO_GRUPOS_FUNCIONALES", "UC-005"]
 ---
 

@@ -1,12 +1,12 @@
 ---
-id: GUIA-workflows-002
+id: GUIA-WORKFLOW-MAKE-CONVENTIONAL-COMMITS
 tipo: guia_operativa
 categoria: workflows
 audiencia: desarrollador
 prioridad: P0
 tiempo_lectura: 7 minutos
 version: 1.0.0
-fecha: 2025-11-07
+fecha: 2025-01-15
 relacionados: []
 ---
 
