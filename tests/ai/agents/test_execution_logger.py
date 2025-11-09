@@ -30,7 +30,7 @@ from pathlib import Path as PathLib
 scripts_path = PathLib(__file__).parent.parent.parent.parent / "scripts"
 sys.path.insert(0, str(scripts_path))
 
-from ai.agents.tdd_execution_logger import TDDExecutionLogger
+from scripts.ai.tdd.execution_logger import TDDExecutionLogger
 
 
 class TestLoggerInitialization:
@@ -456,7 +456,7 @@ class TestFinalization:
 
             # Manually set end timestamp via finalize
             import unittest.mock as mock
-            with mock.patch('ai.agents.tdd_execution_logger.datetime') as mock_datetime:
+            with mock.patch('scripts.ai.tdd.execution_logger.datetime') as mock_datetime:
                 mock_datetime.now.return_value = datetime(2025, 1, 15, 10, 5, 30)
                 mock_datetime.fromisoformat = datetime.fromisoformat
 

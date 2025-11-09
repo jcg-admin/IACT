@@ -25,7 +25,7 @@ from pathlib import Path
 scripts_path = Path(__file__).parent.parent.parent.parent / "scripts"
 sys.path.insert(0, str(scripts_path))
 
-from ai.agents.tdd_constitution import (
+from scripts.ai.tdd.constitution import (
     ConstitutionRule,
     ConstitutionViolation,
     Severity,

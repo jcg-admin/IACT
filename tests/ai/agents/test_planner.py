@@ -11,7 +11,7 @@ import inspect
 from pathlib import Path
 from typing import Any, Dict, List
 
-from .base import Agent
+# Legacy import - base moved to scripts.ai.shared.agent_base
 
 
 class TestPlanner(Agent):
