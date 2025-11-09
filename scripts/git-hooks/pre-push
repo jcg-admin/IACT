@@ -2,6 +2,14 @@
 # scripts/git-hooks/pre-push
 # Comprehensive validations before push
 # Reference: ESTRATEGIA_GIT_HOOKS.md
+#
+# Heavy validations including:
+# - Tests
+# - Linting
+# - Shell constitution compliance
+# - Security checks (SQL injection, XSS, CSRF, Django)
+# - Compliance checks (IACT RNF-002: NO Redis, NO email, MySQL sessions)
+# - Documentation quality
 
 set -euo pipefail
 
@@ -19,17 +27,20 @@ else
 fi
 
 FAILED=0
+WARNINGS=0
 
 echo ""
-echo "PRE-PUSH VALIDATIONS"
-echo "===================="
+echo "PRE-PUSH VALIDATIONS (Comprehensive)"
+echo "====================================="
+echo ""
+echo "Running heavy validations (may take 30-60 seconds)..."
 echo ""
 
 # ============================================================================
 # VALIDATION 1: RUN TESTS
 # ============================================================================
 
-echo "[1/4] Running tests..."
+echo "[1/7] Running tests..."
 if command -v pytest >/dev/null 2>&1; then
     if pytest tests/ -q --tb=no 2>/dev/null; then
         log_success "Tests passed"
@@ -39,6 +50,7 @@ if command -v pytest >/dev/null 2>&1; then
     fi
 else
     log_warning "pytest not installed, skipping tests"
+    WARNINGS=$((WARNINGS + 1))
 fi
 
 # ============================================================================
@@ -46,7 +58,7 @@ fi
 # ============================================================================
 
 echo ""
-echo "[2/4] Running linters..."
+echo "[2/7] Running linters..."
 LINT_ERRORS=0
 
 # Python linting
@@ -76,39 +88,195 @@ else
     log_info "shellcheck not installed, skipping shell linting"
 fi
 
-if [ $LINT_ERRORS -eq 0 ]; then
+if [ $LINT_ERRORS -gt 0 ]; then
+    WARNINGS=$((WARNINGS + LINT_ERRORS))
+else
     log_success "All linting passed"
 fi
 
 # ============================================================================
-# VALIDATION 3: SHELL CONSTITUTION
+# VALIDATION 3: SHELL CONSTITUTION COMPLIANCE
 # ============================================================================
 
 echo ""
-echo "[3/4] Validating shell scripts constitution..."
+echo "[3/7] Validating shell scripts constitution..."
+
 if [ -f "$PROJECT_ROOT/scripts/validation/quality/validate_shell_constitution.sh" ]; then
-    SHELL_SCRIPTS=$(find scripts -name "*.sh" -type f 2>/dev/null | head -5)
+    # Find ALL shell scripts in scripts/ directory
+    SHELL_SCRIPTS=$(find "$PROJECT_ROOT/scripts" -type f -name "*.sh" 2>/dev/null || true)
+
     if [ -n "$SHELL_SCRIPTS" ]; then
-        if bash "$PROJECT_ROOT/scripts/validation/quality/validate_shell_constitution.sh" $SHELL_SCRIPTS >/dev/null 2>&1; then
-            log_success "Shell constitution OK"
+        CONSTITUTION_ERRORS=0
+
+        while IFS= read -r script; do
+            # Skip the constitution validator itself
+            if [[ "$script" == *"validate_shell_constitution.sh"* ]]; then
+                continue
+            fi
+
+            # Run constitution validation (silent)
+            if ! bash "$PROJECT_ROOT/scripts/validation/quality/validate_shell_constitution.sh" "$script" >/dev/null 2>&1; then
+                CONSTITUTION_ERRORS=$((CONSTITUTION_ERRORS + 1))
+            fi
+        done <<< "$SHELL_SCRIPTS"
+
+        if [ $CONSTITUTION_ERRORS -eq 0 ]; then
+            log_success "All shell scripts comply with constitution"
         else
-            log_warning "Shell constitution violations (see validator for details)"
+            log_warning "Constitution violations in $CONSTITUTION_ERRORS script(s)"
+            WARNINGS=$((WARNINGS + 1))
         fi
+    else
+        log_info "No shell scripts to validate"
     fi
 else
-    log_info "Shell constitution validator not found"
+    log_warning "Constitution validator not found, skipping"
+    WARNINGS=$((WARNINGS + 1))
 fi
 
 # ============================================================================
-# VALIDATION 4: CHECK FOR LARGE FILES
+# VALIDATION 4: SECURITY CHECKS
 # ============================================================================
 
 echo ""
-echo "[4/4] Checking for large files in repository..."
+echo "[4/7] Running security validations..."
+
+SECURITY_CHECKS=(
+    "scripts/validation/security/check_sql_injection.sh"
+    "scripts/validation/security/check_xss_protection.sh"
+    "scripts/validation/security/check_csrf_protection.sh"
+    "scripts/validation/security/check_django_security.sh"
+)
+
+SECURITY_ERRORS=0
+
+for check_script in "${SECURITY_CHECKS[@]}"; do
+    check_path="$PROJECT_ROOT/$check_script"
+    check_name=$(basename "$check_script" .sh)
+
+    if [ -f "$check_path" ]; then
+        if bash "$check_path" >/dev/null 2>&1; then
+            : # Passed silently
+        else
+            exit_code=$?
+            if [ $exit_code -eq 2 ]; then
+                log_warning "  [WARN] $check_name"
+                WARNINGS=$((WARNINGS + 1))
+            else
+                log_error "  [FAIL] $check_name"
+                SECURITY_ERRORS=$((SECURITY_ERRORS + 1))
+            fi
+        fi
+    else
+        log_warning "  [SKIP] $check_name (script not found)"
+    fi
+done
+
+if [ $SECURITY_ERRORS -eq 0 ]; then
+    log_success "Security checks passed"
+else
+    log_error "Security violations detected in $SECURITY_ERRORS check(s)"
+    FAILED=$((FAILED + 1))
+fi
+
+# ============================================================================
+# VALIDATION 5: COMPLIANCE CHECKS (IACT RNF-002)
+# ============================================================================
+
+echo ""
+echo "[5/7] Running IACT compliance validations (RNF-002)..."
+
+COMPLIANCE_CHECKS=(
+    "scripts/validation/compliance/check_redis_usage.sh"
+    "scripts/validation/compliance/validate_session_backend.sh"
+    "scripts/validation/compliance/check_email_usage.sh"
+)
+
+COMPLIANCE_ERRORS=0
+
+for check_script in "${COMPLIANCE_CHECKS[@]}"; do
+    check_path="$PROJECT_ROOT/$check_script"
+    check_name=$(basename "$check_script" .sh)
+
+    if [ -f "$check_path" ]; then
+        if bash "$check_path" >/dev/null 2>&1; then
+            : # Passed silently
+        else
+            exit_code=$?
+            if [ $exit_code -eq 2 ]; then
+                log_warning "  [WARN] $check_name"
+                WARNINGS=$((WARNINGS + 1))
+            else
+                log_error "  [FAIL] $check_name"
+                COMPLIANCE_ERRORS=$((COMPLIANCE_ERRORS + 1))
+            fi
+        fi
+    else
+        log_warning "  [SKIP] $check_name (script not found)"
+    fi
+done
+
+if [ $COMPLIANCE_ERRORS -eq 0 ]; then
+    log_success "Compliance checks passed"
+else
+    log_error "Compliance violations detected in $COMPLIANCE_ERRORS check(s)"
+    FAILED=$((FAILED + 1))
+fi
+
+# ============================================================================
+# VALIDATION 6: DOCUMENTATION QUALITY
+# ============================================================================
+
+echo ""
+echo "[6/7] Checking documentation quality..."
+
+DOC_CHECKS=(
+    "scripts/validation/docs/check_docs_old_references.sh"
+    "scripts/validation/guides/validate_guides_frontmatter.sh"
+    "scripts/validation/guides/validate_guides_structure.sh"
+)
+
+DOC_ERRORS=0
+
+for check_script in "${DOC_CHECKS[@]}"; do
+    check_path="$PROJECT_ROOT/$check_script"
+    check_name=$(basename "$check_script" .sh)
+
+    if [ -f "$check_path" ]; then
+        if bash "$check_path" >/dev/null 2>&1; then
+            : # Passed silently
+        else
+            exit_code=$?
+            if [ $exit_code -eq 2 ]; then
+                log_warning "  [WARN] $check_name"
+                WARNINGS=$((WARNINGS + 1))
+            else
+                DOC_ERRORS=$((DOC_ERRORS + 1))
+            fi
+        fi
+    else
+        log_warning "  [SKIP] $check_name (script not found)"
+    fi
+done
+
+if [ $DOC_ERRORS -eq 0 ]; then
+    log_success "Documentation checks passed"
+else
+    log_warning "Documentation issues detected in $DOC_ERRORS check(s)"
+    WARNINGS=$((WARNINGS + 1))
+fi
+
+# ============================================================================
+# VALIDATION 7: CHECK FOR LARGE FILES
+# ============================================================================
+
+echo ""
+echo "[7/7] Checking for large files in repository..."
 LARGE_FILES=$(find . -type f -size +1M -not -path "./.git/*" -not -path "./.venv/*" 2>/dev/null | head -5)
 if [ -n "$LARGE_FILES" ]; then
     log_warning "Large files detected (may slow down repository):"
     echo "$LARGE_FILES"
+    WARNINGS=$((WARNINGS + 1))
 else
     log_success "No large files detected"
 fi
@@ -118,18 +286,35 @@ fi
 # ============================================================================
 
 echo ""
-echo "===================="
+echo "====================================="
+echo ""
+
 if [ $FAILED -eq 0 ]; then
-    log_success "PRE-PUSH PASSED"
-    echo ""
-    echo "Pushing to remote..."
+    if [ $WARNINGS -gt 0 ]; then
+        log_warning "PRE-PUSH PASSED WITH WARNINGS: $WARNINGS warning(s)"
+        echo ""
+        echo "Push allowed, but please review warnings above."
+        echo "Consider fixing warnings before next push."
+        echo ""
+    else
+        log_success "PRE-PUSH PASSED"
+        echo ""
+        echo "All validations passed. Proceeding with push."
+        echo ""
+    fi
     exit 0
 else
-    log_error "PRE-PUSH FAILED: $FAILED validation(s) failed"
+    log_error "PRE-PUSH FAILED: $FAILED critical validation(s) failed"
     echo ""
-    echo "Fix the issues and try again."
+    echo "Critical issues detected. Please fix before pushing:"
     echo ""
-    echo "To bypass (NOT recommended):"
+    echo "  1. Run individual validators to see detailed errors:"
+    echo "     - bash scripts/validation/security/run_all_security_checks.sh"
+    echo "     - bash scripts/validation/compliance/run_all_compliance_checks.sh"
+    echo ""
+    echo "  2. Fix the issues and try pushing again"
+    echo ""
+    echo "To bypass (STRONGLY NOT RECOMMENDED for security/compliance):"
     echo "  git push --no-verify"
     echo ""
     exit 1
