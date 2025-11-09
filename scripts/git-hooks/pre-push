@@ -1,0 +1,136 @@
+#!/bin/bash
+# scripts/git-hooks/pre-push
+# Comprehensive validations before push
+# Reference: ESTRATEGIA_GIT_HOOKS.md
+
+set -euo pipefail
+
+readonly SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+readonly PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
+
+# Source common functions
+if [ -f "$PROJECT_ROOT/scripts/lib/common.sh" ]; then
+    source "$PROJECT_ROOT/scripts/lib/common.sh"
+else
+    log_info() { echo "[INFO] $*"; }
+    log_success() { echo "[SUCCESS] $*"; }
+    log_error() { echo "[ERROR] $*" >&2; }
+    log_warning() { echo "[WARNING] $*" >&2; }
+fi
+
+FAILED=0
+
+echo ""
+echo "PRE-PUSH VALIDATIONS"
+echo "===================="
+echo ""
+
+# ============================================================================
+# VALIDATION 1: RUN TESTS
+# ============================================================================
+
+echo "[1/4] Running tests..."
+if command -v pytest >/dev/null 2>&1; then
+    if pytest tests/ -q --tb=no 2>/dev/null; then
+        log_success "Tests passed"
+    else
+        log_error "Tests failed"
+        FAILED=$((FAILED + 1))
+    fi
+else
+    log_warning "pytest not installed, skipping tests"
+fi
+
+# ============================================================================
+# VALIDATION 2: LINTING
+# ============================================================================
+
+echo ""
+echo "[2/4] Running linters..."
+LINT_ERRORS=0
+
+# Python linting
+if command -v ruff >/dev/null 2>&1; then
+    if ruff check scripts/ --quiet 2>/dev/null; then
+        log_success "Python linting passed"
+    else
+        log_warning "Python linting issues found"
+        LINT_ERRORS=$((LINT_ERRORS + 1))
+    fi
+else
+    log_info "ruff not installed, skipping Python linting"
+fi
+
+# Shell linting
+if command -v shellcheck >/dev/null 2>&1; then
+    SHELL_FILES=$(find scripts -name "*.sh" -type f 2>/dev/null)
+    if [ -n "$SHELL_FILES" ]; then
+        if echo "$SHELL_FILES" | xargs shellcheck --severity=error 2>/dev/null; then
+            log_success "Shell linting passed"
+        else
+            log_warning "Shell linting issues found"
+            LINT_ERRORS=$((LINT_ERRORS + 1))
+        fi
+    fi
+else
+    log_info "shellcheck not installed, skipping shell linting"
+fi
+
+if [ $LINT_ERRORS -eq 0 ]; then
+    log_success "All linting passed"
+fi
+
+# ============================================================================
+# VALIDATION 3: SHELL CONSTITUTION
+# ============================================================================
+
+echo ""
+echo "[3/4] Validating shell scripts constitution..."
+if [ -f "$PROJECT_ROOT/scripts/validation/quality/validate_shell_constitution.sh" ]; then
+    SHELL_SCRIPTS=$(find scripts -name "*.sh" -type f 2>/dev/null | head -5)
+    if [ -n "$SHELL_SCRIPTS" ]; then
+        if bash "$PROJECT_ROOT/scripts/validation/quality/validate_shell_constitution.sh" $SHELL_SCRIPTS >/dev/null 2>&1; then
+            log_success "Shell constitution OK"
+        else
+            log_warning "Shell constitution violations (see validator for details)"
+        fi
+    fi
+else
+    log_info "Shell constitution validator not found"
+fi
+
+# ============================================================================
+# VALIDATION 4: CHECK FOR LARGE FILES
+# ============================================================================
+
+echo ""
+echo "[4/4] Checking for large files in repository..."
+LARGE_FILES=$(find . -type f -size +1M -not -path "./.git/*" -not -path "./.venv/*" 2>/dev/null | head -5)
+if [ -n "$LARGE_FILES" ]; then
+    log_warning "Large files detected (may slow down repository):"
+    echo "$LARGE_FILES"
+else
+    log_success "No large files detected"
+fi
+
+# ============================================================================
+# SUMMARY
+# ============================================================================
+
+echo ""
+echo "===================="
+if [ $FAILED -eq 0 ]; then
+    log_success "PRE-PUSH PASSED"
+    echo ""
+    echo "Pushing to remote..."
+    exit 0
+else
+    log_error "PRE-PUSH FAILED: $FAILED validation(s) failed"
+    echo ""
+    echo "Fix the issues and try again."
+    echo ""
+    echo "To bypass (NOT recommended):"
+    echo "  git push --no-verify"
+    echo ""
+    exit 1
+fi
