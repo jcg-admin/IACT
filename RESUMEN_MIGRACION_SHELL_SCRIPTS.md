@@ -21,9 +21,9 @@
 | Security | 5 | ~950 | SQL injection, XSS, CSRF, Django security |
 | Compliance | 4 | ~650 | RNF-002 (NO Redis, MySQL sessions, NO email) |
 | Documentation | 3 | ~334 | Old refs, auto-generated metadata, stats |
-| Guides | 3 | ~360 | Frontmatter, structure, quality checks |
+| Guides | 4 | ~495 | Frontmatter, structure, quality, broken links |
 | Quality | 1 | ~238 | Emoji detection (Python -> Shell) |
-| **TOTAL** | **19** | **~2,532** | **19 validators standalone** |
+| **TOTAL** | **20** | **~2,667** | **20 validators standalone** |
 
 ### Workflows Optimizados
 
@@ -34,13 +34,10 @@
 | backend-ci.yml | 332 | 281 | 15% | 59 líneas -> 4 scripts |
 | emoji-validation.yml | 122 | 79 | 35% | 91 líneas + Python setup -> 1 script |
 | docs-validation.yml | 277 | 151 | 45% | 126 líneas -> 3 scripts |
-| validate-guides.yml | 330 | 330* | 0%** | ~130 líneas Python -> 3 scripts |
+| validate-guides.yml | 206 | 158 | 23% | 178 líneas Python -> 4 scripts |
 
-*Workflow aún no actualizado (scripts creados)
-**Pendiente actualizar workflow para usar scripts
-
-**Total líneas embebidas migradas**: ~614 líneas
-**Total reducción workflows**: ~300 líneas YAML simplificadas
+**Total líneas embebidas migradas**: ~662 líneas
+**Total reducción workflows**: ~350 líneas YAML simplificadas
 
 ### Commits Realizados
 
@@ -52,8 +49,10 @@
 6. `feat(security): security-scan.yml validation logic -> shell scripts`
 7. `docs(analysis): idempotence and silent failures analysis`
 8. `fix(validation): eliminate silent failures in critical security scripts`
+9. `fix(guides): remove emoji from validate-guides.yml check-broken-links job`
+10. `feat(guides): migrate check-broken-links from Python to shell script`
 
-**Total: 8 commits** - Todas las acciones tangibles, sin commits de análisis puro
+**Total: 10 commits** - Todas las acciones tangibles, workflow validate-guides.yml COMPLETO
 
 ## ANÁLISIS DE CALIDAD
 
@@ -103,10 +102,10 @@ Todos los scripts cumplen:
 
 - check_no_emojis.py (206 líneas) -> check_no_emojis.sh (238 líneas)
 - validate_frontmatter.py (embedded 86 líneas) -> validate_frontmatter.sh (350 líneas)
-- Guides validators (176 líneas Python embedded) -> 3 shell scripts (360 líneas)
+- Guides validators (178 líneas Python embedded) -> 4 shell scripts (495 líneas)
 
-**Total Python eliminado**: ~468 líneas
-**Total Shell creado**: ~948 líneas
+**Total Python eliminado**: ~470 líneas
+**Total Shell creado**: ~1,083 líneas
 
 ## BENEFICIOS OBTENIDOS
 
@@ -131,7 +130,7 @@ scripts/validation/
 ├── security/       (5 scripts)
 ├── compliance/     (4 scripts)
 ├── docs/           (3 scripts)
-├── guides/         (3 scripts)
+├── guides/         (4 scripts: frontmatter, structure, quality, broken_links)
 └── quality/        (2 scripts + frontmatter + constitution)
 ```
 
@@ -234,28 +233,14 @@ bash scripts/validation/compliance/check_redis_usage.sh || exit 1
 
 ## PRÓXIMOS PASOS RECOMENDADOS
 
-### PRIORIDAD 1: Actualizar validate-guides.yml
-
-```bash
-# Reemplazar 3 bloques de Python embebido con:
-- name: Validate frontmatter
-  run: bash scripts/validation/guides/validate_guides_frontmatter.sh
-
-- name: Validate structure  
-  run: bash scripts/validation/guides/validate_guides_structure.sh
-
-- name: Quality checks
-  run: bash scripts/validation/guides/check_guides_quality.sh
-```
-
-### PRIORIDAD 2: Crear pre-push Hook
+### PRIORIDAD 1: Crear pre-push Hook
 
 Integrar validaciones pesadas en pre-push:
 - Shell constitution validation
 - Security checks
 - Compliance checks
 
-### PRIORIDAD 3: Corregir Fallas Silenciosas Restantes
+### PRIORIDAD 2: Corregir Fallas Silenciosas Restantes
 
 4 scripts con `|| true` de baja prioridad:
 - check_xss_protection.sh (2 instancias)
@@ -265,15 +250,15 @@ Integrar validaciones pesadas en pre-push:
 
 | Métrica | Valor | Meta | Estado |
 |---------|-------|------|---------|
-| Scripts creados | 19 | 15+ | [SUPERADO] |
-| Líneas código shell | 2,532 | 2,000+ | [SUPERADO] |
-| Python eliminado | 468 | 400+ | [SUPERADO] |
-| Workflows optimizados | 5 | 5 | [CUMPLIDO] |
-| Commits | 8 | 8+ | [CUMPLIDO] |
+| Scripts creados | 20 | 15+ | [SUPERADO] |
+| Líneas código shell | 2,667 | 2,000+ | [SUPERADO] |
+| Python eliminado | 470 | 400+ | [SUPERADO] |
+| Workflows optimizados | 6 | 5 | [SUPERADO] |
+| Commits | 10 | 8+ | [SUPERADO] |
 | Constitution compliance | 100% | 100% | [CUMPLIDO] |
 | Idempotencia | 100% | 100% | [CUMPLIDO] |
 | NO emojis | 100% | 100% | [CUMPLIDO] |
-| NO Python | 100% | 100% | [CUMPLIDO] |
+| NO Python workflows | 100% | 100% | [CUMPLIDO] |
 
 ## LECCIONES APRENDIDAS
 
