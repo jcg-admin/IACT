@@ -125,50 +125,10 @@ jobs:
           python-version: '3.11'
 
       - name: Install dependencies
-        run: |
-          pip install -r api/requirements.txt
+        run: pip install -r api/requirements.txt
 
       - name: Run Django security checks
-        run: |
-          cd api/callcentersite
-
-          echo "Running Django security checks..."
-
-          python manage.py check --deploy --settings=callcentersite.settings
-
-          echo "[PASS] Django security checks passed"
-
-      - name: Check for DEBUG=True in production settings
-        run: |
-          if grep -q "DEBUG = True" api/callcentersite/settings.py; then
-            echo "[WARNING]  WARNING: DEBUG=True found in settings"
-            echo "Ensure DEBUG is False in production"
-          fi
-
-      - name: Check for weak SECRET_KEY
-        run: |
-          if grep -q "SECRET_KEY = ['\"].*['\"]" api/callcentersite/settings.py; then
-            echo "[WARNING]  WARNING: SECRET_KEY might be hardcoded"
-            echo "Use environment variable for SECRET_KEY"
-          fi
-
-      - name: Validate session security (IACT RNF-002)
-        run: |
-          echo "Validating session security..."
-
-          # Check session backend is MySQL
-          if ! grep -q "django.contrib.sessions.backends.db" api/callcentersite/settings*.py; then
-            echo "[FAIL] ERROR: SESSION_ENGINE not set to MySQL backend (RNF-002)"
-            exit 1
-          fi
-
-          # Check NO Redis
-          if grep -q "redis" api/callcentersite/settings*.py; then
-            echo "[FAIL] ERROR: Redis detected (prohibited by RNF-002)"
-            exit 1
-          fi
-
-          echo "[PASS] Session security validated (MySQL, NO Redis)"
+        run: bash scripts/validation/security/check_django_security.sh
 
   trivy-scan:
     name: Container Security Scan (Trivy)
@@ -223,25 +183,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Check for potential SQL injection
-        run: |
-          echo "Checking for potential SQL injection vulnerabilities..."
-
-          # Look for raw SQL queries
-          if grep -r "\.raw\|\.execute" api/callcentersite/*.py | grep -v "test_" | grep -v ".pyc"; then
-            echo "[WARNING]  WARNING: Raw SQL queries found"
-            echo "Ensure they use parameterized queries"
-            echo ""
-            echo "Found in:"
-            grep -r "\.raw\|\.execute" api/callcentersite/*.py | grep -v "test_" | grep -v ".pyc"
-          fi
-
-          # Look for string formatting in queries
-          if grep -r "f\".*SELECT\|\.format.*SELECT" api/callcentersite/*.py | grep -v "test_" | grep -v ".pyc"; then
-            echo "[FAIL] ERROR: String formatting in SQL queries (SQL injection risk!)"
-            exit 1
-          fi
-
-          echo "[PASS] No obvious SQL injection vulnerabilities"
+        run: bash scripts/validation/security/check_sql_injection.sh
 
   xss-check:
     name: XSS Protection Check
@@ -251,22 +193,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Check for XSS vulnerabilities
-        run: |
-          echo "Checking for potential XSS vulnerabilities..."
-
-          # Check for unescaped template variables
-          if find . -name "*.html" -type f -exec grep -l "|safe\|{% autoescape off %}" {} \; | grep -v node_modules; then
-            echo "[WARNING]  WARNING: Unescaped template variables found"
-            echo "Review these files for potential XSS"
-          fi
-
-          # Check for dangerous React patterns
-          if grep -r "dangerouslySetInnerHTML" frontend/src/ 2>/dev/null; then
-            echo "[WARNING]  WARNING: dangerouslySetInnerHTML used"
-            echo "Ensure HTML is properly sanitized"
-          fi
-
-          echo "[PASS] XSS check completed"
+        run: bash scripts/validation/security/check_xss_protection.sh
 
   csrf-check:
     name: CSRF Protection Check
@@ -276,22 +203,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Check CSRF protection
-        run: |
-          echo "Checking CSRF protection..."
-
-          # Check Django CSRF middleware is enabled
-          if ! grep -q "django.middleware.csrf.CsrfViewMiddleware" api/callcentersite/settings.py; then
-            echo "[FAIL] ERROR: CSRF middleware not enabled"
-            exit 1
-          fi
-
-          # Check for @csrf_exempt decorators
-          if grep -r "@csrf_exempt" api/callcentersite/*.py | grep -v "test_"; then
-            echo "[WARNING]  WARNING: @csrf_exempt found"
-            echo "Review these views - they bypass CSRF protection"
-          fi
-
-          echo "[PASS] CSRF protection enabled"
+        run: bash scripts/validation/security/check_csrf_protection.sh
 
   generate-security-report:
     name: Generate Security Report
