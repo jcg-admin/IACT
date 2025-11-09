@@ -18,16 +18,33 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="${PROJECT_ROOT:-/vagrant}"
 
-# Source new modular utils
-source "$SCRIPT_DIR/utils/logger.sh" 2>/dev/null || source "$PROJECT_ROOT/utils/logger.sh"
-source "$SCRIPT_DIR/utils/validator.sh" 2>/dev/null || source "$PROJECT_ROOT/utils/validator.sh"
-source "$SCRIPT_DIR/utils/filesystem.sh" 2>/dev/null || source "$PROJECT_ROOT/utils/filesystem.sh"
-source "$SCRIPT_DIR/utils/retry_handler.sh" 2>/dev/null || source "$PROJECT_ROOT/utils/retry_handler.sh"
-source "$SCRIPT_DIR/utils/state_manager.sh" 2>/dev/null || source "$PROJECT_ROOT/utils/state_manager.sh"
+# Load environment system (pattern from generate)
+load_environment() {
+    local env_path="$SCRIPT_DIR/utils/environment.sh"
 
-# Initialize state management
-export BUILD_STATE_DIR="$PROJECT_ROOT/.build_state"
-initialize_state_directory
+    # Try script directory first
+    if [[ ! -f "$env_path" ]]; then
+        env_path="$PROJECT_ROOT/utils/environment.sh"
+    fi
+
+    # Validate file exists
+    if [[ ! -f "$env_path" ]]; then
+        echo "CRITICAL: Environment system not found" >&2
+        echo "Searched: $SCRIPT_DIR/utils/environment.sh" >&2
+        echo "Searched: $PROJECT_ROOT/utils/environment.sh" >&2
+        return 1
+    fi
+
+    # Source the environment system
+    source "$env_path"
+    return 0
+}
+
+# Load environment with error handling
+if ! load_environment; then
+    echo "ERROR: Failed to load environment system" >&2
+    exit 1
+fi
 
 # =============================================================================
 # FUNCTIONS
@@ -207,16 +224,37 @@ setup_directories() {
 setup_convenience_symlinks() {
     log_step 6 6 "Setting up convenience symlinks"
 
-    # Symlink: install.sh → scripts/install_prebuilt_cpython.sh
+    # Symlink: install.sh → install_prebuilt_cpython.sh
     if [[ -f "$PROJECT_ROOT/scripts/install_prebuilt_cpython.sh" ]]; then
         ln -sf scripts/install_prebuilt_cpython.sh "$PROJECT_ROOT/install.sh"
         log_info "Created symlink: install.sh → scripts/install_prebuilt_cpython.sh"
     else
-        log_warning "install_prebuilt_cpython.sh not found, skipping symlink creation"
+        log_warning "install_prebuilt_cpython.sh not found, skipping symlink"
     fi
 
-    # Future symlinks can be added here
-    # Example: ln -sf scripts/build_cpython.sh "$PROJECT_ROOT/build.sh"
+    # Symlink: build.sh → build_cpython.sh
+    if [[ -f "$PROJECT_ROOT/scripts/build_cpython.sh" ]]; then
+        ln -sf scripts/build_cpython.sh "$PROJECT_ROOT/build.sh"
+        log_info "Created symlink: build.sh → scripts/build_cpython.sh"
+    else
+        log_warning "build_cpython.sh not found, skipping symlink"
+    fi
+
+    # Symlink: validate.sh → validate_build.sh
+    if [[ -f "$PROJECT_ROOT/scripts/validate_build.sh" ]]; then
+        ln -sf scripts/validate_build.sh "$PROJECT_ROOT/validate.sh"
+        log_info "Created symlink: validate.sh → scripts/validate_build.sh"
+    else
+        log_warning "validate_build.sh not found, skipping symlink"
+    fi
+
+    # Symlink: clean.sh → cleanup.sh
+    if [[ -f "$PROJECT_ROOT/scripts/cleanup.sh" ]]; then
+        ln -sf scripts/cleanup.sh "$PROJECT_ROOT/clean.sh"
+        log_info "Created symlink: clean.sh → scripts/cleanup.sh"
+    else
+        log_warning "cleanup.sh not found, skipping symlink"
+    fi
 
     log_info "Convenience symlinks configured"
 }
@@ -298,13 +336,28 @@ display_summary() {
     echo "    ./scripts/validate_build.sh <artifact-name>"
     echo "    ./scripts/cleanup.sh [--all] [--state]"
     echo ""
-    if [[ -L "$PROJECT_ROOT/install.sh" ]]; then
-        echo "  Convenience symlinks:"
-        echo "    ./install.sh → $(readlink "$PROJECT_ROOT/install.sh")"
+
+    # Show convenience symlinks if they exist
+    local has_symlinks=false
+    if [[ -L "$PROJECT_ROOT/install.sh" ]] || [[ -L "$PROJECT_ROOT/build.sh" ]] || \
+       [[ -L "$PROJECT_ROOT/validate.sh" ]] || [[ -L "$PROJECT_ROOT/clean.sh" ]]; then
+        has_symlinks=true
+        echo "  Convenience symlinks (shorter commands):"
+        [[ -L "$PROJECT_ROOT/install.sh" ]] && echo "    ./install.sh  → $(readlink "$PROJECT_ROOT/install.sh")"
+        [[ -L "$PROJECT_ROOT/build.sh" ]] && echo "    ./build.sh    → $(readlink "$PROJECT_ROOT/build.sh")"
+        [[ -L "$PROJECT_ROOT/validate.sh" ]] && echo "    ./validate.sh → $(readlink "$PROJECT_ROOT/validate.sh")"
+        [[ -L "$PROJECT_ROOT/clean.sh" ]] && echo "    ./clean.sh    → $(readlink "$PROJECT_ROOT/clean.sh")"
         echo ""
     fi
-    echo "  Usage example:"
-    echo "    ./scripts/build_cpython.sh 3.12.6"
+
+    echo "  Usage examples:"
+    if [[ "$has_symlinks" == "true" ]]; then
+        echo "    ./build.sh 3.12.6              # Build Python 3.12.6"
+        echo "    ./validate.sh <artifact>       # Validate artifact"
+        echo "    ./clean.sh --all               # Clean all build files"
+    else
+        echo "    ./scripts/build_cpython.sh 3.12.6"
+    fi
     echo ""
     echo "  Artifacts will be generated in:"
     echo "    $PROJECT_ROOT/artifacts/cpython/"

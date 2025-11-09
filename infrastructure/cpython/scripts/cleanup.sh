@@ -18,10 +18,27 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="${PROJECT_ROOT:-/vagrant}"
 
-# Source new modular utils
-source "$SCRIPT_DIR/../utils/logger.sh" 2>/dev/null || source "$PROJECT_ROOT/utils/logger.sh"
-source "$SCRIPT_DIR/../utils/filesystem.sh" 2>/dev/null || source "$PROJECT_ROOT/utils/filesystem.sh"
-source "$SCRIPT_DIR/../utils/state_manager.sh" 2>/dev/null || source "$PROJECT_ROOT/utils/state_manager.sh"
+# Load environment system
+load_environment() {
+    local env_path="$SCRIPT_DIR/../utils/environment.sh"
+
+    if [[ ! -f "$env_path" ]]; then
+        env_path="$PROJECT_ROOT/utils/environment.sh"
+    fi
+
+    if [[ ! -f "$env_path" ]]; then
+        echo "ERROR: Environment system not found" >&2
+        return 1
+    fi
+
+    source "$env_path"
+    return 0
+}
+
+if ! load_environment; then
+    echo "ERROR: Failed to load environment system" >&2
+    exit 1
+fi
 
 # =============================================================================
 # CONFIGURATION

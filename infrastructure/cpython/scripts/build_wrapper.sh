@@ -22,8 +22,12 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/../../.." && pwd)"
 
-# Try to load logger from utils/ (may not exist on host)
-source "$SCRIPT_DIR/../utils/logger.sh" 2>/dev/null || {
+# Try to load environment system (may not exist on host)
+if [[ -f "$SCRIPT_DIR/../utils/environment.sh" ]]; then
+    source "$SCRIPT_DIR/../utils/environment.sh"
+elif [[ -f "$PROJECT_ROOT/infrastructure/cpython/utils/environment.sh" ]]; then
+    source "$PROJECT_ROOT/infrastructure/cpython/utils/environment.sh"
+else
     # Fallback: simple logging without colors (host environment)
     log_info() { echo "[INFO] $*"; }
     log_warning() { echo "[WARNING] $*"; }
@@ -39,7 +43,7 @@ source "$SCRIPT_DIR/../utils/logger.sh" 2>/dev/null || {
         local width="${1:-60}"
         printf '%*s\n' "$width" '' | tr ' ' '-'
     }
-}
+fi
 
 # =============================================================================
 # ARGUMENT PARSING

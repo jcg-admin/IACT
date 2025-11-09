@@ -1,4 +1,5 @@
 #!/bin/bash
+# utils/logger.sh - Logging utilities for CPython Builder
 # Purpose: Centralized logging with timestamps, no colors, file output support
 
 set -euo pipefail
@@ -7,15 +8,23 @@ set -euo pipefail
 # CONSTANTS
 # =============================================================================
 
-readonly LOG_FILE="${LOG_FILE:-}"
-readonly LOG_LEVEL="${LOG_LEVEL:-INFO}"
+# Note: These may be set by calling script, so use conditional assignment
+if [[ -z "${LOG_FILE:-}" ]]; then
+    LOG_FILE=""
+fi
 
-# Log levels (for filtering)
-readonly LOG_LEVEL_DEBUG=0
-readonly LOG_LEVEL_INFO=1
-readonly LOG_LEVEL_WARNING=2
-readonly LOG_LEVEL_ERROR=3
-readonly LOG_LEVEL_FATAL=4
+if [[ -z "${LOG_LEVEL:-}" ]]; then
+    LOG_LEVEL="INFO"
+fi
+
+# Log levels (for filtering) - protect from multiple sourcing
+if [[ -z "${LOG_LEVEL_DEBUG:-}" ]]; then
+    readonly LOG_LEVEL_DEBUG=0
+    readonly LOG_LEVEL_INFO=1
+    readonly LOG_LEVEL_WARNING=2
+    readonly LOG_LEVEL_ERROR=3
+    readonly LOG_LEVEL_FATAL=4
+fi
 
 # =============================================================================
 # PRIVATE FUNCTIONS

@@ -30,95 +30,35 @@ MARKER_FILE="${PYTHON_DIR}/.installed"
 TEMP_DIR="/tmp/cpython-install-$$"
 
 # ==============================================================================
-# LOAD UTILITIES (with fallback for containers)
+# LOAD UTILITIES (Fail Fast - requires full project structure)
 # ==============================================================================
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-# Try to load utilities if they exist
-if [[ -f "$SCRIPT_DIR/../utils/logger.sh" ]]; then
-    source "$SCRIPT_DIR/../utils/logger.sh"
-    source "$SCRIPT_DIR/../utils/validator.sh" 2>/dev/null || true
-    source "$SCRIPT_DIR/../utils/filesystem.sh" 2>/dev/null || true
-    source "$SCRIPT_DIR/../utils/network.sh" 2>/dev/null || true
-    LOGGING_LOADED=1
-else
-    # Fallback: define functions inline if utilities not found
-    # This ensures the script works standalone in containers
-    log_info() { echo "[INFO] $*"; }
-    log_warning() { echo "[WARNING] $*"; }
-    log_error() { echo "[ERROR] $*" >&2; }
-    log_step() {
-        local step="$1"
-        local total="$2"
-        local message="$3"
-        echo ""
-        echo "[STEP $step/$total] $message"
-        echo "----------------------------------------"
-    }
-    log_separator() {
-        local width="${1:-60}"
-        printf '%*s\n' "$width" '' | tr ' ' '-'
-    }
+# Load environment system with strict validation
+load_environment() {
+    local env_path="$SCRIPT_DIR/../utils/environment.sh"
 
-    # Filesystem fallbacks
-    cleanup_temp_directory() {
-        local temp_dir="$1"
-        if [[ -n "$temp_dir" ]] && [[ -d "$temp_dir" ]]; then
-            log_info "Cleaning temporary files: $temp_dir"
-            rm -rf "$temp_dir"
-        fi
-    }
+    if [[ ! -f "$env_path" ]]; then
+        echo "ERROR: This script requires the full project structure" >&2
+        echo "ERROR: environment.sh not found at: $env_path" >&2
+        echo "" >&2
+        echo "This script must be run from within the project directory:" >&2
+        echo "  Expected location: features/cpython-prebuilt/install_prebuilt_cpython.sh" >&2
+        echo "  Requires: infrastructure/cpython/utils/environment.sh" >&2
+        echo "" >&2
+        return 1
+    fi
 
-    create_temp_directory() {
-        local prefix="${1:-temp_}"
-        local temp_dir
-        temp_dir=$(mktemp -d -t "${prefix}XXXXXX")
-        echo "$temp_dir"
-    }
+    source "$env_path"
+    return 0
+}
 
-    extract_tarball() {
-        local tarball="$1"
-        local dest_dir="$2"
-        tar xzf "$tarball" -C "$dest_dir"
-    }
-
-    # Network fallbacks
-    download_file() {
-        local url="$1"
-        local dest="$2"
-        if command -v wget &> /dev/null; then
-            wget -q --show-progress "$url" -O "$dest"
-        elif command -v curl &> /dev/null; then
-            curl -fsSL "$url" -o "$dest"
-        else
-            log_error "Neither wget nor curl found"
-            return 1
-        fi
-    }
-
-    # Validation fallbacks
-    validate_file_exists() {
-        local file="$1"
-        local error_msg="${2:-File not found: $file}"
-        if [[ ! -f "$file" ]]; then
-            log_error "$error_msg"
-            return 1
-        fi
-        return 0
-    }
-
-    validate_sha256_checksum() {
-        local file="$1"
-        local checksum_file="$2"
-
-        cd "$(dirname "$file")"
-        if ! sha256sum -c "$(basename "$checksum_file")" 2>&1 | grep -q "OK"; then
-            log_error "SHA256 checksum validation failed"
-            return 1
-        fi
-        return 0
-    }
+# Load environment with error handling
+if ! load_environment; then
+    echo "CRITICAL: Cannot run without environment system" >&2
+    echo "Make sure you're running from the correct project directory" >&2
+    exit 1
 fi
 
 # ==============================================================================
