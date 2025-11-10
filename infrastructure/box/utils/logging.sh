@@ -7,6 +7,7 @@
 # Uso: source utils/logger.sh
 # ============================================================================
 
+
 log_info()    { echo -e "[INFO]    $*"; }
 log_warn()    { echo -e "[WARNING] $*"; }
 log_error()   { echo -e "[ERROR]   $*" >&2; }
