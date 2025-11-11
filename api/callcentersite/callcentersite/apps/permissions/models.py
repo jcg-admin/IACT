@@ -462,15 +462,18 @@ class AuditoriaPermiso(models.Model):
     recurso_accedido = models.CharField(
         max_length=200,
         blank=True,
+        default='',
         help_text="URL o recurso especifico accedido"
     )
     ip_address = models.CharField(
         max_length=50,
         blank=True,
+        default='',
         help_text="IP del usuario"
     )
     user_agent = models.TextField(
         blank=True,
+        default='',
         help_text="User agent del navegador"
     )
     metadata = models.JSONField(

@@ -375,7 +375,7 @@ class TestRF005LoginCredencialesLocales:
 
         # Verificar notificación por buzón interno (NO email)
         notification = InternalMessage.objects.filter(
-            user_id=user.id,
+            recipient_id=user.id,
             subject__icontains='bloqueada'
         ).first()
         assert notification is not None
@@ -440,7 +440,7 @@ class TestRF005LoginCredencialesLocales:
 
         # Verificar notificación
         notification = InternalMessage.objects.filter(
-            user_id=user.id,
+            recipient_id=user.id,
             subject__icontains='nueva sesión'
         ).first()
         assert notification is not None

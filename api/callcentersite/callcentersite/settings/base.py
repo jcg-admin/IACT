@@ -40,9 +40,19 @@ INSTALLED_APPS = [
     "callcentersite.apps.analytics",
     "callcentersite.apps.ivr_legacy",
     "callcentersite.apps.etl",
-    "callcentersite.apps.reports",
+    "callcentersite.apps.reportes",
     "callcentersite.apps.audit",
     "callcentersite.apps.dashboard",
+    "callcentersite.apps.configuracion",
+    "callcentersite.apps.presupuestos",
+    "callcentersite.apps.politicas",
+    "callcentersite.apps.excepciones",
+    "callcentersite.apps.alertas",
+    "callcentersite.apps.clientes",
+    "callcentersite.apps.equipos",
+    "callcentersite.apps.horarios",
+    "callcentersite.apps.metricas",
+    "callcentersite.apps.tickets",
     "dora_metrics",
 ]
 
@@ -97,7 +107,7 @@ DATABASES = {
         },
     },
     "ivr_readonly": {
-        "ENGINE": "django.db.backends.mysql",
+        "ENGINE": "mysql.connector.django",
         "NAME": os.getenv("DJANGO_IVR_NAME", "ivr_legacy"),
         "USER": os.getenv("DJANGO_IVR_USER", "django_user"),
         "PASSWORD": os.getenv("DJANGO_IVR_PASSWORD", "django_pass"),
@@ -107,6 +117,7 @@ DATABASES = {
         "OPTIONS": {
             "init_command": "SET sql_mode='STRICT_TRANS_TABLES'",
             "charset": "utf8mb4",
+            "use_unicode": True,
         },
     },
 }
