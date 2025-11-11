@@ -10,18 +10,26 @@ Basado en: "Automatic Chain of Thought Prompting in Large Language Models"
 
 import json
 from pathlib import Path
-from typing import List, Dict, Optional, Tuple
+from typing import List, Dict, Optional, Tuple, Any
 from dataclasses import dataclass
 import re
-import numpy as np
-from sklearn.cluster import KMeans
+
+# Optional dependencies for clustering
+try:
+    import numpy as np
+    from sklearn.cluster import KMeans
+    NUMPY_AVAILABLE = True
+except ImportError:
+    NUMPY_AVAILABLE = False
+    np = None
+    KMeans = None
 
 
 @dataclass
 class Question:
     """Representa una pregunta del dominio."""
     text: str
-    embedding: Optional[np.ndarray] = None
+    embedding: Optional[Any] = None  # np.ndarray when numpy available
     cluster_id: Optional[int] = None
 
 
@@ -105,6 +113,14 @@ class AutoCoTAgent:
         En implementación real, usarías embeddings de BERT/sentence-transformers.
         Esta versión simplificada usa características básicas.
         """
+        if not NUMPY_AVAILABLE:
+            # Fallback: simple round-robin clustering without ML
+            k = min(self.k_clusters, len(questions))
+            for i, q in enumerate(questions):
+                q.cluster_id = i % max(k, 1)
+                q.embedding = None
+            return questions
+
         # Generar embeddings simplificados (en producción: usar BERT)
         for q in questions:
             q.embedding = self._simple_embedding(q.text)
@@ -129,7 +145,7 @@ class AutoCoTAgent:
 
         return questions
 
-    def _simple_embedding(self, text: str) -> np.ndarray:
+    def _simple_embedding(self, text: str) -> Any:  # np.ndarray when available
         """
         Genera embedding simplificado de texto.
 
