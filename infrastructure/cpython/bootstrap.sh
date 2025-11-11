@@ -101,14 +101,13 @@ install_build_dependencies() {
         libreadline6-dev
         libsqlite3-dev
         libssl-dev
-        lzma
-        lzma-dev
         tk-dev
         uuid-dev
         zlib1g-dev
         wget
         curl
         ca-certificates
+        xz-utils
     )
 
     # Install with retry logic

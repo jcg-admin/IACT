@@ -3,17 +3,20 @@
 ## Resumen ejecutivo
 Este documento sintetiza cómo se genera, publica y consume el artefacto de CPython precompilado y qué ajustes son necesarios en el DevContainer del monolito. Responde a las preguntas frecuentes del equipo sobre "¿cuál es el pipeline?" y "¿cómo se usa en `.devcontainer/`?".
 
+- **Tecnología base**: todo el flujo se ejecuta con scripts shell y objetivos de `Makefile`. No se añadió código Python nuevo; el binario proviene del proceso de compilación descrito en la Fase 3.
+- **Resultado esperado**: un tarball `cpython-<versión>-<os>-build<id>.tgz` con los binarios y librerías ya compilados que puede instalarse en cualquier DevContainer compatible.
+
 ---
 
 ## 1. Pipeline end-to-end
 El flujo completo se divide en tres etapas secuenciales. Cada una depende de scripts shell y objetivos de `Makefile` ya documentados en la fase 3 del procedimiento oficial.
 
 ### 1.1 Construcción del artefacto
-1. Validar dependencias del host (Vagrant, VirtualBox, espacio en disco).
+1. Validar dependencias del host (Vagrant, VirtualBox, espacio en disco) con los scripts provistos.
 2. Levantar la VM de compilación (`make vagrant-cpython-up` o `vagrant up`).
-3. Ejecutar la compilación (`make build_cpython VERSION=3.12.6 BUILD=1`).
-4. Ejecutar la validación del paquete (`make validate-cpython ARTIFACT=cpython-3.12.6-ubuntu20.04-build1.tgz`).
-5. Resultado: `infrastructure/cpython/artifacts/cpython-3.12.6-ubuntu20.04-build1.tgz` más su `*.sha256`.
+3. Ejecutar la compilación (`make build_cpython VERSION=3.12.6 BUILD=1`). Este objetivo invoca `scripts/build_cpython.sh`, que compila CPython en la VM.
+4. Ejecutar la validación del paquete (`make validate-cpython ARTIFACT=cpython-3.12.6-ubuntu20.04-build1.tgz`). Este paso corre `scripts/validate_artifact.sh` para revisar hash y módulos críticos.
+5. Resultado: `infrastructure/cpython/artifacts/cpython-3.12.6-ubuntu20.04-build1.tgz` más su `*.sha256`. Con ambos archivos se garantiza que el binario está listo para distribución.
 
 > Fuente: Procedimiento fase 3, secciones 1.1 a 1.4.【F:docs/infrastructure/cpython_precompilado/FASE-3-PROCEDIMIENTO.md†L17-L107】
 
@@ -27,7 +30,7 @@ El flujo completo se divide en tres etapas secuenciales. Cada una depende de scr
 ### 1.3 Consumo en proyectos
 1. Añadir la Feature personalizada en `.devcontainer/devcontainer.json`.
 2. Elegir si se usa `artifactUrl` local (desarrollo) o desde la release pública (producción).
-3. Reconstruir el contenedor y validar `python3 --version` y módulos nativos.
+3. Reconstruir el contenedor y validar `python3 --version` y módulos nativos. No se requiere ejecutar scripts Python; el instalador descomprime el tarball y expone `/opt/python-<versión>` automáticamente.
 
 > Fuente: Guía de usuario CPython precompilado, secciones "Inicio Rápido" y "Configuración avanzada".【F:docs/infrastructure/cpython_precompilado/README.md†L33-L130】
 
@@ -59,7 +62,7 @@ El DevContainer del monolito ya referencia el instalador personalizado. Estos so
 El archivo define comandos shell que orquestan el setup:
 - `initializeCommand`: corre en el host y valida requisitos antes de construir el contenedor.
 - `onCreateCommand`: prepara Python, Git y directorios iniciales.
-- `updateContentCommand`: instala dependencias Python del proyecto.
+- `updateContentCommand`: instala dependencias Python del proyecto (vía `pip` dentro del contenedor, usando el CPython precompilado).
 - `postCreateCommand`: prepara las bases de datos y aplica migraciones.
 - `postStartCommand`: ejecuta verificaciones rápidas en cada arranque.
 
