@@ -27,13 +27,15 @@ from .architecture_analysis_agent import (
     SOLIDPrinciple
 )
 
+# Refactoring Opportunities (implemented)
+from .refactoring_opportunities_agent import (
+    RefactoringOpportunitiesAgent,
+    RefactoringOpportunity,
+    CodeSmell,
+    RefactoringType
+)
+
 # TODO: Import other agents as they are implemented
-# from .refactoring_opportunities_agent import (
-#     RefactoringOpportunitiesAgent,
-#     RefactoringOpportunity,
-#     CodeSmell,
-#     RefactoringType
-# )
 # from .design_patterns_agent import (
 #     DesignPatternsRecommendationAgent,
 #     PatternRecommendation,
@@ -63,5 +65,10 @@ __all__ = [
     'SOLIDAnalysisResult',
     'PrincipleViolation',
     'SOLIDPrinciple',
+    # Refactoring Opportunities (implemented)
+    'RefactoringOpportunitiesAgent',
+    'RefactoringOpportunity',
+    'CodeSmell',
+    'RefactoringType',
     # TODO: Add other agents as they are implemented
 ]
