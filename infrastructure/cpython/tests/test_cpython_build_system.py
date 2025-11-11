@@ -286,3 +286,76 @@ def test_bootstrap_summary_handles_missing_toolchain_gracefully():
     assert "reset_operation_state bootstrap_complete" in body, (
         "display_summary debe guiar al usuario para reejecutar bootstrap cuando falten herramientas"
     )
+
+
+def test_environment_detects_project_root_without_env_variable():
+    """El entorno debe detectar la raíz del repositorio aun sin PROJECT_ROOT."""
+
+    env_script = VAGRANT_DIR / "utils" / "environment.sh"
+
+    command = f"""
+set -euo pipefail
+unset PROJECT_ROOT
+source "{env_script}"
+printf "%s" "$PROJECT_ROOT"
+"""
+
+    result = subprocess.run(["bash", "-c", command], capture_output=True, text=True, check=True)
+
+    detected_root = Path(result.stdout.strip())
+    assert detected_root == BASE_DIR, (
+        "environment.sh debe resolver automáticamente la raíz del proyecto sin depender de rutas de usuario"
+    )
+
+
+def test_feature_install_resolves_relative_artifact_path(tmp_path):
+    """El instalador debe resolver rutas relativas de artefactos sin depender del usuario."""
+
+    script_path = VAGRANT_DIR / "scripts" / "Install prebuilt cpython.sh"
+
+    artifact_relative = "infrastructure/cpython/artifacts/cpython-3.12.6-ubuntu20.04-build1.tgz"
+    artifact_path = tmp_path / artifact_relative
+    artifact_path.parent.mkdir(parents=True)
+    artifact_path.write_text("placeholder artifact")
+
+    checksum_path = artifact_path.with_name(artifact_path.name + ".sha256")
+    checksum_path.write_text("dummy-checksum  cpython-3.12.6-ubuntu20.04-build1.tgz\n")
+
+    command = f"""
+set -euo pipefail
+export PROJECT_ROOT="{tmp_path}"
+export VERSION="3.12.6"
+export ARTIFACTURL="{artifact_relative}"
+unset CHECKSUMURL
+export SKIPVALIDATION="true"
+export INSTALLPREFIX="{tmp_path}/python"
+export LOG_LEVEL="ERROR"
+source "{script_path}"
+determine_cpython_artifact_urls
+printf "::artifact::%s\\n" "$ARTIFACT_URL"
+printf "::checksum::%s\\n" "$CHECKSUM_URL"
+"""
+
+    result = subprocess.run(["bash", "-c", command], capture_output=True, text=True, check=True)
+
+    artifact_line = next(
+        (line for line in result.stdout.splitlines() if line.startswith("::artifact::")),
+        ""
+    )
+    checksum_line = next(
+        (line for line in result.stdout.splitlines() if line.startswith("::checksum::")),
+        ""
+    )
+
+    assert artifact_line, "El script debe reportar la ruta final del artefacto"
+    assert checksum_line, "El script debe reportar la ruta final del checksum"
+
+    resolved_artifact = Path(artifact_line.split("::artifact::", 1)[1])
+    resolved_checksum = Path(checksum_line.split("::checksum::", 1)[1])
+
+    assert resolved_artifact == artifact_path, (
+        "El instalador debe resolver rutas relativas al directorio del proyecto"
+    )
+    assert resolved_checksum == checksum_path, (
+        "El instalador debe ubicar el checksum local asociado al artefacto"
+    )
