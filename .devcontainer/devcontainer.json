@@ -48,8 +48,10 @@
       "version": "3.12.6",
       // DESARROLLO LOCAL: Path relativo al workspace
       "artifactUrl": "/workspaces/${localWorkspaceFolderBasename}/infrastructure/cpython/artifacts/cpython-3.12.6-ubuntu20.04-build1.tgz",
+      "checksumUrl": "/workspaces/${localWorkspaceFolderBasename}/infrastructure/cpython/artifacts/cpython-3.12.6-ubuntu20.04-build1.tgz.sha256",
       // PRODUCCIÓN: Descomentar cuando el Release esté publicado
       // "artifactUrl": "https://github.com/2-Coatl/IACT---project/releases/download/cpython-3.12.6-build1/cpython-3.12.6-ubuntu20.04-build1.tgz",
+      // "checksumUrl": "https://github.com/2-Coatl/IACT---project/releases/download/cpython-3.12.6-build1/cpython-3.12.6-ubuntu20.04-build1.tgz.sha256",
       "installPrefix": "/opt/python",
       "skipValidation": false
     },
