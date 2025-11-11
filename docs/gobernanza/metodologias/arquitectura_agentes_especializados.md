@@ -1016,6 +1016,191 @@ probablemente debería ser 2+ agentes.
 
 ---
 
-**Última actualización**: 2025-11-04
+## Inventario de Agentes Implementados
+
+### Resumen
+
+El proyecto IACT cuenta con **35 agentes IA especializados** que automatizan el ciclo completo de SDLC.
+
+**Estado de Integración LLM**: 6/17 agentes críticos integrados (35.3%)
+
+### 1. Agentes SDLC (7 agentes)
+
+| Agente | Ubicación | LLM | Estado |
+|--------|-----------|-----|--------|
+| SDLCPlannerAgent | scripts/ai/sdlc/planner_agent.py | COMPLETO | Genera user stories |
+| SDLCFeasibilityAgent | scripts/ai/sdlc/feasibility_agent.py | NO | Análisis viabilidad |
+| SDLCDesignAgent | scripts/ai/sdlc/design_agent.py | NO | Genera diseño |
+| SDLCTestingAgent | scripts/ai/sdlc/testing_agent.py | NO | Orquesta testing |
+| SDLCDeploymentAgent | scripts/ai/sdlc/deployment_agent.py | NO | Gestiona deploys |
+| SDLCMaintenanceAgent | scripts/ai/sdlc/maintenance_agent.py | NO | Monitoreo post-deploy |
+| SDLCOrchestratorAgent | scripts/ai/sdlc/orchestrator.py | NO | Coordina pipeline |
+
+### 2. Agentes TDD (1 agente)
+
+| Agente | Ubicación | LLM | Estado |
+|--------|-----------|-----|--------|
+| TDDFeatureAgent | scripts/ai/tdd/feature_agent.py | COMPLETO | Ciclo RED-GREEN-REFACTOR |
+
+### 3. Agentes Meta (9 agentes)
+
+| Agente | Ubicación | LLM | Estado |
+|--------|-----------|-----|--------|
+| ChainOfVerificationAgent | scripts/ai/agents/base/chain_of_verification.py | COMPLETO | CoVe (Meta AI 2023) |
+| AutoCoTAgent | scripts/ai/agents/base/auto_cot_agent.py | COMPLETO | Auto-CoT (Zhang 2022) |
+| SelfConsistencyAgent | scripts/ai/agents/base/self_consistency.py | COMPLETO | Self-Consistency (Wang 2022) |
+| TreeOfThoughtsAgent | scripts/ai/agents/base/tree_of_thoughts.py | COMPLETO | ToT (Yao 2023) |
+| ArchitectureAnalysisAgent | scripts/ai/agents/meta/ | PENDIENTE | Análisis arquitectura |
+| DesignPatternsAgent | scripts/ai/agents/meta/ | PENDIENTE | Detección patrones |
+| RefactoringOpportunitiesAgent | scripts/ai/agents/meta/ | PENDIENTE | Identifica refactors |
+| TestGenerationAgent | scripts/ai/agents/meta/ | PENDIENTE | Genera tests |
+| UMLValidationAgent | scripts/ai/agents/meta/ | PENDIENTE | Valida UML |
+
+### 4. Agentes de Análisis de Negocio (5 agentes)
+
+| Agente | Ubicación | LLM | Estado |
+|--------|-----------|-----|--------|
+| BusinessAnalysisGenerator | scripts/ai/business/generators.py | NO | Genera BRD |
+| TraceabilityMatrixGenerator | scripts/ai/business/traceability.py | NO | Matriz trazabilidad |
+| CompletenessValidator | scripts/ai/business/validators.py | NO | Valida completitud |
+| TemplateGenerator | scripts/ai/business/templates.py | NO | Templates docs |
+| DocumentSplitter | scripts/ai/business/splitter.py | NO | Split documentos |
+
+### 5. Agentes de Calidad (6 agentes)
+
+| Agente | Ubicación | LLM | Estado |
+|--------|-----------|-----|--------|
+| CodeQualityValidator | scripts/ai/quality/code_quality.py | NO | Valida calidad |
+| SyntaxValidator | scripts/ai/quality/syntax_validator.py | NO | Valida sintaxis |
+| CoverageAnalyzer | scripts/ai/quality/coverage_analyzer.py | NO | Analiza cobertura |
+| CoverageVerifier | scripts/ai/quality/coverage_verifier.py | NO | Verifica cobertura |
+| TestRunner | scripts/ai/quality/test_runner.py | NO | Ejecuta tests |
+| PRCreator | scripts/ai/quality/pr_creator.py | NO | Crea PRs |
+
+### 6. Agentes de Validación (3 agentes)
+
+| Agente | Ubicación | LLM | Estado |
+|--------|-----------|-----|--------|
+| RestrictionsGate | scripts/ai/validators/restrictions_gate.py | NO | Valida restricciones |
+| RouteLintAgent | scripts/ai/validators/route_lint.py | NO | Lint de rutas |
+| DocsStructureGate | scripts/ai/validators/docs_gate.py | NO | Valida estructura docs |
+
+### 7. Agentes de Documentación (4 agentes)
+
+| Agente | Ubicación | LLM | Estado |
+|--------|-----------|-----|--------|
+| DocumentationEditorAgent | scripts/ai/docs/editor.py | NO | Edita documentación |
+| CodeInspectorAgent | scripts/ai/docs/inspector.py | NO | Inspecciona código |
+| ConsistencyVerifierAgent | scripts/ai/docs/verifier.py | NO | Verifica consistencia |
+| DocumentSplitter | scripts/ai/docs/splitter.py | NO | Split documentos |
+
+### 8. Agentes de Automatización (1 agente)
+
+| Agente | Ubicación | LLM | Estado |
+|--------|-----------|-----|--------|
+| PDCAAgent | scripts/ai/automation/pdca_agent.py | PENDIENTE | Métricas DORA |
+
+### Integración LLM
+
+**LLMGenerator** - Componente central para integraciones LLM:
+
+```python
+from generators.llm_generator import LLMGenerator
+
+llm = LLMGenerator(config={
+    "llm_provider": "anthropic",  # o "openai"
+    "model": "claude-3-5-sonnet-20241022"
+})
+
+response = llm._call_llm(prompt)
+```
+
+**Proveedores soportados:**
+- Anthropic Claude (requiere ANTHROPIC_API_KEY)
+- OpenAI GPT (requiere OPENAI_API_KEY)
+
+**Patrón de integración:**
+
+```python
+class MyAgent(SDLCAgent):
+    def __init__(self, config):
+        super().__init__(name="MyAgent", phase="custom", config=config)
+        llm_config = {
+            "llm_provider": config.get("llm_provider", "anthropic"),
+            "model": config.get("model", "claude-3-5-sonnet-20241022")
+        }
+        self.llm = LLMGenerator(config=llm_config)
+
+    def run(self, input_data):
+        prompt = self._build_prompt(input_data)
+        try:
+            response = self.llm._call_llm(prompt)
+            return self._parse_response(response)
+        except Exception as e:
+            # Fallback a heurísticas
+            return self._run_with_heuristics(input_data)
+```
+
+### Flujo de Ejecución Completo
+
+```
+Feature Request
+    |
+    v
+SDLCOrchestratorAgent
+    |
+    +--[1]-> SDLCPlannerAgent (LLM)
+    |            |
+    |            v (user story)
+    +--[2]-> SDLCFeasibilityAgent
+    |            |
+    |            v (Go/No-Go)
+    +--[3]-> SDLCDesignAgent
+    |            |
+    |            v (design doc)
+    +--[4]-> TDDFeatureAgent (LLM)
+    |            |
+    |            +-> RED: genera tests
+    |            +-> GREEN: implementa código
+    |            +-> REFACTOR: mejora código
+    |            |
+    |            v (código + tests)
+    +--[5]-> SDLCTestingAgent
+    |            |
+    |            +-> TestRunner
+    |            +-> CoverageAnalyzer
+    |            +-> SyntaxValidator
+    |            |
+    |            v (tests pass)
+    +--[6]-> SDLCDeploymentAgent
+                 |
+                 v
+            Production
+```
+
+### Métricas y Progreso
+
+**BLOQUE 1: Integraciones LLM** - 6/17 completadas (35.3%)
+
+Completadas:
+- TDDFeatureAgent
+- SDLCPlannerAgent
+- ChainOfVerificationAgent
+- AutoCoTAgent
+- SelfConsistencyAgent
+- TreeOfThoughtsAgent
+
+Pendientes:
+- 5 agentes meta especializados
+- 6 agentes SDLC restantes
+
+**Referencias:**
+- Especificación completa: docs/desarrollo/TAREAS_PENDIENTES_AGENTES_IA.md
+- README técnico: scripts/ai/agents/README_SDLC_AGENTS.md
+- Constitution: docs/gobernanza/agentes/constitution.md
+
+---
+
+**Última actualización**: 2025-11-11
 **Autor**: Equipo de Desarrollo
-**Basado en**: Experiencia real de remoción de emojis en IACT
+**Basado en**: Experiencia real de remoción de emojis en IACT + Sistema de 35 agentes especializados
