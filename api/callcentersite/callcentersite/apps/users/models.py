@@ -226,6 +226,77 @@ class User(AbstractBaseUser, PermissionsMixin):
         return self.is_active and not self.is_deleted
 
 
+class UserSession(models.Model):
+    """
+    Sesión de usuario para control de sesión única.
+
+    Permite rastrear sesiones activas y cerrar sesiones previas
+    cuando el usuario inicia sesión desde un nuevo dispositivo.
+    """
+
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='sessions',
+        help_text='Usuario dueño de la sesión'
+    )
+    session_key = models.CharField(
+        max_length=255,
+        unique=True,
+        help_text='Clave única de sesión'
+    )
+    is_active = models.BooleanField(
+        default=True,
+        help_text='Si la sesión está activa'
+    )
+    ip_address = models.GenericIPAddressField(
+        null=True,
+        blank=True,
+        help_text='IP de origen de la sesión'
+    )
+    user_agent = models.TextField(
+        blank=True,
+        default='',
+        help_text='User agent del navegador/dispositivo'
+    )
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+        help_text='Timestamp de creación de sesión'
+    )
+    logged_out_at = models.DateTimeField(
+        null=True,
+        blank=True,
+        help_text='Timestamp de cierre de sesión'
+    )
+    logout_reason = models.CharField(
+        max_length=50,
+        blank=True,
+        default='',
+        help_text='Razón del cierre de sesión'
+    )
+
+    class Meta:
+        db_table = 'users_user_session'
+        verbose_name = 'Sesión de Usuario'
+        verbose_name_plural = 'Sesiones de Usuario'
+        ordering = ['-created_at']
+        indexes = [
+            models.Index(fields=['user', 'is_active']),
+            models.Index(fields=['session_key']),
+        ]
+
+    def __str__(self):
+        status = 'activa' if self.is_active else 'cerrada'
+        return f'Sesión {self.session_key[:8]}... - {self.user.username} ({status})'
+
+    def close(self, reason: str = 'MANUAL') -> None:
+        """Cierra la sesión."""
+        self.is_active = False
+        self.logged_out_at = timezone.now()
+        self.logout_reason = reason
+        self.save(update_fields=['is_active', 'logged_out_at', 'logout_reason'])
+
+
 # =============================================================================
 # MODELOS EN MEMORIA (Para sistema de permisos granular - mantener como está)
 # =============================================================================

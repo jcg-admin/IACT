@@ -48,12 +48,22 @@ class InternalMessage(models.Model):
     read_at = models.DateTimeField("fecha lectura", null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     expires_at = models.DateTimeField(null=True, blank=True)
+    created_by_system = models.BooleanField(
+        "creado por sistema",
+        default=False,
+        help_text="Indica si el mensaje fue generado automáticamente por el sistema"
+    )
     metadata = models.JSONField(default=dict, blank=True)
 
     class Meta:
         verbose_name = "mensaje interno"
         verbose_name_plural = "mensajes internos"
         ordering = ("-created_at",)
+
+    @property
+    def user_id(self) -> int:
+        """Retorna el ID del destinatario para compatibilidad con tests."""
+        return self.recipient.id
 
     def mark_as_read(self) -> None:
         """Marca el mensaje como leído."""
