@@ -2,7 +2,7 @@
 id: DOC-ARQ-FRONTEND
 estado: activo
 propietario: equipo-frontend
-ultima_actualizacion: 2025-11-02
+ultima_actualizacion: 2025-11-09
 relacionados: ["DOC-FRONTEND-INDEX", "DOC-ARQ-INFRA"]
 ---
 # Arquitectura del frontend
@@ -15,6 +15,9 @@ Decisiones arquitectónicas, patrones de diseño y lineamientos técnicos espec�
 ## Páginas hijas
 - [`adr/`](adr/) - Architecture Decision Records específicos del frontend
 - [`lineamientos_codigo.md`](lineamientos_codigo.md) - Guías de desarrollo frontend
+- [`estrategia_integracion_backend.md`](estrategia_integracion_backend.md) - Plan de integración y fallback frente a brechas del backend
+- [`TODO.md`](TODO.md) - Backlog arquitectónico para absorber brechas del backend
+- [`ejemplos-ui-design.md`](ejemplos-ui-design.md) - Prompt engineering avanzado para diseño de UI
 
 ## Información clave
 
@@ -37,10 +40,14 @@ Decisiones arquitectónicas, patrones de diseño y lineamientos técnicos espec�
 - Accesibilidad (a11y)
 - Responsive design
 
+## Actualizaciones recientes
+- 2025-11-09: Se habilitó la capa `ui/src/services/*` con `AppConfigService`, `PermissionsService` y `CallsService` incluyendo fallback automático a mocks y pruebas de resiliencia.
+- 2025-11-09: Se añadió banner global de datos simulados y menú dinámico derivado de permisos normalizados.
+
 ## Decisiones arquitectónicas
 
 ### ADRs disponibles
-- Pendiente: Crear ADRs para decisiones clave de frontend
+- [ADR-0001 - Capa de servicios resilientes con contratos y telemetria](adr/ADR-0001-servicios-resilientes.md)
 
 ### Lineamientos de código
 - Estructura de directorios
