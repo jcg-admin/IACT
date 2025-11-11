@@ -1,0 +1,13 @@
+# TDD Agent v1.1 Dependencies
+
+# Core testing framework
+pytest>=7.0.0
+
+# v1.1 Feature: JSON report para parsing robusto
+pytest-json-report>=1.5.0
+
+# Fixtures y helpers adicionales
+pytest-cov>=4.0.0
+
+# Opcional: Parallel test execution
+pytest-xdist>=3.0.0
