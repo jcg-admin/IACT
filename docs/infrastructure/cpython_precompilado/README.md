@@ -12,6 +12,8 @@ Sistema de distribución de CPython precompilado para Dev Containers que reduce 
 
 El intérprete Python se compila una sola vez en una VM Vagrant controlada y se distribuye como binario precompilado mediante una Feature personalizada de Dev Containers, siguiendo el principio "build once, run everywhere".
 
+> Consulta el [resumen del pipeline y uso en DevContainer](pipeline_devcontainer.md) para una vista rápida orientada a ejecución.
+
 ---
 
 ## Por qué usarlo

@@ -19,3 +19,6 @@ Este espacio centraliza la documentación operativa y de diseño de la infraestr
 - `gobernanza`: políticas de seguridad, cumplimiento y estándares de operación.
 
 Cada carpeta ofrece un README inicial listo para documentar los artefactos correspondientes.
+
+## Recursos destacados recientes
+- **CPython precompilado**: consulta el [pipeline y guía de DevContainer](cpython_precompilado/pipeline_devcontainer.md) para entender cómo se construye, publica y consume el intérprete optimizado.【F:docs/infrastructure/cpython_precompilado/pipeline_devcontainer.md†L1-L99】
