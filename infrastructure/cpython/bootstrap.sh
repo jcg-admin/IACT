@@ -97,8 +97,8 @@ install_build_dependencies() {
         libgdbm-dev
         libgdbm-compat-dev
         liblzma-dev
-        libncurses5-dev
-        libreadline6-dev
+        libncurses-dev
+        libreadline-dev
         libsqlite3-dev
         libssl-dev
         tk-dev
