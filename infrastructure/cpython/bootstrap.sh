@@ -97,18 +97,17 @@ install_build_dependencies() {
         libgdbm-dev
         libgdbm-compat-dev
         liblzma-dev
-        libncurses5-dev
-        libreadline6-dev
+        libncurses-dev
+        libreadline-dev
         libsqlite3-dev
         libssl-dev
-        lzma
-        lzma-dev
         tk-dev
         uuid-dev
         zlib1g-dev
         wget
         curl
         ca-certificates
+        xz-utils
     )
 
     # Install with retry logic
