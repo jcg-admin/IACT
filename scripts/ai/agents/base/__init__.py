@@ -2,7 +2,9 @@
 Base agents and utilities
 
 Common functionality shared across all AI agents.
-Implements 32 advanced prompting techniques from academic research.
+Implements 38 advanced prompting techniques:
+- 32 core techniques from academic research and industry
+- 6 algorithmic search optimization techniques
 """
 
 # Advanced techniques (Phase 1: 5 techniques)
@@ -105,6 +107,22 @@ from .specialized_techniques import (
     PromptVariant
 )
 
+# Search optimization techniques (Phase 3: 6 techniques)
+from .search_optimization_techniques import (
+    KNNClusteringPrompting,
+    BinarySearchPrompting,
+    GreedyInformationDensity,
+    DivideAndConquerSearch,
+    BranchAndBoundPrompting,
+    HybridSearchOptimization,
+    SearchStrategy,
+    CoverageLevel,
+    SearchItem,
+    SearchQuery,
+    ClusterInfo,
+    SearchOptimizationResult
+)
+
 __all__ = [
     # Auto-CoT
     'AutoCoTAgent',
@@ -187,5 +205,18 @@ __all__ = [
     'TestVariant',
     'CodeSpec',
     'Analogy',
-    'PromptVariant'
+    'PromptVariant',
+    # Search Optimization Techniques
+    'KNNClusteringPrompting',
+    'BinarySearchPrompting',
+    'GreedyInformationDensity',
+    'DivideAndConquerSearch',
+    'BranchAndBoundPrompting',
+    'HybridSearchOptimization',
+    'SearchStrategy',
+    'CoverageLevel',
+    'SearchItem',
+    'SearchQuery',
+    'ClusterInfo',
+    'SearchOptimizationResult'
 ]
