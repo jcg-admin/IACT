@@ -18,6 +18,7 @@ Implemented state-of-the-art prompting techniques from recent research to enhanc
 | Chain-of-Verification | Error reduction | ✓ Production | Gate validation, critical checks |
 | Prompt Templates | Systematization | ✓ Production | All agents |
 | Tree of Thoughts | Multi-path reasoning | ✓ Production | Complex problem solving |
+| Self-Consistency | Majority voting accuracy | ✓ Production | Critical reasoning, math problems |
 
 ---
 
@@ -485,6 +486,223 @@ Legend:
 
 ---
 
+## 5. Self-Consistency Decoding
+
+### Academic Basis
+Wang et al. (2022) - "Self-Consistency Improves Chain of Thought Reasoning in Language Models" (Google Research)
+
+### What It Does
+Improves reasoning accuracy by generating multiple diverse reasoning paths and selecting the most consistent answer through majority voting.
+
+### Implementation
+**Location:** `scripts/ai/agents/base/self_consistency.py`
+
+**Process:**
+```
+1. Multiple Generation
+   ├── Generate N reasoning chains (5-40 typical)
+   ├── Use temperature > 0 for diversity
+   └── Each chain can take different reasoning path
+
+2. Answer Extraction
+   ├── Extract final answer from each chain
+   ├── Use pattern matching or custom extractor
+   └── Normalize answers for comparison
+
+3. Majority Voting
+   ├── Count votes for each unique answer
+   ├── Select most frequent answer
+   └── Calculate confidence score
+
+4. Consensus Analysis
+   ├── Evaluate vote distribution
+   ├── Analyze reasoning differences
+   └── Determine result trustworthiness
+```
+
+### Usage Example
+
+```python
+from scripts.ai.agents.base import SelfConsistencyAgent, create_chain_of_thought_prompt
+
+# Initialize agent
+agent = SelfConsistencyAgent(
+    num_samples=10,         # Generate 10 reasoning paths
+    temperature=0.7,        # Moderate diversity
+    min_confidence=0.5      # Accept if >50% agreement
+)
+
+# Create Chain-of-Thought prompt (works best with CoT)
+problem = """
+Sarah tiene 23 manzanas. Compra 3 bolsas más, cada una con 8 manzanas.
+Luego regala 11 manzanas a sus amigos.
+¿Cuántas manzanas le quedan?
+"""
+
+prompt = create_chain_of_thought_prompt(problem, domain="math")
+
+# Generator function (in production: LLM API call)
+def generator(prompt, temperature):
+    return llm_api.generate(prompt, temperature=temperature, max_tokens=300)
+
+# Solve with self-consistency
+result = agent.solve_with_consistency(prompt, generator)
+
+print(f"Final answer: {result.final_answer}")
+print(f"Confidence: {result.confidence_score:.2%}")
+print(f"Vote distribution: {result.vote_distribution}")
+```
+
+### Performance Improvements
+
+**Documented improvements from original paper:**
+- GSM8K (math): +17.9%
+- SVAMP (arithmetic): +11.0%
+- AQuA (quantitative): +12.2%
+- Complex reasoning: +12-23% with large models
+
+### Result Evaluation
+
+**Confidence Scoring:**
+```python
+# Confidence = (votes for winning answer) / (total samples)
+confidence = result.confidence_score
+
+# Interpretation
+if confidence >= 0.9:
+    level = "Very High (strong agreement)"
+elif confidence >= 0.7:
+    level = "High (good agreement)"
+elif confidence >= 0.5:
+    level = "Medium (moderate agreement)"
+else:
+    level = "Low (no clear consensus)"
+```
+
+**Consensus Strength:**
+```python
+# How much better is top answer vs second answer
+consensus = result.consensus_strength
+
+# 1.0 = perfect consensus (all votes for one answer)
+# 0.5-1.0 = strong consensus (clear winner)
+# 0.0-0.5 = weak consensus (distributed votes)
+```
+
+**Trust Decision:**
+```python
+should_trust, reasoning = agent.should_trust_result(result)
+
+# Checks:
+# - Confidence >= min_confidence threshold
+# - Consensus strength >= 0.3
+# - Answer length reasonable
+# - Vote distribution not too scattered
+```
+
+### When to Use
+
+**Ideal Cases:**
+- Math problems requiring multi-step calculations
+- Logical reasoning with clear correct answer
+- Code analysis where errors have high impact
+- Architecture decisions requiring verification
+- Any task where accuracy is critical
+
+**NOT Recommended:**
+- Creative tasks (diversity is desired, not consistency)
+- Open-ended questions without "correct" answer
+- Simple tasks not requiring reasoning
+- Time/resource constrained situations
+- Tasks where single inference is sufficient
+
+### Integration with Other Techniques
+
+**Pattern: Self-Consistency + Chain-of-Thought**
+```python
+# Best practice: Use CoT prompts with Self-Consistency
+prompt = create_chain_of_thought_prompt(problem, domain="math")
+result = self_consistency_agent.solve_with_consistency(prompt, generator)
+```
+
+**Pattern: Self-Consistency + Chain-of-Verification**
+```python
+# For maximum confidence in critical decisions
+sc_result = self_consistency_agent.solve_with_consistency(prompt, generator)
+
+# Verify the winning answer
+cove_agent = ChainOfVerificationAgent()
+verified = cove_agent.verify_response(
+    question=problem,
+    initial_response=sc_result.final_answer,
+    context=context
+)
+
+# Trust if both high confidence
+if sc_result.confidence_score >= 0.7 and verified.confidence_score >= 0.7:
+    final_answer = verified.final_response
+```
+
+### Disagreement Analysis
+
+```python
+# Understand why different paths gave different answers
+analysis = agent.analyze_disagreements(result, top_n=3)
+
+for answer, details in analysis['top_answers'].items():
+    print(f"Answer: {answer}")
+    print(f"  Votes: {details['vote_count']} ({details['percentage']:.1%})")
+    print(f"  Common reasoning: {details['common_reasoning']}")
+    print(f"  Example: {details['example_path']}")
+```
+
+### Parameters Optimization
+
+**Number of Samples:**
+- Minimum effective: 5-7 samples
+- Optimal general: 10-15 samples
+- Critical tasks: 20-40 samples
+- Diminishing returns: >40 samples
+
+**Temperature:**
+- Too low (0.1-0.3): Not enough diversity, less effective
+- Optimal (0.5-0.8): Balance diversity and coherence
+- Too high (0.9-1.0): Too much noise, may introduce errors
+
+**Answer Extraction:**
+```python
+# Custom extractor for specific formats
+def custom_extractor(response: str) -> str:
+    # Extract answer from specific format
+    match = re.search(r"RESULT: (\d+)", response)
+    if match:
+        return match.group(1)
+    return default_extractor(response)
+
+agent = SelfConsistencyAgent(answer_extractor=custom_extractor)
+```
+
+### Cost Considerations
+
+**Trade-offs:**
+- **Benefit:** 12-23% accuracy improvement on reasoning tasks
+- **Cost:** N × cost of single inference (10-40× more expensive)
+- **Time:** N × time of single inference (10-40× slower)
+
+**When Worth It:**
+- High-stakes decisions (architecture, security)
+- Expensive mistake mitigation (production bugs)
+- Tasks where human review would be more costly
+- Critical path items requiring high confidence
+
+**When NOT Worth It:**
+- Development/testing environments
+- Low-risk operations
+- Simple tasks with high baseline accuracy
+- Tight latency requirements
+
+---
+
 ## Integration Patterns
 
 ### Pattern 1: Auto-CoT + Prompt Templates
@@ -614,6 +832,7 @@ class CodeReviewAgent:
 | Multi-step reasoning | Auto-CoT | Step-by-step logic |
 | Critical checks | Chain-of-Verification | Error reduction |
 | Complex decisions | Tree of Thoughts | Explore alternatives |
+| Math/logic problems | Self-Consistency | Majority voting accuracy |
 | Production code | All combined | Maximum quality |
 
 ### 2. Performance Optimization

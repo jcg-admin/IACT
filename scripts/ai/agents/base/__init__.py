@@ -25,6 +25,12 @@ from .tree_of_thoughts import (
     SearchStrategy,
     ThoughtEvaluation
 )
+from .self_consistency import (
+    SelfConsistencyAgent,
+    SelfConsistencyResult,
+    ReasoningPath,
+    create_chain_of_thought_prompt
+)
 
 __all__ = [
     # Auto-CoT
@@ -47,5 +53,10 @@ __all__ = [
     'Thought',
     'ThoughtState',
     'SearchStrategy',
-    'ThoughtEvaluation'
+    'ThoughtEvaluation',
+    # Self-Consistency
+    'SelfConsistencyAgent',
+    'SelfConsistencyResult',
+    'ReasoningPath',
+    'create_chain_of_thought_prompt'
 ]
