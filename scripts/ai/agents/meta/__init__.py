@@ -35,13 +35,15 @@ from .refactoring_opportunities_agent import (
     RefactoringType
 )
 
+# Design Patterns (implemented)
+from .design_patterns_agent import (
+    DesignPatternsRecommendationAgent,
+    PatternRecommendation,
+    PatternType,
+    PatternApplicability
+)
+
 # TODO: Import other agents as they are implemented
-# from .design_patterns_agent import (
-#     DesignPatternsRecommendationAgent,
-#     PatternRecommendation,
-#     PatternType,
-#     PatternApplicability
-# )
 # from .uml_validation_agent import (
 #     UMLDiagramValidationAgent,
 #     UMLValidationResult,
@@ -70,5 +72,10 @@ __all__ = [
     'RefactoringOpportunity',
     'CodeSmell',
     'RefactoringType',
+    # Design Patterns (implemented)
+    'DesignPatternsRecommendationAgent',
+    'PatternRecommendation',
+    'PatternType',
+    'PatternApplicability',
     # TODO: Add other agents as they are implemented
 ]
