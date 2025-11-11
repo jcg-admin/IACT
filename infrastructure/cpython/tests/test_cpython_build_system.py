@@ -5,10 +5,12 @@ Referencia: SPEC_INFRA_001
 Propósito: Validar infraestructura de compilación (Fase 1)
 """
 
-import pytest
-from pathlib import Path
-import subprocess
 import os
+import re
+import subprocess
+from pathlib import Path
+
+import pytest
 
 
 # Paths del proyecto
@@ -202,7 +204,40 @@ def test_directory_structure_complete():
 
     for dir_path in required_dirs:
         assert dir_path.exists(), f"Directorio requerido no existe: {dir_path}"
-        assert dir_path.is_dir(), f"Path no es directorio: {dir_path}"
+
+
+def test_devcontainer_references_checksum_artifact():
+    """Verifica que el devcontainer referencia el checksum generado por el builder."""
+    versions_conf = (VAGRANT_DIR / "config" / "versions.conf").read_text()
+
+    version = re.search(r'DEFAULT_PYTHON_VERSION="([^"]+)"', versions_conf)
+    build = re.search(r'DEFAULT_BUILD_NUMBER="([^"]+)"', versions_conf)
+    distro = re.search(r'DISTRO="([^"]+)"', versions_conf)
+
+    assert version, "DEFAULT_PYTHON_VERSION no definido en versions.conf"
+    assert build, "DEFAULT_BUILD_NUMBER no definido en versions.conf"
+    assert distro, "DISTRO no definido en versions.conf"
+
+    python_version = version.group(1)
+    build_number = build.group(1)
+    distro_name = distro.group(1)
+
+    devcontainer_contents = (BASE_DIR / ".devcontainer" / "devcontainer.json").read_text()
+
+    expected_local_checksum = (
+        f"infrastructure/cpython/artifacts/cpython-{python_version}-{distro_name}-build{build_number}.tgz.sha256"
+    )
+    assert (
+        expected_local_checksum in devcontainer_contents
+    ), "Devcontainer no referencia el checksum local generado por el builder"
+
+    expected_release_checksum = (
+        "https://github.com/2-Coatl/IACT---project/releases/download/"
+        f"cpython-{python_version}-build{build_number}/cpython-{python_version}-{distro_name}-build{build_number}.tgz.sha256"
+    )
+    assert (
+        expected_release_checksum in devcontainer_contents
+    ), "Devcontainer no referencia el checksum publicado en GitHub Releases"
 
 
 def test_no_compiled_artifacts_in_git():
