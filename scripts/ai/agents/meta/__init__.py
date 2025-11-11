@@ -58,10 +58,14 @@ from .test_generation_agent import (
     TestType,
     CoverageType
 )
-# from .pipeline import (
-#     ArchitectureImprovementPipeline,
-#     create_architecture_improvement_pipeline
-# )
+# Pipeline (implemented)
+from .pipeline import (
+    ArchitectureImprovementPipeline,
+    PipelineResult,
+    ConsolidatedRecommendation,
+    RecommendationPriority,
+    create_architecture_improvement_pipeline
+)
 
 __all__ = [
     # Architecture Analysis (implemented)
@@ -90,5 +94,10 @@ __all__ = [
     'TestCase',
     'TestType',
     'CoverageType',
-    # TODO: Add pipeline
+    # Pipeline (implemented)
+    'ArchitectureImprovementPipeline',
+    'PipelineResult',
+    'ConsolidatedRecommendation',
+    'RecommendationPriority',
+    'create_architecture_improvement_pipeline'
 ]
