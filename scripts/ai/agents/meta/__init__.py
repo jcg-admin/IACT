@@ -43,13 +43,13 @@ from .design_patterns_agent import (
     PatternApplicability
 )
 
-# TODO: Import other agents as they are implemented
-# from .uml_validation_agent import (
-#     UMLDiagramValidationAgent,
-#     UMLValidationResult,
-#     DiagramType,
-#     ValidationIssue
-# )
+# UML Validation (implemented)
+from .uml_validation_agent import (
+    UMLDiagramValidationAgent,
+    UMLValidationResult,
+    DiagramType,
+    ValidationIssue
+)
 # from .test_generation_agent import (
 #     TestGenerationAgent,
 #     TestSuite,
@@ -77,5 +77,10 @@ __all__ = [
     'PatternRecommendation',
     'PatternType',
     'PatternApplicability',
+    # UML Validation (implemented)
+    'UMLDiagramValidationAgent',
+    'UMLValidationResult',
+    'DiagramType',
+    'ValidationIssue',
     # TODO: Add other agents as they are implemented
 ]
