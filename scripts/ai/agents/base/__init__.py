@@ -7,6 +7,26 @@ Implements 38 advanced prompting techniques:
 - 6 algorithmic search optimization techniques
 """
 
+# Import base classes from sibling base.py module
+# This resolves the architecture conflict between base.py and base/ package
+import importlib.util
+from pathlib import Path
+
+# Load base.py module explicitly by file path
+_base_py_path = Path(__file__).parent.parent / 'base.py'
+_spec = importlib.util.spec_from_file_location("agents_base_module", _base_py_path)
+_base_module = importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(_base_module)
+
+# Import classes from the loaded module
+Agent = _base_module.Agent
+AgentResult = _base_module.AgentResult
+AgentStatus = _base_module.AgentStatus
+Pipeline = _base_module.Pipeline
+
+# Clean up temporary variables
+del _base_py_path, _spec, _base_module
+
 # Advanced techniques (Phase 1: 5 techniques)
 from .auto_cot_agent import AutoCoTAgent, Demonstration, Question
 from .chain_of_verification import (
@@ -52,7 +72,7 @@ from .structuring_techniques import (
     TaskDecomposition,
     LeastToMostPrompting,
     InstructionHierarchy,
-    Priority,
+    Priority as StructuringPriority,  # Use alias to avoid conflict
     ChainStep,
     SubTask,
     Instruction
@@ -120,10 +140,16 @@ from .search_optimization_techniques import (
     SearchItem,
     SearchQuery,
     ClusterInfo,
-    SearchOptimizationResult
+    SearchOptimizationResult,
+    Priority  # Numeric priority values for search optimization
 )
 
 __all__ = [
+    # Base classes from base.py
+    'Agent',
+    'AgentResult',
+    'AgentStatus',
+    'Pipeline',
     # Auto-CoT
     'AutoCoTAgent',
     'Demonstration',
@@ -162,7 +188,8 @@ __all__ = [
     'TaskDecomposition',
     'LeastToMostPrompting',
     'InstructionHierarchy',
-    'Priority',
+    'StructuringPriority',
+    'Priority',  # From search_optimization_techniques (numeric values)
     'ChainStep',
     'SubTask',
     'Instruction',
