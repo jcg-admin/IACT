@@ -1,0 +1,192 @@
+#!/usr/bin/env python3
+"""
+Run architecture analysis on changed Python files.
+
+This script is used by CI/CD to analyze code changes and generate
+recommendations using the meta-development agents pipeline.
+"""
+
+import os
+import sys
+import json
+import subprocess
+from pathlib import Path
+from typing import List, Set
+
+# Add project root to path
+project_root = Path(__file__).parent.parent.parent
+sys.path.insert(0, str(project_root))
+
+from scripts.ai.agents.meta import create_architecture_improvement_pipeline
+
+
+def get_changed_python_files() -> List[Path]:
+    """Get list of changed Python files in this PR/commit."""
+    try:
+        # Try to get changed files from git
+        if os.environ.get('GITHUB_BASE_REF'):
+            # Pull request - compare with base branch
+            base = f"origin/{os.environ['GITHUB_BASE_REF']}"
+            result = subprocess.run(
+                ['git', 'diff', '--name-only', base, 'HEAD'],
+                capture_output=True,
+                text=True,
+                check=True
+            )
+        else:
+            # Push - compare with previous commit
+            result = subprocess.run(
+                ['git', 'diff', '--name-only', 'HEAD^', 'HEAD'],
+                capture_output=True,
+                text=True,
+                check=True
+            )
+
+        files = result.stdout.strip().split('\n')
+        python_files = [
+            project_root / f for f in files
+            if f.endswith('.py') and Path(project_root / f).exists()
+        ]
+
+        return python_files
+
+    except Exception as e:
+        print(f"Warning: Could not get changed files: {e}")
+        return []
+
+
+def analyze_file(file_path: Path, pipeline) -> dict:
+    """Analyze a single Python file."""
+    try:
+        with open(file_path, 'r', encoding='utf-8') as f:
+            code = f.read()
+
+        # Run pipeline analysis
+        result = pipeline.analyze_code(code, include_test_generation=False)
+
+        return {
+            'file': str(file_path.relative_to(project_root)),
+            'score': result.overall_score,
+            'recommendations': len(result.consolidated_recommendations),
+            'critical_count': sum(
+                1 for r in result.consolidated_recommendations
+                if r.priority.name == 'CRITICAL'
+            ),
+            'high_count': sum(
+                1 for r in result.consolidated_recommendations
+                if r.priority.name == 'HIGH'
+            )
+        }
+
+    except Exception as e:
+        print(f"Error analyzing {file_path}: {e}")
+        return {
+            'file': str(file_path.relative_to(project_root)),
+            'error': str(e)
+        }
+
+
+def generate_markdown_report(analysis_results: List[dict]) -> str:
+    """Generate markdown report of analysis results."""
+    lines = []
+
+    if not analysis_results:
+        lines.append("No Python files changed in this PR.")
+        return "\n".join(lines)
+
+    # Summary
+    total_files = len(analysis_results)
+    files_with_issues = sum(1 for r in analysis_results if r.get('recommendations', 0) > 0)
+    avg_score = sum(r.get('score', 0) for r in analysis_results) / total_files if total_files > 0 else 0
+
+    lines.append(f"### Summary")
+    lines.append(f"- Files analyzed: {total_files}")
+    lines.append(f"- Files with recommendations: {files_with_issues}")
+    lines.append(f"- Average quality score: {avg_score:.2f}/1.00")
+    lines.append("")
+
+    # Files with issues
+    critical_files = [r for r in analysis_results if r.get('critical_count', 0) > 0]
+    high_priority_files = [r for r in analysis_results if r.get('high_count', 0) > 0]
+
+    if critical_files:
+        lines.append("### ⚠️ Critical Issues")
+        for result in critical_files:
+            lines.append(f"- **{result['file']}**: {result['critical_count']} critical issue(s)")
+        lines.append("")
+
+    if high_priority_files:
+        lines.append("### ⚡ High Priority Recommendations")
+        for result in high_priority_files:
+            lines.append(f"- **{result['file']}**: {result['high_count']} high priority recommendation(s)")
+        lines.append("")
+
+    # Individual file results
+    lines.append("### 📊 Detailed Results")
+    lines.append("")
+    lines.append("| File | Score | Recommendations | Critical | High |")
+    lines.append("|------|-------|----------------|----------|------|")
+
+    for result in analysis_results:
+        if 'error' in result:
+            lines.append(f"| {result['file']} | ❌ Error | - | - | - |")
+        else:
+            score = f"{result['score']:.2f}"
+            recs = result.get('recommendations', 0)
+            critical = result.get('critical_count', 0)
+            high = result.get('high_count', 0)
+            lines.append(f"| {result['file']} | {score} | {recs} | {critical} | {high} |")
+
+    lines.append("")
+    lines.append("---")
+    lines.append("*Generated by IACT Meta-Development Agents*")
+
+    return "\n".join(lines)
+
+
+def main():
+    """Main entry point."""
+    print("🏗️  Running Architecture Analysis Pipeline...")
+
+    # Get changed files
+    changed_files = get_changed_python_files()
+
+    if not changed_files:
+        print("No Python files to analyze.")
+        # Create empty results for CI
+        with open('architecture_analysis_results.json', 'w') as f:
+            json.dump([], f)
+        with open('architecture_analysis_results.md', 'w') as f:
+            f.write("No Python files changed in this PR.")
+        return 0
+
+    print(f"Analyzing {len(changed_files)} file(s)...")
+
+    # Create pipeline
+    pipeline = create_architecture_improvement_pipeline()
+
+    # Analyze each file
+    results = []
+    for file_path in changed_files:
+        print(f"  Analyzing {file_path.relative_to(project_root)}...")
+        result = analyze_file(file_path, pipeline)
+        results.append(result)
+
+    # Generate reports
+    markdown_report = generate_markdown_report(results)
+
+    # Save results
+    with open('architecture_analysis_results.json', 'w') as f:
+        json.dump(results, f, indent=2)
+
+    with open('architecture_analysis_results.md', 'w') as f:
+        f.write(markdown_report)
+
+    print("\n" + markdown_report)
+    print(f"\n✅ Analysis complete. Results saved.")
+
+    return 0
+
+
+if __name__ == '__main__':
+    sys.exit(main())

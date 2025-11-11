@@ -1,0 +1,76 @@
+#!/bin/bash
+# scripts/git-hooks/commit-msg
+# Validates commit message format (Conventional Commits)
+# Reference: ESTRATEGIA_GIT_HOOKS.md
+
+set -euo pipefail
+
+readonly COMMIT_MSG_FILE="$1"
+readonly COMMIT_MSG=$(cat "$COMMIT_MSG_FILE")
+
+# Conventional Commits pattern
+# tipo(scope): descripción
+PATTERN='^(feat|fix|docs|refactor|test|chore|perf|style|ci|build)(\([a-z0-9\-]+\))?: .{1,100}'
+
+# Check format
+if ! echo "$COMMIT_MSG" | head -1 | grep -qE "$PATTERN"; then
+    echo ""
+    echo "=========================================="
+    echo "COMMIT MESSAGE FORMAT ERROR"
+    echo "=========================================="
+    echo ""
+    echo "Commit message must follow Conventional Commits format:"
+    echo ""
+    echo "  tipo(scope): descripción breve"
+    echo ""
+    echo "Valid types:"
+    echo "  - feat:     New feature"
+    echo "  - fix:      Bug fix"
+    echo "  - docs:     Documentation"
+    echo "  - refactor: Code refactoring"
+    echo "  - test:     Tests"
+    echo "  - chore:    Maintenance"
+    echo "  - perf:     Performance"
+    echo "  - style:    Code style"
+    echo "  - ci:       CI/CD changes"
+    echo "  - build:    Build system"
+    echo ""
+    echo "Examples:"
+    echo "  feat(auth): implement JWT authentication"
+    echo "  fix(api): correct user validation logic"
+    echo "  docs(readme): update installation instructions"
+    echo "  refactor(utils): reorganize shell scripts"
+    echo ""
+    echo "Your message:"
+    echo "  $(echo "$COMMIT_MSG" | head -1)"
+    echo ""
+    exit 1
+fi
+
+# Check for emojis in commit message
+if echo "$COMMIT_MSG" | python3 -c "
+import sys
+import re
+emojis = re.compile(r'[\U0001F300-\U0001F9FF]')
+text = sys.stdin.read()
+if emojis.search(text):
+    print('ERROR: Emojis found in commit message')
+    sys.exit(1)
+" 2>/dev/null; then
+    :  # OK
+else
+    echo ""
+    echo "=========================================="
+    echo "EMOJI IN COMMIT MESSAGE"
+    echo "=========================================="
+    echo ""
+    echo "ERROR: Emojis detected in commit message"
+    echo "The project does NOT allow emojis anywhere."
+    echo ""
+    echo "Your message:"
+    echo "$COMMIT_MSG"
+    echo ""
+    exit 1
+fi
+
+exit 0

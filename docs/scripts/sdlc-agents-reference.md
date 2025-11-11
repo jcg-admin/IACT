@@ -55,6 +55,7 @@ result = orchestrator.execute({
 
 **Dependencias:**
 - SDLCPlannerAgent
+- TDDFeatureAgent (implementation)
 - SDLCFeasibilityAgent
 - SDLCDesignAgent
 - SDLCTestingAgent
@@ -112,6 +113,95 @@ Para no tener que recordar otra contrasena
 ## Priority: P1
 ## Labels: feature, auth, oauth
 ```
+
+---
+
+### TDDFeatureAgent
+
+**Archivo:** `tdd_feature_agent.py`
+
+**Propósito:** Implementar features siguiendo metodología TDD (Test-Driven Development) con garantías de calidad y compliance.
+
+**Inputs:**
+- `issue_title`: Título del feature
+- `acceptance_criteria`: Lista de criterios de aceptación
+- `technical_requirements`: Requerimientos técnicos
+- `target_module`: Módulo donde implementar
+
+**Outputs:**
+- Archivos de tests (unit, integration)
+- Archivos de código fuente
+- Execution log (JSON)
+- Markdown report
+- Dashboard visual con badges
+- Constitution compliance result
+
+**Proceso TDD:**
+1. **RED Phase**: Genera tests unitarios que deben fallar
+2. **GREEN Phase**: Implementa código para pasar tests
+3. **REFACTOR Phase**: Optimiza código manteniendo tests verdes
+4. **VALIDATION**: Valida constitution compliance
+5. **REPORTING**: Genera reportes y dashboards
+
+**Constitution Checks:**
+- ✓ `RED_BEFORE_GREEN` (CRITICAL): Tests antes del código
+- ✓ `TESTS_MUST_FAIL_FIRST` (CRITICAL): Tests fallan en RED
+- ✓ `ALL_TESTS_MUST_PASS` (CRITICAL): Tests pasan en GREEN
+- ✓ `TESTS_STAY_GREEN_AFTER_REFACTOR` (CRITICAL): Tests siguen pasando
+- ✓ `MINIMUM_COVERAGE` (HIGH): Cobertura ≥ 90%
+- ✓ `NO_SECURITY_ISSUES` (HIGH): Sin vulnerabilidades
+- ✓ `CODE_QUALITY_PASSING` (MEDIUM): Linting y types
+- ✓ `DOCUMENTATION_REQUIRED` (MEDIUM): Docstrings
+
+**Uso:**
+```bash
+# Preparar issue data
+cat > issue_data.json << EOF
+{
+  "issue_title": "Implement user authentication",
+  "acceptance_criteria": [
+    "Users can register with email",
+    "Users can login with credentials"
+  ],
+  "technical_requirements": [
+    "Use Django authentication",
+    "Minimum 90% test coverage"
+  ],
+  "target_module": "apps.users"
+}
+EOF
+
+# Ejecutar TDD agent
+python scripts/sdlc_agent.py \
+  --phase implementation \
+  --issue-file issue_data.json \
+  --verbose
+```
+
+**Artefactos generados:**
+```
+docs/sdlc_outputs/tdd_logs/
+├── tdd_execution_<feature>_<timestamp>.json
+├── tdd_execution_<feature>_<timestamp>.md
+└── dashboard_<feature>.md
+```
+
+**Compliance Score:**
+- 100: Perfect compliance
+- 90-99: Excellent (COMPLIANT)
+- 75-89: Good (COMPLIANT con warnings)
+- <75: NOT COMPLIANT (agente falla)
+
+**Herramientas QA Integradas:**
+- `pytest + coverage`: Test execution y cobertura
+- `ruff`: Code linting
+- `mypy`: Type checking
+- `bandit`: Security scanning
+- AST parser: Docstring validation
+
+**Ver también:**
+- [TDD Feature Agent - Guía Técnica](../gobernanza/agentes/tdd-feature-agent.md) - Documentación técnica completa
+- [Workflow - Implement Feature with TDD](../guias/workflows/workflow-implement-feature-with-tdd-agent.md) - Guía de uso paso a paso
 
 ---
 
