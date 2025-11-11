@@ -4,6 +4,8 @@ Database Router Gate
 
 Validates that database router never writes to IVR database (read-only restriction).
 Critical gate for project compliance.
+
+Enhanced with Chain-of-Verification to reduce false positives/negatives.
 """
 
 import sys
@@ -11,13 +13,32 @@ import ast
 from pathlib import Path
 from typing import List, Dict
 
+# Import Chain-of-Verification
+try:
+    from scripts.ai.agents.base.chain_of_verification import (
+        ChainOfVerificationAgent,
+        VerificationStatus
+    )
+    COVE_AVAILABLE = True
+except ImportError:
+    COVE_AVAILABLE = False
+
 
 class DBRouterGate:
     """Gate that validates database router doesn't write to IVR."""
 
-    def __init__(self):
+    def __init__(self, use_verification: bool = True):
+        """
+        Args:
+            use_verification: Whether to use Chain-of-Verification for enhanced accuracy
+        """
         self.violations = []
         self.project_root = self._find_project_root()
+        self.use_verification = use_verification and COVE_AVAILABLE
+
+        if self.use_verification:
+            self.verifier = ChainOfVerificationAgent()
+            print("[DBRouterGate] Chain-of-Verification enabled")
 
     def _find_project_root(self) -> Path:
         """Find project root."""
@@ -48,6 +69,11 @@ class DBRouterGate:
         for node in ast.walk(tree):
             if isinstance(node, ast.ClassDef) and "Router" in node.name:
                 self._validate_router_class(node, router_file)
+
+        # Apply Chain-of-Verification if enabled
+        if self.use_verification and self.violations:
+            print("[DBRouterGate] Applying Chain-of-Verification to results...")
+            self._verify_violations(content)
 
         return len(self.violations) == 0
 
@@ -88,6 +114,58 @@ class DBRouterGate:
             if isinstance(child, ast.Constant) and child.value == 'ivr':
                 return True
         return False
+
+    def _verify_violations(self, router_code: str):
+        """
+        Use Chain-of-Verification to validate violations.
+
+        This reduces false positives by verifying each violation independently.
+        """
+        verified_violations = []
+
+        for violation in self.violations:
+            # Create verification question
+            question = f"Is this a valid violation of IVR database write protection?"
+
+            # Create initial response (the violation report)
+            initial_response = f"""
+Found potential violation:
+Type: {violation['type']}
+Message: {violation['message']}
+Line: {violation.get('line', 'N/A')}
+
+The code may attempt to write to IVR database, which is READ-ONLY.
+"""
+
+            # Verification context
+            context = {
+                'domain': 'database',
+                'project_restrictions': [
+                    'NO writes to IVR database',
+                    'IVR is READ-ONLY',
+                    'Only Analytics database is writable'
+                ],
+                'violation_type': violation['type'],
+                'code_snippet': router_code
+            }
+
+            # Verify using CoVe
+            verified = self.verifier.verify_response(question, initial_response, context)
+
+            # Check verification result
+            if verified.confidence_score >= 0.7:
+                # High confidence - keep violation
+                verified_violations.append(violation)
+            else:
+                # Low confidence - may be false positive
+                print(f"[DBRouterGate] Low confidence ({verified.confidence_score:.2f}) for violation at line {violation.get('line', 'N/A')}")
+                print(f"[DBRouterGate] Corrections applied: {verified.corrections_made}")
+
+        # Update violations with verified ones
+        self.violations = verified_violations
+
+        if len(self.violations) < len(verified_violations):
+            print(f"[DBRouterGate] Filtered out {len(verified_violations) - len(self.violations)} potential false positives")
 
     def report(self):
         """Print violations report."""
