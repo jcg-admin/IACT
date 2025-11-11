@@ -146,7 +146,8 @@ class BasePermissionAgent:
                 "file": file,
                 "line": line,
                 "severity": severity,
-                "message": message,
+                # message ya está en el log message, no se incluye en extra
+                # para evitar KeyError (message es reservado por logging)
                 **kwargs
             }
         )
@@ -188,14 +189,30 @@ class BasePermissionAgent:
         """
         Obtiene la ruta raíz del proyecto.
 
+        Busca marcadores de proyecto (.git, pyproject.toml, api/callcentersite)
+        para encontrar el root de forma robusta.
+
         Returns:
             Path al directorio raíz del proyecto
         """
-        # Asume que el agente está en scripts/ai/agents/permissions/
         current = Path(__file__).resolve()
-        # Sube 4 niveles: permissions/ -> agents/ -> ai/ -> scripts/ -> root/
-        project_root = current.parent.parent.parent.parent
-        return project_root
+
+        # Subir hasta encontrar marcador de proyecto
+        for parent in [current] + list(current.parents):
+            # Buscar marcadores de root
+            if (parent / ".git").exists():
+                return parent
+            if (parent / "pyproject.toml").exists():
+                return parent
+            if (parent / "setup.py").exists():
+                return parent
+            # Marcador específico IACT
+            if (parent / "api" / "callcentersite").exists():
+                return parent
+
+        # Fallback: asumir estructura estándar
+        # base.py -> permissions/ -> agents/ -> ai/ -> scripts/ -> root/
+        return current.parent.parent.parent.parent.parent
 
     def validate_prerequisites(self) -> bool:
         """
