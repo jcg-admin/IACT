@@ -13,6 +13,8 @@ VAGRANTFILE_API_VERSION = "2"
 # CONFIGURATION VARIABLES
 # =============================================================================
 
+require 'fileutils'
+
 # VM Configuration
 VM_NAME = "iact-cpython-builder"
 VM_HOSTNAME = "cpython-builder"
@@ -71,7 +73,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # (prevents DHCP conflicts and works without Guest Additions)
   config.vm.network "private_network",
     ip: "192.168.56.10",
-    virtualbox__intnet: true
+    virtualbox__intnet: "iact-cpython-intnet"
 
   # =================================================================
   # SYNCED FOLDERS WITH UTF-8 ENCODING
