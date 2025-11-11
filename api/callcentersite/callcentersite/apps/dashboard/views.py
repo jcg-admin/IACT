@@ -2,13 +2,13 @@
 
 from __future__ import annotations
 
-from django.http import HttpResponse
+from django.core.exceptions import PermissionDenied, ValidationError
 from rest_framework import status
-from rest_framework.decorators import action
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import ViewSet
+
+from callcentersite.apps.users.services_permisos_granular import UserManagementService
 
 from .serializers import (
     CompartirDashboardSerializer,
@@ -19,140 +19,117 @@ from .services import DashboardService
 
 
 class DashboardOverviewView(APIView):
-    """Devuelve información general del dashboard (legacy)."""
+    """Devuelve información general del dashboard.
 
-    permission_classes = [IsAuthenticated]
+    Requiere permiso: sistema.vistas.dashboards.ver
+
+    Referencia: docs/PLAN_MAESTRO_PRIORIDAD_02.md (Tarea 24)
+    """
 
     def get(self, request):  # type: ignore[override]
+        # Verificar permiso
+        tiene_permiso = UserManagementService.usuario_tiene_permiso(
+            usuario_id=request.user.id,
+            capacidad_codigo='sistema.vistas.dashboards.ver',
+        )
+
+        if not tiene_permiso:
+            raise PermissionDenied(
+                'No tiene permiso para ver dashboards'
+            )
+
         return Response(DashboardService.overview())
 
 
-class DashboardViewSet(ViewSet):
-    """
-    ViewSet para gestión de dashboards personalizados.
+class DashboardExportarView(APIView):
+    """Exporta dashboard a PDF o Excel.
 
-    Endpoints:
-    - GET /api/v1/dashboard/ - Ver dashboard personal
-    - POST /api/v1/dashboard/personalizar/ - Personalizar widgets
-    - POST /api/v1/dashboard/exportar/ - Exportar dashboard
-    - POST /api/v1/dashboard/compartir/ - Compartir configuración
+    Requiere permiso: sistema.vistas.dashboards.exportar
     """
 
-    permission_classes = [IsAuthenticated]
-
-    def list(self, request):
-        """
-        GET /api/v1/dashboard/ - Ver dashboard personal.
-
-        Retorna el dashboard personalizado del usuario autenticado.
-        """
-        try:
-            dashboard = DashboardService.ver_dashboard(usuario_id=request.user.id)
-            return Response(dashboard, status=status.HTTP_200_OK)
-        except Exception as e:
-            return Response(
-                {'error': str(e)},
-                status=status.HTTP_500_INTERNAL_SERVER_ERROR
-            )
-
-    @action(detail=False, methods=['post'])
-    def personalizar(self, request):
-        """
-        POST /api/v1/dashboard/personalizar/ - Personalizar widgets.
-
-        Body:
-        {
-            "widgets": ["total_calls", "avg_duration"]
-        }
-        """
-        serializer = PersonalizarDashboardSerializer(data=request.data)
-        if not serializer.is_valid():
-            return Response(
-                {'error': serializer.errors},
-                status=status.HTTP_400_BAD_REQUEST
-            )
-
-        try:
-            config = DashboardService.personalizar_dashboard(
-                usuario_id=request.user.id,
-                widgets=serializer.validated_data['widgets']
-            )
-            return Response(
-                {'message': 'Dashboard personalizado exitosamente'},
-                status=status.HTTP_200_OK
-            )
-        except Exception as e:
-            return Response(
-                {'error': str(e)},
-                status=status.HTTP_400_BAD_REQUEST
-            )
-
-    @action(detail=False, methods=['post'])
-    def exportar(self, request):
-        """
-        POST /api/v1/dashboard/exportar/ - Exportar dashboard.
-
-        Body:
-        {
-            "formato": "csv"  // o "pdf"
-        }
-        """
+    def post(self, request):  # type: ignore[override]
         serializer = ExportarDashboardSerializer(data=request.data)
-        if not serializer.is_valid():
-            return Response(
-                {'error': serializer.errors},
-                status=status.HTTP_400_BAD_REQUEST
-            )
+        serializer.is_valid(raise_exception=True)
 
         try:
-            formato = serializer.validated_data['formato']
-            data = DashboardService.exportar_dashboard(
+            resultado = DashboardService.exportar(
                 usuario_id=request.user.id,
-                formato=formato
+                formato=serializer.validated_data['formato'],
             )
+            return Response(resultado)
 
-            if formato == 'csv':
-                response = HttpResponse(data, content_type='text/csv')
-                response['Content-Disposition'] = 'attachment; filename="dashboard.csv"'
-            else:  # pdf
-                response = HttpResponse(data, content_type='application/pdf')
-                response['Content-Disposition'] = 'attachment; filename="dashboard.pdf"'
-
-            return response
-        except Exception as e:
+        except PermissionDenied as e:
             return Response(
                 {'error': str(e)},
-                status=status.HTTP_400_BAD_REQUEST
+                status=status.HTTP_403_FORBIDDEN,
             )
-
-    @action(detail=False, methods=['post'])
-    def compartir(self, request):
-        """
-        POST /api/v1/dashboard/compartir/ - Compartir configuración.
-
-        Body:
-        {
-            "usuario_destino_id": 123
-        }
-        """
-        serializer = CompartirDashboardSerializer(data=request.data)
-        if not serializer.is_valid():
+        except ValidationError as e:
             return Response(
-                {'error': serializer.errors},
-                status=status.HTTP_400_BAD_REQUEST
+                {'error': str(e)},
+                status=status.HTTP_400_BAD_REQUEST,
             )
+
+
+class DashboardPersonalizarView(APIView):
+    """Personaliza configuracion de dashboard.
+
+    Requiere permiso: sistema.vistas.dashboards.personalizar
+    """
+
+    def put(self, request):  # type: ignore[override]
+        serializer = PersonalizarDashboardSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
 
         try:
-            config = DashboardService.compartir_dashboard(
-                usuario_origen_id=request.user.id,
-                usuario_destino_id=serializer.validated_data['usuario_destino_id']
+            config = DashboardService.personalizar(
+                usuario_id=request.user.id,
+                configuracion=serializer.validated_data['configuracion'],
             )
-            return Response(
-                {'message': 'Dashboard compartido exitosamente'},
-                status=status.HTTP_200_OK
-            )
-        except Exception as e:
+
+            return Response({
+                'id': config.id,
+                'configuracion': config.configuracion,
+                'updated_at': config.updated_at.isoformat(),
+            })
+
+        except PermissionDenied as e:
             return Response(
                 {'error': str(e)},
-                status=status.HTTP_404_NOT_FOUND
+                status=status.HTTP_403_FORBIDDEN,
+            )
+        except ValidationError as e:
+            return Response(
+                {'error': str(e)},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+
+class DashboardCompartirView(APIView):
+    """Comparte dashboard con usuario o grupo.
+
+    Requiere permiso: sistema.vistas.dashboards.compartir
+    """
+
+    def post(self, request):  # type: ignore[override]
+        serializer = CompartirDashboardSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        try:
+            resultado = DashboardService.compartir(
+                usuario_id=request.user.id,
+                compartir_con_usuario_id=serializer.validated_data.get('compartir_con_usuario_id'),
+                compartir_con_grupo_codigo=serializer.validated_data.get('compartir_con_grupo_codigo'),
+            )
+
+            return Response(resultado)
+
+        except PermissionDenied as e:
+            return Response(
+                {'error': str(e)},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+        except ValidationError as e:
+            return Response(
+                {'error': str(e)},
+                status=status.HTTP_400_BAD_REQUEST,
             )

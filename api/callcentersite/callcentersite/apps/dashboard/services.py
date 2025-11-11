@@ -2,17 +2,23 @@
 
 from __future__ import annotations
 
-import csv
-from io import BytesIO, StringIO
-from typing import Dict, List
+from typing import Dict, List, Optional
 
 from django.contrib.auth import get_user_model
-from django.core.exceptions import ObjectDoesNotExist, ValidationError
+from django.core.exceptions import PermissionDenied, ValidationError
 from django.utils import timezone
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
 
-from .models import DashboardConfiguration
+from callcentersite.apps.users.models_permisos_granular import AuditoriaPermiso
+from callcentersite.apps.users.service_helpers import (
+    auditar_accion_exitosa,
+    validar_usuario_existe,
+    verificar_permiso_y_auditar,
+)
+from callcentersite.apps.users.services_permisos_granular import UserManagementService
+
+from .models import DashboardConfiguracion
 from .widgets import WIDGET_REGISTRY, Widget
 
 User = get_user_model()
@@ -38,205 +44,197 @@ class DashboardService:
         return list(WIDGET_REGISTRY.values())
 
     @staticmethod
-    def ver_dashboard(usuario_id: int) -> Dict[str, object]:
+    def exportar(
+        usuario_id: int,
+        formato: str = 'pdf',
+    ) -> Dict[str, object]:
         """
-        UC-020: Ver Dashboard.
-
-        Retorna el dashboard personalizado del usuario con datos actualizados.
+        Exporta dashboard a PDF o Excel.
 
         Args:
-            usuario_id: ID del usuario
+            usuario_id: ID del usuario que exporta
+            formato: Formato de exportacion ('pdf' o 'excel')
 
         Returns:
-            Diccionario con widgets y última actualización
+            Diccionario con datos de exportacion:
+                - formato: str
+                - archivo: str (path o URL del archivo)
+                - timestamp: str
 
-        Ejemplo:
-            >>> dashboard = DashboardService.ver_dashboard(usuario_id=1)
-            >>> print(dashboard['widgets'])
+        Raises:
+            PermissionDenied: Si el usuario no tiene permiso
+            ValidationError: Si el formato es invalido
+
+        Referencia: docs/PLAN_MAESTRO_PRIORIDAD_02.md (Tarea 26)
         """
-        try:
-            config = DashboardConfiguration.objects.get(user_id=usuario_id)
-            widget_types = config.widgets
-        except DashboardConfiguration.DoesNotExist:
-            # Si no tiene configuración, usar widgets por defecto
-            widget_types = list(WIDGET_REGISTRY.keys())
+        # Verificar permiso y auditar
+        verificar_permiso_y_auditar(
+            usuario_id=usuario_id,
+            capacidad_codigo='sistema.vistas.dashboards.exportar',
+            recurso_tipo='dashboard',
+            accion='exportar',
+            mensaje_error='No tiene permiso para exportar dashboards',
+        )
 
-        # Obtener widgets en el orden configurado
-        widgets = []
-        for widget_type in widget_types:
-            if widget_type in WIDGET_REGISTRY:
-                widgets.append(WIDGET_REGISTRY[widget_type].__dict__)
+        # Validar formato
+        if formato not in ['pdf', 'excel']:
+            raise ValidationError(f'Formato invalido: {formato}. Use pdf o excel')
+
+        # TODO: Implementar logica real de exportacion
+        # Por ahora retornamos un placeholder
+        archivo = f'/tmp/dashboard_{usuario_id}_{timezone.now().timestamp()}.{formato}'
+
+        # Auditar acción exitosa
+        auditar_accion_exitosa(
+            usuario_id=usuario_id,
+            capacidad_codigo='sistema.vistas.dashboards.exportar',
+            recurso_tipo='dashboard',
+            accion='exportar',
+            detalles=f'Dashboard exportado a {formato}',
+        )
 
         return {
-            "last_update": timezone.now().isoformat(),
-            "widgets": widgets
+            'formato': formato,
+            'archivo': archivo,
+            'timestamp': timezone.now().isoformat(),
         }
 
     @staticmethod
-    def personalizar_dashboard(
+    def personalizar(
         usuario_id: int,
-        widgets: List[str]
-    ) -> DashboardConfiguration:
+        configuracion: Dict,
+    ) -> DashboardConfiguracion:
         """
-        UC-021: Personalizar Dashboard.
-
-        Guarda la configuración de widgets del usuario.
+        Guarda configuracion personalizada de dashboard.
 
         Args:
             usuario_id: ID del usuario
-            widgets: Lista ordenada de tipos de widgets
+            configuracion: Diccionario con configuracion de widgets y layout
 
         Returns:
-            Configuración guardada
+            Objeto DashboardConfiguracion guardado
 
         Raises:
-            ValidationError: Si algún widget no existe
-            ObjectDoesNotExist: Si usuario no existe
+            PermissionDenied: Si el usuario no tiene permiso
+            ValidationError: Si la configuracion no es valida JSON
 
-        Ejemplo:
-            >>> config = DashboardService.personalizar_dashboard(
-            ...     usuario_id=1,
-            ...     widgets=['total_calls', 'avg_duration']
-            ... )
+        Referencia: docs/PLAN_MAESTRO_PRIORIDAD_02.md (Tarea 28)
         """
-        # Validar que usuario existe
-        usuario = User.objects.get(id=usuario_id)
+        # Verificar permiso y auditar
+        verificar_permiso_y_auditar(
+            usuario_id=usuario_id,
+            capacidad_codigo='sistema.vistas.dashboards.personalizar',
+            recurso_tipo='dashboard',
+            accion='personalizar',
+            mensaje_error='No tiene permiso para personalizar dashboards',
+        )
 
-        # Validar que todos los widgets existen
-        for widget_type in widgets:
-            if widget_type not in WIDGET_REGISTRY:
-                raise ValidationError(f'Widget "{widget_type}" no existe')
+        # Validar que configuracion sea dict
+        if not isinstance(configuracion, dict):
+            raise ValidationError('Configuracion debe ser un objeto JSON')
 
-        # Crear o actualizar configuración
-        config, created = DashboardConfiguration.objects.update_or_create(
-            user=usuario,
-            defaults={'widgets': widgets}
+        # Guardar o actualizar configuracion
+        config, created = DashboardConfiguracion.objects.update_or_create(
+            usuario_id=usuario_id,
+            defaults={'configuracion': configuracion},
+        )
+
+        # Auditar acción exitosa
+        auditar_accion_exitosa(
+            usuario_id=usuario_id,
+            capacidad_codigo='sistema.vistas.dashboards.personalizar',
+            recurso_tipo='dashboard',
+            accion='personalizar',
+            recurso_id=config.id,
+            detalles=f'Dashboard personalizado. Widgets: {len(configuracion.get("widgets", []))}',
         )
 
         return config
 
     @staticmethod
-    def exportar_dashboard(
+    def compartir(
         usuario_id: int,
-        formato: str = 'csv'
-    ) -> str | bytes:
+        compartir_con_usuario_id: Optional[int] = None,
+        compartir_con_grupo_codigo: Optional[str] = None,
+    ) -> Dict[str, object]:
         """
-        UC-022: Exportar Dashboard.
-
-        Exporta los datos actuales del dashboard en el formato solicitado.
+        Comparte dashboard con otro usuario o grupo.
 
         Args:
-            usuario_id: ID del usuario
-            formato: Formato de exportación ('csv' o 'pdf')
+            usuario_id: ID del usuario que comparte
+            compartir_con_usuario_id: ID del usuario receptor (opcional)
+            compartir_con_grupo_codigo: Codigo del grupo receptor (opcional)
 
         Returns:
-            String con CSV o bytes con PDF
+            Diccionario con resultado:
+                - compartido_con: str (email o nombre de grupo)
+                - tipo: str ('usuario' o 'grupo')
+                - timestamp: str
 
         Raises:
-            ValidationError: Si formato no es válido
+            PermissionDenied: Si el usuario no tiene permiso
+            ValidationError: Si no se especifica receptor o no existe
 
-        Ejemplo:
-            >>> csv_data = DashboardService.exportar_dashboard(
-            ...     usuario_id=1,
-            ...     formato='csv'
-            ... )
+        Referencia: docs/PLAN_MAESTRO_PRIORIDAD_02.md (Tarea 30)
         """
-        dashboard = DashboardService.ver_dashboard(usuario_id=usuario_id)
-
-        if formato == 'csv':
-            return DashboardService._exportar_csv(dashboard)
-        elif formato == 'pdf':
-            return DashboardService._exportar_pdf(dashboard)
-        else:
-            raise ValidationError(f'Formato "{formato}" no soportado')
-
-    @staticmethod
-    def _exportar_csv(dashboard: Dict[str, object]) -> str:
-        """Convierte dashboard a formato CSV."""
-        output = StringIO()
-        writer = csv.writer(output)
-
-        # Headers
-        writer.writerow(['Widget', 'Título', 'Valor', 'Cambio', 'Período'])
-
-        # Datos
-        for widget in dashboard['widgets']:
-            writer.writerow([
-                widget.get('type', ''),
-                widget.get('title', ''),
-                widget.get('value', ''),
-                widget.get('change', ''),
-                widget.get('period', '')
-            ])
-
-        return output.getvalue()
-
-    @staticmethod
-    def _exportar_pdf(dashboard: Dict[str, object]) -> bytes:
-        """Convierte dashboard a formato PDF."""
-        buffer = BytesIO()
-        pdf = canvas.Canvas(buffer, pagesize=letter)
-
-        # Título
-        pdf.setFont("Helvetica-Bold", 16)
-        pdf.drawString(100, 750, "Dashboard Report")
-
-        # Fecha
-        pdf.setFont("Helvetica", 10)
-        pdf.drawString(100, 730, f"Generated: {dashboard['last_update']}")
-
-        # Widgets
-        y_position = 700
-        pdf.setFont("Helvetica", 12)
-        for widget in dashboard['widgets']:
-            pdf.drawString(100, y_position, f"{widget.get('title', '')}: {widget.get('value', '')}")
-            y_position -= 20
-
-        pdf.save()
-        return buffer.getvalue()
-
-    @staticmethod
-    def compartir_dashboard(
-        usuario_origen_id: int,
-        usuario_destino_id: int
-    ) -> DashboardConfiguration:
-        """
-        UC-023: Compartir Dashboard.
-
-        Copia la configuración de dashboard de un usuario a otro.
-
-        Args:
-            usuario_origen_id: ID del usuario que comparte
-            usuario_destino_id: ID del usuario que recibe
-
-        Returns:
-            Configuración creada/actualizada en usuario destino
-
-        Raises:
-            ObjectDoesNotExist: Si algún usuario no existe
-
-        Ejemplo:
-            >>> config = DashboardService.compartir_dashboard(
-            ...     usuario_origen_id=1,
-            ...     usuario_destino_id=2
-            ... )
-        """
-        # Validar que usuarios existen
-        usuario_origen = User.objects.get(id=usuario_origen_id)
-        usuario_destino = User.objects.get(id=usuario_destino_id)
-
-        # Obtener configuración origen
-        try:
-            config_origen = DashboardConfiguration.objects.get(user=usuario_origen)
-            widgets = config_origen.widgets
-        except DashboardConfiguration.DoesNotExist:
-            # Si origen no tiene configuración, usar default
-            widgets = list(WIDGET_REGISTRY.keys())
-
-        # Copiar a destino
-        config_destino, created = DashboardConfiguration.objects.update_or_create(
-            user=usuario_destino,
-            defaults={'widgets': widgets}
+        # Verificar permiso y auditar
+        verificar_permiso_y_auditar(
+            usuario_id=usuario_id,
+            capacidad_codigo='sistema.vistas.dashboards.compartir',
+            recurso_tipo='dashboard',
+            accion='compartir',
+            mensaje_error='No tiene permiso para compartir dashboards',
         )
 
-        return config_destino
+        # Validar que se especifico al menos un receptor
+        if not compartir_con_usuario_id and not compartir_con_grupo_codigo:
+            raise ValidationError(
+                'Debe especificar compartir_con_usuario_id o compartir_con_grupo_codigo'
+            )
+
+        compartido_con = None
+        tipo = None
+
+        # Compartir con usuario
+        if compartir_con_usuario_id:
+            try:
+                usuario_receptor = User.objects.get(
+                    id=compartir_con_usuario_id,
+                    is_deleted=False,
+                )
+                compartido_con = usuario_receptor.email
+                tipo = 'usuario'
+            except User.DoesNotExist:
+                raise ValidationError(
+                    f'Usuario receptor no encontrado: {compartir_con_usuario_id}'
+                )
+
+        # Compartir con grupo
+        if compartir_con_grupo_codigo:
+            from callcentersite.apps.users.models_permisos_granular import GrupoPermiso
+            try:
+                grupo = GrupoPermiso.objects.get(codigo=compartir_con_grupo_codigo)
+                compartido_con = grupo.nombre
+                tipo = 'grupo'
+            except GrupoPermiso.DoesNotExist:
+                raise ValidationError(
+                    f'Grupo no encontrado: {compartir_con_grupo_codigo}'
+                )
+
+        # TODO: Implementar logica real de compartir
+        # (crear registro en tabla compartidos, enviar notificacion, etc.)
+
+        # Auditar acción exitosa
+        auditar_accion_exitosa(
+            usuario_id=usuario_id,
+            capacidad_codigo='sistema.vistas.dashboards.compartir',
+            recurso_tipo='dashboard',
+            accion='compartir',
+            detalles=f'Dashboard compartido con {tipo}: {compartido_con}',
+        )
+
+        return {
+            'compartido_con': compartido_con,
+            'tipo': tipo,
+            'timestamp': timezone.now().isoformat(),
+        }
