@@ -45,6 +45,23 @@ Una vez que la VM esté en ejecución:
 
 El script prueba la conectividad contra las bases de datos utilizando las variables de entorno disponibles y reporta cualquier dependencia faltante.
 
+## Artefacto CPython precompilado
+
+Para acelerar los entornos de desarrollo y CI, el proyecto distribuye un build precompilado de CPython generado con la VM de `infrastructure/cpython`.
+
+1. **Generar artefacto** (desde el host):
+   ```bash
+   make build_cpython VERSION=3.12.6
+   ```
+2. **Validar integridad**:
+   ```bash
+   make validate_cpython ARTIFACT=cpython-3.12.6-ubuntu20.04-build1.tgz
+   ```
+3. **Ubicación**: Los archivos `.tgz` y `.sha256` quedan en `infrastructure/cpython/artifacts/` y son consumidos por el Dev Container mediante el feature `infrastructure/cpython/installer`.
+4. **Distribución**: Publica los mismos archivos en GitHub Releases cuando prepares un release estable y actualiza la referencia en `.devcontainer/devcontainer.json` si cambias de versión.
+
+Consulta la [documentación del builder](docs/infrastructure/cpython-builder.md) y su [CHANGELOG dedicado](docs/infrastructure/CHANGELOG-cpython.md) para conocer el flujo completo y los cambios históricos.
+
 ## Documentación
 
 El proyecto utiliza MkDocs para generar documentación estática. Usa el Makefile para gestionar la documentación:

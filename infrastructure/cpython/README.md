@@ -317,6 +317,26 @@ cd /vagrant
 ./scripts/build_cpython.sh 3.12.6 2  # Nuevo build number
 ```
 
+### Error: "Toolchain: gcc: command not found"
+
+**Causa**: La VM perdió paquetes base (apt-cache corrupta o snapshot antiguo).
+
+**Solución automática**:
+
+Desde `vagrant up`, el `bootstrap.sh` detecta el fallo y reinstala `build-essential` y herramientas de soporte sin intervención.
+
+**Si persiste**:
+```bash
+vagrant ssh
+cd /vagrant
+source utils/state_manager.sh
+reset_operation_state bootstrap_install_build_deps
+reset_operation_state bootstrap_install_tools
+sudo ./bootstrap.sh
+```
+
+Esto forzará la reinstalación completa del toolchain.
+
 ### VM muy lenta
 
 **Causa**: Recursos insuficientes
