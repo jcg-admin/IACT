@@ -219,16 +219,50 @@ INFO - Dashboard: docs/sdlc_outputs/tdd_logs/dashboard_*.md
 - Workflow de uso: `docs/guias/workflows/workflow-implement-feature-with-tdd-agent.md`
 - Referencia rapida: `docs/scripts/sdlc-agents-reference.md`
 
+### Agentes Implementados Adicionales
+
+**Estado**: [IMPLEMENTADO - Sin LLM]
+
+Estos agentes están completamente funcionales usando heurísticas y análisis estático:
+
+- SDLCFeasibilityAgent (Fase 2: Feasibility Analysis) - Análisis de viabilidad
+- SDLCDesignAgent (Fase 3: System Design) - Generación de HLD/LLD/ADRs/Diagramas
+- SDLCTestingAgent (Fase 5: Testing) - Planes de testing
+- SDLCDeploymentAgent (Fase 6: Deployment) - Planes de deployment/rollback
+- SDLCOrchestratorAgent (Coordinador del pipeline completo) - Orquestación
+
 ### Agentes Pendientes
 
 **Estado**: [EN DESARROLLO]
 
-- SDLCFeasibilityAgent (Fase 2: Feasibility Analysis)
-- SDLCDesignAgent (Fase 3: System Design)
-- SDLCTestingAgent (Fase 5: Testing)
-- SDLCDeploymentAgent (Fase 6: Deployment)
-- SDLCMaintenanceAgent (Fase 7: Maintenance)
-- SDLCOrchestratorAgent (Coordinador del pipeline completo)
+- SDLCMaintenanceAgent (Fase 7: Maintenance) - Análisis post-deployment
+
+### Limitaciones Conocidas
+
+**SDLCPlannerAgent**:
+- Integración LLM: COMPLETA (usa Anthropic Claude o OpenAI GPT)
+- Requiere: ANTHROPIC_API_KEY o OPENAI_API_KEY
+- Fallback: Heurísticas si LLM falla
+
+**TDDFeatureAgent**:
+- Integración LLM: COMPLETA (usa LLMGenerator para todo el ciclo TDD)
+- Requiere: ANTHROPIC_API_KEY o OPENAI_API_KEY
+- Generación de tests: LLM
+- Generación de código: LLM
+- Refactoring: LLM + auto-fix
+
+**Agentes sin LLM**:
+- SDLCFeasibilityAgent, SDLCDesignAgent, SDLCTestingAgent, SDLCDeploymentAgent
+- Usan templates y heurísticas (no requieren API keys)
+- Funcionan offline
+- Resultados determinísticos
+
+**Agentes Meta**:
+- ChainOfVerificationAgent, AutoCoTAgent, SelfConsistencyAgent, TreeOfThoughtsAgent
+- ArchitectureAnalysisAgent, DesignPatternsAgent, RefactoringOpportunitiesAgent
+- TestGenerationAgent, UMLValidationAgent
+- Estado: FRAMEWORK COMPLETO - Requieren conexión con LLMGenerator
+- Ver: docs/desarrollo/TAREAS_PENDIENTES_AGENTES_IA.md para detalles de implementación
 
 ## Uso
 
