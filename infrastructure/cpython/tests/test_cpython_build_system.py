@@ -250,3 +250,39 @@ def test_no_compiled_artifacts_in_git():
         # Debería ignorar archivos .tgz en artifacts/
         assert "*.tgz" in content or "artifacts/" in content or "*.tar.gz" in content, \
             ".gitignore no excluye artefactos compilados"
+
+
+def test_bootstrap_summary_handles_missing_toolchain_gracefully():
+    """El resumen de bootstrap debe tolerar toolchain ausente."""
+
+    bootstrap = (VAGRANT_DIR / "bootstrap.sh").read_text()
+
+    signature = "display_summary() {"
+    assert signature in bootstrap, "display_summary no definido en bootstrap.sh"
+
+    start = bootstrap.index(signature) + len(signature)
+
+    depth = 1
+    idx = start
+    while idx < len(bootstrap) and depth > 0:
+        char = bootstrap[idx]
+        if char == "{":
+            depth += 1
+        elif char == "}":
+            depth -= 1
+        idx += 1
+
+    assert depth == 0, "No se pudo extraer el cuerpo de display_summary"
+
+    body = bootstrap[start:idx - 1]
+
+    assert "command -v gcc" in body or 'validate_command_exists "gcc"' in body, (
+        "display_summary debe verificar la disponibilidad de gcc antes de imprimir la versión"
+    )
+    assert "command -v make" in body or 'validate_command_exists "make"' in body, (
+        "display_summary debe verificar la disponibilidad de make antes de imprimir la versión"
+    )
+
+    assert "reset_operation_state bootstrap_complete" in body, (
+        "display_summary debe guiar al usuario para reejecutar bootstrap cuando falten herramientas"
+    )
