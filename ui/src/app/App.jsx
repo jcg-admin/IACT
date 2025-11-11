@@ -4,7 +4,7 @@ import HomePage from '../pages/HomePage';
 import { useAppConfig } from '@hooks/useAppConfig';
 
 function App() {
-  const { isLoading, config, loadConfig } = useAppConfig();
+  const { isLoading, config, loadConfig, source, error } = useAppConfig();
 
   useEffect(() => {
     loadConfig();
@@ -18,8 +18,15 @@ function App() {
     );
   }
 
+  const showMockBanner = (config?.featureFlags?.showMockBanner ?? true) && source === 'mock';
+  const mockNotice = {
+    isVisible: showMockBanner,
+    message: 'Mostrando datos simulados mientras se habilita el backend.',
+    details: error ?? undefined,
+  };
+
   return (
-    <MainLayout>
+    <MainLayout mockNotice={mockNotice}>
       <HomePage />
     </MainLayout>
   );
