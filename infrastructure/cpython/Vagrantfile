@@ -89,8 +89,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # CPython directory with UTF-8 encoding
   # This mounts the entire cpython/ directory (including artifacts/, scripts/, etc.)
+  # The devcontainer feature consumes the generated artifacts directly from this
+  # share, so keep ownership aligned with the vagrant user to preserve write
+  # access during provisioning.
   config.vm.synced_folder ".", "/vagrant",
     create: true,
+    owner: "vagrant",
+    group: "vagrant",
     mount_options: [
       "dmode=755,fmode=664",  # 664 for files allows VM to write artifacts
       "iocharset=utf8",
@@ -111,17 +116,15 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     # CPU optimizations for compilation workloads
     vb.customize ["modifyvm", :id, "--paravirtprovider", "kvm"]
     vb.customize ["modifyvm", :id, "--cpuexecutioncap", "100"]
-
-		vb.customize ["modifyvm", :id, "--ioapic", "on"]
+    # EHCI (`--usbehci`) is not available in VirtualBox 7+, disabling USB at the
+    # controller level keeps the VM headless without relying on removed flags.
+    vb.customize ["modifyvm", :id, "--ioapic", "on"]
     vb.customize ["modifyvm", :id, "--vram", "12"]
     vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
     vb.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
     vb.customize ["modifyvm", :id, "--audio", "none"]
     vb.customize ["modifyvm", :id, "--usb", "off"]
-    vb.customize ["modifyvm", :id, "--usbehci", "off"]
-    vb.customize ["modifyvm", :id, "--paravirtprovider", "kvm"]
     vb.customize ["modifyvm", :id, "--cableconnected1", "on"]
-    vb.customize ["modifyvm", :id, "--cpuexecutioncap", "100"]
     vb.customize ["modifyvm", :id, "--rtcuseutc", "on"]
   end
 
