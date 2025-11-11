@@ -44,6 +44,9 @@ INSTALLED_APPS = [
     "callcentersite.apps.audit",
     "callcentersite.apps.dashboard",
     "callcentersite.apps.configuracion",
+    "callcentersite.apps.presupuestos",
+    "callcentersite.apps.politicas",
+    "callcentersite.apps.excepciones",
     "dora_metrics",
 ]
 

@@ -1,11 +1,11 @@
 from django.urls import include, path
 from rest_framework.routers import DefaultRouter
-from .views import PoliticaViewSet
+from .views import ExcepcionViewSet
 
-app_name = "politicas"
+app_name = "excepciones"
 
 router = DefaultRouter()
-router.register(r'', PoliticaViewSet, basename='politica')
+router.register(r'', ExcepcionViewSet, basename='excepcion')
 
 urlpatterns = [
     path("", include(router.urls)),
