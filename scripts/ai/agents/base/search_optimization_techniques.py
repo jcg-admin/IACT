@@ -346,9 +346,10 @@ class BinarySearchPrompting:
         item_terms = set(item.content.lower().split())
         item_terms.update(kw.lower() for kw in item.keywords)
 
-        # Match if >30% of item terms in query
+        # Match if >15% of query terms appear in item
+        # (lower threshold for broad queries to work)
         matches = len(query_terms & item_terms)
-        return matches / len(item_terms) >= 0.3 if item_terms else False
+        return matches / len(query_terms) >= 0.15 if query_terms else False
 
 
 class GreedyInformationDensity:
