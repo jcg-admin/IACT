@@ -269,8 +269,6 @@ infrastructure/vagrant/*.box
 .init_completed
 /infrastructure/state/
 package-lock.json
-verify_connections_071124.txt
-verify_connections_0711251238.txt
-verify_connections_07112251250.txt
-verify_connections_0711251239.txt
-verify_connections_0711251240.txt
+infrastructure/box/tests/**/verify_connections_*.txt
+
+infrastructure/cpython/.build_state/*

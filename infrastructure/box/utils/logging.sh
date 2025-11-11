@@ -4,8 +4,9 @@
 # LOGGING UTILITIES
 # ============================================================================
 # Propósito: Estilo uniforme, trazabilidad y claridad en todos los scripts
-# Uso: source utils/logging.sh
+# Uso: source utils/logger.sh
 # ============================================================================
+
 
 log_info()    { echo -e "[INFO]    $*"; }
 log_warn()    { echo -e "[WARNING] $*"; }

@@ -3,10 +3,8 @@
 
 # =============================================================================
 # IACT CPython Builder - Vagrant Configuration
-# CPython Precompiled Build Environment
 # =============================================================================
-# Referencia: SPEC_INFRA_001
-# Propósito: Compilar CPython precompilado en entorno reproducible
+# Purpose: VM configuration for CPython compilation environment
 # =============================================================================
 
 VAGRANTFILE_API_VERSION = "2"
@@ -15,47 +13,35 @@ VAGRANTFILE_API_VERSION = "2"
 # CONFIGURATION VARIABLES
 # =============================================================================
 
+require 'fileutils'
+
 # VM Configuration
 VM_NAME = "iact-cpython-builder"
 VM_HOSTNAME = "cpython-builder"
-VM_MEMORY = 4096  # 4 GB (PGO compilation requires resources)
-VM_CPUS = 4       # 4 cores for parallel make
+VM_MEMORY = 4096
+VM_CPUS = 4
 
-# Default Python version to build (can be overridden)
-DEFAULT_PYTHON_VERSION = "3.12.6"
-DEFAULT_BUILD_NUMBER = "1"
+# Build Configuration
+AUTO_BUILD_ENABLED = ENV['AUTO_BUILD'] != 'false'
+DEFAULT_PYTHON_VERSION = ENV['PYTHON_VERSION'] || "3.12.6"
+DEFAULT_BUILD_NUMBER = ENV['BUILD_NUMBER'] || "1"
 
 # Display configuration summary
 puts "=" * 70
-puts "  IACT CPython Builder Configuration"
+puts "  IACT CPython Builder"
 puts "=" * 70
-puts "VM:"
-puts "  Name: #{VM_NAME}"
-puts "  Hostname: #{VM_HOSTNAME}"
-puts "  Resources: #{VM_MEMORY}MB RAM, #{VM_CPUS} CPUs"
-puts ""
-puts "Build Environment:"
-puts "  Base OS: Ubuntu 20.04 LTS (focal64)"
-puts "  Default Python: #{DEFAULT_PYTHON_VERSION}"
-puts "  Build Mode: PGO + LTO optimizations"
-puts ""
-puts "Artifacts Output:"
-puts "  ./artifacts/"
+puts "VM: #{VM_NAME} (#{VM_MEMORY}MB, #{VM_CPUS} CPUs)"
+puts "Base: Ubuntu 20.04 LTS"
+puts "Auto-build: #{AUTO_BUILD_ENABLED ? 'ENABLED' : 'DISABLED'}"
+puts "Python: #{DEFAULT_PYTHON_VERSION}" if AUTO_BUILD_ENABLED
 puts "=" * 70
 puts ""
-
-# =============================================================================
-# APT CACHE OPTIMIZATION (speeds up reprovisioning)
-# =============================================================================
 
 def local_cache(box_name)
-  begin
-    cache_dir = File.join(File.expand_path('~/.vagrant.d'), 'cache', 'apt', box_name)
-    FileUtils.mkdir_p(cache_dir) unless File.exist?(cache_dir)
-    return cache_dir if File.writable?(cache_dir)
-  rescue => e
-    puts "WARNING: APT cache disabled: #{e.message}"
-  end
+  cache_dir = File.join(File.expand_path('~/.vagrant.d'), 'cache', 'apt', box_name)
+  FileUtils.mkdir_p(cache_dir) unless File.exist?(cache_dir)
+  return cache_dir if File.writable?(cache_dir)
+rescue
   nil
 end
 
@@ -64,13 +50,9 @@ end
 # =============================================================================
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-  # Base box selection with version pinning
-  # Using Ubuntu 20.04 LTS for Guest Additions compatibility
   config.vm.box = "ubuntu/focal64"
   config.vm.box_check_update = true
-  config.vm.box_version = ">= 20210415.0.0"  # Ensure recent Ubuntu 20.04
-
-  # VM hostname
+  config.vm.box_version = ">= 20210415.0.0"
   config.vm.hostname = VM_HOSTNAME
 
   # Disable vbguest auto-update if plugin is installed
@@ -91,7 +73,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # (prevents DHCP conflicts and works without Guest Additions)
   config.vm.network "private_network",
     ip: "192.168.56.10",
-    virtualbox__intnet: true
+    virtualbox__intnet: "iact-cpython-intnet"
 
   # =================================================================
   # SYNCED FOLDERS WITH UTF-8 ENCODING
@@ -103,21 +85,22 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.vm.synced_folder cache_dir, "/var/cache/apt/archives/",
       create: true,
       mount_options: ["dmode=755,fmode=644"]
-    puts "[OK] APT cache enabled: #{cache_dir}"
   end
 
   # CPython directory with UTF-8 encoding
   # This mounts the entire cpython/ directory (including artifacts/, scripts/, etc.)
+  # The devcontainer feature consumes the generated artifacts directly from this
+  # share, so keep ownership aligned with the vagrant user to preserve write
+  # access during provisioning.
   config.vm.synced_folder ".", "/vagrant",
     create: true,
+    owner: "vagrant",
+    group: "vagrant",
     mount_options: [
       "dmode=755,fmode=664",  # 664 for files allows VM to write artifacts
       "iocharset=utf8",
       "ttl=1"
     ]
-
-  # NOTE: artifacts/ is already included in the above mount.
-  # No need for separate synced_folder - would cause conflicts.
 
   # =================================================================
   # VIRTUALBOX PROVIDER CONFIGURATION
@@ -130,149 +113,69 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     vb.gui = false
     vb.linked_clone = true
 
-    # Performance optimizations for CPU-intensive compilation
+    # CPU optimizations for compilation workloads
+    vb.customize ["modifyvm", :id, "--paravirtprovider", "kvm"]
+    vb.customize ["modifyvm", :id, "--cpuexecutioncap", "100"]
+    # EHCI (`--usbehci`) is not available in VirtualBox 7+, disabling USB at the
+    # controller level keeps the VM headless without relying on removed flags.
     vb.customize ["modifyvm", :id, "--ioapic", "on"]
     vb.customize ["modifyvm", :id, "--vram", "12"]
     vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
     vb.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
     vb.customize ["modifyvm", :id, "--audio", "none"]
     vb.customize ["modifyvm", :id, "--usb", "off"]
-    vb.customize ["modifyvm", :id, "--usbehci", "off"]
     vb.customize ["modifyvm", :id, "--cableconnected1", "on"]
     vb.customize ["modifyvm", :id, "--rtcuseutc", "on"]
-
-    # CPU optimizations for compilation workloads
-    vb.customize ["modifyvm", :id, "--paravirtprovider", "kvm"]
-    vb.customize ["modifyvm", :id, "--cpuexecutioncap", "100"]
   end
 
-  # =================================================================
-  # PROVISIONING
-  # =================================================================
 
+  # Provisioning - delegate everything to bootstrap.sh
   config.vm.provision "shell", inline: <<-SHELL
     set -euo pipefail
 
-    echo ""
-    echo "=================================================="
-    echo "  Starting CPython Builder VM Provisioning"
-    echo "=================================================="
-    echo ""
+    # Validate required files
+    if [ ! -f "/vagrant/bootstrap.sh" ]; then
+      echo "[ERROR] bootstrap.sh not found"
+      exit 1
+    fi
 
-    # Validate project structure
-    echo "Validating project structure..."
-
-    required_files=(
-      "/vagrant/bootstrap.sh"
-    )
-
-    for file in "${required_files[@]}"; do
-      if [ ! -f "$file" ]; then
-        echo "[ERROR] Required file not found: $file"
-        exit 1
-      fi
-    done
-
-    required_dirs=(
-      "/vagrant/scripts"
-      "/vagrant/utils"
-      "/vagrant/logs"
-    )
-
-    for dir in "${required_dirs[@]}"; do
-      if [ ! -d "$dir" ]; then
-        echo "[WARNING] Creating missing directory: $dir"
-        mkdir -p "$dir"
-      fi
-    done
-
-    echo "[OK] Project structure validated"
-    echo ""
-
-    # Make bootstrap executable
+    # Set permissions
     chmod +x /vagrant/bootstrap.sh
-
-    # Make all scripts executable
     find /vagrant/scripts -name "*.sh" -exec chmod +x {} \\; 2>/dev/null || true
     find /vagrant/utils -name "*.sh" -exec chmod +x {} \\; 2>/dev/null || true
 
-    # Execute bootstrap
-    echo "Executing bootstrap script..."
+    # Execute bootstrap with environment variables
     cd /vagrant
+    export AUTO_BUILD=#{AUTO_BUILD_ENABLED}
+    export PYTHON_VERSION="#{DEFAULT_PYTHON_VERSION}"
+    export BUILD_NUMBER="#{DEFAULT_BUILD_NUMBER}"
 
-    if bash bootstrap.sh; then
+    if sudo -E bash bootstrap.sh; then
       echo ""
-      echo "=================================================="
-      echo "  [OK] Bootstrap Completed Successfully"
-      echo "=================================================="
-      echo ""
+      echo "[OK] Provisioning completed successfully"
     else
       echo ""
-      echo "=================================================="
-      echo "  [ERROR] Bootstrap Failed"
-      echo "=================================================="
-      echo ""
-      echo "Troubleshooting:"
-      echo "  1. Check logs: /vagrant/logs/"
-      echo "  2. SSH into VM: vagrant ssh"
-      echo "  3. Retry: cd /vagrant && sudo bash bootstrap.sh"
-      echo ""
+      echo "[ERROR] Provisioning failed"
+      echo "Check logs: /vagrant/logs/"
       exit 1
     fi
   SHELL
 
-  # =================================================================
-  # POST-UP MESSAGE
-  # =================================================================
-
   config.vm.post_up_message = <<-MESSAGE
 
   ========================================================================
-                    IACT CPython Builder Ready!
+                    CPython Builder Ready
   ========================================================================
 
-  VM INFORMATION:
-    Name:     #{VM_NAME}
-    Hostname: #{VM_HOSTNAME}
-    Memory:   #{VM_MEMORY}MB
-    CPUs:     #{VM_CPUS}
-    Base OS:  Ubuntu 20.04 LTS
+  VM: #{VM_NAME}
+  Status: Provisioned
+  Auto-build: #{AUTO_BUILD_ENABLED ? "Python #{DEFAULT_PYTHON_VERSION} compiled" : "Disabled"}
 
-  BUILD ENVIRONMENT:
-    Python Version: #{DEFAULT_PYTHON_VERSION} (default)
-    Optimizations:  PGO + LTO enabled
-    Toolchain:      GCC with full dev libraries
+  Artifacts: ./artifacts/cpython/
+  Logs: ./logs/
 
-  ARTIFACTS OUTPUT:
-    Location: ./artifacts/
-    Format:   cpython-<version>-ubuntu20.04-build<N>.tgz
-    Includes: SHA256 checksum, LICENSE, build info
-
-  USAGE:
-    # Inside VM:
-      vagrant ssh
-      cd /vagrant
-      ./scripts/build_cpython.sh 3.12.6
-
-    # From host (via wrapper):
-      ./infrastructure/cpython/scripts/build_wrapper.sh 3.12.6
-
-  VALIDATION:
-    ./scripts/validate_build.sh cpython-3.12.6-ubuntu20.04-build1.tgz
-
-  VM MANAGEMENT:
-    Connect:  vagrant ssh
-    Stop:     vagrant halt
-    Restart:  vagrant reload
-    Destroy:  vagrant destroy
-    Status:   vagrant status
-
-  LOGS:
-    /vagrant/logs/
-
-  DOCUMENTATION:
-    README: /vagrant/README.md
-    SPEC:   ../../../docs/specs/SPEC_INFRA_001-cpython_precompilado.md
+  Connect: vagrant ssh
+  Build: vagrant ssh -c "cd /vagrant && ./scripts/build_cpython.sh <version>"
 
   ========================================================================
   MESSAGE

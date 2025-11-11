@@ -4,7 +4,7 @@ tipo: changelog
 categoria: documentacion
 version: 1.6.0
 fecha_creacion: 2025-11-06
-fecha_actualizacion: 2025-11-07
+fecha_actualizacion: 2025-11-09
 propietario: arquitecto-senior
 relacionados: ["ROADMAP.md", "TAREAS_ACTIVAS.md", "FASES_IMPLEMENTACION_IA.md", "ADR-2025-003", "ADR-2025-004", "ANALISIS_GAPS_POST_DORA_2025.md"]
 ---
@@ -31,6 +31,10 @@ Registro cronologico de cambios, features y mejoras completadas.
 - Formalizar Data Engineer role
 - Formalizar MLOps Engineer role
 - Establecer ROI metrics para AI + Platform synergy
+
+### Added
+- Capa de servicios frontend (`AppConfigService`, `PermissionsService`, `CallsService`) con degradación automática a mocks y cobertura ≥80 %.
+- Banner global de datos simulados y dashboard de llamadas resiliente al uso de mocks.
 
 ---
 

@@ -1,0 +1,71 @@
+{
+  "user": {
+    "id": 10,
+    "username": "maria.garcia",
+    "email": "maria.garcia@callcenter.com",
+    "grupos": [
+      {
+        "id": 1,
+        "codigo": "atencion_cliente",
+        "nombre_display": "Atencion al Cliente"
+      },
+      {
+        "id": 2,
+        "codigo": "visualizacion_metricas",
+        "nombre_display": "Visualizacion de Metricas"
+      }
+    ]
+  },
+  "capacidades": [
+    "sistema.vistas.dashboards.ver",
+    "sistema.operaciones.llamadas.ver",
+    "sistema.operaciones.llamadas.realizar",
+    "sistema.operaciones.tickets.ver",
+    "sistema.operaciones.tickets.crear",
+    "sistema.operaciones.tickets.editar",
+    "sistema.operaciones.clientes.ver",
+    "sistema.analisis.metricas.ver"
+  ],
+  "funciones_accesibles": [
+    {
+      "id": 1,
+      "nombre": "dashboards",
+      "nombre_completo": "sistema.vistas.dashboards",
+      "dominio": "vistas",
+      "icono": "dashboard",
+      "orden_menu": 10
+    },
+    {
+      "id": 2,
+      "nombre": "llamadas",
+      "nombre_completo": "sistema.operaciones.llamadas",
+      "dominio": "operaciones",
+      "icono": "phone",
+      "orden_menu": 20
+    },
+    {
+      "id": 3,
+      "nombre": "tickets",
+      "nombre_completo": "sistema.operaciones.tickets",
+      "dominio": "operaciones",
+      "icono": "ticket",
+      "orden_menu": 30
+    },
+    {
+      "id": 4,
+      "nombre": "clientes",
+      "nombre_completo": "sistema.operaciones.clientes",
+      "dominio": "operaciones",
+      "icono": "people",
+      "orden_menu": 40
+    },
+    {
+      "id": 5,
+      "nombre": "metricas",
+      "nombre_completo": "sistema.analisis.metricas",
+      "dominio": "analisis",
+      "icono": "chart",
+      "orden_menu": 60
+    }
+  ]
+}
