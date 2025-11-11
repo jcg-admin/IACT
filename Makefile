@@ -136,10 +136,10 @@ build_cpython: ## Compilar CPython en Vagrant (uso: make build_cpython VERSION=3
 	@echo "$(BLUE)Compilando CPython $(VERSION) build $(BUILD)...$(NC)"
 	./infrastructure/cpython/scripts/build_wrapper.sh $(VERSION) $(BUILD)
 
-validate-cpython: ## Validar artefacto CPython (uso: make validate-cpython ARTIFACT=cpython-X.Y.Z-ubuntu22.04-build1.tgz)
-	@if [ -z "$(ARTIFACT)" ]; then \
-		echo "$(YELLOW)Uso: make validate-cpython ARTIFACT=cpython-3.12.6-ubuntu22.04-build1.tgz$(NC)"; \
-		exit 1; \
+validate-cpython: ## Validar artefacto CPython (uso: make validate-cpython ARTIFACT=cpython-X.Y.Z-ubuntu20.04-build1.tgz)
+^I@if [ -z "$(ARTIFACT)" ]; then \
+^I^Iecho "$(YELLOW)Uso: make validate-cpython ARTIFACT=cpython-3.12.6-ubuntu20.04-build1.tgz$(NC)"; \
+^I^Iexit 1; \
 	fi
 	@echo "$(BLUE)Validando artefacto: $(ARTIFACT)$(NC)"
 	./infrastructure/cpython/scripts/validate_wrapper.sh $(ARTIFACT)
