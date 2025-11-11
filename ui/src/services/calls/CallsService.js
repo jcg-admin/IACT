@@ -1,9 +1,9 @@
-import callsMock from '@mocks/llamadas.json';
-import { fetchWithFallback } from '@services/utils/fetchWithFallback';
+import { createResilientService } from '@services/createResilientService';
+import { loadMock } from '@mocks/registry';
+import { shouldUseMockForDomain } from '@services/flags/backendIntegrity';
 
 const CALLS_ENDPOINT = '/api/v1/llamadas/';
-
-const shouldUseCallsMock = () => (process.env.UI_USE_CALLS_MOCKS || '').toLowerCase() === 'true';
+const { data: callsMock } = loadMock('calls');
 
 const isCallsPayloadValid = (payload) => {
   if (!payload) {
@@ -16,20 +16,29 @@ const isCallsPayloadValid = (payload) => {
   return hasCalls || hasCatalogs;
 };
 
+const baseService = createResilientService({
+  id: 'calls',
+  endpoint: CALLS_ENDPOINT,
+  mockDataLoader: () => Promise.resolve(callsMock),
+  shouldUseMock: () => shouldUseMockForDomain('calls'),
+  errorMessage: 'No fue posible obtener las llamadas del backend',
+  isPayloadValid: isCallsPayloadValid,
+});
+
 export class CallsService {
-  /**
-   * @param {{fetchImpl?: typeof fetch, signal?: AbortSignal}} [options]
-   */
   static async getCalls(options = {}) {
-    const { fetchImpl, signal } = options;
-    return fetchWithFallback({
-      url: CALLS_ENDPOINT,
-      fetchImpl,
-      signal,
-      shouldUseMock: shouldUseCallsMock,
-      mockDataLoader: () => Promise.resolve(callsMock),
-      errorMessage: 'No fue posible obtener las llamadas del backend',
-      isPayloadValid: isCallsPayloadValid,
-    });
+    return baseService.fetch(options);
+  }
+
+  static async fetchFromApi(options = {}) {
+    return baseService.fetchFromApi(options);
+  }
+
+  static async fetchFromMock() {
+    return baseService.fetchFromMock();
+  }
+
+  static shouldUseMock() {
+    return shouldUseMockForDomain('calls');
   }
 }

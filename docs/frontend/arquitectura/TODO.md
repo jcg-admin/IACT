@@ -47,20 +47,17 @@ Lista priorizada de trabajos arquitectónicos necesarios para que la UI absorba 
 
 ### P1 · Fundamentos arquitectónicos
 
-- [ ] **Crear `ui/src/services` con contrato común** `5SP`
-  - Definir interfaz base (`fetchFromApi`, `fetchFromMock`, `shouldUseMock`) y factoría de servicios.
-  - Documentar el patrón en ADR correspondiente.
-  - Referencia: estrategia de capa adaptable propuesta.【F:docs/frontend/arquitectura/estrategia_integracion_backend.md†L64-L77】
+- [x] **Crear `ui/src/services` con contrato común** `5SP`
+  - `createResilientService` estandariza `fetchFromApi`, `fetchFromMock`, `shouldUseMock` y telemetría.【F:ui/src/services/createResilientService.js†L1-L72】
+  - ADR documentado en `adr/ADR-0001-servicios-resilientes.md`.【F:docs/frontend/arquitectura/adr/ADR-0001-servicios-resilientes.md†L1-L41】
 
-- [ ] **Gestión centralizada de mocks** `3SP`
-  - Migrar mocks a esquemas validados (Zod/TypeScript) y registrar metadatos (fecha, origen).
-  - Configurar automatización para regenerar escenarios.
-  - Referencia: sección de gestión de mocks.【F:docs/frontend/arquitectura/estrategia_integracion_backend.md†L79-L86】
+- [x] **Gestión centralizada de mocks** `3SP`
+  - Registro y validación en `src/mocks/registry.js`, `schemas.js` y `metadata.js`.【F:ui/src/mocks/registry.js†L1-L36】【F:ui/src/mocks/schemas.js†L1-L72】【F:ui/src/mocks/metadata.js†L1-L15】
+  - Automatización disponible vía `npm run mocks:refresh` para generar snapshots.【F:ui/scripts/refresh-mocks.js†L1-L41】【F:ui/package.json†L6-L15】
 
-- [ ] **Feature flags de integridad backend** `2SP`
-  - Implementar toggles en build (dotenv) que permitan activar backend por dominio.
-  - Registrar métricas de uso de mock vs API.
-  - Referencia: plan de degradación controlada.【F:docs/frontend/arquitectura/estrategia_integracion_backend.md†L88-L108】
+- [x] **Feature flags de integridad backend** `2SP`
+  - Flags `UI_BACKEND_<DOMINIO>_SOURCE` resueltos en `backendIntegrity.js` y expuestos en build.【F:ui/src/services/flags/backendIntegrity.js†L1-L27】【F:ui/webpack.config.cjs†L1-L64】
+  - Métricas centralizadas en `mockUsageTracker` con cobertura de pruebas.【F:ui/src/services/utils/mockUsageTracker.js†L1-L36】
 
 ### P2 · Transición hacia backend real
 
@@ -81,18 +78,16 @@ Lista priorizada de trabajos arquitectónicos necesarios para que la UI absorba 
 
 ### P3 · Documentación y seguimiento
 
-- [ ] **Crear ADR de selección de framework y servicios** `2SP`
-  - Formalizar elección de herramientas y patrón de servicios.
-  - Referencia: backlog de ADRs pendientes en README de arquitectura.【F:docs/frontend/arquitectura/README.md†L36-L43】
+- [x] **Crear ADR de selección de framework y servicios** `2SP`
+  - ADR publicado y enlazado desde el README de arquitectura.【F:docs/frontend/arquitectura/README.md†L30-L33】
 
 - [ ] **Actualizar onboarding con estrategia de mocks** `1SP`
   - Incluir pasos para configurar servicios, flags y pruebas.
   - Referencia: seguimiento de estrategia y comunicación al equipo.【F:docs/frontend/arquitectura/estrategia_integracion_backend.md†L141-L145】
 
-- [ ] **Sincronizar con ROADMAP del proyecto** `1SP`
-  - Incorporar este backlog al tablero maestro (`docs/proyecto/TAREAS_ACTIVAS.md`).
-  - Reportar avances en releases de frontend.
-  - Referencia: necesidad de registrar avances en planeación transversal.【F:docs/proyecto/TAREAS_ACTIVAS.md†L1-L120】【F:docs/frontend/arquitectura/estrategia_integracion_backend.md†L141-L145】
+- [x] **Sincronizar con ROADMAP del proyecto** `1SP`
+  - `docs/proyecto/TAREAS_ACTIVAS.md` refleja el cierre de los entregables de resiliencia frontend.
+  - Cambio registrado en el changelog del proyecto.【F:docs/proyecto/CHANGELOG.md†L1-L80】
 
 ## Notas de coordinación
 

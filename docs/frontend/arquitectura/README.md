@@ -46,7 +46,7 @@ Decisiones arquitectónicas, patrones de diseño y lineamientos técnicos espec�
 ## Decisiones arquitectónicas
 
 ### ADRs disponibles
-- Pendiente: Crear ADRs para decisiones clave de frontend
+- [ADR-0001 - Capa de servicios resilientes con contratos y telemetria](adr/ADR-0001-servicios-resilientes.md)
 
 ### Lineamientos de código
 - Estructura de directorios

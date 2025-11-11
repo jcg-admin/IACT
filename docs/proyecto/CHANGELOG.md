@@ -33,6 +33,7 @@ Registro cronologico de cambios, features y mejoras completadas.
 - Establecer ROI metrics para AI + Platform synergy
 
 ### Added
+- Factoría `createResilientService` con telemetría de origen, flags `UI_BACKEND_*` y registro centralizado de mocks con validaciones y script `npm run mocks:refresh`.
 - Capa de servicios frontend (`AppConfigService`, `PermissionsService`, `CallsService`) con degradación automática a mocks y cobertura ≥80 %.
 - Banner global de datos simulados y dashboard de llamadas resiliente al uso de mocks.
 

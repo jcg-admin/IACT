@@ -1,6 +1,46 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const webpack = require('webpack');
 const fs = require('fs');
+
+const defaultFlags = {
+  UI_BACKEND_CONFIG_SOURCE: 'mock',
+  UI_BACKEND_PERMISSIONS_SOURCE: 'mock',
+  UI_BACKEND_CALLS_SOURCE: 'mock',
+};
+
+const envFiles = [
+  `.env.${process.env.NODE_ENV || 'development'}`,
+  '.env',
+];
+
+const parseEnvFile = (filePath) => {
+  const content = fs.readFileSync(filePath, 'utf-8');
+  return content.split('\n').reduce((envAcc, line) => {
+    const trimmed = line.trim();
+    if (!trimmed || trimmed.startsWith('#')) {
+      return envAcc;
+    }
+    const [key, ...rest] = trimmed.split('=');
+    const value = rest.join('=').trim();
+    envAcc[key.trim()] = value.replace(/^"|"$/g, '').replace(/^'|'$/g, '');
+    return envAcc;
+  }, {});
+};
+
+const resolvedEnv = envFiles.reduce((acc, fileName) => {
+  const filePath = path.resolve(__dirname, fileName);
+  if (fs.existsSync(filePath)) {
+    const parsed = parseEnvFile(filePath);
+    return { ...acc, ...parsed };
+  }
+  return acc;
+}, {});
+
+const definedEnv = Object.entries({ ...defaultFlags, ...resolvedEnv }).reduce((acc, [key, value]) => {
+  acc[`process.env.${key}`] = JSON.stringify(value);
+  return acc;
+}, {});
 
 module.exports = {
   entry: './src/index.jsx',
@@ -43,6 +83,7 @@ module.exports = {
       template: './public/index.html',
       inject: true,
     }),
+    new webpack.DefinePlugin(definedEnv),
   ],
   devServer: {
     static: {

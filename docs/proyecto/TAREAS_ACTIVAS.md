@@ -146,6 +146,23 @@ Tareas de corto plazo (< 2 semanas) con seguimiento activo.
   - Status: COMPLETADO 2025-11-06
   - Asignado: @arquitecto-senior
 
+### Frontend - Arquitectura
+
+- [x] **Factoría resiliente y telemetría de mocks** `P1` `5SP`
+  - `createResilientService`, `mockUsageTracker` y pruebas dedicadas
+  - Status: COMPLETADO 2025-11-09
+  - Asignado: @equipo-frontend
+
+- [x] **Gestión centralizada de mocks + script de snapshots** `P1` `3SP`
+  - `src/mocks/{registry,schemas,metadata}.js` + `npm run mocks:refresh`
+  - Status: COMPLETADO 2025-11-09
+  - Asignado: @equipo-frontend
+
+- [x] **Flags `UI_BACKEND_*` y build aware** `P1` `2SP`
+  - `backendIntegrity.js`, `webpack.config.cjs` y pruebas de toggles
+  - Status: COMPLETADO 2025-11-09
+  - Asignado: @equipo-frontend
+
 ### DORA Metrics
 
 - [ ] **Ejecutar primer DORA metrics report** `P1` `1SP`

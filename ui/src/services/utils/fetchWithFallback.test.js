@@ -69,4 +69,17 @@ describe('fetchWithFallback', () => {
     expect(result.error).toBeInstanceOf(Error);
     expect(result.error.message).toContain('payload vacio');
   });
+
+  it('falls back when fetch implementation is not available', async () => {
+    const result = await fetchWithFallback({
+      url: '/api/test',
+      mockDataLoader,
+      errorMessage: 'Fallo',
+      shouldUseMock: () => false,
+    });
+
+    expect(result.source).toBe('mock');
+    expect(result.error).toBeInstanceOf(Error);
+    expect(result.error.message).toContain('fetch no disponible');
+  });
 });

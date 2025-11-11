@@ -31,13 +31,15 @@ const buildError = (errorMessage, details) => {
  */
 export const fetchWithFallback = async ({
   url,
-  fetchImpl = fetch,
+  fetchImpl,
   mockDataLoader,
   signal,
   shouldUseMock = DEFAULT_SHOULD_USE_MOCK,
   errorMessage,
   isPayloadValid,
 }) => {
+  const effectiveFetch = typeof fetchImpl === 'function' ? fetchImpl : typeof fetch === 'function' ? fetch : null;
+
   if (shouldUseMock()) {
     return {
       data: cloneData(await mockDataLoader()),
@@ -46,8 +48,16 @@ export const fetchWithFallback = async ({
     };
   }
 
+  if (!effectiveFetch) {
+    return {
+      data: cloneData(await mockDataLoader()),
+      source: 'mock',
+      error: buildError(errorMessage, new Error('fetch no disponible en el entorno actual')),
+    };
+  }
+
   try {
-    const response = await fetchImpl(url, { signal });
+    const response = await effectiveFetch(url, { signal });
 
     if (!response.ok) {
       throw { status: response.status, statusText: response.statusText };

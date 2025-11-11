@@ -1,24 +1,33 @@
-import configMock from '@mocks/config.json';
-import { fetchWithFallback } from '@services/utils/fetchWithFallback';
+import { createResilientService } from '@services/createResilientService';
+import { loadMock } from '@mocks/registry';
+import { shouldUseMockForDomain } from '@services/flags/backendIntegrity';
 
 const CONFIG_ENDPOINT = '/api/config';
+const { data: configMock } = loadMock('config');
 
-const shouldUseConfigMock = () => (process.env.UI_USE_CONFIG_MOCKS || '').toLowerCase() === 'true';
+const baseService = createResilientService({
+  id: 'config',
+  endpoint: CONFIG_ENDPOINT,
+  mockDataLoader: () => Promise.resolve(configMock),
+  shouldUseMock: () => shouldUseMockForDomain('config'),
+  errorMessage: 'No fue posible obtener la configuracion de la aplicacion',
+  isPayloadValid: (payload) => Boolean(payload && Object.keys(payload).length > 0),
+});
 
 export class AppConfigService {
-  /**
-   * @param {{fetchImpl?: typeof fetch, signal?: AbortSignal}} [options]
-   */
   static async getConfig(options = {}) {
-    const { fetchImpl, signal } = options;
-    return fetchWithFallback({
-      url: CONFIG_ENDPOINT,
-      fetchImpl,
-      signal,
-      shouldUseMock: shouldUseConfigMock,
-      mockDataLoader: () => Promise.resolve(configMock),
-      errorMessage: 'No fue posible obtener la configuracion de la aplicacion',
-      isPayloadValid: (payload) => Boolean(payload && Object.keys(payload).length > 0),
-    });
+    return baseService.fetch(options);
+  }
+
+  static async fetchFromApi(options = {}) {
+    return baseService.fetchFromApi(options);
+  }
+
+  static async fetchFromMock() {
+    return baseService.fetchFromMock();
+  }
+
+  static shouldUseMock() {
+    return shouldUseMockForDomain('config');
   }
 }
