@@ -26,6 +26,7 @@ urlpatterns = [
     path("api/v1/politicas/", include("callcentersite.apps.politicas.urls")),
     path("api/v1/excepciones/", include("callcentersite.apps.excepciones.urls")),
     path("api/v1/reportes/", include("callcentersite.apps.reportes.urls")),
+    path("api/v1/notifications/", include("callcentersite.apps.notifications.urls")),
     path("api/v1/permissions/", include("callcentersite.apps.permissions.urls")),
     path("api/v1/llamadas/", include("callcentersite.apps.llamadas.urls")),
     path("api/v1/", include("callcentersite.apps.users.urls")),
