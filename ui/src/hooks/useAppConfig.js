@@ -4,28 +4,31 @@ import {
   selectAppConfig,
   selectIsLoading,
   selectError,
+  selectSource,
   setConfig,
   setError,
   setLoading,
 } from '@state/slices/appConfigSlice';
+import { AppConfigService } from '@services/config/AppConfigService';
 
 export const useAppConfig = () => {
   const dispatch = useDispatch();
   const config = useSelector(selectAppConfig);
   const isLoading = useSelector(selectIsLoading);
   const error = useSelector(selectError);
+  const source = useSelector(selectSource);
 
   const loadConfig = useCallback(async () => {
     try {
       dispatch(setLoading(true));
-      const response = await fetch('/api/config');
-
-      if (!response.ok) {
-        throw new Error('Error cargando configuracion');
-      }
-
-      const data = await response.json();
-      dispatch(setConfig(data));
+      const result = await AppConfigService.getConfig();
+      dispatch(
+        setConfig({
+          config: result.data,
+          source: result.source,
+          errorMessage: result.error ? result.error.message : null,
+        })
+      );
     } catch (err) {
       dispatch(setError(err.message));
     }
@@ -35,6 +38,7 @@ export const useAppConfig = () => {
     config,
     isLoading,
     error,
+    source,
     loadConfig,
   };
 };

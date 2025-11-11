@@ -19,6 +19,8 @@ module.exports = {
       '@hooks': path.resolve(__dirname, 'src/hooks'),
       '@styles': path.resolve(__dirname, 'src/styles'),
       '@state': path.resolve(__dirname, 'src/state'),
+      '@services': path.resolve(__dirname, 'src/services'),
+      '@mocks': path.resolve(__dirname, 'src/mocks'),
     },
   },
   module: {

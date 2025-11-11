@@ -13,7 +13,7 @@ relacionados: ["ROADMAP.md", "CHANGELOG.md"]
 Tareas de corto plazo (< 2 semanas) con seguimiento activo.
 
 **Version:** 1.0.0
-**Ultima actualizacion:** 2025-11-06
+**Ultima actualizacion:** 2025-11-09
 **Sprint actual:** Sprint 1 (2025-11-06 a 2025-11-19)
 
 ---
@@ -60,6 +60,32 @@ Tareas de corto plazo (< 2 semanas) con seguimiento activo.
   - Asignado: @backend-lead
   - Bloqueadores: Ninguno
   - ETA: 2025-11-07
+
+### Frontend - Continuidad operativa
+
+- [x] **Fallback de configuración AppConfigService** `P0` `2SP`
+  - `ui/src/services/config/AppConfigService.js`
+  - Tests: `AppConfigService.test.js`, cobertura ≥80 %
+  - Status: COMPLETADO 2025-11-09
+  - Asignado: @equipo-frontend
+
+- [x] **Menú dinámico con PermissionsService** `P0` `3SP`
+  - `ui/src/components/MainLayout.jsx` consume permisos normalizados
+  - Tests: `MainLayout.test.jsx`, `PermissionsService.test.js`
+  - Status: COMPLETADO 2025-11-09
+  - Asignado: @equipo-frontend
+
+- [x] **CallsService resiliente + métricas en dashboard** `P0` `5SP`
+  - Hook `useCallsSummary` integra fallback de llamadas
+  - Tests: `CallsService.test.js`, `useCallsSummary.test.js`, `HomeModule.test.jsx`
+  - Status: COMPLETADO 2025-11-09
+  - Asignado: @equipo-frontend
+
+- [x] **Indicadores visuales de datos simulados** `P0` `3SP`
+  - Banner `MockDataNotice` y avisos en widgets
+  - Tests: `App.test.jsx`
+  - Status: COMPLETADO 2025-11-09
+  - Asignado: @equipo-frontend
 
 ### Testing Especifico
 
