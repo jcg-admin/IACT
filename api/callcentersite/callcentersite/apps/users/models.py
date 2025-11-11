@@ -306,7 +306,7 @@ def reset_registry() -> None:
         manager.clear()
 
 
-@dataclass
+@dataclass(eq=False)
 class Permission:
     """Permiso granular definido por recurso y acción."""
 
@@ -321,6 +321,11 @@ class Permission:
 
     def __hash__(self) -> int:  # pragma: no cover - utilitario
         return hash(self.codename)
+
+    def __eq__(self, other: object) -> bool:  # pragma: no cover - utilitario
+        if not isinstance(other, Permission):
+            return False
+        return self.codename == other.codename
 
 
 class PermissionCollection:
