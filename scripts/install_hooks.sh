@@ -1,247 +1,86 @@
 #!/bin/bash
-#
-# install_hooks.sh - Instala git hooks del proyecto
-#
-# Uso:
-#   ./scripts/install_hooks.sh
-#   ./scripts/install_hooks.sh --uninstall
-#
-# Descripción:
-#   Instala hooks de git personalizados desde .github/hooks/ a .git/hooks/
-#   Los hooks instalados mejoran la calidad del código y previenen errores.
-#
-# Trazabilidad:
-#   - Fase 3: Pre-push Validation
-#   - Constitution AI: Principio 6 (Testing y Validación)
-#
+# scripts/install_hooks.sh
+# Installs Git hooks automatically from scripts/git-hooks/
+# Reference: ESTRATEGIA_GIT_HOOKS.md
 
-set -e
+set -euo pipefail
 
-# Colores
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-BLUE='\033[0;34m'
-NC='\033[0m' # No Color
+readonly SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+readonly PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+readonly HOOKS_DIR="$PROJECT_ROOT/.git/hooks"
+readonly HOOKS_TEMPLATES="$PROJECT_ROOT/scripts/git-hooks"
 
-# Directorios
-HOOKS_SOURCE_DIR=".github/hooks"
-HOOKS_TARGET_DIR=".git/hooks"
+echo "Installing Git Hooks"
+echo "===================="
+echo ""
 
-# Hooks disponibles
-AVAILABLE_HOOKS=(
-    "pre-push"
-)
+# Check if we're in a Git repository
+if [ ! -d "$PROJECT_ROOT/.git" ]; then
+    echo "ERROR: Not a Git repository"
+    echo "Run this script from within the Git repository"
+    exit 1
+fi
 
-print_usage() {
-    echo "Uso: $0 [OPCIÓN]"
-    echo ""
-    echo "Opciones:"
-    echo "  --uninstall        Desinstalar hooks del proyecto"
-    echo "  --help, -h         Mostrar esta ayuda"
-    echo ""
-    echo "Descripción:"
-    echo "  Instala git hooks personalizados del proyecto IACT."
-    echo "  Los hooks mejoran calidad de código y previenen errores comunes."
-    echo ""
-    echo "Hooks disponibles:"
-    echo "  - pre-push: Validaciones antes de push (specs, secrets, emojis, tests)"
-    echo ""
-}
+# Create hooks directory if it doesn't exist
+mkdir -p "$HOOKS_DIR"
 
-check_git_repo() {
-    if [[ ! -d ".git" ]]; then
-        echo -e "${RED}ERROR: No es un repositorio git${NC}"
-        echo "Ejecutar este script desde la raíz del repositorio"
-        exit 1
-    fi
-}
+# Install hooks
+INSTALLED=0
+SKIPPED=0
 
-check_hooks_source() {
-    if [[ ! -d "$HOOKS_SOURCE_DIR" ]]; then
-        echo -e "${RED}ERROR: Directorio de hooks no encontrado: $HOOKS_SOURCE_DIR${NC}"
-        exit 1
-    fi
-}
-
-backup_existing_hook() {
-    local hook_name="$1"
-    local target_path="$HOOKS_TARGET_DIR/$hook_name"
-
-    if [[ -f "$target_path" ]] && [[ ! -L "$target_path" ]]; then
-        local backup_path="${target_path}.backup.$(date +%Y%m%d_%H%M%S)"
-        echo -e "${YELLOW}Respaldando hook existente: ${backup_path}${NC}"
-        mv "$target_path" "$backup_path"
-    fi
-}
-
-install_hook() {
-    local hook_name="$1"
-    local source_path="$HOOKS_SOURCE_DIR/${hook_name}.sample"
-    local target_path="$HOOKS_TARGET_DIR/$hook_name"
-
-    if [[ ! -f "$source_path" ]]; then
-        echo -e "${YELLOW}ADVERTENCIA: Hook source no encontrado: ${source_path}${NC}"
-        return 1
-    fi
-
-    echo -e "${BLUE}Instalando hook: ${hook_name}${NC}"
-
-    # Backup si existe
-    backup_existing_hook "$hook_name"
-
-    # Copiar hook
-    cp "$source_path" "$target_path"
-
-    # Hacer ejecutable
-    chmod +x "$target_path"
-
-    echo -e "${GREEN}OK: ${hook_name} instalado${NC}"
-    return 0
-}
-
-install_all_hooks() {
-    echo -e "${BLUE}========================================${NC}"
-    echo -e "${BLUE}Instalando Git Hooks - Proyecto IACT${NC}"
-    echo -e "${BLUE}========================================${NC}"
-    echo ""
-
-    local installed=0
-    local failed=0
-
-    for hook in "${AVAILABLE_HOOKS[@]}"; do
-        if install_hook "$hook"; then
-            ((installed++))
-        else
-            ((failed++))
+for hook in pre-commit commit-msg pre-push pre-rebase; do
+    if [ -f "$HOOKS_TEMPLATES/$hook" ]; then
+        # Check if hook already exists
+        if [ -f "$HOOKS_DIR/$hook" ]; then
+            echo "[$hook] Already exists, backing up..."
+            mv "$HOOKS_DIR/$hook" "$HOOKS_DIR/$hook.backup.$(date +%Y%m%d_%H%M%S)"
         fi
-    done
 
-    echo ""
-    echo -e "${BLUE}========================================${NC}"
-    echo -e "${BLUE}Resumen de Instalación${NC}"
-    echo -e "${BLUE}========================================${NC}"
-    echo ""
-    echo "Hooks instalados: $installed"
-    echo "Hooks fallidos: $failed"
-    echo ""
-
-    if [[ $failed -eq 0 ]]; then
-        echo -e "${GREEN}ÉXITO: Todos los hooks instalados correctamente${NC}"
-        echo ""
-        echo "Los hooks instalados ejecutarán validaciones automáticas:"
-        echo "  - pre-push: Antes de git push"
-        echo ""
-        echo "Para omitir un hook temporalmente:"
-        echo "  git push --no-verify"
-        echo ""
-        echo -e "${YELLOW}NOTA: Usar --no-verify solo cuando sea absolutamente necesario${NC}"
-        return 0
+        echo "[$hook] Installing..."
+        cp "$HOOKS_TEMPLATES/$hook" "$HOOKS_DIR/$hook"
+        chmod +x "$HOOKS_DIR/$hook"
+        echo "  Installed: $HOOKS_DIR/$hook"
+        INSTALLED=$((INSTALLED + 1))
     else
-        echo -e "${YELLOW}ADVERTENCIA: Algunos hooks no se instalaron${NC}"
-        return 1
+        echo "[$hook] Template not found, skipping"
+        SKIPPED=$((SKIPPED + 1))
     fi
-}
+done
 
-uninstall_hook() {
-    local hook_name="$1"
-    local target_path="$HOOKS_TARGET_DIR/$hook_name"
+echo ""
+echo "===================="
+echo "INSTALLATION COMPLETE"
+echo "===================="
+echo "Installed: $INSTALLED hook(s)"
+echo "Skipped: $SKIPPED hook(s)"
+echo ""
 
-    if [[ ! -f "$target_path" ]]; then
-        echo -e "${YELLOW}Hook no instalado: ${hook_name}${NC}"
-        return 0
-    fi
+echo "Hooks installed:"
+echo "  - pre-commit:  Fast validations (emojis, syntax, debug, file size)"
+echo "  - commit-msg:  Conventional Commits format validation"
+echo "  - pre-push:    Tests and linting before push"
+echo "  - pre-rebase:  Protection for main/develop branches"
+echo ""
 
-    echo -e "${BLUE}Desinstalando hook: ${hook_name}${NC}"
+echo "To test:"
+echo "  1. Make a change:     echo '# test' >> README.md"
+echo "  2. Stage it:          git add README.md"
+echo "  3. Commit:            git commit -m 'test: validate hooks'"
+echo "     (pre-commit and commit-msg will run)"
+echo "  4. Push:              git push"
+echo "     (pre-push will run)"
+echo ""
 
-    # Verificar si es nuestro hook (contiene comentario específico)
-    if grep -q "proyecto IACT" "$target_path" 2>/dev/null; then
-        rm "$target_path"
-        echo -e "${GREEN}OK: ${hook_name} desinstalado${NC}"
+echo "To bypass hooks (NOT recommended):"
+echo "  git commit --no-verify"
+echo "  git push --no-verify"
+echo ""
 
-        # Restaurar backup si existe
-        local latest_backup
-        latest_backup=$(ls -t "${target_path}.backup."* 2>/dev/null | head -1 || true)
-        if [[ -n "$latest_backup" ]]; then
-            echo -e "${BLUE}Restaurando backup: ${latest_backup}${NC}"
-            mv "$latest_backup" "$target_path"
-        fi
-    else
-        echo -e "${YELLOW}ADVERTENCIA: ${hook_name} no parece ser del proyecto IACT${NC}"
-        echo "No se eliminará automáticamente por seguridad"
-    fi
+echo "To uninstall hooks:"
+echo "  rm $HOOKS_DIR/pre-commit"
+echo "  rm $HOOKS_DIR/commit-msg"
+echo "  rm $HOOKS_DIR/pre-push"
+echo "  rm $HOOKS_DIR/pre-rebase"
+echo ""
 
-    return 0
-}
-
-uninstall_all_hooks() {
-    echo -e "${BLUE}========================================${NC}"
-    echo -e "${BLUE}Desinstalando Git Hooks${NC}"
-    echo -e "${BLUE}========================================${NC}"
-    echo ""
-
-    for hook in "${AVAILABLE_HOOKS[@]}"; do
-        uninstall_hook "$hook"
-    done
-
-    echo ""
-    echo -e "${GREEN}Desinstalación completada${NC}"
-}
-
-verify_installation() {
-    echo -e "${BLUE}========================================${NC}"
-    echo -e "${BLUE}Verificando Instalación de Hooks${NC}"
-    echo -e "${BLUE}========================================${NC}"
-    echo ""
-
-    for hook in "${AVAILABLE_HOOKS[@]}"; do
-        local target_path="$HOOKS_TARGET_DIR/$hook"
-
-        if [[ -f "$target_path" ]]; then
-            if [[ -x "$target_path" ]]; then
-                echo -e "${GREEN}OK: ${hook} instalado y ejecutable${NC}"
-            else
-                echo -e "${YELLOW}ADVERTENCIA: ${hook} instalado pero no ejecutable${NC}"
-            fi
-        else
-            echo -e "${RED}ERROR: ${hook} no instalado${NC}"
-        fi
-    done
-
-    echo ""
-}
-
-# Script principal
-main() {
-    # Parsear argumentos
-    case "${1:-}" in
-        --uninstall)
-            check_git_repo
-            uninstall_all_hooks
-            exit 0
-            ;;
-        --verify)
-            check_git_repo
-            verify_installation
-            exit 0
-            ;;
-        --help|-h)
-            print_usage
-            exit 0
-            ;;
-        "")
-            # Instalación normal
-            check_git_repo
-            check_hooks_source
-            install_all_hooks
-            exit $?
-            ;;
-        *)
-            echo -e "${RED}ERROR: Opción desconocida: $1${NC}"
-            print_usage
-            exit 1
-            ;;
-    esac
-}
-
-main "$@"
+exit 0

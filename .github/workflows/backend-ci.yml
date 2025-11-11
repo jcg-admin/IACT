@@ -204,58 +204,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Check for Redis usage (PROHIBITED - RNF-002)
-        run: |
-          echo "Validating NO Redis usage..."
-          if grep -r "redis" api/callcentersite/settings*.py; then
-            echo "ERROR: Redis detected in settings. Prohibited by RNF-002"
-            exit 1
-          fi
-
-          if grep -r "django_redis" api/callcentersite/settings*.py; then
-            echo "ERROR: django_redis detected. Prohibited by RNF-002"
-            exit 1
-          fi
-
-          echo "[OK] No Redis usage detected"
-
-      - name: Validate session backend (MySQL required - RNF-002)
-        run: |
-          echo "Validating session backend..."
-          if ! grep -q "django.contrib.sessions.backends.db" api/callcentersite/settings*.py; then
-            echo "ERROR: SESSION_ENGINE must be django.contrib.sessions.backends.db"
-            exit 1
-          fi
-
-          echo "[OK] Session backend correctly configured (MySQL)"
-
-      - name: Check for Email usage (PROHIBITED)
-        run: |
-          echo "Checking for prohibited email usage..."
-          if grep -r "send_mail\|EmailMessage\|EmailMultiAlternatives" api/callcentersite/*.py | grep -v "# PROHIBITED"; then
-            echo "WARNING: Email usage detected. Should use InternalMessage instead"
-            # Warning only, not blocking
-          fi
-
-          echo "[OK] Email check completed"
-
-      - name: Validate database router
-        run: |
-          echo "Validating database router configuration..."
-          if [ -f scripts/validate_database_router.sh ]; then
-            bash scripts/validate_database_router.sh
-          else
-            echo "Note: validate_database_router.sh not found, skipping"
-          fi
-
-      - name: Validate security config
-        run: |
-          echo "Validating security configuration..."
-          if [ -f scripts/validate_security_config.sh ]; then
-            bash scripts/validate_security_config.sh
-          else
-            echo "Note: validate_security_config.sh not found, skipping"
-          fi
+      - name: Run all compliance checks
+        run: bash scripts/validation/compliance/run_all_compliance_checks.sh
 
   integration-tests:
     name: Integration Tests
