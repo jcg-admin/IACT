@@ -311,14 +311,49 @@ fi
 
 log_info "Correct version: $INSTALLED_VERSION"
 
-# Validate critical native modules
-log_info "Validating native modules..."
+# =============================================================================
+# VALIDATE MODULES (Critical vs Optional)
+# =============================================================================
 
-MODULES_TO_CHECK=("${REQUIRED_MODULES[@]:-ssl sqlite3 uuid lzma bz2 zlib _ctypes}")
+log_info "Validating Python modules..."
 
-if ! validate_python_modules "$PYTHON_BIN" "${MODULES_TO_CHECK[@]}"; then
-    log_error "Module validation failed"
+# Critical modules - build fails if these are missing
+# SSL is absolutely required for secure connections (pip, https, etc)
+CRITICAL_MODULES=("ssl" "_ssl")
+log_info "Checking critical modules: ${CRITICAL_MODULES[*]}"
+
+if ! validate_python_modules "$PYTHON_BIN" "${CRITICAL_MODULES[@]}"; then
+    log_error "Critical module validation failed"
+    log_error "SSL support is required for secure connections (pip, https, etc)"
+    log_error "Ensure libssl-dev was installed before building"
     exit 1
+fi
+
+log_info "✓ Critical modules validated successfully"
+
+# Optional modules - warn if missing but don't fail build
+# These enhance functionality but Python is still usable without them
+OPTIONAL_MODULES=("sqlite3" "uuid" "lzma" "bz2" "zlib" "_ctypes")
+log_info "Checking optional modules: ${OPTIONAL_MODULES[*]}"
+
+missing_optional=()
+for module in "${OPTIONAL_MODULES[@]}"; do
+    # Set LD_LIBRARY_PATH temporarily for validation
+    local lib_dir="$INSTALL_PREFIX/lib"
+    if LD_LIBRARY_PATH="$lib_dir:${LD_LIBRARY_PATH:-}" "$PYTHON_BIN" -c "import $module" 2>/dev/null; then
+        log_debug "Optional module $module: OK"
+    else
+        log_warning "Optional module $module: NOT AVAILABLE"
+        missing_optional+=("$module")
+    fi
+done
+
+if (( ${#missing_optional[@]} > 0 )); then
+    log_warning "Some optional modules are missing: ${missing_optional[*]}"
+    log_warning "Python will work but some functionality may be limited"
+    log_warning "To enable these modules, install the corresponding -dev packages"
+else
+    log_info "✓ All optional modules validated successfully"
 fi
 
 # Verify pip

@@ -1,6 +1,13 @@
 #!/bin/bash
 # utils/logger.sh - Logging utilities for CPython Builder
+# Reference: SPEC_INFRA_001
 # Purpose: Centralized logging with timestamps, no colors, file output support
+
+# Guard against multiple sourcing
+if [[ -n "${_LOGGER_SH_LOADED:-}" ]]; then
+    return 0
+fi
+readonly _LOGGER_SH_LOADED=1
 
 set -euo pipefail
 

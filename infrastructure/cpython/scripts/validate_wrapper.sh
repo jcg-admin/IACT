@@ -1,5 +1,7 @@
 #!/bin/bash
 #
+# infrastructure/cpython/scripts/validate_wrapper.sh - Wrapper for validation in Vagrant
+#
 # Reference: SPEC_INFRA_001
 # Purpose: Facilitate validation from outside Vagrant (host → VM)
 #

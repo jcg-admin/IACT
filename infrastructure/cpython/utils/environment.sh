@@ -1,4 +1,5 @@
 #!/bin/bash
+# utils/environment.sh - CPython Builder Environment System
 # Purpose: Centralized loading of all utility modules and project environment setup
 # Pattern: Inspired by generate's core.sh with Clean Code naming
 

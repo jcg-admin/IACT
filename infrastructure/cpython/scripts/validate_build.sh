@@ -197,7 +197,6 @@ log_info "Binary version correct: $BINARY_VERSION"
 # Verify critical native modules
 log_info "Verifying critical native modules..."
 
-# Usar REQUIRED_MODULES del config si existe, sino usar default
 MODULES_TO_CHECK=("${REQUIRED_MODULES[@]:-ssl sqlite3 uuid lzma bz2 zlib _ctypes}")
 FAILED_MODULES=()
 

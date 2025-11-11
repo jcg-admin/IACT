@@ -9,8 +9,13 @@ set -euo pipefail
 # DEPENDENCIES
 # =============================================================================
 
-readonly SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-source "$SCRIPT_DIR/logger.sh"
+# Use local module directory - prevents conflicts with calling script's SCRIPT_DIR
+_MODULE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# Only source logger if not already loaded (environment.sh loads it first)
+if [[ -z "${_LOGGER_SH_LOADED:-}" ]]; then
+    source "$_MODULE_DIR/logger.sh"
+fi
 
 # =============================================================================
 # CONSTANTS

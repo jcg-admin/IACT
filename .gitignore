@@ -270,3 +270,5 @@ infrastructure/vagrant/*.box
 /infrastructure/state/
 package-lock.json
 infrastructure/box/tests/**/verify_connections_*.txt
+
+infrastructure/cpython/.build_state/*

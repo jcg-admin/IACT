@@ -3,23 +3,35 @@
 # Reference: SPEC_INFRA_001
 # Purpose: Reusable validation functions with clear error reporting
 
+
+# Guard against multiple sourcing
+if [[ -n "${_VALIDATOR_SH_LOADED:-}" ]]; then
+    return 0
+fi
+readonly _VALIDATOR_SH_LOADED=1
+
 set -euo pipefail
 
 # =============================================================================
 # DEPENDENCIES
 # =============================================================================
 
-# Note: SCRIPT_DIR may be set by calling script, so don't mark as readonly
-if [[ -z "${SCRIPT_DIR:-}" ]]; then
-    SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# Use local module directory instead of global SCRIPT_DIR
+# This prevents conflicts when sourced from scripts with different SCRIPT_DIR
+_VALIDATOR_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# Only source logger if not already loaded (prevents double-loading from environment.sh)
+if [[ -z "${_LOGGER_SH_LOADED:-}" ]]; then
+    source "$_VALIDATOR_DIR/logger.sh"
 fi
-source "$SCRIPT_DIR/logger.sh"
 
 # =============================================================================
 # CONSTANTS
 # =============================================================================
 
-readonly MIN_DISK_SPACE_KB=5242880  # 5GB minimum for builds
+if [[ -z "${MIN_DISK_SPACE_KB:-}" ]]; then
+    readonly MIN_DISK_SPACE_KB=5242880  # 5GB minimum for builds
+fi
 
 # =============================================================================
 # COMMAND AND TOOL VALIDATION
@@ -284,13 +296,16 @@ validate_directory_writable() {
 }
 
 # =============================================================================
-# PYTHON MODULE VALIDATION
+# PYTHON MODULE VALIDATION (FIXED)
 # =============================================================================
 
 # Validate that Python modules are available
 # Args: $1 - python binary path, $2+ - module names
 # Returns: 0 if all modules available, 1 if any missing
-# Example: validate_python_modules "/usr/bin/python3" ssl sqlite3 uuid
+# Example: validate_python_modules "/opt/python-3.12.6/bin/python3.12" ssl sqlite3 uuid
+#
+# FIX: This function now properly sets LD_LIBRARY_PATH for custom-built Python
+# installations to ensure shared libraries are found during module imports.
 validate_python_modules() {
     local python_bin="$1"
     shift
@@ -302,15 +317,42 @@ validate_python_modules() {
         return 1
     fi
 
+    # Set LD_LIBRARY_PATH for newly installed Python
+    # This is critical for custom-built Python installations in non-standard locations
+    local python_prefix
+    python_prefix="$(dirname "$(dirname "$python_bin")")"
+    local lib_dir="$python_prefix/lib"
+
+    # Save original LD_LIBRARY_PATH to restore later
+    local original_ld_path="${LD_LIBRARY_PATH:-}"
+
+    # Temporarily set LD_LIBRARY_PATH to include Python's lib directory
+    export LD_LIBRARY_PATH="$lib_dir:${original_ld_path}"
+
+    log_debug "Validating Python modules with LD_LIBRARY_PATH=$LD_LIBRARY_PATH"
+
     # Test each module
     for module in "${modules[@]}"; do
-        if "$python_bin" -c "import $module" 2>/dev/null; then
+        # Capture error output for debugging (don't hide with 2>/dev/null)
+        local error_output
+        if error_output=$("$python_bin" -c "import $module" 2>&1); then
             log_debug "Module $module: OK"
         else
             log_error "Module $module: FAILED"
+            # Show first line of error for debugging
+            local first_error_line
+            first_error_line=$(echo "$error_output" | head -1)
+            log_debug "Error: $first_error_line"
             failed_modules+=("$module")
         fi
     done
+
+    # Restore original LD_LIBRARY_PATH
+    if [[ -n "$original_ld_path" ]]; then
+        export LD_LIBRARY_PATH="$original_ld_path"
+    else
+        unset LD_LIBRARY_PATH
+    fi
 
     # Report results
     if (( ${#failed_modules[@]} > 0 )); then
