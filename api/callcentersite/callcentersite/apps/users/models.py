@@ -1,10 +1,234 @@
-"""Modelos en memoria para usuarios, roles y permisos."""
+"""Modelos de Django para usuarios y sistema de permisos en memoria."""
 
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from datetime import datetime, timezone
+from datetime import datetime, timezone as dt_timezone
 from typing import Any, ClassVar, Iterable, List
+
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
+from django.db import models
+from django.utils import timezone
+
+# =============================================================================
+# MODELO USER DE DJANGO (Opción C - Modelo totalmente custom)
+# =============================================================================
+
+
+class UserManager(BaseUserManager):
+    """Manager personalizado para el modelo User."""
+
+    def create_user(self, username: str, password: str, email: str, **extra_fields):
+        """Crea y guarda un usuario regular."""
+        if not username:
+            raise ValueError('El username es obligatorio')
+        if not email:
+            raise ValueError('El email es obligatorio')
+
+        email = self.normalize_email(email)
+        extra_fields.setdefault('is_active', True)
+        extra_fields.setdefault('status', 'ACTIVO')
+
+        user = self.model(username=username, email=email, **extra_fields)
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+    def create_superuser(self, username: str, password: str, email: str, **extra_fields):
+        """Crea y guarda un superusuario."""
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
+        extra_fields.setdefault('status', 'ACTIVO')
+
+        if extra_fields.get('is_staff') is not True:
+            raise ValueError('Superuser debe tener is_staff=True')
+        if extra_fields.get('is_superuser') is not True:
+            raise ValueError('Superuser debe tener is_superuser=True')
+
+        return self.create_user(username, password, email, **extra_fields)
+
+
+class User(AbstractBaseUser, PermissionsMixin):
+    """
+    Modelo de usuario custom heredando de AbstractBaseUser.
+
+    Campos principales:
+    - username: Identificador único del usuario
+    - email: Email del usuario
+    - password: Hash bcrypt de la contraseña (manejado por AbstractBaseUser)
+    - is_active: Si el usuario está activo
+    - status: Estado del usuario (ACTIVO/INACTIVO)
+
+    Seguridad y bloqueo:
+    - is_locked: Si la cuenta está bloqueada
+    - locked_until: Timestamp hasta cuando está bloqueada
+    - lock_reason: Razón del bloqueo
+    - failed_login_attempts: Contador de intentos fallidos
+    - last_failed_login_at: Timestamp del último intento fallido
+    - last_login_ip: IP del último login
+
+    Borrado lógico:
+    - is_deleted: Marca de borrado lógico
+    - deleted_at: Timestamp del borrado
+
+    Segmentación:
+    - segment: Segmento del usuario (ej: 'GE', 'MARKETING')
+
+    Metadata:
+    - created_at: Timestamp de creación
+    - updated_at: Timestamp de última actualización
+    - last_login_at: Timestamp del último login exitoso
+    """
+
+    # Campos básicos
+    username = models.CharField(
+        max_length=150,
+        unique=True,
+        help_text='Nombre de usuario único'
+    )
+    email = models.EmailField(
+        max_length=255,
+        unique=True,
+        help_text='Email del usuario'
+    )
+
+    # Status y activación
+    is_active = models.BooleanField(
+        default=True,
+        help_text='Si el usuario está activo'
+    )
+    status = models.CharField(
+        max_length=20,
+        default='ACTIVO',
+        choices=[
+            ('ACTIVO', 'Activo'),
+            ('INACTIVO', 'Inactivo'),
+        ],
+        help_text='Estado del usuario'
+    )
+
+    # Seguridad y bloqueo
+    is_locked = models.BooleanField(
+        default=False,
+        help_text='Si la cuenta está bloqueada'
+    )
+    locked_until = models.DateTimeField(
+        null=True,
+        blank=True,
+        help_text='Timestamp hasta cuando está bloqueada'
+    )
+    lock_reason = models.CharField(
+        max_length=50,
+        blank=True,
+        default='',
+        help_text='Razón del bloqueo'
+    )
+    failed_login_attempts = models.IntegerField(
+        default=0,
+        help_text='Contador de intentos fallidos de login'
+    )
+    last_failed_login_at = models.DateTimeField(
+        null=True,
+        blank=True,
+        help_text='Timestamp del último intento fallido'
+    )
+    last_login_ip = models.CharField(
+        max_length=50,
+        blank=True,
+        default='',
+        help_text='IP del último login'
+    )
+    last_login_at = models.DateTimeField(
+        null=True,
+        blank=True,
+        help_text='Timestamp del último login exitoso'
+    )
+
+    # Borrado lógico
+    is_deleted = models.BooleanField(
+        default=False,
+        help_text='Marca de borrado lógico'
+    )
+    deleted_at = models.DateTimeField(
+        null=True,
+        blank=True,
+        help_text='Timestamp del borrado'
+    )
+
+    # Segmentación
+    segment = models.CharField(
+        max_length=50,
+        blank=True,
+        default='',
+        help_text='Segmento del usuario'
+    )
+
+    # Metadata
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+        help_text='Timestamp de creación'
+    )
+    updated_at = models.DateTimeField(
+        auto_now=True,
+        help_text='Timestamp de última actualización'
+    )
+
+    # Para Django Admin
+    is_staff = models.BooleanField(
+        default=False,
+        help_text='Si el usuario puede acceder al admin'
+    )
+
+    # Configuración del modelo
+    objects = UserManager()
+
+    USERNAME_FIELD = 'username'
+    REQUIRED_FIELDS = ['email']
+
+    class Meta:
+        db_table = 'users_user'
+        verbose_name = 'Usuario'
+        verbose_name_plural = 'Usuarios'
+        ordering = ['-created_at']
+        indexes = [
+            models.Index(fields=['username']),
+            models.Index(fields=['email']),
+            models.Index(fields=['is_active']),
+            models.Index(fields=['is_deleted']),
+        ]
+
+    def __str__(self):
+        return self.username
+
+    def mark_deleted(self) -> None:
+        """Realiza borrado lógico del usuario."""
+        self.is_active = False
+        self.is_deleted = True
+        self.deleted_at = timezone.now()
+        self.updated_at = self.deleted_at
+        self.save(update_fields=['is_active', 'is_deleted', 'deleted_at', 'updated_at'])
+
+    def set_authenticated(self, value: bool) -> None:
+        """
+        Método de compatibilidad para tests.
+        En AbstractBaseUser, is_authenticated es una propiedad que siempre es True.
+        """
+        # Este método existe para compatibilidad con tests antiguos
+        # pero en Django el estado de autenticación se maneja de otra forma
+        pass
+
+    @property
+    def is_authenticated(self) -> bool:
+        """
+        Override del property is_authenticated de AbstractBaseUser.
+        Retorna True solo si el usuario está activo y no eliminado.
+        """
+        return self.is_active and not self.is_deleted
+
+
+# =============================================================================
+# MODELOS EN MEMORIA (Para sistema de permisos granular - mantener como está)
+# =============================================================================
 
 _REGISTRY: list["InMemoryManager[Any]"] = []
 
@@ -31,18 +255,6 @@ class InMemoryManager:
     def clear(self) -> None:
         self._records.clear()
         self._next_id = 1
-
-
-class UserManager(InMemoryManager):
-    """Operaciones de creación de usuarios."""
-
-    def create_user(self, username: str, password: str, email: str, **extra: Any):
-        extra.setdefault("is_active", True)
-        user = super().create(
-            username=username, password=password, email=email, **extra
-        )
-        user.set_authenticated(True)
-        return user
 
 
 class PermissionManager(InMemoryManager):
@@ -176,45 +388,6 @@ class Segment:
 
 
 @dataclass
-class User:
-    """Usuario principal del sistema con campos adicionales."""
-
-    username: str
-    password: str
-    email: str
-    is_active: bool = True
-    last_login_ip: str | None = None
-    failed_login_attempts: int = 0
-    is_deleted: bool = False
-    deleted_at: datetime | None = None
-    id: int = field(init=False, default=0)
-
-    _is_authenticated: bool = field(init=False, default=True)
-    created_at: datetime = field(init=False)
-    updated_at: datetime = field(init=False)
-
-    objects: ClassVar[UserManager]
-
-    def __post_init__(self) -> None:
-        now = datetime.now(timezone.utc)
-        self.created_at = now
-        self.updated_at = now
-
-    @property
-    def is_authenticated(self) -> bool:
-        return self._is_authenticated and self.is_active and not self.is_deleted
-
-    def set_authenticated(self, value: bool) -> None:
-        self._is_authenticated = value
-
-    def mark_deleted(self) -> None:
-        self.is_active = False
-        self.is_deleted = True
-        self.deleted_at = datetime.now(timezone.utc)
-        self.updated_at = self.deleted_at
-
-
-@dataclass
 class RoleAssignment:
     """Relación entre usuarios y roles."""
 
@@ -233,14 +406,13 @@ class UserPermission:
     user: User
     permission: Permission
     granted_by: User
-    granted_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
+    granted_at: datetime = field(default_factory=lambda: datetime.now(dt_timezone.utc))
     id: int = field(init=False, default=0)
 
     objects: ClassVar[UserPermissionManager]
 
 
 # Instanciar managers una vez que las clases existen
-User.objects = UserManager(User)
 Permission.objects = PermissionManager(Permission)
 Role.objects = RoleManager(Role)
 Segment.objects = SegmentManager(Segment)

@@ -97,7 +97,7 @@ DATABASES = {
         },
     },
     "ivr_readonly": {
-        "ENGINE": "django.db.backends.mysql",
+        "ENGINE": "mysql.connector.django",
         "NAME": os.getenv("DJANGO_IVR_NAME", "ivr_legacy"),
         "USER": os.getenv("DJANGO_IVR_USER", "django_user"),
         "PASSWORD": os.getenv("DJANGO_IVR_PASSWORD", "django_pass"),
@@ -107,6 +107,7 @@ DATABASES = {
         "OPTIONS": {
             "init_command": "SET sql_mode='STRICT_TRANS_TABLES'",
             "charset": "utf8mb4",
+            "use_unicode": True,
         },
     },
 }
