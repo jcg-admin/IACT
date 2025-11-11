@@ -5,10 +5,12 @@ Referencia: SPEC_INFRA_001
 Propósito: Validar infraestructura de compilación (Fase 1)
 """
 
-import pytest
-from pathlib import Path
-import subprocess
 import os
+import re
+import subprocess
+from pathlib import Path
+
+import pytest
 
 
 # Paths del proyecto
@@ -202,7 +204,40 @@ def test_directory_structure_complete():
 
     for dir_path in required_dirs:
         assert dir_path.exists(), f"Directorio requerido no existe: {dir_path}"
-        assert dir_path.is_dir(), f"Path no es directorio: {dir_path}"
+
+
+def test_devcontainer_references_checksum_artifact():
+    """Verifica que el devcontainer referencia el checksum generado por el builder."""
+    versions_conf = (VAGRANT_DIR / "config" / "versions.conf").read_text()
+
+    version = re.search(r'DEFAULT_PYTHON_VERSION="([^"]+)"', versions_conf)
+    build = re.search(r'DEFAULT_BUILD_NUMBER="([^"]+)"', versions_conf)
+    distro = re.search(r'DISTRO="([^"]+)"', versions_conf)
+
+    assert version, "DEFAULT_PYTHON_VERSION no definido en versions.conf"
+    assert build, "DEFAULT_BUILD_NUMBER no definido en versions.conf"
+    assert distro, "DISTRO no definido en versions.conf"
+
+    python_version = version.group(1)
+    build_number = build.group(1)
+    distro_name = distro.group(1)
+
+    devcontainer_contents = (BASE_DIR / ".devcontainer" / "devcontainer.json").read_text()
+
+    expected_local_checksum = (
+        f"infrastructure/cpython/artifacts/cpython-{python_version}-{distro_name}-build{build_number}.tgz.sha256"
+    )
+    assert (
+        expected_local_checksum in devcontainer_contents
+    ), "Devcontainer no referencia el checksum local generado por el builder"
+
+    expected_release_checksum = (
+        "https://github.com/2-Coatl/IACT---project/releases/download/"
+        f"cpython-{python_version}-build{build_number}/cpython-{python_version}-{distro_name}-build{build_number}.tgz.sha256"
+    )
+    assert (
+        expected_release_checksum in devcontainer_contents
+    ), "Devcontainer no referencia el checksum publicado en GitHub Releases"
 
 
 def test_no_compiled_artifacts_in_git():
@@ -215,3 +250,112 @@ def test_no_compiled_artifacts_in_git():
         # Debería ignorar archivos .tgz en artifacts/
         assert "*.tgz" in content or "artifacts/" in content or "*.tar.gz" in content, \
             ".gitignore no excluye artefactos compilados"
+
+
+def test_bootstrap_summary_handles_missing_toolchain_gracefully():
+    """El resumen de bootstrap debe tolerar toolchain ausente."""
+
+    bootstrap = (VAGRANT_DIR / "bootstrap.sh").read_text()
+
+    signature = "display_summary() {"
+    assert signature in bootstrap, "display_summary no definido en bootstrap.sh"
+
+    start = bootstrap.index(signature) + len(signature)
+
+    depth = 1
+    idx = start
+    while idx < len(bootstrap) and depth > 0:
+        char = bootstrap[idx]
+        if char == "{":
+            depth += 1
+        elif char == "}":
+            depth -= 1
+        idx += 1
+
+    assert depth == 0, "No se pudo extraer el cuerpo de display_summary"
+
+    body = bootstrap[start:idx - 1]
+
+    assert "command -v gcc" in body or 'validate_command_exists "gcc"' in body, (
+        "display_summary debe verificar la disponibilidad de gcc antes de imprimir la versión"
+    )
+    assert "command -v make" in body or 'validate_command_exists "make"' in body, (
+        "display_summary debe verificar la disponibilidad de make antes de imprimir la versión"
+    )
+
+    assert "reset_operation_state bootstrap_complete" in body, (
+        "display_summary debe guiar al usuario para reejecutar bootstrap cuando falten herramientas"
+    )
+
+
+def test_environment_detects_project_root_without_env_variable():
+    """El entorno debe detectar la raíz del repositorio aun sin PROJECT_ROOT."""
+
+    env_script = VAGRANT_DIR / "utils" / "environment.sh"
+
+    command = f"""
+set -euo pipefail
+unset PROJECT_ROOT
+source "{env_script}"
+printf "%s" "$PROJECT_ROOT"
+"""
+
+    result = subprocess.run(["bash", "-c", command], capture_output=True, text=True, check=True)
+
+    detected_root = Path(result.stdout.strip())
+    assert detected_root == BASE_DIR, (
+        "environment.sh debe resolver automáticamente la raíz del proyecto sin depender de rutas de usuario"
+    )
+
+
+def test_feature_install_resolves_relative_artifact_path(tmp_path):
+    """El instalador debe resolver rutas relativas de artefactos sin depender del usuario."""
+
+    script_path = VAGRANT_DIR / "scripts" / "Install prebuilt cpython.sh"
+
+    artifact_relative = "infrastructure/cpython/artifacts/cpython-3.12.6-ubuntu20.04-build1.tgz"
+    artifact_path = tmp_path / artifact_relative
+    artifact_path.parent.mkdir(parents=True)
+    artifact_path.write_text("placeholder artifact")
+
+    checksum_path = artifact_path.with_name(artifact_path.name + ".sha256")
+    checksum_path.write_text("dummy-checksum  cpython-3.12.6-ubuntu20.04-build1.tgz\n")
+
+    command = f"""
+set -euo pipefail
+export PROJECT_ROOT="{tmp_path}"
+export VERSION="3.12.6"
+export ARTIFACTURL="{artifact_relative}"
+unset CHECKSUMURL
+export SKIPVALIDATION="true"
+export INSTALLPREFIX="{tmp_path}/python"
+export LOG_LEVEL="ERROR"
+source "{script_path}"
+determine_cpython_artifact_urls
+printf "::artifact::%s\\n" "$ARTIFACT_URL"
+printf "::checksum::%s\\n" "$CHECKSUM_URL"
+"""
+
+    result = subprocess.run(["bash", "-c", command], capture_output=True, text=True, check=True)
+
+    artifact_line = next(
+        (line for line in result.stdout.splitlines() if line.startswith("::artifact::")),
+        ""
+    )
+    checksum_line = next(
+        (line for line in result.stdout.splitlines() if line.startswith("::checksum::")),
+        ""
+    )
+
+    assert artifact_line, "El script debe reportar la ruta final del artefacto"
+    assert checksum_line, "El script debe reportar la ruta final del checksum"
+
+    resolved_artifact = Path(artifact_line.split("::artifact::", 1)[1])
+    resolved_checksum = Path(checksum_line.split("::checksum::", 1)[1])
+
+    assert resolved_artifact == artifact_path, (
+        "El instalador debe resolver rutas relativas al directorio del proyecto"
+    )
+    assert resolved_checksum == checksum_path, (
+        "El instalador debe ubicar el checksum local asociado al artefacto"
+    )

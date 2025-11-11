@@ -21,6 +21,37 @@ readonly _ENVIRONMENT_SH_LOADED=1
 ENV_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # =============================================================================
+# PROJECT ROOT DETECTION
+# =============================================================================
+
+_detect_project_root() {
+    local configured_root="${PROJECT_ROOT:-}"
+
+    if [[ -n "$configured_root" ]] && [[ -d "$configured_root" ]]; then
+        echo "$configured_root"
+        return 0
+    fi
+
+    local search_dir="$ENV_DIR"
+    while [[ "$search_dir" != "/" ]]; do
+        if [[ -d "$search_dir/.git" ]] && [[ -d "$search_dir/infrastructure" ]]; then
+            echo "$search_dir"
+            return 0
+        fi
+
+        if [[ -f "$search_dir/Makefile" ]] && [[ -d "$search_dir/infrastructure/cpython" ]]; then
+            echo "$search_dir"
+            return 0
+        fi
+
+        search_dir="$(dirname "$search_dir")"
+    done
+
+    echo "/vagrant"
+    return 0
+}
+
+# =============================================================================
 # INTERNAL MODULE LOADING
 # =============================================================================
 
@@ -57,8 +88,18 @@ _load_module "state_manager.sh" || return 1
 # =============================================================================
 
 load_project_environment() {
+    local detected_root
+    detected_root=$(_detect_project_root)
+
+    if [[ -z "${PROJECT_ROOT:-}" ]] || [[ ! -d "${PROJECT_ROOT}" ]]; then
+        export PROJECT_ROOT="$detected_root"
+    fi
+
+    if [[ ! -d "$PROJECT_ROOT" ]]; then
+        export PROJECT_ROOT="$detected_root"
+    fi
+
     # Setup project paths
-    export PROJECT_ROOT="${PROJECT_ROOT:-/vagrant}"
     export BUILD_STATE_DIR="${BUILD_STATE_DIR:-$PROJECT_ROOT/.build_state}"
 
     # Setup logging configuration

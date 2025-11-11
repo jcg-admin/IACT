@@ -61,9 +61,77 @@ if ! load_environment; then
     exit 1
 fi
 
+CONFIG_FILE="$SCRIPT_DIR/../config/versions.conf"
+if [[ -f "$CONFIG_FILE" ]]; then
+    # shellcheck disable=SC1090
+    source "$CONFIG_FILE"
+fi
+
+DEFAULT_BUILD_NUMBER="${DEFAULT_BUILD_NUMBER:-1}"
+DEFAULT_DISTRO="${DISTRO:-ubuntu20.04}"
+RELEASES_BASE="${GITHUB_RELEASES_BASE:-https://github.com/2-Coatl/IACT---project/releases}"
+
+RESOLVED_BUILD_NUMBER="${BUILDNUMBER:-$DEFAULT_BUILD_NUMBER}"
+RESOLVED_DISTRO="${CPYTHON_DISTRO:-$DEFAULT_DISTRO}"
+
+ARTIFACT_BASENAME="cpython-${VERSION}-${RESOLVED_DISTRO}-build${RESOLVED_BUILD_NUMBER}"
+ARTIFACT_FILENAME="${ARTIFACT_BASENAME}.tgz"
+LOCAL_ARTIFACT_DIR="${PROJECT_ROOT}/infrastructure/cpython/artifacts"
+RELEASE_TAG="cpython-${VERSION}-build${RESOLVED_BUILD_NUMBER}"
+
 # ==============================================================================
 # FUNCTIONS
 # ==============================================================================
+
+is_remote_resource() {
+    local candidate="$1"
+    [[ "$candidate" =~ ^https?:// ]]
+}
+
+_strip_file_scheme() {
+    local candidate="$1"
+    if [[ "$candidate" == file://* ]]; then
+        echo "${candidate#file://}"
+    else
+        echo "$candidate"
+    fi
+}
+
+resolve_local_path() {
+    local candidate
+    candidate=$(_strip_file_scheme "$1")
+
+    if [[ -z "$candidate" ]]; then
+        echo ""
+        return 0
+    fi
+
+    if [[ "$candidate" == /* ]]; then
+        echo "$candidate"
+    else
+        echo "${PROJECT_ROOT}/${candidate#./}"
+    fi
+}
+
+default_local_artifact_path() {
+    local candidate="${LOCAL_ARTIFACT_DIR}/${ARTIFACT_FILENAME}"
+    if [[ -f "$candidate" ]]; then
+        echo "$candidate"
+    fi
+}
+
+default_local_checksum_path() {
+    local artifact_path="$1"
+    if [[ -z "$artifact_path" ]]; then
+        echo ""
+        return 0
+    fi
+
+    local checksum_candidate="${artifact_path}.sha256"
+    if [[ -f "$checksum_candidate" ]]; then
+        echo "$checksum_candidate"
+    fi
+}
 
 # Check if CPython is already installed (idempotent detection)
 check_cpython_already_installed() {
@@ -85,21 +153,59 @@ check_cpython_already_installed() {
 determine_cpython_artifact_urls() {
     log_step "2" "8" "Determining artifact URLs"
 
-    if [[ -z "${ARTIFACT_URL}" ]]; then
-        # Use GitHub Releases (default)
-        ARTIFACT_URL="https://github.com/2-Coatl/IACT---project/releases/download/cpython-${VERSION}-build1/cpython-${VERSION}-ubuntu20.04-build1.tgz"
-        log_info "Using GitHub Releases: ${ARTIFACT_URL}"
+    local resolved_artifact=""
+    local resolved_checksum=""
+
+    if [[ -n "${ARTIFACT_URL}" ]]; then
+        if is_remote_resource "${ARTIFACT_URL}"; then
+            resolved_artifact="${ARTIFACT_URL}"
+            log_info "Using provided remote artifact URL: ${resolved_artifact}"
+        else
+            resolved_artifact="$(resolve_local_path "${ARTIFACT_URL}")"
+            if [[ -z "$resolved_artifact" ]] || [[ ! -f "$resolved_artifact" ]]; then
+                log_error "Local artifact not found: ${ARTIFACT_URL}"
+                exit 1
+            fi
+            log_info "Using provided local artifact: ${resolved_artifact}"
+        fi
     else
-        log_info "Using provided artifact URL: ${ARTIFACT_URL}"
+        resolved_artifact="$(default_local_artifact_path)"
+        if [[ -n "$resolved_artifact" ]]; then
+            log_info "Using local artifact from builder pipeline: ${resolved_artifact}"
+        else
+            resolved_artifact="${RELEASES_BASE%/}/download/${RELEASE_TAG}/${ARTIFACT_FILENAME}"
+            log_info "Local artifact not found; falling back to GitHub Releases: ${resolved_artifact}"
+        fi
     fi
 
-    if [[ -z "${CHECKSUM_URL}" ]]; then
-        # Derive checksum URL from artifact URL
-        CHECKSUM_URL="${ARTIFACT_URL}.sha256"
-        log_info "Derived checksum URL: ${CHECKSUM_URL}"
+    if [[ -n "${CHECKSUM_URL}" ]]; then
+        if is_remote_resource "${CHECKSUM_URL}"; then
+            resolved_checksum="${CHECKSUM_URL}"
+            log_info "Using provided remote checksum URL: ${resolved_checksum}"
+        else
+            resolved_checksum="$(resolve_local_path "${CHECKSUM_URL}")"
+            if [[ -z "$resolved_checksum" ]] || [[ ! -f "$resolved_checksum" ]]; then
+                log_error "Local checksum not found: ${CHECKSUM_URL}"
+                exit 1
+            fi
+            log_info "Using provided local checksum: ${resolved_checksum}"
+        fi
     else
-        log_info "Using provided checksum URL: ${CHECKSUM_URL}"
+        if is_remote_resource "$resolved_artifact"; then
+            resolved_checksum="${resolved_artifact}.sha256"
+            log_info "Derived remote checksum URL: ${resolved_checksum}"
+        else
+            resolved_checksum="$(default_local_checksum_path "$resolved_artifact")"
+            if [[ -z "$resolved_checksum" ]]; then
+                log_error "Checksum file not found next to artifact: ${resolved_artifact}.sha256"
+                exit 1
+            fi
+            log_info "Using checksum generated by builder: ${resolved_checksum}"
+        fi
     fi
+
+    ARTIFACT_URL="$resolved_artifact"
+    CHECKSUM_URL="$resolved_checksum"
 }
 
 # Download CPython artifact and checksum
@@ -111,21 +217,39 @@ download_cpython_artifact() {
     local artifact_file="${TEMP_DIR}/cpython-${VERSION}.tgz"
     local checksum_file="${TEMP_DIR}/cpython-${VERSION}.tgz.sha256"
 
-    log_info "Downloading artifact..."
-    if ! download_file "${ARTIFACT_URL}" "${artifact_file}"; then
-        log_error "Failed to download artifact"
-        cleanup_temp_directory "${TEMP_DIR}"
-        exit 1
+    if is_remote_resource "${ARTIFACT_URL}"; then
+        log_info "Downloading artifact..."
+        if ! download_file "${ARTIFACT_URL}" "${artifact_file}"; then
+            log_error "Failed to download artifact"
+            cleanup_temp_directory "${TEMP_DIR}"
+            exit 1
+        fi
+    else
+        log_info "Copying local artifact..."
+        if ! cp "${ARTIFACT_URL}" "${artifact_file}"; then
+            log_error "Failed to copy local artifact from ${ARTIFACT_URL}"
+            cleanup_temp_directory "${TEMP_DIR}"
+            exit 1
+        fi
     fi
 
-    log_info "Downloading checksum..."
-    if ! download_file "${CHECKSUM_URL}" "${checksum_file}"; then
-        log_error "Failed to download checksum"
-        cleanup_temp_directory "${TEMP_DIR}"
-        exit 1
+    if is_remote_resource "${CHECKSUM_URL}"; then
+        log_info "Downloading checksum..."
+        if ! download_file "${CHECKSUM_URL}" "${checksum_file}"; then
+            log_error "Failed to download checksum"
+            cleanup_temp_directory "${TEMP_DIR}"
+            exit 1
+        fi
+    else
+        log_info "Copying local checksum..."
+        if ! cp "${CHECKSUM_URL}" "${checksum_file}"; then
+            log_error "Failed to copy local checksum from ${CHECKSUM_URL}"
+            cleanup_temp_directory "${TEMP_DIR}"
+            exit 1
+        fi
     fi
 
-    log_info "Download completed"
+    log_info "Artifact and checksum ready"
 }
 
 # Verify CPython artifact checksum
@@ -294,4 +418,6 @@ main() {
     display_installation_summary
 }
 
-main "$@"
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+    main "$@"
+fi
