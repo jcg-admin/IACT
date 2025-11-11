@@ -20,10 +20,15 @@ Outputs:
 
 import os
 import re
+import sys
 from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, List
 
+# Add parent directory to path for imports
+sys.path.insert(0, str(Path(__file__).parent.parent))
+
+from generators.llm_generator import LLMGenerator
 from .sdlc_base import SDLCAgent, SDLCPhaseResult
 
 
@@ -43,6 +48,13 @@ class SDLCPlannerAgent(SDLCAgent):
         )
         self.llm_provider = self.get_config("llm_provider", "anthropic")
         self.model = self.get_config("model", "claude-3-5-sonnet-20241022")
+
+        # Inicializar LLM Generator
+        llm_config = {
+            "llm_provider": self.llm_provider,
+            "model": self.model,
+        }
+        self.llm_generator = LLMGenerator(config=llm_config)
 
     def _custom_guardrails(self, output_data: Dict[str, Any]) -> List[str]:
         """
@@ -82,10 +94,13 @@ class SDLCPlannerAgent(SDLCAgent):
         if not feature_request or not feature_request.strip():
             errors.append("'feature_request' está vacío")
 
-        # TODO: Validar API key cuando se implemente integración LLM real
-        # Por ahora usa heurísticas sin LLM
-        # if self.llm_provider == "anthropic" and not os.getenv("ANTHROPIC_API_KEY"):
-        #     errors.append("Falta ANTHROPIC_API_KEY en variables de entorno")
+        # Validar API key para LLM
+        if self.llm_provider == "anthropic":
+            if not os.getenv("ANTHROPIC_API_KEY"):
+                errors.append("Falta ANTHROPIC_API_KEY en variables de entorno")
+        elif self.llm_provider == "openai":
+            if not os.getenv("OPENAI_API_KEY"):
+                errors.append("Falta OPENAI_API_KEY en variables de entorno")
 
         return errors
 
@@ -249,13 +264,41 @@ class SDLCPlannerAgent(SDLCAgent):
         Returns:
             User story estructurada
         """
-        # TODO: Integrar LLM real (Anthropic/OpenAI)
-        # Por ahora, implementación simplificada
+        # Construir prompt para el LLM
+        prompt = self._build_user_story_prompt(
+            feature_request,
+            context_analysis,
+            backlog
+        )
 
-        # Extraer título simple
+        try:
+            # Generar user story con LLM
+            llm_response = self.llm_generator._call_llm(prompt)
+
+            # Parsear respuesta del LLM
+            parsed_story = self._parse_llm_user_story_response(llm_response)
+
+            # Validar que tenga todos los campos requeridos
+            if not all(key in parsed_story for key in ["title", "description", "acceptance_criteria", "story_points"]):
+                self.logger.warning("LLM response missing required fields, using fallback")
+                return self._generate_user_story_fallback(feature_request, context_analysis, backlog)
+
+            return parsed_story
+
+        except Exception as e:
+            self.logger.error(f"Error generating user story with LLM: {e}")
+            # Fallback a implementación heurística
+            return self._generate_user_story_fallback(feature_request, context_analysis, backlog)
+
+    def _generate_user_story_fallback(
+        self,
+        feature_request: str,
+        context_analysis: Dict[str, Any],
+        backlog: List[Dict]
+    ) -> Dict[str, Any]:
+        """Fallback heurístico si LLM falla."""
         title = self._extract_title(feature_request)
 
-        # Generar descripción en formato user story
         description = f"""# User Story
 
 **Como** usuario del sistema IACT
@@ -272,25 +315,10 @@ Tech stack detectado: {', '.join(context_analysis.get('tech_stack', [])) or 'No 
 Patrones: {', '.join(context_analysis.get('patterns', [])) or 'No especificado'}
 """
 
-        # Generar acceptance criteria
         acceptance_criteria = self._generate_acceptance_criteria(feature_request)
-
-        # Estimar story points (simplificado)
-        story_points = self._estimate_story_points(
-            feature_request,
-            acceptance_criteria
-        )
-
-        # Determinar prioridad
+        story_points = self._estimate_story_points(feature_request, acceptance_criteria)
         priority = self._determine_priority(feature_request)
-
-        # Identificar requisitos técnicos
-        technical_requirements = self._identify_technical_requirements(
-            feature_request,
-            context_analysis
-        )
-
-        # Identificar dependencias
+        technical_requirements = self._identify_technical_requirements(feature_request, context_analysis)
         dependencies = self._identify_dependencies(feature_request, backlog)
 
         return {
@@ -538,3 +566,137 @@ Patrones: {', '.join(context_analysis.get('patterns', [])) or 'No especificado'}
 """
 
         return issue
+
+    def _build_user_story_prompt(
+        self,
+        feature_request: str,
+        context_analysis: Dict[str, Any],
+        backlog: List[Dict]
+    ) -> str:
+        """
+        Construye prompt para generar user story con LLM.
+
+        Args:
+            feature_request: Request del usuario
+            context_analysis: Análisis de contexto del proyecto
+            backlog: Items en el backlog actual
+
+        Returns:
+            Prompt formateado para el LLM
+        """
+        tech_stack = ', '.join(context_analysis.get('tech_stack', [])) or 'No especificado'
+        patterns = ', '.join(context_analysis.get('patterns', [])) or 'No especificado'
+
+        # Formatear backlog si existe
+        backlog_text = ""
+        if backlog:
+            backlog_text = "ITEMS EN BACKLOG ACTUAL:\n"
+            for item in backlog[:5]:  # Limitar a 5 items más recientes
+                backlog_text += f"- {item.get('title', 'Sin título')}\n"
+
+        prompt = f"""Eres un Product Owner experto siguiendo metodología Agile/Scrum.
+
+Tu tarea es analizar un feature request y generar una user story completa, bien estructurada y lista para implementación.
+
+FEATURE REQUEST:
+{feature_request}
+
+CONTEXTO DEL PROYECTO:
+- Tech Stack: {tech_stack}
+- Patrones arquitectónicos: {patterns}
+
+{backlog_text}
+
+INSTRUCCIONES:
+
+Genera una user story completa siguiendo el formato estándar. Debes incluir:
+
+1. TITLE: Título conciso y descriptivo (máximo 60 caracteres)
+
+2. DESCRIPTION: Descripción en formato user story:
+   - Como [rol]
+   - Quiero [funcionalidad]
+   - Para [beneficio]
+
+   Incluye contexto técnico relevante.
+
+3. ACCEPTANCE CRITERIA: Lista de 4-8 criterios específicos y verificables.
+   Cada criterio debe ser claro, medible y alcanzable.
+
+4. STORY POINTS: Estimación usando escala Fibonacci (1, 2, 3, 5, 8, 13, 21).
+   Considera complejidad técnica, incertidumbre y esfuerzo.
+
+5. PRIORITY: P0 (Critical), P1 (High), P2 (Medium), o P3 (Low).
+   Considera impacto, urgencia y dependencias.
+
+6. TECHNICAL REQUIREMENTS: Lista de 2-5 requisitos técnicos específicos.
+   Incluye tecnologías, patrones, consideraciones de seguridad, etc.
+
+7. DEPENDENCIES: Identifica dependencias con otros sistemas o features.
+
+FORMATO DE RESPUESTA:
+
+Responde EXACTAMENTE en el siguiente formato JSON:
+
+```json
+{{
+  "title": "Título aquí",
+  "description": "Descripción completa en formato markdown",
+  "acceptance_criteria": [
+    "Criterio 1",
+    "Criterio 2",
+    "..."
+  ],
+  "story_points": 5,
+  "priority": "P1",
+  "technical_requirements": [
+    "Requisito técnico 1",
+    "Requisito técnico 2",
+    "..."
+  ],
+  "dependencies": [
+    "Dependencia 1 si aplica",
+    "..."
+  ]
+}}
+```
+
+NO agregues explicaciones adicionales fuera del JSON.
+
+Respuesta:"""
+
+        return prompt
+
+    def _parse_llm_user_story_response(self, llm_response: str) -> Dict[str, Any]:
+        """
+        Parsea respuesta del LLM en formato JSON.
+
+        Args:
+            llm_response: Respuesta del LLM
+
+        Returns:
+            Dict con la user story parseada
+
+        Raises:
+            ValueError si no se puede parsear
+        """
+        import json
+
+        # Intentar extraer JSON de la respuesta
+        # El LLM podría envolver el JSON en markdown
+        try:
+            # Intentar parsear directo
+            return json.loads(llm_response)
+        except json.JSONDecodeError:
+            # Intentar extraer JSON de bloques de código
+            import re
+            json_match = re.search(r'```(?:json)?\s*(\{.*?\})\s*```', llm_response, re.DOTALL)
+            if json_match:
+                return json.loads(json_match.group(1))
+
+            # Intentar encontrar cualquier objeto JSON válido
+            json_match = re.search(r'\{.*\}', llm_response, re.DOTALL)
+            if json_match:
+                return json.loads(json_match.group(0))
+
+            raise ValueError(f"No se pudo parsear JSON de la respuesta: {llm_response[:200]}...")
