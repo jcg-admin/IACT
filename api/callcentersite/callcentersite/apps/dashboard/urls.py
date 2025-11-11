@@ -1,6 +1,7 @@
 """Rutas del dashboard."""
 
-from django.urls import path
+from django.urls import include, path
+from rest_framework.routers import DefaultRouter
 
 from .views import (
     DashboardCompartirView,
@@ -10,6 +11,10 @@ from .views import (
 )
 
 app_name = "dashboard"
+
+# Router para DashboardViewSet
+router = DefaultRouter()
+router.register(r'', DashboardViewSet, basename='dashboard')
 
 urlpatterns = [
     path("overview/", DashboardOverviewView.as_view(), name="overview"),

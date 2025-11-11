@@ -1,0 +1,10 @@
+# Core dependencies for AI prompting techniques
+numpy>=1.21.0
+scikit-learn>=1.0.0
+
+# Testing framework
+pytest>=7.0.0
+pytest-cov>=4.0.0
+
+# Django and backend dependencies (existing project)
+# Add existing dependencies here if needed

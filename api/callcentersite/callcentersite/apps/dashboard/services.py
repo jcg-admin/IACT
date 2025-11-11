@@ -7,6 +7,8 @@ from typing import Dict, List, Optional
 from django.contrib.auth import get_user_model
 from django.core.exceptions import PermissionDenied, ValidationError
 from django.utils import timezone
+from reportlab.lib.pagesizes import letter
+from reportlab.pdfgen import canvas
 
 from callcentersite.apps.users.models_permisos_granular import AuditoriaPermiso
 from callcentersite.apps.users.service_helpers import (
@@ -27,6 +29,7 @@ class DashboardService:
 
     @staticmethod
     def overview() -> Dict[str, object]:
+        """Retorna overview general del dashboard (legacy)."""
         now = timezone.now()
         return {
             "last_update": now.isoformat(),
@@ -37,6 +40,7 @@ class DashboardService:
 
     @staticmethod
     def available_widgets() -> List[Widget]:
+        """Retorna todos los widgets disponibles en el sistema."""
         return list(WIDGET_REGISTRY.values())
 
     @staticmethod
