@@ -328,8 +328,27 @@ display_summary() {
     echo "Build environment ready:"
     echo ""
     echo "  Toolchain:"
-    gcc --version | head -1 | sed 's/^/    /'
-    make --version | head -1 | sed 's/^/    /'
+    local missing_tools=()
+
+    if command -v gcc >/dev/null 2>&1; then
+        gcc --version | head -1 | sed 's/^/    /'
+    else
+        missing_tools+=("gcc")
+    fi
+
+    if command -v make >/dev/null 2>&1; then
+        make --version | head -1 | sed 's/^/    /'
+    else
+        missing_tools+=("make")
+    fi
+
+    if (( ${#missing_tools[@]} > 0 )); then
+        echo "    Missing tools detected: ${missing_tools[*]}"
+        echo "    Re-run the bootstrap to reinstall build dependencies:"
+        echo "      source utils/state_manager.sh"
+        echo "      reset_operation_state bootstrap_complete"
+        echo "      sudo ./bootstrap.sh"
+    fi
     echo ""
     echo "  Available scripts:"
     echo "    ./scripts/build_cpython.sh <version> [build-number]"
