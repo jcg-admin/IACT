@@ -50,12 +50,14 @@ from .uml_validation_agent import (
     DiagramType,
     ValidationIssue
 )
-# from .test_generation_agent import (
-#     TestGenerationAgent,
-#     TestSuite,
-#     TestCase,
-#     TestType
-# )
+# Test Generation (implemented)
+from .test_generation_agent import (
+    TestGenerationAgent,
+    TestSuite,
+    TestCase,
+    TestType,
+    CoverageType
+)
 # from .pipeline import (
 #     ArchitectureImprovementPipeline,
 #     create_architecture_improvement_pipeline
@@ -82,5 +84,11 @@ __all__ = [
     'UMLValidationResult',
     'DiagramType',
     'ValidationIssue',
-    # TODO: Add other agents as they are implemented
+    # Test Generation (implemented)
+    'TestGenerationAgent',
+    'TestSuite',
+    'TestCase',
+    'TestType',
+    'CoverageType',
+    # TODO: Add pipeline
 ]
