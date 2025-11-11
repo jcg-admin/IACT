@@ -11,9 +11,9 @@
 Siguiendo metodología TDD, se escribieron 22 tests ANTES de completar la implementación.
 
 **Resultado primera ejecución:**
-- ✅ 16 tests PASSING
-- ❌ 6 tests FAILING
-- ⚠️ 2 warnings
+- [OK] 16 tests PASSING
+- [ERROR] 6 tests FAILING
+- [WARNING] 2 warnings
 
 **Coverage:** 73% de tests pasando (16/22)
 
@@ -49,7 +49,7 @@ scripts/ai/agents/permissions/base.py:142: in log_violation
 En `base.py`, el método `log_violation()` está pasando `message` como kwarg en `extra`:
 
 ```python
-# ❌ PROBLEMA
+# [ERROR] PROBLEMA
 def log_violation(self, file: str, line: int, severity: str, message: str, **kwargs):
     self.logger.warning(
         f"Violation: {file}:{line} - {message}",
@@ -58,7 +58,7 @@ def log_violation(self, file: str, line: int, severity: str, message: str, **kwa
             "file": file,
             "line": line,
             "severity": severity,
-            "message": message,  # ❌ CONFLICTO: 'message' es reservado por logging
+            "message": message,  # [ERROR] CONFLICTO: 'message' es reservado por logging
             **kwargs
         }
     )
@@ -71,7 +71,7 @@ def log_violation(self, file: str, line: int, severity: str, message: str, **kwa
 **Opción 1: Renombrar el campo**
 
 ```python
-# ✅ SOLUCIÓN
+# [OK] SOLUCIÓN
 def log_violation(self, file: str, line: int, severity: str, message: str, **kwargs):
     self.logger.warning(
         f"Violation: {file}:{line} - {message}",
@@ -80,7 +80,7 @@ def log_violation(self, file: str, line: int, severity: str, message: str, **kwa
             "file": file,
             "line": line,
             "severity": severity,
-            "violation_message": message,  # ✅ Renombrado
+            "violation_message": message,  # [OK] Renombrado
             **kwargs
         }
     )
@@ -89,7 +89,7 @@ def log_violation(self, file: str, line: int, severity: str, message: str, **kwa
 **Opción 2: Remover del extra (ya está en el mensaje)**
 
 ```python
-# ✅ SOLUCIÓN ALTERNATIVA
+# [OK] SOLUCIÓN ALTERNATIVA
 def log_violation(self, file: str, line: int, severity: str, message: str, **kwargs):
     self.logger.warning(
         f"Violation: {file}:{line} - {message}",
@@ -131,7 +131,7 @@ AssertionError: assert False
 El método `get_project_root()` en `base.py` calcula el root incorrectamente cuando se ejecuta desde tests:
 
 ```python
-# ❌ PROBLEMA
+# [ERROR] PROBLEMA
 def get_project_root(self) -> Path:
     # Asume que el agente está en scripts/ai/agents/permissions/
     current = Path(__file__).resolve()
@@ -159,7 +159,7 @@ def get_project_root(self) -> Path:
 ### Solución
 
 ```python
-# ✅ SOLUCIÓN
+# [OK] SOLUCIÓN
 def get_project_root(self) -> Path:
     """
     Obtiene la ruta raíz del proyecto.
@@ -184,7 +184,7 @@ def get_project_root(self) -> Path:
 **Alternativa más robusta:**
 
 ```python
-# ✅ SOLUCIÓN ROBUSTA
+# [OK] SOLUCIÓN ROBUSTA
 def get_project_root(self) -> Path:
     """Encuentra project root buscando marcador (git, pyproject.toml, etc.)."""
     current = Path(__file__).resolve()
@@ -238,13 +238,13 @@ INFO promptops.route-lint:route_linter.py:157 Found 0 view files to analyze
 El método `_find_view_files()` espera una estructura específica:
 
 ```python
-# ❌ PROBLEMA
+# [ERROR] PROBLEMA
 def _find_view_files(self, root_path: Path) -> List[Path]:
-    api_root = root_path / "api" / "callcentersite"  # ❌ Hardcoded
+    api_root = root_path / "api" / "callcentersite"  # [ERROR] Hardcoded
 
     if not api_root.exists():
         self.logger.warning(f"API root not found: {api_root}")
-        return []  # ❌ Retorna lista vacía, tests no encuentran archivos
+        return []  # [ERROR] Retorna lista vacía, tests no encuentran archivos
 ```
 
 **En el test:**
@@ -253,7 +253,7 @@ def _find_view_files(self, root_path: Path) -> List[Path]:
 api_dir = tmp_path / "api" / "callcentersite"
 api_dir.mkdir(parents=True)
 
-view_file = api_dir / "views.py"  # ❌ Debería estar más profundo
+view_file = api_dir / "views.py"  # [ERROR] Debería estar más profundo
 ```
 
 **Problema:** El código busca recursivamente `**/views.py` dentro de `api/callcentersite/`, pero el test pone `views.py` directamente en `api/callcentersite/views.py`.
@@ -265,7 +265,7 @@ La búsqueda recursiva `rglob("**/views.py")` **NO incluye** el directorio base.
 **Opción 1: Ajustar tests para simular estructura real**
 
 ```python
-# ✅ SOLUCIÓN EN TESTS
+# [OK] SOLUCIÓN EN TESTS
 api_dir = tmp_path / "api" / "callcentersite" / "callcentersite" / "apps" / "reportes"
 api_dir.mkdir(parents=True)
 
@@ -275,7 +275,7 @@ view_file = api_dir / "views.py"
 **Opción 2: Hacer el código más flexible**
 
 ```python
-# ✅ SOLUCIÓN EN CÓDIGO
+# [OK] SOLUCIÓN EN CÓDIGO
 def _find_view_files(self, root_path: Path) -> List[Path]:
     api_root = root_path / "api" / "callcentersite"
 
@@ -327,7 +327,7 @@ INFO promptops.route-lint:route_linter.py:157 Found 0 view files to analyze
 El filtro de exclusión de tests era demasiado agresivo:
 
 ```python
-# ❌ PROBLEMA
+# [ERROR] PROBLEMA
 if "test" in path_str.lower():
     self.logger.debug(f"Skipping test: {view_file}")
     continue
@@ -350,21 +350,21 @@ El filtro original intentaba excluir:
 
 Pero la implementación era:
 ```python
-if "test" in path_str.lower():  # ❌ Cualquier "test" en el path
+if "test" in path_str.lower():  # [ERROR] Cualquier "test" en el path
 ```
 
 Esto excluía incorrectamente:
-- ✅ `/app/tests/views.py` (correcto)
-- ✅ `/app/test_views.py` (correcto)
-- ❌ `/tmp/pytest-test123/views.py` (FALSO POSITIVO)
-- ❌ `/app/latest/views.py` (FALSO POSITIVO - contiene "test")
+- [OK] `/app/tests/views.py` (correcto)
+- [OK] `/app/test_views.py` (correcto)
+- [ERROR] `/tmp/pytest-test123/views.py` (FALSO POSITIVO)
+- [ERROR] `/app/latest/views.py` (FALSO POSITIVO - contiene "test")
 
 ### Solución
 
 Filtrar solo carpetas `test/` o `tests/` específicas, y archivos que EMPIECEN con `test_`:
 
 ```python
-# ✅ SOLUCIÓN
+# [OK] SOLUCIÓN
 # Excluir migrations (solo carpeta migrations/)
 if "/migrations/" in path_str or "\\migrations\\" in path_str:
     self.logger.debug(f"Skipping migration: {view_file}")
@@ -383,10 +383,10 @@ if view_file.name.startswith("test_"):
 ```
 
 **Ventajas de esta solución:**
-- ✅ Excluye `/app/tests/views.py` (carpeta "tests")
-- ✅ Excluye `/app/test_views.py` (archivo empieza con "test_")
-- ✅ NO excluye `/tmp/pytest-xxx/views.py` (solo contiene "test" en parent)
-- ✅ NO excluye `/app/latest/views.py` (contiene "test" pero no es carpeta)
+- [OK] Excluye `/app/tests/views.py` (carpeta "tests")
+- [OK] Excluye `/app/test_views.py` (archivo empieza con "test_")
+- [OK] NO excluye `/tmp/pytest-xxx/views.py` (solo contiene "test" en parent)
+- [OK] NO excluye `/app/latest/views.py` (contiene "test" pero no es carpeta)
 
 ### Archivos Modificados
 
@@ -398,12 +398,12 @@ if view_file.name.startswith("test_"):
 
 **Anti-patrón:**
 ```python
-if "test" in path:  # ❌ Demasiado amplio
+if "test" in path:  # [ERROR] Demasiado amplio
 ```
 
 **Patrón correcto:**
 ```python
-if "test" in path.parts or path.name.startswith("test_"):  # ✅ Específico
+if "test" in path.parts or path.name.startswith("test_"):  # [OK] Específico
 ```
 
 ---
@@ -460,11 +460,11 @@ markers = [
 
 | Archivo | Método/Función | Cambio | Prioridad |
 |---------|----------------|--------|-----------|
-| `base.py` | `log_violation()` | Remover `message` de extra | 🔴 Alta |
-| `base.py` | `get_project_root()` | Búsqueda robusta de root | 🔴 Alta |
-| `route_linter.py` | `_find_view_files()` | Incluir glob en dir base | 🟡 Media |
-| `test_route_linter.py` | Tests integración | Ajustar estructura paths | 🟡 Media |
-| `pytest.ini` | N/A | Registrar marks | 🟢 Baja |
+| `base.py` | `log_violation()` | Remover `message` de extra | [HIGH] Alta |
+| `base.py` | `get_project_root()` | Búsqueda robusta de root | [HIGH] Alta |
+| `route_linter.py` | `_find_view_files()` | Incluir glob en dir base | [MEDIUM] Media |
+| `test_route_linter.py` | Tests integración | Ajustar estructura paths | [MEDIUM] Media |
+| `pytest.ini` | N/A | Registrar marks | [LOW] Baja |
 
 ### Orden de Implementación
 
@@ -495,16 +495,16 @@ markers = [
 ## Métricas Post-Corrección (RESULTADO FINAL)
 
 **Resultado después de correcciones:**
-- ✅ **22/22 tests PASSING (100%)**
-- ⚠️ **0 warnings**
-- 📊 **Coverage: 100%**
-- ⏱️ **Tiempo ejecución: 0.17s**
+- [OK] **22/22 tests PASSING (100%)**
+- [WARNING] **0 warnings**
+-  **Coverage: 100%**
+-  **Tiempo ejecución: 0.17s**
 
 **Errores corregidos:**
-1. ✅ KeyError en logging (4 tests afectados)
-2. ✅ Project root detection (1 test afectado)
-3. ✅ File finding logic (0 tests directamente, pero mejora robustez)
-4. ✅ Filtro de tests demasiado agresivo (1 test afectado)
+1. [OK] KeyError en logging (4 tests afectados)
+2. [OK] Project root detection (1 test afectado)
+3. [OK] File finding logic (0 tests directamente, pero mejora robustez)
+4. [OK] Filtro de tests demasiado agresivo (1 test afectado)
 
 **Total de commits del ciclo TDD:** 2
 - Commit 1: Tests + documentación inicial
