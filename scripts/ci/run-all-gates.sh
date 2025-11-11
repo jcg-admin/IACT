@@ -128,19 +128,35 @@ run_gate() {
 }
 
 # ============================================
-# Gate 1: Route Lint
+# CRITICAL GATES (must pass)
 # ============================================
+
+# Gate 1: DB Router - CRITICAL (IVR read-only)
+run_gate "db-router" "$SCRIPT_DIR/gate-db-router.sh"
+
+# Gate 2: Project Restrictions - CRITICAL
+run_gate "restrictions" "$SCRIPT_DIR/gate-restrictions.sh"
+
+# ============================================
+# COMPLIANCE GATES
+# ============================================
+
+# Gate 3: Route Lint (permissions)
 run_gate "route-lint" "$SCRIPT_DIR/gate-route-lint.sh"
 
-# ============================================
-# Gate 2: Audit Contract (TODO: implementar)
-# ============================================
-# run_gate "audit-contract" "$SCRIPT_DIR/gate-audit-contract.sh"
+# Gate 4: No Emojis
+run_gate "no-emojis" "$SCRIPT_DIR/gate-no-emojis.sh"
+
+# Gate 5: Documentation Structure
+run_gate "docs-structure" "$SCRIPT_DIR/gate-docs-structure.sh"
 
 # ============================================
-# Gate 3: Permission Coverage (TODO: implementar)
+# FUTURE GATES (TODO: implementar)
 # ============================================
+# run_gate "audit-contract" "$SCRIPT_DIR/gate-audit-contract.sh"
 # run_gate "permission-coverage" "$SCRIPT_DIR/gate-permission-coverage.sh"
+# run_gate "migration-validator" "$SCRIPT_DIR/gate-migration.sh"
+# run_gate "api-contract" "$SCRIPT_DIR/gate-api-contract.sh"
 
 # ============================================
 # Reporte Final
