@@ -319,6 +319,24 @@ auto_build_python() {
     echo ""
 }
 
+ensure_toolchain_ready() {
+    log_info "Validating toolchain state"
+
+    if verify_installation; then
+        return 0
+    fi
+
+    log_warning "Toolchain verification failed, attempting automatic repair"
+
+    reset_operation_state "bootstrap_install_build_deps" || true
+    reset_operation_state "bootstrap_install_tools" || true
+
+    install_build_dependencies || return 1
+    install_additional_tools || return 1
+
+    verify_installation
+}
+
 display_summary() {
     echo ""
     log_separator 73
@@ -399,6 +417,7 @@ main() {
         log_info "  source utils/state_manager.sh"
         log_info "  reset_operation_state bootstrap_complete"
         log_info "  sudo ./bootstrap.sh"
+        ensure_toolchain_ready || return 1
         echo ""
         display_summary
 

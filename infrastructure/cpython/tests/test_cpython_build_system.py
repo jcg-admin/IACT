@@ -13,6 +13,29 @@ from pathlib import Path
 import pytest
 
 
+def _extract_function_body(script_text: str, function_name: str) -> str:
+    """Extrae el cuerpo de una función bash simple."""
+
+    signature = f"{function_name}() {{"
+    assert signature in script_text, f"{function_name} no definido"
+
+    start = script_text.index(signature) + len(signature)
+    depth = 1
+    idx = start
+
+    while idx < len(script_text) and depth > 0:
+        char = script_text[idx]
+        if char == "{":
+            depth += 1
+        elif char == "}":
+            depth -= 1
+        idx += 1
+
+    assert depth == 0, f"No se pudo extraer {function_name}"
+
+    return script_text[start:idx - 1]
+
+
 # Paths del proyecto
 BASE_DIR = Path(__file__).parent.parent.parent.parent
 VAGRANT_DIR = BASE_DIR / "infrastructure" / "cpython"
@@ -257,24 +280,7 @@ def test_bootstrap_summary_handles_missing_toolchain_gracefully():
 
     bootstrap = (VAGRANT_DIR / "bootstrap.sh").read_text()
 
-    signature = "display_summary() {"
-    assert signature in bootstrap, "display_summary no definido en bootstrap.sh"
-
-    start = bootstrap.index(signature) + len(signature)
-
-    depth = 1
-    idx = start
-    while idx < len(bootstrap) and depth > 0:
-        char = bootstrap[idx]
-        if char == "{":
-            depth += 1
-        elif char == "}":
-            depth -= 1
-        idx += 1
-
-    assert depth == 0, "No se pudo extraer el cuerpo de display_summary"
-
-    body = bootstrap[start:idx - 1]
+    body = _extract_function_body(bootstrap, "display_summary")
 
     assert "command -v gcc" in body or 'validate_command_exists "gcc"' in body, (
         "display_summary debe verificar la disponibilidad de gcc antes de imprimir la versión"
@@ -285,6 +291,32 @@ def test_bootstrap_summary_handles_missing_toolchain_gracefully():
 
     assert "reset_operation_state bootstrap_complete" in body, (
         "display_summary debe guiar al usuario para reejecutar bootstrap cuando falten herramientas"
+    )
+
+
+def test_bootstrap_auto_repairs_toolchain_when_missing():
+    """Bootstrap debe reparar automáticamente toolchain faltante."""
+
+    bootstrap = (VAGRANT_DIR / "bootstrap.sh").read_text()
+
+    body = _extract_function_body(bootstrap, "ensure_toolchain_ready")
+
+    assert "reset_operation_state \"bootstrap_install_build_deps\"" in body, (
+        "ensure_toolchain_ready debe limpiar estado de dependencias"
+    )
+    assert "reset_operation_state \"bootstrap_install_tools\"" in body, (
+        "ensure_toolchain_ready debe limpiar estado de herramientas adicionales"
+    )
+    assert "install_build_dependencies" in body, (
+        "ensure_toolchain_ready debe reinstalar dependencias de compilación"
+    )
+    assert "verify_installation" in body, (
+        "ensure_toolchain_ready debe verificar instalación tras reparar"
+    )
+
+    reused_block = "ensure_toolchain_ready || return 1"
+    assert reused_block in bootstrap, (
+        "main debe invocar ensure_toolchain_ready cuando bootstrap ya estaba completo"
     )
 
 

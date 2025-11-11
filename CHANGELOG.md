@@ -4,6 +4,9 @@ Todos los cambios notables de este repositorio se documentarán en este archivo 
 
 ## [Unreleased]
 
+### Fixed
+- `infrastructure/cpython/bootstrap.sh` repara automáticamente el toolchain cuando detecta que `gcc` o `make` faltan después de un `vagrant up`, evitando reprovisionamientos manuales.
+
 ## [2025-11-08]
 ### Added
 - Se documentó en el README el flujo completo para generar, validar y consumir el artefacto de CPython producido por `infrastructure/cpython`.

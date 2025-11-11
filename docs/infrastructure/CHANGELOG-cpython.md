@@ -27,6 +27,16 @@ Este CHANGELOG sigue el formato [Keep a Changelog](https://keepachangelog.com/es
 
 ---
 
+## [1.2.1] - 2025-11-08
+
+### Fixed
+
+- **Bootstrap auto-repair**: `bootstrap.sh` ahora verifica el toolchain tras detectar estado previo y reinstala automáticamente `build-essential` y herramientas auxiliares si faltan `gcc` o `make`, evitando que `vagrant up` falle por cajas desalineadas.
+
+### Added
+
+- **Documentación de contingencia**: Se añadió al README del builder un procedimiento de respaldo para forzar la reinstalación del toolchain cuando la reparación automática no sea suficiente.
+
 ## [1.2.0] - 2025-11-08
 
 ### Added
