@@ -27,6 +27,28 @@ Este CHANGELOG sigue el formato [Keep a Changelog](https://keepachangelog.com/es
 
 ---
 
+## [1.2.1] - 2025-11-08
+
+### Fixed
+
+- **Bootstrap auto-repair**: `bootstrap.sh` ahora verifica el toolchain tras detectar estado previo y reinstala automáticamente `build-essential` y herramientas auxiliares si faltan `gcc` o `make`, evitando que `vagrant up` falle por cajas desalineadas.
+
+### Added
+
+- **Documentación de contingencia**: Se añadió al README del builder un procedimiento de respaldo para forzar la reinstalación del toolchain cuando la reparación automática no sea suficiente.
+
+## [1.2.0] - 2025-11-08
+
+### Added
+
+- **Integración Dev Container**: El feature `infrastructure/cpython/installer` ahora referencia explícitamente los artefactos `cpython-3.12.6-ubuntu20.04-build1` y sus checksums generados por el builder para evitar desalineaciones entre entornos locales y releases.
+- **Cobertura de validación**: Nuevos tests Ruby y Python aseguran que el Dev Container consuma tanto el tarball como el checksum publicados por la VM de compilación.
+- **Documentación general**: Se añadió una sección dedicada al pipeline de artefactos en el README principal del repositorio y se creó un changelog global para visibilizar las entregas de infraestructura.
+
+### Changed
+
+- **Makefile y guías**: Se sincronizó la nomenclatura del objetivo `validate-cpython` y la documentación de soporte con la versión Ubuntu 20.04 utilizada por el builder.
+
 ## [1.1.0] - 2025-11-07
 
 ### Refactorizacion Mayor - Utilidades Compartidas y Configuracion Centralizada
