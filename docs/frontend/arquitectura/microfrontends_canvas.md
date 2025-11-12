@@ -8,6 +8,8 @@ relacionados: ["DOC-ARQ-FRONTEND"]
 
 # Arquitectura que encaja con mi proyecto — Guía y Canvas de Decisión (v1)
 
+> **Estado actual (2025-11-09):** este canvas se conserva como referencia exploratoria. La arquitectura vigente del frontend continúa siendo el monolito modular definido en [ADR_011](../../adr/ADR_011_frontend_modular_monolith.md) y su implementación está pospuesta según [ADR-2025-009](../../adr/adr_2025_009_frontend_postponement.md); por lo tanto, **no se requieren microfrontends** en esta fase.
+
 ## 0. Propósito
 
 Definir, comparar y seleccionar la arquitectura de micro frontends que mejor se ajusta a un proyecto específico, alineando necesidades de negocio, complejidad técnica, experiencia de usuario y gobernanza entre equipos. Documento operativo y editable para decidir, justificar y ejecutar.
