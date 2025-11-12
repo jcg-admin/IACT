@@ -24,6 +24,27 @@ Proporcionar capacidades analíticas avanzadas para:
 - Detección de anomalías y patrones
 - Predicciones de performance
 
+
+## Técnicas de Prompt Engineering para Agente
+
+Las siguientes técnicas deben aplicarse al ejecutar esta tarea con un agente:
+
+1. **Code Generation** (fundamental_techniques.py)
+   - Generar queries y transformaciones de datos para analytics
+
+2. **Expert Prompting** (specialized_techniques.py)
+   - Aplicar conocimiento experto de data analytics y visualizacion
+
+3. **Task Decomposition** (structuring_techniques.py)
+   - Dividir pipeline de analytics en fases (ingest, transform, visualize)
+
+4. **Few-Shot** (fundamental_techniques.py)
+   - Usar ejemplos de queries y dashboards similares
+
+5. **RAG** (search_optimization_techniques.py)
+   - Recuperar datos historicos para analisis predictivo
+
+Agente recomendado: FeatureAgent o SDLCDesignAgent
 ## Componentes Implementados
 
 ### 1. Trend Analysis (TrendAnalyzer)

@@ -43,6 +43,27 @@ Data Centralization Layer proporciona:
 - **Retention policies:** Automatizadas por tipo de dato
 - **Backup automation:** Script shell con rotation
 
+
+## Técnicas de Prompt Engineering para Agente
+
+Las siguientes técnicas deben aplicarse al ejecutar esta tarea con un agente:
+
+1. **Task Decomposition** (structuring_techniques.py)
+   - Dividir el diseno arquitectonico en componentes manejables
+
+2. **Code Generation** (fundamental_techniques.py)
+   - Generar implementaciones base para componentes arquitectonicos
+
+3. **Expert Prompting** (specialized_techniques.py)
+   - Aplicar conocimiento experto de arquitectura Django y patrones de diseno
+
+4. **Constitutional AI** (optimization_techniques.py)
+   - Validar que el diseno cumpla con restricciones y mejores practicas
+
+5. **Meta-prompting** (structuring_techniques.py)
+   - Generar prompts especializados para cada componente del sistema
+
+Agente recomendado: SDLCDesignAgent o FeatureAgent
 ## Arquitectura
 
 ### Componentes

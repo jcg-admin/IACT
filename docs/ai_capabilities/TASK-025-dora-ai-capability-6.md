@@ -24,6 +24,27 @@ Exponer datos internos del sistema de manera estructurada y accesible para AI ag
 - Decision making basado en datos
 - Self-service data access
 
+
+## Técnicas de Prompt Engineering para Agente
+
+Las siguientes técnicas deben aplicarse al ejecutar esta tarea con un agente:
+
+1. **RAG** (search_optimization_techniques.py)
+   - Implementar Retrieval Augmented Generation para data catalog
+
+2. **Expert Prompting** (specialized_techniques.py)
+   - Aplicar conocimiento experto de AI/ML y prompt engineering
+
+3. **Meta-prompting** (structuring_techniques.py)
+   - Generar prompts dinamicos para diferentes casos de uso
+
+4. **Task Decomposition** (structuring_techniques.py)
+   - Dividir capabilities AI en componentes reutilizables
+
+5. **Few-Shot** (fundamental_techniques.py)
+   - Usar ejemplos para entrenar modelos de AI
+
+Agente recomendado: FeatureAgent o SDLCDesignAgent
 ## DORA 2025 AI Capability 6
 
 ### Definition

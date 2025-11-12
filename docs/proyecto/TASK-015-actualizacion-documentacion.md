@@ -24,6 +24,27 @@ Despues de completar 14 tareas del proyecto, se requiere una revision y actualiz
 - Generar indice completo actualizado
 - Asegurar consistencia y navegabilidad
 
+
+## Técnicas de Prompt Engineering para Agente
+
+Las siguientes técnicas deben aplicarse al ejecutar esta tarea con un agente:
+
+1. **Retrieval** (knowledge_techniques.py)
+   - Recuperar y analizar documentacion existente del proyecto
+
+2. **Task Decomposition** (structuring_techniques.py)
+   - Dividir actualizacion de docs en secciones manejables
+
+3. **Expert Prompting** (specialized_techniques.py)
+   - Aplicar conocimiento experto de documentacion tecnica
+
+4. **Delimiter-based** (structuring_techniques.py)
+   - Estructurar documentacion con delimitadores claros
+
+5. **Meta-prompting** (structuring_techniques.py)
+   - Generar templates reutilizables para documentacion
+
+Agente recomendado: DocumentationSyncAgent o SDLCPlannerAgent
 ## Objetivos
 
 1. Revisar estructura de documentacion completa

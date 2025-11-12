@@ -93,6 +93,27 @@ Nueva seccion 3.5 con:
 - 3 preguntas frecuentes basicas
 - Referencia a ESTRATEGIA_IA.md con 25+ preguntas completas
 
+
+## Técnicas de Prompt Engineering para Agente
+
+Las siguientes técnicas deben aplicarse al ejecutar esta tarea con un agente:
+
+1. **Expert Prompting** (specialized_techniques.py)
+   - Aplicar conocimiento experto de compliance y gobernanza
+
+2. **Constitutional AI** (optimization_techniques.py)
+   - Verificar cumplimiento de politicas y restricciones organizacionales
+
+3. **Retrieval** (knowledge_techniques.py)
+   - Recuperar documentacion de politicas y guidelines existentes
+
+4. **Task Decomposition** (structuring_techniques.py)
+   - Dividir auditorias en checks especificos y validaciones
+
+5. **Delimiter-based** (structuring_techniques.py)
+   - Estructurar revisiones usando delimitadores claros entre secciones
+
+Agente recomendado: DocumentationSyncAgent o SDLCPlannerAgent
 ## Cambios Realizados
 
 ### ONBOARDING.md

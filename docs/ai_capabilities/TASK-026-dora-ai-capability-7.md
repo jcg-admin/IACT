@@ -24,6 +24,27 @@ Establecer un ecosistema de datos saludable mediante:
 - Metadata management
 - Ecosystem health monitoring
 
+
+## Técnicas de Prompt Engineering para Agente
+
+Las siguientes técnicas deben aplicarse al ejecutar esta tarea con un agente:
+
+1. **RAG** (search_optimization_techniques.py)
+   - Implementar Retrieval Augmented Generation para data catalog
+
+2. **Expert Prompting** (specialized_techniques.py)
+   - Aplicar conocimiento experto de AI/ML y prompt engineering
+
+3. **Meta-prompting** (structuring_techniques.py)
+   - Generar prompts dinamicos para diferentes casos de uso
+
+4. **Task Decomposition** (structuring_techniques.py)
+   - Dividir capabilities AI en componentes reutilizables
+
+5. **Few-Shot** (fundamental_techniques.py)
+   - Usar ejemplos para entrenar modelos de AI
+
+Agente recomendado: FeatureAgent o SDLCDesignAgent
 ## DORA 2025 AI Capability 7
 
 ### Definition

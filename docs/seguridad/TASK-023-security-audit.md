@@ -28,6 +28,27 @@ bandit -r api/callcentersite/ -f json -o security_report.json
 safety check --json
 ```
 
+
+## Técnicas de Prompt Engineering para Agente
+
+Las siguientes técnicas deben aplicarse al ejecutar esta tarea con un agente:
+
+1. **Tool-use Prompting** (knowledge_techniques.py)
+   - Ejecutar herramientas de seguridad y scanners de vulnerabilidades
+
+2. **Expert Prompting** (specialized_techniques.py)
+   - Aplicar conocimiento experto de seguridad y OWASP Top 10
+
+3. **Constitutional AI** (optimization_techniques.py)
+   - Verificar cumplimiento estricto de politicas de seguridad
+
+4. **Chain of Verification** (chain_of_verification.py)
+   - Validar seguridad en cada capa del sistema secuencialmente
+
+5. **Task Decomposition** (structuring_techniques.py)
+   - Dividir auditoria en checks especificos de seguridad
+
+Agente recomendado: SDLCTestingAgent o SDLCPlannerAgent
 ## Resultados del Escaneo
 
 ### Bandit Scan

@@ -20,6 +20,27 @@ Sistema completo de telemetria para rastrear decisiones y performance de agentes
 
 Implementar un sistema robusto de telemetria que capture todas las decisiones tomadas por agentes IA, permita evaluar su performance mediante feedback humano, y proporcione metricas detalladas para optimizacion continua.
 
+
+## Técnicas de Prompt Engineering para Agente
+
+Las siguientes técnicas deben aplicarse al ejecutar esta tarea con un agente:
+
+1. **Expert Prompting** (specialized_techniques.py)
+   - Aplicar conocimiento experto de compliance y gobernanza
+
+2. **Constitutional AI** (optimization_techniques.py)
+   - Verificar cumplimiento de politicas y restricciones organizacionales
+
+3. **Retrieval** (knowledge_techniques.py)
+   - Recuperar documentacion de politicas y guidelines existentes
+
+4. **Task Decomposition** (structuring_techniques.py)
+   - Dividir auditorias en checks especificos y validaciones
+
+5. **Delimiter-based** (structuring_techniques.py)
+   - Estructurar revisiones usando delimitadores claros entre secciones
+
+Agente recomendado: DocumentationSyncAgent o SDLCPlannerAgent
 ## Story Points
 
 13 SP - Complejidad Alta

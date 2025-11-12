@@ -24,6 +24,27 @@ Plan completo de Disaster Recovery (DR) con scripts automaticos para backup y re
 - Restore tested y validado
 - Runbooks completos para recovery
 
+
+## Técnicas de Prompt Engineering para Agente
+
+Las siguientes técnicas deben aplicarse al ejecutar esta tarea con un agente:
+
+1. **Tool-use Prompting** (knowledge_techniques.py)
+   - Ejecutar comandos shell, cron jobs y scripts de automatizacion
+
+2. **ReAct** (knowledge_techniques.py)
+   - Razonar sobre el estado del sistema, actuar con comandos, reflexionar sobre resultados
+
+3. **Simulation** (specialized_techniques.py)
+   - Simular escenarios de operacion para validar configuraciones
+
+4. **Task Decomposition** (structuring_techniques.py)
+   - Dividir tareas operacionales en pasos ejecutables
+
+5. **Expert Prompting** (specialized_techniques.py)
+   - Aplicar conocimiento experto de DevOps y operaciones
+
+Agente recomendado: PDCAAutomationAgent o SDLCPlannerAgent
 ## Story Points
 
 8 SP - Complejidad Media

@@ -24,6 +24,27 @@ Crear suite comprehensiva de integration tests que valide:
 - Data quality y validaciones
 - Alerting system
 
+
+## Técnicas de Prompt Engineering para Agente
+
+Las siguientes técnicas deben aplicarse al ejecutar esta tarea con un agente:
+
+1. **Tool-use Prompting** (knowledge_techniques.py)
+   - Ejecutar pytest con parametros especificos para tests de integracion
+
+2. **ReAct** (knowledge_techniques.py)
+   - Razonar sobre el estado actual, ejecutar tests, reflexionar sobre resultados
+
+3. **Self-Consistency** (self_consistency.py)
+   - Verificar consistencia entre multiples ejecuciones de tests
+
+4. **Chain of Verification** (chain_of_verification.py)
+   - Validar cada capa del sistema de forma secuencial
+
+5. **Auto-CoT** (auto_cot_agent.py)
+   - Generar razonamiento automatico para debugging de tests fallidos
+
+Agente recomendado: SDLCTestingAgent o TDDAgent
 ## Arquitectura de Tests
 
 ```
