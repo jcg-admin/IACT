@@ -19,6 +19,8 @@ This agent demonstrates using algorithmic prompting techniques
 from dataclasses import dataclass, field
 from enum import Enum
 from typing import List, Dict, Any, Optional
+import logging
+import os
 
 from scripts.ai.agents.base import (
     HybridSearchOptimization,
@@ -27,6 +29,20 @@ from scripts.ai.agents.base import (
     CoverageLevel,
     Priority
 )
+
+# Import LLMGenerator for AI-powered analysis
+try:
+    from scripts.ai.generators.llm_generator import LLMGenerator
+    LLM_AVAILABLE = True
+except ImportError:
+    LLM_AVAILABLE = False
+    logging.warning("LLMGenerator not available, will use heuristics only")
+
+logger = logging.getLogger(__name__)
+
+# Constants
+ANALYSIS_METHOD_LLM = "llm"
+ANALYSIS_METHOD_HEURISTIC = "heuristic"
 
 
 class CodeSmell(Enum):
@@ -69,6 +85,7 @@ class RefactoringOpportunity:
     estimated_impact: str  # "low", "medium", "high"
     code_snippet: Optional[str] = None
     cluster_id: Optional[int] = None
+    analysis_method: str = "heuristic"  # "heuristic" or "llm"
 
     def to_dict(self) -> Dict[str, Any]:
         """Convert to dictionary for serialization."""
@@ -80,7 +97,8 @@ class RefactoringOpportunity:
             'priority': self.priority,
             'estimated_effort': self.estimated_effort,
             'estimated_impact': self.estimated_impact,
-            'cluster_id': self.cluster_id
+            'cluster_id': self.cluster_id,
+            'analysis_method': self.analysis_method
         }
 
 
@@ -98,7 +116,8 @@ class RefactoringOpportunitiesAgent:
     def __init__(
         self,
         target_coverage: float = 1.0,  # Return all opportunities by default
-        k_clusters: int = 5
+        k_clusters: int = 5,
+        config: Optional[Dict[str, Any]] = None
     ):
         """
         Initialize the agent.
@@ -106,10 +125,15 @@ class RefactoringOpportunitiesAgent:
         Args:
             target_coverage: Target coverage level (0.0-1.0)
             k_clusters: Number of clusters for K-NN clustering
+            config: Configuration dict with optional keys:
+                - llm_provider: "anthropic" or "openai"
+                - model: Model name (e.g., "claude-3-5-sonnet-20241022")
+                - use_llm: Boolean to enable/disable LLM usage
         """
         self.name = "RefactoringOpportunitiesAgent"
         self.target_coverage = target_coverage
         self.k_clusters = k_clusters
+        self.config = config or {}
 
         # Map coverage float to CoverageLevel enum
         if target_coverage >= 0.9:
@@ -123,6 +147,21 @@ class RefactoringOpportunitiesAgent:
             k_clusters=k_clusters,
             target_coverage=coverage_level
         )
+
+        # Initialize LLMGenerator if configured and available
+        self.llm_generator = None
+
+        if self.config and LLM_AVAILABLE:
+            try:
+                # Initialize LLMGenerator (API key validation happens at runtime)
+                self.llm_generator = LLMGenerator(config=self.config)
+                llm_provider = self.config.get('llm_provider', 'anthropic')
+                logger.info(f"LLMGenerator initialized with {llm_provider}")
+            except Exception as e:
+                logger.error(f"Failed to initialize LLMGenerator: {e}")
+                self.llm_generator = None
+        elif self.config and not LLM_AVAILABLE:
+            logger.warning("LLM configuration provided but LLMGenerator not available")
 
     def find_refactoring_opportunities(
         self,
@@ -143,11 +182,33 @@ class RefactoringOpportunitiesAgent:
         if not code or not code.strip():
             return []
 
+        # Determine analysis method
+        use_llm = self.config.get('use_llm', False) and self.llm_generator is not None
+        analysis_method = ANALYSIS_METHOD_LLM if use_llm else ANALYSIS_METHOD_HEURISTIC
+
         # Detect code smells
-        smells = self._detect_code_smells(code, file_path)
+        if use_llm:
+            try:
+                smells = self._analyze_with_llm(code, file_path)
+                logger.info(f"Found {len(smells)} opportunities using LLM")
+                # If no smells found or error occurred
+                if not smells:
+                    logger.warning("LLM returned no opportunities, using heuristics")
+                    smells = self._detect_code_smells(code, file_path)
+                    analysis_method = ANALYSIS_METHOD_HEURISTIC
+            except Exception as e:
+                logger.error(f"LLM analysis failed: {e}, falling back to heuristics")
+                smells = self._detect_code_smells(code, file_path)
+                analysis_method = ANALYSIS_METHOD_HEURISTIC
+        else:
+            smells = self._detect_code_smells(code, file_path)
 
         if not smells:
             return []
+
+        # Update analysis_method on all opportunities
+        for smell in smells:
+            smell.analysis_method = analysis_method
 
         # Convert smells to search items for optimization
         search_items = [
@@ -375,3 +436,147 @@ class RefactoringOpportunitiesAgent:
             return Priority.MEDIUM  # 1
         else:
             return Priority.LOW  # 0
+
+    def _analyze_with_llm(
+        self,
+        code: str,
+        file_path: Optional[str] = None
+    ) -> List[RefactoringOpportunity]:
+        """
+        Analyze code for refactoring opportunities using LLMGenerator.
+
+        Args:
+            code: Python code to analyze
+            file_path: Optional file path for context
+
+        Returns:
+            List of RefactoringOpportunity objects identified by LLM
+        """
+        # Build prompt for LLM
+        prompt = self._build_llm_prompt(code, file_path)
+
+        # Call LLM
+        response = self.llm_generator._call_llm(prompt)
+
+        # Parse LLM response into refactoring opportunities
+        opportunities = self._parse_llm_opportunities(response, file_path)
+
+        return opportunities
+
+    def _build_llm_prompt(self, code: str, file_path: Optional[str] = None) -> str:
+        """Build prompt for LLM refactoring analysis."""
+        location = file_path or "code"
+        prompt = f"""Analyze the following Python code for refactoring opportunities using Search Optimization reasoning.
+
+CODE TO ANALYZE:
+```python
+{code}
+```
+
+LOCATION: {location}
+
+REQUIREMENTS:
+1. Identify code smells and refactoring opportunities including:
+   - Long Method: Methods that are too long or complex
+   - God Class/Large Class: Classes with too many responsibilities
+   - Duplicate Code: Similar or repeated code blocks
+   - Long Parameter List: Functions with too many parameters
+   - Feature Envy: Methods that use more features of another class
+   - Data Clumps: Groups of data that always appear together
+   - Primitive Obsession: Over-reliance on primitive types
+   - Divergent Change/Shotgun Surgery: Change patterns
+
+2. For each refactoring opportunity, provide:
+   - smell: Type of code smell (long_method, god_class, duplicate_code, large_class, long_parameter_list, divergent_change, shotgun_surgery, feature_envy, data_clumps, primitive_obsession)
+   - description: Clear explanation of the issue
+   - refactoring_type: Recommended refactoring (extract_method, extract_class, move_method, rename, introduce_parameter_object, replace_conditional, consolidate_duplicate, simplify_conditional, decompose_conditional, remove_dead_code)
+   - priority: Integer from 1-10 (higher = more important)
+   - estimated_effort: "low", "medium", or "high"
+   - estimated_impact: "low", "medium", or "high"
+   - code_snippet: Optional relevant code snippet
+
+3. Prioritize based on:
+   - Impact on code quality
+   - Risk and effort required
+   - Dependencies between refactorings
+
+RESPONSE FORMAT (JSON):
+{{
+  "opportunities": [
+    {{
+      "smell": "long_method",
+      "description": "The process_order function is too long with 50+ lines handling multiple responsibilities",
+      "refactoring_type": "extract_method",
+      "priority": 8,
+      "estimated_effort": "medium",
+      "estimated_impact": "high",
+      "code_snippet": "def process_order(order):\\n    # 50+ lines..."
+    }}
+  ]
+}}
+
+Analyze the code:"""
+        return prompt
+
+    def _parse_llm_opportunities(
+        self,
+        response: str,
+        file_path: Optional[str] = None
+    ) -> List[RefactoringOpportunity]:
+        """Parse LLM response into RefactoringOpportunity objects."""
+        import json
+
+        try:
+            # Try to parse as JSON
+            data = json.loads(response)
+            opportunities = []
+
+            for opp_data in data.get('opportunities', []):
+                # Map string values to enums
+                smell_str = opp_data.get('smell', 'long_method').lower()
+                smell = {
+                    'long_method': CodeSmell.LONG_METHOD,
+                    'god_class': CodeSmell.GOD_CLASS,
+                    'duplicate_code': CodeSmell.DUPLICATE_CODE,
+                    'large_class': CodeSmell.LARGE_CLASS,
+                    'long_parameter_list': CodeSmell.LONG_PARAMETER_LIST,
+                    'divergent_change': CodeSmell.DIVERGENT_CHANGE,
+                    'shotgun_surgery': CodeSmell.SHOTGUN_SURGERY,
+                    'feature_envy': CodeSmell.FEATURE_ENVY,
+                    'data_clumps': CodeSmell.DATA_CLUMPS,
+                    'primitive_obsession': CodeSmell.PRIMITIVE_OBSESSION
+                }.get(smell_str, CodeSmell.LONG_METHOD)
+
+                refactoring_type_str = opp_data.get('refactoring_type', 'extract_method').lower()
+                refactoring_type = {
+                    'extract_method': RefactoringType.EXTRACT_METHOD,
+                    'extract_class': RefactoringType.EXTRACT_CLASS,
+                    'move_method': RefactoringType.MOVE_METHOD,
+                    'rename': RefactoringType.RENAME,
+                    'introduce_parameter_object': RefactoringType.INTRODUCE_PARAMETER_OBJECT,
+                    'replace_conditional': RefactoringType.REPLACE_CONDITIONAL_WITH_POLYMORPHISM,
+                    'consolidate_duplicate': RefactoringType.CONSOLIDATE_DUPLICATE,
+                    'simplify_conditional': RefactoringType.SIMPLIFY_CONDITIONAL,
+                    'decompose_conditional': RefactoringType.DECOMPOSE_CONDITIONAL,
+                    'remove_dead_code': RefactoringType.REMOVE_DEAD_CODE
+                }.get(refactoring_type_str, RefactoringType.EXTRACT_METHOD)
+
+                opportunity = RefactoringOpportunity(
+                    smell=smell,
+                    location=file_path or "code",
+                    description=opp_data.get('description', ''),
+                    refactoring_type=refactoring_type,
+                    priority=int(opp_data.get('priority', 5)),
+                    estimated_effort=opp_data.get('estimated_effort', 'medium'),
+                    estimated_impact=opp_data.get('estimated_impact', 'medium'),
+                    code_snippet=opp_data.get('code_snippet'),
+                    analysis_method=ANALYSIS_METHOD_LLM
+                )
+                opportunities.append(opportunity)
+
+            return opportunities
+
+        except json.JSONDecodeError:
+            logger.warning("Failed to parse LLM response as JSON")
+            # Return empty list to trigger fallback
+            return []
