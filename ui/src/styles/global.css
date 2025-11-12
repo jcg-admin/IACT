@@ -97,6 +97,64 @@ body {
   border-radius: 4px;
 }
 
+.announcement-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  color: #3b2f0b;
+}
+
+.announcement-title {
+  font-size: 1.25rem;
+  color: #8a6d1d;
+}
+
+.announcement-highlight {
+  font-weight: 600;
+}
+
+.announcement-section h4 {
+  font-size: 1.05rem;
+  margin-bottom: 0.25rem;
+  color: #5f4b14;
+}
+
+.announcement-section ul,
+.announcement-tasks ul {
+  list-style: disc;
+  padding-left: 1.5rem;
+}
+
+.announcement-section li,
+.announcement-tasks li {
+  margin-bottom: 0.25rem;
+}
+
+.announcement-code {
+  background-color: #fff7e6;
+  border-radius: 4px;
+  padding: 0.5rem 0.75rem;
+  overflow-x: auto;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.announcement-tasks h4 {
+  margin-bottom: 0.25rem;
+  color: #5f4b14;
+}
+
+.announcement-fallback {
+  margin-top: 0.75rem;
+  font-size: 0.9rem;
+  color: #8a6d1d;
+}
+
+.announcement-error {
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  color: #b94a48;
+}
+
 .widgets-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));

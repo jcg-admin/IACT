@@ -7,8 +7,26 @@ jest.mock('./hooks/useHomeAnnouncement');
 jest.mock('./hooks/useCallsSummary');
 
 describe('HomeModule', () => {
+  const announcementMock = {
+    title: 'Concept: Microfrontends',
+    videoPlatforms: ['Youtube', 'Bilibili'],
+    summary: ['A microfrontend is a microservice that exists within a browser.'],
+    sections: [
+      {
+        heading: 'Comparison to Microservices',
+        paragraphs: ['Independent builds and deployments are a shared principle.'],
+      },
+    ],
+    tasks: ['Mantener despliegues independientes.'],
+  };
+
   beforeEach(() => {
-    useHomeAnnouncement.mockReturnValue({ announcement: 'Mensaje importante', isLoading: false });
+    useHomeAnnouncement.mockReturnValue({
+      announcement: announcementMock,
+      isLoading: false,
+      source: 'fallback',
+      error: 'Error cargando anuncios',
+    });
     useCallsSummary.mockReturnValue({
       summary: { totalCalls: 0, activeCalls: 0, completedCalls: 0 },
       source: 'api',
@@ -42,5 +60,15 @@ describe('HomeModule', () => {
     expect(screen.getByText(/Completadas: 3/)).toBeInTheDocument();
     expect(screen.getByText(/datos simulados/i)).toBeInTheDocument();
     expect(screen.getByText(/Fallback activado/)).toBeInTheDocument();
+  });
+
+  it('renders the microfrontends educational announcement with fallback notice', () => {
+    render(<HomeModule />);
+
+    expect(screen.getByRole('heading', { name: /Concept: Microfrontends/ })).toBeInTheDocument();
+    expect(screen.getByText(/Tutorial video: Youtube \/ Bilibili/)).toBeInTheDocument();
+    expect(screen.getByText(/Independent builds and deployments/)).toBeInTheDocument();
+    expect(screen.getByText(/Mantener despliegues independientes/)).toBeInTheDocument();
+    expect(screen.getByText(/Mostrando contenido educativo local/)).toBeInTheDocument();
   });
 });
