@@ -20,7 +20,7 @@ Dashboards de monitoring self-hosted compliant con RNF-002 (NO Prometheus/Grafan
 **Dashboard:** Django Admin Custom Dashboard (TASK-014)
 **URL:** `/api/dora/dashboard/`
 **Tecnologia:** Django + Chart.js
-**Compliance:** ✅ Self-hosted, NO Prometheus/Grafana
+**Compliance:** [OK] Self-hosted, NO Prometheus/Grafana
 
 ## Metricas Monitoreadas
 
@@ -85,10 +85,10 @@ curl http://localhost:8000/api/dora/metrics/?days=30
 
 ## Compliance RNF-002
 
-✅ NO usa Prometheus
-✅ NO usa Grafana
-✅ Dashboard self-hosted (Django)
-✅ Chart.js desde CDN (no requiere instalacion)
+[OK] NO usa Prometheus
+[OK] NO usa Grafana
+[OK] Dashboard self-hosted (Django)
+[OK] Chart.js desde CDN (no requiere instalacion)
 
 ---
 

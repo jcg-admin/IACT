@@ -427,7 +427,7 @@ jobs:
 ## Compliance
 
 ### RNF-002
-✅ **COMPLIANT** - Uses existing infrastructure
+[OK] **COMPLIANT** - Uses existing infrastructure
 
 ### Performance
 - Target: p95 < 1s

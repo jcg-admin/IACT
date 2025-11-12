@@ -136,9 +136,9 @@ ETLRun.objects.create(
 
 ## Compliance
 
-✅ NO usa Airflow (evita dependencia externa, RNF-002 compliant)
-✅ Self-hosted con Django + cron
-✅ Simple y mantenible
+[OK] NO usa Airflow (evita dependencia externa, RNF-002 compliant)
+[OK] Self-hosted con Django + cron
+[OK] Simple y mantenible
 
 ---
 

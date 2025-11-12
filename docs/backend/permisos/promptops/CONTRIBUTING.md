@@ -60,8 +60,8 @@ prompt = load_prompt("docs/backend/permisos/promptops/gates/route-lint.md")
 result = analyze_code_with_prompt(code, prompt)
 
 # 5. Retorna resultado estructurado
-exit 0  # ✅ Pass
-exit 1  # ❌ Fail
+exit 0  # [OK] Pass
+exit 1  # [NO] Fail
 ```
 
 ---
@@ -73,7 +73,7 @@ exit 1  # ❌ Fail
 Para un gate llamado "route-lint":
 
 ```
-📦 Componente: Route Lint
+[PAQUETE] Componente: Route Lint
 ├── 📄 docs/backend/permisos/promptops/gates/route-lint.md
 │   ├── [SISTEMA] - Comportamiento del agente
 │   ├── [CONTEXTO] - Información del proyecto
@@ -191,7 +191,7 @@ graph LR
     B --> C[3. Implementar<br/>Agent]
     C --> D[4. Escribir<br/>Shell Script]
     D --> E[5. Testing]
-    E --> F[✅ Integrar<br/>CI/CD]
+    E --> F[[OK] Integrar<br/>CI/CD]
 ```
 
 ### Paso 1: Definir Requisito
@@ -362,7 +362,7 @@ Antes de retornar resultado, verifica:
 ### Caso 1: ViewSet SIN Permisos (VIOLATION)
 
 ```python
-# ❌ VIOLATION
+# [NO] VIOLATION
 class ReporteViewSet(viewsets.ModelViewSet):
     queryset = Reporte.objects.all()
     serializer_class = ReporteSerializer
@@ -379,7 +379,7 @@ class ReporteViewSet(viewsets.ModelViewSet):
 ### Caso 2: ViewSet CON Permisos (OK)
 
 ```python
-# ✅ OK
+# [OK] OK
 class ReporteViewSet(PermisoMixin, viewsets.ModelViewSet):
     required_permissions = ['sistema.reportes.ivr.ver']
     queryset = Reporte.objects.all()
@@ -640,11 +640,11 @@ class RouteLintAgent(BasePermissionAgent):
         lines = []
 
         if result.status == "pass":
-            lines.append("✅ Route Lint: PASS")
+            lines.append("[OK] Route Lint: PASS")
             lines.append(f"   Todos los ViewSets ({result.total_viewsets}) tienen protección de permisos")
             return "\n".join(lines)
 
-        lines.append("❌ Route Lint: FAIL")
+        lines.append("[NO] Route Lint: FAIL")
         lines.append(f"   {result.total_viewsets} ViewSets analizados")
         lines.append(f"   {result.viewsets_with_permissions} con permisos")
         lines.append(f"   {len(result.violations)} violaciones encontradas\n")
@@ -715,10 +715,10 @@ echo "🔍 Running Route Lint Gate..."
 
 # Ejecutar agent Python
 if python3 "$PROJECT_ROOT/scripts/ai/agents/permissions/route_linter.py"; then
-    echo -e "${GREEN}✅ Route Lint: PASS${NC}"
+    echo -e "${GREEN}[OK] Route Lint: PASS${NC}"
     exit 0
 else
-    echo -e "${RED}❌ Route Lint: FAIL${NC}"
+    echo -e "${RED}[NO] Route Lint: FAIL${NC}"
     echo ""
     echo "Para corregir:"
     echo "1. Agrega required_permissions a los ViewSets reportados"
@@ -860,9 +860,9 @@ Todos los prompts DEBEN seguir esta estructura:
 ### Códigos de Salida
 
 ```bash
-0   # ✅ Success - No issues found
-1   # ❌ Failure - Issues found that block merge
-2   # ⚠️  Warning - Issues found but non-blocking
+0   # [OK] Success - No issues found
+1   # [NO] Failure - Issues found that block merge
+2   # [ATENCION]  Warning - Issues found but non-blocking
 127 # 💥 Error - Script execution error
 ```
 
@@ -1046,7 +1046,7 @@ def test_fails_below_80_percent():
 # scripts/ci/run-all-gates.sh
 ./scripts/ci/gate-route-lint.sh
 ./scripts/ci/gate-audit-contract.sh
-./scripts/ci/gate-permission-coverage.sh  # ✅ NUEVO
+./scripts/ci/gate-permission-coverage.sh  # [OK] NUEVO
 ```
 
 ---

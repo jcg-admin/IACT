@@ -11,7 +11,7 @@ Las técnicas de prompting implementadas son **generales y transversales**, apli
 
 ### Documentación General (PRINCIPAL)
 
-📚 **Ubicación principal:** `docs/ai_capabilities/prompting/`
+[DOCS] **Ubicación principal:** `docs/ai_capabilities/prompting/`
 
 - **[README.md](../../ai_capabilities/prompting/README.md)** - Overview y quick start
 - **[ADVANCED_PROMPTING_TECHNIQUES.md](../../ai_capabilities/prompting/ADVANCED_PROMPTING_TECHNIQUES.md)** - 38 técnicas completas
@@ -203,10 +203,10 @@ El framework de prompting se integra con el flujo TDD del proyecto:
 
 Este directorio (`docs/backend/permisos/promptops/`) mantiene:
 
-- ✅ Referencias a documentación general
-- ✅ Ejemplos específicos de permisos
-- ✅ Patrones de uso en contexto de permisos
-- ✅ Integraciones con agentes de permisos
+- [OK] Referencias a documentación general
+- [OK] Ejemplos específicos de permisos
+- [OK] Patrones de uso en contexto de permisos
+- [OK] Integraciones con agentes de permisos
 
 **NO duplica** la documentación completa (ver `docs/ai_capabilities/prompting/`).
 

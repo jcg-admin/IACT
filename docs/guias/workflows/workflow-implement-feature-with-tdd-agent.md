@@ -128,12 +128,12 @@ python scripts/sdlc_agent.py \
 
 | Opción | Descripción | Obligatorio |
 |--------|-------------|-------------|
-| `--phase implementation` | Fase SDLC a ejecutar | ✅ Sí |
-| `--issue-file <path>` | Path al JSON con issue data | ✅ Sí |
-| `--config <path>` | Config personalizada | ❌ No |
-| `--verbose` | Mostrar logs detallados | ❌ No (recomendado) |
-| `--dry-run` | Ejecutar sin guardar artefactos | ❌ No |
-| `--format json` | Output en JSON | ❌ No |
+| `--phase implementation` | Fase SDLC a ejecutar | [OK] Sí |
+| `--issue-file <path>` | Path al JSON con issue data | [OK] Sí |
+| `--config <path>` | Config personalizada | [NO] No |
+| `--verbose` | Mostrar logs detallados | [NO] No (recomendado) |
+| `--dry-run` | Ejecutar sin guardar artefactos | [NO] No |
+| `--format json` | Output en JSON | [NO] No |
 
 ### Paso 4: Monitorear Ejecución
 
@@ -171,7 +171,7 @@ INFO - ⚠ DOCUMENTATION_REQUIRED: 1/15 functions missing docstring
 
 INFO - === Generating reports ===
 INFO - Compliance Score: 95.5/100
-INFO - Status: ✅ COMPLIANT
+INFO - Status: [OK] COMPLIANT
 INFO - Execution log: docs/sdlc_outputs/tdd_logs/tdd_execution_implementar_autenticacion_usuarios_con_2fa_20250115_143025.json
 INFO - Dashboard: docs/sdlc_outputs/tdd_logs/dashboard_implementar_autenticacion_usuarios_con_2fa.md
 ```
@@ -204,16 +204,16 @@ code docs/sdlc_outputs/tdd_logs/dashboard_implementar_autenticacion_usuarios_con
 ```
 
 **El dashboard muestra:**
-- ✅ Badges visuales (compliance, coverage, security, quality)
-- 📊 Métricas detalladas en tablas
+- [OK] Badges visuales (compliance, coverage, security, quality)
+- [METRICA] Métricas detalladas en tablas
 - ⏱️ Timeline de ejecución
-- ⚠️ Violations (si las hay)
+- [ATENCION] Violations (si las hay)
 
 ### Paso 6: Validar Compliance
 
 **Checklist de validación:**
 
-- [ ] **Status:** ✅ COMPLIANT (no ❌ NOT COMPLIANT)
+- [ ] **Status:** [OK] COMPLIANT (no [NO] NOT COMPLIANT)
 - [ ] **Score:** >= 90/100
 - [ ] **CRITICAL violations:** 0
 - [ ] **Test Coverage:** >= 90%
@@ -263,7 +263,7 @@ bandit -r apps/users/
 
 **Para violations CRITICAL:**
 
-⚠️ **El agente ya habría fallado** - necesitas re-ejecutar completo.
+[ATENCION] **El agente ya habría fallado** - necesitas re-ejecutar completo.
 
 ### Paso 8: Ejecutar Tests Manualmente
 
@@ -340,10 +340,10 @@ git push origin feature/user-auth-2fa
 Implementa sistema de autenticación con 2FA usando TDD Feature Agent.
 
 ## TDD Compliance
-- ✅ Score: 95.5/100
-- ✅ Coverage: 92.3%
-- ✅ Security: 0 issues
-- ✅ Tests: 15/15 passing
+- [OK] Score: 95.5/100
+- [OK] Coverage: 92.3%
+- [OK] Security: 0 issues
+- [OK] Tests: 15/15 passing
 
 ## Dashboard
 Ver dashboard completo: `docs/sdlc_outputs/tdd_logs/dashboard_*.md`
@@ -549,7 +549,7 @@ ruff check <target_module>
 
 ## Mejores Prácticas
 
-### ✅ DO
+### [OK] DO
 
 1. **Preparar issue data completo**
    - Acceptance criteria específicos y medibles
@@ -573,7 +573,7 @@ ruff check <target_module>
    - Corregir MEDIUM/HIGH violations
    - Agregar tests faltantes
 
-### ❌ DON'T
+### [NO] DON'T
 
 1. **No modificar código generado sin re-ejecutar tests**
    - Siempre re-ejecutar tests después de cambios manuales
@@ -597,7 +597,7 @@ ruff check <target_module>
 Antes de hacer commit, verificar:
 
 - [ ] TDD Agent ejecutado exitosamente
-- [ ] Status: ✅ COMPLIANT
+- [ ] Status: [OK] COMPLIANT
 - [ ] Score >= 90/100
 - [ ] Violations CRITICAL: 0
 - [ ] Coverage >= 90%

@@ -18,7 +18,7 @@ Sistema de alertas self-hosted compliant con RNF-002 (NO Prometheus/Alertmanager
 ## Implementacion
 
 **Tecnologia:** Django Signals + Python logging
-**Compliance:** ✅ Self-hosted, NO Prometheus/Alertmanager
+**Compliance:** [OK] Self-hosted, NO Prometheus/Alertmanager
 
 ## Arquitectura
 
@@ -101,10 +101,10 @@ def send_webhook_alert(level, message, context):
 
 ## Compliance RNF-002
 
-✅ NO usa Prometheus
-✅ NO usa Alertmanager
-✅ Self-hosted (Django signals)
-✅ NO usa servicios externos
+[OK] NO usa Prometheus
+[OK] NO usa Alertmanager
+[OK] Self-hosted (Django signals)
+[OK] NO usa servicios externos
 
 ---
 

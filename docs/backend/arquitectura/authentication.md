@@ -163,7 +163,7 @@ class LoginView(APIView):
 
 ## Tests
 
-⚠️ **WARNING**: No se detectaron tests automáticos.
+[ATENCION] **WARNING**: No se detectaron tests automáticos.
 
 **Tests requeridos (prioridad ALTA)**:
 1. `test_security_question_set_answer()` - Verificar cifrado de respuestas
@@ -282,11 +282,11 @@ ACCOUNT_LOCKOUT_DURATION_MINUTES = 30
 
 | Requisito | Descripción | Implementación |
 |-----------|-------------|----------------|
-| RF-003 | Bloqueo intentos fallidos | ✅ LoginAttemptService.count_recent_failures() |
-| RF-006 | Recuperación sin email | ✅ SecurityQuestion con verify_answer() |
-| RF-009 | Gestión passwords | ✅ Hashing seguro con Django password hashers |
-| RN-001 | Auditoría ISO 27001 | ✅ LoginAttempt registra todos los intentos |
-| RNF-001 | Tiempo respuesta login | ⚠️ Requiere tests de performance |
+| RF-003 | Bloqueo intentos fallidos | [OK] LoginAttemptService.count_recent_failures() |
+| RF-006 | Recuperación sin email | [OK] SecurityQuestion con verify_answer() |
+| RF-009 | Gestión passwords | [OK] Hashing seguro con Django password hashers |
+| RN-001 | Auditoría ISO 27001 | [OK] LoginAttempt registra todos los intentos |
+| RNF-001 | Tiempo respuesta login | [ATENCION] Requiere tests de performance |
 
 ## Métricas y Monitoreo
 
@@ -320,11 +320,11 @@ top_ips = (
 
 ### Consideraciones de Seguridad
 
-1. ✅ **Hashing de respuestas**: Usa `make_password()` de Django (bcrypt/PBKDF2)
-2. ✅ **Protección contra timing attacks**: `check_password()` usa tiempo constante
-3. ✅ **Auditoría completa**: Todos los intentos se registran con IP y user-agent
-4. ⚠️ **Rate limiting**: Implementar a nivel de middleware/nginx
-5. ⚠️ **CAPTCHA**: Considerar después de 3 intentos fallidos
+1. [OK] **Hashing de respuestas**: Usa `make_password()` de Django (bcrypt/PBKDF2)
+2. [OK] **Protección contra timing attacks**: `check_password()` usa tiempo constante
+3. [OK] **Auditoría completa**: Todos los intentos se registran con IP y user-agent
+4. [ATENCION] **Rate limiting**: Implementar a nivel de middleware/nginx
+5. [ATENCION] **CAPTCHA**: Considerar después de 3 intentos fallidos
 
 ### Vectores de Ataque Mitigados
 
@@ -350,4 +350,4 @@ top_ips = (
 
 **Última actualización**: 2025-11-06
 **Autor**: DocumentationSyncAgent + Revisión Manual
-**Estado**: ✅ Documentación completa
+**Estado**: [OK] Documentación completa

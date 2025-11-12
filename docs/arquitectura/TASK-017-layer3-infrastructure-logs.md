@@ -464,10 +464,10 @@ cluster = Cluster(['localhost'], auth_provider=auth_provider)
 ### RNF-002
 
 **Cumplimiento:**
-- ✅ NO usa Redis
-- ✅ NO usa Prometheus
-- ✅ NO usa Grafana
-- ✅ Self-hosted en Cassandra
+- [OK] NO usa Redis
+- [OK] NO usa Prometheus
+- [OK] NO usa Grafana
+- [OK] Self-hosted en Cassandra
 
 ### TTL y Retention
 

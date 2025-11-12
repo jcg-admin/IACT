@@ -337,24 +337,24 @@ if random.randint(1, 100) == 1:
 ```
 
 **Ventajas:**
-- ✅ Overhead mínimo: <0.1ms
-- ✅ Muestra suficiente para detectar problemas (100 req/min × 1% = ~1 log/min)
-- ✅ Cumple restricciones (JSON estructurado, logging local)
+- [OK] Overhead mínimo: <0.1ms
+- [OK] Muestra suficiente para detectar problemas (100 req/min × 1% = ~1 log/min)
+- [OK] Cumple restricciones (JSON estructurado, logging local)
 
 **Por qué NO `connection.queries`:**
 ```python
-# ❌ NO funciona en producción (DEBUG=False)
+# [NO] NO funciona en producción (DEBUG=False)
 len(connection.queries)  # Siempre retorna 0 cuando DEBUG=False
 
-# ✅ Funciona en producción
+# [OK] Funciona en producción
 time.perf_counter()  # Disponible siempre
 ```
 
 **Cumplimiento de Restricciones:**
-- ✅ JSON estructurado
-- ✅ Logging local (sin servicios externos)
-- ✅ `time.perf_counter()` funciona en producción
-- ✅ Sin PII en logs (usuario_id es OK según restricciones)
+- [OK] JSON estructurado
+- [OK] Logging local (sin servicios externos)
+- [OK] `time.perf_counter()` funciona en producción
+- [OK] Sin PII en logs (usuario_id es OK según restricciones)
 
 ---
 
@@ -367,7 +367,7 @@ time.perf_counter()  # Disponible siempre
 El caso de uso hacía queries directas a `role_permissions`:
 
 ```python
-# ❌ Código original UC-012 (NO optimizado)
+# [NO] Código original UC-012 (NO optimizado)
 roles_usuario = SELECT role_id FROM user_roles
                 WHERE user_id = @user_id
 
@@ -381,15 +381,15 @@ for permiso in permisos_requeridos:
 ```
 
 **Problemas:**
-- ❌ 2-3 queries por validación
-- ❌ NO usa `PermisoService`
-- ❌ NO soporta permisos excepcionales
-- ❌ Inconsistente con arquitectura (ADR-012)
+- [NO] 2-3 queries por validación
+- [NO] NO usa `PermisoService`
+- [NO] NO soporta permisos excepcionales
+- [NO] Inconsistente con arquitectura (ADR-012)
 
 **Solución Integrada:**
 
 ```python
-# ✅ UC-012 integrado con PermisoService
+# [OK] UC-012 integrado con PermisoService
 def validar_permisos_modulo(usuario_id, module_id):
     """
     Valida si usuario tiene permisos para un módulo.
@@ -426,10 +426,10 @@ def validar_permisos_modulo(usuario_id, module_id):
 ```
 
 **Ventajas:**
-- ✅ Usa optimización de queries (6→3 por capacidad)
-- ✅ Consistente con ADR-012
-- ✅ Soporta `PermisoExcepcional`
-- ✅ Centralizado en `PermisoService`
+- [OK] Usa optimización de queries (6→3 por capacidad)
+- [OK] Consistente con ADR-012
+- [OK] Soporta `PermisoExcepcional`
+- [OK] Centralizado en `PermisoService`
 
 ---
 
@@ -607,8 +607,8 @@ cat /var/log/django/application.log | \
 ```
 
 **Umbrales de alerta:**
-- ⚠️ WARNING si p95 > 100ms
-- 🔴 CRITICAL si p95 > 200ms
+- [ATENCION] WARNING si p95 > 100ms
+- [CRITICO] CRITICAL si p95 > 200ms
 
 ### Query para Análisis
 
@@ -646,14 +646,14 @@ print(f"P99: {np.percentile(duraciones, 99):.2f}ms")
 **Estado:** NO implementado - Pendiente de justificación con datos.
 
 **Cuándo considerar:**
-- ✅ SI mediciones post-optimización muestran latencia p95 > 100ms
-- ✅ SI throughput causa problemas en base de datos
-- ✅ SI logs muestran mismo usuario verificando misma capacidad repetidamente
+- [OK] SI mediciones post-optimización muestran latencia p95 > 100ms
+- [OK] SI throughput causa problemas en base de datos
+- [OK] SI logs muestran mismo usuario verificando misma capacidad repetidamente
 
 **Cuándo NO considerar:**
-- ❌ SI latencia p95 < 50ms (suficiente)
-- ❌ SI base de datos maneja carga sin problemas
-- ❌ SI no hay datos que justifiquen la complejidad adicional
+- [NO] SI latencia p95 < 50ms (suficiente)
+- [NO] SI base de datos maneja carga sin problemas
+- [NO] SI no hay datos que justifiquen la complejidad adicional
 
 **Proceso de decisión:**
 1. Implementar esta optimización (6→3 queries)
@@ -685,11 +685,11 @@ CACHES = {
 
 ### Criterios de Éxito
 
-- ✅ API pública sin cambios (`usuario_tiene_permiso(usuario_id, capacidad)` igual)
-- ✅ Todos los tests existentes pasan
-- ✅ Comportamiento idéntico (mismo resultado para mismos inputs)
-- ✅ Reducción confirmada de queries (via logs de sampling)
-- ✅ Logging cumple restricciones (JSON, local, sin PII)
+- [OK] API pública sin cambios (`usuario_tiene_permiso(usuario_id, capacidad)` igual)
+- [OK] Todos los tests existentes pasan
+- [OK] Comportamiento idéntico (mismo resultado para mismos inputs)
+- [OK] Reducción confirmada de queries (via logs de sampling)
+- [OK] Logging cumple restricciones (JSON, local, sin PII)
 
 ### Tests de Regresión
 

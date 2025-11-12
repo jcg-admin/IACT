@@ -61,7 +61,7 @@ RESTRICCIONES CRÍTICAS (NO NEGOCIABLES):
 
 ## Análisis por Fase de Mejora
 
-### Fase 1: Caching con Redis - **DUDOSO** 🟡
+### Fase 1: Caching con Redis - **DUDOSO** [EN_PROGRESO]
 
 **Propuesta Original**:
 ```python
@@ -85,8 +85,8 @@ OK OBLIGATORIO:
 ```
 
 **Análisis**:
-- ✅ La restricción dice "NO Redis **para sesiones**", no "NO Redis en general"
-- ❌ Sin embargo, la justificación es: "Infraestructura del cliente NO tiene Redis"
+- [OK] La restricción dice "NO Redis **para sesiones**", no "NO Redis en general"
+- [NO] Sin embargo, la justificación es: "Infraestructura del cliente NO tiene Redis"
 - 🤔 Si la infraestructura NO tiene Redis, entonces Redis para cache TAMPOCO está disponible
 
 **Veredicto**: **CONFLICTO** - No se puede usar Redis porque no existe en infraestructura
@@ -96,7 +96,7 @@ OK OBLIGATORIO:
 # settings/base.py
 CACHES = {
     'default': {
-        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',  # ✅ Usar BD en lugar de Redis
+        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',  # [OK] Usar BD en lugar de Redis
         'LOCATION': 'permissions_cache_table',
         'TIMEOUT': 300,  # 5 minutos
     }
@@ -110,15 +110,15 @@ python manage.py createcachetable permissions_cache_table
 ```
 
 **Pros de usar DB cache**:
-- ✅ Cumple con infraestructura disponible
-- ✅ No requiere servicios adicionales
-- ✅ Funciona con PostgreSQL/MySQL existente
-- ✅ Persistente (sobrevive reinicios)
+- [OK] Cumple con infraestructura disponible
+- [OK] No requiere servicios adicionales
+- [OK] Funciona con PostgreSQL/MySQL existente
+- [OK] Persistente (sobrevive reinicios)
 
 **Contras de usar DB cache**:
-- ❌ Más lento que Redis (~50ms vs ~1ms)
-- ❌ Más carga en BD (pero tolerable para permisos)
-- ✅ PERO: Aún es 10x más rápido que queries individuales
+- [NO] Más lento que Redis (~50ms vs ~1ms)
+- [NO] Más carga en BD (pero tolerable para permisos)
+- [OK] PERO: Aún es 10x más rápido que queries individuales
 
 **Métricas esperadas**:
 - Sin cache: 5+ queries, ~250ms
@@ -127,7 +127,7 @@ python manage.py createcachetable permissions_cache_table
 
 ---
 
-### Fase 2: DRF Permission Classes - **OK** ✅
+### Fase 2: DRF Permission Classes - **OK** [OK]
 
 **Propuesta**:
 ```python
@@ -143,10 +143,10 @@ class HasCapacidad(BasePermission):
 **Veredicto**: **SIN CONFLICTOS**
 
 **Justificación**:
-- ✅ Solo clases Python, no usa servicios externos
-- ✅ No modifica restricciones de seguridad
-- ✅ Compatible con arquitectura Django/DRF
-- ✅ No requiere infraestructura adicional
+- [OK] Solo clases Python, no usa servicios externos
+- [OK] No modifica restricciones de seguridad
+- [OK] Compatible con arquitectura Django/DRF
+- [OK] No requiere infraestructura adicional
 
 ---
 
@@ -154,11 +154,11 @@ class HasCapacidad(BasePermission):
 
 **Propuesta Original**:
 ```python
-# Logging estructurado - OK ✅
+# Logging estructurado - OK [OK]
 logger = logging.getLogger('permissions')
 logger.info("Acceso permitido", extra=log_context)
 
-# Métricas Prometheus - CONFLICTO ❌
+# Métricas Prometheus - CONFLICTO [NO]
 from prometheus_client import Counter
 permission_checks_total = Counter('permission_checks_total', ...)
 ```
@@ -173,14 +173,14 @@ NO Sentry (ADR-002):
 
 **Análisis**:
 
-#### Logging Estructurado JSON - **OK** ✅
+#### Logging Estructurado JSON - **OK** [OK]
 
 **Sin conflictos**:
 ```python
 LOGGING = {
     'handlers': {
         'file': {
-            'class': 'logging.handlers.RotatingFileHandler',  # ✅ Local
+            'class': 'logging.handlers.RotatingFileHandler',  # [OK] Local
             'filename': 'logs/permissions.log',
             'formatter': 'json',
         },
@@ -188,16 +188,16 @@ LOGGING = {
 }
 ```
 
-✅ Archivos locales rotativos (cumple restricción)
-✅ JSON parseable (no requiere servicio externo)
-✅ Retención configurable (30/90 días según restricción)
+[OK] Archivos locales rotativos (cumple restricción)
+[OK] JSON parseable (no requiere servicio externo)
+[OK] Retención configurable (30/90 días según restricción)
 
-#### Prometheus Metrics - **CONFLICTO** ❌
+#### Prometheus Metrics - **CONFLICTO** [NO]
 
 **Problema**:
-- ❌ Prometheus es un "servicio externo de monitoreo"
-- ❌ Requiere infraestructura adicional (Prometheus server)
-- ❌ Similar a Sentry/Datadog en concepto
+- [NO] Prometheus es un "servicio externo de monitoreo"
+- [NO] Requiere infraestructura adicional (Prometheus server)
+- [NO] Similar a Sentry/Datadog en concepto
 
 **Veredicto**: **VIOLA** restricción de "NO servicios externos de monitoreo"
 
@@ -275,20 +275,20 @@ top_capacidades = PermissionMetric.objects.values('capacidad').annotate(
 ```
 
 **Ventajas sobre Prometheus**:
-- ✅ No requiere infraestructura externa
-- ✅ Cumple con restricciones del proyecto
-- ✅ Queries con Django ORM
-- ✅ Puede exportarse a CSV para análisis
-- ✅ Integrado con sistema de auditoría
+- [OK] No requiere infraestructura externa
+- [OK] Cumple con restricciones del proyecto
+- [OK] Queries con Django ORM
+- [OK] Puede exportarse a CSV para análisis
+- [OK] Integrado con sistema de auditoría
 
 **Desventajas**:
-- ❌ No tiene dashboards como Grafana
-- ❌ Queries manuales vs visualización automática
-- ❌ Sampling necesario para no saturar BD
+- [NO] No tiene dashboards como Grafana
+- [NO] Queries manuales vs visualización automática
+- [NO] Sampling necesario para no saturar BD
 
 ---
 
-### Fase 4: Django Middleware Real - **OK** ✅
+### Fase 4: Django Middleware Real - **OK** [OK]
 
 **Propuesta**:
 ```python
@@ -304,14 +304,14 @@ class PermissionsMiddleware:
 **Veredicto**: **SIN CONFLICTOS**
 
 **Justificación**:
-- ✅ Middleware estándar de Django
-- ✅ No requiere servicios externos
-- ✅ Solo agrega contexto al request
-- ✅ Compatible con restricciones de seguridad
+- [OK] Middleware estándar de Django
+- [OK] No requiere servicios externos
+- [OK] Solo agrega contexto al request
+- [OK] Compatible con restricciones de seguridad
 
 ---
 
-### Fase 5: Object-Level Permissions - **OK** ✅
+### Fase 5: Object-Level Permissions - **OK** [OK]
 
 **Propuesta**:
 ```python
@@ -326,9 +326,9 @@ class HasCapacidad(BasePermission):
 **Veredicto**: **SIN CONFLICTOS**
 
 **Justificación**:
-- ✅ Feature estándar de DRF
-- ✅ No requiere infraestructura adicional
-- ✅ Solo lógica de negocio en Python
+- [OK] Feature estándar de DRF
+- [OK] No requiere infraestructura adicional
+- [OK] Solo lógica de negocio en Python
 
 ---
 
@@ -338,9 +338,9 @@ class HasCapacidad(BasePermission):
 
 | Fase | Estado | Requiere Modificación |
 |------|--------|----------------------|
-| **Fase 2**: DRF Permission Classes | ✅ OK | No |
-| **Fase 4**: Django Middleware | ✅ OK | No |
-| **Fase 5**: Object-Level Permissions | ✅ OK | No |
+| **Fase 2**: DRF Permission Classes | [OK] OK | No |
+| **Fase 4**: Django Middleware | [OK] OK | No |
+| **Fase 5**: Object-Level Permissions | [OK] OK | No |
 
 ### Fases con Modificaciones Requeridas (2/5)
 
@@ -417,28 +417,28 @@ LOGGING = {
 ### Implementar en Este Orden
 
 **Quick Wins (Semana 1)**:
-1. ✅ Fase 2: DRF Permission Classes (1-2 horas)
+1. [OK] Fase 2: DRF Permission Classes (1-2 horas)
    - Sin conflictos
    - Mejora inmediata en legibilidad
    - Reduce boilerplate 50%
 
 **Medium Impact (Semana 2)**:
-2. ✅ Fase 1 (modificada): Database Cache (2-3 horas)
+2. [OK] Fase 1 (modificada): Database Cache (2-3 horas)
    - Requiere ajuste (DB en lugar de Redis)
    - Mejora performance 5x
    - Cache hit rate 90%+
 
-3. ✅ Fase 3 (modificada): Logging JSON (1 hora)
+3. [OK] Fase 3 (modificada): Logging JSON (1 hora)
    - Solo logging estructurado
    - Sin Prometheus (usar métricas BD)
    - Cumple restricciones
 
 **Future Enhancements (Mes 1)**:
-4. ✅ Fase 4: Django Middleware (2 horas)
+4. [OK] Fase 4: Django Middleware (2 horas)
    - Sin conflictos
    - Context global útil
 
-5. ✅ Fase 5: Object-Level Permissions (según necesidad)
+5. [OK] Fase 5: Object-Level Permissions (según necesidad)
    - Implementar cuando se requiera
    - No urgente
 
@@ -454,11 +454,11 @@ LOGGING = {
 Las otras **3 fases** están 100% OK sin modificaciones.
 
 **Impacto en beneficios**:
-- ✅ Aún se logra 5x mejora en performance (con DB cache vs sin cache)
-- ✅ Logging estructurado completo (JSON parseable)
-- ✅ DRF integration completa
-- ❌ Sin dashboards Grafana (queries manuales en su lugar)
-- ❌ Cache más lento (50ms vs 1ms con Redis, pero aún 5x mejor que sin cache)
+- [OK] Aún se logra 5x mejora en performance (con DB cache vs sin cache)
+- [OK] Logging estructurado completo (JSON parseable)
+- [OK] DRF integration completa
+- [NO] Sin dashboards Grafana (queries manuales en su lugar)
+- [NO] Cache más lento (50ms vs 1ms con Redis, pero aún 5x mejor que sin cache)
 
 **Veredicto**: Las mejoras **SIGUEN SIENDO VALIOSAS** con las modificaciones propuestas.
 

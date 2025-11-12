@@ -87,14 +87,14 @@ TOTAL: 330 emojis encontrados en 17 archivos
 
 ### 3.1 Archivo: scripts/ai/tdd/README.md
 
-**Línea 38**: "Todos los tests pasan (67/67) ✅"
+**Línea 38**: "Todos los tests pasan (67/67) [OK]"
 
-**Violación**: 2 instancias del emoji ✅ (checkmark verde)
+**Violación**: 2 instancias del emoji [OK] (checkmark verde)
 
 **Corrección necesaria**:
 ```markdown
 # ANTES
-Todos los tests pasan (67/67) ✅
+Todos los tests pasan (67/67) [OK]
 
 # DESPUES
 Todos los tests pasan (67/67) - OK
@@ -103,13 +103,13 @@ Todos los tests pasan (67/67) - OK
 ### 3.2 Commits con Emojis
 
 **Commit 634fbf1** - Phase 3:
-- Línea 3: "ALL PHASES COMPLETE ✅"
+- Línea 3: "ALL PHASES COMPLETE [OK]"
 - Línea 30: "🎉 ALL 3 PHASES COMPLETE"
-- Línea 35: "Phase 1 ✅"
-- Línea 36: "Phase 2 ✅"
-- Línea 37: "Phase 3 ✅"
-- Línea 53: "✅ Principle 1"
-- Línea 54: "✅ Principle 2"
+- Línea 35: "Phase 1 [OK]"
+- Línea 36: "Phase 2 [OK]"
+- Línea 37: "Phase 3 [OK]"
+- Línea 53: "[OK] Principle 1"
+- Línea 54: "[OK] Principle 2"
 - ... (múltiples más)
 
 **Problema**: Los mensajes de commit ya están en el historial de Git y no se pueden cambiar sin reescribir historial (git rebase), lo cual puede ser problemático si ya se compartió con el equipo.
@@ -136,16 +136,16 @@ Todos los tests pasan (67/67) - OK
 
 | Emoji | Alternativa Texto |
 |-------|-------------------|
-| ✅ | [x] o "Completado" o "OK" |
-| ❌ | [ ] o "Pendiente" o "FAIL" |
-| ⚠️ | "ADVERTENCIA:" o "Nota:" o "WARNING:" |
-| 🚀 | Omitir o "Lanzado" |
-| 📝 | Omitir o "Documentado" |
-| 🔧 | "Configurado" |
-| 💡 | "Nota:" |
+| [OK] | [x] o "Completado" o "OK" |
+| [NO] | [ ] o "Pendiente" o "FAIL" |
+| [ATENCION] | "ADVERTENCIA:" o "Nota:" o "WARNING:" |
+| [LANZAMIENTO] | Omitir o "Lanzado" |
+| [NOTA] | Omitir o "Documentado" |
+| [CONFIG] | "Configurado" |
+| [IDEA] | "Nota:" |
 | 🎉 | Omitir o "Completado exitosamente" |
-| 🎯 | "Objetivo:" |
-| 📊 | "Métricas:" |
+| [OBJETIVO] | "Objetivo:" |
+| [METRICA] | "Métricas:" |
 
 ---
 
@@ -157,7 +157,7 @@ Todos los tests pasan (67/67) - OK
 
 ```bash
 # Opción 1: Manual
-sed -i 's/✅/- OK/g' scripts/ai/tdd/README.md
+sed -i 's/[OK]/- OK/g' scripts/ai/tdd/README.md
 
 # Opción 2: Usar script del proyecto (si existe)
 bash scripts/clean_emojis.sh scripts/ai/tdd/README.md
@@ -194,7 +194,7 @@ Removed checkmark emojis from line 38 in scripts/ai/tdd/README.md
 to comply with project NO EMOJI policy.
 
 Changed:
-- '67/67 ✅' -> '67/67 - OK'
+- '67/67 [OK]' -> '67/67 - OK'
 
 Refs: scripts/workflows/check_no_emojis.py
 Refs: docs/gobernanza/GUIA_ESTILO.md
@@ -330,7 +330,7 @@ chmod +x .git/hooks/pre-commit
 
 1. **Corregir scripts/ai/tdd/README.md** (línea 38)
    ```bash
-   sed -i 's/ ✅/ - OK/g' scripts/ai/tdd/README.md
+   sed -i 's/ [OK]/ - OK/g' scripts/ai/tdd/README.md
    ```
 
 2. **Verificar corrección**:

@@ -392,12 +392,12 @@ class MigrationValidatorAgent:
 ### 1. Domain-Specific Questions
 
 ```
-✅ Good:
+[OK] Good:
 - Specific to agent's purpose
 - Cover different complexity levels
 - Representative of real use cases
 
-❌ Avoid:
+[NO] Avoid:
 - Too generic ("How to code?")
 - Too similar to each other
 - Outside agent's domain

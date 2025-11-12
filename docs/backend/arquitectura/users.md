@@ -36,7 +36,7 @@ api/callcentersite/callcentersite/apps/users/
 
 ## Arquitectura: Modelos In-Memory
 
-⚠️ **IMPORTANTE**: Esta app usa **dataclasses in-memory** en lugar de modelos Django tradicionales.
+[ATENCION] **IMPORTANTE**: Esta app usa **dataclasses in-memory** en lugar de modelos Django tradicionales.
 
 **Razón**: Performance crítica para evaluación de permisos en cada request.
 
@@ -123,7 +123,7 @@ Evalúa permisos en este orden:
 
 ## Tests
 
-⚠️ **WARNING**: No se detectaron tests automáticos.
+[ATENCION] **WARNING**: No se detectaron tests automáticos.
 
 **Tests requeridos (prioridad ALTA)**:
 1. `test_permission_evaluation_three_levels()` - 3 niveles de permisos
@@ -148,11 +148,11 @@ Evalúa permisos en este orden:
 
 | Requisito | Descripción | Estado |
 |-----------|-------------|--------|
-| RF-001 | Evaluación 3 niveles | ✅ PermissionService |
-| RF-002 | Permisos granulares | ✅ Permission(resource, action) |
-| RF-003 | Obtener permisos efectivos | ✅ evaluate_permissions() |
-| RF-004 | Segmentos dinámicos | ✅ Segment con criteria |
-| RF-010 | Sesión única | ⚠️ Implementar |
+| RF-001 | Evaluación 3 niveles | [OK] PermissionService |
+| RF-002 | Permisos granulares | [OK] Permission(resource, action) |
+| RF-003 | Obtener permisos efectivos | [OK] evaluate_permissions() |
+| RF-004 | Segmentos dinámicos | [OK] Segment con criteria |
+| RF-010 | Sesión única | [ATENCION] Implementar |
 
 ## Notas
 
@@ -162,4 +162,4 @@ Evalúa permisos en este orden:
 - Considerar caché distribuido (Redis) para clusters multi-nodo
 
 **Última actualización**: 2025-11-06
-**Estado**: ✅ Documentación completa
+**Estado**: [OK] Documentación completa

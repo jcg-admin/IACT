@@ -151,8 +151,8 @@ graph TB
 ```
 
 **Leyenda:**
-- 🟢 Verde: Usa permisos granulares correctamente
-- 🔴 Rojo: Solo usa `IsAuthenticated`, NO permisos granulares
+- [COMPLETADO] Verde: Usa permisos granulares correctamente
+- [CRITICO] Rojo: Solo usa `IsAuthenticated`, NO permisos granulares
 
 ---
 
@@ -161,7 +161,7 @@ graph TB
 ### 2.1 Problema 1: Aplicación Manual del Decorator
 
 ```python
-# ❌ PROBLEMA: Desarrollador debe recordar aplicar decorator
+# [NO] PROBLEMA: Desarrollador debe recordar aplicar decorator
 class ReporteViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]  # Solo autenticación básica
 
@@ -171,9 +171,9 @@ class ReporteViewSet(viewsets.ModelViewSet):
 ```
 
 **Consecuencias:**
-- 🔴 Inconsistente: 3 módulos (Reportes, Notificaciones, ETL) NO usan permisos granulares
-- 🔴 Error humano: Fácil olvidar aplicar el decorator
-- 🔴 Sin centralización: Cada view decide si verificar permisos
+- [CRITICO] Inconsistente: 3 módulos (Reportes, Notificaciones, ETL) NO usan permisos granulares
+- [CRITICO] Error humano: Fácil olvidar aplicar el decorator
+- [CRITICO] Sin centralización: Cada view decide si verificar permisos
 
 ### 2.2 Problema 2: No es un Middleware Django Real
 
@@ -186,14 +186,14 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    # ❌ FALTA: PermisoMiddleware (no existe)
+    # [NO] FALTA: PermisoMiddleware (no existe)
 ]
 ```
 
 **El decorator NO está en MIDDLEWARE**, por lo que:
-- ⚠️ No se ejecuta automáticamente
-- ⚠️ No tiene acceso al pipeline de Django
-- ⚠️ No puede interceptar requests antes de routing
+- [ATENCION] No se ejecuta automáticamente
+- [ATENCION] No tiene acceso al pipeline de Django
+- [ATENCION] No puede interceptar requests antes de routing
 
 ### 2.3 Problema 3: Verificación Repetida por View
 
@@ -384,11 +384,11 @@ graph TB
 |---------|------------------|----------------------|
 | **Aplicación** | Manual (`@verificar_permiso`) | Automática (pipeline Django) |
 | **Cobertura** | Solo views decoradas | TODAS las views con `PermisoMixin` |
-| **Consistencia** | 🔴 Inconsistente (3 módulos sin permisos) | 🟢 Consistente (automático) |
-| **Centralización** | ❌ Cada view independiente | ✅ Centralizado en middleware |
-| **Caché** | ❌ No tiene caché | ✅ Puede implementar caché de request |
+| **Consistencia** | [CRITICO] Inconsistente (3 módulos sin permisos) | [COMPLETADO] Consistente (automático) |
+| **Centralización** | [NO] Cada view independiente | [OK] Centralizado en middleware |
+| **Caché** | [NO] No tiene caché | [OK] Puede implementar caché de request |
 | **Queries** | 3 queries por verificación | 3 queries batch (optimizado) |
-| **Error humano** | 🔴 Alto (fácil olvidar decorator) | 🟢 Bajo (automático) |
+| **Error humano** | [CRITICO] Alto (fácil olvidar decorator) | [COMPLETADO] Bajo (automático) |
 | **Auditoría** | Manual (`auditar=True`) | Automática (configurable por view) |
 | **Testing** | Decorar cada test | Middleware se prueba una vez |
 | **Orden ejecución** | Después de routing | Antes de routing |
@@ -664,7 +664,7 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
 
-    # ✅ AGREGAR: Middleware de permisos
+    # [OK] AGREGAR: Middleware de permisos
     'callcentersite.apps.permissions.middleware.PermisoMiddleware',
 
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -745,13 +745,13 @@ graph TB
 
 | Ventaja | Descripción | Impacto |
 |---------|-------------|---------|
-| **Automático** | Se ejecuta en TODAS las requests sin intervención manual | 🟢 Alto |
-| **Centralizado** | Lógica de permisos en UN solo lugar | 🟢 Alto |
-| **Consistente** | Imposible olvidar verificar permisos (si usa PermisoMixin) | 🟢 Alto |
-| **Caché request-scoped** | Puede cachear permisos durante la request | 🟢 Medio |
-| **Auditoría** | Configurable por view, no requiere parametrizar decorator | 🟢 Medio |
-| **Testing** | Probar middleware una vez vs decorar cada test | 🟢 Medio |
-| **Pipeline Django** | Aprovecha orden de ejecución de middlewares | 🟢 Medio |
+| **Automático** | Se ejecuta en TODAS las requests sin intervención manual | [COMPLETADO] Alto |
+| **Centralizado** | Lógica de permisos en UN solo lugar | [COMPLETADO] Alto |
+| **Consistente** | Imposible olvidar verificar permisos (si usa PermisoMixin) | [COMPLETADO] Alto |
+| **Caché request-scoped** | Puede cachear permisos durante la request | [COMPLETADO] Medio |
+| **Auditoría** | Configurable por view, no requiere parametrizar decorator | [COMPLETADO] Medio |
+| **Testing** | Probar middleware una vez vs decorar cada test | [COMPLETADO] Medio |
+| **Pipeline Django** | Aprovecha orden de ejecución de middlewares | [COMPLETADO] Medio |
 
 ### 7.2 Desventajas del Middleware Django
 
@@ -834,7 +834,7 @@ gantt
 
 ### 9.2 Criterios de Aceptación
 
-✅ **Debe cumplir:**
+[OK] **Debe cumplir:**
 - Todos los tests existentes pasan (49/49)
 - TODOS los módulos usan permisos granulares (4/4)
 - No aumenta queries ni latencia
@@ -857,9 +857,9 @@ gantt
 
 ### 10.2 Trade-offs Aceptados
 
-- ⚠️ Mayor complejidad inicial (compensado por consistencia)
-- ⚠️ Refactoring necesario (gradual, módulo por módulo)
-- ⚠️ Curva de aprendizaje (1-2 semanas para el equipo)
+- [ATENCION] Mayor complejidad inicial (compensado por consistencia)
+- [ATENCION] Refactoring necesario (gradual, módulo por módulo)
+- [ATENCION] Curva de aprendizaje (1-2 semanas para el equipo)
 
 ### 10.3 Próximos Pasos
 

@@ -247,12 +247,12 @@ result = sc.solve_with_consistency(
 
 **Razón:** Estas técnicas son **transversales y generales**, aplicables a:
 
-- ✅ Backend (APIs, routers, validación)
-- ✅ Frontend (componentes, UX, documentación)
-- ✅ Features (analytics, auto-remediation)
-- ✅ Operaciones (deployment, monitoring)
-- ✅ QA (tests, coverage, bugs)
-- ✅ Infraestructura (configuración, optimización)
+- [OK] Backend (APIs, routers, validación)
+- [OK] Frontend (componentes, UX, documentación)
+- [OK] Features (analytics, auto-remediation)
+- [OK] Operaciones (deployment, monitoring)
+- [OK] QA (tests, coverage, bugs)
+- [OK] Infraestructura (configuración, optimización)
 
 **NO están limitadas** a un módulo específico como "permisos" o "backend".
 

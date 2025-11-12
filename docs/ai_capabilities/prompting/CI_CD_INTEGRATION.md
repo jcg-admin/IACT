@@ -70,7 +70,7 @@ for file in staged_files:
     )
 
     if verified.confidence_score < 0.7:
-        print(f"❌ {file}: Low confidence ({verified.confidence_score:.2f})")
+        print(f"[NO] {file}: Low confidence ({verified.confidence_score:.2f})")
         print(f"Issues: {verified.corrections_made}")
         sys.exit(1)
 
@@ -366,13 +366,13 @@ jobs:
 
               # Check if solution is good enough
               if solution[-1].evaluation.score < 0.7:
-                  print("\n❌ Deployment NOT recommended")
+                  print("\n[NO] Deployment NOT recommended")
                   print(f"Score too low: {solution[-1].evaluation.score:.2f}")
                   sys.exit(1)
 
               print(f"\n✓ Deployment APPROVED (score: {solution[-1].evaluation.score:.2f})")
           else:
-              print("❌ Could not validate deployment")
+              print("[NO] Could not validate deployment")
               sys.exit(1)
           EOF
 
@@ -725,7 +725,7 @@ def main():
         print("✓ All files verified successfully")
         return 0
     else:
-        print("❌ Some files failed verification")
+        print("[NO] Some files failed verification")
         return 1
 
 if __name__ == "__main__":
@@ -763,19 +763,19 @@ if __name__ == "__main__":
 
 ### Do's
 
-✅ Use Chain-of-Verification for critical validations
-✅ Apply Self-Consistency for test generation
-✅ Use Search Optimization for large-scale analysis
-✅ Implement Tree of Thoughts for complex decisions
-✅ Cache Auto-CoT demonstrations for reuse
+[OK] Use Chain-of-Verification for critical validations
+[OK] Apply Self-Consistency for test generation
+[OK] Use Search Optimization for large-scale analysis
+[OK] Implement Tree of Thoughts for complex decisions
+[OK] Cache Auto-CoT demonstrations for reuse
 
 ### Don'ts
 
-❌ Don't skip verification steps to save time
-❌ Don't use low confidence thresholds
-❌ Don't ignore corrections from CoVe
-❌ Don't generate tests without validation
-❌ Don't deploy without ToT decision validation
+[NO] Don't skip verification steps to save time
+[NO] Don't use low confidence thresholds
+[NO] Don't ignore corrections from CoVe
+[NO] Don't generate tests without validation
+[NO] Don't deploy without ToT decision validation
 
 ---
 

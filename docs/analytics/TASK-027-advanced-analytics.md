@@ -286,9 +286,9 @@ response = requests.get(
 trend = response.json()
 
 if trend['trend_analysis']['direction'] == 'improving':
-    print(f"✅ Deployment frequency improving: {trend['trend_analysis']['average_weekly_change']} deployments/week")
+    print(f"[OK] Deployment frequency improving: {trend['trend_analysis']['average_weekly_change']} deployments/week")
 else:
-    print(f"⚠️ Deployment frequency {trend['trend_analysis']['direction']}")
+    print(f"[ATENCION] Deployment frequency {trend['trend_analysis']['direction']}")
 ```
 
 ### 2. Identificación de Regresiones
@@ -303,7 +303,7 @@ comparison = response.json()
 
 for metric, data in comparison['metrics'].items():
     if data['percent_change'] < -10:
-        print(f"⚠️ {metric} degraded {data['percent_change']}%")
+        print(f"[ATENCION] {metric} degraded {data['percent_change']}%")
 ```
 
 ### 3. Detección de Anomalías
@@ -317,7 +317,7 @@ response = requests.get(
 anomalies = response.json()
 
 if anomalies['anomaly_rate'] > 10:
-    print(f"⚠️ High anomaly rate: {anomalies['anomaly_rate']}%")
+    print(f"[ATENCION] High anomaly rate: {anomalies['anomaly_rate']}%")
     print(f"Detected {anomalies['anomalies_detected']} anomalies")
 ```
 
@@ -426,7 +426,7 @@ curl "http://localhost:8000/api/dora/analytics/forecast/?historical_months=6" | 
 ## Compliance
 
 ### RNF-002
-✅ **100% COMPLIANT**
+[OK] **100% COMPLIANT**
 - No external dependencies
 - Self-hosted analytics
 - Uses existing MySQL database

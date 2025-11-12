@@ -222,10 +222,10 @@ jobs:
 
 | Test | Target | Actual | Status |
 |------|--------|--------|--------|
-| Bulk create 1000 metrics | < 5s | ~2s | ✅ PASS |
-| API response time | < 1s | ~200ms | ✅ PASS |
-| Dashboard load | < 2s | ~1.5s | ✅ PASS |
-| Chart data API | < 500ms | ~150ms | ✅ PASS |
+| Bulk create 1000 metrics | < 5s | ~2s | [OK] PASS |
+| API response time | < 1s | ~200ms | [OK] PASS |
+| Dashboard load | < 2s | ~1.5s | [OK] PASS |
+| Chart data API | < 500ms | ~150ms | [OK] PASS |
 
 ## Test Data Management
 
@@ -326,12 +326,12 @@ def test_using_fixture(test_dora_metrics):
 ### 1. Test Independence
 Cada test debe ser completamente independiente:
 ```python
-# GOOD ✅
+# GOOD [OK]
 def test_metric_creation(self):
     metric = DORAMetric.objects.create(...)
     self.assertEqual(DORAMetric.objects.count(), 1)
 
-# BAD ❌ - depends on other tests
+# BAD [NO] - depends on other tests
 def test_metric_count(self):
     # Assumes metrics created by previous test
     self.assertEqual(DORAMetric.objects.count(), 5)
@@ -340,13 +340,13 @@ def test_metric_count(self):
 ### 2. Minimal Test Data
 Crear solo los datos necesarios:
 ```python
-# GOOD ✅
+# GOOD [OK]
 def test_deployment_frequency(self):
     # Create 2 deployments - enough to test
     create_deployment('dep-1')
     create_deployment('dep-2')
 
-# BAD ❌ - unnecessary data
+# BAD [NO] - unnecessary data
 def test_deployment_frequency(self):
     # Create 1000 deployments - overkill
     for i in range(1000):
@@ -356,12 +356,12 @@ def test_deployment_frequency(self):
 ### 3. Specific Assertions
 Usar assertions especificas:
 ```python
-# GOOD ✅
+# GOOD [OK]
 self.assertEqual(response.status_code, 200)
 self.assertIn('deployment_frequency', data)
 self.assertGreater(cfr, 0)
 
-# BAD ❌
+# BAD [NO]
 self.assertTrue(response.status_code == 200)
 self.assertTrue('deployment_frequency' in data)
 ```
@@ -388,7 +388,7 @@ def test_complex_calculation(self):
 ## Compliance
 
 ### RNF-002
-✅ **100% COMPLIANT**
+[OK] **100% COMPLIANT**
 - No external test dependencies (Redis, etc.)
 - Uses Django test database (MySQL)
 - Self-hosted test infrastructure
@@ -413,16 +413,16 @@ def test_complex_calculation(self):
 ## Success Metrics
 
 ### Test Metrics
-- ✅ 50+ integration tests implemented
-- ✅ Coverage ≥80% target
-- ✅ All tests passing
-- ✅ Performance benchmarks met
+- [OK] 50+ integration tests implemented
+- [OK] Coverage ≥80% target
+- [OK] All tests passing
+- [OK] Performance benchmarks met
 
 ### Quality Metrics
-- ✅ 0 flaky tests
-- ✅ < 5 min total execution time
-- ✅ Clear failure messages
-- ✅ Documentation complete
+- [OK] 0 flaky tests
+- [OK] < 5 min total execution time
+- [OK] Clear failure messages
+- [OK] Documentation complete
 
 ---
 

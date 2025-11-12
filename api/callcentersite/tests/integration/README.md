@@ -190,7 +190,7 @@ def test_metrics():
 
 ## Compliance
 
-✅ **RNF-002 Compliant**
+[OK] **RNF-002 Compliant**
 - No external dependencies (Redis, etc.)
 - Self-hosted testing infrastructure
 - Uses Django test database

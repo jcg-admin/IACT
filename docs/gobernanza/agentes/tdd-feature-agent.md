@@ -391,11 +391,11 @@ penalty(MEDIUM) = 7.5 puntos
 
 | Score | Clasificación | Resultado |
 |-------|---------------|-----------|
-| 100 | Perfect | ✅ COMPLIANT |
-| 90-99 | Excellent | ✅ COMPLIANT |
-| 75-89 | Good | ⚠️ COMPLIANT (con warnings) |
-| 50-74 | Fair | ❌ NOT COMPLIANT |
-| <50 | Poor | ❌ NOT COMPLIANT |
+| 100 | Perfect | [OK] COMPLIANT |
+| 90-99 | Excellent | [OK] COMPLIANT |
+| 75-89 | Good | [ATENCION] COMPLIANT (con warnings) |
+| 50-74 | Fair | [NO] NOT COMPLIANT |
+| <50 | Poor | [NO] NOT COMPLIANT |
 
 ### Condiciones de Fallo
 
@@ -421,7 +421,7 @@ El agente **FALLA inmediatamente** si:
 
 ## Overall Status
 
-### ✅ TDD COMPLIANT
+### [OK] TDD COMPLIANT
 
 All CRITICAL rules passed. Compliance score: **95.5/100**
 
@@ -429,11 +429,11 @@ All CRITICAL rules passed. Compliance score: **95.5/100**
 
 | Metric | Value | Status |
 |--------|-------|--------|
-| Test Coverage | 92.3% (234/254 lines) | ✅ Pass |
-| Security Issues | 0 | ✅ Pass |
-| Code Quality | 2 issues | ✅ Pass |
-| Type Checking | 0 issues | ✅ Pass |
-| Documentation | 15/15 functions | ✅ Pass |
+| Test Coverage | 92.3% (234/254 lines) | [OK] Pass |
+| Security Issues | 0 | [OK] Pass |
+| Code Quality | 2 issues | [OK] Pass |
+| Type Checking | 0 issues | [OK] Pass |
+| Documentation | 15/15 functions | [OK] Pass |
 ```
 
 ### Execution Log (JSON)
@@ -579,36 +579,36 @@ export TDD_OUTPUT_DIR="docs/sdlc_outputs"
 
 ### 1. Preparación de Issues
 
-✅ **DO:**
+[OK] **DO:**
 - Especificar acceptance criteria claros
 - Incluir technical requirements
 - Definir target_module específico
 
-❌ **DON'T:**
+[NO] **DON'T:**
 - Issues vagos sin criterios
 - Mezclar múltiples features
 - Omitir technical requirements
 
 ### 2. Ejecución del Agent
 
-✅ **DO:**
+[OK] **DO:**
 - Ejecutar con `--verbose` para debugging
 - Revisar execution log después
 - Verificar dashboard antes de merge
 
-❌ **DON'T:**
+[NO] **DON'T:**
 - Ignorar violations
 - Modificar código manualmente después
 - Skippear validaciones
 
 ### 3. Mantenimiento
 
-✅ **DO:**
+[OK] **DO:**
 - Archivar execution logs
 - Trackear compliance score over time
 - Integrar con CI/CD
 
-❌ **DON'T:**
+[NO] **DON'T:**
 - Eliminar logs
 - Bajar threshold de coverage
 - Deshabilitar constitution checks
