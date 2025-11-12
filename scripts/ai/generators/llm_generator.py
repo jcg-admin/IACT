@@ -17,8 +17,34 @@ class LLMGenerator(Agent):
     """
     Agente especializado en generación de tests con LLM.
 
-    Usa un LLM (OpenAI/Anthropic) para generar código de tests
+    Usa un LLM (Anthropic/OpenAI/Ollama) para generar código de tests
     siguiendo los estándares del proyecto.
+
+    Providers soportados:
+    - anthropic: Claude API (requiere ANTHROPIC_API_KEY)
+    - openai: ChatGPT API (requiere OPENAI_API_KEY)
+    - ollama: Modelos locales (no requiere API key)
+
+    Ejemplos de configuración:
+
+    # Anthropic (default)
+    config = {
+        "llm_provider": "anthropic",
+        "model": "claude-3-5-sonnet-20241022"
+    }
+
+    # OpenAI
+    config = {
+        "llm_provider": "openai",
+        "model": "gpt-4-turbo-preview"
+    }
+
+    # Ollama (local)
+    config = {
+        "llm_provider": "ollama",
+        "model": "llama3.1:8b",  # o "deepseek-coder-v2", "qwen2.5-coder:32b"
+        "ollama_base_url": "http://localhost:11434"  # opcional, default
+    }
     """
 
     def __init__(self, config: Dict[str, Any] = None):
@@ -37,13 +63,14 @@ class LLMGenerator(Agent):
         if "project_path" not in input_data:
             errors.append("Falta 'project_path' en input")
 
-        # Validar API key
+        # Validar API key (solo para providers remotos)
         if self.llm_provider == "openai":
             if not os.getenv("OPENAI_API_KEY"):
                 errors.append("Falta OPENAI_API_KEY en variables de entorno")
         elif self.llm_provider == "anthropic":
             if not os.getenv("ANTHROPIC_API_KEY"):
                 errors.append("Falta ANTHROPIC_API_KEY en variables de entorno")
+        # Ollama no requiere API key (es local)
 
         return errors
 
@@ -221,6 +248,8 @@ GENERA LOS TESTS AHORA:
                 return self._call_anthropic(prompt)
             elif self.llm_provider == "openai":
                 return self._call_openai(prompt)
+            elif self.llm_provider == "ollama":
+                return self._call_ollama(prompt)
             else:
                 self.logger.error(f"Provider no soportado: {self.llm_provider}")
                 return ""
@@ -301,6 +330,70 @@ GENERA LOS TESTS AHORA:
 
         except Exception as e:
             self.logger.error(f"Error en OpenAI API: {e}")
+            return ""
+
+    def _call_ollama(self, prompt: str) -> str:
+        """
+        Llama a Ollama local.
+
+        Ollama es un servidor local que ejecuta modelos LLM open-source
+        como Llama, DeepSeek Coder, Qwen, etc.
+
+        Args:
+            prompt: Prompt construido
+
+        Returns:
+            Código generado por Ollama
+
+        Modelos recomendados:
+        - llama3.1:8b (general purpose, rápido)
+        - deepseek-coder-v2 (especializado en código)
+        - qwen2.5-coder:32b (muy bueno para código)
+        - codellama:13b (especializado en código)
+        """
+        try:
+            import requests
+
+            # Configuración de Ollama
+            base_url = self.get_config("ollama_base_url", "http://localhost:11434")
+            model = self.model if self.model else "llama3.1:8b"
+
+            self.logger.info(f"Llamando a Ollama: {base_url} con modelo {model}")
+
+            # Llamada a la API de Ollama
+            response = requests.post(
+                f"{base_url}/api/generate",
+                json={
+                    "model": model,
+                    "prompt": prompt,
+                    "stream": False,
+                    "options": {
+                        "temperature": 0.3,  # Más determinista
+                        "num_predict": 4096  # Max tokens
+                    }
+                },
+                timeout=120  # Ollama puede ser lento con modelos grandes
+            )
+            response.raise_for_status()
+
+            # Extraer respuesta
+            generated = response.json()["response"]
+
+            # Extraer código de bloques markdown
+            if "```python" in generated:
+                code = generated.split("```python")[1].split("```")[0]
+                return code.strip()
+            elif "```" in generated:
+                code = generated.split("```")[1].split("```")[0]
+                return code.strip()
+
+            return generated.strip()
+
+        except Exception as e:
+            self.logger.error(f"Error en Ollama API: {e}")
+            self.logger.error(
+                "Asegúrate de que Ollama esté corriendo: ollama serve"
+            )
             return ""
 
     def apply_guardrails(self, output_data: Dict[str, Any]) -> List[str]:
