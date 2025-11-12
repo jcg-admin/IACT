@@ -2,68 +2,108 @@
 
 ## Overview
 
-This document describes how to integrate the WASI-style virtualization scripts (bash) with the Python environment configuration system (`environment_config.py`).
+This document describes how WASI-style virtualization scripts provide **infrastructure isolation** (databases, services) and how they integrate with the environment configuration system.
+
+## Scope and Purpose
+
+**⚠️ IMPORTANT - What WASI IS and ISN'T:**
+
+### WASI IS for:
+- ✅ **Infrastructure virtualization** (PostgreSQL, MySQL, Redis)
+- ✅ **Database isolation** for development and testing
+- ✅ **Test infrastructure** (TDD support - setup before tests)
+- ✅ **Bash scripts** that create isolated environments
+
+### WASI IS NOT for:
+- ❌ **SDLC Agents** (feasibility, design, testing agents)
+- ❌ **Business logic** (Django views, React components)
+- ❌ **Application code** (models, services, controllers)
+- ❌ **LLM configuration** (this is handled by environment_config only)
+
+### Integration Flow:
+1. **Application code** uses `environment_config.py` to detect environment and get DB connection parameters
+2. **WASI scripts** are called by infrastructure setup scripts to create isolated database environments
+3. **Tests** MAY use WASI to create isolated test databases (following TDD - infrastructure first, then tests)
 
 ## Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────┐
-│                   Application Layer                      │
-│  (Python: Django, React, SDLC Agents, Tests)            │
+│              Application Layer                           │
+│  (Python: Django, React)                                 │
+│  - Uses environment_config for DB connection             │
+│  - Connects to virtualized OR direct databases           │
 └──────────────────┬──────────────────────────────────────┘
                    │
                    ↓
 ┌─────────────────────────────────────────────────────────┐
-│           Environment Config (Python)                    │
+│        Environment Config (Python)                       │
 │  scripts/ai/shared/environment_config.py                 │
-│  - Auto-detects: development/staging/production          │
-│  - Provides DB configs, LLM configs, cache configs       │
+│  - Detects: development/staging/production               │
+│  - Returns: DB host, port, credentials                   │
+│  - Does NOT manage virtualization directly               │
 └──────────────────┬──────────────────────────────────────┘
+                   │
+                   │  (provides config)
                    │
                    ↓
 ┌─────────────────────────────────────────────────────────┐
 │         WASI Virtualization Scripts (Bash)               │
 │  scripts/infrastructure/wasi/                            │
-│  - lightweight_venv.sh (bash-only, like Python venv)    │
-│  - virtualize.sh (Docker-based)                          │
-│  - wasm_style_sandbox.sh (Linux namespaces)             │
+│  - Creates isolated database environments                │
+│  - lightweight_venv.sh: Bash-only isolation              │
+│  - virtualize.sh: Docker-based isolation                 │
+│  - wasm_style_sandbox.sh: Linux namespaces isolation     │
 └──────────────────┬──────────────────────────────────────┘
+                   │
+                   │  (virtualizes)
                    │
                    ↓
 ┌─────────────────────────────────────────────────────────┐
-│              Infrastructure Layer                        │
-│  (PostgreSQL, MySQL, Redis, Services)                   │
+│           Infrastructure Layer                           │
+│  PostgreSQL, MySQL, Redis (virtualized or direct)        │
 └─────────────────────────────────────────────────────────┘
 ```
 
+**Key Points**:
+- WASI scripts are ONLY for infrastructure virtualization
+- Application layer uses environment_config for DB connections
+- SDLC Agents, business logic DO NOT use WASI directly
+- Tests MAY use WASI for isolated test databases (TDD support)
+
 ## Integration Patterns
 
-### Pattern 1: Python Calls WASI Scripts
+### Pattern 1: Infrastructure Setup Scripts Call WASI
 
-Python code can invoke WASI scripts to create isolated environments:
+Infrastructure setup scripts invoke WASI to create isolated database environments:
 
 ```python
-# scripts/ai/shared/environment_config.py
+# scripts/infrastructure/setup_dev_database.py
+"""
+Infrastructure setup - creates isolated dev database.
+This is NOT part of application code.
+"""
 from scripts.ai.shared.environment_config import EnvironmentConfig
 import subprocess
+import os
 
 config = EnvironmentConfig()
 
 if config.is_dev:
-    # Create lightweight virtual environment for PostgreSQL
-    subprocess.run([
+    print("Setting up isolated development database...")
+
+    # Create isolated PostgreSQL environment using WASI
+    result = subprocess.run([
         "bash",
         "scripts/infrastructure/wasi/lightweight_venv.sh",
         "create",
         "dev-postgres",
         "postgres",
         "5432"
-    ])
+    ], check=True, capture_output=True, text=True)
 
-    # Activate the environment (set environment variables)
-    activate_script = "scripts/.lightvenvs/dev-postgres/bin/activate"
-    # Source the activate script to get DB credentials
-    # These will be available in os.environ
+    print(f"Database created: {result.stdout}")
+    print("To use: source scripts/.lightvenvs/dev-postgres/bin/activate")
 ```
 
 ### Pattern 2: WASI Scripts Read Environment Config
@@ -229,14 +269,16 @@ if config.is_prod:
 
 ## Environment Variable Mapping
 
+**Infrastructure-Only**: This mapping is ONLY for database infrastructure virtualization.
+
 | Python (environment_config.py) | Bash (WASI scripts) | Purpose |
 |--------------------------------|---------------------|---------|
 | `config.environment` | `$ENVIRONMENT` | Environment detection |
 | `config.is_dev` | `[[ $ENVIRONMENT == "development" ]]` | Development check |
 | `config.get_database_config()['host']` | `$DB_VM_HOST` or `$DB_PROD_HOST` | Database host |
 | `config.get_database_config()['port']` | `$DB_VM_PORT` or `$DB_PROD_PORT` | Database port |
-| `config.get_llm_config()['provider']` | `$LLM_PROVIDER` | LLM provider |
-| `config.get_llm_config()['model']` | `$LLM_MODEL` | LLM model name |
+| `config.get_database_config()['name']` | `$DB_VM_NAME` or `$DB_PROD_NAME` | Database name |
+| `config.get_database_config()['user']` | `$DB_VM_USER` or `$DB_PROD_USER` | Database user |
 
 ## Best Practices
 
@@ -389,37 +431,68 @@ def test_database_connection(isolated_database):
     # ...
 ```
 
-### Example 2: SDLC Agent with Auto-Environment
+### Example 2: TDD Test Infrastructure Setup
 
 ```python
 #!/usr/bin/env python3
 """
-SDLC agent that auto-configures based on environment
+Test infrastructure setup for TDD
+Uses WASI to create isolated test database
 """
+import subprocess
+import pytest
 from scripts.ai.shared.environment_config import EnvironmentConfig
-from scripts.ai.sdlc.feasibility_agent import SDLCFeasibilityAgent
 
-def main():
-    # Auto-detect environment
+@pytest.fixture(scope="session", autouse=True)
+def setup_test_infrastructure():
+    """
+    Setup isolated test database infrastructure.
+    This runs ONCE per test session.
+    """
     config = EnvironmentConfig()
 
-    # Get LLM config based on environment
-    llm_config = config.get_llm_config()
+    if config.is_dev or config.is_staging:
+        print("\n[TDD] Setting up isolated test database...")
 
-    # Create agent with environment-appropriate config
-    agent = SDLCFeasibilityAgent(config=llm_config)
+        # Create isolated test database using WASI
+        subprocess.run([
+            "bash",
+            "scripts/infrastructure/wasi/lightweight_venv.sh",
+            "create",
+            "pytest-db",
+            "postgres",
+            "5433"
+        ], check=True)
 
-    print(f"Running in {config.environment} mode")
-    print(f"LLM Provider: {llm_config['provider']}")
-    print(f"LLM Model: {llm_config['model']}")
-    print(f"Budget: ${llm_config['monthly_budget']}")
+        print("[TDD] Test database ready on port 5433")
 
-    # Run agent
-    # ...
+        yield  # Tests run here
 
-if __name__ == "__main__":
-    main()
+        # Cleanup after all tests
+        print("\n[TDD] Cleaning up test database...")
+        subprocess.run([
+            "bash",
+            "scripts/infrastructure/wasi/lightweight_venv.sh",
+            "destroy",
+            "pytest-db"
+        ])
+    else:
+        # Production: skip virtualization
+        yield
+
+
+def test_database_connection():
+    """Test can connect to isolated database."""
+    # This test uses the isolated database created above
+    # Application code uses environment_config to get DB credentials
+    config = EnvironmentConfig()
+    db_config = config.get_database_config()
+
+    # Test connection...
+    assert db_config is not None
 ```
+
+**Key Point**: Tests use WASI for infrastructure isolation, NOT for business logic. This follows TDD principles - set up infrastructure first, then test.
 
 ## Troubleshooting
 
