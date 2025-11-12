@@ -59,20 +59,26 @@ def evaluate_feature(feature_title, feature_desc, requirements, story_points, us
         }
     })
 
+    # Extraer el reporte de feasibility
+    report = result.get("feasibility_report")
+    if not report:
+        print("❌ Error: No se pudo generar el reporte")
+        return result
+
     # Mostrar resultados
     decision_icons = {
         "go": "✅ GO",
         "no-go": "❌ NO-GO",
         "review": "⚠️  REVIEW"
     }
-    decision = decision_icons.get(result.decision, result.decision.upper())
+    decision = decision_icons.get(report.decision, report.decision.upper())
 
     print(f"📋 DECISIÓN: {decision}")
-    print(f"🎯 Confianza: {result.confidence:.2%}\n")
+    print(f"🎯 Confianza: {report.confidence:.2%}\n")
 
     # Viabilidad técnica
     print("💻 Viabilidad Técnica:")
-    feasibility = result.phase_result.get('technical_feasibility', {})
+    feasibility = result.get('technical_feasibility', {})
     print(f"   Feasible: {'Sí' if feasibility.get('is_feasible') else 'No'}")
     print(f"   Complejidad: {feasibility.get('complexity', 'unknown')}")
     if feasibility.get('concerns'):
@@ -80,12 +86,12 @@ def evaluate_feature(feature_title, feature_desc, requirements, story_points, us
     print()
 
     # Riesgos
-    print(f"⚠️  Riesgos Identificados: {len(result.risks)}")
-    if result.risks:
+    print(f"⚠️  Riesgos Identificados: {len(report.risks)}")
+    if report.risks:
         # Agrupar por severidad
-        critical = [r for r in result.risks if r.get('severity') == 'critical']
-        high = [r for r in result.risks if r.get('severity') == 'high']
-        medium = [r for r in result.risks if r.get('severity') == 'medium']
+        critical = [r for r in report.risks if r.get('severity') == 'critical']
+        high = [r for r in report.risks if r.get('severity') == 'high']
+        medium = [r for r in report.risks if r.get('severity') == 'medium']
 
         if critical:
             print(f"\n   🔴 CRÍTICOS ({len(critical)}):")
@@ -104,7 +110,7 @@ def evaluate_feature(feature_title, feature_desc, requirements, story_points, us
     print()
 
     # Esfuerzo estimado
-    effort = result.phase_result.get('effort_analysis', {})
+    effort = result.get('effort_analysis', {})
     print("⏱️  Estimación de Esfuerzo:")
     print(f"   Story Points: {effort.get('story_points', story_points)}")
     print(f"   Días estimados: {effort.get('estimated_days', 'N/A')}")
@@ -112,22 +118,22 @@ def evaluate_feature(feature_title, feature_desc, requirements, story_points, us
     print()
 
     # Recomendaciones
-    if result.recommendations:
-        print(f"💡 Recomendaciones ({len(result.recommendations)}):")
-        for i, rec in enumerate(result.recommendations[:5], 1):
+    if report.recommendations:
+        print(f"💡 Recomendaciones ({len(report.recommendations)}):")
+        for i, rec in enumerate(report.recommendations[:5], 1):
             print(f"   {i}. {rec}")
         print()
 
     # Next steps
-    if result.next_steps:
+    if report.next_steps:
         print("🎯 Próximos Pasos:")
-        for i, step in enumerate(result.next_steps[:3], 1):
+        for i, step in enumerate(report.next_steps[:3], 1):
             print(f"   {i}. {step}")
         print()
 
     # Artifacts
-    if result.artifacts:
-        print(f"📄 Reporte generado: {result.artifacts[0]}")
+    if report.artifacts:
+        print(f"📄 Reporte generado: {report.artifacts[0]}")
         print()
 
     print("="*70)
@@ -197,9 +203,13 @@ def main():
     ]
 
     for name, result in features:
-        icon = "✅" if result.decision == "go" else "❌" if result.decision == "no-go" else "⚠️"
-        print(f"{icon} {name:30s} → {result.decision.upper():10s} "
-              f"(confidence: {result.confidence:.0%}, risks: {len(result.risks)})")
+        report = result.get("feasibility_report")
+        if report:
+            icon = "✅" if report.decision == "go" else "❌" if report.decision == "no-go" else "⚠️"
+            print(f"{icon} {name:30s} → {report.decision.upper():10s} "
+                  f"(confidence: {report.confidence:.0%}, risks: {len(report.risks)})")
+        else:
+            print(f"❌ {name:30s} → ERROR")
 
     print("\n" + "="*70 + "\n")
 
