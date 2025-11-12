@@ -21,6 +21,10 @@
 
 El análisis se contrastó con la documentación del sistema multi-agente del proyecto (`scripts/ai/agents/ARCHITECTURE_SDLC_AGENTS.md`). Se siguieron las recomendaciones del **SDLCDesignAgent** para registrar explícitamente supuestos de arquitectura y del **SDLCTestingAgent** respecto a la necesidad de instrumentar las vistas críticas con telemetría que permita validar los casos de uso identificados. Esto asegura que el entregable sea consumible por los agentes especializados que automatizan decisiones y validaciones dentro del SDLC.
 
+### 1.3 Ejecución comprobable de agentes SDLC
+
+Para garantizar trazabilidad operativa se ejecutó el **SDLCPlannerAgent** (`scripts/ai/sdlc/planner_agent.py`) con el objetivo de formalizar la adopción del App Shell unificado y sus implicaciones de micro frontends. El agente generó el artefacto `docs/sdlc_outputs/planning/ISSUE_20251112_134234.md`, donde se documenta la user story "Consolidar en la documentación una arquitectura Unified SPA con App Shell y Web Components basada en el análisis de endpoints de frontend", junto con sus acceptance criteria, estimación de 2 story points y prioridad `P2`. Esta salida sirve como contrato para los agentes posteriores del pipeline SDLC y evidencia el uso efectivo de las automatizaciones incluidas en el proyecto.
+
 ## 2. Inventario de endpoints con impacto directo en UI
 
 | Dominio API | Endpoint base | Operaciones expuestas | Vistas/frontend requeridas | Casos de uso clave |

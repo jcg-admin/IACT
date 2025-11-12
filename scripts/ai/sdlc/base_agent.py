@@ -12,7 +12,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
-from .base import Agent, AgentResult, AgentStatus, Pipeline
+from scripts.ai.shared.agent_base import Agent, AgentResult, AgentStatus, Pipeline
 
 
 @dataclass
