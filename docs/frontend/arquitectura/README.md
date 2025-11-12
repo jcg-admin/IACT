@@ -18,6 +18,8 @@ Decisiones arquitectónicas, patrones de diseño y lineamientos técnicos espec�
 - [`estrategia_integracion_backend.md`](estrategia_integracion_backend.md) - Plan de integración y fallback frente a brechas del backend
 - [`TODO.md`](TODO.md) - Backlog arquitectónico para absorber brechas del backend
 - [`ejemplos-ui-design.md`](ejemplos-ui-design.md) - Prompt engineering avanzado para diseño de UI
+- [`shared_webpack_configs.md`](shared_webpack_configs.md) - Guía de configuraciones Webpack compartidas para microfrontends single-spa
+- [`microfrontends_canvas.md`](microfrontends_canvas.md) - Canvas de decisión para seleccionar arquitecturas de microfrontends
 
 ## Información clave
 
@@ -48,6 +50,7 @@ Decisiones arquitectónicas, patrones de diseño y lineamientos técnicos espec�
 
 ### ADRs disponibles
 - [ADR-0001 - Capa de servicios resilientes con contratos y telemetria](adr/ADR-0001-servicios-resilientes.md)
+- [ADR-0002 - Arquitectura de microfrontends basada en App Shell unificado](adr/ADR-0002-arquitectura-microfrontends.md) _(rechazado: se mantiene el monolito modular descrito en [ADR_011](../../adr/ADR_011_frontend_modular_monolith.md) y el frontend continúa pospuesto según [ADR-2025-009](../../adr/adr_2025_009_frontend_postponement.md))_
 
 ### Lineamientos de código
 - Estructura de directorios
@@ -59,11 +62,11 @@ Decisiones arquitectónicas, patrones de diseño y lineamientos técnicos espec�
 | Elemento en la base maestra | ¿Existe en repositorio? | Observaciones |
 | --- | --- | --- |
 | Portada de Arquitectura frontend | Sí | Este archivo documenta decisiones y lineamientos arquitectónicos |
-| ADRs de frontend | Pendiente | Deben documentarse decisiones sobre framework, state management, etc |
+| ADRs de frontend | Parcial | ADR-0001 y ADR-0002 publicados; faltan decisiones sobre state management y testing |
 | Lineamientos de código | Pendiente | Crear documento con guías específicas de desarrollo frontend |
 
 ## Acciones prioritarias
-- [ ] Documentar ADR de selección de framework
+- [x] Documentar ADR de selección de framework
 - [ ] Crear lineamientos de código frontend
 - [ ] Definir patrones de componentes reutilizables
 - [ ] Establecer estrategia de testing frontend

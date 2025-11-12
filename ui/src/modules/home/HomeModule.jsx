@@ -1,8 +1,10 @@
 import { useHomeAnnouncement } from './hooks/useHomeAnnouncement';
 import { useCallsSummary } from './hooks/useCallsSummary';
+import AnnouncementContent from './components/AnnouncementContent';
 
 function HomeModule() {
-  const { announcement, isLoading } = useHomeAnnouncement();
+  const { announcement, isLoading, source: announcementSource, error: announcementError } =
+    useHomeAnnouncement();
   const {
     summary: callsSummary,
     isLoading: isCallsLoading,
@@ -19,7 +21,17 @@ function HomeModule() {
       <h2>Dashboard Principal</h2>
       {announcement && (
         <div className="announcement-box">
-          <p>{announcement}</p>
+          <AnnouncementContent announcement={announcement} />
+          {announcementSource === 'fallback' && (
+            <p className="announcement-fallback" role="status">
+              Mostrando contenido educativo local por falta de comunicación con el backend.
+            </p>
+          )}
+          {announcementError && (
+            <p className="announcement-error" role="status">
+              {announcementError}
+            </p>
+          )}
         </div>
       )}
       <div className="widgets-grid">
