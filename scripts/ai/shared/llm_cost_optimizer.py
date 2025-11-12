@@ -80,12 +80,23 @@ class LLMCostOptimizer:
     """
 
     # Costos por 1K tokens (input + output promedio)
+    # Precios actualizados Enero 2025
     MODEL_COSTS = {
+        # Claude (Anthropic)
         "claude-3-5-sonnet-20241022": 0.018,  # $3 input + $15 output
         "claude-3-haiku-20240307": 0.0016,    # $0.25 input + $1.25 output
         "claude-3-opus-20240229": 0.090,      # $15 input + $75 output
-        "gpt-4-turbo-preview": 0.020,
-        "gpt-3.5-turbo": 0.002
+
+        # OpenAI GPT
+        "gpt-4-turbo-preview": 0.020,         # $10 input + $30 output
+        "gpt-4o": 0.010,                      # $5 input + $15 output
+        "gpt-4": 0.020,                       # Similar a turbo
+        "gpt-3.5-turbo": 0.002,               # $0.5 input + $1.5 output
+
+        # Ollama (local, gratis)
+        "llama3.1:8b": 0.0,
+        "qwen2.5-coder:32b": 0.0,
+        "deepseek-coder-v2": 0.0
     }
 
     def __init__(self, monthly_budget: float = None):
@@ -157,12 +168,13 @@ class LLMCostOptimizer:
 
         return use_llm
 
-    def get_optimal_config(self, issue: Dict[str, Any]) -> Optional[Dict[str, Any]]:
+    def get_optimal_config(self, issue: Dict[str, Any], prefer_provider: str = "auto") -> Optional[Dict[str, Any]]:
         """
         Retorna configuración óptima considerando costos.
 
         Args:
             issue: Información de la feature
+            prefer_provider: "auto", "anthropic", "openai", u "ollama"
 
         Returns:
             Config dict o None (heurísticas)
@@ -176,29 +188,79 @@ class LLMCostOptimizer:
         story_points = issue.get('estimated_story_points', 0)
         labels = issue.get('labels', [])
 
-        # Features muy críticas o muy complejas: Sonnet
-        if 'security' in labels or 'compliance' in labels or story_points >= 13:
-            model = "claude-3-5-sonnet-20241022"
-            reason = "critical/very_complex"
+        # Auto-detectar mejor proveedor según disponibilidad de API keys
+        if prefer_provider == "auto":
+            prefer_provider = self._detect_available_provider()
 
-        # Features complejas: Sonnet
-        elif story_points >= 8:
-            model = "claude-3-5-sonnet-20241022"
-            reason = "complex"
+        # Seleccionar modelo según complejidad y proveedor
+        if prefer_provider == "anthropic":
+            model, provider = self._select_claude_model(story_points, labels)
+            reason = self._get_selection_reason(story_points, labels)
 
-        # Features medias: Haiku (más barato)
+        elif prefer_provider == "openai":
+            model, provider = self._select_openai_model(story_points, labels)
+            reason = self._get_selection_reason(story_points, labels)
+
+        elif prefer_provider == "ollama":
+            # Ollama siempre gratis, usar mejor modelo
+            model = "qwen2.5-coder:32b"
+            provider = "ollama"
+            reason = "local_development"
+
         else:
-            model = "claude-3-haiku-20240307"
-            reason = "medium"
+            # Fallback a Claude
+            model, provider = self._select_claude_model(story_points, labels)
+            reason = "fallback"
 
-        logger.info(f"Selected {model} (reason: {reason})")
+        logger.info(f"Selected {model} ({provider}) - reason: {reason}")
 
         return {
-            "llm_provider": "anthropic",
+            "llm_provider": provider,
             "model": model,
             "use_llm": True,
             "_optimizer_reason": reason
         }
+
+    def _select_claude_model(self, story_points: int, labels: list) -> tuple:
+        """Selecciona modelo Claude óptimo según complejidad."""
+        if 'security' in labels or 'compliance' in labels or story_points >= 13:
+            return "claude-3-5-sonnet-20241022", "anthropic"
+        elif story_points >= 8:
+            return "claude-3-5-sonnet-20241022", "anthropic"
+        else:
+            return "claude-3-haiku-20240307", "anthropic"
+
+    def _select_openai_model(self, story_points: int, labels: list) -> tuple:
+        """Selecciona modelo OpenAI óptimo según complejidad."""
+        if 'security' in labels or 'compliance' in labels or story_points >= 13:
+            return "gpt-4-turbo-preview", "openai"
+        elif story_points >= 8:
+            return "gpt-4o", "openai"  # Mejor precio/calidad para complejidad media-alta
+        else:
+            return "gpt-3.5-turbo", "openai"
+
+    def _get_selection_reason(self, story_points: int, labels: list) -> str:
+        """Determina razón de selección de modelo."""
+        if 'security' in labels or 'compliance' in labels:
+            return "critical_security"
+        elif story_points >= 13:
+            return "very_complex"
+        elif story_points >= 8:
+            return "complex"
+        else:
+            return "medium"
+
+    def _detect_available_provider(self) -> str:
+        """Detecta qué proveedor está disponible según API keys."""
+        import os
+
+        if os.getenv("ANTHROPIC_API_KEY"):
+            return "anthropic"
+        elif os.getenv("OPENAI_API_KEY"):
+            return "openai"
+        else:
+            # Intentar Ollama local
+            return "ollama"
 
     def track_usage(self, tokens_used: int, model: str, cached: bool = False):
         """

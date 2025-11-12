@@ -6,26 +6,47 @@ Análisis y recomendaciones para uso eficiente de créditos Claude/OpenAI en pro
 
 ## Análisis de Costos Actuales
 
-### Precios Claude (Enero 2025)
+### Precios por Proveedor (Enero 2025)
 
-**Claude 3.5 Sonnet:**
-- Input: $3 / 1M tokens (~$0.003 por 1K tokens)
-- Output: $15 / 1M tokens (~$0.015 por 1K tokens)
+#### Claude (Anthropic)
 
-**Ejemplo de costos por operación:**
+| Modelo | Input (1M tokens) | Output (1M tokens) | Promedio 1K tokens |
+|--------|------------------|-------------------|-------------------|
+| Claude 3.5 Sonnet | $3.00 | $15.00 | $0.018 |
+| Claude 3 Haiku | $0.25 | $1.25 | $0.0016 |
+| Claude 3 Opus | $15.00 | $75.00 | $0.090 |
 
-| Operación | Input Tokens | Output Tokens | Costo |
-|-----------|-------------|---------------|-------|
-| Feasibility Analysis | ~1,500 | ~500 | $0.012 |
-| Design (HLD/LLD) | ~2,000 | ~1,500 | $0.028 |
-| Test Strategy | ~1,800 | ~800 | $0.017 |
-| Deployment Plan | ~1,500 | ~600 | $0.013 |
-| **Pipeline Completo** | ~6,800 | ~3,400 | **$0.071** |
+#### OpenAI GPT
 
-**Uso intensivo estimado:**
-- 100 features/mes = $7.10
-- 500 features/mes = $35.50
-- 1000 features/mes = $71.00
+| Modelo | Input (1M tokens) | Output (1M tokens) | Promedio 1K tokens |
+|--------|------------------|-------------------|-------------------|
+| GPT-4 Turbo | $10.00 | $30.00 | $0.020 |
+| GPT-4o | $5.00 | $15.00 | $0.010 |
+| GPT-3.5 Turbo | $0.50 | $1.50 | $0.002 |
+
+### Costos por Operación (Claude Sonnet vs GPT-4 Turbo)
+
+| Operación | Input Tokens | Output Tokens | Claude Sonnet | GPT-4 Turbo |
+|-----------|-------------|---------------|---------------|-------------|
+| Feasibility Analysis | ~1,500 | ~500 | $0.012 | $0.013 |
+| Design (HLD/LLD) | ~2,000 | ~1,500 | $0.028 | $0.031 |
+| Test Strategy | ~1,800 | ~800 | $0.017 | $0.019 |
+| Deployment Plan | ~1,500 | ~600 | $0.013 | $0.014 |
+| **Pipeline Completo** | ~6,800 | ~3,400 | **$0.071** | **$0.078** |
+
+### Comparación de Costos Mensuales
+
+**1000 features/mes con pipeline completo:**
+
+| Proveedor | Costo/Pipeline | Costo Mensual | Diferencia |
+|-----------|----------------|---------------|------------|
+| Claude 3.5 Sonnet | $0.071 | $71.00 | Baseline |
+| GPT-4 Turbo | $0.078 | $78.00 | +10% |
+| GPT-4o | $0.039 | $39.00 | -45% |
+| Claude 3 Haiku | $0.012 | $12.00 | -83% |
+| GPT-3.5 Turbo | $0.008 | $8.00 | -89% |
+
+**Recomendación:** Claude Sonnet y GPT-4 Turbo tienen costos similares (~10% diferencia). Para máximo ahorro: usar Haiku (Claude) o GPT-3.5 Turbo para features simples.
 
 ---
 
@@ -230,9 +251,11 @@ full_prompt = BASE_PROMPT + specific_task
 
 **Estrategia:** Usar modelos más baratos cuando sea posible.
 
+#### Opción A: Claude (Anthropic)
+
 ```python
-def get_model_config(task_complexity):
-    """Selecciona modelo según complejidad."""
+def get_model_config_claude(task_complexity):
+    """Selecciona modelo Claude según complejidad."""
 
     if task_complexity == "simple":
         # Claude Haiku (más barato)
@@ -254,16 +277,73 @@ def get_model_config(task_complexity):
         }
 
 # Uso
-config = get_model_config("simple")
+config = get_model_config_claude("simple")
 agent = SDLCFeasibilityAgent(config=config)
 ```
 
-**Precios comparativos:**
-- Haiku: $0.25/$1.25 por 1M tokens (5x más barato)
-- Sonnet: $3/$15 por 1M tokens (baseline)
-- Opus: $15/$75 por 1M tokens (5x más caro)
+**Precios Claude:**
+- Haiku: $0.0016/1K tokens (11x más barato que Sonnet)
+- Sonnet: $0.018/1K tokens (baseline)
+- Opus: $0.090/1K tokens (5x más caro que Sonnet)
 
-**Ahorro estimado:** 50% usando Haiku para tareas simples
+#### Opción B: OpenAI GPT
+
+```python
+def get_model_config_openai(task_complexity):
+    """Selecciona modelo GPT según complejidad."""
+
+    if task_complexity == "simple":
+        # GPT-3.5 Turbo (más barato)
+        return {
+            "model": "gpt-3.5-turbo",
+            "llm_provider": "openai"
+        }
+    elif task_complexity == "medium":
+        # GPT-4o (balance costo/calidad)
+        return {
+            "model": "gpt-4o",
+            "llm_provider": "openai"
+        }
+    else:
+        # GPT-4 Turbo (mejor calidad)
+        return {
+            "model": "gpt-4-turbo-preview",
+            "llm_provider": "openai"
+        }
+
+# Uso
+config = get_model_config_openai("simple")
+agent = SDLCFeasibilityAgent(config=config)
+```
+
+**Precios OpenAI:**
+- GPT-3.5 Turbo: $0.002/1K tokens (10x más barato que GPT-4 Turbo)
+- GPT-4o: $0.010/1K tokens (2x más barato que GPT-4 Turbo)
+- GPT-4 Turbo: $0.020/1K tokens (baseline)
+
+#### Estrategia Híbrida (Mejor de Ambos)
+
+```python
+def get_optimal_model(task_complexity, prefer_openai=False):
+    """Selecciona el modelo más económico para la tarea."""
+
+    if task_complexity == "simple":
+        # GPT-3.5 Turbo es el más barato ($0.002 vs $0.0016 Haiku)
+        if prefer_openai:
+            return {"model": "gpt-3.5-turbo", "llm_provider": "openai"}
+        else:
+            return {"model": "claude-3-haiku-20240307", "llm_provider": "anthropic"}
+
+    elif task_complexity == "medium":
+        # GPT-4o mejor precio/calidad ($0.010 vs $0.018 Sonnet)
+        return {"model": "gpt-4o", "llm_provider": "openai"}
+
+    else:  # complex
+        # Claude Sonnet mejor calidad/precio que GPT-4 Turbo
+        return {"model": "claude-3-5-sonnet-20241022", "llm_provider": "anthropic"}
+```
+
+**Ahorro estimado:** 50-70% usando modelos económicos para tareas simples/medias
 
 ---
 
@@ -569,4 +649,119 @@ LLM Usage Report:
 
 **Conclusión:** Con estrategia híbrida inteligente, el costo se reduce de $71 a $10 por mes, manteniendo alta calidad en features críticas.
 
+---
+
+## Resumen Comparativo: Claude vs GPT
+
+### Recomendaciones por Caso de Uso
+
+| Caso de Uso | Mejor Opción | Modelo | Costo/1K tokens | Razón |
+|-------------|--------------|--------|----------------|-------|
+| Features simples (≤3 SP) | Heurísticas | N/A | $0 | Sin costo, suficientemente bueno |
+| Features medias (4-7 SP) | OpenAI | GPT-4o | $0.010 | Mejor balance precio/calidad |
+| Features complejas (8-12 SP) | Claude | Sonnet 3.5 | $0.018 | Mejor calidad para código |
+| Features críticas (security) | Claude | Sonnet 3.5 | $0.018 | Mayor precisión en análisis |
+| Desarrollo/Testing local | Ollama | Qwen 2.5 Coder | $0 | Gratis, privado |
+| Budget muy limitado | OpenAI | GPT-3.5 Turbo | $0.002 | Más económico |
+
+### Estrategia Óptima Multi-Proveedor
+
+```python
+from scripts.ai.shared.llm_cost_optimizer import get_optimizer
+
+# Obtener configuración óptima automáticamente
+optimizer = get_optimizer()
+
+# El optimizador detecta automáticamente qué API key está disponible
+# y selecciona el modelo más económico para la complejidad dada
+config = optimizer.get_optimal_config(
+    issue={
+        "title": "Payment Integration",
+        "estimated_story_points": 8,
+        "labels": ["security", "payment"]
+    },
+    prefer_provider="auto"  # "auto", "anthropic", "openai", "ollama"
+)
+
+# Usar con cualquier agente SDLC
+from scripts.ai.sdlc.feasibility_agent import SDLCFeasibilityAgent
+agent = SDLCFeasibilityAgent(config=config)
+result = agent.run({"issue": issue})
+```
+
+### Comparación de Costos con Optimización
+
+**Escenario: 1000 features/mes**
+
+| Estrategia | Claude | OpenAI | Ahorro |
+|-----------|--------|--------|--------|
+| **Sin optimización (todo Sonnet/GPT-4)** | $71/mes | $78/mes | 0% |
+| **Solo modelos baratos (Haiku/GPT-3.5)** | $12/mes | $8/mes | 83-89% |
+| **Híbrida inteligente (recomendado)** | $10/mes | $11/mes | 86% |
+| **Ollama en desarrollo + Cloud en prod** | $3.5/mes | $3.9/mes | 95% |
+
+### Variables de Entorno para Multi-Proveedor
+
+```bash
+# Configurar proveedores (uno o ambos)
+export ANTHROPIC_API_KEY="sk-ant-..."
+export OPENAI_API_KEY="sk-..."
+
+# Configurar presupuesto mensual
+export LLM_MONTHLY_BUDGET="50"  # $50/mes
+
+# Configurar Ollama local (opcional)
+export OLLAMA_BASE_URL="http://localhost:11434"
+
+# Habilitar optimización de costos
+export ENABLE_COST_OPTIMIZATION="true"
+
+# Proveedor preferido (si ambos están disponibles)
+export PREFER_LLM_PROVIDER="anthropic"  # o "openai" o "auto"
+```
+
+### Métricas de Decisión
+
+El optimizador decide automáticamente usando estas reglas:
+
+**Para Claude (Anthropic):**
+1. Features críticas (security, compliance, SP≥13) → Sonnet 3.5
+2. Features complejas (SP≥8) → Sonnet 3.5
+3. Features medias (SP 5-7) → Haiku
+4. Features simples (SP<5) → Heurísticas
+
+**Para OpenAI GPT:**
+1. Features críticas (security, compliance, SP≥13) → GPT-4 Turbo
+2. Features complejas (SP≥8) → GPT-4o
+3. Features medias (SP 5-7) → GPT-3.5 Turbo
+4. Features simples (SP<5) → Heurísticas
+
+**Auto (detección):**
+- Si existe `ANTHROPIC_API_KEY` → usa Claude
+- Si existe `OPENAI_API_KEY` → usa OpenAI
+- Si ninguno → intenta Ollama local
+- Si todo falla → usa heurísticas
+
+---
+
+## Conclusión Final
+
+**La estrategia de optimización funciona IDÉNTICAMENTE para Claude y GPT:**
+
+1. Mismos niveles de optimización (6 niveles)
+2. Misma lógica de decisión (complejidad + criticidad)
+3. Mismo ahorro proyectado (85-95%)
+4. Soporte transparente multi-proveedor
+
+**Recomendación práctica:**
+- Usa Claude Sonnet para features complejas (mejor calidad código)
+- Usa GPT-4o para features medias (mejor precio/calidad)
+- Usa GPT-3.5 o Haiku para features simples (máximo ahorro)
+- Usa Ollama en desarrollo (costo cero)
+
+**Con esta estrategia, el costo mensual se mantiene entre $8-12 sin importar el proveedor elegido.**
+
+---
+
 **Última actualización:** 2025-11-12
+**Autor:** Sistema SDLC IACT
