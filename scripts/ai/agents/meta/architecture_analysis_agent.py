@@ -18,6 +18,8 @@ to solve real software engineering problems (architecture validation).
 from dataclasses import dataclass, field
 from enum import Enum
 from typing import List, Dict, Any, Optional
+import os
+import logging
 
 from scripts.ai.agents.base import (
     ChainOfVerificationAgent,
@@ -25,6 +27,20 @@ from scripts.ai.agents.base import (
     Verification,
     VerificationStatus
 )
+
+# Import LLMGenerator for AI-powered analysis
+try:
+    from scripts.ai.generators.llm_generator import LLMGenerator
+    LLM_AVAILABLE = True
+except ImportError:
+    LLM_AVAILABLE = False
+    logging.warning("LLMGenerator not available, will use heuristics only")
+
+logger = logging.getLogger(__name__)
+
+# Constants
+ANALYSIS_METHOD_LLM = "llm"
+ANALYSIS_METHOD_HEURISTIC = "heuristic"
 
 
 class SOLIDPrinciple(Enum):
@@ -55,6 +71,7 @@ class SOLIDAnalysisResult:
     verification_count: int = 0
     verification_questions: List[str] = field(default_factory=list)
     confidence_score: float = 0.0
+    analysis_method: str = ANALYSIS_METHOD_HEURISTIC  # "heuristic" or "llm"
 
     def to_dict(self) -> Dict[str, Any]:
         """Convert to dictionary for serialization."""
@@ -71,7 +88,8 @@ class SOLIDAnalysisResult:
                 for v in self.violations
             ],
             'verification_count': self.verification_count,
-            'confidence_score': self.confidence_score
+            'confidence_score': self.confidence_score,
+            'analysis_method': self.analysis_method
         }
 
 
@@ -89,16 +107,40 @@ class ArchitectureAnalysisAgent:
     4. Synthesize final verified assessment
     """
 
-    def __init__(self, principles: Optional[List[SOLIDPrinciple]] = None):
+    def __init__(
+        self,
+        principles: Optional[List[SOLIDPrinciple]] = None,
+        config: Optional[Dict[str, Any]] = None
+    ):
         """
         Initialize the agent.
 
         Args:
             principles: List of SOLID principles to check (default: all)
+            config: Configuration dict with optional keys:
+                - llm_provider: "anthropic" or "openai"
+                - model: Model name (e.g., "claude-3-5-sonnet-20241022")
+                - use_llm: Boolean to enable/disable LLM usage
         """
         self.name = "ArchitectureAnalysisAgent"
         self.verifier = ChainOfVerificationAgent(verify_threshold=0.7)
         self.principles = principles or list(SOLIDPrinciple)
+        self.config = config or {}
+
+        # Initialize LLMGenerator if configured and available
+        self.llm_generator = None
+
+        if self.config and LLM_AVAILABLE:
+            try:
+                # Initialize LLMGenerator (API key validation happens at runtime)
+                self.llm_generator = LLMGenerator(config=self.config)
+                llm_provider = self.config.get('llm_provider', 'anthropic')
+                logger.info(f"LLMGenerator initialized with {llm_provider}")
+            except Exception as e:
+                logger.error(f"Failed to initialize LLMGenerator: {e}")
+                self.llm_generator = None
+        elif self.config and not LLM_AVAILABLE:
+            logger.warning("LLM configuration provided but LLMGenerator not available")
 
     def analyze_solid_compliance(self, code: str) -> SOLIDAnalysisResult:
         """
@@ -122,7 +164,8 @@ class ArchitectureAnalysisAgent:
                         description="Empty code provided",
                         recommendation="Provide valid Python code for analysis"
                     )
-                ]
+                ],
+                analysis_method=ANALYSIS_METHOD_HEURISTIC
             )
 
         # Check for basic syntax validity
@@ -139,11 +182,19 @@ class ArchitectureAnalysisAgent:
                         description=f"Syntax error: {str(e)}",
                         recommendation="Fix syntax errors before analyzing architecture"
                     )
-                ]
+                ],
+                analysis_method=ANALYSIS_METHOD_HEURISTIC
             )
 
-        # Perform heuristic-based analysis
-        violations = self._detect_violations_heuristic(code)
+        # Determine analysis method
+        use_llm = self.config.get('use_llm', False) and self.llm_generator is not None
+        analysis_method = ANALYSIS_METHOD_LLM if use_llm else ANALYSIS_METHOD_HEURISTIC
+
+        # Perform analysis (with fallback to heuristics)
+        violations = self._perform_analysis(code, use_llm)
+        if use_llm and not violations:
+            # Empty result from LLM, switch to heuristics
+            analysis_method = ANALYSIS_METHOD_HEURISTIC
 
         # Create verification context for Chain-of-Verification
         question = self._create_analysis_question(code)
@@ -197,7 +248,8 @@ class ArchitectureAnalysisAgent:
             violations=violations,
             verification_count=verification_count,
             verification_questions=verification_questions,
-            confidence_score=confidence_score
+            confidence_score=confidence_score,
+            analysis_method=analysis_method
         )
 
     def _create_analysis_question(self, code: str) -> str:
@@ -504,6 +556,126 @@ class ArchitectureAnalysisAgent:
                     violations.append(violation)
 
         return violations
+
+    def _perform_analysis(self, code: str, use_llm: bool) -> List[PrincipleViolation]:
+        """
+        Perform SOLID analysis using LLM or heuristics.
+
+        Args:
+            code: Code to analyze
+            use_llm: Whether to use LLM (with fallback to heuristics on failure)
+
+        Returns:
+            List of violations found
+        """
+        if use_llm:
+            try:
+                violations = self._analyze_with_llm(code)
+                logger.info(f"LLM analysis found {len(violations)} violations")
+                if not violations:
+                    logger.warning("LLM returned empty violations, using heuristics")
+                    return self._detect_violations_heuristic(code)
+                return violations
+            except Exception as e:
+                logger.error(f"LLM analysis failed: {e}, falling back to heuristics")
+                return self._detect_violations_heuristic(code)
+        else:
+            return self._detect_violations_heuristic(code)
+
+    def _analyze_with_llm(self, code: str) -> List[PrincipleViolation]:
+        """
+        Analyze code for SOLID violations using LLMGenerator.
+
+        Args:
+            code: Python code to analyze
+
+        Returns:
+            List of PrincipleViolation objects found by LLM
+        """
+        # Build prompt for LLM
+        prompt = self._build_llm_analysis_prompt(code)
+
+        # Call LLM
+        response = self.llm_generator._call_llm(prompt)
+
+        # Parse LLM response into violations
+        violations = self._parse_llm_violations(response)
+
+        return violations
+
+    def _build_llm_analysis_prompt(self, code: str) -> str:
+        """Build prompt for LLM SOLID analysis."""
+        principles_list = ", ".join([p.value.replace("_", " ").title() for p in self.principles])
+
+        prompt = f"""Analyze the following Python code for SOLID principle violations.
+
+CODE TO ANALYZE:
+```python
+{code}
+```
+
+SOLID PRINCIPLES TO CHECK:
+{principles_list}
+
+For each violation found, provide:
+1. Which SOLID principle is violated
+2. Location in code (class name, method name, or line reference)
+3. Detailed description of the violation
+4. Specific recommendation to fix it
+5. Severity: low, medium, or high
+
+RESPONSE FORMAT (JSON):
+{{
+  "violations": [
+    {{
+      "principle": "single_responsibility",
+      "location": "Class UserManager",
+      "description": "Class handles both user data access and email sending",
+      "recommendation": "Extract email sending functionality into a separate EmailService class",
+      "severity": "high"
+    }}
+  ]
+}}
+
+Analyze the code and return violations in JSON format:"""
+        return prompt
+
+    def _parse_llm_violations(self, response: str) -> List[PrincipleViolation]:
+        """Parse LLM response into PrincipleViolation objects."""
+        import json
+
+        try:
+            # Try to parse as JSON
+            data = json.loads(response)
+            violations = []
+
+            for v_data in data.get('violations', []):
+                # Map string principle to enum
+                principle_str = v_data.get('principle', 'single_responsibility').lower()
+                principle_map = {
+                    'single_responsibility': SOLIDPrinciple.SINGLE_RESPONSIBILITY,
+                    'open_closed': SOLIDPrinciple.OPEN_CLOSED,
+                    'liskov_substitution': SOLIDPrinciple.LISKOV_SUBSTITUTION,
+                    'interface_segregation': SOLIDPrinciple.INTERFACE_SEGREGATION,
+                    'dependency_inversion': SOLIDPrinciple.DEPENDENCY_INVERSION
+                }
+                principle = principle_map.get(principle_str, SOLIDPrinciple.SINGLE_RESPONSIBILITY)
+
+                violation = PrincipleViolation(
+                    principle=principle,
+                    location=v_data.get('location', 'Unknown'),
+                    description=v_data.get('description', ''),
+                    recommendation=v_data.get('recommendation', ''),
+                    severity=v_data.get('severity', 'medium')
+                )
+                violations.append(violation)
+
+            return violations
+
+        except json.JSONDecodeError:
+            logger.warning("Failed to parse LLM response as JSON")
+            # Return empty list to trigger fallback
+            return []
 
     def _deduplicate_violations(
         self,

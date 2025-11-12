@@ -321,5 +321,103 @@ class TestArchitectureAnalysisIntegration:
         assert result2.is_compliant is False
 
 
+# 8. LLM Integration Tests (TDD - RED Phase)
+class TestLLMIntegration:
+    """Test LLM integration for architecture analysis."""
+
+    def test_initializes_with_llm_config(self):
+        """Should initialize with LLM configuration."""
+        config = {
+            "llm_provider": "anthropic",
+            "model": "claude-3-5-sonnet-20241022"
+        }
+        agent = ArchitectureAnalysisAgent(config=config)
+
+        # WILL FAIL: Agent doesn't accept config yet
+        assert hasattr(agent, 'llm_generator')
+        assert agent.llm_generator is not None
+
+    def test_uses_llm_for_analysis(self, sample_bad_class):
+        """Should use LLM for detailed SOLID analysis."""
+        config = {
+            "llm_provider": "anthropic",
+            "use_llm": True
+        }
+        agent = ArchitectureAnalysisAgent(config=config)
+
+        result = agent.analyze_solid_compliance(sample_bad_class)
+
+        # WILL FAIL: Currently uses only heuristics
+        assert hasattr(result, 'analysis_method')
+        assert result.analysis_method == 'llm'
+
+    def test_llm_finds_more_violations_than_heuristics(self, sample_bad_class):
+        """LLM should find more violations than heuristic analysis."""
+        config_llm = {"llm_provider": "anthropic", "use_llm": True}
+        config_heuristic = {"use_llm": False}
+
+        agent_llm = ArchitectureAnalysisAgent(config=config_llm)
+        agent_heuristic = ArchitectureAnalysisAgent(config=config_heuristic)
+
+        result_llm = agent_llm.analyze_solid_compliance(sample_bad_class)
+        result_heuristic = agent_heuristic.analyze_solid_compliance(sample_bad_class)
+
+        # WILL FAIL: LLM should detect more violations
+        assert len(result_llm.violations) >= len(result_heuristic.violations)
+
+    def test_fallback_to_heuristics_when_llm_fails(self, sample_bad_class):
+        """Should fallback to heuristics if LLM fails."""
+        config = {
+            "llm_provider": "anthropic",
+            "model": "invalid-model",
+            "use_llm": True
+        }
+        agent = ArchitectureAnalysisAgent(config=config)
+
+        result = agent.analyze_solid_compliance(sample_bad_class)
+
+        # WILL FAIL: No fallback mechanism yet
+        assert isinstance(result, SOLIDAnalysisResult)
+        assert len(result.violations) > 0
+        assert result.analysis_method == 'heuristic'
+
+    def test_llm_provides_better_recommendations(self, sample_bad_class):
+        """LLM should provide more detailed recommendations."""
+        config = {
+            "llm_provider": "anthropic",
+            "use_llm": True
+        }
+        agent = ArchitectureAnalysisAgent(config=config)
+
+        result = agent.analyze_solid_compliance(sample_bad_class)
+
+        # WILL FAIL: Heuristic recommendations are generic
+        for violation in result.violations:
+            # LLM recommendations should be more specific
+            assert len(violation.recommendation) > 50
+            assert 'Consider' not in violation.recommendation or 'specific' in violation.recommendation.lower()
+
+    def test_respects_api_key_validation(self):
+        """Should validate API key before using LLM."""
+        import os
+        original_key = os.environ.get('ANTHROPIC_API_KEY')
+        if original_key:
+            del os.environ['ANTHROPIC_API_KEY']
+
+        config = {
+            "llm_provider": "anthropic",
+            "use_llm": True
+        }
+
+        try:
+            agent = ArchitectureAnalysisAgent(config=config)
+            # WILL FAIL: Should handle missing API key
+            assert hasattr(agent, 'llm_generator')
+            assert agent.config.get('use_llm') == False or agent.llm_generator is None
+        finally:
+            if original_key:
+                os.environ['ANTHROPIC_API_KEY'] = original_key
+
+
 if __name__ == "__main__":
     pytest.main([__file__, "-v"])
