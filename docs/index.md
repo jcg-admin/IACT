@@ -1,11 +1,11 @@
 # Índice consolidado de documentación
 
 > Última actualización: 2025-11-12  
-> **Leyenda**: ✅ = Implementado | 📋 = Planificado | ⚠️ = Crítico
+> **Leyenda**: [IMPLEMENTADO] = Implementado | [PLANIFICADO] = Planificado | [ATENCION] = Crítico
 
 Este índice combina lo implementado con la visión futura del proyecto, claramente marcado para evitar confusiones.
 
-## 📍 Puntos de entrada rápidos
+## [INICIO] Puntos de entrada rápidos
 
 ### Por actividad
 - **Empezar a desarrollar**: [`README.md`](README.md) - Setup completo
@@ -20,9 +20,9 @@ Este índice combina lo implementado con la visión futura del proyecto, clarame
 - **Arquitecto**: [`adr/`](adr/), [`arquitectura/`](arquitectura/)
 - **Product Owner**: [`requisitos/`](requisitos/), [`backend/requisitos/`](backend/requisitos/)
 
-## 📚 Documentación activa
+## [DOCS] Documentación activa
 
-### Gobernanza y procesos (✅ Completo)
+### Gobernanza y procesos ([IMPLEMENTADO] Completo)
 - **Guía de Estilo**: [`gobernanza/GUIA_ESTILO.md`](gobernanza/GUIA_ESTILO.md) - Convenciones obligatorias
 - **Procesos**: [`gobernanza/procesos/`](gobernanza/procesos/)
   - Procedimientos operacionales (11 docs)
@@ -33,20 +33,20 @@ Este índice combina lo implementado con la visión futura del proyecto, clarame
   - Troubleshooting: [`TROUBLESHOOTING.md`](gobernanza/ci_cd/TROUBLESHOOTING.md)
   - Ejemplos: [`EJEMPLOS.md`](gobernanza/ci_cd/EJEMPLOS.md)
 
-### Arquitectura (✅ Documentada, 📋 Evolución continua)
+### Arquitectura ([IMPLEMENTADO] Documentada, [PLANIFICADO] Evolución continua)
 - **ADRs**: [`adr/`](adr/) - 11+ Architecture Decision Records
   - ADR-001: Vagrant + mod_wsgi
   - ADR-002: Suite de calidad de código
   - ADR-008-014: Frontend (React, Redux, Webpack, Jest)
 - **Lineamientos**: [`arquitectura/`](arquitectura/)
-  - Storage: MySQL + 📋 Cassandra
+  - Storage: MySQL + [PLANIFICADO] Cassandra
   - Observability: [`OBSERVABILITY_LAYERS.md`](arquitectura/OBSERVABILITY_LAYERS.md)
 - **Por dominio**:
   - Backend: [`backend/arquitectura/`](backend/arquitectura/)
   - Frontend: [`frontend/arquitectura/`](frontend/arquitectura/)
   - Infrastructure: [`infrastructure/`](infrastructure/)
 
-### Requisitos (✅ Estructura definida, 📋 Contenido en construcción)
+### Requisitos ([IMPLEMENTADO] Estructura definida, [PLANIFICADO] Contenido en construcción)
 - **Marco integrado**: [`requisitos/analisis_negocio/marco_integrado/`](requisitos/analisis_negocio/marco_integrado/)
   - Metodología BABOK v3 + ISO/IEC/IEEE 29148:2018
   - 7,419 líneas de framework de análisis
@@ -55,27 +55,27 @@ Este índice combina lo implementado con la visión futura del proyecto, clarame
   - Negocio (RN-XXX): 2 documentados
   - Stakeholders (RS-XXX): 3 documentados
   - Funcionales (RF-XXX): 10 documentados
-  - ⚠️ No funcionales (RNF-XXX): **RNF-002 CRÍTICO** (NO Redis)
+  - [ATENCION] No funcionales (RNF-XXX): **RNF-002 CRÍTICO** (NO Redis)
 
-### Operaciones (✅ Runbooks disponibles)
+### Operaciones ([IMPLEMENTADO] Runbooks disponibles)
 - **Runbooks**: [`operaciones/`](operaciones/)
   - Verificar servicios (PostgreSQL + MariaDB)
   - Reprocesar ETL fallido
   - Merge y limpieza de ramas
   - Claude Code, GitHub Copilot
-- 📋 **Disaster Recovery**: [`scripts/disaster_recovery/`](../scripts/disaster_recovery/) - Scripts pendientes
+- [PLANIFICADO] **Disaster Recovery**: [`scripts/disaster_recovery/`](../scripts/disaster_recovery/) - Scripts pendientes
 
-### Infraestructura (✅ CPython builder completo)
+### Infraestructura ([IMPLEMENTADO] CPython builder completo)
 - **CPython Precompilado**: [`infrastructure/cpython/`](../infrastructure/cpython/)
   - README: [`infrastructure/cpython/README.md`](../infrastructure/cpython/README.md)
   - Changelog: [`CHANGELOG-cpython.md`](infrastructure/CHANGELOG-cpython.md)
   - Scripts: `build_cpython.sh`, `validate_build.sh`, `install_prebuilt_cpython.sh`
 - **DevContainer**: [`infrastructure/devcontainer/`](infrastructure/devcontainer/)
-- 📋 **Cassandra**: Documentación disponible, implementación pendiente
+- [PLANIFICADO] **Cassandra**: Documentación disponible, implementación pendiente
 
-### Scripts y automatización (✅ Parcial, 📋 Muchos planificados)
+### Scripts y automatización ([IMPLEMENTADO] Parcial, [PLANIFICADO] Muchos planificados)
 
-#### ✅ Implementados
+#### [IMPLEMENTADO] Implementados
 - **CI Gates**: [`scripts/ci/`](../scripts/ci/)
   - `gate-no-emojis.sh`, `gate-docs-structure.sh`
   - `run-all-checks.sh`, `run_architecture_analysis.py`
@@ -84,20 +84,20 @@ Este índice combina lo implementado con la visión futura del proyecto, clarame
 - **Test runner**: [`scripts/run_all_tests.sh`](../scripts/run_all_tests.sh)
 - **Templates**: [`scripts/templates/`](../scripts/templates/)
 
-#### 📋 Planificados (ver [`docs/scripts/README.md`](scripts/README.md))
+#### [PLANIFICADO] Planificados (ver [`docs/scripts/README.md`](scripts/README.md))
 - `scripts/sdlc_agent.py` - CLI SDLC
 - `scripts/dora_metrics.py` - Calculador DORA metrics
 - `scripts/requisitos/` - Gestión de requisitos
 - 20+ agentes SDLC especializados
 
-### Testing y QA (✅ Framework, 📋 Cobertura en crecimiento)
+### Testing y QA ([IMPLEMENTADO] Framework, [PLANIFICADO] Cobertura en crecimiento)
 - **Estrategia**: [`qa/`](qa/), [`gobernanza/procesos/qa/ESTRATEGIA_QA.md`](gobernanza/procesos/qa/ESTRATEGIA_QA.md)
 - **Targets**: Coverage >= 80%, Test Pyramid (60/30/10), MTTR <= 2 días
 - **Tests**: [`testing/`](testing/)
   - Documentación: `test_documentation_alignment.py`
-  - 📋 Backend, frontend, integration tests - en construcción
+  - [PLANIFICADO] Backend, frontend, integration tests - en construcción
 
-### Análisis y reportes (✅ Manuales, 📋 Automatización pendiente)
+### Análisis y reportes ([IMPLEMENTADO] Manuales, [PLANIFICADO] Automatización pendiente)
 - **Backend**: [`backend_analisis/2025-11-11/`](backend_analisis/2025-11-11/)
   - Análisis de calidad: 93% overall
   - Resultados: [`logs_data/analysis/backend_analysis_results.json`](../logs_data/analysis/backend_analysis_results.json)
@@ -105,9 +105,9 @@ Este índice combina lo implementado con la visión futura del proyecto, clarame
   - Schemas: deployment, DORA metrics, incidents
   - Estado: generación manual, rotación pendiente
 
-## 🎯 Proyecto y planificación
+## [PROYECTO] Proyecto y planificación
 
-### ✅ Tracking activo
+### [IMPLEMENTADO] Tracking activo
 - **Roadmap**: [`proyecto/ROADMAP.md`](proyecto/ROADMAP.md) - Q4 2025 - Q2 2026
 - **Tareas**: [`proyecto/TAREAS_ACTIVAS.md`](proyecto/TAREAS_ACTIVAS.md) - Sprint actual
 - **Changelog**: [`proyecto/CHANGELOG.md`](proyecto/CHANGELOG.md) - Historial completo
@@ -116,7 +116,7 @@ Este índice combina lo implementado con la visión futura del proyecto, clarame
 - **Plan de remediación**: [`plans/REV_20251112_remediation_plan.md`](plans/REV_20251112_remediation_plan.md)
 - **Estado**: Alineación docs ↔ código en progreso
 
-## 📋 Visión futura (planificado)
+## [PLANIFICADO] Visión futura (planificado)
 
 ### DORA Metrics y AI Excellence
 - **Estrategia IA**: [`gobernanza/ai/ESTRATEGIA_IA.md`](gobernanza/ai/ESTRATEGIA_IA.md)
@@ -135,7 +135,7 @@ Este índice combina lo implementado con la visión futura del proyecto, clarame
 - **Workflows**: 8 planificados (backend-ci, frontend-ci, test-pyramid, deploy, etc.)
 - **Estado**: Documentación completa, pipelines pendientes
 
-## 📦 Plantillas (✅ 34 templates disponibles)
+## [PLANTILLAS] Plantillas ([IMPLEMENTADO] 34 templates disponibles)
 - **Ubicación**: [`plantillas/`](plantillas/)
 - **Categorías**:
   - Requisitos (5): Necesidad, RN, RF, RNF, Stakeholder
@@ -146,7 +146,7 @@ Este índice combina lo implementado con la visión futura del proyecto, clarame
   - Infraestructura (4): Runbook, Deployment, Setup
   - Gestión (6): Release plan, Business case, Project charter
 
-## 🗄️ Contenido legado y referencia
+## [LEGADO] Contenido legado y referencia
 
 ### Documentación histórica
 - **Legacy docs**: [`../respaldo/docs_legacy/`](../respaldo/docs_legacy/README.md)
@@ -159,7 +159,7 @@ Este índice combina lo implementado con la visión futura del proyecto, clarame
   - [`INDEX.md`](INDEX.md) - Versión 2.0 (deprecada)
   - [`INDICE.md`](INDICE.md) - Versión 1.6 (deprecada)
 
-## ⚠️ Restricciones críticas del proyecto
+## [ATENCION] Restricciones críticas del proyecto
 
 ### RNF-002: NO Redis/Memcached (CRÍTICO)
 - Sesiones DEBEN estar en MySQL: `django.contrib.sessions.backends.db`
@@ -167,14 +167,14 @@ Este índice combina lo implementado con la visión futura del proyecto, clarame
 - PROHIBIDO: Redis, Memcached, cualquier servicio externo de cache
 
 ### Otras restricciones obligatorias
-- ❌ NO Email/SMTP (usar `InternalMessage` para notificaciones)
-- ❌ NO Emojis/Iconos UTF-8 (usar texto ASCII: [OK], [FAIL], [WARNING])
-- ✅ Scripts primero, CI/CD después (scripts deben funcionar offline)
-- ❌ NO RabbitMQ, Celery, MongoDB, Elasticsearch
+- [NO] NO Email/SMTP (usar `InternalMessage` para notificaciones)
+- [NO] NO Emojis/Iconos UTF-8 (usar texto ASCII: [OK], [FAIL], [WARNING])
+- [IMPLEMENTADO] Scripts primero, CI/CD después (scripts deben funcionar offline)
+- [NO] NO RabbitMQ, Celery, MongoDB, Elasticsearch
 
 Ver: [`gobernanza/estilos/GUIA_ESTILO.md`](gobernanza/estilos/GUIA_ESTILO.md)
 
-## 📊 Métricas del proyecto (snapshot Nov 2025)
+## [METRICAS] Métricas del proyecto (snapshot Nov 2025)
 
 ### Documentación
 - **Archivos .md**: 297+ documentos
@@ -193,7 +193,7 @@ Ver: [`gobernanza/estilos/GUIA_ESTILO.md`](gobernanza/estilos/GUIA_ESTILO.md)
 - **Implementados**: ~30 en `scripts/ci/`, `scripts/validation/`, `scripts/infrastructure/`
 - **Planificados**: ~37 (SDLC agents, DORA metrics, requisitos)
 
-## 🔗 Enlaces útiles
+## [ENLACES] Enlaces útiles
 
 ### Guías de inicio por rol
 - [Developers](gobernanza/procesos/procedimientos/guia_completa_desarrollo_features.md)

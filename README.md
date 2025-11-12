@@ -2,18 +2,20 @@
 
 Repositorio monolítico para la plataforma de analítica de centros de contacto (IACT) con Django 5, PostgreSQL y MariaDB.
 
-> **Nota sobre el estado del proyecto**: Actualmente en fase de consolidación documental y alineación de código con documentación. Algunas funcionalidades descritas están planificadas pero no implementadas. Consulta las secciones marcadas como "✅ Implementado" vs "📋 Planificado" para distinguir entre lo actual y lo futuro.
+> **Nota sobre el estado del proyecto**: Actualmente en fase de consolidación documental y alineación de código con documentación. Algunas funcionalidades descritas están planificadas pero no implementadas. Consulta las secciones marcadas como "[IMPLEMENTADO]" vs "[PLANIFICADO]" para distinguir entre lo actual y lo futuro.
+>
+> **Leyenda**: [IMPLEMENTADO] = Funciona actualmente | [PLANIFICADO] = Documentado pero pendiente | [ATENCION] = Requiere atención | [NO] = Prohibido
 
 ## Estado actual del repositorio
 
-### ✅ Implementado
+### [IMPLEMENTADO] Implementado
 - **Documentación activa**: centralizada en [`docs/index.md`](docs/index.md)
 - **Scripts utilitarios**: en [`scripts/`](scripts/README.md) - validaciones, gates de CI y herramientas de soporte
 - **Infraestructura CPython**: builder completo en [`infrastructure/cpython/`](infrastructure/cpython/README.md)
 - **Registros temporales**: almacenados manualmente en [`logs_data/`](logs_data/README.md)
 - **Histórico**: contenido legado preservado en [`respaldo/docs_legacy/`](respaldo/docs_legacy/README.md)
 
-### 📋 Planificado
+### [PLANIFICADO] Planificado
 - Sistema automatizado de métricas DORA
 - Scripts de gestión de requisitos
 - Pipeline completo de SDLC con agentes IA
@@ -43,14 +45,14 @@ Repositorio monolítico para la plataforma de analítica de centros de contacto 
    pip install -r requirements.txt
    ```
 
-3. **⚠️ Levantar bases de datos** (requerido):
+3. **[ATENCION] Levantar bases de datos** (requerido):
    ```bash
    vagrant up  # Levanta PostgreSQL:15432 y MariaDB:13306
    ```
 
-4. **Verificar servicios** (✅ Runbook disponible, 📋 script automatizado pendiente):
+4. **Verificar servicios** ([IMPLEMENTADO] Runbook disponible, [PLANIFICADO] script automatizado pendiente):
    - Guía manual: [`docs/operaciones/verificar_servicios.md`](docs/operaciones/verificar_servicios.md)
-   - Script automatizado: `./scripts/verificar_servicios.sh` (📋 Pendiente de implementar)
+   - Script automatizado: `./scripts/verificar_servicios.sh` ([PLANIFICADO] Pendiente de implementar)
 
 ## Flujo de desarrollo
 
@@ -88,7 +90,7 @@ python manage.py createsuperuser
 
 ### 4. Ejecutar tests
 
-✅ **Implementado**:
+[IMPLEMENTADO] **Implementado**:
 ```bash
 # Tests completos
 ./scripts/run_all_tests.sh
@@ -100,11 +102,11 @@ pytest
 ./scripts/validate_critical_restrictions.sh
 ```
 
-📋 **Planificado**: Suite completa con cobertura DORA metrics
+[PLANIFICADO] **Planificado**: Suite completa con cobertura DORA metrics
 
 ### 5. Desarrollo local
 
-📋 **Pendiente**: El servidor de desarrollo Django aún no está configurado en este proyecto.
+[PLANIFICADO] **Pendiente**: El servidor de desarrollo Django aún no está configurado en este proyecto.
 
 **Alternativa temporal**: Consulta [`docs/gobernanza/procesos/procedimientos/procedimiento_desarrollo_local.md`](docs/gobernanza/procesos/procedimientos/procedimiento_desarrollo_local.md)
 
@@ -121,22 +123,22 @@ Consulta [`docs/infrastructure/README.md`](docs/infrastructure/README.md) y [`do
 
 ## Calidad y contribución
 
-### Tests y validación (✅ Parcialmente implementado)
+### Tests y validación ([IMPLEMENTADO] Parcialmente implementado)
 
 Ejecuta validaciones antes de abrir un PR:
 
 ```bash
-# ✅ Tests unitarios disponibles
+# [IMPLEMENTADO] Tests unitarios disponibles
 pytest -c docs/pytest.ini docs/testing
 
-# ✅ Validaciones de shell y gates en cascada
+# [IMPLEMENTADO] Validaciones de shell y gates en cascada
 ./scripts/run_all_tests.sh --skip-frontend --skip-security
 
-# ✅ Validaciones de restricciones críticas (RNF-002: NO Redis)
+# [IMPLEMENTADO] Validaciones de restricciones críticas (RNF-002: NO Redis)
 ./scripts/validate_critical_restrictions.sh
 ```
 
-### Métricas de calidad (📋 Automatización pendiente)
+### Métricas de calidad ([PLANIFICADO] Automatización pendiente)
 
 **Targets del proyecto**:
 - Cobertura de código: >= 80%
@@ -153,7 +155,7 @@ pytest -c docs/pytest.ini docs/testing
 3. **Evita `--no-verify`**: Si un hook falla, corrígelo en lugar de saltearlo
 4. **Coverage mínimo**: 80% en módulos Python modificados
 
-### Guías y estándares (✅ Documentadas)
+### Guías y estándares ([IMPLEMENTADO] Documentadas)
 
 - **[Guía de Estilo](docs/gobernanza/GUIA_ESTILO.md)** - Convenciones obligatorias (NO emojis, Conventional Commits)
 - **[Procedimiento de Desarrollo Local](docs/gobernanza/procesos/procedimientos/procedimiento_desarrollo_local.md)** - Setup detallado
@@ -162,18 +164,18 @@ pytest -c docs/pytest.ini docs/testing
 
 ## Arquitectura y Stack
 
-### Stack técnico (✅ Implementado)
+### Stack técnico ([IMPLEMENTADO] Implementado)
 - **Backend**: Django 5.1, Python 3.11+
 - **Bases de datos**: 
   - PostgreSQL 16 (analytics, sessions, metrics)
   - MariaDB 10.11 (IVR read-only)
-  - 📋 Cassandra (logs - planificado)
-- **Frontend**: 📋 React + Redux Toolkit (planificado)
+  - [PLANIFICADO] Cassandra (logs - planificado)
+- **Frontend**: [PLANIFICADO] React + Redux Toolkit (planificado)
 - **Infrastructure**: Vagrant, VirtualBox, CPython builder
 
-### Restricciones arquitectónicas críticas (✅ Validadas)
+### Restricciones arquitectónicas críticas ([IMPLEMENTADO] Validadas)
 
-⚠️ **RNF-002**: Sesiones DEBEN estar en base de datos
+[ATENCION] **RNF-002**: Sesiones DEBEN estar en base de datos
 ```python
 # PROHIBIDO
 SESSION_ENGINE = 'django.contrib.sessions.backends.cache'  # Redis/Memcached
@@ -183,14 +185,14 @@ SESSION_ENGINE = 'django.contrib.sessions.backends.db'     # PostgreSQL
 ```
 
 Otras restricciones:
-- ❌ NO Redis, Memcached, RabbitMQ, Celery
-- ❌ NO MongoDB, Elasticsearch  
-- ❌ NO Emojis en código/docs
-- ✅ Scripts primero, CI/CD después
+- [NO] NO Redis, Memcached, RabbitMQ, Celery
+- [NO] NO MongoDB, Elasticsearch  
+- [NO] NO Emojis en código/docs
+- [IMPLEMENTADO] Scripts primero, CI/CD después
 
 Ver: [`docs/gobernanza/estilos/GUIA_ESTILO.md`](docs/gobernanza/estilos/GUIA_ESTILO.md)
 
-### Documentación de arquitectura (✅ Disponible)
+### Documentación de arquitectura ([IMPLEMENTADO] Disponible)
 - ADRs: [`docs/adr/`](docs/adr/)
 - Lineamientos: [`docs/arquitectura/`](docs/arquitectura/)
 - Patrones: [`docs/backend/arquitectura/`](docs/backend/arquitectura/)
@@ -204,7 +206,7 @@ Ver: [`docs/gobernanza/estilos/GUIA_ESTILO.md`](docs/gobernanza/estilos/GUIA_EST
 
 ### Desarrollador Frontend  
 - [`docs/frontend/`](docs/frontend/) - Arquitectura y componentes
-- 📋 UI en `ui/` (React) - En construcción
+- [PLANIFICADO] UI en `ui/` (React) - En construcción
 
 ### QA / Testing
 - [`docs/qa/`](docs/qa/) - Estrategia y checklists
@@ -215,7 +217,7 @@ Ver: [`docs/gobernanza/estilos/GUIA_ESTILO.md`](docs/gobernanza/estilos/GUIA_EST
 - [`docs/operaciones/`](docs/operaciones/) - Runbooks operacionales
 - [`infrastructure/cpython/`](infrastructure/cpython/) - Builder CPython
 - [`scripts/`](scripts/) - Scripts de automatización
-- 📋 [`docs/dora/`](docs/dora/) - DORA metrics (planificado)
+- [PLANIFICADO] [`docs/dora/`](docs/dora/) - DORA metrics (planificado)
 
 ### Arquitecto
 - [`docs/adr/`](docs/adr/) - Architecture Decision Records
@@ -225,11 +227,11 @@ Ver: [`docs/gobernanza/estilos/GUIA_ESTILO.md`](docs/gobernanza/estilos/GUIA_EST
 ### Product Owner / BA
 - [`docs/requisitos/`](docs/requisitos/) - Análisis de negocio
 - [`docs/backend/requisitos/`](docs/backend/requisitos/) - Requirements tracking
-- 📋 Matriz de trazabilidad (planificada)
+- [PLANIFICADO] Matriz de trazabilidad (planificada)
 
 ## Proyecto y planificación
 
-### Tracking activo (📋 En consolidación)
+### Tracking activo ([PLANIFICADO] En consolidación)
 - **Roadmap**: [`docs/proyecto/ROADMAP.md`](docs/proyecto/ROADMAP.md) - Visión Q4 2025 - Q2 2026
 - **Tareas activas**: [`docs/proyecto/TAREAS_ACTIVAS.md`](docs/proyecto/TAREAS_ACTIVAS.md) - Sprint actual
 - **Changelog**: [`docs/proyecto/CHANGELOG.md`](docs/proyecto/CHANGELOG.md) - Historial completo

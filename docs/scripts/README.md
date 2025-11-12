@@ -1,17 +1,17 @@
 # Documentación de scripts
 
-> **Leyenda**: ✅ = Implementado | 📋 = Planificado | ⚠️ = En migración
+> **Leyenda**: [IMPLEMENTADO] = Implementado | [PLANIFICADO] = Planificado | [ATENCION] = En migración
 
 Este documento combina el inventario real de scripts con la visión documentada del proyecto.
 
-## 📍 Navegación rápida
+## [INICIO] Navegación rápida
 
 - **Ejecutar validaciones completas**: `./scripts/run_all_tests.sh`
 - **Ver todos los checks de CI**: `./scripts/ci/run-all-checks.sh`
 - **Plantillas para nuevos scripts**: [`templates/`](../../scripts/templates/)
 - **Matriz completa**: [`SCRIPTS_MATRIX.md`](SCRIPTS_MATRIX.md)
 
-## ✅ Scripts implementados
+## [IMPLEMENTADO] Scripts implementados
 
 ### CI/CD (`scripts/ci/`)
 | Script | Propósito | Uso |
@@ -20,14 +20,14 @@ Este documento combina el inventario real de scripts con la visión documentada 
 | `gate-docs-structure.sh` | Valida estructura de docs | Ejecutado en CI |
 | `run-all-checks.sh` | Ejecuta todos los gates | `./scripts/ci/run-all-checks.sh` |
 | `run_architecture_analysis.py` | Analiza calidad del backend | `python scripts/ci/run_architecture_analysis.py` |
-| 📋 `backend_test.sh` | Tests de backend | Planificado |
-| 📋 `frontend_test.sh` | Tests de frontend | Planificado |
-| 📋 `security_scan.sh` | Escaneo de seguridad | Planificado |
-| 📋 `test_pyramid_check.sh` | Validación test pyramid | Planificado |
+| [PLANIFICADO] `backend_test.sh` | Tests de backend | Planificado |
+| [PLANIFICADO] `frontend_test.sh` | Tests de frontend | Planificado |
+| [PLANIFICADO] `security_scan.sh` | Escaneo de seguridad | Planificado |
+| [PLANIFICADO] `test_pyramid_check.sh` | Validación test pyramid | Planificado |
 
 ### Validaciones (`scripts/validation/`)
 
-**Estructura** (✅ Implementada, ⚠️ en migración desde `validacion/`):
+**Estructura** ([IMPLEMENTADO] Implementada, [ATENCION] en migración desde `validacion/`):
 - `quality/` - Validaciones de calidad
   - `validate_frontmatter.sh`
   - `validate_shell_constitution.sh`
@@ -47,7 +47,7 @@ Este documento combina el inventario real de scripts con la visión documentada 
 
 ### Validaciones heredadas (`scripts/validacion/`)
 
-⚠️ **En migración a `validation/`**. Mientras tanto:
+[ATENCION] **En migración a `validation/`**. Mientras tanto:
 - `test_permisos.py`
 - `validar_auditoria.sql`
 - `validar_funciones.sql`
@@ -57,25 +57,25 @@ Este documento combina el inventario real de scripts con la visión documentada 
 
 | Subsistema | Scripts | Estado |
 |------------|---------|--------|
-| **Cassandra** | `install-cassandra.sh`, `configure-django.sh`, `setup-cron-jobs.sh` | ✅ |
-| **Logging** | `infrastructure_log_collector.py`, `infrastructure_logs_daemon.py` | ✅ |
-| **Disaster Recovery** | 📋 `backup_mysql.sh`, `restore_mysql.sh`, `backup_cassandra.sh` | Planificado |
-| **WASI** | `demo.sh`, `virtualize.sh`, `wasm_style_sandbox.sh` | ✅ Experimental |
+| **Cassandra** | `install-cassandra.sh`, `configure-django.sh`, `setup-cron-jobs.sh` | [IMPLEMENTADO] |
+| **Logging** | `infrastructure_log_collector.py`, `infrastructure_logs_daemon.py` | [IMPLEMENTADO] |
+| **Disaster Recovery** | [PLANIFICADO] `backup_mysql.sh`, `restore_mysql.sh`, `backup_cassandra.sh` | Planificado |
+| **WASI** | `demo.sh`, `virtualize.sh`, `wasm_style_sandbox.sh` | [IMPLEMENTADO] Experimental |
 
 ### Tests y validaciones raíz
 
 | Script | Propósito | Estado |
 |--------|-----------|--------|
-| `run_all_tests.sh` | Orquestador de todas las validaciones | ✅ |
-| `run_integration_tests.sh` | Tests de integración | ✅ |
-| `validate_critical_restrictions.sh` | Valida RNF-002 (NO Redis) | ✅ |
-| `validate_database_router.sh` | Valida configuración de DB router | ✅ |
-| `validate_security_config.sh` | Valida configuración de seguridad | ✅ |
-| `validar_estructura_docs.sh` | Valida estructura de documentación | ✅ |
+| `run_all_tests.sh` | Orquestador de todas las validaciones | [IMPLEMENTADO] |
+| `run_integration_tests.sh` | Tests de integración | [IMPLEMENTADO] |
+| `validate_critical_restrictions.sh` | Valida RNF-002 (NO Redis) | [IMPLEMENTADO] |
+| `validate_database_router.sh` | Valida configuración de DB router | [IMPLEMENTADO] |
+| `validate_security_config.sh` | Valida configuración de seguridad | [IMPLEMENTADO] |
+| `validar_estructura_docs.sh` | Valida estructura de documentación | [IMPLEMENTADO] |
 
 ### Templates (`scripts/templates/`)
 
-✅ **Plantillas disponibles**:
+[IMPLEMENTADO] **Plantillas disponibles**:
 - `bash_script_template.sh` - Template para scripts Bash complejos
 - `posix_script_template.sh` - Template para scripts POSIX portables
 - `library_template.sh` - Template para bibliotecas reutilizables
@@ -91,12 +91,12 @@ chmod +x scripts/mi-nuevo-script.sh
 
 | Script | Propósito | Estado |
 |--------|-----------|--------|
-| `install_hooks.sh` | Instala Git hooks | ✅ |
-| `reorganizar_docs_por_dominio.sh` | Reorganiza documentación | ✅ |
-| 📋 `cleanup_sessions.sh` | Limpia sesiones Django | Planificado |
-| 📋 `cleanup_branches.sh` | Limpia ramas mergeadas | Planificado |
+| `install_hooks.sh` | Instala Git hooks | [IMPLEMENTADO] |
+| `reorganizar_docs_por_dominio.sh` | Reorganiza documentación | [IMPLEMENTADO] |
+| [PLANIFICADO] `cleanup_sessions.sh` | Limpia sesiones Django | Planificado |
+| [PLANIFICADO] `cleanup_branches.sh` | Limpia ramas mergeadas | Planificado |
 
-## 📋 Scripts planificados (visión completa)
+## [PLANIFICADO] Scripts planificados (visión completa)
 
 ### SDLC Core
 
@@ -116,7 +116,7 @@ python scripts/sdlc_agent.py --pipeline --input "Feature: Dashboard"
 - `sdlc_design.py` - Generación de HLD/LLD/ADRs
 - `sdlc_testing.py` - Estrategia de testing
 - `sdlc_deployment.py` - Planes de deployment
-- 📋 14+ agentes adicionales
+- [PLANIFICADO] 14+ agentes adicionales
 
 **Documentación**: [`sdlc-agent-guide.md`](sdlc-agent-guide.md), [`sdlc-agents-reference.md`](sdlc-agents-reference.md)
 
@@ -162,7 +162,7 @@ python scripts/dora_metrics.py --docs-only
 - `deploy.sh` - Deployment blue-green (staging/production)
 - `health_check.sh` - Verificación de salud post-deployment
 
-## 📊 Resumen por categoría
+## [METRICAS] Resumen por categoría
 
 | Categoría | Implementados | Planificados | Total |
 |-----------|--------------|--------------|-------|
@@ -176,7 +176,7 @@ python scripts/dora_metrics.py --docs-only
 | Utilidades | 3 | 2 | 5 |
 | **Total** | **~35** | **~45** | **~80** |
 
-## 🎯 Casos de uso comunes
+## [PROYECTO] Casos de uso comunes
 
 ### Desarrollo diario
 ```bash
@@ -212,7 +212,7 @@ python scripts/ci/run_architecture_analysis.py
 ./scripts/validar_estructura_docs.sh
 ```
 
-## 📚 Recursos adicionales
+## [DOCS] Recursos adicionales
 
 ### Documentación detallada
 - **Guía completa**: [`QUICKSTART.md`](QUICKSTART.md) - Comandos más comunes
@@ -225,12 +225,12 @@ python scripts/ci/run_architecture_analysis.py
 - **Estándares de código**: [`../gobernanza/estandares_codigo.md`](../gobernanza/estandares_codigo.md)
 - **Guía de estilo**: [`../gobernanza/GUIA_ESTILO.md`](../gobernanza/GUIA_ESTILO.md)
 
-## ⚠️ Notas importantes
+## [ATENCION] Notas importantes
 
 ### Estado de implementación
-- **✅ Implementado** = Script existe y funciona
-- **📋 Planificado** = Documentado pero no implementado aún
-- **⚠️ En migración** = Existe pero cambiando de ubicación
+- **[IMPLEMENTADO] Implementado** = Script existe y funciona
+- **[PLANIFICADO] Planificado** = Documentado pero no implementado aún
+- **[ATENCION] En migración** = Existe pero cambiando de ubicación
 
 ### Validación antes de usar
 Siempre verifica que el script exista antes de ejecutarlo:
