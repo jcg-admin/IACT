@@ -1,10 +1,79 @@
-# Core dependencies for AI prompting techniques
+# ==========================================
+# IACT Project - Python Dependencies
+# ==========================================
+#
+# Instalación:
+#   python3 -m venv venv
+#   source venv/bin/activate  # Linux/Mac
+#   venv\Scripts\activate     # Windows
+#   pip install -r requirements.txt
+#
+# ==========================================
+
+# ------------------------------------------
+# Core AI/ML Dependencies
+# ------------------------------------------
 numpy>=1.21.0
 scikit-learn>=1.0.0
 
-# Testing framework
+# ------------------------------------------
+# LLM Providers (para Agentes SDLC)
+# ------------------------------------------
+
+# Anthropic Claude API
+anthropic>=0.72.0
+
+# OpenAI GPT API (opcional)
+# openai>=1.12.0
+
+# ------------------------------------------
+# HTTP & API Clients
+# ------------------------------------------
+
+# Para Ollama local y APIs HTTP
+requests>=2.32.0
+
+# ------------------------------------------
+# Testing Framework
+# ------------------------------------------
 pytest>=7.0.0
 pytest-cov>=4.0.0
+pytest-mock>=3.14.0
 
-# Django and backend dependencies (existing project)
-# Add existing dependencies here if needed
+# ------------------------------------------
+# Code Quality Tools
+# ------------------------------------------
+
+# Linting y formatting
+flake8>=7.0.0
+black>=24.0.0
+
+# Type checking
+mypy>=1.11.0
+
+# ------------------------------------------
+# Utilities
+# ------------------------------------------
+
+# Colored terminal output
+colorama>=0.4.6
+
+# Progress bars (para procesos largos)
+tqdm>=4.67.0
+
+# Markdown processing
+markdown>=3.7
+
+# ------------------------------------------
+# Django & Backend (si aplica)
+# ------------------------------------------
+# Django>=4.2.0
+# djangorestframework>=3.14.0
+# django-cors-headers>=4.0.0
+# psycopg2-binary>=2.9.9  # PostgreSQL
+
+# ------------------------------------------
+# Deployment (producción)
+# ------------------------------------------
+# gunicorn>=21.2.0
+# uvicorn>=0.27.0
