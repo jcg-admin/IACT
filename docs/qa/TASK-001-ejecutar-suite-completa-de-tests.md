@@ -15,7 +15,7 @@ relacionados: ["PLAN_EJECUCION_COMPLETO.md"]
 
 ## Descripción
 
-Ejecutar suite completa de tests para validar coverage ≥ 80% y compliance.
+Ejecutar suite completa de tests para validar coverage >= 80% y compliance.
 
 Incluye:
 - Tests unitarios de todas las apps Django
