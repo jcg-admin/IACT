@@ -584,103 +584,116 @@ sudo systemctl restart gunicorn-iact
 
     def _generate_architecture_diagram(self) -> str:
         """Genera diagrama de arquitectura."""
-        return """```mermaid
-graph TB
-    subgraph Frontend
-        A[React App]
-        B[Redux Store]
-    end
+        return """```plantuml
+@startuml
+!define RECTANGLE class
 
-    subgraph Backend
-        C[Django Views]
-        D[Business Logic]
-        E[Models]
-    end
+package "Frontend" {
+    component [React App] as ReactApp
+    component [Redux Store] as ReduxStore
+}
 
-    subgraph Database
-        F[(MySQL Primary)]
-        G[(PostgreSQL Secondary)]
-    end
+package "Backend" {
+    component [Django Views] as DjangoViews
+    component [Business Logic] as BusinessLogic
+    component [Models] as Models
+}
 
-    A -->|API Calls| C
-    B -->|State Management| A
-    C -->|Process Request| D
-    D -->|Data Access| E
-    E -->|Read/Write| F
-    E -->|Read| G
+package "Database" {
+    database "MySQL Primary" as MySQL #4CAF50
+    database "PostgreSQL Secondary" as PostgreSQL #2196F3
+}
 
-    style F fill:#4CAF50
-    style G fill:#2196F3
+ReactApp -down-> DjangoViews : API Calls
+ReduxStore -up-> ReactApp : State Management
+DjangoViews -down-> BusinessLogic : Process Request
+BusinessLogic -down-> Models : Data Access
+Models -down-> MySQL : Read/Write
+Models -down-> PostgreSQL : Read
+
+@enduml
 ```"""
 
     def _generate_sequence_diagram(self) -> str:
         """Genera diagrama de secuencia."""
-        return """```mermaid
-sequenceDiagram
-    actor User
-    participant Frontend
-    participant API
-    participant Service
-    participant DB
+        return """```plantuml
+@startuml
+actor User
+participant Frontend
+participant API
+participant Service
+database DB
 
-    User->>Frontend: Interact with UI
-    Frontend->>API: POST /api/endpoint
-    API->>API: Validate Request
-    API->>Service: Process Business Logic
-    Service->>DB: Query/Update Data
-    DB-->>Service: Return Data
-    Service-->>API: Return Result
-    API-->>Frontend: JSON Response
-    Frontend-->>User: Update UI
+User -> Frontend : Interact with UI
+Frontend -> API : POST /api/endpoint
+API -> API : Validate Request
+API -> Service : Process Business Logic
+Service -> DB : Query/Update Data
+DB --> Service : Return Data
+Service --> API : Return Result
+API --> Frontend : JSON Response
+Frontend --> User : Update UI
+
+@enduml
 ```"""
 
     def _generate_component_diagram(self) -> str:
         """Genera diagrama de componentes."""
-        return """```mermaid
-graph LR
-    subgraph Frontend Components
-        A[Container Component]
-        B[Presentation Component]
-        C[Form Component]
-    end
+        return """```plantuml
+@startuml
+package "Frontend Components" {
+    [Container Component] as Container
+    [Presentation Component] as Presentation
+    [Form Component] as Form
+}
 
-    subgraph Backend Components
-        D[View Layer]
-        E[Service Layer]
-        F[Data Layer]
-    end
+package "Backend Components" {
+    [View Layer] as View
+    [Service Layer] as Service
+    [Data Layer] as Data
+}
 
-    A --> B
-    A --> C
-    C -->|API Call| D
-    D --> E
-    E --> F
+Container --> Presentation
+Container --> Form
+Form --> View : API Call
+View --> Service
+Service --> Data
+
+@enduml
 ```"""
 
     def _generate_database_diagram(self) -> str:
         """Genera diagrama ER de base de datos."""
-        return """```mermaid
-erDiagram
-    USER ||--o{ SESSION : has
-    USER ||--o{ INTERNAL_MESSAGE : receives
-    USER {
-        int id PK
-        string username
-        string email
-        datetime created_at
-    }
-    SESSION {
-        string session_key PK
-        text session_data
-        datetime expire_date
-    }
-    INTERNAL_MESSAGE {
-        int id PK
-        int user_id FK
-        string subject
-        text body
-        datetime created_at
-    }
+        return """```plantuml
+@startuml
+entity "USER" as user {
+    * id : int <<PK>>
+    --
+    username : string
+    email : string
+    created_at : datetime
+}
+
+entity "SESSION" as session {
+    * session_key : string <<PK>>
+    --
+    session_data : text
+    expire_date : datetime
+}
+
+entity "INTERNAL_MESSAGE" as message {
+    * id : int <<PK>>
+    --
+    user_id : int <<FK>>
+    subject : string
+    body : text
+    created_at : datetime
+}
+
+user ||--o{ session : has
+user ||--o{ message : receives
+
+@enduml
 ```"""
 
     def _format_diagrams_document(self, diagrams: Dict[str, str]) -> str:

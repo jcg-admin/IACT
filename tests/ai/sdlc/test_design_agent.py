@@ -206,8 +206,10 @@ class TestHeuristicDesignMethods:
         assert "sequence" in diagrams
         assert "components" in diagrams
         assert "database" in diagrams
-        # Check for Mermaid syntax
-        assert "```mermaid" in diagrams["architecture"]
+        # Check for PlantUML syntax
+        assert "```plantuml" in diagrams["architecture"]
+        assert "@startuml" in diagrams["architecture"]
+        assert "@enduml" in diagrams["architecture"]
 
     def test_identify_components(self):
         """Should identify system components."""
