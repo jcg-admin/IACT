@@ -17,11 +17,28 @@ Outputs:
 - Testing checklist
 """
 
+import json
+import re
+import sys
 from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, List
 
-from .sdlc_base import SDLCAgent, SDLCPhaseResult
+from .base_agent import SDLCAgent, SDLCPhaseResult
+
+# Add parent paths for LLMGenerator import
+sys.path.insert(0, str(Path(__file__).parent.parent.parent))
+
+try:
+    from generators.llm_generator import LLMGenerator
+    LLM_AVAILABLE = True
+except ImportError:
+    LLM_AVAILABLE = False
+    LLMGenerator = None
+
+# Testing method constants
+TESTING_METHOD_LLM = "llm"
+TESTING_METHOD_HEURISTIC = "heuristic"
 
 
 class SDLCTestingAgent(SDLCAgent):
@@ -37,6 +54,15 @@ class SDLCTestingAgent(SDLCAgent):
             phase="testing",
             config=config
         )
+
+        # Initialize LLM generator if config provided and LLM available
+        self.llm_generator = None
+        if config and LLM_AVAILABLE:
+            try:
+                self.llm_generator = LLMGenerator(config=config)
+                self.logger.info(f"LLMGenerator initialized with {config.get('llm_provider', 'default')}")
+            except Exception as e:
+                self.logger.warning(f"Failed to initialize LLM: {e}. Falling back to heuristics.")
 
     def validate_input(self, input_data: Dict[str, Any]) -> List[str]:
         """Valida que exista design result e issue."""
@@ -70,10 +96,13 @@ class SDLCTestingAgent(SDLCAgent):
 
         self.logger.info(f"Generando test plan para: {issue.get('issue_title', 'Unknown')}")
 
+        # Determine testing method
+        testing_method = TESTING_METHOD_LLM if self.llm_generator else TESTING_METHOD_HEURISTIC
+
         # Generar test plan
         test_plan = self._generate_test_plan(issue, design_result)
 
-        # Generar test cases
+        # Generar test cases (with LLM enhancement if available)
         test_cases = self._generate_test_cases(issue, design_result)
 
         # Generar test pyramid strategy
@@ -135,6 +164,7 @@ class SDLCTestingAgent(SDLCAgent):
             "testing_checklist": testing_checklist,
             "checklist_path": str(checklist_path),
             "artifacts": artifacts,
+            "testing_method": testing_method,
             "phase_result": phase_result
         }
 
@@ -358,18 +388,32 @@ python manage.py test --verbosity=2
         issue: Dict[str, Any],
         design_result: Dict[str, Any]
     ) -> List[Dict[str, Any]]:
-        """Genera test cases concretos."""
+        """Genera test cases concretos con LLM enhancement si está disponible."""
         test_cases = []
         acceptance_criteria = issue.get("acceptance_criteria", [])
 
-        # Unit test cases
-        test_cases.extend(self._generate_unit_test_cases(acceptance_criteria))
+        # Try LLM-enhanced test case generation first
+        if self.llm_generator:
+            try:
+                llm_test_cases = self._generate_test_cases_with_llm(issue, design_result)
+                if llm_test_cases and len(llm_test_cases) > 0:
+                    test_cases.extend(llm_test_cases)
+                    self.logger.info(f"Generated {len(llm_test_cases)} test cases using LLM")
+            except Exception as e:
+                self.logger.warning(f"LLM test case generation failed: {e}, falling back to heuristics")
 
-        # Integration test cases
-        test_cases.extend(self._generate_integration_test_cases(acceptance_criteria))
+        # Fallback or supplement with heuristic test cases
+        if not test_cases:
+            # Unit test cases
+            test_cases.extend(self._generate_unit_test_cases(acceptance_criteria))
 
-        # E2E test cases
-        test_cases.extend(self._generate_e2e_test_cases(acceptance_criteria))
+            # Integration test cases
+            test_cases.extend(self._generate_integration_test_cases(acceptance_criteria))
+
+            # E2E test cases
+            test_cases.extend(self._generate_e2e_test_cases(acceptance_criteria))
+
+            self.logger.info(f"Generated {len(test_cases)} test cases using heuristics")
 
         return test_cases
 
@@ -788,6 +832,281 @@ Total tests: {test_pyramid['total_tests']}
         for i, ac in enumerate(acceptance_criteria, 1):
             result += f"{i}. {ac}\n"
         return result
+
+    # LLM Integration Methods
+
+    def _generate_test_strategy_with_llm(
+        self,
+        issue: Dict[str, Any],
+        design_result: Dict[str, Any]
+    ) -> Dict[str, Any]:
+        """Genera estrategia de testing usando LLM con fallback a heurísticas."""
+        if not self.llm_generator:
+            # Fallback to default strategy
+            return {
+                "focus_areas": [],
+                "critical_paths": [],
+                "risk_areas": [],
+                "recommended_test_count": {"unit": 0, "integration": 0, "e2e": 0}
+            }
+
+        try:
+            title = issue.get("issue_title", "")
+            technical_requirements = issue.get("technical_requirements", [])
+            acceptance_criteria = issue.get("acceptance_criteria", [])
+
+            prompt = f"""Genera una estrategia de testing detallada para el siguiente feature del proyecto IACT.
+
+**Feature**: {title}
+
+**Requisitos Técnicos**:
+{chr(10).join(f"- {req}" for req in technical_requirements)}
+
+**Criterios de Aceptación**:
+{chr(10).join(f"- {crit}" for crit in acceptance_criteria)}
+
+**Contexto del Diseño**: {design_result.get('hld', '')[:500]}
+
+Identifica:
+1. Áreas de enfoque para testing (componentes críticos)
+2. Caminos críticos que deben ser probados
+3. Áreas de riesgo que requieren testing exhaustivo
+4. Cantidad recomendada de tests por nivel (unit, integration, e2e)
+
+Responde en formato JSON:
+{{
+  "focus_areas": ["lista de áreas críticas"],
+  "critical_paths": ["lista de flujos críticos"],
+  "risk_areas": ["lista de áreas de riesgo"],
+  "recommended_test_count": {{
+    "unit": X,
+    "integration": Y,
+    "e2e": Z
+  }}
+}}"""
+
+            llm_response = self.llm_generator._call_llm(prompt)
+            return self._parse_llm_test_strategy(llm_response)
+
+        except Exception as e:
+            self.logger.warning(f"LLM test strategy generation failed: {e}, using fallback")
+            return {
+                "focus_areas": [],
+                "critical_paths": [],
+                "risk_areas": [],
+                "recommended_test_count": {"unit": 0, "integration": 0, "e2e": 0}
+            }
+
+    def _parse_llm_test_strategy(self, llm_response: str) -> Dict[str, Any]:
+        """Parse LLM response para extraer estrategia de testing."""
+        try:
+            # Try to extract JSON from response
+            json_match = re.search(r'\{[\s\S]*\}', llm_response)
+            if json_match:
+                result = json.loads(json_match.group(0))
+
+                # Check if nested under "test_strategy" key
+                if "test_strategy" in result:
+                    result = result["test_strategy"]
+
+                # Validate and normalize
+                strategy = {
+                    "focus_areas": result.get("focus_areas", []),
+                    "critical_paths": result.get("critical_paths", []),
+                    "risk_areas": result.get("risk_areas", []),
+                    "recommended_test_count": result.get("recommended_test_count", {
+                        "unit": 0, "integration": 0, "e2e": 0
+                    })
+                }
+
+                # Ensure lists
+                if not isinstance(strategy["focus_areas"], list):
+                    strategy["focus_areas"] = []
+                if not isinstance(strategy["critical_paths"], list):
+                    strategy["critical_paths"] = []
+                if not isinstance(strategy["risk_areas"], list):
+                    strategy["risk_areas"] = []
+
+                return strategy
+
+        except (json.JSONDecodeError, ValueError) as e:
+            self.logger.warning(f"Failed to parse LLM test strategy as JSON: {e}")
+
+        # Fallback: return default structure
+        return {
+            "focus_areas": [],
+            "critical_paths": [],
+            "risk_areas": [],
+            "recommended_test_count": {"unit": 0, "integration": 0, "e2e": 0}
+        }
+
+    def _generate_test_cases_with_llm(
+        self,
+        issue: Dict[str, Any],
+        design_result: Dict[str, Any]
+    ) -> List[Dict[str, Any]]:
+        """Genera test cases usando LLM con fallback a heurísticas."""
+        if not self.llm_generator:
+            return []
+
+        try:
+            title = issue.get("issue_title", "")
+            technical_requirements = issue.get("technical_requirements", [])
+            acceptance_criteria = issue.get("acceptance_criteria", [])
+
+            prompt = f"""Genera test cases específicos para el siguiente feature del proyecto IACT.
+
+**Feature**: {title}
+
+**Requisitos Técnicos**:
+{chr(10).join(f"- {req}" for req in technical_requirements)}
+
+**Criterios de Aceptación**:
+{chr(10).join(f"- {crit}" for crit in acceptance_criteria)}
+
+Genera test cases concretos para:
+1. Unit tests (60% del total) - Testing de modelos, servicios, utilidades
+2. Integration tests (30% del total) - Testing de API endpoints
+3. E2E tests (10% del total) - Testing de flujos de usuario completos
+
+Cada test case debe incluir:
+- id: Identificador único (UT-XXX, IT-XXX, E2E-XXX)
+- type: "unit", "integration", o "e2e"
+- name: Nombre descriptivo
+- description: Descripción detallada
+- priority: "high", "medium", o "low"
+- steps: Lista de pasos a ejecutar
+- expected_result: Resultado esperado
+
+Responde en formato JSON:
+{{
+  "test_cases": [
+    {{
+      "id": "UT-001",
+      "type": "unit",
+      "name": "Test name",
+      "description": "Test description",
+      "priority": "high",
+      "steps": ["step 1", "step 2"],
+      "expected_result": "Expected result"
+    }}
+  ]
+}}"""
+
+            llm_response = self.llm_generator._call_llm(prompt)
+            return self._parse_llm_test_cases(llm_response)
+
+        except Exception as e:
+            self.logger.warning(f"LLM test cases generation failed: {e}, using fallback")
+            return []
+
+    def _parse_llm_test_cases(self, llm_response: str) -> List[Dict[str, Any]]:
+        """Parse LLM response para extraer test cases."""
+        try:
+            # Try to extract JSON from response
+            json_match = re.search(r'\{[\s\S]*\}', llm_response)
+            if json_match:
+                result = json.loads(json_match.group(0))
+
+                test_cases = result.get("test_cases", [])
+
+                # Validate and normalize each test case
+                normalized_cases = []
+                for tc in test_cases:
+                    if isinstance(tc, dict) and "id" in tc and "type" in tc:
+                        normalized_case = {
+                            "id": tc.get("id", "TEST-001"),
+                            "type": tc.get("type", "unit"),
+                            "name": tc.get("name", "Test case"),
+                            "description": tc.get("description", ""),
+                            "priority": tc.get("priority", "medium"),
+                            "steps": tc.get("steps", []),
+                            "expected_result": tc.get("expected_result", ""),
+                            "preconditions": tc.get("preconditions", "")
+                        }
+                        normalized_cases.append(normalized_case)
+
+                return normalized_cases
+
+        except (json.JSONDecodeError, ValueError) as e:
+            self.logger.warning(f"Failed to parse LLM test cases as JSON: {e}")
+
+        # Fallback: return empty list
+        return []
+
+    def _identify_critical_paths_with_llm(
+        self,
+        issue: Dict[str, Any],
+        design_result: Dict[str, Any]
+    ) -> List[Dict[str, Any]]:
+        """Identifica caminos críticos usando LLM con fallback a heurísticas."""
+        if not self.llm_generator:
+            return []
+
+        try:
+            title = issue.get("issue_title", "")
+            acceptance_criteria = issue.get("acceptance_criteria", [])
+
+            prompt = f"""Identifica los caminos críticos que deben ser probados para el siguiente feature.
+
+**Feature**: {title}
+
+**Criterios de Aceptación**:
+{chr(10).join(f"- {crit}" for crit in acceptance_criteria)}
+
+Un camino crítico es una secuencia de operaciones que:
+1. Es esencial para la funcionalidad del feature
+2. Involucra múltiples componentes
+3. Si falla, causa un impacto significativo en el usuario
+
+Identifica 2-5 caminos críticos prioritarios.
+
+Responde en formato JSON:
+{{
+  "critical_paths": [
+    {{
+      "path": "Descripción del flujo completo",
+      "priority": "critical|high|medium",
+      "rationale": "Por qué es crítico"
+    }}
+  ]
+}}"""
+
+            llm_response = self.llm_generator._call_llm(prompt)
+            return self._parse_llm_critical_paths(llm_response)
+
+        except Exception as e:
+            self.logger.warning(f"LLM critical paths identification failed: {e}, using fallback")
+            return []
+
+    def _parse_llm_critical_paths(self, llm_response: str) -> List[Dict[str, Any]]:
+        """Parse LLM response para extraer caminos críticos."""
+        try:
+            # Try to extract JSON from response
+            json_match = re.search(r'\{[\s\S]*\}', llm_response)
+            if json_match:
+                result = json.loads(json_match.group(0))
+
+                paths = result.get("critical_paths", [])
+
+                # Validate and normalize
+                normalized_paths = []
+                for path in paths:
+                    if isinstance(path, dict) and "path" in path:
+                        normalized_path = {
+                            "path": path.get("path", ""),
+                            "priority": path.get("priority", "medium"),
+                            "rationale": path.get("rationale", "")
+                        }
+                        normalized_paths.append(normalized_path)
+
+                return normalized_paths
+
+        except (json.JSONDecodeError, ValueError) as e:
+            self.logger.warning(f"Failed to parse LLM critical paths as JSON: {e}")
+
+        # Fallback: return empty list
+        return []
 
     def _custom_guardrails(self, output_data: Dict[str, Any]) -> List[str]:
         """Guardrails especificos para Testing phase."""
