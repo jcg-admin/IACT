@@ -1,6 +1,22 @@
-# Sistemas de Sandboxing y Virtualización
+# WASI-style Virtualization Systems
 
-3 opciones para crear "caparazones" aislados, sin Vagrant:
+**WebAssembly System Interface (WASI)** inspired virtualization for databases.
+
+## ¿Por qué WASI?
+
+WASI es el estándar de WebAssembly para:
+- ✅ **Capabilities explícitas**: El código declara qué recursos necesita
+- ✅ **Security by default**: Sin acceso implícito a filesystem/network
+- ✅ **Portabilidad**: Mismo código corre en diferentes hosts
+- ✅ **Aislamiento**: Sandboxing a nivel de runtime
+
+Este sistema aplica los mismos principios a nivel de sistema operativo:
+- Namespaces de Linux para aislamiento
+- Manifiestos JSON para capabilities
+- Sin acceso implícito a recursos del host
+- Ultra-ligero y portable
+
+## 3 Opciones de Virtualización
 
 ## 1. `virtualize.sh` - Con Docker
 
@@ -44,21 +60,28 @@ source .lightvenvs/dev/bin/activate
 # Variables DB_* ya cargadas
 ```
 
-## 3. `wasm_style_sandbox.sh` - Estilo WebAssembly
+## 3. `wasm_style_sandbox.sh` - WASI-style (⭐ Recomendado)
 
-**Usa**: Linux namespaces del kernel
+**Usa**: Linux namespaces del kernel (como WASI)
+
+**Inspirado en WASI (WebAssembly System Interface)**:
+- Capabilities explícitas (filesystem, network, memory)
+- Aislamiento a nivel de sistema operativo
+- Security by default
+- Portabilidad dentro de Linux
 
 **Ventajas**:
-- Aislamiento REAL (como WASM)
-- Sin Docker, sin VM
-- Capabilities explícitas
-- Filesystem/Network/PID aislados
-- Ultra-ligero
+- Aislamiento REAL (namespaces del kernel)
+- Sin Docker, sin VM, sin overhead
+- Capabilities explícitas (JSON manifest)
+- Filesystem/Network/PID/IPC aislados
+- Ultra-ligero (< 1 MB)
+- Memory y CPU limits
 
 **Desventajas**:
-- Solo Linux
+- Solo Linux (requiere kernel features)
 - Requiere root para aislamiento completo
-- Más complejo
+- Más complejo que lightweight
 
 **Uso**:
 ```bash
