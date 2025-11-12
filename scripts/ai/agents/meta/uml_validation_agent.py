@@ -18,11 +18,27 @@ from dataclasses import dataclass, field
 from enum import Enum
 from typing import List, Dict, Any, Optional
 import re
+import os
+import logging
 
 from scripts.ai.agents.base import (
     SelfConsistencyAgent,
     SelfConsistencyResult
 )
+
+# Import LLMGenerator for AI-powered validation
+try:
+    from scripts.ai.generators.llm_generator import LLMGenerator
+    LLM_AVAILABLE = True
+except ImportError:
+    LLM_AVAILABLE = False
+    logging.warning("LLMGenerator not available, will use heuristics only")
+
+logger = logging.getLogger(__name__)
+
+# Constants
+VALIDATION_METHOD_LLM = "llm"
+VALIDATION_METHOD_HEURISTIC = "heuristic"
 
 
 class DiagramType(Enum):
@@ -64,6 +80,7 @@ class UMLValidationResult:
     confidence: float = 0.0
     num_samples: int = 0
     reasoning: Optional[str] = None
+    validation_method: str = "heuristic"  # "heuristic" or "llm"
 
     def to_dict(self) -> Dict[str, Any]:
         """Convert to dictionary for serialization."""
@@ -72,7 +89,8 @@ class UMLValidationResult:
             'diagram_type': self.diagram_type.value,
             'issues': [issue.to_dict() for issue in self.issues],
             'confidence': self.confidence,
-            'num_samples': self.num_samples
+            'num_samples': self.num_samples,
+            'validation_method': self.validation_method
         }
 
 
@@ -86,16 +104,40 @@ class UMLDiagramValidationAgent:
     3. Provide high-confidence validation results
     """
 
-    def __init__(self, num_samples: int = 3):
+    def __init__(
+        self,
+        num_samples: int = 3,
+        config: Optional[Dict[str, Any]] = None
+    ):
         """
         Initialize the agent.
 
         Args:
             num_samples: Number of reasoning paths for self-consistency
+            config: Configuration dict with optional keys:
+                - llm_provider: "anthropic" or "openai"
+                - model: Model name (e.g., "claude-sonnet-4-5-20250929")
+                - use_llm: Boolean to enable/disable LLM usage
         """
         self.name = "UMLDiagramValidationAgent"
         self.num_samples = num_samples
+        self.config = config or {}
         self.self_consistency = SelfConsistencyAgent(num_samples=num_samples)
+
+        # Initialize LLMGenerator if configured and available
+        self.llm_generator = None
+
+        if self.config and LLM_AVAILABLE:
+            try:
+                # Initialize LLMGenerator (API key validation happens at runtime)
+                self.llm_generator = LLMGenerator(config=self.config)
+                llm_provider = self.config.get('llm_provider', 'anthropic')
+                logger.info(f"LLMGenerator initialized with {llm_provider}")
+            except Exception as e:
+                logger.error(f"Failed to initialize LLMGenerator: {e}")
+                self.llm_generator = None
+        elif self.config and not LLM_AVAILABLE:
+            logger.warning("LLM configuration provided but LLMGenerator not available")
 
     def validate_diagram(self, diagram_content: str) -> UMLValidationResult:
         """
@@ -119,14 +161,33 @@ class UMLDiagramValidationAgent:
                     issue_type="empty_diagram"
                 )],
                 confidence=1.0,
-                num_samples=self.num_samples
+                num_samples=self.num_samples,
+                validation_method=VALIDATION_METHOD_HEURISTIC
             )
 
         # Detect diagram type
         diagram_type = self._detect_diagram_type(diagram_content)
 
-        # Validate using multiple reasoning paths (Self-Consistency)
-        issues = self._validate_with_self_consistency(diagram_content, diagram_type)
+        # Determine validation method
+        use_llm = self.config.get('use_llm', False) and self.llm_generator is not None
+        validation_method = VALIDATION_METHOD_LLM if use_llm else VALIDATION_METHOD_HEURISTIC
+
+        # Validate using LLM or heuristics
+        if use_llm:
+            try:
+                issues = self._validate_with_llm(diagram_content, diagram_type)
+                logger.info(f"Validated diagram using LLM, found {len(issues)} issues")
+                # If no issues generated or fallback occurred in _validate_with_llm
+                if issues is None:
+                    logger.warning("LLM returned no results, using heuristics")
+                    issues = self._validate_with_self_consistency(diagram_content, diagram_type)
+                    validation_method = VALIDATION_METHOD_HEURISTIC
+            except Exception as e:
+                logger.error(f"LLM validation failed: {e}, falling back to heuristics")
+                issues = self._validate_with_self_consistency(diagram_content, diagram_type)
+                validation_method = VALIDATION_METHOD_HEURISTIC
+        else:
+            issues = self._validate_with_self_consistency(diagram_content, diagram_type)
 
         # Calculate confidence based on agreement across reasoning paths
         confidence = self._calculate_confidence(issues)
@@ -139,7 +200,8 @@ class UMLDiagramValidationAgent:
             diagram_type=diagram_type,
             issues=issues,
             confidence=confidence,
-            num_samples=self.num_samples
+            num_samples=self.num_samples,
+            validation_method=validation_method
         )
 
     def _detect_diagram_type(self, content: str) -> DiagramType:
@@ -367,6 +429,102 @@ class UMLDiagramValidationAgent:
         ]
 
         return any(re.match(pattern, multiplicity.strip()) for pattern in valid_patterns)
+
+    def _validate_with_llm(
+        self,
+        diagram_content: str,
+        diagram_type: DiagramType
+    ) -> List[ValidationIssue]:
+        """
+        Validate UML diagram using LLMGenerator.
+
+        Args:
+            diagram_content: UML diagram content
+            diagram_type: Type of the diagram
+
+        Returns:
+            List of ValidationIssue objects found by LLM
+        """
+        # Build prompt for LLM
+        prompt = self._build_llm_prompt(diagram_content, diagram_type)
+
+        # Call LLM
+        response = self.llm_generator._call_llm(prompt)
+
+        # Parse LLM response into validation issues
+        issues = self._parse_llm_issues(response)
+
+        return issues
+
+    def _build_llm_prompt(self, diagram_content: str, diagram_type: DiagramType) -> str:
+        """Build prompt for LLM validation."""
+        prompt = f"""Validate the following UML diagram using Self-Consistency reasoning.
+
+DIAGRAM TYPE: {diagram_type.value}
+
+DIAGRAM CONTENT:
+```
+{diagram_content}
+```
+
+VALIDATION REQUIREMENTS:
+1. Check for syntax errors (malformed UML syntax)
+2. Check for undefined references (referenced but not defined classes/participants)
+3. Check for invalid multiplicity notation
+4. Check for circular dependencies
+5. Check for missing required elements
+6. Check for inconsistencies and best practice violations
+
+For each issue found, provide:
+- description: Clear description of the issue
+- severity: "low", "medium", "high", or "critical"
+- location: Where in the diagram the issue occurs
+- issue_type: Type of issue (e.g., "syntax_error", "undefined_reference", "invalid_multiplicity")
+
+RESPONSE FORMAT (JSON):
+{{
+  "issues": [
+    {{
+      "description": "Class 'Item' is referenced but not defined",
+      "severity": "high",
+      "location": "reference to Item",
+      "issue_type": "undefined_reference"
+    }}
+  ]
+}}
+
+If the diagram is valid with no issues, return:
+{{
+  "issues": []
+}}
+
+Validate the diagram:"""
+        return prompt
+
+    def _parse_llm_issues(self, response: str) -> List[ValidationIssue]:
+        """Parse LLM response into ValidationIssue objects."""
+        import json
+
+        try:
+            # Try to parse as JSON
+            data = json.loads(response)
+            issues = []
+
+            for issue_data in data.get('issues', []):
+                issue = ValidationIssue(
+                    description=issue_data.get('description', 'Unknown issue'),
+                    severity=issue_data.get('severity', 'medium'),
+                    location=issue_data.get('location', None),
+                    issue_type=issue_data.get('issue_type', None)
+                )
+                issues.append(issue)
+
+            return issues
+
+        except json.JSONDecodeError:
+            logger.warning("Failed to parse LLM response as JSON")
+            # Return None to trigger fallback in validate_diagram()
+            return None
 
     def _calculate_confidence(self, issues: List[ValidationIssue]) -> float:
         """

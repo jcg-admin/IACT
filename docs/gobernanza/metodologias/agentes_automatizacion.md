@@ -600,6 +600,286 @@ Genera reporte priorizado por severidad.
 
 ---
 
+## Sistema de 35 Agentes Especializados
+
+### Visión General
+
+El proyecto IACT implementa un sistema completo de **35 agentes IA especializados** que automatizan el ciclo de vida completo del desarrollo de software (SDLC).
+
+**Estado actual:** 6/17 integraciones LLM críticas completadas (35.3%)
+
+### Casos de Uso Prácticos
+
+#### 1. Generación Automática de User Stories
+
+```bash
+python scripts/ai/sdlc/planner_agent.py \
+    --feature-request "Implementar autenticación 2FA con SMS" \
+    --context "Sistema Django con usuarios existentes"
+```
+
+**Agente:** SDLCPlannerAgent (LLM integrado)
+
+**Output:**
+```json
+{
+  "title": "US-123: Implementar autenticación 2FA con SMS",
+  "description": "Como usuario...",
+  "acceptance_criteria": [
+    "El usuario puede activar 2FA desde su perfil",
+    "Se envía código SMS al número registrado",
+    "El código expira en 5 minutos"
+  ],
+  "story_points": 8,
+  "priority": "P1",
+  "technical_requirements": [
+    "Integración con proveedor SMS",
+    "Modelo TwoFactorAuth en BD",
+    "Middleware de verificación 2FA"
+  ]
+}
+```
+
+#### 2. Implementación TDD Automática
+
+```bash
+python scripts/ai/tdd/feature_agent.py \
+    --user-story "US-123" \
+    --module "authentication" \
+    --target-coverage 90
+```
+
+**Agente:** TDDFeatureAgent (LLM integrado)
+
+**Flujo:**
+1. **RED**: Genera tests que fallan basados en acceptance criteria
+2. **GREEN**: Implementa código para pasar tests
+3. **REFACTOR**: Mejora código manteniendo tests verdes
+
+**Output:**
+- `api/authentication/two_factor.py` - Implementación
+- `api/tests/test_two_factor.py` - Suite de tests
+- Coverage report: 92% (objetivo superado)
+
+#### 3. Análisis de Arquitectura con Chain-of-Verification
+
+```bash
+python -c "
+from scripts.ai.agents.base.chain_of_verification import ChainOfVerificationAgent
+
+agent = ChainOfVerificationAgent(
+    llm_provider='anthropic',
+    model='claude-3-5-sonnet-20241022'
+)
+
+result = agent.verify(
+    question='¿El diseño de esta feature cumple con SOLID?',
+    context={'design_doc': 'docs/design/US-123.md'}
+)
+
+print(f'Verified: {result.final_answer}')
+print(f'Confidence: {result.confidence}')
+"
+```
+
+**Agente:** ChainOfVerificationAgent (Meta AI 2023)
+
+**Técnica:** Chain-of-Verification - genera respuesta base, planifica preguntas de verificación, ejecuta verificaciones independientes, genera respuesta refinada
+
+#### 4. Toma de Decisiones con Self-Consistency
+
+```bash
+python -c "
+from scripts.ai.agents.base.self_consistency import SelfConsistencyAgent
+
+agent = SelfConsistencyAgent(
+    num_samples=10,
+    temperature=0.7,
+    llm_provider='anthropic'
+)
+
+result = agent.solve_with_consistency(
+    prompt='¿Debemos usar Redis o Memcached para caché de sesiones?'
+)
+
+print(f'Decision: {result.final_answer}')
+print(f'Confidence: {result.confidence_score:.2%}')
+print(f'Vote distribution: {result.vote_distribution}')
+"
+```
+
+**Agente:** SelfConsistencyAgent (Google Research 2022)
+
+**Técnica:** Genera múltiples razonamientos independientes y aplica voting para obtener la respuesta más consistente
+
+#### 5. Exploración de Soluciones con Tree-of-Thoughts
+
+```bash
+python -c "
+from scripts.ai.agents.base.tree_of_thoughts import TreeOfThoughtsAgent, SearchStrategy
+
+agent = TreeOfThoughtsAgent(
+    strategy=SearchStrategy.BEAM,
+    max_thoughts_per_step=3,
+    max_depth=5,
+    llm_provider='anthropic'
+)
+
+solution, metadata = agent.solve(
+    problem='Cómo optimizar consultas N+1 en Django ORM',
+    context={'domain': 'database'}
+)
+
+print(f'Solution path: {[t.content for t in solution]}')
+print(f'Total thoughts explored: {metadata["total_thoughts"]}')
+"
+```
+
+**Agente:** TreeOfThoughtsAgent (Princeton/Google DeepMind 2023)
+
+**Técnica:** Explora sistemáticamente múltiples caminos de razonamiento con evaluación y backtracking
+
+### Integración en CI/CD
+
+#### GitHub Actions - Validación Automática
+
+```yaml
+name: AI Agents Pipeline
+
+on: [pull_request]
+
+jobs:
+  analyze-quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Dependencies
+        run: |
+          pip install pytest pytest-cov anthropic
+
+      - name: Run Quality Agents
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          # Coverage Analyzer
+          python scripts/ai/quality/coverage_analyzer.py \
+            --project-path api/ \
+            --min-coverage 85
+
+          # Syntax Validator
+          python scripts/ai/quality/syntax_validator.py \
+            --path api/ \
+            --fix-issues
+
+          # Restrictions Gate
+          python scripts/ai/validators/restrictions_gate.py \
+            --validate-all
+
+      - name: Create PR if Issues Found
+        if: failure()
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          python scripts/ai/quality/pr_creator.py \
+            --issue-type "quality-improvements" \
+            --auto-fix
+```
+
+### Patrones de Uso
+
+#### Patrón 1: Agente Standalone
+
+```python
+from scripts.ai.tdd.feature_agent import TDDFeatureAgent
+
+agent = TDDFeatureAgent(config={
+    "llm_provider": "anthropic",
+    "model": "claude-3-5-sonnet-20241022",
+    "project_root": "/path/to/project",
+    "coverage_target": 90
+})
+
+result = agent.run({
+    "user_story": "US-123",
+    "module": "authentication"
+})
+```
+
+#### Patrón 2: Composición de Agentes
+
+```python
+from scripts.ai.sdlc.planner_agent import SDLCPlannerAgent
+from scripts.ai.sdlc.feasibility_agent import SDLCFeasibilityAgent
+from scripts.ai.tdd.feature_agent import TDDFeatureAgent
+
+# Pipeline: Planificación → Factibilidad → Implementación
+planner = SDLCPlannerAgent(config={...})
+feasibility = SDLCFeasibilityAgent(config={...})
+tdd = TDDFeatureAgent(config={...})
+
+# 1. Generar user story
+user_story = planner.run({"feature_request": "..."})
+
+# 2. Validar factibilidad
+feasibility_result = feasibility.run({"user_story": user_story})
+
+if feasibility_result["decision"] == "GO":
+    # 3. Implementar con TDD
+    implementation = tdd.run({"user_story": user_story})
+```
+
+#### Patrón 3: Agente con Verificación
+
+```python
+from scripts.ai.agents.base.chain_of_verification import ChainOfVerificationAgent
+
+# Agente meta para validar outputs de otros agentes
+verifier = ChainOfVerificationAgent(use_llm=True)
+
+# Generar código con agente
+code = tdd_agent.run({...})
+
+# Verificar con CoVe
+verification = verifier.verify(
+    question="¿Este código cumple con TDD y SOLID?",
+    context={"code": code}
+)
+
+if verification.final_confidence < 0.7:
+    # Regenerar con feedback
+    code = tdd_agent.run({..., "feedback": verification.issues})
+```
+
+### Métricas y Monitoreo
+
+**Progreso de Integración LLM:**
+- BLOQUE 1: 6/17 completadas (35.3%)
+- Completadas: TDDFeature, SDLCPlanner, ChainOfVerification, AutoCoT, SelfConsistency, TreeOfThoughts
+- Pendientes: 5 agentes meta + 6 agentes SDLC
+
+**Agentes por Categoría:**
+- SDLC: 7 agentes (1 con LLM)
+- TDD: 1 agente (1 con LLM)
+- Meta: 9 agentes (4 con LLM)
+- Análisis Negocio: 5 agentes
+- Calidad: 6 agentes
+- Validación: 3 agentes
+- Documentación: 4 agentes
+- Automatización: 1 agente
+
+**Referencias:**
+- Inventario completo: docs/gobernanza/metodologias/arquitectura_agentes_especializados.md
+- Especificación técnica: docs/desarrollo/TAREAS_PENDIENTES_AGENTES_IA.md
+- README técnico: scripts/ai/agents/README_SDLC_AGENTS.md
+
+---
+
 ## Arquitectura Propuesta de CI/CD
 
 Tu propuesta es **excelente** y sigue el patrón:
@@ -1469,10 +1749,11 @@ BAJO: Mutation + fuzzing + LLM
 
 ---
 
-**Última actualización**: 2025-11-06
+**Última actualización**: 2025-11-11
 **Autor**: Equipo de Desarrollo
 **Revisores**: Equipo QA, Equipo DevOps
 **Changelog**:
+- 2025-11-11: Agregada sección "Sistema de 35 Agentes Especializados" con casos de uso prácticos, patrones de uso y métricas - v1.3.0
 - 2025-11-06: Agregados ReleaseAgent, DependencyAgent, SecurityAgent - v1.2.0
 - 2025-11-05: Agregado Agente GitOps con caso de uso real de sincronización de ramas - v1.1.0
 - 2025-11-04: Versión inicial con agentes de exploración y remoción de emojis - v1.0.0

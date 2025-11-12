@@ -17,12 +17,28 @@ architectural improvements through design pattern recommendations.
 from dataclasses import dataclass, field
 from enum import Enum
 from typing import List, Dict, Any, Optional
+import os
+import logging
 
 from scripts.ai.agents.base import (
     AutoCoTAgent,
     Demonstration,
     Question
 )
+
+# Import LLMGenerator for AI-powered recommendations
+try:
+    from scripts.ai.generators.llm_generator import LLMGenerator
+    LLM_AVAILABLE = True
+except ImportError:
+    LLM_AVAILABLE = False
+    logging.warning("LLMGenerator not available, will use heuristics only")
+
+logger = logging.getLogger(__name__)
+
+# Constants
+RECOMMENDATION_METHOD_LLM = "llm"
+RECOMMENDATION_METHOD_HEURISTIC = "heuristic"
 
 
 class PatternType(Enum):
@@ -59,6 +75,7 @@ class PatternRecommendation:
     benefits: List[str] = field(default_factory=list)
     implementation_hint: str = ""
     example_code: Optional[str] = None
+    analysis_method: str = RECOMMENDATION_METHOD_HEURISTIC  # "heuristic" or "llm"
 
     @property
     def value(self) -> int:
@@ -72,7 +89,8 @@ class PatternRecommendation:
             'applicability': self.applicability.value,
             'reasoning': self.reasoning,
             'benefits': self.benefits,
-            'implementation_hint': self.implementation_hint
+            'implementation_hint': self.implementation_hint,
+            'analysis_method': self.analysis_method
         }
 
 
@@ -86,16 +104,39 @@ class DesignPatternsRecommendationAgent:
     3. Provide detailed recommendations with rationale
     """
 
-    def __init__(self, max_recommendations: int = 5):
+    def __init__(
+        self,
+        max_recommendations: int = 5,
+        config: Optional[Dict[str, Any]] = None
+    ):
         """
         Initialize the agent.
 
         Args:
             max_recommendations: Maximum number of patterns to recommend
+            config: Configuration dict with optional keys:
+                - llm_provider: "anthropic" or "openai"
+                - model: Model name
+                - use_llm: Boolean to enable/disable LLM usage
         """
         self.name = "DesignPatternsRecommendationAgent"
         self.max_recommendations = max_recommendations
         self.auto_cot = AutoCoTAgent(k_clusters=3)
+        self.config = config or {}
+
+        # Initialize LLMGenerator if configured and available
+        self.llm_generator = None
+
+        if self.config and LLM_AVAILABLE:
+            try:
+                self.llm_generator = LLMGenerator(config=self.config)
+                llm_provider = self.config.get('llm_provider', 'anthropic')
+                logger.info(f"LLMGenerator initialized with {llm_provider}")
+            except Exception as e:
+                logger.error(f"Failed to initialize LLMGenerator: {e}")
+                self.llm_generator = None
+        elif self.config and not LLM_AVAILABLE:
+            logger.warning("LLM configuration provided but LLMGenerator not available")
 
     def recommend_patterns(self, code: str) -> List[PatternRecommendation]:
         """
@@ -111,13 +152,19 @@ class DesignPatternsRecommendationAgent:
         if not code or not code.strip():
             return []
 
-        # Detect applicable patterns using heuristics
-        recommendations = self._detect_applicable_patterns(code)
+        # Determine analysis method
+        use_llm = self.config.get('use_llm', False) and self.llm_generator is not None
+
+        # Get recommendations
+        if use_llm:
+            recommendations = self._get_recommendations_with_llm(code)
+        else:
+            recommendations = self._detect_applicable_patterns(code)
 
         if not recommendations:
             return []
 
-        # Generate reasoning using Auto-CoT (would use LLM in production)
+        # Enhance with Auto-CoT reasoning (for both heuristic and LLM)
         recommendations = self._enhance_with_auto_cot(code, recommendations)
 
         # Sort by applicability (high to low)
@@ -125,6 +172,105 @@ class DesignPatternsRecommendationAgent:
 
         # Limit to max_recommendations
         return recommendations[:self.max_recommendations]
+
+    def _get_recommendations_with_llm(self, code: str) -> List[PatternRecommendation]:
+        """Get recommendations using LLM with fallback to heuristics."""
+        try:
+            recommendations = self._recommend_with_llm(code)
+            logger.info(f"LLM found {len(recommendations)} pattern recommendations")
+            if not recommendations:
+                logger.warning("LLM returned empty recommendations, using heuristics")
+                return self._detect_applicable_patterns(code)
+            return recommendations
+        except Exception as e:
+            logger.error(f"LLM recommendation failed: {e}, falling back to heuristics")
+            return self._detect_applicable_patterns(code)
+
+    def _recommend_with_llm(self, code: str) -> List[PatternRecommendation]:
+        """Recommend design patterns using LLMGenerator."""
+        prompt = f"""Analyze the following Python code and recommend applicable design patterns.
+
+CODE TO ANALYZE:
+```python
+{code}
+```
+
+For each recommended pattern, provide:
+1. Pattern name (strategy, observer, factory, singleton, decorator, adapter, etc.)
+2. Applicability level (1-5, where 5 is very high)
+3. Detailed reasoning explaining why this pattern applies
+4. Benefits of using this pattern
+5. Implementation hint
+
+RESPONSE FORMAT (JSON):
+{{
+  "recommendations": [
+    {{
+      "pattern": "strategy",
+      "applicability": 5,
+      "reasoning": "The code uses multiple if-elif branches to select behavior based on type",
+      "benefits": ["Eliminates conditional logic", "Easy to add new strategies", "Testable"],
+      "implementation_hint": "Create Strategy interface with execute() method"
+    }}
+  ]
+}}
+
+Analyze the code and return recommendations in JSON format:"""
+
+        response = self.llm_generator._call_llm(prompt)
+        return self._parse_llm_recommendations(response)
+
+    def _parse_llm_recommendations(self, response: str) -> List[PatternRecommendation]:
+        """Parse LLM response into PatternRecommendation objects."""
+        import json
+
+        try:
+            data = json.loads(response)
+            recommendations = []
+
+            for rec_data in data.get('recommendations', []):
+                pattern_str = rec_data.get('pattern', 'strategy').lower()
+                pattern_map = {
+                    'strategy': PatternType.STRATEGY,
+                    'observer': PatternType.OBSERVER,
+                    'factory': PatternType.FACTORY,
+                    'singleton': PatternType.SINGLETON,
+                    'decorator': PatternType.DECORATOR,
+                    'adapter': PatternType.ADAPTER,
+                    'template_method': PatternType.TEMPLATE_METHOD,
+                    'command': PatternType.COMMAND,
+                    'state': PatternType.STATE,
+                    'facade': PatternType.FACADE,
+                    'proxy': PatternType.PROXY,
+                    'builder': PatternType.BUILDER
+                }
+                pattern_type = pattern_map.get(pattern_str, PatternType.STRATEGY)
+
+                # Map applicability score to enum
+                applicability_score = rec_data.get('applicability', 3)
+                applicability = {
+                    5: PatternApplicability.VERY_HIGH,
+                    4: PatternApplicability.HIGH,
+                    3: PatternApplicability.MEDIUM,
+                    2: PatternApplicability.LOW,
+                    1: PatternApplicability.VERY_LOW
+                }.get(applicability_score, PatternApplicability.MEDIUM)
+
+                recommendation = PatternRecommendation(
+                    pattern_type=pattern_type,
+                    applicability=applicability,
+                    reasoning=rec_data.get('reasoning', ''),
+                    benefits=rec_data.get('benefits', []),
+                    implementation_hint=rec_data.get('implementation_hint', ''),
+                    analysis_method=RECOMMENDATION_METHOD_LLM
+                )
+                recommendations.append(recommendation)
+
+            return recommendations
+
+        except json.JSONDecodeError:
+            logger.warning("Failed to parse LLM response as JSON")
+            return []
 
     def _detect_applicable_patterns(self, code: str) -> List[PatternRecommendation]:
         """
@@ -236,7 +382,8 @@ class DesignPatternsRecommendationAgent:
                 "Create a Strategy interface with an execute() method. "
                 "Implement concrete strategies for each behavior. "
                 "Use a context class to hold and delegate to the current strategy."
-            )
+            ),
+            analysis_method=RECOMMENDATION_METHOD_HEURISTIC
         )
 
     def _create_observer_recommendation(self, code: str) -> PatternRecommendation:
@@ -269,7 +416,8 @@ class DesignPatternsRecommendationAgent:
                 "Create an Observable base class with attach/detach/notify methods. "
                 "Observers implement an update() method. "
                 "Observable notifies all observers automatically when state changes."
-            )
+            ),
+            analysis_method=RECOMMENDATION_METHOD_HEURISTIC
         )
 
     def _create_factory_recommendation(self, code: str) -> PatternRecommendation:
@@ -302,7 +450,8 @@ class DesignPatternsRecommendationAgent:
                 "Create a Factory class with a create_product(type) method. "
                 "Move all object creation logic into the factory. "
                 "Clients request objects from the factory instead of creating directly."
-            )
+            ),
+            analysis_method=RECOMMENDATION_METHOD_HEURISTIC
         )
 
     def _create_singleton_recommendation(self, code: str) -> PatternRecommendation:
@@ -326,7 +475,8 @@ class DesignPatternsRecommendationAgent:
                 "Implement a private constructor and a static getInstance() method. "
                 "Store the instance in a static variable. "
                 "Consider thread safety if used in concurrent environments."
-            )
+            ),
+            analysis_method=RECOMMENDATION_METHOD_HEURISTIC
         )
 
     def _create_decorator_recommendation(self, code: str) -> PatternRecommendation:
@@ -350,7 +500,8 @@ class DesignPatternsRecommendationAgent:
                 "Create a Component interface. Implement ConcreteComponent and Decorator classes. "
                 "Decorators wrap components and add behavior before/after delegating. "
                 "Can stack multiple decorators."
-            )
+            ),
+            analysis_method=RECOMMENDATION_METHOD_HEURISTIC
         )
 
     def _enhance_with_auto_cot(
@@ -365,7 +516,7 @@ class DesignPatternsRecommendationAgent:
         and improve reasoning quality. For now, the heuristic reasoning is sufficient.
         """
         # Auto-CoT would generate demonstrations here
-        # For testing purposes, we use the heuristic reasoning already generated
+        # For testing purposes, we use the heuristic/LLM reasoning already generated
 
         # Simulate Auto-CoT clustering by grouping similar patterns
         pattern_questions = [

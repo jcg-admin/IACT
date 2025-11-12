@@ -9,10 +9,21 @@ Basado en: "Automatic Chain of Thought Prompting in Large Language Models"
 """
 
 import json
+import sys
 from pathlib import Path
 from typing import List, Dict, Optional, Tuple, Any
 from dataclasses import dataclass
 import re
+
+# Add parent paths for LLMGenerator import
+sys.path.insert(0, str(Path(__file__).parent.parent.parent))
+
+try:
+    from generators.llm_generator import LLMGenerator
+    LLM_AVAILABLE = True
+except ImportError:
+    LLM_AVAILABLE = False
+    LLMGenerator = None
 
 # Optional dependencies for clustering
 try:
@@ -51,15 +62,35 @@ class AutoCoTAgent:
     2. Demonstration Sampling: Genera CoT con Zero-Shot para cada cluster
     """
 
-    def __init__(self, k_clusters: int = 5, max_demonstrations: int = 10):
+    def __init__(
+        self,
+        k_clusters: int = 5,
+        max_demonstrations: int = 10,
+        llm_provider: str = "anthropic",
+        model: str = "claude-sonnet-4-5-20250929",
+        use_llm: bool = True
+    ):
         """
         Args:
             k_clusters: Número de clusters para agrupar preguntas
             max_demonstrations: Máximo de demostraciones a generar
+            llm_provider: Proveedor LLM ('anthropic' o 'openai')
+            model: Modelo específico a usar
+            use_llm: Si True, usa LLM real; si False, usa templates
         """
         self.k_clusters = k_clusters
         self.max_demonstrations = max_demonstrations
         self.demonstrations: List[Demonstration] = []
+        self.use_llm = use_llm and LLM_AVAILABLE
+
+        if self.use_llm:
+            llm_config = {
+                "llm_provider": llm_provider,
+                "model": model
+            }
+            self.llm = LLMGenerator(config=llm_config)
+        else:
+            self.llm = None
 
     def generate_demonstrations(
         self,
@@ -234,15 +265,72 @@ class AutoCoTAgent:
         """
         Genera una demostración CoT para una pregunta usando Zero-Shot CoT.
 
-        En implementación real: llamar a LLM API.
-        Esta versión genera template para demostración.
+        Si use_llm=True, llama a LLM real. Sino, usa templates.
         """
-        # Zero-Shot CoT prompt
-        zero_shot_prompt = f"{question}\nLet's think step by step."
+        if self.use_llm and self.llm:
+            return self._generate_with_llm(question, domain)
+        else:
+            return self._generate_with_template(question, domain)
 
-        # En producción: llm_api.generate(zero_shot_prompt)
-        # Aquí generamos template estructurado
+    def _generate_with_llm(self, question: str, domain: str) -> Optional[Demonstration]:
+        """Genera demostración usando LLM con Zero-Shot CoT."""
+        try:
+            # Zero-Shot CoT prompt
+            prompt = f"""You are an expert in {domain}. Answer the following question using step-by-step reasoning.
 
+Question: {question}
+
+Instructions:
+1. Think through the problem step by step
+2. Show your reasoning process clearly
+3. Provide a final answer at the end
+
+Format your response as:
+REASONING: [Your step-by-step reasoning]
+ANSWER: [Your final answer]
+
+Let's think step by step."""
+
+            llm_response = self.llm._call_llm(prompt)
+
+            # Parse response to extract reasoning and answer
+            reasoning, answer = self._parse_llm_response(llm_response, question, domain)
+
+            return Demonstration(
+                question=question,
+                reasoning=reasoning,
+                answer=answer,
+                quality_score=self._score_demonstration(question, reasoning, answer)
+            )
+
+        except Exception as e:
+            print(f"[Auto-CoT] LLM generation failed: {e}, falling back to template")
+            return self._generate_with_template(question, domain)
+
+    def _parse_llm_response(self, llm_response: str, question: str, domain: str) -> Tuple[str, str]:
+        """Parse LLM response to extract reasoning and answer."""
+        # Try to find REASONING: and ANSWER: sections
+        reasoning_match = re.search(r'REASONING:\s*(.+?)(?=ANSWER:|$)', llm_response, re.DOTALL | re.IGNORECASE)
+        answer_match = re.search(r'ANSWER:\s*(.+?)$', llm_response, re.DOTALL | re.IGNORECASE)
+
+        if reasoning_match and answer_match:
+            reasoning = reasoning_match.group(1).strip()
+            answer = answer_match.group(1).strip()
+        else:
+            # Fallback: treat entire response as reasoning, extract last sentence as answer
+            lines = llm_response.strip().split('\n')
+            reasoning = llm_response.strip()
+            # Try to find a conclusive sentence
+            answer_candidates = [line for line in lines if any(marker in line.lower() for marker in ['therefore', 'thus', 'so', 'answer', 'conclusion'])]
+            if answer_candidates:
+                answer = answer_candidates[-1].strip()
+            else:
+                answer = lines[-1].strip() if lines else "See reasoning above"
+
+        return reasoning, answer
+
+    def _generate_with_template(self, question: str, domain: str) -> Demonstration:
+        """Genera demostración usando templates (fallback)."""
         reasoning = self._generate_reasoning_template(question, domain)
         answer = self._extract_answer_from_reasoning(reasoning)
 

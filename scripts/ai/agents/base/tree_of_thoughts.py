@@ -8,10 +8,24 @@ exploration of multiple solution paths with evaluation and backtracking.
 Based on: "Tree of Thoughts: Deliberate Problem Solving with Large Language Models" (Princeton/Google DeepMind, 2023)
 """
 
+import sys
+from pathlib import Path
 from dataclasses import dataclass, field
 from typing import List, Dict, Optional, Callable, Tuple
 from enum import Enum
 import heapq
+import json
+import re
+
+# Add parent paths for LLMGenerator import
+sys.path.insert(0, str(Path(__file__).parent.parent.parent))
+
+try:
+    from generators.llm_generator import LLMGenerator
+    LLM_AVAILABLE = True
+except ImportError:
+    LLM_AVAILABLE = False
+    LLMGenerator = None
 
 
 class ThoughtState(Enum):
@@ -77,7 +91,10 @@ class TreeOfThoughtsAgent:
         max_thoughts_per_step: int = 3,
         max_depth: int = 5,
         beam_width: int = 2,
-        value_threshold: float = 0.3
+        value_threshold: float = 0.3,
+        llm_provider: str = "anthropic",
+        model: str = "claude-sonnet-4-5-20250929",
+        use_llm: bool = True
     ):
         """
         Args:
@@ -86,12 +103,25 @@ class TreeOfThoughtsAgent:
             max_depth: Maximum depth to explore
             beam_width: For beam search, how many to keep per level
             value_threshold: Minimum value to consider a thought promising
+            llm_provider: Proveedor LLM ('anthropic' o 'openai')
+            model: Modelo específico a usar
+            use_llm: Si True, usa LLM real; si False, usa heurísticas
         """
         self.strategy = strategy
         self.max_thoughts_per_step = max_thoughts_per_step
         self.max_depth = max_depth
         self.beam_width = beam_width
         self.value_threshold = value_threshold
+        self.use_llm = use_llm and LLM_AVAILABLE
+
+        if self.use_llm:
+            llm_config = {
+                "llm_provider": llm_provider,
+                "model": model
+            }
+            self.llm = LLMGenerator(config=llm_config)
+        else:
+            self.llm = None
 
         self.thoughts: Dict[int, Thought] = {}
         self.next_thought_id = 0
@@ -195,16 +225,80 @@ class TreeOfThoughtsAgent:
         """
         Generate candidate next thoughts.
 
-        In production: Use LLM to generate diverse thoughts.
-        This simplified version uses heuristics based on problem type.
+        Uses LLM if available, otherwise falls back to heuristics.
         """
+        if self.use_llm and self.llm:
+            return self._generate_thoughts_with_llm(parent, problem, context)
+        else:
+            return self._generate_thoughts_with_heuristics(parent, problem, context)
+
+    def _generate_thoughts_with_llm(
+        self,
+        parent: Thought,
+        problem: str,
+        context: Optional[Dict]
+    ) -> List[Thought]:
+        """Generate thoughts using LLM."""
+        try:
+            # Build path to current thought
+            path = self._build_path_to_thought(parent)
+            path_text = " -> ".join([t.content for t in path])
+
+            prompt = f"""You are an expert problem solver using Tree of Thoughts reasoning.
+
+Problem: {problem}
+Current reasoning path: {path_text}
+Current depth: {parent.depth + 1}/{self.max_depth}
+
+Generate {self.max_thoughts_per_step} diverse next steps to explore. Each step should be:
+- A concrete reasoning step or action
+- Different from the others (diverse approaches)
+- Potentially leading towards a solution
+
+Respond in JSON format:
+{{
+  "thoughts": [
+    "First next step to explore",
+    "Second next step to explore",
+    "Third next step to explore"
+  ]
+}}"""
+
+            llm_response = self.llm._call_llm(prompt)
+
+            # Parse JSON response
+            thoughts_data = self._parse_json_response(llm_response)
+            candidates = thoughts_data.get("thoughts", [])[:self.max_thoughts_per_step]
+
+            # Create thought objects
+            generated = []
+            for candidate in candidates:
+                thought = self._create_thought(
+                    content=candidate,
+                    depth=parent.depth + 1,
+                    parent_id=parent.id
+                )
+                generated.append(thought)
+
+            return generated
+
+        except Exception as e:
+            print(f"[ToT] LLM thought generation failed: {e}, falling back to heuristics")
+            return self._generate_thoughts_with_heuristics(parent, problem, context)
+
+    def _generate_thoughts_with_heuristics(
+        self,
+        parent: Thought,
+        problem: str,
+        context: Optional[Dict]
+    ) -> List[Thought]:
+        """Generate thoughts using heuristics (fallback)."""
         generated = []
 
         # Determine problem type and generate appropriate thoughts
         problem_lower = problem.lower()
 
         if "test" in problem_lower or "validation" in problem_lower:
-            # Test generation problem
             candidates = [
                 "Consider happy path scenarios first",
                 "Identify edge cases that could break the system",
@@ -212,7 +306,6 @@ class TreeOfThoughtsAgent:
                 "Consider security implications and malicious inputs"
             ]
         elif "review" in problem_lower or "analyze" in problem_lower:
-            # Code review problem
             candidates = [
                 "Check for security vulnerabilities (injection, XSS, etc.)",
                 "Evaluate performance and scalability concerns",
@@ -220,7 +313,6 @@ class TreeOfThoughtsAgent:
                 "Assess code maintainability and readability"
             ]
         elif "database" in problem_lower or "migration" in problem_lower:
-            # Database problem
             candidates = [
                 "Verify no writes to read-only databases",
                 "Check for proper transaction handling",
@@ -228,7 +320,6 @@ class TreeOfThoughtsAgent:
                 "Evaluate impact on existing data"
             ]
         else:
-            # Generic problem
             candidates = [
                 "Break down problem into smaller sub-problems",
                 "Identify constraints and requirements",
@@ -236,7 +327,7 @@ class TreeOfThoughtsAgent:
                 "Evaluate trade-offs of each approach"
             ]
 
-        # Create thoughts from candidates (limit by max_thoughts_per_step)
+        # Create thoughts from candidates
         for candidate in candidates[:self.max_thoughts_per_step]:
             thought = self._create_thought(
                 content=candidate,
@@ -256,17 +347,69 @@ class TreeOfThoughtsAgent:
         """
         Evaluate how promising a thought is.
 
-        Evaluation strategies:
-        - Value: Score from 0.0 to 1.0
-        - Vote: Multiple evaluations vote on quality
-        - Step: Binary pass/fail for each step
-
-        This implementation uses value-based scoring.
+        Uses LLM if available, otherwise falls back to heuristics.
         """
-        # In production: Use LLM to evaluate thought quality
-        # This simplified version uses heuristics
+        if self.use_llm and self.llm:
+            return self._evaluate_thought_with_llm(thought, problem, context)
+        else:
+            return self._evaluate_thought_with_heuristics(thought, problem, context)
 
-        value = 0.5  # Default neutral value
+    def _evaluate_thought_with_llm(
+        self,
+        thought: Thought,
+        problem: str,
+        context: Optional[Dict]
+    ) -> ThoughtEvaluation:
+        """Evaluate thought using LLM."""
+        try:
+            # Build path to current thought
+            path = self._build_path_to_thought(thought)
+            path_text = " -> ".join([t.content for t in path])
+
+            prompt = f"""You are evaluating a reasoning step in a Tree of Thoughts search.
+
+Problem: {problem}
+Reasoning path so far: {path_text}
+Current step to evaluate: {thought.content}
+
+Evaluate this reasoning step on:
+1. How promising is it (0.0 to 1.0)?
+2. Does it lead towards a solution?
+3. Should we expand it further?
+
+Respond in JSON format:
+{{
+  "value": 0.8,
+  "reasoning": "Why this score?",
+  "is_solution": false,
+  "can_expand": true
+}}"""
+
+            llm_response = self.llm._call_llm(prompt)
+
+            # Parse JSON response
+            eval_data = self._parse_json_response(llm_response)
+
+            return ThoughtEvaluation(
+                thought_id=thought.id,
+                value=float(eval_data.get("value", 0.5)),
+                reasoning=eval_data.get("reasoning", "LLM evaluation"),
+                is_solution=eval_data.get("is_solution", False),
+                can_expand=eval_data.get("can_expand", thought.depth < self.max_depth)
+            )
+
+        except Exception as e:
+            print(f"[ToT] LLM evaluation failed: {e}, falling back to heuristics")
+            return self._evaluate_thought_with_heuristics(thought, problem, context)
+
+    def _evaluate_thought_with_heuristics(
+        self,
+        thought: Thought,
+        problem: str,
+        context: Optional[Dict]
+    ) -> ThoughtEvaluation:
+        """Evaluate thought using heuristics (fallback)."""
+        value = 0.5
         reasoning = ""
         is_solution = False
         can_expand = thought.depth < self.max_depth
@@ -282,7 +425,6 @@ class TreeOfThoughtsAgent:
             'ignore', 'skip', 'assume', 'maybe', 'unclear'
         ]
 
-        # Score based on indicators
         positive_score = sum(0.1 for ind in positive_indicators if ind in content_lower)
         negative_score = sum(0.15 for ind in negative_indicators if ind in content_lower)
 
@@ -302,7 +444,6 @@ class TreeOfThoughtsAgent:
 
         value = min(1.0, value)
 
-        # Check if this could be a solution
         if 'solution' in content_lower or 'implement' in content_lower or 'fix' in content_lower:
             if value > 0.7:
                 is_solution = True
@@ -318,6 +459,31 @@ class TreeOfThoughtsAgent:
             is_solution=is_solution,
             can_expand=can_expand
         )
+
+    def _build_path_to_thought(self, thought: Thought) -> List[Thought]:
+        """Build path from root to given thought."""
+        path = []
+        current = thought
+        while current is not None:
+            path.append(current)
+            current = self.thoughts.get(current.parent_id) if current.parent_id is not None else None
+        return list(reversed(path))
+
+    def _parse_json_response(self, llm_response: str) -> Dict:
+        """Parse JSON from LLM response (handles markdown code blocks)."""
+        try:
+            return json.loads(llm_response)
+        except json.JSONDecodeError:
+            # Try to extract JSON from markdown code block
+            json_match = re.search(r'```(?:json)?\s*(\{.*?\})\s*```', llm_response, re.DOTALL)
+            if json_match:
+                return json.loads(json_match.group(1))
+            # Try to find JSON object without code block
+            json_match = re.search(r'\{.*\}', llm_response, re.DOTALL)
+            if json_match:
+                return json.loads(json_match.group(0))
+            # Fallback: return empty dict
+            return {}
 
     def _bfs_search(
         self,

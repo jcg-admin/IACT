@@ -17,11 +17,28 @@ Outputs:
 - Design review checklist
 """
 
+import json
+import re
+import sys
 from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, List
 
-from .sdlc_base import SDLCAgent, SDLCPhaseResult
+from .base_agent import SDLCAgent, SDLCPhaseResult
+
+# Add parent paths for LLMGenerator import
+sys.path.insert(0, str(Path(__file__).parent.parent.parent))
+
+try:
+    from generators.llm_generator import LLMGenerator
+    LLM_AVAILABLE = True
+except ImportError:
+    LLM_AVAILABLE = False
+    LLMGenerator = None
+
+# Design method constants
+DESIGN_METHOD_LLM = "llm"
+DESIGN_METHOD_HEURISTIC = "heuristic"
 
 
 class SDLCDesignAgent(SDLCAgent):
@@ -38,6 +55,15 @@ class SDLCDesignAgent(SDLCAgent):
             config=config
         )
 
+        # Initialize LLM generator if config provided and LLM available
+        self.llm_generator = None
+        if config and LLM_AVAILABLE:
+            try:
+                self.llm_generator = LLMGenerator(config=config)
+                self.logger.info(f"LLMGenerator initialized with {config.get('llm_provider', 'default')}")
+            except Exception as e:
+                self.logger.warning(f"Failed to initialize LLM: {e}. Falling back to heuristics.")
+
     def validate_input(self, input_data: Dict[str, Any]) -> List[str]:
         """Valida que exista feasibility result e issue."""
         errors = []
@@ -50,7 +76,13 @@ class SDLCDesignAgent(SDLCAgent):
 
         # Validar que feasibility fue GO o REVIEW
         if "feasibility_result" in input_data:
-            decision = input_data["feasibility_result"].get("decision", "")
+            feasibility = input_data["feasibility_result"]
+            # Handle both dict (full result) and SDLCPhaseResult object
+            if isinstance(feasibility, SDLCPhaseResult):
+                decision = feasibility.decision
+            else:
+                decision = feasibility.get("decision", "")
+
             if decision == "no-go":
                 errors.append("No se puede disenar feature con decision NO-GO. Resolver blockers primero.")
 
@@ -63,7 +95,7 @@ class SDLCDesignAgent(SDLCAgent):
         Args:
             input_data: {
                 "issue": dict,  # Output de SDLCPlannerAgent
-                "feasibility_result": dict,  # Output de SDLCFeasibilityAgent
+                "feasibility_result": dict or SDLCPhaseResult,  # Output de SDLCFeasibilityAgent
                 "project_context": str
             }
 
@@ -73,6 +105,19 @@ class SDLCDesignAgent(SDLCAgent):
         issue = input_data["issue"]
         feasibility_result = input_data["feasibility_result"]
         project_context = input_data.get("project_context", "")
+
+        # Normalize feasibility_result to dict if it's SDLCPhaseResult
+        if isinstance(feasibility_result, SDLCPhaseResult):
+            feasibility_result = {
+                "decision": feasibility_result.decision,
+                "confidence": feasibility_result.confidence,
+                "risks": feasibility_result.risks,
+                "recommendations": feasibility_result.recommendations,
+                "artifacts": feasibility_result.artifacts,
+                "next_steps": feasibility_result.next_steps,
+                "phase_result": feasibility_result
+            }
+
 
         self.logger.info(f"Generando diseno para: {issue.get('issue_title', 'Unknown')}")
 
@@ -558,103 +603,116 @@ sudo systemctl restart gunicorn-iact
 
     def _generate_architecture_diagram(self) -> str:
         """Genera diagrama de arquitectura."""
-        return """```mermaid
-graph TB
-    subgraph Frontend
-        A[React App]
-        B[Redux Store]
-    end
+        return """```plantuml
+@startuml
+!define RECTANGLE class
 
-    subgraph Backend
-        C[Django Views]
-        D[Business Logic]
-        E[Models]
-    end
+package "Frontend" {
+    component [React App] as ReactApp
+    component [Redux Store] as ReduxStore
+}
 
-    subgraph Database
-        F[(MySQL Primary)]
-        G[(PostgreSQL Secondary)]
-    end
+package "Backend" {
+    component [Django Views] as DjangoViews
+    component [Business Logic] as BusinessLogic
+    component [Models] as Models
+}
 
-    A -->|API Calls| C
-    B -->|State Management| A
-    C -->|Process Request| D
-    D -->|Data Access| E
-    E -->|Read/Write| F
-    E -->|Read| G
+package "Database" {
+    database "MySQL Primary" as MySQL #4CAF50
+    database "PostgreSQL Secondary" as PostgreSQL #2196F3
+}
 
-    style F fill:#4CAF50
-    style G fill:#2196F3
+ReactApp -down-> DjangoViews : API Calls
+ReduxStore -up-> ReactApp : State Management
+DjangoViews -down-> BusinessLogic : Process Request
+BusinessLogic -down-> Models : Data Access
+Models -down-> MySQL : Read/Write
+Models -down-> PostgreSQL : Read
+
+@enduml
 ```"""
 
     def _generate_sequence_diagram(self) -> str:
         """Genera diagrama de secuencia."""
-        return """```mermaid
-sequenceDiagram
-    actor User
-    participant Frontend
-    participant API
-    participant Service
-    participant DB
+        return """```plantuml
+@startuml
+actor User
+participant Frontend
+participant API
+participant Service
+database DB
 
-    User->>Frontend: Interact with UI
-    Frontend->>API: POST /api/endpoint
-    API->>API: Validate Request
-    API->>Service: Process Business Logic
-    Service->>DB: Query/Update Data
-    DB-->>Service: Return Data
-    Service-->>API: Return Result
-    API-->>Frontend: JSON Response
-    Frontend-->>User: Update UI
+User -> Frontend : Interact with UI
+Frontend -> API : POST /api/endpoint
+API -> API : Validate Request
+API -> Service : Process Business Logic
+Service -> DB : Query/Update Data
+DB --> Service : Return Data
+Service --> API : Return Result
+API --> Frontend : JSON Response
+Frontend --> User : Update UI
+
+@enduml
 ```"""
 
     def _generate_component_diagram(self) -> str:
         """Genera diagrama de componentes."""
-        return """```mermaid
-graph LR
-    subgraph Frontend Components
-        A[Container Component]
-        B[Presentation Component]
-        C[Form Component]
-    end
+        return """```plantuml
+@startuml
+package "Frontend Components" {
+    [Container Component] as Container
+    [Presentation Component] as Presentation
+    [Form Component] as Form
+}
 
-    subgraph Backend Components
-        D[View Layer]
-        E[Service Layer]
-        F[Data Layer]
-    end
+package "Backend Components" {
+    [View Layer] as View
+    [Service Layer] as Service
+    [Data Layer] as Data
+}
 
-    A --> B
-    A --> C
-    C -->|API Call| D
-    D --> E
-    E --> F
+Container --> Presentation
+Container --> Form
+Form --> View : API Call
+View --> Service
+Service --> Data
+
+@enduml
 ```"""
 
     def _generate_database_diagram(self) -> str:
         """Genera diagrama ER de base de datos."""
-        return """```mermaid
-erDiagram
-    USER ||--o{ SESSION : has
-    USER ||--o{ INTERNAL_MESSAGE : receives
-    USER {
-        int id PK
-        string username
-        string email
-        datetime created_at
-    }
-    SESSION {
-        string session_key PK
-        text session_data
-        datetime expire_date
-    }
-    INTERNAL_MESSAGE {
-        int id PK
-        int user_id FK
-        string subject
-        text body
-        datetime created_at
-    }
+        return """```plantuml
+@startuml
+entity "USER" as user {
+    * id : int <<PK>>
+    --
+    username : string
+    email : string
+    created_at : datetime
+}
+
+entity "SESSION" as session {
+    * session_key : string <<PK>>
+    --
+    session_data : text
+    expire_date : datetime
+}
+
+entity "INTERNAL_MESSAGE" as message {
+    * id : int <<PK>>
+    --
+    user_id : int <<FK>>
+    subject : string
+    body : text
+    created_at : datetime
+}
+
+user ||--o{ session : has
+user ||--o{ message : receives
+
+@enduml
 ```"""
 
     def _format_diagrams_document(self, diagrams: Dict[str, str]) -> str:
@@ -1060,6 +1118,241 @@ const featureSlice = createSlice({
         tech_reqs_str = " ".join(technical_requirements).lower()
         return any(keyword in tech_reqs_str for keyword in keywords)
 
+    # LLM Integration Methods
+
+    def _generate_architecture_with_llm(
+        self,
+        issue: Dict[str, Any],
+        project_context: str = ""
+    ) -> Dict[str, Any]:
+        """Genera recomendaciones de arquitectura usando LLM con fallback a heurísticas."""
+        if not self.llm_generator:
+            # Fallback to heuristics
+            return {
+                "components": [],
+                "data_flow": "",
+                "technology_recommendations": {}
+            }
+
+        try:
+            title = issue.get("issue_title", "")
+            technical_requirements = issue.get("technical_requirements", [])
+            acceptance_criteria = issue.get("acceptance_criteria", [])
+
+            prompt = f"""Analiza y genera recomendaciones de arquitectura para el siguiente feature del proyecto IACT.
+
+**Feature**: {title}
+
+**Requisitos Técnicos**:
+{chr(10).join(f"- {req}" for req in technical_requirements)}
+
+**Criterios de Aceptación**:
+{chr(10).join(f"- {crit}" for crit in acceptance_criteria)}
+
+**Contexto del Proyecto**: {project_context}
+
+**Restricciones IACT**:
+- NO Redis (usar MySQL para sesiones/cache)
+- NO Email/SMTP (usar InternalMessage)
+- Stack: Django 4.2+, React 18+, MySQL/PostgreSQL
+
+Genera recomendaciones de arquitectura considerando:
+1. Componentes principales del sistema
+2. Flujo de datos entre componentes
+3. Tecnologías recomendadas que cumplan restricciones IACT
+4. Integraciones necesarias
+
+Responde en formato JSON:
+{{
+  "components": ["lista de componentes principales"],
+  "data_flow": "descripción del flujo de datos",
+  "technology_recommendations": {{
+    "backend": "recomendaciones backend",
+    "frontend": "recomendaciones frontend",
+    "database": "recomendaciones database"
+  }}
+}}"""
+
+            llm_response = self.llm_generator._call_llm(prompt)
+            return self._parse_llm_architecture(llm_response)
+
+        except Exception as e:
+            self.logger.warning(f"LLM architecture generation failed: {e}, using fallback")
+            return {
+                "components": [],
+                "data_flow": "",
+                "technology_recommendations": {}
+            }
+
+    def _parse_llm_architecture(self, llm_response: str) -> Dict[str, Any]:
+        """Parse LLM response para extraer recomendaciones de arquitectura."""
+        try:
+            # Try to extract JSON from response
+            json_match = re.search(r'\{[\s\S]*\}', llm_response)
+            if json_match:
+                result = json.loads(json_match.group(0))
+
+                # Validate and normalize
+                architecture = {
+                    "components": result.get("components", []),
+                    "data_flow": result.get("data_flow", ""),
+                    "technology_recommendations": result.get("technology_recommendations", {})
+                }
+
+                # Ensure components is a list
+                if not isinstance(architecture["components"], list):
+                    architecture["components"] = []
+
+                return architecture
+
+        except (json.JSONDecodeError, ValueError) as e:
+            self.logger.warning(f"Failed to parse LLM architecture as JSON: {e}")
+
+        # Fallback: parse as text
+        architecture = {
+            "components": [],
+            "data_flow": "",
+            "technology_recommendations": {}
+        }
+
+        # Extract components from text
+        lines = llm_response.split('\n')
+        for line in lines:
+            line = line.strip()
+            if line.startswith('-') or line.startswith('*'):
+                # Extract component name
+                component = line.lstrip('-*').strip()
+                if component and len(component) < 100:
+                    architecture["components"].append(component)
+
+        # Extract data flow
+        if "flow" in llm_response.lower() or "flujo" in llm_response.lower():
+            for i, line in enumerate(lines):
+                if "flow" in line.lower() or "flujo" in line.lower():
+                    # Get next few lines as data flow
+                    if i + 1 < len(lines):
+                        architecture["data_flow"] = lines[i + 1].strip()
+                    break
+
+        return architecture
+
+    def _recommend_patterns_with_llm(
+        self,
+        issue: Dict[str, Any],
+        architecture: str = ""
+    ) -> Dict[str, Any]:
+        """Recomienda patrones de diseño usando LLM con fallback a heurísticas."""
+        if not self.llm_generator:
+            # Fallback to heuristics
+            return {"patterns": []}
+
+        try:
+            title = issue.get("issue_title", "")
+            technical_requirements = issue.get("technical_requirements", [])
+
+            prompt = f"""Recomienda patrones de diseño apropiados para el siguiente feature.
+
+**Feature**: {title}
+
+**Requisitos Técnicos**:
+{chr(10).join(f"- {req}" for req in technical_requirements)}
+
+**Arquitectura Propuesta**: {architecture[:500]}
+
+**Stack**: Django 4.2+, React 18+, MySQL/PostgreSQL
+
+Recomienda patrones de diseño considerando:
+1. Patrones arquitectónicos (Repository, Service Layer, etc.)
+2. Patrones de diseño apropiados (Strategy, Factory, Observer, etc.)
+3. Aplicabilidad específica al feature
+4. Justificación de cada patrón
+
+Responde en formato JSON:
+{{
+  "patterns": [
+    {{
+      "name": "nombre del patrón",
+      "rationale": "por qué es apropiado",
+      "applicability": "dónde aplicarlo"
+    }}
+  ]
+}}"""
+
+            llm_response = self.llm_generator._call_llm(prompt)
+            return self._parse_llm_patterns(llm_response)
+
+        except Exception as e:
+            self.logger.warning(f"LLM pattern recommendation failed: {e}, using fallback")
+            return {"patterns": []}
+
+    def _parse_llm_patterns(self, llm_response: str) -> Dict[str, Any]:
+        """Parse LLM response para extraer patrones de diseño recomendados."""
+        try:
+            # Try to extract JSON from response
+            json_match = re.search(r'\{[\s\S]*\}', llm_response)
+            if json_match:
+                result = json.loads(json_match.group(0))
+
+                # Validate and normalize
+                patterns = {
+                    "patterns": result.get("patterns", [])
+                }
+
+                # Ensure patterns is a list
+                if not isinstance(patterns["patterns"], list):
+                    patterns["patterns"] = []
+
+                # Validate each pattern has required fields
+                validated_patterns = []
+                for pattern in patterns["patterns"]:
+                    if isinstance(pattern, dict) and "name" in pattern:
+                        validated_pattern = {
+                            "name": pattern.get("name", "Unknown Pattern"),
+                            "rationale": pattern.get("rationale", ""),
+                            "applicability": pattern.get("applicability", "")
+                        }
+                        validated_patterns.append(validated_pattern)
+
+                patterns["patterns"] = validated_patterns
+                return patterns
+
+        except (json.JSONDecodeError, ValueError) as e:
+            self.logger.warning(f"Failed to parse LLM patterns as JSON: {e}")
+
+        # Fallback: parse as text
+        patterns = {"patterns": []}
+
+        # Extract patterns from text
+        lines = llm_response.split('\n')
+        current_pattern = None
+
+        for line in lines:
+            line = line.strip()
+
+            # Detect pattern names
+            if "pattern" in line.lower() and (":" in line or "-" in line):
+                if current_pattern:
+                    patterns["patterns"].append(current_pattern)
+
+                # Extract pattern name
+                pattern_name = line.split(':')[-1].split('-')[-1].strip()
+                current_pattern = {
+                    "name": pattern_name,
+                    "rationale": "",
+                    "applicability": ""
+                }
+            elif current_pattern:
+                # Add to rationale or applicability
+                if "rationale" in line.lower() or "justif" in line.lower():
+                    current_pattern["rationale"] = line
+                elif "applicability" in line.lower() or "aplicable" in line.lower():
+                    current_pattern["applicability"] = line
+
+        if current_pattern:
+            patterns["patterns"].append(current_pattern)
+
+        return patterns
+
     def _custom_guardrails(self, output_data: Dict[str, Any]) -> List[str]:
         """Guardrails especificos para Design phase."""
         errors = []
@@ -1074,7 +1367,7 @@ const featureSlice = createSlice({
 
         # Validar que se generaron diagramas
         if "diagrams" not in output_data or not output_data["diagrams"]:
-            errors.append("No se generaron diagramas")
+            errors.append("No se generaron diagrams (diagrams)")
 
         # Validar que HLD menciona restricciones IACT
         if "hld" in output_data:

@@ -41,7 +41,7 @@ def main():
             },
             "llm_generator": {
                 "llm_provider": "anthropic",
-                "model": "claude-3-5-sonnet-20241022",
+                "model": "claude-sonnet-4-5-20250929",
                 "temperature": 0.3,
                 # Contexto adicional para el LLM
                 "system_prompt": """

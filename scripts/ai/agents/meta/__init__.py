@@ -47,9 +47,19 @@ from .design_patterns_agent import (
 from .uml_validation_agent import (
     UMLDiagramValidationAgent,
     UMLValidationResult,
-    DiagramType,
     ValidationIssue
 )
+
+# UML Generation (implemented)
+from .uml_generator_agent import (
+    UMLGeneratorAgent,
+    UMLGenerationResult,
+    GENERATION_METHOD_LLM,
+    GENERATION_METHOD_HEURISTIC
+)
+
+# Import DiagramType from validation agent (shared)
+from .uml_validation_agent import DiagramType
 # Test Generation (implemented)
 from .test_generation_agent import (
     TestGenerationAgent,
@@ -88,6 +98,11 @@ __all__ = [
     'UMLValidationResult',
     'DiagramType',
     'ValidationIssue',
+    # UML Generation (implemented)
+    'UMLGeneratorAgent',
+    'UMLGenerationResult',
+    'GENERATION_METHOD_LLM',
+    'GENERATION_METHOD_HEURISTIC',
     # Test Generation (implemented)
     'TestGenerationAgent',
     'TestSuite',

@@ -370,5 +370,111 @@ class TestTestGenerationIntegration:
             assert 'test_type' in tc_dict
 
 
+# 10. LLM Integration Tests (TDD - RED Phase)
+class TestLLMIntegration:
+    """Test LLM integration for test generation."""
+
+    def test_initializes_with_llm_generator(self):
+        """Should initialize LLMGenerator when config provided."""
+        config = {
+            "llm_provider": "anthropic",
+            "model": "claude-sonnet-4-5-20250929"
+        }
+        agent = TestGenerationAgent(config=config)
+
+        # WILL FAIL: Agent doesn't accept config yet
+        assert hasattr(agent, 'llm_generator')
+        assert agent.llm_generator is not None
+
+    def test_uses_llm_for_test_generation(self, simple_function):
+        """Should use LLM to generate high-quality tests."""
+        config = {
+            "llm_provider": "anthropic",
+            "model": "claude-sonnet-4-5-20250929",
+            "use_llm": True
+        }
+        agent = TestGenerationAgent(config=config)
+
+        suite = agent.generate_tests(simple_function)
+
+        # WILL FAIL: Currently uses heuristics only
+        assert hasattr(suite, 'generation_method')
+        assert suite.generation_method == 'llm'
+
+    def test_generates_better_tests_with_llm(self, complex_function):
+        """LLM should generate higher quality tests than heuristics."""
+        config = {
+            "llm_provider": "anthropic",
+            "use_llm": True
+        }
+        agent_with_llm = TestGenerationAgent(config=config)
+        agent_without_llm = TestGenerationAgent(config={"use_llm": False})
+
+        suite_with_llm = agent_with_llm.generate_tests(complex_function)
+        suite_without_llm = agent_without_llm.generate_tests(complex_function)
+
+        # WILL FAIL: No quality comparison yet
+        avg_quality_llm = sum(tc.quality_score for tc in suite_with_llm.test_cases) / len(suite_with_llm.test_cases)
+        avg_quality_heuristic = sum(tc.quality_score for tc in suite_without_llm.test_cases) / len(suite_without_llm.test_cases)
+
+        assert avg_quality_llm > avg_quality_heuristic
+
+    def test_fallback_to_heuristics_when_llm_fails(self, simple_function):
+        """Should fallback to heuristics if LLM fails."""
+        config = {
+            "llm_provider": "anthropic",
+            "model": "invalid-model",  # This will fail
+            "use_llm": True
+        }
+        agent = TestGenerationAgent(config=config)
+
+        suite = agent.generate_tests(simple_function)
+
+        # WILL FAIL: No fallback mechanism yet
+        assert isinstance(suite, TestSuite)
+        assert len(suite.test_cases) > 0
+        assert suite.generation_method == 'heuristic'
+
+    def test_llm_generates_realistic_test_code(self, complex_function):
+        """LLM should generate realistic, executable test code."""
+        config = {
+            "llm_provider": "anthropic",
+            "use_llm": True
+        }
+        agent = TestGenerationAgent(config=config)
+
+        suite = agent.generate_tests(complex_function)
+
+        # WILL FAIL: Heuristic tests are templated
+        for test_case in suite.test_cases:
+            # LLM tests should have more realistic values
+            assert 'test_param_' not in test_case.code  # Heuristic uses test_param_N
+            assert 'invalid_input' not in test_case.code  # Heuristic uses generic names
+
+    def test_respects_api_key_validation(self):
+        """Should validate API key before using LLM."""
+        import os
+        # Temporarily remove API key
+        original_key = os.environ.get('ANTHROPIC_API_KEY')
+        if original_key:
+            del os.environ['ANTHROPIC_API_KEY']
+
+        config = {
+            "llm_provider": "anthropic",
+            "use_llm": True
+        }
+
+        try:
+            agent = TestGenerationAgent(config=config)
+            # WILL FAIL: Should raise error or fallback
+            assert hasattr(agent, 'llm_generator')
+            # Should either raise error or set use_llm=False
+            assert agent.config.get('use_llm') == False or agent.llm_generator is None
+        finally:
+            # Restore key
+            if original_key:
+                os.environ['ANTHROPIC_API_KEY'] = original_key
+
+
 if __name__ == "__main__":
     pytest.main([__file__, "-v"])

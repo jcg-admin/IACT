@@ -8,9 +8,15 @@ alucinaciones y errores mediante verificación sistemática.
 Basado en: "Chain-of-Verification Reduces Hallucination in Large Language Models" (Meta AI, 2023)
 """
 
+import sys
 from dataclasses import dataclass
+from pathlib import Path
 from typing import List, Dict, Optional, Tuple
 from enum import Enum
+
+# Add parent directories to path for imports
+sys.path.insert(0, str(Path(__file__).parent.parent.parent))
+from generators.llm_generator import LLMGenerator
 
 
 class VerificationStatus(Enum):
@@ -53,12 +59,30 @@ class ChainOfVerificationAgent:
     5. Calculate confidence score
     """
 
-    def __init__(self, verify_threshold: float = 0.7):
+    def __init__(
+        self,
+        verify_threshold: float = 0.7,
+        llm_provider: str = "anthropic",
+        model: str = "claude-sonnet-4-5-20250929",
+        use_llm: bool = True
+    ):
         """
         Args:
             verify_threshold: Umbral mínimo de confianza para aceptar respuesta
+            llm_provider: Proveedor de LLM (anthropic o openai)
+            model: Modelo a usar
+            use_llm: Si True, usa LLM; si False, usa heurísticas
         """
         self.verify_threshold = verify_threshold
+        self.use_llm = use_llm
+
+        if use_llm:
+            self.llm = LLMGenerator(config={
+                "llm_provider": llm_provider,
+                "model": model
+            })
+        else:
+            self.llm = None
 
     def verify_response(
         self,
@@ -225,9 +249,84 @@ class ChainOfVerificationAgent:
         question = verification_q['question']
         original_claim = verification_q['original_claim']
 
-        # En producción: llamar a LLM con context pero SIN original_response
-        # Esta versión simplificada aplica heurísticas de verificación
+        if self.use_llm and self.llm:
+            # Usar LLM para verificación
+            return self._answer_with_llm(question, original_claim, context)
+        else:
+            # Fallback a heurísticas
+            return self._answer_with_heuristics(question, original_claim, context)
 
+    def _answer_with_llm(
+        self,
+        question: str,
+        original_claim: str,
+        context: Optional[Dict]
+    ) -> Verification:
+        """Verifica usando LLM."""
+        # Construir prompt sin mostrar la respuesta original (evitar sesgo)
+        context_str = ""
+        if context:
+            context_str = f"Context: {str(context)}\n\n"
+
+        prompt = f"""You are a fact-checker verifying claims.
+
+{context_str}Verification Question: {question}
+
+Original Claim to verify: {original_claim}
+
+Analyze the claim and answer:
+1. Is the claim accurate?
+2. Is it complete?
+3. Are there any issues or missing aspects?
+
+Respond in JSON format:
+{{
+  "status": "verified" | "corrected" | "failed",
+  "answer": "Detailed analysis",
+  "issues": ["issue1", "issue2", ...],
+  "correction": "Corrected claim if needed (null if verified)"
+}}
+
+Response:"""
+
+        try:
+            response = self.llm._call_llm(prompt)
+
+            # Parsear JSON
+            import json
+            import re
+            json_match = re.search(r'\{.*\}', response, re.DOTALL)
+            if json_match:
+                data = json.loads(json_match.group(0))
+
+                status_map = {
+                    "verified": VerificationStatus.VERIFIED,
+                    "corrected": VerificationStatus.CORRECTED,
+                    "failed": VerificationStatus.FAILED,
+                    "uncertain": VerificationStatus.UNCERTAIN
+                }
+
+                return Verification(
+                    question=question,
+                    answer=data.get("answer", ""),
+                    status=status_map.get(data.get("status", "failed"), VerificationStatus.FAILED),
+                    original_claim=original_claim,
+                    correction=data.get("correction")
+                )
+
+        except Exception as e:
+            print(f"[CoVe] LLM verification failed: {e}, falling back to heuristics")
+
+        # Fallback
+        return self._answer_with_heuristics(question, original_claim, context)
+
+    def _answer_with_heuristics(
+        self,
+        question: str,
+        original_claim: str,
+        context: Optional[Dict]
+    ) -> Verification:
+        """Verifica usando heurísticas."""
         # Heurística 1: Verificar keywords críticos
         critical_keywords = self._check_critical_keywords(original_claim, context)
 
@@ -378,6 +477,63 @@ class ChainOfVerificationAgent:
 
         Strategy: Reconstruir respuesta con corrections aplicadas.
         """
+        corrections = [v for v in verifications if v.status == VerificationStatus.CORRECTED]
+
+        if self.use_llm and self.llm and corrections:
+            # Usar LLM para regenerar respuesta coherente con correcciones
+            return self._generate_final_with_llm(question, initial_response, verifications)
+        else:
+            # Fallback: simple replacement
+            return self._generate_final_with_replacement(initial_response, verifications)
+
+    def _generate_final_with_llm(
+        self,
+        question: str,
+        initial_response: str,
+        verifications: List[Verification]
+    ) -> str:
+        """Regenera respuesta final usando LLM."""
+        # Formatear verificaciones
+        verifications_text = ""
+        for i, v in enumerate(verifications, 1):
+            verifications_text += f"\n{i}. Claim: {v.original_claim}\n"
+            verifications_text += f"   Status: {v.status.value}\n"
+            if v.correction:
+                verifications_text += f"   Correction: {v.correction}\n"
+
+        prompt = f"""You are refining a response based on verification results.
+
+Original Question: {question}
+
+Initial Response:
+{initial_response}
+
+Verification Results:
+{verifications_text}
+
+Task: Generate a final, accurate response that:
+1. Incorporates all corrections
+2. Maintains a coherent narrative
+3. Removes or corrects any inaccurate claims
+4. Is clear and complete
+
+Generate only the final response, without meta-commentary.
+
+Final Response:"""
+
+        try:
+            final_response = self.llm._call_llm(prompt)
+            return final_response.strip()
+        except Exception as e:
+            print(f"[CoVe] LLM final response generation failed: {e}")
+            return self._generate_final_with_replacement(initial_response, verifications)
+
+    def _generate_final_with_replacement(
+        self,
+        initial_response: str,
+        verifications: List[Verification]
+    ) -> str:
+        """Genera respuesta final con simple replacement."""
         final_response = initial_response
 
         # Aplicar todas las correcciones

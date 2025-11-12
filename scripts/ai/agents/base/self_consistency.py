@@ -8,10 +8,22 @@ through multiple sampling and majority voting.
 Based on: "Self-Consistency Improves Chain of Thought Reasoning in Language Models" (Google Research, 2022)
 """
 
+import sys
+from pathlib import Path
 from dataclasses import dataclass, field
 from typing import List, Dict, Optional, Callable, Tuple
 from collections import Counter
 import re
+
+# Add parent paths for LLMGenerator import
+sys.path.insert(0, str(Path(__file__).parent.parent.parent))
+
+try:
+    from generators.llm_generator import LLMGenerator
+    LLM_AVAILABLE = True
+except ImportError:
+    LLM_AVAILABLE = False
+    LLMGenerator = None
 
 
 @dataclass
@@ -56,7 +68,10 @@ class SelfConsistencyAgent:
         num_samples: int = 10,
         temperature: float = 0.7,
         answer_extractor: Optional[Callable[[str], str]] = None,
-        min_confidence: float = 0.5
+        min_confidence: float = 0.5,
+        llm_provider: str = "anthropic",
+        model: str = "claude-sonnet-4-5-20250929",
+        use_llm: bool = True
     ):
         """
         Args:
@@ -64,16 +79,29 @@ class SelfConsistencyAgent:
             temperature: Sampling temperature for diversity (0.5-0.8 recommended)
             answer_extractor: Custom function to extract answers from responses
             min_confidence: Minimum confidence threshold to accept result
+            llm_provider: Proveedor LLM ('anthropic' o 'openai')
+            model: Modelo específico a usar
+            use_llm: Si True, usa LLM real; si False, requiere generator_fn
         """
         self.num_samples = num_samples
         self.temperature = temperature
         self.answer_extractor = answer_extractor or self._default_answer_extractor
         self.min_confidence = min_confidence
+        self.use_llm = use_llm and LLM_AVAILABLE
+
+        if self.use_llm:
+            llm_config = {
+                "llm_provider": llm_provider,
+                "model": model
+            }
+            self.llm = LLMGenerator(config=llm_config)
+        else:
+            self.llm = None
 
     def solve_with_consistency(
         self,
         prompt: str,
-        generator_fn: Callable[[str, float], str],
+        generator_fn: Optional[Callable[[str, float], str]] = None,
         context: Optional[Dict] = None
     ) -> SelfConsistencyResult:
         """
@@ -81,12 +109,20 @@ class SelfConsistencyAgent:
 
         Args:
             prompt: Problem prompt (should include Chain-of-Thought instruction)
-            generator_fn: Function that generates response given (prompt, temperature)
+            generator_fn: Optional function that generates response given (prompt, temperature).
+                         If None and use_llm=True, uses internal LLM.
             context: Optional context for answer extraction
 
         Returns:
             SelfConsistencyResult with final answer and metrics
         """
+        # Determine which generator to use
+        if generator_fn is None:
+            if self.use_llm and self.llm:
+                generator_fn = self._llm_generator_wrapper
+            else:
+                raise ValueError("No generator_fn provided and LLM not available. Pass generator_fn or enable use_llm.")
+
         print(f"[Self-Consistency] Generating {self.num_samples} reasoning paths...")
 
         # Step 1: Generate multiple reasoning chains
@@ -142,6 +178,22 @@ class SelfConsistencyAgent:
             print(f"[Self-Consistency] Vote distribution: {dict(vote_counts)}")
 
         return result
+
+    def _llm_generator_wrapper(self, prompt: str, temperature: float) -> str:
+        """Wrapper to make LLMGenerator compatible with generator_fn signature."""
+        if not self.llm:
+            raise RuntimeError("LLM not initialized")
+
+        # LLMGenerator's _call_llm accepts prompt but not temperature directly
+        # We'll rely on the temperature set in the config or pass it if supported
+        try:
+            # Try to call with temperature if the method supports it
+            response = self.llm._call_llm(prompt, temperature=temperature)
+        except TypeError:
+            # Fallback: call without temperature parameter
+            response = self.llm._call_llm(prompt)
+
+        return response
 
     def _default_answer_extractor(self, response: str) -> str:
         """

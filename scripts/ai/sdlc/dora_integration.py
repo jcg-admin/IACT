@@ -21,7 +21,7 @@ from functools import wraps
 from pathlib import Path
 from typing import Any, Callable, Dict, List, Optional, Tuple
 
-from .sdlc_base import SDLCAgent, SDLCPhaseResult
+from .base_agent import SDLCAgent, SDLCPhaseResult
 
 # Intentar importar DORA metrics
 try:

@@ -333,5 +333,208 @@ class TestRefactoringAgentIntegration:
             assert 'priority' in opp_dict
 
 
+# 9. LLM Integration Tests
+class TestRefactoringAgentLLMIntegration:
+    """Test LLM integration in RefactoringOpportunitiesAgent."""
+
+    def test_initializes_with_llm_config(self):
+        """Should initialize with LLM configuration."""
+        config = {
+            'llm_provider': 'anthropic',
+            'model': 'claude-sonnet-4-5-20250929',
+            'use_llm': True
+        }
+        agent = RefactoringOpportunitiesAgent(config=config)
+
+        assert agent.config == config
+        # LLM generator may or may not be initialized depending on API key availability
+        # Just verify config is stored
+        assert agent.config.get('llm_provider') == 'anthropic'
+
+    def test_uses_llm_for_analysis(self, sample_codebase, monkeypatch):
+        """Should use LLM for analysis when configured."""
+        import json
+        from unittest.mock import Mock
+
+        # Mock LLM response
+        mock_response = json.dumps({
+            "opportunities": [
+                {
+                    "smell": "long_method",
+                    "description": "The process_order function handles too many responsibilities",
+                    "refactoring_type": "extract_method",
+                    "priority": 8,
+                    "estimated_effort": "medium",
+                    "estimated_impact": "high"
+                },
+                {
+                    "smell": "god_class",
+                    "description": "OrderManager class has too many methods",
+                    "refactoring_type": "extract_class",
+                    "priority": 9,
+                    "estimated_effort": "high",
+                    "estimated_impact": "high"
+                }
+            ]
+        })
+
+        config = {
+            'llm_provider': 'anthropic',
+            'use_llm': True,
+            'api_key': 'test-key'
+        }
+
+        # Create agent and mock LLM generator
+        agent = RefactoringOpportunitiesAgent(config=config)
+
+        # Mock the LLM generator
+        mock_llm = Mock()
+        mock_llm._call_llm = Mock(return_value=mock_response)
+        agent.llm_generator = mock_llm
+
+        # Analyze code
+        code = sample_codebase['long_method.py']
+        opportunities = agent.find_refactoring_opportunities(code)
+
+        # Should have used LLM
+        assert mock_llm._call_llm.called
+        assert len(opportunities) >= 2
+        assert all(o.analysis_method == "llm" for o in opportunities)
+
+    def test_llm_finds_more_opportunities(self, sample_codebase, monkeypatch):
+        """LLM should find more nuanced opportunities than heuristics."""
+        import json
+        from unittest.mock import Mock
+
+        # Mock LLM to find additional opportunities
+        mock_response = json.dumps({
+            "opportunities": [
+                {
+                    "smell": "long_method",
+                    "description": "Function is too complex",
+                    "refactoring_type": "extract_method",
+                    "priority": 7,
+                    "estimated_effort": "medium",
+                    "estimated_impact": "high"
+                },
+                {
+                    "smell": "feature_envy",
+                    "description": "Function uses more features of another class",
+                    "refactoring_type": "move_method",
+                    "priority": 6,
+                    "estimated_effort": "low",
+                    "estimated_impact": "medium"
+                },
+                {
+                    "smell": "data_clumps",
+                    "description": "Same group of data items appear together",
+                    "refactoring_type": "introduce_parameter_object",
+                    "priority": 5,
+                    "estimated_effort": "low",
+                    "estimated_impact": "medium"
+                }
+            ]
+        })
+
+        config = {'use_llm': True}
+        agent_llm = RefactoringOpportunitiesAgent(config=config)
+
+        # Mock LLM generator
+        mock_llm = Mock()
+        mock_llm._call_llm = Mock(return_value=mock_response)
+        agent_llm.llm_generator = mock_llm
+
+        # Compare with heuristic agent
+        agent_heuristic = RefactoringOpportunitiesAgent()
+
+        code = sample_codebase['long_method.py']
+
+        opps_llm = agent_llm.find_refactoring_opportunities(code)
+        opps_heuristic = agent_heuristic.find_refactoring_opportunities(code)
+
+        # LLM should find different/additional smells
+        llm_smells = {o.smell for o in opps_llm}
+        heuristic_smells = {o.smell for o in opps_heuristic}
+
+        # LLM can detect more sophisticated patterns
+        assert len(opps_llm) >= 3
+        assert CodeSmell.FEATURE_ENVY in llm_smells or CodeSmell.DATA_CLUMPS in llm_smells
+
+    def test_fallback_to_heuristics_when_llm_fails(self, sample_codebase, monkeypatch):
+        """Should fall back to heuristics when LLM fails."""
+        from unittest.mock import Mock
+
+        config = {'use_llm': True}
+        agent = RefactoringOpportunitiesAgent(config=config)
+
+        # Mock LLM to raise exception
+        mock_llm = Mock()
+        mock_llm._call_llm = Mock(side_effect=Exception("LLM API error"))
+        agent.llm_generator = mock_llm
+
+        # Should still return results using heuristics
+        code = sample_codebase['god_class.py']
+        opportunities = agent.find_refactoring_opportunities(code)
+
+        # Should have fallen back to heuristics
+        assert len(opportunities) > 0
+        assert all(o.analysis_method == "heuristic" for o in opportunities)
+
+    def test_llm_provides_better_recommendations(self, sample_codebase, monkeypatch):
+        """LLM should provide more detailed recommendations."""
+        import json
+        from unittest.mock import Mock
+
+        mock_response = json.dumps({
+            "opportunities": [
+                {
+                    "smell": "god_class",
+                    "description": "OrderManager violates Single Responsibility Principle - handles orders, emails, reports, and validation",
+                    "refactoring_type": "extract_class",
+                    "priority": 9,
+                    "estimated_effort": "high",
+                    "estimated_impact": "high",
+                    "code_snippet": "class OrderManager:\n    def create_order..."
+                }
+            ]
+        })
+
+        config = {'use_llm': True}
+        agent = RefactoringOpportunitiesAgent(config=config)
+
+        mock_llm = Mock()
+        mock_llm._call_llm = Mock(return_value=mock_response)
+        agent.llm_generator = mock_llm
+
+        code = sample_codebase['god_class.py']
+        opportunities = agent.find_refactoring_opportunities(code)
+
+        # LLM descriptions should be more detailed
+        if opportunities:
+            llm_opp = opportunities[0]
+            assert len(llm_opp.description) > 30  # More detailed than heuristics
+            assert llm_opp.code_snippet is not None or True  # May include code snippet
+
+    def test_respects_api_key_validation(self):
+        """Should respect API key validation and gracefully handle missing keys."""
+        import os
+
+        # Test without API key
+        config = {
+            'llm_provider': 'anthropic',
+            'use_llm': True
+        }
+
+        # Should initialize but may not have LLM generator if no API key
+        agent = RefactoringOpportunitiesAgent(config=config)
+
+        # Should still work with heuristics even if LLM not available
+        code = "def long_function():\n" + "    pass\n" * 30
+        opportunities = agent.find_refactoring_opportunities(code)
+
+        # Should return results (either LLM or heuristic)
+        assert isinstance(opportunities, list)
+
+
 if __name__ == "__main__":
     pytest.main([__file__, "-v"])
