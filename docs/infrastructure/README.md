@@ -22,3 +22,4 @@ Cada carpeta ofrece un README inicial listo para documentar los artefactos corre
 
 ## Recursos destacados recientes
 - **CPython precompilado**: consulta el [pipeline y guía de DevContainer](cpython_precompilado/pipeline_devcontainer.md) para entender cómo se construye, publica y consume el intérprete optimizado.【F:docs/infrastructure/cpython_precompilado/pipeline_devcontainer.md†L1-L99】
+- **Scripts oficiales**: `build_cpython.sh`, `validate_build.sh` e `install_prebuilt_cpython.sh` viven en `infrastructure/cpython/scripts/` y cuentan con pruebas en `infrastructure/cpython/tests/`.

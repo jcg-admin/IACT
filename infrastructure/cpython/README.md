@@ -78,7 +78,7 @@ Tiempo de compilación: ~10-15 minutos (con PGO)
 
 **Opción A: Desde fuera de VM (recomendado)**:
 ```bash
-./infrastructure/cpython/scripts/validate-cpython.sh cpython-3.12.6-ubuntu20.04-build1.tgz
+./infrastructure/cpython/scripts/validate_build.sh cpython-3.12.6-ubuntu20.04-build1.tgz
 ```
 
 **Opción B: Dentro de VM**:
@@ -167,6 +167,24 @@ infrastructure/cpython/artifacts/
 **Exit codes**:
 - 0: Validación exitosa
 - 1: Validación falló
+
+#### install_prebuilt_cpython.sh
+
+**Propósito**: Instalar artefactos previamente generados en un prefijo determinado.
+
+**Sintaxis**:
+```bash
+VERSION=3.12.6 INSTALLPREFIX=/opt/python ./scripts/install_prebuilt_cpython.sh
+```
+
+**Opciones relevantes**:
+- `ARTIFACTURL` / `CHECKSUMURL`: permiten indicar rutas absolutas, relativas o URLs a los artefactos publicados.
+- `SKIPVALIDATION=true`: omite la verificación cuando se necesita únicamente preparar un entorno temporal.
+
+**Características**:
+- Resuelve rutas relativas con base en `PROJECT_ROOT` para evitar errores cuando se ejecuta desde la VM o desde el host.
+- Reutiliza utilidades compartidas (`logger.sh`, `validator.sh`, `filesystem.sh`) para asegurar idempotencia.
+- Genera mensajes de estado consistentes con el resto del builder.
 
 #### cleanup.sh
 
