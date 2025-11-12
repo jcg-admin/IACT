@@ -23,25 +23,24 @@ Benchmarks completos del sistema IACT incluyendo Cassandra, MySQL, API endpoints
 - Comparar tecnologias (Cassandra vs PostgreSQL, MySQL vs PostgreSQL)
 - Generar recomendaciones de tuning
 
-
 ## Técnicas de Prompt Engineering para Agente
 
 Las siguientes técnicas deben aplicarse al ejecutar esta tarea con un agente:
 
 1. **Task Decomposition** (structuring_techniques.py)
-   - Dividir el diseno arquitectonico en componentes manejables
+ - Dividir el diseno arquitectonico en componentes manejables
 
 2. **Code Generation** (fundamental_techniques.py)
-   - Generar implementaciones base para componentes arquitectonicos
+ - Generar implementaciones base para componentes arquitectonicos
 
 3. **Expert Prompting** (specialized_techniques.py)
-   - Aplicar conocimiento experto de arquitectura Django y patrones de diseno
+ - Aplicar conocimiento experto de arquitectura Django y patrones de diseno
 
 4. **Constitutional AI** (optimization_techniques.py)
-   - Validar que el diseno cumpla con restricciones y mejores practicas
+ - Validar que el diseno cumpla con restricciones y mejores practicas
 
 5. **Meta-prompting** (structuring_techniques.py)
-   - Generar prompts especializados para cada componente del sistema
+ - Generar prompts especializados para cada componente del sistema
 
 Agente recomendado: SDLCDesignAgent o FeatureAgent
 ## Story Points
@@ -82,19 +81,19 @@ Agente recomendado: SDLCDesignAgent o FeatureAgent
 
 | Batch Size | Throughput (writes/s) | p50 Latency | p95 Latency | p99 Latency |
 |------------|---------------------|-------------|-------------|-------------|
-| 100        | 125,000             | 2ms         | 8ms         | 15ms        |
-| 500        | 180,000             | 5ms         | 12ms        | 22ms        |
-| 1000       | 215,000             | 8ms         | 18ms        | 35ms        |
+| 100 | 125,000 | 2ms | 8ms | 15ms |
+| 500 | 180,000 | 5ms | 12ms | 22ms |
+| 1000 | 215,000 | 8ms | 18ms | 35ms |
 
 **Consistency Level Impact:**
 
 | Consistency | Throughput | Latency p95 |
 |-------------|-----------|-------------|
-| ONE         | 220,000   | 15ms        |
-| QUORUM      | 185,000   | 28ms        |
-| ALL         | 145,000   | 45ms        |
+| ONE | 220,000 | 15ms |
+| QUORUM | 185,000 | 28ms |
+| ALL | 145,000 | 45ms |
 
-**Conclusion:** ✓ PASS - Exceeds 100K writes/s target
+**Conclusion:** [x] PASS - Exceeds 100K writes/s target
 
 **Recomendaciones:**
 - Usar batch size 500-1000 para mejor throughput
@@ -106,54 +105,54 @@ Agente recomendado: SDLCDesignAgent o FeatureAgent
 **Top 10 Queries Benchmarked:**
 
 1. **Query 1: Select by phase**
-   ```sql
-   SELECT * FROM dora_metrics WHERE phase_name=?
-   ```
-   - Avg: 5ms, p95: 12ms, p99: 25ms
-   - Index used: idx_phase_name
+ ```sql
+ SELECT * FROM dora_metrics WHERE phase_name=?
+ ```
+ - Avg: 5ms, p95: 12ms, p99: 25ms
+ - Index used: idx_phase_name
 
 2. **Query 2: Count recent metrics**
-   ```sql
-   SELECT COUNT(*) FROM dora_metrics WHERE created_at > ?
-   ```
-   - Avg: 15ms, p95: 35ms, p99: 68ms
-   - Index used: idx_created_at
+ ```sql
+ SELECT COUNT(*) FROM dora_metrics WHERE created_at > ?
+ ```
+ - Avg: 15ms, p95: 35ms, p99: 68ms
+ - Index used: idx_created_at
 
 3. **Query 3: Average duration**
-   ```sql
-   SELECT AVG(duration_seconds) FROM dora_metrics
-   WHERE phase_name=? AND created_at > ?
-   ```
-   - Avg: 8ms, p95: 20ms, p99: 42ms
-   - Indexes used: idx_phase_name, idx_created_at
+ ```sql
+ SELECT AVG(duration_seconds) FROM dora_metrics
+ WHERE phase_name=? AND created_at > ?
+ ```
+ - Avg: 8ms, p95: 20ms, p99: 42ms
+ - Indexes used: idx_phase_name, idx_created_at
 
 4. **Query 4: Join deployments with tests**
-   ```sql
-   SELECT d.*, t.* FROM dora_metrics d
-   JOIN dora_metrics t ON d.cycle_id = t.cycle_id
-   WHERE d.phase_name='deployment' AND t.phase_name='testing'
-   ```
-   - Avg: 45ms, p95: 85ms, p99: 150ms
-   - Indexes used: idx_cycle_id, idx_phase_name
+ ```sql
+ SELECT d.*, t.* FROM dora_metrics d
+ JOIN dora_metrics t ON d.cycle_id = t.cycle_id
+ WHERE d.phase_name='deployment' AND t.phase_name='testing'
+ ```
+ - Avg: 45ms, p95: 85ms, p99: 150ms
+ - Indexes used: idx_cycle_id, idx_phase_name
 
 5. **Query 5: Complex aggregation**
-   ```sql
-   SELECT phase_name, AVG(duration_seconds), COUNT(*)
-   FROM dora_metrics
-   WHERE created_at > DATE_SUB(NOW(), INTERVAL 30 DAY)
-   GROUP BY phase_name
-   ```
-   - Avg: 120ms, p95: 250ms, p99: 450ms
-   - Full table scan with group by
+ ```sql
+ SELECT phase_name, AVG(duration_seconds), COUNT(*)
+ FROM dora_metrics
+ WHERE created_at > DATE_SUB(NOW(), INTERVAL 30 DAY)
+ GROUP BY phase_name
+ ```
+ - Avg: 120ms, p95: 250ms, p99: 450ms
+ - Full table scan with group by
 
 **Index Effectiveness:**
 
-| Index             | Query Coverage | Cardinality | Size    |
+| Index | Query Coverage | Cardinality | Size |
 |-------------------|----------------|-------------|---------|
-| idx_phase_name    | 95%            | 4           | 2.5 MB  |
-| idx_created_at    | 88%            | High        | 15 MB   |
-| idx_cycle_id      | 100%           | Very High   | 18 MB   |
-| idx_feature_id    | 65%            | High        | 12 MB   |
+| idx_phase_name | 95% | 4 | 2.5 MB |
+| idx_created_at | 88% | High | 15 MB |
+| idx_cycle_id | 100% | Very High | 18 MB |
+| idx_feature_id | 65% | High | 12 MB |
 
 **Connection Pool Performance:**
 - Pool size: 20 connections
@@ -166,7 +165,7 @@ Agente recomendado: SDLCDesignAgent o FeatureAgent
 - Complex transactions: 1,200 tx/second
 - Deadlock rate: 0.01%
 
-**Conclusion:** ✓ PASS - All queries under 1 second p95
+**Conclusion:** [x] PASS - All queries under 1 second p95
 
 **Recomendaciones:**
 - Add composite index (phase_name, created_at) for Query 3
@@ -197,18 +196,18 @@ Agente recomendado: SDLCDesignAgent o FeatureAgent
 
 | Concurrent Users | Throughput (req/s) | Response Time p95 | Error Rate |
 |------------------|-------------------|-------------------|------------|
-| 10               | 800               | 120ms             | 0%         |
-| 50               | 2,200             | 220ms             | 0.01%      |
-| 100              | 2,500             | 380ms             | 0.05%      |
-| 500              | 2,300             | 850ms             | 2.5%       |
-| 1000             | 1,800             | 1,500ms           | 8%         |
+| 10 | 800 | 120ms | 0% |
+| 50 | 2,200 | 220ms | 0.01% |
+| 100 | 2,500 | 380ms | 0.05% |
+| 500 | 2,300 | 850ms | 2.5% |
+| 1000 | 1,800 | 1,500ms | 8% |
 
 **Rate Limiting Behavior:**
 - Burst limit: 100 req/min - Working correctly
 - Sustained limit: 1000 req/hour - Working correctly
 - 429 responses served in <5ms
 
-**Conclusion:** ✓ PASS - p95 under 500ms for critical endpoints
+**Conclusion:** [x] PASS - p95 under 500ms for critical endpoints
 
 **Recomendaciones:**
 - Implement caching for GET /api/dora/dashboard/ (5 min TTL)
@@ -233,7 +232,7 @@ Steps:
 - Success rate: 99.5%
 - Failure scenarios: timeout (0.3%), validation error (0.2%)
 
-**Conclusion:** ✓ PASS - E2E under 5 seconds
+**Conclusion:** [x] PASS - E2E under 5 seconds
 
 ## Comparativas Tecnologicas
 
@@ -284,8 +283,8 @@ Steps:
 **Compaction Strategy:**
 ```yaml
 compaction:
-  class: LeveledCompactionStrategy
-  sstable_size_in_mb: 160
+ class: LeveledCompactionStrategy
+ sstable_size_in_mb: 160
 ```
 
 **Memtable Settings:**
@@ -332,24 +331,24 @@ table_open_cache = 4000
 **Database Connection Pool:**
 ```python
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'CONN_MAX_AGE': 600,  # 10 minutes
-        'OPTIONS': {
-            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
-            'charset': 'utf8mb4',
-        },
-    }
+ 'default': {
+ 'ENGINE': 'django.db.backends.mysql',
+ 'CONN_MAX_AGE': 600, # 10 minutes
+ 'OPTIONS': {
+ 'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+ 'charset': 'utf8mb4',
+ },
+ }
 }
 ```
 
 **Middleware Optimization:**
 ```python
 MIDDLEWARE = [
-    'django.middleware.cache.UpdateCacheMiddleware',
-    'django.middleware.gzip.GZipMiddleware',
-    # ... other middleware
-    'django.middleware.cache.FetchFromCacheMiddleware',
+ 'django.middleware.cache.UpdateCacheMiddleware',
+ 'django.middleware.gzip.GZipMiddleware',
+ # ... other middleware
+ 'django.middleware.cache.FetchFromCacheMiddleware',
 ]
 ```
 
@@ -381,14 +380,14 @@ MIDDLEWARE = [
 
 ## Performance Targets vs Actual
 
-| Metric                    | Target      | Actual      | Status |
+| Metric | Target | Actual | Status |
 |---------------------------|-------------|-------------|--------|
-| Cassandra writes/s        | >100K       | 215K        | ✓ PASS |
-| MySQL query p95           | <1s         | 250ms       | ✓ PASS |
-| API response p95          | <500ms      | 380ms       | ✓ PASS |
-| E2E scenario              | <5s         | 3.8s        | ✓ PASS |
-| Concurrent users (100)    | >2K req/s   | 2.5K req/s  | ✓ PASS |
-| Error rate (<100 users)   | <1%         | 0.05%       | ✓ PASS |
+| Cassandra writes/s | >100K | 215K | [x] PASS |
+| MySQL query p95 | <1s | 250ms | [x] PASS |
+| API response p95 | <500ms | 380ms | [x] PASS |
+| E2E scenario | <5s | 3.8s | [x] PASS |
+| Concurrent users (100) | >2K req/s | 2.5K req/s | [x] PASS |
+| Error rate (<100 users) | <1% | 0.05% | [x] PASS |
 
 **Overall: PASS (all targets met)**
 
@@ -397,22 +396,22 @@ MIDDLEWARE = [
 ### Performance Metrics to Monitor
 
 1. **Database Performance:**
-   - Query execution time (p50, p95, p99)
-   - Connection pool utilization
-   - Slow query count
-   - Deadlock rate
+ - Query execution time (p50, p95, p99)
+ - Connection pool utilization
+ - Slow query count
+ - Deadlock rate
 
 2. **API Performance:**
-   - Response time percentiles
-   - Throughput (req/s)
-   - Error rate
-   - Rate limit hits
+ - Response time percentiles
+ - Throughput (req/s)
+ - Error rate
+ - Rate limit hits
 
 3. **Resource Utilization:**
-   - CPU usage
-   - Memory usage
-   - Disk I/O
-   - Network bandwidth
+ - CPU usage
+ - Memory usage
+ - Disk I/O
+ - Network bandwidth
 
 ### Performance Alerts
 
@@ -466,25 +465,25 @@ El sistema IACT cumple todos los targets de performance establecidos. Cassandra 
 ```
 ******************** Stress Settings ********************
 Command:
-  Type: write
-  Count: 10,000,000
-  No Warmup: false
-  Consistency Level: QUORUM
-  Target Throughput: unlimited
-  Key Size (bytes): 10
-  Column Count: 10
+ Type: write
+ Count: 10,000,000
+ No Warmup: false
+ Consistency Level: QUORUM
+ Target Throughput: unlimited
+ Key Size (bytes): 10
+ Column Count: 10
 
 Results:
-  Thread Count: 256
-  Op rate: 185,432 op/s
-  Partition rate: 185,432 pk/s
-  Row rate: 185,432 row/s
-  Latency mean: 1.4 ms
-  Latency median: 1.1 ms
-  Latency 95th percentile: 2.8 ms
-  Latency 99th percentile: 6.2 ms
-  Latency 99.9th percentile: 18.4 ms
-  Total operation time: 00:00:53
+ Thread Count: 256
+ Op rate: 185,432 op/s
+ Partition rate: 185,432 pk/s
+ Row rate: 185,432 row/s
+ Latency mean: 1.4 ms
+ Latency median: 1.1 ms
+ Latency 95th percentile: 2.8 ms
+ Latency 99th percentile: 6.2 ms
+ Latency 99.9th percentile: 18.4 ms
+ Total operation time: 00:00:53
 ```
 
 ### MySQL sysbench Results
@@ -493,21 +492,21 @@ Results:
 sysbench oltp_read_write --mysql-db=iact --table-size=1000000 run
 
 SQL statistics:
-    queries performed:
-        read: 140000
-        write: 40000
-        other: 20000
-        total: 200000
-    transactions: 10000 (5000.00 per sec.)
-    queries: 200000 (100000.00 per sec.)
-    ignored errors: 0 (0.00 per sec.)
-    reconnects: 0 (0.00 per sec.)
+ queries performed:
+ read: 140000
+ write: 40000
+ other: 20000
+ total: 200000
+ transactions: 10000 (5000.00 per sec.)
+ queries: 200000 (100000.00 per sec.)
+ ignored errors: 0 (0.00 per sec.)
+ reconnects: 0 (0.00 per sec.)
 
 Latency:
-    min: 1.23ms
-    avg: 4.51ms
-    max: 128.45ms
-    95th percentile: 12.08ms
+ min: 1.23ms
+ avg: 4.51ms
+ max: 128.45ms
+ 95th percentile: 12.08ms
 ```
 
 ### API Load Test (wrk output)
@@ -516,11 +515,11 @@ Latency:
 wrk -t12 -c100 -d30s http://localhost:8000/api/dora/metrics/
 
 Running 30s test @ http://localhost:8000/api/dora/metrics/
-  12 threads and 100 connections
-  Thread Stats   Avg      Stdev     Max   +/- Stdev
-    Latency    85.23ms   42.15ms   450.32ms   78.42%
-    Req/Sec   212.45     58.23     380.00     68.25%
-  75432 requests in 30.02s, 45.28MB read
+ 12 threads and 100 connections
+ Thread Stats Avg Stdev Max +/- Stdev
+ Latency 85.23ms 42.15ms 450.32ms 78.42%
+ Req/Sec 212.45 58.23 380.00 68.25%
+ 75432 requests in 30.02s, 45.28MB read
 Requests/sec: 2513.24
 Transfer/sec: 1.51MB
 ```
@@ -529,14 +528,14 @@ Transfer/sec: 1.51MB
 
 ### Infrastructure Costs (Monthly)
 
-| Component         | Instances | Specs        | Cost/Month | Total  |
+| Component | Instances | Specs | Cost/Month | Total |
 |-------------------|-----------|--------------|------------|--------|
-| Cassandra Cluster | 3         | 8CPU, 32GB   | $250       | $750   |
-| MySQL Master      | 1         | 4CPU, 16GB   | $150       | $150   |
-| MySQL Slave       | 1         | 4CPU, 16GB   | $150       | $150   |
-| Django App Server | 3         | 2CPU, 8GB    | $80        | $240   |
-| Load Balancer     | 1         | 2CPU, 4GB    | $60        | $60    |
-| **Total**         | **9**     | -            | -          | **$1,350** |
+| Cassandra Cluster | 3 | 8CPU, 32GB | $250 | $750 |
+| MySQL Master | 1 | 4CPU, 16GB | $150 | $150 |
+| MySQL Slave | 1 | 4CPU, 16GB | $150 | $150 |
+| Django App Server | 3 | 2CPU, 8GB | $80 | $240 |
+| Load Balancer | 1 | 2CPU, 4GB | $60 | $60 |
+| **Total** | **9** | - | - | **$1,350** |
 
 ### Performance per Dollar
 

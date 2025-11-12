@@ -24,25 +24,24 @@ Plan completo de Disaster Recovery (DR) con scripts automaticos para backup y re
 - Restore tested y validado
 - Runbooks completos para recovery
 
-
 ## Técnicas de Prompt Engineering para Agente
 
 Las siguientes técnicas deben aplicarse al ejecutar esta tarea con un agente:
 
 1. **Tool-use Prompting** (knowledge_techniques.py)
-   - Ejecutar comandos shell, cron jobs y scripts de automatizacion
+ - Ejecutar comandos shell, cron jobs y scripts de automatizacion
 
 2. **ReAct** (knowledge_techniques.py)
-   - Razonar sobre el estado del sistema, actuar con comandos, reflexionar sobre resultados
+ - Razonar sobre el estado del sistema, actuar con comandos, reflexionar sobre resultados
 
 3. **Simulation** (specialized_techniques.py)
-   - Simular escenarios de operacion para validar configuraciones
+ - Simular escenarios de operacion para validar configuraciones
 
 4. **Task Decomposition** (structuring_techniques.py)
-   - Dividir tareas operacionales en pasos ejecutables
+ - Dividir tareas operacionales en pasos ejecutables
 
 5. **Expert Prompting** (specialized_techniques.py)
-   - Aplicar conocimiento experto de DevOps y operaciones
+ - Aplicar conocimiento experto de DevOps y operaciones
 
 Agente recomendado: PDCAAutomationAgent o SDLCPlannerAgent
 ## Story Points
@@ -106,12 +105,12 @@ Agente recomendado: PDCAAutomationAgent o SDLCPlannerAgent
 
 ### Targets by Criticality
 
-| System Component      | Criticality | RTO      | RPO      |
+| System Component | Criticality | RTO | RPO |
 |-----------------------|-------------|----------|----------|
-| MySQL (DORA metrics)  | High        | 2 hours  | 1 hour   |
-| Cassandra (Logs)      | Medium      | 4 hours  | 6 hours  |
-| Django Application    | High        | 30 min   | 0        |
-| Static Files          | Low         | 24 hours | 24 hours |
+| MySQL (DORA metrics) | High | 2 hours | 1 hour |
+| Cassandra (Logs) | Medium | 4 hours | 6 hours |
+| Django Application | High | 30 min | 0 |
+| Static Files | Low | 24 hours | 24 hours |
 
 ## Backup Procedures
 
@@ -146,7 +145,7 @@ MySQL backup successful
 ```bash
 # Test backup can be decrypted and decompressed
 openssl enc -d -aes-256-cbc -k "$PASSWORD" \
-    -in backup.sql.gz.enc | gunzip | head -100
+ -in backup.sql.gz.enc | gunzip | head -100
 ```
 
 ### MySQL Incremental Backup
@@ -210,7 +209,7 @@ Cassandra backup successful
 **Command:**
 ```bash
 ./scripts/disaster_recovery/restore_mysql.sh \
-    /backups/mysql_backup_20251107_020000.sql.gz.enc
+ /backups/mysql_backup_20251107_020000.sql.gz.enc
 ```
 
 **Estimated Time:** 1 hour (for 10GB database)
@@ -243,8 +242,8 @@ CHECK TABLE dora_metrics;
 
 # Apply binary logs
 mysqlbinlog --start-datetime="2025-11-07 02:00:00" \
-            --stop-datetime="2025-11-07 14:30:00" \
-            mysql-bin.000001 mysql-bin.000002 | mysql
+ --stop-datetime="2025-11-07 14:30:00" \
+ mysql-bin.000001 mysql-bin.000002 | mysql
 ```
 
 ### Cassandra Restore
@@ -304,22 +303,22 @@ nodetool repair
 Disaster Recovery Test
 =========================================
 1. Creating test backup...
-✓ Backups created
+[x] Backups created
 
 2. Simulating disaster (database corruption)...
-✓ Disaster simulated
+[x] Disaster simulated
 
 3. Initiating recovery...
-   - Stopping services
-   - Restoring MySQL
-   - Restoring Cassandra
-✓ Recovery completed
+ - Stopping services
+ - Restoring MySQL
+ - Restoring Cassandra
+[x] Recovery completed
 
 4. Validating data integrity...
-   - MySQL checksums: OK
-   - Cassandra consistency: OK
-   - Application health: OK
-✓ Data integrity validated
+ - MySQL checksums: OK
+ - Cassandra consistency: OK
+ - Application health: OK
+[x] Data integrity validated
 
 =========================================
 DR Test Results
@@ -334,11 +333,11 @@ Status: PASS
 
 ### Test Results Tracking
 
-| Test Date  | Scenario       | RTO Actual | RPO Actual | Status | Notes                    |
+| Test Date | Scenario | RTO Actual | RPO Actual | Status | Notes |
 |------------|----------------|------------|------------|--------|--------------------------|
-| 2025-11-07 | Full Restore   | 2.1 hours  | 0.5 hours  | PASS   | All systems operational  |
-| 2025-10-15 | MySQL Only     | 1.2 hours  | 1.0 hours  | PASS   | Minor schema issue fixed |
-| 2025-09-20 | Cassandra Only | 2.5 hours  | 2.0 hours  | PASS   | Slower than expected     |
+| 2025-11-07 | Full Restore | 2.1 hours | 0.5 hours | PASS | All systems operational |
+| 2025-10-15 | MySQL Only | 1.2 hours | 1.0 hours | PASS | Minor schema issue fixed |
+| 2025-09-20 | Cassandra Only | 2.5 hours | 2.0 hours | PASS | Slower than expected |
 
 ## Runbooks
 
@@ -355,32 +354,32 @@ Status: PASS
 
 **Recovery Steps:**
 1. **If service restart fails:**
-   ```bash
-   systemctl status mysql
-   tail -100 /var/log/mysql/error.log
-   ```
+ ```bash
+ systemctl status mysql
+ tail -100 /var/log/mysql/error.log
+ ```
 
 2. **If database corruption detected:**
-   ```bash
-   # Stop service
-   systemctl stop mysql
-   
-   # Restore from backup
-   ./scripts/disaster_recovery/restore_mysql.sh latest
-   
-   # Start service
-   systemctl start mysql
-   ```
+ ```bash
+ # Stop service
+ systemctl stop mysql
+ 
+ # Restore from backup
+ ./scripts/disaster_recovery/restore_mysql.sh latest
+ 
+ # Start service
+ systemctl start mysql
+ ```
 
 3. **Verify recovery:**
-   ```bash
-   mysql -e "SELECT COUNT(*) FROM dora_metrics;"
-   ```
+ ```bash
+ mysql -e "SELECT COUNT(*) FROM dora_metrics;"
+ ```
 
 4. **Test application:**
-   ```bash
-   curl http://localhost:8000/api/dora/metrics/
-   ```
+ ```bash
+ curl http://localhost:8000/api/dora/metrics/
+ ```
 
 **Escalation:**
 - If recovery fails after 30 min: Page senior DBA
@@ -404,41 +403,41 @@ Status: PASS
 
 **Recovery Steps:**
 1. **Provision DR infrastructure** (1 hour)
-   - Spin up servers in DR datacenter
-   - Configure network
-   - Install software
+ - Spin up servers in DR datacenter
+ - Configure network
+ - Install software
 
 2. **Restore MySQL** (1 hour)
-   ```bash
-   # Download latest backup
-   aws s3 cp s3://backups/mysql/latest/ . --recursive
-   
-   # Restore
-   ./restore_mysql.sh mysql_backup_latest.sql.gz.enc
-   ```
+ ```bash
+ # Download latest backup
+ aws s3 cp s3://backups/mysql/latest/ . --recursive
+ 
+ # Restore
+ ./restore_mysql.sh mysql_backup_latest.sql.gz.enc
+ ```
 
 3. **Restore Cassandra** (2 hours)
-   ```bash
-   # Download snapshots
-   aws s3 sync s3://backups/cassandra/latest/ /tmp/restore/
-   
-   # Restore cluster
-   # (3-node cluster restore procedure)
-   ```
+ ```bash
+ # Download snapshots
+ aws s3 sync s3://backups/cassandra/latest/ /tmp/restore/
+ 
+ # Restore cluster
+ # (3-node cluster restore procedure)
+ ```
 
 4. **Deploy application** (30 minutes)
-   ```bash
-   # Deploy Django app
-   # Configure load balancer
-   # Update DNS
-   ```
+ ```bash
+ # Deploy Django app
+ # Configure load balancer
+ # Update DNS
+ ```
 
 5. **Validate and cutover** (30 minutes)
-   ```bash
-   # Run smoke tests
-   # Verify all endpoints
-   # Update DNS to DR site
-   ```
+ ```bash
+ # Run smoke tests
+ # Verify all endpoints
+ # Update DNS to DR site
+ ```
 
 **Total Estimated Time:** 5 hours
 **Target RTO:** 4 hours
@@ -502,12 +501,12 @@ Status: PASS
 
 ## Escalation Matrix
 
-| Incident Severity | First Contact       | Escalate After | Second Contact    |
+| Incident Severity | First Contact | Escalate After | Second Contact |
 |-------------------|---------------------|----------------|-------------------|
-| P0 (Critical)     | On-call Engineer    | 15 minutes     | Senior DBA        |
-| P1 (High)         | On-call Engineer    | 30 minutes     | Team Lead         |
-| P2 (Medium)       | Support Team        | 1 hour         | On-call Engineer  |
-| P3 (Low)          | Support Team        | 4 hours        | Team Lead         |
+| P0 (Critical) | On-call Engineer | 15 minutes | Senior DBA |
+| P1 (High) | On-call Engineer | 30 minutes | Team Lead |
+| P2 (Medium) | Support Team | 1 hour | On-call Engineer |
+| P3 (Low) | Support Team | 4 hours | Team Lead |
 
 ### Contact Information
 
@@ -542,11 +541,11 @@ Status: PASS
 - Decision time: 5 minutes
 - Recovery time: 2.1 hours
 - Validation time: 15 minutes
-- **Total RTO: 2 hours 22 minutes** ✓ PASS (<4 hours)
+- **Total RTO: 2 hours 22 minutes** [x] PASS (<4 hours)
 
 **Data Loss:**
 - Last backup: 30 minutes before failure
-- **RPO: 30 minutes** ✓ PASS (<1 hour)
+- **RPO: 30 minutes** [x] PASS (<1 hour)
 
 **Issues Found:**
 - DNS TTL too high (reduced from 300s to 60s)
@@ -596,79 +595,79 @@ El plan de DR cumple todos los targets establecidos (RTO <4 horas, RPO <1 hora).
 ┌──────────────┐
 │ MySQL Master │
 └──────┬───────┘
-       │ mysqldump
-       ▼
-┌──────────────┐    gzip     ┌─────────┐
-│ SQL Dump     │────────────>│Compressed│
-└──────────────┘             └────┬─────┘
-                                   │ encrypt
-                                   ▼
-                             ┌──────────┐    S3 upload    ┌────────┐
-                             │ Encrypted│───────────────>│ S3     │
-                             │ Backup   │                 │Backup  │
-                             └──────────┘                 └────────┘
+ │ mysqldump
+ =>
+┌──────────────┐ gzip ┌─────────┐
+│ SQL Dump │────────────>│Compressed│
+└──────────────┘ └────┬─────┘
+ │ encrypt
+ =>
+ ┌──────────┐ S3 upload ┌────────┐
+ │ Encrypted│───────────────>│ S3 │
+ │ Backup │ │Backup │
+ └──────────┘ └────────┘
 ```
 
 ### Cassandra Backup Flow
 
 ```
 ┌──────────────┐
-│ Cassandra    │
+│ Cassandra │
 │ Node 1, 2, 3 │
 └──────┬───────┘
-       │ nodetool snapshot
-       ▼
-┌──────────────┐    tar+gzip  ┌─────────┐
-│ Snapshots    │────────────>│Compressed│
-└──────────────┘             └────┬─────┘
-                                   │ S3 sync
-                                   ▼
-                             ┌──────────┐
-                             │ S3 Backup│
-                             └──────────┘
+ │ nodetool snapshot
+ =>
+┌──────────────┐ tar+gzip ┌─────────┐
+│ Snapshots │────────────>│Compressed│
+└──────────────┘ └────┬─────┘
+ │ S3 sync
+ =>
+ ┌──────────┐
+ │ S3 Backup│
+ └──────────┘
 ```
 
 ## Recovery Time Breakdown
 
 ### MySQL Recovery Time Components
 
-| Step                      | Time      | Notes                                |
+| Step | Time | Notes |
 |---------------------------|-----------|--------------------------------------|
-| Detection                 | 2 min     | Monitoring alerts                    |
-| Assessment                | 5 min     | Determine failure type               |
-| Decision to restore       | 3 min     | Management approval                  |
-| Download backup from S3   | 15 min    | 10GB @ 10MB/s                       |
-| Decrypt & decompress      | 10 min    | CPU-intensive                        |
-| Import SQL dump           | 45 min    | Database writes                      |
-| Index rebuild             | 15 min    | Automatic during import              |
-| Verification              | 10 min    | Data integrity checks                |
-| Application restart       | 2 min     | Service restart                      |
-| **Total**                 | **107 min** | **1.8 hours** ✓ Under 2h target  |
+| Detection | 2 min | Monitoring alerts |
+| Assessment | 5 min | Determine failure type |
+| Decision to restore | 3 min | Management approval |
+| Download backup from S3 | 15 min | 10GB @ 10MB/s |
+| Decrypt & decompress | 10 min | CPU-intensive |
+| Import SQL dump | 45 min | Database writes |
+| Index rebuild | 15 min | Automatic during import |
+| Verification | 10 min | Data integrity checks |
+| Application restart | 2 min | Service restart |
+| **Total** | **107 min** | **1.8 hours** [x] Under 2h target |
 
 ### Cassandra Recovery Time Components
 
-| Step                      | Time      | Notes                                |
+| Step | Time | Notes |
 |---------------------------|-----------|--------------------------------------|
-| Detection                 | 2 min     | Monitoring alerts                    |
-| Assessment                | 5 min     | Determine failure scope              |
-| Download snapshots        | 30 min    | 100GB @ 50MB/s                      |
-| Stop cluster              | 2 min     | Graceful shutdown                    |
-| Clear existing data       | 5 min     | rm -rf                              |
-| Extract snapshots         | 20 min    | tar extraction                       |
-| Start cluster             | 10 min    | Bootstrap time                       |
-| Nodetool repair           | 60 min    | Data consistency                     |
-| Verification              | 10 min    | Consistency checks                   |
-| **Total**                 | **144 min** | **2.4 hours** ✓ Under 4h target  |
+| Detection | 2 min | Monitoring alerts |
+| Assessment | 5 min | Determine failure scope |
+| Download snapshots | 30 min | 100GB @ 50MB/s |
+| Stop cluster | 2 min | Graceful shutdown |
+| Clear existing data | 5 min | rm -rf |
+| Extract snapshots | 20 min | tar extraction |
+| Start cluster | 10 min | Bootstrap time |
+| Nodetool repair | 60 min | Data consistency |
+| Verification | 10 min | Consistency checks |
+| **Total** | **144 min** | **2.4 hours** [x] Under 4h target |
 
 ## Backup Storage Sizing
 
 ### Current Usage
 
-| Data Store    | Production Size | Backup Size (Compressed) | Monthly Growth | 30-day Retention |
+| Data Store | Production Size | Backup Size (Compressed) | Monthly Growth | 30-day Retention |
 |---------------|-----------------|--------------------------|----------------|------------------|
-| MySQL         | 10 GB           | 2.5 GB                   | +500 MB        | 90 GB            |
-| Cassandra     | 100 GB          | 25 GB                    | +5 GB          | 900 GB           |
-| **Total**     | **110 GB**      | **27.5 GB**              | **+5.5 GB**    | **990 GB (~1 TB)** |
+| MySQL | 10 GB | 2.5 GB | +500 MB | 90 GB |
+| Cassandra | 100 GB | 25 GB | +5 GB | 900 GB |
+| **Total** | **110 GB** | **27.5 GB** | **+5.5 GB** | **990 GB (~1 TB)** |
 
 ### Storage Costs
 
@@ -693,15 +692,15 @@ El plan de DR cumple todos los targets establecidos (RTO <4 horas, RPO <1 hora).
 ```bash
 # Encrypt backup
 openssl enc -aes-256-cbc -salt \
-    -k "${BACKUP_PASSWORD}" \
-    -in backup.sql.gz \
-    -out backup.sql.gz.enc
+ -k "${BACKUP_PASSWORD}" \
+ -in backup.sql.gz \
+ -out backup.sql.gz.enc
 
 # Decrypt backup
 openssl enc -d -aes-256-cbc \
-    -k "${BACKUP_PASSWORD}" \
-    -in backup.sql.gz.enc \
-    -out backup.sql.gz
+ -k "${BACKUP_PASSWORD}" \
+ -in backup.sql.gz.enc \
+ -out backup.sql.gz
 ```
 
 ### Access Control
@@ -709,15 +708,15 @@ openssl enc -d -aes-256-cbc \
 **S3 Bucket Policy:**
 ```json
 {
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Principal": {"AWS": "arn:aws:iam::ACCOUNT:role/backup-role"},
-      "Action": ["s3:PutObject", "s3:GetObject"],
-      "Resource": "arn:aws:s3:::iact-backups/*"
-    }
-  ]
+ "Version": "2012-10-17",
+ "Statement": [
+ {
+ "Effect": "Allow",
+ "Principal": {"AWS": "arn:aws:iam::ACCOUNT:role/backup-role"},
+ "Action": ["s3:PutObject", "s3:GetObject"],
+ "Resource": "arn:aws:s3:::iact-backups/*"
+ }
+ ]
 }
 ```
 
@@ -739,19 +738,19 @@ openssl enc -d -aes-256-cbc \
 **Alerting Rules:**
 ```yaml
 - alert: BackupFailed
-  expr: backup_success == 0
-  for: 5m
-  severity: P1
-  
+ expr: backup_success == 0
+ for: 5m
+ severity: P1
+ 
 - alert: BackupDelayed
-  expr: time() - backup_last_success_time > 86400
-  for: 1h
-  severity: P2
-  
+ expr: time() - backup_last_success_time > 86400
+ for: 1h
+ severity: P2
+ 
 - alert: BackupSizeAnomaly
-  expr: backup_size < backup_size_avg * 0.5
-  for: 5m
-  severity: P2
+ expr: backup_size < backup_size_avg * 0.5
+ for: 5m
+ severity: P2
 ```
 
 ### Recovery Testing Automation
@@ -773,30 +772,30 @@ openssl enc -d -aes-256-cbc \
 
 ### Service Priority Matrix
 
-| Service               | Criticality | RTO      | Recovery Order |
+| Service | Criticality | RTO | Recovery Order |
 |-----------------------|-------------|----------|----------------|
-| API (DORA metrics)    | Critical    | 30 min   | 1              |
-| MySQL Database        | Critical    | 2 hours  | 2              |
-| Django Application    | Critical    | 1 hour   | 3              |
-| Cassandra (Logs)      | High        | 4 hours  | 4              |
-| Monitoring            | Medium      | 8 hours  | 5              |
-| Documentation         | Low         | 24 hours | 6              |
+| API (DORA metrics) | Critical | 30 min | 1 |
+| MySQL Database | Critical | 2 hours | 2 |
+| Django Application | Critical | 1 hour | 3 |
+| Cassandra (Logs) | High | 4 hours | 4 |
+| Monitoring | Medium | 8 hours | 5 |
+| Documentation | Low | 24 hours | 6 |
 
 ### Communication Plan
 
 **Stakeholder Notification:**
 1. **Immediate (within 5 min):**
-   - On-call team
-   - Engineering leadership
-   
+ - On-call team
+ - Engineering leadership
+ 
 2. **Within 15 min:**
-   - Product management
-   - Customer support
-   - Executive team
-   
+ - Product management
+ - Customer support
+ - Executive team
+ 
 3. **Within 30 min:**
-   - Customers (via status page)
-   - Partners
+ - Customers (via status page)
+ - Partners
 
 **Status Updates:**
 - Every 30 minutes during incident

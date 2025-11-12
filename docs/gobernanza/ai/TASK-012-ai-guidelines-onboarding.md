@@ -35,20 +35,20 @@ Se ha expandido la seccion 3 del ONBOARDING.md con:
 Documentadas 3 herramientas oficiales:
 
 1. **Claude Code** (Oficial del proyecto)
-   - Pair programming
-   - Code review automatizado
-   - Documentation generation
-   - Troubleshooting
+ - Pair programming
+ - Code review automatizado
+ - Documentation generation
+ - Troubleshooting
 
 2. **GitHub Copilot** (Opcional)
-   - Code completion inline
-   - Sugerencias de tests
-   - Configuracion incluida
+ - Code completion inline
+ - Sugerencias de tests
+ - Configuracion incluida
 
 3. **ChatGPT** (Documentacion)
-   - Consultas generales
-   - Troubleshooting
-   - Con restricciones de seguridad
+ - Consultas generales
+ - Troubleshooting
+ - Con restricciones de seguridad
 
 ### 3. Checklist Diario de IA
 
@@ -93,25 +93,24 @@ Nueva seccion 3.5 con:
 - 3 preguntas frecuentes basicas
 - Referencia a ESTRATEGIA_IA.md con 25+ preguntas completas
 
-
 ## Técnicas de Prompt Engineering para Agente
 
 Las siguientes técnicas deben aplicarse al ejecutar esta tarea con un agente:
 
 1. **Expert Prompting** (specialized_techniques.py)
-   - Aplicar conocimiento experto de compliance y gobernanza
+ - Aplicar conocimiento experto de compliance y gobernanza
 
 2. **Constitutional AI** (optimization_techniques.py)
-   - Verificar cumplimiento de politicas y restricciones organizacionales
+ - Verificar cumplimiento de politicas y restricciones organizacionales
 
 3. **Retrieval** (knowledge_techniques.py)
-   - Recuperar documentacion de politicas y guidelines existentes
+ - Recuperar documentacion de politicas y guidelines existentes
 
 4. **Task Decomposition** (structuring_techniques.py)
-   - Dividir auditorias en checks especificos y validaciones
+ - Dividir auditorias en checks especificos y validaciones
 
 5. **Delimiter-based** (structuring_techniques.py)
-   - Estructurar revisiones usando delimitadores claros entre secciones
+ - Estructurar revisiones usando delimitadores claros entre secciones
 
 Agente recomendado: DocumentationSyncAgent o SDLCPlannerAgent
 ## Cambios Realizados
@@ -179,16 +178,16 @@ Developer domina:
 ### Practica 5: Clear + Communicated AI Stance
 
 **Antes de TASK-012:**
-- Estrategia definida en ESTRATEGIA_IA.md ✓
-- FAQ completo (25+ preguntas) ✓
-- Comunicacion al equipo realizada ✓
-- Onboarding NO actualizado ✗
+- Estrategia definida en ESTRATEGIA_IA.md [x]
+- FAQ completo (25+ preguntas) [x]
+- Comunicacion al equipo realizada [x]
+- Onboarding NO actualizado [ ]
 
 **Despues de TASK-012:**
-- Estrategia definida en ESTRATEGIA_IA.md ✓
-- FAQ completo (25+ preguntas) ✓
-- Comunicacion al equipo realizada ✓
-- **Onboarding actualizado con AI guidelines** ✓
+- Estrategia definida en ESTRATEGIA_IA.md [x]
+- FAQ completo (25+ preguntas) [x]
+- Comunicacion al equipo realizada [x]
+- **Onboarding actualizado con AI guidelines** [x]
 
 **DORA AI Capabilities:** Practica 5 ahora 100% completa
 
@@ -209,10 +208,10 @@ Developer: Lee ONBOARDING.md seccion 3
 
 ```
 Developer: Genera model Django con Claude Code
-→ Checklist: Codigo revisado por humano ✓
-→ Checklist: NO uso de Redis (RNF-002) ✓
-→ Checklist: Tests pasados ✓
-→ Checklist: Security scan OK ✓
+→ Checklist: Codigo revisado por humano [x]
+→ Checklist: NO uso de Redis (RNF-002) [x]
+→ Checklist: Tests pasados [x]
+→ Checklist: Security scan OK [x]
 → Crea PR con confianza (16/16 checks pasados)
 ```
 
@@ -223,7 +222,7 @@ Developer: IA sugiere usar Redis para cache
 → Lee onboarding seccion 3.1.2: NO usar IA para RNF-002
 → RECHAZA sugerencia de IA
 → Usa alternativa: SESSION_ENGINE database
-→ Checklist: NO Redis/Memcached (RNF-002) ✓
+→ Checklist: NO Redis/Memcached (RNF-002) [x]
 → Continua con confianza
 ```
 
@@ -257,21 +256,21 @@ Developer: IA sugiere usar Redis para cache
 ### Archivos Actualizados
 
 1. **ONBOARDING.md** (version 1.1.0)
-   - Seccion 3 expandida
-   - Referencias actualizadas
-   - Checklist integrado
+ - Seccion 3 expandida
+ - Referencias actualizadas
+ - Checklist integrado
 
 ### Archivos Referenciados
 
 2. **ESTRATEGIA_IA.md**
-   - Full AI strategy (DORA 2025)
-   - 7 AI Capabilities Model
-   - FAQ completo (25+ preguntas)
+ - Full AI strategy (DORA 2025)
+ - 7 AI Capabilities Model
+ - FAQ completo (25+ preguntas)
 
 3. **AI_CAPABILITIES.md** (referencia futura)
-   - Checklist detallado por practica
-   - Ejemplos especificos
-   - Metricas de compliance
+ - Checklist detallado por practica
+ - Ejemplos especificos
+ - Metricas de compliance
 
 ### Links Actualizados
 

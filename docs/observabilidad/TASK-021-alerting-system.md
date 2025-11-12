@@ -18,36 +18,35 @@ Sistema de alertas self-hosted compliant con RNF-002 (NO Prometheus/Alertmanager
 ## Implementacion
 
 **Tecnologia:** Django Signals + Python logging
-**Compliance:** ✅ Self-hosted, NO Prometheus/Alertmanager
-
+**Compliance:** [OK] Self-hosted, NO Prometheus/Alertmanager
 
 ## Técnicas de Prompt Engineering para Agente
 
 Las siguientes técnicas deben aplicarse al ejecutar esta tarea con un agente:
 
 1. **Tool-use Prompting** (knowledge_techniques.py)
-   - Configurar dashboards, queries y alertas de monitoreo
+ - Configurar dashboards, queries y alertas de monitoreo
 
 2. **Expert Prompting** (specialized_techniques.py)
-   - Aplicar conocimiento experto de observabilidad y SRE practices
+ - Aplicar conocimiento experto de observabilidad y SRE practices
 
 3. **Task Decomposition** (structuring_techniques.py)
-   - Dividir setup de observabilidad en layers (metrics, logs, traces)
+ - Dividir setup de observabilidad en layers (metrics, logs, traces)
 
 4. **Constitutional AI** (optimization_techniques.py)
-   - Validar que alertas y dashboards cumplan con SLOs/SLIs
+ - Validar que alertas y dashboards cumplan con SLOs/SLIs
 
 5. **Simulation** (specialized_techniques.py)
-   - Simular escenarios de fallo para validar alertas
+ - Simular escenarios de fallo para validar alertas
 
 Agente recomendado: SDLCPlannerAgent o PDCAAutomationAgent
 ## Arquitectura
 
 ```
 Alert Triggers → Django Signals → Handlers → Notifications
-     ↓                               ↓              ↓
-check_health()            critical_alert     logging
-                         warning_alert       (email)
+ ↓ ↓ ↓
+check_health() critical_alert logging
+ warning_alert (email)
 ```
 
 ## Alertas Implementadas
@@ -104,28 +103,28 @@ check_system_health()
 ```python
 # Email notifications
 def send_email_alert(level, message, context):
-    send_mail(
-        subject=f'[{level}] IACT Alert',
-        message=f'{message}\n\nContext: {context}',
-        from_email='alerts@iact.com',
-        recipient_list=['admin@iact.com']
-    )
+ send_mail(
+ subject=f'[{level}] IACT Alert',
+ message=f'{message}\n\nContext: {context}',
+ from_email='alerts@iact.com',
+ recipient_list=['admin@iact.com']
+ )
 
 # Slack/Webhook notifications
 def send_webhook_alert(level, message, context):
-    import requests
-    requests.post(
-        'https://hooks.slack.com/...',
-        json={'text': f'[{level}] {message}'}
-    )
+ import requests
+ requests.post(
+ 'https://hooks.slack.com/...',
+ json={'text': f'[{level}] {message}'}
+ )
 ```
 
 ## Compliance RNF-002
 
-✅ NO usa Prometheus
-✅ NO usa Alertmanager
-✅ Self-hosted (Django signals)
-✅ NO usa servicios externos
+[OK] NO usa Prometheus
+[OK] NO usa Alertmanager
+[OK] Self-hosted (Django signals)
+[OK] NO usa servicios externos
 
 ---
 

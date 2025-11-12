@@ -23,25 +23,24 @@ Validar que el sistema mantenga performance aceptable bajo carga mediante:
 - Performance benchmarking
 - Identificación de cuellos de botella
 
-
 ## Técnicas de Prompt Engineering para Agente
 
 Las siguientes técnicas deben aplicarse al ejecutar esta tarea con un agente:
 
 1. **Tool-use Prompting** (knowledge_techniques.py)
-   - Ejecutar pytest con parametros especificos para tests de integracion
+ - Ejecutar pytest con parametros especificos para tests de integracion
 
 2. **ReAct** (knowledge_techniques.py)
-   - Razonar sobre el estado actual, ejecutar tests, reflexionar sobre resultados
+ - Razonar sobre el estado actual, ejecutar tests, reflexionar sobre resultados
 
 3. **Self-Consistency** (self_consistency.py)
-   - Verificar consistencia entre multiples ejecuciones de tests
+ - Verificar consistencia entre multiples ejecuciones de tests
 
 4. **Chain of Verification** (chain_of_verification.py)
-   - Validar cada capa del sistema de forma secuencial
+ - Validar cada capa del sistema de forma secuencial
 
 5. **Auto-CoT** (auto_cot_agent.py)
-   - Generar razonamiento automatico para debugging de tests fallidos
+ - Generar razonamiento automatico para debugging de tests fallidos
 
 Agente recomendado: SDLCTestingAgent o TDDAgent
 ## Tools Implementados
@@ -53,17 +52,17 @@ Framework Python avanzado para load testing.
 **User Classes:**
 
 1. **DORAMetricsAPIUser** - Usuario típico
-   - Wait time: 1-3s entre requests
-   - Mix realista de endpoints
-   - Pesos basados en uso esperado
+ - Wait time: 1-3s entre requests
+ - Mix realista de endpoints
+ - Pesos basados en uso esperado
 
 2. **HighVolumeUser** - Usuario intensivo
-   - Wait time: 0.5s (stress test)
-   - Requests rápidos continuos
+ - Wait time: 0.5s (stress test)
+ - Requests rápidos continuos
 
 3. **WriteOperationUser** - Escritura
-   - Wait time: 5-10s
-   - POST endpoints para crear métricas
+ - Wait time: 5-10s
+ - POST endpoints para crear métricas
 
 **Task Weights (DORAMetricsAPIUser):**
 - `get_dora_summary`: 10 (más frecuente)
@@ -91,20 +90,20 @@ locust -f scripts/load_testing/locustfile.py --host=http://localhost:8000
 
 # Run headless
 locust -f scripts/load_testing/locustfile.py \
-    --host=http://localhost:8000 \
-    --users 100 \
-    --spawn-rate 10 \
-    --run-time 5m \
-    --headless
+ --host=http://localhost:8000 \
+ --users 100 \
+ --spawn-rate 10 \
+ --run-time 5m \
+ --headless
 
 # Generate HTML report
 locust -f scripts/load_testing/locustfile.py \
-    --host=http://localhost:8000 \
-    --users 100 \
-    --spawn-rate 10 \
-    --run-time 5m \
-    --headless \
-    --html load_test_report.html
+ --host=http://localhost:8000 \
+ --users 100 \
+ --spawn-rate 10 \
+ --run-time 5m \
+ --headless \
+ --html load_test_report.html
 ```
 
 **Locust Features:**
@@ -188,7 +187,7 @@ CONCURRENT_USERS=100 TOTAL_REQUESTS=1000 \
 
 ```bash
 locust -f locustfile.py --host=http://localhost:8000 \
-    --users 10 --spawn-rate 2 --run-time 5m --headless
+ --users 10 --spawn-rate 2 --run-time 5m --headless
 ```
 
 ### Scenario 2: Peak Load
@@ -198,7 +197,7 @@ locust -f locustfile.py --host=http://localhost:8000 \
 
 ```bash
 locust -f locustfile.py --host=http://localhost:8000 \
-    --users 50 --spawn-rate 5 --run-time 10m --headless
+ --users 50 --spawn-rate 5 --run-time 10m --headless
 ```
 
 ### Scenario 3: Stress Test
@@ -208,7 +207,7 @@ locust -f locustfile.py --host=http://localhost:8000 \
 
 ```bash
 locust -f locustfile.py --host=http://localhost:8000 \
-    --users 100 --spawn-rate 10 --run-time 15m --headless
+ --users 100 --spawn-rate 10 --run-time 15m --headless
 ```
 
 ### Scenario 4: Endurance Test
@@ -218,7 +217,7 @@ locust -f locustfile.py --host=http://localhost:8000 \
 
 ```bash
 locust -f locustfile.py --host=http://localhost:8000 \
-    --users 20 --spawn-rate 2 --run-time 1h --headless
+ --users 20 --spawn-rate 2 --run-time 1h --headless
 ```
 
 ## Performance Targets
@@ -269,11 +268,11 @@ tail -f /var/log/iact/app.json.log | grep -i error
 ```python
 # Add to settings.py for debug
 LOGGING = {
-    'loggers': {
-        'django.db.backends': {
-            'level': 'DEBUG',  # Log SQL queries
-        }
-    }
+ 'loggers': {
+ 'django.db.backends': {
+ 'level': 'DEBUG', # Log SQL queries
+ }
+ }
 }
 ```
 
@@ -312,9 +311,9 @@ Median (p50): 210
 ========================================
 Performance Assessment
 ========================================
-✓ PASS: p95 response time under 1 second
-✓ PASS: Average response time under 500ms
-✗ FAIL: Success rate < 99%
+[x] PASS: p95 response time under 1 second
+[x] PASS: Average response time under 500ms
+[ ] FAIL: Success rate < 99%
 ```
 
 ## Troubleshooting
@@ -367,62 +366,62 @@ Performance Assessment
 name: Load Testing
 
 on:
-  schedule:
-    - cron: '0 2 * * 1'  # Weekly, Monday 2 AM
-  workflow_dispatch:
+ schedule:
+ - cron: '0 2 * * 1' # Weekly, Monday 2 AM
+ workflow_dispatch:
 
 jobs:
-  load-test:
-    runs-on: ubuntu-latest
+ load-test:
+ runs-on: ubuntu-latest
 
-    services:
-      mysql:
-        image: mysql:8.0
-        env:
-          MYSQL_DATABASE: iact
-          MYSQL_ROOT_PASSWORD: root
-        ports:
-          - 3306:3306
+ services:
+ mysql:
+ image: mysql:8.0
+ env:
+ MYSQL_DATABASE: iact
+ MYSQL_ROOT_PASSWORD: root
+ ports:
+ - 3306:3306
 
-    steps:
-      - uses: actions/checkout@v3
+ steps:
+ - uses: actions/checkout@v3
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.11'
+ - name: Set up Python
+ uses: actions/setup-python@v4
+ with:
+ python-version: '3.11'
 
-      - name: Install dependencies
-        run: |
-          pip install -r requirements.txt
-          pip install locust
+ - name: Install dependencies
+ run: |
+ pip install -r requirements.txt
+ pip install locust
 
-      - name: Run migrations
-        run: |
-          cd api/callcentersite
-          python manage.py migrate
+ - name: Run migrations
+ run: |
+ cd api/callcentersite
+ python manage.py migrate
 
-      - name: Start Django server
-        run: |
-          cd api/callcentersite
-          python manage.py runserver &
-          sleep 5
+ - name: Start Django server
+ run: |
+ cd api/callcentersite
+ python manage.py runserver &
+ sleep 5
 
-      - name: Run load test
-        run: |
-          locust -f scripts/load_testing/locustfile.py \
-            --host=http://localhost:8000 \
-            --users 20 \
-            --spawn-rate 5 \
-            --run-time 3m \
-            --headless \
-            --html load_test_report.html
+ - name: Run load test
+ run: |
+ locust -f scripts/load_testing/locustfile.py \
+ --host=http://localhost:8000 \
+ --users 20 \
+ --spawn-rate 5 \
+ --run-time 3m \
+ --headless \
+ --html load_test_report.html
 
-      - name: Upload report
-        uses: actions/upload-artifact@v3
-        with:
-          name: load-test-report
-          path: load_test_report.html
+ - name: Upload report
+ uses: actions/upload-artifact@v3
+ with:
+ name: load-test-report
+ path: load_test_report.html
 ```
 
 ## Best Practices
@@ -448,7 +447,7 @@ jobs:
 ## Compliance
 
 ### RNF-002
-✅ **COMPLIANT** - Uses existing infrastructure
+[OK] **COMPLIANT** - Uses existing infrastructure
 
 ### Performance
 - Target: p95 < 1s

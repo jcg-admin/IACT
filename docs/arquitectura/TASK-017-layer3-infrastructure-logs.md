@@ -19,8 +19,8 @@ Implementacion de capa Layer 3 (Infrastructure Logs) del sistema de observabilid
 
 El sistema de observabilidad IACT tiene 3 capas:
 
-- **Layer 1:** Metrics (DORA metrics en MySQL) - TASK-005 ✓
-- **Layer 2:** Application Logs (JSON estructurado) - TASK-010 ✓
+- **Layer 1:** Metrics (DORA metrics en MySQL) - TASK-005 [x]
+- **Layer 2:** Application Logs (JSON estructurado) - TASK-010 [x]
 - **Layer 3:** Infrastructure Logs (OS/system logs) - TASK-017 (esta tarea)
 
 Layer 3 captura logs de infraestructura del sistema operativo para:
@@ -29,25 +29,24 @@ Layer 3 captura logs de infraestructura del sistema operativo para:
 - Performance monitoring (kernel logs)
 - Service health (systemd logs)
 
-
 ## Técnicas de Prompt Engineering para Agente
 
 Las siguientes técnicas deben aplicarse al ejecutar esta tarea con un agente:
 
 1. **Task Decomposition** (structuring_techniques.py)
-   - Dividir el diseno arquitectonico en componentes manejables
+ - Dividir el diseno arquitectonico en componentes manejables
 
 2. **Code Generation** (fundamental_techniques.py)
-   - Generar implementaciones base para componentes arquitectonicos
+ - Generar implementaciones base para componentes arquitectonicos
 
 3. **Expert Prompting** (specialized_techniques.py)
-   - Aplicar conocimiento experto de arquitectura Django y patrones de diseno
+ - Aplicar conocimiento experto de arquitectura Django y patrones de diseno
 
 4. **Constitutional AI** (optimization_techniques.py)
-   - Validar que el diseno cumpla con restricciones y mejores practicas
+ - Validar que el diseno cumpla con restricciones y mejores practicas
 
 5. **Meta-prompting** (structuring_techniques.py)
-   - Generar prompts especializados para cada componente del sistema
+ - Generar prompts especializados para cada componente del sistema
 
 Agente recomendado: SDLCDesignAgent o FeatureAgent
 ## Objetivos
@@ -66,36 +65,36 @@ Agente recomendado: SDLCDesignAgent o FeatureAgent
 
 ```
 ┌──────────────────────────────────────────────────────────────┐
-│ Infrastructure Layer                                          │
+│ Infrastructure Layer │
 ├──────────────────────────────────────────────────────────────┤
-│                                                               │
-│  /var/log/syslog  ──┐                                        │
-│  /var/log/auth.log ─┤                                        │
-│  /var/log/kern.log ─┼──> Log Collector Daemon ──> Cassandra │
-│  journalctl ────────┘         (batch 1000)        (TTL 90d)  │
-│                                                               │
+│ │
+│ /var/log/syslog ──┐ │
+│ /var/log/auth.log ─┤ │
+│ /var/log/kern.log ─┼──> Log Collector Daemon ──> Cassandra │
+│ journalctl ────────┘ (batch 1000) (TTL 90d) │
+│ │
 └──────────────────────────────────────────────────────────────┘
 ```
 
 ### Flujo de Datos
 
 1. **Fuentes de logs:**
-   - `/var/log/syslog` - Logs generales del sistema
-   - `/var/log/auth.log` - Logs de autenticacion y sudo
-   - `/var/log/kern.log` - Logs del kernel
-   - `journalctl` - Logs de systemd
+ - `/var/log/syslog` - Logs generales del sistema
+ - `/var/log/auth.log` - Logs de autenticacion y sudo
+ - `/var/log/kern.log` - Logs del kernel
+ - `journalctl` - Logs de systemd
 
 2. **Collector Daemon:**
-   - Monitorea archivos de logs
-   - Parsea formato syslog
-   - Estructura en formato estandar
-   - Agrupa en batches de 1000 logs
+ - Monitorea archivos de logs
+ - Parsea formato syslog
+ - Estructura en formato estandar
+ - Agrupa en batches de 1000 logs
 
 3. **Cassandra:**
-   - Recibe batches de 1000 logs
-   - Almacena con TTL de 90 dias
-   - Auto-expira logs antiguos
-   - Compaction optimizada para time-series
+ - Recibe batches de 1000 logs
+ - Almacena con TTL de 90 dias
+ - Auto-expira logs antiguos
+ - Compaction optimizada para time-series
 
 ## Schema Cassandra
 
@@ -107,34 +106,34 @@ Agente recomendado: SDLCDesignAgent o FeatureAgent
 
 ```cql
 CREATE TABLE infrastructure_logs (
-    -- Partition key
-    hostname TEXT,
-    log_date DATE,
+ -- Partition key
+ hostname TEXT,
+ log_date DATE,
 
-    -- Clustering key
-    log_timestamp TIMESTAMP,
-    log_id UUID,
+ -- Clustering key
+ log_timestamp TIMESTAMP,
+ log_id UUID,
 
-    -- Log data
-    source TEXT,              -- syslog, kernel, systemd, docker, auth
-    severity TEXT,            -- EMERGENCY, ALERT, CRITICAL, ERROR, WARNING, NOTICE, INFO, DEBUG
-    facility TEXT,            -- kern, user, mail, daemon, auth, syslog
-    message TEXT,
+ -- Log data
+ source TEXT, -- syslog, kernel, systemd, docker, auth
+ severity TEXT, -- EMERGENCY, ALERT, CRITICAL, ERROR, WARNING, NOTICE, INFO, DEBUG
+ facility TEXT, -- kern, user, mail, daemon, auth, syslog
+ message TEXT,
 
-    -- Context
-    process_name TEXT,
-    process_id INT,
-    user_name TEXT,
+ -- Context
+ process_name TEXT,
+ process_id INT,
+ user_name TEXT,
 
-    -- Metadata
-    tags SET<TEXT>,
-    extra MAP<TEXT, TEXT>,
-    ingested_at TIMESTAMP,
+ -- Metadata
+ tags SET<TEXT>,
+ extra MAP<TEXT, TEXT>,
+ ingested_at TIMESTAMP,
 
-    PRIMARY KEY ((hostname, log_date), log_timestamp, log_id)
+ PRIMARY KEY ((hostname, log_date), log_timestamp, log_id)
 ) WITH CLUSTERING ORDER BY (log_timestamp DESC, log_id DESC)
-  AND default_time_to_live = 7776000  -- 90 dias
-  AND compaction = {'class': 'TimeWindowCompactionStrategy', 'compaction_window_size': 1}
+ AND default_time_to_live = 7776000 -- 90 dias
+ AND compaction = {'class': 'TimeWindowCompactionStrategy', 'compaction_window_size': 1}
 ```
 
 **Caracteristicas:**
@@ -173,23 +172,23 @@ Parsea logs de diferentes formatos a estructura estandar.
 
 **Patron syslog:**
 ```
-Nov  7 10:30:45 hostname process[1234]: message
+Nov 7 10:30:45 hostname process[1234]: message
 ```
 
 **Output estructurado:**
 ```python
 {
-    'hostname': 'server-01',
-    'log_date': date(2025, 11, 7),
-    'log_timestamp': datetime(2025, 11, 7, 10, 30, 45),
-    'log_id': uuid4(),
-    'source': 'syslog',
-    'severity': 'INFO',
-    'facility': 'syslog',
-    'message': 'message',
-    'process_name': 'process',
-    'process_id': 1234,
-    'ingested_at': datetime.now()
+ 'hostname': 'server-01',
+ 'log_date': date(2025, 11, 7),
+ 'log_timestamp': datetime(2025, 11, 7, 10, 30, 45),
+ 'log_id': uuid4(),
+ 'source': 'syslog',
+ 'severity': 'INFO',
+ 'facility': 'syslog',
+ 'message': 'message',
+ 'process_name': 'process',
+ 'process_id': 1234,
+ 'ingested_at': datetime.now()
 }
 ```
 
@@ -232,10 +231,10 @@ LOG_LEVEL=INFO
 
 ```python
 LOG_SOURCES = {
-    "syslog": "/var/log/syslog",
-    "auth": "/var/log/auth.log",
-    "kern": "/var/log/kern.log",
-    "systemd": "journalctl",
+ "syslog": "/var/log/syslog",
+ "auth": "/var/log/auth.log",
+ "kern": "/var/log/kern.log",
+ "systemd": "journalctl",
 }
 ```
 
@@ -262,7 +261,7 @@ pip install cassandra-driver watchdog
 ```bash
 # Copiar service file
 sudo cp scripts/logging/collectors/infrastructure-log-collector.service \
-    /etc/systemd/system/
+ /etc/systemd/system/
 
 # Reload systemd
 sudo systemctl daemon-reload
@@ -365,7 +364,7 @@ Los logs de ambas capas pueden ser consultados conjuntamente:
 ```python
 # Leer desde archivo JSON
 with open('/var/log/iact/app.json.log') as f:
-    app_logs = [json.loads(line) for line in f]
+ app_logs = [json.loads(line) for line in f]
 ```
 
 **Layer 3 (Infrastructure):**
@@ -442,13 +441,13 @@ tail -f /var/log/iact/infrastructure_collector.log
 **Ajustar batch size:**
 ```python
 # En infrastructure_log_collector.py
-BATCH_SIZE = 2000  # Aumentar a 2000
+BATCH_SIZE = 2000 # Aumentar a 2000
 ```
 
 **Ajustar consistency level:**
 ```python
 # En CassandraWriter.flush_batch()
-batch = BatchStatement(consistency_level=ConsistencyLevel.ANY)  # Mas rapido
+batch = BatchStatement(consistency_level=ConsistencyLevel.ANY) # Mas rapido
 ```
 
 ## Seguridad
@@ -485,10 +484,10 @@ cluster = Cluster(['localhost'], auth_provider=auth_provider)
 ### RNF-002
 
 **Cumplimiento:**
-- ✅ NO usa Redis
-- ✅ NO usa Prometheus
-- ✅ NO usa Grafana
-- ✅ Self-hosted en Cassandra
+- [OK] NO usa Redis
+- [OK] NO usa Prometheus
+- [OK] NO usa Grafana
+- [OK] Self-hosted en Cassandra
 
 ### TTL y Retention
 
@@ -540,31 +539,31 @@ cluster = Cluster(['localhost'], auth_provider=auth_provider)
 ### Q1 2026
 
 1. **Alerting sobre logs criticos:**
-   - Detectar logs CRITICAL/ERROR
-   - Notificaciones automaticas
-   - Integration con TASK-021
+ - Detectar logs CRITICAL/ERROR
+ - Notificaciones automaticas
+ - Integration con TASK-021
 
 2. **Dashboard de infraestructura:**
-   - Visualizacion logs en tiempo real
-   - Graficos de errores/warnings
-   - Top processes/users
+ - Visualizacion logs en tiempo real
+ - Graficos de errores/warnings
+ - Top processes/users
 
 3. **Analytics:**
-   - Agregaciones estadisticas
-   - Tendencias historicas
-   - Anomaly detection
+ - Agregaciones estadisticas
+ - Tendencias historicas
+ - Anomaly detection
 
 ### Q2 2026
 
 1. **Log shipping:**
-   - Archive a S3 para cold storage
-   - Compliance largo plazo
-   - Data lake integration
+ - Archive a S3 para cold storage
+ - Compliance largo plazo
+ - Data lake integration
 
 2. **AI/ML:**
-   - Log anomaly detection
-   - Predictive alerting
-   - Root cause analysis
+ - Log anomaly detection
+ - Predictive alerting
+ - Root cause analysis
 
 ---
 

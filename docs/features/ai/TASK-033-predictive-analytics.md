@@ -20,25 +20,24 @@ Sistema completo de Machine Learning para predecir riesgo de fallos en deploymen
 
 Implementar un sistema ML end-to-end que permita predecir la probabilidad de fallo de un deployment antes de ejecutarlo, proporcionando explicaciones detalladas y recomendaciones para mitigar riesgos identificados.
 
-
 ## Técnicas de Prompt Engineering para Agente
 
 Las siguientes técnicas deben aplicarse al ejecutar esta tarea con un agente:
 
 1. **Code Generation** (fundamental_techniques.py)
-   - Generar codigo base para nuevas features y componentes
+ - Generar codigo base para nuevas features y componentes
 
 2. **Task Decomposition** (structuring_techniques.py)
-   - Dividir features en user stories y tareas implementables
+ - Dividir features en user stories y tareas implementables
 
 3. **Few-Shot** (fundamental_techniques.py)
-   - Usar ejemplos de features similares como referencia
+ - Usar ejemplos de features similares como referencia
 
 4. **Expert Prompting** (specialized_techniques.py)
-   - Aplicar patrones de diseno y mejores practicas de desarrollo
+ - Aplicar patrones de diseno y mejores practicas de desarrollo
 
 5. **Meta-prompting** (structuring_techniques.py)
-   - Generar prompts especializados para diferentes aspectos de la feature
+ - Generar prompts especializados para diferentes aspectos de la feature
 
 Agente recomendado: FeatureAgent o SDLCDesignAgent
 ## Story Points
@@ -73,141 +72,141 @@ Agente recomendado: FeatureAgent o SDLCDesignAgent
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                 1. DATA COLLECTION                          │
-│  ┌──────────────────────────────────────────────────────┐   │
-│  │ MySQL Database                                       │   │
-│  │ - DORAMetric (deployment history)                    │   │
-│  │ - Ultimos 90 dias de metricas                       │   │
-│  └──────────────────────────────────────────────────────┘   │
+│ 1. DATA COLLECTION │
+│ ┌──────────────────────────────────────────────────────┐ │
+│ │ MySQL Database │ │
+│ │ - DORAMetric (deployment history) │ │
+│ │ - Ultimos 90 dias de metricas │ │
+│ └──────────────────────────────────────────────────────┘ │
 └─────────────────────────┬───────────────────────────────────┘
-                          │
-                          ▼
+ │
+ =>
 ┌─────────────────────────────────────────────────────────────┐
-│                 2. FEATURE ENGINEERING                      │
-│  ┌──────────────────────────────────────────────────────┐   │
-│  │ FeatureExtractor.extract_deployment_features()       │   │
-│  │                                                       │   │
-│  │ Input: cycle_id                                      │   │
-│  │ Output: 10 features + 1 target                       │   │
-│  │                                                       │   │
-│  │ Features:                                            │   │
-│  │ 1. lead_time (deployment duration)                  │   │
-│  │ 2. tests_passed_pct (test coverage/success)         │   │
-│  │ 3. code_changes_size (lines changed)                │   │
-│  │ 4. time_of_day (hour 0-23)                          │   │
-│  │ 5. day_of_week (0=Mon, 6=Sun)                       │   │
-│  │ 6. previous_failures (last 7 days)                  │   │
-│  │ 7. team_velocity (deployments/week)                 │   │
-│  │ 8. planning_duration (planning time)                │   │
-│  │ 9. feature_complexity_score (1-4)                   │   │
-│  │ 10. code_review_score (0.0-1.0)                     │   │
-│  │                                                       │   │
-│  │ Target: deployment_failed (0 or 1)                  │   │
-│  └──────────────────────────────────────────────────────┘   │
+│ 2. FEATURE ENGINEERING │
+│ ┌──────────────────────────────────────────────────────┐ │
+│ │ FeatureExtractor.extract_deployment_features() │ │
+│ │ │ │
+│ │ Input: cycle_id │ │
+│ │ Output: 10 features + 1 target │ │
+│ │ │ │
+│ │ Features: │ │
+│ │ 1. lead_time (deployment duration) │ │
+│ │ 2. tests_passed_pct (test coverage/success) │ │
+│ │ 3. code_changes_size (lines changed) │ │
+│ │ 4. time_of_day (hour 0-23) │ │
+│ │ 5. day_of_week (0=Mon, 6=Sun) │ │
+│ │ 6. previous_failures (last 7 days) │ │
+│ │ 7. team_velocity (deployments/week) │ │
+│ │ 8. planning_duration (planning time) │ │
+│ │ 9. feature_complexity_score (1-4) │ │
+│ │ 10. code_review_score (0.0-1.0) │ │
+│ │ │ │
+│ │ Target: deployment_failed (0 or 1) │ │
+│ └──────────────────────────────────────────────────────┘ │
 └─────────────────────────┬───────────────────────────────────┘
-                          │
-                          ▼
+ │
+ =>
 ┌─────────────────────────────────────────────────────────────┐
-│                 3. FEATURE NORMALIZATION                    │
-│  ┌──────────────────────────────────────────────────────┐   │
-│  │ FeatureExtractor.normalize_features()                │   │
-│  │                                                       │   │
-│  │ - Normalizar todos los features a rango 0.0-1.0     │   │
-│  │ - Lead time: max 48 horas                           │   │
-│  │ - Code changes: max 1000 lineas                     │   │
-│  │ - Previous failures: max 20                         │   │
-│  │ - Team velocity: max 50 deployments/week            │   │
-│  └──────────────────────────────────────────────────────┘   │
+│ 3. FEATURE NORMALIZATION │
+│ ┌──────────────────────────────────────────────────────┐ │
+│ │ FeatureExtractor.normalize_features() │ │
+│ │ │ │
+│ │ - Normalizar todos los features a rango 0.0-1.0 │ │
+│ │ - Lead time: max 48 horas │ │
+│ │ - Code changes: max 1000 lineas │ │
+│ │ - Previous failures: max 20 │ │
+│ │ - Team velocity: max 50 deployments/week │ │
+│ └──────────────────────────────────────────────────────┘ │
 └─────────────────────────┬───────────────────────────────────┘
-                          │
-                          ▼
+ │
+ =>
 ┌─────────────────────────────────────────────────────────────┐
-│                 4. MODEL TRAINING                           │
-│  ┌──────────────────────────────────────────────────────┐   │
-│  │ DeploymentRiskPredictor.train_model()                │   │
-│  │                                                       │   │
-│  │ Algorithm: Random Forest Classifier                 │   │
-│  │ Hyperparameters:                                     │   │
-│  │ - n_estimators: 100                                  │   │
-│  │ - max_depth: 10                                      │   │
-│  │ - min_samples_split: 5                               │   │
-│  │ - min_samples_leaf: 2                                │   │
-│  │ - class_weight: balanced                             │   │
-│  │ - random_state: 42                                   │   │
-│  │                                                       │   │
-│  │ Train/Validation Split: 80/20                        │   │
-│  │ Stratified: Si (mantener proporcion de clases)      │   │
-│  └──────────────────────────────────────────────────────┘   │
+│ 4. MODEL TRAINING │
+│ ┌──────────────────────────────────────────────────────┐ │
+│ │ DeploymentRiskPredictor.train_model() │ │
+│ │ │ │
+│ │ Algorithm: Random Forest Classifier │ │
+│ │ Hyperparameters: │ │
+│ │ - n_estimators: 100 │ │
+│ │ - max_depth: 10 │ │
+│ │ - min_samples_split: 5 │ │
+│ │ - min_samples_leaf: 2 │ │
+│ │ - class_weight: balanced │ │
+│ │ - random_state: 42 │ │
+│ │ │ │
+│ │ Train/Validation Split: 80/20 │ │
+│ │ Stratified: Si (mantener proporcion de clases) │ │
+│ └──────────────────────────────────────────────────────┘ │
 └─────────────────────────┬───────────────────────────────────┘
-                          │
-                          ▼
+ │
+ =>
 ┌─────────────────────────────────────────────────────────────┐
-│                 5. MODEL EVALUATION                         │
-│  ┌──────────────────────────────────────────────────────┐   │
-│  │ Metrics:                                             │   │
-│  │ - Accuracy (overall correctness)                     │   │
-│  │ - Precision (true positives / predicted positives)  │   │
-│  │ - Recall (true positives / actual positives)        │   │
-│  │ - F1 Score (harmonic mean of precision/recall)      │   │
-│  │                                                       │   │
-│  │ Feature Importance:                                  │   │
-│  │ - Top features driving predictions                   │   │
-│  │ - Used for explainability                           │   │
-│  └──────────────────────────────────────────────────────┘   │
+│ 5. MODEL EVALUATION │
+│ ┌──────────────────────────────────────────────────────┐ │
+│ │ Metrics: │ │
+│ │ - Accuracy (overall correctness) │ │
+│ │ - Precision (true positives / predicted positives) │ │
+│ │ - Recall (true positives / actual positives) │ │
+│ │ - F1 Score (harmonic mean of precision/recall) │ │
+│ │ │ │
+│ │ Feature Importance: │ │
+│ │ - Top features driving predictions │ │
+│ │ - Used for explainability │ │
+│ └──────────────────────────────────────────────────────┘ │
 └─────────────────────────┬───────────────────────────────────┘
-                          │
-                          ▼
+ │
+ =>
 ┌─────────────────────────────────────────────────────────────┐
-│                 6. MODEL PERSISTENCE                        │
-│  ┌──────────────────────────────────────────────────────┐   │
-│  │ - Save model to /tmp/deployment_risk_model.pkl       │   │
-│  │ - Include metadata (training date, metrics)         │   │
-│  │ - Model versioning (v1.0-YYYY-MM-DD)                │   │
-│  └──────────────────────────────────────────────────────┘   │
+│ 6. MODEL PERSISTENCE │
+│ ┌──────────────────────────────────────────────────────┐ │
+│ │ - Save model to /tmp/deployment_risk_model.pkl │ │
+│ │ - Include metadata (training date, metrics) │ │
+│ │ - Model versioning (v1.0-YYYY-MM-DD) │ │
+│ └──────────────────────────────────────────────────────┘ │
 └─────────────────────────┬───────────────────────────────────┘
-                          │
-                          ▼
+ │
+ =>
 ┌─────────────────────────────────────────────────────────────┐
-│                 7. PREDICTION & EXPLANATION                 │
-│  ┌──────────────────────────────────────────────────────┐   │
-│  │ DeploymentRiskPredictor.predict_risk()               │   │
-│  │ - Input: features dict                               │   │
-│  │ - Output: risk_score (0.0-1.0)                       │   │
-│  │                                                       │   │
-│  │ DeploymentRiskPredictor.explain_prediction()         │   │
-│  │ - risk_score                                         │   │
-│  │ - risk_level (very_low, low, medium, high)          │   │
-│  │ - confidence                                         │   │
-│  │ - top_risk_factors (top 5 features)                 │   │
-│  │ - recommendations (actionable items)                │   │
-│  │ - feature_importance                                 │   │
-│  └──────────────────────────────────────────────────────┘   │
+│ 7. PREDICTION & EXPLANATION │
+│ ┌──────────────────────────────────────────────────────┐ │
+│ │ DeploymentRiskPredictor.predict_risk() │ │
+│ │ - Input: features dict │ │
+│ │ - Output: risk_score (0.0-1.0) │ │
+│ │ │ │
+│ │ DeploymentRiskPredictor.explain_prediction() │ │
+│ │ - risk_score │ │
+│ │ - risk_level (very_low, low, medium, high) │ │
+│ │ - confidence │ │
+│ │ - top_risk_factors (top 5 features) │ │
+│ │ - recommendations (actionable items) │ │
+│ │ - feature_importance │ │
+│ └──────────────────────────────────────────────────────┘ │
 └─────────────────────────────────────────────────────────────┘
 ```
 
 ### Componentes del Sistema
 
 1. **FeatureExtractor** (ml_features.py)
-   - Extrae features de deployments historicos
-   - Normaliza features a rango 0-1
-   - Crea training datasets
+ - Extrae features de deployments historicos
+ - Normaliza features a rango 0-1
+ - Crea training datasets
 
 2. **DeploymentRiskPredictor** (ml_models.py)
-   - Entrena Random Forest model
-   - Predice risk scores
-   - Explica predicciones
-   - Persiste/carga modelos
+ - Entrena Random Forest model
+ - Predice risk scores
+ - Explica predicciones
+ - Persiste/carga modelos
 
 3. **API Endpoints** (views.py)
-   - POST /api/dora/predict/deployment-risk/
-   - GET /api/dora/predict/model-stats/
-   - POST /api/dora/predict/retrain/
-   - GET /api/dora/predict/feature-importance/
+ - POST /api/dora/predict/deployment-risk/
+ - GET /api/dora/predict/model-stats/
+ - POST /api/dora/predict/retrain/
+ - GET /api/dora/predict/feature-importance/
 
 4. **Training Pipeline** (scripts/ml/retrain_deployment_risk_model.py)
-   - Script automatico para re-entrenamiento mensual
-   - Validaciones de calidad de datos
-   - Reportes de metricas
+ - Script automatico para re-entrenamiento mensual
+ - Validaciones de calidad de datos
+ - Reportes de metricas
 
 ## Features Engineered
 
@@ -222,7 +221,7 @@ deployment_metric.duration_seconds
 
 **Normalizacion:**
 ```python
-lead_time_normalized = min(lead_time / 172800.0, 1.0)  # max 48 horas
+lead_time_normalized = min(lead_time / 172800.0, 1.0) # max 48 horas
 ```
 
 **Rationale:** Lead times muy cortos pueden indicar testing insuficiente, mientras que lead times muy largos pueden indicar complejidad alta.
@@ -261,7 +260,7 @@ code_changes_size = deployment_metric.metadata.get("code_changes_size", 100)
 
 **Normalizacion:**
 ```python
-code_changes_normalized = min(code_changes_size / 1000.0, 1.0)  # max 1000 lineas
+code_changes_normalized = min(code_changes_size / 1000.0, 1.0) # max 1000 lineas
 ```
 
 **Rationale:** Cambios grandes de codigo son mas dificiles de testear completamente y tienen mayor probabilidad de introducir bugs.
@@ -312,16 +311,16 @@ day_of_week_normalized = day_of_week / 6.0
 ```python
 seven_days_ago = deployment_metric.created_at - timedelta(days=7)
 previous_failures = DORAMetric.objects.filter(
-    phase_name="testing",
-    decision="no-go",
-    created_at__gte=seven_days_ago,
-    created_at__lt=deployment_metric.created_at,
+ phase_name="testing",
+ decision="no-go",
+ created_at__gte=seven_days_ago,
+ created_at__lt=deployment_metric.created_at,
 ).count()
 ```
 
 **Normalizacion:**
 ```python
-previous_failures_normalized = min(previous_failures / 20.0, 1.0)  # max 20 failures
+previous_failures_normalized = min(previous_failures / 20.0, 1.0) # max 20 failures
 ```
 
 **Rationale:** Alta tasa de fallos recientes indica problemas sistemicos o deuda tecnica acumulada.
@@ -335,15 +334,15 @@ previous_failures_normalized = min(previous_failures / 20.0, 1.0)  # max 20 fail
 **Extraccion:**
 ```python
 team_velocity = DORAMetric.objects.filter(
-    phase_name="deployment",
-    created_at__gte=seven_days_ago,
-    created_at__lt=deployment_metric.created_at,
+ phase_name="deployment",
+ created_at__gte=seven_days_ago,
+ created_at__lt=deployment_metric.created_at,
 ).count()
 ```
 
 **Normalizacion:**
 ```python
-team_velocity_normalized = min(team_velocity / 50.0, 1.0)  # max 50 deployments/week
+team_velocity_normalized = min(team_velocity / 50.0, 1.0) # max 50 deployments/week
 ```
 
 **Rationale:** Velocity muy baja puede indicar falta de practica, velocity muy alta puede indicar falta de rigor.
@@ -362,7 +361,7 @@ planning_duration = float(planning_metric.duration_seconds) if planning_metric e
 
 **Normalizacion:**
 ```python
-planning_duration_normalized = min(planning_duration / 86400.0, 1.0)  # max 24 horas
+planning_duration_normalized = min(planning_duration / 86400.0, 1.0) # max 24 horas
 ```
 
 **Rationale:** Planning insuficiente puede resultar en requisitos incompletos o arquitectura suboptima.
@@ -377,10 +376,10 @@ planning_duration_normalized = min(planning_duration / 86400.0, 1.0)  # max 24 h
 ```python
 feature_complexity = deployment_metric.metadata.get("feature_complexity", "medium")
 feature_complexity_score = {
-    "low": 1,
-    "medium": 2,
-    "high": 3,
-    "critical": 4,
+ "low": 1,
+ "medium": 2,
+ "high": 3,
+ "critical": 4,
 }.get(feature_complexity, 2)
 ```
 
@@ -404,7 +403,7 @@ code_review_score = deployment_metric.metadata.get("code_review_score", 0.8)
 
 **Normalizacion:**
 ```python
-code_review_score_normalized = code_review_score  # ya esta en 0-1
+code_review_score_normalized = code_review_score # ya esta en 0-1
 ```
 
 **Rationale:** Code review de baja calidad puede perder bugs importantes.
@@ -436,12 +435,12 @@ code_review_score_normalized = code_review_score  # ya esta en 0-1
 
 ```python
 RandomForestClassifier(
-    n_estimators=100,       # Numero de arboles (balance entre performance y training time)
-    max_depth=10,           # Profundidad maxima (evita overfitting)
-    min_samples_split=5,    # Minimo samples para split (reduce overfitting)
-    min_samples_leaf=2,     # Minimo samples en leaf (evita arboles muy complejos)
-    random_state=42,        # Reproducibilidad
-    class_weight="balanced" # Maneja class imbalance (mas failures que successes)
+ n_estimators=100, # Numero de arboles (balance entre performance y training time)
+ max_depth=10, # Profundidad maxima (evita overfitting)
+ min_samples_split=5, # Minimo samples para split (reduce overfitting)
+ min_samples_leaf=2, # Minimo samples en leaf (evita arboles muy complejos)
+ random_state=42, # Reproducibilidad
+ class_weight="balanced" # Maneja class imbalance (mas failures que successes)
 )
 ```
 
@@ -464,16 +463,16 @@ RandomForestClassifier(
 ### Confusion Matrix
 
 ```
-                 Predicted
-                 Fail | Success
-       ┌─────────┬─────────┬─────────┐
-Actual │ Fail    │   TP    │   FN    │
-       ├─────────┼─────────┼─────────┤
-       │ Success │   FP    │   TN    │
-       └─────────┴─────────┴─────────┘
+ Predicted
+ Fail | Success
+ ┌─────────┬─────────┬─────────┐
+Actual │ Fail │ TP │ FN │
+ ├─────────┼─────────┼─────────┤
+ │ Success │ FP │ TN │
+ └─────────┴─────────┴─────────┘
 
-TP = True Positives  (predijo fail, realmente fallo)
-TN = True Negatives  (predijo success, realmente exitoso)
+TP = True Positives (predijo fail, realmente fallo)
+TN = True Negatives (predijo success, realmente exitoso)
 FP = False Positives (predijo fail, realmente exitoso)
 FN = False Negatives (predijo success, realmente fallo)
 ```
@@ -533,12 +532,12 @@ F1 = 2 * (Precision * Recall) / (Precision + Recall)
 **High Precision vs High Recall:**
 
 - **Alta Precision:** Pocos false positives, pero puede perder algunos failures (low recall)
-  - Ventaja: Menos alert fatigue
-  - Desventaja: Algunos deployments riesgosos pueden pasar
+ - Ventaja: Menos alert fatigue
+ - Desventaja: Algunos deployments riesgosos pueden pasar
 
 - **Alta Recall:** Detecta mayoria de failures, pero mas false positives (low precision)
-  - Ventaja: Mayor seguridad, casi no se pierden deployments riesgosos
-  - Desventaja: Mas false alarms, puede frenar deployments seguros
+ - Ventaja: Mayor seguridad, casi no se pierden deployments riesgosos
+ - Desventaja: Mas false alarms, puede frenar deployments seguros
 
 **Decision para IACT:**
 
@@ -563,16 +562,16 @@ feature_importances_ = model.feature_importances_
 
 **Output ejemplo:**
 ```
-tests_passed_pct         0.2500
-previous_failures        0.1800
-code_changes_size        0.1500
-code_review_score        0.1200
+tests_passed_pct 0.2500
+previous_failures 0.1800
+code_changes_size 0.1500
+code_review_score 0.1200
 feature_complexity_score 0.1000
-planning_duration        0.0800
-lead_time                0.0700
-team_velocity            0.0300
-time_of_day              0.0100
-day_of_week              0.0100
+planning_duration 0.0800
+lead_time 0.0700
+team_velocity 0.0300
+time_of_day 0.0100
+day_of_week 0.0100
 ```
 
 **Uso:**
@@ -593,11 +592,11 @@ contribution = feature_value_normalized * global_feature_importance
 **Output ejemplo para prediccion especifica:**
 ```
 Top Risk Factors:
-1. tests_passed_pct:         0.150 (value: 0.60, importance: 0.25)
-2. previous_failures:        0.108 (value: 0.60, importance: 0.18)
-3. code_changes_size:        0.120 (value: 0.80, importance: 0.15)
+1. tests_passed_pct: 0.150 (value: 0.60, importance: 0.25)
+2. previous_failures: 0.108 (value: 0.60, importance: 0.18)
+3. code_changes_size: 0.120 (value: 0.80, importance: 0.15)
 4. feature_complexity_score: 0.080 (value: 0.80, importance: 0.10)
-5. code_review_score:        0.060 (value: 0.50, importance: 0.12)
+5. code_review_score: 0.060 (value: 0.50, importance: 0.12)
 ```
 
 **Interpretacion:**
@@ -611,25 +610,25 @@ Basado en top risk factors, generamos recomendaciones actionables:
 
 ```python
 def _generate_recommendations(features, top_features, risk_score):
-    recommendations = []
+ recommendations = []
 
-    for feature_name, contribution in top_features:
-        if feature_name == "tests_passed_pct" and features["tests_passed_pct"] < 80:
-            recommendations.append(
-                "Aumentar cobertura de tests (actualmente bajo 80%)"
-            )
-        elif feature_name == "code_changes_size" and features["code_changes_size"] > 500:
-            recommendations.append(
-                "Considerar dividir deployment en cambios mas pequenos"
-            )
-        # ... mas reglas
+ for feature_name, contribution in top_features:
+ if feature_name == "tests_passed_pct" and features["tests_passed_pct"] < 80:
+ recommendations.append(
+ "Aumentar cobertura de tests (actualmente bajo 80%)"
+ )
+ elif feature_name == "code_changes_size" and features["code_changes_size"] > 500:
+ recommendations.append(
+ "Considerar dividir deployment en cambios mas pequenos"
+ )
+ # ... mas reglas
 
-    if risk_score >= 0.7:
-        recommendations.append(
-            "ALTO RIESGO: Considerar posponer deployment o aumentar preparacion"
-        )
+ if risk_score >= 0.7:
+ recommendations.append(
+ "ALTO RIESGO: Considerar posponer deployment o aumentar preparacion"
+ )
 
-    return recommendations[:5]  # Max 5 recommendations
+ return recommendations[:5] # Max 5 recommendations
 ```
 
 **Output ejemplo:**
@@ -648,9 +647,9 @@ Calculamos confidence de la prediccion basado en distancia del decision boundary
 
 ```python
 def _calculate_confidence(risk_score):
-    distance_from_boundary = abs(risk_score - 0.5)
-    confidence = distance_from_boundary * 2  # Normalize to 0-1
-    return confidence
+ distance_from_boundary = abs(risk_score - 0.5)
+ confidence = distance_from_boundary * 2 # Normalize to 0-1
+ return confidence
 ```
 
 **Interpretacion:**
@@ -673,70 +672,70 @@ def _calculate_confidence(risk_score):
 **Request Body (Opcion 1 - Usar cycle_id):**
 ```json
 {
-  "cycle_id": "deploy-2025-001"
+ "cycle_id": "deploy-2025-001"
 }
 ```
 
 **Request Body (Opcion 2 - Proveer features):**
 ```json
 {
-  "features": {
-    "lead_time": 7200,
-    "tests_passed_pct": 85,
-    "code_changes_size": 200,
-    "time_of_day": 14,
-    "day_of_week": 2,
-    "previous_failures": 1,
-    "team_velocity": 5,
-    "planning_duration": 3600,
-    "feature_complexity_score": 2,
-    "code_review_score": 0.85
-  }
+ "features": {
+ "lead_time": 7200,
+ "tests_passed_pct": 85,
+ "code_changes_size": 200,
+ "time_of_day": 14,
+ "day_of_week": 2,
+ "previous_failures": 1,
+ "team_velocity": 5,
+ "planning_duration": 3600,
+ "feature_complexity_score": 2,
+ "code_review_score": 0.85
+ }
 }
 ```
 
 **Response (200 OK):**
 ```json
 {
-  "cycle_id": "deploy-2025-001",
-  "prediction": {
-    "risk_score": 0.23,
-    "risk_level": "low",
-    "confidence": 0.54,
-    "top_risk_factors": [
-      {
-        "feature": "code_changes_size",
-        "contribution": 0.030,
-        "value": 0.20
-      },
-      {
-        "feature": "tests_passed_pct",
-        "contribution": 0.0213,
-        "value": 0.85
-      },
-      {
-        "feature": "previous_failures",
-        "contribution": 0.009,
-        "value": 0.05
-      }
-    ],
-    "recommendations": [
-      "BAJO RIESGO: Proceder con deployment, monitoreo standard"
-    ],
-    "feature_importance": {
-      "tests_passed_pct": 0.25,
-      "previous_failures": 0.18,
-      "code_changes_size": 0.15,
-      "code_review_score": 0.12,
-      "feature_complexity_score": 0.10,
-      "planning_duration": 0.08,
-      "lead_time": 0.07,
-      "team_velocity": 0.03,
-      "time_of_day": 0.01,
-      "day_of_week": 0.01
-    }
-  },
-  "model_version": "v1.0-2025-11-07"
+ "cycle_id": "deploy-2025-001",
+ "prediction": {
+ "risk_score": 0.23,
+ "risk_level": "low",
+ "confidence": 0.54,
+ "top_risk_factors": [
+ {
+ "feature": "code_changes_size",
+ "contribution": 0.030,
+ "value": 0.20
+ },
+ {
+ "feature": "tests_passed_pct",
+ "contribution": 0.0213,
+ "value": 0.85
+ },
+ {
+ "feature": "previous_failures",
+ "contribution": 0.009,
+ "value": 0.05
+ }
+ ],
+ "recommendations": [
+ "BAJO RIESGO: Proceder con deployment, monitoreo standard"
+ ],
+ "feature_importance": {
+ "tests_passed_pct": 0.25,
+ "previous_failures": 0.18,
+ "code_changes_size": 0.15,
+ "code_review_score": 0.12,
+ "feature_complexity_score": 0.10,
+ "planning_duration": 0.08,
+ "lead_time": 0.07,
+ "team_velocity": 0.03,
+ "time_of_day": 0.01,
+ "day_of_week": 0.01
+ }
+ },
+ "model_version": "v1.0-2025-11-07"
 }
 ```
 
@@ -758,28 +757,28 @@ def _calculate_confidence(risk_score):
 **Response (200 OK):**
 ```json
 {
-  "model_version": "v1.0-2025-11-07",
-  "statistics": {
-    "trained_at": "2025-11-07T10:30:00Z",
-    "training_samples": 80,
-    "validation_samples": 20,
-    "accuracy": 0.85,
-    "precision": 0.78,
-    "recall": 0.82,
-    "f1_score": 0.80,
-    "feature_names": [
-      "lead_time",
-      "tests_passed_pct",
-      "code_changes_size",
-      "time_of_day",
-      "day_of_week",
-      "previous_failures",
-      "team_velocity",
-      "planning_duration",
-      "feature_complexity_score",
-      "code_review_score"
-    ]
-  }
+ "model_version": "v1.0-2025-11-07",
+ "statistics": {
+ "trained_at": "2025-11-07T10:30:00Z",
+ "training_samples": 80,
+ "validation_samples": 20,
+ "accuracy": 0.85,
+ "precision": 0.78,
+ "recall": 0.82,
+ "f1_score": 0.80,
+ "feature_names": [
+ "lead_time",
+ "tests_passed_pct",
+ "code_changes_size",
+ "time_of_day",
+ "day_of_week",
+ "previous_failures",
+ "team_velocity",
+ "planning_duration",
+ "feature_complexity_score",
+ "code_review_score"
+ ]
+ }
 }
 ```
 
@@ -795,35 +794,35 @@ def _calculate_confidence(risk_score):
 **Request Body:**
 ```json
 {
-  "days": 90
+ "days": 90
 }
 ```
 
 **Response (201 Created):**
 ```json
 {
-  "success": true,
-  "model_version": "v1.0-2025-11-07",
-  "training_metrics": {
-    "accuracy": 0.87,
-    "precision": 0.80,
-    "recall": 0.85,
-    "f1_score": 0.82,
-    "training_samples": 85,
-    "validation_samples": 21,
-    "feature_importance": {
-      "tests_passed_pct": 0.26,
-      "previous_failures": 0.19,
-      "code_changes_size": 0.16,
-      "code_review_score": 0.11,
-      "feature_complexity_score": 0.10,
-      "planning_duration": 0.08,
-      "lead_time": 0.06,
-      "team_velocity": 0.03,
-      "time_of_day": 0.01,
-      "day_of_week": 0.00
-    }
-  }
+ "success": true,
+ "model_version": "v1.0-2025-11-07",
+ "training_metrics": {
+ "accuracy": 0.87,
+ "precision": 0.80,
+ "recall": 0.85,
+ "f1_score": 0.82,
+ "training_samples": 85,
+ "validation_samples": 21,
+ "feature_importance": {
+ "tests_passed_pct": 0.26,
+ "previous_failures": 0.19,
+ "code_changes_size": 0.16,
+ "code_review_score": 0.11,
+ "feature_complexity_score": 0.10,
+ "planning_duration": 0.08,
+ "lead_time": 0.06,
+ "team_velocity": 0.03,
+ "time_of_day": 0.01,
+ "day_of_week": 0.00
+ }
+ }
 }
 ```
 
@@ -842,26 +841,26 @@ def _calculate_confidence(risk_score):
 **Response (200 OK):**
 ```json
 {
-  "model_version": "v1.0-2025-11-07",
-  "feature_importance": {
-    "tests_passed_pct": 0.25,
-    "previous_failures": 0.18,
-    "code_changes_size": 0.15,
-    "code_review_score": 0.12,
-    "feature_complexity_score": 0.10,
-    "planning_duration": 0.08,
-    "lead_time": 0.07,
-    "team_velocity": 0.03,
-    "time_of_day": 0.01,
-    "day_of_week": 0.01
-  },
-  "top_features": [
-    {"feature": "tests_passed_pct", "importance": 0.25},
-    {"feature": "previous_failures", "importance": 0.18},
-    {"feature": "code_changes_size", "importance": 0.15},
-    {"feature": "code_review_score", "importance": 0.12},
-    {"feature": "feature_complexity_score", "importance": 0.10}
-  ]
+ "model_version": "v1.0-2025-11-07",
+ "feature_importance": {
+ "tests_passed_pct": 0.25,
+ "previous_failures": 0.18,
+ "code_changes_size": 0.15,
+ "code_review_score": 0.12,
+ "feature_complexity_score": 0.10,
+ "planning_duration": 0.08,
+ "lead_time": 0.07,
+ "team_velocity": 0.03,
+ "time_of_day": 0.01,
+ "day_of_week": 0.01
+ },
+ "top_features": [
+ {"feature": "tests_passed_pct", "importance": 0.25},
+ {"feature": "previous_failures", "importance": 0.18},
+ {"feature": "code_changes_size", "importance": 0.15},
+ {"feature": "code_review_score", "importance": 0.12},
+ {"feature": "feature_complexity_score", "importance": 0.10}
+ ]
 }
 ```
 
@@ -893,34 +892,34 @@ Extrayendo features de ultimos 90 dias...
 Dataset creado: 105 samples
 
 Balance de clases:
-  - Deployments exitosos: 89 (84.8%)
-  - Deployments fallidos: 16 (15.2%)
+ - Deployments exitosos: 89 (84.8%)
+ - Deployments fallidos: 16 (15.2%)
 
 Entrenando Random Forest Classifier...
 
 === Training Metrics ===
-Accuracy:  0.850
+Accuracy: 0.850
 Precision: 0.778
-Recall:    0.875
-F1 Score:  0.824
+Recall: 0.875
+F1 Score: 0.824
 
-Training samples:   84
+Training samples: 84
 Validation samples: 21
 
 === Top 5 Feature Importance ===
-tests_passed_pct          0.2615
-previous_failures         0.1842
-code_changes_size         0.1523
-code_review_score         0.1187
-feature_complexity_score  0.0982
+tests_passed_pct 0.2615
+previous_failures 0.1842
+code_changes_size 0.1523
+code_review_score 0.1187
+feature_complexity_score 0.0982
 
 Modelo guardado en: /tmp/deployment_risk_model.pkl
 Model version: v1.0-2025-11-07
 
 === Validation Checks ===
-✓ Accuracy OK (0.850 >= 0.70)
-✓ F1 Score OK (0.824 >= 0.60)
-✓ Training samples OK (84 >= 50)
+[x] Accuracy OK (0.850 >= 0.70)
+[x] F1 Score OK (0.824 >= 0.60)
+[x] Training samples OK (84 >= 50)
 
 === Training Completed Successfully ===
 ```
@@ -963,13 +962,13 @@ Ejemplo: `v1.0-2025-11-07`
 Modelos se guardan en formato pickle:
 ```python
 model_data = {
-    "model": self.model,
-    "metadata": self.model_metadata,
-    "feature_names": self.feature_names,
+ "model": self.model,
+ "metadata": self.model_metadata,
+ "feature_names": self.feature_names,
 }
 
 with open(path, "wb") as f:
-    pickle.dump(model_data, f)
+ pickle.dump(model_data, f)
 ```
 
 **Model Storage:**
@@ -986,31 +985,31 @@ Para produccion, usar storage persistente:
 ### Archivos Creados
 
 1. **api/callcentersite/dora_metrics/ml_features.py** (nuevo)
-   - Clase FeatureExtractor
-   - Metodos extract_deployment_features, create_training_dataset
-   - Metodos normalize_features, features_to_array
+ - Clase FeatureExtractor
+ - Metodos extract_deployment_features, create_training_dataset
+ - Metodos normalize_features, features_to_array
 
 2. **api/callcentersite/dora_metrics/ml_models.py** (nuevo)
-   - Clase DeploymentRiskPredictor
-   - Metodos train_model, predict_risk, explain_prediction
-   - Metodos save_model, load_model
+ - Clase DeploymentRiskPredictor
+ - Metodos train_model, predict_risk, explain_prediction
+ - Metodos save_model, load_model
 
 3. **api/callcentersite/dora_metrics/views.py** (actualizado)
-   - predict_deployment_risk
-   - predict_model_stats
-   - predict_retrain_model
-   - predict_feature_importance
+ - predict_deployment_risk
+ - predict_model_stats
+ - predict_retrain_model
+ - predict_feature_importance
 
 4. **api/callcentersite/dora_metrics/urls.py** (actualizado)
-   - URLs para endpoints Predictive Analytics
+ - URLs para endpoints Predictive Analytics
 
 5. **scripts/ml/retrain_deployment_risk_model.py** (nuevo)
-   - Script automatico de re-training
-   - Validaciones de calidad
-   - Reportes
+ - Script automatico de re-training
+ - Validaciones de calidad
+ - Reportes
 
 6. **api/callcentersite/dora_metrics/tests_predictive_analytics.py** (nuevo)
-   - Tests unitarios completos (coverage mayor a 85%)
+ - Tests unitarios completos (coverage mayor a 85%)
 
 ### Dependencias
 
@@ -1094,24 +1093,24 @@ python manage.py test dora_metrics.tests_predictive_analytics
 ### Metricas a Monitorear
 
 1. **Model Performance:**
-   - Accuracy drift over time
-   - Precision/Recall drift
-   - F1 Score trends
+ - Accuracy drift over time
+ - Precision/Recall drift
+ - F1 Score trends
 
 2. **Prediction Distribution:**
-   - Risk score distribution
-   - Risk level distribution (very_low, low, medium, high)
-   - Confidence score distribution
+ - Risk score distribution
+ - Risk level distribution (very_low, low, medium, high)
+ - Confidence score distribution
 
 3. **Feature Distribution:**
-   - Feature value distributions over time
-   - Feature importance changes
-   - Missing features rate
+ - Feature value distributions over time
+ - Feature importance changes
+ - Missing features rate
 
 4. **API Performance:**
-   - Prediction latency (P50, P95, P99)
-   - Error rate
-   - Request rate
+ - Prediction latency (P50, P95, P99)
+ - Error rate
+ - Request rate
 
 ### Alertas
 
@@ -1138,9 +1137,9 @@ import requests
 
 # Antes de deployment, predecir riesgo
 response = requests.post(
-    "https://api.example.com/api/dora/predict/deployment-risk/",
-    json={"cycle_id": "deploy-2025-123"},
-    headers={"Authorization": "Bearer <token>"}
+ "https://api.example.com/api/dora/predict/deployment-risk/",
+ json={"cycle_id": "deploy-2025-123"},
+ headers={"Authorization": "Bearer <token>"}
 )
 
 prediction = response.json()["prediction"]
@@ -1150,14 +1149,14 @@ print(f"Risk Level: {prediction['risk_level']}")
 print(f"Confidence: {prediction['confidence']:.2f}")
 
 if prediction['risk_score'] > 0.7:
-    print("HIGH RISK - Consider postponing deployment")
-    print("Recommendations:")
-    for rec in prediction['recommendations']:
-        print(f"  - {rec}")
+ print("HIGH RISK - Consider postponing deployment")
+ print("Recommendations:")
+ for rec in prediction['recommendations']:
+ print(f" - {rec}")
 elif prediction['risk_score'] > 0.4:
-    print("MEDIUM RISK - Prepare rollback plan")
+ print("MEDIUM RISK - Prepare rollback plan")
 else:
-    print("LOW RISK - Proceed with deployment")
+ print("LOW RISK - Proceed with deployment")
 ```
 
 ### Ejemplo 2: Monthly Re-training
@@ -1171,15 +1170,15 @@ python scripts/ml/retrain_deployment_risk_model.py --days 90
 
 # Verificar que training fue exitoso
 if [ $? -eq 0 ]; then
-    echo "Model retrained successfully"
-    # Enviar notificacion a Slack
-    curl -X POST https://hooks.slack.com/services/XXX \
-        -d '{"text": "ML model retrained successfully"}'
+ echo "Model retrained successfully"
+ # Enviar notificacion a Slack
+ curl -X POST https://hooks.slack.com/services/XXX \
+ -d '{"text": "ML model retrained successfully"}'
 else
-    echo "Model retraining FAILED"
-    # Enviar alerta
-    curl -X POST https://hooks.slack.com/services/XXX \
-        -d '{"text": "ALERT: ML model retraining FAILED"}'
+ echo "Model retraining FAILED"
+ # Enviar alerta
+ curl -X POST https://hooks.slack.com/services/XXX \
+ -d '{"text": "ALERT: ML model retraining FAILED"}'
 fi
 ```
 
@@ -1190,8 +1189,8 @@ import requests
 
 # Obtener feature importance
 response = requests.get(
-    "https://api.example.com/api/dora/predict/feature-importance/",
-    headers={"Authorization": "Bearer <token>"}
+ "https://api.example.com/api/dora/predict/feature-importance/",
+ headers={"Authorization": "Bearer <token>"}
 )
 
 importance = response.json()["feature_importance"]
@@ -1199,7 +1198,7 @@ importance = response.json()["feature_importance"]
 # Identificar top features para optimizar
 print("Focus on improving these areas:")
 for feature, imp in sorted(importance.items(), key=lambda x: x[1], reverse=True)[:3]:
-    print(f"{feature}: {imp:.3f}")
+ print(f"{feature}: {imp:.3f}")
 ```
 
 ## Roadmap Futuro
@@ -1207,26 +1206,26 @@ for feature, imp in sorted(importance.items(), key=lambda x: x[1], reverse=True)
 ### Phase 2 (Post-TASK-033)
 
 1. **Online Learning:**
-   - Actualizar modelo con feedback de deployments recientes
-   - Incremental training sin re-training completo
+ - Actualizar modelo con feedback de deployments recientes
+ - Incremental training sin re-training completo
 
 2. **A/B Testing:**
-   - Comparar multiples modelos en produccion
-   - Gradual rollout de nuevos modelos
+ - Comparar multiples modelos en produccion
+ - Gradual rollout de nuevos modelos
 
 3. **Advanced Features:**
-   - Sentiment analysis de commit messages
-   - Dependency graph complexity
-   - Developer experience level
+ - Sentiment analysis de commit messages
+ - Dependency graph complexity
+ - Developer experience level
 
 4. **AutoML:**
-   - Hyperparameter tuning automatico
-   - Automatic feature selection
-   - Model selection automatico
+ - Hyperparameter tuning automatico
+ - Automatic feature selection
+ - Model selection automatico
 
 5. **Deep Learning:**
-   - LSTM para capturar temporal patterns
-   - Attention mechanisms para explicabilidad
+ - LSTM para capturar temporal patterns
+ - Attention mechanisms para explicabilidad
 
 ## Compliance
 
