@@ -17,16 +17,33 @@ Outputs:
 - Lessons learned
 """
 
+import json
+import re
+import sys
 from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
-from .sdlc_base import SDLCAgent, SDLCPhaseResult, SDLCPipeline
-from .sdlc_planner import SDLCPlannerAgent
-from .sdlc_feasibility import SDLCFeasibilityAgent
-from .sdlc_design import SDLCDesignAgent
-from .sdlc_testing import SDLCTestingAgent
-from .sdlc_deployment import SDLCDeploymentAgent
+from .base_agent import SDLCAgent, SDLCPhaseResult
+from .planner_agent import SDLCPlannerAgent
+from .feasibility_agent import SDLCFeasibilityAgent
+from .design_agent import SDLCDesignAgent
+from .testing_agent import SDLCTestingAgent
+from .deployment_agent import SDLCDeploymentAgent
+
+# Add parent paths for LLMGenerator import
+sys.path.insert(0, str(Path(__file__).parent.parent.parent))
+
+try:
+    from generators.llm_generator import LLMGenerator
+    LLM_AVAILABLE = True
+except ImportError:
+    LLM_AVAILABLE = False
+    LLMGenerator = None
+
+# Orchestration method constants
+ORCHESTRATION_METHOD_LLM = "llm"
+ORCHESTRATION_METHOD_HEURISTIC = "heuristic"
 
 
 class SDLCOrchestratorAgent(SDLCAgent):
@@ -38,6 +55,10 @@ class SDLCOrchestratorAgent(SDLCAgent):
     """
 
     VALID_PHASES = ["planning", "feasibility", "design", "implementation", "testing", "deployment", "maintenance"]
+
+    # Orchestration method constants (class-level)
+    ORCHESTRATION_METHOD_LLM = ORCHESTRATION_METHOD_LLM
+    ORCHESTRATION_METHOD_HEURISTIC = ORCHESTRATION_METHOD_HEURISTIC
 
     def __init__(self, config: Dict[str, Any] = None):
         super().__init__(
@@ -52,6 +73,17 @@ class SDLCOrchestratorAgent(SDLCAgent):
         self.design_agent = SDLCDesignAgent(config)
         self.testing_agent = SDLCTestingAgent(config)
         self.deployment_agent = SDLCDeploymentAgent(config)
+
+        # Initialize LLM generator if config provided and LLM available
+        self.llm_generator = None
+        self.use_llm = False
+        if config and LLM_AVAILABLE:
+            try:
+                self.llm_generator = LLMGenerator(config=config)
+                self.use_llm = True
+                self.logger.info(f"LLMGenerator initialized for orchestration with {config.get('llm_provider', 'default')}")
+            except Exception as e:
+                self.logger.warning(f"Failed to initialize LLM for orchestration: {e}. Using heuristics only.")
 
     def validate_input(self, input_data: Dict[str, Any]) -> List[str]:
         """Valida inputs del orchestrator."""
@@ -78,6 +110,252 @@ class SDLCOrchestratorAgent(SDLCAgent):
                 errors.append(f"start_phase ({start_phase}) debe ser antes de end_phase ({end_phase})")
 
         return errors
+
+    def _should_proceed_to_next_phase(
+        self,
+        current_phase: str,
+        phase_result: Dict[str, Any]
+    ) -> bool:
+        """Decide si proceder a siguiente fase usando LLM con fallback a heurísticas."""
+        if self.use_llm and self.llm_generator:
+            try:
+                return self._should_proceed_to_next_phase_with_llm(current_phase, phase_result)
+            except Exception as e:
+                self.logger.warning(f"LLM phase decision failed: {e}, falling back to heuristics")
+                return self._should_proceed_to_next_phase_heuristic(current_phase, phase_result)
+        else:
+            return self._should_proceed_to_next_phase_heuristic(current_phase, phase_result)
+
+    def _should_proceed_to_next_phase_heuristic(
+        self,
+        current_phase: str,
+        phase_result: Dict[str, Any]
+    ) -> bool:
+        """Decision heurística para proceder a siguiente fase."""
+        # Simple heuristic: check decision and confidence
+        decision = phase_result.get("decision", "go")
+        confidence = phase_result.get("confidence", 1.0)
+
+        if decision == "no-go":
+            return False
+        elif decision == "review" and confidence < 0.5:
+            return False
+        return True
+
+    def _should_proceed_to_next_phase_with_llm(
+        self,
+        current_phase: str,
+        phase_result: Dict[str, Any]
+    ) -> bool:
+        """Decision con LLM para proceder a siguiente fase."""
+        decision = phase_result.get("decision", "go")
+        confidence = phase_result.get("confidence", 1.0)
+        risks = phase_result.get("risks", [])
+
+        prompt = f"""Analiza si el pipeline SDLC debe proceder a la siguiente fase.
+
+**Fase Actual**: {current_phase}
+**Decisión de Fase**: {decision}
+**Confianza**: {confidence * 100:.1f}%
+**Riesgos Identificados**: {len(risks)}
+
+**Detalles de Riesgos**:
+{json.dumps(risks[:5], indent=2) if risks else "Ninguno"}
+
+Considera:
+1. Si la decisión es "no-go", NO debe proceder
+2. Si hay riesgos críticos sin mitigación, debe detenerse
+3. Si la confianza es muy baja (<40%), revisar antes de proceder
+4. "review" puede proceder con precauciones
+
+Responde en formato JSON:
+{{
+  "should_proceed": true/false,
+  "confidence": 0.0-1.0,
+  "reasoning": "explicación de la decisión"
+}}"""
+
+        llm_response = self.llm_generator._call_llm(prompt)
+        result = self._parse_llm_phase_decision(llm_response, phase_result)
+        return result.get("should_proceed", True)
+
+    def _parse_llm_phase_decision(
+        self,
+        llm_response: str,
+        phase_result: Dict[str, Any]
+    ) -> Dict[str, Any]:
+        """Parse LLM response para decisión de fase."""
+        try:
+            # Try to extract JSON from response
+            json_match = re.search(r'\{[\s\S]*\}', llm_response)
+            if json_match:
+                result = json.loads(json_match.group(0))
+                return {
+                    "should_proceed": result.get("should_proceed", True),
+                    "confidence": float(result.get("confidence", 0.8)),
+                    "reasoning": result.get("reasoning", "")
+                }
+        except (json.JSONDecodeError, ValueError) as e:
+            self.logger.warning(f"Failed to parse LLM phase decision: {e}")
+
+        # Fallback: simple text analysis
+        should_proceed = "no debe proceder" not in llm_response.lower() and "should not proceed" not in llm_response.lower()
+        return {
+            "should_proceed": should_proceed,
+            "confidence": 0.7,
+            "reasoning": llm_response[:200]
+        }
+
+    def _aggregate_risks_with_llm(
+        self,
+        phase_results: Dict[str, Dict[str, Any]]
+    ) -> List[Dict[str, Any]]:
+        """Agrega y analiza riesgos de todas las fases usando LLM."""
+        # Collect all risks from phases
+        all_risks = []
+        for phase, result in phase_results.items():
+            risks = result.get("risks", [])
+            for risk in risks:
+                risk_with_phase = risk.copy()
+                risk_with_phase["source_phase"] = phase
+                all_risks.append(risk_with_phase)
+
+        if not all_risks:
+            return []
+
+        prompt = f"""Agrega y analiza los riesgos identificados en múltiples fases del SDLC.
+
+**Total de Riesgos**: {len(all_risks)}
+
+**Riesgos por Fase**:
+{json.dumps(all_risks, indent=2)}
+
+Tarea:
+1. Identifica riesgos duplicados o relacionados entre fases
+2. Agrega riesgos similares en uno solo
+3. Prioriza por severidad e impacto acumulado
+4. Identifica patrones de riesgo cross-fase
+5. Genera lista final de riesgos únicos con severidad ajustada
+
+Responde en formato JSON:
+{{
+  "aggregated_risks": [
+    {{
+      "type": "technical|schedule|requirements|business",
+      "severity": "critical|high|medium|low",
+      "description": "descripción del riesgo agregado",
+      "phases": ["lista de fases donde aparece"],
+      "mitigation": "estrategia de mitigación combinada"
+    }}
+  ],
+  "overall_risk_level": "critical|high|medium|low"
+}}"""
+
+        try:
+            llm_response = self.llm_generator._call_llm(prompt)
+            return self._parse_llm_aggregated_risks(llm_response, all_risks)
+        except Exception as e:
+            self.logger.warning(f"LLM risk aggregation failed: {e}")
+            return all_risks  # Return original risks as fallback
+
+    def _parse_llm_aggregated_risks(
+        self,
+        llm_response: str,
+        original_risks: List[Dict[str, Any]]
+    ) -> List[Dict[str, Any]]:
+        """Parse LLM response para riesgos agregados."""
+        try:
+            # Try to extract JSON from response
+            json_match = re.search(r'\{[\s\S]*\}', llm_response)
+            if json_match:
+                result = json.loads(json_match.group(0))
+                aggregated_risks = result.get("aggregated_risks", [])
+                if aggregated_risks:
+                    return aggregated_risks
+        except (json.JSONDecodeError, ValueError) as e:
+            self.logger.warning(f"Failed to parse LLM aggregated risks: {e}")
+
+        # Fallback: return original risks
+        return original_risks
+
+    def _synthesize_recommendations_with_llm(
+        self,
+        phase_results: Dict[str, Dict[str, Any]]
+    ) -> List[str]:
+        """Sintetiza recomendaciones de todas las fases usando LLM."""
+        # Collect all recommendations
+        all_recommendations = {}
+        for phase, result in phase_results.items():
+            recommendations = result.get("recommendations", [])
+            if recommendations:
+                all_recommendations[phase] = recommendations
+
+        if not all_recommendations:
+            return ["Pipeline ejecutado exitosamente. Proceder con siguiente fase."]
+
+        prompt = f"""Sintetiza recomendaciones de múltiples fases del SDLC en un conjunto coherente de acciones.
+
+**Recomendaciones por Fase**:
+{json.dumps(all_recommendations, indent=2)}
+
+**Resultados de Fases**:
+{json.dumps({k: {"decision": v.get("decision"), "confidence": v.get("confidence")} for k, v in phase_results.items()}, indent=2)}
+
+Tarea:
+1. Elimina recomendaciones duplicadas o conflictivas
+2. Prioriza recomendaciones por impacto
+3. Agrupa recomendaciones relacionadas
+4. Genera lista final de 3-7 recomendaciones accionables
+5. Ordena por prioridad (más importante primero)
+
+Responde en formato JSON:
+{{
+  "recommendations": [
+    "Recomendación 1 (más importante)",
+    "Recomendación 2",
+    "Recomendación 3"
+  ],
+  "priority": "high|medium|low"
+}}"""
+
+        try:
+            llm_response = self.llm_generator._call_llm(prompt)
+            return self._parse_llm_recommendations(llm_response, all_recommendations)
+        except Exception as e:
+            self.logger.warning(f"LLM recommendation synthesis failed: {e}")
+            # Fallback: flatten all recommendations
+            recommendations = []
+            for recs in all_recommendations.values():
+                recommendations.extend(recs)
+            return recommendations[:7]  # Limit to 7
+
+    def _parse_llm_recommendations(
+        self,
+        llm_response: str,
+        original_recommendations: Dict[str, List[str]]
+    ) -> List[str]:
+        """Parse LLM response para recomendaciones sintetizadas."""
+        try:
+            # Try to extract JSON from response
+            json_match = re.search(r'\{[\s\S]*\}', llm_response)
+            if json_match:
+                result = json.loads(json_match.group(0))
+                recommendations = result.get("recommendations", [])
+                if recommendations:
+                    return recommendations
+        except (json.JSONDecodeError, ValueError) as e:
+            self.logger.warning(f"Failed to parse LLM recommendations: {e}")
+
+        # Fallback: extract from text
+        recommendations = []
+        lines = llm_response.split('\n')
+        for line in lines:
+            line = line.strip()
+            # Look for bullet points or numbered lists
+            if line.startswith('-') or line.startswith('•') or re.match(r'^\d+\.', line):
+                recommendations.append(line.lstrip('-•0123456789. '))
+
+        return recommendations[:7] if recommendations else ["Revisar resultados del pipeline"]
 
     def run(self, input_data: Dict[str, Any]) -> Dict[str, Any]:
         """
@@ -236,7 +514,10 @@ class SDLCOrchestratorAgent(SDLCAgent):
             })
             raise
 
-        # Generate final report
+        # Determine orchestration method
+        orchestration_method = ORCHESTRATION_METHOD_LLM if self.use_llm and self.llm_generator else ORCHESTRATION_METHOD_HEURISTIC
+
+        # Generate final report (optionally using LLM for synthesis)
         final_report = self._generate_final_report(
             feature_request,
             phase_results,
@@ -255,7 +536,8 @@ class SDLCOrchestratorAgent(SDLCAgent):
             "execution_log": execution_log,
             "all_artifacts": all_artifacts,
             "final_report": final_report,
-            "report_path": str(report_path)
+            "report_path": str(report_path),
+            "orchestration_method": orchestration_method
         }
 
     def _should_execute_phase(
@@ -544,7 +826,17 @@ Total artifacts: {len(all_artifacts)}
         phase_results: Dict[str, Dict[str, Any]],
         execution_log: List[Dict[str, str]]
     ) -> str:
-        """Genera recomendaciones basadas en resultados."""
+        """Genera recomendaciones basadas en resultados usando LLM con fallback."""
+        # Try LLM-enhanced recommendations first
+        if self.use_llm and self.llm_generator:
+            try:
+                llm_recommendations = self._synthesize_recommendations_with_llm(phase_results)
+                if llm_recommendations:
+                    return "\n".join([f"- {rec}" for rec in llm_recommendations])
+            except Exception as e:
+                self.logger.warning(f"LLM recommendation generation failed: {e}, using heuristics")
+
+        # Fallback to heuristic recommendations
         recommendations = []
 
         # Check feasibility
