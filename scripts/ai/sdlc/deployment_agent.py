@@ -18,11 +18,28 @@ Outputs:
 - Monitoring plan
 """
 
+import json
+import re
+import sys
 from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, List
 
-from .sdlc_base import SDLCAgent, SDLCPhaseResult
+from .base_agent import SDLCAgent, SDLCPhaseResult
+
+# Add parent paths for LLMGenerator import
+sys.path.insert(0, str(Path(__file__).parent.parent.parent))
+
+try:
+    from generators.llm_generator import LLMGenerator
+    LLM_AVAILABLE = True
+except ImportError:
+    LLM_AVAILABLE = False
+    LLMGenerator = None
+
+# Deployment method constants
+DEPLOYMENT_METHOD_LLM = "llm"
+DEPLOYMENT_METHOD_HEURISTIC = "heuristic"
 
 
 class SDLCDeploymentAgent(SDLCAgent):
@@ -38,6 +55,15 @@ class SDLCDeploymentAgent(SDLCAgent):
             phase="deployment",
             config=config
         )
+
+        # Initialize LLM generator if config provided and LLM available
+        self.llm_generator = None
+        if config and LLM_AVAILABLE:
+            try:
+                self.llm_generator = LLMGenerator(config=config)
+                self.logger.info(f"LLMGenerator initialized with {config.get('llm_provider', 'default')}")
+            except Exception as e:
+                self.logger.warning(f"Failed to initialize LLM: {e}. Falling back to heuristics.")
 
     def validate_input(self, input_data: Dict[str, Any]) -> List[str]:
         """Valida que existan testing y design results."""
@@ -81,6 +107,9 @@ class SDLCDeploymentAgent(SDLCAgent):
         environment = input_data.get("environment", "staging")
 
         self.logger.info(f"Generando deployment plan para: {issue.get('issue_title', 'Unknown')} -> {environment}")
+
+        # Determine deployment method
+        deployment_method = DEPLOYMENT_METHOD_LLM if self.llm_generator else DEPLOYMENT_METHOD_HEURISTIC
 
         # Generar deployment plan
         deployment_plan = self._generate_deployment_plan(issue, design_result, testing_result, environment)
@@ -150,6 +179,7 @@ class SDLCDeploymentAgent(SDLCAgent):
             "monitoring_path": str(monitoring_path),
             "environment": environment,
             "artifacts": artifacts,
+            "deployment_method": deployment_method,
             "phase_result": phase_result
         }
 
@@ -1011,6 +1041,484 @@ curl -f http://localhost/api/db-check
         return """
 No data migrations required for this deployment.
 """
+
+    # LLM Integration Methods
+
+    def _generate_deployment_strategy_with_llm(
+        self,
+        issue: Dict[str, Any],
+        design_result: Dict[str, Any],
+        testing_result: Dict[str, Any],
+        environment: str
+    ) -> Dict[str, Any]:
+        """Genera estrategia de deployment usando LLM con fallback a heurísticas."""
+        if not self.llm_generator:
+            return self._generate_deployment_strategy_heuristic(issue, environment)
+
+        try:
+            title = issue.get("issue_title", "")
+            technical_requirements = issue.get("technical_requirements", [])
+            story_points = issue.get("story_points", 0)
+
+            prompt = f"""Genera una estrategia de deployment detallada para el siguiente feature del proyecto IACT.
+
+**Feature**: {title}
+**Environment**: {environment}
+**Story Points**: {story_points}
+
+**Requisitos Técnicos**:
+{chr(10).join(f"- {req}" for req in technical_requirements)}
+
+**Contexto del Diseño**: {design_result.get('hld', '')[:500]}
+
+**Estado de Testing**: Tests pasados, coverage > 80%
+
+Considera:
+1. Tipo de deployment (rolling, blue-green, canary)
+2. Fases del deployment
+3. Estrategias de mitigación de riesgos
+4. Downtime esperado
+5. Dependencias y coordinación requerida
+
+Responde en formato JSON:
+{{
+  "deployment_strategy": {{
+    "approach": "rolling|blue-green|canary",
+    "phases": ["fase 1", "fase 2"],
+    "risk_mitigation": ["estrategia 1", "estrategia 2"],
+    "estimated_downtime": "X minutes",
+    "rollback_time": "Y minutes"
+  }}
+}}"""
+
+            llm_response = self.llm_generator._call_llm(prompt)
+            return self._parse_llm_deployment_strategy(
+                llm_response, issue, design_result, testing_result, environment
+            )
+
+        except Exception as e:
+            self.logger.warning(f"LLM deployment strategy generation failed: {e}, using fallback")
+            return self._generate_deployment_strategy_heuristic(issue, environment)
+
+    def _generate_deployment_strategy_heuristic(
+        self,
+        issue: Dict[str, Any],
+        environment: str
+    ) -> Dict[str, Any]:
+        """Genera estrategia de deployment con heurísticas (fallback)."""
+        story_points = issue.get("story_points", 0)
+
+        # Simple heuristic: larger features need more careful deployment
+        if story_points >= 8:
+            approach = "rolling"
+            phases = ["deploy to staging", "test thoroughly", "deploy to 25% production", "monitor", "deploy to 100%"]
+        else:
+            approach = "standard"
+            phases = ["deploy to staging", "test", "deploy to production"]
+
+        return {
+            "deployment_strategy": {
+                "approach": approach,
+                "phases": phases,
+                "risk_mitigation": ["backup database", "gradual rollout", "monitor metrics"],
+                "estimated_downtime": "0 minutes",
+                "rollback_time": "5-10 minutes"
+            }
+        }
+
+    def _parse_llm_deployment_strategy(
+        self,
+        llm_response: str,
+        issue: Dict[str, Any],
+        design_result: Dict[str, Any],
+        testing_result: Dict[str, Any],
+        environment: str
+    ) -> Dict[str, Any]:
+        """Parse LLM response para extraer estrategia de deployment."""
+        try:
+            # Try to extract JSON from response
+            json_match = re.search(r'\{[\s\S]*\}', llm_response)
+            if json_match:
+                result = json.loads(json_match.group(0))
+
+                # Validate structure
+                if "deployment_strategy" in result:
+                    strategy = result["deployment_strategy"]
+
+                    # Normalize
+                    normalized_strategy = {
+                        "deployment_strategy": {
+                            "approach": strategy.get("approach", "standard"),
+                            "phases": strategy.get("phases", []),
+                            "risk_mitigation": strategy.get("risk_mitigation", []),
+                            "estimated_downtime": strategy.get("estimated_downtime", "0 minutes"),
+                            "rollback_time": strategy.get("rollback_time", "5-10 minutes")
+                        }
+                    }
+
+                    return normalized_strategy
+
+        except (json.JSONDecodeError, ValueError) as e:
+            self.logger.warning(f"Failed to parse LLM deployment strategy as JSON: {e}")
+
+        # Fallback to heuristic
+        return self._generate_deployment_strategy_heuristic(issue, environment)
+
+    def _identify_deployment_risks_with_llm(
+        self,
+        issue: Dict[str, Any],
+        design_result: Dict[str, Any],
+        testing_result: Dict[str, Any],
+        environment: str
+    ) -> List[Dict[str, Any]]:
+        """Identifica riesgos de deployment usando LLM con fallback a heurísticas."""
+        if not self.llm_generator:
+            return self._identify_deployment_risks_heuristic(issue, environment)
+
+        try:
+            title = issue.get("issue_title", "")
+            technical_requirements = issue.get("technical_requirements", [])
+
+            prompt = f"""Identifica riesgos específicos de deployment para el siguiente feature del proyecto IACT.
+
+**Feature**: {title}
+**Environment**: {environment}
+
+**Requisitos Técnicos**:
+{chr(10).join(f"- {req}" for req in technical_requirements)}
+
+**Contexto del Diseño**: {design_result.get('hld', '')[:500]}
+
+Identifica riesgos considerando:
+1. Riesgos de deployment (downtime, rollback, data loss)
+2. Riesgos de integración (dependencies, services)
+3. Riesgos de performance (load, response time)
+4. Riesgos de seguridad (vulnerabilities, data exposure)
+
+Responde en formato JSON:
+{{
+  "risks": [
+    {{
+      "type": "deployment|integration|performance|security",
+      "severity": "critical|high|medium|low",
+      "description": "descripción del riesgo",
+      "mitigation": "estrategia de mitigación"
+    }}
+  ]
+}}"""
+
+            llm_response = self.llm_generator._call_llm(prompt)
+            return self._parse_llm_deployment_risks(
+                llm_response, issue, design_result, testing_result
+            )
+
+        except Exception as e:
+            self.logger.warning(f"LLM deployment risks identification failed: {e}, using fallback")
+            return self._identify_deployment_risks_heuristic(issue, environment)
+
+    def _identify_deployment_risks_heuristic(
+        self,
+        issue: Dict[str, Any],
+        environment: str
+    ) -> List[Dict[str, Any]]:
+        """Identifica riesgos de deployment con heurísticas (fallback)."""
+        risks = []
+        story_points = issue.get("story_points", 0)
+        technical_requirements = issue.get("technical_requirements", [])
+
+        # Risk: Large/complex feature
+        if story_points >= 8:
+            risks.append({
+                "type": "deployment",
+                "severity": "medium",
+                "description": f"Feature complejo ({story_points} story points) puede tener deployment más riesgoso",
+                "mitigation": "Deployment gradual con monitoreo intensivo"
+            })
+
+        # Risk: Database changes
+        if any("database" in req.lower() or "migration" in req.lower() for req in technical_requirements):
+            risks.append({
+                "type": "deployment",
+                "severity": "high",
+                "description": "Cambios de base de datos pueden causar problemas de rollback",
+                "mitigation": "Backup completo antes de deployment, testear migraciones en staging"
+            })
+
+        # Risk: Production deployment
+        if environment == "production":
+            risks.append({
+                "type": "deployment",
+                "severity": "high",
+                "description": "Deployment a producción requiere precauciones adicionales",
+                "mitigation": "Ejecutar durante horario de baja demanda, equipo en standby"
+            })
+
+        return risks
+
+    def _parse_llm_deployment_risks(
+        self,
+        llm_response: str,
+        issue: Dict[str, Any],
+        design_result: Dict[str, Any],
+        testing_result: Dict[str, Any]
+    ) -> List[Dict[str, Any]]:
+        """Parse LLM response para extraer riesgos de deployment."""
+        try:
+            # Try to extract JSON from response
+            json_match = re.search(r'\{[\s\S]*\}', llm_response)
+            if json_match:
+                result = json.loads(json_match.group(0))
+
+                risks = result.get("risks", [])
+
+                # Validate and normalize
+                normalized_risks = []
+                for risk in risks:
+                    if isinstance(risk, dict) and "description" in risk:
+                        normalized_risk = {
+                            "type": risk.get("type", "deployment"),
+                            "severity": risk.get("severity", "medium"),
+                            "description": risk.get("description", ""),
+                            "mitigation": risk.get("mitigation", "")
+                        }
+                        normalized_risks.append(normalized_risk)
+
+                if normalized_risks:
+                    return normalized_risks
+
+        except (json.JSONDecodeError, ValueError) as e:
+            self.logger.warning(f"Failed to parse LLM deployment risks as JSON: {e}")
+
+        # Fallback to heuristic
+        return self._identify_deployment_risks_heuristic(issue, "staging")
+
+    def _generate_rollback_strategy_with_llm(
+        self,
+        issue: Dict[str, Any],
+        design_result: Dict[str, Any],
+        environment: str
+    ) -> Dict[str, Any]:
+        """Genera estrategia de rollback usando LLM con fallback a heurísticas."""
+        if not self.llm_generator:
+            return self._generate_rollback_strategy_heuristic(issue, environment)
+
+        try:
+            title = issue.get("issue_title", "")
+            technical_requirements = issue.get("technical_requirements", [])
+
+            prompt = f"""Genera una estrategia de rollback detallada para el siguiente feature del proyecto IACT.
+
+**Feature**: {title}
+**Environment**: {environment}
+
+**Requisitos Técnicos**:
+{chr(10).join(f"- {req}" for req in technical_requirements)}
+
+**Contexto del Diseño**: {design_result.get('hld', '')[:500]}
+
+Considera:
+1. Triggers para activar rollback (cuando hacer rollback)
+2. Pasos específicos de rollback
+3. Tiempo estimado de rollback
+4. Riesgo de pérdida de datos
+5. Estrategia de validación post-rollback
+
+Responde en formato JSON:
+{{
+  "rollback_strategy": {{
+    "triggers": ["trigger 1", "trigger 2"],
+    "steps": ["paso 1", "paso 2"],
+    "estimated_time": "X minutes",
+    "data_loss_risk": "low|medium|high",
+    "validation_steps": ["validación 1", "validación 2"]
+  }}
+}}"""
+
+            llm_response = self.llm_generator._call_llm(prompt)
+            return self._parse_llm_rollback_strategy(llm_response, issue, design_result, environment)
+
+        except Exception as e:
+            self.logger.warning(f"LLM rollback strategy generation failed: {e}, using fallback")
+            return self._generate_rollback_strategy_heuristic(issue, environment)
+
+    def _generate_rollback_strategy_heuristic(
+        self,
+        issue: Dict[str, Any],
+        environment: str
+    ) -> Dict[str, Any]:
+        """Genera estrategia de rollback con heurísticas (fallback)."""
+        return {
+            "rollback_strategy": {
+                "triggers": [
+                    "Health check fails after deployment",
+                    "Critical errors in logs",
+                    "Performance degradation > 50%"
+                ],
+                "steps": [
+                    "Stop application services",
+                    "Restore code to previous version",
+                    "Reverse database migrations if needed",
+                    "Restart services",
+                    "Verify rollback"
+                ],
+                "estimated_time": "5-10 minutes",
+                "data_loss_risk": "low",
+                "validation_steps": [
+                    "Health check passes",
+                    "No errors in logs",
+                    "Core functionality works"
+                ]
+            }
+        }
+
+    def _parse_llm_rollback_strategy(
+        self,
+        llm_response: str,
+        issue: Dict[str, Any],
+        design_result: Dict[str, Any],
+        environment: str
+    ) -> Dict[str, Any]:
+        """Parse LLM response para extraer estrategia de rollback."""
+        try:
+            # Try to extract JSON from response
+            json_match = re.search(r'\{[\s\S]*\}', llm_response)
+            if json_match:
+                result = json.loads(json_match.group(0))
+
+                if "rollback_strategy" in result:
+                    strategy = result["rollback_strategy"]
+
+                    # Normalize
+                    normalized_strategy = {
+                        "rollback_strategy": {
+                            "triggers": strategy.get("triggers", []),
+                            "steps": strategy.get("steps", []),
+                            "estimated_time": strategy.get("estimated_time", "5-10 minutes"),
+                            "data_loss_risk": strategy.get("data_loss_risk", "low"),
+                            "validation_steps": strategy.get("validation_steps", [])
+                        }
+                    }
+
+                    return normalized_strategy
+
+        except (json.JSONDecodeError, ValueError) as e:
+            self.logger.warning(f"Failed to parse LLM rollback strategy as JSON: {e}")
+
+        # Fallback to heuristic
+        return self._generate_rollback_strategy_heuristic(issue, environment)
+
+    def _generate_monitoring_strategy_with_llm(
+        self,
+        issue: Dict[str, Any],
+        design_result: Dict[str, Any],
+        environment: str
+    ) -> Dict[str, Any]:
+        """Genera estrategia de monitoring usando LLM con fallback a heurísticas."""
+        if not self.llm_generator:
+            return self._generate_monitoring_strategy_heuristic(issue, environment)
+
+        try:
+            title = issue.get("issue_title", "")
+            technical_requirements = issue.get("technical_requirements", [])
+
+            prompt = f"""Genera una estrategia de monitoring post-deployment para el siguiente feature del proyecto IACT.
+
+**Feature**: {title}
+**Environment**: {environment}
+
+**Requisitos Técnicos**:
+{chr(10).join(f"- {req}" for req in technical_requirements)}
+
+**Contexto del Diseño**: {design_result.get('hld', '')[:500]}
+
+Considera:
+1. Métricas clave a monitorear
+2. Umbrales de alertas (critical, warning)
+3. Duración del monitoring intensivo
+4. Herramientas de monitoring recomendadas
+5. Frecuencia de checks
+
+Responde en formato JSON:
+{{
+  "monitoring_strategy": {{
+    "key_metrics": ["metric 1", "metric 2"],
+    "alert_thresholds": {{
+      "error_rate": "X%",
+      "response_time": "Y seconds"
+    }},
+    "monitoring_duration": "X hours intensive, Y hours regular",
+    "tools": ["tool 1", "tool 2"],
+    "check_frequency": "every X minutes"
+  }}
+}}"""
+
+            llm_response = self.llm_generator._call_llm(prompt)
+            return self._parse_llm_monitoring_strategy(llm_response, issue, design_result, environment)
+
+        except Exception as e:
+            self.logger.warning(f"LLM monitoring strategy generation failed: {e}, using fallback")
+            return self._generate_monitoring_strategy_heuristic(issue, environment)
+
+    def _generate_monitoring_strategy_heuristic(
+        self,
+        issue: Dict[str, Any],
+        environment: str
+    ) -> Dict[str, Any]:
+        """Genera estrategia de monitoring con heurísticas (fallback)."""
+        return {
+            "monitoring_strategy": {
+                "key_metrics": [
+                    "response_time",
+                    "error_rate",
+                    "database_connections",
+                    "cpu_usage",
+                    "memory_usage"
+                ],
+                "alert_thresholds": {
+                    "error_rate": "5%",
+                    "response_time": "2 seconds"
+                },
+                "monitoring_duration": "2 hours intensive, 24 hours regular",
+                "tools": ["application logs", "database monitoring", "health checks"],
+                "check_frequency": "every 15 minutes for first 2 hours"
+            }
+        }
+
+    def _parse_llm_monitoring_strategy(
+        self,
+        llm_response: str,
+        issue: Dict[str, Any],
+        design_result: Dict[str, Any],
+        environment: str
+    ) -> Dict[str, Any]:
+        """Parse LLM response para extraer estrategia de monitoring."""
+        try:
+            # Try to extract JSON from response
+            json_match = re.search(r'\{[\s\S]*\}', llm_response)
+            if json_match:
+                result = json.loads(json_match.group(0))
+
+                if "monitoring_strategy" in result:
+                    strategy = result["monitoring_strategy"]
+
+                    # Normalize
+                    normalized_strategy = {
+                        "monitoring_strategy": {
+                            "key_metrics": strategy.get("key_metrics", []),
+                            "alert_thresholds": strategy.get("alert_thresholds", {}),
+                            "monitoring_duration": strategy.get("monitoring_duration", "24 hours"),
+                            "tools": strategy.get("tools", []),
+                            "check_frequency": strategy.get("check_frequency", "every 15 minutes")
+                        }
+                    }
+
+                    return normalized_strategy
+
+        except (json.JSONDecodeError, ValueError) as e:
+            self.logger.warning(f"Failed to parse LLM monitoring strategy as JSON: {e}")
+
+        # Fallback to heuristic
+        return self._generate_monitoring_strategy_heuristic(issue, environment)
 
     def _custom_guardrails(self, output_data: Dict[str, Any]) -> List[str]:
         """Guardrails especificos para Deployment phase."""
