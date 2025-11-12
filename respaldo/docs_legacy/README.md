@@ -23,22 +23,11 @@ Este directorio contiene la **estructura documental ANTIGUA** del proyecto IACT 
 4. **Sin trazabilidad**: Requisitos sin relación clara con necesidades de negocio
 5. **ADRs duplicados**: Dos ubicaciones diferentes (`docs/adr/` y `docs/arquitectura/adr/`)
 
-### Nueva Estructura (v4.0)
+### Nueva estructura planificada vs realidad
 
-Ver: `../docs/README.md`
+La reorganización planeada (estructura “v4.0”) no se completó. La documentación activa se mantiene en `docs/` y los requisitos continúan distribuidos en varios análisis dentro de `docs/backend_analisis/` y `docs/analisis/`.
 
-```
-implementacion/               ← Requisitos co-localizados con código
-  ├── backend/requisitos/
-  ├── frontend/requisitos/
-  └── infrastructure/requisitos/
-
-docs/                         ← Solo documentación transversal
-  ├── adr/                    (ADRs consolidados)
-  ├── specs/
-  ├── arquitectura/
-  └── infraestructura/
-```
+Consulta [`../docs/README.md`](../docs/README.md) para conocer la estructura vigente.
 
 ---
 

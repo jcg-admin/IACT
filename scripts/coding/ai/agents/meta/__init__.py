@@ -68,6 +68,14 @@ from .test_generation_agent import (
     TestType,
     CoverageType
 )
+# DRF Architecture (new)
+from .drf_architecture_agent import (
+    DRFArchitectureAgent,
+    DRFAnalysisResult,
+    DRFIssue,
+    DRFIssueSeverity,
+    ViewSetAnalysis
+)
 # Pipeline (implemented)
 from .pipeline import (
     ArchitectureImprovementPipeline,
@@ -114,5 +122,11 @@ __all__ = [
     'PipelineResult',
     'ConsolidatedRecommendation',
     'RecommendationPriority',
-    'create_architecture_improvement_pipeline'
+    'create_architecture_improvement_pipeline',
+    # DRF Architecture
+    'DRFArchitectureAgent',
+    'DRFAnalysisResult',
+    'DRFIssue',
+    'DRFIssueSeverity',
+    'ViewSetAnalysis'
 ]

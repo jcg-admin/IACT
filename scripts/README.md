@@ -1,124 +1,40 @@
----
-id: SCRIPTS-INDEX
-tipo: documentacion
-titulo: Scripts del Proyecto IACT
-fecha: 2025-11-03
----
+# Inventario real de scripts (2025-11-12)
 
-# Scripts del Proyecto IACT
+Este README refleja la estructura **existente** de `scripts/` después de la revisión documental. Cualquier referencia anterior a `scripts/requisitos/` u otras carpetas inexistentes debe considerarse obsoleta.
 
-Scripts organizados por función para facilitar tareas comunes.
-
-**IMPORTANTE**: Al crear nuevos scripts, seguir:
-- [Shell Scripting Guide](../docs/gobernanza/shell_scripting_guide.md) - Guía completa de shell scripting
-- [Estándares de Código](../docs/gobernanza/estandares_codigo.md) - Regla Fundamental de Output Profesional
-- [Plantillas de Scripts](templates/README.md) - Templates estandarizados
-
----
-
-## Estructura
-
+## Estructura actual
 ```
 scripts/
-├── README.md                    ← Este archivo
-├── templates/                   ← Plantillas de scripts estandarizadas
-│   ├── README.md                ← Guía de plantillas
-│   ├── bash_script_template.sh
-│   ├── posix_script_template.sh
-│   └── library_template.sh
-└── requisitos/                  ← Scripts para gestión de requisitos
-    ├── README.md                ← Documentación detallada
-    ├── generar_indices.py       ← Genera índices ISO 29148
-    ├── contar_requisitos.sh     ← Cuenta requisitos por tipo/dominio
-    ├── validar_frontmatter.py   ← Valida YAML de requisitos
-    └── listar_requisitos.sh     ← Lista todos los requisitos
+├── benchmarks/                ← Scripts de mediciones puntuales
+├── ci/                        ← Gates y validaciones de CI
+├── cli/                       ← Utilidades de línea de comandos
+├── coding/                    ← Experimentos y soporte para AI copilots
+├── examples/                  ← Ejemplos de automatizaciones
+├── guides/                    ← Guías de operación de scripts
+├── infrastructure/            ← Herramientas de infraestructura (cassandra, wasi, etc.)
+├── lib/                       ← Librerías auxiliares reutilizables
+├── templates/                 ← Plantillas para nuevos scripts
+├── validation/                ← Validaciones automatizadas (nomenclatura en inglés)
+├── validacion/                ← Validaciones heredadas (nomenclatura en español)
+├── workflows/                 ← Automatizaciones compuestas
+└── run_all_tests.sh           ← Orquestador de validaciones (ver sección dedicada)
 ```
 
----
+## Directorios destacados
+- **ci/**: contiene gates como `gate-no-emojis.sh`, `gate-docs-structure.sh`, `run-all-checks.sh` y scripts Python para evaluar calidad (`evaluate_quality_score.py`).
+- **validation/**: alberga verificaciones automáticas (calidad, seguridad, cumplimiento). Reemplaza gradualmente a `validacion/`.
+- **validacion/**: versión anterior en español; los scripts siguen operativos y se están migrando progresivamente.
+- **infrastructure/**: scripts relacionados con entornos (dev, benchmarking, logging, disaster recovery, wasi, cassandra).
+- **templates/**: plantillas para crear nuevos scripts (`bash`, bibliotecas compartidas, etc.).
 
-## Scripts de Requisitos
+## Scripts importantes
+- `run_all_tests.sh`: ejecuta validaciones encadenadas (backend, UI, seguridad y restricciones). Revisa el propio script para conocer flags como `--skip-frontend` o `--skip-security`.
+- `ci/run-all-checks.sh`: combina gates individuales en una sola ejecución.
+- `ci/run_architecture_analysis.py`: analiza el estado arquitectónico utilizando los reportes disponibles.
+- `validation/docs/`: contiene verificaciones específicas para estructura documental.
 
-### Uso rápido:
-
-```bash
-# Contar requisitos
-bash scripts/requisitos/contar_requisitos.sh
-
-# Listar todos los requisitos
-bash scripts/requisitos/listar_requisitos.sh
-
-# Validar frontmatter
-python scripts/requisitos/validar_frontmatter.py
-
-# Generar índices ISO 29148
-python scripts/requisitos/generar_indices.py
-```
-
-**Documentación completa**: [scripts/requisitos/README.md](requisitos/README.md)
-
----
-
-## Flujo de Trabajo Recomendado
-
-### Al trabajar con requisitos:
-
-1. **Crear/Editar** requisito en `docs/implementacion/`
-2. **Validar** frontmatter: `python scripts/requisitos/validar_frontmatter.py`
-3. **Generar** índices: `python scripts/requisitos/generar_indices.py`
-4. **Verificar** conteo: `bash scripts/requisitos/contar_requisitos.sh`
-5. **Commit** y push
-
----
-
-## Permisos
-
-Si encuentras problemas de permisos:
-
-```bash
-chmod +x scripts/requisitos/*.sh
-chmod +x scripts/requisitos/*.py
-```
-
----
-
-## Crear Nuevos Scripts
-
-Para crear un nuevo script en el proyecto:
-
-1. **Seleccionar plantilla apropiada** de `templates/`:
-   - `bash_script_template.sh` - Scripts complejos con características bash
-   - `posix_script_template.sh` - Scripts simples y portables
-   - `library_template.sh` - Bibliotecas de funciones reutilizables
-
-2. **Copiar y personalizar**:
-   ```bash
-   cp scripts/templates/bash_script_template.sh scripts/mi-nuevo-script.sh
-   # Editar y personalizar
-   ```
-
-3. **Validar antes de commit**:
-   ```bash
-   shellcheck scripts/mi-nuevo-script.sh
-   bash -n scripts/mi-nuevo-script.sh
-   ```
-
-Ver: [Plantillas de Scripts](templates/README.md) para guía completa.
-
----
-
-## Referencias
-
-**Documentación del Proyecto:**
-- [Estructura de Implementación](../docs/implementacion/README.md)
-- [Plantillas ISO 29148](../docs/plantillas/readme.md)
-- [Propuesta de Reestructuración](../docs/PROPUESTA_FINAL_REESTRUCTURACION.md)
-
-**Estándares y Guías:**
-- [Shell Scripting Guide Completa](../docs/gobernanza/shell_scripting_guide.md)
-- [Estándares de Código](../docs/gobernanza/estandares_codigo.md)
-- [Plantillas de Scripts](templates/README.md)
-
----
-
-**Última actualización**: 2025-11-03
-**Mantenedor**: equipo-arquitectura
+## Buenas prácticas
+1. Documenta cualquier script nuevo dentro de `docs/scripts/`.
+2. Usa las plantillas de `templates/` para mantener consistencia.
+3. Cuando migres un script de `validacion/` a `validation/`, deja un enlace o aviso temporal para no perder trazabilidad.
+4. Ejecuta `shellcheck` y `bash -n` antes de abrir un PR con cambios en scripts.
