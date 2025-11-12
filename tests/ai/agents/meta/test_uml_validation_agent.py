@@ -336,5 +336,111 @@ class TestUMLValidationIntegration:
         assert 'confidence' in result_dict
 
 
+# 9. LLM Integration Tests (TDD - RED Phase)
+class TestLLMIntegration:
+    """Test LLM integration for UML validation."""
+
+    def test_initializes_with_llm_config(self):
+        """Should initialize LLMGenerator when config provided."""
+        config = {
+            "llm_provider": "anthropic",
+            "model": "claude-3-5-sonnet-20241022"
+        }
+        agent = UMLDiagramValidationAgent(config=config)
+
+        # Should have LLMGenerator initialized
+        assert hasattr(agent, 'llm_generator')
+        assert agent.llm_generator is not None
+
+    def test_uses_llm_for_validation(self, invalid_class_diagram):
+        """Should use LLM to validate diagrams."""
+        config = {
+            "llm_provider": "anthropic",
+            "model": "claude-3-5-sonnet-20241022",
+            "use_llm": True
+        }
+        agent = UMLDiagramValidationAgent(config=config)
+
+        result = agent.validate_diagram(invalid_class_diagram)
+
+        # Should use LLM validation method
+        assert hasattr(result, 'validation_method')
+        assert result.validation_method == 'llm'
+
+    def test_llm_finds_more_issues(self, invalid_class_diagram):
+        """LLM should find more issues than heuristics."""
+        config_llm = {
+            "llm_provider": "anthropic",
+            "use_llm": True
+        }
+        config_heuristic = {"use_llm": False}
+
+        agent_with_llm = UMLDiagramValidationAgent(config=config_llm)
+        agent_without_llm = UMLDiagramValidationAgent(config=config_heuristic)
+
+        result_llm = agent_with_llm.validate_diagram(invalid_class_diagram)
+        result_heuristic = agent_without_llm.validate_diagram(invalid_class_diagram)
+
+        # LLM should find same or more issues
+        assert len(result_llm.issues) >= len(result_heuristic.issues)
+
+    def test_fallback_to_heuristics_when_llm_fails(self, valid_class_diagram):
+        """Should fallback to heuristics if LLM fails."""
+        config = {
+            "llm_provider": "anthropic",
+            "model": "invalid-model",  # This will fail
+            "use_llm": True
+        }
+        agent = UMLDiagramValidationAgent(config=config)
+
+        result = agent.validate_diagram(valid_class_diagram)
+
+        # Should fallback to heuristics
+        assert isinstance(result, UMLValidationResult)
+        assert result.validation_method == 'heuristic'
+
+    def test_llm_provides_better_descriptions(self, invalid_class_diagram):
+        """LLM should provide better issue descriptions."""
+        config = {
+            "llm_provider": "anthropic",
+            "use_llm": True
+        }
+        agent = UMLDiagramValidationAgent(config=config)
+
+        result = agent.validate_diagram(invalid_class_diagram)
+
+        # LLM descriptions should be more detailed
+        if result.issues:
+            for issue in result.issues:
+                # LLM should provide comprehensive descriptions
+                assert len(issue.description) > 20
+                assert issue.severity in ['low', 'medium', 'high', 'critical']
+                assert issue.location is not None
+
+    def test_respects_api_key_validation(self):
+        """Should validate API key before using LLM."""
+        import os
+        # Temporarily remove API key
+        original_key = os.environ.get('ANTHROPIC_API_KEY')
+        if original_key:
+            del os.environ['ANTHROPIC_API_KEY']
+
+        config = {
+            "llm_provider": "anthropic",
+            "use_llm": True
+        }
+
+        try:
+            agent = UMLDiagramValidationAgent(config=config)
+            # Should either raise error or set use_llm=False
+            assert hasattr(agent, 'llm_generator')
+            # Should either raise error or fallback gracefully
+            assert agent.config.get('use_llm') == False or agent.llm_generator is None
+        finally:
+            # Restore key
+            if original_key:
+                os.environ['ANTHROPIC_API_KEY'] = original_key
+
+
 if __name__ == "__main__":
     pytest.main([__file__, "-v"])
