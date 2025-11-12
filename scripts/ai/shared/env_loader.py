@@ -76,7 +76,7 @@ def get_llm_config_from_env() -> dict:
         # Auto-detectar según API keys disponibles
         if os.getenv("ANTHROPIC_API_KEY"):
             provider = "anthropic"
-            model = "claude-3-5-sonnet-20241022"
+            model = "claude-sonnet-4-5-20250929"
         elif os.getenv("OPENAI_API_KEY"):
             provider = "openai"
             model = "gpt-4o"
@@ -92,7 +92,7 @@ def get_llm_config_from_env() -> dict:
             print("Warning: ANTHROPIC_API_KEY not found, falling back to heuristics")
             return None
         provider = "anthropic"
-        model = "claude-3-5-sonnet-20241022"
+        model = "claude-sonnet-4-5-20250929"
 
     elif prefer_provider == "openai":
         if not os.getenv("OPENAI_API_KEY"):

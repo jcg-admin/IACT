@@ -36,7 +36,7 @@ def main():
     # Opción 2: Anthropic Claude (nube, requiere API key)
     # config = {
     #     "llm_provider": "anthropic",
-    #     "model": "claude-3-5-sonnet-20241022",
+    #     "model": "claude-sonnet-4-5-20250929",
     #     "use_llm": True
     # }
 

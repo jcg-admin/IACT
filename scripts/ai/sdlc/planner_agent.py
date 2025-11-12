@@ -47,7 +47,7 @@ class SDLCPlannerAgent(SDLCAgent):
             config=config
         )
         self.llm_provider = self.get_config("llm_provider", "anthropic")
-        self.model = self.get_config("model", "claude-3-5-sonnet-20241022")
+        self.model = self.get_config("model", "claude-sonnet-4-5-20250929")
 
         # Inicializar LLM Generator
         llm_config = {

@@ -138,7 +138,7 @@ class TestDeploymentAgentInitialization:
         """Should initialize with config parameter for LLM."""
         config = {
             "llm_provider": "anthropic",
-            "model": "claude-3-5-sonnet-20241022"
+            "model": "claude-sonnet-4-5-20250929"
         }
         agent = SDLCDeploymentAgent(config=config)
 
@@ -446,7 +446,7 @@ class TestLLMIntegration:
         """Should initialize LLM when config provided and available."""
         config = {
             "llm_provider": "anthropic",
-            "model": "claude-3-5-sonnet-20241022"
+            "model": "claude-sonnet-4-5-20250929"
         }
 
         agent = SDLCDeploymentAgent(config=config)
@@ -459,7 +459,7 @@ class TestLLMIntegration:
         """Should fall back to heuristics when LLM unavailable."""
         config = {
             "llm_provider": "anthropic",
-            "model": "claude-3-5-sonnet-20241022"
+            "model": "claude-sonnet-4-5-20250929"
         }
 
         agent = SDLCDeploymentAgent(config=config)
@@ -484,7 +484,7 @@ class TestLLMIntegration:
         })
         mock_llm_generator.return_value = mock_instance
 
-        config = {"llm_provider": "anthropic", "model": "claude-3-5-sonnet-20241022"}
+        config = {"llm_provider": "anthropic", "model": "claude-sonnet-4-5-20250929"}
         agent = SDLCDeploymentAgent(config=config)
         # Set llm_generator directly since mocking might not work as expected
         agent.llm_generator = mock_instance
@@ -510,7 +510,7 @@ class TestLLMIntegration:
         mock_instance._call_llm.side_effect = Exception("LLM API error")
         mock_llm_generator.return_value = mock_instance
 
-        config = {"llm_provider": "anthropic", "model": "claude-3-5-sonnet-20241022"}
+        config = {"llm_provider": "anthropic", "model": "claude-sonnet-4-5-20250929"}
         agent = SDLCDeploymentAgent(config=config)
 
         strategy = agent._generate_deployment_strategy_with_llm(
@@ -542,7 +542,7 @@ class TestLLMIntegration:
         })
         mock_llm_generator.return_value = mock_instance
 
-        config = {"llm_provider": "anthropic", "model": "claude-3-5-sonnet-20241022"}
+        config = {"llm_provider": "anthropic", "model": "claude-sonnet-4-5-20250929"}
         agent = SDLCDeploymentAgent(config=config)
 
         risks = agent._identify_deployment_risks_with_llm(
@@ -574,7 +574,7 @@ class TestLLMIntegration:
         })
         mock_llm_generator.return_value = mock_instance
 
-        config = {"llm_provider": "anthropic", "model": "claude-3-5-sonnet-20241022"}
+        config = {"llm_provider": "anthropic", "model": "claude-sonnet-4-5-20250929"}
         agent = SDLCDeploymentAgent(config=config)
         agent.llm_generator = mock_instance
 
@@ -607,7 +607,7 @@ class TestLLMIntegration:
         })
         mock_llm_generator.return_value = mock_instance
 
-        config = {"llm_provider": "anthropic", "model": "claude-3-5-sonnet-20241022"}
+        config = {"llm_provider": "anthropic", "model": "claude-sonnet-4-5-20250929"}
         agent = SDLCDeploymentAgent(config=config)
 
         monitoring_strategy = agent._generate_monitoring_strategy_with_llm(
@@ -700,7 +700,7 @@ class TestFullPipeline:
         })
         mock_llm_generator.return_value = mock_instance
 
-        config = {"llm_provider": "anthropic", "model": "claude-3-5-sonnet-20241022"}
+        config = {"llm_provider": "anthropic", "model": "claude-sonnet-4-5-20250929"}
         agent = SDLCDeploymentAgent(config=config)
         agent.artifacts_dir = tmp_path
 

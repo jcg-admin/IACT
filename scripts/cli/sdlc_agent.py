@@ -59,7 +59,7 @@ def load_config(config_path: Optional[Path] = None) -> Dict[str, Any]:
         "project_root": str(Path.cwd()),
         "output_dir": "docs/sdlc_outputs",
         "llm_provider": "anthropic",
-        "model": "claude-3-5-sonnet-20241022"
+        "model": "claude-sonnet-4-5-20250929"
     }
 
 

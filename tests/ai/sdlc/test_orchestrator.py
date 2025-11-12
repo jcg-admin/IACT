@@ -130,7 +130,7 @@ class TestOrchestratorInitialization:
         """Should initialize with custom configuration."""
         config = {
             "llm_provider": "anthropic",
-            "model": "claude-3-5-sonnet-20241022"
+            "model": "claude-sonnet-4-5-20250929"
         }
         agent = SDLCOrchestratorAgent(config=config)
 
@@ -141,7 +141,7 @@ class TestOrchestratorInitialization:
         """Should initialize LLMGenerator with config."""
         config = {
             "llm_provider": "anthropic",
-            "model": "claude-3-5-sonnet-20241022"
+            "model": "claude-sonnet-4-5-20250929"
         }
         agent = SDLCOrchestratorAgent(config=config)
 
@@ -391,7 +391,7 @@ class TestLLMIntegration:
 
         config = {
             "llm_provider": "anthropic",
-            "model": "claude-3-5-sonnet-20241022"
+            "model": "claude-sonnet-4-5-20250929"
         }
         agent = SDLCOrchestratorAgent(config=config)
 

@@ -344,7 +344,7 @@ class TestLLMIntegration:
         """Should initialize LLMGenerator when config provided."""
         config = {
             "llm_provider": "anthropic",
-            "model": "claude-3-5-sonnet-20241022"
+            "model": "claude-sonnet-4-5-20250929"
         }
         agent = UMLDiagramValidationAgent(config=config)
 
@@ -356,7 +356,7 @@ class TestLLMIntegration:
         """Should use LLM to validate diagrams."""
         config = {
             "llm_provider": "anthropic",
-            "model": "claude-3-5-sonnet-20241022",
+            "model": "claude-sonnet-4-5-20250929",
             "use_llm": True
         }
         agent = UMLDiagramValidationAgent(config=config)

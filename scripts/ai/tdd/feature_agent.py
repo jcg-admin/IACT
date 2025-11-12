@@ -68,7 +68,7 @@ class TDDFeatureAgent(SDLCAgent):
         # Inicializar LLM Generator
         llm_config = {
             "llm_provider": self.config.get("llm_provider", "anthropic"),
-            "model": self.config.get("model", "claude-3-5-sonnet-20241022"),
+            "model": self.config.get("model", "claude-sonnet-4-5-20250929"),
         }
         self.llm_generator = LLMGenerator(config=llm_config)
 

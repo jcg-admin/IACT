@@ -54,7 +54,7 @@ class SDLCFeasibilityAgent(SDLCAgent):
         config: Dict[str, Any] = None,
         use_llm: bool = True,
         llm_provider: str = "anthropic",
-        model: str = "claude-3-5-sonnet-20241022"
+        model: str = "claude-sonnet-4-5-20250929"
     ):
         super().__init__(
             name="SDLCFeasibilityAgent",

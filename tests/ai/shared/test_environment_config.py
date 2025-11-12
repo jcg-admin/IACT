@@ -7,16 +7,18 @@ Estos tests SI se ejecutan y validan que el sistema funciona correctamente.
 
 import os
 import pytest
-from unittest.mock import patch
+from unittest.mock import patch, MagicMock
 from scripts.ai.shared.environment_config import EnvironmentConfig, get_environment_config
 import scripts.ai.shared.environment_config as env_module
 
 
 @pytest.fixture(autouse=True)
 def reset_singleton():
-    """Reset singleton between tests."""
+    """Reset singleton between tests and mock .env loading."""
     env_module._env_config = None
-    yield
+    # Mock _load_env_file to prevent .env interference during tests
+    with patch.object(EnvironmentConfig, '_load_env_file', MagicMock()):
+        yield
     env_module._env_config = None
 
 

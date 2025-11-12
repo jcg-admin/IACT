@@ -103,7 +103,7 @@ class TestDesignAgentInitialization:
         """Should initialize with LLM config."""
         config = {
             "llm_provider": "anthropic",
-            "model": "claude-3-5-sonnet-20241022"
+            "model": "claude-sonnet-4-5-20250929"
         }
         agent = SDLCDesignAgent(config=config)
 
@@ -244,7 +244,7 @@ class TestLLMIntegration:
         })
         mock_llm_gen.return_value = mock_llm_instance
 
-        config = {"llm_provider": "anthropic", "model": "claude-3-5-sonnet-20241022"}
+        config = {"llm_provider": "anthropic", "model": "claude-sonnet-4-5-20250929"}
         agent = SDLCDesignAgent(config=config)
         agent.llm_generator = mock_llm_instance
 
@@ -278,7 +278,7 @@ class TestLLMIntegration:
         })
         mock_llm_gen.return_value = mock_llm_instance
 
-        config = {"llm_provider": "anthropic", "model": "claude-3-5-sonnet-20241022"}
+        config = {"llm_provider": "anthropic", "model": "claude-sonnet-4-5-20250929"}
         agent = SDLCDesignAgent(config=config)
         agent.llm_generator = mock_llm_instance
 
@@ -370,7 +370,7 @@ class TestLLMIntegration:
         mock_llm_instance._call_llm.side_effect = Exception("LLM error")
         mock_llm_gen.return_value = mock_llm_instance
 
-        config = {"llm_provider": "anthropic", "model": "claude-3-5-sonnet-20241022"}
+        config = {"llm_provider": "anthropic", "model": "claude-sonnet-4-5-20250929"}
         agent = SDLCDesignAgent(config=config)
         agent.llm_generator = mock_llm_instance
 
@@ -390,7 +390,7 @@ class TestLLMIntegration:
         mock_llm_instance._call_llm.side_effect = Exception("LLM error")
         mock_llm_gen.return_value = mock_llm_instance
 
-        config = {"llm_provider": "anthropic", "model": "claude-3-5-sonnet-20241022"}
+        config = {"llm_provider": "anthropic", "model": "claude-sonnet-4-5-20250929"}
         agent = SDLCDesignAgent(config=config)
         agent.llm_generator = mock_llm_instance
 
@@ -551,7 +551,7 @@ class TestLLMEnhancedDocuments:
         })
         mock_llm_gen.return_value = mock_llm_instance
 
-        config = {"llm_provider": "anthropic", "model": "claude-3-5-sonnet-20241022"}
+        config = {"llm_provider": "anthropic", "model": "claude-sonnet-4-5-20250929"}
         agent = SDLCDesignAgent(config=config)
         agent.llm_generator = mock_llm_instance
 
@@ -575,7 +575,7 @@ class TestLLMEnhancedDocuments:
         })
         mock_llm_gen.return_value = mock_llm_instance
 
-        config = {"llm_provider": "anthropic", "model": "claude-3-5-sonnet-20241022"}
+        config = {"llm_provider": "anthropic", "model": "claude-sonnet-4-5-20250929"}
         agent = SDLCDesignAgent(config=config)
         agent.llm_generator = mock_llm_instance
 

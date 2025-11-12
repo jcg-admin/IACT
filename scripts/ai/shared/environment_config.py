@@ -194,7 +194,7 @@ class EnvironmentConfig:
             return {
                 "prefer_local": False,
                 "llm_provider": os.getenv("LLM_PROVIDER", "anthropic"),
-                "model": os.getenv("LLM_MODEL", "claude-3-5-sonnet-20241022"),
+                "model": os.getenv("LLM_MODEL", "claude-sonnet-4-5-20250929"),
                 "use_llm": True,
                 "fallback_to_heuristics": True,
                 "max_tokens": 8000,

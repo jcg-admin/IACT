@@ -88,7 +88,7 @@ class TestLLMGeneratorInitialization:
 
         assert agent.name == "LLMGenerator"
         assert agent.llm_provider == "anthropic"
-        assert agent.model == "claude-3-5-sonnet-20241022"
+        assert agent.model == "claude-sonnet-4-5-20250929"
         assert agent._client is None
 
     def test_initialization_with_anthropic_config(self):
@@ -141,7 +141,7 @@ class TestLLMGeneratorInitialization:
         agent = LLMGenerator(config={})
 
         assert agent.llm_provider == "anthropic"
-        assert agent.model == "claude-3-5-sonnet-20241022"
+        assert agent.model == "claude-sonnet-4-5-20250929"
 
 
 # 2. Input Validation Tests

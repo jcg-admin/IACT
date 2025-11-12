@@ -70,7 +70,7 @@ class SelfConsistencyAgent:
         answer_extractor: Optional[Callable[[str], str]] = None,
         min_confidence: float = 0.5,
         llm_provider: str = "anthropic",
-        model: str = "claude-3-5-sonnet-20241022",
+        model: str = "claude-sonnet-4-5-20250929",
         use_llm: bool = True
     ):
         """

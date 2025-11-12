@@ -30,7 +30,7 @@ class LLMGenerator(Agent):
     # Anthropic (default)
     config = {
         "llm_provider": "anthropic",
-        "model": "claude-3-5-sonnet-20241022"
+        "model": "claude-sonnet-4-5-20250929"
     }
 
     # OpenAI
@@ -54,7 +54,7 @@ class LLMGenerator(Agent):
         self._load_env_variables()
 
         self.llm_provider = self.get_config("llm_provider", "anthropic")
-        self.model = self.get_config("model", "claude-3-5-sonnet-20241022")
+        self.model = self.get_config("model", "claude-sonnet-4-5-20250929")
         self._client = None
 
     def validate_input(self, input_data: Dict[str, Any]) -> List[str]:

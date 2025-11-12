@@ -98,7 +98,7 @@ class TestFeasibilityAgentInitialization:
         agent = SDLCFeasibilityAgent(
             use_llm=True,
             llm_provider="anthropic",
-            model="claude-3-5-sonnet-20241022"
+            model="claude-sonnet-4-5-20250929"
         )
 
         # Should not crash, LLM might be available or not

@@ -83,7 +83,7 @@ class LLMCostOptimizer:
     # Precios actualizados Enero 2025
     MODEL_COSTS = {
         # Claude (Anthropic)
-        "claude-3-5-sonnet-20241022": 0.018,  # $3 input + $15 output
+        "claude-sonnet-4-5-20250929": 0.018,  # $3 input + $15 output
         "claude-3-haiku-20240307": 0.0016,    # $0.25 input + $1.25 output
         "claude-3-opus-20240229": 0.090,      # $15 input + $75 output
 
@@ -224,9 +224,9 @@ class LLMCostOptimizer:
     def _select_claude_model(self, story_points: int, labels: list) -> tuple:
         """Selecciona modelo Claude óptimo según complejidad."""
         if 'security' in labels or 'compliance' in labels or story_points >= 13:
-            return "claude-3-5-sonnet-20241022", "anthropic"
+            return "claude-sonnet-4-5-20250929", "anthropic"
         elif story_points >= 8:
-            return "claude-3-5-sonnet-20241022", "anthropic"
+            return "claude-sonnet-4-5-20250929", "anthropic"
         else:
             return "claude-3-haiku-20240307", "anthropic"
 

@@ -127,7 +127,7 @@ class RefactoringOpportunitiesAgent:
             k_clusters: Number of clusters for K-NN clustering
             config: Configuration dict with optional keys:
                 - llm_provider: "anthropic" or "openai"
-                - model: Model name (e.g., "claude-3-5-sonnet-20241022")
+                - model: Model name (e.g., "claude-sonnet-4-5-20250929")
                 - use_llm: Boolean to enable/disable LLM usage
         """
         self.name = "RefactoringOpportunitiesAgent"
