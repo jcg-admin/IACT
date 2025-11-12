@@ -231,25 +231,30 @@ def main():
             result, duration, error = results[key]
 
             if result:
-                decision = result.decision.upper()
-                confidence = f"{result.confidence:.1%}"
-                num_risks = len(result.risks)
-                time_str = f"{duration:.2f}s"
-                status = "[OK]"
+                phase_result = result.get('phase_result')
+                if phase_result:
+                    decision = phase_result.decision.upper()
+                    confidence = f"{phase_result.confidence:.1%}"
+                    num_risks = len(phase_result.risks)
+                    time_str = f"{duration:.2f}s"
+                    status = "[OK]"
 
-                # Color coding for decision
-                if decision == "GO":
-                    decision_display = f"[OK] {decision}"
-                elif decision == "NO-GO":
-                    decision_display = f"[FAIL] {decision}"
+                    # Color coding for decision
+                    if decision == "GO":
+                        decision_display = f"[OK] {decision}"
+                    elif decision == "NO-GO":
+                        decision_display = f"[FAIL] {decision}"
+                    else:
+                        decision_display = f"[REVIEW] {decision}"
+
+                    print(f"{name:<20} {decision_display:<12} {confidence:<8} "
+                          f"{num_risks:<10} {time_str:<10} {status}")
                 else:
-                    decision_display = f"[REVIEW] {decision}"
-
-                print(f"{name:<20} {decision_display:<12} {confidence:<8} "
-                      f"{num_risks:<10} {time_str:<10} {status}")
+                    print(f"{name:<20} {'ERROR':<12} {'N/A':<8} {'N/A':<10} "
+                          f"{duration:.2f}s {'[ERROR]':<10} No phase_result")
             else:
                 print(f"{name:<20} {'ERROR':<12} {'N/A':<8} {'N/A':<10} "
-                      f"{duration:.2f}s {'[ERROR]':<10} {error[:30]}")
+                      f"{duration:.2f}s {'[ERROR]':<10} {error[:30] if error else 'Unknown'}")
 
     # ANALISIS DETALLADO DE DIFERENCIAS
     print("\n" + "="*70)
@@ -261,22 +266,26 @@ def main():
     for key, name in provider_names.items():
         if key in results and results[key][0]:
             result = results[key][0]
-            risks_by_severity = {}
-            for risk in result.risks:
-                sev = risk.get('severity', 'unknown')
-                risks_by_severity[sev] = risks_by_severity.get(sev, 0) + 1
+            phase_result = result.get('phase_result')
+            if phase_result:
+                risks_by_severity = {}
+                for risk in phase_result.risks:
+                    sev = risk.get('severity', 'unknown')
+                    risks_by_severity[sev] = risks_by_severity.get(sev, 0) + 1
 
-            risk_str = ", ".join([f"{sev}: {count}" for sev, count in risks_by_severity.items()])
-            print(f"   {name:<20} → Total: {len(result.risks):2d} ({risk_str})")
+                risk_str = ", ".join([f"{sev}: {count}" for sev, count in risks_by_severity.items()])
+                print(f"   {name:<20} → Total: {len(phase_result.risks):2d} ({risk_str})")
 
     # Comparar confianza
     print("\nNiveles de Confianza:")
     for key, name in provider_names.items():
         if key in results and results[key][0]:
             result = results[key][0]
-            conf = result.confidence
-            bar = "█" * int(conf * 20)
-            print(f"   {name:<20} → {conf:.1%} {bar}")
+            phase_result = result.get('phase_result')
+            if phase_result:
+                conf = phase_result.confidence
+                bar = "█" * int(conf * 20)
+                print(f"   {name:<20} → {conf:.1%} {bar}")
 
     # Comparar velocidad
     print("\nVelocidad de Analisis:")
