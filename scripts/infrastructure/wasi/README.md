@@ -2,13 +2,13 @@
 
 **WebAssembly System Interface (WASI)** inspired virtualization for databases.
 
-## ¿Por qué WASI?
+## Por que WASI?
 
-WASI es el estándar de WebAssembly para:
-- ✅ **Capabilities explícitas**: El código declara qué recursos necesita
-- ✅ **Security by default**: Sin acceso implícito a filesystem/network
-- ✅ **Portabilidad**: Mismo código corre en diferentes hosts
-- ✅ **Aislamiento**: Sandboxing a nivel de runtime
+WASI es el estandar de WebAssembly para:
+- **Capabilities explicitas**: El codigo declara que recursos necesita
+- **Security by default**: Sin acceso implicito a filesystem/network
+- **Portabilidad**: Mismo codigo corre en diferentes hosts
+- **Aislamiento**: Sandboxing a nivel de runtime
 
 Este sistema aplica los mismos principios a nivel de sistema operativo:
 - Namespaces de Linux para aislamiento
@@ -60,7 +60,7 @@ source .lightvenvs/dev/bin/activate
 # Variables DB_* ya cargadas
 ```
 
-## 3. `wasm_style_sandbox.sh` - WASI-style (⭐ Recomendado)
+## 3. `wasm_style_sandbox.sh` - WASI-style (Recomendado)
 
 **Usa**: Linux namespaces del kernel (como WASI)
 

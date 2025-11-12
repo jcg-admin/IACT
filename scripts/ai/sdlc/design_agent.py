@@ -76,7 +76,13 @@ class SDLCDesignAgent(SDLCAgent):
 
         # Validar que feasibility fue GO o REVIEW
         if "feasibility_result" in input_data:
-            decision = input_data["feasibility_result"].get("decision", "")
+            feasibility = input_data["feasibility_result"]
+            # Handle both dict (full result) and SDLCPhaseResult object
+            if isinstance(feasibility, SDLCPhaseResult):
+                decision = feasibility.decision
+            else:
+                decision = feasibility.get("decision", "")
+
             if decision == "no-go":
                 errors.append("No se puede disenar feature con decision NO-GO. Resolver blockers primero.")
 
@@ -89,7 +95,7 @@ class SDLCDesignAgent(SDLCAgent):
         Args:
             input_data: {
                 "issue": dict,  # Output de SDLCPlannerAgent
-                "feasibility_result": dict,  # Output de SDLCFeasibilityAgent
+                "feasibility_result": dict or SDLCPhaseResult,  # Output de SDLCFeasibilityAgent
                 "project_context": str
             }
 
@@ -99,6 +105,19 @@ class SDLCDesignAgent(SDLCAgent):
         issue = input_data["issue"]
         feasibility_result = input_data["feasibility_result"]
         project_context = input_data.get("project_context", "")
+
+        # Normalize feasibility_result to dict if it's SDLCPhaseResult
+        if isinstance(feasibility_result, SDLCPhaseResult):
+            feasibility_result = {
+                "decision": feasibility_result.decision,
+                "confidence": feasibility_result.confidence,
+                "risks": feasibility_result.risks,
+                "recommendations": feasibility_result.recommendations,
+                "artifacts": feasibility_result.artifacts,
+                "next_steps": feasibility_result.next_steps,
+                "phase_result": feasibility_result
+            }
+
 
         self.logger.info(f"Generando diseno para: {issue.get('issue_title', 'Unknown')}")
 
