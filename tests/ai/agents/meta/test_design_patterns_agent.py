@@ -376,5 +376,103 @@ class TestDesignPatternsIntegration:
             assert 'applicability' in rec_dict
 
 
+# 10. LLM Integration Tests (TDD - RED Phase)
+class TestLLMIntegration:
+    """Test LLM integration for design pattern recommendations."""
+
+    def test_initializes_with_llm_config(self):
+        """Should initialize with LLM configuration."""
+        config = {
+            "llm_provider": "anthropic",
+            "model": "claude-3-5-sonnet-20241022"
+        }
+        agent = DesignPatternsRecommendationAgent(config=config)
+
+        # WILL FAIL: Agent doesn't accept config yet
+        assert hasattr(agent, 'llm_generator')
+        assert agent.llm_generator is not None
+
+    def test_uses_llm_for_recommendations(self, strategy_pattern_scenario):
+        """Should use LLM for detailed pattern recommendations."""
+        config = {
+            "llm_provider": "anthropic",
+            "use_llm": True
+        }
+        agent = DesignPatternsRecommendationAgent(config=config)
+
+        recommendations = agent.recommend_patterns(strategy_pattern_scenario)
+
+        # WILL FAIL: Currently uses only heuristics
+        assert len(recommendations) > 0
+        first_rec = recommendations[0]
+        assert hasattr(first_rec, 'analysis_method')
+        assert first_rec.analysis_method == 'llm'
+
+    def test_llm_provides_better_reasoning(self, strategy_pattern_scenario):
+        """LLM should provide more detailed reasoning than heuristics."""
+        config_llm = {"llm_provider": "anthropic", "use_llm": True}
+        config_heuristic = {"use_llm": False}
+
+        agent_llm = DesignPatternsRecommendationAgent(config=config_llm)
+        agent_heuristic = DesignPatternsRecommendationAgent(config=config_heuristic)
+
+        recs_llm = agent_llm.recommend_patterns(strategy_pattern_scenario)
+        recs_heuristic = agent_heuristic.recommend_patterns(strategy_pattern_scenario)
+
+        # WILL FAIL: LLM reasoning should be more detailed
+        if recs_llm and recs_heuristic:
+            assert len(recs_llm[0].reasoning) > len(recs_heuristic[0].reasoning)
+
+    def test_llm_finds_more_patterns(self, strategy_pattern_scenario):
+        """LLM should identify more applicable patterns."""
+        config = {
+            "llm_provider": "anthropic",
+            "use_llm": True
+        }
+        agent = DesignPatternsRecommendationAgent(config=config, max_recommendations=10)
+
+        recommendations = agent.recommend_patterns(strategy_pattern_scenario)
+
+        # WILL FAIL: LLM should find multiple patterns
+        assert len(recommendations) >= 2
+
+    def test_fallback_to_heuristics_when_llm_fails(self, strategy_pattern_scenario):
+        """Should fallback to heuristics if LLM fails."""
+        config = {
+            "llm_provider": "anthropic",
+            "model": "invalid-model",
+            "use_llm": True
+        }
+        agent = DesignPatternsRecommendationAgent(config=config)
+
+        recommendations = agent.recommend_patterns(strategy_pattern_scenario)
+
+        # WILL FAIL: No fallback mechanism yet
+        assert len(recommendations) > 0
+        if recommendations:
+            assert recommendations[0].analysis_method == 'heuristic'
+
+    def test_respects_api_key_validation(self):
+        """Should validate API key before using LLM."""
+        import os
+        original_key = os.environ.get('ANTHROPIC_API_KEY')
+        if original_key:
+            del os.environ['ANTHROPIC_API_KEY']
+
+        config = {
+            "llm_provider": "anthropic",
+            "use_llm": True
+        }
+
+        try:
+            agent = DesignPatternsRecommendationAgent(config=config)
+            # WILL FAIL: Should handle missing API key
+            assert hasattr(agent, 'llm_generator')
+            assert agent.config.get('use_llm') == False or agent.llm_generator is None
+        finally:
+            if original_key:
+                os.environ['ANTHROPIC_API_KEY'] = original_key
+
+
 if __name__ == "__main__":
     pytest.main([__file__, "-v"])
