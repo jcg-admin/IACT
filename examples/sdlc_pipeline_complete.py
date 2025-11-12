@@ -21,7 +21,7 @@ from scripts.ai.sdlc.orchestrator import SDLCOrchestratorAgent
 def main():
     """Ejecuta pipeline SDLC completo para una feature de autenticación JWT."""
 
-    print("🚀 Iniciando Pipeline SDLC Completo\n")
+    print("Iniciando Pipeline SDLC Completo\n")
     print("=" * 70)
 
     # Configuración del LLM
@@ -97,7 +97,7 @@ def main():
     print(f"   Model: {config.get('model', 'N/A') if config else 'N/A'}\n")
 
     # Ejecutar pipeline completo
-    print("▶️  Ejecutando pipeline SDLC...\n")
+    print("Ejecutando pipeline SDLC...\n")
     print("-" * 70)
 
     result = orchestrator.run({
@@ -108,72 +108,72 @@ def main():
     })
 
     print("\n" + "=" * 70)
-    print("📊 Resultados del Pipeline\n")
+    print("Resultados del Pipeline\n")
 
     # Mostrar resultado final
     if result['final_decision'] == 'success':
-        print("✅ Pipeline completado EXITOSAMENTE\n")
+        print("Pipeline completado EXITOSAMENTE\n")
 
         # Fases completadas
-        print(f"📌 Fases completadas: {result['phases_completed']}/{result['total_phases']}")
+        print(f"Fases completadas: {result['phases_completed']}/{result['total_phases']}")
         for phase in result['execution_log']:
-            status_icon = "✅" if phase['status'] == 'completed' else "❌"
-            print(f"   {status_icon} {phase['phase'].upper()}: {phase['decision']} "
+            status_icon = "OK" if phase['status'] == 'completed' else "FAIL"
+            print(f"   [{status_icon}] {phase['phase'].upper()}: {phase['decision']} "
                   f"(confidence: {phase.get('confidence', 0):.2f})")
 
         # Artifacts generados
-        print(f"\n📦 Artifacts generados: {len(result['all_artifacts'])}")
+        print(f"\nArtifacts generados: {len(result['all_artifacts'])}")
         for i, artifact in enumerate(result['all_artifacts'][:10], 1):  # Mostrar primeros 10
             print(f"   {i}. {artifact}")
         if len(result['all_artifacts']) > 10:
             print(f"   ... y {len(result['all_artifacts']) - 10} más")
 
         # Riesgos identificados
-        print(f"\n⚠️  Riesgos identificados: {len(result['aggregated_risks'])}")
+        print(f"\nRiesgos identificados: {len(result['aggregated_risks'])}")
         for risk in result['aggregated_risks'][:5]:  # Mostrar top 5
-            severity_icon = "🔴" if risk['severity'] == 'high' else "🟡"
-            print(f"   {severity_icon} [{risk['severity'].upper()}] {risk['description']}")
+            severity_label = "[HIGH]" if risk['severity'] == 'high' else "[MEDIUM]"
+            print(f"   {severity_label} {risk['description']}")
 
         # Recomendaciones
-        print(f"\n💡 Recomendaciones: {len(result['recommendations'])}")
+        print(f"\nRecomendaciones: {len(result['recommendations'])}")
         for i, rec in enumerate(result['recommendations'][:5], 1):  # Mostrar top 5
             print(f"   {i}. {rec}")
 
         # Reporte final
-        print(f"\n📄 Reporte final: {result['report_path']}")
+        print(f"\nReporte final: {result['report_path']}")
         print(f"   Abrir con: cat {result['report_path']}")
 
         # Next steps
         if result.get('next_steps'):
-            print(f"\n🎯 Próximos pasos:")
+            print(f"\nProximos pasos:")
             for i, step in enumerate(result['next_steps'][:5], 1):
                 print(f"   {i}. {step}")
 
         # Método usado
         method = result.get('orchestration_method', 'heuristic')
-        print(f"\n🔧 Método de análisis: {method.upper()}")
+        print(f"\nMetodo de analisis: {method.upper()}")
 
     else:
-        print("⚠️  Pipeline DETENIDO antes de completar\n")
-        print(f"❌ Detenido en fase: {result.get('stopped_at_phase', 'unknown').upper()}")
-        print(f"   Razón: {result.get('stop_reason', 'Unknown reason')}")
+        print("Pipeline DETENIDO antes de completar\n")
+        print(f"Detenido en fase: {result.get('stopped_at_phase', 'unknown').upper()}")
+        print(f"   Razon: {result.get('stop_reason', 'Unknown reason')}")
 
         # Mostrar qué fases se completaron
-        print(f"\n✅ Fases completadas antes de detener: {result['phases_completed']}")
+        print(f"\nFases completadas antes de detener: {result['phases_completed']}")
         for phase in result['execution_log']:
             if phase['status'] == 'completed':
-                print(f"   ✅ {phase['phase'].upper()}: {phase['decision']}")
+                print(f"   [OK] {phase['phase'].upper()}: {phase['decision']}")
             else:
-                print(f"   ❌ {phase['phase'].upper()}: {phase.get('decision', 'failed')}")
+                print(f"   [FAIL] {phase['phase'].upper()}: {phase.get('decision', 'failed')}")
 
         # Artifacts parciales
         if result['all_artifacts']:
-            print(f"\n📦 Artifacts generados (parciales): {len(result['all_artifacts'])}")
+            print(f"\nArtifacts generados (parciales): {len(result['all_artifacts'])}")
             for artifact in result['all_artifacts']:
                 print(f"   - {artifact}")
 
     print("\n" + "=" * 70)
-    print("✨ Pipeline finalizado\n")
+    print("Pipeline finalizado\n")
 
     return result
 

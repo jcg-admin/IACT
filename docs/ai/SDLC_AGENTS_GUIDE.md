@@ -2,7 +2,7 @@
 
 Esta guía explica cómo usar los agentes SDLC (Software Development Life Cycle) que han sido integrados con capacidades de LLM (Large Language Models).
 
-## 📋 Tabla de Contenidos
+## Tabla de Contenidos
 
 1. [Descripción General](#descripción-general)
 2. [Configuración](#configuración)
@@ -13,7 +13,7 @@ Esta guía explica cómo usar los agentes SDLC (Software Development Life Cycle)
 
 ---
 
-## 🎯 Descripción General
+## Descripción General
 
 Los agentes SDLC automatizan cada fase del ciclo de desarrollo de software, desde la evaluación de viabilidad hasta el despliegue. Cada agente puede operar en dos modos:
 
@@ -28,7 +28,7 @@ Los agentes SDLC automatizan cada fase del ciclo de desarrollo de software, desd
 
 ---
 
-## ⚙️ Configuración
+## Configuración
 
 ### Opción 1: Anthropic Claude (Nube)
 
@@ -96,7 +96,7 @@ config = {
 
 ---
 
-## 🤖 Agentes Disponibles
+## Agentes Disponibles
 
 ### 1. SDLCFeasibilityAgent
 
@@ -305,7 +305,7 @@ print(f"Final Report: {result['report_path']}")
 
 ---
 
-## 📚 Ejemplos Avanzados
+## Ejemplos Avanzados
 
 ### Pipeline Completo con Ollama
 
@@ -356,13 +356,13 @@ result = orchestrator.run({
 
 # Revisar resultados
 if result['final_decision'] == 'success':
-    print("✅ Pipeline completado exitosamente")
-    print(f"📄 Reporte final: {result['report_path']}")
-    print(f"📦 Artifacts generados: {len(result['all_artifacts'])}")
-    print(f"⚠️  Riesgos identificados: {len(result['aggregated_risks'])}")
-    print(f"💡 Recomendaciones: {len(result['recommendations'])}")
+    print("Pipeline completado exitosamente")
+    print(f"Reporte final: {result['report_path']}")
+    print(f"Artifacts generados: {len(result['all_artifacts'])}")
+    print(f"Riesgos identificados: {len(result['aggregated_risks'])}")
+    print(f"Recomendaciones: {len(result['recommendations'])}")
 else:
-    print(f"❌ Pipeline detenido en fase: {result['stopped_at_phase']}")
+    print(f"Pipeline detenido en fase: {result['stopped_at_phase']}")
     print(f"Razón: {result['stop_reason']}")
 ```
 
@@ -418,7 +418,7 @@ print(f"LLM - Risks: {len(result_llm.risks)}, Confidence: {result_llm.confidence
 
 ---
 
-## 🔧 Troubleshooting
+## Troubleshooting
 
 ### Error: "No module named 'anthropic'"
 
@@ -491,7 +491,7 @@ python3 -m pytest tests/ai/sdlc/
 
 ---
 
-## 📖 Referencias
+## Referencias
 
 - **Código Fuente:** `scripts/ai/sdlc/`
 - **Tests:** `tests/ai/sdlc/`
@@ -502,7 +502,7 @@ python3 -m pytest tests/ai/sdlc/
 
 ---
 
-## 🎓 Mejores Prácticas
+## Mejores Prácticas
 
 1. **Empieza con Heurísticas:** Evalúa primero sin LLM para entender el baseline
 2. **Usa Ollama para Desarrollo:** Gratis, privado, bueno para iterar

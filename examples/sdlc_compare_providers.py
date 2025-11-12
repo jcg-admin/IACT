@@ -38,7 +38,7 @@ def analyze_with_provider(provider_name, config, issue):
         tuple: (result, duration_seconds, error)
     """
     print(f"\n{'─'*70}")
-    print(f"🔍 Analizando con: {provider_name}")
+    print(f"Analizando con: {provider_name}")
     print(f"{'─'*70}")
 
     try:
@@ -49,13 +49,13 @@ def analyze_with_provider(provider_name, config, issue):
 
         duration = time.time() - start_time
 
-        print(f"✅ Completado en {duration:.2f}s")
+        print(f"Completado en {duration:.2f}s")
 
         return result, duration, None
 
     except Exception as e:
         duration = time.time() - start_time
-        print(f"❌ Error: {e}")
+        print(f"Error: {e}")
         return None, duration, str(e)
 
 
@@ -105,22 +105,22 @@ def main():
     }
 
     print("\n" + "="*70)
-    print("🔬 COMPARACIÓN DE PROVEEDORES LLM")
+    print("COMPARACION DE PROVEEDORES LLM")
     print("="*70)
-    print(f"\n📋 Feature: {issue['title']}")
-    print(f"📊 Story Points: {issue['estimated_story_points']}")
-    print(f"📝 Requirements: {len(issue['requirements'])}")
-    print(f"✅ Acceptance Criteria: {len(issue['acceptance_criteria'])}")
+    print(f"\nFeature: {issue['title']}")
+    print(f"Story Points: {issue['estimated_story_points']}")
+    print(f"Requirements: {len(issue['requirements'])}")
+    print(f"Acceptance Criteria: {len(issue['acceptance_criteria'])}")
 
     results = {}
 
     # 1. Heurísticas (sin LLM) - SIEMPRE disponible
     print("\n" + "="*70)
-    print("1️⃣  HEURÍSTICAS (Sin LLM)")
+    print("1. HEURÍSTICAS (Sin LLM)")
     print("="*70)
-    print("💰 Costo: Gratis")
-    print("🌐 Privacidad: Total (local)")
-    print("⚡ Velocidad: Muy rápida")
+    print("Costo: Gratis")
+    print("Privacidad: Total (local)")
+    print("Velocidad: Muy rapida")
 
     result, duration, error = analyze_with_provider(
         "Heurísticas",
@@ -131,12 +131,12 @@ def main():
 
     # 2. Ollama (local) - Disponible si Ollama está corriendo
     print("\n" + "="*70)
-    print("2️⃣  OLLAMA (Local Open Source)")
+    print("2. OLLAMA (Local Open Source)")
     print("="*70)
-    print("💰 Costo: Gratis")
-    print("🌐 Privacidad: Total (local)")
-    print("⚡ Velocidad: Media-Lenta (depende de hardware)")
-    print("🖥️  Modelo: llama3.1:8b")
+    print("Costo: Gratis")
+    print("Privacidad: Total (local)")
+    print("Velocidad: Media-Lenta (depende de hardware)")
+    print("Modelo: llama3.1:8b")
 
     ollama_config = {
         "llm_provider": "ollama",
@@ -155,12 +155,12 @@ def main():
     # 3. Anthropic Claude - Solo si API key está disponible
     if os.getenv("ANTHROPIC_API_KEY") and "--all" in sys.argv:
         print("\n" + "="*70)
-        print("3️⃣  ANTHROPIC CLAUDE")
+        print("3. ANTHROPIC CLAUDE")
         print("="*70)
-        print("💰 Costo: ~$0.003 por request")
-        print("🌐 Privacidad: Cloud (Anthropic)")
-        print("⚡ Velocidad: Rápida")
-        print("🤖 Modelo: claude-3-5-sonnet")
+        print("Costo: ~$0.003 por request")
+        print("Privacidad: Cloud (Anthropic)")
+        print("Velocidad: Rapida")
+        print("Modelo: claude-3-5-sonnet")
 
         claude_config = {
             "llm_provider": "anthropic",
@@ -176,19 +176,19 @@ def main():
         results['anthropic'] = (result, duration, error)
     else:
         print("\n" + "="*70)
-        print("3️⃣  ANTHROPIC CLAUDE - SKIPPED")
+        print("3. ANTHROPIC CLAUDE - SKIPPED")
         print("="*70)
-        print("ℹ️  Set ANTHROPIC_API_KEY y ejecuta con --all para incluir")
+        print("Set ANTHROPIC_API_KEY y ejecuta con --all para incluir")
 
     # 4. OpenAI GPT-4 - Solo si API key está disponible
     if os.getenv("OPENAI_API_KEY") and "--all" in sys.argv:
         print("\n" + "="*70)
-        print("4️⃣  OPENAI GPT-4")
+        print("4. OPENAI GPT-4")
         print("="*70)
-        print("💰 Costo: ~$0.005 por request")
-        print("🌐 Privacidad: Cloud (OpenAI)")
-        print("⚡ Velocidad: Rápida")
-        print("🤖 Modelo: gpt-4-turbo")
+        print("Costo: ~$0.005 por request")
+        print("Privacidad: Cloud (OpenAI)")
+        print("Velocidad: Rapida")
+        print("Modelo: gpt-4-turbo")
 
         openai_config = {
             "llm_provider": "openai",
@@ -204,13 +204,13 @@ def main():
         results['openai'] = (result, duration, error)
     else:
         print("\n" + "="*70)
-        print("4️⃣  OPENAI GPT-4 - SKIPPED")
+        print("4. OPENAI GPT-4 - SKIPPED")
         print("="*70)
-        print("ℹ️  Set OPENAI_API_KEY y ejecuta con --all para incluir")
+        print("Set OPENAI_API_KEY y ejecuta con --all para incluir")
 
     # COMPARACIÓN DE RESULTADOS
     print("\n" + "="*70)
-    print("📊 TABLA COMPARATIVA")
+    print("TABLA COMPARATIVA")
     print("="*70 + "\n")
 
     # Header
@@ -235,29 +235,29 @@ def main():
                 confidence = f"{result.confidence:.1%}"
                 num_risks = len(result.risks)
                 time_str = f"{duration:.2f}s"
-                status = "✅"
+                status = "[OK]"
 
                 # Color coding for decision
                 if decision == "GO":
-                    decision_display = f"✅ {decision}"
+                    decision_display = f"[OK] {decision}"
                 elif decision == "NO-GO":
-                    decision_display = f"❌ {decision}"
+                    decision_display = f"[FAIL] {decision}"
                 else:
-                    decision_display = f"⚠️ {decision}"
+                    decision_display = f"[REVIEW] {decision}"
 
                 print(f"{name:<20} {decision_display:<12} {confidence:<8} "
                       f"{num_risks:<10} {time_str:<10} {status}")
             else:
                 print(f"{name:<20} {'ERROR':<12} {'N/A':<8} {'N/A':<10} "
-                      f"{duration:.2f}s {'❌':<10} {error[:30]}")
+                      f"{duration:.2f}s {'[ERROR]':<10} {error[:30]}")
 
-    # ANÁLISIS DETALLADO DE DIFERENCIAS
+    # ANALISIS DETALLADO DE DIFERENCIAS
     print("\n" + "="*70)
-    print("🔍 ANÁLISIS DETALLADO")
+    print("ANALISIS DETALLADO")
     print("="*70 + "\n")
 
     # Comparar número de riesgos identificados
-    print("⚠️  Riesgos Identificados:")
+    print("Riesgos Identificados:")
     for key, name in provider_names.items():
         if key in results and results[key][0]:
             result = results[key][0]
@@ -270,7 +270,7 @@ def main():
             print(f"   {name:<20} → Total: {len(result.risks):2d} ({risk_str})")
 
     # Comparar confianza
-    print("\n🎯 Niveles de Confianza:")
+    print("\nNiveles de Confianza:")
     for key, name in provider_names.items():
         if key in results and results[key][0]:
             result = results[key][0]
@@ -279,7 +279,7 @@ def main():
             print(f"   {name:<20} → {conf:.1%} {bar}")
 
     # Comparar velocidad
-    print("\n⚡ Velocidad de Análisis:")
+    print("\nVelocidad de Analisis:")
     for key, name in provider_names.items():
         if key in results and results[key][1]:
             duration = results[key][1]
@@ -289,28 +289,28 @@ def main():
 
     # Recomendaciones
     print("\n" + "="*70)
-    print("💡 RECOMENDACIONES")
+    print("RECOMENDACIONES")
     print("="*70 + "\n")
 
-    print("✅ Usa HEURÍSTICAS si:")
+    print("Usa HEURÍSTICAS si:")
     print("   - Necesitas análisis instantáneo (<0.1s)")
     print("   - La feature es simple y bien definida")
     print("   - No tienes acceso a LLM o API keys")
     print("   - Quieres análisis 100% reproducible")
 
-    print("\n✅ Usa OLLAMA si:")
+    print("\nUsa OLLAMA si:")
     print("   - Quieres análisis mejorado sin costo")
     print("   - Tienes hardware decente (16GB+ RAM)")
     print("   - Privacidad es crítica (no enviar datos a cloud)")
     print("   - Estás en desarrollo/testing")
 
-    print("\n✅ Usa CLAUDE si:")
+    print("\nUsa CLAUDE si:")
     print("   - Necesitas el mejor análisis posible")
     print("   - La feature es compleja o ambigua")
     print("   - Presupuesto permite ($0.003/request)")
     print("   - Velocidad es importante")
 
-    print("\n✅ Usa GPT-4 si:")
+    print("\nUsa GPT-4 si:")
     print("   - Ya tienes infraestructura OpenAI")
     print("   - Quieres análisis muy detallado")
     print("   - Presupuesto permite ($0.005/request)")

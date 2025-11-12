@@ -29,7 +29,7 @@ def evaluate_feature(feature_title, feature_desc, requirements, story_points, us
         use_llm: Si usar LLM o solo heurísticas
     """
     print(f"\n{'='*70}")
-    print(f"🔍 Evaluando: {feature_title}")
+    print(f"Evaluando: {feature_title}")
     print(f"{'='*70}\n")
 
     # Configurar agente
@@ -40,14 +40,14 @@ def evaluate_feature(feature_title, feature_desc, requirements, story_points, us
             "model": "llama3.1:8b",  # Modelo rápido para evaluación
             "use_llm": True
         }
-        print("🤖 Modo: LLM (Ollama llama3.1:8b)")
+        print("Modo: LLM (Ollama llama3.1:8b)")
     else:
-        print("⚙️  Modo: Heurísticas (rápido)")
+        print("Modo: Heurísticas (rápido)")
 
     agent = SDLCFeasibilityAgent(config=config)
 
     # Ejecutar análisis
-    print("📊 Analizando viabilidad técnica...\n")
+    print("Analizando viabilidad tecnica...\n")
 
     result = agent.run({
         "issue": {
@@ -62,31 +62,31 @@ def evaluate_feature(feature_title, feature_desc, requirements, story_points, us
     # Extraer el reporte de feasibility
     report = result.get("feasibility_report")
     if not report:
-        print("❌ Error: No se pudo generar el reporte")
+        print("Error: No se pudo generar el reporte")
         return result
 
     # Mostrar resultados
     decision_icons = {
-        "go": "✅ GO",
-        "no-go": "❌ NO-GO",
-        "review": "⚠️  REVIEW"
+        "go": "GO",
+        "no-go": "NO-GO",
+        "review": "REVIEW"
     }
     decision = decision_icons.get(report.decision, report.decision.upper())
 
-    print(f"📋 DECISIÓN: {decision}")
-    print(f"🎯 Confianza: {report.confidence:.2%}\n")
+    print(f"DECISION: {decision}")
+    print(f"Confianza: {report.confidence:.2%}\n")
 
     # Viabilidad técnica
-    print("💻 Viabilidad Técnica:")
+    print("Viabilidad Tecnica:")
     feasibility = result.get('technical_feasibility', {})
-    print(f"   Feasible: {'Sí' if feasibility.get('is_feasible') else 'No'}")
+    print(f"   Feasible: {'Si' if feasibility.get('is_feasible') else 'No'}")
     print(f"   Complejidad: {feasibility.get('complexity', 'unknown')}")
     if feasibility.get('concerns'):
         print(f"   Preocupaciones: {', '.join(feasibility['concerns'][:3])}")
     print()
 
     # Riesgos
-    print(f"⚠️  Riesgos Identificados: {len(report.risks)}")
+    print(f"Riesgos Identificados: {len(report.risks)}")
     if report.risks:
         # Agrupar por severidad
         critical = [r for r in report.risks if r.get('severity') == 'critical']
@@ -94,46 +94,46 @@ def evaluate_feature(feature_title, feature_desc, requirements, story_points, us
         medium = [r for r in report.risks if r.get('severity') == 'medium']
 
         if critical:
-            print(f"\n   🔴 CRÍTICOS ({len(critical)}):")
+            print(f"\n   [CRITICAL] ({len(critical)}):")
             for risk in critical:
                 print(f"      - {risk['description']}")
 
         if high:
-            print(f"\n   🟠 ALTOS ({len(high)}):")
+            print(f"\n   [HIGH] ({len(high)}):")
             for risk in high[:3]:  # Mostrar máximo 3
                 print(f"      - {risk['description']}")
 
         if medium:
-            print(f"\n   🟡 MEDIOS ({len(medium)}):")
+            print(f"\n   [MEDIUM] ({len(medium)}):")
             for risk in medium[:2]:  # Mostrar máximo 2
                 print(f"      - {risk['description']}")
     print()
 
     # Esfuerzo estimado
     effort = result.get('effort_analysis', {})
-    print("⏱️  Estimación de Esfuerzo:")
+    print("Estimacion de Esfuerzo:")
     print(f"   Story Points: {effort.get('story_points', story_points)}")
-    print(f"   Días estimados: {effort.get('estimated_days', 'N/A')}")
+    print(f"   Dias estimados: {effort.get('estimated_days', 'N/A')}")
     print(f"   Personas recomendadas: {effort.get('recommended_team_size', 1)}")
     print()
 
     # Recomendaciones
     if report.recommendations:
-        print(f"💡 Recomendaciones ({len(report.recommendations)}):")
+        print(f"Recomendaciones ({len(report.recommendations)}):")
         for i, rec in enumerate(report.recommendations[:5], 1):
             print(f"   {i}. {rec}")
         print()
 
     # Next steps
     if report.next_steps:
-        print("🎯 Próximos Pasos:")
+        print("Proximos Pasos:")
         for i, step in enumerate(report.next_steps[:3], 1):
             print(f"   {i}. {step}")
         print()
 
     # Artifacts
     if report.artifacts:
-        print(f"📄 Reporte generado: {report.artifacts[0]}")
+        print(f"Reporte generado: {report.artifacts[0]}")
         print()
 
     print("="*70)
@@ -144,7 +144,7 @@ def evaluate_feature(feature_title, feature_desc, requirements, story_points, us
 def main():
     """Evalúa múltiples features con diferentes características."""
 
-    print("\n🚀 Análisis de Viabilidad: Evaluación Rápida de Features\n")
+    print("\nAnalisis de Viabilidad: Evaluacion Rapida de Features\n")
 
     # Feature 1: Simple, viable
     result1 = evaluate_feature(
@@ -193,7 +193,7 @@ def main():
 
     # Resumen
     print("\n" + "="*70)
-    print("📊 RESUMEN DE EVALUACIONES")
+    print("RESUMEN DE EVALUACIONES")
     print("="*70 + "\n")
 
     features = [
@@ -205,11 +205,11 @@ def main():
     for name, result in features:
         report = result.get("feasibility_report")
         if report:
-            icon = "✅" if report.decision == "go" else "❌" if report.decision == "no-go" else "⚠️"
-            print(f"{icon} {name:30s} → {report.decision.upper():10s} "
+            icon = "OK" if report.decision == "go" else "FAIL" if report.decision == "no-go" else "REVIEW"
+            print(f"[{icon}] {name:30s} -> {report.decision.upper():10s} "
                   f"(confidence: {report.confidence:.0%}, risks: {len(report.risks)})")
         else:
-            print(f"❌ {name:30s} → ERROR")
+            print(f"[ERROR] {name:30s} -> ERROR")
 
     print("\n" + "="*70 + "\n")
 
