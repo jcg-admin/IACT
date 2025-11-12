@@ -137,6 +137,44 @@ make check_all-fix
 - `make check_all` - Ejecutar todos los checks de calidad
 - `make check_all-fix` - Ejecutar checks con auto-corrección
 
+### Flujo Habitual
+```bash
+# Trabajas en tu rama
+git add .
+git commit -m "Cambios en el desarrollo"
+
+# Intentas hacer push y falla por pre-commit
+git push  # Falla
+
+# Solución temporal para continuar
+git push --no-verify
+```
+
+### Razones para Usar `--no-verify`
+
+#### Casos de Uso
+1. <b>Desarrollo urgente</b>
+2. <b>Pruebas parciales</b>
+3. <b>Código en progreso</b>
+
+#### Riesgos
+- Saltar verificaciones de calidad
+- Posible introducción de código no validado
+- Rompimiento de estándares del equipo
+
+### Mejores Prácticas
+
+#### Alternativas Recomendadas
+1. Corregir los errores de pre-commit
+2. Ajustar las reglas de verificación
+3. Hablar con el equipo sobre las restricciones
+
+<hr>
+
+### Consejo Final
+<b>Usar `--no-verify` debe ser una excepción, no una regla</b>. Es preferible resolver los problemas que están causando que fallen las verificaciones de pre-commit.
+
+
 **Referencias**:
 - [Plantilla de Especificación](docs/plantillas/desarrollo/plantilla_spec.md)
 - [Plantilla de Plan](docs/plantillas/desarrollo/plantilla_plan.md)
