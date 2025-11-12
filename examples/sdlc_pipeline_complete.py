@@ -15,7 +15,7 @@ from pathlib import Path
 # Agregar scripts al path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from scripts.ai.sdlc.orchestrator import SDLCOrchestrator
+from scripts.ai.sdlc.orchestrator import SDLCOrchestratorAgent
 
 
 def main():
@@ -91,8 +91,8 @@ def main():
     }
 
     # Crear orchestrator
-    print("📋 Configurando orchestrador...")
-    orchestrator = SDLCOrchestrator(config=config)
+    print("Configurando orchestrador...")
+    orchestrator = SDLCOrchestratorAgent(config=config)
     print(f"   Provider: {config['llm_provider'] if config else 'heuristic'}")
     print(f"   Model: {config.get('model', 'N/A') if config else 'N/A'}\n")
 

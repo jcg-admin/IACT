@@ -385,7 +385,8 @@ Responde en formato JSON:
         skip_phases = input_data.get("skip_phases", [])
 
         self.logger.info(f"Iniciando SDLC pipeline: {start_phase} -> {end_phase}")
-        self.logger.info(f"Feature: {feature_request[:100]}...")
+        feature_title = feature_request.get("title", "Unknown") if isinstance(feature_request, dict) else str(feature_request)[:100]
+        self.logger.info(f"Feature: {feature_title}")
 
         # Track execution
         execution_log = []
