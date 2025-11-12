@@ -19,6 +19,8 @@ from dataclasses import dataclass, field
 from enum import Enum
 from typing import List, Dict, Any, Optional
 import re
+import os
+import logging
 
 from scripts.ai.agents.base import (
     TreeOfThoughtsAgent,
@@ -26,6 +28,22 @@ from scripts.ai.agents.base import (
     ThoughtState
 )
 from scripts.ai.agents.base.tree_of_thoughts import SearchStrategy
+
+# Import LLMGenerator for AI-powered test generation
+try:
+    from scripts.ai.generators.llm_generator import LLMGenerator
+    LLM_AVAILABLE = True
+except ImportError:
+    LLM_AVAILABLE = False
+    logging.warning("LLMGenerator not available, will use heuristics only")
+
+logger = logging.getLogger(__name__)
+
+# Constants
+DEFAULT_MAX_DEPTH = 3
+DEFAULT_EXPLORATION_BREADTH = 3
+GENERATION_METHOD_LLM = "llm"
+GENERATION_METHOD_HEURISTIC = "heuristic"
 
 
 class TestType(Enum):
@@ -75,6 +93,7 @@ class TestSuite:
     coverage_gaps: List[str] = field(default_factory=list)
     exploration_paths: int = 0
     total_tests: int = 0
+    generation_method: str = "heuristic"  # "heuristic" or "llm"
 
     def __post_init__(self):
         """Update total_tests after initialization."""
@@ -87,7 +106,8 @@ class TestSuite:
             'description': self.description,
             'estimated_coverage': self.estimated_coverage,
             'coverage_gaps': self.coverage_gaps,
-            'total_tests': self.total_tests
+            'total_tests': self.total_tests,
+            'generation_method': self.generation_method
         }
 
 
@@ -104,8 +124,9 @@ class TestGenerationAgent:
 
     def __init__(
         self,
-        max_depth: int = 3,
-        exploration_breadth: int = 3
+        max_depth: int = DEFAULT_MAX_DEPTH,
+        exploration_breadth: int = DEFAULT_EXPLORATION_BREADTH,
+        config: Optional[Dict[str, Any]] = None
     ):
         """
         Initialize the agent.
@@ -113,15 +134,35 @@ class TestGenerationAgent:
         Args:
             max_depth: Maximum depth for thought tree exploration
             exploration_breadth: Number of branches to explore at each level
+            config: Configuration dict with optional keys:
+                - llm_provider: "anthropic" or "openai"
+                - model: Model name (e.g., "claude-3-5-sonnet-20241022")
+                - use_llm: Boolean to enable/disable LLM usage
         """
         self.name = "TestGenerationAgent"
         self.max_depth = max_depth
         self.exploration_breadth = exploration_breadth
+        self.config = config or {}
         self.tree_of_thoughts = TreeOfThoughtsAgent(
             max_depth=max_depth,
             max_thoughts_per_step=exploration_breadth,
             strategy=SearchStrategy.BEST_FIRST
         )
+
+        # Initialize LLMGenerator if configured and available
+        self.llm_generator = None
+
+        if self.config and LLM_AVAILABLE:
+            try:
+                # Initialize LLMGenerator (API key validation happens at runtime)
+                self.llm_generator = LLMGenerator(config=self.config)
+                llm_provider = self.config.get('llm_provider', 'anthropic')
+                logger.info(f"LLMGenerator initialized with {llm_provider}")
+            except Exception as e:
+                logger.error(f"Failed to initialize LLMGenerator: {e}")
+                self.llm_generator = None
+        elif self.config and not LLM_AVAILABLE:
+            logger.warning("LLM configuration provided but LLMGenerator not available")
 
     def generate_tests(self, code: str) -> TestSuite:
         """
@@ -137,7 +178,8 @@ class TestGenerationAgent:
         if not code or not code.strip():
             return TestSuite(
                 description="Empty test suite for empty code",
-                estimated_coverage=0.0
+                estimated_coverage=0.0,
+                generation_method=GENERATION_METHOD_HEURISTIC
             )
 
         # Check for invalid syntax
@@ -145,14 +187,33 @@ class TestGenerationAgent:
             return TestSuite(
                 description="Test suite for invalid code",
                 estimated_coverage=0.0,
-                coverage_gaps=["Invalid Python syntax detected"]
+                coverage_gaps=["Invalid Python syntax detected"],
+                generation_method=GENERATION_METHOD_HEURISTIC
             )
 
         # Analyze code structure
         code_structure = self._analyze_code_structure(code)
 
-        # Generate test cases using Tree of Thoughts exploration
-        test_cases = self._generate_with_tree_of_thoughts(code, code_structure)
+        # Determine generation method
+        use_llm = self.config.get('use_llm', False) and self.llm_generator is not None
+        generation_method = GENERATION_METHOD_LLM if use_llm else GENERATION_METHOD_HEURISTIC
+
+        # Generate test cases
+        if use_llm:
+            try:
+                test_cases = self._generate_with_llm(code, code_structure)
+                logger.info(f"Generated {len(test_cases)} tests using LLM")
+                # If no test cases generated or fallback occurred in _generate_with_llm
+                if not test_cases:
+                    logger.warning("LLM returned empty test cases, using heuristics")
+                    test_cases = self._generate_with_tree_of_thoughts(code, code_structure)
+                    generation_method = GENERATION_METHOD_HEURISTIC
+            except Exception as e:
+                logger.error(f"LLM generation failed: {e}, falling back to heuristics")
+                test_cases = self._generate_with_tree_of_thoughts(code, code_structure)
+                generation_method = GENERATION_METHOD_HEURISTIC
+        else:
+            test_cases = self._generate_with_tree_of_thoughts(code, code_structure)
 
         # Calculate coverage metrics
         estimated_coverage = self._estimate_coverage(test_cases, code_structure)
@@ -164,7 +225,8 @@ class TestGenerationAgent:
             estimated_coverage=estimated_coverage,
             coverage_gaps=coverage_gaps,
             exploration_paths=self.exploration_breadth,
-            total_tests=len(test_cases)
+            total_tests=len(test_cases),
+            generation_method=generation_method
         )
 
     def _is_valid_python(self, code: str) -> bool:
@@ -469,6 +531,125 @@ class TestGenerationAgent:
         coverage += test_bonus
 
         return min(1.0, coverage)
+
+    def _generate_with_llm(
+        self,
+        code: str,
+        structure: Dict[str, Any]
+    ) -> List[TestCase]:
+        """
+        Generate test cases using LLMGenerator.
+
+        Args:
+            code: Python code to generate tests for
+            structure: Analyzed code structure
+
+        Returns:
+            List of TestCase objects generated by LLM
+        """
+        # Build prompt for LLM
+        prompt = self._build_llm_prompt(code, structure)
+
+        # Call LLM
+        response = self.llm_generator._call_llm(prompt)
+
+        # Parse LLM response into test cases
+        test_cases = self._parse_llm_response(response, structure)
+
+        # Enhance with quality scores
+        test_cases = self._evaluate_and_score_tests(test_cases, structure)
+
+        return test_cases
+
+    def _build_llm_prompt(self, code: str, structure: Dict[str, Any]) -> str:
+        """Build prompt for LLM test generation."""
+        prompt = f"""Generate comprehensive test cases for the following Python code using Tree of Thoughts reasoning.
+
+CODE TO TEST:
+```python
+{code}
+```
+
+ANALYZED STRUCTURE:
+- Type: {structure['type']}
+- Name: {structure['name']}
+- Parameters: {structure.get('parameters', [])}
+- Branches: {structure['branches']}
+- Has Exceptions: {structure['has_exceptions']}
+- Has Loops: {structure['has_loops']}
+- Complexity: {structure['complexity']}
+
+REQUIREMENTS:
+1. Generate test cases covering:
+   - Positive cases (happy path)
+   - Negative cases (error conditions) if exceptions exist
+   - Edge cases (boundary values) if parameters exist
+   - Branch coverage for all conditional paths
+
+2. For each test case, provide:
+   - Test name (following pytest convention: test_functionname_scenario)
+   - Test type (positive/negative/edge_case)
+   - Test code (executable Python using pytest)
+   - Description (what the test verifies)
+
+3. Use realistic, meaningful test data (not placeholders like "test_param_1")
+
+4. Include appropriate assertions
+
+RESPONSE FORMAT (JSON):
+{{
+  "test_cases": [
+    {{
+      "name": "test_function_basic",
+      "test_type": "positive",
+      "code": "def test_function_basic():\\n    result = function(1, 2)\\n    assert result == 3",
+      "description": "Test basic functionality with valid inputs"
+    }}
+  ]
+}}
+
+Generate the tests:"""
+        return prompt
+
+    def _parse_llm_response(
+        self,
+        response: str,
+        structure: Dict[str, Any]
+    ) -> List[TestCase]:
+        """Parse LLM response into TestCase objects."""
+        import json
+
+        try:
+            # Try to parse as JSON
+            data = json.loads(response)
+            test_cases = []
+
+            for tc_data in data.get('test_cases', []):
+                # Map string test_type to enum
+                test_type_str = tc_data.get('test_type', 'positive').lower()
+                test_type = {
+                    'positive': TestType.POSITIVE,
+                    'negative': TestType.NEGATIVE,
+                    'edge_case': TestType.EDGE_CASE,
+                    'integration': TestType.INTEGRATION,
+                    'performance': TestType.PERFORMANCE
+                }.get(test_type_str, TestType.POSITIVE)
+
+                test_case = TestCase(
+                    name=tc_data.get('name', f"test_{structure['name']}"),
+                    test_type=test_type,
+                    code=tc_data.get('code', ''),
+                    description=tc_data.get('description', ''),
+                    quality_score=0.0  # Will be set by _evaluate_and_score_tests
+                )
+                test_cases.append(test_case)
+
+            return test_cases
+
+        except json.JSONDecodeError:
+            logger.warning("Failed to parse LLM response as JSON")
+            # Return empty list to trigger fallback in generate_tests()
+            return []
 
     def _identify_coverage_gaps(
         self,
