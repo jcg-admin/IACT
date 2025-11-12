@@ -49,6 +49,10 @@ class LLMGenerator(Agent):
 
     def __init__(self, config: Dict[str, Any] = None):
         super().__init__(name="LLMGenerator", config=config)
+
+        # Cargar variables de entorno desde .env
+        self._load_env_variables()
+
         self.llm_provider = self.get_config("llm_provider", "anthropic")
         self.model = self.get_config("model", "claude-3-5-sonnet-20241022")
         self._client = None
@@ -111,6 +115,31 @@ class LLMGenerator(Agent):
             "llm_provider": self.llm_provider,
             "model": self.model
         }
+
+    def _load_env_variables(self):
+        """Carga variables de entorno desde archivo .env"""
+        try:
+            # Buscar .env en la raíz del proyecto
+            current_dir = Path(__file__).parent
+            project_root = current_dir.parent.parent.parent  # scripts/ai/generators -> project root
+            env_file = project_root / ".env"
+
+            if not env_file.exists():
+                return
+
+            with open(env_file) as f:
+                for line in f:
+                    line = line.strip()
+                    if not line or line.startswith('#'):
+                        continue
+                    if '=' in line:
+                        key, value = line.split('=', 1)
+                        key = key.strip()
+                        value = value.strip().strip('"').strip("'")
+                        os.environ[key] = value
+
+        except Exception as e:
+            self.logger.debug(f"Could not load .env: {e}")
 
     def _read_source(self, filepath: Path) -> str:
         """Lee el código fuente a testear."""
