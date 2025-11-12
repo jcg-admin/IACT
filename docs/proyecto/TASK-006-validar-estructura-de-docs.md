@@ -43,6 +43,38 @@ Ninguno
 
 tech-writer
 
+## Técnicas de Prompt Engineering para Agente
+
+Las siguientes técnicas deben aplicarse al ejecutar esta tarea con un agente:
+
+1. **Tool-use Prompting** (knowledge_techniques.py)
+   - Ejecutar scripts de validación de links
+   - Usar grep para buscar referencias legacy
+   - Ejecutar markdown linters
+
+2. **Graph Prompting** (specialized_techniques.py)
+   - Crear grafo de referencias entre documentos
+   - Detectar broken links mediante análisis de grafo
+   - Identificar documentos huérfanos
+
+3. **RAG (Retrieval-Augmented Generation)** (knowledge_techniques.py)
+   - Recuperar INDICE.md como referencia
+   - Buscar documentación de estructura esperada
+
+4. **Self-Consistency** (self_consistency.py)
+   - Verificar consistencia de frontmatter YAML
+   - Validar que referencias existen en múltiples direcciones
+
+5. **Meta-prompting** (optimization_techniques.py)
+   - Auto-validar calidad de documentación
+   - Generar prompts para mejorar documentación
+
+6. **Delimiter-based Prompting** (optimization_techniques.py)
+   - Separar validación por tipo de documento (md, rst, txt)
+   - Delimitar scope por directorio (docs/, scripts/, api/)
+
+Agente recomendado: DocumentationSyncAgent
+
 ## Criterios de Aceptación
 
 Ver detalles completos en [PLAN_EJECUCION_COMPLETO.md](../PLAN_EJECUCION_COMPLETO.md)

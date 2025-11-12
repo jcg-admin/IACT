@@ -44,6 +44,39 @@ Ninguno
 
 backend-lead
 
+## Técnicas de Prompt Engineering para Agente
+
+Las siguientes técnicas deben aplicarse al ejecutar esta tarea con un agente:
+
+1. **TaskDecomposition** (structuring_techniques.py)
+   - Descomponer en subtareas: crear app, modelos, API, migración
+   - Secuencia ordenada de implementación
+
+2. **Code Generation Prompting** (specialized_techniques.py)
+   - Generar models.py para DORA metrics
+   - Generar views.py para API endpoints
+   - Generar serializers.py
+
+3. **Few-Shot Learning** (fundamental_techniques.py)
+   - Aprender de estructura de apps Django existentes
+   - Usar ejemplos de otros modelos del proyecto
+
+4. **Least-to-Most Prompting** (structuring_techniques.py)
+   - Empezar con modelo simple
+   - Incrementalmente agregar complejidad
+   - Resolver de simple a complejo
+
+5. **Tool-use Prompting** (knowledge_techniques.py)
+   - Ejecutar django-admin startapp
+   - Ejecutar makemigrations y migrate
+   - Usar Django test framework
+
+6. **Expert Prompting** (specialized_techniques.py)
+   - Aplicar mejores prácticas Django
+   - Conocimiento experto de MySQL con Django
+
+Agente recomendado: SDLCDesignAgent + FeatureAgent
+
 ## Criterios de Aceptación
 
 Ver detalles completos en [PLAN_EJECUCION_COMPLETO.md](../PLAN_EJECUCION_COMPLETO.md)

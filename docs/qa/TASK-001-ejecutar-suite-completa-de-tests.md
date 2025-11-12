@@ -43,6 +43,33 @@ Ninguno
 
 backend-lead
 
+## Técnicas de Prompt Engineering para Agente
+
+Las siguientes técnicas deben aplicarse al ejecutar esta tarea con un agente:
+
+1. **Tool-use Prompting** (knowledge_techniques.py)
+   - Ejecutar pytest con parámetros específicos
+   - Ejecutar comandos shell para validar coverage
+
+2. **ReAct** (knowledge_techniques.py)
+   - Razonar sobre el estado actual antes de ejecutar tests
+   - Actuar ejecutando la suite completa
+   - Reflexionar sobre resultados de coverage
+
+3. **Self-Consistency** (self_consistency.py)
+   - Verificar coverage en múltiples reportes (terminal, HTML)
+   - Validar consistencia entre unittest y pytest
+
+4. **Constitutional AI** (optimization_techniques.py)
+   - Verificar que no se ejecuten tests que modifiquen datos de producción
+   - Validar que tests usen fixtures y mocks apropiados
+
+5. **Expert Prompting** (specialized_techniques.py)
+   - Aplicar conocimiento experto de testing Django
+   - Validar compliance con estándares de testing
+
+Agente recomendado: SDLCTestingAgent o TDDAgent
+
 ## Criterios de Aceptación
 
 Ver detalles completos en [PLAN_EJECUCION_COMPLETO.md](../PLAN_EJECUCION_COMPLETO.md)
