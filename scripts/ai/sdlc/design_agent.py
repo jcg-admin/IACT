@@ -17,11 +17,28 @@ Outputs:
 - Design review checklist
 """
 
+import json
+import re
+import sys
 from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, List
 
-from .sdlc_base import SDLCAgent, SDLCPhaseResult
+from .base_agent import SDLCAgent, SDLCPhaseResult
+
+# Add parent paths for LLMGenerator import
+sys.path.insert(0, str(Path(__file__).parent.parent.parent))
+
+try:
+    from generators.llm_generator import LLMGenerator
+    LLM_AVAILABLE = True
+except ImportError:
+    LLM_AVAILABLE = False
+    LLMGenerator = None
+
+# Design method constants
+DESIGN_METHOD_LLM = "llm"
+DESIGN_METHOD_HEURISTIC = "heuristic"
 
 
 class SDLCDesignAgent(SDLCAgent):
@@ -37,6 +54,15 @@ class SDLCDesignAgent(SDLCAgent):
             phase="design",
             config=config
         )
+
+        # Initialize LLM generator if config provided and LLM available
+        self.llm_generator = None
+        if config and LLM_AVAILABLE:
+            try:
+                self.llm_generator = LLMGenerator(config=config)
+                self.logger.info(f"LLMGenerator initialized with {config.get('llm_provider', 'default')}")
+            except Exception as e:
+                self.logger.warning(f"Failed to initialize LLM: {e}. Falling back to heuristics.")
 
     def validate_input(self, input_data: Dict[str, Any]) -> List[str]:
         """Valida que exista feasibility result e issue."""
@@ -1060,6 +1086,241 @@ const featureSlice = createSlice({
         tech_reqs_str = " ".join(technical_requirements).lower()
         return any(keyword in tech_reqs_str for keyword in keywords)
 
+    # LLM Integration Methods
+
+    def _generate_architecture_with_llm(
+        self,
+        issue: Dict[str, Any],
+        project_context: str = ""
+    ) -> Dict[str, Any]:
+        """Genera recomendaciones de arquitectura usando LLM con fallback a heurísticas."""
+        if not self.llm_generator:
+            # Fallback to heuristics
+            return {
+                "components": [],
+                "data_flow": "",
+                "technology_recommendations": {}
+            }
+
+        try:
+            title = issue.get("issue_title", "")
+            technical_requirements = issue.get("technical_requirements", [])
+            acceptance_criteria = issue.get("acceptance_criteria", [])
+
+            prompt = f"""Analiza y genera recomendaciones de arquitectura para el siguiente feature del proyecto IACT.
+
+**Feature**: {title}
+
+**Requisitos Técnicos**:
+{chr(10).join(f"- {req}" for req in technical_requirements)}
+
+**Criterios de Aceptación**:
+{chr(10).join(f"- {crit}" for crit in acceptance_criteria)}
+
+**Contexto del Proyecto**: {project_context}
+
+**Restricciones IACT**:
+- NO Redis (usar MySQL para sesiones/cache)
+- NO Email/SMTP (usar InternalMessage)
+- Stack: Django 4.2+, React 18+, MySQL/PostgreSQL
+
+Genera recomendaciones de arquitectura considerando:
+1. Componentes principales del sistema
+2. Flujo de datos entre componentes
+3. Tecnologías recomendadas que cumplan restricciones IACT
+4. Integraciones necesarias
+
+Responde en formato JSON:
+{{
+  "components": ["lista de componentes principales"],
+  "data_flow": "descripción del flujo de datos",
+  "technology_recommendations": {{
+    "backend": "recomendaciones backend",
+    "frontend": "recomendaciones frontend",
+    "database": "recomendaciones database"
+  }}
+}}"""
+
+            llm_response = self.llm_generator._call_llm(prompt)
+            return self._parse_llm_architecture(llm_response)
+
+        except Exception as e:
+            self.logger.warning(f"LLM architecture generation failed: {e}, using fallback")
+            return {
+                "components": [],
+                "data_flow": "",
+                "technology_recommendations": {}
+            }
+
+    def _parse_llm_architecture(self, llm_response: str) -> Dict[str, Any]:
+        """Parse LLM response para extraer recomendaciones de arquitectura."""
+        try:
+            # Try to extract JSON from response
+            json_match = re.search(r'\{[\s\S]*\}', llm_response)
+            if json_match:
+                result = json.loads(json_match.group(0))
+
+                # Validate and normalize
+                architecture = {
+                    "components": result.get("components", []),
+                    "data_flow": result.get("data_flow", ""),
+                    "technology_recommendations": result.get("technology_recommendations", {})
+                }
+
+                # Ensure components is a list
+                if not isinstance(architecture["components"], list):
+                    architecture["components"] = []
+
+                return architecture
+
+        except (json.JSONDecodeError, ValueError) as e:
+            self.logger.warning(f"Failed to parse LLM architecture as JSON: {e}")
+
+        # Fallback: parse as text
+        architecture = {
+            "components": [],
+            "data_flow": "",
+            "technology_recommendations": {}
+        }
+
+        # Extract components from text
+        lines = llm_response.split('\n')
+        for line in lines:
+            line = line.strip()
+            if line.startswith('-') or line.startswith('*'):
+                # Extract component name
+                component = line.lstrip('-*').strip()
+                if component and len(component) < 100:
+                    architecture["components"].append(component)
+
+        # Extract data flow
+        if "flow" in llm_response.lower() or "flujo" in llm_response.lower():
+            for i, line in enumerate(lines):
+                if "flow" in line.lower() or "flujo" in line.lower():
+                    # Get next few lines as data flow
+                    if i + 1 < len(lines):
+                        architecture["data_flow"] = lines[i + 1].strip()
+                    break
+
+        return architecture
+
+    def _recommend_patterns_with_llm(
+        self,
+        issue: Dict[str, Any],
+        architecture: str = ""
+    ) -> Dict[str, Any]:
+        """Recomienda patrones de diseño usando LLM con fallback a heurísticas."""
+        if not self.llm_generator:
+            # Fallback to heuristics
+            return {"patterns": []}
+
+        try:
+            title = issue.get("issue_title", "")
+            technical_requirements = issue.get("technical_requirements", [])
+
+            prompt = f"""Recomienda patrones de diseño apropiados para el siguiente feature.
+
+**Feature**: {title}
+
+**Requisitos Técnicos**:
+{chr(10).join(f"- {req}" for req in technical_requirements)}
+
+**Arquitectura Propuesta**: {architecture[:500]}
+
+**Stack**: Django 4.2+, React 18+, MySQL/PostgreSQL
+
+Recomienda patrones de diseño considerando:
+1. Patrones arquitectónicos (Repository, Service Layer, etc.)
+2. Patrones de diseño apropiados (Strategy, Factory, Observer, etc.)
+3. Aplicabilidad específica al feature
+4. Justificación de cada patrón
+
+Responde en formato JSON:
+{{
+  "patterns": [
+    {{
+      "name": "nombre del patrón",
+      "rationale": "por qué es apropiado",
+      "applicability": "dónde aplicarlo"
+    }}
+  ]
+}}"""
+
+            llm_response = self.llm_generator._call_llm(prompt)
+            return self._parse_llm_patterns(llm_response)
+
+        except Exception as e:
+            self.logger.warning(f"LLM pattern recommendation failed: {e}, using fallback")
+            return {"patterns": []}
+
+    def _parse_llm_patterns(self, llm_response: str) -> Dict[str, Any]:
+        """Parse LLM response para extraer patrones de diseño recomendados."""
+        try:
+            # Try to extract JSON from response
+            json_match = re.search(r'\{[\s\S]*\}', llm_response)
+            if json_match:
+                result = json.loads(json_match.group(0))
+
+                # Validate and normalize
+                patterns = {
+                    "patterns": result.get("patterns", [])
+                }
+
+                # Ensure patterns is a list
+                if not isinstance(patterns["patterns"], list):
+                    patterns["patterns"] = []
+
+                # Validate each pattern has required fields
+                validated_patterns = []
+                for pattern in patterns["patterns"]:
+                    if isinstance(pattern, dict) and "name" in pattern:
+                        validated_pattern = {
+                            "name": pattern.get("name", "Unknown Pattern"),
+                            "rationale": pattern.get("rationale", ""),
+                            "applicability": pattern.get("applicability", "")
+                        }
+                        validated_patterns.append(validated_pattern)
+
+                patterns["patterns"] = validated_patterns
+                return patterns
+
+        except (json.JSONDecodeError, ValueError) as e:
+            self.logger.warning(f"Failed to parse LLM patterns as JSON: {e}")
+
+        # Fallback: parse as text
+        patterns = {"patterns": []}
+
+        # Extract patterns from text
+        lines = llm_response.split('\n')
+        current_pattern = None
+
+        for line in lines:
+            line = line.strip()
+
+            # Detect pattern names
+            if "pattern" in line.lower() and (":" in line or "-" in line):
+                if current_pattern:
+                    patterns["patterns"].append(current_pattern)
+
+                # Extract pattern name
+                pattern_name = line.split(':')[-1].split('-')[-1].strip()
+                current_pattern = {
+                    "name": pattern_name,
+                    "rationale": "",
+                    "applicability": ""
+                }
+            elif current_pattern:
+                # Add to rationale or applicability
+                if "rationale" in line.lower() or "justif" in line.lower():
+                    current_pattern["rationale"] = line
+                elif "applicability" in line.lower() or "aplicable" in line.lower():
+                    current_pattern["applicability"] = line
+
+        if current_pattern:
+            patterns["patterns"].append(current_pattern)
+
+        return patterns
+
     def _custom_guardrails(self, output_data: Dict[str, Any]) -> List[str]:
         """Guardrails especificos para Design phase."""
         errors = []
@@ -1074,7 +1335,7 @@ const featureSlice = createSlice({
 
         # Validar que se generaron diagramas
         if "diagrams" not in output_data or not output_data["diagrams"]:
-            errors.append("No se generaron diagramas")
+            errors.append("No se generaron diagrams (diagrams)")
 
         # Validar que HLD menciona restricciones IACT
         if "hld" in output_data:
