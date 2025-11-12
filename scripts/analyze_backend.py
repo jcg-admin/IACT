@@ -11,9 +11,11 @@ import json
 from pathlib import Path
 from typing import List, Dict, Any
 
-# Add project root to path
-project_root = Path(__file__).parent.resolve()  # Make absolute
-sys.path.insert(0, str(project_root))
+# Añadir rutas de proyecto para imports opcionales
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+SCRIPTS_DIR = PROJECT_ROOT / "scripts"
+ANALYSIS_OUTPUT_RELATIVE = "logs_data/analysis/backend_analysis_results.json"
+sys.path.insert(0, str(SCRIPTS_DIR))
 
 from scripts.ai.agents.meta import create_architecture_improvement_pipeline
 
@@ -49,7 +51,7 @@ def analyze_file(file_path: Path, pipeline) -> Dict[str, Any]:
         result = pipeline.analyze_code(code, include_test_generation=False)
 
         return {
-            'file': str(file_path.relative_to(project_root)),
+            'file': str(file_path.relative_to(PROJECT_ROOT)),
             'lines': len(code.splitlines()),
             'quality_score': result.overall_score,
             'solid_violations': len(result.solid_analysis.violations) if result.solid_analysis else 0,
@@ -205,7 +207,7 @@ def main():
     results = []
 
     for i, file_path in enumerate(python_files, 1):
-        print(f"  [{i}/{len(python_files)}] {file_path.relative_to(project_root)}", end='\r')
+        print(f"  [{i}/{len(python_files)}] {file_path.relative_to(PROJECT_ROOT)}", end='\r')
 
         result = analyze_file(file_path, pipeline)
         if result:
@@ -223,8 +225,10 @@ def main():
     print_pattern_opportunities(results)
 
     # Save full results to JSON
-    output_file = "backend_analysis_results.json"
-    with open(output_file, 'w') as f:
+    output_dir = PROJECT_ROOT / Path(ANALYSIS_OUTPUT_RELATIVE).parent
+    output_dir.mkdir(parents=True, exist_ok=True)
+    output_file = output_dir / Path(ANALYSIS_OUTPUT_RELATIVE).name
+    with output_file.open('w', encoding='utf-8') as f:
         # Prepare results for JSON (remove non-serializable objects)
         json_results = []
         for r in results:

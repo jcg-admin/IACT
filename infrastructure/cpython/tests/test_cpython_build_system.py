@@ -343,7 +343,7 @@ printf "%s" "$PROJECT_ROOT"
 def test_feature_install_resolves_relative_artifact_path(tmp_path):
     """El instalador debe resolver rutas relativas de artefactos sin depender del usuario."""
 
-    script_path = VAGRANT_DIR / "scripts" / "Install prebuilt cpython.sh"
+    script_path = VAGRANT_DIR / "scripts" / "install_prebuilt_cpython.sh"
 
     artifact_relative = "infrastructure/cpython/artifacts/cpython-3.12.6-ubuntu20.04-build1.tgz"
     artifact_path = tmp_path / artifact_relative

@@ -1,194 +1,63 @@
 # Call Center Analytics
 
-Repositorio monolítico para la plataforma de analítica de centros de contacto (IACT). El sistema opera con Django 5, PostgreSQL para persistencia analítica y MariaDB para lectura de IVR.
+Repositorio monolítico para la plataforma de analítica de centros de contacto (IACT). El proyecto se encuentra en fase de consolidación documental: la mayor parte del trabajo actual vive en `docs/` y en los scripts de automatización que acompañan la migración.
 
-## Inicio rápido
+## Estado actual del repositorio
+- **Documentación activa**: se centraliza en [`docs/index.md`](docs/index.md).
+- **Scripts utilitarios**: viven en [`scripts/`](scripts/README.md) y cubren validaciones, gates de CI y herramientas de soporte.
+- **Infraestructura CPython**: disponible en [`infrastructure/cpython/`](infrastructure/cpython/README.md) para construir e instalar intérpretes precompilados.
+- **Registros temporales**: se almacenan en [`logs_data/`](logs_data/README.md).
+- **Histórico**: contenido legado preservado en [`respaldo/docs_legacy/`](respaldo/docs_legacy/README.md).
+- **No existe un Makefile en la raíz**; cualquier instrucción previa que invoque `make` debe reinterpretarse usando los scripts disponibles.
 
-El proyecto incluye un `Makefile` con comandos comunes:
+## Primeros pasos
+1. Clona el repositorio y activa un entorno virtual si trabajarás con herramientas Python opcionales.
+2. Instala dependencias de soporte para documentación si es necesario: `pip install -r docs/requirements.txt` (archivo opcional, revisar README correspondiente).
+3. Revisa el [plan de remediación activo](docs/plans/REV_20251112_remediation_plan.md) para entender el estado del trabajo.
+4. Navega el índice consolidado para ubicar la documentación relevante.
 
-```bash
-make help          # Ver todos los comandos disponibles
-make setup         # Configurar entorno completo
-make vagrant-up    # Levantar bases de datos
-make docs-serve    # Ver documentación
-```
+## Verificación manual de servicios
+- La guía vigente se encuentra en [`docs/operaciones/verificar_servicios.md`](docs/operaciones/verificar_servicios.md).
+- Actualmente **no existe** `./scripts/verificar_servicios.sh`. Sigue los pasos manuales descritos en el runbook para validar PostgreSQL y MariaDB.
 
-## Requisitos locales
+## Infraestructura CPython
+Los scripts disponibles dentro de `infrastructure/cpython/scripts/` son:
 
-- Python 3.11+
-- [Vagrant](https://developer.hashicorp.com/vagrant/install)
-- VirtualBox 7+
-- Cliente PostgreSQL (`postgresql-client`)
-- Cliente MariaDB (`mariadb-client`)
-- GNU Make (para usar el Makefile)
+| Script | Descripción | Ejemplo |
+| --- | --- | --- |
+| `build_cpython.sh` | Compila CPython dentro de la VM o desde el host. | `./infrastructure/cpython/scripts/build_cpython.sh 3.12.6` |
+| `validate_build.sh` | Verifica la integridad del artefacto generado (`.tgz` + `.sha256`). | `./infrastructure/cpython/scripts/validate_build.sh cpython-3.12.6-ubuntu20.04-build1.tgz` |
+| `install_prebuilt_cpython.sh` | Instala un artefacto precompilado existente en un destino (`INSTALLPREFIX`). | `VERSION=3.12.6 INSTALLPREFIX=/opt/python ./infrastructure/cpython/scripts/install_prebuilt_cpython.sh` |
 
-## Levantar infraestructura de datos
+Consulta [`docs/infrastructure/README.md`](docs/infrastructure/README.md) y [`docs/infrastructure/CHANGELOG-cpython.md`](docs/infrastructure/CHANGELOG-cpython.md) para conocer más detalles sobre estos flujos.
 
-```bash
-vagrant up
-```
-
-El `vagrantfile` provisiona una VM Ubuntu que instala PostgreSQL y MariaDB mediante `provisioning/bootstrap.sh`. Los puertos expuestos en la máquina anfitriona son:
-
-- PostgreSQL: `127.0.0.1:15432`
-- MariaDB: `127.0.0.1:13306`
-
-Las credenciales creadas son `django_user` / `django_pass` para ambos motores. Puedes ajustar las variables de entorno en tu `.env` siguiendo la tabla incluida en [docs/devops/runbooks/verificar_servicios.md](docs/devops/runbooks/verificar_servicios.md).
-
-## Verificar servicios
-
-Una vez que la VM esté en ejecución:
-
-```bash
-./scripts/verificar_servicios.sh
-```
-
-El script prueba la conectividad contra las bases de datos utilizando las variables de entorno disponibles y reporta cualquier dependencia faltante.
-
-## Artefacto CPython precompilado
-
-Para acelerar los entornos de desarrollo y CI, el proyecto distribuye un build precompilado de CPython generado con la VM de `infrastructure/cpython`.
-
-1. **Generar artefacto** (desde el host):
+## Calidad y contribución
+1. Ejecuta las validaciones disponibles antes de abrir un PR:
    ```bash
-   make build_cpython VERSION=3.12.6
+   # Tests unitarios disponibles
+   pytest -c docs/pytest.ini docs/testing
+
+   # Ejecuta validaciones de shell y gates en cascada
+   ./scripts/run_all_tests.sh --skip-frontend --skip-security
    ```
-2. **Validar integridad**:
-   ```bash
-   make validate_cpython ARTIFACT=cpython-3.12.6-ubuntu20.04-build1.tgz
-   ```
-3. **Ubicación**: Los archivos `.tgz` y `.sha256` quedan en `infrastructure/cpython/artifacts/` y son consumidos por el Dev Container mediante el feature `infrastructure/cpython/installer`.
-4. **Distribución**: Publica los mismos archivos en GitHub Releases cuando prepares un release estable y actualiza la referencia en `.devcontainer/devcontainer.json` si cambias de versión.
+2. Mantén la cobertura mínima del 80% para los módulos Python modificados.
+3. Sigue TDD (Red → Green → Refactor) y registra commits en formato Conventional Commits.
+4. Evita `git push --no-verify`. Si un hook falla, corrige la causa o ajusta la regla correspondiente; documenta cualquier excepción justificada en tu PR.
 
-Consulta la [documentación del builder](docs/infrastructure/cpython-builder.md) y su [CHANGELOG dedicado](docs/infrastructure/CHANGELOG-cpython.md) para conocer el flujo completo y los cambios históricos.
-
-## Documentación
-
-El proyecto utiliza MkDocs para generar documentación estática. Usa el Makefile para gestionar la documentación:
-
-```bash
-# Instalar dependencias de documentación
-make docs-install
-
-# Construir documentación
-make docs-build
-
-# Servir documentación con live reload
-make docs-serve
-
-# Limpiar archivos generados
-make docs-clean
-
-# Desplegar a GitHub Pages
-make docs-deploy
-```
-
-La documentación estará disponible en:
-- **Local**: http://127.0.0.1:8000 (con `make docs-serve`)
-- **GitHub Pages**: https://2-coatl.github.io/IACT---project/
-
-## Flujo de desarrollo
-
-1. Configura tu entorno virtual de Python e instala dependencias:
-
-   ```bash
-   python -m venv .venv
-   source .venv/bin/activate
-   pip install -r requirements.txt
-   ```
-
-2. Ejecuta la suite de tests antes de proponer cambios.
-3. Sigue TDD para nuevas funcionalidades.
-4. Mantén una cobertura mínima del 80%.
-
-Ver [Guía Completa de Desarrollo de Features](docs/gobernanza/procesos/guia_completa_desarrollo_features.md) para proceso detallado paso a paso.
-
-## Spec-Driven Development
-
-El proyecto implementa desarrollo guiado por especificaciones formales. Para features complejas:
-
-**1. Crear especificación**:
-```bash
-# Usar plantilla de spec
-cp docs/plantillas/desarrollo/plantilla_spec.md docs/specs/mi-feature.md
-
-# Validar spec
-make validate_spec SPEC=docs/specs/mi-feature.md
-```
-
-**2. Generar plan de implementación**:
-```bash
-# Auto-generar plan desde spec
-make generate_plan SPEC=docs/specs/mi-feature.md
-```
-
-**3. Validar código antes de commit**:
-```bash
-# Ejecutar todos los checks (pre-commit, emojis, specs)
-make check_all
-
-# Con auto-corrección
-make check_all-fix
-```
-
-**Comandos disponibles**:
-- `make validate_spec` - Validar todas las especificaciones
-- `make generate_plan SPEC=<file>` - Generar plan desde spec
-- `make check_all` - Ejecutar todos los checks de calidad
-- `make check_all-fix` - Ejecutar checks con auto-corrección
-
-### Flujo Habitual
-```bash
-# Trabajas en tu rama
-git add .
-git commit -m "Cambios en el desarrollo"
-
-# Intentas hacer push y falla por pre-commit
-git push  # Falla
-
-# Solución temporal para continuar
-git push --no-verify
-```
-
-### Razones para Usar `--no-verify`
-
-#### Casos de Uso
-1. <b>Desarrollo urgente</b>
-2. <b>Pruebas parciales</b>
-3. <b>Código en progreso</b>
-
-#### Riesgos
-- Saltar verificaciones de calidad
-- Posible introducción de código no validado
-- Rompimiento de estándares del equipo
-
-### Mejores Prácticas
-
-#### Alternativas Recomendadas
-1. Corregir los errores de pre-commit
-2. Ajustar las reglas de verificación
-3. Hablar con el equipo sobre las restricciones
-
-<hr>
-
-### Consejo Final
-<b>Usar `--no-verify` debe ser una excepción, no una regla</b>. Es preferible resolver los problemas que están causando que fallen las verificaciones de pre-commit.
-
-
-**Referencias**:
-- [Plantilla de Especificación](docs/plantillas/desarrollo/plantilla_spec.md)
-- [Plantilla de Plan](docs/plantillas/desarrollo/plantilla_plan.md)
-- [Constitution para Agentes AI](docs/gobernanza/agentes/constitution.md)
-
-## Guías y estándares
-
-- **[Guía de Estilo](docs/gobernanza/GUIA_ESTILO.md)** - Convenciones obligatorias del proyecto (incluyendo prohibición de emojis)
-- [Procedimiento de Gestión de Cambios](docs/gobernanza/procesos/procedimiento_gestion_cambios.md) - Workflow Git estándar
-- [Procedimiento de Desarrollo Local](docs/gobernanza/procesos/procedimiento_desarrollo_local.md) - Setup entorno local
+## Estructura de carpetas relevante
+| Carpeta | Propósito |
+| --- | --- |
+| `docs/` | Documentación vigente, análisis y guías (ver índice consolidado). |
+| `scripts/` | Scripts de validación, CI y utilidades operativas. |
+| `infrastructure/` | Artefactos y herramientas de soporte (ej. builder de CPython). |
+| `logs_data/` | JSON temporales y reportes generados manualmente. |
+| `respaldo/` | Documentación histórica etiquetada como legado. |
 
 ## Recursos adicionales
+- [Índice general de documentación](docs/index.md)
+- [Guía de planes y seguimiento](docs/plans/)
+- [Estrategia de git hooks](docs/ESTRATEGIA_GIT_HOOKS.md)
+- [Análisis de reorganización de scripts](docs/ANALISIS_REORGANIZACION_SCRIPTS.md)
+- [Guía de estilo](docs/gobernanza/GUIA_ESTILO.md)
 
-- [Guía de verificación de servicios](docs/devops/runbooks/verificar_servicios.md)
-- [ADR de arquitectura](docs/arquitectura/adr/adr_2025_001_vagrant_mod_wsgi.md)
-- [Playbooks operativos](docs/infrastructure/devops/runbooks/playbooks_operativos/readme.md)
-
+Para dudas específicas consulta el directorio correspondiente en `docs/` o registra la pregunta en el backlog del proyecto.

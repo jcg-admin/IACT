@@ -1,6 +1,6 @@
 #!/bin/bash
 # scripts/run_all_tests.sh
-# Ejecuta suite completa de tests: backend, frontend, security, coverage
+# Ejecuta suite completa de tests: backend, UI, security, coverage
 #
 # Uso:
 #   ./scripts/run_all_tests.sh [OPTIONS]
@@ -8,24 +8,24 @@
 # Options:
 #   --help                 Muestra esta ayuda
 #   --skip-backend         Omite tests de backend
-#   --skip-frontend        Omite tests de frontend
+#   --skip-ui              Omite tests de la interfaz (alias: --skip-frontend)
 #   --skip-security        Omite security scan
 #   --verbose              Modo verbose
 #
 # Ejemplo:
 #   ./scripts/run_all_tests.sh
-#   ./scripts/run_all_tests.sh --skip-frontend --verbose
+#   ./scripts/run_all_tests.sh --skip-ui --verbose
 
 set -e
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 API_DIR="$PROJECT_ROOT/api"
-FRONTEND_DIR="$PROJECT_ROOT/frontend"
+UI_DIR="$PROJECT_ROOT/ui"
 
 # Opciones
 SKIP_BACKEND=false
-SKIP_FRONTEND=false
+SKIP_UI=false
 SKIP_SECURITY=false
 VERBOSE=false
 
@@ -40,8 +40,8 @@ while [[ $# -gt 0 ]]; do
             SKIP_BACKEND=true
             shift
             ;;
-        --skip-frontend)
-            SKIP_FRONTEND=true
+        --skip-ui|--skip-frontend)
+            SKIP_UI=true
             shift
             ;;
         --skip-security)
@@ -102,22 +102,22 @@ if [ "$SKIP_BACKEND" = false ]; then
 fi
 
 # ==============================================================================
-# 2. FRONTEND TESTS
+# 2. UI TESTS
 # ==============================================================================
-if [ "$SKIP_FRONTEND" = false ]; then
-    echo "[2] Ejecutando tests de frontend..."
+if [ "$SKIP_UI" = false ]; then
+    echo "[2] Ejecutando tests de UI..."
     echo "----------------------------------------------------------------------"
 
-    if [ ! -d "$FRONTEND_DIR" ]; then
-        echo "[WARNING] Directorio $FRONTEND_DIR no existe - omitiendo frontend tests"
+    if [ ! -d "$UI_DIR" ]; then
+        echo "[WARNING] Directorio $UI_DIR no existe - omitiendo tests de UI"
     else
-        cd "$FRONTEND_DIR" || exit 1
+        cd "$UI_DIR" || exit 1
 
         # Verificar si package.json existe
         if [ ! -f "package.json" ]; then
-            echo "[WARNING] package.json no encontrado - omitiendo frontend tests"
+            echo "[WARNING] package.json no encontrado - omitiendo tests de UI"
         else
-            # Ejecutar tests de frontend
+            # Ejecutar tests de UI
             if [ "$VERBOSE" = true ]; then
                 npm test -- --verbose
             else
@@ -125,9 +125,9 @@ if [ "$SKIP_FRONTEND" = false ]; then
             fi
 
             if [ $? -eq 0 ]; then
-                echo "[OK] Tests de frontend PASARON"
+                echo "[OK] Tests de UI PASARON"
             else
-                echo "[FAIL] Tests de frontend FALLARON"
+                echo "[FAIL] Tests de UI FALLARON"
                 FAILED=$((FAILED + 1))
             fi
         fi
@@ -198,9 +198,9 @@ else
     echo "[FAIL] $FAILED test suite(s) FALLARON"
     echo ""
     echo "Para correr individual:"
-    echo "  Backend:  ./scripts/ci/backend_test.sh"
-    echo "  Frontend: ./scripts/ci/frontend_test.sh"
-    echo "  Security: ./scripts/ci/security_scan.sh"
+    echo "  Backend:      ./scripts/ci/backend_test.sh"
+    echo "  UI (manual):  npm test (dentro de ./ui/)"
+    echo "  Security:     ./scripts/ci/security_scan.sh"
     echo "  Validaciones: ./scripts/validate_critical_restrictions.sh"
     echo ""
     exit 1

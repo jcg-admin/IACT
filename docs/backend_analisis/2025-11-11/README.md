@@ -30,7 +30,7 @@ El backend tiene una calidad general **buena (93%)**, pero presenta áreas crít
 docs/backend_analisis/2025-11-11/
 ├── README.md                           # Este archivo
 ├── analisis_arquitectura_completo.puml # Todos los diagramas UML
-└── ../../backend_analysis_results.json # Resultados completos JSON
+└── ../../../logs_data/analysis/backend_analysis_results.json # Resultados completos JSON
 ```
 
 ### Estructura de Documentación
@@ -263,7 +263,7 @@ plantuml analisis_arquitectura_completo.puml
 python analyze_backend.py
 
 # Los resultados se guardan en:
-# - backend_analysis_results.json
+# - logs_data/analysis/backend_analysis_results.json
 # - Console output con resumen
 ```
 

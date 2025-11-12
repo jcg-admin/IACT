@@ -1,10 +1,10 @@
-# JSON Log Schemas
+# JSON Log Schemas (estado manual)
 
-**Proposito**: Definir esquemas para logs JSON temporales (hasta migracion a Cassandra)
+**Propósito**: describir los esquemas utilizados para los JSON temporales mientras no exista automatización.
+
+> Automatización pendiente: la generación y rotación se hace manualmente hasta que exista un script oficial.
 
 ## deployment_logs.json
-
-Schema para logs de deployment:
 
 ```json
 {
@@ -23,8 +23,6 @@ Schema para logs de deployment:
 ```
 
 ## dora_metrics.json
-
-Schema para metricas DORA calculadas:
 
 ```json
 {
@@ -57,8 +55,6 @@ Schema para metricas DORA calculadas:
 
 ## incident_logs.json
 
-Schema para logs de incidentes:
-
 ```json
 {
   "timestamp": "2025-01-15T14:30:00Z",
@@ -78,77 +74,12 @@ Schema para logs de incidentes:
 }
 ```
 
-## Uso desde scripts
+## Procedimiento manual
+1. Edita los JSON con un editor que preserve el formato (`jq`, `python -m json.tool`).
+2. Anota en el commit la procedencia de los datos.
+3. Mantén backups comprimidos si los archivos superan los 10 MB.
+4. Cada vez que se actualicen estos archivos, documenta el contexto en `docs/analisis/` o `docs/backend_analisis/`.
 
-### scripts/dora_metrics.py
-
-```python
-import json
-from datetime import datetime
-from pathlib import Path
-
-LOGS_DIR = Path(__file__).parent.parent / "logs_data"
-
-def log_deployment(deployment_data):
-    log_file = LOGS_DIR / "deployment_logs.json"
-    logs = json.loads(log_file.read_text()) if log_file.exists() else []
-    logs.append({
-        "timestamp": datetime.utcnow().isoformat() + "Z",
-        **deployment_data
-    })
-    log_file.write_text(json.dumps(logs, indent=2))
-
-def log_dora_metrics(metrics_data):
-    log_file = LOGS_DIR / "dora_metrics.json"
-    logs = json.loads(log_file.read_text()) if log_file.exists() else []
-    logs.append({
-        "timestamp": datetime.utcnow().isoformat() + "Z",
-        **metrics_data
-    })
-    log_file.write_text(json.dumps(logs, indent=2))
-
-def log_incident(incident_data):
-    log_file = LOGS_DIR / "incident_logs.json"
-    logs = json.loads(log_file.read_text()) if log_file.exists() else []
-    logs.append({
-        "timestamp": datetime.utcnow().isoformat() + "Z",
-        **incident_data
-    })
-    log_file.write_text(json.dumps(logs, indent=2))
-```
-
-## Migracion a Cassandra
-
-Cuando Cassandra este disponible:
-
-1. Crear tablas correspondientes:
-   - deployments
-   - dora_metrics
-   - incidents
-
-2. Script de migracion:
-   - Leer JSONs
-   - Validar esquemas
-   - Insertar en Cassandra
-   - Backup JSONs
-   - Limpiar JSONs
-
-3. Actualizar scripts para escribir directo a Cassandra
-
-## Validacion
-
-Todos los logs deben validarse antes de escribir:
-
-- timestamp en formato ISO 8601
-- Campos requeridos presentes
-- Tipos de datos correctos
-- Valores enum validos
-
-## Rotacion de Logs
-
-Mientras se usen JSONs:
-
-- Rotar cuando archivo > 10MB
-- Mantener ultimos 30 dias
-- Comprimir archivos antiguos
-- Backup diario automatico
+## Próximos pasos (futuros)
+- Diseñar un script dedicado para recopilar métricas.
+- Definir rotación automática (cron o workflow) cuando se implemente la automatización.

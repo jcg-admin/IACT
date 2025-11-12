@@ -59,31 +59,11 @@ Esta release introduce mejoras significativas de mantenibilidad y modularidad si
 
 #### Utilidades Compartidas (`utils/`)
 
-- **`utils/logging.sh`**: Biblioteca de funciones de logging estandarizadas
-  - `log_info()`: Mensajes informativos con color azul
-  - `log_success()`: Mensajes de exito con color verde
-  - `log_warn()` / `log_warning()`: Advertencias con color amarillo
-  - `log_error()`: Errores con color rojo
-  - `log_step()`: Mensajes de paso numerado
-  - `log_header()`: Encabezados con separador
-  - `log_separator()`: Lineas separadoras
-  - Variables de color exportadas: `RED`, `GREEN`, `YELLOW`, `BLUE`, `CYAN`, `NC`
-
-- **`utils/validation.sh`**: Funciones de validacion reutilizables
-  - `validate_command_exists()`: Verificar que comando existe
-  - `validate_python_version()`: Validar formato X.Y.Z
-  - `validate_checksum()`: Validar integridad SHA256
-  - `validate_file_exists()`: Verificar existencia de archivo
-  - `validate_dir_exists()`: Verificar existencia de directorio
-  - `validate_python_modules()`: Validar modulos nativos de Python
-
-- **`utils/common.sh`**: Utilidades generales auxiliares
-  - `detect_os_version()`: Detectar version de sistema operativo
-  - `cleanup_temp_dir()`: Limpiar directorios temporales de forma segura
-  - `download_file()`: Descargar archivos con wget o curl
-  - `extract_tarball()`: Extraer tarballs con validacion
-  - `get_artifact_name()`: Generar nombres de artefactos estandar
-  - `get_python_major_minor()`: Extraer major.minor de version
+- **`logger.sh`**: funciones de logging estandarizadas (`log_info`, `log_success`, `log_warning`, `log_error`, `log_step`).
+- **`validator.sh`**: validaciones reutilizables (`ensure_command`, `ensure_file`, `ensure_directory`, validación de checksums y versiones de Python).
+- **`filesystem.sh`**: helpers para gestionar artefactos y directorios temporales (descarga, extracción, limpieza).
+- **`state_manager.sh`**: control de operaciones idempotentes y marcadores de progreso.
+- **`network.sh`**, **`retry_handler.sh`**, **`name_parser.sh`** y **`environment.sh`**: utilidades auxiliares para detección de entorno, manejo de reintentos y construcción de nombres de artefactos.
 
 #### Configuracion Centralizada (`config/`)
 
@@ -127,7 +107,7 @@ Esta release introduce mejoras significativas de mantenibilidad y modularidad si
 Todos los scripts fueron refactorizados para usar utilidades compartidas:
 
 - **`scripts/build_cpython.sh`**:
-  - Carga `utils/logging.sh`, `utils/validation.sh`, `utils/common.sh`
+  - Carga `utils/logger.sh`, `utils/validator.sh`, `utils/filesystem.sh`, `utils/state_manager.sh`
   - Carga `config/versions.conf`
   - Usa `validate_python_version()` para validar argumentos
   - Usa `get_python_major_minor()` para extraer version
@@ -136,18 +116,15 @@ Todos los scripts fueron refactorizados para usar utilidades compartidas:
   - Mantiene 100% de funcionalidad original
 
 - **`scripts/validate_build.sh`**:
-  - Carga utilidades compartidas
-  - Usa `validate_file_exists()` para checks de existencia
-  - Usa `validate_checksum()` para validacion SHA256
-  - Usa `validate_python_modules()` para validar modulos nativos
-  - Usa funciones `log_*()` para reportes
+  - Carga utilidades compartidas (`logger.sh`, `validator.sh`, `filesystem.sh`)
+  - Usa validaciones centralizadas para comprobar archivos, checksums y módulos nativos
+  - Usa funciones de logging unificadas para reportes
   - Mantiene las 11 validaciones existentes
 
-- **`scripts/feature_install.sh`**:
-  - Refactorizado para usar utilidades
-  - Mejoras en logging y validacion
-  - Usa `download_file()` para descargas
-  - Usa `extract_tarball()` para extraccion
+- **`scripts/install_prebuilt_cpython.sh`**:
+  - Instalación idempotente de artefactos construidos previamente
+  - Reutiliza utilidades de logging, validación y manejo de archivos
+  - Soporta rutas relativas y absolutas con detección automática del proyecto
 
 - **`scripts/build_wrapper.sh`**:
   - Usa funciones de logging estandarizadas
@@ -155,7 +132,7 @@ Todos los scripts fueron refactorizados para usar utilidades compartidas:
 
 - **`scripts/validate_wrapper.sh`**:
   - Usa funciones de logging estandarizadas
-  - Validacion mejorada de estado de VM
+  - Validación mejorada de estado de VM
 
 #### Vagrantfile
 
@@ -197,13 +174,14 @@ infrastructure/cpython/
 ├── scripts/
 │   ├── build_cpython.sh         (MODIFICADO - usa utils)
 │   ├── validate_build.sh        (MODIFICADO - usa utils)
-│   ├── feature_install.sh       (MODIFICADO - usa utils)
+│   ├── install_prebuilt_cpython.sh (NUEVO - usa utils)
 │   ├── build_wrapper.sh         (MODIFICADO - usa utils)
 │   └── validate_wrapper.sh      (MODIFICADO - usa utils)
 ├── utils/                       (NUEVO)
-│   ├── logging.sh               (NUEVO)
-│   ├── validation.sh            (NUEVO)
-│   └── common.sh                (NUEVO)
+│   ├── logger.sh                (NUEVO)
+│   ├── validator.sh             (NUEVO)
+│   ├── filesystem.sh            (NUEVO)
+│   └── state_manager.sh         (NUEVO)
 └── config/                      (NUEVO)
     └── versions.conf            (NUEVO)
 
@@ -299,7 +277,7 @@ Primera version estable del sistema CPython Builder.
   - Validacion de estructura
   - Verificacion de checksums
 
-- **`scripts/feature_install.sh`**: Instalador para Dev Container
+- **`scripts/install_prebuilt_cpython.sh`**: Instalador de artefactos precompilados para Dev Container y entornos de CI
   - Descarga desde GitHub Releases
   - Validacion de checksums
   - Instalacion en /opt
