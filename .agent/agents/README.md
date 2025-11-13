@@ -4,6 +4,74 @@ Este directorio contiene la definición de agentes especializados para automatiz
 
 ## Agentes Disponibles
 
+### Agentes LLM por proveedor
+
+Estos agentes vinculan la planificación (`.agent/PLANS.md`), la configuración de credenciales y los scripts reutilizables cuando se trabaja con modelos específicos.
+
+#### ClaudeAgent
+
+- **Archivo**: `claude_agent.md`
+- **Cuándo usarlo**: Cada vez que Claude (Anthropic) sea el proveedor principal.
+- **Relaciones clave**:
+  - Configuración en `docs/ai/CONFIGURACION_API_KEYS.md` (`ANTHROPIC_API_KEY`).
+  - ExecPlan vivo: `docs/plans/EXECPLAN_codex_mcp_multi_llm.md`.
+  - Scripts: `scripts/coding/ai/generators/llm_generator.py` (`llm_provider="anthropic"`) y `scripts/coding/ai/orchestrators/codex_mcp_workflow.py`.
+  - Guías: `docs/ai/SDLC_AGENTS_GUIDE.md`, `docs/ai_capabilities/prompting/PROMPT_TECHNIQUES_CATALOG.md` y `docs/ai_capabilities/orchestration/CODEX_MCP_MULTI_AGENT_GUIDE.md`.
+
+#### ChatGPTAgent
+
+- **Archivo**: `chatgpt_agent.md`
+- **Cuándo usarlo**: Para operaciones soportadas por modelos GPT de OpenAI.
+- **Relaciones clave**:
+  - Configuración en `docs/ai/CONFIGURACION_API_KEYS.md` (`OPENAI_API_KEY`).
+  - ExecPlan: `docs/plans/EXECPLAN_codex_mcp_multi_llm.md`.
+  - Scripts: `scripts/coding/ai/generators/llm_generator.py` (`llm_provider="openai"`) y `scripts/coding/ai/orchestrators/codex_mcp_workflow.py`.
+  - Guías: `docs/ai/SDLC_AGENTS_GUIDE.md`, `docs/ai_capabilities/prompting/PROMPT_TECHNIQUES_CATALOG.md` y `docs/ai_capabilities/orchestration/CODEX_MCP_MULTI_AGENT_GUIDE.md`.
+
+#### HuggingFaceAgent
+
+- **Archivo**: `huggingface_agent.md`
+- **Cuándo usarlo**: Para modelos locales/fine-tuned o integraciones Hugging Face.
+- **Relaciones clave**:
+  - Configuración en `docs/ai/CONFIGURACION_API_KEYS.md` (`HF_LOCAL_MODEL_PATH`, `HF_MODEL_ID`, `HUGGINGFACEHUB_API_TOKEN`).
+  - ExecPlan: `docs/plans/EXECPLAN_codex_mcp_multi_llm.md`.
+  - Scripts: `scripts/coding/ai/generators/llm_generator.py` (`llm_provider="huggingface"`) y `scripts/coding/ai/orchestrators/codex_mcp_workflow.py`.
+  - Guías: `docs/ai/SDLC_AGENTS_GUIDE.md`, `docs/ai_capabilities/prompting/PROMPT_TECHNIQUES_CATALOG.md`, `docs/ai_capabilities/prompting/PHI3_PROMPT_ENGINEERING_PLAYBOOK.md` y `docs/ai_capabilities/orchestration/CODEX_MCP_MULTI_AGENT_GUIDE.md`.
+
+### Agentes por dominio
+
+Los siguientes agentes conectan la estructura del repositorio (api, ui, infrastructure, docs, scripts) con los ExecPlans y scripts multi-LLM. Cada ficha se encuentra en `.agent/agents/`.
+
+#### ApiAgent (Backend)
+
+- **Archivo**: `api_agent.md`
+- **Directorio base**: `api/`
+- **Relaciones clave**: `docs/plans/EXECPLAN_agents_domain_alignment.md`, `docs/ai/SDLC_AGENTS_GUIDE.md`, `docs/ai_capabilities/prompting/PROMPT_TECHNIQUES_CATALOG.md`, `scripts/coding/ai/orchestrators/codex_mcp_workflow.py`.
+
+#### UiAgent (Frontend)
+
+- **Archivo**: `ui_agent.md`
+- **Directorio base**: `ui/`
+- **Relaciones clave**: `docs/plans/EXECPLAN_agents_domain_alignment.md`, `docs/ai_capabilities/prompting/PROMPT_TECHNIQUES_CATALOG.md`, `docs/ai_capabilities/prompting/CODE_GENERATION_GUIDE.md`, `docs/ai_capabilities/prompting/PHI3_PROMPT_ENGINEERING_PLAYBOOK.md`.
+
+#### InfrastructureAgent
+
+- **Archivo**: `infrastructure_agent.md`
+- **Directorio base**: `infrastructure/`
+- **Relaciones clave**: `docs/plans/EXECPLAN_agents_domain_alignment.md`, `docs/ai_capabilities/prompting/PROMPT_TECHNIQUES_CATALOG.md`, `docs/gobernanza/metodologias/agentes_automatizacion.md`, planes `SPEC_INFRA_*`.
+
+#### DocsAgent
+
+- **Archivo**: `docs_agent.md`
+- **Directorio base**: `docs/`
+- **Relaciones clave**: `docs/analisis/AGENTS.md`, `docs/ai_capabilities/prompting/PROMPT_TECHNIQUES_CATALOG.md`, `scripts/coding/ai/agents/documentation/eta_codex_agent.py`, `docs/testing/test_documentation_alignment.py`.
+
+#### ScriptsAgent
+
+- **Archivo**: `scripts_agent.md`
+- **Directorio base**: `scripts/`
+- **Relaciones clave**: `docs/plans/EXECPLAN_codex_mcp_multi_llm.md`, `docs/ai_capabilities/prompting/PROMPT_TECHNIQUES_CATALOG.md`, `docs/scripts/README.md`, `scripts/coding/ai/generators/llm_generator.py`.
+
 ### 1. GitOpsAgent
 
 **Archivo**: `gitops_agent.md`
@@ -134,6 +202,31 @@ Genera reporte priorizado por severidad.
 
 ---
 
+### 6. CodexMCPWorkflow Orchestrator
+
+**Archivo**: `codex_mcp_workflow.md`
+
+**Propósito**: Normalizar flujos Codex MCP single-agent y multi-agent en todos los proveedores LLM soportados.
+
+**Capacidades**:
+- Genera briefs declarativos vía `CodexMCPWorkflowBuilder` (`scripts/coding/ai/orchestrators/codex_mcp_workflow.py`).
+- Expone configuración del servidor MCP (`npx -y codex mcp`) y políticas de escritura (`approval-policy`, `sandbox`).
+- Documenta gating de artefactos (`design/design_spec.md`, `frontend/index.html`, etc.) y observabilidad con Traces.
+- Enlaza la guía completa [`docs/ai_capabilities/orchestration/CODEX_MCP_MULTI_AGENT_GUIDE.md`].
+
+**Cuándo usar**:
+- Ejecutar el ejemplo “Implement a fun new game!” o flujos similares en Claude, ChatGPT u orígenes Hugging Face.
+- Coordinar un flujo multi-agente con Project Manager + especialistas y validar artefactos antes de cada handoff.
+- Establecer la instrumentación de Traces y las variables de entorno antes de ejecuciones prolongadas.
+
+**Ejemplo**:
+```
+CodexMCPWorkflow Orchestrator: Genera brief multi-agente para "Bug Busters" usando proveedor Anthropic.
+Adjunta artefactos generados y traza resultante.
+```
+
+---
+
 ## Cómo Usar los Agentes
 
 ### Sintaxis General
@@ -142,6 +235,12 @@ Genera reporte priorizado por severidad.
 [NombreAgente]: [Descripción de tarea]
 [Parámetros opcionales]
 ```
+
+### Integración con plantillas de issues
+
+- Usa `.github/ISSUE_TEMPLATE/custom.md` para coordinar una ejecución asistida por agente.
+- Las solicitudes de feature documentadas en `.github/ISSUE_TEMPLATE/feature_request.md` deben enlazar el ExecPlan activo y mencionar aquí qué agente participará.
+- Los reportes de bug hacen referencia explícita a `SecurityAgent` y `DependencyAgent` para acelerar diagnósticos.
 
 ### Ejemplos de Invocación
 
@@ -306,7 +405,7 @@ Para crear un nuevo agente especializado:
    - Un agente = una responsabilidad
    - Evitar agentes monolíticos
 
-2. **Crear archivo en `.github/agents/[nombre]-agent.md`**
+2. **Crear archivo en `.agent/agents/[nombre]_agent.md`**
    ```markdown
    ---
    name: [NombreAgente]
@@ -374,6 +473,6 @@ Ver estadísticas en: `docs/qa/registros/metricas_agentes.md` (si existe)
 
 ---
 
-**Última actualización**: 2025-11-05
-**Total de agentes**: 5
-**Versión de documentación**: 1.0.0
+**Última actualización**: 2025-11-06
+**Total de agentes**: 14
+**Versión de documentación**: 1.2.0

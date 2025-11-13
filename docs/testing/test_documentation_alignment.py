@@ -14,14 +14,15 @@ def test_readme_acknowledges_absence_of_root_makefile():
     readme = _read(REPO_ROOT / "README.md")
     assert "No existe un Makefile en la raíz" in readme
     assert "docs/operaciones/verificar_servicios.md" in readme
-    assert "Actualmente **no existe** `./scripts/verificar_servicios.sh`" in readme
+    assert "./scripts/verificar_servicios.sh" in readme
+    assert "[IMPLEMENTADO]" in readme
     assert "make docs-serve" not in readme
 
 
 def test_docs_index_and_stubs_are_canonical():
     index = _read(REPO_ROOT / "docs/index.md")
-    assert "## Documentación activa" in index
-    assert "## Contenido legado" in index
+    assert "## [DOCS] Documentación activa" in index
+    assert "## [LEGADO] Contenido legado" in index
 
     index_stub = _read(REPO_ROOT / "docs/INDEX.md")
     indice_stub = _read(REPO_ROOT / "docs/INDICE.md")
@@ -43,8 +44,8 @@ def test_scripts_documentation_reflects_current_inventory():
 
 def test_logs_and_analysis_documentation_are_updated():
     schema = _read(REPO_ROOT / "logs_data/SCHEMA.md")
-    assert "Automatización pendiente" in schema
-    assert "scripts/dora_metrics.py" not in schema
+    assert "Automatización parcial" in schema
+    assert "scripts/dora_metrics.py" in schema
 
     analyzer = _read(REPO_ROOT / "scripts/analyze_backend.py")
     assert "logs_data/analysis/backend_analysis_results.json" in analyzer
@@ -59,3 +60,199 @@ def test_run_all_tests_targets_ui_directory():
 def test_cpython_install_script_renamed():
     renamed_path = REPO_ROOT / "infrastructure/cpython/scripts/install_prebuilt_cpython.sh"
     assert renamed_path.exists()
+
+
+def test_revision_20251112_lives_in_docs_analisis():
+    revision_path = REPO_ROOT / "docs/analisis/revision_20251112_consolidada.md"
+    assert revision_path.exists()
+
+    index_contents = _read(REPO_ROOT / "docs/index.md")
+    assert "analisis/revision_20251112_consolidada.md" in index_contents
+
+    legacy_path = REPO_ROOT / "rev/revision_20251112_consolidada.md"
+    assert not legacy_path.exists()
+
+
+def test_docs_analisis_agent_guides_revision_location():
+    agent_path = REPO_ROOT / "docs/analisis/AGENTS.md"
+    assert agent_path.exists()
+
+    agent_contents = _read(agent_path)
+    assert "ETA-AGENTE CODEX" in agent_contents
+    assert "colocar las revisiones consolidadas" in agent_contents
+
+
+def test_eta_codex_agent_is_implemented_in_agents_tree():
+    agent_module = REPO_ROOT / "scripts/coding/ai/agents/documentation/eta_codex_agent.py"
+    assert agent_module.exists()
+
+    tests_path = REPO_ROOT / "scripts/coding/tests/ai/agents/documentation/test_eta_codex_agent.py"
+    assert tests_path.exists()
+
+
+def test_phi3_prompt_engineering_playbook_is_published_and_linked():
+    guide_path = REPO_ROOT / "docs/ai_capabilities/prompting/PHI3_PROMPT_ENGINEERING_PLAYBOOK.md"
+    assert guide_path.exists()
+
+    readme = _read(REPO_ROOT / "README.md")
+    assert "PHI3_PROMPT_ENGINEERING_PLAYBOOK.md" in readme
+
+    prompting_index = _read(REPO_ROOT / "docs/ai_capabilities/prompting/README.md")
+    assert "Phi-3" in prompting_index
+
+
+def test_codex_mcp_multi_agent_guide_is_linked():
+    guide_path = REPO_ROOT / "docs/ai_capabilities/orchestration/CODEX_MCP_MULTI_AGENT_GUIDE.md"
+    assert guide_path.exists()
+
+    readme = _read(REPO_ROOT / "README.md")
+    assert "CODEX_MCP_MULTI_AGENT_GUIDE.md" in readme
+
+    prompting_index = _read(REPO_ROOT / "docs/ai_capabilities/prompting/README.md")
+    assert "Codex MCP Multi-Agent Guide" in prompting_index
+
+    agent_catalog = _read(REPO_ROOT / ".agent" / "agents" / "README.md")
+    assert "CodexMCPWorkflow Orchestrator" in agent_catalog
+
+
+def test_issue_templates_connect_execplans_and_agents():
+    templates_dir = REPO_ROOT / ".github" / "ISSUE_TEMPLATE"
+    assert templates_dir.exists(), "La carpeta .github/ISSUE_TEMPLATE debe existir"
+
+    feature_template = _read(templates_dir / "feature_request.md")
+    assert "ExecPlan" in feature_template
+    assert ".agent/PLANS.md" in feature_template
+
+    custom_template = _read(templates_dir / "custom.md")
+    assert ".agent/agents" in custom_template
+    assert "Agente" in custom_template
+
+    bug_template = _read(templates_dir / "bug_report.md")
+    assert "SecurityAgent" in bug_template or "DependencyAgent" in bug_template
+
+
+def test_ci_workflows_cover_quality_security_and_dependencies():
+    workflows_dir = REPO_ROOT / ".github" / "workflows"
+    quality = workflows_dir / "code-quality.yml"
+    codeql = workflows_dir / "codeql.yml"
+    dependency = workflows_dir / "dependency-review.yml"
+
+    assert quality.exists()
+    assert codeql.exists()
+    assert dependency.exists()
+
+    quality_yaml = _read(quality)
+    assert "./scripts/run_all_tests.sh" in quality_yaml
+    assert "pytest" in quality_yaml
+
+    codeql_yaml = _read(codeql)
+    assert "github/codeql-action/init" in codeql_yaml
+
+    dependency_yaml = _read(dependency)
+    assert "dependency-review-action" in dependency_yaml
+
+
+def test_readme_links_issue_templates_and_agents():
+    readme = _read(REPO_ROOT / "README.md")
+    assert "ISSUE_TEMPLATE" in readme
+    assert ".agent/agents" in readme
+
+
+def test_agent_catalog_links_to_docs_and_scripts():
+    agent_readme = _read(REPO_ROOT / ".agent" / "README.md")
+    assert "docs/ai/SDLC_AGENTS_GUIDE.md" in agent_readme
+    assert "scripts/coding/ai/agents" in agent_readme
+
+
+def test_llm_provider_agents_are_documented():
+    agents_dir = REPO_ROOT / ".agent" / "agents"
+    providers = {
+        "claude_agent.md": "ClaudeAgent",
+        "chatgpt_agent.md": "ChatGPTAgent",
+        "huggingface_agent.md": "HuggingFaceAgent",
+    }
+
+    catalog_contents = _read(agents_dir / "README.md")
+
+    for filename, label in providers.items():
+        agent_path = agents_dir / filename
+        assert agent_path.exists(), f"Falta el archivo {filename} en el catálogo de agentes"
+
+        agent_contents = _read(agent_path)
+        assert "scripts/coding/ai/generators/llm_generator.py" in agent_contents
+        assert "docs/ai/CONFIGURACION_API_KEYS.md" in agent_contents
+        assert "docs/plans/EXECPLAN_codex_mcp_multi_llm.md" in agent_contents
+
+        assert label in catalog_contents
+
+    sdlc_guide = _read(REPO_ROOT / "docs" / "ai" / "SDLC_AGENTS_GUIDE.md")
+    for label in providers.values():
+        assert label in sdlc_guide
+
+
+def test_domain_agents_are_documented_and_linked():
+    agents_dir = REPO_ROOT / ".agent" / "agents"
+    domain_agents = {
+        "api_agent.md": "ApiAgent",
+        "ui_agent.md": "UiAgent",
+        "infrastructure_agent.md": "InfrastructureAgent",
+        "docs_agent.md": "DocsAgent",
+        "scripts_agent.md": "ScriptsAgent",
+    }
+
+    catalog_contents = _read(agents_dir / "README.md")
+    root_readme = _read(REPO_ROOT / ".agent" / "README.md")
+    sdlc_guide = _read(REPO_ROOT / "docs" / "ai" / "SDLC_AGENTS_GUIDE.md")
+
+    execplan_path = REPO_ROOT / "docs" / "plans" / "EXECPLAN_agents_domain_alignment.md"
+    assert execplan_path.exists(), "Debe existir el ExecPlan de alineación por dominios"
+
+    for filename, label in domain_agents.items():
+        agent_path = agents_dir / filename
+        assert agent_path.exists(), f"Falta el archivo {filename}"
+
+        contents = _read(agent_path)
+        assert "docs/plans/EXECPLAN_agents_domain_alignment.md" in contents
+        assert label in catalog_contents
+        assert label in root_readme
+        assert label in sdlc_guide
+
+
+def test_prompt_techniques_catalog_is_linked_across_agents():
+    catalog_path = REPO_ROOT / "docs" / "ai_capabilities" / "prompting" / "PROMPT_TECHNIQUES_CATALOG.md"
+    assert catalog_path.exists(), "Falta el catálogo de técnicas de prompting"
+
+    catalog_contents = _read(catalog_path)
+    assert "Catálogo Completo de Técnicas de Prompts" in catalog_contents
+
+    prompting_index = _read(REPO_ROOT / "docs" / "ai_capabilities" / "prompting" / "README.md")
+    assert "PROMPT_TECHNIQUES_CATALOG.md" in prompting_index
+
+    root_readme = _read(REPO_ROOT / "README.md")
+    assert "PROMPT_TECHNIQUES_CATALOG.md" in root_readme
+
+    agent_catalog = _read(REPO_ROOT / ".agent" / "agents" / "README.md")
+    assert "PROMPT_TECHNIQUES_CATALOG.md" in agent_catalog
+
+    provider_agents = [
+        "claude_agent.md",
+        "chatgpt_agent.md",
+        "huggingface_agent.md",
+    ]
+
+    domain_agents = [
+        "api_agent.md",
+        "ui_agent.md",
+        "infrastructure_agent.md",
+        "docs_agent.md",
+        "scripts_agent.md",
+    ]
+
+    agents_dir = REPO_ROOT / ".agent" / "agents"
+
+    for filename in provider_agents + domain_agents:
+        contents = _read(agents_dir / filename)
+        assert "PROMPT_TECHNIQUES_CATALOG.md" in contents
+
+    sdlc_guide = _read(REPO_ROOT / "docs" / "ai" / "SDLC_AGENTS_GUIDE.md")
+    assert "PROMPT_TECHNIQUES_CATALOG.md" in sdlc_guide
