@@ -47,7 +47,29 @@ class SDLCAgent(Agent):
         super().__init__(name, config)
         self.phase = phase
         self.project_root = Path(self.config.get("project_root", "."))
-        self.output_dir = Path(self.config.get("output_dir", "docs/sdlc_outputs"))
+        # Use auto-detected structure from config, fallback to legacy
+        default_output = self.config.get("output_dir", self._detect_output_dir())
+        self.output_dir = Path(default_output)
+
+    def _detect_output_dir(self) -> str:
+        """
+        Detecta la estructura de directorios del proyecto usando Pattern Recognition.
+
+        Returns:
+            Directorio base para outputs SDLC
+        """
+        docs_dir = self.project_root / "docs"
+
+        # Pattern Recognition: buscar componentes con estructura SDLC
+        for component in ["backend", "frontend", "infrastructure", "api"]:
+            component_dir = docs_dir / component
+            if (component_dir / "arquitectura").exists() and (component_dir / "diseno_detallado").exists():
+                # Patrón detectado: usar estructura por componente
+                # Para agentes SDLC, usar docs/agent
+                return "docs/agent"
+
+        # Fallback: estructura legacy
+        return "docs/sdlc_outputs"
 
     def apply_guardrails(self, output_data: Dict[str, Any]) -> List[str]:
         """
