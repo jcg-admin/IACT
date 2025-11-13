@@ -134,6 +134,18 @@ Para asegurar coherencia entre planificación, credenciales y herramientas, cons
 
 Estas fichas son complementarias a esta guía y deben revisarse antes de ejecutar tareas multi-LLM.
 
+### Agentes por dominio
+
+Para alinear la arquitectura del repositorio con los agentes automatizados, consulta también las fichas por dominio en `.agent/agents/`:
+
+- **ApiAgent** (`api_agent.md`): centraliza la coordinación del backend (`api/`) con los ExecPlans `EXECPLAN_agents_domain_alignment.md` y `EXECPLAN_codex_mcp_multi_llm.md`, además de los briefs generados por `CodexMCPWorkflowBuilder`.
+- **UiAgent** (`ui_agent.md`): une los entregables del Designer Agent con la implementación en `ui/`, reutilizando los playbooks de prompting (`CODE_GENERATION_GUIDE.md`, `PHI3_PROMPT_ENGINEERING_PLAYBOOK.md`).
+- **InfrastructureAgent** (`infrastructure_agent.md`): orquesta cambios en `infrastructure/` en conjunto con los agentes operativos (Dependency, Release, Security) y los planes `SPEC_INFRA_*`.
+- **DocsAgent** (`docs_agent.md`): asegura que toda modificación en `docs/` respete al ETA-AGENTE CODEX y a los validadores de documentación.
+- **ScriptsAgent** (`scripts_agent.md`): gobierna la evolución de `scripts/` manteniendo el enfoque TDD y sincronización con los generadores/orquestadores LLM.
+
+Cada vez que inicies un ExecPlan nuevo, referencia tanto la ficha del proveedor LLM como la del dominio involucrado para mantener la trazabilidad completa.
+
 ### 1. SDLCFeasibilityAgent
 
 **Propósito:** Evalúa la viabilidad técnica de una feature antes de implementarla.

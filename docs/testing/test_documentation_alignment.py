@@ -188,3 +188,32 @@ def test_llm_provider_agents_are_documented():
     sdlc_guide = _read(REPO_ROOT / "docs" / "ai" / "SDLC_AGENTS_GUIDE.md")
     for label in providers.values():
         assert label in sdlc_guide
+
+
+def test_domain_agents_are_documented_and_linked():
+    agents_dir = REPO_ROOT / ".agent" / "agents"
+    domain_agents = {
+        "api_agent.md": "ApiAgent",
+        "ui_agent.md": "UiAgent",
+        "infrastructure_agent.md": "InfrastructureAgent",
+        "docs_agent.md": "DocsAgent",
+        "scripts_agent.md": "ScriptsAgent",
+    }
+
+    catalog_contents = _read(agents_dir / "README.md")
+    root_readme = _read(REPO_ROOT / ".agent" / "README.md")
+    sdlc_guide = _read(REPO_ROOT / "docs" / "ai" / "SDLC_AGENTS_GUIDE.md")
+
+    execplan_path = REPO_ROOT / "docs" / "plans" / "EXECPLAN_agents_domain_alignment.md"
+    assert execplan_path.exists(), "Debe existir el ExecPlan de alineación por dominios"
+
+    for filename, label in domain_agents.items():
+        agent_path = agents_dir / filename
+        assert agent_path.exists(), f"Falta el archivo {filename}"
+
+        contents = _read(agent_path)
+        assert "docs/plans/EXECPLAN_agents_domain_alignment.md" in contents
+        assert label in catalog_contents
+        assert label in root_readme
+        assert label in sdlc_guide
+

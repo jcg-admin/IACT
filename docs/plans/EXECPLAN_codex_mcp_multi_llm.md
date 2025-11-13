@@ -18,6 +18,7 @@ Brindar al proyecto una guía y componentes reutilizables para ejecutar flujos m
 - [x] (2025-11-09 14:40Z) Validación manual del builder y actualización del retrospect.
 - [x] (2025-11-09 15:55Z) Fichas ClaudeAgent/ChatGPTAgent/HuggingFaceAgent añadidas al catálogo `.agent/agents` y referenciadas desde la guía SDLC.
 - [x] (2025-11-09 15:58Z) Pruebas de alineación documental extendidas para exigir presencia de las fichas y sus vínculos multi-LLM.
+- [x] (2025-11-10 09:45Z) Catálogo extendido con agentes por dominio y actualización de `EXECPLAN_agents_domain_alignment.md`.
 
 ## Surprises & Discoveries
 
@@ -34,6 +35,9 @@ Brindar al proyecto una guía y componentes reutilizables para ejecutar flujos m
 - Decision: Consolidar las fichas de proveedores LLM en `.agent/agents` y validar su presencia mediante pruebas automatizadas.
   Rationale: Garantiza que cada proveedor tenga instrucciones autodescriptivas y vínculos a scripts/documentación antes de ejecutar flujos multi-agente.
   Date/Author: 2025-11-09 / gpt-5-codex
+- Decision: Documentar agentes por dominio (api, ui, infrastructure, docs, scripts) para reforzar el enlace entre este plan multi-LLM y la arquitectura del repositorio.
+  Rationale: Los flujos Codex MCP generan entregables distribuidos; los agentes de dominio facilitan seleccionar scripts, pruebas y ExecPlans específicos.
+  Date/Author: 2025-11-06 / gpt-5-codex
 
 ## Outcomes & Retrospective
 

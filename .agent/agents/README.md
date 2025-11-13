@@ -38,6 +38,40 @@ Estos agentes vinculan la planificación (`.agent/PLANS.md`), la configuración 
   - Scripts: `scripts/coding/ai/generators/llm_generator.py` (`llm_provider="huggingface"`) y `scripts/coding/ai/orchestrators/codex_mcp_workflow.py`.
   - Guías: `docs/ai/SDLC_AGENTS_GUIDE.md`, `docs/ai_capabilities/prompting/PHI3_PROMPT_ENGINEERING_PLAYBOOK.md` y `docs/ai_capabilities/orchestration/CODEX_MCP_MULTI_AGENT_GUIDE.md`.
 
+### Agentes por dominio
+
+Los siguientes agentes conectan la estructura del repositorio (api, ui, infrastructure, docs, scripts) con los ExecPlans y scripts multi-LLM. Cada ficha se encuentra en `.agent/agents/`.
+
+#### ApiAgent (Backend)
+
+- **Archivo**: `api_agent.md`
+- **Directorio base**: `api/`
+- **Relaciones clave**: `docs/plans/EXECPLAN_agents_domain_alignment.md`, `docs/ai/SDLC_AGENTS_GUIDE.md`, `scripts/coding/ai/orchestrators/codex_mcp_workflow.py`.
+
+#### UiAgent (Frontend)
+
+- **Archivo**: `ui_agent.md`
+- **Directorio base**: `ui/`
+- **Relaciones clave**: `docs/plans/EXECPLAN_agents_domain_alignment.md`, `docs/ai_capabilities/prompting/CODE_GENERATION_GUIDE.md`, `docs/ai_capabilities/prompting/PHI3_PROMPT_ENGINEERING_PLAYBOOK.md`.
+
+#### InfrastructureAgent
+
+- **Archivo**: `infrastructure_agent.md`
+- **Directorio base**: `infrastructure/`
+- **Relaciones clave**: `docs/plans/EXECPLAN_agents_domain_alignment.md`, `docs/gobernanza/metodologias/agentes_automatizacion.md`, planes `SPEC_INFRA_*`.
+
+#### DocsAgent
+
+- **Archivo**: `docs_agent.md`
+- **Directorio base**: `docs/`
+- **Relaciones clave**: `docs/analisis/AGENTS.md`, `scripts/coding/ai/agents/documentation/eta_codex_agent.py`, `docs/testing/test_documentation_alignment.py`.
+
+#### ScriptsAgent
+
+- **Archivo**: `scripts_agent.md`
+- **Directorio base**: `scripts/`
+- **Relaciones clave**: `docs/plans/EXECPLAN_codex_mcp_multi_llm.md`, `docs/scripts/README.md`, `scripts/coding/ai/generators/llm_generator.py`.
+
 ### 1. GitOpsAgent
 
 **Archivo**: `gitops_agent.md`
@@ -439,6 +473,6 @@ Ver estadísticas en: `docs/qa/registros/metricas_agentes.md` (si existe)
 
 ---
 
-**Última actualización**: 2025-11-05
-**Total de agentes**: 5
-**Versión de documentación**: 1.0.0
+**Última actualización**: 2025-11-06
+**Total de agentes**: 14
+**Versión de documentación**: 1.2.0
