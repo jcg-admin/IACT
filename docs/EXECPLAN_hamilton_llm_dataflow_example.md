@@ -15,6 +15,7 @@ Queremos que cualquier integrante del proyecto pueda ejecutar un ejemplo mínimo
 - [x] (2025-11-19 11:20Z) Documentación actualizada (guía Hamilton e índice general) y validaciones ejecutadas.
 - [x] (2025-11-13 11:05Z) Refactor del driver para exponer Builder/Driver/DictResult estilo apache/hamilton y ampliación de pruebas.
 - [x] (2025-11-19 11:40Z) Reubicación del paquete Hamilton a `infrastructure/workspace/hamilton_llm` y actualización de referencias documentales.
+- [x] (2025-11-20 09:15Z) Incorporación del workspace `dev_tools.language_server` con su suite TDD reflejando la estructura de `github.com/apache/hamilton`.
 
 ## Surprises & Discoveries
 
@@ -37,6 +38,9 @@ Queremos que cualquier integrante del proyecto pueda ejecutar un ejemplo mínimo
 - Decision: Registrar las suites de prueba del workspace en `infrastructure.workspace.TEST_SUITES` para que automatizaciones y documentación puedan descubrirlas sin depender de rutas históricas.
   Rationale: La reubicación desde `scripts/coding/tests/` rompía la convención previa; proveer un registro explícito evita referencias obsoletas en guías y herramientas.
   Date/Author: 2025-11-19 / coding-agent
+- Decision: Replicar el workspace del lenguaje (`dev_tools/language_server/hamilton_lsp`) con una implementación auto-contenida que no requiera dependencias externas.
+  Rationale: Permite documentar y probar las capacidades principales del LSP oficial dentro del repositorio sin `pip install`, y satisface la petición de alinear la estructura con `dev_tools/language_server` de Apache Hamilton.
+  Date/Author: 2025-11-20 / coding-agent
 
 ## Outcomes & Retrospective
 
@@ -67,7 +71,7 @@ El ejemplo debe incluir:
 5. Implementar código real en los módulos descritos, asegurando cobertura >80 % mediante pruebas que ejerciten rutas principales, errores controlados (por ejemplo, dependencia faltante) y adaptadores personalizados.
 6. Re-ejecutar pytest (Green) y refactorizar si procede.
 7. Actualizar `docs/gobernanza/ai/HAMILTON_FRAMEWORK_INTEGRACION_SDLC.md` en la sección de próximos pasos para referenciar el nuevo ejemplo y añadir entrada en `docs/index.md` si corresponde.
-8. Documentar en el ExecPlan las decisiones, sorpresas y resultados. Incluir instrucciones de validación (`python3 -m pytest infrastructure/workspace/tests/hamilton_llm/test_driver.py`).
+8. Documentar en el ExecPlan las decisiones, sorpresas y resultados. Incluir instrucciones de validación (`python3 -m pytest infrastructure/workspace/tests/hamilton_llm/test_driver.py` y `python3 -m pytest infrastructure/workspace/tests/dev_tools/language_server/test_hamilton_lsp.py`).
 9. Mantener el shim alineado con apache/hamilton agregando pruebas de Builder y adaptadores para evitar regresiones.
 
 ## Concrete Steps

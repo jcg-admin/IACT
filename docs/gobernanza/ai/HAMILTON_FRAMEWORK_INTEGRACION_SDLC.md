@@ -133,6 +133,7 @@ Cada subsección resume objetivos, acciones Hamilton y validaciones alineadas co
 ## 6. Próximos pasos
 
 1. Ejemplo base publicado en `infrastructure/workspace/hamilton_llm/`: driver declarativo + pruebas `infrastructure/workspace/tests/hamilton_llm/test_driver.py`. A partir de este flujo se pueden derivar variantes (e.g. adaptadores FastAPI) conservando el enfoque TDD.
+2. Workspace de herramientas (`infrastructure/workspace/dev_tools/language_server/hamilton_lsp/`) que replica el LSP de Apache Hamilton y demuestra cómo validar características de infraestructura vía `python3 -m pytest infrastructure/workspace/tests/dev_tools/language_server/test_hamilton_lsp.py`.
 2. Evaluar integración con `TASK-024-ai-telemetry-system.md` para recolectar métricas de ejecución.
 3. Registrar aprendizajes en `docs/qa/registros/` una vez ejecutados pilotos.
 
