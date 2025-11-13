@@ -1,8 +1,8 @@
 # JSON Log Schemas (estado manual)
 
-**Propósito**: describir los esquemas utilizados para los JSON temporales mientras no exista automatización.
+**Propósito**: describir los esquemas utilizados para los JSON temporales mientras la automatización es parcial.
 
-> Automatización pendiente: la generación y rotación se hace manualmente hasta que exista un script oficial.
+> Automatización parcial: `scripts/dora_metrics.py` genera baselines locales; la rotación sigue siendo manual.
 
 ## deployment_logs.json
 

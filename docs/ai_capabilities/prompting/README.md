@@ -50,6 +50,12 @@ Ver documentación completa en: [SEARCH_OPTIMIZATION_TECHNIQUES.md](./SEARCH_OPT
 
 ---
 
+### Code Generation Guide
+
+Material complementario centrado en estrategias de generación de código (planificación, uso de herramientas y memoria) y en patrones de prompts paso a paso está disponible en [CODE_GENERATION_GUIDE.md](./CODE_GENERATION_GUIDE.md). Resume ejemplos prácticos y recordatorios de validación para mantener alineados a los agentes orientados a código.
+
+---
+
 ## Implementation Location
 
 **Código:** `scripts/ai/agents/base/`
