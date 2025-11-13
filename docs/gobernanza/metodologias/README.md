@@ -7,6 +7,7 @@ prioridad: alta
 version: 1.0.0
 ultima_actualizacion: 2025-11-06
 relacionados: ["DOC-GOBERNANZA-INDEX", "DOC-PROCESOS-INDEX", "AGENTES_SDLC"]
+date: 2025-11-13
 ---
 
 # Indice: Metodologias de Desarrollo

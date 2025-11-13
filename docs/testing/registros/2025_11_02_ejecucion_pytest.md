@@ -4,6 +4,7 @@ estado: completado
 propietario: equipo-qa
 ultima_actualizacion: 2025-11-02
 relacionados: ["DOC-QA-001"]
+date: 2025-11-13
 ---
 # Registro de ejecución de pruebas - 02 nov 2025
 

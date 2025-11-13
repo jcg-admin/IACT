@@ -8,6 +8,7 @@ prioridad: alta
 estado: aprobado
 trazabilidad_upward: [PRIORIDAD_01]
 trazabilidad_downward: [RF-PERM-008]
+date: 2025-11-13
 ---
 
 # UC-PERM-008: Generar Menú Dinámico

@@ -9,6 +9,7 @@ relacionados:
   - "DOC-INDEX-GENERAL"
   - "DOC-QA-DOC-CONTROL"
   - "DOC-QA-001"
+date: 2025-11-13
 ---
 # Plan general de documentación
 

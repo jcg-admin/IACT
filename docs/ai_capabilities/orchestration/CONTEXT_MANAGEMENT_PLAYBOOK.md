@@ -1,3 +1,10 @@
+---
+title: Context Management Playbook
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Context Management Playbook
 
 Esta guía describe cómo gestionar memoria de contexto en agentes largos utilizando las sesiones `TrimmingSession` y `SummarizingSession` incluidas en `scripts/coding/ai/shared/context_sessions.py`. El objetivo es ofrecer una estrategia uniforme para Claude (Anthropic), ChatGPT (OpenAI) y los modelos operados desde Hugging Face, asegurando coherencia, costos predecibles y trazas auditables en cualquier dominio (`api/`, `ui/`, `infrastructure/`, `docs/`, `scripts/`).

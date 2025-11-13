@@ -1,3 +1,10 @@
+---
+title: Low-Level Design - ShellScriptRemediationAgent
+date: 2025-11-13
+domain: ai
+status: active
+---
+
 # Low-Level Design - ShellScriptRemediationAgent
 
 **Component**: ShellScriptRemediationAgent

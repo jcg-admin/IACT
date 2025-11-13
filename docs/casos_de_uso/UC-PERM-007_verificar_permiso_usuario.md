@@ -8,6 +8,7 @@ prioridad: crítica
 estado: aprobado
 trazabilidad_upward: [PRIORIDAD_01, RNF-002]
 trazabilidad_downward: [RF-PERM-007]
+date: 2025-11-13
 ---
 
 # UC-PERM-007: Verificar Permiso de Usuario

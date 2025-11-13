@@ -1,3 +1,10 @@
+---
+title: Issue: PlanValidationAgent
+date: 2025-11-13
+domain: ai
+status: active
+---
+
 # Issue: PlanValidationAgent
 
 **Issue ID**: IMPROVEMENT-SDLC-VALIDATION-001

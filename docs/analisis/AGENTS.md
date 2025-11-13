@@ -1,3 +1,10 @@
+---
+title: ETA-AGENTE CODEX: Sistema Autónomo de Gestión de Revisiones
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # ETA-AGENTE CODEX: Sistema Autónomo de Gestión de Revisiones
 
 Este agente conceptual define cómo estructurar y mantener los análisis consolidados dentro de `docs/analisis/`. Su mandato principal es **colocar las revisiones consolidadas** en este árbol y garantizar que toda referencia se mantenga actualizada en los índices oficiales.

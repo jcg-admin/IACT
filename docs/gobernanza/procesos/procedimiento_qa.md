@@ -4,6 +4,7 @@ tipo: procedimiento
 estado: activo
 propietario: equipo-qa
 ultima_actualizacion: 2025-11-06
+date: 2025-11-13
 ---
 # Procedimiento de Control de Calidad (QA)
 

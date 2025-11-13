@@ -1,3 +1,10 @@
+---
+title: Architectural Decision Records - ShellScriptRemediationAgent
+date: 2025-11-13
+domain: ai
+status: active
+---
+
 # Architectural Decision Records - ShellScriptRemediationAgent
 
 **Component**: ShellScriptRemediationAgent

@@ -1,3 +1,10 @@
+---
+title: Plantilla Stakeholder Analysis
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Plantilla Stakeholder Analysis
 
 | Stakeholder | Interés | Influencia | Expectativas | Estrategia |

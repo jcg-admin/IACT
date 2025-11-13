@@ -1,3 +1,10 @@
+---
+title: Plantilla de caso de uso
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Plantilla de caso de uso
 
 ## Identificación

@@ -5,6 +5,7 @@ estado: activo
 propietario: equipo-infraestructura
 ultima_actualizacion: 2025-11-06
 relacionados: ["SPEC_INFRA_001", "ADR_008", "ADR_009"]
+date: 2025-11-13
 ---
 
 # Procedimiento: Fase 3 - Integración y Validación CPython Precompilado

@@ -1,3 +1,10 @@
+---
+title: Template: GitHub Release - CPython Precompilado
+date: 2025-11-13
+domain: infraestructura
+status: active
+---
+
 # Template: GitHub Release - CPython Precompilado
 
 Use este template al crear una GitHub Release para publicar un artefacto CPython.

@@ -1,3 +1,10 @@
+---
+title: Preguntas Frecuentes - CPython Precompilado
+date: 2025-11-13
+domain: infraestructura
+status: active
+---
+
 # Preguntas Frecuentes - CPython Precompilado
 
 **Versión**: 1.0.0

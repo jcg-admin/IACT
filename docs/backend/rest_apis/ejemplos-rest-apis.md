@@ -1,3 +1,10 @@
+---
+title: Ejemplos de Prompts: Diseño RESTful y Mejores Prácticas
+date: 2025-11-13
+domain: backend
+status: active
+---
+
 # Ejemplos de Prompts: Diseño RESTful y Mejores Prácticas
 
 **Fecha:** 2025-11-11

@@ -15,6 +15,7 @@ trazabilidad_downward:
   - TEST-PERM-001 # Test asignacion grupos
 fecha_creacion: 2025-11-09
 owner: equipo-backend
+date: 2025-11-13
 ---
 
 # UC-PERM-001: Asignar Grupo de Permisos a Usuario

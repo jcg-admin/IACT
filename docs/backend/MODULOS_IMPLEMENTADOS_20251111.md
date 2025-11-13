@@ -15,6 +15,7 @@ relacionados:
   - RF-BUZON-INTERNO
   - RF-ETL-JOBS
 tags: [tdd, django, rest-api, etl, reportes, notifications]
+date: 2025-11-13
 ---
 
 # Actualización de Arquitectura - Módulos Implementados

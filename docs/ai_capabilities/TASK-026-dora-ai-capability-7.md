@@ -9,6 +9,7 @@ fecha_inicio: 2025-11-07
 fecha_fin: 2025-11-07
 asignado: backend-lead + data-lead
 relacionados: ["TASK-025", "TASK-029"]
+date: 2025-11-13
 ---
 
 # TASK-026: DORA 2025 AI Capability 7 - Healthy Data Ecosystems

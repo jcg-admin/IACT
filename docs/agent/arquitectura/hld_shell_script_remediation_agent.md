@@ -1,3 +1,10 @@
+---
+title: High-Level Design - ShellScriptRemediationAgent
+date: 2025-11-13
+domain: ai
+status: active
+---
+
 # High-Level Design - ShellScriptRemediationAgent
 
 **Component**: ShellScriptRemediationAgent

@@ -1,3 +1,10 @@
+---
+title: Analysis: run_all_tests.sh
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Analysis: run_all_tests.sh
 
 ## Summary

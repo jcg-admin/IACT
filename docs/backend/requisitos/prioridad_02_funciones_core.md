@@ -9,6 +9,7 @@ propietario: equipo-backend
 prioridad: alta
 estandares: ["ISO/IEC/IEEE 29148:2018", "REST API", "Django Best Practices"]
 relacionados: ["INDICE_MAESTRO_PERMISOS_GRANULAR", "prioridad_01_estructura_base_datos", "ADR-2025-005"]
+date: 2025-11-13
 ---
 
 # PRIORIDAD 2: Funciones Core

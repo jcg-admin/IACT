@@ -4,6 +4,7 @@ estado: borrador
 propietario: equipo-producto
 ultima_actualizacion: 2025-02-18
 relacionados: ["DOC-VIS-001", "DOC-GOB-INDEX", "DOC-ARQ-INDEX"]
+date: 2025-11-13
 ---
 # Visión y alcance
 

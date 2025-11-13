@@ -1,3 +1,10 @@
+---
+title: Prevención de Emojis en Documentación de Tareas
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Prevención de Emojis en Documentación de Tareas
 
 ## Problema Identificado

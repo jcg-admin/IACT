@@ -9,6 +9,7 @@ fecha_inicio: 2025-11-07
 fecha_fin: 2025-11-07
 asignado: backend-lead
 relacionados: ["TASK-005", "TASK-011", "TASK-013"]
+date: 2025-11-13
 ---
 
 # TASK-014: Custom Dashboards Django Admin

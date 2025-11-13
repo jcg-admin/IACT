@@ -4,6 +4,7 @@ estado: plantilla
 propietario: equipo-arquitectura
 ultima_actualizacion: 2025-11-02
 relacionados: ["DOC-ARQ-INDEX"]
+date: 2025-11-13
 ---
 # ADR-YYYY-NNN: [Título Corto de la Decisión]
 

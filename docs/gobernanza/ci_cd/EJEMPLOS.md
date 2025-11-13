@@ -1,3 +1,10 @@
+---
+title: CI/CD - Ejemplos de Flujos Completos
+date: 2025-11-13
+domain: gobernanza
+status: active
+---
+
 # CI/CD - Ejemplos de Flujos Completos
 
 Ejemplos end-to-end de flujos comunes.

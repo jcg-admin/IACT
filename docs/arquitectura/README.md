@@ -4,6 +4,7 @@ estado: activo
 propietario: equipo-arquitectura
 ultima_actualizacion: 2025-11-04
 relacionados: ["DOC-INDEX-GENERAL", "DOC-GOB-INDEX", "ADR-2025-001", "ADR-2025-002"]
+date: 2025-11-13
 ---
 # Arquitectura del Proyecto IACT
 

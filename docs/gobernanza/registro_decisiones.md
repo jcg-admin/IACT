@@ -4,6 +4,7 @@ estado: activo
 propietario: pmo
 ultima_actualizacion: 2025-11-02
 relacionados: ["DOC-GOB-INDEX"]
+date: 2025-11-13
 ---
 # Registro de decisiones de documentación
 

@@ -11,6 +11,7 @@ trazabilidad_upward:
   - N-004  # Metricas DORA para performance ciclo desarrollo
   - RN-004  # Sistema metricas DORA performance ingenieria
 verificacion: test
+date: 2025-11-13
 ---
 
 # RF-020: Registrar ciclos de desarrollo con fases DORA

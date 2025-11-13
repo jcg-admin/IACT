@@ -1,3 +1,10 @@
+---
+title: Analysis: gate-docs-structure.sh
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Analysis: gate-docs-structure.sh
 
 ## Summary

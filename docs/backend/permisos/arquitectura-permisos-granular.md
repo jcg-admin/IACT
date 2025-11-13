@@ -1,3 +1,10 @@
+---
+title: Arquitectura del Sistema de Permisos Granular
+date: 2025-11-13
+domain: backend
+status: active
+---
+
 # Arquitectura del Sistema de Permisos Granular
 
 **Version:** 1.0

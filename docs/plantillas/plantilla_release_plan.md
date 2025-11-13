@@ -1,3 +1,10 @@
+---
+title: Plantilla Release Plan
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Plantilla Release Plan
 
 ## Resumen

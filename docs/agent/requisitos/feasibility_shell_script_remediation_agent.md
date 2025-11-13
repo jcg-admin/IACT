@@ -1,3 +1,10 @@
+---
+title: Feasibility Study - ShellScriptRemediationAgent
+date: 2025-11-13
+domain: ai
+status: active
+---
+
 # Feasibility Study - ShellScriptRemediationAgent
 
 **Component**: ShellScriptRemediationAgent

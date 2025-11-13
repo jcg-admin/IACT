@@ -8,6 +8,7 @@ dominio: backend
 componente: autenticacion_sesiones
 owner: equipo-backend
 estado: completo_definitivo
+date: 2025-11-13
 ---
 
 # COMPONENTE 1 - PARTE 1: REGLAS DE NEGOCIO

@@ -19,6 +19,7 @@ babok_knowledge_area: "Business Analysis Planning and Monitoring"
 iso29148_clause: "6.2"
 valor_negocio: alto
 urgencia: critica
+date: 2025-11-13
 ---
 
 # N-001: Obtener visibilidad de metricas operativas del IVR en tiempo casi real

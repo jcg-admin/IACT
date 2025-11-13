@@ -1,3 +1,10 @@
+---
+title: Comparativa Visual: Estructura scripts/ Actual vs Propuesta
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Comparativa Visual: Estructura scripts/ Actual vs Propuesta
 
 **Fecha**: 2025-11-09

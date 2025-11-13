@@ -1,3 +1,10 @@
+---
+title: Sistema de Ambientes Virtualizados
+date: 2025-11-13
+domain: infraestructura
+status: active
+---
+
 # Sistema de Ambientes Virtualizados
 
 Sistema de "caparazones" aislados para servicios de bases de datos y cache.

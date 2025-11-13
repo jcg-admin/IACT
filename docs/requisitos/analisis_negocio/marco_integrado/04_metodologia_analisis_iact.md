@@ -8,6 +8,7 @@ relacionados:
   - DOC-GOB-MARCO-05
   - PROC-TRAZABILIDAD-001
 estandares: ["ISO/IEC/IEEE 29148:2018", "BABOK v3"]
+date: 2025-11-13
 ---
 
 # Metodología de Análisis Integrado - IACT

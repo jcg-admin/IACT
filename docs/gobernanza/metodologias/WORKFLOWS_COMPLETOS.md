@@ -5,6 +5,7 @@ categoria: desarrollo
 version: 1.0.0
 fecha_creacion: 2025-11-05
 propietario: equipo-desarrollo
+date: 2025-11-13
 ---
 
 # Workflows Completos del Proyecto IACT

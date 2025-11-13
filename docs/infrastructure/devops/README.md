@@ -4,6 +4,7 @@ estado: borrador
 propietario: equipo-devops
 ultima_actualizacion: 2025-02-18
 relacionados: ["DOC-ARQ-BACKEND", "DOC-GOB-INDEX"]
+date: 2025-11-13
 ---
 # DevOps e infraestructura
 

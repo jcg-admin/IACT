@@ -1,3 +1,10 @@
+---
+title: Plantilla de sección de limitaciones
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Plantilla de sección de limitaciones
 
 ## Limitaciones

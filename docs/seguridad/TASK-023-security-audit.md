@@ -9,6 +9,7 @@ fecha_inicio: 2025-11-07
 fecha_fin: 2025-11-07
 asignado: arquitecto-senior
 relacionados: ["TASK-016", "RNF-002"]
+date: 2025-11-13
 ---
 
 # TASK-023: Security Audit

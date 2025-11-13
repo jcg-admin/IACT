@@ -1,3 +1,10 @@
+---
+title: Plantilla Setup de Ambiente QA
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Plantilla Setup de Ambiente QA
 
 ## Inventario de servidores

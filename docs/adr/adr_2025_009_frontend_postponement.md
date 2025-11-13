@@ -4,6 +4,7 @@ estado: aceptada
 propietario: architecture-team
 ultima_actualizacion: 2025-11-09
 relacionados: ["ADR_011_frontend_modular_monolith", "ADR_012_redux_toolkit_state_management", "ADR_013_webpack_bundler", "ADR_014_testing_strategy_jest_testing_library"]
+date: 2025-11-13
 ---
 # ADR-2025-009: Postergacion de Implementacion Frontend
 

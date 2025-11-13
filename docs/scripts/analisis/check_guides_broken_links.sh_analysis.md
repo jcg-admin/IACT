@@ -1,3 +1,10 @@
+---
+title: Analysis: check_guides_broken_links.sh
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Analysis: check_guides_broken_links.sh
 
 ## Summary

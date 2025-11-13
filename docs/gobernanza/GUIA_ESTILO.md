@@ -4,6 +4,7 @@ tipo: guia
 estado: activo
 propietario: equipo-gobernanza
 ultima_actualizacion: 2025-01-15
+date: 2025-11-13
 ---
 # Guia de Estilo - Proyecto IACT
 

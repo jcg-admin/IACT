@@ -9,6 +9,7 @@ ultima_actualizacion: 2025-11-03
 estado: activo
 propietario: equipo-ba
 estandares: ["ISO/IEC/IEEE 29148:2018 - Clause 9.6", "BABOK v3"]
+date: 2025-11-13
 ---
 
 # Template: Requisito Funcional (Functional Requirement)

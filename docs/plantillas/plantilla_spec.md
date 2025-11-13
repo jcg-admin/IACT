@@ -6,6 +6,7 @@ version: 1.0.0
 fecha_creacion: 2025-11-06
 propietario: equipo-gobernanza
 relacionados: ["PLANTILLA-PLAN", "DOC-GOB-CONSTITUTION-AI"]
+date: 2025-11-13
 ---
 
 # Especificación de Feature: [Nombre de la Feature]

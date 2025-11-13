@@ -1,3 +1,10 @@
+---
+title: Plan de remediación para hallazgos de la revisión 2025-11-12
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Plan de remediación para hallazgos de la revisión 2025-11-12
 
 > Revisión consolidada: [`docs/analisis/revision_20251112_consolidada.md`](../analisis/revision_20251112_consolidada.md)

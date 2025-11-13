@@ -1,3 +1,10 @@
+---
+title: Plantilla Software Requirements Specification (SRS)
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Plantilla Software Requirements Specification (SRS)
 
 ## 1. Introducción

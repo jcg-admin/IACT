@@ -1,3 +1,10 @@
+---
+title: Casos Prácticos IACT - Aplicación del Marco Integrado
+date: 2025-11-13
+domain: gobernanza
+status: active
+---
+
 # Casos Prácticos IACT - Aplicación del Marco Integrado
 
 **Versión:** 1.0

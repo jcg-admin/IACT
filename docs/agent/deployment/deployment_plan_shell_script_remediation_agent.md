@@ -1,3 +1,10 @@
+---
+title: Deployment Plan - ShellScriptRemediationAgent
+date: 2025-11-13
+domain: ai
+status: active
+---
+
 # Deployment Plan - ShellScriptRemediationAgent
 
 **Component**: ShellScriptRemediationAgent

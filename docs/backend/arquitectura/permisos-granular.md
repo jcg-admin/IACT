@@ -1,3 +1,10 @@
+---
+title: Sistema de Permisos Granular
+date: 2025-11-13
+domain: backend
+status: active
+---
+
 # Sistema de Permisos Granular
 
 **Autor**: Backend Team

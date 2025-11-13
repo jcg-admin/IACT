@@ -1,3 +1,10 @@
+---
+title: Arquitectura Completa de Modulos - Sistema IACT
+date: 2025-11-13
+domain: backend
+status: active
+---
+
 # Arquitectura Completa de Modulos - Sistema IACT
 
 **Version:** 1.0

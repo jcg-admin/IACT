@@ -1,3 +1,10 @@
+---
+title: Analysis: security_scan.sh
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Analysis: security_scan.sh
 
 ## Summary

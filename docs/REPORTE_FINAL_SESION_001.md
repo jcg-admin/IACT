@@ -1,3 +1,10 @@
+---
+title: REPORTE FINAL SESION 001 - Proyecto IACT
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # REPORTE FINAL SESION 001 - Proyecto IACT
 
 **Fecha:** 2025-11-07

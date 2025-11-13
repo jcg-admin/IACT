@@ -1,3 +1,10 @@
+---
+title: Arquitectura del Sistema CPython Precompilado
+date: 2025-11-13
+domain: infraestructura
+status: active
+---
+
 # Arquitectura del Sistema CPython Precompilado
 
 **Versión**: 1.0.0

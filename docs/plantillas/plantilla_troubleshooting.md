@@ -1,3 +1,10 @@
+---
+title: Plantilla Troubleshooting
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Plantilla Troubleshooting
 
 ## Problema

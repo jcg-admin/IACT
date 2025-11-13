@@ -1,3 +1,10 @@
+---
+title: Guia de Uso - Sistema de Permisos Granular (PRIORIDAD 2)
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Guia de Uso - Sistema de Permisos Granular (PRIORIDAD 2)
 
 **Fecha:** 2025-11-08

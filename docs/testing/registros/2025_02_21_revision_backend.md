@@ -6,6 +6,7 @@ ultima_actualizacion: 2025-02-21
 relacionados:
   - "DOC-PLAN-GENERAL"
   - "DOC-BACKEND-INDEX"
+date: 2025-11-13
 ---
 # Bitácora de revisión documental - Backend
 

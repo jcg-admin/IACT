@@ -8,6 +8,7 @@ category: arquitectura
 tags: [performance, benchmarking, cassandra, mysql, optimization]
 created: 2025-11-07
 updated: 2025-11-07
+date: 2025-11-13
 ---
 
 # Performance Benchmarking

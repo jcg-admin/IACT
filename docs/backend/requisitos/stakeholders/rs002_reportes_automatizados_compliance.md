@@ -35,6 +35,7 @@ verificacion_metodo: demonstration
 
 categoria_ux: usabilidad
 impacto_experiencia: alto
+date: 2025-11-13
 ---
 
 # RS-002: Reportes automatizados de compliance

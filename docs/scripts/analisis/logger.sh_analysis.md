@@ -1,3 +1,10 @@
+---
+title: Analysis: logger.sh
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Analysis: logger.sh
 
 ## Summary

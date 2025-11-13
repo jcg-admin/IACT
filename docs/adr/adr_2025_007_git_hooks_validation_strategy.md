@@ -4,6 +4,7 @@ estado: aceptada
 propietario: devops-team
 ultima_actualizacion: 2025-11-09
 relacionados: ["adr_2025_002_suite_calidad_codigo", "ESTRATEGIA_GIT_HOOKS.md", "RESUMEN_MIGRACION_SHELL_SCRIPTS.md"]
+date: 2025-11-13
 ---
 # ADR-2025-007: Estrategia de Validación Local con Git Hooks
 

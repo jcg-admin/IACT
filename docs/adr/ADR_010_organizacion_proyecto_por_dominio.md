@@ -1,3 +1,10 @@
+---
+title: ADR_010: Organización del Proyecto por Dominio
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # ADR_010: Organización del Proyecto por Dominio
 
 **Estado:** Aceptado

@@ -1,3 +1,10 @@
+---
+title: Analysis: update_content.sh
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Analysis: update_content.sh
 
 ## Summary

@@ -1,3 +1,10 @@
+---
+title: Configuracion de Ambientes (Dev, Staging, Prod)
+date: 2025-11-13
+domain: ai
+status: active
+---
+
 # Configuracion de Ambientes (Dev, Staging, Prod)
 
 Guia completa para manejar diferentes configuraciones en desarrollo, staging y produccion.

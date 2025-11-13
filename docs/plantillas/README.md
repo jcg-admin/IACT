@@ -4,6 +4,7 @@ estado: borrador
 propietario: equipo-documentacion
 ultima_actualizacion: 2025-11-06
 relacionados: ["DOC-INDEX-GENERAL", "DOC-REQ-INDEX", "PLANTILLA-SPEC", "PLANTILLA-PLAN", "DOC-GOB-CONSTITUTION-AI"]
+date: 2025-11-13
 ---
 # Plantillas
 

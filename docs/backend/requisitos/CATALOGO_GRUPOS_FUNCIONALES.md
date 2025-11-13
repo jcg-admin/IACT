@@ -7,6 +7,7 @@ fecha_creacion: 2025-11-07
 estado: completo
 propietario: equipo-backend
 relacionados: ["INDICE_MAESTRO_PERMISOS_GRANULAR", "prioridad_02_funciones_core", "prioridad_03_modulos_operativos", "prioridad_04_modulos_gestion"]
+date: 2025-11-13
 ---
 
 # Catálogo de Grupos Funcionales

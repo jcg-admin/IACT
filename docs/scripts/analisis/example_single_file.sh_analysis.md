@@ -1,3 +1,10 @@
+---
+title: Analysis: example_single_file.sh
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Analysis: example_single_file.sh
 
 ## Summary

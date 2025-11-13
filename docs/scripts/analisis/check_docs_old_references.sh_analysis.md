@@ -1,3 +1,10 @@
+---
+title: Analysis: check_docs_old_references.sh
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Analysis: check_docs_old_references.sh
 
 ## Summary

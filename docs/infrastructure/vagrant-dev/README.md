@@ -1,3 +1,10 @@
+---
+title: Vagrant Development Environment
+date: 2025-11-13
+domain: infraestructura
+status: active
+---
+
 # Vagrant Development Environment
 
 **Autor**: Infrastructure Team

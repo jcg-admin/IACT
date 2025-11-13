@@ -4,6 +4,7 @@ estado: activo
 propietario: equipo-frontend
 ultima_actualizacion: 2025-11-09
 relacionados: ["DOC-FRONTEND-INDEX", "DOC-ARQ-INFRA"]
+date: 2025-11-13
 ---
 # Arquitectura del frontend
 

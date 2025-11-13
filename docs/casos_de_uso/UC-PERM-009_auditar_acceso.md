@@ -8,6 +8,7 @@ prioridad: crítica
 estado: aprobado
 trazabilidad_upward: [PRIORIDAD_01, RNF-003]
 trazabilidad_downward: [RF-PERM-009]
+date: 2025-11-13
 ---
 
 # UC-PERM-009: Auditar Acceso

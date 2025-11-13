@@ -1,3 +1,10 @@
+---
+title: Plantilla Technical Design Document (TDD)
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Plantilla Technical Design Document (TDD)
 
 ## 1. Propósito

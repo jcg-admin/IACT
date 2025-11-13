@@ -6,6 +6,7 @@ version: 1.0.0
 fecha_creacion: 2025-11-06
 propietario: arquitecto-senior
 relacionados: ["ADR-2025-003", "ADR-2025-004", "OBSERVABILITY_LAYERS.md", "DORA_SDLC_INTEGRATION_GUIDE.md"]
+date: 2025-11-13
 ---
 
 # Integracion DORA Metrics + Cassandra Logs + SDLC Agents

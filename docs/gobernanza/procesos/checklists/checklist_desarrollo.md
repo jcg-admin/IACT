@@ -1,3 +1,10 @@
+---
+title: Checklist de desarrollo
+date: 2025-11-13
+domain: gobernanza
+status: active
+---
+
 # Checklist de desarrollo
 
 ## Calidad de Código

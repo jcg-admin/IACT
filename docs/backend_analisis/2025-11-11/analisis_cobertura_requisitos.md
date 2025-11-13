@@ -1,3 +1,10 @@
+---
+title: Análisis de Cobertura de Requisitos vs Implementación Backend
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Análisis de Cobertura de Requisitos vs Implementación Backend
 
 **Fecha:** 2025-11-11

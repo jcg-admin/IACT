@@ -18,6 +18,7 @@ babok_knowledge_area: "Business Analysis Planning and Monitoring"
 iso29148_clause: "6.2"
 valor_negocio: alto
 urgencia: alta
+date: 2025-11-13
 ---
 
 # N-004: Métricas DORA para mejorar performance del ciclo de desarrollo de software

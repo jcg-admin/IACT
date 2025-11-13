@@ -1,3 +1,10 @@
+---
+title: Analysis: generate_docs_stats.sh
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Analysis: generate_docs_stats.sh
 
 ## Summary

@@ -4,6 +4,7 @@ estado: aceptada
 propietario: backend-team
 ultima_actualizacion: 2025-11-09
 relacionados: ["adr_2025_005_grupos_funcionales_sin_jerarquia", "docs/backend/arquitectura/configuration.md"]
+date: 2025-11-13
 ---
 # ADR-2025-006: Sistema de Configuración Dinámica del Sistema
 

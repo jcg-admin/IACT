@@ -1,3 +1,10 @@
+---
+title: Analysis: validate-naming-compliance.sh
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Analysis: validate-naming-compliance.sh
 
 ## Summary

@@ -4,6 +4,7 @@ estado: activo
 propietario: equipo-gobernanza
 ultima_actualizacion: 2025-11-06
 relacionados: ["DOC-GOB-INDEX", "PROPUESTA_FINAL_REESTRUCTURACION.md"]
+date: 2025-11-13
 ---
 
 # Procesos de Gobernanza

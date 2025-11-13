@@ -6,6 +6,7 @@ ultima_actualizacion: 2025-11-04
 relacionados: ["ADR-2025-002", "DOC-BACKEND-INDEX", "PROC-DEV-LOCAL", "PROC-QA"]
 tipo: documentacion
 categoria: desarrollo
+date: 2025-11-13
 ---
 
 # Guía de Calidad de Código y Automatización

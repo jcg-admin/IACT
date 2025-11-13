@@ -1,3 +1,10 @@
+---
+title: RESUMEN EJECUTIVO: MIGRACIÓN A SHELL SCRIPTS
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # RESUMEN EJECUTIVO: MIGRACIÓN A SHELL SCRIPTS
 # Fecha: 2025-11-09
 # Branch: claude/implement-extended-requirements-011CUuDg8xNY1yF8HoSYdifx

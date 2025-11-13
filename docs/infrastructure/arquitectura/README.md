@@ -4,6 +4,7 @@ estado: borrador
 propietario: equipo-infraestructura
 ultima_actualizacion: 2025-02-18
 relacionados: ["ADR-2025-001", "DOC-DEVOPS-INFRA"]
+date: 2025-11-13
 ---
 # Arquitectura de infraestructura
 

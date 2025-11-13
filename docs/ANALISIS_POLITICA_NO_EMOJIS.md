@@ -1,3 +1,10 @@
+---
+title: Análisis: Política de NO Emojis en el Proyecto IACT
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Análisis: Política de NO Emojis en el Proyecto IACT
 
 **Fecha**: 2025-11-09

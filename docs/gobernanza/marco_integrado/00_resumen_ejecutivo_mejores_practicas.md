@@ -11,6 +11,7 @@ relacionados:
   - DOC-GOB-MARCO-05
   - DOC-GOB-MARCO-06
 estandares: ["ISO/IEC/IEEE 29148:2018", "BABOK v3", "UML 2.5"]
+date: 2025-11-13
 ---
 
 # Resumen Ejecutivo: Marco Integrado de Análisis de Negocio - IACT

@@ -1,3 +1,10 @@
+---
+title: Changelog
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Changelog
 
 ## [2025-11-12] - Documentación Tareas Críticas Sprint 1

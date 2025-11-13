@@ -4,6 +4,7 @@ estado: activo
 propietario: equipo-arquitectura
 fecha_creacion: 2025-11-04
 relacionados: ["DOC-IMPLEMENTACION-INDEX", "DOC-PROPUESTA-FINAL-REESTRUCTURACION"]
+date: 2025-11-13
 ---
 # Guía de Migración desde Estructura Legacy
 

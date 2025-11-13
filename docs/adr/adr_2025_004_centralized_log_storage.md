@@ -4,6 +4,7 @@ estado: propuesta
 propietario: arquitecto-senior
 ultima_actualizacion: 2025-11-06
 relacionados: ["ADR-2025-003", "OBSERVABILITY_LAYERS.md", "RNF-002"]
+date: 2025-11-13
 ---
 
 # ADR-2025-004: Centralized Log Storage en Cassandra

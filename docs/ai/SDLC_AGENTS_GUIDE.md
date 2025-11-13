@@ -1,3 +1,10 @@
+---
+title: Guía de Uso: Agentes SDLC con LLM
+date: 2025-11-13
+domain: ai
+status: active
+---
+
 # Guía de Uso: Agentes SDLC con LLM
 
 Esta guía explica cómo usar los agentes SDLC (Software Development Life Cycle) que han sido integrados con capacidades de LLM (Large Language Models).

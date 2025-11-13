@@ -6,6 +6,7 @@ version: 1.0.0
 fecha_creacion: 2025-11-04
 propietario: equipo-devops
 relacionados: ["PROC-DEV-LOCAL", "ADR-2025-001"]
+date: 2025-11-13
 ---
 # Procedimiento: Instalación de Entorno de Desarrollo
 

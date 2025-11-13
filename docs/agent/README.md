@@ -1,3 +1,10 @@
+---
+title: Agent Documentation
+date: 2025-11-13
+domain: ai
+status: active
+---
+
 # Agent Documentation
 
 This directory contains SDLC documentation for AI agents developed in the project.

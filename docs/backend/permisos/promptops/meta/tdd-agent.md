@@ -1,3 +1,10 @@
+---
+title: TDD Agent: Automatización del Ciclo Test-Driven Development
+date: 2025-11-13
+domain: backend
+status: active
+---
+
 # TDD Agent: Automatización del Ciclo Test-Driven Development
 
 **Tipo:** Meta (Generador de Tests y Ciclo TDD)

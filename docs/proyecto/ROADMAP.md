@@ -6,6 +6,7 @@ version: 1.0.0
 fecha_creacion: 2025-11-06
 propietario: arquitecto-senior
 relacionados: ["TAREAS_ACTIVAS.md", "CHANGELOG.md", "vision_y_alcance.md"]
+date: 2025-11-13
 ---
 
 # ROADMAP - Proyecto IACT

@@ -1,3 +1,10 @@
+---
+title: Setup Guide - IACT Project
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Setup Guide - IACT Project
 
 Guía rápida para configurar el proyecto después de clonar el repositorio.

@@ -1,3 +1,10 @@
+---
+title: Analysis: reorganizar_docs_por_dominio.sh
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Analysis: reorganizar_docs_por_dominio.sh
 
 ## Summary

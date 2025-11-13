@@ -1,3 +1,10 @@
+---
+title: Agentic System Patterns and Best Practices
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Agentic System Patterns and Best Practices
 
 > **Status:** Production notes based on 2024-2025 delivery work with enterprise teams building LLM-driven agents.

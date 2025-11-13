@@ -7,6 +7,7 @@ fecha_creacion: 2025-11-03
 estado: activo
 propietario: equipo-arquitectura
 estandares: ["ISO/IEC/IEEE 29148:2018", "ISO 25010"]
+date: 2025-11-13
 ---
 
 # Template: Requisito No Funcional (Non-Functional Requirement)

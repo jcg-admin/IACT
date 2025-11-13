@@ -1,3 +1,10 @@
+---
+title: Prompt Engineering con Phi-3 Mini
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Prompt Engineering con Phi-3 Mini
 
 Guía de integración para aprovechar el notebook de referencia **Chapter 6 - Prompt Engineering**

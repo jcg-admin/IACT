@@ -12,6 +12,7 @@ trazabilidad_upward:
   - RN-004
   - RF-020
 verificacion: test
+date: 2025-11-13
 ---
 
 # RF-021: Calcular Deployment Frequency (frecuencia de despliegues)

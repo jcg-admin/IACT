@@ -4,6 +4,7 @@ estado: borrador
 propietario: equipo-infraestructura
 ultima_actualizacion: 2025-02-20
 relacionados: ["DOC-INDEX-GENERAL", "DOC-DEVOPS-INDEX"]
+date: 2025-11-13
 ---
 # Espacio de documentación - Infraestructura
 

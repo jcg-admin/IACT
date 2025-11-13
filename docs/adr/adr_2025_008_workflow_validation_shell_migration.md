@@ -4,6 +4,7 @@ estado: aceptada
 propietario: devops-team
 ultima_actualizacion: 2025-11-09
 relacionados: ["adr_2025_002_suite_calidad_codigo", "RESUMEN_MIGRACION_SHELL_SCRIPTS.md", "SHELL_SCRIPTS_CONSTITUTION.md"]
+date: 2025-11-13
 ---
 # ADR-2025-008: Migración de Validaciones CI/CD a Scripts Shell Standalone
 

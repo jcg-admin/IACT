@@ -4,6 +4,7 @@ estado: aceptada
 propietario: equipo-arquitectura
 ultima_actualizacion: 2025-11-02
 relacionados: ["DOC-ARQ-INDEX", "DOC-INFRA-INDEX"]
+date: 2025-11-13
 ---
 # ADR-2025-001: Entorno de Desarrollo con Vagrant y Aprovisionamiento de Bases de Datos
 

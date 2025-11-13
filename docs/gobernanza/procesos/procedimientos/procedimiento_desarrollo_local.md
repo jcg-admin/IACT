@@ -7,6 +7,7 @@ fecha_creacion: 2025-11-04
 fecha_actualizacion: 2025-11-06
 propietario: equipo-desarrollo
 relacionados: ["PROC-INSTALL-ENV", "PROC-QA", "PROC-GIT-HOOKS"]
+date: 2025-11-13
 ---
 # Procedimiento: Desarrollo Local
 

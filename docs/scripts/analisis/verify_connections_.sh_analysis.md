@@ -1,3 +1,10 @@
+---
+title: Analysis: verify_connections_.sh
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Analysis: verify_connections_.sh
 
 ## Summary

@@ -6,6 +6,7 @@ version: 1.0.0
 fecha_creacion: 2025-11-06
 propietario: equipo-gobernanza
 relacionados: ["PLANTILLA-SPEC", "DOC-GOB-CONSTITUTION-AI", "PROC-GUIA-FEATURES"]
+date: 2025-11-13
 ---
 
 # Plan de Implementación: [Nombre de la Feature]

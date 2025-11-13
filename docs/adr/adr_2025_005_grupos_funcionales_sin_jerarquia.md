@@ -4,6 +4,7 @@ estado: aceptada
 propietario: equipo-backend
 ultima_actualizacion: 2025-11-07
 relacionados: ["DOC-REQ-INDICE-MAESTRO-PERMISOS", "RF-001", "RF-002", "RF-003", "RF-004"]
+date: 2025-11-13
 ---
 
 # ADR-2025-005: Sistema de Permisos con Grupos Funcionales Sin Jerarquía

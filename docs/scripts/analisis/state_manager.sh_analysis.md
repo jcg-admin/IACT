@@ -1,3 +1,10 @@
+---
+title: Analysis: state_manager.sh
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Analysis: state_manager.sh
 
 ## Summary

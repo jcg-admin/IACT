@@ -1,3 +1,10 @@
+---
+title: Django Backend Development with Prompting Techniques
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Django Backend Development with Prompting Techniques
 
 **Date:** 2025-11-11

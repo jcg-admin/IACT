@@ -1,3 +1,10 @@
+---
+title: CI/CD - Guia de Uso por Rol
+date: 2025-11-13
+domain: gobernanza
+status: active
+---
+
 # CI/CD - Guia de Uso por Rol
 
 Guias especificas para Developer, QA, DevOps y Tech Lead.

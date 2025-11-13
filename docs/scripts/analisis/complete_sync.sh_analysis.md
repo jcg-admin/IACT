@@ -1,3 +1,10 @@
+---
+title: Analysis: complete_sync.sh
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Analysis: complete_sync.sh
 
 ## Summary

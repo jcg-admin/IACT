@@ -1,3 +1,10 @@
+---
+title: ANÁLISIS DE CONGRUENCIA: DOCUMENTACIÓN vs CÓDIGO IMPLEMENTADO
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # ANÁLISIS DE CONGRUENCIA: DOCUMENTACIÓN vs CÓDIGO IMPLEMENTADO
 **Proyecto**: IACT Call Center Analytics
 **Fecha**: 2025-11-09

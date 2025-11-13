@@ -1,3 +1,10 @@
+---
+title: Testing Strategy: ShellScriptAnalysisAgent
+date: 2025-11-13
+domain: ai
+status: active
+---
+
 # Testing Strategy: ShellScriptAnalysisAgent
 
 **Issue ID**: FEATURE-SHELL-ANALYSIS-001

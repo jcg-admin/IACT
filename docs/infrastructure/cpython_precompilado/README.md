@@ -1,3 +1,10 @@
+---
+title: CPython Precompilado - Guía de Usuario
+date: 2025-11-13
+domain: infraestructura
+status: active
+---
+
 # CPython Precompilado - Guía de Usuario
 
 **Versión**: 1.0.0

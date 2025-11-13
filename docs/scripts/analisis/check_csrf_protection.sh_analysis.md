@@ -1,3 +1,10 @@
+---
+title: Analysis: check_csrf_protection.sh
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Analysis: check_csrf_protection.sh
 
 ## Summary

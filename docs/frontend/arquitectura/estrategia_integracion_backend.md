@@ -5,6 +5,7 @@ estado: borrador
 propietario: equipo-frontend
 ultima_actualizacion: 2025-11-08
 relacionados: ["DOC-ARQ-FRONTEND", "DOC-FRONTEND-INDEX"]
+date: 2025-11-13
 ---
 
 # Estrategia de integración frontend-backend

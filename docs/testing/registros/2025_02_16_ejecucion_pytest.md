@@ -4,6 +4,7 @@ estado: en-progreso
 propietario: equipo-qa
 ultima_actualizacion: 2025-02-16
 relacionados: ["DOC-QA-001"]
+date: 2025-11-13
 ---
 # Registro de ejecución de pruebas - 16 feb 2025
 

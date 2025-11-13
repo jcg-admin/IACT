@@ -1,3 +1,10 @@
+---
+title: Instrucciones para Crear el Pull Request
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Instrucciones para Crear el Pull Request
 
 ## Opcion 1: GitHub Web UI (Recomendado)

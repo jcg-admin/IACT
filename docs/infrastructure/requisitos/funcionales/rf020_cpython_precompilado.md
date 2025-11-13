@@ -14,6 +14,7 @@ iso29148_clause: "9.6.4"
 verificacion_metodo: demonstration
 categoria: development-environment
 modulo: devcontainer
+date: 2025-11-13
 ---
 
 # RF-020: CPython 3.12.6 precompilado en Dev Container

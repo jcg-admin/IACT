@@ -4,6 +4,7 @@ estado: borrador
 propietario: equipo-backend
 ultima_actualizacion: 2025-11-04
 relacionados: ["DOC-INDEX-GENERAL", "DOC-FRONTEND-INDEX", "DOC-SOL-SC03", "ADR-2025-002", "DOC-BACKEND-CALIDAD-AUTO"]
+date: 2025-11-13
 ---
 # Espacio de documentación - Backend
 

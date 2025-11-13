@@ -1,3 +1,10 @@
+---
+title: Optimizaciones de Performance - Sistema de Permisos
+date: 2025-11-13
+domain: backend
+status: active
+---
+
 # Optimizaciones de Performance - Sistema de Permisos
 
 **Versión:** 1.0

@@ -7,6 +7,7 @@ fecha_creacion: 2025-11-07
 estado: completo
 propietario: equipo-backend
 relacionados: ["INDICE_MAESTRO_PERMISOS_GRANULAR", "CATALOGO_GRUPOS_FUNCIONALES"]
+date: 2025-11-13
 ---
 
 # Mapeo de Funciones a Módulos Django

@@ -4,6 +4,7 @@ estado: activo
 propietario: equipo-arquitectura
 ultima_actualizacion: 2025-11-02
 relacionados: ["DOC-ARQ-INDEX", "DOC-GOB-INDEX"]
+date: 2025-11-13
 ---
 # Lineamientos de Código - Proyecto IACT
 

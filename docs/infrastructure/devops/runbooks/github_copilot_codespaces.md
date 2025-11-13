@@ -4,6 +4,7 @@ estado: vigente
 propietario: equipo-devops
 ultima_actualizacion: 2025-02-16
 relacionados: ["DOC-OPS-001", "playbooks_operativos/copilot_codespaces.md"]
+date: 2025-11-13
 ---
 # Runbook de verificación: GitHub Copilot y Codespaces
 

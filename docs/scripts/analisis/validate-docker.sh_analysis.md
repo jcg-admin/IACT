@@ -1,3 +1,10 @@
+---
+title: Analysis: validate-docker.sh
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Analysis: validate-docker.sh
 
 ## Summary

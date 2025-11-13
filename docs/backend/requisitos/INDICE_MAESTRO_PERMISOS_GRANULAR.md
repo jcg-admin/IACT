@@ -8,6 +8,7 @@ estado: completo
 propietario: equipo-backend
 estandares: ["ISO/IEC/IEEE 29148:2018", "BABOK v3"]
 relacionados: ["DOC-REQ-BACKEND", "RF-001", "RF-002", "RF-003", "RF-004"]
+date: 2025-11-13
 ---
 
 # ÍNDICE MAESTRO: Sistema de Permisos Granular

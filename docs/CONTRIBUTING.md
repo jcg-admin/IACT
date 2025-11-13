@@ -1,3 +1,10 @@
+---
+title: Contributing to IACT Project
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Contributing to IACT Project
 
 Thank you for your interest in contributing to the IACT project. This document provides guidelines and best practices for contributors.

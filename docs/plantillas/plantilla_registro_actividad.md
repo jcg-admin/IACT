@@ -1,3 +1,10 @@
+---
+title: Plantilla Registro de Actividades o Planeaciones
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Plantilla Registro de Actividades o Planeaciones
 
 Esta plantilla estandariza la captura de notas de reunión, planes de trabajo o seguimientos de actividades.

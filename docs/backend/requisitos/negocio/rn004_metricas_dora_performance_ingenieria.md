@@ -16,6 +16,7 @@ stakeholders:
   - devops-team
 babok_knowledge_area: "Business Analysis Planning and Monitoring"
 iso29148_clause: "9.3"
+date: 2025-11-13
 ---
 
 # RN-004: Sistema de métricas DORA para mejorar performance de ingeniería de software

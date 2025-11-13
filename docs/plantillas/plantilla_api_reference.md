@@ -1,3 +1,10 @@
+---
+title: Plantilla API Reference
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Plantilla API Reference
 
 ## Introducción

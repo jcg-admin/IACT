@@ -6,6 +6,7 @@ fecha_creacion: 2025-11-06
 ultima_actualizacion: 2025-11-06
 auto_generado: true
 relacionados: ["DOC-IMPLEMENTACION-INDEX", "DOC-PROPUESTA-FINAL-REESTRUCTURACION"]
+date: 2025-11-13
 ---
 # Indices de Requisitos IACT - ISO/IEC/IEEE 29148:2018
 

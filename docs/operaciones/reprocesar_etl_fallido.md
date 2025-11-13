@@ -4,6 +4,7 @@ estado: draft
 propietario: equipo-devops
 ultima_actualizacion: 2025-11-02
 relacionados: ["DOC-DEVOPS-INDEX", "DOC-DIS-INDEX"]
+date: 2025-11-13
 ---
 # Runbook: Reprocesar ETL Fallido
 

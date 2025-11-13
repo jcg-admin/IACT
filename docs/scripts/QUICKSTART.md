@@ -1,3 +1,10 @@
+---
+title: Scripts IACT - Quickstart
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Scripts IACT - Quickstart
 
 Comandos mas usados del proyecto IACT.

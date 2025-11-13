@@ -1,3 +1,10 @@
+---
+title: Análisis Arquitectural del Backend - Call Center Site
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Análisis Arquitectural del Backend - Call Center Site
 
 **Fecha:** 2025-11-11

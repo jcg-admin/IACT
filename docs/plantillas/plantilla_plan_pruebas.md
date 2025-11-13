@@ -1,3 +1,10 @@
+---
+title: Plantilla Plan de Pruebas
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Plantilla Plan de Pruebas
 
 ## Objetivo

@@ -1,3 +1,10 @@
+---
+title: Documentación de scripts
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Documentación de scripts
 
 > **Leyenda**: [IMPLEMENTADO] = Implementado | [PLANIFICADO] = Planificado | [ATENCION] = En migración

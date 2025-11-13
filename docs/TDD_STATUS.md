@@ -1,3 +1,10 @@
+---
+title: TDD Status for Prompting Techniques
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # TDD Status for Prompting Techniques
 
 **Date:** 2025-11-11

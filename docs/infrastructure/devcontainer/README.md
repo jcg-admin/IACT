@@ -1,3 +1,10 @@
+---
+title: DevContainer - Entorno de Desarrollo Contenedorizado
+date: 2025-11-13
+domain: infraestructura
+status: active
+---
+
 # DevContainer - Entorno de Desarrollo Contenedorizado
 
 **Autor**: Infrastructure Team

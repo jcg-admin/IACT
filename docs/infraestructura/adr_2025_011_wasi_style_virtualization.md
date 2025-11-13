@@ -1,3 +1,10 @@
+---
+title: ADR-011: WASI-style Virtualization for Database Environments
+date: 2025-11-13
+domain: infraestructura
+status: active
+---
+
 # ADR-011: WASI-style Virtualization for Database Environments
 
 **Status**: Accepted

@@ -8,6 +8,7 @@ prioridad: media
 estado: aprobado
 trazabilidad_upward: [PRIORIDAD_01, RNF-003]
 trazabilidad_downward: [RF-PERM-010]
+date: 2025-11-13
 ---
 
 # UC-PERM-010: Consultar Auditoría de Permisos

@@ -1,3 +1,10 @@
+---
+title: Catálogo Completo de Técnicas de Prompts multi-LLM
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Catálogo Completo de Técnicas de Prompts multi-LLM
 
 Este catálogo unifica las técnicas de prompting aplicables a los tres proveedores soportados por el proyecto (Claude, ChatGPT y Hugging Face) y funciona como referencia canónica para los agentes descritos en `.agent/agents/` y los planes activos `docs/plans/EXECPLAN_codex_mcp_multi_llm.md` y `docs/plans/EXECPLAN_agents_domain_alignment.md`. Cada sección indica cómo reutilizar la técnica dentro del flujo SDLC y enlaza con los dominios Backend (API), Frontend (UI), Infrastructure, Docs y Scripts cuando existen lineamientos específicos.

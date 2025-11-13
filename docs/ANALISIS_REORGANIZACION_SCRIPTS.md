@@ -1,3 +1,10 @@
+---
+title: Análisis y Propuesta de Reorganización de `scripts/`
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Análisis y Propuesta de Reorganización de `scripts/`
 
 **Fecha**: 2025-11-09

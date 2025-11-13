@@ -16,6 +16,7 @@ babok_knowledge_area: "Business Analysis Planning and Monitoring"
 iso29148_clause: "6.2"
 valor_negocio: medio
 urgencia: media
+date: 2025-11-13
 ---
 
 # N-003: Visibilidad de metricas operativas en tiempo casi real

@@ -1,3 +1,10 @@
+---
+title: Índice consolidado de documentación
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Índice consolidado de documentación
 
 > Última actualización: 2025-11-12  

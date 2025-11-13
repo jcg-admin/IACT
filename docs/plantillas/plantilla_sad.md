@@ -1,3 +1,10 @@
+---
+title: Plantilla Software Architecture Document (SAD)
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Plantilla Software Architecture Document (SAD)
 
 ## 1. Introducción

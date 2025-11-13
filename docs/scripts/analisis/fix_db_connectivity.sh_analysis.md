@@ -1,3 +1,10 @@
+---
+title: Analysis: fix_db_connectivity.sh
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Analysis: fix_db_connectivity.sh
 
 ## Summary

@@ -14,6 +14,7 @@ iso29148_clause: "9.6.5"
 verificacion_metodo: inspection
 categoria: technical-constraint
 modulo: authentication
+date: 2025-11-13
 ---
 
 # RNF-002: Sesiones almacenadas en MySQL (NO Redis)

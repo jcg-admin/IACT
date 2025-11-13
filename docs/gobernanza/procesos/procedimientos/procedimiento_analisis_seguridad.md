@@ -8,6 +8,7 @@ propietario: equipo-seguridad
 estado: activo
 metodologias: ["STRIDE", "PASTA", "LINDDUN", "OWASP Top 10"]
 relacionados: ["PROC-DISENO-TEC-001", "PROC-TRAZABILIDAD-001", "PROC-REVISION-DOC"]
+date: 2025-11-13
 ---
 
 # Procedimiento: Análisis de Seguridad y Modelado de Amenazas

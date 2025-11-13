@@ -4,6 +4,7 @@ estado: aceptada
 propietario: arquitecto-senior
 ultima_actualizacion: 2025-11-06
 relacionados: ["FASES_IMPLEMENTACION_IA.md", "ESTRATEGIA_IA.md", "AGENTES_SDLC.md", "ADR-2025-002"]
+date: 2025-11-13
 ---
 
 # ADR-2025-003: Integracion DORA Metrics con SDLC Agents

@@ -1,3 +1,10 @@
+---
+title: Integrar catálogo completo de técnicas de prompts multi-LLM
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Integrar catálogo completo de técnicas de prompts multi-LLM
 
 Este ExecPlan es un documento vivo. Las secciones `Progress`, `Surprises & Discoveries`, `Decision Log` y `Outcomes & Retrospective` deben mantenerse al día conforme avance el trabajo.

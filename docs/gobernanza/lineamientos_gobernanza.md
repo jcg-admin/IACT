@@ -4,6 +4,7 @@ estado: borrador
 propietario: pmo
 ultima_actualizacion: 2025-02-14
 relacionados: []
+date: 2025-11-13
 ---
 # Lineamientos de gobernanza
 

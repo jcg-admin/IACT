@@ -1,3 +1,10 @@
+---
+title: Guía para Crear Componentes PromptOps
+date: 2025-11-13
+domain: backend
+status: active
+---
+
 # Guía para Crear Componentes PromptOps
 
 **Propósito:** Documentar la metodología para crear nuevos gates, chains, templates y meta-prompts siguiendo el estándar PromptOps del proyecto IACT.

@@ -9,6 +9,7 @@ fecha_inicio: 2025-11-07
 fecha_fin: 2025-11-07
 asignado: backend-lead + qa-lead
 relacionados: ["TASK-016", "TASK-023", "TASK-029"]
+date: 2025-11-13
 ---
 
 # TASK-032: Integration Tests Suite

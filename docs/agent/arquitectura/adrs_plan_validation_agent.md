@@ -1,3 +1,10 @@
+---
+title: Architectural Decision Records: PlanValidationAgent
+date: 2025-11-13
+domain: ai
+status: active
+---
+
 # Architectural Decision Records: PlanValidationAgent
 
 **Issue ID**: IMPROVEMENT-SDLC-VALIDATION-001

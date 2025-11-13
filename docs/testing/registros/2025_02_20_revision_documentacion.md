@@ -6,6 +6,7 @@ ultima_actualizacion: 2025-02-20
 relacionados:
   - "DOC-PLAN-GENERAL"
   - "DOC-QA-DOC-CONTROL"
+date: 2025-11-13
 ---
 # Bitácora de control documental - 20 feb 2025
 

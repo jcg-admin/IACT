@@ -1,3 +1,10 @@
+---
+title: REPORTE FINAL PROYECTO IACT
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # REPORTE FINAL PROYECTO IACT
 
 ## Resumen Ejecutivo

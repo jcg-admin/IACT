@@ -1,3 +1,10 @@
+---
+title: ADR-012: Sistema de Permisos Granular SIN Roles Jerarquicos
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # ADR-012: Sistema de Permisos Granular SIN Roles Jerarquicos
 
 **Estado:** Aceptado

@@ -1,3 +1,10 @@
+---
+title: Analysis: check_sql_injection.sh
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Analysis: check_sql_injection.sh
 
 ## Summary

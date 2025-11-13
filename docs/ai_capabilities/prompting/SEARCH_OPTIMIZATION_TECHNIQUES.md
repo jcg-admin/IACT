@@ -1,3 +1,10 @@
+---
+title: Search Optimization Techniques
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Search Optimization Techniques
 
 **Date:** 2025-11-11

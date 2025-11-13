@@ -1,3 +1,10 @@
+---
+title: Plantilla Guía de Despliegue
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Plantilla Guía de Despliegue
 
 ## Alcance

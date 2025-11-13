@@ -1,3 +1,10 @@
+---
+title: Plantilla Runbook Operativo
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Plantilla Runbook Operativo
 
 ## Contexto

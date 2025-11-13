@@ -1,3 +1,10 @@
+---
+title: REPORTE DE ARCHIVOS DUPLICADOS EN docs/
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # REPORTE DE ARCHIVOS DUPLICADOS EN docs/
 
 **Fecha de análisis**: 2025-11-04  

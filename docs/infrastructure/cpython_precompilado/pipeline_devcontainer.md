@@ -1,3 +1,10 @@
+---
+title: Pipeline CPython Precompilado y uso en DevContainer
+date: 2025-11-13
+domain: infraestructura
+status: active
+---
+
 # Pipeline CPython Precompilado y uso en DevContainer
 
 ## Resumen ejecutivo

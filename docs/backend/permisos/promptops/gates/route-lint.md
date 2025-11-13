@@ -1,3 +1,10 @@
+---
+title: Route Lint Gate: Verificación de Permisos en ViewSets
+date: 2025-11-13
+domain: backend
+status: active
+---
+
 # Route Lint Gate: Verificación de Permisos en ViewSets
 
 **Tipo:** Gate (CI/CD Blocking)

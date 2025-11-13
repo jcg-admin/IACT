@@ -1,3 +1,10 @@
+---
+title: Integrar el META-AGENTE CODEX en la documentación oficial
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Integrar el META-AGENTE CODEX en la documentación oficial
 
 Este ExecPlan es un documento vivo. Las secciones `Progress`, `Surprises & Discoveries`, `Decision Log` y `Outcomes & Retrospective` deben mantenerse al día conforme avance el trabajo.

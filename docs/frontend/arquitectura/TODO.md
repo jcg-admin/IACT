@@ -5,6 +5,7 @@ estado: activo
 propietario: equipo-frontend
 ultima_actualizacion: 2025-11-08
 relacionados: ["DOC-ARQ-FRONTEND", "DOC-FRONTEND-BFF-STRATEGY"]
+date: 2025-11-13
 ---
 
 # TODO Arquitectura Frontend - Integración con Backend

@@ -1,3 +1,10 @@
+---
+title: Arquitectura del Sistema de Permisos - Diagramas UML
+date: 2025-11-13
+domain: backend
+status: active
+---
+
 # Arquitectura del Sistema de Permisos - Diagramas UML
 
 **Fecha:** 2025-11-11

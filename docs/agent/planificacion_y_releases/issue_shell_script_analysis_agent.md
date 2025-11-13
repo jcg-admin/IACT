@@ -1,3 +1,10 @@
+---
+title: Feature: Agente de Análisis Exhaustivo de Scripts Shell
+date: 2025-11-13
+domain: ai
+status: active
+---
+
 # Feature: Agente de Análisis Exhaustivo de Scripts Shell
 
 **Issue ID**: FEATURE-SHELL-ANALYSIS-001

@@ -9,6 +9,7 @@ fecha_inicio: 2025-11-07
 fecha_fin: 2025-11-07
 asignado: backend-lead
 relacionados: ["TASK-005", "TASK-017"]
+date: 2025-11-13
 ---
 
 # TASK-028: ETL Pipeline Automation

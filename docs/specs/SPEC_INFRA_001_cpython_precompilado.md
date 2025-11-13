@@ -6,6 +6,7 @@ version: 1.0.0
 fecha_creacion: 2025-11-06
 propietario: equipo-infraestructura
 relacionados: ["ADR_008", "ADR_009", "PLAN-INFRA-001"]
+date: 2025-11-13
 ---
 
 # Especificación de Feature: CPython Precompilado en Dev Containers

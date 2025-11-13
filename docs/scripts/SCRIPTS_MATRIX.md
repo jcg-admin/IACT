@@ -1,3 +1,10 @@
+---
+title: Matriz actual de scripts
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Matriz actual de scripts
 
 | Carpeta | Propósito | Estado |

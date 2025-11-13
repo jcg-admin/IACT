@@ -1,3 +1,10 @@
+---
+title: Issue: ShellScriptRemediationAgent
+date: 2025-11-13
+domain: ai
+status: active
+---
+
 # Issue: ShellScriptRemediationAgent
 
 **Issue ID**: FEATURE-SHELL-REMEDIATION-001

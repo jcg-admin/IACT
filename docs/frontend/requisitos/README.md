@@ -4,6 +4,7 @@ estado: borrador
 propietario: equipo-frontend
 ultima_actualizacion: 2025-02-20
 relacionados: ["DOC-REQ-INDEX", "DOC-ARQ-FRONTEND"]
+date: 2025-11-13
 ---
 # Requisitos del frontend
 

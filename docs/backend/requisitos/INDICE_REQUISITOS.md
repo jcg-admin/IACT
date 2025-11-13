@@ -1,3 +1,10 @@
+---
+title: Índice Maestro de Requisitos - IACT Backend
+date: 2025-11-13
+domain: backend
+status: active
+---
+
 # Índice Maestro de Requisitos - IACT Backend
 
 **Versión:** 2.0

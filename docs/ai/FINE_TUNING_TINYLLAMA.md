@@ -1,3 +1,10 @@
+---
+title: Fine-tuning de TinyLlama con QLoRA + DPO
+date: 2025-11-13
+domain: ai
+status: active
+---
+
 # Fine-tuning de TinyLlama con QLoRA + DPO
 
 Esta guía resume el cuaderno de referencia **Chapter 12 - Fine-tuning Generation Models** para

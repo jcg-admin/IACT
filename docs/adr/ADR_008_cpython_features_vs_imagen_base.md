@@ -1,3 +1,10 @@
+---
+title: ADR_008: Usar Features de Dev Container vs Imagen Base Personalizada para CPython Precompilado
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # ADR_008: Usar Features de Dev Container vs Imagen Base Personalizada para CPython Precompilado
 
 **Estado:** Propuesto

@@ -7,6 +7,7 @@ fecha_creacion: 2025-11-06
 propietario: arquitecto-senior
 fuente: DORA Report 2025
 relacionados: ["ESTRATEGIA_IA.md"]
+date: 2025-11-13
 ---
 
 # AI Capabilities Checklist - DORA 2025

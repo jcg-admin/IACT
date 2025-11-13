@@ -1,3 +1,10 @@
+---
+title: Plantilla Manual de Usuario
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Plantilla Manual de Usuario
 
 ## Introducción

@@ -4,6 +4,7 @@ estado: borrador
 propietario: equipo-backend
 ultima_actualizacion: 2025-02-14
 relacionados: ["DOC-REQ-BACKEND", "DOC-REQ-INDEX"]
+date: 2025-11-13
 ---
 # Trazabilidad de requisitos del backend
 

@@ -1,3 +1,10 @@
+---
+title: Plantilla Project Management Plan
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Plantilla Project Management Plan
 
 ## Introducción

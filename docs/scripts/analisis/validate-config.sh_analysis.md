@@ -1,3 +1,10 @@
+---
+title: Analysis: validate-config.sh
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Analysis: validate-config.sh
 
 ## Summary

@@ -1,3 +1,10 @@
+---
+title: Guía de Resolución: Error 403 al Instalar GitHub Copilot CLI
+date: 2025-11-13
+domain: infraestructura
+status: active
+---
+
 # Guía de Resolución: Error 403 al Instalar GitHub Copilot CLI
 
 ## NOTA Tabla de Contenidos

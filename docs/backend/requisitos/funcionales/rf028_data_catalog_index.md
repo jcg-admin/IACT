@@ -13,6 +13,7 @@ trazabilidad_upward:
   - RF-020
 dora_capability: "6. AI-accessible Internal Data (DORA 2025)"
 verificacion: test
+date: 2025-11-13
 ---
 
 # RF-028: Data Catalog Index - AI-Accessible Internal Data

@@ -1,3 +1,10 @@
+---
+title: Analysis: gate-db-router.sh
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Analysis: gate-db-router.sh
 
 ## Summary

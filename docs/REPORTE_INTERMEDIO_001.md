@@ -1,3 +1,10 @@
+---
+title: REPORTE INTERMEDIO 001 - Proyecto IACT
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # REPORTE INTERMEDIO 001 - Proyecto IACT
 
 **Fecha:** 2025-11-07

@@ -1,3 +1,10 @@
+---
+title: High-Level Design: ShellScriptAnalysisAgent
+date: 2025-11-13
+domain: ai
+status: active
+---
+
 # High-Level Design: ShellScriptAnalysisAgent
 
 **Issue ID**: FEATURE-SHELL-ANALYSIS-001

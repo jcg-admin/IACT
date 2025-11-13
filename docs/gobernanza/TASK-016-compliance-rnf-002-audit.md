@@ -9,6 +9,7 @@ fecha_inicio: 2025-11-07
 fecha_fin: 2025-11-07
 asignado: arquitecto-senior
 relacionados: ["RNF-002", "TASK-002", "TASK-003"]
+date: 2025-11-13
 ---
 
 # TASK-016: Auditoria Compliance RNF-002

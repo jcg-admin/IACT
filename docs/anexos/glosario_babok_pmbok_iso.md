@@ -5,6 +5,7 @@ version: 1.0.0
 fecha_creacion: 2025-11-03
 propietario: equipo-ba
 relacionados: ["DOC-PROPUESTA-FINAL-REESTRUCTURACION"]
+date: 2025-11-13
 ---
 
 # Glosario Integrado: BABOK v3, PMBOK 7th Ed, ISO/IEC/IEEE 29148:2018

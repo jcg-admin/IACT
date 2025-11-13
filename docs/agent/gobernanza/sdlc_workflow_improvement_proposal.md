@@ -1,3 +1,10 @@
+---
+title: SDLC Workflow Improvement Proposal: Plan Validation Phase
+date: 2025-11-13
+domain: ai
+status: active
+---
+
 # SDLC Workflow Improvement Proposal: Plan Validation Phase
 
 **Proposal ID**: IMPROVEMENT-SDLC-VALIDATION-001

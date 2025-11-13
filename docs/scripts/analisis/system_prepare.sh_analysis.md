@@ -1,3 +1,10 @@
+---
+title: Analysis: system_prepare.sh
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Analysis: system_prepare.sh
 
 ## Summary

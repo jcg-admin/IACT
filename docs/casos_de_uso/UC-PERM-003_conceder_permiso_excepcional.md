@@ -8,6 +8,7 @@ prioridad: alta
 estado: aprobado
 trazabilidad_upward: [PRIORIDAD_01, RNF-002]
 trazabilidad_downward: [RF-PERM-003, TEST-PERM-003]
+date: 2025-11-13
 ---
 
 # UC-PERM-003: Conceder Permiso Excepcional

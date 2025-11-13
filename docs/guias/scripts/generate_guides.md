@@ -1,3 +1,10 @@
+---
+title: Script: generate_guides.py
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Script: generate_guides.py
 
 **Ubicacion:** `scripts/generate_guides.py`

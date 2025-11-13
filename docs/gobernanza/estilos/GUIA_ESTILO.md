@@ -6,6 +6,7 @@ version: 1.0.0
 fecha_creacion: 2025-11-06
 propietario: equipo-gobernanza
 relacionados: ["PROC-CAMBIOS", "PROC-GUIA-FEATURES"]
+date: 2025-11-13
 ---
 
 # Guía de Estilo - Proyecto IACT

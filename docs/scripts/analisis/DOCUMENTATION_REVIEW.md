@@ -1,3 +1,10 @@
+---
+title: Documentation Review: Shell Scripts Analysis & Remediation Project
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Documentation Review: Shell Scripts Analysis & Remediation Project
 
 **Issue ID**: FEATURE-SHELL-ANALYSIS-001, REMEDIATION-SHELL-SCRIPTS-001

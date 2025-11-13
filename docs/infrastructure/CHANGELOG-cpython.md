@@ -6,6 +6,7 @@ version: 1.0.0
 fecha_creacion: 2025-11-07
 propietario: devops-lead
 relacionados: ["DOC-INFRA-CPYTHON-BUILDER", "SPEC_INFRA_001"]
+date: 2025-11-13
 ---
 
 # CHANGELOG - CPython Builder

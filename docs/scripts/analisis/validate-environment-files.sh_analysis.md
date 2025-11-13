@@ -1,3 +1,10 @@
+---
+title: Analysis: validate-environment-files.sh
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Analysis: validate-environment-files.sh
 
 ## Summary

@@ -1,3 +1,10 @@
+---
+title: Low-Level Design: ShellScriptAnalysisAgent
+date: 2025-11-13
+domain: ai
+status: active
+---
+
 # Low-Level Design: ShellScriptAnalysisAgent
 
 **Issue ID**: FEATURE-SHELL-ANALYSIS-001

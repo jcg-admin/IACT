@@ -1,3 +1,10 @@
+---
+title: Revisión integral de inconsistencias del repositorio (2025-11-12)
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Revisión integral de inconsistencias del repositorio (2025-11-12)
 
 ## Contexto y enfoque

@@ -3,6 +3,7 @@ id: DOC-RTM
 titulo: Requirements Traceability Matrix (RTM)
 generado: 2025-11-06 12:24:27
 estandar: ISO/IEC/IEEE 29148:2018 - Clause 5.2.8
+date: 2025-11-13
 ---
 
 # Requirements Traceability Matrix (RTM)

@@ -14,6 +14,7 @@ iso29148_clause: "9.6.5"
 verificacion_metodo: analysis
 categoria: availability
 modulo: infrastructure
+date: 2025-11-13
 ---
 
 # RNF-020: Disponibilidad 99.9% uptime

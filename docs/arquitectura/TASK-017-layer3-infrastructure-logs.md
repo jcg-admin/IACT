@@ -9,6 +9,7 @@ fecha_inicio: 2025-11-07
 fecha_fin: 2025-11-07
 asignado: backend-lead + devops-lead
 relacionados: ["TASK-010", "ADR-004", "OBSERVABILITY_LAYERS"]
+date: 2025-11-13
 ---
 
 # TASK-017: Layer 3 Infrastructure Logs

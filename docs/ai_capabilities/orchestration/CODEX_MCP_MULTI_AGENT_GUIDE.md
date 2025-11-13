@@ -1,3 +1,10 @@
+---
+title: Codex MCP Multi-Agent Workflows
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Codex MCP Multi-Agent Workflows
 
 Esta guía consolida los patrones compartidos para ejecutar flujos con Codex CLI como servidor MCP usando los tres proveedores LLM soportados por el proyecto (Claude/Anthropic, ChatGPT/OpenAI y modelos locales Hugging Face). El objetivo es que cualquier colaborador pueda preparar el entorno, configurar agentes y observar sus trazas sin duplicar esfuerzos para cada proveedor.

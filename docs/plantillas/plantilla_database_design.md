@@ -1,3 +1,10 @@
+---
+title: Plantilla Database Design
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Plantilla Database Design
 
 ## 1. Alcance

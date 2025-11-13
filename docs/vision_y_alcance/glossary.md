@@ -4,6 +4,7 @@ estado: borrador
 propietario: equipo-producto
 ultima_actualizacion: 2025-02-14
 relacionados: ["RQ-ANL-001", "ADR-2025-001"]
+date: 2025-11-13
 ---
 # Glosario del proyecto
 

@@ -4,6 +4,7 @@ estado: activo
 propietario: equipo-devops
 ultima_actualizacion: 2025-11-02
 relacionados: ["DOC-DEVOPS-INDEX", "ADR-2025-001"]
+date: 2025-11-13
 ---
 # Runbook: Verificar Servicios de Base de Datos
 

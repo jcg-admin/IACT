@@ -1,3 +1,10 @@
+---
+title: Propuesta: Actualización de Constitution - Principio de Autonomía y Razonamiento Sistemático
+date: 2025-11-13
+domain: ai
+status: active
+---
+
 # Propuesta: Actualización de Constitution - Principio de Autonomía y Razonamiento Sistemático
 
 **Fecha**: 2025-11-13

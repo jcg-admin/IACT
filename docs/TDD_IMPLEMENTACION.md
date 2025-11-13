@@ -1,3 +1,10 @@
+---
+title: Implementación TDD - Sistema de Permisos Granular
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Implementación TDD - Sistema de Permisos Granular
 
 **Fecha:** 2025-11-08

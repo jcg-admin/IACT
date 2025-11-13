@@ -5,6 +5,7 @@ estado: activo
 propietario: equipo-infraestructura
 ultima_actualizacion: 2025-11-06
 relacionados: ["SPEC_INFRA_001", "FASE_3_PROCEDIMIENTO"]
+date: 2025-11-13
 ---
 
 # Métricas y Criterios de Éxito - Fase 3

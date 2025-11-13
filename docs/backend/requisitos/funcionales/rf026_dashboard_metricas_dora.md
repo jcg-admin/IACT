@@ -17,6 +17,7 @@ trazabilidad_upward:
   - RF-024
   - RF-025
 verificacion: test
+date: 2025-11-13
 ---
 
 # RF-026: Dashboard Visual con 4 Métricas DORA

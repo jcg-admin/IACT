@@ -1,3 +1,10 @@
+---
+title: Analysis: generate_plan.sh
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Analysis: generate_plan.sh
 
 ## Summary

@@ -8,6 +8,7 @@ propietario: equipo-arquitectura
 estado: activo
 estandares: ["UML 2.5", "C4 Model", "ISO/IEC/IEEE 42010:2011"]
 relacionados: ["PROC-TRAZABILIDAD-001", "PROC-REVISION-DOC", "plantilla_sad.md"]
+date: 2025-11-13
 ---
 
 # Procedimiento: Diseño Técnico Detallado

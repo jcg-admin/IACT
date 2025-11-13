@@ -9,6 +9,7 @@ ultima_actualizacion: 2025-11-03
 estado: activo
 propietario: equipo-ba
 estandares: ["BABOK v3", "ISO/IEC/IEEE 29148:2018"]
+date: 2025-11-13
 ---
 
 # Template: Necesidad de Negocio (Business Need)

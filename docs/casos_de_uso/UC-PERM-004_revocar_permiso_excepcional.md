@@ -8,6 +8,7 @@ prioridad: alta
 estado: aprobado
 trazabilidad_upward: [PRIORIDAD_01]
 trazabilidad_downward: [RF-PERM-004, TEST-PERM-004]
+date: 2025-11-13
 ---
 
 # UC-PERM-004: Revocar Permiso Excepcional

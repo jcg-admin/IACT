@@ -14,6 +14,7 @@ trazabilidad_upward:
   - RF-025
   - RF-026
 verificacion: test
+date: 2025-11-13
 ---
 
 # RF-027: Exportar Reportes DORA (CSV/Excel/PDF)

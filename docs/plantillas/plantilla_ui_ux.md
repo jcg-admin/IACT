@@ -1,3 +1,10 @@
+---
+title: Plantilla UI/UX Design
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Plantilla UI/UX Design
 
 ## 1. Principios de diseño

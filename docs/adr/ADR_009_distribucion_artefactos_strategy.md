@@ -1,3 +1,10 @@
+---
+title: ADR_009: Estrategia de Distribución de Artefactos CPython Precompilados
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # ADR_009: Estrategia de Distribución de Artefactos CPython Precompilados
 
 **Estado:** Propuesto

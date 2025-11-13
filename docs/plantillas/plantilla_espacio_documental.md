@@ -4,6 +4,7 @@ estado: borrador
 propietario: equipo-documentacion
 ultima_actualizacion: 2025-02-18
 relacionados: ["DOC-INDEX-GENERAL", "DOC-ROOT-001", "TEMPLATE-README-SPACE"]
+date: 2025-11-13
 ---
 # Plantilla para espacio documental
 

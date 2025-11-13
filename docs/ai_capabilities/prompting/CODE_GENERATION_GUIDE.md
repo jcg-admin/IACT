@@ -1,3 +1,10 @@
+---
+title: Generating Code with Chat-Based Models
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Generating Code with Chat-Based Models
 
 > **Status:** This section is under development; examples and assets will continue to evolve as the prompting playbook matures.

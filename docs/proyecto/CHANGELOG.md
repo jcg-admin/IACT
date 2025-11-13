@@ -7,6 +7,7 @@ fecha_creacion: 2025-11-06
 fecha_actualizacion: 2025-11-09
 propietario: arquitecto-senior
 relacionados: ["ROADMAP.md", "TAREAS_ACTIVAS.md", "FASES_IMPLEMENTACION_IA.md", "ADR-2025-003", "ADR-2025-004", "ANALISIS_GAPS_POST_DORA_2025.md"]
+date: 2025-11-13
 ---
 
 # CHANGELOG - Proyecto IACT

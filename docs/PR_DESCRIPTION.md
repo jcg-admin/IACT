@@ -1,3 +1,10 @@
+---
+title: Pull Request: Proyecto IACT - Completitud 100%
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Pull Request: Proyecto IACT - Completitud 100%
 
 ## Informacion del PR

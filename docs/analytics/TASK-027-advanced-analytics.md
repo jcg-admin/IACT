@@ -9,6 +9,7 @@ fecha_inicio: 2025-11-07
 fecha_fin: 2025-11-07
 asignado: backend-lead + data-analyst
 relacionados: ["TASK-025", "TASK-026"]
+date: 2025-11-13
 ---
 
 # TASK-027: Advanced Analytics

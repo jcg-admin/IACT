@@ -6,6 +6,7 @@ version: 1.0.0
 fecha_creacion: 2025-11-06
 propietario: arquitecto-senior
 relacionados: ["AGENTES_SDLC.md", "FASES_IMPLEMENTACION_IA.md", "DORA_SDLC_INTEGRATION_GUIDE.md", "constitution.md"]
+date: 2025-11-13
 ---
 
 # Workflow de Agentes con Integracion DORA

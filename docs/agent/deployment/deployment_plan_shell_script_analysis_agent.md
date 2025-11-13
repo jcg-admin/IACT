@@ -1,3 +1,10 @@
+---
+title: Deployment Plan: ShellScriptAnalysisAgent
+date: 2025-11-13
+domain: ai
+status: active
+---
+
 # Deployment Plan: ShellScriptAnalysisAgent
 
 **Issue ID**: FEATURE-SHELL-ANALYSIS-001

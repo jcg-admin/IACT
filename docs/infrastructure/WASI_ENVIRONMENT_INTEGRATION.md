@@ -1,3 +1,10 @@
+---
+title: WASI Scripts + Environment Config Integration
+date: 2025-11-13
+domain: infraestructura
+status: active
+---
+
 # WASI Scripts + Environment Config Integration
 
 ## Overview

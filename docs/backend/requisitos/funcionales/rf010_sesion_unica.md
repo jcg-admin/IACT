@@ -24,6 +24,7 @@ stakeholders:
 
 iso29148_clause: "9.6.4"
 verificacion_metodo: test
+date: 2025-11-13
 ---
 
 # RF-010: Sesión Única por Usuario en PostgreSQL

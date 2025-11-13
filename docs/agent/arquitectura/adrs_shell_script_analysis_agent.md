@@ -1,3 +1,10 @@
+---
+title: Architectural Decision Records: ShellScriptAnalysisAgent
+date: 2025-11-13
+domain: ai
+status: active
+---
+
 # Architectural Decision Records: ShellScriptAnalysisAgent
 
 **Issue ID**: FEATURE-SHELL-ANALYSIS-001

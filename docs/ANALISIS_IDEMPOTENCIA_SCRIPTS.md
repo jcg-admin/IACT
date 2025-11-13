@@ -1,3 +1,10 @@
+---
+title: ANÁLISIS DE IDEMPOTENCIA Y FALLAS SILENCIOSAS
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # ANÁLISIS DE IDEMPOTENCIA Y FALLAS SILENCIOSAS
 # Fecha: 2025-11-09
 # Scripts analizados: 19 validation scripts

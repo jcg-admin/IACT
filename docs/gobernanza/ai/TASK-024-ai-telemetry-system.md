@@ -8,6 +8,7 @@ category: gobernanza/ai
 tags: [ai, telemetry, monitoring, dora-2025, machine-learning]
 created: 2025-11-07
 updated: 2025-11-07
+date: 2025-11-13
 ---
 
 # AI Telemetry System

@@ -4,6 +4,7 @@ estado: borrador
 propietario: equipo-infraestructura
 ultima_actualizacion: 2025-02-20
 relacionados: ["DOC-REQ-INDEX", "DOC-ARQ-INFRA"]
+date: 2025-11-13
 ---
 # Requisitos de infraestructura
 

@@ -1,3 +1,10 @@
+---
+title: Caso Didáctico Genérico - Aplicación del Marco Integrado
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Caso Didáctico Genérico - Aplicación del Marco Integrado
 
 **Versión:** 1.0

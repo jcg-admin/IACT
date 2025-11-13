@@ -6,6 +6,7 @@ version: 1.0.0
 fecha_creacion: 2025-11-04
 propietario: equipo-backend
 relacionados: ["plantilla_tdd.md", "plantilla_database_design.md", "plantilla_api_reference.md"]
+date: 2025-11-13
 ---
 # Plantilla: Documentación de Aplicación Django
 

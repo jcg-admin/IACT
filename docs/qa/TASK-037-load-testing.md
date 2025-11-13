@@ -9,6 +9,7 @@ fecha_inicio: 2025-11-07
 fecha_fin: 2025-11-07
 asignado: qa-lead + devops-lead
 relacionados: ["TASK-032", "TASK-035"]
+date: 2025-11-13
 ---
 
 # TASK-037: Load Testing

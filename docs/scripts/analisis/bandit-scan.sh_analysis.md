@@ -1,3 +1,10 @@
+---
+title: Analysis: bandit-scan.sh
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Analysis: bandit-scan.sh
 
 ## Summary

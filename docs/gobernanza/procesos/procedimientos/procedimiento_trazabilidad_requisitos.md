@@ -8,6 +8,7 @@ propietario: equipo-ba
 estado: activo
 estandares: ["ISO/IEC/IEEE 29148:2018", "BABOK v3", "PMBOK Guide 7th Ed"]
 relacionados: ["PROC-DISENO-TEC-001", "PROC-SEGURIDAD-001", "PROPUESTA_FINAL_REESTRUCTURACION.md"]
+date: 2025-11-13
 ---
 
 # Procedimiento: Trazabilidad de Requisitos (ISO 29148)

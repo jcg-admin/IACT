@@ -1,3 +1,10 @@
+---
+title: Prompting Techniques Framework
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Prompting Techniques Framework
 
 **Location:** General AI Capabilities (transversal a todo el proyecto)

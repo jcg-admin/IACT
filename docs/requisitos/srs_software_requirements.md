@@ -4,6 +4,7 @@ titulo: Software Requirements Specification (SRS)
 generado: 2025-11-06 12:24:27
 estandar: ISO/IEC/IEEE 29148:2018 - Clause 9.6
 conformance: Full Conformance
+date: 2025-11-13
 ---
 
 # Software Requirements Specification (SRS)

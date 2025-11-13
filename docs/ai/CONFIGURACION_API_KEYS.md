@@ -1,3 +1,10 @@
+---
+title: Configuración de API Keys para Agentes SDLC
+date: 2025-11-13
+domain: ai
+status: active
+---
+
 # Configuración de API Keys para Agentes SDLC
 
 Guía completa para configurar API keys de forma segura.

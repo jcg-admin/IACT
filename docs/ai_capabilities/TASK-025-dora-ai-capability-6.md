@@ -9,6 +9,7 @@ fecha_inicio: 2025-11-07
 fecha_fin: 2025-11-07
 asignado: backend-lead + ai-lead
 relacionados: ["TASK-026", "TASK-024"]
+date: 2025-11-13
 ---
 
 # TASK-025: DORA 2025 AI Capability 6 - AI-accessible Internal Data

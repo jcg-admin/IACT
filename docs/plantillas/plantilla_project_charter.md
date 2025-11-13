@@ -1,3 +1,10 @@
+---
+title: Plantilla Project Charter
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Plantilla Project Charter
 
 ## Datos generales

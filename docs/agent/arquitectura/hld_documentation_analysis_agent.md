@@ -1,3 +1,10 @@
+---
+title: High-Level Design - DocumentationAnalysisAgent
+date: 2025-11-13
+domain: ai
+status: active
+---
+
 # High-Level Design - DocumentationAnalysisAgent
 
 **Component**: DocumentationAnalysisAgent

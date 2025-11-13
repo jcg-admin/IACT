@@ -1,3 +1,10 @@
+---
+title: Testing Strategy - ShellScriptRemediationAgent
+date: 2025-11-13
+domain: ai
+status: active
+---
+
 # Testing Strategy - ShellScriptRemediationAgent
 
 **Component**: ShellScriptRemediationAgent

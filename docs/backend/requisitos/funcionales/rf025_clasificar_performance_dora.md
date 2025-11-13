@@ -16,6 +16,7 @@ trazabilidad_upward:
   - RF-023
   - RF-024
 verificacion: test
+date: 2025-11-13
 ---
 
 # RF-025: Clasificar Performance DORA General

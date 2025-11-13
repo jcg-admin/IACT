@@ -4,6 +4,7 @@ estado: borrador
 propietario: pmo
 ultima_actualizacion: 2025-02-18
 relacionados: ["DOC-GOB-001", "DOC-VIS-INDEX", "DOC-REQ-INDEX"]
+date: 2025-11-13
 ---
 # Gobernanza
 

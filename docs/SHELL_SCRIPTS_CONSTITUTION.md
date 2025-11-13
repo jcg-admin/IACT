@@ -5,6 +5,7 @@ estado: activo
 propietario: equipo-infraestructura
 ultima_actualizacion: 2025-11-09
 version: 1.0.0
+date: 2025-11-13
 ---
 
 # Shell Scripts Constitution

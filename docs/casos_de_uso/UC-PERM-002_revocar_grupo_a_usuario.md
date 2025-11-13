@@ -8,6 +8,7 @@ prioridad: alta
 estado: aprobado
 trazabilidad_upward: [PRIORIDAD_01, RNF-002]
 trazabilidad_downward: [RF-PERM-002, TEST-PERM-002]
+date: 2025-11-13
 ---
 
 # UC-PERM-002: Revocar Grupo de Permisos a Usuario

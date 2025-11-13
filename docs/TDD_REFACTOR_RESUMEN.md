@@ -1,3 +1,10 @@
+---
+title: TDD REFACTOR Phase - Resumen de Cambios
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # TDD REFACTOR Phase - Resumen de Cambios
 
 **Fecha:** 2025-11-08

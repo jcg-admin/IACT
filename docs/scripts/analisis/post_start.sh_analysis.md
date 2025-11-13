@@ -1,3 +1,10 @@
+---
+title: Analysis: post_start.sh
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Analysis: post_start.sh
 
 ## Summary

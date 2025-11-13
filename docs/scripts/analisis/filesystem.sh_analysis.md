@@ -1,3 +1,10 @@
+---
+title: Analysis: filesystem.sh
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Analysis: filesystem.sh
 
 ## Summary

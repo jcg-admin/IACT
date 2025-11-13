@@ -6,6 +6,7 @@ version: 1.0.0
 fecha_creacion: 2025-11-07
 propietario: devops-lead
 relacionados: ["SPEC_INFRA_001", "ADR_008"]
+date: 2025-11-13
 ---
 
 # CPython Builder - Sistema de Compilacion

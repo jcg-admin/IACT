@@ -4,6 +4,7 @@ estado: aceptada
 propietario: equipo-arquitectura
 ultima_actualizacion: 2025-11-04
 relacionados: ["DOC-ARQ-INDEX", "DOC-BACKEND-INDEX", "ADR-2025-001"]
+date: 2025-11-13
 ---
 # ADR-2025-002: Suite Completa de Calidad de Código y Automatización
 

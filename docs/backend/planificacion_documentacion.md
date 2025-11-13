@@ -5,6 +5,7 @@ estado: activo
 fecha_creacion: 2025-11-04
 ultima_actualizacion: 2025-11-04
 relacionados: ["DOC-SOL-SC03", "DOC-ARQ-BACKEND", "DOC-BACKEND-INDEX"]
+date: 2025-11-13
 ---
 
 # Planificación de Documentación de Apps Django

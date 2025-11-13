@@ -4,6 +4,7 @@ estado: borrador
 propietario: equipo-frontend
 ultima_actualizacion: 2025-11-09
 relacionados: ["DOC-ARQ-FRONTEND"]
+date: 2025-11-13
 ---
 
 # Arquitectura que encaja con mi proyecto — Guía y Canvas de Decisión (v1)

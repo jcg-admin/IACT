@@ -7,6 +7,7 @@ fecha_creacion: 2025-11-06
 fecha_actualizacion: 2025-11-06
 propietario: equipo-desarrollo
 relacionados: ["PROC-CAMBIOS", "PROC-DEV-LOCAL", "PROC-QA", "PROC-RELEASE", "PLANTILLA-SPEC", "PLANTILLA-PLAN", "DOC-GOB-CONSTITUTION-AI"]
+date: 2025-11-13
 ---
 # Guía Completa: Desarrollo de Features en IACT
 

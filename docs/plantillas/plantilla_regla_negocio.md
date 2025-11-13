@@ -1,3 +1,10 @@
+---
+title: Plantilla de regla de negocio
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Plantilla de regla de negocio
 
 ## Metadatos

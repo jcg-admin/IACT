@@ -1,3 +1,10 @@
+---
+title: UBICACIÓN CORRECTA DE ARCHIVOS DUPLICADOS
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # UBICACIÓN CORRECTA DE ARCHIVOS DUPLICADOS
 
 Según la estructura propuesta donde:
