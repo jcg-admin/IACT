@@ -440,7 +440,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
         '403':
-          description: Sin permiso (requiere: sistema.administracion.funciones.ver)
+          description: "Sin permiso (requiere: sistema.administracion.funciones.ver)"
           content:
             application/json:
               schema:
@@ -471,7 +471,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
         '403':
-          description: Sin permiso (requiere: sistema.administracion.funciones.crear)
+          description: "Sin permiso (requiere: sistema.administracion.funciones.crear)"
           content:
             application/json:
               schema:
@@ -528,7 +528,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Funcion'
         '403':
-          description: Sin permiso (requiere: sistema.administracion.funciones.editar)
+          description: "Sin permiso (requiere: sistema.administracion.funciones.editar)"
           content:
             application/json:
               schema:
@@ -549,7 +549,7 @@ paths:
         '204':
           description: Función eliminada
         '403':
-          description: Sin permiso (requiere: sistema.administracion.funciones.eliminar)
+          description: "Sin permiso (requiere: sistema.administracion.funciones.eliminar)"
           content:
             application/json:
               schema:
@@ -816,7 +816,7 @@ paths:
           required: true
           schema:
             type: string
-          description: Código de la capacidad (ej: sistema.vistas.dashboards.ver)
+          description: "Código de la capacidad (ej: sistema.vistas.dashboards.ver)"
           example: "sistema.vistas.dashboards.ver"
       responses:
         '200':
@@ -826,7 +826,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/VerificarPermisoResponse'
 
-  /api/permisos/verificar/{usuario_id}/menu/:
+  '/api/permisos/verificar/{usuario_id}/menu/':
     get:
       tags: [Verificación]
       summary: Generar menú dinámico para usuario

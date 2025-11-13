@@ -29,9 +29,18 @@ ISSUES_FOUND=0
 # Check 1: CSRF middleware enabled
 log_info "Checking Django CSRF middleware..."
 SETTINGS_FILE="$PROJECT_ROOT/api/callcentersite/callcentersite/settings.py"
+SETTINGS_DIR="$PROJECT_ROOT/api/callcentersite/callcentersite/settings"
 
 if [ -f "$SETTINGS_FILE" ]; then
-    if grep -q "django.middleware.csrf.CsrfViewMiddleware" "$SETTINGS_FILE"; then
+    TARGET_SETTINGS="$SETTINGS_FILE"
+elif [ -f "$SETTINGS_DIR/base.py" ]; then
+    TARGET_SETTINGS="$SETTINGS_DIR/base.py"
+else
+    TARGET_SETTINGS=""
+fi
+
+if [ -n "$TARGET_SETTINGS" ]; then
+    if grep -q "django.middleware.csrf.CsrfViewMiddleware" "$TARGET_SETTINGS"; then
         log_info "CSRF middleware is enabled"
     else
         log_error "CSRF middleware is NOT enabled"
