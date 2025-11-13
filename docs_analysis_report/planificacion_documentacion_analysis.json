@@ -1,0 +1,112 @@
+{
+  "file_path": "docs/backend/planificacion_documentacion.md",
+  "domain": "Backend",
+  "overall_score": 73.10714285714286,
+  "structure": {
+    "score": 99.99999999999999,
+    "has_h1": true,
+    "heading_hierarchy_valid": true,
+    "has_frontmatter": true,
+    "required_sections_present": [
+      "\u00cdndice",
+      "Visi\u00f3n General",
+      "Desglose por App",
+      "Plantillas y Diagramas",
+      "Timeline y Fases",
+      "Recursos Necesarios",
+      "M\u00e9tricas y KPIs",
+      "Plan de Ejecuci\u00f3n",
+      "Riesgos y Mitigaciones",
+      "Dependencias y Bloqueadores",
+      "Criterios de Aceptaci\u00f3n",
+      "Pr\u00f3ximos Pasos",
+      "Referencias"
+    ],
+    "issues": []
+  },
+  "quality": {
+    "score": 55.00000000000001,
+    "readability_score": 50.0,
+    "completeness_score": 0.34,
+    "formatting_score": 0.7000000000000001,
+    "metrics": {
+      "readability": 50.0,
+      "completeness": 0.34,
+      "formatting": 0.7000000000000001
+    },
+    "issues": [
+      {
+        "type": "quality",
+        "severity": "LOW",
+        "message": "17 code blocks missing language identifier",
+        "line_number": null,
+        "recommendation": "Add language: ```python, ```bash, etc."
+      },
+      {
+        "type": "quality",
+        "severity": "LOW",
+        "message": "Possibly malformed tables detected",
+        "line_number": null,
+        "recommendation": "Ensure tables have proper | separators"
+      }
+    ]
+  },
+  "constitution": {
+    "score": 100.0,
+    "violations": [],
+    "applicable_principles": [
+      2,
+      7
+    ]
+  },
+  "traceability": {
+    "score": 25.0,
+    "issue_links": [],
+    "adr_links": [],
+    "spec_links": [],
+    "issues": [
+      {
+        "type": "traceability",
+        "severity": "MEDIUM",
+        "message": "No issue links found",
+        "line_number": null,
+        "recommendation": "Add links to related issues (FEATURE-*, BUG-*, etc.)"
+      }
+    ]
+  },
+  "links": {
+    "score": 78.57142857142857,
+    "total_links": 14,
+    "valid_links": 11,
+    "broken_links": [
+      "../solicitudes/sc03/README.md",
+      "../solicitudes/sc03/alcance.md",
+      "../solicitudes/sc03/checklist.md"
+    ],
+    "issues": [
+      {
+        "type": "link",
+        "severity": "HIGH",
+        "message": "Broken internal link: ../solicitudes/sc03/README.md",
+        "line_number": null,
+        "recommendation": "Fix path or create missing file"
+      },
+      {
+        "type": "link",
+        "severity": "HIGH",
+        "message": "Broken internal link: ../solicitudes/sc03/alcance.md",
+        "line_number": null,
+        "recommendation": "Fix path or create missing file"
+      },
+      {
+        "type": "link",
+        "severity": "HIGH",
+        "message": "Broken internal link: ../solicitudes/sc03/checklist.md",
+        "line_number": null,
+        "recommendation": "Fix path or create missing file"
+      }
+    ]
+  },
+  "analysis_time": 0.007531166076660156,
+  "cache_hit": false
+}

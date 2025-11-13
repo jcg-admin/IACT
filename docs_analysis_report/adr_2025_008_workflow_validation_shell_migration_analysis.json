@@ -1,0 +1,130 @@
+{
+  "file_path": "docs/adr/adr_2025_008_workflow_validation_shell_migration.md",
+  "domain": "Other",
+  "overall_score": 65.4,
+  "structure": {
+    "score": 80.0,
+    "has_h1": false,
+    "heading_hierarchy_valid": true,
+    "has_frontmatter": true,
+    "required_sections_present": [
+      "Contexto y Problema",
+      "Factores de Decisi\u00f3n",
+      "Opciones Consideradas",
+      "Decisi\u00f3n",
+      "Consecuencias",
+      "Plan de Implementaci\u00f3n",
+      "Validaci\u00f3n y M\u00e9tricas",
+      "Resultados Cuantitativos",
+      "Constitution Framework",
+      "Alternativas Descartadas",
+      "Referencias",
+      "Notas Adicionales"
+    ],
+    "issues": [
+      {
+        "type": "structure",
+        "severity": "HIGH",
+        "message": "Missing H1 title",
+        "line_number": null,
+        "recommendation": "Add single H1 title at document top"
+      }
+    ]
+  },
+  "quality": {
+    "score": 55.00000000000001,
+    "readability_score": 50.0,
+    "completeness_score": 0.34,
+    "formatting_score": 0.7000000000000001,
+    "metrics": {
+      "readability": 50.0,
+      "completeness": 0.34,
+      "formatting": 0.7000000000000001
+    },
+    "issues": [
+      {
+        "type": "quality",
+        "severity": "LOW",
+        "message": "1 code blocks missing language identifier",
+        "line_number": null,
+        "recommendation": "Add language: ```python, ```bash, etc."
+      },
+      {
+        "type": "quality",
+        "severity": "LOW",
+        "message": "Possibly malformed tables detected",
+        "line_number": null,
+        "recommendation": "Ensure tables have proper | separators"
+      }
+    ]
+  },
+  "constitution": {
+    "score": 100.0,
+    "violations": [],
+    "applicable_principles": [
+      2,
+      7
+    ]
+  },
+  "traceability": {
+    "score": 46.0,
+    "issue_links": [],
+    "adr_links": [
+      "ADR-2025-008",
+      "ADR-2025-002"
+    ],
+    "spec_links": [],
+    "issues": [
+      {
+        "type": "traceability",
+        "severity": "MEDIUM",
+        "message": "No issue links found",
+        "line_number": null,
+        "recommendation": "Add links to related issues (FEATURE-*, BUG-*, etc.)"
+      }
+    ]
+  },
+  "links": {
+    "score": 20.0,
+    "total_links": 5,
+    "valid_links": 1,
+    "broken_links": [
+      "../../RESUMEN_MIGRACION_SHELL_SCRIPTS.md",
+      "../../SHELL_SCRIPTS_CONSTITUTION.md",
+      "../../ANALISIS_IDEMPOTENCIA_SCRIPTS.md",
+      "../../ESTRATEGIA_GIT_HOOKS.md"
+    ],
+    "issues": [
+      {
+        "type": "link",
+        "severity": "HIGH",
+        "message": "Broken internal link: ../../RESUMEN_MIGRACION_SHELL_SCRIPTS.md",
+        "line_number": null,
+        "recommendation": "Fix path or create missing file"
+      },
+      {
+        "type": "link",
+        "severity": "HIGH",
+        "message": "Broken internal link: ../../SHELL_SCRIPTS_CONSTITUTION.md",
+        "line_number": null,
+        "recommendation": "Fix path or create missing file"
+      },
+      {
+        "type": "link",
+        "severity": "HIGH",
+        "message": "Broken internal link: ../../ANALISIS_IDEMPOTENCIA_SCRIPTS.md",
+        "line_number": null,
+        "recommendation": "Fix path or create missing file"
+      },
+      {
+        "type": "link",
+        "severity": "HIGH",
+        "message": "Broken internal link: ../../ESTRATEGIA_GIT_HOOKS.md",
+        "line_number": null,
+        "recommendation": "Fix path or create missing file"
+      }
+    ]
+  },
+  "analysis_time": 0.0035669803619384766,
+  "cache_hit": false
+}

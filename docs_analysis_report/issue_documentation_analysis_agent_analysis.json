@@ -1,0 +1,76 @@
+{
+  "file_path": "docs/agent/planificacion_y_releases/issue_documentation_analysis_agent.md",
+  "domain": "AI Agent",
+  "overall_score": 82.075,
+  "structure": {
+    "score": 92.5,
+    "has_h1": true,
+    "heading_hierarchy_valid": true,
+    "has_frontmatter": false,
+    "required_sections_present": [
+      "1. Descripci\u00f3n",
+      "2. Requisitos Funcionales",
+      "3. Requisitos No Funcionales",
+      "4. Acceptance Criteria",
+      "5. M\u00e9tricas de Calidad a Implementar",
+      "6. Dominios del Proyecto",
+      "7. Similitudes con ShellScriptAnalysisAgent",
+      "8. Diferencias con ShellScriptAnalysisAgent",
+      "9. Technical Approach",
+      "10. Dependencies",
+      "11. Risks and Mitigations",
+      "12. Success Metrics",
+      "13. Timeline (Estimated)",
+      "14. Related Issues & Traceability",
+      "15. Approval & Sign-Off"
+    ],
+    "issues": []
+  },
+  "quality": {
+    "score": 64.0,
+    "readability_score": 50.0,
+    "completeness_score": 0.34,
+    "formatting_score": 0.9,
+    "metrics": {
+      "readability": 50.0,
+      "completeness": 0.34,
+      "formatting": 0.9
+    },
+    "issues": [
+      {
+        "type": "quality",
+        "severity": "LOW",
+        "message": "Possibly malformed tables detected",
+        "line_number": null,
+        "recommendation": "Ensure tables have proper | separators"
+      }
+    ]
+  },
+  "constitution": {
+    "score": 100.0,
+    "violations": [],
+    "applicable_principles": [
+      2,
+      7
+    ]
+  },
+  "traceability": {
+    "score": 65.0,
+    "issue_links": [
+      "FEATURE-SHELL-ANALYSIS-001",
+      "FEATURE-DOCS-ANALYSIS-001"
+    ],
+    "adr_links": [],
+    "spec_links": [],
+    "issues": []
+  },
+  "links": {
+    "score": 100,
+    "total_links": 0,
+    "valid_links": 0,
+    "broken_links": [],
+    "issues": []
+  },
+  "analysis_time": 0.0009262561798095703,
+  "cache_hit": false
+}

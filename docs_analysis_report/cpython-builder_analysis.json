@@ -1,0 +1,153 @@
+{
+  "file_path": "docs/infrastructure/cpython-builder.md",
+  "domain": "Infrastructure",
+  "overall_score": 64.40652173913043,
+  "structure": {
+    "score": 54.99999999999999,
+    "has_h1": false,
+    "heading_hierarchy_valid": false,
+    "has_frontmatter": true,
+    "required_sections_present": [
+      "Tabla de Contenidos",
+      "Resumen Ejecutivo",
+      "Arquitectura del Sistema",
+      "Componentes Principales",
+      "Estructura de Directorios",
+      "Utilidades Compartidas",
+      "Scripts Disponibles",
+      "Configuracion",
+      "Uso del Sistema",
+      "Validacion y Testing",
+      "Troubleshooting",
+      "Referencias"
+    ],
+    "issues": [
+      {
+        "type": "structure",
+        "severity": "HIGH",
+        "message": "Missing H1 title",
+        "line_number": null,
+        "recommendation": "Add single H1 title at document top"
+      },
+      {
+        "type": "structure",
+        "severity": "MEDIUM",
+        "message": "Invalid heading hierarchy",
+        "line_number": null,
+        "recommendation": "Ensure headings follow H1\u2192H2\u2192H3 order"
+      }
+    ]
+  },
+  "quality": {
+    "score": 59.5,
+    "readability_score": 50.0,
+    "completeness_score": 0.34,
+    "formatting_score": 0.8,
+    "metrics": {
+      "readability": 50.0,
+      "completeness": 0.34,
+      "formatting": 0.8
+    },
+    "issues": [
+      {
+        "type": "quality",
+        "severity": "LOW",
+        "message": "43 code blocks missing language identifier",
+        "line_number": null,
+        "recommendation": "Add language: ```python, ```bash, etc."
+      }
+    ]
+  },
+  "constitution": {
+    "score": 100.0,
+    "violations": [],
+    "applicable_principles": [
+      2,
+      7
+    ]
+  },
+  "traceability": {
+    "score": 39.0,
+    "issue_links": [],
+    "adr_links": [],
+    "spec_links": [
+      "[SPEC_INFRA_001: CPython Precompilado](/home/user/IACT---project/docs/specs/SPEC_INFRA_001_cpython_precompilado.md)"
+    ],
+    "issues": [
+      {
+        "type": "traceability",
+        "severity": "MEDIUM",
+        "message": "No issue links found",
+        "line_number": null,
+        "recommendation": "Add links to related issues (FEATURE-*, BUG-*, etc.)"
+      }
+    ]
+  },
+  "links": {
+    "score": 69.56521739130434,
+    "total_links": 23,
+    "valid_links": 16,
+    "broken_links": [
+      "https://devguide.python.org/getting-started/setup-building/",
+      "https://www.python.org/downloads/source/",
+      "https://www.vagrantup.com/docs",
+      "https://www.virtualbox.org/manual/",
+      "https://en.wikipedia.org/wiki/Profile-guided_optimization",
+      "https://github.com/2-Coatl/IACT---project/issues",
+      "https://github.com/2-Coatl/IACT---project/releases"
+    ],
+    "issues": [
+      {
+        "type": "link",
+        "severity": "MEDIUM",
+        "message": "Broken external link: https://devguide.python.org/getting-started/setup-building/",
+        "line_number": null,
+        "recommendation": "Update or remove broken link"
+      },
+      {
+        "type": "link",
+        "severity": "MEDIUM",
+        "message": "Broken external link: https://www.python.org/downloads/source/",
+        "line_number": null,
+        "recommendation": "Update or remove broken link"
+      },
+      {
+        "type": "link",
+        "severity": "MEDIUM",
+        "message": "Broken external link: https://www.vagrantup.com/docs",
+        "line_number": null,
+        "recommendation": "Update or remove broken link"
+      },
+      {
+        "type": "link",
+        "severity": "MEDIUM",
+        "message": "Broken external link: https://www.virtualbox.org/manual/",
+        "line_number": null,
+        "recommendation": "Update or remove broken link"
+      },
+      {
+        "type": "link",
+        "severity": "MEDIUM",
+        "message": "Broken external link: https://en.wikipedia.org/wiki/Profile-guided_optimization",
+        "line_number": null,
+        "recommendation": "Update or remove broken link"
+      },
+      {
+        "type": "link",
+        "severity": "MEDIUM",
+        "message": "Broken external link: https://github.com/2-Coatl/IACT---project/issues",
+        "line_number": null,
+        "recommendation": "Update or remove broken link"
+      },
+      {
+        "type": "link",
+        "severity": "MEDIUM",
+        "message": "Broken external link: https://github.com/2-Coatl/IACT---project/releases",
+        "line_number": null,
+        "recommendation": "Update or remove broken link"
+      }
+    ]
+  },
+  "analysis_time": 2.520901679992676,
+  "cache_hit": false
+}

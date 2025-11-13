@@ -1,0 +1,130 @@
+{
+  "file_path": "docs/proyecto/vision_y_alcance.md",
+  "domain": "Other",
+  "overall_score": 70.17222222222222,
+  "structure": {
+    "score": 99.99999999999999,
+    "has_h1": true,
+    "heading_hierarchy_valid": true,
+    "has_frontmatter": true,
+    "required_sections_present": [
+      "P\u00e1gina padre",
+      "P\u00e1ginas hijas",
+      "Informaci\u00f3n clave",
+      "Estado de cumplimiento",
+      "Integraci\u00f3n con el flujo documental principal",
+      "Acciones prioritarias"
+    ],
+    "issues": []
+  },
+  "quality": {
+    "score": 64.0,
+    "readability_score": 50.0,
+    "completeness_score": 0.34,
+    "formatting_score": 0.9,
+    "metrics": {
+      "readability": 50.0,
+      "completeness": 0.34,
+      "formatting": 0.9
+    },
+    "issues": [
+      {
+        "type": "quality",
+        "severity": "LOW",
+        "message": "Possibly malformed tables detected",
+        "line_number": null,
+        "recommendation": "Ensure tables have proper | separators"
+      }
+    ]
+  },
+  "constitution": {
+    "score": 100.0,
+    "violations": [],
+    "applicable_principles": [
+      2,
+      7
+    ]
+  },
+  "traceability": {
+    "score": 25.0,
+    "issue_links": [],
+    "adr_links": [],
+    "spec_links": [],
+    "issues": [
+      {
+        "type": "traceability",
+        "severity": "MEDIUM",
+        "message": "No issue links found",
+        "line_number": null,
+        "recommendation": "Add links to related issues (FEATURE-*, BUG-*, etc.)"
+      }
+    ]
+  },
+  "links": {
+    "score": 22.22222222222222,
+    "total_links": 9,
+    "valid_links": 2,
+    "broken_links": [
+      "../../index.md",
+      "../../gobernanza/readme.md",
+      "../../requisitos/readme.md",
+      "../../arquitectura/readme.md",
+      "../../gobernanza/readme.md",
+      "../../requisitos/readme.md",
+      "../../arquitectura/readme.md"
+    ],
+    "issues": [
+      {
+        "type": "link",
+        "severity": "HIGH",
+        "message": "Broken internal link: ../../index.md",
+        "line_number": null,
+        "recommendation": "Fix path or create missing file"
+      },
+      {
+        "type": "link",
+        "severity": "HIGH",
+        "message": "Broken internal link: ../../gobernanza/readme.md",
+        "line_number": null,
+        "recommendation": "Fix path or create missing file"
+      },
+      {
+        "type": "link",
+        "severity": "HIGH",
+        "message": "Broken internal link: ../../requisitos/readme.md",
+        "line_number": null,
+        "recommendation": "Fix path or create missing file"
+      },
+      {
+        "type": "link",
+        "severity": "HIGH",
+        "message": "Broken internal link: ../../arquitectura/readme.md",
+        "line_number": null,
+        "recommendation": "Fix path or create missing file"
+      },
+      {
+        "type": "link",
+        "severity": "HIGH",
+        "message": "Broken internal link: ../../gobernanza/readme.md",
+        "line_number": null,
+        "recommendation": "Fix path or create missing file"
+      },
+      {
+        "type": "link",
+        "severity": "HIGH",
+        "message": "Broken internal link: ../../requisitos/readme.md",
+        "line_number": null,
+        "recommendation": "Fix path or create missing file"
+      },
+      {
+        "type": "link",
+        "severity": "HIGH",
+        "message": "Broken internal link: ../../arquitectura/readme.md",
+        "line_number": null,
+        "recommendation": "Fix path or create missing file"
+      }
+    ]
+  },
+  "analysis_time": 0.006205320358276367,
+  "cache_hit": false
+}

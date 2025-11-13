@@ -1,0 +1,140 @@
+{
+  "file_path": "docs/gobernanza/marco_integrado/06_plantillas_integradas_iact.md",
+  "domain": "Governance",
+  "overall_score": 68.375,
+  "structure": {
+    "score": 72.5,
+    "has_h1": false,
+    "heading_hierarchy_valid": true,
+    "has_frontmatter": false,
+    "required_sections_present": [
+      "Prop\u00f3sito del Documento",
+      "Referencias",
+      "Plantilla 1: Documento Maestro de An\u00e1lisis Integrado",
+      "1. Contexto de Negocio",
+      "2. Procesos de Negocio",
+      "3. Reglas de Negocio",
+      "4. Casos de Uso",
+      "5. Requisitos",
+      "6. Procedimientos Operacionales",
+      "7. Matriz de Trazabilidad",
+      "8. Pruebas",
+      "9. Documentaci\u00f3n de Dise\u00f1o e Implementaci\u00f3n",
+      "10. Checklist de Completitud",
+      "11. Aprobaciones",
+      "12. Control de Cambios",
+      "Plantilla 2: Matriz de Trazabilidad Extendida (RTM)",
+      "1. Resumen de Trazabilidad",
+      "2. Matriz Principal: Necesidad \u2192 Requisito \u2192 Prueba \u2192 Implementaci\u00f3n",
+      "3. Matriz Reglas de Negocio \u2192 Impacto",
+      "4. Matriz UC \u2192 Requisitos \u2192 Pruebas",
+      "5. Cobertura de Pruebas",
+      "6. Estado de Implementaci\u00f3n",
+      "7. Trazabilidad Inversa (Backward)",
+      "8. Trazabilidad Forward (Adelante)",
+      "9. An\u00e1lisis de Cambios",
+      "10. M\u00e9tricas de Calidad",
+      "Plantilla 3: Checklist de Completitud del An\u00e1lisis",
+      "Instrucciones",
+      "1. CONTEXTO DE NEGOCIO",
+      "2. PROCESOS DE NEGOCIO",
+      "3. REGLAS DE NEGOCIO",
+      "4. CASOS DE USO",
+      "5. REQUISITOS",
+      "6. PROCEDIMIENTOS OPERACIONALES",
+      "7. TRAZABILIDAD",
+      "8. PRUEBAS",
+      "9. DISE\u00d1O E IMPLEMENTACI\u00d3N",
+      "10. EST\u00c1NDARES Y CALIDAD",
+      "11. REVISI\u00d3N Y APROBACI\u00d3N",
+      "RESUMEN DE COMPLETITUD",
+      "Plantilla 4: Especificaci\u00f3n R\u00e1pida de Regla de Negocio",
+      "Clasificaci\u00f3n",
+      "Descripci\u00f3n",
+      "Expresi\u00f3n Formal",
+      "Origen",
+      "Validaci\u00f3n",
+      "Excepciones",
+      "Impacto",
+      "Sanci\u00f3n",
+      "Pruebas",
+      "Referencias",
+      "Historial de Cambios",
+      "Gu\u00eda de Uso de las Plantillas",
+      "Ejemplos de Uso",
+      "1. Contexto",
+      "Integraci\u00f3n con Herramientas",
+      "M\u00e9tricas de Calidad del An\u00e1lisis",
+      "Ap\u00e9ndice: Referencias Cruzadas",
+      "Conclusi\u00f3n"
+    ],
+    "issues": [
+      {
+        "type": "structure",
+        "severity": "HIGH",
+        "message": "Missing H1 title",
+        "line_number": null,
+        "recommendation": "Add single H1 title at document top"
+      }
+    ]
+  },
+  "quality": {
+    "score": 55.00000000000001,
+    "readability_score": 50.0,
+    "completeness_score": 0.34,
+    "formatting_score": 0.7000000000000001,
+    "metrics": {
+      "readability": 50.0,
+      "completeness": 0.34,
+      "formatting": 0.7000000000000001
+    },
+    "issues": [
+      {
+        "type": "quality",
+        "severity": "LOW",
+        "message": "42 code blocks missing language identifier",
+        "line_number": null,
+        "recommendation": "Add language: ```python, ```bash, etc."
+      },
+      {
+        "type": "quality",
+        "severity": "LOW",
+        "message": "Possibly malformed tables detected",
+        "line_number": null,
+        "recommendation": "Ensure tables have proper | separators"
+      }
+    ]
+  },
+  "constitution": {
+    "score": 100.0,
+    "violations": [],
+    "applicable_principles": [
+      2,
+      7
+    ]
+  },
+  "traceability": {
+    "score": 25.0,
+    "issue_links": [],
+    "adr_links": [],
+    "spec_links": [],
+    "issues": [
+      {
+        "type": "traceability",
+        "severity": "MEDIUM",
+        "message": "No issue links found",
+        "line_number": null,
+        "recommendation": "Add links to related issues (FEATURE-*, BUG-*, etc.)"
+      }
+    ]
+  },
+  "links": {
+    "score": 100,
+    "total_links": 0,
+    "valid_links": 0,
+    "broken_links": [],
+    "issues": []
+  },
+  "analysis_time": 0.003391742706298828,
+  "cache_hit": false
+}

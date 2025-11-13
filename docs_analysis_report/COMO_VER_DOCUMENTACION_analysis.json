@@ -1,0 +1,157 @@
+{
+  "file_path": "docs/anexos/analisis_nov_2025/COMO_VER_DOCUMENTACION.md",
+  "domain": "Other",
+  "overall_score": 56.46111111111111,
+  "structure": {
+    "score": 54.99999999999999,
+    "has_h1": false,
+    "heading_hierarchy_valid": false,
+    "has_frontmatter": true,
+    "required_sections_present": [
+      "Opci\u00f3n 1: Sitio Web Renderizado (RECOMENDADO)",
+      "Opci\u00f3n 2: GitHub (Sin renderizado avanzado)",
+      "Opci\u00f3n 3: Editor con Preview (VSCode)",
+      "Comparaci\u00f3n de opciones",
+      "Navegaci\u00f3n del sitio MkDocs",
+      "C\u00f3mo funcionan los diagramas PlantUML",
+      "B\u00fasqueda en el sitio",
+      "Despliegue a producci\u00f3n (GitHub Pages)",
+      "Troubleshooting",
+      "Recursos adicionales"
+    ],
+    "issues": [
+      {
+        "type": "structure",
+        "severity": "HIGH",
+        "message": "Missing H1 title",
+        "line_number": null,
+        "recommendation": "Add single H1 title at document top"
+      },
+      {
+        "type": "structure",
+        "severity": "MEDIUM",
+        "message": "Invalid heading hierarchy",
+        "line_number": null,
+        "recommendation": "Ensure headings follow H1\u2192H2\u2192H3 order"
+      }
+    ]
+  },
+  "quality": {
+    "score": 59.5,
+    "readability_score": 50.0,
+    "completeness_score": 0.34,
+    "formatting_score": 0.8,
+    "metrics": {
+      "readability": 50.0,
+      "completeness": 0.34,
+      "formatting": 0.8
+    },
+    "issues": [
+      {
+        "type": "quality",
+        "severity": "LOW",
+        "message": "19 code blocks missing language identifier",
+        "line_number": null,
+        "recommendation": "Add language: ```python, ```bash, etc."
+      }
+    ]
+  },
+  "constitution": {
+    "score": 100.0,
+    "violations": [],
+    "applicable_principles": [
+      2,
+      7
+    ]
+  },
+  "traceability": {
+    "score": 25.0,
+    "issue_links": [],
+    "adr_links": [],
+    "spec_links": [],
+    "issues": [
+      {
+        "type": "traceability",
+        "severity": "MEDIUM",
+        "message": "No issue links found",
+        "line_number": null,
+        "recommendation": "Add links to related issues (FEATURE-*, BUG-*, etc.)"
+      }
+    ]
+  },
+  "links": {
+    "score": 11.11111111111111,
+    "total_links": 9,
+    "valid_links": 1,
+    "broken_links": [
+      "../anexos/diagramas/casos_de_uso/UC-001.svg",
+      "https://www.mkdocs.org/",
+      "https://squidfunk.github.io/mkdocs-material/",
+      "https://plantuml.com/",
+      "solicitudes/sc01/README.md",
+      "gobernanza/casos_de_uso_guide.md",
+      "anexos/diagramas/README.md",
+      "gobernanza/documentacion_corporativa.md"
+    ],
+    "issues": [
+      {
+        "type": "link",
+        "severity": "HIGH",
+        "message": "Broken internal link: ../anexos/diagramas/casos_de_uso/UC-001.svg",
+        "line_number": null,
+        "recommendation": "Fix path or create missing file"
+      },
+      {
+        "type": "link",
+        "severity": "MEDIUM",
+        "message": "Broken external link: https://www.mkdocs.org/",
+        "line_number": null,
+        "recommendation": "Update or remove broken link"
+      },
+      {
+        "type": "link",
+        "severity": "MEDIUM",
+        "message": "Broken external link: https://squidfunk.github.io/mkdocs-material/",
+        "line_number": null,
+        "recommendation": "Update or remove broken link"
+      },
+      {
+        "type": "link",
+        "severity": "MEDIUM",
+        "message": "Broken external link: https://plantuml.com/",
+        "line_number": null,
+        "recommendation": "Update or remove broken link"
+      },
+      {
+        "type": "link",
+        "severity": "HIGH",
+        "message": "Broken internal link: solicitudes/sc01/README.md",
+        "line_number": null,
+        "recommendation": "Fix path or create missing file"
+      },
+      {
+        "type": "link",
+        "severity": "HIGH",
+        "message": "Broken internal link: gobernanza/casos_de_uso_guide.md",
+        "line_number": null,
+        "recommendation": "Fix path or create missing file"
+      },
+      {
+        "type": "link",
+        "severity": "HIGH",
+        "message": "Broken internal link: anexos/diagramas/README.md",
+        "line_number": null,
+        "recommendation": "Fix path or create missing file"
+      },
+      {
+        "type": "link",
+        "severity": "HIGH",
+        "message": "Broken internal link: gobernanza/documentacion_corporativa.md",
+        "line_number": null,
+        "recommendation": "Fix path or create missing file"
+      }
+    ]
+  },
+  "analysis_time": 2.305938243865967,
+  "cache_hit": false
+}

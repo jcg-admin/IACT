@@ -1,0 +1,121 @@
+{
+  "file_path": "docs/backend/management-commands.md",
+  "domain": "Backend",
+  "overall_score": 59.625,
+  "structure": {
+    "score": 47.5,
+    "has_h1": false,
+    "heading_hierarchy_valid": false,
+    "has_frontmatter": false,
+    "required_sections_present": [
+      "Indice",
+      "Resumen Ejecutivo",
+      "Comandos Disponibles",
+      "Uso y Ejemplos",
+      "Troubleshooting",
+      "Referencias",
+      "Changelog"
+    ],
+    "issues": [
+      {
+        "type": "structure",
+        "severity": "HIGH",
+        "message": "Missing H1 title",
+        "line_number": null,
+        "recommendation": "Add single H1 title at document top"
+      },
+      {
+        "type": "structure",
+        "severity": "MEDIUM",
+        "message": "Invalid heading hierarchy",
+        "line_number": null,
+        "recommendation": "Ensure headings follow H1\u2192H2\u2192H3 order"
+      }
+    ]
+  },
+  "quality": {
+    "score": 55.00000000000001,
+    "readability_score": 50.0,
+    "completeness_score": 0.34,
+    "formatting_score": 0.7000000000000001,
+    "metrics": {
+      "readability": 50.0,
+      "completeness": 0.34,
+      "formatting": 0.7000000000000001
+    },
+    "issues": [
+      {
+        "type": "quality",
+        "severity": "LOW",
+        "message": "48 code blocks missing language identifier",
+        "line_number": null,
+        "recommendation": "Add language: ```python, ```bash, etc."
+      },
+      {
+        "type": "quality",
+        "severity": "LOW",
+        "message": "Possibly malformed tables detected",
+        "line_number": null,
+        "recommendation": "Ensure tables have proper | separators"
+      }
+    ]
+  },
+  "constitution": {
+    "score": 100.0,
+    "violations": [],
+    "applicable_principles": [
+      2,
+      7
+    ]
+  },
+  "traceability": {
+    "score": 25.0,
+    "issue_links": [],
+    "adr_links": [],
+    "spec_links": [],
+    "issues": [
+      {
+        "type": "traceability",
+        "severity": "MEDIUM",
+        "message": "No issue links found",
+        "line_number": null,
+        "recommendation": "Add links to related issues (FEATURE-*, BUG-*, etc.)"
+      }
+    ]
+  },
+  "links": {
+    "score": 75.0,
+    "total_links": 12,
+    "valid_links": 9,
+    "broken_links": [
+      "https://docs.djangoproject.com/en/4.2/howto/custom-management-commands/",
+      "https://docs.djangoproject.com/en/4.2/topics/db/transactions/",
+      "https://docs.djangoproject.com/en/4.2/topics/migrations/"
+    ],
+    "issues": [
+      {
+        "type": "link",
+        "severity": "MEDIUM",
+        "message": "Broken external link: https://docs.djangoproject.com/en/4.2/howto/custom-management-commands/",
+        "line_number": null,
+        "recommendation": "Update or remove broken link"
+      },
+      {
+        "type": "link",
+        "severity": "MEDIUM",
+        "message": "Broken external link: https://docs.djangoproject.com/en/4.2/topics/db/transactions/",
+        "line_number": null,
+        "recommendation": "Update or remove broken link"
+      },
+      {
+        "type": "link",
+        "severity": "MEDIUM",
+        "message": "Broken external link: https://docs.djangoproject.com/en/4.2/topics/migrations/",
+        "line_number": null,
+        "recommendation": "Update or remove broken link"
+      }
+    ]
+  },
+  "analysis_time": 2.202498435974121,
+  "cache_hit": false
+}

@@ -1,0 +1,153 @@
+{
+  "file_path": "docs/plantillas/template_necesidad.md",
+  "domain": "Other",
+  "overall_score": 60.25,
+  "structure": {
+    "score": 80.0,
+    "has_h1": false,
+    "heading_hierarchy_valid": true,
+    "has_frontmatter": true,
+    "required_sections_present": [
+      "Metadatos del Requisito",
+      "1. Descripci\u00f3n de la Necesidad",
+      "2. Justificaci\u00f3n de Negocio",
+      "3. Alcance",
+      "4. Stakeholders Afectados",
+      "5. Criterios de \u00c9xito",
+      "6. An\u00e1lisis de Alternativas",
+      "7. Roadmap de Implementaci\u00f3n",
+      "8. Derivaci\u00f3n a Requisitos",
+      "9. Trazabilidad",
+      "10. Riesgos Identificados",
+      "11. Aprobaciones",
+      "12. Referencias",
+      "Control de Cambios"
+    ],
+    "issues": [
+      {
+        "type": "structure",
+        "severity": "HIGH",
+        "message": "Missing H1 title",
+        "line_number": null,
+        "recommendation": "Add single H1 title at document top"
+      }
+    ]
+  },
+  "quality": {
+    "score": 55.00000000000001,
+    "readability_score": 50.0,
+    "completeness_score": 0.34,
+    "formatting_score": 0.7000000000000001,
+    "metrics": {
+      "readability": 50.0,
+      "completeness": 0.34,
+      "formatting": 0.7000000000000001
+    },
+    "issues": [
+      {
+        "type": "quality",
+        "severity": "LOW",
+        "message": "1 code blocks missing language identifier",
+        "line_number": null,
+        "recommendation": "Add language: ```python, ```bash, etc."
+      },
+      {
+        "type": "quality",
+        "severity": "LOW",
+        "message": "Possibly malformed tables detected",
+        "line_number": null,
+        "recommendation": "Ensure tables have proper | separators"
+      }
+    ]
+  },
+  "constitution": {
+    "score": 100.0,
+    "violations": [],
+    "applicable_principles": [
+      2,
+      7
+    ]
+  },
+  "traceability": {
+    "score": 25.0,
+    "issue_links": [],
+    "adr_links": [],
+    "spec_links": [],
+    "issues": [
+      {
+        "type": "traceability",
+        "severity": "MEDIUM",
+        "message": "No issue links found",
+        "line_number": null,
+        "recommendation": "Add links to related issues (FEATURE-*, BUG-*, etc.)"
+      }
+    ]
+  },
+  "links": {
+    "score": 0.0,
+    "total_links": 7,
+    "valid_links": 0,
+    "broken_links": [
+      "../implementacion/[dominio]/requisitos/negocio/rnXXX_[nombre].md",
+      "../implementacion/[dominio]/requisitos/stakeholders/rsXXX_[nombre].md",
+      "../implementacion/[dominio]/requisitos/funcionales/rfXXX_[nombre].md",
+      "../implementacion/[dominio]/requisitos/no_funcionales/rnfXXX_[nombre].md",
+      "../vision_y_alcance/business_case_[nombre].md",
+      "../planificacion_y_releases/charter_[nombre].md",
+      "../anexos/stakeholder_analysis_[nombre].md"
+    ],
+    "issues": [
+      {
+        "type": "link",
+        "severity": "HIGH",
+        "message": "Broken internal link: ../implementacion/[dominio]/requisitos/negocio/rnXXX_[nombre].md",
+        "line_number": null,
+        "recommendation": "Fix path or create missing file"
+      },
+      {
+        "type": "link",
+        "severity": "HIGH",
+        "message": "Broken internal link: ../implementacion/[dominio]/requisitos/stakeholders/rsXXX_[nombre].md",
+        "line_number": null,
+        "recommendation": "Fix path or create missing file"
+      },
+      {
+        "type": "link",
+        "severity": "HIGH",
+        "message": "Broken internal link: ../implementacion/[dominio]/requisitos/funcionales/rfXXX_[nombre].md",
+        "line_number": null,
+        "recommendation": "Fix path or create missing file"
+      },
+      {
+        "type": "link",
+        "severity": "HIGH",
+        "message": "Broken internal link: ../implementacion/[dominio]/requisitos/no_funcionales/rnfXXX_[nombre].md",
+        "line_number": null,
+        "recommendation": "Fix path or create missing file"
+      },
+      {
+        "type": "link",
+        "severity": "HIGH",
+        "message": "Broken internal link: ../vision_y_alcance/business_case_[nombre].md",
+        "line_number": null,
+        "recommendation": "Fix path or create missing file"
+      },
+      {
+        "type": "link",
+        "severity": "HIGH",
+        "message": "Broken internal link: ../planificacion_y_releases/charter_[nombre].md",
+        "line_number": null,
+        "recommendation": "Fix path or create missing file"
+      },
+      {
+        "type": "link",
+        "severity": "HIGH",
+        "message": "Broken internal link: ../anexos/stakeholder_analysis_[nombre].md",
+        "line_number": null,
+        "recommendation": "Fix path or create missing file"
+      }
+    ]
+  },
+  "analysis_time": 0.0040166378021240234,
+  "cache_hit": false
+}

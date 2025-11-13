@@ -1,0 +1,69 @@
+{
+  "file_path": "docs/backend/requisitos/funcionales/rf005_logout.md",
+  "domain": "Backend",
+  "overall_score": 76.6,
+  "structure": {
+    "score": 99.99999999999999,
+    "has_h1": true,
+    "heading_hierarchy_valid": true,
+    "has_frontmatter": true,
+    "required_sections_present": [
+      "1. Declaracion del Requisito",
+      "2. Criterios de Aceptacion",
+      "3. Trazabilidad"
+    ],
+    "issues": []
+  },
+  "quality": {
+    "score": 59.5,
+    "readability_score": 50.0,
+    "completeness_score": 0.34,
+    "formatting_score": 0.8,
+    "metrics": {
+      "readability": 50.0,
+      "completeness": 0.34,
+      "formatting": 0.8
+    },
+    "issues": [
+      {
+        "type": "quality",
+        "severity": "LOW",
+        "message": "1 code blocks missing language identifier",
+        "line_number": null,
+        "recommendation": "Add language: ```python, ```bash, etc."
+      }
+    ]
+  },
+  "constitution": {
+    "score": 100.0,
+    "violations": [],
+    "applicable_principles": [
+      2,
+      7
+    ]
+  },
+  "traceability": {
+    "score": 25.0,
+    "issue_links": [],
+    "adr_links": [],
+    "spec_links": [],
+    "issues": [
+      {
+        "type": "traceability",
+        "severity": "MEDIUM",
+        "message": "No issue links found",
+        "line_number": null,
+        "recommendation": "Add links to related issues (FEATURE-*, BUG-*, etc.)"
+      }
+    ]
+  },
+  "links": {
+    "score": 100,
+    "total_links": 0,
+    "valid_links": 0,
+    "broken_links": [],
+    "issues": []
+  },
+  "analysis_time": 0.00016069412231445312,
+  "cache_hit": false
+}

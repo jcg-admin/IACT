@@ -1,0 +1,151 @@
+{
+  "file_path": "docs/adr/ADR_009_distribucion_artefactos_strategy.md",
+  "domain": "Other",
+  "overall_score": 54.225,
+  "structure": {
+    "score": 47.5,
+    "has_h1": false,
+    "heading_hierarchy_valid": false,
+    "has_frontmatter": false,
+    "required_sections_present": [
+      "Contexto",
+      "Decisi\u00f3n",
+      "Justificaci\u00f3n",
+      "Consecuencias",
+      "Implementaci\u00f3n T\u00e9cnica",
+      "CPython 3.12.6 Precompilado - Build 1",
+      "Plan de Contingencia",
+      "Evoluci\u00f3n Futura",
+      "M\u00e9tricas de \u00c9xito",
+      "Revisi\u00f3n Programada",
+      "Referencias"
+    ],
+    "issues": [
+      {
+        "type": "structure",
+        "severity": "HIGH",
+        "message": "Missing H1 title",
+        "line_number": null,
+        "recommendation": "Add single H1 title at document top"
+      },
+      {
+        "type": "structure",
+        "severity": "MEDIUM",
+        "message": "Invalid heading hierarchy",
+        "line_number": null,
+        "recommendation": "Ensure headings follow H1\u2192H2\u2192H3 order"
+      }
+    ]
+  },
+  "quality": {
+    "score": 55.00000000000001,
+    "readability_score": 50.0,
+    "completeness_score": 0.34,
+    "formatting_score": 0.7000000000000001,
+    "metrics": {
+      "readability": 50.0,
+      "completeness": 0.34,
+      "formatting": 0.7000000000000001
+    },
+    "issues": [
+      {
+        "type": "quality",
+        "severity": "LOW",
+        "message": "11 code blocks missing language identifier",
+        "line_number": null,
+        "recommendation": "Add language: ```python, ```bash, etc."
+      },
+      {
+        "type": "quality",
+        "severity": "LOW",
+        "message": "Possibly malformed tables detected",
+        "line_number": null,
+        "recommendation": "Ensure tables have proper | separators"
+      }
+    ]
+  },
+  "constitution": {
+    "score": 100.0,
+    "violations": [],
+    "applicable_principles": [
+      2,
+      7
+    ]
+  },
+  "traceability": {
+    "score": 39.0,
+    "issue_links": [],
+    "adr_links": [],
+    "spec_links": [
+      "[SPEC_INFRA_001](../specs/SPEC_INFRA_001-cpython_precompilado.md)"
+    ],
+    "issues": [
+      {
+        "type": "traceability",
+        "severity": "MEDIUM",
+        "message": "No issue links found",
+        "line_number": null,
+        "recommendation": "Add links to related issues (FEATURE-*, BUG-*, etc.)"
+      }
+    ]
+  },
+  "links": {
+    "score": 0.0,
+    "total_links": 6,
+    "valid_links": 0,
+    "broken_links": [
+      "https://github.com/2-Coatl/IACT---project/blob/main/docs/infrastructure/cpython_precompilado/README.md",
+      "https://docs.github.com/en/repositories/releasing-projects-on-github",
+      "https://docs.github.com/en/repositories/releasing-projects-on-github/about-releases#storage-and-bandwidth-quotas",
+      "https://docs.github.com/en/billing/managing-billing-for-git-large-file-storage/about-billing-for-git-large-file-storage",
+      "../specs/SPEC_INFRA_001-cpython_precompilado.md",
+      "./ADR_008-cpython-features-vs-imagen-base.md"
+    ],
+    "issues": [
+      {
+        "type": "link",
+        "severity": "MEDIUM",
+        "message": "Broken external link: https://github.com/2-Coatl/IACT---project/blob/main/docs/infrastructure/cpython_precompilado/README.md",
+        "line_number": null,
+        "recommendation": "Update or remove broken link"
+      },
+      {
+        "type": "link",
+        "severity": "MEDIUM",
+        "message": "Broken external link: https://docs.github.com/en/repositories/releasing-projects-on-github",
+        "line_number": null,
+        "recommendation": "Update or remove broken link"
+      },
+      {
+        "type": "link",
+        "severity": "MEDIUM",
+        "message": "Broken external link: https://docs.github.com/en/repositories/releasing-projects-on-github/about-releases#storage-and-bandwidth-quotas",
+        "line_number": null,
+        "recommendation": "Update or remove broken link"
+      },
+      {
+        "type": "link",
+        "severity": "MEDIUM",
+        "message": "Broken external link: https://docs.github.com/en/billing/managing-billing-for-git-large-file-storage/about-billing-for-git-large-file-storage",
+        "line_number": null,
+        "recommendation": "Update or remove broken link"
+      },
+      {
+        "type": "link",
+        "severity": "HIGH",
+        "message": "Broken internal link: ../specs/SPEC_INFRA_001-cpython_precompilado.md",
+        "line_number": null,
+        "recommendation": "Fix path or create missing file"
+      },
+      {
+        "type": "link",
+        "severity": "HIGH",
+        "message": "Broken internal link: ./ADR_008-cpython-features-vs-imagen-base.md",
+        "line_number": null,
+        "recommendation": "Fix path or create missing file"
+      }
+    ]
+  },
+  "analysis_time": 0.7456943988800049,
+  "cache_hit": false
+}

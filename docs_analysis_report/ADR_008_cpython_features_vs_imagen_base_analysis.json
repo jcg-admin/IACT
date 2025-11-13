@@ -1,0 +1,110 @@
+{
+  "file_path": "docs/adr/ADR_008_cpython_features_vs_imagen_base.md",
+  "domain": "Other",
+  "overall_score": 68.82499999999999,
+  "structure": {
+    "score": 92.5,
+    "has_h1": true,
+    "heading_hierarchy_valid": true,
+    "has_frontmatter": false,
+    "required_sections_present": [
+      "Contexto",
+      "Decisi\u00f3n",
+      "Justificaci\u00f3n",
+      "Consecuencias",
+      "Implementaci\u00f3n",
+      "Alternativas Futuras",
+      "Notas de Revisi\u00f3n",
+      "Referencias"
+    ],
+    "issues": []
+  },
+  "quality": {
+    "score": 59.5,
+    "readability_score": 50.0,
+    "completeness_score": 0.34,
+    "formatting_score": 0.8,
+    "metrics": {
+      "readability": 50.0,
+      "completeness": 0.34,
+      "formatting": 0.8
+    },
+    "issues": [
+      {
+        "type": "quality",
+        "severity": "LOW",
+        "message": "4 code blocks missing language identifier",
+        "line_number": null,
+        "recommendation": "Add language: ```python, ```bash, etc."
+      }
+    ]
+  },
+  "constitution": {
+    "score": 100.0,
+    "violations": [],
+    "applicable_principles": [
+      2,
+      7
+    ]
+  },
+  "traceability": {
+    "score": 39.0,
+    "issue_links": [],
+    "adr_links": [],
+    "spec_links": [
+      "[SPEC_INFRA_001](../specs/SPEC_INFRA_001-cpython_precompilado.md)"
+    ],
+    "issues": [
+      {
+        "type": "traceability",
+        "severity": "MEDIUM",
+        "message": "No issue links found",
+        "line_number": null,
+        "recommendation": "Add links to related issues (FEATURE-*, BUG-*, etc.)"
+      }
+    ]
+  },
+  "links": {
+    "score": 20.0,
+    "total_links": 5,
+    "valid_links": 1,
+    "broken_links": [
+      "https://containers.dev/implementors/features/",
+      "https://containers.dev/features",
+      "../specs/SPEC_INFRA_001-cpython_precompilado.md",
+      "./ADR_009-distribucion-artefactos-strategy.md"
+    ],
+    "issues": [
+      {
+        "type": "link",
+        "severity": "MEDIUM",
+        "message": "Broken external link: https://containers.dev/implementors/features/",
+        "line_number": null,
+        "recommendation": "Update or remove broken link"
+      },
+      {
+        "type": "link",
+        "severity": "MEDIUM",
+        "message": "Broken external link: https://containers.dev/features",
+        "line_number": null,
+        "recommendation": "Update or remove broken link"
+      },
+      {
+        "type": "link",
+        "severity": "HIGH",
+        "message": "Broken internal link: ../specs/SPEC_INFRA_001-cpython_precompilado.md",
+        "line_number": null,
+        "recommendation": "Fix path or create missing file"
+      },
+      {
+        "type": "link",
+        "severity": "HIGH",
+        "message": "Broken internal link: ./ADR_009-distribucion-artefactos-strategy.md",
+        "line_number": null,
+        "recommendation": "Fix path or create missing file"
+      }
+    ]
+  },
+  "analysis_time": 0.23653030395507812,
+  "cache_hit": false
+}

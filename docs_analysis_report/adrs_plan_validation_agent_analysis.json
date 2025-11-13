@@ -1,0 +1,78 @@
+{
+  "file_path": "docs/agent/arquitectura/adrs_plan_validation_agent.md",
+  "domain": "AI Agent",
+  "overall_score": 78.2,
+  "structure": {
+    "score": 72.5,
+    "has_h1": false,
+    "heading_hierarchy_valid": true,
+    "has_frontmatter": false,
+    "required_sections_present": [
+      "ADR Index",
+      "ADR-001: Number of Reasoning Paths (n=5) {#adr-001}",
+      "ADR-002: Sequential vs Parallel Execution {#adr-002}",
+      "ADR-003: Consensus Algorithm (Majority Voting) {#adr-003}",
+      "ADR-004: Confidence Threshold (80%) {#adr-004}",
+      "ADR-005: Heuristic-based vs LLM-powered (MVP) {#adr-005}",
+      "Summary of Decisions",
+      "Implementation Implications",
+      "Risks and Mitigations",
+      "Next Steps"
+    ],
+    "issues": [
+      {
+        "type": "structure",
+        "severity": "HIGH",
+        "message": "Missing H1 title",
+        "line_number": null,
+        "recommendation": "Add single H1 title at document top"
+      }
+    ]
+  },
+  "quality": {
+    "score": 67.75,
+    "readability_score": 50.0,
+    "completeness_score": 0.67,
+    "formatting_score": 0.8,
+    "metrics": {
+      "readability": 50.0,
+      "completeness": 0.67,
+      "formatting": 0.8
+    },
+    "issues": [
+      {
+        "type": "quality",
+        "severity": "LOW",
+        "message": "6 code blocks missing language identifier",
+        "line_number": null,
+        "recommendation": "Add language: ```python, ```bash, etc."
+      }
+    ]
+  },
+  "constitution": {
+    "score": 100.0,
+    "violations": [],
+    "applicable_principles": [
+      2,
+      7
+    ]
+  },
+  "traceability": {
+    "score": 65.0,
+    "issue_links": [
+      "IMPROVEMENT-SDLC-VALIDATION-001"
+    ],
+    "adr_links": [],
+    "spec_links": [],
+    "issues": []
+  },
+  "links": {
+    "score": 100.0,
+    "total_links": 5,
+    "valid_links": 5,
+    "broken_links": [],
+    "issues": []
+  },
+  "analysis_time": 0.0014233589172363281,
+  "cache_hit": false
+}

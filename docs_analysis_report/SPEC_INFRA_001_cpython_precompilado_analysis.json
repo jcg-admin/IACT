@@ -1,0 +1,163 @@
+{
+  "file_path": "docs/specs/SPEC_INFRA_001_cpython_precompilado.md",
+  "domain": "Other",
+  "overall_score": 54.0,
+  "structure": {
+    "score": 54.99999999999999,
+    "has_h1": false,
+    "heading_hierarchy_valid": false,
+    "has_frontmatter": true,
+    "required_sections_present": [
+      "Metadata",
+      "Trazabilidad",
+      "1. Resumen Ejecutivo",
+      "2. Contexto y Motivaci\u00f3n",
+      "3. Requisitos Funcionales",
+      "4. Requisitos No Funcionales",
+      "5. Dise\u00f1o de Soluci\u00f3n",
+      "6. Dependencias",
+      "7. Plan de Testing",
+      "8. Plan de Despliegue",
+      "9. Plan de Rollout",
+      "10. Riesgos e Impacto",
+      "11. Documentaci\u00f3n",
+      "12. Criterios de Completitud",
+      "13. Aprobaciones",
+      "14. Historial de Cambios",
+      "Referencias"
+    ],
+    "issues": [
+      {
+        "type": "structure",
+        "severity": "HIGH",
+        "message": "Missing H1 title",
+        "line_number": null,
+        "recommendation": "Add single H1 title at document top"
+      },
+      {
+        "type": "structure",
+        "severity": "MEDIUM",
+        "message": "Invalid heading hierarchy",
+        "line_number": null,
+        "recommendation": "Ensure headings follow H1\u2192H2\u2192H3 order"
+      }
+    ]
+  },
+  "quality": {
+    "score": 55.00000000000001,
+    "readability_score": 50.0,
+    "completeness_score": 0.34,
+    "formatting_score": 0.7000000000000001,
+    "metrics": {
+      "readability": 50.0,
+      "completeness": 0.34,
+      "formatting": 0.7000000000000001
+    },
+    "issues": [
+      {
+        "type": "quality",
+        "severity": "LOW",
+        "message": "16 code blocks missing language identifier",
+        "line_number": null,
+        "recommendation": "Add language: ```python, ```bash, etc."
+      },
+      {
+        "type": "quality",
+        "severity": "LOW",
+        "message": "Possibly malformed tables detected",
+        "line_number": null,
+        "recommendation": "Ensure tables have proper | separators"
+      }
+    ]
+  },
+  "constitution": {
+    "score": 100.0,
+    "violations": [],
+    "applicable_principles": [
+      2,
+      7
+    ]
+  },
+  "traceability": {
+    "score": 25.0,
+    "issue_links": [],
+    "adr_links": [],
+    "spec_links": [],
+    "issues": [
+      {
+        "type": "traceability",
+        "severity": "MEDIUM",
+        "message": "No issue links found",
+        "line_number": null,
+        "recommendation": "Add links to related issues (FEATURE-*, BUG-*, etc.)"
+      }
+    ]
+  },
+  "links": {
+    "score": 0.0,
+    "total_links": 7,
+    "valid_links": 0,
+    "broken_links": [
+      "https://www.iso.org/standard/72089.html",
+      "../../gobernanza/procesos/guia_completa_desarrollo_features.md",
+      "../../gobernanza/agentes/constitution.md",
+      "../../gobernanza/GUIA_ESTILO.md",
+      "https://containers.dev/",
+      "https://devguide.python.org/getting-started/setup-building/",
+      "https://docs.python.org/3/license.html"
+    ],
+    "issues": [
+      {
+        "type": "link",
+        "severity": "MEDIUM",
+        "message": "Broken external link: https://www.iso.org/standard/72089.html",
+        "line_number": null,
+        "recommendation": "Update or remove broken link"
+      },
+      {
+        "type": "link",
+        "severity": "HIGH",
+        "message": "Broken internal link: ../../gobernanza/procesos/guia_completa_desarrollo_features.md",
+        "line_number": null,
+        "recommendation": "Fix path or create missing file"
+      },
+      {
+        "type": "link",
+        "severity": "HIGH",
+        "message": "Broken internal link: ../../gobernanza/agentes/constitution.md",
+        "line_number": null,
+        "recommendation": "Fix path or create missing file"
+      },
+      {
+        "type": "link",
+        "severity": "HIGH",
+        "message": "Broken internal link: ../../gobernanza/GUIA_ESTILO.md",
+        "line_number": null,
+        "recommendation": "Fix path or create missing file"
+      },
+      {
+        "type": "link",
+        "severity": "MEDIUM",
+        "message": "Broken external link: https://containers.dev/",
+        "line_number": null,
+        "recommendation": "Update or remove broken link"
+      },
+      {
+        "type": "link",
+        "severity": "MEDIUM",
+        "message": "Broken external link: https://devguide.python.org/getting-started/setup-building/",
+        "line_number": null,
+        "recommendation": "Update or remove broken link"
+      },
+      {
+        "type": "link",
+        "severity": "MEDIUM",
+        "message": "Broken external link: https://docs.python.org/3/license.html",
+        "line_number": null,
+        "recommendation": "Update or remove broken link"
+      }
+    ]
+  },
+  "analysis_time": 3.0209879875183105,
+  "cache_hit": false
+}

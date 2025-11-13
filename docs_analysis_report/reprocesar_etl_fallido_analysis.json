@@ -1,0 +1,120 @@
+{
+  "file_path": "docs/operaciones/reprocesar_etl_fallido.md",
+  "domain": "Other",
+  "overall_score": 57.333333333333336,
+  "structure": {
+    "score": 54.99999999999999,
+    "has_h1": false,
+    "heading_hierarchy_valid": false,
+    "has_frontmatter": true,
+    "required_sections_present": [
+      "Prop\u00f3sito",
+      "Estado Actual",
+      "Cu\u00e1ndo Usar",
+      "Pre-requisitos",
+      "Identificar Causa de Falla",
+      "Procedimiento de Recuperaci\u00f3n",
+      "Escenarios Espec\u00edficos",
+      "Verificaci\u00f3n Post-Reproceso",
+      "Prevenci\u00f3n de Futuras Fallas",
+      "Escalamiento",
+      "Checklist de Recuperaci\u00f3n",
+      "Referencias",
+      "Referencias Adicionales",
+      "Changelog"
+    ],
+    "issues": [
+      {
+        "type": "structure",
+        "severity": "HIGH",
+        "message": "Missing H1 title",
+        "line_number": null,
+        "recommendation": "Add single H1 title at document top"
+      },
+      {
+        "type": "structure",
+        "severity": "MEDIUM",
+        "message": "Invalid heading hierarchy",
+        "line_number": null,
+        "recommendation": "Ensure headings follow H1\u2192H2\u2192H3 order"
+      }
+    ]
+  },
+  "quality": {
+    "score": 55.00000000000001,
+    "readability_score": 50.0,
+    "completeness_score": 0.34,
+    "formatting_score": 0.7000000000000001,
+    "metrics": {
+      "readability": 50.0,
+      "completeness": 0.34,
+      "formatting": 0.7000000000000001
+    },
+    "issues": [
+      {
+        "type": "quality",
+        "severity": "LOW",
+        "message": "36 code blocks missing language identifier",
+        "line_number": null,
+        "recommendation": "Add language: ```python, ```bash, etc."
+      },
+      {
+        "type": "quality",
+        "severity": "LOW",
+        "message": "Possibly malformed tables detected",
+        "line_number": null,
+        "recommendation": "Ensure tables have proper | separators"
+      }
+    ]
+  },
+  "constitution": {
+    "score": 100.0,
+    "violations": [],
+    "applicable_principles": [
+      2,
+      7
+    ]
+  },
+  "traceability": {
+    "score": 25.0,
+    "issue_links": [],
+    "adr_links": [],
+    "spec_links": [],
+    "issues": [
+      {
+        "type": "traceability",
+        "severity": "MEDIUM",
+        "message": "No issue links found",
+        "line_number": null,
+        "recommendation": "Add links to related issues (FEATURE-*, BUG-*, etc.)"
+      }
+    ]
+  },
+  "links": {
+    "score": 33.33333333333333,
+    "total_links": 3,
+    "valid_links": 1,
+    "broken_links": [
+      "../../diseno_detallado/readme.md",
+      "../../arquitectura/readme.md"
+    ],
+    "issues": [
+      {
+        "type": "link",
+        "severity": "HIGH",
+        "message": "Broken internal link: ../../diseno_detallado/readme.md",
+        "line_number": null,
+        "recommendation": "Fix path or create missing file"
+      },
+      {
+        "type": "link",
+        "severity": "HIGH",
+        "message": "Broken internal link: ../../arquitectura/readme.md",
+        "line_number": null,
+        "recommendation": "Fix path or create missing file"
+      }
+    ]
+  },
+  "analysis_time": 0.0024182796478271484,
+  "cache_hit": false
+}

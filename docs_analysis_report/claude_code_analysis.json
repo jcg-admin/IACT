@@ -1,0 +1,142 @@
+{
+  "file_path": "docs/operaciones/claude_code.md",
+  "domain": "Other",
+  "overall_score": 44.0,
+  "structure": {
+    "score": 54.99999999999999,
+    "has_h1": false,
+    "heading_hierarchy_valid": false,
+    "has_frontmatter": true,
+    "required_sections_present": [
+      "Prop\u00f3sito",
+      "\u00bfQu\u00e9 es Claude Code?",
+      "Limitaciones del Entorno",
+      "Alternativas y Soluciones",
+      "Flujo de Trabajo con Claude Code",
+      "Mejores Pr\u00e1cticas",
+      "Troubleshooting",
+      "Limitaciones Adicionales",
+      "Comparaci\u00f3n: Claude Code vs Desarrollo Local",
+      "Referencias",
+      "Ejemplos Pr\u00e1cticos",
+      "Changelog"
+    ],
+    "issues": [
+      {
+        "type": "structure",
+        "severity": "HIGH",
+        "message": "Missing H1 title",
+        "line_number": null,
+        "recommendation": "Add single H1 title at document top"
+      },
+      {
+        "type": "structure",
+        "severity": "MEDIUM",
+        "message": "Invalid heading hierarchy",
+        "line_number": null,
+        "recommendation": "Ensure headings follow H1\u2192H2\u2192H3 order"
+      }
+    ]
+  },
+  "quality": {
+    "score": 55.00000000000001,
+    "readability_score": 50.0,
+    "completeness_score": 0.34,
+    "formatting_score": 0.7000000000000001,
+    "metrics": {
+      "readability": 50.0,
+      "completeness": 0.34,
+      "formatting": 0.7000000000000001
+    },
+    "issues": [
+      {
+        "type": "quality",
+        "severity": "LOW",
+        "message": "34 code blocks missing language identifier",
+        "line_number": null,
+        "recommendation": "Add language: ```python, ```bash, etc."
+      },
+      {
+        "type": "quality",
+        "severity": "LOW",
+        "message": "Possibly malformed tables detected",
+        "line_number": null,
+        "recommendation": "Ensure tables have proper | separators"
+      }
+    ]
+  },
+  "constitution": {
+    "score": 50.0,
+    "violations": [
+      {
+        "type": "constitution",
+        "severity": "CRITICAL",
+        "message": "Possible token exposure detected (Principle 7)",
+        "line_number": null,
+        "recommendation": "Remove token, use environment variables"
+      }
+    ],
+    "applicable_principles": [
+      2,
+      7
+    ]
+  },
+  "traceability": {
+    "score": 25.0,
+    "issue_links": [],
+    "adr_links": [],
+    "spec_links": [],
+    "issues": [
+      {
+        "type": "traceability",
+        "severity": "MEDIUM",
+        "message": "No issue links found",
+        "line_number": null,
+        "recommendation": "Add links to related issues (FEATURE-*, BUG-*, etc.)"
+      }
+    ]
+  },
+  "links": {
+    "score": 0.0,
+    "total_links": 4,
+    "valid_links": 0,
+    "broken_links": [
+      "https://docs.claude.com/en/docs/claude-code",
+      "https://cli.github.com/manual/",
+      "../contenedores_devcontainer.md",
+      "https://git-scm.com/doc"
+    ],
+    "issues": [
+      {
+        "type": "link",
+        "severity": "MEDIUM",
+        "message": "Broken external link: https://docs.claude.com/en/docs/claude-code",
+        "line_number": null,
+        "recommendation": "Update or remove broken link"
+      },
+      {
+        "type": "link",
+        "severity": "MEDIUM",
+        "message": "Broken external link: https://cli.github.com/manual/",
+        "line_number": null,
+        "recommendation": "Update or remove broken link"
+      },
+      {
+        "type": "link",
+        "severity": "HIGH",
+        "message": "Broken internal link: ../contenedores_devcontainer.md",
+        "line_number": null,
+        "recommendation": "Fix path or create missing file"
+      },
+      {
+        "type": "link",
+        "severity": "MEDIUM",
+        "message": "Broken external link: https://git-scm.com/doc",
+        "line_number": null,
+        "recommendation": "Update or remove broken link"
+      }
+    ]
+  },
+  "analysis_time": 1.2513949871063232,
+  "cache_hit": false
+}

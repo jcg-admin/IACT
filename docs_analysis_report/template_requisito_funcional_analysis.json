@@ -1,0 +1,184 @@
+{
+  "file_path": "docs/plantillas/template_requisito_funcional.md",
+  "domain": "Other",
+  "overall_score": 60.25,
+  "structure": {
+    "score": 80.0,
+    "has_h1": false,
+    "heading_hierarchy_valid": true,
+    "has_frontmatter": true,
+    "required_sections_present": [
+      "Metadatos del Requisito",
+      "1. Descripci\u00f3n del Requisito",
+      "2. Criterios de Aceptaci\u00f3n",
+      "3. Especificaci\u00f3n T\u00e9cnica",
+      "4. Dependencias",
+      "5. Casos de Prueba",
+      "6. Definici\u00f3n de Hecho (Definition of Done)",
+      "7. Trazabilidad",
+      "8. Riesgos e Issues",
+      "9. Notas Adicionales",
+      "10. Aprobaciones",
+      "11. Referencias",
+      "Control de Cambios"
+    ],
+    "issues": [
+      {
+        "type": "structure",
+        "severity": "HIGH",
+        "message": "Missing H1 title",
+        "line_number": null,
+        "recommendation": "Add single H1 title at document top"
+      }
+    ]
+  },
+  "quality": {
+    "score": 55.00000000000001,
+    "readability_score": 50.0,
+    "completeness_score": 0.34,
+    "formatting_score": 0.7000000000000001,
+    "metrics": {
+      "readability": 50.0,
+      "completeness": 0.34,
+      "formatting": 0.7000000000000001
+    },
+    "issues": [
+      {
+        "type": "quality",
+        "severity": "LOW",
+        "message": "12 code blocks missing language identifier",
+        "line_number": null,
+        "recommendation": "Add language: ```python, ```bash, etc."
+      },
+      {
+        "type": "quality",
+        "severity": "LOW",
+        "message": "Possibly malformed tables detected",
+        "line_number": null,
+        "recommendation": "Ensure tables have proper | separators"
+      }
+    ]
+  },
+  "constitution": {
+    "score": 100.0,
+    "violations": [],
+    "applicable_principles": [
+      2,
+      7
+    ]
+  },
+  "traceability": {
+    "score": 25.0,
+    "issue_links": [],
+    "adr_links": [],
+    "spec_links": [],
+    "issues": [
+      {
+        "type": "traceability",
+        "severity": "MEDIUM",
+        "message": "No issue links found",
+        "line_number": null,
+        "recommendation": "Add links to related issues (FEATURE-*, BUG-*, etc.)"
+      }
+    ]
+  },
+  "links": {
+    "score": 0.0,
+    "total_links": 11,
+    "valid_links": 0,
+    "broken_links": [
+      "[campo]",
+      "./rfYYY_[nombre].md",
+      "../no_funcionales/rnfZZZ_[nombre].md",
+      "../necesidades/nXXX_[nombre].md",
+      "../negocio/rnXXX_[nombre].md",
+      "../stakeholders/rsXXX_[nombre].md",
+      "./rfYYY_[nombre].md",
+      "../no_funcionales/rnfZZZ_[nombre].md",
+      "../../diseno_detallado/[nombre].md",
+      "../../arquitectura/adr/adr_[numero]_[nombre].md",
+      "../../anexos/manual_usuario_[modulo].md"
+    ],
+    "issues": [
+      {
+        "type": "link",
+        "severity": "HIGH",
+        "message": "Broken internal link: [campo]",
+        "line_number": null,
+        "recommendation": "Fix path or create missing file"
+      },
+      {
+        "type": "link",
+        "severity": "HIGH",
+        "message": "Broken internal link: ./rfYYY_[nombre].md",
+        "line_number": null,
+        "recommendation": "Fix path or create missing file"
+      },
+      {
+        "type": "link",
+        "severity": "HIGH",
+        "message": "Broken internal link: ../no_funcionales/rnfZZZ_[nombre].md",
+        "line_number": null,
+        "recommendation": "Fix path or create missing file"
+      },
+      {
+        "type": "link",
+        "severity": "HIGH",
+        "message": "Broken internal link: ../necesidades/nXXX_[nombre].md",
+        "line_number": null,
+        "recommendation": "Fix path or create missing file"
+      },
+      {
+        "type": "link",
+        "severity": "HIGH",
+        "message": "Broken internal link: ../negocio/rnXXX_[nombre].md",
+        "line_number": null,
+        "recommendation": "Fix path or create missing file"
+      },
+      {
+        "type": "link",
+        "severity": "HIGH",
+        "message": "Broken internal link: ../stakeholders/rsXXX_[nombre].md",
+        "line_number": null,
+        "recommendation": "Fix path or create missing file"
+      },
+      {
+        "type": "link",
+        "severity": "HIGH",
+        "message": "Broken internal link: ./rfYYY_[nombre].md",
+        "line_number": null,
+        "recommendation": "Fix path or create missing file"
+      },
+      {
+        "type": "link",
+        "severity": "HIGH",
+        "message": "Broken internal link: ../no_funcionales/rnfZZZ_[nombre].md",
+        "line_number": null,
+        "recommendation": "Fix path or create missing file"
+      },
+      {
+        "type": "link",
+        "severity": "HIGH",
+        "message": "Broken internal link: ../../diseno_detallado/[nombre].md",
+        "line_number": null,
+        "recommendation": "Fix path or create missing file"
+      },
+      {
+        "type": "link",
+        "severity": "HIGH",
+        "message": "Broken internal link: ../../arquitectura/adr/adr_[numero]_[nombre].md",
+        "line_number": null,
+        "recommendation": "Fix path or create missing file"
+      },
+      {
+        "type": "link",
+        "severity": "HIGH",
+        "message": "Broken internal link: ../../anexos/manual_usuario_[modulo].md",
+        "line_number": null,
+        "recommendation": "Fix path or create missing file"
+      }
+    ]
+  },
+  "analysis_time": 0.005845546722412109,
+  "cache_hit": false
+}

@@ -1,0 +1,74 @@
+{
+  "file_path": "docs/ai_capabilities/prompting/AGENTIC_SYSTEM_PATTERNS.md",
+  "domain": "Other",
+  "overall_score": 77.2,
+  "structure": {
+    "score": 92.5,
+    "has_h1": true,
+    "heading_hierarchy_valid": true,
+    "has_frontmatter": false,
+    "required_sections_present": [
+      "What are agents?",
+      "When (and when not) to use agents",
+      "When and how to use frameworks",
+      "Building blocks, workflows, and agents",
+      "Combining and customizing patterns",
+      "Summary: Principles for reliable agents",
+      "Appendix 1 \u2013 Agents in practice",
+      "Appendix 2 \u2013 Prompt engineering your tools"
+    ],
+    "issues": []
+  },
+  "quality": {
+    "score": 67.75,
+    "readability_score": 50.0,
+    "completeness_score": 0.67,
+    "formatting_score": 0.8,
+    "metrics": {
+      "readability": 50.0,
+      "completeness": 0.67,
+      "formatting": 0.8
+    },
+    "issues": [
+      {
+        "type": "quality",
+        "severity": "LOW",
+        "message": "1 code blocks missing language identifier",
+        "line_number": null,
+        "recommendation": "Add language: ```python, ```bash, etc."
+      }
+    ]
+  },
+  "constitution": {
+    "score": 100.0,
+    "violations": [],
+    "applicable_principles": [
+      2,
+      7
+    ]
+  },
+  "traceability": {
+    "score": 25.0,
+    "issue_links": [],
+    "adr_links": [],
+    "spec_links": [],
+    "issues": [
+      {
+        "type": "traceability",
+        "severity": "MEDIUM",
+        "message": "No issue links found",
+        "line_number": null,
+        "recommendation": "Add links to related issues (FEATURE-*, BUG-*, etc.)"
+      }
+    ]
+  },
+  "links": {
+    "score": 100,
+    "total_links": 0,
+    "valid_links": 0,
+    "broken_links": [],
+    "issues": []
+  },
+  "analysis_time": 0.0010225772857666016,
+  "cache_hit": false
+}

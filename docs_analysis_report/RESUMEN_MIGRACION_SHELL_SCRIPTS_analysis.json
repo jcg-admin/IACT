@@ -1,0 +1,98 @@
+{
+  "file_path": "docs/RESUMEN_MIGRACION_SHELL_SCRIPTS.md",
+  "domain": "Other",
+  "overall_score": 62.125,
+  "structure": {
+    "score": 47.5,
+    "has_h1": false,
+    "heading_hierarchy_valid": false,
+    "has_frontmatter": false,
+    "required_sections_present": [
+      "OBJETIVO CUMPLIDO",
+      "RESULTADOS CUANTITATIVOS",
+      "AN\u00c1LISIS DE CALIDAD",
+      "BENEFICIOS OBTENIDOS",
+      "CASOS DE USO VALIDADOS",
+      "PROBLEMAS DETECTADOS Y CORREGIDOS",
+      "PR\u00d3XIMOS PASOS RECOMENDADOS",
+      "M\u00c9TRICAS FINALES",
+      "LECCIONES APRENDIDAS",
+      "CONCLUSI\u00d3N"
+    ],
+    "issues": [
+      {
+        "type": "structure",
+        "severity": "HIGH",
+        "message": "Missing H1 title",
+        "line_number": null,
+        "recommendation": "Add single H1 title at document top"
+      },
+      {
+        "type": "structure",
+        "severity": "MEDIUM",
+        "message": "Invalid heading hierarchy",
+        "line_number": null,
+        "recommendation": "Ensure headings follow H1\u2192H2\u2192H3 order"
+      }
+    ]
+  },
+  "quality": {
+    "score": 55.00000000000001,
+    "readability_score": 50.0,
+    "completeness_score": 0.34,
+    "formatting_score": 0.7000000000000001,
+    "metrics": {
+      "readability": 50.0,
+      "completeness": 0.34,
+      "formatting": 0.7000000000000001
+    },
+    "issues": [
+      {
+        "type": "quality",
+        "severity": "LOW",
+        "message": "9 code blocks missing language identifier",
+        "line_number": null,
+        "recommendation": "Add language: ```python, ```bash, etc."
+      },
+      {
+        "type": "quality",
+        "severity": "LOW",
+        "message": "Possibly malformed tables detected",
+        "line_number": null,
+        "recommendation": "Ensure tables have proper | separators"
+      }
+    ]
+  },
+  "constitution": {
+    "score": 100.0,
+    "violations": [],
+    "applicable_principles": [
+      2,
+      7
+    ]
+  },
+  "traceability": {
+    "score": 25.0,
+    "issue_links": [],
+    "adr_links": [],
+    "spec_links": [],
+    "issues": [
+      {
+        "type": "traceability",
+        "severity": "MEDIUM",
+        "message": "No issue links found",
+        "line_number": null,
+        "recommendation": "Add links to related issues (FEATURE-*, BUG-*, etc.)"
+      }
+    ]
+  },
+  "links": {
+    "score": 100,
+    "total_links": 0,
+    "valid_links": 0,
+    "broken_links": [],
+    "issues": []
+  },
+  "analysis_time": 0.0008516311645507812,
+  "cache_hit": false
+}

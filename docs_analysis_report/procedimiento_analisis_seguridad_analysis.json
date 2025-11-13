@@ -1,0 +1,150 @@
+{
+  "file_path": "docs/gobernanza/procesos/procedimientos/procedimiento_analisis_seguridad.md",
+  "domain": "Governance",
+  "overall_score": 66.5,
+  "structure": {
+    "score": 99.99999999999999,
+    "has_h1": true,
+    "heading_hierarchy_valid": true,
+    "has_frontmatter": true,
+    "required_sections_present": [
+      "Prop\u00f3sito",
+      "Alcance",
+      "P\u00e1gina padre",
+      "Metodolog\u00edas Aplicables",
+      "Roles y Responsabilidades",
+      "Proceso Paso a Paso",
+      "1. Contexto y Alcance",
+      "2. Superficie de Ataque",
+      "4. An\u00e1lisis STRIDE",
+      "3. Modelado de Amenazas - DFD",
+      "5. Cat\u00e1logo de Amenazas",
+      "8. Controles y Mitigaciones",
+      "6. Matriz de Riesgos",
+      "10. M\u00e9tricas de Seguridad",
+      "Herramientas y Referencias",
+      "Ejemplos del Proyecto",
+      "Preguntas Frecuentes (FAQ)",
+      "Control de Versiones",
+      "Aprobaciones"
+    ],
+    "issues": []
+  },
+  "quality": {
+    "score": 55.00000000000001,
+    "readability_score": 50.0,
+    "completeness_score": 0.34,
+    "formatting_score": 0.7000000000000001,
+    "metrics": {
+      "readability": 50.0,
+      "completeness": 0.34,
+      "formatting": 0.7000000000000001
+    },
+    "issues": [
+      {
+        "type": "quality",
+        "severity": "LOW",
+        "message": "14 code blocks missing language identifier",
+        "line_number": null,
+        "recommendation": "Add language: ```python, ```bash, etc."
+      },
+      {
+        "type": "quality",
+        "severity": "LOW",
+        "message": "Possibly malformed tables detected",
+        "line_number": null,
+        "recommendation": "Ensure tables have proper | separators"
+      }
+    ]
+  },
+  "constitution": {
+    "score": 100.0,
+    "violations": [],
+    "applicable_principles": [
+      2,
+      7
+    ]
+  },
+  "traceability": {
+    "score": 25.0,
+    "issue_links": [],
+    "adr_links": [],
+    "spec_links": [],
+    "issues": [
+      {
+        "type": "traceability",
+        "severity": "MEDIUM",
+        "message": "No issue links found",
+        "line_number": null,
+        "recommendation": "Add links to related issues (FEATURE-*, BUG-*, etc.)"
+      }
+    ]
+  },
+  "links": {
+    "score": 12.5,
+    "total_links": 8,
+    "valid_links": 1,
+    "broken_links": [
+      "readme.md",
+      "../readme.md",
+      "https://versprite.com/blog/what-is-pasta-threat-modeling/",
+      "https://linddun.org/",
+      "https://owasp.org/Top10/",
+      "https://cwe.mitre.org/",
+      "https://www.first.org/cvss/"
+    ],
+    "issues": [
+      {
+        "type": "link",
+        "severity": "HIGH",
+        "message": "Broken internal link: readme.md",
+        "line_number": null,
+        "recommendation": "Fix path or create missing file"
+      },
+      {
+        "type": "link",
+        "severity": "HIGH",
+        "message": "Broken internal link: ../readme.md",
+        "line_number": null,
+        "recommendation": "Fix path or create missing file"
+      },
+      {
+        "type": "link",
+        "severity": "MEDIUM",
+        "message": "Broken external link: https://versprite.com/blog/what-is-pasta-threat-modeling/",
+        "line_number": null,
+        "recommendation": "Update or remove broken link"
+      },
+      {
+        "type": "link",
+        "severity": "MEDIUM",
+        "message": "Broken external link: https://linddun.org/",
+        "line_number": null,
+        "recommendation": "Update or remove broken link"
+      },
+      {
+        "type": "link",
+        "severity": "MEDIUM",
+        "message": "Broken external link: https://owasp.org/Top10/",
+        "line_number": null,
+        "recommendation": "Update or remove broken link"
+      },
+      {
+        "type": "link",
+        "severity": "MEDIUM",
+        "message": "Broken external link: https://cwe.mitre.org/",
+        "line_number": null,
+        "recommendation": "Update or remove broken link"
+      },
+      {
+        "type": "link",
+        "severity": "MEDIUM",
+        "message": "Broken external link: https://www.first.org/cvss/",
+        "line_number": null,
+        "recommendation": "Update or remove broken link"
+      }
+    ]
+  },
+  "analysis_time": 2.3237249851226807,
+  "cache_hit": false
+}

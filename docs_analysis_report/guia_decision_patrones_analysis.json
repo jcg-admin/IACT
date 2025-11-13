@@ -1,0 +1,116 @@
+{
+  "file_path": "docs/backend/arquitectura/guia_decision_patrones.md",
+  "domain": "Backend",
+  "overall_score": 50.666666666666664,
+  "structure": {
+    "score": 54.99999999999999,
+    "has_h1": false,
+    "heading_hierarchy_valid": false,
+    "has_frontmatter": true,
+    "required_sections_present": [
+      "OBJETIVO Prop\u00f3sito",
+      "FAST Decision Tree (5 Preguntas)",
+      "STATS Tabla Comparativa R\u00e1pida",
+      "\ud83d\udeab Cu\u00e1ndo NO Usar Service Layer",
+      "OK Cu\u00e1ndo S\u00cd Usar Service Layer",
+      "NOTA Ejemplos Reales del Proyecto",
+      "\ud83c\udf93 Reglas de Oro",
+      "BUSCAR Checklist de Decisi\u00f3n",
+      "DOCS Referencias",
+      "[IDEA] Tips Finales"
+    ],
+    "issues": [
+      {
+        "type": "structure",
+        "severity": "HIGH",
+        "message": "Missing H1 title",
+        "line_number": null,
+        "recommendation": "Add single H1 title at document top"
+      },
+      {
+        "type": "structure",
+        "severity": "MEDIUM",
+        "message": "Invalid heading hierarchy",
+        "line_number": null,
+        "recommendation": "Ensure headings follow H1\u2192H2\u2192H3 order"
+      }
+    ]
+  },
+  "quality": {
+    "score": 55.00000000000001,
+    "readability_score": 50.0,
+    "completeness_score": 0.34,
+    "formatting_score": 0.7000000000000001,
+    "metrics": {
+      "readability": 50.0,
+      "completeness": 0.34,
+      "formatting": 0.7000000000000001
+    },
+    "issues": [
+      {
+        "type": "quality",
+        "severity": "LOW",
+        "message": "26 code blocks missing language identifier",
+        "line_number": null,
+        "recommendation": "Add language: ```python, ```bash, etc."
+      },
+      {
+        "type": "quality",
+        "severity": "LOW",
+        "message": "Possibly malformed tables detected",
+        "line_number": null,
+        "recommendation": "Ensure tables have proper | separators"
+      }
+    ]
+  },
+  "constitution": {
+    "score": 50.0,
+    "violations": [
+      {
+        "type": "constitution",
+        "severity": "HIGH",
+        "message": "Found 2 emojis (Principle 2 violation)",
+        "line_number": null,
+        "recommendation": "Remove all emojis from documentation"
+      }
+    ],
+    "applicable_principles": [
+      2,
+      7
+    ]
+  },
+  "traceability": {
+    "score": 25.0,
+    "issue_links": [],
+    "adr_links": [],
+    "spec_links": [],
+    "issues": [
+      {
+        "type": "traceability",
+        "severity": "MEDIUM",
+        "message": "No issue links found",
+        "line_number": null,
+        "recommendation": "Add links to related issues (FEATURE-*, BUG-*, etc.)"
+      }
+    ]
+  },
+  "links": {
+    "score": 66.66666666666666,
+    "total_links": 3,
+    "valid_links": 2,
+    "broken_links": [
+      "../../solicitudes/sc02/analisis_funcion_real_apps.md"
+    ],
+    "issues": [
+      {
+        "type": "link",
+        "severity": "HIGH",
+        "message": "Broken internal link: ../../solicitudes/sc02/analisis_funcion_real_apps.md",
+        "line_number": null,
+        "recommendation": "Fix path or create missing file"
+      }
+    ]
+  },
+  "analysis_time": 0.0031957626342773438,
+  "cache_hit": false
+}

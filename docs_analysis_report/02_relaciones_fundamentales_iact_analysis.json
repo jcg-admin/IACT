@@ -1,0 +1,90 @@
+{
+  "file_path": "docs/gobernanza/marco_integrado/02_relaciones_fundamentales_iact.md",
+  "domain": "Governance",
+  "overall_score": 73.58333333333333,
+  "structure": {
+    "score": 99.99999999999999,
+    "has_h1": true,
+    "heading_hierarchy_valid": true,
+    "has_frontmatter": true,
+    "required_sections_present": [
+      "Navegaci\u00f3n",
+      "1. Procesos \u2192 Casos de Uso",
+      "2. Casos de Uso \u2192 Requisitos Funcionales",
+      "3. Reglas de Negocio \u2192 Todo lo Dem\u00e1s",
+      "4. Procedimientos \u2192 Requisitos Detallados de UI",
+      "5. Patrones de Trazabilidad Completa",
+      "Referencias del Proyecto"
+    ],
+    "issues": []
+  },
+  "quality": {
+    "score": 55.00000000000001,
+    "readability_score": 50.0,
+    "completeness_score": 0.34,
+    "formatting_score": 0.7000000000000001,
+    "metrics": {
+      "readability": 50.0,
+      "completeness": 0.34,
+      "formatting": 0.7000000000000001
+    },
+    "issues": [
+      {
+        "type": "quality",
+        "severity": "LOW",
+        "message": "34 code blocks missing language identifier",
+        "line_number": null,
+        "recommendation": "Add language: ```python, ```bash, etc."
+      },
+      {
+        "type": "quality",
+        "severity": "LOW",
+        "message": "Possibly malformed tables detected",
+        "line_number": null,
+        "recommendation": "Ensure tables have proper | separators"
+      }
+    ]
+  },
+  "constitution": {
+    "score": 100.0,
+    "violations": [],
+    "applicable_principles": [
+      2,
+      7
+    ]
+  },
+  "traceability": {
+    "score": 25.0,
+    "issue_links": [],
+    "adr_links": [],
+    "spec_links": [],
+    "issues": [
+      {
+        "type": "traceability",
+        "severity": "MEDIUM",
+        "message": "No issue links found",
+        "line_number": null,
+        "recommendation": "Add links to related issues (FEATURE-*, BUG-*, etc.)"
+      }
+    ]
+  },
+  "links": {
+    "score": 83.33333333333334,
+    "total_links": 6,
+    "valid_links": 5,
+    "broken_links": [
+      "05_casos_practicos_iact.md"
+    ],
+    "issues": [
+      {
+        "type": "link",
+        "severity": "HIGH",
+        "message": "Broken internal link: 05_casos_practicos_iact.md",
+        "line_number": null,
+        "recommendation": "Fix path or create missing file"
+      }
+    ]
+  },
+  "analysis_time": 0.004881143569946289,
+  "cache_hit": false
+}

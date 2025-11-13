@@ -1,0 +1,114 @@
+{
+  "file_path": "docs/gobernanza/documentacion_corporativa.md",
+  "domain": "Governance",
+  "overall_score": 58.375,
+  "structure": {
+    "score": 72.5,
+    "has_h1": false,
+    "heading_hierarchy_valid": true,
+    "has_frontmatter": false,
+    "required_sections_present": [
+      "Secci\u00f3n 0 - Principios fundamentales de documentaci\u00f3n",
+      "Secci\u00f3n 1 - Introducci\u00f3n y fundamentaci\u00f3n",
+      "Secci\u00f3n 2 - Filosof\u00eda de tres niveles",
+      "Secci\u00f3n 3 - Sistematizaci\u00f3n vs. automatizaci\u00f3n",
+      "Secci\u00f3n 4 - Arquitectura del espacio documental",
+      "Secci\u00f3n 5 - Sistema de codificaci\u00f3n y nomenclatura",
+      "Secci\u00f3n 6 - Sistema de trazabilidad multidimensional",
+      "Secci\u00f3n 7 - Workflows documentales",
+      "Disparador",
+      "Prerrequisitos",
+      "Pasos",
+      "Salidas",
+      "Roles",
+      "Secci\u00f3n 8 - Fase 1: Iniciaci\u00f3n y planificaci\u00f3n",
+      "Secci\u00f3n 9 - Fase 2: An\u00e1lisis de requisitos",
+      "Secci\u00f3n 10 - Fase 3: Dise\u00f1o",
+      "Secci\u00f3n 11 - Fase 4: Desarrollo",
+      "Secci\u00f3n 12 - Fase 5: Testing",
+      "Secci\u00f3n 13 - Fase 6: Deployment",
+      "Secci\u00f3n 14 - Fase 7: Mantenimiento y soporte",
+      "Secci\u00f3n 15 - Gobierno y gesti\u00f3n",
+      "Anexos",
+      "Resumen ejecutivo"
+    ],
+    "issues": [
+      {
+        "type": "structure",
+        "severity": "HIGH",
+        "message": "Missing H1 title",
+        "line_number": null,
+        "recommendation": "Add single H1 title at document top"
+      }
+    ]
+  },
+  "quality": {
+    "score": 55.00000000000001,
+    "readability_score": 50.0,
+    "completeness_score": 0.34,
+    "formatting_score": 0.7000000000000001,
+    "metrics": {
+      "readability": 50.0,
+      "completeness": 0.34,
+      "formatting": 0.7000000000000001
+    },
+    "issues": [
+      {
+        "type": "quality",
+        "severity": "LOW",
+        "message": "21 code blocks missing language identifier",
+        "line_number": null,
+        "recommendation": "Add language: ```python, ```bash, etc."
+      },
+      {
+        "type": "quality",
+        "severity": "LOW",
+        "message": "Possibly malformed tables detected",
+        "line_number": null,
+        "recommendation": "Ensure tables have proper | separators"
+      }
+    ]
+  },
+  "constitution": {
+    "score": 100.0,
+    "violations": [],
+    "applicable_principles": [
+      2,
+      7
+    ]
+  },
+  "traceability": {
+    "score": 25.0,
+    "issue_links": [],
+    "adr_links": [],
+    "spec_links": [],
+    "issues": [
+      {
+        "type": "traceability",
+        "severity": "MEDIUM",
+        "message": "No issue links found",
+        "line_number": null,
+        "recommendation": "Add links to related issues (FEATURE-*, BUG-*, etc.)"
+      }
+    ]
+  },
+  "links": {
+    "score": 0.0,
+    "total_links": 1,
+    "valid_links": 0,
+    "broken_links": [
+      "plantillas/plantilla_seccion_limitaciones.md"
+    ],
+    "issues": [
+      {
+        "type": "link",
+        "severity": "HIGH",
+        "message": "Broken internal link: plantillas/plantilla_seccion_limitaciones.md",
+        "line_number": null,
+        "recommendation": "Fix path or create missing file"
+      }
+    ]
+  },
+  "analysis_time": 0.0021049976348876953,
+  "cache_hit": false
+}

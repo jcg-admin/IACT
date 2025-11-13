@@ -1,0 +1,100 @@
+{
+  "file_path": "docs/ai_capabilities/prompting/AUTO_COT_IMPLEMENTATION.md",
+  "domain": "Other",
+  "overall_score": 64.6,
+  "structure": {
+    "score": 47.5,
+    "has_h1": false,
+    "heading_hierarchy_valid": false,
+    "has_frontmatter": false,
+    "required_sections_present": [
+      "Overview",
+      "Implementation Architecture",
+      "Code Example",
+      "Features Implemented",
+      "Benefits Realized",
+      "Experimental Results (Internal)",
+      "Future Enhancements",
+      "Integration with Other Agents",
+      "Best Practices",
+      "Limitations and Mitigation",
+      "Metrics and Monitoring",
+      "References"
+    ],
+    "issues": [
+      {
+        "type": "structure",
+        "severity": "HIGH",
+        "message": "Missing H1 title",
+        "line_number": null,
+        "recommendation": "Add single H1 title at document top"
+      },
+      {
+        "type": "structure",
+        "severity": "MEDIUM",
+        "message": "Invalid heading hierarchy",
+        "line_number": null,
+        "recommendation": "Ensure headings follow H1\u2192H2\u2192H3 order"
+      }
+    ]
+  },
+  "quality": {
+    "score": 63.25000000000001,
+    "readability_score": 50.0,
+    "completeness_score": 0.67,
+    "formatting_score": 0.7000000000000001,
+    "metrics": {
+      "readability": 50.0,
+      "completeness": 0.67,
+      "formatting": 0.7000000000000001
+    },
+    "issues": [
+      {
+        "type": "quality",
+        "severity": "LOW",
+        "message": "30 code blocks missing language identifier",
+        "line_number": null,
+        "recommendation": "Add language: ```python, ```bash, etc."
+      },
+      {
+        "type": "quality",
+        "severity": "LOW",
+        "message": "Possibly malformed tables detected",
+        "line_number": null,
+        "recommendation": "Ensure tables have proper | separators"
+      }
+    ]
+  },
+  "constitution": {
+    "score": 100.0,
+    "violations": [],
+    "applicable_principles": [
+      2,
+      7
+    ]
+  },
+  "traceability": {
+    "score": 25.0,
+    "issue_links": [],
+    "adr_links": [],
+    "spec_links": [],
+    "issues": [
+      {
+        "type": "traceability",
+        "severity": "MEDIUM",
+        "message": "No issue links found",
+        "line_number": null,
+        "recommendation": "Add links to related issues (FEATURE-*, BUG-*, etc.)"
+      }
+    ]
+  },
+  "links": {
+    "score": 100,
+    "total_links": 0,
+    "valid_links": 0,
+    "broken_links": [],
+    "issues": []
+  },
+  "analysis_time": 0.0010142326354980469,
+  "cache_hit": false
+}

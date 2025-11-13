@@ -1,0 +1,114 @@
+{
+  "file_path": "docs/adr/adr_2025_009_frontend_postponement.md",
+  "domain": "Other",
+  "overall_score": 77.90454545454546,
+  "structure": {
+    "score": 99.99999999999999,
+    "has_h1": true,
+    "heading_hierarchy_valid": true,
+    "has_frontmatter": true,
+    "required_sections_present": [
+      "Contexto y Problema",
+      "Factores de Decision",
+      "Opciones Consideradas",
+      "Decision",
+      "Consecuencias",
+      "Plan de Implementacion",
+      "Validacion y Metricas",
+      "Estado de ADRs Existentes",
+      "Requisitos Funcionales Frontend",
+      "Alternativas Descartadas",
+      "Referencias",
+      "Notas Adicionales"
+    ],
+    "issues": []
+  },
+  "quality": {
+    "score": 68.5,
+    "readability_score": 50.0,
+    "completeness_score": 0.34,
+    "formatting_score": 1.0,
+    "metrics": {
+      "readability": 50.0,
+      "completeness": 0.34,
+      "formatting": 1.0
+    },
+    "issues": []
+  },
+  "constitution": {
+    "score": 100.0,
+    "violations": [],
+    "applicable_principles": [
+      2,
+      7
+    ]
+  },
+  "traceability": {
+    "score": 46.0,
+    "issue_links": [],
+    "adr_links": [
+      "ADR-2025-009"
+    ],
+    "spec_links": [],
+    "issues": [
+      {
+        "type": "traceability",
+        "severity": "MEDIUM",
+        "message": "No issue links found",
+        "line_number": null,
+        "recommendation": "Add links to related issues (FEATURE-*, BUG-*, etc.)"
+      }
+    ]
+  },
+  "links": {
+    "score": 54.54545454545454,
+    "total_links": 11,
+    "valid_links": 6,
+    "broken_links": [
+      "http://localhost:8000/api/docs/",
+      "http://localhost:8000/api/schema/",
+      "https://www.metabase.com/docs/",
+      "https://docs.djangoproject.com/en/4.2/ref/contrib/admin/",
+      "https://grafana.com/docs/"
+    ],
+    "issues": [
+      {
+        "type": "link",
+        "severity": "MEDIUM",
+        "message": "Broken external link: http://localhost:8000/api/docs/",
+        "line_number": null,
+        "recommendation": "Update or remove broken link"
+      },
+      {
+        "type": "link",
+        "severity": "MEDIUM",
+        "message": "Broken external link: http://localhost:8000/api/schema/",
+        "line_number": null,
+        "recommendation": "Update or remove broken link"
+      },
+      {
+        "type": "link",
+        "severity": "MEDIUM",
+        "message": "Broken external link: https://www.metabase.com/docs/",
+        "line_number": null,
+        "recommendation": "Update or remove broken link"
+      },
+      {
+        "type": "link",
+        "severity": "MEDIUM",
+        "message": "Broken external link: https://docs.djangoproject.com/en/4.2/ref/contrib/admin/",
+        "line_number": null,
+        "recommendation": "Update or remove broken link"
+      },
+      {
+        "type": "link",
+        "severity": "MEDIUM",
+        "message": "Broken external link: https://grafana.com/docs/",
+        "line_number": null,
+        "recommendation": "Update or remove broken link"
+      }
+    ]
+  },
+  "analysis_time": 2.211337089538574,
+  "cache_hit": false
+}

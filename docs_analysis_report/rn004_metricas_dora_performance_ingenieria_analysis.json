@@ -1,0 +1,79 @@
+{
+  "file_path": "docs/backend/requisitos/negocio/rn004_metricas_dora_performance_ingenieria.md",
+  "domain": "Backend",
+  "overall_score": 81.1,
+  "structure": {
+    "score": 99.99999999999999,
+    "has_h1": true,
+    "heading_hierarchy_valid": true,
+    "has_frontmatter": true,
+    "required_sections_present": [
+      "1. Declaraci\u00f3n del Requisito",
+      "2. Justificaci\u00f3n de Negocio",
+      "3. Alcance",
+      "4. Stakeholders",
+      "5. Criterios de Aceptaci\u00f3n del Negocio",
+      "6. Dependencias",
+      "7. Riesgos",
+      "8. Supuestos",
+      "9. Trazabilidad",
+      "10. Referencias",
+      "11. Historial de Cambios"
+    ],
+    "issues": []
+  },
+  "quality": {
+    "score": 64.0,
+    "readability_score": 50.0,
+    "completeness_score": 0.34,
+    "formatting_score": 0.9,
+    "metrics": {
+      "readability": 50.0,
+      "completeness": 0.34,
+      "formatting": 0.9
+    },
+    "issues": [
+      {
+        "type": "quality",
+        "severity": "LOW",
+        "message": "Possibly malformed tables detected",
+        "line_number": null,
+        "recommendation": "Ensure tables have proper | separators"
+      }
+    ]
+  },
+  "constitution": {
+    "score": 100.0,
+    "violations": [],
+    "applicable_principles": [
+      2,
+      7
+    ]
+  },
+  "traceability": {
+    "score": 46.0,
+    "issue_links": [],
+    "adr_links": [
+      "ADR-2025-003"
+    ],
+    "spec_links": [],
+    "issues": [
+      {
+        "type": "traceability",
+        "severity": "MEDIUM",
+        "message": "No issue links found",
+        "line_number": null,
+        "recommendation": "Add links to related issues (FEATURE-*, BUG-*, etc.)"
+      }
+    ]
+  },
+  "links": {
+    "score": 100,
+    "total_links": 0,
+    "valid_links": 0,
+    "broken_links": [],
+    "issues": []
+  },
+  "analysis_time": 0.0006692409515380859,
+  "cache_hit": false
+}

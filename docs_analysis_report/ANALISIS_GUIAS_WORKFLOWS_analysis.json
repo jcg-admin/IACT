@@ -1,0 +1,110 @@
+{
+  "file_path": "docs/gobernanza/ANALISIS_GUIAS_WORKFLOWS.md",
+  "domain": "Governance",
+  "overall_score": 72.725,
+  "structure": {
+    "score": 80.0,
+    "has_h1": false,
+    "heading_hierarchy_valid": true,
+    "has_frontmatter": true,
+    "required_sections_present": [
+      "RESUMEN EJECUTIVO",
+      "SECCION 1: WORKFLOWS GITHUB ACTIONS (16 workflows)",
+      "SECCION 2: SCRIPTS DE AUTOMATIZACION (88 scripts)",
+      "SECCION 3: PROCEDIMIENTOS DOCUMENTADOS (11 procedimientos)",
+      "SECCION 4: CHECKLISTS (6 checklists)",
+      "SECCION 5: AGENTES SDLC (6 agentes)",
+      "SECCION 6: FASES SDLC (7 fases)",
+      "SECCION 7: GUIAS TRANSVERSALES (4 guias)",
+      "SECCION 8: CALCULO TOTAL DE GUIAS",
+      "SECCION 9: PRIORIZACION DE GUIAS",
+      "SECCION 10: ESTRATEGIA DE GENERACION",
+      "SECCION 11: ESTRUCTURA RECOMENDADA DE GUIAS",
+      "Proposito",
+      "Cuando se activa",
+      "Pre-requisitos",
+      "Pasos",
+      "Como interpretar resultados",
+      "Troubleshooting",
+      "Referencias",
+      "Proposito",
+      "Ubicacion",
+      "Pre-requisitos",
+      "Como ejecutar",
+      "Parametros",
+      "Output esperado",
+      "Casos de uso",
+      "Troubleshooting",
+      "SECCION 12: ROADMAP DE IMPLEMENTACION",
+      "CONCLUSION"
+    ],
+    "issues": [
+      {
+        "type": "structure",
+        "severity": "HIGH",
+        "message": "Missing H1 title",
+        "line_number": null,
+        "recommendation": "Add single H1 title at document top"
+      }
+    ]
+  },
+  "quality": {
+    "score": 63.25000000000001,
+    "readability_score": 50.0,
+    "completeness_score": 0.67,
+    "formatting_score": 0.7000000000000001,
+    "metrics": {
+      "readability": 50.0,
+      "completeness": 0.67,
+      "formatting": 0.7000000000000001
+    },
+    "issues": [
+      {
+        "type": "quality",
+        "severity": "LOW",
+        "message": "14 code blocks missing language identifier",
+        "line_number": null,
+        "recommendation": "Add language: ```python, ```bash, etc."
+      },
+      {
+        "type": "quality",
+        "severity": "LOW",
+        "message": "Possibly malformed tables detected",
+        "line_number": null,
+        "recommendation": "Ensure tables have proper | separators"
+      }
+    ]
+  },
+  "constitution": {
+    "score": 100.0,
+    "violations": [],
+    "applicable_principles": [
+      2,
+      7
+    ]
+  },
+  "traceability": {
+    "score": 25.0,
+    "issue_links": [],
+    "adr_links": [],
+    "spec_links": [],
+    "issues": [
+      {
+        "type": "traceability",
+        "severity": "MEDIUM",
+        "message": "No issue links found",
+        "line_number": null,
+        "recommendation": "Add links to related issues (FEATURE-*, BUG-*, etc.)"
+      }
+    ]
+  },
+  "links": {
+    "score": 100,
+    "total_links": 0,
+    "valid_links": 0,
+    "broken_links": [],
+    "issues": []
+  },
+  "analysis_time": 0.0027534961700439453,
+  "cache_hit": false
+}

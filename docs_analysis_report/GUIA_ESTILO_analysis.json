@@ -1,0 +1,178 @@
+{
+  "file_path": "docs/gobernanza/estilos/GUIA_ESTILO.md",
+  "domain": "Governance",
+  "overall_score": 59.625,
+  "structure": {
+    "score": 54.99999999999999,
+    "has_h1": false,
+    "heading_hierarchy_valid": false,
+    "has_frontmatter": true,
+    "required_sections_present": [
+      "Prop\u00f3sito",
+      "Alcance",
+      "1. Uso de Emojis",
+      "Paso 1: Setup inicial ",
+      "Paso 1: Setup inicial",
+      "2. Formato de Documentaci\u00f3n Markdown",
+      "Secci\u00f3n Principal (H2)",
+      "3. Estilo de C\u00f3digo Python",
+      "4. Mensajes de Commit",
+      "5. Pull Requests",
+      "Summary",
+      "Technical Details",
+      "Test Plan",
+      "Related Issues",
+      "Breaking Changes",
+      "Deployment Notes",
+      "Checklist",
+      "6. Nombres de Archivos",
+      "7. Comentarios en C\u00f3digo",
+      "8. Estructura de Directorios",
+      "9. Testing",
+      "10. Documentaci\u00f3n de APIs",
+      "11. Versionado Sem\u00e1ntico",
+      "12. Validaci\u00f3n Autom\u00e1tica",
+      "13. M\u00e9tricas de Calidad",
+      "14. Excepciones a la Gu\u00eda",
+      "Excepci\u00f3n: Uso de emojis en UI de usuario final",
+      "15. Recursos Adicionales",
+      "Changelog",
+      "Contacto"
+    ],
+    "issues": [
+      {
+        "type": "structure",
+        "severity": "HIGH",
+        "message": "Missing H1 title",
+        "line_number": null,
+        "recommendation": "Add single H1 title at document top"
+      },
+      {
+        "type": "structure",
+        "severity": "MEDIUM",
+        "message": "Invalid heading hierarchy",
+        "line_number": null,
+        "recommendation": "Ensure headings follow H1\u2192H2\u2192H3 order"
+      }
+    ]
+  },
+  "quality": {
+    "score": 63.25000000000001,
+    "readability_score": 50.0,
+    "completeness_score": 0.67,
+    "formatting_score": 0.7000000000000001,
+    "metrics": {
+      "readability": 50.0,
+      "completeness": 0.67,
+      "formatting": 0.7000000000000001
+    },
+    "issues": [
+      {
+        "type": "quality",
+        "severity": "LOW",
+        "message": "45 code blocks missing language identifier",
+        "line_number": null,
+        "recommendation": "Add language: ```python, ```bash, etc."
+      },
+      {
+        "type": "quality",
+        "severity": "LOW",
+        "message": "Possibly malformed tables detected",
+        "line_number": null,
+        "recommendation": "Ensure tables have proper | separators"
+      }
+    ]
+  },
+  "constitution": {
+    "score": 100.0,
+    "violations": [],
+    "applicable_principles": [
+      2,
+      7
+    ]
+  },
+  "traceability": {
+    "score": 46.0,
+    "issue_links": [],
+    "adr_links": [
+      "ADR-2025-007"
+    ],
+    "spec_links": [],
+    "issues": [
+      {
+        "type": "traceability",
+        "severity": "MEDIUM",
+        "message": "No issue links found",
+        "line_number": null,
+        "recommendation": "Add links to related issues (FEATURE-*, BUG-*, etc.)"
+      }
+    ]
+  },
+  "links": {
+    "score": 0.0,
+    "total_links": 7,
+    "valid_links": 0,
+    "broken_links": [
+      "https://example.com",
+      "https://www.conventionalcommits.org/",
+      "https://google.github.io/styleguide/pyguide.html",
+      "https://pep8.org/",
+      "https://www.python.org/dev/peps/pep-0257/",
+      "https://semver.org/",
+      "https://keepachangelog.com/"
+    ],
+    "issues": [
+      {
+        "type": "link",
+        "severity": "MEDIUM",
+        "message": "Broken external link: https://example.com",
+        "line_number": null,
+        "recommendation": "Update or remove broken link"
+      },
+      {
+        "type": "link",
+        "severity": "MEDIUM",
+        "message": "Broken external link: https://www.conventionalcommits.org/",
+        "line_number": null,
+        "recommendation": "Update or remove broken link"
+      },
+      {
+        "type": "link",
+        "severity": "MEDIUM",
+        "message": "Broken external link: https://google.github.io/styleguide/pyguide.html",
+        "line_number": null,
+        "recommendation": "Update or remove broken link"
+      },
+      {
+        "type": "link",
+        "severity": "MEDIUM",
+        "message": "Broken external link: https://pep8.org/",
+        "line_number": null,
+        "recommendation": "Update or remove broken link"
+      },
+      {
+        "type": "link",
+        "severity": "MEDIUM",
+        "message": "Broken external link: https://www.python.org/dev/peps/pep-0257/",
+        "line_number": null,
+        "recommendation": "Update or remove broken link"
+      },
+      {
+        "type": "link",
+        "severity": "MEDIUM",
+        "message": "Broken external link: https://semver.org/",
+        "line_number": null,
+        "recommendation": "Update or remove broken link"
+      },
+      {
+        "type": "link",
+        "severity": "MEDIUM",
+        "message": "Broken external link: https://keepachangelog.com/",
+        "line_number": null,
+        "recommendation": "Update or remove broken link"
+      }
+    ]
+  },
+  "analysis_time": 2.5537827014923096,
+  "cache_hit": false
+}

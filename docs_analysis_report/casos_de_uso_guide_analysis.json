@@ -1,0 +1,140 @@
+{
+  "file_path": "docs/gobernanza/casos_de_uso_guide.md",
+  "domain": "Governance",
+  "overall_score": 67.69565217391305,
+  "structure": {
+    "score": 74.99999999999999,
+    "has_h1": true,
+    "heading_hierarchy_valid": false,
+    "has_frontmatter": true,
+    "required_sections_present": [
+      "P\u00e1gina padre",
+      "Informaci\u00f3n clave",
+      "1. Nomenclatura de Casos de Uso",
+      "2. Estructura de Especificaci\u00f3n",
+      "Identificaci\u00f3n",
+      "Resumen",
+      "Actores",
+      "Precondiciones",
+      "Flujo principal",
+      "Flujos alternos",
+      "Flujos de excepci\u00f3n",
+      "Postcondiciones",
+      "Reglas de negocio vinculadas",
+      "Requisitos especiales",
+      "Frecuencia de uso",
+      "Supuestos",
+      "Restricciones",
+      "3. Diagramas UML",
+      "4. Niveles de Casos de Uso",
+      "5. Relaciones entre Casos de Uso",
+      "6. Trazabilidad",
+      "Trazabilidad",
+      "Requisitos derivados",
+      "7. Criterios de Calidad",
+      "Precondiciones",
+      "Precondiciones",
+      "8. Plantilla Completa",
+      "9. Proceso de Documentaci\u00f3n",
+      "10. Ejemplos Completos",
+      "11. Herramientas Recomendadas",
+      "12. Referencias",
+      "Estado de cumplimiento",
+      "Acciones prioritarias"
+    ],
+    "issues": [
+      {
+        "type": "structure",
+        "severity": "MEDIUM",
+        "message": "Invalid heading hierarchy",
+        "line_number": null,
+        "recommendation": "Ensure headings follow H1\u2192H2\u2192H3 order"
+      }
+    ]
+  },
+  "quality": {
+    "score": 55.00000000000001,
+    "readability_score": 50.0,
+    "completeness_score": 0.34,
+    "formatting_score": 0.7000000000000001,
+    "metrics": {
+      "readability": 50.0,
+      "completeness": 0.34,
+      "formatting": 0.7000000000000001
+    },
+    "issues": [
+      {
+        "type": "quality",
+        "severity": "LOW",
+        "message": "35 code blocks missing language identifier",
+        "line_number": null,
+        "recommendation": "Add language: ```python, ```bash, etc."
+      },
+      {
+        "type": "quality",
+        "severity": "LOW",
+        "message": "Possibly malformed tables detected",
+        "line_number": null,
+        "recommendation": "Ensure tables have proper | separators"
+      }
+    ]
+  },
+  "constitution": {
+    "score": 100.0,
+    "violations": [],
+    "applicable_principles": [
+      2,
+      7
+    ]
+  },
+  "traceability": {
+    "score": 25.0,
+    "issue_links": [],
+    "adr_links": [],
+    "spec_links": [],
+    "issues": [
+      {
+        "type": "traceability",
+        "severity": "MEDIUM",
+        "message": "No issue links found",
+        "line_number": null,
+        "recommendation": "Add links to related issues (FEATURE-*, BUG-*, etc.)"
+      }
+    ]
+  },
+  "links": {
+    "score": 86.95652173913044,
+    "total_links": 23,
+    "valid_links": 20,
+    "broken_links": [
+      "readme.md",
+      "../requisitos/readme.md",
+      "../qa/estrategia_qa.md"
+    ],
+    "issues": [
+      {
+        "type": "link",
+        "severity": "HIGH",
+        "message": "Broken internal link: readme.md",
+        "line_number": null,
+        "recommendation": "Fix path or create missing file"
+      },
+      {
+        "type": "link",
+        "severity": "HIGH",
+        "message": "Broken internal link: ../requisitos/readme.md",
+        "line_number": null,
+        "recommendation": "Fix path or create missing file"
+      },
+      {
+        "type": "link",
+        "severity": "HIGH",
+        "message": "Broken internal link: ../qa/estrategia_qa.md",
+        "line_number": null,
+        "recommendation": "Fix path or create missing file"
+      }
+    ]
+  },
+  "analysis_time": 0.015833377838134766,
+  "cache_hit": false
+}

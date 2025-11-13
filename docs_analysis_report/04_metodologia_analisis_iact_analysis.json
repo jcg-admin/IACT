@@ -1,0 +1,92 @@
+{
+  "file_path": "docs/gobernanza/marco_integrado/04_metodologia_analisis_iact.md",
+  "domain": "Governance",
+  "overall_score": 74.37777777777777,
+  "structure": {
+    "score": 99.99999999999999,
+    "has_h1": true,
+    "heading_hierarchy_valid": true,
+    "has_frontmatter": true,
+    "required_sections_present": [
+      "Navegaci\u00f3n",
+      "Introducci\u00f3n",
+      "FASE 1: An\u00e1lisis de Procesos y Reglas",
+      "FASE 2: Modelado de Casos de Uso",
+      "FASE 3: Especificaci\u00f3n de Requisitos",
+      "FASE 4: Documentaci\u00f3n de Procedimientos",
+      "Resumen del Flujo Completo",
+      "Referencias del Proyecto"
+    ],
+    "issues": []
+  },
+  "quality": {
+    "score": 59.5,
+    "readability_score": 50.0,
+    "completeness_score": 0.34,
+    "formatting_score": 0.8,
+    "metrics": {
+      "readability": 50.0,
+      "completeness": 0.34,
+      "formatting": 0.8
+    },
+    "issues": [
+      {
+        "type": "quality",
+        "severity": "LOW",
+        "message": "32 code blocks missing language identifier",
+        "line_number": null,
+        "recommendation": "Add language: ```python, ```bash, etc."
+      }
+    ]
+  },
+  "constitution": {
+    "score": 100.0,
+    "violations": [],
+    "applicable_principles": [
+      2,
+      7
+    ]
+  },
+  "traceability": {
+    "score": 25.0,
+    "issue_links": [],
+    "adr_links": [],
+    "spec_links": [],
+    "issues": [
+      {
+        "type": "traceability",
+        "severity": "MEDIUM",
+        "message": "No issue links found",
+        "line_number": null,
+        "recommendation": "Add links to related issues (FEATURE-*, BUG-*, etc.)"
+      }
+    ]
+  },
+  "links": {
+    "score": 77.77777777777779,
+    "total_links": 9,
+    "valid_links": 7,
+    "broken_links": [
+      "05_casos_practicos_iact.md",
+      "05_casos_practicos_iact.md"
+    ],
+    "issues": [
+      {
+        "type": "link",
+        "severity": "HIGH",
+        "message": "Broken internal link: 05_casos_practicos_iact.md",
+        "line_number": null,
+        "recommendation": "Fix path or create missing file"
+      },
+      {
+        "type": "link",
+        "severity": "HIGH",
+        "message": "Broken internal link: 05_casos_practicos_iact.md",
+        "line_number": null,
+        "recommendation": "Fix path or create missing file"
+      }
+    ]
+  },
+  "analysis_time": 0.00603032112121582,
+  "cache_hit": false
+}

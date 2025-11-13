@@ -1,0 +1,84 @@
+{
+  "file_path": "docs/ai/FINE_TUNING_TINYLLAMA.md",
+  "domain": "Other",
+  "overall_score": 64.725,
+  "structure": {
+    "score": 92.5,
+    "has_h1": true,
+    "heading_hierarchy_valid": true,
+    "has_frontmatter": false,
+    "required_sections_present": [
+      "1. Preparar el entorno",
+      "2. Preprocesar datos (UltraChat 200k)",
+      "3. Cargar TinyLlama con cuantizaci\u00f3n 4-bit",
+      "4. Configurar QLoRA",
+      "5. Entrenar con `SFTTrainer`",
+      "6. Mezclar adaptadores",
+      "7. Ajuste por preferencias (DPO)",
+      "8. Inferencia",
+      "9. Integrar con el proveedor `huggingface`",
+      "10. Buenas pr\u00e1cticas"
+    ],
+    "issues": []
+  },
+  "quality": {
+    "score": 59.5,
+    "readability_score": 50.0,
+    "completeness_score": 0.34,
+    "formatting_score": 0.8,
+    "metrics": {
+      "readability": 50.0,
+      "completeness": 0.34,
+      "formatting": 0.8
+    },
+    "issues": [
+      {
+        "type": "quality",
+        "severity": "LOW",
+        "message": "10 code blocks missing language identifier",
+        "line_number": null,
+        "recommendation": "Add language: ```python, ```bash, etc."
+      }
+    ]
+  },
+  "constitution": {
+    "score": 50.0,
+    "violations": [
+      {
+        "type": "constitution",
+        "severity": "CRITICAL",
+        "message": "Possible token exposure detected (Principle 7)",
+        "line_number": null,
+        "recommendation": "Remove token, use environment variables"
+      }
+    ],
+    "applicable_principles": [
+      2,
+      7
+    ]
+  },
+  "traceability": {
+    "score": 25.0,
+    "issue_links": [],
+    "adr_links": [],
+    "spec_links": [],
+    "issues": [
+      {
+        "type": "traceability",
+        "severity": "MEDIUM",
+        "message": "No issue links found",
+        "line_number": null,
+        "recommendation": "Add links to related issues (FEATURE-*, BUG-*, etc.)"
+      }
+    ]
+  },
+  "links": {
+    "score": 100,
+    "total_links": 0,
+    "valid_links": 0,
+    "broken_links": [],
+    "issues": []
+  },
+  "analysis_time": 0.0005381107330322266,
+  "cache_hit": false
+}

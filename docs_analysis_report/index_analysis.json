@@ -1,0 +1,141 @@
+{
+  "file_path": "docs/index.md",
+  "domain": "Other",
+  "overall_score": 75.075,
+  "structure": {
+    "score": 92.5,
+    "has_h1": true,
+    "heading_hierarchy_valid": true,
+    "has_frontmatter": false,
+    "required_sections_present": [
+      "[INICIO] Puntos de entrada r\u00e1pidos",
+      "[DOCS] Documentaci\u00f3n activa",
+      "[PROYECTO] Proyecto y planificaci\u00f3n",
+      "[PLANIFICADO] Visi\u00f3n futura (planificado)",
+      "[PLANTILLAS] Plantillas ([IMPLEMENTADO] 34 templates disponibles)",
+      "[LEGADO] Contenido legado y referencia",
+      "[ATENCION] Restricciones cr\u00edticas del proyecto",
+      "[METRICAS] M\u00e9tricas del proyecto (snapshot Nov 2025)",
+      "[ENLACES] Enlaces \u00fatiles"
+    ],
+    "issues": []
+  },
+  "quality": {
+    "score": 64.0,
+    "readability_score": 50.0,
+    "completeness_score": 0.34,
+    "formatting_score": 0.9,
+    "metrics": {
+      "readability": 50.0,
+      "completeness": 0.34,
+      "formatting": 0.9
+    },
+    "issues": [
+      {
+        "type": "quality",
+        "severity": "LOW",
+        "message": "Possibly malformed tables detected",
+        "line_number": null,
+        "recommendation": "Ensure tables have proper | separators"
+      }
+    ]
+  },
+  "constitution": {
+    "score": 100.0,
+    "violations": [],
+    "applicable_principles": [
+      2,
+      7
+    ]
+  },
+  "traceability": {
+    "score": 25.0,
+    "issue_links": [],
+    "adr_links": [],
+    "spec_links": [],
+    "issues": [
+      {
+        "type": "traceability",
+        "severity": "MEDIUM",
+        "message": "No issue links found",
+        "line_number": null,
+        "recommendation": "Add links to related issues (FEATURE-*, BUG-*, etc.)"
+      }
+    ]
+  },
+  "links": {
+    "score": 90.0,
+    "total_links": 80,
+    "valid_links": 72,
+    "broken_links": [
+      "qa/README.md",
+      "../scripts/disaster_recovery/",
+      "qa/README.md",
+      "https://www.iiba.org/standards-and-resources/babok/",
+      "https://www.pmi.org/pmbok-guide-standards",
+      "https://www.iso.org/standard/72089.html",
+      "https://dora.dev/dora-report-2025",
+      "https://www.conventionalcommits.org/"
+    ],
+    "issues": [
+      {
+        "type": "link",
+        "severity": "HIGH",
+        "message": "Broken internal link: qa/README.md",
+        "line_number": null,
+        "recommendation": "Fix path or create missing file"
+      },
+      {
+        "type": "link",
+        "severity": "HIGH",
+        "message": "Broken internal link: ../scripts/disaster_recovery/",
+        "line_number": null,
+        "recommendation": "Fix path or create missing file"
+      },
+      {
+        "type": "link",
+        "severity": "HIGH",
+        "message": "Broken internal link: qa/README.md",
+        "line_number": null,
+        "recommendation": "Fix path or create missing file"
+      },
+      {
+        "type": "link",
+        "severity": "MEDIUM",
+        "message": "Broken external link: https://www.iiba.org/standards-and-resources/babok/",
+        "line_number": null,
+        "recommendation": "Update or remove broken link"
+      },
+      {
+        "type": "link",
+        "severity": "MEDIUM",
+        "message": "Broken external link: https://www.pmi.org/pmbok-guide-standards",
+        "line_number": null,
+        "recommendation": "Update or remove broken link"
+      },
+      {
+        "type": "link",
+        "severity": "MEDIUM",
+        "message": "Broken external link: https://www.iso.org/standard/72089.html",
+        "line_number": null,
+        "recommendation": "Update or remove broken link"
+      },
+      {
+        "type": "link",
+        "severity": "MEDIUM",
+        "message": "Broken external link: https://dora.dev/dora-report-2025",
+        "line_number": null,
+        "recommendation": "Update or remove broken link"
+      },
+      {
+        "type": "link",
+        "severity": "MEDIUM",
+        "message": "Broken external link: https://www.conventionalcommits.org/",
+        "line_number": null,
+        "recommendation": "Update or remove broken link"
+      }
+    ]
+  },
+  "analysis_time": 2.944201707839966,
+  "cache_hit": false
+}

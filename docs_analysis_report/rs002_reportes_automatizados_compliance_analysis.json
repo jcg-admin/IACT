@@ -1,0 +1,85 @@
+{
+  "file_path": "docs/backend/requisitos/stakeholders/rs002_reportes_automatizados_compliance.md",
+  "domain": "Backend",
+  "overall_score": 75.25,
+  "structure": {
+    "score": 99.99999999999999,
+    "has_h1": true,
+    "heading_hierarchy_valid": true,
+    "has_frontmatter": true,
+    "required_sections_present": [
+      "1. Descripci\u00f3n del Requisito de Stakeholder",
+      "2. Perfil del Stakeholder",
+      "3. Criterios de Aceptaci\u00f3n del Stakeholder",
+      "4. Valor para el Stakeholder",
+      "5. Escenarios de Uso",
+      "6. Requisitos de Informaci\u00f3n",
+      "7. Derivaci\u00f3n a Requisitos de Sistema/Software",
+      "8. Validaci\u00f3n con el Stakeholder",
+      "9. Trazabilidad",
+      "10. Aprobaciones",
+      "11. Referencias",
+      "Control de Cambios"
+    ],
+    "issues": []
+  },
+  "quality": {
+    "score": 55.00000000000001,
+    "readability_score": 50.0,
+    "completeness_score": 0.34,
+    "formatting_score": 0.7000000000000001,
+    "metrics": {
+      "readability": 50.0,
+      "completeness": 0.34,
+      "formatting": 0.7000000000000001
+    },
+    "issues": [
+      {
+        "type": "quality",
+        "severity": "LOW",
+        "message": "3 code blocks missing language identifier",
+        "line_number": null,
+        "recommendation": "Add language: ```python, ```bash, etc."
+      },
+      {
+        "type": "quality",
+        "severity": "LOW",
+        "message": "Possibly malformed tables detected",
+        "line_number": null,
+        "recommendation": "Ensure tables have proper | separators"
+      }
+    ]
+  },
+  "constitution": {
+    "score": 100.0,
+    "violations": [],
+    "applicable_principles": [
+      2,
+      7
+    ]
+  },
+  "traceability": {
+    "score": 25.0,
+    "issue_links": [],
+    "adr_links": [],
+    "spec_links": [],
+    "issues": [
+      {
+        "type": "traceability",
+        "severity": "MEDIUM",
+        "message": "No issue links found",
+        "line_number": null,
+        "recommendation": "Add links to related issues (FEATURE-*, BUG-*, etc.)"
+      }
+    ]
+  },
+  "links": {
+    "score": 100,
+    "total_links": 0,
+    "valid_links": 0,
+    "broken_links": [],
+    "issues": []
+  },
+  "analysis_time": 0.0007488727569580078,
+  "cache_hit": false
+}

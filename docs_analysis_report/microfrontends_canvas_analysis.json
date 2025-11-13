@@ -1,0 +1,92 @@
+{
+  "file_path": "docs/frontend/arquitectura/microfrontends_canvas.md",
+  "domain": "Frontend",
+  "overall_score": 78.4,
+  "structure": {
+    "score": 99.99999999999999,
+    "has_h1": true,
+    "heading_hierarchy_valid": true,
+    "has_frontmatter": true,
+    "required_sections_present": [
+      "0. Prop\u00f3sito",
+      "1. Glosario m\u00ednimo",
+      "2. T\u00e9cnicas de integraci\u00f3n (cat\u00e1logo operativo)",
+      "3. Arquitecturas de alto nivel",
+      "4. Continuo Documentos \u2192 Aplicaciones",
+      "5. \u00c1rbol de decisi\u00f3n operativo",
+      "6. Matriz de compatibilidad de composici\u00f3n",
+      "7. Recomendaci\u00f3n base para un proyecto t\u00edpico de back-office con flujos cruzados",
+      "8. Contratos y gobernanza",
+      "9. Plan de migraci\u00f3n por fases",
+      "10. Checklists",
+      "11. KPIs y medici\u00f3n",
+      "12. Antipatrones comunes",
+      "13. Snippets de referencia",
+      "14. Plantilla de decisi\u00f3n por producto",
+      "15. Riesgos y mitigaciones",
+      "16. Resultado esperado"
+    ],
+    "issues": []
+  },
+  "quality": {
+    "score": 55.00000000000001,
+    "readability_score": 50.0,
+    "completeness_score": 0.34,
+    "formatting_score": 0.7000000000000001,
+    "metrics": {
+      "readability": 50.0,
+      "completeness": 0.34,
+      "formatting": 0.7000000000000001
+    },
+    "issues": [
+      {
+        "type": "quality",
+        "severity": "LOW",
+        "message": "3 code blocks missing language identifier",
+        "line_number": null,
+        "recommendation": "Add language: ```python, ```bash, etc."
+      },
+      {
+        "type": "quality",
+        "severity": "LOW",
+        "message": "Possibly malformed tables detected",
+        "line_number": null,
+        "recommendation": "Ensure tables have proper | separators"
+      }
+    ]
+  },
+  "constitution": {
+    "score": 100.0,
+    "violations": [],
+    "applicable_principles": [
+      2,
+      7
+    ]
+  },
+  "traceability": {
+    "score": 46.0,
+    "issue_links": [],
+    "adr_links": [
+      "ADR-2025-009"
+    ],
+    "spec_links": [],
+    "issues": [
+      {
+        "type": "traceability",
+        "severity": "MEDIUM",
+        "message": "No issue links found",
+        "line_number": null,
+        "recommendation": "Add links to related issues (FEATURE-*, BUG-*, etc.)"
+      }
+    ]
+  },
+  "links": {
+    "score": 100.0,
+    "total_links": 2,
+    "valid_links": 2,
+    "broken_links": [],
+    "issues": []
+  },
+  "analysis_time": 0.001996278762817383,
+  "cache_hit": false
+}

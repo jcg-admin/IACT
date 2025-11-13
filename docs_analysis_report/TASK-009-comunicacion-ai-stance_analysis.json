@@ -1,0 +1,111 @@
+{
+  "file_path": "docs/gobernanza/ai/TASK-009-comunicacion-ai-stance.md",
+  "domain": "Governance",
+  "overall_score": 72.15714285714286,
+  "structure": {
+    "score": 99.99999999999999,
+    "has_h1": true,
+    "heading_hierarchy_valid": true,
+    "has_frontmatter": true,
+    "required_sections_present": [
+      "Resumen Ejecutivo",
+      "Comunicado Oficial al Equipo",
+      "T\u00e9cnicas de Prompt Engineering para Agente",
+      "Agenda de Presentacion",
+      "Preguntas Frecuentes (FAQ)",
+      "Documentacion de Feedback",
+      "Proximos Pasos",
+      "Metricas de Comunicacion",
+      "Referencias",
+      "Criterios de Aceptacion",
+      "Notas"
+    ],
+    "issues": []
+  },
+  "quality": {
+    "score": 68.5,
+    "readability_score": 50.0,
+    "completeness_score": 0.34,
+    "formatting_score": 1.0,
+    "metrics": {
+      "readability": 50.0,
+      "completeness": 0.34,
+      "formatting": 1.0
+    },
+    "issues": []
+  },
+  "constitution": {
+    "score": 100.0,
+    "violations": [],
+    "applicable_principles": [
+      2,
+      7
+    ]
+  },
+  "traceability": {
+    "score": 25.0,
+    "issue_links": [],
+    "adr_links": [],
+    "spec_links": [],
+    "issues": [
+      {
+        "type": "traceability",
+        "severity": "MEDIUM",
+        "message": "No issue links found",
+        "line_number": null,
+        "recommendation": "Add links to related issues (FEATURE-*, BUG-*, etc.)"
+      }
+    ]
+  },
+  "links": {
+    "score": 28.57142857142857,
+    "total_links": 7,
+    "valid_links": 2,
+    "broken_links": [
+      "docs/gobernanza/ai/ESTRATEGIA_IA.md",
+      "docs/gobernanza/ai/AI_CAPABILITIES.md",
+      "docs/proyecto/ONBOARDING.md",
+      "https://dora.dev/dora-report-2025",
+      "../../proyecto/ONBOARDING.md"
+    ],
+    "issues": [
+      {
+        "type": "link",
+        "severity": "HIGH",
+        "message": "Broken internal link: docs/gobernanza/ai/ESTRATEGIA_IA.md",
+        "line_number": null,
+        "recommendation": "Fix path or create missing file"
+      },
+      {
+        "type": "link",
+        "severity": "HIGH",
+        "message": "Broken internal link: docs/gobernanza/ai/AI_CAPABILITIES.md",
+        "line_number": null,
+        "recommendation": "Fix path or create missing file"
+      },
+      {
+        "type": "link",
+        "severity": "HIGH",
+        "message": "Broken internal link: docs/proyecto/ONBOARDING.md",
+        "line_number": null,
+        "recommendation": "Fix path or create missing file"
+      },
+      {
+        "type": "link",
+        "severity": "MEDIUM",
+        "message": "Broken external link: https://dora.dev/dora-report-2025",
+        "line_number": null,
+        "recommendation": "Update or remove broken link"
+      },
+      {
+        "type": "link",
+        "severity": "HIGH",
+        "message": "Broken internal link: ../../proyecto/ONBOARDING.md",
+        "line_number": null,
+        "recommendation": "Fix path or create missing file"
+      }
+    ]
+  },
+  "analysis_time": 1.1029746532440186,
+  "cache_hit": false
+}

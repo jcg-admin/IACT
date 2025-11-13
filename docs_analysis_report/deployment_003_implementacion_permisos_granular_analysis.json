@@ -1,0 +1,112 @@
+{
+  "file_path": "docs/guias/deployment/deployment_003_implementacion_permisos_granular.md",
+  "domain": "Other",
+  "overall_score": 57.15,
+  "structure": {
+    "score": 54.99999999999999,
+    "has_h1": false,
+    "heading_hierarchy_valid": false,
+    "has_frontmatter": true,
+    "required_sections_present": [
+      "Prop\u00f3sito",
+      "Audiencia",
+      "Pre-requisitos",
+      "Tiempo estimado",
+      "Arquitectura General",
+      "Fase 1: Estructura de Base de Datos (Semana 1)",
+      "Fase 2: Datos Semilla (Semana 1-2)",
+      "Fase 3: M\u00f3dulos Django (Semana 2-3)",
+      "Fase 4: Tests (Semana 3-4)",
+      "Validaci\u00f3n",
+      "Troubleshooting",
+      "Pr\u00f3ximos pasos",
+      "Referencias",
+      "Feedback"
+    ],
+    "issues": [
+      {
+        "type": "structure",
+        "severity": "HIGH",
+        "message": "Missing H1 title",
+        "line_number": null,
+        "recommendation": "Add single H1 title at document top"
+      },
+      {
+        "type": "structure",
+        "severity": "MEDIUM",
+        "message": "Invalid heading hierarchy",
+        "line_number": null,
+        "recommendation": "Ensure headings follow H1\u2192H2\u2192H3 order"
+      }
+    ]
+  },
+  "quality": {
+    "score": 55.00000000000001,
+    "readability_score": 50.0,
+    "completeness_score": 0.34,
+    "formatting_score": 0.7000000000000001,
+    "metrics": {
+      "readability": 50.0,
+      "completeness": 0.34,
+      "formatting": 0.7000000000000001
+    },
+    "issues": [
+      {
+        "type": "quality",
+        "severity": "LOW",
+        "message": "24 code blocks missing language identifier",
+        "line_number": null,
+        "recommendation": "Add language: ```python, ```bash, etc."
+      },
+      {
+        "type": "quality",
+        "severity": "LOW",
+        "message": "Possibly malformed tables detected",
+        "line_number": null,
+        "recommendation": "Ensure tables have proper | separators"
+      }
+    ]
+  },
+  "constitution": {
+    "score": 50.0,
+    "violations": [
+      {
+        "type": "constitution",
+        "severity": "CRITICAL",
+        "message": "Possible password exposure detected (Principle 7)",
+        "line_number": null,
+        "recommendation": "Remove password, use environment variables"
+      }
+    ],
+    "applicable_principles": [
+      2,
+      7
+    ]
+  },
+  "traceability": {
+    "score": 46.0,
+    "issue_links": [],
+    "adr_links": [
+      "ADR-2025-005"
+    ],
+    "spec_links": [],
+    "issues": [
+      {
+        "type": "traceability",
+        "severity": "MEDIUM",
+        "message": "No issue links found",
+        "line_number": null,
+        "recommendation": "Add links to related issues (FEATURE-*, BUG-*, etc.)"
+      }
+    ]
+  },
+  "links": {
+    "score": 100,
+    "total_links": 0,
+    "valid_links": 0,
+    "broken_links": [],
+    "issues": []
+  },
+  "analysis_time": 0.0018002986907958984,
+  "cache_hit": false
+}

@@ -1,0 +1,183 @@
+{
+  "file_path": "docs/backend/permisos/promptops/CONTRIBUTING.md",
+  "domain": "Backend",
+  "overall_score": 48.76911764705882,
+  "structure": {
+    "score": 47.5,
+    "has_h1": false,
+    "heading_hierarchy_valid": false,
+    "has_frontmatter": false,
+    "required_sections_present": [
+      "\u00cdndice",
+      "1. Arquitectura PromptOps",
+      "2. Anatom\u00eda de un Componente",
+      "3. Tipos de Componentes",
+      "4. Flujo de Creaci\u00f3n",
+      "Requisito: [Nombre del Gate/Chain]",
+      "[SISTEMA]",
+      "[CONTEXTO]",
+      "[INPUTS]",
+      "[PROCESO]",
+      "[OUTPUTS]",
+      "[VALIDACI\u00d3N]",
+      "Ejemplos",
+      "M\u00e9tricas de Calidad",
+      "Changelog",
+      "5. Convenciones y Est\u00e1ndares",
+      "6. Testing",
+      "7. Ejemplos Paso a Paso",
+      "Requisito: Permission Coverage Gate",
+      "[SISTEMA]",
+      "[CONTEXTO]",
+      "[INPUTS]",
+      "[PROCESO]",
+      "[OUTPUTS]",
+      "Checklist de Creaci\u00f3n",
+      "Recursos",
+      "FAQ",
+      "Contribuir"
+    ],
+    "issues": [
+      {
+        "type": "structure",
+        "severity": "HIGH",
+        "message": "Missing H1 title",
+        "line_number": null,
+        "recommendation": "Add single H1 title at document top"
+      },
+      {
+        "type": "structure",
+        "severity": "MEDIUM",
+        "message": "Invalid heading hierarchy",
+        "line_number": null,
+        "recommendation": "Ensure headings follow H1\u2192H2\u2192H3 order"
+      }
+    ]
+  },
+  "quality": {
+    "score": 59.5,
+    "readability_score": 50.0,
+    "completeness_score": 0.34,
+    "formatting_score": 0.8,
+    "metrics": {
+      "readability": 50.0,
+      "completeness": 0.34,
+      "formatting": 0.8
+    },
+    "issues": [
+      {
+        "type": "quality",
+        "severity": "LOW",
+        "message": "36 code blocks missing language identifier",
+        "line_number": null,
+        "recommendation": "Add language: ```python, ```bash, etc."
+      }
+    ]
+  },
+  "constitution": {
+    "score": 50.0,
+    "violations": [
+      {
+        "type": "constitution",
+        "severity": "HIGH",
+        "message": "Found 10 emojis (Principle 2 violation)",
+        "line_number": null,
+        "recommendation": "Remove all emojis from documentation"
+      }
+    ],
+    "applicable_principles": [
+      2,
+      7
+    ]
+  },
+  "traceability": {
+    "score": 25.0,
+    "issue_links": [],
+    "adr_links": [],
+    "spec_links": [],
+    "issues": [
+      {
+        "type": "traceability",
+        "severity": "MEDIUM",
+        "message": "No issue links found",
+        "line_number": null,
+        "recommendation": "Add links to related issues (FEATURE-*, BUG-*, etc.)"
+      }
+    ]
+  },
+  "links": {
+    "score": 52.94117647058824,
+    "total_links": 17,
+    "valid_links": 9,
+    "broken_links": [
+      "./templates/template-prompt.md",
+      "./templates/template-agent.py",
+      "./templates/template-shell.sh",
+      "./templates/template-test.py",
+      "../../arquitectura/ADR-012-sistema-permisos-sin-roles-jerarquicos.md",
+      "https://astexplorer.net/",
+      "https://www.jsonschemavalidator.net/",
+      "https://www.shellcheck.net/"
+    ],
+    "issues": [
+      {
+        "type": "link",
+        "severity": "HIGH",
+        "message": "Broken internal link: ./templates/template-prompt.md",
+        "line_number": null,
+        "recommendation": "Fix path or create missing file"
+      },
+      {
+        "type": "link",
+        "severity": "HIGH",
+        "message": "Broken internal link: ./templates/template-agent.py",
+        "line_number": null,
+        "recommendation": "Fix path or create missing file"
+      },
+      {
+        "type": "link",
+        "severity": "HIGH",
+        "message": "Broken internal link: ./templates/template-shell.sh",
+        "line_number": null,
+        "recommendation": "Fix path or create missing file"
+      },
+      {
+        "type": "link",
+        "severity": "HIGH",
+        "message": "Broken internal link: ./templates/template-test.py",
+        "line_number": null,
+        "recommendation": "Fix path or create missing file"
+      },
+      {
+        "type": "link",
+        "severity": "HIGH",
+        "message": "Broken internal link: ../../arquitectura/ADR-012-sistema-permisos-sin-roles-jerarquicos.md",
+        "line_number": null,
+        "recommendation": "Fix path or create missing file"
+      },
+      {
+        "type": "link",
+        "severity": "MEDIUM",
+        "message": "Broken external link: https://astexplorer.net/",
+        "line_number": null,
+        "recommendation": "Update or remove broken link"
+      },
+      {
+        "type": "link",
+        "severity": "MEDIUM",
+        "message": "Broken external link: https://www.jsonschemavalidator.net/",
+        "line_number": null,
+        "recommendation": "Update or remove broken link"
+      },
+      {
+        "type": "link",
+        "severity": "MEDIUM",
+        "message": "Broken external link: https://www.shellcheck.net/",
+        "line_number": null,
+        "recommendation": "Update or remove broken link"
+      }
+    ]
+  },
+  "analysis_time": 3.1564199924468994,
+  "cache_hit": false
+}

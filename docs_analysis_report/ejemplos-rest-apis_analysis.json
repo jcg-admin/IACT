@@ -1,0 +1,83 @@
+{
+  "file_path": "docs/backend/rest_apis/ejemplos-rest-apis.md",
+  "domain": "Backend",
+  "overall_score": 73.375,
+  "structure": {
+    "score": 92.5,
+    "has_h1": true,
+    "heading_hierarchy_valid": true,
+    "has_frontmatter": false,
+    "required_sections_present": [
+      "\u00cdndice",
+      "1. Fundamentos REST",
+      "2. Dise\u00f1o de URLs y Recursos",
+      "3. M\u00e9todos HTTP y C\u00f3digos de Estado",
+      "4. Autenticaci\u00f3n y Autorizaci\u00f3n",
+      "5. Versionado de APIs",
+      "6. Paginaci\u00f3n, Filtrado y Ordenamiento",
+      "7. Manejo de Errores",
+      "(Documento contin\u00faa siendo muy largo...)",
+      "CHECKPOINT"
+    ],
+    "issues": []
+  },
+  "quality": {
+    "score": 55.00000000000001,
+    "readability_score": 50.0,
+    "completeness_score": 0.34,
+    "formatting_score": 0.7000000000000001,
+    "metrics": {
+      "readability": 50.0,
+      "completeness": 0.34,
+      "formatting": 0.7000000000000001
+    },
+    "issues": [
+      {
+        "type": "quality",
+        "severity": "LOW",
+        "message": "44 code blocks missing language identifier",
+        "line_number": null,
+        "recommendation": "Add language: ```python, ```bash, etc."
+      },
+      {
+        "type": "quality",
+        "severity": "LOW",
+        "message": "Possibly malformed tables detected",
+        "line_number": null,
+        "recommendation": "Ensure tables have proper | separators"
+      }
+    ]
+  },
+  "constitution": {
+    "score": 100.0,
+    "violations": [],
+    "applicable_principles": [
+      2,
+      7
+    ]
+  },
+  "traceability": {
+    "score": 25.0,
+    "issue_links": [],
+    "adr_links": [],
+    "spec_links": [],
+    "issues": [
+      {
+        "type": "traceability",
+        "severity": "MEDIUM",
+        "message": "No issue links found",
+        "line_number": null,
+        "recommendation": "Add links to related issues (FEATURE-*, BUG-*, etc.)"
+      }
+    ]
+  },
+  "links": {
+    "score": 100.0,
+    "total_links": 13,
+    "valid_links": 13,
+    "broken_links": [],
+    "issues": []
+  },
+  "analysis_time": 0.003795623779296875,
+  "cache_hit": false
+}

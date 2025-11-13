@@ -1,0 +1,102 @@
+{
+  "file_path": "docs/dora/TASK-007-primer-reporte-dora.md",
+  "domain": "Other",
+  "overall_score": 61.599999999999994,
+  "structure": {
+    "score": 99.99999999999999,
+    "has_h1": true,
+    "heading_hierarchy_valid": true,
+    "has_frontmatter": true,
+    "required_sections_present": [
+      "Resumen Ejecutivo",
+      "Metricas Baseline Obtenidas",
+      "T\u00e9cnicas de Prompt Engineering para Agente",
+      "Analisis de Resultados",
+      "Detalles Tecnicos",
+      "Recomendaciones",
+      "Proximos Pasos",
+      "Referencias",
+      "Criterios de Aceptacion",
+      "Notas"
+    ],
+    "issues": []
+  },
+  "quality": {
+    "score": 59.5,
+    "readability_score": 50.0,
+    "completeness_score": 0.34,
+    "formatting_score": 0.8,
+    "metrics": {
+      "readability": 50.0,
+      "completeness": 0.34,
+      "formatting": 0.8
+    },
+    "issues": [
+      {
+        "type": "quality",
+        "severity": "LOW",
+        "message": "1 code blocks missing language identifier",
+        "line_number": null,
+        "recommendation": "Add language: ```python, ```bash, etc."
+      }
+    ]
+  },
+  "constitution": {
+    "score": 50.0,
+    "violations": [
+      {
+        "type": "constitution",
+        "severity": "CRITICAL",
+        "message": "Possible token exposure detected (Principle 7)",
+        "line_number": null,
+        "recommendation": "Remove token, use environment variables"
+      }
+    ],
+    "applicable_principles": [
+      2,
+      7
+    ]
+  },
+  "traceability": {
+    "score": 25.0,
+    "issue_links": [],
+    "adr_links": [],
+    "spec_links": [],
+    "issues": [
+      {
+        "type": "traceability",
+        "severity": "MEDIUM",
+        "message": "No issue links found",
+        "line_number": null,
+        "recommendation": "Add links to related issues (FEATURE-*, BUG-*, etc.)"
+      }
+    ]
+  },
+  "links": {
+    "score": 50.0,
+    "total_links": 4,
+    "valid_links": 2,
+    "broken_links": [
+      "https://dora.dev/",
+      "https://docs.github.com/en/rest/deployments"
+    ],
+    "issues": [
+      {
+        "type": "link",
+        "severity": "MEDIUM",
+        "message": "Broken external link: https://dora.dev/",
+        "line_number": null,
+        "recommendation": "Update or remove broken link"
+      },
+      {
+        "type": "link",
+        "severity": "MEDIUM",
+        "message": "Broken external link: https://docs.github.com/en/rest/deployments",
+        "line_number": null,
+        "recommendation": "Update or remove broken link"
+      }
+    ]
+  },
+  "analysis_time": 0.6914169788360596,
+  "cache_hit": false
+}

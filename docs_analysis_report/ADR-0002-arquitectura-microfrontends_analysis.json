@@ -1,0 +1,97 @@
+{
+  "file_path": "docs/frontend/arquitectura/adr/ADR-0002-arquitectura-microfrontends.md",
+  "domain": "Frontend",
+  "overall_score": 61.199999999999996,
+  "structure": {
+    "score": 54.99999999999999,
+    "has_h1": false,
+    "heading_hierarchy_valid": false,
+    "has_frontmatter": true,
+    "required_sections_present": [
+      "Contexto",
+      "Decisi\u00f3n evaluada (no adoptada)",
+      "Consecuencias si se reactivara",
+      "Consideraciones futuras"
+    ],
+    "issues": [
+      {
+        "type": "structure",
+        "severity": "HIGH",
+        "message": "Missing H1 title",
+        "line_number": null,
+        "recommendation": "Add single H1 title at document top"
+      },
+      {
+        "type": "structure",
+        "severity": "MEDIUM",
+        "message": "Invalid heading hierarchy",
+        "line_number": null,
+        "recommendation": "Ensure headings follow H1\u2192H2\u2192H3 order"
+      }
+    ]
+  },
+  "quality": {
+    "score": 68.5,
+    "readability_score": 50.0,
+    "completeness_score": 0.34,
+    "formatting_score": 1.0,
+    "metrics": {
+      "readability": 50.0,
+      "completeness": 0.34,
+      "formatting": 1.0
+    },
+    "issues": []
+  },
+  "constitution": {
+    "score": 100.0,
+    "violations": [],
+    "applicable_principles": [
+      2,
+      7
+    ]
+  },
+  "traceability": {
+    "score": 46.0,
+    "issue_links": [],
+    "adr_links": [
+      "ADR-2025-009"
+    ],
+    "spec_links": [],
+    "issues": [
+      {
+        "type": "traceability",
+        "severity": "MEDIUM",
+        "message": "No issue links found",
+        "line_number": null,
+        "recommendation": "Add links to related issues (FEATURE-*, BUG-*, etc.)"
+      }
+    ]
+  },
+  "links": {
+    "score": 0.0,
+    "total_links": 2,
+    "valid_links": 0,
+    "broken_links": [
+      "../../adr/ADR_011_frontend_modular_monolith.md",
+      "../../adr/adr_2025_009_frontend_postponement.md"
+    ],
+    "issues": [
+      {
+        "type": "link",
+        "severity": "HIGH",
+        "message": "Broken internal link: ../../adr/ADR_011_frontend_modular_monolith.md",
+        "line_number": null,
+        "recommendation": "Fix path or create missing file"
+      },
+      {
+        "type": "link",
+        "severity": "HIGH",
+        "message": "Broken internal link: ../../adr/adr_2025_009_frontend_postponement.md",
+        "line_number": null,
+        "recommendation": "Fix path or create missing file"
+      }
+    ]
+  },
+  "analysis_time": 0.004952430725097656,
+  "cache_hit": false
+}

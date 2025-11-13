@@ -1,0 +1,62 @@
+{
+  "file_path": "docs/scripts/analisis/validate-environment.sh_analysis.md",
+  "domain": "Scripts",
+  "overall_score": 77.35,
+  "structure": {
+    "score": 92.5,
+    "has_h1": true,
+    "heading_hierarchy_valid": true,
+    "has_frontmatter": false,
+    "required_sections_present": [
+      "Summary",
+      "Constitutional Compliance",
+      "Code Quality",
+      "Security"
+    ],
+    "issues": []
+  },
+  "quality": {
+    "score": 68.25,
+    "readability_score": 50.0,
+    "completeness_score": 0.33,
+    "formatting_score": 1.0,
+    "metrics": {
+      "readability": 50.0,
+      "completeness": 0.33,
+      "formatting": 1.0
+    },
+    "issues": []
+  },
+  "constitution": {
+    "score": 100.0,
+    "violations": [],
+    "applicable_principles": [
+      2,
+      7
+    ]
+  },
+  "traceability": {
+    "score": 25.0,
+    "issue_links": [],
+    "adr_links": [],
+    "spec_links": [],
+    "issues": [
+      {
+        "type": "traceability",
+        "severity": "MEDIUM",
+        "message": "No issue links found",
+        "line_number": null,
+        "recommendation": "Add links to related issues (FEATURE-*, BUG-*, etc.)"
+      }
+    ]
+  },
+  "links": {
+    "score": 100,
+    "total_links": 0,
+    "valid_links": 0,
+    "broken_links": [],
+    "issues": []
+  },
+  "analysis_time": 5.626678466796875e-05,
+  "cache_hit": false
+}

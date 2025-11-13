@@ -1,0 +1,84 @@
+{
+  "file_path": "docs/PLAN_MAESTRO_PRIORIDAD_02.md",
+  "domain": "Other",
+  "overall_score": 75.25,
+  "structure": {
+    "score": 99.99999999999999,
+    "has_h1": true,
+    "heading_hierarchy_valid": true,
+    "has_frontmatter": true,
+    "required_sections_present": [
+      "Tecnicas de Prompt Engineering Aplicadas",
+      "Resumen Ejecutivo",
+      "FASE 1: Seed Data & Database (9 tareas, 4-6 horas)",
+      "FASE 2: Servicios Backend (32 tareas, 16-20 horas)",
+      "FASE 3: API REST (38 tareas, 18-22 horas)",
+      "FASE 4: Tests de Integracion (6 tareas, 4-6 horas)",
+      "FASE 5: Validacion y Documentacion (6 tareas, 4-6 horas)",
+      "Criterios de Exito Globales",
+      "Dependencias Entre Tareas",
+      "Estimaciones de Tiempo",
+      "Proximos Pasos Despues de Completar"
+    ],
+    "issues": []
+  },
+  "quality": {
+    "score": 55.00000000000001,
+    "readability_score": 50.0,
+    "completeness_score": 0.34,
+    "formatting_score": 0.7000000000000001,
+    "metrics": {
+      "readability": 50.0,
+      "completeness": 0.34,
+      "formatting": 0.7000000000000001
+    },
+    "issues": [
+      {
+        "type": "quality",
+        "severity": "LOW",
+        "message": "30 code blocks missing language identifier",
+        "line_number": null,
+        "recommendation": "Add language: ```python, ```bash, etc."
+      },
+      {
+        "type": "quality",
+        "severity": "LOW",
+        "message": "Possibly malformed tables detected",
+        "line_number": null,
+        "recommendation": "Ensure tables have proper | separators"
+      }
+    ]
+  },
+  "constitution": {
+    "score": 100.0,
+    "violations": [],
+    "applicable_principles": [
+      2,
+      7
+    ]
+  },
+  "traceability": {
+    "score": 25.0,
+    "issue_links": [],
+    "adr_links": [],
+    "spec_links": [],
+    "issues": [
+      {
+        "type": "traceability",
+        "severity": "MEDIUM",
+        "message": "No issue links found",
+        "line_number": null,
+        "recommendation": "Add links to related issues (FEATURE-*, BUG-*, etc.)"
+      }
+    ]
+  },
+  "links": {
+    "score": 100,
+    "total_links": 0,
+    "valid_links": 0,
+    "broken_links": [],
+    "issues": []
+  },
+  "analysis_time": 0.0018534660339355469,
+  "cache_hit": false
+}

@@ -1,0 +1,84 @@
+{
+  "file_path": "docs/ANALISIS_CONGRUENCIA_DOCS_CODIGO.md",
+  "domain": "Other",
+  "overall_score": 73.375,
+  "structure": {
+    "score": 92.5,
+    "has_h1": true,
+    "heading_hierarchy_valid": true,
+    "has_frontmatter": false,
+    "required_sections_present": [
+      "RESUMEN EJECUTIVO",
+      "1. APPS DJANGO: AN\u00c1LISIS DETALLADO",
+      "2. SCRIPTS DE VALIDACI\u00d3N: AN\u00c1LISIS DETALLADO",
+      "3. GIT HOOKS: AN\u00c1LISIS DETALLADO",
+      "4. WORKFLOWS CI/CD: AN\u00c1LISIS DETALLADO",
+      "5. ADRs (ARCHITECTURE DECISION RECORDS): AN\u00c1LISIS DETALLADO",
+      "6. GAPS IDENTIFICADOS Y CORREGIDOS",
+      "7. M\u00c9TRICAS FINALES",
+      "8. RECOMENDACIONES IMPLEMENTADAS",
+      "9. CONCLUSI\u00d3N",
+      "ANEXO: ARCHIVOS CREADOS"
+    ],
+    "issues": []
+  },
+  "quality": {
+    "score": 55.00000000000001,
+    "readability_score": 50.0,
+    "completeness_score": 0.34,
+    "formatting_score": 0.7000000000000001,
+    "metrics": {
+      "readability": 50.0,
+      "completeness": 0.34,
+      "formatting": 0.7000000000000001
+    },
+    "issues": [
+      {
+        "type": "quality",
+        "severity": "LOW",
+        "message": "2 code blocks missing language identifier",
+        "line_number": null,
+        "recommendation": "Add language: ```python, ```bash, etc."
+      },
+      {
+        "type": "quality",
+        "severity": "LOW",
+        "message": "Possibly malformed tables detected",
+        "line_number": null,
+        "recommendation": "Ensure tables have proper | separators"
+      }
+    ]
+  },
+  "constitution": {
+    "score": 100.0,
+    "violations": [],
+    "applicable_principles": [
+      2,
+      7
+    ]
+  },
+  "traceability": {
+    "score": 25.0,
+    "issue_links": [],
+    "adr_links": [],
+    "spec_links": [],
+    "issues": [
+      {
+        "type": "traceability",
+        "severity": "MEDIUM",
+        "message": "No issue links found",
+        "line_number": null,
+        "recommendation": "Add links to related issues (FEATURE-*, BUG-*, etc.)"
+      }
+    ]
+  },
+  "links": {
+    "score": 100,
+    "total_links": 0,
+    "valid_links": 0,
+    "broken_links": [],
+    "issues": []
+  },
+  "analysis_time": 0.0011970996856689453,
+  "cache_hit": false
+}

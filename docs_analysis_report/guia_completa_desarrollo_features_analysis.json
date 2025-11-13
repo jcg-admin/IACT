@@ -1,0 +1,210 @@
+{
+  "file_path": "docs/gobernanza/procesos/procedimientos/guia_completa_desarrollo_features.md",
+  "domain": "Governance",
+  "overall_score": 51.180882352941175,
+  "structure": {
+    "score": 54.99999999999999,
+    "has_h1": false,
+    "heading_hierarchy_valid": false,
+    "has_frontmatter": true,
+    "required_sections_present": [
+      "Prop\u00f3sito",
+      "Alcance",
+      "Vista R\u00e1pida del Flujo",
+      "Paso 0: Pre-requisitos",
+      "Paso 1: Setup Inicial del Entorno",
+      "Paso 2: Planificaci\u00f3n de la Feature",
+      "Motivaci\u00f3n",
+      "Criterios de Aceptaci\u00f3n",
+      "Requisitos T\u00e9cnicos",
+      "Tareas",
+      "Prioridad",
+      "Estimaci\u00f3n",
+      "Referencias",
+      "Paso 3: Crear Feature Branch",
+      "Paso 4: Desarrollo de la Feature (TDD)",
+      "Paso 5: Validaciones Locales (Pre-Commit)",
+      "Paso 6: Commits",
+      "Paso 7: Pre-Pull Request",
+      "Paso 8: Crear Pull Request",
+      "Summary",
+      "Technical Details",
+      "Test Plan",
+      "Related Issues",
+      "Breaking Changes",
+      "Deployment Notes",
+      "Screenshots",
+      "Checklist",
+      "Paso 9: Code Review",
+      "Paso 10: Merge",
+      "Paso 11: Post-Merge",
+      "Caso Especial: Hotfix (Bug Cr\u00edtico)",
+      "Fix Implementado",
+      "Test Plan",
+      "Deployment",
+      "M\u00e9tricas de Calidad",
+      "Herramientas y Comandos \u00datiles",
+      "Troubleshooting",
+      "Recursos Relacionados",
+      "Changelog",
+      "Notas Finales"
+    ],
+    "issues": [
+      {
+        "type": "structure",
+        "severity": "HIGH",
+        "message": "Missing H1 title",
+        "line_number": null,
+        "recommendation": "Add single H1 title at document top"
+      },
+      {
+        "type": "structure",
+        "severity": "MEDIUM",
+        "message": "Invalid heading hierarchy",
+        "line_number": null,
+        "recommendation": "Ensure headings follow H1\u2192H2\u2192H3 order"
+      }
+    ]
+  },
+  "quality": {
+    "score": 63.25000000000001,
+    "readability_score": 50.0,
+    "completeness_score": 0.67,
+    "formatting_score": 0.7000000000000001,
+    "metrics": {
+      "readability": 50.0,
+      "completeness": 0.67,
+      "formatting": 0.7000000000000001
+    },
+    "issues": [
+      {
+        "type": "quality",
+        "severity": "LOW",
+        "message": "70 code blocks missing language identifier",
+        "line_number": null,
+        "recommendation": "Add language: ```python, ```bash, etc."
+      },
+      {
+        "type": "quality",
+        "severity": "LOW",
+        "message": "Possibly malformed tables detected",
+        "line_number": null,
+        "recommendation": "Ensure tables have proper | separators"
+      }
+    ]
+  },
+  "constitution": {
+    "score": 50.0,
+    "violations": [
+      {
+        "type": "constitution",
+        "severity": "CRITICAL",
+        "message": "Possible password exposure detected (Principle 7)",
+        "line_number": null,
+        "recommendation": "Remove password, use environment variables"
+      }
+    ],
+    "applicable_principles": [
+      2,
+      7
+    ]
+  },
+  "traceability": {
+    "score": 25.0,
+    "issue_links": [],
+    "adr_links": [],
+    "spec_links": [],
+    "issues": [
+      {
+        "type": "traceability",
+        "severity": "MEDIUM",
+        "message": "No issue links found",
+        "line_number": null,
+        "recommendation": "Add links to related issues (FEATURE-*, BUG-*, etc.)"
+      }
+    ]
+  },
+  "links": {
+    "score": 47.05882352941176,
+    "total_links": 17,
+    "valid_links": 8,
+    "broken_links": [
+      "../arquitectura/lineamientos_codigo.md",
+      "https://www.conventionalcommits.org/",
+      "https://guides.github.com/introduction/flow/",
+      "https://semver.org/",
+      "https://testdriven.io/test-driven-development/",
+      "https://django-best-practices.readthedocs.io/",
+      "https://cli.github.com/",
+      "https://pre-commit.com/",
+      "https://docs.pytest.org/"
+    ],
+    "issues": [
+      {
+        "type": "link",
+        "severity": "HIGH",
+        "message": "Broken internal link: ../arquitectura/lineamientos_codigo.md",
+        "line_number": null,
+        "recommendation": "Fix path or create missing file"
+      },
+      {
+        "type": "link",
+        "severity": "MEDIUM",
+        "message": "Broken external link: https://www.conventionalcommits.org/",
+        "line_number": null,
+        "recommendation": "Update or remove broken link"
+      },
+      {
+        "type": "link",
+        "severity": "MEDIUM",
+        "message": "Broken external link: https://guides.github.com/introduction/flow/",
+        "line_number": null,
+        "recommendation": "Update or remove broken link"
+      },
+      {
+        "type": "link",
+        "severity": "MEDIUM",
+        "message": "Broken external link: https://semver.org/",
+        "line_number": null,
+        "recommendation": "Update or remove broken link"
+      },
+      {
+        "type": "link",
+        "severity": "MEDIUM",
+        "message": "Broken external link: https://testdriven.io/test-driven-development/",
+        "line_number": null,
+        "recommendation": "Update or remove broken link"
+      },
+      {
+        "type": "link",
+        "severity": "MEDIUM",
+        "message": "Broken external link: https://django-best-practices.readthedocs.io/",
+        "line_number": null,
+        "recommendation": "Update or remove broken link"
+      },
+      {
+        "type": "link",
+        "severity": "MEDIUM",
+        "message": "Broken external link: https://cli.github.com/",
+        "line_number": null,
+        "recommendation": "Update or remove broken link"
+      },
+      {
+        "type": "link",
+        "severity": "MEDIUM",
+        "message": "Broken external link: https://pre-commit.com/",
+        "line_number": null,
+        "recommendation": "Update or remove broken link"
+      },
+      {
+        "type": "link",
+        "severity": "MEDIUM",
+        "message": "Broken external link: https://docs.pytest.org/",
+        "line_number": null,
+        "recommendation": "Update or remove broken link"
+      }
+    ]
+  },
+  "analysis_time": 7.59789514541626,
+  "cache_hit": false
+}

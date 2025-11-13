@@ -1,0 +1,87 @@
+{
+  "file_path": "docs/backend/requisitos/funcionales/rf026_dashboard_metricas_dora.md",
+  "domain": "Backend",
+  "overall_score": 69.75,
+  "structure": {
+    "score": 99.99999999999999,
+    "has_h1": true,
+    "heading_hierarchy_valid": true,
+    "has_frontmatter": true,
+    "required_sections_present": [
+      "1. Descripci\u00f3n",
+      "2. Auto-CoT con Multiple Paths",
+      "3. Endpoint Principal",
+      "4. Chart Data APIs",
+      "5. Implementaci\u00f3n Backend (Django View)",
+      "6. UI Components (HTML/CSS/JS)",
+      "7. Tests",
+      "8. Criterios de Aceptaci\u00f3n",
+      "9. Anti-Alucinaci\u00f3n Verification",
+      "10. Trazabilidad",
+      "11. Notas de Implementaci\u00f3n"
+    ],
+    "issues": []
+  },
+  "quality": {
+    "score": 59.5,
+    "readability_score": 50.0,
+    "completeness_score": 0.34,
+    "formatting_score": 0.8,
+    "metrics": {
+      "readability": 50.0,
+      "completeness": 0.34,
+      "formatting": 0.8
+    },
+    "issues": [
+      {
+        "type": "quality",
+        "severity": "LOW",
+        "message": "17 code blocks missing language identifier",
+        "line_number": null,
+        "recommendation": "Add language: ```python, ```bash, etc."
+      }
+    ]
+  },
+  "constitution": {
+    "score": 50.0,
+    "violations": [
+      {
+        "type": "constitution",
+        "severity": "CRITICAL",
+        "message": "Possible password exposure detected (Principle 7)",
+        "line_number": null,
+        "recommendation": "Remove password, use environment variables"
+      }
+    ],
+    "applicable_principles": [
+      2,
+      7
+    ]
+  },
+  "traceability": {
+    "score": 46.0,
+    "issue_links": [],
+    "adr_links": [
+      "ADR-2025-003"
+    ],
+    "spec_links": [],
+    "issues": [
+      {
+        "type": "traceability",
+        "severity": "MEDIUM",
+        "message": "No issue links found",
+        "line_number": null,
+        "recommendation": "Add links to related issues (FEATURE-*, BUG-*, etc.)"
+      }
+    ]
+  },
+  "links": {
+    "score": 100,
+    "total_links": 0,
+    "valid_links": 0,
+    "broken_links": [],
+    "issues": []
+  },
+  "analysis_time": 0.001016855239868164,
+  "cache_hit": false
+}
