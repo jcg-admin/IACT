@@ -6,6 +6,8 @@ Repositorio monolítico para la plataforma de analítica de centros de contacto 
 >
 > **Leyenda**: [IMPLEMENTADO] = Funciona actualmente | [PLANIFICADO] = Documentado pero pendiente | [ATENCION] = Requiere atención | [NO] = Prohibido
 
+> **Importante**: No existe un Makefile en la raíz; usa los scripts documentados para orquestar tareas.
+
 ## Estado actual del repositorio
 
 ### [IMPLEMENTADO] Implementado
@@ -50,9 +52,9 @@ Repositorio monolítico para la plataforma de analítica de centros de contacto 
    vagrant up  # Levanta PostgreSQL:15432 y MariaDB:13306
    ```
 
-4. **Verificar servicios** ([IMPLEMENTADO] Runbook disponible, [PLANIFICADO] script automatizado pendiente):
+4. **Verificar servicios** ([IMPLEMENTADO] Runbook + script):
    - Guía manual: [`docs/operaciones/verificar_servicios.md`](docs/operaciones/verificar_servicios.md)
-   - Script automatizado: `./scripts/verificar_servicios.sh` ([PLANIFICADO] Pendiente de implementar)
+   - Script automatizado: `./scripts/verificar_servicios.sh` (`--dry-run` disponible para CI)
 
 ## Flujo de desarrollo
 
@@ -75,6 +77,21 @@ DB_IVR_NAME=ivr_data
 DB_IVR_USER=django_user
 DB_IVR_PASSWORD=django_pass
 ```
+
+> **LLMs soportados**: Los agentes SDLC detectan automáticamente el mejor proveedor
+> disponible entre Claude (Anthropic), ChatGPT (OpenAI) y modelos fine-tuned vía
+> Hugging Face (TinyLlama, Phi-3, etc.). Consulta
+> [`docs/ai/CONFIGURACION_API_KEYS.md`](docs/ai/CONFIGURACION_API_KEYS.md)
+> para declarar `ANTHROPIC_API_KEY`, `OPENAI_API_KEY` o las variables
+> `HF_LOCAL_MODEL_PATH`/`HF_MODEL_ID` cuando ejecutes el flujo de fine-tuning
+> documentado en [`docs/ai/FINE_TUNING_TINYLLAMA.md`](docs/ai/FINE_TUNING_TINYLLAMA.md), y
+> revisa el playbook de prompting con Phi-3 en
+> [`docs/ai_capabilities/prompting/PHI3_PROMPT_ENGINEERING_PLAYBOOK.md`](docs/ai_capabilities/prompting/PHI3_PROMPT_ENGINEERING_PLAYBOOK.md).
+> Para técnicas de prompting transversales a todos los proveedores revisa el catálogo
+> multi-LLM en [`docs/ai_capabilities/prompting/PROMPT_TECHNIQUES_CATALOG.md`](docs/ai_capabilities/prompting/PROMPT_TECHNIQUES_CATALOG.md).
+> Para memoria de contexto y manejo de sesiones largas (trimming/summarization), consulta
+> [`docs/ai_capabilities/orchestration/CONTEXT_MANAGEMENT_PLAYBOOK.md`](docs/ai_capabilities/orchestration/CONTEXT_MANAGEMENT_PLAYBOOK.md)
+> y reutiliza las clases disponibles en [`scripts/coding/ai/shared/context_sessions.py`](scripts/coding/ai/shared/context_sessions.py).
 
 ### 2. Ejecutar migraciones
 
@@ -146,7 +163,7 @@ pytest -c docs/pytest.ini docs/testing
 - Complejidad ciclomática: <= 10
 - MTTR para bugs críticos: <= 2 días
 
-**Estado actual**: Las métricas se calculan manualmente. Ver [`logs_data/SCHEMA.md`](logs_data/SCHEMA.md)
+**Estado actual**: Las métricas se generan con [`scripts/dora_metrics.py`](scripts/dora_metrics.py) (baseline local). Ver [`logs_data/SCHEMA.md`](logs_data/SCHEMA.md)
 
 ### Workflow de commits
 
@@ -155,12 +172,22 @@ pytest -c docs/pytest.ini docs/testing
 3. **Evita `--no-verify`**: Si un hook falla, corrígelo en lugar de saltearlo
 4. **Coverage mínimo**: 80% en módulos Python modificados
 
+### Gestión de issues y agentes
+
+- Plantillas disponibles en `.github/ISSUE_TEMPLATE/` guían la información mínima para bugs, features y solicitudes asistidas.
+- Las solicitudes de feature exigen un ExecPlan conforme a `.agent/PLANS.md` y enlazan el documento vivo correspondiente.
+- Para coordinar automatizaciones revisa `.agent/agents/README.md` y selecciona el agente adecuado (GitOps, Release, Security, etc.).
+
 ### Guías y estándares ([IMPLEMENTADO] Documentadas)
 
 - **[Guía de Estilo](docs/gobernanza/GUIA_ESTILO.md)** - Convenciones obligatorias (NO emojis, Conventional Commits)
 - **[Procedimiento de Desarrollo Local](docs/gobernanza/procesos/procedimientos/procedimiento_desarrollo_local.md)** - Setup detallado
 - **[Guía Completa de Desarrollo de Features](docs/gobernanza/procesos/procedimientos/guia_completa_desarrollo_features.md)** - Proceso end-to-end
 - **[Estrategia de QA](docs/gobernanza/procesos/qa/ESTRATEGIA_QA.md)** - Testing strategy
+- **[Codex MCP Multi-Agent Guide](docs/ai_capabilities/orchestration/CODEX_MCP_MULTI_AGENT_GUIDE.md)** - Configura el `CodexMCPWorkflowBuilder` para flujos single/multi-agent en Claude, ChatGPT y Hugging Face.
+- **META-AGENTE CODEX**
+  - [Parte 1](docs/analisis/META_AGENTE_CODEX_PARTE_1.md): Supuestos, restricciones y fundamentos para generar artefactos CODEX multi-LLM.
+  - [Parte 2](docs/analisis/META_AGENTE_CODEX_PARTE_2.md): Pipeline detallado (Etapas 4-6), formato de entrada y estructura del artefacto.
 
 ## Arquitectura y Stack
 

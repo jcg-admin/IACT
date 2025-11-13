@@ -83,6 +83,32 @@ ollama pull qwen2.5-coder:32b
 **Pros:** Gratis, privado, sin límites de uso
 **Cons:** Requiere hardware (32GB+ RAM recomendado), más lento que APIs cloud
 
+### Opción 4: Hugging Face (Modelos Fine-Tuned)
+
+```python
+config = {
+    "llm_provider": "huggingface",
+    "model": "/models/TinyLlama-1.1B-qlora",  # ruta local o repo-id
+    "hf_generate_kwargs": {"max_new_tokens": 512, "temperature": 0.2},
+    "use_llm": True
+}
+
+# Dependencias mínimas
+pip install transformers==4.41.2 accelerate==0.31.0 peft==0.11.1 bitsandbytes==0.43.1 trl==0.9.4
+
+# Los checkpoints descritos en la guía de fine-tuning viven en docs/ai/FINE_TUNING_TINYLLAMA.md
+```
+
+**Pros:**
+- Permite ejecutar modelos entrenados específicamente para nuestro dominio (TinyLlama QLoRA + DPO)
+- Mantiene los datos en infraestructura propia
+- Integración directa con el nuevo `llm_provider='huggingface'`
+
+**Cons:**
+- Requiere GPU con soporte CUDA o aceleradores equivalentes para tiempos razonables
+- Necesita administrar los checkpoints y merges de LoRA manualmente
+- Mayor complejidad operativa comparado con API SaaS
+
 ### Modo Sin LLM (Solo Heurísticas)
 
 ```python
@@ -97,6 +123,28 @@ config = {
 ---
 
 ## Agentes Disponibles
+
+### Agentes por proveedor LLM
+
+Para asegurar coherencia entre planificación, credenciales y herramientas, consulta las fichas específicas en `.agent/agents/`:
+
+- **ClaudeAgent** (`.agent/agents/claude_agent.md`): describe el flujo completo cuando `llm_provider="anthropic"`, enlazando el catálogo `docs/ai_capabilities/prompting/PROMPT_TECHNIQUES_CATALOG.md`, la configuración de `ANTHROPIC_API_KEY`, el uso del `LLMGenerator`, la memoria de contexto documentada en `docs/ai_capabilities/orchestration/CONTEXT_MANAGEMENT_PLAYBOOK.md` y las orquestaciones Codex MCP de `docs/plans/EXECPLAN_codex_mcp_multi_llm.md`.
+- **ChatGPTAgent** (`.agent/agents/chatgpt_agent.md`): guía las integraciones con modelos GPT/OpenAI, combina el catálogo `PROMPT_TECHNIQUES_CATALOG.md`, el playbook de contexto multi-LLM (`CONTEXT_MANAGEMENT_PLAYBOOK.md`), `OPENAI_API_KEY` y referencia `scripts/coding/ai/orchestrators/codex_mcp_workflow.py` junto a `scripts/coding/ai/shared/context_sessions.py`.
+- **HuggingFaceAgent** (`.agent/agents/huggingface_agent.md`): centraliza el trabajo con modelos locales o alojados en Hugging Face, relacionando `PROMPT_TECHNIQUES_CATALOG.md`, rutas (`HF_LOCAL_MODEL_PATH`, `HF_MODEL_ID`), el playbook `PHI3_PROMPT_ENGINEERING_PLAYBOOK.md` y la guía de contexto compartido `CONTEXT_MANAGEMENT_PLAYBOOK.md`.
+
+Estas fichas son complementarias a esta guía y deben revisarse antes de ejecutar tareas multi-LLM.
+
+### Agentes por dominio
+
+Para alinear la arquitectura del repositorio con los agentes automatizados, consulta también las fichas por dominio en `.agent/agents/`:
+
+- **ApiAgent** (`api_agent.md`): centraliza la coordinación del backend (`api/`) con los ExecPlans `EXECPLAN_agents_domain_alignment.md`, `EXECPLAN_codex_mcp_multi_llm.md`, el catálogo `PROMPT_TECHNIQUES_CATALOG.md`, el playbook `CONTEXT_MANAGEMENT_PLAYBOOK.md` y los briefs generados por `CodexMCPWorkflowBuilder`.
+- **UiAgent** (`ui_agent.md`): une los entregables del Designer Agent con la implementación en `ui/`, reutilizando los playbooks de prompting (`PROMPT_TECHNIQUES_CATALOG.md`, `CODE_GENERATION_GUIDE.md`, `PHI3_PROMPT_ENGINEERING_PLAYBOOK.md`) y las sesiones de contexto descritas en `CONTEXT_MANAGEMENT_PLAYBOOK.md`.
+- **InfrastructureAgent** (`infrastructure_agent.md`): orquesta cambios en `infrastructure/` en conjunto con los agentes operativos (Dependency, Release, Security), el catálogo `PROMPT_TECHNIQUES_CATALOG.md`, el playbook `CONTEXT_MANAGEMENT_PLAYBOOK.md` y los planes `SPEC_INFRA_*`.
+- **DocsAgent** (`docs_agent.md`): asegura que toda modificación en `docs/` respete al ETA-AGENTE CODEX, el catálogo `PROMPT_TECHNIQUES_CATALOG.md`, la guía de contexto multi-LLM y los validadores de documentación.
+- **ScriptsAgent** (`scripts_agent.md`): gobierna la evolución de `scripts/` manteniendo el enfoque TDD, el catálogo `PROMPT_TECHNIQUES_CATALOG.md`, el playbook `CONTEXT_MANAGEMENT_PLAYBOOK.md` y la sincronización con los generadores/orquestadores LLM.
+
+Cada vez que inicies un ExecPlan nuevo, referencia tanto la ficha del proveedor LLM como la del dominio involucrado para mantener la trazabilidad completa.
 
 ### 1. SDLCFeasibilityAgent
 
