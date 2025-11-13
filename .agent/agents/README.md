@@ -312,7 +312,7 @@ Para crear un nuevo agente especializado:
    - Un agente = una responsabilidad
    - Evitar agentes monolíticos
 
-2. **Crear archivo en `.github/agents/[nombre]-agent.md`**
+2. **Crear archivo en `.agent/agents/[nombre]_agent.md`**
    ```markdown
    ---
    name: [NombreAgente]

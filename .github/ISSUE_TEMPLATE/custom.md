@@ -6,7 +6,7 @@ labels: [automation]
 assignees: []
 ---
 
-Usa este template cuando necesites que un agente documentado en `.github/agents/README.md` ejecute una tarea específica.
+Usa este template cuando necesites que un agente documentado en `.agent/agents/README.md` ejecute una tarea específica.
 
 ## Agente objetivo
 
