@@ -2,7 +2,7 @@
 id: DOC-ARQ-INDEX
 estado: activo
 propietario: equipo-arquitectura
-ultima_actualizacion: 2025-11-04
+ultima_actualizacion: 2025-01-13
 relacionados: ["DOC-INDEX-GENERAL", "DOC-GOB-INDEX", "ADR-2025-001", "ADR-2025-002"]
 ---
 # Arquitectura del Proyecto IACT
@@ -14,6 +14,7 @@ Este espacio documenta las decisiones arquitectónicas, patrones de diseño, com
 
 ## Páginas hijas
 - [Lineamientos de código](lineamientos_codigo.md)
+- [Catálogo simplificado de patrones de diseño](patrones/DESIGN_PATTERNS_GUIDE.md)
 - [Architecture Decision Records (ADR)](adr/plantilla_adr.md)
 - [Backend - Arquitectura](../backend/arquitectura/README.md)
 - [Frontend - Arquitectura](../frontend/arquitectura/README.md)

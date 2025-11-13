@@ -177,7 +177,7 @@ done
 
 **Cuándo se usó**: Sincronización de ramas principales y limpieza de repositorio (2025-11-05)
 
-**Ubicación**: `.github/agents/gitops-agent.md`
+**Ubicación**: `.agent/agents/gitops_agent.md`
 
 **Cómo funciona**:
 
@@ -402,7 +402,7 @@ git branch -r  # Debe mostrar solo 4 ramas
 
 **Tipo**: Agente personalizado `ReleaseAgent`
 
-**Ubicación**: `.github/agents/release-agent.md`
+**Ubicación**: `.agent/agents/release_agent.md`
 
 **Propósito**: Gestión completa del proceso de release, versionado semántico, generación de changelogs y creación de tags Git.
 
@@ -452,7 +452,7 @@ actualiza versiones en archivos del proyecto y crea tag.
 
 **Tipo**: Agente personalizado `DependencyAgent`
 
-**Ubicación**: `.github/agents/dependency-agent.md`
+**Ubicación**: `.agent/agents/dependency_agent.md`
 
 **Propósito**: Gestión de dependencias, actualizaciones, escaneo de vulnerabilidades y auditoría de licencias.
 
@@ -509,7 +509,7 @@ Generar reporte detallado.
 
 **Tipo**: Agente personalizado `SecurityAgent`
 
-**Ubicación**: `.github/agents/security-agent.md`
+**Ubicación**: `.agent/agents/security_agent.md`
 
 **Propósito**: Auditorías de seguridad, escaneo de vulnerabilidades, detección de secrets y análisis de amenazas según metodología STRIDE.
 
