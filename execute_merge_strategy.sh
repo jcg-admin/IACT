@@ -33,8 +33,8 @@ echo -e "${GREEN}Working directory is clean${NC}"
 echo "Fetching remote references..."
 git fetch origin
 
-# Try to fetch develop branch
-git fetch origin develop:develop 2>/dev/null || echo "Develop branch will be updated during merge"
+# Fetch develop branch
+git fetch origin develop
 echo -e "${GREEN}Step 1 completed${NC}"
 echo ""
 

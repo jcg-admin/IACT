@@ -63,7 +63,7 @@ git status
 
 # Actualizar referencias remotas (incluyendo develop)
 git fetch origin
-git fetch origin develop:develop 2>/dev/null || echo "Develop branch will be updated"
+git fetch origin develop
 ```
 
 #### Paso 2: Obtener Rama Claude
@@ -185,7 +185,7 @@ Si el merge directo causa demasiados conflictos:
 
 ```bash
 # Hacer backup de la rama actual
-git branch backup-pr-175-$(date +%Y%m%d)
+git branch backup-pr-175-$(date +%Y%m%d-%H%M%S)
 
 # Rebase sobre Claude
 git rebase origin/claude/analyze-scripts-output-011CV5YLxdEnu9YN3qpzGV2R
@@ -314,7 +314,7 @@ git checkout --theirs docs/frontend/arquitectura/adr/ADR_2025_XXX_*.md
 # Si existe en ambas, verificar contenido
 
 # Ver diferencias
-git diff --ours --theirs path/to/doc
+git diff origin/claude/analyze-scripts-output-011CV5YLxdEnu9YN3qpzGV2R..HEAD -- path/to/doc
 
 # Decisión:
 # - Si contenido es complementario: merge manual
@@ -365,10 +365,13 @@ Si algo sale mal durante el merge:
 git merge --abort
 
 # Opción 2: Reset a estado anterior
-git reset --hard HEAD
+git reset --hard HEAD~1  # O usa git reset --hard ORIG_HEAD para volver al commit anterior al merge
 
 # Opción 3: Restaurar desde backup
-git checkout backup-pr-175-$(date +%Y%m%d)
+# Busca el nombre correcto de la rama de backup antes de hacer checkout:
+git branch | grep backup-pr-175
+# Luego usa el nombre exacto, por ejemplo:
+git checkout backup-pr-175-20251113-143000
 
 # Opción 4: Recrear rama desde remoto
 git fetch origin
