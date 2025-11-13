@@ -7,9 +7,9 @@
 # Exit codes:
 #   0 - No vulnerabilities
 #   1 - Vulnerabilities found
-#   2 - NPM not used or prerequisites missing (skip)
+#   2 - NPM not used (skip)
 
-set -euo pipefail
+set -e
 
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -25,59 +25,39 @@ PROJECT_ROOT="$(cd "$SCRIPT_DIR/../../.." && pwd)"
 
 log_info "Running NPM security audit..."
 
-# Locate package.json (support monorepos)
-AUDIT_DIR=""
+# Check if package.json exists
+PACKAGE_JSON_FOUND=false
 
 if [ -f "$PROJECT_ROOT/package.json" ]; then
-    AUDIT_DIR="$PROJECT_ROOT"
-    log_info "Found package.json in repository root"
-elif [ -f "$PROJECT_ROOT/ui/package.json" ]; then
-    AUDIT_DIR="$PROJECT_ROOT/ui"
-    log_info "Found package.json in ui"
+    PACKAGE_JSON_FOUND=true
 elif [ -f "$PROJECT_ROOT/frontend/package.json" ]; then
-    AUDIT_DIR="$PROJECT_ROOT/frontend"
-    log_info "Found package.json in frontend"
+    cd "$PROJECT_ROOT/frontend"
+    PACKAGE_JSON_FOUND=true
 fi
 
-if [ -z "$AUDIT_DIR" ]; then
+if [ "$PACKAGE_JSON_FOUND" = false ]; then
     log_warn "No package.json found - skipping NPM audit"
     exit 2
 fi
 
 # Check if npm is installed
-if ! command -v npm >/dev/null 2>&1; then
-    log_warn "npm CLI not available - skipping audit"
-    log_warn "Install Node.js/npm locally to run this check"
-    exit 2
+if ! command -v npm &> /dev/null; then
+    log_error "npm not installed"
+    exit 1
 fi
 
 log_info "Running npm audit..."
 
-cd "$AUDIT_DIR"
-
-AUDIT_LOG="/tmp/npm_audit.log"
-
-if npm audit --audit-level=moderate >"$AUDIT_LOG" 2>&1; then
+# Run npm audit
+if npm audit --audit-level=moderate 2>&1 | tee /tmp/npm_audit.log; then
     log_info "NPM audit passed - no vulnerabilities found"
     exit 0
-fi
+else
+    log_error "NPM audit found vulnerabilities"
+    cat /tmp/npm_audit.log
 
-if grep -E "(ENOTFOUND|ECONN|EAI_AGAIN|ENETUNREACH|network request failed)" "$AUDIT_LOG" >/dev/null 2>&1; then
-    log_warn "npm audit could not reach the registry - skipping (offline environment)"
-    tail -n 5 "$AUDIT_LOG" | while IFS= read -r line; do
-        log_warn "    $line"
-    done
-    exit 2
-fi
+    log_info "Attempting to fix vulnerabilities..."
+    npm audit fix
 
-if grep -E "(ENOLOCK|requires a lockfile)" "$AUDIT_LOG" >/dev/null 2>&1; then
-    log_warn "npm audit requires dependencies installed (missing lockfile) - skipping"
-    tail -n 5 "$AUDIT_LOG" | while IFS= read -r line; do
-        log_warn "    $line"
-    done
-    exit 2
+    exit 1
 fi
-
-log_error "NPM audit found vulnerabilities or failed unexpectedly"
-cat "$AUDIT_LOG"
-exit 1

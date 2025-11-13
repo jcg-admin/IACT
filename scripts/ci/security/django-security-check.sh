@@ -34,78 +34,53 @@ elif [ -f "$PROJECT_ROOT/.venv/bin/activate" ]; then
 fi
 
 ISSUES_FOUND=0
-CHECKS_SKIPPED=0
 
 # Check 1: Django check --deploy
 log_info "Running: python manage.py check --deploy"
-MANAGE_READY=true
-if ! python3 -c "import django" >/dev/null 2>&1; then
-    MANAGE_READY=false
-    log_warn "Skipping manage.py checks: Django is not installed"
-    CHECKS_SKIPPED=$((CHECKS_SKIPPED + 1))
-elif [ ! -f "manage.py" ]; then
-    MANAGE_READY=false
-    log_warn "Skipping manage.py checks: manage.py not found"
-    CHECKS_SKIPPED=$((CHECKS_SKIPPED + 1))
-fi
-
-if [ "$MANAGE_READY" = true ]; then
-    if python3 manage.py check --deploy 2>&1 | tee /tmp/django_check.log; then
-        log_info "Django deployment checks passed"
-    else
-        log_error "Django deployment checks failed"
-        cat /tmp/django_check.log
-        ISSUES_FOUND=$((ISSUES_FOUND + 1))
-    fi
+if python3 manage.py check --deploy 2>&1 | tee /tmp/django_check.log; then
+    log_info "Django deployment checks passed"
 else
-    log_warn "manage.py checks skipped due to missing prerequisites"
+    log_error "Django deployment checks failed"
+    cat /tmp/django_check.log
+    ISSUES_FOUND=$((ISSUES_FOUND + 1))
 fi
 
 # Check 2: Settings security
 log_info "Checking security settings..."
 SETTINGS_FILE="callcentersite/settings.py"
-SETTINGS_DIR="callcentersite/settings"
 
-if [ -f "$SETTINGS_FILE" ]; then
-    TARGET_SETTINGS="$SETTINGS_FILE"
-elif [ -f "$SETTINGS_DIR/base.py" ]; then
-    TARGET_SETTINGS="$SETTINGS_DIR/base.py"
+# Check DEBUG setting
+if grep -q "DEBUG = True" "$SETTINGS_FILE"; then
+    log_error "DEBUG is True - should be False in production"
+    ISSUES_FOUND=$((ISSUES_FOUND + 1))
 else
-    TARGET_SETTINGS=""
+    log_info "DEBUG setting: OK"
 fi
 
-if [ -n "$TARGET_SETTINGS" ]; then
-    if grep -q "DEBUG = True" "$TARGET_SETTINGS"; then
-        log_error "DEBUG is True - should be False in production"
-        ISSUES_FOUND=$((ISSUES_FOUND + 1))
-    else
-        log_info "DEBUG setting: OK"
-    fi
+# Check SECRET_KEY not hardcoded
+if grep -q 'SECRET_KEY = "[^"]*"' "$SETTINGS_FILE"; then
+    log_warn "SECRET_KEY may be hardcoded - should use environment variable"
+fi
 
-    if grep -q 'SECRET_KEY = "[^"]*"' "$TARGET_SETTINGS"; then
-        log_warn "SECRET_KEY may be hardcoded - should use environment variable"
-    fi
-
-    if grep -q "SECURE_SSL_REDIRECT = True" "$TARGET_SETTINGS"; then
-        log_info "SECURE_SSL_REDIRECT: Enabled"
-    else
-        log_warn "SECURE_SSL_REDIRECT: Not enabled"
-    fi
-
-    if grep -q "SESSION_COOKIE_SECURE = True" "$TARGET_SETTINGS"; then
-        log_info "SESSION_COOKIE_SECURE: Enabled"
-    else
-        log_warn "SESSION_COOKIE_SECURE: Not enabled"
-    fi
-
-    if grep -q "CSRF_COOKIE_SECURE = True" "$TARGET_SETTINGS"; then
-        log_info "CSRF_COOKIE_SECURE: Enabled"
-    else
-        log_warn "CSRF_COOKIE_SECURE: Not enabled"
-    fi
+# Check SECURE_SSL_REDIRECT
+if grep -q "SECURE_SSL_REDIRECT = True" "$SETTINGS_FILE"; then
+    log_info "SECURE_SSL_REDIRECT: Enabled"
 else
-    log_warn "Skipping settings inspection: settings module not found"
-    CHECKS_SKIPPED=$((CHECKS_SKIPPED + 1))
+    log_warn "SECURE_SSL_REDIRECT: Not enabled"
+fi
+
+# Check SESSION_COOKIE_SECURE
+if grep -q "SESSION_COOKIE_SECURE = True" "$SETTINGS_FILE"; then
+    log_info "SESSION_COOKIE_SECURE: Enabled"
+else
+    log_warn "SESSION_COOKIE_SECURE: Not enabled"
+fi
+
+# Check CSRF_COOKIE_SECURE
+if grep -q "CSRF_COOKIE_SECURE = True" "$SETTINGS_FILE"; then
+    log_info "CSRF_COOKIE_SECURE: Enabled"
+else
+    log_warn "CSRF_COOKIE_SECURE: Not enabled"
 fi
 
 # Check 3: SQL Injection patterns
@@ -118,9 +93,6 @@ fi
 echo ""
 if [ $ISSUES_FOUND -eq 0 ]; then
     log_info "Django security check passed"
-    if [ $CHECKS_SKIPPED -gt 0 ]; then
-        exit 2
-    fi
     exit 0
 else
     log_error "Found $ISSUES_FOUND security issues"

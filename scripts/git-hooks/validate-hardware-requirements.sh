@@ -10,7 +10,7 @@ set -euo pipefail
 
 # Source centralized logging functions
 if [ -f "infrastructure/utils/logging-functions.sh" ]; then
-    source infraestructura/utils/logging-functions.sh
+    source infrastructure/utils/logging-functions.sh
 else
     echo "[ERROR] Missing infrastructure/utils/logging-functions.sh"
     echo "ACTION REQUIRED: Run T006-MINI logging setup first"

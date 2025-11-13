@@ -6,10 +6,9 @@
 #
 # Exit codes:
 #   0 - Test execution time is acceptable
-#   1 - Tests are too slow or failed
-#   2 - Prerequisites missing (skip)
+#   1 - Tests are too slow
 
-set -euo pipefail
+set -e
 
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -29,22 +28,9 @@ cd "$PROJECT_ROOT/api/callcentersite"
 
 # Activar entorno virtual
 if [ -f "$PROJECT_ROOT/venv/bin/activate" ]; then
-    # shellcheck source=/dev/null
     source "$PROJECT_ROOT/venv/bin/activate"
 elif [ -f "$PROJECT_ROOT/.venv/bin/activate" ]; then
-    # shellcheck source=/dev/null
     source "$PROJECT_ROOT/.venv/bin/activate"
-fi
-
-# Verificar dependencias mínimas
-if ! python3 -c "import django" >/dev/null 2>&1; then
-    log_warn "Skipping test execution time validation: Django not installed"
-    exit 2
-fi
-
-if ! command -v pytest >/dev/null 2>&1; then
-    log_warn "Skipping test execution time validation: pytest CLI not available"
-    exit 2
 fi
 
 # Run tests with timing

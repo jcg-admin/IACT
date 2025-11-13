@@ -268,7 +268,7 @@ Estos archivos tienen el mismo nombre pero contenido diferente. Requieren revisi
 # Eliminar archivos 100% duplicados
 rm docs/backend/checklists/checklist_testing.md
 rm docs/backend/checklists/checklist_trazabilidad_requisitos.md
-rm docs/infraestructura/checklists/checklist_cambios_documentales.md
+rm docs/infrastructure/checklists/checklist_cambios_documentales.md
 ```
 
 **Justificación**: Estos archivos están en docs/checklists/ (general) y son idénticos a los movidos.
@@ -277,12 +277,12 @@ rm docs/infraestructura/checklists/checklist_cambios_documentales.md
 
 ```bash
 # Eliminar stubs que duplican documentación completa en docs/ raíz
-rm docs/infraestructura/devops/contenedores_devcontainer.md
+rm docs/infrastructure/devops/contenedores_devcontainer.md
 rm docs/backend/devops/runbooks/reprocesar_etl_fallido.md
-rm docs/infraestructura/devops/runbooks/verificar_servicios.md
-rm docs/infraestructura/devops/runbooks/post_create.md
-rm docs/infraestructura/arquitectura/adr/adr_2025_001_vagrant_mod_wsgi.md
-rm docs/infraestructura/arquitectura/adr/plantilla_adr.md
+rm docs/infrastructure/devops/runbooks/verificar_servicios.md
+rm docs/infrastructure/devops/runbooks/post_create.md
+rm docs/infrastructure/arquitectura/adr/adr_2025_001_vagrant_mod_wsgi.md
+rm docs/infrastructure/arquitectura/adr/plantilla_adr.md
 rm docs/backend/arquitectura/lineamientos_codigo.md  # opcional - puede expandirse
 ```
 

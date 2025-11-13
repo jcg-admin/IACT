@@ -523,7 +523,7 @@ Esta regla aplica a:
 
 Existe un script de verificación en:
 ```bash
-infraestructura/devcontainer/scripts/check_no_emojis.sh
+infrastructure/devcontainer/scripts/check_no_emojis.sh
 ```
 
 **IMPORTANTE**:

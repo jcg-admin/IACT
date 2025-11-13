@@ -66,8 +66,8 @@ For local development and testing with locally built artifacts:
   "features": {
     "./infrastructure/cpython/builder/feature": {
       "version": "3.12.6",
-      "artifactUrl": "/workspaces/IACT---project/infraestructura/cpython/artifacts/cpython-3.12.6-ubuntu20.04-build1.tgz",
-      "checksumUrl": "/workspaces/IACT---project/infraestructura/cpython/artifacts/cpython-3.12.6-ubuntu20.04-build1.tgz.sha256"
+      "artifactUrl": "/workspaces/IACT---project/infrastructure/cpython/artifacts/cpython-3.12.6-ubuntu20.04-build1.tgz",
+      "checksumUrl": "/workspaces/IACT---project/infrastructure/cpython/artifacts/cpython-3.12.6-ubuntu20.04-build1.tgz.sha256"
     }
   }
 }
@@ -109,7 +109,7 @@ URL or local path to the precompiled CPython tarball.
 
 ```json
 {
-  "artifactUrl": "/workspaces/project/infraestructura/cpython/artifacts-3.12.6.tgz"
+  "artifactUrl": "/workspaces/project/infrastructure/cpython/artifacts-3.12.6.tgz"
 }
 ```
 
@@ -334,7 +334,7 @@ Project B (Python 3.11):
   "features": {
     "./infrastructure/cpython/builder/feature": {
       "version": "3.12.6",
-      "artifactUrl": "/workspaces/IACT---project/infraestructura/cpython/artifacts/cpython-3.12.6-ubuntu20.04-build1.tgz"
+      "artifactUrl": "/workspaces/IACT---project/infrastructure/cpython/artifacts/cpython-3.12.6-ubuntu20.04-build1.tgz"
     }
   }
 }
@@ -390,7 +390,7 @@ make validate-cpython ARTIFACT=cpython-3.12.6-ubuntu20.04-build1.tgz
   "features": {
     "./infrastructure/cpython/builder/feature": {
       "version": "3.12.6",
-      "artifactUrl": "/workspaces/IACT---project/infraestructura/cpython/artifacts/cpython-3.12.6-ubuntu20.04-build1.tgz"
+      "artifactUrl": "/workspaces/IACT---project/infrastructure/cpython/artifacts/cpython-3.12.6-ubuntu20.04-build1.tgz"
     }
   }
 }

@@ -555,18 +555,18 @@ scripts/ai/
 
 1. **Crear directorio infrastructure**:
    ```bash
-   mkdir -p scripts/infraestructura
+   mkdir -p scripts/infrastructure
    ```
 
 2. **Mover directorios existentes**:
    ```bash
-   mv scripts/cassandra scripts/infraestructura/
-   mv scripts/ci scripts/infraestructura/
-   mv scripts/logging scripts/infraestructura/
-   mv scripts/disaster_recovery scripts/infraestructura/
-   mv scripts/load_testing scripts/infraestructura/
-   mv scripts/benchmarking scripts/infraestructura/
-   mv scripts/dev scripts/infraestructura/
+   mv scripts/cassandra scripts/infrastructure/
+   mv scripts/ci scripts/infrastructure/
+   mv scripts/logging scripts/infrastructure/
+   mv scripts/disaster_recovery scripts/infrastructure/
+   mv scripts/load_testing scripts/infrastructure/
+   mv scripts/benchmarking scripts/infrastructure/
+   mv scripts/dev scripts/infrastructure/
    ```
 
 3. **Actualizar referencias en documentación**

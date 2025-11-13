@@ -350,7 +350,7 @@ detect_location_violations() {
             ;;
         validate-*)
             case "$filepath" in
-                infraestructura/hooks/*)
+                infrastructure/hooks/*)
                     return 1
                     ;;
                 *)
@@ -386,7 +386,7 @@ detect_location_violations() {
             ;;
         load-*-env.sh)
             case "$filepath" in
-                infraestructura/configs/*)
+                infrastructure/configs/*)
                     return 1
                     ;;
                 *)
@@ -410,7 +410,7 @@ detect_location_violations() {
             ;;
         *)
             case "$filepath" in
-                infraestructura/utils/*)
+                infrastructure/utils/*)
                     validate_utils_criteria "$filename"
                     ;;
             esac
@@ -491,7 +491,7 @@ validate_stability() {
     esac
 
     case "$filepath" in
-        infraestructura/utils/*)
+        infrastructure/utils/*)
             predicted_ca=10
             predicted_ce=1
             ;;
@@ -507,7 +507,7 @@ validate_stability() {
         fi
 
         case "$filepath" in
-            infraestructura/utils/*)
+            infrastructure/utils/*)
                 if [ $instability -gt 20 ]; then
                     create_result "CORRECTIVE" "UTILS_INSTABILITY" \
                         "Utils instability: ${instability}%" \
@@ -728,7 +728,7 @@ teardown_naming_compliance_logging() {
     unset ENABLE_PERFORMANCE_TRACKING
 
     # Reset any global counters to prevent interference with other scripts
-    # (Add other cleanup as needed based on your infraestructura)
+    # (Add other cleanup as needed based on your infrastructure)
 }
 
 get_naming_compliance_errors() {
