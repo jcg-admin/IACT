@@ -4,7 +4,7 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 RUN_ALL_CHECKS = REPO_ROOT / "scripts" / "ci" / "run-all-checks.sh"
-HEALTH_CHECK = REPO_ROOT / "scripts" / "ci" / "infraestructura" / "health-check.sh"
+HEALTH_CHECK = REPO_ROOT / "scripts" / "ci" / "infrastructure" / "health-check.sh"
 BANDIT_SCAN = REPO_ROOT / "scripts" / "ci" / "security" / "bandit-scan.sh"
 NPM_AUDIT = REPO_ROOT / "scripts" / "ci" / "security" / "npm-audit.sh"
 TEST_EXECUTION_TIME = REPO_ROOT / "scripts" / "ci" / "testing" / "test-execution-time.sh"
