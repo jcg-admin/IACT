@@ -53,6 +53,26 @@ Cada log incluye:
 - exception traceback (if present)
 - custom extra fields
 
+## Técnicas de Prompt Engineering para Agente
+
+Las siguientes técnicas deben aplicarse al ejecutar esta tarea con un agente:
+
+1. **Task Decomposition** (structuring_techniques.py)
+ - Dividir el diseno arquitectonico en componentes manejables
+
+2. **Code Generation** (fundamental_techniques.py)
+ - Generar implementaciones base para componentes arquitectonicos
+
+3. **Expert Prompting** (specialized_techniques.py)
+ - Aplicar conocimiento experto de arquitectura Django y patrones de diseno
+
+4. **Constitutional AI** (optimization_techniques.py)
+ - Validar que el diseno cumpla con restricciones y mejores practicas
+
+5. **Meta-prompting** (structuring_techniques.py)
+ - Generar prompts especializados para cada componente del sistema
+
+Agente recomendado: SDLCDesignAgent o FeatureAgent
 ## Implementacion Tecnica
 
 ### 1. JSONStructuredFormatter
@@ -71,29 +91,29 @@ handler.setFormatter(JSONStructuredFormatter())
 logger.addHandler(handler)
 
 logger.info('User login', extra={
-    'request_id': 'req-123',
-    'user_id': 42,
-    'session_id': 'sess-abc'
+ 'request_id': 'req-123',
+ 'user_id': 42,
+ 'session_id': 'sess-abc'
 })
 ```
 
 **Output JSON:**
 ```json
 {
-  "timestamp": "2025-11-07T06:44:30.909543Z",
-  "level": "INFO",
-  "logger": "callcentersite",
-  "message": "User login",
-  "module": "views",
-  "function": "login_view",
-  "line": 42,
-  "process_id": 9819,
-  "thread_id": 139587033763968,
-  "thread_name": "MainThread",
-  "pathname": "/home/user/IACT---project/api/callcentersite/views.py",
-  "request_id": "req-123",
-  "user_id": 42,
-  "session_id": "sess-abc"
+ "timestamp": "2025-11-07T06:44:30.909543Z",
+ "level": "INFO",
+ "logger": "callcentersite",
+ "message": "User login",
+ "module": "views",
+ "function": "login_view",
+ "line": 42,
+ "process_id": 9819,
+ "thread_id": 139587033763968,
+ "thread_name": "MainThread",
+ "pathname": "/home/user/IACT---project/api/callcentersite/views.py",
+ "request_id": "req-123",
+ "user_id": 42,
+ "session_id": "sess-abc"
 }
 ```
 
@@ -107,11 +127,11 @@ from callcentersite.logging import ContextLoggerAdapter
 
 base_logger = logging.getLogger('callcentersite.views')
 logger = ContextLoggerAdapter(base_logger, {
-    'request_id': 'req-123',
-    'user_id': 42
+ 'request_id': 'req-123',
+ 'user_id': 42
 })
 
-logger.info('Processing request')  # Automaticamente incluye request_id y user_id
+logger.info('Processing request') # Automaticamente incluye request_id y user_id
 logger.info('Request completed', extra={'duration_ms': 125})
 ```
 
@@ -120,9 +140,9 @@ logger.info('Request completed', extra={'duration_ms': 125})
 from callcentersite.logging import get_logger_with_context
 
 logger = get_logger_with_context(
-    'callcentersite.views',
-    request_id='req-123',
-    user_id=42
+ 'callcentersite.views',
+ request_id='req-123',
+ user_id=42
 )
 
 logger.info('Action performed')
@@ -148,10 +168,10 @@ logger.info('Action performed')
 **Log Files:**
 ```
 /var/log/iact/
-├── app.json.log           # All logs >= INFO (JSON format)
-├── app_errors.json.log    # Only errors (JSON format)
-├── django.log             # All logs (verbose format)
-└── django_errors.log      # Only errors (verbose format)
+├── app.json.log # All logs >= INFO (JSON format)
+├── app_errors.json.log # Only errors (JSON format)
+├── django.log # All logs (verbose format)
+└── django_errors.log # Only errors (verbose format)
 ```
 
 **Rotation:**
@@ -186,11 +206,11 @@ import logging
 
 logger = logging.getLogger('callcentersite.views')
 logger.info('User login attempt', extra={
-    'request_id': 'req-abc-123',
-    'user_id': 42,
-    'session_id': 'sess-xyz-789',
-    'ip_address': '192.168.1.100',
-    'user_agent': 'Mozilla/5.0...'
+ 'request_id': 'req-abc-123',
+ 'user_id': 42,
+ 'session_id': 'sess-xyz-789',
+ 'ip_address': '192.168.1.100',
+ 'user_agent': 'Mozilla/5.0...'
 })
 ```
 
@@ -200,15 +220,15 @@ logger.info('User login attempt', extra={
 from callcentersite.logging import get_logger_with_context
 
 def process_request(request):
-    logger = get_logger_with_context(
-        'callcentersite.views',
-        request_id=request.id,
-        user_id=request.user.id if request.user.is_authenticated else None
-    )
+ logger = get_logger_with_context(
+ 'callcentersite.views',
+ request_id=request.id,
+ user_id=request.user.id if request.user.is_authenticated else None
+ )
 
-    logger.info('Processing request')
-    # ... business logic ...
-    logger.info('Request completed', extra={'duration_ms': 125})
+ logger.info('Processing request')
+ # ... business logic ...
+ logger.info('Request completed', extra={'duration_ms': 125})
 ```
 
 ### 4. Exception Logging
@@ -219,13 +239,13 @@ import logging
 logger = logging.getLogger('callcentersite')
 
 try:
-    result = perform_operation()
+ result = perform_operation()
 except Exception as e:
-    logger.exception('Operation failed', extra={
-        'request_id': 'req-error-001',
-        'user_id': request.user.id,
-        'operation': 'data_export'
-    })
+ logger.exception('Operation failed', extra={
+ 'request_id': 'req-error-001',
+ 'user_id': request.user.id,
+ 'operation': 'data_export'
+ })
 ```
 
 ## Testing
@@ -248,12 +268,12 @@ python test_json_logging_simple.py
 
 **Resultados:**
 ```
-✓ All log levels tested (INFO, WARNING, ERROR)
-✓ Adapter auto-context working
-✓ Exception logged with traceback
-✓ 3 log entries written
-✓ Valid JSON format
-✓ All required fields present
+[x] All log levels tested (INFO, WARNING, ERROR)
+[x] Adapter auto-context working
+[x] Exception logged with traceback
+[x] 3 log entries written
+[x] Valid JSON format
+[x] All required fields present
 ```
 
 ### Verificacion Manual
@@ -362,17 +382,17 @@ chown django-user:django-group /var/log/iact
 
 ```
 /var/log/iact/*.log {
-    daily
-    rotate 30
-    compress
-    delaycompress
-    missingok
-    notifempty
-    create 0644 django-user django-group
-    sharedscripts
-    postrotate
-        systemctl reload django
-    endscript
+ daily
+ rotate 30
+ compress
+ delaycompress
+ missingok
+ notifempty
+ create 0644 django-user django-group
+ sharedscripts
+ postrotate
+ systemctl reload django
+ endscript
 }
 ```
 

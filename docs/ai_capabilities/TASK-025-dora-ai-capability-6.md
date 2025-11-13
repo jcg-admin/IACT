@@ -24,6 +24,26 @@ Exponer datos internos del sistema de manera estructurada y accesible para AI ag
 - Decision making basado en datos
 - Self-service data access
 
+## Técnicas de Prompt Engineering para Agente
+
+Las siguientes técnicas deben aplicarse al ejecutar esta tarea con un agente:
+
+1. **RAG** (search_optimization_techniques.py)
+ - Implementar Retrieval Augmented Generation para data catalog
+
+2. **Expert Prompting** (specialized_techniques.py)
+ - Aplicar conocimiento experto de AI/ML y prompt engineering
+
+3. **Meta-prompting** (structuring_techniques.py)
+ - Generar prompts dinamicos para diferentes casos de uso
+
+4. **Task Decomposition** (structuring_techniques.py)
+ - Dividir capabilities AI en componentes reutilizables
+
+5. **Few-Shot** (fundamental_techniques.py)
+ - Usar ejemplos para entrenar modelos de AI
+
+Agente recomendado: FeatureAgent o SDLCDesignAgent
 ## DORA 2025 AI Capability 6
 
 ### Definition
@@ -42,18 +62,18 @@ Exponer datos internos del sistema de manera estructurada y accesible para AI ag
 
 ```
 AI Agent
-   ↓
-   ├─ GET /api/dora/data-catalog/
-   │  └─ Returns: Complete catalog with 4 datasets
-   │
-   ├─ GET /api/dora/data-catalog/dora-metrics/
-   │  └─ Returns: DORA metrics data (filtered)
-   │
-   ├─ GET /api/dora/data-catalog/deployment-cycles/
-   │  └─ Returns: Deployment cycle information
-   │
-   └─ GET /api/dora/data-catalog/aggregated-stats/
-      └─ Returns: Aggregated statistics
+ ↓
+ ├─ GET /api/dora/data-catalog/
+ │ └─ Returns: Complete catalog with 4 datasets
+ │
+ ├─ GET /api/dora/data-catalog/dora-metrics/
+ │ └─ Returns: DORA metrics data (filtered)
+ │
+ ├─ GET /api/dora/data-catalog/deployment-cycles/
+ │ └─ Returns: Deployment cycle information
+ │
+ └─ GET /api/dora/data-catalog/aggregated-stats/
+ └─ Returns: Aggregated statistics
 
 Response Format: JSON with:
 - Schema information
@@ -76,24 +96,24 @@ Response Format: JSON with:
 **Datasets Catalogados:**
 
 1. **dora_metrics**: Core DORA performance metrics
-   - Fields: cycle_id, feature_id, phase_name, decision, duration_seconds, created_at
-   - Type: time_series
-   - Update frequency: real_time
+ - Fields: cycle_id, feature_id, phase_name, decision, duration_seconds, created_at
+ - Type: time_series
+ - Update frequency: real_time
 
 2. **deployment_cycles**: Complete deployment cycle information
-   - Fields: cycle_id, feature_id, start_time, end_time, total_duration_hours, phases_count, failed
-   - Type: aggregated
-   - Update frequency: real_time
+ - Fields: cycle_id, feature_id, start_time, end_time, total_duration_hours, phases_count, failed
+ - Type: aggregated
+ - Update frequency: real_time
 
 3. **performance_metrics**: System performance and health
-   - Fields: metric_name, value, timestamp
-   - Type: time_series
-   - Update frequency: 5_minutes
+ - Fields: metric_name, value, timestamp
+ - Type: time_series
+ - Update frequency: 5_minutes
 
 4. **quality_metrics**: Data quality scores
-   - Fields: dataset_name, quality_score, null_rate, anomaly_rate, schema_violations, checked_at
-   - Type: aggregated
-   - Update frequency: daily
+ - Fields: dataset_name, quality_score, null_rate, anomaly_rate, schema_violations, checked_at
+ - Type: aggregated
+ - Update frequency: daily
 
 ### 2. API Endpoints
 
@@ -104,34 +124,34 @@ Returns complete data catalog.
 **Response:**
 ```json
 {
-  "catalog_version": "1.0.0",
-  "generated_at": "2025-11-07T10:30:00Z",
-  "total_datasets": 4,
-  "datasets": [
-    {
-      "dataset_id": "dora_metrics",
-      "name": "DORA Metrics",
-      "description": "Core DORA performance metrics",
-      "type": "time_series",
-      "update_frequency": "real_time",
-      "schema": {
-        "fields": [
-          {
-            "name": "cycle_id",
-            "type": "string",
-            "description": "Unique deployment cycle identifier",
-            "required": true,
-            "example": "cycle-2025-001"
-          },
-          ...
-        ]
-      },
-      "api_endpoint": "/api/dora/data-catalog/dora-metrics/",
-      "query_parameters": [...],
-      "example_queries": [...]
-    },
-    ...
-  ]
+ "catalog_version": "1.0.0",
+ "generated_at": "2025-11-07T10:30:00Z",
+ "total_datasets": 4,
+ "datasets": [
+ {
+ "dataset_id": "dora_metrics",
+ "name": "DORA Metrics",
+ "description": "Core DORA performance metrics",
+ "type": "time_series",
+ "update_frequency": "real_time",
+ "schema": {
+ "fields": [
+ {
+ "name": "cycle_id",
+ "type": "string",
+ "description": "Unique deployment cycle identifier",
+ "required": true,
+ "example": "cycle-2025-001"
+ },
+ ...
+ ]
+ },
+ "api_endpoint": "/api/dora/data-catalog/dora-metrics/",
+ "query_parameters": [...],
+ "example_queries": [...]
+ },
+ ...
+ ]
 }
 ```
 
@@ -152,30 +172,30 @@ GET /api/dora/data-catalog/dora-metrics/?days=7&phase_name=deployment
 **Response:**
 ```json
 {
-  "query": {
-    "days": 7,
-    "phase_name": "deployment",
-    "feature_id": null,
-    "executed_at": "2025-11-07T10:30:00Z"
-  },
-  "metadata": {
-    "total_records": 25,
-    "date_range": {
-      "start": "2025-10-31T10:30:00Z",
-      "end": "2025-11-07T10:30:00Z"
-    }
-  },
-  "data": [
-    {
-      "cycle_id": "cycle-001",
-      "feature_id": "FEAT-123",
-      "phase_name": "deployment",
-      "decision": "approved",
-      "duration_seconds": 1200.5,
-      "created_at": "2025-11-07T09:00:00Z"
-    },
-    ...
-  ]
+ "query": {
+ "days": 7,
+ "phase_name": "deployment",
+ "feature_id": null,
+ "executed_at": "2025-11-07T10:30:00Z"
+ },
+ "metadata": {
+ "total_records": 25,
+ "date_range": {
+ "start": "2025-10-31T10:30:00Z",
+ "end": "2025-11-07T10:30:00Z"
+ }
+ },
+ "data": [
+ {
+ "cycle_id": "cycle-001",
+ "feature_id": "FEAT-123",
+ "phase_name": "deployment",
+ "decision": "approved",
+ "duration_seconds": 1200.5,
+ "created_at": "2025-11-07T09:00:00Z"
+ },
+ ...
+ ]
 }
 ```
 
@@ -195,27 +215,27 @@ GET /api/dora/data-catalog/deployment-cycles/?days=30&failed_only=true
 **Response:**
 ```json
 {
-  "query": {
-    "days": 30,
-    "failed_only": true,
-    "executed_at": "2025-11-07T10:30:00Z"
-  },
-  "metadata": {
-    "total_cycles": 5,
-    "failed_cycles": 5
-  },
-  "data": [
-    {
-      "cycle_id": "cycle-002",
-      "feature_id": "FEAT-124",
-      "start_time": "2025-11-01T08:00:00Z",
-      "end_time": "2025-11-01T12:00:00Z",
-      "total_duration_hours": 4.0,
-      "phases_count": 5,
-      "failed": true
-    },
-    ...
-  ]
+ "query": {
+ "days": 30,
+ "failed_only": true,
+ "executed_at": "2025-11-07T10:30:00Z"
+ },
+ "metadata": {
+ "total_cycles": 5,
+ "failed_cycles": 5
+ },
+ "data": [
+ {
+ "cycle_id": "cycle-002",
+ "feature_id": "FEAT-124",
+ "start_time": "2025-11-01T08:00:00Z",
+ "end_time": "2025-11-01T12:00:00Z",
+ "total_duration_hours": 4.0,
+ "phases_count": 5,
+ "failed": true
+ },
+ ...
+ ]
 }
 ```
 
@@ -234,35 +254,35 @@ GET /api/dora/data-catalog/aggregated-stats/?days=30
 **Response:**
 ```json
 {
-  "period": {
-    "days": 30,
-    "start_date": "2025-10-08T10:30:00Z",
-    "end_date": "2025-11-07T10:30:00Z"
-  },
-  "total_metrics": 150,
-  "by_phase": {
-    "development": 50,
-    "testing": 40,
-    "deployment": 30,
-    "incident": 5,
-    "recovery": 5
-  },
-  "by_decision": {
-    "approved": 120,
-    "rejected": 10,
-    "rollback": 5,
-    "resolved": 5
-  },
-  "duration_stats": {
-    "avg_seconds": 1800.0,
-    "min_seconds": 300,
-    "max_seconds": 7200,
-    "avg_hours": 0.5
-  },
-  "deployment_frequency": 30,
-  "change_failure_rate": 16.67,
-  "lead_time_hours": 2.5,
-  "mttr_hours": 1.0
+ "period": {
+ "days": 30,
+ "start_date": "2025-10-08T10:30:00Z",
+ "end_date": "2025-11-07T10:30:00Z"
+ },
+ "total_metrics": 150,
+ "by_phase": {
+ "development": 50,
+ "testing": 40,
+ "deployment": 30,
+ "incident": 5,
+ "recovery": 5
+ },
+ "by_decision": {
+ "approved": 120,
+ "rejected": 10,
+ "rollback": 5,
+ "resolved": 5
+ },
+ "duration_stats": {
+ "avg_seconds": 1800.0,
+ "min_seconds": 300,
+ "max_seconds": 7200,
+ "avg_hours": 0.5
+ },
+ "deployment_frequency": 30,
+ "change_failure_rate": 16.67,
+ "lead_time_hours": 2.5,
+ "mttr_hours": 1.0
 }
 ```
 
@@ -279,8 +299,8 @@ catalog = response.json()
 
 print(f"Available datasets: {catalog['total_datasets']}")
 for dataset in catalog['datasets']:
-    print(f"  - {dataset['name']}: {dataset['description']}")
-    print(f"    API: {dataset['api_endpoint']}")
+ print(f" - {dataset['name']}: {dataset['description']}")
+ print(f" API: {dataset['api_endpoint']}")
 ```
 
 ### Example 2: Query DORA Metrics
@@ -288,18 +308,18 @@ for dataset in catalog['datasets']:
 ```python
 # Query last 7 days of deployment metrics
 params = {
-    'days': 7,
-    'phase_name': 'deployment'
+ 'days': 7,
+ 'phase_name': 'deployment'
 }
 response = requests.get(
-    'http://localhost:8000/api/dora/data-catalog/dora-metrics/',
-    params=params
+ 'http://localhost:8000/api/dora/data-catalog/dora-metrics/',
+ params=params
 )
 data = response.json()
 
 print(f"Total records: {data['metadata']['total_records']}")
 for metric in data['data']:
-    print(f"  Cycle {metric['cycle_id']}: {metric['duration_seconds']}s")
+ print(f" Cycle {metric['cycle_id']}: {metric['duration_seconds']}s")
 ```
 
 ### Example 3: Analyze Failures
@@ -307,18 +327,18 @@ for metric in data['data']:
 ```python
 # Query failed deployments
 params = {
-    'days': 30,
-    'failed_only': True
+ 'days': 30,
+ 'failed_only': True
 }
 response = requests.get(
-    'http://localhost:8000/api/dora/data-catalog/deployment-cycles/',
-    params=params
+ 'http://localhost:8000/api/dora/data-catalog/deployment-cycles/',
+ params=params
 )
 data = response.json()
 
 print(f"Failed deployments: {data['metadata']['failed_cycles']}")
 for cycle in data['data']:
-    print(f"  {cycle['cycle_id']}: {cycle['total_duration_hours']}h")
+ print(f" {cycle['cycle_id']}: {cycle['total_duration_hours']}h")
 ```
 
 ### Example 4: Get Aggregated Stats
@@ -326,8 +346,8 @@ for cycle in data['data']:
 ```python
 # Get 30-day aggregated statistics
 response = requests.get(
-    'http://localhost:8000/api/dora/data-catalog/aggregated-stats/',
-    params={'days': 30}
+ 'http://localhost:8000/api/dora/data-catalog/aggregated-stats/',
+ params={'days': 30}
 )
 stats = response.json()
 
@@ -369,9 +389,9 @@ Every response includes:
 All responses follow consistent structure:
 ```json
 {
-  "query": {...},
-  "metadata": {...},
-  "data": [...]
+ "query": {...},
+ "metadata": {...},
+ "data": [...]
 }
 ```
 
@@ -418,7 +438,7 @@ Integration tests included in `tests/integration/test_dora_metrics_integration.p
 ## Compliance
 
 ### RNF-002
-✅ **100% COMPLIANT**
+[OK] **100% COMPLIANT**
 - No external dependencies
 - Self-hosted APIs
 - Uses existing MySQL database
@@ -472,11 +492,11 @@ Integration tests included in `tests/integration/test_dora_metrics_integration.p
 ## Success Metrics
 
 ### Capability Metrics
-- ✅ 4 datasets cataloged
-- ✅ 4 API endpoints implemented
-- ✅ Self-describing schemas
-- ✅ AI-friendly JSON format
-- ✅ Query flexibility
+- [OK] 4 datasets cataloged
+- [OK] 4 API endpoints implemented
+- [OK] Self-describing schemas
+- [OK] AI-friendly JSON format
+- [OK] Query flexibility
 
 ### Usage Metrics (Future)
 - API calls per day
@@ -489,17 +509,17 @@ Integration tests included in `tests/integration/test_dora_metrics_integration.p
 
 ### AI Capability 6 Checklist
 
-- ✅ Data catalog implemented
-- ✅ Structured APIs with schemas
-- ✅ AI-friendly JSON format
-- ✅ Query interfaces available
-- ✅ Self-describing endpoints
-- ✅ Example queries provided
-- ✅ Metadata-rich responses
-- ✅ Flexible filtering
-- ✅ Documentation complete
+- [OK] Data catalog implemented
+- [OK] Structured APIs with schemas
+- [OK] AI-friendly JSON format
+- [OK] Query interfaces available
+- [OK] Self-describing endpoints
+- [OK] Example queries provided
+- [OK] Metadata-rich responses
+- [OK] Flexible filtering
+- [OK] Documentation complete
 
-**Status:** ✅ **COMPLIANT** (100%)
+**Status:** [OK] **COMPLIANT** (100%)
 
 ---
 

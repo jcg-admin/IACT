@@ -23,6 +23,27 @@ El proyecto IACT requiere un dashboard interactivo para monitorear metricas DORA
 - Tomar decisiones basadas en datos
 - Cumplir con objetivos de DevOps Performance
 
+
+## Técnicas de Prompt Engineering para Agente
+
+Las siguientes técnicas deben aplicarse al ejecutar esta tarea con un agente:
+
+1. **Code Generation** (fundamental_techniques.py)
+   - Generar codigo base para nuevas features y componentes
+
+2. **Task Decomposition** (structuring_techniques.py)
+   - Dividir features en user stories y tareas implementables
+
+3. **Few-Shot** (fundamental_techniques.py)
+   - Usar ejemplos de features similares como referencia
+
+4. **Expert Prompting** (specialized_techniques.py)
+   - Aplicar patrones de diseno y mejores practicas de desarrollo
+
+5. **Meta-prompting** (structuring_techniques.py)
+   - Generar prompts especializados para diferentes aspectos de la feature
+
+Agente recomendado: FeatureAgent o SDLCDesignAgent
 ## Objetivos
 
 1. Implementar dashboard principal de metricas DORA

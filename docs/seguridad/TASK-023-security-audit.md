@@ -28,6 +28,26 @@ bandit -r api/callcentersite/ -f json -o security_report.json
 safety check --json
 ```
 
+## Técnicas de Prompt Engineering para Agente
+
+Las siguientes técnicas deben aplicarse al ejecutar esta tarea con un agente:
+
+1. **Tool-use Prompting** (knowledge_techniques.py)
+ - Ejecutar herramientas de seguridad y scanners de vulnerabilidades
+
+2. **Expert Prompting** (specialized_techniques.py)
+ - Aplicar conocimiento experto de seguridad y OWASP Top 10
+
+3. **Constitutional AI** (optimization_techniques.py)
+ - Verificar cumplimiento estricto de politicas de seguridad
+
+4. **Chain of Verification** (chain_of_verification.py)
+ - Validar seguridad en cada capa del sistema secuencialmente
+
+5. **Task Decomposition** (structuring_techniques.py)
+ - Dividir auditoria en checks especificos de seguridad
+
+Agente recomendado: SDLCTestingAgent o SDLCPlannerAgent
 ## Resultados del Escaneo
 
 ### Bandit Scan
@@ -49,7 +69,7 @@ bandit -r api/callcentersite/ -ll
 
 ### 1. SQL Injection Prevention
 
-**Status:** ✅ PROTEGIDO
+**Status:** [OK] PROTEGIDO
 
 **Django ORM:** Usa prepared statements automaticamente
 ```python
@@ -62,7 +82,7 @@ DORAMetric.objects.filter(cycle_id=user_input)
 
 ### 2. XSS Prevention
 
-**Status:** ✅ PROTEGIDO
+**Status:** [OK] PROTEGIDO
 
 **Django templates:** Auto-escaping habilitado
 ```html
@@ -75,18 +95,18 @@ DORAMetric.objects.filter(cycle_id=user_input)
 
 ### 3. CSRF Protection
 
-**Status:** ✅ HABILITADO
+**Status:** [OK] HABILITADO
 
 **Settings:**
 ```python
 MIDDLEWARE = [
-    'django.middleware.csrf.CsrfViewMiddleware',  # HABILITADO
+ 'django.middleware.csrf.CsrfViewMiddleware', # HABILITADO
 ]
 ```
 
 ### 4. Secrets Management
 
-**Status:** ✅ NO HARDCODED
+**Status:** [OK] NO HARDCODED
 
 **Environment variables:**
 ```python
@@ -100,19 +120,19 @@ CASSANDRA_HOSTS = os.getenv('CASSANDRA_HOSTS', '127.0.0.1')
 
 ### 5. Session Security
 
-**Status:** ✅ CONFIGURADO
+**Status:** [OK] CONFIGURADO
 
 **Settings:**
 ```python
-SESSION_ENGINE = 'django.contrib.sessions.backends.db'  # Database
-SESSION_COOKIE_SECURE = True  # HTTPS only
-SESSION_COOKIE_HTTPONLY = True  # No JavaScript access
-SESSION_COOKIE_SAMESITE = 'Strict'  # CSRF protection
+SESSION_ENGINE = 'django.contrib.sessions.backends.db' # Database
+SESSION_COOKIE_SECURE = True # HTTPS only
+SESSION_COOKIE_HTTPONLY = True # No JavaScript access
+SESSION_COOKIE_SAMESITE = 'Strict' # CSRF protection
 ```
 
 ### 6. Authentication Security
 
-**Status:** ✅ CONFIGURADO
+**Status:** [OK] CONFIGURADO
 
 **Password hashing:** Django default (PBKDF2)
 **Login attempts:** Validado en tests (TASK-004)
@@ -121,32 +141,32 @@ SESSION_COOKIE_SAMESITE = 'Strict'  # CSRF protection
 
 ### Aplicadas
 
-1. ✅ SESSION_ENGINE en database (RNF-002)
-2. ✅ CSRF protection habilitado
-3. ✅ No secrets hardcoded
-4. ✅ Django ORM (previene SQL injection)
-5. ✅ Templates auto-escaping (previene XSS)
+1. [OK] SESSION_ENGINE en database (RNF-002)
+2. [OK] CSRF protection habilitado
+3. [OK] No secrets hardcoded
+4. [OK] Django ORM (previene SQL injection)
+5. [OK] Templates auto-escaping (previene XSS)
 
 ### Pendientes (Futuro)
 
 1. **Rate limiting:**
-   ```python
-   # Implementar en TASK-030
-   from rest_framework.throttling import AnonRateThrottle
-   ```
+ ```python
+ # Implementar en TASK-030
+ from rest_framework.throttling import AnonRateThrottle
+ ```
 
 2. **2FA:**
-   ```python
-   # Implementar autenticacion de dos factores
-   # django-otp
-   ```
+ ```python
+ # Implementar autenticacion de dos factores
+ # django-otp
+ ```
 
 3. **Security headers:**
-   ```python
-   # django-csp (Content Security Policy)
-   # X-Frame-Options
-   # X-Content-Type-Options
-   ```
+ ```python
+ # django-csp (Content Security Policy)
+ # X-Frame-Options
+ # X-Content-Type-Options
+ ```
 
 ## Compliance
 
@@ -160,7 +180,7 @@ SESSION_COOKIE_SAMESITE = 'Strict'  # CSRF protection
 
 ### RNF-002
 
-**Validado en TASK-016:** ✅ 100% compliant
+**Validado en TASK-016:** [OK] 100% compliant
 
 ## Vulnerability Scan Schedule
 
@@ -180,4 +200,4 @@ safety check --json > reports/safety_$(date +%Y%m).json
 **STORY POINTS:** 2 SP
 **FECHA:** 2025-11-07
 
-**RESULTADO:** ✅ 0 vulnerabilidades HIGH/CRITICAL encontradas
+**RESULTADO:** [OK] 0 vulnerabilidades HIGH/CRITICAL encontradas

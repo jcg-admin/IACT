@@ -20,8 +20,28 @@ Dashboards de monitoring self-hosted compliant con RNF-002 (NO Prometheus/Grafan
 **Dashboard:** Django Admin Custom Dashboard (TASK-014)
 **URL:** `/api/dora/dashboard/`
 **Tecnologia:** Django + Chart.js
-**Compliance:** ✅ Self-hosted, NO Prometheus/Grafana
+**Compliance:** [OK] Self-hosted, NO Prometheus/Grafana
 
+## Técnicas de Prompt Engineering para Agente
+
+Las siguientes técnicas deben aplicarse al ejecutar esta tarea con un agente:
+
+1. **Tool-use Prompting** (knowledge_techniques.py)
+ - Configurar dashboards, queries y alertas de monitoreo
+
+2. **Expert Prompting** (specialized_techniques.py)
+ - Aplicar conocimiento experto de observabilidad y SRE practices
+
+3. **Task Decomposition** (structuring_techniques.py)
+ - Dividir setup de observabilidad en layers (metrics, logs, traces)
+
+4. **Constitutional AI** (optimization_techniques.py)
+ - Validar que alertas y dashboards cumplan con SLOs/SLIs
+
+5. **Simulation** (specialized_techniques.py)
+ - Simular escenarios de fallo para validar alertas
+
+Agente recomendado: SDLCPlannerAgent o PDCAAutomationAgent
 ## Metricas Monitoreadas
 
 ### DORA Metrics
@@ -85,10 +105,10 @@ curl http://localhost:8000/api/dora/metrics/?days=30
 
 ## Compliance RNF-002
 
-✅ NO usa Prometheus
-✅ NO usa Grafana
-✅ Dashboard self-hosted (Django)
-✅ Chart.js desde CDN (no requiere instalacion)
+[OK] NO usa Prometheus
+[OK] NO usa Grafana
+[OK] Dashboard self-hosted (Django)
+[OK] Chart.js desde CDN (no requiere instalacion)
 
 ---
 

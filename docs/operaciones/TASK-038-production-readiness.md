@@ -23,6 +23,26 @@ Checklist completo de Production Readiness con 70+ items cubriendo infraestructu
 - Obtener sign-off de stakeholders
 - Zero surprises en go-live
 
+## Técnicas de Prompt Engineering para Agente
+
+Las siguientes técnicas deben aplicarse al ejecutar esta tarea con un agente:
+
+1. **Tool-use Prompting** (knowledge_techniques.py)
+ - Ejecutar comandos shell, cron jobs y scripts de automatizacion
+
+2. **ReAct** (knowledge_techniques.py)
+ - Razonar sobre el estado del sistema, actuar con comandos, reflexionar sobre resultados
+
+3. **Simulation** (specialized_techniques.py)
+ - Simular escenarios de operacion para validar configuraciones
+
+4. **Task Decomposition** (structuring_techniques.py)
+ - Dividir tareas operacionales en pasos ejecutables
+
+5. **Expert Prompting** (specialized_techniques.py)
+ - Aplicar conocimiento experto de DevOps y operaciones
+
+Agente recomendado: PDCAAutomationAgent o SDLCPlannerAgent
 ## Story Points
 
 6 SP - Complejidad Media
@@ -47,7 +67,7 @@ Checklist completo de Production Readiness con 70+ items cubriendo infraestructu
 - [x] Auto-scaling configurado (si aplica)
 - [x] Infrastructure as Code (IaC) actualizado
 
-**Status:** 15/15 ✓ COMPLETE
+**Status:** 15/15 [x] COMPLETE
 
 ### Seguridad (18 items)
 
@@ -70,7 +90,7 @@ Checklist completo de Production Readiness con 70+ items cubriendo infraestructu
 - [x] Dependency scanning para vulnerabilities
 - [x] Penetration testing completado
 
-**Status:** 18/18 ✓ COMPLETE
+**Status:** 18/18 [x] COMPLETE
 
 ### Performance (12 items)
 
@@ -87,7 +107,7 @@ Checklist completo de Production Readiness con 70+ items cubriendo infraestructu
 - [x] Resource limits configurados (CPU, memory)
 - [x] No memory leaks detected (24h soak test)
 
-**Status:** 12/12 ✓ COMPLETE
+**Status:** 12/12 [x] COMPLETE
 
 ### Observabilidad (10 items)
 
@@ -102,7 +122,7 @@ Checklist completo de Production Readiness con 70+ items cubriendo infraestructu
 - [x] Metrics exposed para key indicators
 - [x] Tracing configurado (si aplica)
 
-**Status:** 10/10 ✓ COMPLETE
+**Status:** 10/10 [x] COMPLETE
 
 ### Compliance (8 items)
 
@@ -115,7 +135,7 @@ Checklist completo de Production Readiness con 70+ items cubriendo infraestructu
 - [x] Terms of service actualizados
 - [x] Regulatory requirements cumplidos
 
-**Status:** 8/8 ✓ COMPLETE
+**Status:** 8/8 [x] COMPLETE
 
 ### Documentation (9 items)
 
@@ -129,7 +149,7 @@ Checklist completo de Production Readiness con 70+ items cubriendo infraestructu
 - [x] Configuration management documented
 - [x] Changelog maintained
 
-**Status:** 9/9 ✓ COMPLETE
+**Status:** 9/9 [x] COMPLETE
 
 ### Testing (11 items)
 
@@ -145,7 +165,7 @@ Checklist completo de Production Readiness con 70+ items cubriendo infraestructu
 - [x] Performance regression tests pasando
 - [x] Automated testing en CI/CD pipeline
 
-**Status:** 11/11 ✓ COMPLETE
+**Status:** 11/11 [x] COMPLETE
 
 ### DORA Metrics (9 items)
 
@@ -159,7 +179,7 @@ Checklist completo de Production Readiness con 70+ items cubriendo infraestructu
 - [x] Historical DORA data available (30+ days)
 - [x] DORA improvement trends positive
 
-**Status:** 9/9 ✓ COMPLETE
+**Status:** 9/9 [x] COMPLETE
 
 **DORA Classification:** Elite Performers
 
@@ -171,74 +191,71 @@ Checklist completo de Production Readiness con 70+ items cubriendo infraestructu
 
 ```python
 def comprehensive_health_check():
-    """
-    Execute comprehensive health check.
-    
-    Returns:
-        dict: Health status of all components
-    """
-    results = {
-        "mysql": health_check_mysql(),
-        "cassandra": health_check_cassandra(),
-        "apis": health_check_apis(),
-        "background_jobs": health_check_background_jobs(),
-        "disk_space": health_check_disk_space(),
-        "memory": health_check_memory(),
-    }
-    
-    overall_healthy = all(results.values())
-    
-    return {
-        "healthy": overall_healthy,
-        "components": results,
-        "timestamp": timezone.now().isoformat(),
-    }
-
+ """
+ Execute comprehensive health check.
+ 
+ Returns:
+ dict: Health status of all components
+ """
+ results = {
+ "mysql": health_check_mysql(),
+ "cassandra": health_check_cassandra(),
+ "apis": health_check_apis(),
+ "background_jobs": health_check_background_jobs(),
+ "disk_space": health_check_disk_space(),
+ "memory": health_check_memory(),
+ }
+ 
+ overall_healthy = all(results.values())
+ 
+ return {
+ "healthy": overall_healthy,
+ "components": results,
+ "timestamp": timezone.now().isoformat(),
+ }
 
 def health_check_mysql():
-    """Check MySQL connectivity and performance."""
-    try:
-        from django.db import connection
-        with connection.cursor() as cursor:
-            cursor.execute("SELECT 1")
-            result = cursor.fetchone()
-            return result[0] == 1
-    except Exception as e:
-        logger.error(f"MySQL health check failed: {e}")
-        return False
-
+ """Check MySQL connectivity and performance."""
+ try:
+ from django.db import connection
+ with connection.cursor() as cursor:
+ cursor.execute("SELECT 1")
+ result = cursor.fetchone()
+ return result[0] == 1
+ except Exception as e:
+ logger.error(f"MySQL health check failed: {e}")
+ return False
 
 def health_check_cassandra():
-    """Check Cassandra connectivity."""
-    # Implementation depends on Cassandra client
-    return True  # Simulated
-
+ """Check Cassandra connectivity."""
+ # Implementation depends on Cassandra client
+ return True # Simulated
 
 def health_check_apis():
-    """Check critical API endpoints."""
-    try:
-        import requests
-        response = requests.get("http://localhost:8000/api/dora/metrics/")
-        return response.status_code == 200
-    except Exception as e:
-        logger.error(f"API health check failed: {e}")
-        return False
+ """Check critical API endpoints."""
+ try:
+ import requests
+ response = requests.get("http://localhost:8000/api/dora/metrics/")
+ return response.status_code == 200
+ except Exception as e:
+ logger.error(f"API health check failed: {e}")
+ return False
 ```
 
 ### Health Check Results
 
 ```json
 {
-  "healthy": true,
-  "components": {
-    "mysql": true,
-    "cassandra": true,
-    "apis": true,
-    "background_jobs": true,
-    "disk_space": true,
-    "memory": true
-  },
-  "timestamp": "2025-11-07T10:00:00Z"
+ "healthy": true,
+ "components": {
+ "mysql": true,
+ "cassandra": true,
+ "apis": true,
+ "background_jobs": true,
+ "disk_space": true,
+ "memory": true
+ },
+ "timestamp": "2025-11-07T10:00:00Z"
 }
 ```
 
@@ -267,29 +284,29 @@ IACT Smoke Tests
 =========================================
 
 Test 1: User Login/Dashboard/Logout
-  ✓ Login successful
-  ✓ Dashboard loads
-  ✓ Logout successful
-  
+ [x] Login successful
+ [x] Dashboard loads
+ [x] Logout successful
+ 
 Test 2: DORA Metric CRUD
-  ✓ Create metric successful
-  ✓ View metrics successful
-  ✓ Delete metric successful
-  
+ [x] Create metric successful
+ [x] View metrics successful
+ [x] Delete metric successful
+ 
 Test 3: API Authentication
-  ✓ Obtain auth token
-  ✓ Query with token successful
-  
+ [x] Obtain auth token
+ [x] Query with token successful
+ 
 Test 4: Database Connectivity
-  ✓ MySQL connection OK
-  ✓ Cassandra connection OK
-  
+ [x] MySQL connection OK
+ [x] Cassandra connection OK
+ 
 Test 5: Monitoring
-  ✓ Health check endpoint responding
-  ✓ Metrics endpoint responding
+ [x] Health check endpoint responding
+ [x] Metrics endpoint responding
 
 =========================================
-Results: 12/12 tests passed ✓
+Results: 12/12 tests passed [x]
 Status: READY FOR PRODUCTION
 =========================================
 ```
@@ -398,27 +415,27 @@ Notes/Comments:
 ### Rollback Procedure
 
 1. **Decision to Rollback** (5 min)
-   - Tech Lead approval required
-   - Notify stakeholders
+ - Tech Lead approval required
+ - Notify stakeholders
 
 2. **Execute Rollback** (15 min)
-   ```bash
-   # Revert to previous version
-   kubectl rollout undo deployment/iact-app
-   
-   # Or traditional deployment
-   ./deploy.sh previous_version
-   ```
+ ```bash
+ # Revert to previous version
+ kubectl rollout undo deployment/iact-app
+ 
+ # Or traditional deployment
+ ./deploy.sh previous_version
+ ```
 
 3. **Verify Rollback** (10 min)
-   - Run smoke tests
-   - Verify health checks
-   - Check error rates
+ - Run smoke tests
+ - Verify health checks
+ - Check error rates
 
 4. **Post-Rollback** (60 min)
-   - Root cause analysis
-   - Fix and re-deploy plan
-   - Communication to users
+ - Root cause analysis
+ - Fix and re-deploy plan
+ - Communication to users
 
 **Total Rollback Time:** < 30 minutes
 
@@ -541,27 +558,27 @@ SHOW SLAVE STATUS\G
 - Report: Available in security/pentest-report-2025.pdf
 
 **OWASP Top 10 Coverage:**
-1. Injection: ✓ Protected (parameterized queries)
-2. Broken Authentication: ✓ Protected (Django auth)
-3. Sensitive Data Exposure: ✓ Protected (encryption)
+1. Injection: [x] Protected (parameterized queries)
+2. Broken Authentication: [x] Protected (Django auth)
+3. Sensitive Data Exposure: [x] Protected (encryption)
 4. XML External Entities: N/A (no XML processing)
-5. Broken Access Control: ✓ Protected (permissions)
-6. Security Misconfiguration: ✓ Reviewed
-7. XSS: ✓ Protected (template escaping)
-8. Insecure Deserialization: ✓ Protected
-9. Known Vulnerabilities: ✓ Dependencies updated
-10. Insufficient Logging: ✓ Comprehensive logging
+5. Broken Access Control: [x] Protected (permissions)
+6. Security Misconfiguration: [x] Reviewed
+7. XSS: [x] Protected (template escaping)
+8. Insecure Deserialization: [x] Protected
+9. Known Vulnerabilities: [x] Dependencies updated
+10. Insufficient Logging: [x] Comprehensive logging
 
 ### Performance Test Results Summary
 
 **Load Test Report:**
 
-| Scenario          | Users | Duration | Req/s | Errors | p50   | p95   | p99    |
+| Scenario | Users | Duration | Req/s | Errors | p50 | p95 | p99 |
 |-------------------|-------|----------|-------|--------|-------|-------|--------|
-| Normal Load       | 100   | 30 min   | 2,500 | 0.05%  | 85ms  | 180ms | 350ms  |
-| Peak Load (2x)    | 200   | 15 min   | 4,200 | 0.3%   | 120ms | 280ms | 520ms  |
-| Spike (5x)        | 500   | 5 min    | 2,300 | 2.5%   | 450ms | 850ms | 1,500ms|
-| Sustained (24h)   | 100   | 24 hours | 2,500 | 0.1%   | 90ms  | 200ms | 400ms  |
+| Normal Load | 100 | 30 min | 2,500 | 0.05% | 85ms | 180ms | 350ms |
+| Peak Load (2x) | 200 | 15 min | 4,200 | 0.3% | 120ms | 280ms | 520ms |
+| Spike (5x) | 500 | 5 min | 2,300 | 2.5% | 450ms | 850ms | 1,500ms|
+| Sustained (24h) | 100 | 24 hours | 2,500 | 0.1% | 90ms | 200ms | 400ms |
 
 **Conclusions:**
 - Normal and peak load: PASS
@@ -596,73 +613,73 @@ SHOW SLAVE STATUS\G
 
 ### Documentation Completeness Matrix
 
-| Document Type              | Required | Actual | Complete |
+| Document Type | Required | Actual | Complete |
 |----------------------------|----------|--------|----------|
-| Architecture Diagrams      | 10       | 12     | ✓        |
-| API Documentation          | 45       | 48     | ✓        |
-| Runbooks                   | 15       | 18     | ✓        |
-| Troubleshooting Guides     | 10       | 12     | ✓        |
-| Configuration Docs         | 8        | 10     | ✓        |
-| Deployment Procedures      | 5        | 6      | ✓        |
-| Monitoring Setup           | 4        | 5      | ✓        |
-| Security Procedures        | 6        | 7      | ✓        |
-| DR Procedures              | 8        | 10     | ✓        |
-| **Total**                  | **111**  | **128**| **✓**    |
+| Architecture Diagrams | 10 | 12 | [x] |
+| API Documentation | 45 | 48 | [x] |
+| Runbooks | 15 | 18 | [x] |
+| Troubleshooting Guides | 10 | 12 | [x] |
+| Configuration Docs | 8 | 10 | [x] |
+| Deployment Procedures | 5 | 6 | [x] |
+| Monitoring Setup | 4 | 5 | [x] |
+| Security Procedures | 6 | 7 | [x] |
+| DR Procedures | 8 | 10 | [x] |
+| **Total** | **111** | **128**| **[x]** |
 
 ## Testing Coverage Report
 
 ### Unit Test Coverage
 
 ```
-Name                                         Stmts   Miss  Cover
+Name Stmts Miss Cover
 ----------------------------------------------------------------
-dora_metrics/__init__.py                         5      0   100%
-dora_metrics/models.py                          45      2    96%
-dora_metrics/views.py                          250     15    94%
-dora_metrics/ai_telemetry.py                   180     10    94%
-dora_metrics/ml_features.py                    120      8    93%
-dora_metrics/ml_models.py                      210     15    93%
-dora_metrics/auto_remediation.py               160     12    93%
-dora_metrics/data_catalog.py                   100      5    95%
-dora_metrics/data_ecosystem.py                 150      8    95%
-dora_metrics/advanced_analytics.py             140      7    95%
+dora_metrics/__init__.py 5 0 100%
+dora_metrics/models.py 45 2 96%
+dora_metrics/views.py 250 15 94%
+dora_metrics/ai_telemetry.py 180 10 94%
+dora_metrics/ml_features.py 120 8 93%
+dora_metrics/ml_models.py 210 15 93%
+dora_metrics/auto_remediation.py 160 12 93%
+dora_metrics/data_catalog.py 100 5 95%
+dora_metrics/data_ecosystem.py 150 8 95%
+dora_metrics/advanced_analytics.py 140 7 95%
 ----------------------------------------------------------------
-TOTAL                                         1360     82    94%
+TOTAL 1360 82 94%
 ```
 
-**Status:** ✓ PASS (>80% required, 94% achieved)
+**Status:** [x] PASS (>80% required, 94% achieved)
 
 ### Integration Test Results
 
-- API Endpoint Tests: 48/48 ✓
-- Database Integration Tests: 25/25 ✓
-- Authentication Tests: 12/12 ✓
-- Authorization Tests: 15/15 ✓
-- DORA Metrics Tests: 20/20 ✓
+- API Endpoint Tests: 48/48 [x]
+- Database Integration Tests: 25/25 [x]
+- Authentication Tests: 12/12 [x]
+- Authorization Tests: 15/15 [x]
+- DORA Metrics Tests: 20/20 [x]
 
-**Total:** 120/120 ✓ PASS
+**Total:** 120/120 [x] PASS
 
 ### E2E Test Results
 
-- User Registration/Login: ✓
-- Dashboard Workflows: ✓
-- DORA Metrics Creation: ✓
-- Reporting: ✓
-- Admin Functions: ✓
+- User Registration/Login: [x]
+- Dashboard Workflows: [x]
+- DORA Metrics Creation: [x]
+- Reporting: [x]
+- Admin Functions: [x]
 
-**Total:** 5/5 ✓ PASS
+**Total:** 5/5 [x] PASS
 
 ## Capacity Planning
 
 ### Current Capacity
 
-| Resource          | Provisioned | Used  | Available | Headroom |
+| Resource | Provisioned | Used | Available | Headroom |
 |-------------------|-------------|-------|-----------|----------|
-| CPU (cores)       | 32          | 14    | 18        | 56%      |
-| Memory (GB)       | 128         | 80    | 48        | 38%      |
-| Disk (TB)         | 2           | 0.8   | 1.2       | 60%      |
-| Network (Gbps)    | 10          | 2     | 8         | 80%      |
-| Database Conn     | 200         | 120   | 80        | 40%      |
+| CPU (cores) | 32 | 14 | 18 | 56% |
+| Memory (GB) | 128 | 80 | 48 | 38% |
+| Disk (TB) | 2 | 0.8 | 1.2 | 60% |
+| Network (Gbps) | 10 | 2 | 8 | 80% |
+| Database Conn | 200 | 120 | 80 | 40% |
 
 ### Growth Projections
 
@@ -727,23 +744,23 @@ TOTAL                                         1360     82    94%
 
 ### Team Training Completed
 
-- Django application architecture: ✓
-- DORA metrics domain knowledge: ✓
-- Cassandra operations: ✓
-- MySQL operations: ✓
-- Monitoring and alerting: ✓
-- Incident response procedures: ✓
-- DR procedures: ✓
+- Django application architecture: [x]
+- DORA metrics domain knowledge: [x]
+- Cassandra operations: [x]
+- MySQL operations: [x]
+- Monitoring and alerting: [x]
+- Incident response procedures: [x]
+- DR procedures: [x]
 
 ### Knowledge Transfer Sessions
 
-| Topic                      | Date       | Attendees | Duration |
+| Topic | Date | Attendees | Duration |
 |----------------------------|------------|-----------|----------|
-| System Architecture        | 2025-10-20 | 15        | 2 hours  |
-| DORA Metrics Deep Dive     | 2025-10-22 | 12        | 3 hours  |
-| Operations Procedures      | 2025-10-25 | 10        | 2 hours  |
-| Incident Response          | 2025-10-27 | 15        | 1 hour   |
-| Disaster Recovery          | 2025-10-30 | 8         | 2 hours  |
+| System Architecture | 2025-10-20 | 15 | 2 hours |
+| DORA Metrics Deep Dive | 2025-10-22 | 12 | 3 hours |
+| Operations Procedures | 2025-10-25 | 10 | 2 hours |
+| Incident Response | 2025-10-27 | 15 | 1 hour |
+| Disaster Recovery | 2025-10-30 | 8 | 2 hours |
 
 ### Documentation Handoff
 
@@ -757,14 +774,14 @@ All documentation available in:
 ### RNF-002 Compliance Verification
 
 **Prohibited Technologies:**
-- Redis: NOT USED ✓
-- Prometheus: NOT USED ✓
-- Grafana: NOT USED ✓
+- Redis: NOT USED [x]
+- Prometheus: NOT USED [x]
+- Grafana: NOT USED [x]
 
 **Required Technologies:**
-- MySQL: USED ✓
-- Cassandra: USED ✓
-- Django Sessions in DB: CONFIGURED ✓
+- MySQL: USED [x]
+- Cassandra: USED [x]
+- Django Sessions in DB: CONFIGURED [x]
 
 **Verification Command:**
 ```bash
@@ -800,14 +817,14 @@ grep SESSION_ENGINE settings.py
 
 ## Final Sign-off Status
 
-| Role                | Name              | Status    | Date       |
+| Role | Name | Status | Date |
 |---------------------|-------------------|-----------|------------|
-| Tech Lead           | [PENDING]         | ✓ Approved| 2025-11-07 |
-| Arquitecto Senior   | [PENDING]         | ✓ Approved| 2025-11-07 |
-| DevOps Lead         | [PENDING]         | ✓ Approved| 2025-11-07 |
-| Security Lead       | [PENDING]         | ✓ Approved| 2025-11-07 |
-| QA Lead             | [PENDING]         | ✓ Approved| 2025-11-07 |
-| Product Owner       | [PENDING]         | ✓ Approved| 2025-11-07 |
+| Tech Lead | [PENDING] | [x] Approved| 2025-11-07 |
+| Arquitecto Senior | [PENDING] | [x] Approved| 2025-11-07 |
+| DevOps Lead | [PENDING] | [x] Approved| 2025-11-07 |
+| Security Lead | [PENDING] | [x] Approved| 2025-11-07 |
+| QA Lead | [PENDING] | [x] Approved| 2025-11-07 |
+| Product Owner | [PENDING] | [x] Approved| 2025-11-07 |
 
 **FINAL STATUS: APPROVED FOR PRODUCTION LAUNCH**
 

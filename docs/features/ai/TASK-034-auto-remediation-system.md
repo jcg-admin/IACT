@@ -20,6 +20,26 @@ Sistema que detecta problemas comunes en la infraestructura y aplicacion, propon
 
 Reducir MTTR (Mean Time To Recovery) mediante deteccion automatica de problemas y aplicacion de fixes conocidos, con safeguards apropiados para evitar acciones destructivas sin supervision humana.
 
+## Técnicas de Prompt Engineering para Agente
+
+Las siguientes técnicas deben aplicarse al ejecutar esta tarea con un agente:
+
+1. **Code Generation** (fundamental_techniques.py)
+ - Generar codigo base para nuevas features y componentes
+
+2. **Task Decomposition** (structuring_techniques.py)
+ - Dividir features en user stories y tareas implementables
+
+3. **Few-Shot** (fundamental_techniques.py)
+ - Usar ejemplos de features similares como referencia
+
+4. **Expert Prompting** (specialized_techniques.py)
+ - Aplicar patrones de diseno y mejores practicas de desarrollo
+
+5. **Meta-prompting** (structuring_techniques.py)
+ - Generar prompts especializados para diferentes aspectos de la feature
+
+Agente recomendado: FeatureAgent o SDLCDesignAgent
 ## Story Points
 
 13 SP - Complejidad Alta
@@ -29,22 +49,22 @@ Reducir MTTR (Mean Time To Recovery) mediante deteccion automatica de problemas 
 ### Componentes
 
 1. **ProblemDetector**: Detecta problemas comunes
-   - detect_disk_space_low()
-   - detect_database_slow_queries()
-   - detect_high_error_rate()
-   - detect_memory_leak()
+ - detect_disk_space_low()
+ - detect_database_slow_queries()
+ - detect_high_error_rate()
+ - detect_memory_leak()
 
 2. **RemediationEngine**: Propone y ejecuta fixes
-   - propose_fix(problem)
-   - execute_fix(plan, approved_by)
-   - rollback_fix(execution_id)
-   - audit_log_action()
+ - propose_fix(problem)
+ - execute_fix(plan, approved_by)
+ - rollback_fix(execution_id)
+ - audit_log_action()
 
 3. **API Endpoints**:
-   - GET /api/dora/remediation/problems/
-   - POST /api/dora/remediation/propose-fix/
-   - POST /api/dora/remediation/execute/
-   - POST /api/dora/remediation/rollback/{id}/
+ - GET /api/dora/remediation/problems/
+ - POST /api/dora/remediation/propose-fix/
+ - POST /api/dora/remediation/execute/
+ - POST /api/dora/remediation/rollback/{id}/
 
 ### Problemas Detectables
 
@@ -79,50 +99,50 @@ Reducir MTTR (Mean Time To Recovery) mediante deteccion automatica de problemas 
 ┌─────────────────┐
 │ Problem Detected│
 └────────┬────────┘
-         │
-         ▼
+ │
+ =>
 ┌─────────────────┐
-│ Propose Fix     │
+│ Propose Fix │
 └────────┬────────┘
-         │
-         ▼
-    ┌────────┐
-    │Severity│
-    └───┬────┘
-        │
-   ┌────┴────┐
-   │         │
-P0/P1      P2/P3
-   │         │
-   ▼         ▼
-┌──────┐  ┌──────────────┐
-│Require│  │Auto-execute │
-│Approval│  │+ Notify     │
-└───┬──┘  └──────┬───────┘
-    │            │
-    └────┬───────┘
-         │
-         ▼
-    ┌────────┐
-    │Execute │
-    │  Fix   │
-    └───┬────┘
-        │
-        ▼
-    ┌────────┐
-    │Monitor │
-    │Result  │
-    └───┬────┘
-        │
-   ┌────┴────┐
-   │         │
-Success    Fail
-   │         │
-   ▼         ▼
-┌──────┐  ┌──────────┐
-│Log   │  │Rollback  │
-│Audit │  │+ Alert   │
-└──────┘  └──────────┘
+ │
+ =>
+ ┌────────┐
+ │Severity│
+ └───┬────┘
+ │
+ ┌────┴────┐
+ │ │
+P0/P1 P2/P3
+ │ │
+ => =>
+┌──────┐ ┌──────────────┐
+│Require│ │Auto-execute │
+│Approval│ │+ Notify │
+└───┬──┘ └──────┬───────┘
+ │ │
+ └────┬───────┘
+ │
+ =>
+ ┌────────┐
+ │Execute │
+ │ Fix │
+ └───┬────┘
+ │
+ =>
+ ┌────────┐
+ │Monitor │
+ │Result │
+ └───┬────┘
+ │
+ ┌────┴────┐
+ │ │
+Success Fail
+ │ │
+ => =>
+┌──────┐ ┌──────────┐
+│Log │ │Rollback │
+│Audit │ │+ Alert │
+└──────┘ └──────────┘
 ```
 
 **Aprobacion Required:**
@@ -203,9 +223,9 @@ cache.clear()
 - Si fix empeora situacion (detected by monitoring)
 - Timeout: 5 minutos post-fix
 - Triggers:
-  - Error rate increases 2x
-  - Response time increases 3x
-  - Service health check fails
+ - Error rate increases 2x
+ - Response time increases 3x
+ - Service health check fails
 
 **Manual Rollback:**
 - POST /api/dora/remediation/rollback/{execution_id}/
@@ -217,18 +237,18 @@ cache.clear()
 **Audit Log Entry:**
 ```json
 {
-  "execution_id": "exec-1699363200",
-  "timestamp": "2025-11-07T10:30:00Z",
-  "problem_type": "disk_space_low",
-  "severity": "P2",
-  "action": "cleanup_sessions",
-  "approved_by": "user@example.com",
-  "success": true,
-  "duration_seconds": 2.5,
-  "result": {
-    "deleted_sessions": 150,
-    "message": "Cleaned up 150 old sessions"
-  }
+ "execution_id": "exec-1699363200",
+ "timestamp": "2025-11-07T10:30:00Z",
+ "problem_type": "disk_space_low",
+ "severity": "P2",
+ "action": "cleanup_sessions",
+ "approved_by": "user@example.com",
+ "success": true,
+ "duration_seconds": 2.5,
+ "result": {
+ "deleted_sessions": 150,
+ "message": "Cleaned up 150 old sessions"
+ }
 }
 ```
 
@@ -240,29 +260,29 @@ cache.clear()
 ### Safety Mechanisms
 
 1. **Approval Required for High Impact:**
-   - Service restarts
-   - Database operations
-   - P0/P1 problems
+ - Service restarts
+ - Database operations
+ - P0/P1 problems
 
 2. **Dry Run Mode:**
-   - Test fixes without executing
-   - Validate rollback plans
-   - Estimate impact
+ - Test fixes without executing
+ - Validate rollback plans
+ - Estimate impact
 
 3. **Rate Limiting:**
-   - Max 1 auto-remediation per minute
-   - Max 10 per hour
-   - Prevent cascading failures
+ - Max 1 auto-remediation per minute
+ - Max 10 per hour
+ - Prevent cascading failures
 
 4. **Circuit Breaker:**
-   - Disable auto-remediation after 3 failures
-   - Require manual reset
-   - Alert on-call engineer
+ - Disable auto-remediation after 3 failures
+ - Require manual reset
+ - Alert on-call engineer
 
 5. **Validation:**
-   - Pre-execution health check
-   - Post-execution validation
-   - Rollback if validation fails
+ - Pre-execution health check
+ - Post-execution validation
+ - Rollback if validation fails
 
 ## API Endpoints
 
@@ -272,23 +292,23 @@ cache.clear()
 Response:
 ```json
 {
-  "total_problems": 2,
-  "problems": [
-    {
-      "problem_type": "disk_space_low",
-      "severity": "P2",
-      "description": "Disk space usage at 85.0% (threshold: 80%)",
-      "detected_at": "2025-11-07T10:30:00Z",
-      "metadata": {"percent_used": 85.0}
-    },
-    {
-      "problem_type": "database_slow_queries",
-      "severity": "P2",
-      "description": "5 slow queries detected (threshold: 3)",
-      "detected_at": "2025-11-07T10:30:05Z",
-      "metadata": {"slow_query_count": 5}
-    }
-  ]
+ "total_problems": 2,
+ "problems": [
+ {
+ "problem_type": "disk_space_low",
+ "severity": "P2",
+ "description": "Disk space usage at 85.0% (threshold: 80%)",
+ "detected_at": "2025-11-07T10:30:00Z",
+ "metadata": {"percent_used": 85.0}
+ },
+ {
+ "problem_type": "database_slow_queries",
+ "severity": "P2",
+ "description": "5 slow queries detected (threshold: 3)",
+ "detected_at": "2025-11-07T10:30:05Z",
+ "metadata": {"slow_query_count": 5}
+ }
+ ]
 }
 ```
 
@@ -298,23 +318,23 @@ Response:
 Request:
 ```json
 {
-  "problem_type": "disk_space_low"
+ "problem_type": "disk_space_low"
 }
 ```
 
 Response:
 ```json
 {
-  "plan": {
-    "problem": {...},
-    "action": "cleanup_sessions",
-    "description": "Cleanup old Django sessions from database",
-    "requires_approval": false,
-    "estimated_impact": "Low - Remove sessions older than 30 days",
-    "rollback_plan": "Sessions can be recreated automatically on next login",
-    "metadata": {"cleanup_age_days": 30},
-    "created_at": "2025-11-07T10:31:00Z"
-  }
+ "plan": {
+ "problem": {...},
+ "action": "cleanup_sessions",
+ "description": "Cleanup old Django sessions from database",
+ "requires_approval": false,
+ "estimated_impact": "Low - Remove sessions older than 30 days",
+ "rollback_plan": "Sessions can be recreated automatically on next login",
+ "metadata": {"cleanup_age_days": 30},
+ "created_at": "2025-11-07T10:31:00Z"
+ }
 }
 ```
 
@@ -324,25 +344,25 @@ Response:
 Request:
 ```json
 {
-  "problem_type": "disk_space_low",
-  "approved_by": "admin@example.com"
+ "problem_type": "disk_space_low",
+ "approved_by": "admin@example.com"
 }
 ```
 
 Response:
 ```json
 {
-  "success": true,
-  "execution_id": "exec-1699363200",
-  "started_at": "2025-11-07T10:32:00Z",
-  "completed_at": "2025-11-07T10:32:02.5Z",
-  "duration_seconds": 2.5,
-  "result": {
-    "success": true,
-    "deleted_sessions": 150,
-    "message": "Cleaned up 150 old sessions"
-  },
-  "approved_by": "admin@example.com"
+ "success": true,
+ "execution_id": "exec-1699363200",
+ "started_at": "2025-11-07T10:32:00Z",
+ "completed_at": "2025-11-07T10:32:02.5Z",
+ "duration_seconds": 2.5,
+ "result": {
+ "success": true,
+ "deleted_sessions": 150,
+ "message": "Cleaned up 150 old sessions"
+ },
+ "approved_by": "admin@example.com"
 }
 ```
 
@@ -352,9 +372,9 @@ Response:
 Response:
 ```json
 {
-  "success": true,
-  "execution_id": "exec-1699363200",
-  "message": "Rollback completed"
+ "success": true,
+ "execution_id": "exec-1699363200",
+ "message": "Rollback completed"
 }
 ```
 
@@ -397,18 +417,18 @@ problems = response.json()["problems"]
 # Propose fix for first problem
 problem_type = problems[0]["problem_type"]
 response = requests.post(
-    "https://api/dora/remediation/propose-fix/",
-    json={"problem_type": problem_type}
+ "https://api/dora/remediation/propose-fix/",
+ json={"problem_type": problem_type}
 )
 plan = response.json()["plan"]
 
 # Execute fix (with approval if required)
 response = requests.post(
-    "https://api/dora/remediation/execute/",
-    json={
-        "problem_type": problem_type,
-        "approved_by": "admin@example.com"
-    }
+ "https://api/dora/remediation/execute/",
+ json={
+ "problem_type": problem_type,
+ "approved_by": "admin@example.com"
+ }
 )
 result = response.json()
 ```
@@ -446,99 +466,99 @@ El Auto-remediation System reduce MTTR mediante deteccion y fix automatico de pr
 
 ```python
 def detect_disk_space_low():
-    import shutil
-    disk = shutil.disk_usage("/")
-    percent_used = (disk.used / disk.total) * 100
-    
-    # Thresholds
-    if percent_used > 90:
-        severity = P1  # Critical
-    elif percent_used > 80:
-        severity = P2  # Warning
-    else:
-        return None  # OK
-    
-    return Problem(
-        problem_type="disk_space_low",
-        severity=severity,
-        description=f"Disk at {percent_used:.1f}%",
-        metadata={"percent": percent_used}
-    )
+ import shutil
+ disk = shutil.disk_usage("/")
+ percent_used = (disk.used / disk.total) * 100
+ 
+ # Thresholds
+ if percent_used > 90:
+ severity = P1 # Critical
+ elif percent_used > 80:
+ severity = P2 # Warning
+ else:
+ return None # OK
+ 
+ return Problem(
+ problem_type="disk_space_low",
+ severity=severity,
+ description=f"Disk at {percent_used:.1f}%",
+ metadata={"percent": percent_used}
+ )
 ```
 
 ### Slow Query Detection
 
 ```python
 def detect_slow_queries():
-    from django.db import connection
-    with connection.cursor() as cursor:
-        cursor.execute("""
-            SELECT id, user, time, info
-            FROM information_schema.processlist
-            WHERE time > 30 AND command != 'Sleep'
-        """)
-        slow_queries = cursor.fetchall()
-    
-    if len(slow_queries) > 10:
-        severity = P1
-    elif len(slow_queries) > 3:
-        severity = P2
-    else:
-        return None
-    
-    return Problem(
-        problem_type="slow_queries",
-        severity=severity,
-        description=f"{len(slow_queries)} slow queries",
-        metadata={"count": len(slow_queries)}
-    )
+ from django.db import connection
+ with connection.cursor() as cursor:
+ cursor.execute("""
+ SELECT id, user, time, info
+ FROM information_schema.processlist
+ WHERE time > 30 AND command != 'Sleep'
+ """)
+ slow_queries = cursor.fetchall()
+ 
+ if len(slow_queries) > 10:
+ severity = P1
+ elif len(slow_queries) > 3:
+ severity = P2
+ else:
+ return None
+ 
+ return Problem(
+ problem_type="slow_queries",
+ severity=severity,
+ description=f"{len(slow_queries)} slow queries",
+ metadata={"count": len(slow_queries)}
+ )
 ```
 
 ## Remediation Plan Structure
 
 ```python
 class RemediationPlan:
-    problem: Problem            # Original problem
-    action: RemediationAction   # Action to take
-    description: str            # Human-readable description
-    requires_approval: bool     # Human approval needed?
-    estimated_impact: str       # Impact description
-    rollback_plan: str          # How to rollback
-    metadata: dict              # Additional data
-    created_at: datetime        # When plan created
+ problem: Problem # Original problem
+ action: RemediationAction # Action to take
+ description: str # Human-readable description
+ requires_approval: bool # Human approval needed?
+ estimated_impact: str # Impact description
+ rollback_plan: str # How to rollback
+ metadata: dict # Additional data
+ created_at: datetime # When plan created
 ```
 
 ## Execution Flow
 
 1. **Detection Phase**
-   - Run all problem detectors
-   - Prioritize by severity
-   - Deduplicate similar problems
+ - Run all problem detectors
+ - Prioritize by severity
+ - Deduplicate similar problems
 
 2. **Planning Phase**
-   - For each problem, propose fix
-   - Estimate impact and risk
-   - Determine if approval needed
+ - For each problem, propose fix
+ - Estimate impact and risk
+ - Determine if approval needed
 
 3. **Approval Phase (if required)**
-   - Notify on-call engineer
-   - Wait for approval (with timeout)
-   - Log approval decision
+ - Notify on-call engineer
+ - Wait for approval (with timeout)
+ - Log approval decision
 
 4. **Execution Phase**
-   - Pre-execution health check
-   - Execute remediation action
-   - Monitor execution progress
+ - Pre-execution health check
+ - Execute remediation action
+ - Monitor execution progress
 
 5. **Validation Phase**
-   - Post-execution health check
-   - Validate problem resolved
-   - If validation fails, rollback
+ - Post-execution health check
+ - Validate problem resolved
+ - If validation fails, rollback
 
 6. **Audit Phase**
-   - Log all actions and results
-   - Update metrics
-   - Notify stakeholders
+ - Log all actions and results
+ - Update metrics
+ - Notify stakeholders
 
 ## Error Handling
 
@@ -546,19 +566,19 @@ class RemediationPlan:
 
 ```python
 try:
-    result = execute_fix(plan)
+ result = execute_fix(plan)
 except PermissionError:
-    # Insufficient privileges
-    return {"error": "Permission denied"}
+ # Insufficient privileges
+ return {"error": "Permission denied"}
 except TimeoutError:
-    # Operation took too long
-    rollback_fix(execution_id)
-    return {"error": "Timeout, rolled back"}
+ # Operation took too long
+ rollback_fix(execution_id)
+ return {"error": "Timeout, rolled back"}
 except Exception as e:
-    # Unexpected error
-    rollback_fix(execution_id)
-    alert_on_call()
-    return {"error": str(e)}
+ # Unexpected error
+ rollback_fix(execution_id)
+ alert_on_call()
+ return {"error": str(e)}
 ```
 
 ### Rollback Errors
@@ -598,10 +618,10 @@ If rollback fails:
 
 ### Execution Performance
 - Fix execution time: varies by action
-  - cleanup_sessions: ~2 seconds
-  - kill_slow_queries: ~1 second
-  - restart_service: ~30 seconds
-  - clear_cache: ~500ms
+ - cleanup_sessions: ~2 seconds
+ - kill_slow_queries: ~1 second
+ - restart_service: ~30 seconds
+ - clear_cache: ~500ms
 
 ### Success Rates
 - Target: > 95% success rate
@@ -618,10 +638,10 @@ If rollback fails:
 ### Authorization
 - Role-based access control
 - Separate roles for:
-  - Viewer (read problems)
-  - Operator (execute auto-approved fixes)
-  - Admin (approve P0/P1 fixes)
-  - Super Admin (rollback, disable system)
+ - Viewer (read problems)
+ - Operator (execute auto-approved fixes)
+ - Admin (approve P0/P1 fixes)
+ - Super Admin (rollback, disable system)
 
 ### Audit Trail
 - All actions logged immutably
@@ -635,43 +655,43 @@ If rollback fails:
 
 1. **Detection**: Disk usage > 80%
 2. **Immediate Actions**:
-   - Check if legitimate growth or leak
-   - Review largest files/directories
+ - Check if legitimate growth or leak
+ - Review largest files/directories
 3. **Remediation**:
-   - Auto: Cleanup old sessions (P2/P3)
-   - Manual: Delete old logs, archives (P0/P1)
+ - Auto: Cleanup old sessions (P2/P3)
+ - Manual: Delete old logs, archives (P0/P1)
 4. **Prevention**:
-   - Set up log rotation
-   - Monitor growth trends
-   - Plan capacity increase
+ - Set up log rotation
+ - Monitor growth trends
+ - Plan capacity increase
 
 ### Runbook: Slow Queries
 
 1. **Detection**: Queries running > 30 seconds
 2. **Immediate Actions**:
-   - Identify query patterns
-   - Check database load
+ - Identify query patterns
+ - Check database load
 3. **Remediation**:
-   - Auto: Kill queries > 60 sec (P2/P3)
-   - Manual: Optimize queries, add indexes (P0/P1)
+ - Auto: Kill queries > 60 sec (P2/P3)
+ - Manual: Optimize queries, add indexes (P0/P1)
 4. **Prevention**:
-   - Query performance testing
-   - Regular index optimization
-   - Query timeout enforcement
+ - Query performance testing
+ - Regular index optimization
+ - Query timeout enforcement
 
 ### Runbook: High Error Rate
 
 1. **Detection**: > 20 errors in 5 minutes
 2. **Immediate Actions**:
-   - Review error logs
-   - Check recent deployments
+ - Review error logs
+ - Check recent deployments
 3. **Remediation**:
-   - Manual: Investigate root cause
-   - Last resort: Restart service
+ - Manual: Investigate root cause
+ - Last resort: Restart service
 4. **Prevention**:
-   - Improve error handling
-   - Better input validation
-   - Comprehensive testing
+ - Improve error handling
+ - Better input validation
+ - Comprehensive testing
 
 ## Integration with Other Systems
 
@@ -693,21 +713,21 @@ If rollback fails:
 ## Future Enhancements
 
 1. **Smarter Detection**
-   - Pattern recognition for recurring problems
-   - Anomaly detection using ML
-   - Predictive problem detection
+ - Pattern recognition for recurring problems
+ - Anomaly detection using ML
+ - Predictive problem detection
 
 2. **Advanced Remediation**
-   - Multi-step remediation plans
-   - Conditional logic in fixes
-   - Self-learning remediation strategies
+ - Multi-step remediation plans
+ - Conditional logic in fixes
+ - Self-learning remediation strategies
 
 3. **Better Collaboration**
-   - Slack/Teams integration for approvals
-   - Collaborative troubleshooting
-   - Knowledge base integration
+ - Slack/Teams integration for approvals
+ - Collaborative troubleshooting
+ - Knowledge base integration
 
 4. **Compliance & Governance**
-   - Change management integration
-   - Compliance validation
-   - Risk assessment automation
+ - Change management integration
+ - Compliance validation
+ - Risk assessment automation

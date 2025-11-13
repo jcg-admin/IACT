@@ -13,7 +13,7 @@ relacionados: ["TAREAS_ACTIVAS.md", "CHANGELOG.md", "vision_y_alcance.md"]
 Vision estrategica y planificacion a largo plazo del proyecto IACT.
 
 **Version:** 1.0.0
-**Ultima actualizacion:** 2025-11-06
+**Ultima actualizacion:** 2025-11-12
 **Horizonte temporal:** Q4 2025 - Q2 2026
 
 ---
@@ -36,6 +36,7 @@ Transformar IACT en una plataforma robusta de gestion de call center con:
 - [x] Documentacion migrada y reorganizada (118 archivos)
 - [x] Sistema de asociacion workflow-template
 - [ ] Scripts shell core completados (4 pendientes)
+- [x] Documentacion de tareas criticas TASK-001 a TASK-006 completada
 - [ ] Coverage tests >= 80%
 - [ ] Validacion completa de restricciones
 
@@ -49,9 +50,10 @@ Transformar IACT en una plataforma robusta de gestion de call center con:
 - [ ] deploy.sh
 - [ ] health_check.sh
 - [ ] cleanup_sessions.sh
+- [x] Documentacion TASK-001 a TASK-006 (Sprint 1 critico)
 
 ### Metricas Q4
-- **Documentacion:** 118 archivos, ~35,000 lineas
+- **Documentacion:** 124 archivos (118 + 6 TASK), ~35,414 lineas
 - **Agentes SDLC:** 7 implementados
 - **Workflows CI/CD:** 8 operativos
 - **Coverage objetivo:** >= 80%
@@ -467,5 +469,5 @@ Transformar IACT en una plataforma robusta de gestion de call center con:
 ---
 
 **Mantenedor:** @arquitecto-senior
-**Ultima actualizacion:** 2025-11-06
+**Ultima actualizacion:** 2025-11-12
 **Version:** 1.0.0

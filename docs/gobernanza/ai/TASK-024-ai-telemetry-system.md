@@ -20,6 +20,26 @@ Sistema completo de telemetria para rastrear decisiones y performance de agentes
 
 Implementar un sistema robusto de telemetria que capture todas las decisiones tomadas por agentes IA, permita evaluar su performance mediante feedback humano, y proporcione metricas detalladas para optimizacion continua.
 
+## Técnicas de Prompt Engineering para Agente
+
+Las siguientes técnicas deben aplicarse al ejecutar esta tarea con un agente:
+
+1. **Expert Prompting** (specialized_techniques.py)
+ - Aplicar conocimiento experto de compliance y gobernanza
+
+2. **Constitutional AI** (optimization_techniques.py)
+ - Verificar cumplimiento de politicas y restricciones organizacionales
+
+3. **Retrieval** (knowledge_techniques.py)
+ - Recuperar documentacion de politicas y guidelines existentes
+
+4. **Task Decomposition** (structuring_techniques.py)
+ - Dividir auditorias en checks especificos y validaciones
+
+5. **Delimiter-based** (structuring_techniques.py)
+ - Estructurar revisiones usando delimitadores claros entre secciones
+
+Agente recomendado: DocumentationSyncAgent o SDLCPlannerAgent
 ## Story Points
 
 13 SP - Complejidad Alta
@@ -51,83 +71,83 @@ Implementar un sistema robusto de telemetria que capture todas las decisiones to
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                    AI Agent (Externo)                       │
-│  - Deployment Risk Predictor                                │
-│  - Code Review Agent                                        │
-│  - Performance Analyzer                                     │
+│ AI Agent (Externo) │
+│ - Deployment Risk Predictor │
+│ - Code Review Agent │
+│ - Performance Analyzer │
 └─────────────────────────┬───────────────────────────────────┘
-                          │
-                          │ POST /api/dora/ai-telemetry/record/
-                          ▼
+ │
+ │ POST /api/dora/ai-telemetry/record/
+ =>
 ┌─────────────────────────────────────────────────────────────┐
-│              AITelemetryCollector (Core)                    │
-│  ┌──────────────────────────────────────────────────────┐   │
-│  │ record_decision()                                    │   │
-│  │ - Captura decision tomada por agente                │   │
-│  │ - Registra confidence score                         │   │
-│  │ - Almacena execution time                           │   │
-│  │ - Guarda metadata adicional                         │   │
-│  └──────────────────────────────────────────────────────┘   │
-│  ┌──────────────────────────────────────────────────────┐   │
-│  │ record_feedback()                                    │   │
-│  │ - Captura feedback humano                           │   │
-│  │ - Calcula accuracy basado en feedback               │   │
-│  │ - Actualiza registro telemetria                     │   │
-│  └──────────────────────────────────────────────────────┘   │
-│  ┌──────────────────────────────────────────────────────┐   │
-│  │ calculate_accuracy()                                 │   │
-│  │ - Accuracy promedio                                  │   │
-│  │ - Filtros por agente/tipo tarea                     │   │
-│  │ - Agregaciones temporales                           │   │
-│  └──────────────────────────────────────────────────────┘   │
+│ AITelemetryCollector (Core) │
+│ ┌──────────────────────────────────────────────────────┐ │
+│ │ record_decision() │ │
+│ │ - Captura decision tomada por agente │ │
+│ │ - Registra confidence score │ │
+│ │ - Almacena execution time │ │
+│ │ - Guarda metadata adicional │ │
+│ └──────────────────────────────────────────────────────┘ │
+│ ┌──────────────────────────────────────────────────────┐ │
+│ │ record_feedback() │ │
+│ │ - Captura feedback humano │ │
+│ │ - Calcula accuracy basado en feedback │ │
+│ │ - Actualiza registro telemetria │ │
+│ └──────────────────────────────────────────────────────┘ │
+│ ┌──────────────────────────────────────────────────────┐ │
+│ │ calculate_accuracy() │ │
+│ │ - Accuracy promedio │ │
+│ │ - Filtros por agente/tipo tarea │ │
+│ │ - Agregaciones temporales │ │
+│ └──────────────────────────────────────────────────────┘ │
 └─────────────────────────┬───────────────────────────────────┘
-                          │
-                          ▼
+ │
+ =>
 ┌─────────────────────────────────────────────────────────────┐
-│                  MySQL Database                             │
-│  ┌──────────────────────────────────────────────────────┐   │
-│  │ AITelemetry Model                                    │   │
-│  │ - id (PK)                                            │   │
-│  │ - agent_id (indexed)                                 │   │
-│  │ - task_type (indexed)                                │   │
-│  │ - decision_made (JSON)                               │   │
-│  │ - confidence_score (Decimal 0.0-1.0)                 │   │
-│  │ - human_feedback (correct/incorrect/partial)         │   │
-│  │ - accuracy (Decimal 0.0-1.0)                         │   │
-│  │ - execution_time_ms (Integer)                        │   │
-│  │ - metadata (JSON)                                    │   │
-│  │ - created_at (DateTime, indexed)                     │   │
-│  └──────────────────────────────────────────────────────┘   │
+│ MySQL Database │
+│ ┌──────────────────────────────────────────────────────┐ │
+│ │ AITelemetry Model │ │
+│ │ - id (PK) │ │
+│ │ - agent_id (indexed) │ │
+│ │ - task_type (indexed) │ │
+│ │ - decision_made (JSON) │ │
+│ │ - confidence_score (Decimal 0.0-1.0) │ │
+│ │ - human_feedback (correct/incorrect/partial) │ │
+│ │ - accuracy (Decimal 0.0-1.0) │ │
+│ │ - execution_time_ms (Integer) │ │
+│ │ - metadata (JSON) │ │
+│ │ - created_at (DateTime, indexed) │ │
+│ └──────────────────────────────────────────────────────┘ │
 └─────────────────────────┬───────────────────────────────────┘
-                          │
-                          ▼
+ │
+ =>
 ┌─────────────────────────────────────────────────────────────┐
-│              Analytics & Dashboards                         │
-│  - Accuracy Trends                                          │
-│  - Confidence Distribution                                  │
-│  - Execution Time Percentiles                               │
-│  - Agent Comparison                                         │
+│ Analytics & Dashboards │
+│ - Accuracy Trends │
+│ - Confidence Distribution │
+│ - Execution Time Percentiles │
+│ - Agent Comparison │
 └─────────────────────────────────────────────────────────────┘
 ```
 
 ### Flujo de Datos
 
 1. **Registro de Decision**
-   - Agente IA toma decision
-   - Agente envia decision a API
-   - AITelemetryCollector.record_decision() crea registro
-   - Registro se almacena en MySQL
+ - Agente IA toma decision
+ - Agente envia decision a API
+ - AITelemetryCollector.record_decision() crea registro
+ - Registro se almacena en MySQL
 
 2. **Registro de Feedback**
-   - Humano revisa decision
-   - Humano envia feedback via API
-   - AITelemetryCollector.record_feedback() actualiza registro
-   - Accuracy se calcula automaticamente
+ - Humano revisa decision
+ - Humano envia feedback via API
+ - AITelemetryCollector.record_feedback() actualiza registro
+ - Accuracy se calcula automaticamente
 
 3. **Analisis de Metricas**
-   - Dashboard consulta API
-   - AITelemetryCollector agrega datos
-   - Metricas se presentan en dashboard
+ - Dashboard consulta API
+ - AITelemetryCollector agrega datos
+ - Metricas se presentan en dashboard
 
 ## Modelo de Datos
 
@@ -135,51 +155,51 @@ Implementar un sistema robusto de telemetria que capture todas las decisiones to
 
 ```python
 class AITelemetry(models.Model):
-    """Telemetria para rastrear decisiones y performance de agentes IA."""
+ """Telemetria para rastrear decisiones y performance de agentes IA."""
 
-    # Identificacion
-    agent_id = models.CharField(max_length=100, db_index=True)
-    # Ejemplos: "deployment-risk-predictor", "code-review-agent"
+ # Identificacion
+ agent_id = models.CharField(max_length=100, db_index=True)
+ # Ejemplos: "deployment-risk-predictor", "code-review-agent"
 
-    task_type = models.CharField(max_length=50, db_index=True)
-    # Ejemplos: "deployment_risk", "code_review", "performance_analysis"
+ task_type = models.CharField(max_length=50, db_index=True)
+ # Ejemplos: "deployment_risk", "code_review", "performance_analysis"
 
-    # Decision tomada (estructura flexible en JSON)
-    decision_made = models.JSONField()
-    # Ejemplo: {"action": "approve", "risk_score": 0.15, "recommendations": [...]}
+ # Decision tomada (estructura flexible en JSON)
+ decision_made = models.JSONField()
+ # Ejemplo: {"action": "approve", "risk_score": 0.15, "recommendations": [...]}
 
-    # Metricas de confianza
-    confidence_score = models.DecimalField(max_digits=5, decimal_places=4)
-    # Rango: 0.0000 - 1.0000
+ # Metricas de confianza
+ confidence_score = models.DecimalField(max_digits=5, decimal_places=4)
+ # Rango: 0.0000 - 1.0000
 
-    # Feedback humano
-    human_feedback = models.CharField(max_length=20, null=True, blank=True)
-    # Valores: "correct", "incorrect", "partially_correct"
+ # Feedback humano
+ human_feedback = models.CharField(max_length=20, null=True, blank=True)
+ # Valores: "correct", "incorrect", "partially_correct"
 
-    # Accuracy calculada
-    accuracy = models.DecimalField(max_digits=5, decimal_places=4, null=True, blank=True)
-    # correct = 1.0, incorrect = 0.0, partially_correct = 0.5
+ # Accuracy calculada
+ accuracy = models.DecimalField(max_digits=5, decimal_places=4, null=True, blank=True)
+ # correct = 1.0, incorrect = 0.0, partially_correct = 0.5
 
-    # Performance
-    execution_time_ms = models.IntegerField()
-    # Tiempo de ejecucion en milisegundos
+ # Performance
+ execution_time_ms = models.IntegerField()
+ # Tiempo de ejecucion en milisegundos
 
-    # Metadata adicional
-    metadata = models.JSONField(default=dict)
-    # Ejemplo: {"model_version": "v1.2.3", "features_used": 15, "training_date": "2025-01-01"}
+ # Metadata adicional
+ metadata = models.JSONField(default=dict)
+ # Ejemplo: {"model_version": "v1.2.3", "features_used": 15, "training_date": "2025-01-01"}
 
-    # Timestamps
-    created_at = models.DateTimeField(auto_now_add=True)
+ # Timestamps
+ created_at = models.DateTimeField(auto_now_add=True)
 
-    class Meta:
-        db_table = "ai_telemetry"
-        ordering = ["-created_at"]
-        indexes = [
-            models.Index(fields=["agent_id"]),
-            models.Index(fields=["task_type"]),
-            models.Index(fields=["created_at"]),
-            models.Index(fields=["human_feedback"]),
-        ]
+ class Meta:
+ db_table = "ai_telemetry"
+ ordering = ["-created_at"]
+ indexes = [
+ models.Index(fields=["agent_id"]),
+ models.Index(fields=["task_type"]),
+ models.Index(fields=["created_at"]),
+ models.Index(fields=["human_feedback"]),
+ ]
 ```
 
 ### Indices de Base de Datos
@@ -200,34 +220,34 @@ class AITelemetry(models.Model):
 **Request Body:**
 ```json
 {
-  "agent_id": "deployment-risk-predictor",
-  "task_type": "deployment_risk",
-  "decision": {
-    "action": "approve",
-    "risk_score": 0.15,
-    "recommendations": [
-      "Monitor error rates closely",
-      "Prepare rollback plan"
-    ]
-  },
-  "confidence": 0.92,
-  "execution_time_ms": 150,
-  "metadata": {
-    "model_version": "v1.2.3",
-    "features_used": 15,
-    "training_date": "2025-01-01"
-  }
+ "agent_id": "deployment-risk-predictor",
+ "task_type": "deployment_risk",
+ "decision": {
+ "action": "approve",
+ "risk_score": 0.15,
+ "recommendations": [
+ "Monitor error rates closely",
+ "Prepare rollback plan"
+ ]
+ },
+ "confidence": 0.92,
+ "execution_time_ms": 150,
+ "metadata": {
+ "model_version": "v1.2.3",
+ "features_used": 15,
+ "training_date": "2025-01-01"
+ }
 }
 ```
 
 **Response (201 Created):**
 ```json
 {
-  "id": 12345,
-  "agent_id": "deployment-risk-predictor",
-  "task_type": "deployment_risk",
-  "confidence_score": 0.92,
-  "created_at": "2025-11-07T10:30:00Z"
+ "id": 12345,
+ "agent_id": "deployment-risk-predictor",
+ "task_type": "deployment_risk",
+ "confidence_score": 0.92,
+ "created_at": "2025-11-07T10:30:00Z"
 }
 ```
 
@@ -252,7 +272,7 @@ class AITelemetry(models.Model):
 **Request Body:**
 ```json
 {
-  "feedback": "correct"
+ "feedback": "correct"
 }
 ```
 
@@ -264,9 +284,9 @@ class AITelemetry(models.Model):
 **Response (200 OK):**
 ```json
 {
-  "id": 12345,
-  "human_feedback": "correct",
-  "accuracy": 1.0
+ "id": 12345,
+ "human_feedback": "correct",
+ "accuracy": 1.0
 }
 ```
 
@@ -286,33 +306,33 @@ class AITelemetry(models.Model):
 **Response (200 OK):**
 ```json
 {
-  "period_days": 30,
-  "accuracy": {
-    "total_decisions": 1500,
-    "total_with_feedback": 450,
-    "accuracy_avg": 0.87,
-    "correct_count": 380,
-    "incorrect_count": 45,
-    "partially_correct_count": 25
-  },
-  "confidence_distribution": {
-    "total_decisions": 1500,
-    "distribution": {
-      "low_0_50": {"count": 50, "percentage": 3.33},
-      "medium_50_70": {"count": 150, "percentage": 10.0},
-      "good_70_85": {"count": 400, "percentage": 26.67},
-      "high_85_95": {"count": 600, "percentage": 40.0},
-      "very_high_95_100": {"count": 300, "percentage": 20.0}
-    }
-  },
-  "execution_time": {
-    "avg_execution_time_ms": 180.5,
-    "min_execution_time_ms": 50,
-    "max_execution_time_ms": 2500,
-    "p50_execution_time_ms": 150,
-    "p95_execution_time_ms": 450,
-    "p99_execution_time_ms": 850
-  }
+ "period_days": 30,
+ "accuracy": {
+ "total_decisions": 1500,
+ "total_with_feedback": 450,
+ "accuracy_avg": 0.87,
+ "correct_count": 380,
+ "incorrect_count": 45,
+ "partially_correct_count": 25
+ },
+ "confidence_distribution": {
+ "total_decisions": 1500,
+ "distribution": {
+ "low_0_50": {"count": 50, "percentage": 3.33},
+ "medium_50_70": {"count": 150, "percentage": 10.0},
+ "good_70_85": {"count": 400, "percentage": 26.67},
+ "high_85_95": {"count": 600, "percentage": 40.0},
+ "very_high_95_100": {"count": 300, "percentage": 20.0}
+ }
+ },
+ "execution_time": {
+ "avg_execution_time_ms": 180.5,
+ "min_execution_time_ms": 50,
+ "max_execution_time_ms": 2500,
+ "p50_execution_time_ms": 150,
+ "p95_execution_time_ms": 450,
+ "p99_execution_time_ms": 850
+ }
 }
 ```
 
@@ -331,22 +351,22 @@ class AITelemetry(models.Model):
 **Response (200 OK):**
 ```json
 {
-  "agent_id": "deployment-risk-predictor",
-  "total_decisions": 250,
-  "avg_confidence": 0.89,
-  "avg_execution_time_ms": 165.3,
-  "task_types": [
-    {"task_type": "deployment_risk", "count": 200},
-    {"task_type": "rollback_decision", "count": 50}
-  ],
-  "accuracy_metrics": {
-    "total_decisions": 250,
-    "total_with_feedback": 75,
-    "accuracy_avg": 0.92,
-    "correct_count": 68,
-    "incorrect_count": 5,
-    "partially_correct_count": 2
-  }
+ "agent_id": "deployment-risk-predictor",
+ "total_decisions": 250,
+ "avg_confidence": 0.89,
+ "avg_execution_time_ms": 165.3,
+ "task_types": [
+ {"task_type": "deployment_risk", "count": 200},
+ {"task_type": "rollback_decision", "count": 50}
+ ],
+ "accuracy_metrics": {
+ "total_decisions": 250,
+ "total_with_feedback": 75,
+ "accuracy_avg": 0.92,
+ "correct_count": 68,
+ "incorrect_count": 5,
+ "partially_correct_count": 2
+ }
 }
 ```
 
@@ -380,29 +400,29 @@ GET /api/dora/ai-telemetry/accuracy/?agent_id=code-review-agent&task_type=code_r
 **Response (200 OK):**
 ```json
 {
-  "period_days": 30,
-  "filters": {
-    "agent_id": "deployment-risk-predictor",
-    "task_type": "deployment_risk"
-  },
-  "accuracy": {
-    "total_decisions": 200,
-    "total_with_feedback": 60,
-    "accuracy_avg": 0.93,
-    "correct_count": 55,
-    "incorrect_count": 3,
-    "partially_correct_count": 2
-  },
-  "confidence_distribution": {
-    "total_decisions": 200,
-    "distribution": {
-      "low_0_50": {"count": 5, "percentage": 2.5},
-      "medium_50_70": {"count": 20, "percentage": 10.0},
-      "good_70_85": {"count": 50, "percentage": 25.0},
-      "high_85_95": {"count": 80, "percentage": 40.0},
-      "very_high_95_100": {"count": 45, "percentage": 22.5}
-    }
-  }
+ "period_days": 30,
+ "filters": {
+ "agent_id": "deployment-risk-predictor",
+ "task_type": "deployment_risk"
+ },
+ "accuracy": {
+ "total_decisions": 200,
+ "total_with_feedback": 60,
+ "accuracy_avg": 0.93,
+ "correct_count": 55,
+ "incorrect_count": 3,
+ "partially_correct_count": 2
+ },
+ "confidence_distribution": {
+ "total_decisions": 200,
+ "distribution": {
+ "low_0_50": {"count": 5, "percentage": 2.5},
+ "medium_50_70": {"count": 20, "percentage": 10.0},
+ "good_70_85": {"count": 50, "percentage": 25.0},
+ "high_85_95": {"count": 80, "percentage": 40.0},
+ "very_high_95_100": {"count": 45, "percentage": 22.5}
+ }
+ }
 }
 ```
 
@@ -479,29 +499,29 @@ feedback_rate = total_con_feedback / total_decisiones * 100
 
 ```
 1. AI Agent Toma Decision
-   ├─ Analiza features
-   ├─ Aplica modelo ML
-   └─ Genera decision + confidence
+ ├─ Analiza features
+ ├─ Aplica modelo ML
+ └─ Genera decision + confidence
 
 2. Registro en Telemetria
-   ├─ POST /api/dora/ai-telemetry/record/
-   ├─ Se guarda en MySQL
-   └─ Return telemetry_id
+ ├─ POST /api/dora/ai-telemetry/record/
+ ├─ Se guarda en MySQL
+ └─ Return telemetry_id
 
 3. Humano Revisa Decision (Opcional)
-   ├─ Ve dashboard de decisiones pendientes
-   ├─ Revisa decision y contexto
-   └─ Evalua si decision fue correcta
+ ├─ Ve dashboard de decisiones pendientes
+ ├─ Revisa decision y contexto
+ └─ Evalua si decision fue correcta
 
 4. Registro de Feedback
-   ├─ POST /api/dora/ai-telemetry/{id}/feedback/
-   ├─ Se actualiza registro con feedback
-   └─ Se calcula accuracy automaticamente
+ ├─ POST /api/dora/ai-telemetry/{id}/feedback/
+ ├─ Se actualiza registro con feedback
+ └─ Se calcula accuracy automaticamente
 
 5. Analisis y Mejora
-   ├─ Dashboard muestra metricas accuracy
-   ├─ Identifica patrones de errores
-   └─ Re-entrenamiento de modelo (TASK-033)
+ ├─ Dashboard muestra metricas accuracy
+ ├─ Identifica patrones de errores
+ └─ Re-entrenamiento de modelo (TASK-033)
 ```
 
 ### Tipos de Feedback
@@ -612,29 +632,29 @@ feedback_rate = total_con_feedback / total_decisiones * 100
 ### Archivos Creados
 
 1. **api/callcentersite/dora_metrics/models.py** (actualizado)
-   - Modelo AITelemetry agregado
+ - Modelo AITelemetry agregado
 
 2. **api/callcentersite/dora_metrics/ai_telemetry.py** (nuevo)
-   - Clase AITelemetryCollector
-   - Metodos record_decision, record_feedback
-   - Metodos calculate_accuracy, get_agent_stats
-   - Metodos get_confidence_distribution, get_execution_time_trends
+ - Clase AITelemetryCollector
+ - Metodos record_decision, record_feedback
+ - Metodos calculate_accuracy, get_agent_stats
+ - Metodos get_confidence_distribution, get_execution_time_trends
 
 3. **api/callcentersite/dora_metrics/views.py** (actualizado)
-   - ai_telemetry_record
-   - ai_telemetry_feedback
-   - ai_telemetry_stats
-   - ai_telemetry_agent_stats
-   - ai_telemetry_accuracy
+ - ai_telemetry_record
+ - ai_telemetry_feedback
+ - ai_telemetry_stats
+ - ai_telemetry_agent_stats
+ - ai_telemetry_accuracy
 
 4. **api/callcentersite/dora_metrics/urls.py** (actualizado)
-   - URLs para endpoints AI Telemetry
+ - URLs para endpoints AI Telemetry
 
 5. **api/callcentersite/dora_metrics/migrations/0003_aitelemetry.py** (nuevo)
-   - Migracion Django para modelo AITelemetry
+ - Migracion Django para modelo AITelemetry
 
 6. **api/callcentersite/dora_metrics/tests_ai_telemetry.py** (nuevo)
-   - Tests unitarios completos (coverage mayor a 90%)
+ - Tests unitarios completos (coverage mayor a 90%)
 
 ### Dependencias
 
@@ -721,39 +741,39 @@ python manage.py test dora_metrics.tests_ai_telemetry
 ### Optimizaciones
 
 1. **Database Indices:**
-   - Index en agent_id para queries por agente
-   - Index en task_type para queries por tipo
-   - Index en created_at para queries temporales
-   - Index en human_feedback para filtros
+ - Index en agent_id para queries por agente
+ - Index en task_type para queries por tipo
+ - Index en created_at para queries temporales
+ - Index en human_feedback para filtros
 
 2. **Query Optimization:**
-   - Usar aggregations de Django ORM
-   - Evitar N+1 queries
-   - Usar raw SQL solo cuando necesario
+ - Usar aggregations de Django ORM
+ - Evitar N+1 queries
+ - Usar raw SQL solo cuando necesario
 
 3. **Caching:**
-   - Cache de stats generales (5 minutos)
-   - Cache de agent stats (10 minutos)
-   - Invalidation al registrar feedback
+ - Cache de stats generales (5 minutos)
+ - Cache de agent stats (10 minutos)
+ - Invalidation al registrar feedback
 
 ## Monitoring
 
 ### Metricas a Monitorear
 
 1. **API Performance:**
-   - Response time (P50, P95, P99)
-   - Error rate
-   - Request rate
+ - Response time (P50, P95, P99)
+ - Error rate
+ - Request rate
 
 2. **Database Performance:**
-   - Query execution time
-   - Connection pool usage
-   - Table size growth
+ - Query execution time
+ - Connection pool usage
+ - Table size growth
 
 3. **Business Metrics:**
-   - Decisiones registradas por dia
-   - Feedback rate
-   - Accuracy promedio
+ - Decisiones registradas por dia
+ - Feedback rate
+ - Accuracy promedio
 
 ### Alertas
 
@@ -780,25 +800,25 @@ import requests
 
 # Agente IA toma decision
 decision_data = {
-    "agent_id": "deployment-risk-predictor",
-    "task_type": "deployment_risk",
-    "decision": {
-        "action": "approve",
-        "risk_score": 0.15,
-        "recommendations": ["Monitor closely"]
-    },
-    "confidence": 0.92,
-    "execution_time_ms": 150,
-    "metadata": {
-        "model_version": "v1.2.3",
-        "features_used": 15
-    }
+ "agent_id": "deployment-risk-predictor",
+ "task_type": "deployment_risk",
+ "decision": {
+ "action": "approve",
+ "risk_score": 0.15,
+ "recommendations": ["Monitor closely"]
+ },
+ "confidence": 0.92,
+ "execution_time_ms": 150,
+ "metadata": {
+ "model_version": "v1.2.3",
+ "features_used": 15
+ }
 }
 
 response = requests.post(
-    "https://api.example.com/api/dora/ai-telemetry/record/",
-    json=decision_data,
-    headers={"Authorization": "Bearer <token>"}
+ "https://api.example.com/api/dora/ai-telemetry/record/",
+ json=decision_data,
+ headers={"Authorization": "Bearer <token>"}
 )
 
 telemetry_id = response.json()["id"]
@@ -810,13 +830,13 @@ print(f"Decision registered: {telemetry_id}")
 ```python
 # Humano revisa y da feedback
 feedback_data = {
-    "feedback": "correct"
+ "feedback": "correct"
 }
 
 response = requests.post(
-    f"https://api.example.com/api/dora/ai-telemetry/{telemetry_id}/feedback/",
-    json=feedback_data,
-    headers={"Authorization": "Bearer <token>"}
+ f"https://api.example.com/api/dora/ai-telemetry/{telemetry_id}/feedback/",
+ json=feedback_data,
+ headers={"Authorization": "Bearer <token>"}
 )
 
 print(f"Feedback registered: {response.json()}")
@@ -827,9 +847,9 @@ print(f"Feedback registered: {response.json()}")
 ```python
 # Obtener stats de agente
 response = requests.get(
-    "https://api.example.com/api/dora/ai-telemetry/agent/deployment-risk-predictor/",
-    params={"days": 30},
-    headers={"Authorization": "Bearer <token>"}
+ "https://api.example.com/api/dora/ai-telemetry/agent/deployment-risk-predictor/",
+ params={"days": 30},
+ headers={"Authorization": "Bearer <token>"}
 )
 
 stats = response.json()
@@ -842,21 +862,21 @@ print(f"Avg confidence: {stats['avg_confidence']}")
 ### Phase 2 (Post-TASK-024)
 
 1. **Real-time Dashboard**
-   - WebSocket updates en vivo
-   - Auto-refresh cada 30 segundos
+ - WebSocket updates en vivo
+ - Auto-refresh cada 30 segundos
 
 2. **Advanced Analytics**
-   - Correlacion confidence vs accuracy
-   - Identificacion automatica de drift
-   - A/B testing de modelos IA
+ - Correlacion confidence vs accuracy
+ - Identificacion automatica de drift
+ - A/B testing de modelos IA
 
 3. **Integration con TASK-033 (Predictive Analytics)**
-   - Usar telemetria para re-entrenar modelos
-   - Feedback loop automatico
+ - Usar telemetria para re-entrenar modelos
+ - Feedback loop automatico
 
 4. **Integration con TASK-034 (Auto-remediation)**
-   - Trigger auto-remediation basado en accuracy baja
-   - Alertas automaticas
+ - Trigger auto-remediation basado en accuracy baja
+ - Alertas automaticas
 
 ## Referencias
 
@@ -870,21 +890,21 @@ print(f"Avg confidence: {stats['avg_confidence']}")
 
 ```sql
 CREATE TABLE ai_telemetry (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    agent_id VARCHAR(100) NOT NULL,
-    task_type VARCHAR(50) NOT NULL,
-    decision_made JSON NOT NULL,
-    confidence_score DECIMAL(5,4) NOT NULL,
-    human_feedback VARCHAR(20) NULL,
-    accuracy DECIMAL(5,4) NULL,
-    execution_time_ms INT NOT NULL,
-    metadata JSON NOT NULL,
-    created_at DATETIME(6) NOT NULL,
+ id BIGINT AUTO_INCREMENT PRIMARY KEY,
+ agent_id VARCHAR(100) NOT NULL,
+ task_type VARCHAR(50) NOT NULL,
+ decision_made JSON NOT NULL,
+ confidence_score DECIMAL(5,4) NOT NULL,
+ human_feedback VARCHAR(20) NULL,
+ accuracy DECIMAL(5,4) NULL,
+ execution_time_ms INT NOT NULL,
+ metadata JSON NOT NULL,
+ created_at DATETIME(6) NOT NULL,
 
-    INDEX idx_agent_id (agent_id),
-    INDEX idx_task_type (task_type),
-    INDEX idx_created_at (created_at),
-    INDEX idx_human_feedback (human_feedback)
+ INDEX idx_agent_id (agent_id),
+ INDEX idx_task_type (task_type),
+ INDEX idx_created_at (created_at),
+ INDEX idx_human_feedback (human_feedback)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 ```
 
@@ -892,19 +912,19 @@ CREATE TABLE ai_telemetry (
 
 ```json
 {
-  "model_version": "v1.2.3",
-  "features_used": 15,
-  "training_date": "2025-01-01",
-  "model_type": "RandomForestClassifier",
-  "hyperparameters": {
-    "n_estimators": 100,
-    "max_depth": 10
-  },
-  "feature_importance": {
-    "lead_time": 0.25,
-    "test_coverage": 0.20,
-    "code_changes": 0.18
-  }
+ "model_version": "v1.2.3",
+ "features_used": 15,
+ "training_date": "2025-01-01",
+ "model_type": "RandomForestClassifier",
+ "hyperparameters": {
+ "n_estimators": 100,
+ "max_depth": 10
+ },
+ "feature_importance": {
+ "lead_time": 0.25,
+ "test_coverage": 0.20,
+ "code_changes": 0.18
+ }
 }
 ```
 
@@ -912,16 +932,16 @@ CREATE TABLE ai_telemetry (
 
 ```json
 {
-  "action": "approve",
-  "risk_score": 0.15,
-  "risk_level": "low",
-  "recommendations": [
-    "Monitor error rates for 2 hours post-deployment",
-    "Prepare rollback plan",
-    "Alert on-call engineer"
-  ],
-  "blockers": [],
-  "reasoning": "Low code changes, high test coverage, recent successful deployments"
+ "action": "approve",
+ "risk_score": 0.15,
+ "risk_level": "low",
+ "recommendations": [
+ "Monitor error rates for 2 hours post-deployment",
+ "Prepare rollback plan",
+ "Alert on-call engineer"
+ ],
+ "blockers": [],
+ "reasoning": "Low code changes, high test coverage, recent successful deployments"
 }
 ```
 
