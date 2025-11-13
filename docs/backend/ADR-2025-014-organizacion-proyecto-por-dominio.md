@@ -5,7 +5,7 @@ domain: general
 status: active
 ---
 
-# ADR_010: Organización del Proyecto por Dominio
+# ADR-2025-014: Organización del Proyecto por Dominio
 
 **Estado:** Aceptado
 **Fecha:** 2025-11-06

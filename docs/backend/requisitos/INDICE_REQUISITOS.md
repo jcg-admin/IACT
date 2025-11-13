@@ -57,7 +57,7 @@ Sistema de permisos basado en **Grupos Funcionales** que reemplaza el enfoque tr
 | Documento | Descripción | Estado |
 |-----------|-------------|--------|
 | [INDICE_MAESTRO_PERMISOS_GRANULAR.md](INDICE_MAESTRO_PERMISOS_GRANULAR.md) | Índice maestro del sistema completo | OK Completo |
-| [ADR-2025-005](../../adr/adr_2025_005_grupos_funcionales_sin_jerarquia.md) | Decisión arquitectónica | OK Aprobado |
+| [ADR-2025-005](../../adr/ADR-2025-005-grupos-funcionales-sin-jerarquia.md) | Decisión arquitectónica | OK Aprobado |
 | [prioridad_01_estructura_base_datos.md](prioridad_01_estructura_base_datos.md) | 8 tablas + vistas + funciones SQL | OK Completo |
 | [prioridad_02_funciones_core.md](prioridad_02_funciones_core.md) | 3 funciones core (16 capacidades) | OK Completo |
 | [prioridad_03_modulos_operativos.md](prioridad_03_modulos_operativos.md) | 6 módulos operativos (38 capacidades) | OK Completo |
@@ -461,7 +461,7 @@ IMPL-###   -> Implementación del Requisito ###
 - [PostgreSQL Documentation](https://www.postgresql.org/docs/) - Base de datos
 
 **Arquitectura:**
-- [ADR-2025-005](../adr/adr_2025_005_grupos_funcionales_sin_jerarquia.md) - Decisión de Grupos Funcionales
+- [ADR-2025-005](../adr/ADR-2025-005-grupos-funcionales-sin-jerarquia.md) - Decisión de Grupos Funcionales
 
 ---
 

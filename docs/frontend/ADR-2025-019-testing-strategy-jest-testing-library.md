@@ -10,7 +10,7 @@ contexto: Sistema IACT Frontend - Testing Strategy
 tags: [frontend, testing, jest, react-testing-library]
 ---
 
-# ADR_014: Jest + Testing Library para Testing Frontend
+# ADR-2025-019: Jest + Testing Library para Testing Frontend
 
 ## Estado
 

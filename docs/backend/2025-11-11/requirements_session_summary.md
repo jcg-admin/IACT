@@ -70,7 +70,7 @@ This session successfully addressed the critical documentation gap identified fo
   2. URL Design (anti-patterns included)
   3. HTTP Methods & Status Codes
   4. JWT Authentication (security checklist)
-  5. Granular Permissions (based on ADR-012)
+  5. Granular Permissions (based on ADR-2025-017)
   6. API Versioning (4 strategies compared)
   7. Pagination (Offset vs Cursor with Self-Consistency)
   8. Secure Filtering (SQL injection validation with 3 scenarios)

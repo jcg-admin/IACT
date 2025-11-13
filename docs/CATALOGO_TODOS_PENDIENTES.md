@@ -69,12 +69,12 @@ DETALLE POR ARCHIVO
   Linea    2 [TODO       ]: id: TODO-MASTER
   Linea    9 [TODO       ]: # TODO - Proyecto IACT
 
-/home/user/IACT---project/docs/adr/ADR-012-sistema-permisos-sin-roles-jerarquicos.md (2 items):
+/home/user/IACT---project/docs/adr/ADR-2025-017-sistema-permisos-sin-roles-jerarquicos.md (2 items):
 --------------------------------------------------------------------------------
   Linea   19 [TODO       ]: |-- Puede hacer TODO
   Linea   36 [TODO       ]: 4. **Mantenimiento Complejo:** Cambiar permisos de "Supervisor" afecta
 
-/home/user/IACT---project/docs/adr/ADR_010_organizacion_proyecto_por_dominio.md (8 items):
+/home/user/IACT---project/docs/adr/ADR-2025-014-organizacion-proyecto-por-dominio.md (8 items):
 --------------------------------------------------------------------------------
   Linea   38 [TODO       ]: Cada dominio principal tendrá su propio directorio que contendrá TODO 
   Linea  202 [TODO       ]: Se consolidó TODOS los componentes CPython dentro de `builder/` para m
@@ -85,15 +85,15 @@ DETALLE POR ARCHIVO
   Linea  328 [TODO       ]: ├── scripts/                # TODOS los scripts (VM + host wrapper)
   Linea  351 [TODO       ]: 1. **Máxima simplicidad**: TODO CPython directamente en `cpython/` - s
 
-/home/user/IACT---project/docs/adr/ADR_012_redux_toolkit_state_management.md (1 items):
+/home/user/IACT---project/docs/adr/ADR-2025-016-redux-toolkit-state-management.md (1 items):
 --------------------------------------------------------------------------------
   Linea   56 [TODO       ]: // Con Context API: TODOS los consumidores re-renderizan
 
-/home/user/IACT---project/docs/adr/adr_2025_008_workflow_validation_shell_migration.md (1 items):
+/home/user/IACT---project/docs/adr/ADR-2025-008-workflow-validation-shell-migration.md (1 items):
 --------------------------------------------------------------------------------
   Linea  274 [TODO       ]: `set -euo pipefail` en TODOS los scripts, NO `|| true` para ocultar er
 
-/home/user/IACT---project/docs/adr/adr_2025_010_orm_sql_hybrid_permissions.md (1 items):
+/home/user/IACT---project/docs/adr/ADR-2025-010-orm-sql-hybrid-permissions.md (1 items):
 --------------------------------------------------------------------------------
   Linea   24 [TODO       ]: - Auditoría de TODOS los accesos (write-heavy)
 
@@ -323,12 +323,12 @@ DETALLE POR ARCHIVO
   Linea    2 [TODO       ]: id: DOC-FRONTEND-ARQ-TODO
   Linea   10 [TODO       ]: # TODO Arquitectura Frontend - Integración con Backend
 
-/home/user/IACT---project/docs/frontend/arquitectura/adr/ADR-0001-servicios-resilientes.md (2 items):
+/home/user/IACT---project/docs/frontend/arquitectura/adr/ADR-2025-020-servicios-resilientes.md (2 items):
 --------------------------------------------------------------------------------
   Linea    8 [TODO       ]: - DOC-FRONTEND-ARQ-TODO
   Linea   32 [TODO       ]: - La documentacion (`TODO.md`, `CHANGELOG.md`) se actualiza para refle
 
-/home/user/IACT---project/docs/frontend/arquitectura/adr/ADR-0002-arquitectura-microfrontends.md (2 items):
+/home/user/IACT---project/docs/frontend/arquitectura/adr/ADR-2025-021-arquitectura-microfrontends.md (2 items):
 --------------------------------------------------------------------------------
   Linea    9 [TODO       ]: - DOC-FRONTEND-ARQ-TODO
   Linea   30 [TODO       ]: - Sería necesario documentar prefijos de URL, catálogos de rutas y eve

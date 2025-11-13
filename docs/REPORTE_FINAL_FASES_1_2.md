@@ -177,8 +177,8 @@ Lista completa:
 #### B. docs/infrastructure/ → docs/infraestructura/ (10 archivos actualizados)
 
 **Archivos afectados**:
-- infraestructura/adr_2025_011_wasi_style_virtualization.md
-- infraestructura/ADR_009_distribucion_artefactos_strategy.md
+- infraestructura/ADR-2025-011-wasi_style_virtualization.md
+- infraestructura/ADR-2025-013-distribucion-artefactos-strategy.md
 - infraestructura/TASK-015-actualizacion-documentacion.md
 - infraestructura/srs_software_requirements.md
 - infraestructura/SPEC_INFRA_001_cpython_precompilado.md (multiples referencias)
@@ -197,7 +197,7 @@ Lista completa:
 - backend/permisos/promptops/CONTRIBUTING.md
 - backend/permisos/promptops/gates/route-lint.md
 - backend/2025-11-11/analisis_cobertura_requisitos.md (3 referencias)
-- infraestructura/adr_2025_002_suite_calidad_codigo.md
+- infraestructura/ADR-2025-002-suite-calidad-codigo.md
 - infraestructura/requisitos/README.md (2 referencias)
 - gobernanza/README.md (2 referencias)
 

@@ -30,7 +30,7 @@ Se encontraron **13 archivos con nombres duplicados** en diferentes ubicaciones:
 | reprocesar_etl_fallido.md | 2 | | WARNING Diferentes |
 | verificar_servicios.md | 2 | | WARNING Diferentes |
 | post_create.md | 2 | | WARNING Diferentes |
-| adr_2025_001_vagrant_mod_wsgi.md | 2 | | WARNING Diferentes |
+| ADR-2025-001-vagrant-mod-wsgi.md | 2 | | WARNING Diferentes |
 | plantilla_adr.md | 2 | | WARNING Diferentes |
 
 **Total**: 3 idénticos, 10 diferentes
@@ -231,14 +231,14 @@ Estos archivos tienen el mismo nombre pero contenido diferente. Requieren revisi
 
 ---
 
-### 9. adr_2025_001_vagrant_mod_wsgi.md
+### 9. ADR-2025-001-vagrant-mod-wsgi.md
 
-**Ubicación 1**: `docs/arquitectura/adr/adr_2025_001_vagrant_mod_wsgi.md`
+**Ubicación 1**: `docs/arquitectura/adr/ADR-2025-001-vagrant-mod-wsgi.md`
 - **MD5**: `1e43278e94c4be97d2d71fa90922c706`
 - **Tamaño**: 7,596 bytes (260 líneas)
 - **Propósito**: ADR completo
 
-**Ubicación 2**: `docs/infraestructura/arquitectura/adr/adr_2025_001_vagrant_mod_wsgi.md`
+**Ubicación 2**: `docs/infraestructura/arquitectura/adr/ADR-2025-001-vagrant-mod-wsgi.md`
 - **MD5**: `f4edf7e92049505ac76b535d9671fef4`
 - **Tamaño**: 1,263 bytes (23 líneas)
 - **Propósito**: Stub/resumen
@@ -288,7 +288,7 @@ rm docs/infraestructura/devops/contenedores_devcontainer.md
 rm docs/backend/devops/runbooks/reprocesar_etl_fallido.md
 rm docs/infraestructura/devops/runbooks/verificar_servicios.md
 rm docs/infraestructura/devops/runbooks/post_create.md
-rm docs/infraestructura/arquitectura/adr/adr_2025_001_vagrant_mod_wsgi.md
+rm docs/infraestructura/arquitectura/adr/ADR-2025-001-vagrant-mod-wsgi.md
 rm docs/infraestructura/arquitectura/adr/plantilla_adr.md
 rm docs/backend/arquitectura/lineamientos_codigo.md  # opcional - puede expandirse
 ```

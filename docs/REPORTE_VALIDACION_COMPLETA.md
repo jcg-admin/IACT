@@ -91,8 +91,8 @@ status: final
 
 ### Documentos Principales Validados
 
-#### 1. ADR-012: Sistema de Permisos Sin Roles Jerarquicos
-**Ubicacion**: `docs/ai/ADR-012-sistema-permisos-sin-roles-jerarquicos.md`
+#### 1. ADR-2025-017: Sistema de Permisos Sin Roles Jerarquicos
+**Ubicacion**: `docs/ai/ADR-2025-017-sistema-permisos-sin-roles-jerarquicos.md`
 
 **Estado**: ACEPTADO e IMPLEMENTADO
 **Fecha**: 2025-11-07
@@ -244,7 +244,7 @@ e5cebe1 - feat: implementar FASE 4 y FASE 5 - Tests y Documentacion completa
 **Respuesta**: SI, COMPLETAMENTE DOCUMENTADO
 
 **Documentos Encontrados**:
-1. `docs/ai/ADR-012-sistema-permisos-sin-roles-jerarquicos.md` - Vision y filosofia completa
+1. `docs/ai/ADR-2025-017-sistema-permisos-sin-roles-jerarquicos.md` - Vision y filosofia completa
 2. `docs/backend/requisitos/prioridad_01_estructura_base_datos.md` - Prioridad 1 (CRITICA)
 3. `docs/backend/requisitos/prioridad_02_funciones_core.md` - Prioridad 2 (ALTA)
 4. `docs/backend/IMPLEMENTACION_PERMISOS_GRANULAR.md` - Guia de implementacion
@@ -756,7 +756,7 @@ e5cebe1 - feat: implementar FASE 4 y FASE 5 - Tests y Documentacion completa
 - `docs/ANALISIS_COMPLETITUD_REORGANIZACION.md`
 
 **Sistema de Permisos**:
-- `docs/ai/ADR-012-sistema-permisos-sin-roles-jerarquicos.md`
+- `docs/ai/ADR-2025-017-sistema-permisos-sin-roles-jerarquicos.md`
 - `docs/backend/requisitos/prioridad_01_estructura_base_datos.md`
 - `docs/backend/requisitos/prioridad_02_funciones_core.md`
 - `docs/backend/IMPLEMENTACION_PERMISOS_GRANULAR.md`

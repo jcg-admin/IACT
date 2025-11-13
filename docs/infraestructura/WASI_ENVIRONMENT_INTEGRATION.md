@@ -539,7 +539,7 @@ chmod +x scripts/infrastructure/wasi/*.sh
 
 - [Environment Config Documentation](../ai/CONFIGURACION_AMBIENTES.md)
 - [WASI Scripts README](../../scripts/infrastructure/wasi/README.md)
-- [ADR-011: WASI-style Virtualization](../infraestructura/adr_2025_011_wasi_style_virtualization.md)
+- [ADR-011: WASI-style Virtualization](../infraestructura/ADR-2025-011-wasi_style_virtualization.md)
 
 ---
 

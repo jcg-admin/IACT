@@ -367,7 +367,7 @@ Los runbooks documentan procedimientos operativos comunes:
 
 ## Recursos relacionados
 - [Arquitectura](../arquitectura/readme.md)
-- [ADR-2025-001: Vagrant](../arquitectura/adr/adr_2025_001_vagrant_mod_wsgi.md)
+- [ADR-2025-001: Vagrant](../arquitectura/adr/ADR-2025-001-vagrant-mod-wsgi.md)
 - [Script verificar_servicios.sh](../../scripts/verificar_servicios.sh)
 - [Vagrantfile](../../vagrantfile)
 - [Bootstrap.sh](../../provisioning/bootstrap.sh)

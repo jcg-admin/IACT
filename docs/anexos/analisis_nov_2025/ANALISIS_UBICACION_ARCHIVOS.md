@@ -223,11 +223,11 @@ Ver lineamientos base en: `docs/arquitectura/lineamientos_codigo.md`
 
 ---
 
-### 12. adr_2025_001_vagrant_mod_wsgi.md
+### 12. ADR-2025-001-vagrant-mod-wsgi.md
 
 **Naturaleza**: ADR (Architecture Decision Record)
 
-**Ubicación correcta**: `docs/arquitectura/adr/adr_2025_001_vagrant_mod_wsgi.md` OK
+**Ubicación correcta**: `docs/arquitectura/adr/ADR-2025-001-vagrant-mod-wsgi.md` OK
 
 **Razón**:
 - Los ADRs deben estar CENTRALIZADOS en un solo lugar
@@ -279,7 +279,7 @@ Ver lineamientos base en: `docs/arquitectura/lineamientos_codigo.md`
 
 ### Arquitectura → `docs/arquitectura/`
 - OK: lineamientos_codigo.md
-- OK: adr/adr_2025_001_vagrant_mod_wsgi.md
+- OK: adr/ADR-2025-001-vagrant-mod-wsgi.md
 - OK: adr/plantilla_adr.md
 
 ### Gobernanza → `docs/gobernanza/`
@@ -323,7 +323,7 @@ rm docs/backend/devops/runbooks/reprocesar_etl_fallido.md
 rm docs/infraestructura/devops/contenedores_devcontainer.md
 rm docs/infraestructura/devops/runbooks/verificar_servicios.md
 rm docs/infraestructura/devops/runbooks/post_create.md
-rm docs/infraestructura/arquitectura/adr/adr_2025_001_vagrant_mod_wsgi.md
+rm docs/infraestructura/arquitectura/adr/ADR-2025-001-vagrant-mod-wsgi.md
 rm docs/infraestructura/arquitectura/adr/plantilla_adr.md
 ```
 

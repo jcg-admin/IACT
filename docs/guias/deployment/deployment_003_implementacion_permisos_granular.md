@@ -756,7 +756,7 @@ Después de completar esta guía:
 ## Referencias
 
 - Documentación base de datos: `docs/backend/requisitos/prioridad_01_estructura_base_datos.md`
-- ADR-2025-005: `docs/adr/adr_2025_005_grupos_funcionales_sin_jerarquia.md`
+- ADR-2025-005: `docs/adr/ADR-2025-005-grupos-funcionales-sin-jerarquia.md`
 - Mapeo Django: `docs/backend/requisitos/MAPEO_FUNCIONES_MODULOS_DJANGO.md`
 - Casos de uso: `docs/backend/requisitos/CASOS_DE_USO_SISTEMA_PERMISOS.md`
 

@@ -265,9 +265,9 @@ date: 2025-11-13
 
 ---
 
-### 3.2 ADR-012 - Conformidad
+### 3.2 ADR-2025-017 - Conformidad
 
-**Archivo**: `docs/ai/ADR-012-sistema-permisos-sin-roles-jerarquicos.md`
+**Archivo**: `docs/ai/ADR-2025-017-sistema-permisos-sin-roles-jerarquicos.md`
 
 **Formato ADR Estandar - CONFORME**:
 - [x] Estado: Aceptado
@@ -355,7 +355,7 @@ date: 2025-11-13
 - ADR-2025-005: Grupos Funcionales Sin Jerarquia
 - ADR-2025-006: Configuracion Dinamica Sistema
 - ADR-2025-010: Estrategia Hibrida ORM + SQL
-- ADR-012: Sistema Permisos Sin Roles Jerarquicos
+- ADR-2025-017: Sistema Permisos Sin Roles Jerarquicos
 
 **Documentos que Referencian ADRs**: 10+ archivos
 
@@ -478,7 +478,7 @@ status: draft|active|deprecated|final
 **Prioridades**: `prioridad_01_estructura_base_datos.md`, `prioridad_02_funciones_core.md`
 - Resultado: CONFORME (numeracion clara de prioridades)
 
-**ADRs**: `ADR-012-sistema-permisos-sin-roles-jerarquicos.md`
+**ADRs**: `ADR-2025-017-sistema-permisos-sin-roles-jerarquicos.md`
 - Resultado: CONFORME (formato ADR-XXX con descripcion)
 
 ---
@@ -669,7 +669,7 @@ La documentacion del proyecto IACT **CUMPLE AL 100%** con los estandares de gobe
 ### Documentos Auditados
 - `docs/ai/requisitos/reglas_negocio/*`
 - `docs/backend/requisitos/prioridad_*.md`
-- `docs/ai/ADR-012-sistema-permisos-sin-roles-jerarquicos.md`
+- `docs/ai/ADR-2025-017-sistema-permisos-sin-roles-jerarquicos.md`
 - `docs/backend/UC-PERM-001_asignar_grupo_a_usuario.md`
 - Y 110+ archivos mas
 

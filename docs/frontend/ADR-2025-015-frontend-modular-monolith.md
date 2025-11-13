@@ -10,7 +10,7 @@ contexto: Sistema IACT Frontend
 tags: [frontend, arquitectura, react]
 ---
 
-# ADR_011: Frontend como Modular Monolith (no Microfrontends)
+# ADR-2025-015: Frontend como Modular Monolith (no Microfrontends)
 
 ## Estado
 

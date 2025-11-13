@@ -17,7 +17,7 @@ Inventario de decisiones y topologías que sostienen la plataforma de infraestru
 - [`adr/`](adr/)
 
 ## Información clave
-- Los ADR documentan lineamientos como el uso de Vagrant y Apache con mod_wsgi (`adr/adr_2025_001_vagrant_mod_wsgi.md`).
+- Los ADR documentan lineamientos como el uso de Vagrant y Apache con mod_wsgi (`adr/ADR-2025-001-vagrant-mod-wsgi.md`).
 - Mantiene enlaces hacia scripts y configuraciones ubicadas en `infrastructure/` dentro del repositorio.
 - Sirve como punto de coordinación con [`../devops/README.md`](../devops/README.md) para el ciclo de vida de ambientes.
 

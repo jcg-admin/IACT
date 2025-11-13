@@ -961,7 +961,7 @@ if (hasPermission(permission)) { ... }
 
 ### Documentación Backend
 - [Sistema de Permisos Granular](../backend/arquitectura/permisos-granular.md)
-- [ADR-2025-010: Estrategia Híbrida ORM + SQL](../adr/adr_2025_010_orm_sql_hybrid_permissions.md)
+- [ADR-2025-010: Estrategia Híbrida ORM + SQL](../adr/ADR-2025-010-orm-sql-hybrid-permissions.md)
 - [GAP Analysis](../analisis/GAP_ANALYSIS_SISTEMA_PERMISOS.md)
 
 ### Código de Implementación

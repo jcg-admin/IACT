@@ -512,7 +512,7 @@ class DORADashboardTestCase(TestCase):
 **Permisos:**
 - Dashboard requiere `@staff_member_required` decorator
 - Solo usuarios staff pueden acceder
-- Alineado con ADR-012 (permisos granulares)
+- Alineado con ADR-2025-017 (permisos granulares)
 
 **Performance:**
 - Usar `.select_related()` y `.prefetch_related()` para queries optimizadas

@@ -673,7 +673,7 @@ curl -X GET \
 
 ## Referencias
 
-- ADR: `docs/adr/ADR-012-sistema-permisos-sin-roles-jerarquicos.md`
+- ADR: `docs/adr/ADR-2025-017-sistema-permisos-sin-roles-jerarquicos.md`
 - Arquitectura: `docs/backend/permisos/arquitectura-permisos-granular.md`
 - Codigo: `api/callcentersite/callcentersite/apps/permissions/`
 - OpenAPI Schema: `/api/schema/`

@@ -3,7 +3,7 @@ id: ADR-2025-008
 estado: aceptada
 propietario: devops-team
 ultima_actualizacion: 2025-11-09
-relacionados: ["adr_2025_002_suite_calidad_codigo", "RESUMEN_MIGRACION_SHELL_SCRIPTS.md", "SHELL_SCRIPTS_CONSTITUTION.md"]
+relacionados: ["ADR-2025-002-suite-calidad-codigo", "RESUMEN_MIGRACION_SHELL_SCRIPTS.md", "SHELL_SCRIPTS_CONSTITUTION.md"]
 date: 2025-11-13
 ---
 # ADR-2025-008: Migración de Validaciones CI/CD a Scripts Shell Standalone
@@ -310,7 +310,7 @@ Validadores son read-only (NO modifican estado)
 - [Shell Scripts Constitution](../../SHELL_SCRIPTS_CONSTITUTION.md)
 - [Análisis Idempotencia Scripts](../../ANALISIS_IDEMPOTENCIA_SCRIPTS.md)
 - [Estrategia Git Hooks](../../ESTRATEGIA_GIT_HOOKS.md)
-- [ADR-2025-002: Suite Calidad Código](adr_2025_002_suite_calidad_codigo.md)
+- [ADR-2025-002: Suite Calidad Código](ADR-2025-002-suite-calidad-codigo.md)
 
 ## Notas Adicionales
 

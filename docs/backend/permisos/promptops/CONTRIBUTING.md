@@ -275,7 +275,7 @@ Eres un [rol específico] especializado en [dominio].
 - Basado en capacidades granulares (NO roles jerárquicos)
 - Formato: `sistema.dominio.recurso.accion`
 - Middleware + Mixin para validación
-- ADR-012: Sistema de permisos sin roles jerárquicos
+- ADR-2025-017: Sistema de permisos sin roles jerárquicos
 
 ---
 
@@ -1110,7 +1110,7 @@ Al crear un nuevo componente PromptOps, verifica:
 
 ### Documentación Relacionada
 
-- [ADR-012: Sistema de Permisos](../../arquitectura/ADR-012-sistema-permisos-sin-roles-jerarquicos.md)
+- [ADR-2025-017: Sistema de Permisos](../../arquitectura/ADR-2025-017-sistema-permisos-sin-roles-jerarquicos.md)
 - [Restricciones del Proyecto](../gobernanza/marco_integrado/restricciones_y_lineamientos.md)
 - [Arquitectura de Permisos](../ARQUITECTURA_PERMISOS_UML.md)
 

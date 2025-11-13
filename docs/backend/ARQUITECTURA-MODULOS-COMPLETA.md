@@ -19,7 +19,7 @@ Sistema modular de call center con permisos granulares sin jerarquias. Implement
 
 ## Principios Arquitectonicos
 
-1. **Sin Roles Jerarquicos**: Grupos funcionales combinables (REF: ADR-012)
+1. **Sin Roles Jerarquicos**: Grupos funcionales combinables (REF: ADR-2025-017)
 2. **Permisos Granulares**: Capacidades atomicas formato `sistema.dominio.recurso.accion`
 3. **Modularidad**: Cada modulo es independiente con su BD, API y UI
 4. **TDD**: Desarrollo guiado por tests
@@ -34,7 +34,7 @@ Sistema modular de call center con permisos granulares sin jerarquias. Implement
 
 **Estado**: Implementado y documentado
 **Ubicacion**: `api/callcentersite/callcentersite/apps/permissions/`
-**Documentacion**: `docs/backend/permisos/`, `docs/adr/ADR-012*.md`
+**Documentacion**: `docs/backend/permisos/`, `docs/adr/ADR-2025-017*.md`
 
 **Modelos (8 tablas)**:
 - `Funcion`: Recursos del sistema
@@ -684,7 +684,7 @@ PoliticaAceptacion
 
 ## Referencias
 
-- ADR-012: Permisos sin roles jerarquicos
+- ADR-2025-017: Permisos sin roles jerarquicos
 - API Permisos: `docs/backend/permisos/API-permisos.md`
 - Arquitectura Permisos: `docs/backend/permisos/arquitectura-permisos-granular.md`
 - CODEOWNERS: `/CODEOWNERS`

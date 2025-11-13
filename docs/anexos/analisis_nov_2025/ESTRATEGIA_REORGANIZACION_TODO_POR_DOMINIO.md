@@ -391,15 +391,15 @@ docs/
 │
 ├── adr/                                    <- ADRs TRANSVERSALES
 │   ├── plantilla_adr.md
-│   ├── ADR_008_cpython_features_vs_imagen_base.md
-│   ├── ADR_009_distribucion_artefactos_strategy.md
-│   ├── ADR_010_organizacion_proyecto_por_dominio.md
-│   ├── ADR_011_frontend_modular_monolith.md
-│   ├── ADR_012_redux_toolkit_state_management.md
-│   ├── ADR_013_webpack_bundler.md
-│   ├── ADR_014_testing_strategy_jest_testing_library.md
-│   ├── adr_2025_001_vagrant_mod_wsgi.md
-│   └── adr_2025_002_suite_calidad_codigo.md
+│   ├── ADR-2025-012-cpython-features-vs-imagen-base.md
+│   ├── ADR-2025-013-distribucion-artefactos-strategy.md
+│   ├── ADR-2025-014-organizacion-proyecto-por-dominio.md
+│   ├── ADR-2025-015-frontend-modular-monolith.md
+│   ├── ADR-2025-016-redux-toolkit-state-management.md
+│   ├── ADR-2025-018-webpack-bundler.md
+│   ├── ADR-2025-019-testing-strategy-jest-testing-library.md
+│   ├── ADR-2025-001-vagrant-mod-wsgi.md
+│   └── ADR-2025-002-suite-calidad-codigo.md
 │
 ├── plantillas/                             <- PLANTILLAS TRANSVERSALES
 │   ├── README.md

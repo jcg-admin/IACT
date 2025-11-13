@@ -289,7 +289,7 @@ docs/
 ├── implementacion/
 │   └── OBSERVABILITY_LAYERS.md (actualizado)
 ├── adr/
-│   └── adr_2025_004_centralized_log_storage.md (actualizado)
+│   └── ADR-2025-004-centralized-log-storage.md (actualizado)
 └── INDICE.md (v1.6.0)
 
 scripts/
@@ -357,7 +357,7 @@ entre metricas DORA y agentes SDLC del proyecto IACT.
 ```
 docs/
 ├── adr/
-│   └── adr_2025_003_dora_sdlc_integration.md (ADR)
+│   └── ADR-2025-003-dora-sdlc-integration.md (ADR)
 ├── gobernanza/
 │   ├── ai/
 │   │   ├── FASES_IMPLEMENTACION_IA.md (metodologia 6 fases)
@@ -374,7 +374,7 @@ docs/
 - ADR template seguido (plantilla_adr.md)
 
 **Archivos:**
-- docs/adr/adr_2025_003_dora_sdlc_integration.md (nuevo, 650 lineas)
+- docs/adr/ADR-2025-003-dora-sdlc-integration.md (nuevo, 650 lineas)
 - docs/gobernanza/ai/DORA_SDLC_INTEGRATION_GUIDE.md (nuevo, 500 lineas)
 - docs/gobernanza/procesos/agentes/WORKFLOW_AGENTES_DORA.md (nuevo, 800 lineas)
 - docs/INDICE.md (actualizado a v1.5.0)

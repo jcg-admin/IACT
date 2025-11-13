@@ -147,7 +147,7 @@ Creado `docs/INDEX.md` con:
 
 ```
 /docs/backend/README.md -> ../documentacion_corporativa.md (no existe)
-/docs/backend/README.md -> ../../arquitectura/adr/adr_2025_002_suite_calidad_codigo.md (no existe)
+/docs/backend/README.md -> ../../arquitectura/adr/ADR-2025-002-suite-calidad-codigo.md (no existe)
 /docs/backend/README.md -> ../plan_general.md (no existe)
 ```
 

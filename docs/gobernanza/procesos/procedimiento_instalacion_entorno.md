@@ -346,7 +346,7 @@ rm -rf .pytest_cache
 
 ## Recursos Relacionados
 
-- [ADR-2025-001: Vagrant + mod_wsgi](../arquitectura/adr/adr_2025_001_vagrant_mod_wsgi.md)
+- [ADR-2025-001: Vagrant + mod_wsgi](../arquitectura/adr/ADR-2025-001-vagrant-mod-wsgi.md)
 - [Procedimiento: Desarrollo Local](procedimiento_desarrollo_local.md)
 - [DevContainers (futuro)](../devops/contenedores_devcontainer.md)
 

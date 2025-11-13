@@ -292,7 +292,7 @@ Ver: `docs/anexos/diagramas/actividad/UC-PERM-001_asignar_grupo_act.puml`
 ## Referencias
 
 - [Sistema de Permisos Granular](../backend/arquitectura/permisos-granular.md)
-- [ADR-2025-010: Estrategia Híbrida ORM + SQL](../adr/adr_2025_010_orm_sql_hybrid_permissions.md)
+- [ADR-2025-010: Estrategia Híbrida ORM + SQL](../adr/ADR-2025-010-orm-sql-hybrid-permissions.md)
 - [Guía de Casos de Uso](../gobernanza/casos_de_uso_guide.md)
 
 ---

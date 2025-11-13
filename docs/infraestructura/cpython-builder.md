@@ -835,7 +835,7 @@ Scripts deben ejecutarse desde:
 ### Documentacion del Proyecto
 
 - [SPEC_INFRA_001: CPython Precompilado](/home/user/IACT---project/docs/specs/SPEC_INFRA_001_cpython_precompilado.md)
-- [ADR_008: Features vs Imagen Base](/home/user/IACT---project/docs/adr/ADR_008_cpython_features_vs_imagen_base.md)
+- [ADR_008: Features vs Imagen Base](/home/user/IACT---project/docs/adr/ADR-2025-012-cpython-features-vs-imagen-base.md)
 - [README del Sistema](/home/user/IACT---project/infrastructure/cpython/README.md)
 - [Guia de Desarrollo](/home/user/IACT---project/docs/infraestructura/cpython-development-guide.md)
 - [CHANGELOG](/home/user/IACT---project/docs/infraestructura/CHANGELOG-cpython.md)

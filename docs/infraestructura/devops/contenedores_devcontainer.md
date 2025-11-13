@@ -14,7 +14,7 @@ Este documento describe el uso de contenedores Docker y configuración de DevCon
 
 ## Estado Actual
 
-**Actualmente el proyecto usa Vagrant + VirtualBox** para entorno de desarrollo local (ver [ADR-2025-001](../arquitectura/adr/adr_2025_001_vagrant_mod_wsgi.md)).
+**Actualmente el proyecto usa Vagrant + VirtualBox** para entorno de desarrollo local (ver [ADR-2025-001](../arquitectura/adr/ADR-2025-001-vagrant-mod-wsgi.md)).
 
 Este documento prepara la estrategia de migración futura a contenedores Docker y DevContainers.
 
@@ -329,7 +329,7 @@ GitHub Codespaces utiliza automáticamente la configuración de DevContainers:
 - [Developing inside a Container](https://code.visualstudio.com/docs/devcontainers/containers)
 - [GitHub Codespaces](https://docs.github.com/en/codespaces)
 - [DevContainer Specification](https://containers.dev/)
-- [ADR-2025-001: Vagrant](../arquitectura/adr/adr_2025_001_vagrant_mod_wsgi.md)
+- [ADR-2025-001: Vagrant](../arquitectura/adr/ADR-2025-001-vagrant-mod-wsgi.md)
 
 ## Notas
 

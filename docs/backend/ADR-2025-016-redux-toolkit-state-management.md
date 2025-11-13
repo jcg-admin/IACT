@@ -10,7 +10,7 @@ contexto: Sistema IACT Frontend - State Management
 tags: [frontend, state-management, redux, react]
 ---
 
-# ADR_012: Redux Toolkit para State Management (no Context API)
+# ADR-2025-016: Redux Toolkit para State Management (no Context API)
 
 ## Estado
 
