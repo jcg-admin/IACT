@@ -23,7 +23,7 @@ from pathlib import Path
 PROJECT_ROOT = Path(__file__).parent.parent
 sys.path.insert(0, str(PROJECT_ROOT))
 
-from scripts.ai.business_analysis.pipeline import create_business_analysis_pipeline
+from scripts.coding.ai.business_analysis.pipeline import create_business_analysis_pipeline
 
 
 def example_password_recovery_system():
@@ -196,7 +196,7 @@ def example_template_generation():
     }
 
     # Solo ejecutar TemplateGenerator
-    from scripts.ai.generators.template_generator import TemplateGenerator
+    from scripts.coding.ai.generators.template_generator import TemplateGenerator
 
     output_dir = Path("output/plantillas")
     output_dir.mkdir(parents=True, exist_ok=True)

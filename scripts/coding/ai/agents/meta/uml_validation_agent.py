@@ -21,14 +21,14 @@ import re
 import os
 import logging
 
-from scripts.ai.agents.base import (
+from scripts.coding.ai.agents.base import (
     SelfConsistencyAgent,
     SelfConsistencyResult
 )
 
 # Import LLMGenerator for AI-powered validation
 try:
-    from scripts.ai.generators.llm_generator import LLMGenerator
+    from scripts.coding.ai.generators.llm_generator import LLMGenerator
     LLM_AVAILABLE = True
 except ImportError:
     LLM_AVAILABLE = False

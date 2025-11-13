@@ -15,7 +15,7 @@ from typing import List, Dict
 
 # Import Chain-of-Verification
 try:
-    from scripts.ai.agents.base.chain_of_verification import (
+    from scripts.coding.ai.agents.base.chain_of_verification import (
         ChainOfVerificationAgent,
         VerificationStatus
     )

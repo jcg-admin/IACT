@@ -22,7 +22,7 @@ from typing import List, Dict, Any, Optional
 import logging
 import os
 
-from scripts.ai.agents.base import (
+from scripts.coding.ai.agents.base import (
     HybridSearchOptimization,
     SearchItem,
     SearchOptimizationResult,
@@ -32,7 +32,7 @@ from scripts.ai.agents.base import (
 
 # Import LLMGenerator for AI-powered analysis
 try:
-    from scripts.ai.generators.llm_generator import LLMGenerator
+    from scripts.coding.ai.generators.llm_generator import LLMGenerator
     LLM_AVAILABLE = True
 except ImportError:
     LLM_AVAILABLE = False
