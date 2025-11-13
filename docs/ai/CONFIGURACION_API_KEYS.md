@@ -48,13 +48,18 @@ OPENAI_API_KEY=sk-...
 # Ollama (local, opcional)
 OLLAMA_BASE_URL=http://localhost:11434
 
+# Hugging Face (modelos locales fine-tuned, opcional)
+HF_LOCAL_MODEL_PATH=/models/TinyLlama-1.1B-qlora
+# HF_MODEL_ID=TinyLlama/TinyLlama-1.1B-Chat-v1.0
+# HF_GENERATE_KWARGS={"max_new_tokens":512,"temperature":0.2}
+
 # Presupuesto mensual en USD
 LLM_MONTHLY_BUDGET=100
 
 # Habilitar optimización
 ENABLE_COST_OPTIMIZATION=true
 
-# Proveedor preferido: "auto", "anthropic", "openai", "ollama"
+# Proveedor preferido: "auto", "anthropic", "openai", "ollama", "huggingface"
 PREFER_LLM_PROVIDER=auto
 ```
 
@@ -150,7 +155,25 @@ PREFER_LLM_PROVIDER=ollama
 - Más lento que APIs cloud
 - Calidad variable según modelo
 
-### Opción 5: Sin LLM (Solo Heurísticas)
+### Opción 5: Hugging Face (Modelos Fine-Tuned)
+
+```bash
+# .env
+HF_LOCAL_MODEL_PATH=/models/TinyLlama-1.1B-qlora
+PREFER_LLM_PROVIDER=huggingface
+```
+
+**Ventajas:**
+- Ejecuta modelos entrenados específicamente para el dominio
+- No requiere enviar datos a proveedores externos si el modelo es local
+- Permite integrar pipelines como TinyLlama QLoRA + DPO (ver guía de fine-tuning)
+
+**Desventajas:**
+- Necesitas descargar el modelo (~4GB+) y dependencias de `transformers`
+- Performance depende del hardware disponible (GPU recomendada)
+- Debes gestionar actualizaciones y almacenamiento de checkpoints manualmente
+
+### Opción 6: Sin LLM (Solo Heurísticas)
 
 ```bash
 # .env

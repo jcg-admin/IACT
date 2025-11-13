@@ -54,6 +54,10 @@ Ver documentación completa en: [SEARCH_OPTIMIZATION_TECHNIQUES.md](./SEARCH_OPT
 
 Material complementario centrado en estrategias de generación de código (planificación, uso de herramientas y memoria) y en patrones de prompts paso a paso está disponible en [CODE_GENERATION_GUIDE.md](./CODE_GENERATION_GUIDE.md). Resume ejemplos prácticos y recordatorios de validación para mantener alineados a los agentes orientados a código.
 
+### Agentic System Patterns
+
+El compendio de patrones agenticos observados en producción—desde LLMs aumentados hasta orquestadores y evaluadores—se documenta en [AGENTIC_SYSTEM_PATTERNS.md](./AGENTIC_SYSTEM_PATTERNS.md). El material enfatiza cuándo escalar de flujos deterministas a agentes autónomos, qué compromisos evaluar (latencia, costo, confianza) y cómo diseñar la interfaz agente-computadora.
+
 ---
 
 ## Implementation Location

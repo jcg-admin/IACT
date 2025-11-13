@@ -8,7 +8,7 @@ Output: Código de tests generado
 
 import os
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 
 from .base import Agent
 
@@ -17,13 +17,14 @@ class LLMGenerator(Agent):
     """
     Agente especializado en generación de tests con LLM.
 
-    Usa un LLM (Anthropic/OpenAI/Ollama) para generar código de tests
+    Usa un LLM (Anthropic/OpenAI/Ollama/HuggingFace) para generar código de tests
     siguiendo los estándares del proyecto.
 
     Providers soportados:
     - anthropic: Claude API (requiere ANTHROPIC_API_KEY)
     - openai: ChatGPT API (requiere OPENAI_API_KEY)
     - ollama: Modelos locales (no requiere API key)
+    - huggingface: Pipelines transformers (modelos fine-tuned locales/remotos)
 
     Ejemplos de configuración:
 
@@ -45,6 +46,13 @@ class LLMGenerator(Agent):
         "model": "llama3.1:8b",  # o "deepseek-coder-v2", "qwen2.5-coder:32b"
         "ollama_base_url": "http://localhost:11434"  # opcional, default
     }
+
+    # Hugging Face (transformers)
+    config = {
+        "llm_provider": "huggingface",
+        "model": "/models/TinyLlama-1.1B-qlora",  # ruta local o repo-id
+        "hf_generate_kwargs": {"max_new_tokens": 512, "temperature": 0.2}
+    }
     """
 
     def __init__(self, config: Dict[str, Any] = None):
@@ -54,8 +62,21 @@ class LLMGenerator(Agent):
         self._load_env_variables()
 
         self.llm_provider = self.get_config("llm_provider", "anthropic")
-        self.model = self.get_config("model", "claude-sonnet-4-5-20250929")
+
+        default_model_map = {
+            "anthropic": "claude-sonnet-4-5-20250929",
+            "openai": "gpt-4-turbo-preview",
+            "ollama": "llama3.1:8b",
+            "huggingface": None,
+        }
+        self.model = self.get_config(
+            "model",
+            default_model_map.get(self.llm_provider, "claude-sonnet-4-5-20250929")
+        )
         self._client = None
+        self._hf_pipeline: Optional[Any] = None
+        self._hf_pipeline_model_id: Optional[str] = None
+        self._hf_return_full_text: bool = True
 
     def validate_input(self, input_data: Dict[str, Any]) -> List[str]:
         """Valida que existan planes de tests."""
@@ -74,7 +95,13 @@ class LLMGenerator(Agent):
         elif self.llm_provider == "anthropic":
             if not os.getenv("ANTHROPIC_API_KEY"):
                 errors.append("Falta ANTHROPIC_API_KEY en variables de entorno")
-        # Ollama no requiere API key (es local)
+        elif self.llm_provider == "huggingface":
+            model_id = self.get_config("hf_model_id", self.model)
+            if not model_id:
+                errors.append(
+                    "Config Hugging Face requiere 'model' o 'hf_model_id' configurado"
+                )
+        # Ollama y Hugging Face no requieren API key (son locales)
 
         return errors
 
@@ -279,6 +306,8 @@ GENERA LOS TESTS AHORA:
                 return self._call_openai(prompt)
             elif self.llm_provider == "ollama":
                 return self._call_ollama(prompt)
+            elif self.llm_provider == "huggingface":
+                return self._call_huggingface(prompt)
             else:
                 self.logger.error(f"Provider no soportado: {self.llm_provider}")
                 return ""
@@ -424,6 +453,133 @@ GENERA LOS TESTS AHORA:
                 "Asegúrate de que Ollama esté corriendo: ollama serve"
             )
             return ""
+
+    def _call_huggingface(self, prompt: str) -> str:
+        """Llama a un pipeline de Hugging Face (transformers)."""
+        model_id = self.get_config("hf_model_id", self.model)
+
+        if not model_id:
+            self.logger.error(
+                "Config Hugging Face sin modelo definido (usa 'model' o 'hf_model_id')."
+            )
+            return ""
+
+        pipeline_override = self.get_config("hf_pipeline")
+        if pipeline_override is not None:
+            self._hf_pipeline = pipeline_override
+            self._hf_pipeline_model_id = model_id
+
+        needs_reload = (
+            self._hf_pipeline is None
+            or self._hf_pipeline_model_id != model_id
+        )
+
+        if needs_reload:
+            try:
+                from transformers import pipeline  # type: ignore
+            except ImportError:
+                self.logger.error(
+                    "Paquete 'transformers' no instalado. Instala transformers>=4.41."
+                )
+                return ""
+
+            pipeline_kwargs = dict(self.get_config("hf_pipeline_kwargs", {}))
+            pipeline_kwargs.setdefault("model", model_id)
+
+            tokenizer_id = self.get_config("hf_tokenizer")
+            if tokenizer_id:
+                pipeline_kwargs.setdefault("tokenizer", tokenizer_id)
+
+            device = self.get_config("hf_device")
+            if device is not None:
+                pipeline_kwargs.setdefault("device", device)
+
+            self._hf_return_full_text = self.get_config(
+                "hf_return_full_text",
+                True
+            )
+
+            try:
+                self._hf_pipeline = pipeline("text-generation", **pipeline_kwargs)
+                self._hf_pipeline_model_id = model_id
+            except Exception as exc:  # pragma: no cover - fallback defensivo
+                self.logger.error(f"Error creando pipeline Hugging Face: {exc}")
+                self._hf_pipeline = None
+                self._hf_pipeline_model_id = None
+                return ""
+
+        if self._hf_pipeline is None:
+            return ""
+
+        formatted_prompt = prompt
+
+        if self.get_config("hf_use_chat_template", False):
+            try:
+                from transformers import AutoTokenizer  # type: ignore
+            except ImportError:
+                self.logger.error(
+                    "transformers.AutoTokenizer no disponible para aplicar chat template"
+                )
+            else:
+                template_model = self.get_config("hf_template_tokenizer", model_id)
+                messages = self.get_config("hf_chat_messages")
+                if not messages:
+                    messages = [{"role": "user", "content": prompt}]
+                try:
+                    tokenizer = AutoTokenizer.from_pretrained(template_model)
+                    formatted_prompt = tokenizer.apply_chat_template(
+                        messages,
+                        tokenize=False,
+                        add_generation_prompt=True
+                    )
+                except Exception as exc:  # pragma: no cover - tokenizer issues
+                    self.logger.error(
+                        f"No se pudo aplicar chat template Hugging Face: {exc}"
+                    )
+                    formatted_prompt = prompt
+
+        generate_kwargs = dict(self.get_config("hf_generate_kwargs", {}))
+        generate_kwargs.setdefault(
+            "max_new_tokens",
+            self.get_config("hf_max_new_tokens", 512)
+        )
+        generate_kwargs.setdefault(
+            "temperature",
+            self.get_config("hf_temperature", 0.2)
+        )
+        generate_kwargs.setdefault(
+            "do_sample",
+            self.get_config("hf_do_sample", False)
+        )
+        if not self._hf_return_full_text:
+            generate_kwargs.setdefault("return_full_text", False)
+
+        try:
+            outputs = self._hf_pipeline(formatted_prompt, **generate_kwargs)
+        except Exception as exc:
+            self.logger.error(f"Error ejecutando Hugging Face pipeline: {exc}")
+            return ""
+
+        if not outputs:
+            return ""
+
+        generated = outputs[0].get("generated_text", "")
+        if not generated:
+            return ""
+
+        if generated.startswith(formatted_prompt):
+            generated = generated[len(formatted_prompt):]
+
+        generated = generated.strip()
+
+        if "```python" in generated:
+            code = generated.split("```python", 1)[1].split("```", 1)[0]
+            return code.strip()
+        if "```" in generated:
+            code = generated.split("```", 1)[1].split("```", 1)[0]
+            return code.strip()
+
+        return generated
 
     def apply_guardrails(self, output_data: Dict[str, Any]) -> List[str]:
         """Valida que el código generado sea seguro."""
