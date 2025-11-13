@@ -18,6 +18,60 @@ from importlib import import_module
 from types import ModuleType
 from typing import Any, Callable, Dict, Iterable, Mapping, Sequence
 
+
+def _vpn_modules() -> Iterable[str]:
+    return (
+        "infrastructure.workspace.hamilton_llm.dataflow",
+        "infrastructure.workspace.vpn_proxy_agent.hamilton_nodes",
+    )
+
+
+async def execute_vpn_workflow(
+    *,
+    tunnel_manager,
+    diagnostics,
+    connectivity_tester,
+    llm_client,
+    idea: str,
+    domain_data: Mapping[str, Any],
+    edge_cases: Sequence[str],
+    pricing_policy: Mapping[str, float],
+    proxy_url: str | None = None,
+    api_urls: Sequence[str] | None = None,
+    timeout: float = 5.0,
+) -> Mapping[str, Any]:
+    statuses = await connectivity_tester(
+        proxy_url=proxy_url,
+        api_urls=list(api_urls or []),
+        timeout=timeout,
+    )
+    tunnel_snapshot = await tunnel_manager.status()
+    system_report = diagnostics.collect()
+
+    builder = Builder().with_modules(*_vpn_modules()).with_adapters(DictResult())
+    driver = builder.build()
+    outputs = driver.execute(
+        [
+            "business_value",
+            "cost_estimate",
+            "connectivity_matrix",
+            "tunnel_status",
+            "system_health_summary",
+        ],
+        inputs={
+            "idea": idea,
+            "domain_data": dict(domain_data),
+            "edge_cases": list(edge_cases),
+            "llm_client": llm_client,
+            "pricing_policy": dict(pricing_policy),
+            "statuses": statuses,
+            "status": tunnel_snapshot,
+            "report": system_report,
+        },
+    )
+
+    return outputs
+
 AdapterCallable = Callable[[Mapping[str, Any]], Any]
 
 
@@ -164,4 +218,4 @@ class Builder:
         return Driver(self._modules, adapters=self._adapters, config=self._config)
 
 
-__all__ = ["Builder", "DictResult", "Driver", "MissingDependencyError"]
+__all__ = ["Builder", "DictResult", "Driver", "MissingDependencyError", "execute_vpn_workflow"]
