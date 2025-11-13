@@ -4,6 +4,7 @@ from pathlib import Path
 
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
+PROJECT_ROOT = REPO_ROOT.parent
 
 
 def _read(path: Path) -> str:
@@ -127,6 +128,14 @@ def test_codex_mcp_multi_agent_guide_is_linked():
 
     agent_catalog = _read(REPO_ROOT / ".agent" / "agents" / "README.md")
     assert "CodexMCPWorkflow Orchestrator" in agent_catalog
+
+
+def test_hamilton_framework_integration_doc_is_published():
+    guide_path = PROJECT_ROOT / "docs" / "gobernanza" / "ai" / "HAMILTON_FRAMEWORK_INTEGRACION_SDLC.md"
+    assert guide_path.exists(), "Debe existir la guía de integración Hamilton alineada a las 6 fases SDLC"
+
+    index_contents = _read(REPO_ROOT / "index.md")
+    assert "gobernanza/ai/HAMILTON_FRAMEWORK_INTEGRACION_SDLC.md" in index_contents
 
 
 def test_issue_templates_connect_execplans_and_agents():
