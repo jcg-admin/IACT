@@ -89,6 +89,7 @@ Este índice combina lo implementado con la visión futura del proyecto, clarame
 - **Gestión de contexto multi-LLM**: [`ai_capabilities/orchestration/CONTEXT_MANAGEMENT_PLAYBOOK.md`](ai_capabilities/orchestration/CONTEXT_MANAGEMENT_PLAYBOOK.md) y módulo reutilizable [`scripts/coding/ai/shared/context_sessions.py`](../scripts/coding/ai/shared/context_sessions.py).
 - **Hamilton Data→Prompt→LLM ejemplo**: [`infrastructure/workspace/hamilton_llm/`](../infrastructure/workspace/hamilton_llm/) con pruebas [`infrastructure/workspace/tests/hamilton_llm/test_driver.py`](../infrastructure/workspace/tests/hamilton_llm/test_driver.py).
 - **Hamilton Language Server (Dev Tools)**: [`infrastructure/workspace/dev_tools/language_server/hamilton_lsp/`](../infrastructure/workspace/dev_tools/language_server/hamilton_lsp/) con pruebas [`infrastructure/workspace/tests/dev_tools/language_server/test_hamilton_lsp.py`](../infrastructure/workspace/tests/dev_tools/language_server/test_hamilton_lsp.py).
+- **Codex MCP Playbooks**: [`infrastructure/workspace/codex_mcp/`](../infrastructure/workspace/codex_mcp/) y guía [`docs/infraestructura/workspace/codex_mcp.md`](infraestructura/workspace/codex_mcp.md) con validaciones [`infrastructure/workspace/tests/codex_mcp/test_playbooks.py`](../infrastructure/workspace/tests/codex_mcp/test_playbooks.py).
 
 #### [PLANIFICADO] Planificados (ver [`docs/scripts/README.md`](scripts/README.md))
 - `scripts/sdlc_agent.py` - CLI SDLC

@@ -37,6 +37,26 @@ python3 -m pytest infrastructure/workspace/tests/dev_tools/language_server/test_
 
 Las pruebas cubren el registro de features LSP, la construcción del grafo al abrir documentos, los comandos de visualización y la extracción de símbolos.
 
+## Codex MCP Playbooks
+
+- **Código**: `infrastructure/workspace/codex_mcp/`
+- **Pruebas**: `infrastructure/workspace/tests/codex_mcp/test_playbooks.py`
+- **Documentación**: [`codex_mcp.md`](codex_mcp.md)
+
+El workspace Codex MCP define blueprints declarativos para:
+
+1. Inicializar Codex CLI como servidor MCP (`npx -y codex mcp`).
+2. Ejecutar un flujo mono-agente (Designer → Developer) con políticas `workspace-write` automáticas.
+3. Orquestar el equipo multi-agente (Project Manager, Designer, Frontend, Backend, Tester) con handoffs gateados.
+
+### Cómo validarlo
+
+```bash
+python3 -m pytest infrastructure/workspace/tests/codex_mcp/test_playbooks.py
+```
+
+Las pruebas comprueban el blueprint del servidor, la presencia de las políticas Codex MCP, las secuencias de handoffs y los deliverables esperados por cada rol.
+
 ## Registro de suites
 
-Para verificar la alineación estructural del workspace, se expone `infrastructure/workspace/tests/test_registry.py`, que afirma la presencia de `TEST_SUITES` en el paquete raíz y que ambos workspaces quedan registrados para futuras automatizaciones.
+Para verificar la alineación estructural del workspace, se expone `infrastructure/workspace/tests/test_registry.py`, que afirma la presencia de `TEST_SUITES` en el paquete raíz y que todos los workspaces quedan registrados para futuras automatizaciones.

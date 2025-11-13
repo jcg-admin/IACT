@@ -31,6 +31,17 @@ def test_workspace_exposes_language_server_suite(workspace_pkg):
     assert suite_path.exists()
 
 
+def test_workspace_exposes_codex_mcp_suite(workspace_pkg):
+    suites = getattr(workspace_pkg, "TEST_SUITES")
+    key = "codex_mcp"
+    assert key in suites, "El workspace Codex MCP debe registrarse en TEST_SUITES"
+
+    suite_path = Path(suites[key])
+    assert suite_path.parts[:3] == ("infrastructure", "workspace", "tests")
+    assert suite_path.name == "codex_mcp"
+    assert suite_path.exists()
+
+
 def test_suite_path_points_to_existing_directory(workspace_pkg):
     suites = workspace_pkg.TEST_SUITES
     suite_path = Path(suites["hamilton_llm"])
@@ -42,3 +53,4 @@ def test_workspace_exports_documented_modules(workspace_pkg):
     exported = set(getattr(workspace_pkg, "__all__", ()))
     assert "hamilton_llm" in exported, "El workspace Hamilton debe exponerse en __all__"
     assert "dev_tools" in exported, "Los dev tools deben estar disponibles en __all__"
+    assert "codex_mcp" in exported, "El workspace Codex MCP debe exponerse en __all__"
