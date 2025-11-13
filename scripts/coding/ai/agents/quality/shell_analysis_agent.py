@@ -227,6 +227,7 @@ class ConsolidatedResult:
     """Consolidated analysis result."""
     script_name: str
     script_path: str
+    domain: str  # Domain classification (e.g., "infrastructure/vagrant", "scripts/ci")
     analysis_timestamp: str
     analysis_mode: AnalysisMode
     overall_score: float  # 0-100
@@ -238,6 +239,7 @@ class ConsolidatedResult:
         return {
             "script_name": self.script_name,
             "script_path": self.script_path,
+            "domain": self.domain,
             "analysis_timestamp": self.analysis_timestamp,
             "analysis_mode": self.analysis_mode.value,
             "overall_score": self.overall_score,
@@ -310,6 +312,84 @@ class ShellScriptAnalysisAgent(Agent):
             self.cache_dir.mkdir(parents=True, exist_ok=True)
 
         self.logger.info(f"Initialized with mode={self.analysis_mode.value}")
+
+    # ========================================================================
+    # DOMAIN CLASSIFICATION (DDD Support)
+    # ========================================================================
+
+    @staticmethod
+    def classify_domain(script_path: str) -> str:
+        """
+        Classify script into domain based on path.
+
+        Supports DDD (Domain-Driven Design) by grouping scripts by their
+        functional domain for organized remediation and ownership.
+
+        Args:
+            script_path: Path to the script
+
+        Returns:
+            Domain string (e.g., "infrastructure/vagrant", "scripts/ci")
+        """
+        parts = Path(script_path).parts
+
+        # Infrastructure domains
+        if "infrastructure" in parts:
+            if "vagrant" in parts:
+                return "infrastructure/vagrant"
+            elif "devcontainer" in parts:
+                return "infrastructure/devcontainer"
+            elif "box" in parts:
+                return "infrastructure/box"
+            elif "cpython" in parts:
+                return "infrastructure/cpython"
+            elif "cassandra" in parts:
+                return "infrastructure/cassandra"
+            elif "disaster_recovery" in parts:
+                return "infrastructure/disaster_recovery"
+            elif "wasi" in parts:
+                return "infrastructure/wasi"
+            elif "benchmarking" in parts:
+                return "infrastructure/benchmarking"
+            elif "load_testing" in parts:
+                return "infrastructure/load_testing"
+            elif "ci" in parts:
+                return "infrastructure/ci"
+            elif "dev" in parts:
+                return "infrastructure/dev"
+            else:
+                return "infrastructure/other"
+
+        # Scripts domains
+        if "scripts" in parts:
+            if "ci" in parts:
+                return "scripts/ci"
+            elif "validation" in parts:
+                return "scripts/validation"
+            elif "git-hooks" in parts:
+                return "scripts/git-hooks"
+            elif "coding" in parts:
+                return "scripts/coding"
+            elif "workflows" in parts:
+                return "scripts/workflows"
+            elif "templates" in parts:
+                return "scripts/templates"
+            elif "lib" in parts:
+                return "scripts/lib"
+            elif "examples" in parts:
+                return "scripts/examples"
+            else:
+                return "scripts/root"
+
+        # GitHub workflows
+        if ".github" in parts:
+            return "github/workflows"
+
+        # Documentation scripts
+        if "docs" in parts:
+            return "docs/scripts"
+
+        return "other"
 
     # ========================================================================
     # PUBLIC METHODS (Agent Interface)
@@ -729,6 +809,7 @@ class ShellScriptAnalysisAgent(Agent):
         return ConsolidatedResult(
             script_name=script_path.name,
             script_path=str(script_path),
+            domain=self.classify_domain(str(script_path)),
             analysis_timestamp=timestamp,
             analysis_mode=self.analysis_mode,
             overall_score=overall_score,
@@ -791,17 +872,62 @@ class ShellScriptAnalysisAgent(Agent):
         json_path.write_text(json.dumps(summary, indent=2))
 
     def _calculate_summary(self, results: List[ConsolidatedResult]) -> Dict[str, Any]:
-        """Calculate summary statistics."""
+        """Calculate summary statistics with domain grouping."""
         if not results:
             return {}
 
-        return {
+        # Overall statistics
+        summary = {
             "total_scripts": len(results),
             "average_score": sum(r.overall_score for r in results) / len(results),
             "compliant_scripts": sum(1 for r in results if r.constitutional.overall_compliance),
             "total_violations": sum(r.constitutional.total_violations for r in results),
-            "total_security_issues": sum(len(r.security.issues) for r in results)
+            "total_security_issues": sum(len(r.security.issues) for r in results),
+            "critical_issues": sum(
+                sum(1 for v in rule_result.violations if v.severity == Severity.CRITICAL)
+                for r in results
+                for rule_result in r.constitutional.rule_results.values()
+            )
         }
+
+        # Domain-grouped statistics
+        from collections import defaultdict
+        domain_stats = defaultdict(lambda: {
+            "scripts": [],
+            "scores": [],
+            "violations": 0,
+            "security_issues": 0,
+            "critical_issues": 0
+        })
+
+        for result in results:
+            domain = result.domain
+            domain_stats[domain]["scripts"].append(result.script_name)
+            domain_stats[domain]["scores"].append(result.overall_score)
+            domain_stats[domain]["violations"] += result.constitutional.total_violations
+            domain_stats[domain]["security_issues"] += len(result.security.issues)
+            domain_stats[domain]["critical_issues"] += sum(
+                sum(1 for v in rule_result.violations if v.severity == Severity.CRITICAL)
+                for rule_result in result.constitutional.rule_results.values()
+            )
+
+        # Convert to serializable format
+        summary["by_domain"] = {}
+        for domain, stats in domain_stats.items():
+            avg_score = sum(stats["scores"]) / len(stats["scores"]) if stats["scores"] else 0
+            total_issues = stats["violations"] + stats["security_issues"]
+
+            summary["by_domain"][domain] = {
+                "count": len(stats["scripts"]),
+                "average_score": round(avg_score, 1),
+                "total_issues": total_issues,
+                "violations": stats["violations"],
+                "security_issues": stats["security_issues"],
+                "critical_issues": stats["critical_issues"],
+                "priority": "P0" if total_issues > 50 else "P1" if total_issues > 20 else "P2" if total_issues > 10 else "P3"
+            }
+
+        return summary
 
     def _check_cache(self, script_path: Path) -> Optional[ConsolidatedResult]:
         """Check if cached result exists."""
