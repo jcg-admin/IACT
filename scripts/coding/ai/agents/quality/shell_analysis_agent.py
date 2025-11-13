@@ -336,7 +336,12 @@ class ShellScriptAnalysisAgent(Agent):
 
         # Normalize to list and convert to Path objects
         if isinstance(script_paths, str):
-            script_paths = [Path(script_paths)]
+            p = Path(script_paths)
+            if p.is_dir():
+                # Find all .sh files recursively
+                script_paths = list(p.glob("**/*.sh"))
+            else:
+                script_paths = [p]
         elif isinstance(script_paths, Path):
             if script_paths.is_dir():
                 # Find all .sh files
