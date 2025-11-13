@@ -22,8 +22,6 @@ else
     echo "ACTION REQUIRED: Run T006-MINI logging setup first"
     exit 1
 fi
-    exit 1
-fi
 
 log_section "ENVIRONMENT VARIABLES VALIDATION"
 
