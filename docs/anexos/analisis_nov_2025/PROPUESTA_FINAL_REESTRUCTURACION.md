@@ -246,7 +246,7 @@ El sistema **deberá** proporcionar una API REST que calcule el stock mínimo...
 **Objetivos**:
 ```bash
 # Crear estructura
-mkdir -p implementacion/{backend,frontend,infrastructure}/requisitos/{necesidades,negocio,stakeholders,funcionales,no_funcionales}
+mkdir -p implementacion/{backend,frontend,infraestructura}/requisitos/{necesidades,negocio,stakeholders,funcionales,no_funcionales}
 mkdir -p docs/requisitos
 
 # Copiar plantillas
@@ -367,7 +367,7 @@ mkdir docs_legacy
 mv docs/backend docs_legacy/
 mv docs/frontend docs_legacy/
 mv docs/solicitudes docs_legacy/
-mv docs/infrastructure docs_legacy/
+mv docs/infraestructura docs_legacy/
 
 # Mantener solo nueva estructura
 ls docs/

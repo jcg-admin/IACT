@@ -153,9 +153,9 @@ RUN git config --system --add safe.directory '*'
 # CREATE DIRECTORIES FOR LOGS AND STATE
 # =============================================================================
 
-RUN mkdir -p /workspaces/infrastructure/devcontainer/logs \
-    && mkdir -p /workspaces/infrastructure/state \
-    && chown -R ${USERNAME}:${USERNAME} /workspaces/infrastructure
+RUN mkdir -p /workspaces/infraestructura/devcontainer/logs \
+    && mkdir -p /workspaces/infraestructura/state \
+    && chown -R ${USERNAME}:${USERNAME} /workspaces/infraestructura
 
 # =============================================================================
 # HEALTHCHECK

@@ -16,7 +16,7 @@ Este índice combina lo implementado con la visión futura del proyecto, clarame
 ### Por rol
 - **Developer**: [`gobernanza/procesos/procedimientos/guia_completa_desarrollo_features.md`](gobernanza/procesos/procedimientos/guia_completa_desarrollo_features.md)
 - **QA**: [`qa/`](qa/README.md), [`gobernanza/procesos/qa/ESTRATEGIA_QA.md`](gobernanza/procesos/qa/ESTRATEGIA_QA.md)
-- **DevOps**: [`operaciones/`](operaciones/), [`infrastructure/`](infrastructure/)
+- **DevOps**: [`operaciones/`](operaciones/), [`infrastructure/`](infraestructura/)
 - **Arquitecto**: [`adr/`](adr/), [`arquitectura/`](arquitectura/)
 - **Product Owner**: [`requisitos/`](requisitos/), [`backend/requisitos/`](backend/requisitos/)
 
@@ -32,6 +32,7 @@ Este índice combina lo implementado con la visión futura del proyecto, clarame
   - Guía de uso por rol: [`GUIA_USO.md`](gobernanza/ci_cd/GUIA_USO.md)
   - Troubleshooting: [`TROUBLESHOOTING.md`](gobernanza/ci_cd/TROUBLESHOOTING.md)
   - Ejemplos: [`EJEMPLOS.md`](gobernanza/ci_cd/EJEMPLOS.md)
+- **Hamilton + 6 fases SDLC IA**: [`gobernanza/ai/HAMILTON_FRAMEWORK_INTEGRACION_SDLC.md`](gobernanza/ai/HAMILTON_FRAMEWORK_INTEGRACION_SDLC.md) - Guía para adaptar Hamilton al marco de gobierno IA.
 
 ### Arquitectura ([IMPLEMENTADO] Documentada, [PLANIFICADO] Evolución continua)
 - **ADRs**: [`adr/`](adr/) - 11+ Architecture Decision Records
@@ -41,10 +42,11 @@ Este índice combina lo implementado con la visión futura del proyecto, clarame
 - **Lineamientos**: [`arquitectura/`](arquitectura/)
   - Storage: MySQL + [PLANIFICADO] Cassandra
   - Observability: [`OBSERVABILITY_LAYERS.md`](arquitectura/OBSERVABILITY_LAYERS.md)
+  - Patrones de diseño: [`DESIGN_PATTERNS_GUIDE.md`](arquitectura/patrones/DESIGN_PATTERNS_GUIDE.md)
 - **Por dominio**:
   - Backend: [`backend/arquitectura/`](backend/arquitectura/)
   - Frontend: [`frontend/arquitectura/`](frontend/arquitectura/)
-  - Infrastructure: [`infrastructure/`](infrastructure/)
+  - Infrastructure: [`infrastructure/`](infraestructura/)
 
 ### Requisitos ([IMPLEMENTADO] Estructura definida, [PLANIFICADO] Contenido en construcción)
 - **Marco integrado**: [`requisitos/analisis_negocio/marco_integrado/`](requisitos/analisis_negocio/marco_integrado/)
@@ -68,9 +70,9 @@ Este índice combina lo implementado con la visión futura del proyecto, clarame
 ### Infraestructura ([IMPLEMENTADO] CPython builder completo)
 - **CPython Precompilado**: [`infrastructure/cpython/`](../infrastructure/cpython/)
   - README: [`infrastructure/cpython/README.md`](../infrastructure/cpython/README.md)
-  - Changelog: [`CHANGELOG-cpython.md`](infrastructure/CHANGELOG-cpython.md)
+  - Changelog: [`CHANGELOG-cpython.md`](infraestructura/CHANGELOG-cpython.md)
   - Scripts: `build_cpython.sh`, `validate_build.sh`, `install_prebuilt_cpython.sh`
-- **DevContainer**: [`infrastructure/devcontainer/`](infrastructure/devcontainer/)
+- **DevContainer**: [`infrastructure/devcontainer/`](infraestructura/devcontainer/)
 - [PLANIFICADO] **Cassandra**: Documentación disponible, implementación pendiente
 
 ### Scripts y automatización ([IMPLEMENTADO] Parcial, [PLANIFICADO] Muchos planificados)
@@ -85,6 +87,9 @@ Este índice combina lo implementado con la visión futura del proyecto, clarame
 - **Métricas DORA**: [`scripts/dora_metrics.py`](../scripts/dora_metrics.py)
 - **Templates**: [`scripts/templates/`](../scripts/templates/)
 - **Gestión de contexto multi-LLM**: [`ai_capabilities/orchestration/CONTEXT_MANAGEMENT_PLAYBOOK.md`](ai_capabilities/orchestration/CONTEXT_MANAGEMENT_PLAYBOOK.md) y módulo reutilizable [`scripts/coding/ai/shared/context_sessions.py`](../scripts/coding/ai/shared/context_sessions.py).
+- **Hamilton Data→Prompt→LLM ejemplo**: [`infrastructure/workspace/hamilton_llm/`](../infrastructure/workspace/hamilton_llm/) con pruebas [`infrastructure/workspace/tests/hamilton_llm/test_driver.py`](../infrastructure/workspace/tests/hamilton_llm/test_driver.py).
+- **Hamilton Language Server (Dev Tools)**: [`infrastructure/workspace/dev_tools/language_server/hamilton_lsp/`](../infrastructure/workspace/dev_tools/language_server/hamilton_lsp/) con pruebas [`infrastructure/workspace/tests/dev_tools/language_server/test_hamilton_lsp.py`](../infrastructure/workspace/tests/dev_tools/language_server/test_hamilton_lsp.py).
+- **Codex MCP Playbooks**: [`infrastructure/workspace/codex_mcp/`](../infrastructure/workspace/codex_mcp/) y guía [`docs/infraestructura/workspace/codex_mcp.md`](infraestructura/workspace/codex_mcp.md) con validaciones [`infrastructure/workspace/tests/codex_mcp/test_playbooks.py`](../infrastructure/workspace/tests/codex_mcp/test_playbooks.py).
 
 #### [PLANIFICADO] Planificados (ver [`docs/scripts/README.md`](scripts/README.md))
 - `scripts/sdlc_agent.py` - CLI SDLC
@@ -105,7 +110,10 @@ Este índice combina lo implementado con la visión futura del proyecto, clarame
 - **Logs temporales**: [`logs_data/`](../logs_data/)
   - Schemas: deployment, DORA metrics, incidents
   - Estado: generación manual, rotación pendiente
-- **META-AGENTE CODEX**: [`analisis/META_AGENTE_CODEX_PARTE_1.md`](analisis/META_AGENTE_CODEX_PARTE_1.md) - Marco autónomo para generar artefactos CODEX multillm (Parte 1 de 3)
+- **META-AGENTE CODEX**:
+  - [`analisis/META_AGENTE_CODEX_PARTE_1.md`](analisis/META_AGENTE_CODEX_PARTE_1.md) - Marco autónomo para generar artefactos CODEX multi-LLM (Parte 1 de 3)
+  - [`analisis/META_AGENTE_CODEX_PARTE_2.md`](analisis/META_AGENTE_CODEX_PARTE_2.md) - Pipeline detallado del artefacto CODEX (Etapas 4-6 y estructura) (Parte 2 de 3)
+  - [`analisis/META_AGENTE_CODEX_PARTE_3.md`](analisis/META_AGENTE_CODEX_PARTE_3.md) - Instrucciones de uso, formatos de salida, limitaciones y visión de futuro (Parte 3 de 3)
 
 ## [PROYECTO] Proyecto y planificación
 

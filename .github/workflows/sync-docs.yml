@@ -11,7 +11,7 @@ on:
       domains:
         description: 'Dominios a sincronizar (separados por coma)'
         required: false
-        default: 'api,ui,infrastructure'
+        default: 'api,ui,infraestructura'
         type: string
       dry_run:
         description: 'Modo dry-run (no escribe archivos)'
@@ -51,7 +51,7 @@ jobs:
         run: |
           echo "::group::Running Documentation Sync Agent"
 
-          DOMAINS="${{ github.event.inputs.domains || 'api,ui,infrastructure' }}"
+          DOMAINS="${{ github.event.inputs.domains || 'api,ui,infraestructura' }}"
           DRY_RUN="${{ github.event.inputs.dry_run || 'false' }}"
 
           echo "Domains: $DOMAINS"

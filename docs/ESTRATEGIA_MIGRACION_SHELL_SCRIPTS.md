@@ -154,7 +154,7 @@ scripts/
 │   ├── security/            # Seguridad (SQL injection, XSS, CSRF)
 │   ├── quality/             # Calidad de código (linting, formatting)
 │   ├── compliance/          # Compliance con restricciones IACT
-│   └── infrastructure/      # Validación de infraestructura
+│   └── infraestructura/      # Validación de infraestructura
 ├── ci/                      # Scripts específicos de CI/CD
 │   ├── pre-commit/          # Hooks pre-commit
 │   ├── pre-push/            # Hooks pre-push
@@ -278,7 +278,7 @@ scripts/
 │   │   ├── check_session_backend.sh     # Extrae 8 líneas de YAML
 │   │   ├── check_no_emojis.py           # YA EXISTE (mantener)
 │   │   └── run_compliance_checks.sh     # Orquestador
-│   └── infrastructure/                  # P2: Nuevas validaciones
+│   └── infraestructura/                  # P2: Nuevas validaciones
 │       ├── check_dependencies.py        # Validar requirements.txt
 │       └── check_migrations.py          # Validar migraciones Django
 ├── ci/                                  # Hooks y pipeline

@@ -28,7 +28,7 @@ Este espacio documenta las políticas, estándares, procesos de revisión y cont
 ### Gobernanza por Dominio
 - [Backend - Gobernanza](../backend/gobernanza/readme.md)
 - [Frontend - Gobernanza](../frontend/gobernanza/readme.md)
-- [Infrastructure - Gobernanza](../infrastructure/gobernanza/readme.md)
+- [Infrastructure - Gobernanza](../infraestructura/gobernanza/readme.md)
 
 ## Información clave
 

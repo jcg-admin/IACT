@@ -27,7 +27,7 @@ estandares: ["ISO/IEC/IEEE 29148:2018 - Clause 9.4", "BABOK v3"]
 id: RS-[XXX]
 tipo: stakeholder
 titulo: [Título del requisito desde la perspectiva del stakeholder]
-dominio: [backend|frontend|infrastructure|cross-domain]
+dominio: [backend|frontend|infraestructura|cross-domain]
 owner: [equipo-ba|equipo-producto]
 prioridad: [critica|alta|media|baja]
 estado: [propuesto|en_revision|aprobado|en_desarrollo|implementado|verificado|rechazado]

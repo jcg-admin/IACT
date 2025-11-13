@@ -10,12 +10,12 @@ Este script ejecuta el pipeline completo:
 5. Reporter: Genera reporte
 
 Uso:
-    python scripts/sync_documentation.py [--dry-run] [--reorganize] [--domains api,ui,infrastructure]
+    python scripts/sync_documentation.py [--dry-run] [--reorganize] [--domains api,ui,infraestructura]
 
 Opciones:
     --dry-run       No escribe archivos, solo simula
     --reorganize    Ejecuta reorganización de docs/ primero
-    --domains       Dominios a sincronizar (default: api,ui,infrastructure)
+    --domains       Dominios a sincronizar (default: api,ui,infraestructura)
     --report-only   Solo genera reporte sin modificar nada
 """
 
@@ -76,7 +76,7 @@ def main():
                         help="No escribir archivos, solo simular")
     parser.add_argument("--reorganize", action="store_true",
                         help="Ejecutar reorganización de docs/ primero")
-    parser.add_argument("--domains", type=str, default="api,ui,infrastructure",
+    parser.add_argument("--domains", type=str, default="api,ui,infraestructura",
                         help="Dominios a sincronizar (separados por coma)")
     parser.add_argument("--report-only", action="store_true",
                         help="Solo generar reporte sin modificar")

@@ -1,15 +1,15 @@
 #!/bin/bash
 #
-# infrastructure/cpython/scripts/validate_wrapper.sh - Wrapper for validation in Vagrant
+# infraestructura/cpython/scripts/validate_wrapper.sh - Wrapper for validation in Vagrant
 #
 # Reference: SPEC_INFRA_001
 # Purpose: Facilitate validation from outside Vagrant (host → VM)
 #
 # Usage:
-#   ./infrastructure/cpython/scripts/validate_wrapper.sh <artifact-name>
+#   ./infraestructura/cpython/scripts/validate_wrapper.sh <artifact-name>
 #
 # Example:
-#   ./infrastructure/cpython/scripts/validate_wrapper.sh cpython-3.12.6-ubuntu20.04-build1.tgz
+#   ./infraestructura/cpython/scripts/validate_wrapper.sh cpython-3.12.6-ubuntu20.04-build1.tgz
 #
 
 set -euo pipefail

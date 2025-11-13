@@ -14,7 +14,10 @@ Centralizar el uso de modelos ChatGPT/OpenAI dentro de los flujos de automatizac
 - **Builder MCP**: `scripts/coding/ai/orchestrators/codex_mcp_workflow.py` emite briefs con banderas MCP y modelos recomendados (por ejemplo `gpt-5`) para OpenAI.
 - **Guía operativa**: `docs/ai/SDLC_AGENTS_GUIDE.md` detalla cuándo alternar entre modos heurísticos y LLM.
 - **Playbook MCP**: `docs/ai_capabilities/orchestration/CODEX_MCP_MULTI_AGENT_GUIDE.md` explica la ejecución multi-agente para todos los proveedores, incluido OpenAI.
-- **Normativa CODEX**: `docs/analisis/META_AGENTE_CODEX_PARTE_1.md` define los supuestos que deben respetar las entregas basadas en modelos GPT.
+- **Normativa CODEX**:
+  - `docs/analisis/META_AGENTE_CODEX_PARTE_1.md` define los supuestos que deben respetar las entregas basadas en modelos GPT.
+  - `docs/analisis/META_AGENTE_CODEX_PARTE_2.md` describe el pipeline detallado, la entrada YAML y la estructura esperada que deben seguir estas entregas.
+  - `docs/analisis/META_AGENTE_CODEX_PARTE_3.md` establece las pautas de uso, formatos de salida y limitaciones que deben comunicarse cuando los entregables se generan con modelos GPT.
 
 ## Procedimiento Recomendado
 

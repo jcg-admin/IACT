@@ -14,7 +14,10 @@ Orquestar las integraciones con modelos Claude (Anthropic) dentro del flujo SDLC
 - **Builder MCP**: `scripts/coding/ai/orchestrators/codex_mcp_workflow.py` genera briefs single/multi-agent asegurando banderas MCP correctas cuando el proveedor es Anthropic.
 - **Guía operativa**: `docs/ai/SDLC_AGENTS_GUIDE.md` contiene los lineamientos de uso y compara el modo LLM vs heurístico.
 - **Playbook MCP**: `docs/ai_capabilities/orchestration/CODEX_MCP_MULTI_AGENT_GUIDE.md` documenta prerequisitos y trazas para todos los proveedores.
-- **Normativa CODEX**: `docs/analisis/META_AGENTE_CODEX_PARTE_1.md` fija los supuestos y restricciones que deben respetar los artefactos generados con Claude.
+- **Normativa CODEX**:
+  - `docs/analisis/META_AGENTE_CODEX_PARTE_1.md` fija los supuestos y restricciones que deben respetar los artefactos generados con Claude.
+  - `docs/analisis/META_AGENTE_CODEX_PARTE_2.md` define el pipeline detallado y la estructura obligatoria del artefacto CODEX que Claude debe seguir.
+  - `docs/analisis/META_AGENTE_CODEX_PARTE_3.md` describe cómo consumir los artefactos generados, los formatos de salida esperados, las limitaciones conocidas y la visión de evolución del meta-agente.
 
 ## Procedimiento Recomendado
 

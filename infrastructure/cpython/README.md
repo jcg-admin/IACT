@@ -51,7 +51,7 @@ sudo apt install virtualbox
 Desde el directorio raíz del proyecto:
 
 ```bash
-cd infrastructure/cpython
+cd infraestructura/cpython
 vagrant up
 ```
 
@@ -62,7 +62,7 @@ Primera vez: ~10-15 minutos (descarga box + provisioning)
 **Opción A: Desde fuera de VM (recomendado)**:
 ```bash
 # Desde raíz del proyecto
-./infrastructure/cpython/scripts/build_cpython.sh 3.12.6
+./infraestructura/cpython/scripts/build_cpython.sh 3.12.6
 ```
 
 **Opción B: Dentro de VM**:
@@ -78,7 +78,7 @@ Tiempo de compilación: ~10-15 minutos (con PGO)
 
 **Opción A: Desde fuera de VM (recomendado)**:
 ```bash
-./infrastructure/cpython/scripts/validate_build.sh cpython-3.12.6-ubuntu20.04-build1.tgz
+./infraestructura/cpython/scripts/validate_build.sh cpython-3.12.6-ubuntu20.04-build1.tgz
 ```
 
 **Opción B: Dentro de VM**:
@@ -378,7 +378,7 @@ find . -name "*.pyc" -delete
 
 # Re-empaquetar
 cd /opt
-sudo tar czf /vagrant/infrastructure/cpython/artifacts/cpython-X.Y.Z-ubuntu20.04-build2.tgz python-X.Y.Z
+sudo tar czf /vagrant/infraestructura/cpython/artifacts/cpython-X.Y.Z-ubuntu20.04-build2.tgz python-X.Y.Z
 ```
 
 ---
@@ -432,8 +432,8 @@ Una vez generado y validado el artefacto:
 1. Publicar en GitHub Releases:
    ```bash
    gh release create cpython-3.12.6-build1 \
-     infrastructure/cpython/artifacts/cpython-3.12.6-ubuntu20.04-build1.tgz \
-     infrastructure/cpython/artifacts/cpython-3.12.6-ubuntu20.04-build1.tgz.sha256 \
+     infraestructura/cpython/artifacts/cpython-3.12.6-ubuntu20.04-build1.tgz \
+     infraestructura/cpython/artifacts/cpython-3.12.6-ubuntu20.04-build1.tgz.sha256 \
      --title "CPython 3.12.6 Build 1" \
      --notes "CPython 3.12.6 precompilado para Ubuntu 20.04"
    ```
@@ -461,9 +461,9 @@ Una vez generado y validado el artefacto:
 
 Para información detallada:
 
-- **[CPython Builder - Documentación Completa](../../docs/infrastructure/cpython-builder.md)**: Arquitectura, componentes, uso detallado
-- **[Guía de Desarrollo](../../docs/infrastructure/cpython-development-guide.md)**: Cómo extender y modificar el sistema
-- **[CHANGELOG](../../docs/infrastructure/CHANGELOG-cpython.md)**: Historial de cambios
+- **[CPython Builder - Documentación Completa](../../docs/infraestructura/cpython-builder.md)**: Arquitectura, componentes, uso detallado
+- **[Guía de Desarrollo](../../docs/infraestructura/cpython-development-guide.md)**: Cómo extender y modificar el sistema
+- **[CHANGELOG](../../docs/infraestructura/CHANGELOG-cpython.md)**: Historial de cambios
 
 ## Referencias
 

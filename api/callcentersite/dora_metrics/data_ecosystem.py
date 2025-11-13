@@ -341,7 +341,7 @@ class DataLineage:
                 {
                     "flow_id": "flow_003",
                     "name": "Infrastructure Logs Pipeline",
-                    "description": "Collection of infrastructure logs to Cassandra",
+                    "description": "Collection of infraestructura logs to Cassandra",
                     "stages": [
                         {
                             "stage": "source",
