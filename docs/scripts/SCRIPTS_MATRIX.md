@@ -11,4 +11,4 @@
 | `scripts/workflows/` | Automatizaciones compuestas. | Activo |
 | `scripts/examples/` | Ejemplos y demostraciones. | Activo |
 
-> **Nota:** No existen entradas vigentes para `scripts/requisitos/`, `scripts/ai/agents/` ni `scripts/dora_metrics.py`.
+> **Nota:** No existen entradas vigentes para `scripts/requisitos/` ni `scripts/ai/agents/`; `scripts/dora_metrics.py` ya está implementado.

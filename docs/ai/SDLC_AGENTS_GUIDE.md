@@ -83,6 +83,32 @@ ollama pull qwen2.5-coder:32b
 **Pros:** Gratis, privado, sin límites de uso
 **Cons:** Requiere hardware (32GB+ RAM recomendado), más lento que APIs cloud
 
+### Opción 4: Hugging Face (Modelos Fine-Tuned)
+
+```python
+config = {
+    "llm_provider": "huggingface",
+    "model": "/models/TinyLlama-1.1B-qlora",  # ruta local o repo-id
+    "hf_generate_kwargs": {"max_new_tokens": 512, "temperature": 0.2},
+    "use_llm": True
+}
+
+# Dependencias mínimas
+pip install transformers==4.41.2 accelerate==0.31.0 peft==0.11.1 bitsandbytes==0.43.1 trl==0.9.4
+
+# Los checkpoints descritos en la guía de fine-tuning viven en docs/ai/FINE_TUNING_TINYLLAMA.md
+```
+
+**Pros:**
+- Permite ejecutar modelos entrenados específicamente para nuestro dominio (TinyLlama QLoRA + DPO)
+- Mantiene los datos en infraestructura propia
+- Integración directa con el nuevo `llm_provider='huggingface'`
+
+**Cons:**
+- Requiere GPU con soporte CUDA o aceleradores equivalentes para tiempos razonables
+- Necesita administrar los checkpoints y merges de LoRA manualmente
+- Mayor complejidad operativa comparado con API SaaS
+
 ### Modo Sin LLM (Solo Heurísticas)
 
 ```python

@@ -93,8 +93,8 @@ chmod +x scripts/mi-nuevo-script.sh
 |--------|-----------|--------|
 | `install_hooks.sh` | Instala Git hooks | [IMPLEMENTADO] |
 | `reorganizar_docs_por_dominio.sh` | Reorganiza documentación | [IMPLEMENTADO] |
-| [PLANIFICADO] `cleanup_sessions.sh` | Limpia sesiones Django | Planificado |
-| [PLANIFICADO] `cleanup_branches.sh` | Limpia ramas mergeadas | Planificado |
+| `cleanup_sessions.sh` | Limpia sesiones Django | [IMPLEMENTADO] |
+| `cleanup_branches.sh` | Limpia ramas mergeadas | [IMPLEMENTADO] |
 
 ## [PLANIFICADO] Scripts planificados (visión completa)
 
@@ -122,7 +122,7 @@ python scripts/sdlc_agent.py --pipeline --input "Feature: Dashboard"
 
 ### Métricas DORA
 
-**`scripts/dora_metrics.py`**:
+**`scripts/dora_metrics.py`** ([IMPLEMENTADO] baseline local):
 ```bash
 # Últimos 30 días
 python scripts/dora_metrics.py --repo 2-Coatl/IACT---project
@@ -141,6 +141,8 @@ python scripts/dora_metrics.py --docs-only
 ```
 
 **Documentación**: [`metrics-and-reporting.md`](metrics-and-reporting.md)
+
+> Nota: No existen scripts como `scripts/sdlc_agent.py` todavía; los agentes SDLC siguen en fase de diseño.
 
 ### Gestión de requisitos
 

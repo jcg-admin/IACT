@@ -143,6 +143,12 @@ Genera reporte priorizado por severidad.
 [Parámetros opcionales]
 ```
 
+### Integración con plantillas de issues
+
+- Usa `.github/ISSUE_TEMPLATE/custom.md` para coordinar una ejecución asistida por agente.
+- Las solicitudes de feature documentadas en `.github/ISSUE_TEMPLATE/feature_request.md` deben enlazar el ExecPlan activo y mencionar aquí qué agente participará.
+- Los reportes de bug hacen referencia explícita a `SecurityAgent` y `DependencyAgent` para acelerar diagnósticos.
+
 ### Ejemplos de Invocación
 
 **Ejemplo 1 - Operación Simple**:
@@ -306,7 +312,7 @@ Para crear un nuevo agente especializado:
    - Un agente = una responsabilidad
    - Evitar agentes monolíticos
 
-2. **Crear archivo en `.github/agents/[nombre]-agent.md`**
+2. **Crear archivo en `.agent/agents/[nombre]_agent.md`**
    ```markdown
    ---
    name: [NombreAgente]

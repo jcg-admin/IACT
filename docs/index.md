@@ -82,11 +82,11 @@ Este índice combina lo implementado con la visión futura del proyecto, clarame
 - **Validaciones**: [`scripts/validation/`](../scripts/validation/)
   - Quality, compliance, security, docs
 - **Test runner**: [`scripts/run_all_tests.sh`](../scripts/run_all_tests.sh)
+- **Métricas DORA**: [`scripts/dora_metrics.py`](../scripts/dora_metrics.py)
 - **Templates**: [`scripts/templates/`](../scripts/templates/)
 
 #### [PLANIFICADO] Planificados (ver [`docs/scripts/README.md`](scripts/README.md))
 - `scripts/sdlc_agent.py` - CLI SDLC
-- `scripts/dora_metrics.py` - Calculador DORA metrics
 - `scripts/requisitos/` - Gestión de requisitos
 - 20+ agentes SDLC especializados
 
@@ -113,6 +113,7 @@ Este índice combina lo implementado con la visión futura del proyecto, clarame
 - **Changelog**: [`proyecto/CHANGELOG.md`](proyecto/CHANGELOG.md) - Historial completo
 
 ### Revisión actual (12 Nov 2025)
+- **Análisis consolidado**: [`analisis/revision_20251112_consolidada.md`](analisis/revision_20251112_consolidada.md) - Estado base de documentación y scripts
 - **Plan de remediación**: [`plans/REV_20251112_remediation_plan.md`](plans/REV_20251112_remediation_plan.md)
 - **Estado**: Alineación docs ↔ código en progreso
 
@@ -121,6 +122,7 @@ Este índice combina lo implementado con la visión futura del proyecto, clarame
 ### DORA Metrics y AI Excellence
 - **Estrategia IA**: [`gobernanza/ai/ESTRATEGIA_IA.md`](gobernanza/ai/ESTRATEGIA_IA.md)
 - **AI Capabilities**: [`gobernanza/ai/AI_CAPABILITIES.md`](gobernanza/ai/AI_CAPABILITIES.md)
+- **Fine-tuning local**: [`ai/FINE_TUNING_TINYLLAMA.md`](ai/FINE_TUNING_TINYLLAMA.md)
 - **Gaps post-DORA 2025**: [`gobernanza/ai/ANALISIS_GAPS_POST_DORA_2025.md`](gobernanza/ai/ANALISIS_GAPS_POST_DORA_2025.md)
 - **Target**: 7/7 prácticas AI (actual: 5/7 - 71%)
 - **Roadmap**: 144 SP, completar Q2 2026
