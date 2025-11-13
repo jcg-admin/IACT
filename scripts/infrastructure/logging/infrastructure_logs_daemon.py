@@ -18,7 +18,7 @@ Uso:
     python infrastructure_logs_daemon.py --daemon
 
     # Systemd service
-    systemctl start infrastructure-logs-daemon
+    systemctl start infraestructura-logs-daemon
 
 Features:
 - Tail multiple log files (/var/log/nginx/, /var/log/postgresql/, etc.)

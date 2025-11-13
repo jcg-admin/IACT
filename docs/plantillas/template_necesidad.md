@@ -26,7 +26,7 @@ estandares: ["BABOK v3", "ISO/IEC/IEEE 29148:2018"]
 id: N-[XXX]
 tipo: necesidad
 titulo: [Título descriptivo de la necesidad]
-dominio: [backend|frontend|infrastructure]
+dominio: [backend|frontend|infraestructura]
 owner: [equipo-propietario]
 prioridad: [alta|media|baja]
 estado: [propuesto|en_analisis|aprobado|rechazado|implementado]

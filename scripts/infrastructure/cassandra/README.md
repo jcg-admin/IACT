@@ -1,7 +1,7 @@
 ---
 id: CASSANDRA-INSTALLATION-GUIDE
 tipo: guia
-categoria: infrastructure
+categoria: infraestructura
 fecha: 2025-11-07
 version: 1.0.0
 propietario: platform-lead
@@ -188,10 +188,10 @@ docker exec -it cassandra-1 cqlsh -e "SELECT * FROM logging.application_logs WHE
 ```bash
 # 1. Copiar script y service
 sudo cp scripts/logging/infrastructure_logs_daemon.py /opt/iact/scripts/logging/
-sudo cp scripts/logging/infrastructure-logs-daemon.service /etc/systemd/system/
+sudo cp scripts/logging/infraestructura-logs-daemon.service /etc/systemd/system/
 
 # 2. Actualizar contact_points en service file
-sudo nano /etc/systemd/system/infrastructure-logs-daemon.service
+sudo nano /etc/systemd/system/infraestructura-logs-daemon.service
 
 # Cambiar:
 --cassandra-hosts cassandra-1.internal cassandra-2.internal cassandra-3.internal
@@ -201,14 +201,14 @@ sudo nano /etc/systemd/system/infrastructure-logs-daemon.service
 
 # 3. Reload systemd y start service
 sudo systemctl daemon-reload
-sudo systemctl start infrastructure-logs-daemon
-sudo systemctl enable infrastructure-logs-daemon
+sudo systemctl start infraestructura-logs-daemon
+sudo systemctl enable infraestructura-logs-daemon
 
 # 4. Verificar status
-sudo systemctl status infrastructure-logs-daemon
+sudo systemctl status infraestructura-logs-daemon
 
 # 5. Ver logs
-sudo journalctl -u infrastructure-logs-daemon -f
+sudo journalctl -u infraestructura-logs-daemon -f
 
 # 6. Health check
 curl http://localhost:9090/health
@@ -313,7 +313,7 @@ SELECT * FROM logging.application_logs
 WHERE log_date = '2025-11-07'
 AND request_id = '123e4567-e89b-12d3-a456-426614174000';
 
-# Query infrastructure logs
+# Query infraestructura logs
 SELECT * FROM logging.infrastructure_logs
 WHERE log_date = '2025-11-07'
 AND source = '/var/log/nginx/error.log'
@@ -370,7 +370,7 @@ python manage.py shell
 >>> print(rows.one())
 
 # Verificar logs del daemon
-sudo journalctl -u infrastructure-logs-daemon -n 100
+sudo journalctl -u infraestructura-logs-daemon -n 100
 ```
 
 ### Problema: Disco lleno

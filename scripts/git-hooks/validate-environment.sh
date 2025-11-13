@@ -16,7 +16,7 @@ LOGGING_FUNCTIONS="$PROJECT_ROOT/infrastructure/utils/logging-functions.sh"
 if [ -f "$LOGGING_FUNCTIONS" ]; then
     source "$LOGGING_FUNCTIONS"
 elif [ -f "infrastructure/utils/logging-functions.sh" ]; then
-    source infrastructure/utils/logging-functions.sh
+    source infraestructura/utils/logging-functions.sh
 else
     echo "[ERROR] Missing logging-functions.sh in expected locations"
     echo "ACTION REQUIRED: Run T006-MINI logging setup first"

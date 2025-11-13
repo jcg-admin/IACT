@@ -69,12 +69,12 @@ vim scripts/mi-script-portable.sh
 
 **Uso**:
 ```bash
-cp scripts/templates/library_template.sh infrastructure/utils/mi-libreria.sh
+cp scripts/templates/library_template.sh infraestructura/utils/mi-libreria.sh
 # Personalizar funciones
-vim infrastructure/utils/mi-libreria.sh
+vim infraestructura/utils/mi-libreria.sh
 
 # Luego en otros scripts:
-. infrastructure/utils/mi-libreria.sh
+. infraestructura/utils/mi-libreria.sh
 log_info "Usando funciones de la biblioteca"
 ```
 
@@ -143,7 +143,7 @@ bash -n mi-script.sh
 shellcheck mi-script.sh
 
 # Validar que no tenga emojis
-../../infrastructure/devcontainer/scripts/check_no_emojis.sh mi-script.sh
+../../infraestructura/devcontainer/scripts/check_no_emojis.sh mi-script.sh
 
 # Probar ejecución
 ./mi-script.sh --help

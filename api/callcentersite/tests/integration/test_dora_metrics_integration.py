@@ -4,7 +4,7 @@ Integration tests for DORA metrics system.
 Tests the integration between:
 - Layer 1: MySQL metrics storage
 - Layer 2: JSON application logs
-- Layer 3: Cassandra infrastructure logs
+- Layer 3: Cassandra infraestructura logs
 - DORA dashboard
 - ETL pipeline
 - Alerting system

@@ -7,7 +7,7 @@ import unittest
 from pathlib import Path
 
 
-SCRIPT_RELATIVE_PATH = Path("infrastructure/devcontainer/scripts/init_host.sh")
+SCRIPT_RELATIVE_PATH = Path("infraestructura/devcontainer/scripts/init_host.sh")
 
 
 class InitHostScriptTests(unittest.TestCase):
@@ -24,7 +24,7 @@ class InitHostScriptTests(unittest.TestCase):
     def _bootstrap_project_tree(self) -> None:
         """Crea el arbol minimo requerido por el script."""
 
-        scripts_dir = self.project_root / "infrastructure" / "devcontainer" / "scripts"
+        scripts_dir = self.project_root / "infraestructura" / "devcontainer" / "scripts"
         scripts_dir.mkdir(parents=True)
 
         script_contents = SCRIPT_RELATIVE_PATH.read_text(encoding="utf-8")

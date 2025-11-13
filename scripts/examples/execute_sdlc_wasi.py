@@ -44,10 +44,10 @@ Crear 3 opciones de virtualizacion usando Linux namespaces:
 - Portable (solo requiere Linux)
 
 ## Estructura
-- scripts/infrastructure/wasi/ - Scripts de virtualizacion
+- scripts/infraestructura/wasi/ - Scripts de virtualizacion
 - docs/infraestructura/ - Documentacion y ADR
 """,
-        "labels": ["infrastructure", "virtualization", "wasi", "security"],
+        "labels": ["infraestructura", "virtualization", "wasi", "security"],
         "technical_requirements": [
             "Implementar 3 scripts de virtualizacion (virtualize.sh, lightweight_venv.sh, wasm_style_sandbox.sh)",
             "Usar Linux namespaces (mount, network, pid, ipc) para aislamiento real",

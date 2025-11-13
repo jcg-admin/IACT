@@ -495,7 +495,7 @@ tree -L 3 docs/ > docs/anexos/analisis_nov_2025/estructura_antes_reorganizacion.
 # Contar archivos por directorio
 find docs/implementacion/backend -type f -name "*.md" | wc -l > /tmp/backend_count.txt
 find docs/implementacion/frontend -type f -name "*.md" | wc -l > /tmp/frontend_count.txt
-find docs/implementacion/infrastructure -type f -name "*.md" | wc -l > /tmp/infra_count.txt
+find docs/implementacion/infraestructura -type f -name "*.md" | wc -l > /tmp/infra_count.txt
 ```
 
 ---
@@ -531,33 +531,33 @@ tree -L 2 frontend/
 ```bash
 # Listar contenido de ambos directorios
 echo "=== infrastructure/ ===" > /tmp/infra_comparison.txt
-ls -lR infrastructure/ >> /tmp/infra_comparison.txt
+ls -lR infraestructura/ >> /tmp/infra_comparison.txt
 
 echo "=== infraestructura/ ===" >> /tmp/infra_comparison.txt
 ls -lR infraestructura/ >> /tmp/infra_comparison.txt
 
 cat /tmp/infra_comparison.txt
 
-# Crear nuevo directorio infrastructure/
+# Crear nuevo directorio infraestructura/
 mkdir -p infrastructure_temp/
 
-# Mover contenido de infrastructure/
-cp -r infrastructure/* infrastructure_temp/
+# Mover contenido de infraestructura/
+cp -r infraestructura/* infrastructure_temp/
 
 # Fusionar contenido de infraestructura/
 # NOTA: infraestructura/ tiene cpython_precompilado/
-cp -r infrastructure/cpython_precompilado infrastructure_temp/
+cp -r infraestructura/cpython_precompilado infrastructure_temp/
 
 # Renombrar
-mv infrastructure_temp infrastructure
+mv infrastructure_temp infraestructura
 
 # Verificar fusión
-ls -la infrastructure/
-tree -L 2 infrastructure/
+ls -la infraestructura/
+tree -L 2 infraestructura/
 
 # Eliminar directorios antiguos (después de verificar)
 # NO EJECUTAR AÚN - Verificar primero
-# rm -rf infrastructure/
+# rm -rf infraestructura/
 # rm -rf infraestructura/
 ```
 
@@ -583,7 +583,7 @@ ls -la docs/ | grep ^d
 # Debe mostrar:
 # backend/
 # frontend/
-# infrastructure/
+# infraestructura/
 # arquitectura/
 # gobernanza/
 # requisitos/
@@ -672,7 +672,7 @@ vim docs/README.md
 
 # Buscar sección "Estructura" y actualizar:
 # - Eliminar referencia a implementacion/
-# - Agregar backend/, frontend/, infrastructure/
+# - Agregar backend/, frontend/, infraestructura/
 # - Actualizar descripciones
 ```
 
@@ -691,7 +691,7 @@ vim docs/mkdocs.yml
 # Por:
 #   - Backend: backend/README.md
 #   - Frontend: frontend/README.md
-#   - Infrastructure: infrastructure/README.md
+#   - Infrastructure: infraestructura/README.md
 ```
 
 #### 2.5 Actualizar Scripts de Generación de Índices
@@ -717,7 +717,7 @@ vim scripts/requisitos/generate_requirements_index.py
 # Y buscar en:
 #   - docs/backend/requisitos/
 #   - docs/frontend/requisitos/
-#   - docs/infrastructure/requisitos/
+#   - docs/infraestructura/requisitos/
 ```
 
 #### 2.6 Actualizar README de Dominios
@@ -730,13 +730,13 @@ vim docs/backend/README.md
 # Actualizar docs/frontend/README.md
 vim docs/frontend/README.md
 
-# Actualizar docs/infrastructure/README.md
-vim docs/infrastructure/README.md
+# Actualizar docs/infraestructura/README.md
+vim docs/infraestructura/README.md
 
 # Verificar que README.md de requisitos estén actualizados
 vim docs/backend/requisitos/README.md
 vim docs/frontend/requisitos/README.md
-vim docs/infrastructure/requisitos/README.md
+vim docs/infraestructura/requisitos/README.md
 ```
 
 #### 2.7 Actualizar Enlaces en Plantillas
@@ -768,7 +768,7 @@ echo "FRONTEND:" >> /tmp/validacion_conteo.txt
 find docs/frontend -type f -name "*.md" | wc -l >> /tmp/validacion_conteo.txt
 
 echo "INFRASTRUCTURE:" >> /tmp/validacion_conteo.txt
-find docs/infrastructure -type f -name "*.md" | wc -l >> /tmp/validacion_conteo.txt
+find docs/infraestructura -type f -name "*.md" | wc -l >> /tmp/validacion_conteo.txt
 
 echo "TOTAL docs/:" >> /tmp/validacion_conteo.txt
 find docs/ -type f -name "*.md" | wc -l >> /tmp/validacion_conteo.txt
@@ -977,14 +977,14 @@ vim docs/anexos/analisis_nov_2025/PROPUESTA_FINAL_REESTRUCTURACION.md
 # Stage archivos movidos
 git add docs/backend/
 git add docs/frontend/
-git add docs/infrastructure/
+git add docs/infraestructura/
 
 # Stage archivos modificados
 git add docs/README.md
 git add docs/mkdocs.yml
 git add docs/backend/README.md
 git add docs/frontend/README.md
-git add docs/infrastructure/README.md
+git add docs/infraestructura/README.md
 
 # Stage índices regenerados
 git add docs/requisitos/

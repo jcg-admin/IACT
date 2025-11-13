@@ -15,7 +15,7 @@ import pytest
 BASE_DIR = Path(__file__).resolve().parent.parent.parent.parent
 
 # Feature directory (now within builder)
-INSTALLER_DIR = BASE_DIR / "infrastructure" / "cpython" / "builder" / "feature"
+INSTALLER_DIR = BASE_DIR / "infraestructura" / "cpython" / "builder" / "feature"
 
 
 @pytest.mark.critical

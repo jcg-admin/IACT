@@ -80,7 +80,7 @@ def main():
         print("Los requisitos deben estar en:")
         print("  - docs/implementacion/backend/requisitos/")
         print("  - docs/implementacion/frontend/requisitos/")
-        print("  - docs/implementacion/infrastructure/requisitos/")
+        print("  - docs/implementacion/infraestructura/requisitos/")
         return
 
     print(f"INFO: Validando {len(files)} archivos...")
