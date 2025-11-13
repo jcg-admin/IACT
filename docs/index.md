@@ -82,11 +82,11 @@ Este índice combina lo implementado con la visión futura del proyecto, clarame
 - **Validaciones**: [`scripts/validation/`](../scripts/validation/)
   - Quality, compliance, security, docs
 - **Test runner**: [`scripts/run_all_tests.sh`](../scripts/run_all_tests.sh)
+- **Métricas DORA**: [`scripts/dora_metrics.py`](../scripts/dora_metrics.py)
 - **Templates**: [`scripts/templates/`](../scripts/templates/)
 
 #### [PLANIFICADO] Planificados (ver [`docs/scripts/README.md`](scripts/README.md))
 - `scripts/sdlc_agent.py` - CLI SDLC
-- `scripts/dora_metrics.py` - Calculador DORA metrics
 - `scripts/requisitos/` - Gestión de requisitos
 - 20+ agentes SDLC especializados
 
