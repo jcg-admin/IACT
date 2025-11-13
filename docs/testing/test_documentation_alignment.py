@@ -57,6 +57,20 @@ def test_run_all_tests_targets_ui_directory():
     assert "FRONTEND_DIR" not in script
 
 
+def test_architecture_design_patterns_catalog_is_referenced():
+    guide_path = REPO_ROOT / "docs/arquitectura/patrones/DESIGN_PATTERNS_GUIDE.md"
+    assert guide_path.exists()
+
+    guide_contents = _read(guide_path)
+    assert "#" in guide_contents
+
+    index_contents = _read(REPO_ROOT / "docs/index.md")
+    assert "arquitectura/patrones/DESIGN_PATTERNS_GUIDE.md" in index_contents
+
+    architecture_readme = _read(REPO_ROOT / "docs/arquitectura/README.md")
+    assert "patrones/DESIGN_PATTERNS_GUIDE.md" in architecture_readme
+
+
 def test_cpython_install_script_renamed():
     renamed_path = REPO_ROOT / "infrastructure/cpython/scripts/install_prebuilt_cpython.sh"
     assert renamed_path.exists()

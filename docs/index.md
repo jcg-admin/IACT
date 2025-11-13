@@ -41,6 +41,7 @@ Este índice combina lo implementado con la visión futura del proyecto, clarame
 - **Lineamientos**: [`arquitectura/`](arquitectura/)
   - Storage: MySQL + [PLANIFICADO] Cassandra
   - Observability: [`OBSERVABILITY_LAYERS.md`](arquitectura/OBSERVABILITY_LAYERS.md)
+  - Patrones de diseño: [`DESIGN_PATTERNS_GUIDE.md`](arquitectura/patrones/DESIGN_PATTERNS_GUIDE.md)
 - **Por dominio**:
   - Backend: [`backend/arquitectura/`](backend/arquitectura/)
   - Frontend: [`frontend/arquitectura/`](frontend/arquitectura/)
