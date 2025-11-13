@@ -99,3 +99,46 @@ def test_phi3_prompt_engineering_playbook_is_published_and_linked():
 
     prompting_index = _read(REPO_ROOT / "docs/ai_capabilities/prompting/README.md")
     assert "Phi-3" in prompting_index
+
+
+def test_issue_templates_connect_execplans_and_agents():
+    templates_dir = REPO_ROOT / ".github" / "ISSUE_TEMPLATE"
+    assert templates_dir.exists(), "La carpeta .github/ISSUE_TEMPLATE debe existir"
+
+    feature_template = _read(templates_dir / "feature_request.md")
+    assert "ExecPlan" in feature_template
+    assert ".agent/PLANS.md" in feature_template
+
+    custom_template = _read(templates_dir / "custom.md")
+    assert ".github/agents" in custom_template
+    assert "Agente" in custom_template
+
+    bug_template = _read(templates_dir / "bug_report.md")
+    assert "SecurityAgent" in bug_template or "DependencyAgent" in bug_template
+
+
+def test_ci_workflows_cover_quality_security_and_dependencies():
+    workflows_dir = REPO_ROOT / ".github" / "workflows"
+    quality = workflows_dir / "code-quality.yml"
+    codeql = workflows_dir / "codeql.yml"
+    dependency = workflows_dir / "dependency-review.yml"
+
+    assert quality.exists()
+    assert codeql.exists()
+    assert dependency.exists()
+
+    quality_yaml = _read(quality)
+    assert "./scripts/run_all_tests.sh" in quality_yaml
+    assert "pytest" in quality_yaml
+
+    codeql_yaml = _read(codeql)
+    assert "github/codeql-action/init" in codeql_yaml
+
+    dependency_yaml = _read(dependency)
+    assert "dependency-review-action" in dependency_yaml
+
+
+def test_readme_links_issue_templates_and_agents():
+    readme = _read(REPO_ROOT / "README.md")
+    assert "ISSUE_TEMPLATE" in readme
+    assert ".github/agents" in readme

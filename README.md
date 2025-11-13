@@ -167,6 +167,12 @@ pytest -c docs/pytest.ini docs/testing
 3. **Evita `--no-verify`**: Si un hook falla, corrígelo en lugar de saltearlo
 4. **Coverage mínimo**: 80% en módulos Python modificados
 
+### Gestión de issues y agentes
+
+- Plantillas disponibles en `.github/ISSUE_TEMPLATE/` guían la información mínima para bugs, features y solicitudes asistidas.
+- Las solicitudes de feature exigen un ExecPlan conforme a `.agent/PLANS.md` y enlazan el documento vivo correspondiente.
+- Para coordinar automatizaciones revisa `.github/agents/README.md` y selecciona el agente adecuado (GitOps, Release, Security, etc.).
+
 ### Guías y estándares ([IMPLEMENTADO] Documentadas)
 
 - **[Guía de Estilo](docs/gobernanza/GUIA_ESTILO.md)** - Convenciones obligatorias (NO emojis, Conventional Commits)
