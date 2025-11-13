@@ -6,8 +6,6 @@ Repositorio monolítico para la plataforma de analítica de centros de contacto 
 >
 > **Leyenda**: [IMPLEMENTADO] = Funciona actualmente | [PLANIFICADO] = Documentado pero pendiente | [ATENCION] = Requiere atención | [NO] = Prohibido
 
-> **Importante**: No existe un Makefile en la raíz; usa los scripts documentados para orquestar tareas.
-
 ## Estado actual del repositorio
 
 ### [IMPLEMENTADO] Implementado
@@ -52,9 +50,9 @@ Repositorio monolítico para la plataforma de analítica de centros de contacto 
    vagrant up  # Levanta PostgreSQL:15432 y MariaDB:13306
    ```
 
-4. **Verificar servicios** ([IMPLEMENTADO] Runbook + script):
+4. **Verificar servicios** ([IMPLEMENTADO] Runbook disponible, [PLANIFICADO] script automatizado pendiente):
    - Guía manual: [`docs/operaciones/verificar_servicios.md`](docs/operaciones/verificar_servicios.md)
-   - Script automatizado: `./scripts/verificar_servicios.sh` (`--dry-run` disponible para CI)
+   - Script automatizado: `./scripts/verificar_servicios.sh` ([PLANIFICADO] Pendiente de implementar)
 
 ## Flujo de desarrollo
 
@@ -77,16 +75,6 @@ DB_IVR_NAME=ivr_data
 DB_IVR_USER=django_user
 DB_IVR_PASSWORD=django_pass
 ```
-
-> **LLMs soportados**: Los agentes SDLC detectan automáticamente el mejor proveedor
-> disponible entre Claude (Anthropic), ChatGPT (OpenAI) y modelos fine-tuned vía
-> Hugging Face (TinyLlama, Phi-3, etc.). Consulta
-> [`docs/ai/CONFIGURACION_API_KEYS.md`](docs/ai/CONFIGURACION_API_KEYS.md)
-> para declarar `ANTHROPIC_API_KEY`, `OPENAI_API_KEY` o las variables
-> `HF_LOCAL_MODEL_PATH`/`HF_MODEL_ID` cuando ejecutes el flujo de fine-tuning
-> documentado en [`docs/ai/FINE_TUNING_TINYLLAMA.md`](docs/ai/FINE_TUNING_TINYLLAMA.md), y
-> revisa el playbook de prompting con Phi-3 en
-> [`docs/ai_capabilities/prompting/PHI3_PROMPT_ENGINEERING_PLAYBOOK.md`](docs/ai_capabilities/prompting/PHI3_PROMPT_ENGINEERING_PLAYBOOK.md).
 
 ### 2. Ejecutar migraciones
 
@@ -158,7 +146,7 @@ pytest -c docs/pytest.ini docs/testing
 - Complejidad ciclomática: <= 10
 - MTTR para bugs críticos: <= 2 días
 
-**Estado actual**: Las métricas se generan con [`scripts/dora_metrics.py`](scripts/dora_metrics.py) (baseline local). Ver [`logs_data/SCHEMA.md`](logs_data/SCHEMA.md)
+**Estado actual**: Las métricas se calculan manualmente. Ver [`logs_data/SCHEMA.md`](logs_data/SCHEMA.md)
 
 ### Workflow de commits
 
@@ -166,12 +154,6 @@ pytest -c docs/pytest.ini docs/testing
 2. **Conventional Commits**: `feat:`, `fix:`, `docs:`, `refactor:`, etc.
 3. **Evita `--no-verify`**: Si un hook falla, corrígelo en lugar de saltearlo
 4. **Coverage mínimo**: 80% en módulos Python modificados
-
-### Gestión de issues y agentes
-
-- Plantillas disponibles en `.github/ISSUE_TEMPLATE/` guían la información mínima para bugs, features y solicitudes asistidas.
-- Las solicitudes de feature exigen un ExecPlan conforme a `.agent/PLANS.md` y enlazan el documento vivo correspondiente.
-- Para coordinar automatizaciones revisa `.agent/agents/README.md` y selecciona el agente adecuado (GitOps, Release, Security, etc.).
 
 ### Guías y estándares ([IMPLEMENTADO] Documentadas)
 
