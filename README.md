@@ -136,7 +136,7 @@ Los scripts disponibles dentro de `infrastructure/cpython/scripts/` son:
 | `validate_build.sh` | Verifica la integridad del artefacto generado (`.tgz` + `.sha256`). | `./infrastructure/cpython/scripts/validate_build.sh cpython-3.12.6-ubuntu20.04-build1.tgz` |
 | `install_prebuilt_cpython.sh` | Instala un artefacto precompilado existente en un destino (`INSTALLPREFIX`). | `VERSION=3.12.6 INSTALLPREFIX=/opt/python ./infrastructure/cpython/scripts/install_prebuilt_cpython.sh` |
 
-Consulta [`docs/infrastructure/README.md`](docs/infrastructure/README.md) y [`docs/infrastructure/CHANGELOG-cpython.md`](docs/infrastructure/CHANGELOG-cpython.md) para conocer más detalles sobre estos flujos.
+Consulta [`docs/infrastructure/README.md`](docs/infraestructura/README.md) y [`docs/infrastructure/CHANGELOG-cpython.md`](docs/infraestructura/CHANGELOG-cpython.md) para conocer más detalles sobre estos flujos.
 
 ## Calidad y contribución
 

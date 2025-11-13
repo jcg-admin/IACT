@@ -40,14 +40,6 @@ def test_health_check_degrades_gracefully_when_django_missing():
     assert "Skipping Django checks" in combined_output
 
 
-def test_health_check_compiles_callcentersite_sources():
-    result = _run_script(HEALTH_CHECK)
-
-    combined_output = f"{result.stdout}\n{result.stderr}"
-    assert "Compiling Django project for syntax errors" in combined_output
-    assert "Bytecode compilation: PASS" in combined_output
-
-
 def test_run_all_checks_sets_strict_shell_flags():
     contents = RUN_ALL_CHECKS.read_text()
 

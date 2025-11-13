@@ -27,7 +27,7 @@ estandares: ["ISO/IEC/IEEE 29148:2018 - Clause 9.6", "BABOK v3"]
 id: RF-[XXX]
 tipo: funcional
 titulo: [Título conciso del requisito (max 80 caracteres)]
-dominio: [backend|frontend|infrastructure]
+dominio: [backend|frontend|infraestructura]
 owner: [equipo-backend|equipo-frontend|equipo-devops]
 prioridad: [critica|alta|media|baja]
 estado: [propuesto|en_revision|aprobado|en_desarrollo|implementado|verificado|rechazado]

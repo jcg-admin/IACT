@@ -16,7 +16,7 @@ Este índice combina lo implementado con la visión futura del proyecto, clarame
 ### Por rol
 - **Developer**: [`gobernanza/procesos/procedimientos/guia_completa_desarrollo_features.md`](gobernanza/procesos/procedimientos/guia_completa_desarrollo_features.md)
 - **QA**: [`qa/`](qa/README.md), [`gobernanza/procesos/qa/ESTRATEGIA_QA.md`](gobernanza/procesos/qa/ESTRATEGIA_QA.md)
-- **DevOps**: [`operaciones/`](operaciones/), [`infrastructure/`](infrastructure/)
+- **DevOps**: [`operaciones/`](operaciones/), [`infrastructure/`](infraestructura/)
 - **Arquitecto**: [`adr/`](adr/), [`arquitectura/`](arquitectura/)
 - **Product Owner**: [`requisitos/`](requisitos/), [`backend/requisitos/`](backend/requisitos/)
 
@@ -45,7 +45,7 @@ Este índice combina lo implementado con la visión futura del proyecto, clarame
 - **Por dominio**:
   - Backend: [`backend/arquitectura/`](backend/arquitectura/)
   - Frontend: [`frontend/arquitectura/`](frontend/arquitectura/)
-  - Infrastructure: [`infrastructure/`](infrastructure/)
+  - Infrastructure: [`infrastructure/`](infraestructura/)
 
 ### Requisitos ([IMPLEMENTADO] Estructura definida, [PLANIFICADO] Contenido en construcción)
 - **Marco integrado**: [`requisitos/analisis_negocio/marco_integrado/`](requisitos/analisis_negocio/marco_integrado/)
@@ -69,9 +69,9 @@ Este índice combina lo implementado con la visión futura del proyecto, clarame
 ### Infraestructura ([IMPLEMENTADO] CPython builder completo)
 - **CPython Precompilado**: [`infrastructure/cpython/`](../infrastructure/cpython/)
   - README: [`infrastructure/cpython/README.md`](../infrastructure/cpython/README.md)
-  - Changelog: [`CHANGELOG-cpython.md`](infrastructure/CHANGELOG-cpython.md)
+  - Changelog: [`CHANGELOG-cpython.md`](infraestructura/CHANGELOG-cpython.md)
   - Scripts: `build_cpython.sh`, `validate_build.sh`, `install_prebuilt_cpython.sh`
-- **DevContainer**: [`infrastructure/devcontainer/`](infrastructure/devcontainer/)
+- **DevContainer**: [`infrastructure/devcontainer/`](infraestructura/devcontainer/)
 - [PLANIFICADO] **Cassandra**: Documentación disponible, implementación pendiente
 
 ### Scripts y automatización ([IMPLEMENTADO] Parcial, [PLANIFICADO] Muchos planificados)

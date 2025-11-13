@@ -1,16 +1,16 @@
 #!/bin/bash
 #
-# infrastructure/cpython/scripts/build_wrapper.sh - Wrapper for building in Vagrant
+# infraestructura/cpython/scripts/build_wrapper.sh - Wrapper for building in Vagrant
 #
 # Reference: SPEC_INFRA_001
 # Purpose: Facilitate building from outside Vagrant (host → VM)
 #
 # Usage:
-#   ./infrastructure/cpython/scripts/build_wrapper.sh <version> [build-number]
+#   ./infraestructura/cpython/scripts/build_wrapper.sh <version> [build-number]
 #
 # Examples:
-#   ./infrastructure/cpython/scripts/build_wrapper.sh 3.12.6
-#   ./infrastructure/cpython/scripts/build_wrapper.sh 3.12.6 2
+#   ./infraestructura/cpython/scripts/build_wrapper.sh 3.12.6
+#   ./infraestructura/cpython/scripts/build_wrapper.sh 3.12.6 2
 #
 
 set -euo pipefail

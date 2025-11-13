@@ -22,7 +22,7 @@ nav:
       - Frontend:
           - Requisitos: implementacion/frontend/requisitos/readme.md
       - Infrastructure:
-          - Requisitos: implementacion/infrastructure/requisitos/readme.md
+          - Requisitos: implementacion/infraestructura/requisitos/readme.md
   - Arquitectura:
       - Portada: arquitectura/readme.md
       - Lineamientos de código: arquitectura/lineamientos_codigo.md
@@ -62,26 +62,26 @@ nav:
       - QA:
           - Portada: frontend/qa/readme.md
   - Infrastructure:
-      - Portada: infrastructure/readme.md
+      - Portada: infraestructura/readme.md
       - Arquitectura:
-          - Portada: infrastructure/arquitectura/readme.md
+          - Portada: infraestructura/arquitectura/readme.md
           - ADR:
-              - ADR-2025-001 Vagrant + mod_wsgi: infrastructure/arquitectura/adr/adr_2025_001_vagrant_mod_wsgi.md
-              - Plantilla ADR: infrastructure/arquitectura/adr/plantilla_adr.md
+              - ADR-2025-001 Vagrant + mod_wsgi: infraestructura/arquitectura/adr/adr_2025_001_vagrant_mod_wsgi.md
+              - Plantilla ADR: infraestructura/arquitectura/adr/plantilla_adr.md
       - DevOps:
-          - Portada: infrastructure/devops/readme.md
-          - Contenedores DevContainer: infrastructure/devops/contenedores_devcontainer.md
+          - Portada: infraestructura/devops/readme.md
+          - Contenedores DevContainer: infraestructura/devops/contenedores_devcontainer.md
           - Runbooks:
-              - Post create: infrastructure/devops/runbooks/post_create.md
-              - GitHub Copilot Codespaces: infrastructure/devops/runbooks/github_copilot_codespaces.md
-              - Verificar servicios: infrastructure/devops/runbooks/verificar_servicios.md
+              - Post create: infraestructura/devops/runbooks/post_create.md
+              - GitHub Copilot Codespaces: infraestructura/devops/runbooks/github_copilot_codespaces.md
+              - Verificar servicios: infraestructura/devops/runbooks/verificar_servicios.md
       - Checklists:
-          - Portada: infrastructure/checklists/readme.md
-          - Cambios documentales: infrastructure/checklists/checklist_cambios_documentales.md
+          - Portada: infraestructura/checklists/readme.md
+          - Cambios documentales: infraestructura/checklists/checklist_cambios_documentales.md
       - QA:
-          - Portada: infrastructure/qa/readme.md
+          - Portada: infraestructura/qa/readme.md
       - Gobernanza:
-          - Portada: infrastructure/gobernanza/readme.md
+          - Portada: infraestructura/gobernanza/readme.md
   - Planificación y releases: planificacion_y_releases/readme.md
   - QA:
       - Estrategia de QA: qa/estrategia_qa.md

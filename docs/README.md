@@ -29,7 +29,7 @@ IACT---project/
 ## Puntos de entrada recomendados
 - [Índice consolidado](index.md)
 - [Plan de remediación actual](plans/REV_20251112_remediation_plan.md)
-- [Manual de infraestructura](infrastructure/README.md)
+- [Manual de infraestructura](infraestructura/README.md)
 - [Runbooks operativos](operaciones/)
 - [Documentación de scripts](scripts/README.md)
 

@@ -5,7 +5,7 @@
 # Replaces ALL GitHub Actions with shell scripts
 #
 # Usage:
-#   ./run-all-checks.sh [--fail-fast] [--verbose] [--only infrastructure|security|testing]
+#   ./run-all-checks.sh [--fail-fast] [--verbose] [--only infraestructura|security|testing]
 #
 # Exit codes:
 #   0 - All checks passed

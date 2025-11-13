@@ -152,7 +152,7 @@ jobs:
         if: steps.check_tf.outputs.has_terraform == 'true'
         uses: aquasecurity/tfsec-action@v1.0.0
         with:
-          working_directory: infrastructure/terraform
+          working_directory: infraestructura/terraform
           soft_fail: true
 
   validate-docker:

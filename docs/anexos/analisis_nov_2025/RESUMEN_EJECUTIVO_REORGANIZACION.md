@@ -213,13 +213,13 @@ WARNING: No se detectaron tests.
 
 ```bash
 # 1. Dry-run (simula sin escribir archivos)
-python scripts/sync_documentation.py --dry-run --domains api,ui,infrastructure
+python scripts/sync_documentation.py --dry-run --domains api,ui,infraestructura
 
 # 2. Ejecución real
 python scripts/sync_documentation.py --domains api
 
 # 3. Con reorganización automática
-python scripts/sync_documentation.py --reorganize --domains api,ui,infrastructure
+python scripts/sync_documentation.py --reorganize --domains api,ui,infraestructura
 
 # 4. Solo reporte (sin cambios)
 python scripts/sync_documentation.py --report-only
@@ -299,7 +299,7 @@ FASE 4: Git operations (add + status)
 [OK] implementacion/ removido correctamente
 [OK] backend/ existe (58 archivos)
 [OK] frontend/ existe (13 archivos)
-[OK] infrastructure/ existe (25 archivos)
+[OK] infraestructura/ existe (25 archivos)
 [OK] No hay referencias huérfanas
 
 ERRORES: 0
@@ -318,7 +318,7 @@ python scripts/sync_documentation.py [OPTIONS]
 Options:
   --dry-run              Simular sin escribir archivos
   --reorganize           Ejecutar reorganización primero
-  --domains DOMAINS      Dominios separados por coma (api,ui,infrastructure)
+  --domains DOMAINS      Dominios separados por coma (api,ui,infraestructura)
   --report-only          Solo generar reporte, no modificar
   --help                 Mostrar ayuda
 ```
@@ -329,7 +329,7 @@ Options:
 python scripts/sync_documentation.py --dry-run --domains api
 
 # Reorganización + sincronización completa
-python scripts/sync_documentation.py --reorganize --domains api,ui,infrastructure
+python scripts/sync_documentation.py --reorganize --domains api,ui,infraestructura
 
 # Solo reporte de gaps
 python scripts/sync_documentation.py --report-only
@@ -565,7 +565,7 @@ on:
     paths:
       - 'api/**'
       - 'ui/**'
-      - 'infrastructure/**'
+      - 'infraestructura/**'
 
 jobs:
   sync-docs:
@@ -586,7 +586,7 @@ jobs:
 # para ejecutar sincronización semanal
 
 # Opción 1: Cron local
-0 9 * * 1 cd /home/user/IACT---project && python scripts/sync_documentation.py --domains api,ui,infrastructure
+0 9 * * 1 cd /home/user/IACT---project && python scripts/sync_documentation.py --domains api,ui,infraestructura
 
 # Opción 2: GitHub Actions scheduled
 # .github/workflows/weekly-sync.yml

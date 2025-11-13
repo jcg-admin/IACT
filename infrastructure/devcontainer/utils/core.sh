@@ -87,7 +87,7 @@ iact_get_project_root() {
             echo "/workspaces"
         fi
     else
-        # Fallback: asumir que estamos 3 niveles abajo: infrastructure/devcontainer/utils
+        # Fallback: asumir que estamos 3 niveles abajo: infraestructura/devcontainer/utils
         echo "$(cd "${IACT_UTILS_DIR}/../../.." && pwd)"
     fi
 }

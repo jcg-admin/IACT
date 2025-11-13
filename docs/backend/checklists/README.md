@@ -26,7 +26,7 @@ Listas de verificación para validar entregables clave del backend dentro del SD
 ### Recomendaciones
 - Mantener responsables y fechas de revisión en el front matter de cada checklist.
 - Referenciar estos artefactos desde [`../gobernanza/README.md`](../gobernanza/README.md) al preparar ceremonias del backend.
-- Registrar el control documental transversal en [`../../infrastructure/checklists/checklist_cambios_documentales.md`](../../infrastructure/checklists/checklist_cambios_documentales.md).
+- Registrar el control documental transversal en [`../../infrastructure/checklists/checklist_cambios_documentales.md`](../../infraestructura/checklists/checklist_cambios_documentales.md).
 
 ## Estado de cumplimiento
 | Elemento en la base maestra | ¿Existe en repositorio? | Observaciones |

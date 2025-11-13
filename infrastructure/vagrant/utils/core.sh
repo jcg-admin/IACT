@@ -70,7 +70,7 @@ iact_get_project_root() {
     if iact_is_vagrant; then
         echo "/vagrant"
     else
-        # Asumir que estamos 3 niveles abajo: infrastructure/vagrant/utils
+        # Asumir que estamos 3 niveles abajo: infraestructura/vagrant/utils
         echo "$(cd "$(dirname "${IACT_UTILS_DIR}")/../.." && pwd)"
     fi
 }

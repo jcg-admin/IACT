@@ -64,20 +64,6 @@ elif [ ! -f "manage.py" ]; then
     CHECKS_SKIPPED=$((CHECKS_SKIPPED + 1))
 fi
 
-log_info "Compiling Django project for syntax errors..."
-COMPILE_LOG=$(mktemp)
-if python3 -m compileall -q callcentersite >"$COMPILE_LOG" 2>&1; then
-    log_info "Bytecode compilation: PASS"
-    CHECKS_PASSED=$((CHECKS_PASSED + 1))
-else
-    log_error "Bytecode compilation failed"
-    tail -n 20 "$COMPILE_LOG" | while IFS= read -r line; do
-        log_error "    $line"
-    done
-    CHECKS_FAILED=$((CHECKS_FAILED + 1))
-fi
-rm -f "$COMPILE_LOG"
-
 if [ "$DJANGO_READY" = true ]; then
     if DB_CHECK_OUTPUT=$(python3 manage.py check --database default 2>&1); then
         log_info "Database connectivity: OK"

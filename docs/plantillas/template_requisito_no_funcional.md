@@ -17,7 +17,7 @@ id: RNF-[XXX]
 tipo: no_funcional
 titulo: [Título conciso]
 categoria: [performance|security|usability|reliability|maintainability|portability|scalability|availability]
-dominio: [backend|frontend|infrastructure|cross-domain]
+dominio: [backend|frontend|infraestructura|cross-domain]
 owner: [equipo-propietario]
 prioridad: [critica|alta|media|baja]
 estado: [propuesto|aprobado|implementado|verificado]

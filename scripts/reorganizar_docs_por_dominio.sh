@@ -122,11 +122,11 @@ else
     log_warning "implementacion/frontend/ no existe, omitiendo"
 fi
 
-# 1.3 Fusionar infrastructure
+# 1.3 Fusionar infraestructura
 if [ -d "$DOCS_DIR/implementacion/infrastructure" ]; then
     execute "mkdir -p $DOCS_DIR/infrastructure_temp" "Crear directorio temporal para fusión"
 
-    # Copiar contenido de implementacion/infrastructure/
+    # Copiar contenido de implementacion/infraestructura/
     execute "cp -r $DOCS_DIR/implementacion/infrastructure/* $DOCS_DIR/infrastructure_temp/" "Copiar contenido de implementacion/infrastructure/"
 
     # Fusionar contenido de infraestructura/ si existe
@@ -137,7 +137,7 @@ if [ -d "$DOCS_DIR/implementacion/infrastructure" ]; then
         fi
     fi
 
-    # Renombrar a infrastructure/
+    # Renombrar a infraestructura/
     execute "mv $DOCS_DIR/infrastructure_temp $DOCS_DIR/infrastructure" "Renombrar a infrastructure/"
 
     # Eliminar directorios antiguos
@@ -192,14 +192,14 @@ if [ "$DRY_RUN" = false ]; then
         -e 's|\.\./implementacion/frontend/|../frontend/|g' \
         {} +
 
-    # Buscar y reemplazar referencias a implementacion/infrastructure e infraestructura
+    # Buscar y reemplazar referencias a implementacion/infraestructura e infraestructura
     find "$DOCS_DIR" -name "*.md" -type f -exec sed -i \
-        -e 's|docs/implementacion/infrastructure/|docs/infrastructure/|g' \
-        -e 's|implementacion/infrastructure/|infrastructure/|g' \
-        -e 's|\.\./\.\./\.\./implementacion/infrastructure/|../../infrastructure/|g' \
-        -e 's|\.\./implementacion/infrastructure/|../infrastructure/|g' \
-        -e 's|docs/infraestructura/|docs/infrastructure/|g' \
-        -e 's|infraestructura/cpython|infrastructure/cpython|g' \
+        -e 's|docs/implementacion/infraestructura/|docs/infraestructura/|g' \
+        -e 's|implementacion/infraestructura/|infraestructura/|g' \
+        -e 's|\.\./\.\./\.\./implementacion/infraestructura/|../../infraestructura/|g' \
+        -e 's|\.\./implementacion/infraestructura/|../infraestructura/|g' \
+        -e 's|docs/infraestructura/|docs/infraestructura/|g' \
+        -e 's|infraestructura/cpython|infraestructura/cpython|g' \
         {} +
 
     log_success "Referencias actualizadas en archivos .md"

@@ -43,14 +43,14 @@ class CodeInspectorAgent(Agent):
     Agente Planner: Inspecciona código fuente y planifica actualización de docs.
 
     Responsabilidades:
-    - Escanear directorios api/, ui/, infrastructure/
+    - Escanear directorios api/, ui/, infraestructura/
     - Identificar componentes implementados (apps, módulos, servicios)
     - Comparar con documentación existente
     - Generar plan de actualización
 
     Input:
         - project_root: Ruta raíz del proyecto
-        - domains: Lista de dominios a inspeccionar (["api", "ui", "infrastructure"])
+        - domains: Lista de dominios a inspeccionar (["api", "ui", "infraestructura"])
         - docs_root: Ruta a docs/
 
     Output:
@@ -73,7 +73,7 @@ class CodeInspectorAgent(Agent):
             errors.append(f"project_root no existe: {self.project_root}")
 
         # Verificar que al menos un dominio existe
-        domains = input_data.get("domains", ["api", "ui", "infrastructure"])
+        domains = input_data.get("domains", ["api", "ui", "infraestructura"])
         found_any = False
         for domain in domains:
             if (self.project_root / domain).exists():
@@ -89,12 +89,12 @@ class CodeInspectorAgent(Agent):
         """
         Inspecciona el código y genera plan de documentación.
         """
-        domains = input_data.get("domains", ["api", "ui", "infrastructure"])
+        domains = input_data.get("domains", ["api", "ui", "infraestructura"])
 
         discovered = {
             "api": self._inspect_api(),
             "ui": self._inspect_ui(),
-            "infrastructure": self._inspect_infrastructure()
+            "infraestructura": self._inspect_infrastructure()
         }
 
         # Filtrar solo los dominios solicitados
@@ -198,8 +198,8 @@ class CodeInspectorAgent(Agent):
         }
 
     def _inspect_infrastructure(self) -> Dict[str, Any]:
-        """Inspecciona el dominio infrastructure/."""
-        infra_path = self.project_root / "infrastructure"
+        """Inspecciona el dominio infraestructura/."""
+        infra_path = self.project_root / "infraestructura"
 
         if not infra_path.exists():
             self.logger.warning(f"infrastructure_path no existe: {infra_path}")
@@ -242,7 +242,7 @@ class CodeInspectorAgent(Agent):
         return {
             "services": services,
             "configs": configs,
-            "domain": "infrastructure",
+            "domain": "infraestructura",
             "technology": "Terraform/Docker"
         }
 
@@ -268,7 +268,7 @@ class CodeInspectorAgent(Agent):
         existing = {
             "backend": [],
             "frontend": [],
-            "infrastructure": []
+            "infraestructura": []
         }
 
         # Buscar documentación de backend
@@ -293,12 +293,12 @@ class CodeInspectorAgent(Agent):
                         "last_modified": datetime.fromtimestamp(md_file.stat().st_mtime).isoformat()
                     })
 
-        # Buscar documentación de infrastructure
-        infra_docs = self.docs_root / "implementacion" / "infrastructure"
+        # Buscar documentación de infraestructura
+        infra_docs = self.docs_root / "implementacion" / "infraestructura"
         if infra_docs.exists():
             for md_file in infra_docs.rglob("*.md"):
                 if md_file.name != "README.md":
-                    existing["infrastructure"].append({
+                    existing["infraestructura"].append({
                         "path": str(md_file.relative_to(self.docs_root)),
                         "name": md_file.stem,
                         "last_modified": datetime.fromtimestamp(md_file.stat().st_mtime).isoformat()
@@ -362,18 +362,18 @@ class CodeInspectorAgent(Agent):
                         "priority": "medium"
                     })
 
-        # Analizar infrastructure
-        if "infrastructure" in discovered:
-            infra_data = discovered["infrastructure"]
-            infra_docs_names = {doc["name"] for doc in existing_docs.get("infrastructure", [])}
+        # Analizar infraestructura
+        if "infraestructura" in discovered:
+            infra_data = discovered["infraestructura"]
+            infra_docs_names = {doc["name"] for doc in existing_docs.get("infraestructura", [])}
 
             # Si hay configs y no hay documentación, crear
             if len(infra_data.get("configs", [])) > 0 and len(infra_docs_names) == 0:
                 plan["create"].append({
-                    "domain": "infrastructure",
+                    "domain": "infraestructura",
                     "component_type": "infrastructure_general",
                     "component_name": "infrastructure_overview",
-                    "path": "infrastructure/",
+                    "path": "infraestructura/",
                     "reason": "Infrastructure sin documentación general",
                     "priority": "high"
                 })
@@ -621,11 +621,11 @@ Documentación generada automáticamente. Completar con detalles específicos.
         return content
 
     def _generate_infrastructure_doc(self, item: Dict[str, Any], discovered: Dict[str, Any]) -> str:
-        """Genera documentación general de infrastructure."""
+        """Genera documentación general de infraestructura."""
         content = f"""---
 id: INFRA-OVERVIEW
 tipo: infrastructure_overview
-dominio: infrastructure
+dominio: infraestructura
 estado: documentado
 fecha: {datetime.now().strftime('%Y-%m-%d')}
 auto_generado: true
@@ -641,8 +641,8 @@ Configuración de infraestructura del proyecto IACT.
 
 """
 
-        if "infrastructure" in discovered:
-            configs = discovered["infrastructure"].get("configs", [])
+        if "infraestructura" in discovered:
+            configs = discovered["infraestructura"].get("configs", [])
 
             terraform_configs = [c for c in configs if c["type"] == "terraform"]
             docker_configs = [c for c in configs if c["type"] == "docker"]
@@ -924,7 +924,7 @@ Generado por DocumentationSyncAgent (Planner → Editor → Verifier → Reporte
                     report += f"  - Hooks: {'SI' if module.get('has_hooks') else 'NO'}\n"
                     report += "\n"
 
-            elif domain == "infrastructure":
+            elif domain == "infraestructura":
                 configs = domain_data.get("configs", [])
                 report += f"Configuraciones: {len(configs)}\n\n"
 
@@ -1018,13 +1018,13 @@ def create_documentation_sync_pipeline(project_root: str = "/home/user/IACT---pr
     Args:
         project_root: Ruta raíz del proyecto
         dry_run: Si True, no escribe archivos (solo simula)
-        domains: Dominios a inspeccionar (default: ["api", "ui", "infrastructure"])
+        domains: Dominios a inspeccionar (default: ["api", "ui", "infraestructura"])
 
     Returns:
         Pipeline configurado con los 4 agentes
     """
     if domains is None:
-        domains = ["api", "ui", "infrastructure"]
+        domains = ["api", "ui", "infraestructura"]
 
     # Configuración compartida
     config_base = {"project_root": project_root}
