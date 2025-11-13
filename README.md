@@ -80,10 +80,13 @@ DB_IVR_PASSWORD=django_pass
 
 > **LLMs soportados**: Los agentes SDLC detectan automáticamente el mejor proveedor
 > disponible entre Claude (Anthropic), ChatGPT (OpenAI) y modelos fine-tuned vía
-> Hugging Face. Consulta [`docs/ai/CONFIGURACION_API_KEYS.md`](docs/ai/CONFIGURACION_API_KEYS.md)
+> Hugging Face (TinyLlama, Phi-3, etc.). Consulta
+> [`docs/ai/CONFIGURACION_API_KEYS.md`](docs/ai/CONFIGURACION_API_KEYS.md)
 > para declarar `ANTHROPIC_API_KEY`, `OPENAI_API_KEY` o las variables
 > `HF_LOCAL_MODEL_PATH`/`HF_MODEL_ID` cuando ejecutes el flujo de fine-tuning
-> documentado en [`docs/ai/FINE_TUNING_TINYLLAMA.md`](docs/ai/FINE_TUNING_TINYLLAMA.md).
+> documentado en [`docs/ai/FINE_TUNING_TINYLLAMA.md`](docs/ai/FINE_TUNING_TINYLLAMA.md), y
+> revisa el playbook de prompting con Phi-3 en
+> [`docs/ai_capabilities/prompting/PHI3_PROMPT_ENGINEERING_PLAYBOOK.md`](docs/ai_capabilities/prompting/PHI3_PROMPT_ENGINEERING_PLAYBOOK.md).
 
 ### 2. Ejecutar migraciones
 

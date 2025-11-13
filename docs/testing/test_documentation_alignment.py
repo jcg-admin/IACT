@@ -88,3 +88,14 @@ def test_eta_codex_agent_is_implemented_in_agents_tree():
 
     tests_path = REPO_ROOT / "scripts/coding/tests/ai/agents/documentation/test_eta_codex_agent.py"
     assert tests_path.exists()
+
+
+def test_phi3_prompt_engineering_playbook_is_published_and_linked():
+    guide_path = REPO_ROOT / "docs/ai_capabilities/prompting/PHI3_PROMPT_ENGINEERING_PLAYBOOK.md"
+    assert guide_path.exists()
+
+    readme = _read(REPO_ROOT / "README.md")
+    assert "PHI3_PROMPT_ENGINEERING_PLAYBOOK.md" in readme
+
+    prompting_index = _read(REPO_ROOT / "docs/ai_capabilities/prompting/README.md")
+    assert "Phi-3" in prompting_index

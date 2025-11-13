@@ -58,6 +58,10 @@ Material complementario centrado en estrategias de generación de código (plani
 
 El compendio de patrones agenticos observados en producción—desde LLMs aumentados hasta orquestadores y evaluadores—se documenta en [AGENTIC_SYSTEM_PATTERNS.md](./AGENTIC_SYSTEM_PATTERNS.md). El material enfatiza cuándo escalar de flujos deterministas a agentes autónomos, qué compromisos evaluar (latencia, costo, confianza) y cómo diseñar la interfaz agente-computadora.
 
+### Phi-3 Prompt Engineering Playbook
+
+Para alinear el tercer proveedor soportado (Hugging Face) con prácticas de prompting reproducibles, consulta [PHI3_PROMPT_ENGINEERING_PLAYBOOK.md](./PHI3_PROMPT_ENGINEERING_PLAYBOOK.md). Resume la configuración del modelo `microsoft/Phi-3-mini-4k-instruct`, patrones como Chain-of-Thought/Tree-of-Thought y recomendaciones para interoperar con Claude y ChatGPT.
+
 ---
 
 ## Implementation Location
