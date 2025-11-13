@@ -16,23 +16,28 @@ Queremos que los desarrolladores puedan ejecutar los scripts `scripts/ci/*.sh` s
 - [x] (2025-11-16 11:45Z) Normalizar `scripts/ci/infrastructure/validate-config.sh` y los hooks de `scripts/git-hooks/*.sh` (permisos + sintaxis) para que pasen la validación de scripts.
 - [x] (2025-11-16 11:55Z) Confirmar que `scripts/ci/run-all-checks.sh` termina con código 0 y reporta secciones con PASS/SKIP según corresponda.
 - [x] (2025-11-16 12:05Z) Documentar hallazgos y resultados en las secciones vivas antes de cerrar la ExecPlan.
+- [x] (2025-11-16 12:40Z) Revisar `bandit-scan.sh`, `npm-audit.sh` y `test-execution-time.sh` para eliminar dependencias implícitas en GitHub Actions (instalaciones automáticas, pipelines con `tee` sin `pipefail`).
+- [x] (2025-11-16 12:42Z) Ampliar las pruebas de `scripts/tests/test_ci_shell_scripts.py` cubriendo los degradados esperados para Bandit, npm y el test pyramid en entornos sin dependencias.
 
 ## Surprises & Discoveries
 
 - Observación: la especificación OpenAPI (`docs/api/openapi_permisos.yaml`) contenía descripciones sin comillas con dos puntos, lo que rompía el parser YAML. Se resolvió citando los literales problemáticos.
 - Observación: `.devcontainer/devcontainer.json` incluye comentarios estilo JavaScript; el validador JSON se detuvo hasta que se agregó una lista de exclusión controlada.
 - Observación: algunos workflows (`requirements_validate_traceability.yml`) se generan dinámicamente y no son YAML puro, de modo que se marcaron como `skip` para evitar falsos positivos.
+- Observación: `npm audit` requiere `package-lock.json` y acceso al registro; en entornos locales sin dependencias instaladas o sin red es preferible degradar a `skip` para no bloquear desarrolladores.
 
 ## Decision Log
 
 - Decisión: Tratar los chequeos que dependen de Django/Bandit como "skip" cuando las dependencias no estén presentes. Rationale: el entorno local y de CI desconectado no puede instalarlas, pero necesitamos que el pipeline continúe. Fecha: 2025-11-16 / Autor: Codex.
 - Decisión: Excluir `.devcontainer/devcontainer.json` y `requirements_validate_traceability.yml` de la validación estricta (registrando advertencias). Rationale: ambos archivos usan sintaxis extendida intencional (comentarios y plantillas) y romperían la verificación en frío. Fecha: 2025-11-16 / Autor: Codex.
+- Decisión: No intentar instalaciones automáticas (`pip install bandit`, `npm audit fix`) dentro de los scripts; en su lugar, degradar con mensajes accionables cuando la CLI o la red no estén disponibles. Rationale: evitar bloqueos en entornos air-gapped y mantener tiempos de ejecución acotados. Fecha: 2025-11-16 / Autor: Codex.
 
 ## Outcomes & Retrospective
 
 - `scripts/ci/run-all-checks.sh` ahora finaliza con código 0 en entornos sin Django/Bandit, marcando seis chequeos como SKIP y manteniendo el reporte final completo.
 - Los scripts de infraestructura y seguridad reportan advertencias claras ("Skipping Django checks", "Bandit installation failed - skipping") en lugar de stack traces, mejorando la depuración local.
 - Las pruebas `pytest scripts/tests/test_ci_shell_scripts.py` verifican el nuevo flujo (3/3 en 26.9s) confirmando el comportamiento degradado.
+- Los scripts de seguridad y validación del test pyramid ahora detectan la ausencia de `bandit`, `npm`, Django o la red antes de ejecutar comandos costosos, retornando `SKIP` en segundos y evitando depender de GitHub Actions para descubrir estos casos.
 
 ## Context and Orientation
 
@@ -67,6 +72,9 @@ Esto provoca que la suite de infraestructura registre múltiples FAIL en cascada
 6. Cambiar `scripts/ci/security/bandit-scan.sh` de modo que si Bandit no está disponible y la instalación falla, se registre un skip en vez de un fail.
 7. Revisar `scripts/ci/infrastructure/validate-config.sh` para que el chequeo de settings degrade a skip cuando falte Django, manteniendo las validaciones de JSON/YAML.
 8. Ejecutar `scripts/ci/run-all-checks.sh` y las pruebas unitarias para verificar que el pipeline regresa exit 0 y que los mensajes de skip están presentes.
+9. Ajustar `scripts/ci/security/npm-audit.sh` para detectar el frontend bajo `ui/`, degradar a skip cuando `npm` no esté disponible o la red falle y evitar `npm audit fix` en entornos locales.
+10. Simplificar `scripts/ci/security/bandit-scan.sh` para que omita instalaciones automáticas y degrade inmediatamente si la CLI no está presente.
+11. Incorporar una guardia en `scripts/ci/testing/test-execution-time.sh` (Django + pytest) y habilitar `set -o pipefail` para evitar falsos positivos al canalizar la salida.
 
 ## Concrete Steps
 

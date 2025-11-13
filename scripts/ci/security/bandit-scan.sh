@@ -7,8 +7,9 @@
 # Exit codes:
 #   0 - No security issues
 #   1 - Security issues found
+#   2 - Scan skipped (bandit not available)
 
-set -e
+set -euo pipefail
 
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -26,23 +27,17 @@ log_info "Running Bandit security scan..."
 
 # Activar entorno virtual si existe
 if [ -f "$PROJECT_ROOT/venv/bin/activate" ]; then
+    # shellcheck source=/dev/null
     source "$PROJECT_ROOT/venv/bin/activate"
 elif [ -f "$PROJECT_ROOT/.venv/bin/activate" ]; then
+    # shellcheck source=/dev/null
     source "$PROJECT_ROOT/.venv/bin/activate"
 fi
 
 # Check if bandit is installed
-if ! command -v bandit &> /dev/null; then
-    log_warn "Bandit not installed, attempting installation..."
-    if ! pip install bandit >/tmp/bandit_install.log 2>&1; then
-        log_warn "Bandit installation failed - skipping scan"
-        log_warn "Installer output:\n$(tail -n 5 /tmp/bandit_install.log)"
-        exit 2
-    fi
-fi
-
-if ! command -v bandit &> /dev/null; then
-    log_warn "Bandit still unavailable after installation attempt - skipping scan"
+if ! command -v bandit >/dev/null 2>&1; then
+    log_warn "Bandit CLI not detected - skipping scan"
+    log_warn "Install bandit locally to run this check (pip install bandit)"
     exit 2
 fi
 
