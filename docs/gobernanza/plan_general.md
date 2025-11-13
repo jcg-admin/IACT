@@ -50,7 +50,7 @@ evidencias auditables.
 | docs/requisitos/rq_plantilla.md | Plantilla estándar de requisitos. | Vigente |
 | docs/requisitos/trazabilidad.md | Registro maestro de trazabilidad. | Actualización semanal |
 | docs/requisitos/readme.md | Índice funcional y catálogo de pendientes. | Vigente |
-| docs/arquitectura/adr/ADR-2025-001-vagrant-mod-wsgi.md | ADR publicado con convenciones vigentes. | Vigente |
+| docs/arquitectura/adr/ADR_2025_001-vagrant-mod-wsgi.md | ADR publicado con convenciones vigentes. | Vigente |
 | docs/arquitectura/adr/plantilla_adr.md | Plantilla base para nuevas decisiones. | Vigente |
 | docs/arquitectura/lineamientos_codigo.md | Guía de estilo para el monolito modular. | Vigente |
 | docs/arquitectura/readme.md | Índice técnico y backlog arquitectónico. | Vigente |

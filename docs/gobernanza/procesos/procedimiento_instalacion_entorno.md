@@ -5,7 +5,7 @@ categoria: infrastructure
 version: 1.0.0
 fecha_creacion: 2025-11-04
 propietario: equipo-devops
-relacionados: ["PROC-DEV-LOCAL", "ADR-2025-001"]
+relacionados: ["PROC-DEV-LOCAL", "ADR_2025_001"]
 ---
 # Procedimiento: Instalación de Entorno de Desarrollo
 
@@ -346,7 +346,7 @@ rm -rf .pytest_cache
 
 ## Recursos Relacionados
 
-- [ADR-2025-001: Vagrant + mod_wsgi](../arquitectura/adr/ADR-2025-001-vagrant-mod-wsgi.md)
+- [ADR_2025_001: Vagrant + mod_wsgi](../arquitectura/adr/ADR_2025_001-vagrant-mod-wsgi.md)
 - [Procedimiento: Desarrollo Local](procedimiento_desarrollo_local.md)
 - [DevContainers (futuro)](../devops/contenedores_devcontainer.md)
 

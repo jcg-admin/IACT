@@ -124,7 +124,7 @@ Este documento analiza el estado actual de implementación del Sistema de Permis
 - [PENDING] Guía de integración frontend
 
 **Archivos**:
-- `docs/adr/ADR-2025-010-orm-sql-hybrid-permissions.md` (453 líneas)
+- `docs/adr/ADR_2025_010-orm-sql-hybrid-permissions.md` (453 líneas)
 - `docs/backend/arquitectura/permisos-granular.md` (600 líneas)
 - `scripts/benchmarks/benchmark_permisos_orm_vs_sql.py` (315 líneas)
 

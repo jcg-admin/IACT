@@ -295,8 +295,8 @@ Los siguientes directorios están vacíos o solo contienen .gitkeep:
 
 **Archivos afectados** (10 referencias encontradas):
 
-1. `infraestructura/ADR-2025-011-wasi_style_virtualization.md`
-2. `infraestructura/ADR-2025-013-distribucion-artefactos-strategy.md`
+1. `infraestructura/ADR_2025_011-wasi_style_virtualization.md`
+2. `infraestructura/ADR_2025_013-distribucion-artefactos-strategy.md`
 3. `infraestructura/TASK-015-actualizacion-documentacion.md`
 4. `infraestructura/srs_software_requirements.md`
 5. `infraestructura/SPEC_INFRA_001_cpython_precompilado.md` (múltiples referencias)

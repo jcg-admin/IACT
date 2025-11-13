@@ -13,7 +13,7 @@ Guía para configurar y usar GitHub Codespaces con GitHub Copilot para el desarr
 
 ## Estado Actual
 
-WARNING **Nota**: Esta funcionalidad está en planificación. El proyecto actualmente usa Vagrant (ver [ADR-2025-001](../../arquitectura/adr/ADR-2025-001-vagrant-mod-wsgi.md)).
+WARNING **Nota**: Esta funcionalidad está en planificación. El proyecto actualmente usa Vagrant (ver [ADR_2025_001](../../arquitectura/adr/ADR_2025_001-vagrant-mod-wsgi.md)).
 
 Este runbook documenta el proceso futuro cuando se implemente DevContainers y Codespaces.
 

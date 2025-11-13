@@ -5,7 +5,7 @@ categoria: infraestructura
 version: 1.0.0
 fecha_creacion: 2025-11-07
 propietario: arquitecto-senior
-relacionados: ["ADR-2025-004", "OBSERVABILITY_LAYERS.md", "DORA_CASSANDRA_INTEGRATION.md", "ADR-2025-003"]
+relacionados: ["ADR_2025_004", "OBSERVABILITY_LAYERS.md", "DORA_CASSANDRA_INTEGRATION.md", "ADR_2025_003"]
 date: 2025-11-13
 ---
 
@@ -739,8 +739,8 @@ SHOW INDEX FROM dora_metrics;
 
 ## Referencias
 
-- ADR-2025-004: Centralized Log Storage en Cassandra
-- ADR-2025-003: DORA SDLC Agents Integration
+- ADR_2025_004: Centralized Log Storage en Cassandra
+- ADR_2025_003: DORA SDLC Agents Integration
 - OBSERVABILITY_LAYERS.md: 3 capas de observabilidad
 - DORA_CASSANDRA_INTEGRATION.md: Integracion DORA + Cassandra
 

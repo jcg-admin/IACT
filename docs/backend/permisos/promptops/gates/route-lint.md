@@ -51,7 +51,7 @@ Eres un senior security engineer especializado en revisión de código de sistem
   1. Atributo `required_permissions = ['cap1', 'cap2']`
   2. Herencia de `PermisoMixin`
 - Middleware `PermisoMiddleware` valida permisos automáticamente
-- ADR-2025-017: Sistema de permisos sin roles jerárquicos
+- ADR_2025_017: Sistema de permisos sin roles jerárquicos
 
 **Contexto Histórico:**
 - 3 de 4 módulos originales NO usaban permisos granulares
@@ -480,7 +480,7 @@ class ReporteViewSet(viewsets.ModelViewSet
 
 ## Referencias
 
-- [ADR-2025-017: Sistema de Permisos Granular](../../../arquitectura/ADR-2025-017-sistema-permisos-sin-roles-jerarquicos.md)
+- [ADR_2025_017: Sistema de Permisos Granular](../../../arquitectura/ADR_2025_017-sistema-permisos-sin-roles-jerarquicos.md)
 - [Arquitectura de Permisos UML](../../ARQUITECTURA_PERMISOS_UML.md)
 - [Optimizaciones de Performance](../../OPTIMIZACIONES_PERFORMANCE.md)
 - [Restricciones del Proyecto](../../gobernanza/marco_integrado/restricciones_y_lineamientos.md)

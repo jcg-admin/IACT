@@ -5,7 +5,7 @@ domain: infraestructura
 status: active
 ---
 
-# ADR-2025-011: WASI-style Virtualization for Database Environments
+# ADR_2025_011: WASI-style Virtualization for Database Environments
 
 **Status**: Accepted
 **Date**: 2025-11-12

@@ -594,7 +594,7 @@ def test_export_self_consistency(self):
 - Depende de: RF-025 (overall classification), RF-026 (dashboard metrics)
 - Implementado: **NO IMPLEMENTADO**
 - Tests: tests/dora_metrics/test_export.py (pendiente)
-- ADR: ADR-2025-003 (DORA metrics integration)
+- ADR: ADR_2025_003 (DORA metrics integration)
 
 ## 9. Tareas de Implementación
 

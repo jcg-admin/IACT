@@ -384,7 +384,7 @@ Low: 46-60%
 - Implementado: api/callcentersite/dora_metrics/views.py:calculate_dora_classification
 - **NOTA:** Implementación requiere corrección de thresholds CFR
 - Tests: tests/dora_metrics/test_overall_classification.py
-- ADR: ADR-2025-003 (DORA metrics integration)
+- ADR: ADR_2025_003 (DORA metrics integration)
 
 ## 8. Issues de Calidad Identificados
 

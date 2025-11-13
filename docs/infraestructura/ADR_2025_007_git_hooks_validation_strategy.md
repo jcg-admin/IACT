@@ -1,12 +1,12 @@
 ---
-id: ADR-2025-007
+id: ADR_2025_007
 estado: aceptada
 propietario: devops-team
 ultima_actualizacion: 2025-11-09
-relacionados: ["ADR-2025-002-suite-calidad-codigo", "ESTRATEGIA_GIT_HOOKS.md", "RESUMEN_MIGRACION_SHELL_SCRIPTS.md"]
+relacionados: ["ADR_2025_002-suite-calidad-codigo", "ESTRATEGIA_GIT_HOOKS.md", "RESUMEN_MIGRACION_SHELL_SCRIPTS.md"]
 date: 2025-11-13
 ---
-# ADR-2025-007: Estrategia de Validación Local con Git Hooks
+# ADR_2025_007: Estrategia de Validación Local con Git Hooks
 
 **Estado:** aceptada
 
@@ -284,7 +284,7 @@ fi
 
 - [Documentación Git Hooks Strategy](../../ESTRATEGIA_GIT_HOOKS.md)
 - [Resumen Migración Shell Scripts](../../RESUMEN_MIGRACION_SHELL_SCRIPTS.md)
-- [ADR-2025-002: Suite Calidad Código](ADR-2025-002-suite-calidad-codigo.md)
+- [ADR_2025_002: Suite Calidad Código](ADR_2025_002-suite-calidad-codigo.md)
 - [Git Hooks Official Documentation](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks)
 - [Conventional Commits Specification](https://www.conventionalcommits.org/)
 

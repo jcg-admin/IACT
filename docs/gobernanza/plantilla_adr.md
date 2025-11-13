@@ -187,7 +187,7 @@ Información contextual adicional que puede ser útil:
 ## Ejemplo de Nomenclatura
 
 ```
-ADR-2025-001-vagrant-mod-wsgi.md
+ADR_2025_001-vagrant-mod-wsgi.md
 adr_2025_002_django_rest_framework.md
 adr_2025_003_postgresql_partitioning.md
 ```
@@ -195,5 +195,5 @@ adr_2025_003_postgresql_partitioning.md
 ## Enlaces Relacionados
 
 - [Índice de Arquitectura](../README.md)
-- [ADR-2025-001: Vagrant + mod_wsgi](ADR-2025-001-vagrant-mod-wsgi.md) (ejemplo existente)
+- [ADR_2025_001: Vagrant + mod_wsgi](ADR_2025_001-vagrant-mod-wsgi.md) (ejemplo existente)
 - [Gobernanza](../../gobernanza/README.md)

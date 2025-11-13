@@ -5,7 +5,7 @@ domain: general
 status: active
 ---
 
-# ADR-2025-012: Usar Features de Dev Container vs Imagen Base Personalizada para CPython Precompilado
+# ADR_2025_012: Usar Features de Dev Container vs Imagen Base Personalizada para CPython Precompilado
 
 **Estado:** Propuesto
 **Fecha:** 2025-11-06

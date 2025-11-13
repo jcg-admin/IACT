@@ -1,13 +1,13 @@
 ---
-id: ADR-2025-004
+id: ADR_2025_004
 estado: propuesta
 propietario: arquitecto-senior
 ultima_actualizacion: 2025-11-06
-relacionados: ["ADR-2025-003", "OBSERVABILITY_LAYERS.md", "RNF-002"]
+relacionados: ["ADR_2025_003", "OBSERVABILITY_LAYERS.md", "RNF-002"]
 date: 2025-11-13
 ---
 
-# ADR-2025-004: Centralized Log Storage en Cassandra
+# ADR_2025_004: Centralized Log Storage en Cassandra
 
 **Estado:** propuesta
 
@@ -630,7 +630,7 @@ Cassandra:
 ### 1. Fase 1: Cassandra Cluster Setup y Schema (P1 - 5 SP)
 
 **Acciones:**
-- [x] Crear ADR-2025-004 (este documento)
+- [x] Crear ADR_2025_004 (este documento)
 - [ ] Instalar Cassandra en 3 nodos (minimum cluster)
 - [ ] Configurar cassandra.yaml (cluster_name, seeds, listen_address)
 - [ ] Crear keyspace `logging` (replication_factor=3)
@@ -942,7 +942,7 @@ nodetool tablestats logging.application_logs | grep "Write Latency"
 ## Referencias
 
 - OBSERVABILITY_LAYERS.md (3 capas observabilidad)
-- ADR-2025-003 (DORA metrics - Capa 1)
+- ADR_2025_003 (DORA metrics - Capa 1)
 - RNF-002: Restricciones infraestructura
 - Django Logging: https://docs.djangoproject.com/en/4.2/topics/logging/
 - MySQL Partitioning: https://dev.mysql.com/doc/refman/8.0/en/partitioning.html
@@ -953,7 +953,7 @@ nodetool tablestats logging.application_logs | grep "Write Latency"
 - **Fecha de discusion inicial:** 2025-11-06
 - **Participantes:** Arquitecto Senior, DevOps Lead, Tech Lead
 - **POC realizado:** No - Pendiente Fase 1-2
-- **Impacto en ADR-2025-003:** Complementario - DORA metrics (Capa 1) ya implementado
+- **Impacto en ADR_2025_003:** Complementario - DORA metrics (Capa 1) ya implementado
 
 - **Integracion con capas:**
   - Capa 1 (DORA): Ya implementado - `.dora_sdlc_metrics.json` + futuro MySQL

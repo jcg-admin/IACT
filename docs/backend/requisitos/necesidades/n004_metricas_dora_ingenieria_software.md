@@ -406,7 +406,7 @@ Esta necesidad genera:
 
 - **DORA State of DevOps Report**: https://dora.dev/
 - **Accelerate book** (Forsgren, Humble, Kim, 2018)
-- **ADR-2025-003**: Integración DORA Metrics con SDLC Agents (`docs/adr/ADR-2025-003-dora-sdlc-integration.md`)
+- **ADR_2025_003**: Integración DORA Metrics con SDLC Agents (`docs/adr/ADR_2025_003-dora-sdlc-integration.md`)
 - Código implementado: `api/callcentersite/dora_metrics/`
 - Backend analysis: `docs/backend_analisis/2025-11-11/`
 - DORA SDLC Integration Guide: `docs/gobernanza/ai/DORA_SDLC_INTEGRATION_GUIDE.md`

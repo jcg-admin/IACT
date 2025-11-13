@@ -218,7 +218,7 @@ Todos los READMEs contienen referencias explícitas a los marcos de gobernanza.
 
 ### 2. ADRs a Dominios Correspondientes
 - `docs/adr/ADR_011_frontend_*.md` → `docs/frontend/adr/`
-- `docs/adr/ADR-2025-002-suite-calidad-codigo.md` → `docs/infraestructura/adr/`
+- `docs/adr/ADR_2025_002-suite-calidad-codigo.md` → `docs/infraestructura/adr/`
 - `docs/adr/adr_2025_005_grupos_funcionales*.md` → `docs/backend/adr/`
 - Etc. (19 ADRs redistribuidos)
 

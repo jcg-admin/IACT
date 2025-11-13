@@ -57,7 +57,7 @@ Sistema de permisos basado en **Grupos Funcionales** que reemplaza el enfoque tr
 | Documento | Descripción | Estado |
 |-----------|-------------|--------|
 | [INDICE_MAESTRO_PERMISOS_GRANULAR.md](INDICE_MAESTRO_PERMISOS_GRANULAR.md) | Índice maestro del sistema completo | OK Completo |
-| [ADR-2025-005](../../adr/ADR-2025-005-grupos-funcionales-sin-jerarquia.md) | Decisión arquitectónica | OK Aprobado |
+| [ADR_2025_005](../../adr/ADR_2025_005-grupos-funcionales-sin-jerarquia.md) | Decisión arquitectónica | OK Aprobado |
 | [prioridad_01_estructura_base_datos.md](prioridad_01_estructura_base_datos.md) | 8 tablas + vistas + funciones SQL | OK Completo |
 | [prioridad_02_funciones_core.md](prioridad_02_funciones_core.md) | 3 funciones core (16 capacidades) | OK Completo |
 | [prioridad_03_modulos_operativos.md](prioridad_03_modulos_operativos.md) | 6 módulos operativos (38 capacidades) | OK Completo |
@@ -430,7 +430,7 @@ IMPL-###   -> Implementación del Requisito ###
 | 2025-11-04 | 1.0 | Documentación completa RN-C01 (14 reglas) |
 | 2025-11-04 | 1.0 | Documentación completa RF-005 a RF-010 (6 requisitos) |
 | 2025-11-07 | 2.0 | Integración del Sistema de Permisos Granular |
-| 2025-11-07 | 2.0 | Creación de ADR-2025-005 (Grupos Funcionales sin Jerarquía) |
+| 2025-11-07 | 2.0 | Creación de ADR_2025_005 (Grupos Funcionales sin Jerarquía) |
 | 2025-11-07 | 2.0 | Documentación completa de 13 funciones, 78 capacidades, 10 grupos |
 | 2025-11-07 | 2.0 | Creación de 4 documentos de prioridades (P1-P4) |
 | 2025-11-07 | 2.0 | Creación de catálogo de grupos funcionales |
@@ -461,7 +461,7 @@ IMPL-###   -> Implementación del Requisito ###
 - [PostgreSQL Documentation](https://www.postgresql.org/docs/) - Base de datos
 
 **Arquitectura:**
-- [ADR-2025-005](../adr/ADR-2025-005-grupos-funcionales-sin-jerarquia.md) - Decisión de Grupos Funcionales
+- [ADR_2025_005](../adr/ADR_2025_005-grupos-funcionales-sin-jerarquia.md) - Decisión de Grupos Funcionales
 
 ---
 

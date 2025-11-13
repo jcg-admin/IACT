@@ -39,7 +39,7 @@ Este espacio contiene ejemplos completos y funcionales de artefactos documentale
 
 ### 1. ADR Ejemplo - Vagrant Infrastructure
 
-**Archivo:** [ADR-2025-001](../../arquitectura/adr/ADR-2025-001-vagrant-mod-wsgi.md)
+**Archivo:** [ADR_2025_001](../../arquitectura/adr/ADR_2025_001-vagrant-mod-wsgi.md)
 
 **Qué demuestra:**
 - Estructura completa de un ADR

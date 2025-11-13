@@ -48,7 +48,7 @@ This session successfully addressed the critical documentation gap identified fo
 - Business need for DORA metrics system
 - DORA 4 Key Metrics definitions (DF, LT, CFR, MTTR)
 - Justification: Improve software delivery performance
-- Links to ADR-2025-003 (DORA metrics integration)
+- Links to ADR_2025_003 (DORA metrics integration)
 
 #### RN-004: Requisito de Negocio DORA
 **File:** `docs/backend/requisitos/negocio/rn004_metricas_dora_performance_ingenieria.md`
@@ -57,7 +57,7 @@ This session successfully addressed the critical documentation gap identified fo
 - Business requirement linking N-004 to functional layer
 - Stakeholders: CTO, Tech Lead, Engineering Manager, DevOps Team
 - Success criteria: Elite DORA classification achievement
-- References to ADR-2025-003 and implemented code
+- References to ADR_2025_003 and implemented code
 
 ### 3. REST API Design Patterns
 
@@ -70,7 +70,7 @@ This session successfully addressed the critical documentation gap identified fo
   2. URL Design (anti-patterns included)
   3. HTTP Methods & Status Codes
   4. JWT Authentication (security checklist)
-  5. Granular Permissions (based on ADR-2025-017)
+  5. Granular Permissions (based on ADR_2025_017)
   6. API Versioning (4 strategies compared)
   7. Pagination (Offset vs Cursor with Self-Consistency)
   8. Secure Filtering (SQL injection validation with 3 scenarios)

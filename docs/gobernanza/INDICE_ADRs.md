@@ -27,8 +27,8 @@ Este documento contiene el indice completo de todas las decisiones arquitectonic
 
 ## Indice por Numero
 
-### ADR-2025-001: Vagrant mod_wsgi
-**Ubicacion**: `docs/infraestructura/ADR-2025-001-vagrant-mod-wsgi.md`
+### ADR_2025_001: Vagrant mod_wsgi
+**Ubicacion**: `docs/infraestructura/ADR_2025_001-vagrant-mod-wsgi.md`
 **Fecha**: 2025-01-15
 **Estado**: Aceptada
 **Dominio**: Infraestructura
@@ -40,8 +40,8 @@ Este documento contiene el indice completo de todas las decisiones arquitectonic
 
 ---
 
-### ADR-2025-002: Suite Calidad Codigo
-**Ubicacion**: `docs/infraestructura/ADR-2025-002-suite-calidad-codigo.md`
+### ADR_2025_002: Suite Calidad Codigo
+**Ubicacion**: `docs/infraestructura/ADR_2025_002-suite-calidad-codigo.md`
 **Fecha**: 2025-XX-XX
 **Estado**: Aceptada
 **Dominio**: Infraestructura
@@ -51,8 +51,8 @@ Este documento contiene el indice completo de todas las decisiones arquitectonic
 
 ---
 
-### ADR-2025-003: DORA SDLC Integration
-**Ubicacion**: `docs/ai/ADR-2025-003-dora-sdlc-integration.md`
+### ADR_2025_003: DORA SDLC Integration
+**Ubicacion**: `docs/ai/ADR_2025_003-dora-sdlc-integration.md`
 **Fecha**: 2025-11-06
 **Estado**: Aceptada
 **Dominio**: AI/ML + Infrastructure
@@ -62,12 +62,12 @@ Este documento contiene el indice completo de todas las decisiones arquitectonic
 
 **Contexto**: Medir impacto real de agentes IA en performance de entrega de software usando metricas DORA (Deployment Frequency, Lead Time for Changes, Change Failure Rate, Time to Restore Service).
 
-**Relacionado**: FASES_IMPLEMENTACION_IA.md, ESTRATEGIA_IA.md, AGENTES_SDLC.md, ADR-2025-002
+**Relacionado**: FASES_IMPLEMENTACION_IA.md, ESTRATEGIA_IA.md, AGENTES_SDLC.md, ADR_2025_002
 
 ---
 
-### ADR-2025-004: Centralized Log Storage
-**Ubicacion**: `docs/backend/ADR-2025-004-centralized-log-storage.md`
+### ADR_2025_004: Centralized Log Storage
+**Ubicacion**: `docs/backend/ADR_2025_004-centralized-log-storage.md`
 **Fecha**: 2025-XX-XX
 **Estado**: Aceptada
 **Dominio**: Backend
@@ -75,12 +75,12 @@ Este documento contiene el indice completo de todas las decisiones arquitectonic
 
 **Resumen**: Almacenamiento centralizado de logs en Cassandra.
 
-**Relacionado**: ADR-2025-003 (DORA metrics - Capa 1), OBSERVABILITY_LAYERS.md, RNF-002
+**Relacionado**: ADR_2025_003 (DORA metrics - Capa 1), OBSERVABILITY_LAYERS.md, RNF-002
 
 ---
 
-### ADR-2025-005: Grupos Funcionales Sin Jerarquia
-**Ubicacion**: `docs/backend/ADR-2025-005-grupos-funcionales-sin-jerarquia.md`
+### ADR_2025_005: Grupos Funcionales Sin Jerarquia
+**Ubicacion**: `docs/backend/ADR_2025_005-grupos-funcionales-sin-jerarquia.md`
 **Fecha**: 2025-11-07
 **Estado**: Aceptada
 **Dominio**: Backend
@@ -94,8 +94,8 @@ Este documento contiene el indice completo de todas las decisiones arquitectonic
 
 ---
 
-### ADR-2025-006: Configuracion Dinamica Sistema
-**Ubicacion**: `docs/backend/ADR-2025-006-configuracion-dinamica-sistema.md`
+### ADR_2025_006: Configuracion Dinamica Sistema
+**Ubicacion**: `docs/backend/ADR_2025_006-configuracion-dinamica-sistema.md`
 **Fecha**: 2025-XX-XX
 **Estado**: Aceptada
 **Dominio**: Backend
@@ -103,12 +103,12 @@ Este documento contiene el indice completo de todas las decisiones arquitectonic
 
 **Resumen**: Sistema de configuracion dinamica persistida en base de datos.
 
-**Relacionado**: ADR-2025-005
+**Relacionado**: ADR_2025_005
 
 ---
 
-### ADR-2025-007: Git Hooks Validation Strategy
-**Ubicacion**: `docs/infraestructura/ADR-2025-007-git-hooks-validation-strategy.md`
+### ADR_2025_007: Git Hooks Validation Strategy
+**Ubicacion**: `docs/infraestructura/ADR_2025_007-git-hooks-validation-strategy.md`
 **Fecha**: 2025-XX-XX
 **Estado**: Aceptada
 **Dominio**: Infraestructura
@@ -116,12 +116,12 @@ Este documento contiene el indice completo de todas las decisiones arquitectonic
 
 **Resumen**: Estrategia de validacion con Git Hooks.
 
-**Relacionado**: ADR-2025-002, ADR-2025-008
+**Relacionado**: ADR_2025_002, ADR_2025_008
 
 ---
 
-### ADR-2025-008: Workflow Validation Shell Migration
-**Ubicacion**: `docs/gobernanza/ADR-2025-008-workflow-validation-shell-migration.md`
+### ADR_2025_008: Workflow Validation Shell Migration
+**Ubicacion**: `docs/gobernanza/ADR_2025_008-workflow-validation-shell-migration.md`
 **Fecha**: 2025-XX-XX
 **Estado**: Aceptada
 **Dominio**: Gobernanza
@@ -129,12 +129,12 @@ Este documento contiene el indice completo de todas las decisiones arquitectonic
 
 **Resumen**: Workflow de validacion para migracion de scripts shell.
 
-**Relacionado**: ADR-2025-007
+**Relacionado**: ADR_2025_007
 
 ---
 
-### ADR-2025-009: Frontend Postponement
-**Ubicacion**: `docs/backend/ADR-2025-009-frontend-postponement.md`
+### ADR_2025_009: Frontend Postponement
+**Ubicacion**: `docs/backend/ADR_2025_009-frontend-postponement.md`
 **Fecha**: 2025-XX-XX
 **Estado**: Aceptada
 **Dominio**: Backend + Frontend
@@ -142,12 +142,12 @@ Este documento contiene el indice completo de todas las decisiones arquitectonic
 
 **Resumen**: Postergacion de implementacion de frontend React.
 
-**Relacionado**: ADR-2025-015, ADR-2025-020
+**Relacionado**: ADR_2025_015, ADR_2025_020
 
 ---
 
-### ADR-2025-010: ORM SQL Hybrid Permissions
-**Ubicacion**: `docs/backend/ADR-2025-010-orm-sql-hybrid-permissions.md`
+### ADR_2025_010: ORM SQL Hybrid Permissions
+**Ubicacion**: `docs/backend/ADR_2025_010-orm-sql-hybrid-permissions.md`
 **Fecha**: 2025-XX-XX
 **Estado**: Aceptada
 **Dominio**: Backend
@@ -157,12 +157,12 @@ Este documento contiene el indice completo de todas las decisiones arquitectonic
 
 **Contexto**: Optimizacion de consultas complejas de permisos usando SQL directo cuando Django ORM es ineficiente.
 
-**Relacionado**: ADR-2025-005, UC-PERM-001
+**Relacionado**: ADR_2025_005, UC-PERM-001
 
 ---
 
-### ADR-2025-011: WASI Style Virtualization
-**Ubicacion**: `docs/infraestructura/ADR-2025-011-wasi_style_virtualization.md`
+### ADR_2025_011: WASI Style Virtualization
+**Ubicacion**: `docs/infraestructura/ADR_2025_011-wasi_style_virtualization.md`
 **Fecha**: 2025-XX-XX
 **Estado**: Aceptada
 **Dominio**: Infraestructura
@@ -172,8 +172,8 @@ Este documento contiene el indice completo de todas las decisiones arquitectonic
 
 ---
 
-### ADR-2025-012: CPython Features vs Imagen Base
-**Ubicacion**: `docs/infraestructura/ADR-2025-012-cpython-features-vs-imagen-base.md`
+### ADR_2025_012: CPython Features vs Imagen Base
+**Ubicacion**: `docs/infraestructura/ADR_2025_012-cpython-features-vs-imagen-base.md`
 **Fecha**: 2025-XX-XX
 **Estado**: Aceptada
 **Dominio**: Infraestructura
@@ -185,8 +185,8 @@ Este documento contiene el indice completo de todas las decisiones arquitectonic
 
 ---
 
-### ADR-2025-013: Distribucion Artefactos Strategy
-**Ubicacion**: `docs/infraestructura/ADR-2025-013-distribucion-artefactos-strategy.md`
+### ADR_2025_013: Distribucion Artefactos Strategy
+**Ubicacion**: `docs/infraestructura/ADR_2025_013-distribucion-artefactos-strategy.md`
 **Fecha**: 2025-XX-XX
 **Estado**: Aceptada
 **Dominio**: Infraestructura
@@ -196,8 +196,8 @@ Este documento contiene el indice completo de todas las decisiones arquitectonic
 
 ---
 
-### ADR-2025-014: Organizacion Proyecto por Dominio
-**Ubicacion**: `docs/backend/ADR-2025-014-organizacion-proyecto-por-dominio.md`
+### ADR_2025_014: Organizacion Proyecto por Dominio
+**Ubicacion**: `docs/backend/ADR_2025_014-organizacion-proyecto-por-dominio.md`
 **Fecha**: 2025-XX-XX
 **Estado**: Aceptada
 **Dominio**: Backend
@@ -209,8 +209,8 @@ Este documento contiene el indice completo de todas las decisiones arquitectonic
 
 ---
 
-### ADR-2025-015: Frontend Modular Monolith
-**Ubicacion**: `docs/frontend/ADR-2025-015-frontend-modular-monolith.md`
+### ADR_2025_015: Frontend Modular Monolith
+**Ubicacion**: `docs/frontend/ADR_2025_015-frontend-modular-monolith.md`
 **Fecha**: 2025-XX-XX
 **Estado**: Aceptada
 **Dominio**: Frontend
@@ -218,12 +218,12 @@ Este documento contiene el indice completo de todas las decisiones arquitectonic
 
 **Resumen**: Arquitectura de monolito modular para frontend.
 
-**Relacionado**: ADR-2025-021
+**Relacionado**: ADR_2025_021
 
 ---
 
-### ADR-2025-016: Redux Toolkit State Management
-**Ubicacion**: `docs/backend/ADR-2025-016-redux-toolkit-state-management.md`
+### ADR_2025_016: Redux Toolkit State Management
+**Ubicacion**: `docs/backend/ADR_2025_016-redux-toolkit-state-management.md`
 **Fecha**: 2025-XX-XX
 **Estado**: Aceptada
 **Dominio**: Backend (Frontend State)
@@ -235,8 +235,8 @@ Este documento contiene el indice completo de todas las decisiones arquitectonic
 
 ---
 
-### ADR-2025-017: Sistema Permisos Sin Roles Jerarquicos
-**Ubicacion**: `docs/ai/ADR-2025-017-sistema-permisos-sin-roles-jerarquicos.md`
+### ADR_2025_017: Sistema Permisos Sin Roles Jerarquicos
+**Ubicacion**: `docs/ai/ADR_2025_017-sistema-permisos-sin-roles-jerarquicos.md`
 **Fecha**: 2025-11-07
 **Estado**: Aceptada e Implementada
 **Dominio**: General (AI + Backend)
@@ -261,8 +261,8 @@ Este documento contiene el indice completo de todas las decisiones arquitectonic
 
 ---
 
-### ADR-2025-018: Webpack Bundler
-**Ubicacion**: `docs/frontend/ADR-2025-018-webpack-bundler.md`
+### ADR_2025_018: Webpack Bundler
+**Ubicacion**: `docs/frontend/ADR_2025_018-webpack-bundler.md`
 **Fecha**: 2025-XX-XX
 **Estado**: Aceptada
 **Dominio**: Frontend
@@ -272,8 +272,8 @@ Este documento contiene el indice completo de todas las decisiones arquitectonic
 
 ---
 
-### ADR-2025-019: Testing Strategy Jest Testing Library
-**Ubicacion**: `docs/frontend/ADR-2025-019-testing-strategy-jest-testing-library.md`
+### ADR_2025_019: Testing Strategy Jest Testing Library
+**Ubicacion**: `docs/frontend/ADR_2025_019-testing-strategy-jest-testing-library.md`
 **Fecha**: 2025-XX-XX
 **Estado**: Aceptada
 **Dominio**: Frontend
@@ -283,8 +283,8 @@ Este documento contiene el indice completo de todas las decisiones arquitectonic
 
 ---
 
-### ADR-2025-020: Servicios Resilientes
-**Ubicacion**: `docs/frontend/arquitectura/adr/ADR-2025-020-servicios-resilientes.md`
+### ADR_2025_020: Servicios Resilientes
+**Ubicacion**: `docs/frontend/arquitectura/adr/ADR_2025_020-servicios-resilientes.md`
 **Fecha**: 2025-11-09
 **Estado**: Aceptado
 **Dominio**: Frontend
@@ -302,8 +302,8 @@ Este documento contiene el indice completo de todas las decisiones arquitectonic
 
 ---
 
-### ADR-2025-021: Arquitectura Microfrontends
-**Ubicacion**: `docs/frontend/arquitectura/adr/ADR-2025-021-arquitectura-microfrontends.md`
+### ADR_2025_021: Arquitectura Microfrontends
+**Ubicacion**: `docs/frontend/arquitectura/adr/ADR_2025_021-arquitectura-microfrontends.md`
 **Fecha**: 2025-XX-XX
 **Estado**: Aceptada
 **Dominio**: Frontend
@@ -311,49 +311,49 @@ Este documento contiene el indice completo de todas las decisiones arquitectonic
 
 **Resumen**: Arquitectura de microfrontends para escalabilidad.
 
-**Relacionado**: ADR-2025-015, ADR-2025-020
+**Relacionado**: ADR_2025_015, ADR_2025_020
 
 ---
 
 ## Indice por Dominio
 
 ### AI/ML (2 ADRs)
-- ADR-2025-003: DORA SDLC Integration
-- ADR-2025-017: Sistema Permisos Sin Roles Jerarquicos
+- ADR_2025_003: DORA SDLC Integration
+- ADR_2025_017: Sistema Permisos Sin Roles Jerarquicos
 
 ### Backend (8 ADRs)
-- ADR-2025-004: Centralized Log Storage
-- ADR-2025-005: Grupos Funcionales Sin Jerarquia
-- ADR-2025-006: Configuracion Dinamica Sistema
-- ADR-2025-009: Frontend Postponement
-- ADR-2025-010: ORM SQL Hybrid Permissions
-- ADR-2025-014: Organizacion Proyecto por Dominio
-- ADR-2025-016: Redux Toolkit State Management
+- ADR_2025_004: Centralized Log Storage
+- ADR_2025_005: Grupos Funcionales Sin Jerarquia
+- ADR_2025_006: Configuracion Dinamica Sistema
+- ADR_2025_009: Frontend Postponement
+- ADR_2025_010: ORM SQL Hybrid Permissions
+- ADR_2025_014: Organizacion Proyecto por Dominio
+- ADR_2025_016: Redux Toolkit State Management
 
 ### Frontend (6 ADRs)
-- ADR-2025-015: Frontend Modular Monolith
-- ADR-2025-018: Webpack Bundler
-- ADR-2025-019: Testing Strategy Jest Testing Library
-- ADR-2025-020: Servicios Resilientes
-- ADR-2025-021: Arquitectura Microfrontends
+- ADR_2025_015: Frontend Modular Monolith
+- ADR_2025_018: Webpack Bundler
+- ADR_2025_019: Testing Strategy Jest Testing Library
+- ADR_2025_020: Servicios Resilientes
+- ADR_2025_021: Arquitectura Microfrontends
 
 ### Infraestructura (6 ADRs)
-- ADR-2025-001: Vagrant mod_wsgi
-- ADR-2025-002: Suite Calidad Codigo
-- ADR-2025-007: Git Hooks Validation Strategy
-- ADR-2025-011: WASI Style Virtualization
-- ADR-2025-012: CPython Features vs Imagen Base
-- ADR-2025-013: Distribucion Artefactos Strategy
+- ADR_2025_001: Vagrant mod_wsgi
+- ADR_2025_002: Suite Calidad Codigo
+- ADR_2025_007: Git Hooks Validation Strategy
+- ADR_2025_011: WASI Style Virtualization
+- ADR_2025_012: CPython Features vs Imagen Base
+- ADR_2025_013: Distribucion Artefactos Strategy
 
 ### Gobernanza (1 ADR)
-- ADR-2025-008: Workflow Validation Shell Migration
+- ADR_2025_008: Workflow Validation Shell Migration
 
 ---
 
 ## Indice por Estado
 
 ### Aceptadas e Implementadas (2)
-- ADR-2025-017: Sistema Permisos Sin Roles Jerarquicos
+- ADR_2025_017: Sistema Permisos Sin Roles Jerarquicos
 
 ### Aceptadas (20)
 - Todos los demas ADRs
@@ -363,9 +363,9 @@ Este documento contiene el indice completo de todas las decisiones arquitectonic
 ## Indice por Criticidad
 
 ### CRITICA (3)
-- ADR-2025-017: Sistema Permisos Sin Roles Jerarquicos
-- ADR-2025-003: DORA SDLC Integration
-- ADR-2025-005: Grupos Funcionales Sin Jerarquia
+- ADR_2025_017: Sistema Permisos Sin Roles Jerarquicos
+- ADR_2025_003: DORA SDLC Integration
+- ADR_2025_005: Grupos Funcionales Sin Jerarquia
 
 ### ALTA (18)
 - Todos los demas ADRs
@@ -375,9 +375,9 @@ Este documento contiene el indice completo de todas las decisiones arquitectonic
 ## Relacionados con Sistema de Permisos
 
 **ADRs Principales**:
-- ADR-2025-017: Sistema Permisos Sin Roles Jerarquicos (filosofia)
-- ADR-2025-005: Grupos Funcionales Sin Jerarquia (implementacion)
-- ADR-2025-010: ORM SQL Hybrid Permissions (optimizacion)
+- ADR_2025_017: Sistema Permisos Sin Roles Jerarquicos (filosofia)
+- ADR_2025_005: Grupos Funcionales Sin Jerarquia (implementacion)
+- ADR_2025_010: ORM SQL Hybrid Permissions (optimizacion)
 
 **Documentos Relacionados**:
 - prioridad_01_estructura_base_datos.md (8 tablas DB)
@@ -391,7 +391,7 @@ Este documento contiene el indice completo de todas las decisiones arquitectonic
 ## Como Crear un Nuevo ADR
 
 ### 1. Determinar Numero Secuencial
-Siguiente numero disponible: **ADR-2025-022**
+Siguiente numero disponible: **ADR_2025_022**
 
 ### 2. Usar Plantilla
 Ubicacion: `docs/gobernanza/plantilla_adr.md`
@@ -403,7 +403,7 @@ ADR-YYYY-XXX-descripcion-corta.md
 
 Ejemplo:
 ```
-ADR-2025-022-rate-limiting-api.md
+ADR_2025_022-rate-limiting-api.md
 ```
 
 ### 4. Ubicar en Dominio Correcto

@@ -328,19 +328,19 @@ Se realizó un análisis exhaustivo de la congruencia entre la documentación de
 
 ### ADRs Creados en Este Análisis (3)
 
-#### 13. ADR-2025-006-configuracion-dinamica-sistema.md [NUEVO]
+#### 13. ADR_2025_006-configuracion-dinamica-sistema.md [NUEVO]
 **Propósito**: Documenta decisión de crear app configuration con historial inmutable
 **Decisión**: App custom vs django-constance vs variables entorno
 **Justificación**: Auditoría completa ISO 27001, integración permisos granulares
 **Estado**: [OK] COMPLETO
 
-#### 14. ADR-2025-007-git-hooks-validation-strategy.md [NUEVO]
+#### 14. ADR_2025_007-git-hooks-validation-strategy.md [NUEVO]
 **Propósito**: Documenta estrategia de validaciones locales con Git hooks
 **Decisión**: Shell scripts en .git/hooks/ vs pre-commit framework vs Husky
 **Justificación**: Sin dependencias, reutilización, performance
 **Estado**: [OK] COMPLETO
 
-#### 15. ADR-2025-008-workflow-validation-shell-migration.md [NUEVO]
+#### 15. ADR_2025_008-workflow-validation-shell-migration.md [NUEVO]
 **Propósito**: Documenta migración de validaciones CI/CD a shell scripts
 **Decisión**: Shell standalone + constitution vs Python embebido vs Python standalone
 **Justificación**: NO Python policy, performance, reusabilidad, constitution
@@ -371,7 +371,7 @@ Se realizó un análisis exhaustivo de la congruencia entre la documentación de
 **Severidad**: MEDIA
 **Impacto**: Decisión arquitectónica sin trazabilidad
 **Acción tomada**:
-- [OK] Creado `ADR-2025-006-configuracion-dinamica-sistema.md`
+- [OK] Creado `ADR_2025_006-configuracion-dinamica-sistema.md`
 - [OK] Documentadas 3 opciones consideradas
 - [OK] Justificación detallada de decisión
 - [OK] Consecuencias positivas/negativas/neutrales
@@ -382,7 +382,7 @@ Se realizó un análisis exhaustivo de la congruencia entre la documentación de
 **Severidad**: MEDIA
 **Impacto**: Decisión arquitectónica reciente sin trazabilidad
 **Acción tomada**:
-- [OK] Creado `ADR-2025-007-git-hooks-validation-strategy.md`
+- [OK] Creado `ADR_2025_007-git-hooks-validation-strategy.md`
 - [OK] Documentadas 3 opciones (shell vs pre-commit vs Husky)
 - [OK] Distribución de validaciones por fase (pre-commit, commit-msg, pre-push, pre-rebase)
 - [OK] Métricas de performance (< 5s pre-commit, < 60s pre-push)
@@ -391,7 +391,7 @@ Se realizó un análisis exhaustivo de la congruencia entre la documentación de
 **Severidad**: MEDIA
 **Impacto**: Migración comprehensiva sin ADR
 **Acción tomada**:
-- [OK] Creado `ADR-2025-008-workflow-validation-shell-migration.md`
+- [OK] Creado `ADR_2025_008-workflow-validation-shell-migration.md`
 - [OK] Documentada constitution (8 reglas)
 - [OK] Resultados cuantitativos (20 scripts, 2,667 líneas, 662 embebidas migradas)
 - [OK] Calidad 85%→100%
@@ -423,9 +423,9 @@ Se realizó un análisis exhaustivo de la congruencia entre la documentación de
 ### Documentación Creada en Este Análisis
 
 1. **docs/backend/arquitectura/configuration.md** (320 líneas)
-2. **docs/adr/ADR-2025-006-configuracion-dinamica-sistema.md** (340 líneas)
-3. **docs/adr/ADR-2025-007-git-hooks-validation-strategy.md** (380 líneas)
-4. **docs/adr/ADR-2025-008-workflow-validation-shell-migration.md** (420 líneas)
+2. **docs/adr/ADR_2025_006-configuracion-dinamica-sistema.md** (340 líneas)
+3. **docs/adr/ADR_2025_007-git-hooks-validation-strategy.md** (380 líneas)
+4. **docs/adr/ADR_2025_008-workflow-validation-shell-migration.md** (420 líneas)
 5. **ANALISIS_CONGRUENCIA_DOCS_CODIGO.md** (este documento, ~600 líneas)
 
 **Total documentación creada**: ~2,060 líneas
@@ -493,9 +493,9 @@ El proyecto IACT demuestra **excelencia en documentación** con cobertura del 10
 
 ```
 docs/backend/arquitectura/configuration.md          (320 líneas)
-docs/adr/ADR-2025-006-configuracion-dinamica-sistema.md (340 líneas)
-docs/adr/ADR-2025-007-git-hooks-validation-strategy.md (380 líneas)
-docs/adr/ADR-2025-008-workflow-validation-shell-migration.md (420 líneas)
+docs/adr/ADR_2025_006-configuracion-dinamica-sistema.md (340 líneas)
+docs/adr/ADR_2025_007-git-hooks-validation-strategy.md (380 líneas)
+docs/adr/ADR_2025_008-workflow-validation-shell-migration.md (420 líneas)
 ANALISIS_CONGRUENCIA_DOCS_CODIGO.md (600 líneas)
 ```
 

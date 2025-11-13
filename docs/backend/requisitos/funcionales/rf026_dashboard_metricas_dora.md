@@ -505,14 +505,14 @@ class DORADashboardTestCase(TestCase):
   - Template: api/callcentersite/dora_metrics/templates/dora_metrics/dashboard.html
   - URLs: api/callcentersite/dora_metrics/urls.py
 - Tests: tests/dora_metrics/test_dashboard.py
-- ADR: ADR-2025-003 (DORA metrics integration)
+- ADR: ADR_2025_003 (DORA metrics integration)
 
 ## 11. Notas de Implementación
 
 **Permisos:**
 - Dashboard requiere `@staff_member_required` decorator
 - Solo usuarios staff pueden acceder
-- Alineado con ADR-2025-017 (permisos granulares)
+- Alineado con ADR_2025_017 (permisos granulares)
 
 **Performance:**
 - Usar `.select_related()` y `.prefetch_related()` para queries optimizadas

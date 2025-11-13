@@ -1,12 +1,12 @@
 ---
-id: ADR-2025-009
+id: ADR_2025_009
 estado: aceptada
 propietario: architecture-team
 ultima_actualizacion: 2025-11-09
-relacionados: ["ADR-2025-015-frontend-modular-monolith", "ADR-2025-016-redux-toolkit-state-management", "ADR-2025-018-webpack-bundler", "ADR-2025-019-testing-strategy-jest-testing-library"]
+relacionados: ["ADR_2025_015-frontend-modular-monolith", "ADR_2025_016-redux-toolkit-state-management", "ADR_2025_018-webpack-bundler", "ADR_2025_019-testing-strategy-jest-testing-library"]
 date: 2025-11-13
 ---
-# ADR-2025-009: Postergacion de Implementacion Frontend
+# ADR_2025_009: Postergacion de Implementacion Frontend
 
 **Estado:** aceptada
 
@@ -21,7 +21,7 @@ date: 2025-11-13
 El proyecto IACT tiene **4 ADRs de frontend** (ADR-011 a ADR-014) creados el 2025-11-06 que definen la arquitectura completa de un frontend React:
 
 1. **ADR-011**: Modular Monolith (no microfrontends)
-2. **ADR-2025-017**: Redux Toolkit para state management
+2. **ADR_2025_017**: Redux Toolkit para state management
 3. **ADR-013**: Webpack como bundler
 4. **ADR-014**: Jest + Testing Library para testing
 
@@ -317,7 +317,7 @@ Postergar implementacion frontend hasta Q2 2026 (6 meses), enfocarse en backend 
 **Accion**: Preservar documento, NO eliminar
 **Razon**: Arquitectura valida si GO en Q2 2026
 
-### ADR-2025-017: Redux Toolkit
+### ADR_2025_017: Redux Toolkit
 
 **Estado actual**: SUSPENDIDO
 **Accion**: Preservar documento
@@ -378,10 +378,10 @@ Postergar implementacion frontend hasta Q2 2026 (6 meses), enfocarse en backend 
 
 ### ADRs Relacionados
 
-- [ADR-011: Frontend Modular Monolith](ADR-2025-015-frontend-modular-monolith.md)
-- [ADR-2025-017: Redux Toolkit](ADR-2025-016-redux-toolkit-state-management.md)
-- [ADR-013: Webpack Bundler](ADR-2025-018-webpack-bundler.md)
-- [ADR-014: Testing Strategy](ADR-2025-019-testing-strategy-jest-testing-library.md)
+- [ADR-011: Frontend Modular Monolith](ADR_2025_015-frontend-modular-monolith.md)
+- [ADR_2025_017: Redux Toolkit](ADR_2025_016-redux-toolkit-state-management.md)
+- [ADR-013: Webpack Bundler](ADR_2025_018-webpack-bundler.md)
+- [ADR-014: Testing Strategy](ADR_2025_019-testing-strategy-jest-testing-library.md)
 
 ### Requisitos Funcionales
 

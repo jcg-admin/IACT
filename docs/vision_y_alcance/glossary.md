@@ -3,7 +3,7 @@ id: DOC-VIS-001
 estado: borrador
 propietario: equipo-producto
 ultima_actualizacion: 2025-02-14
-relacionados: ["RQ-ANL-001", "ADR-2025-001"]
+relacionados: ["RQ-ANL-001", "ADR_2025_001"]
 ---
 # Glosario del proyecto
 

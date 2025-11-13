@@ -3,7 +3,7 @@ id: DOC-DEVOPS-INDEX
 estado: activo
 propietario: equipo-devops
 ultima_actualizacion: 2025-11-02
-relacionados: ["DOC-INDEX-GENERAL", "DOC-ARQ-INDEX", "ADR-2025-001"]
+relacionados: ["DOC-INDEX-GENERAL", "DOC-ARQ-INDEX", "ADR_2025_001"]
 ---
 # DevOps - Proyecto IACT
 
@@ -367,7 +367,7 @@ Los runbooks documentan procedimientos operativos comunes:
 
 ## Recursos relacionados
 - [Arquitectura](../arquitectura/readme.md)
-- [ADR-2025-001: Vagrant](../arquitectura/adr/ADR-2025-001-vagrant-mod-wsgi.md)
+- [ADR_2025_001: Vagrant](../arquitectura/adr/ADR_2025_001-vagrant-mod-wsgi.md)
 - [Script verificar_servicios.sh](../../scripts/verificar_servicios.sh)
 - [Vagrantfile](../../vagrantfile)
 - [Bootstrap.sh](../../provisioning/bootstrap.sh)

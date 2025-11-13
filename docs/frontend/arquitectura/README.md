@@ -50,8 +50,8 @@ Decisiones arquitectónicas, patrones de diseño y lineamientos técnicos espec�
 ## Decisiones arquitectónicas
 
 ### ADRs disponibles
-- [ADR-0001 - Capa de servicios resilientes con contratos y telemetria](adr/ADR-2025-020-servicios-resilientes.md)
-- [ADR-0002 - Arquitectura de microfrontends basada en App Shell unificado](adr/ADR-2025-021-arquitectura-microfrontends.md) _(rechazado: se mantiene el monolito modular descrito en [ADR_011](../../adr/ADR-2025-015-frontend-modular-monolith.md) y el frontend continúa pospuesto según [ADR-2025-009](../../adr/ADR-2025-009-frontend-postponement.md))_
+- [ADR-0001 - Capa de servicios resilientes con contratos y telemetria](adr/ADR_2025_020-servicios-resilientes.md)
+- [ADR-0002 - Arquitectura de microfrontends basada en App Shell unificado](adr/ADR_2025_021-arquitectura-microfrontends.md) _(rechazado: se mantiene el monolito modular descrito en [ADR_011](../../adr/ADR_2025_015-frontend-modular-monolith.md) y el frontend continúa pospuesto según [ADR_2025_009](../../adr/ADR_2025_009-frontend-postponement.md))_
 
 ### Lineamientos de código
 - Estructura de directorios

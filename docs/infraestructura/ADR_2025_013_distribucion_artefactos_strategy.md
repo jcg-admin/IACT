@@ -5,7 +5,7 @@ domain: general
 status: active
 ---
 
-# ADR-2025-013: Estrategia de Distribución de Artefactos CPython Precompilados
+# ADR_2025_013: Estrategia de Distribución de Artefactos CPython Precompilados
 
 **Estado:** Propuesto
 **Fecha:** 2025-11-06

@@ -10,7 +10,7 @@ status: active
 **Version:** 1.0
 **Fecha:** 2025-11-07
 **Estado:** Implementado (Prioridad 1)
-**ADR:** ADR-2025-017-sistema-permisos-sin-roles-jerarquicos.md
+**ADR:** ADR_2025_017-sistema-permisos-sin-roles-jerarquicos.md
 
 ---
 
@@ -528,7 +528,7 @@ def aprobar_pago(request, pago_id):
 
 ## Referencias
 
-- **ADR:** ADR-2025-017-sistema-permisos-sin-roles-jerarquicos.md
+- **ADR:** ADR_2025_017-sistema-permisos-sin-roles-jerarquicos.md
 - **Codigo:** `api/callcentersite/callcentersite/apps/permissions/`
 - **Tests:** `api/callcentersite/callcentersite/apps/permissions/tests/test_models.py`
 - **Especificaciones:** Documento Sistema de Permisos Granular (Prioridad 1-6)

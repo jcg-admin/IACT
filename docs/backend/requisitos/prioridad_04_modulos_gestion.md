@@ -8,7 +8,7 @@ estado: por_implementar
 propietario: equipo-backend
 prioridad: media
 estandares: ["ISO/IEC/IEEE 29148:2018", "REST API", "Django Best Practices"]
-relacionados: ["INDICE_MAESTRO_PERMISOS_GRANULAR", "prioridad_03_modulos_operativos", "ADR-2025-005"]
+relacionados: ["INDICE_MAESTRO_PERMISOS_GRANULAR", "prioridad_03_modulos_operativos", "ADR_2025_005"]
 date: 2025-11-13
 ---
 

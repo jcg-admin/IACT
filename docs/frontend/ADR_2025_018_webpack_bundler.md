@@ -9,7 +9,7 @@ contexto: Sistema IACT Frontend - Build Tool
 tags: [frontend, webpack, vite, build-tools]
 ---
 
-# ADR-2025-018: Webpack como Bundler (no Vite)
+# ADR_2025_018: Webpack como Bundler (no Vite)
 
 ## Estado
 

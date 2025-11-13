@@ -6,7 +6,7 @@ version: 1.6.0
 fecha_creacion: 2025-11-06
 fecha_actualizacion: 2025-11-09
 propietario: arquitecto-senior
-relacionados: ["ROADMAP.md", "TAREAS_ACTIVAS.md", "FASES_IMPLEMENTACION_IA.md", "ADR-2025-003", "ADR-2025-004", "ANALISIS_GAPS_POST_DORA_2025.md"]
+relacionados: ["ROADMAP.md", "TAREAS_ACTIVAS.md", "FASES_IMPLEMENTACION_IA.md", "ADR_2025_003", "ADR_2025_004", "ANALISIS_GAPS_POST_DORA_2025.md"]
 date: 2025-11-13
 ---
 
@@ -182,7 +182,7 @@ Arquitectura 3 Capas COMPLETA:
 Implementacion completa de storage centralizado de logs usando Apache Cassandra
 como alternativa a Grafana/Prometheus (bloqueados por RNF-002).
 
-**ADR-2025-004: Centralized Log Storage en Cassandra (actualizado)**
+**ADR_2025_004: Centralized Log Storage en Cassandra (actualizado)**
 - Decision cambiada: MySQL -> Apache Cassandra (Opcion 5)
 - Justificacion: Write throughput >1M/s (vs MySQL ~10K/s = 100x mejor)
 - Arquitectura: Peer-to-peer (no SPOF), linear scaling, TTL nativo
@@ -190,7 +190,7 @@ como alternativa a Grafana/Prometheus (bloqueados por RNF-002).
 - Plan implementacion 6 fases (27 SP)
 - Ventajas: Sequential writes, no master bottleneck, multi-DC replication
 - Comparacion: Cassandra vs MySQL vs PostgreSQL vs Filesystem vs SQLite
-- Referencias: OBSERVABILITY_LAYERS.md, ADR-2025-003, RNF-002
+- Referencias: OBSERVABILITY_LAYERS.md, ADR_2025_003, RNF-002
 
 **Scripts logging implementados (1,029 lineas Python):**
 
@@ -289,7 +289,7 @@ docs/
 ├── implementacion/
 │   └── OBSERVABILITY_LAYERS.md (actualizado)
 ├── adr/
-│   └── ADR-2025-004-centralized-log-storage.md (actualizado)
+│   └── ADR_2025_004-centralized-log-storage.md (actualizado)
 └── INDICE.md (v1.6.0)
 
 scripts/
@@ -314,13 +314,13 @@ scripts/
 Documentacion arquitectonica y operacional completa del sistema de integracion
 entre metricas DORA y agentes SDLC del proyecto IACT.
 
-**ADR-2025-003: Integracion DORA + SDLC Agents**
+**ADR_2025_003: Integracion DORA + SDLC Agents**
 - Decision arquitectonica: In-Process Tracking (Opcion 3)
 - Justificacion: Automatizacion completa, compatible RNF-002, overhead <1%
 - Plan implementacion 6 fases (Fase 1 completada, Fases 2-6 roadmap)
 - Metricas validacion: Lead Time <4h, DF >=1/dia, CFR <=15%, MTTR <=1h
 - Consecuencias: ROI cuantificable, ciclos PDCA automatizados, escalamiento org
-- Referencias: DORA Report 2025, FASES_IMPLEMENTACION_IA.md, ADR-2025-002
+- Referencias: DORA Report 2025, FASES_IMPLEMENTACION_IA.md, ADR_2025_002
 
 **DORA_SDLC_INTEGRATION_GUIDE.md (500 lineas)**
 - Guia tecnica completa: Arquitectura, componentes, APIs
@@ -348,7 +348,7 @@ entre metricas DORA y agentes SDLC del proyecto IACT.
   - FASES_IMPLEMENTACION_IA.md (CRITICA)
   - DORA_SDLC_INTEGRATION_GUIDE.md (ALTA)
   - WORKFLOW_AGENTES_DORA.md (workflow proceso)
-  - ADR-2025-003 (decision arquitectonica)
+  - ADR_2025_003 (decision arquitectonica)
 - Contadores actualizados: 122 archivos (+2), ~37,000 lineas (+1,200)
 - Seccion Gobernanza: 39 archivos (+2)
 - Total documentacion: 99 archivos (+2)
@@ -357,7 +357,7 @@ entre metricas DORA y agentes SDLC del proyecto IACT.
 ```
 docs/
 ├── adr/
-│   └── ADR-2025-003-dora-sdlc-integration.md (ADR)
+│   └── ADR_2025_003-dora-sdlc-integration.md (ADR)
 ├── gobernanza/
 │   ├── ai/
 │   │   ├── FASES_IMPLEMENTACION_IA.md (metodologia 6 fases)
@@ -374,7 +374,7 @@ docs/
 - ADR template seguido (plantilla_adr.md)
 
 **Archivos:**
-- docs/adr/ADR-2025-003-dora-sdlc-integration.md (nuevo, 650 lineas)
+- docs/adr/ADR_2025_003-dora-sdlc-integration.md (nuevo, 650 lineas)
 - docs/gobernanza/ai/DORA_SDLC_INTEGRATION_GUIDE.md (nuevo, 500 lineas)
 - docs/gobernanza/procesos/agentes/WORKFLOW_AGENTES_DORA.md (nuevo, 800 lineas)
 - docs/INDICE.md (actualizado a v1.5.0)

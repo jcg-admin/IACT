@@ -625,7 +625,7 @@ class DataCatalogIndexTestCase(TestCase):
   - View: api/callcentersite/dora_metrics/views.py:data_catalog_index
   - URLs: api/callcentersite/dora_metrics/urls.py
 - Tests: tests/dora_metrics/test_data_catalog.py
-- ADR: ADR-2025-003 (DORA metrics integration)
+- ADR: ADR_2025_003 (DORA metrics integration)
 
 ## 9. Uso por AI Agents
 

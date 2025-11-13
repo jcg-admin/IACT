@@ -5,7 +5,7 @@ categoria: implementacion
 version: 1.0.0
 fecha_creacion: 2025-11-06
 propietario: arquitecto-senior
-relacionados: ["ADR-2025-003", "DORA_SDLC_INTEGRATION_GUIDE.md", "ESTRATEGIA_IA.md"]
+relacionados: ["ADR_2025_003", "DORA_SDLC_INTEGRATION_GUIDE.md", "ESTRATEGIA_IA.md"]
 date: 2025-11-13
 ---
 
@@ -538,7 +538,7 @@ logger.info("Nginx received request")  # Ya esta en nginx access.log
 
 ## Referencias
 
-- ADR-2025-003: Decision integracion DORA + SDLC
+- ADR_2025_003: Decision integracion DORA + SDLC
 - DORA_SDLC_INTEGRATION_GUIDE.md: Implementacion Capa 1
 - WORKFLOW_AGENTES_DORA.md: Uso operacional Capa 1
 - Django Logging: https://docs.djangoproject.com/en/4.2/topics/logging/

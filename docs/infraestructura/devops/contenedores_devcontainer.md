@@ -3,7 +3,7 @@ id: DOC-DEVOPS-CONTAINERS
 estado: activo
 propietario: equipo-devops
 ultima_actualizacion: 2025-11-02
-relacionados: ["DOC-DEVOPS-INDEX", "ADR-2025-001"]
+relacionados: ["DOC-DEVOPS-INDEX", "ADR_2025_001"]
 ---
 # Contenedores y DevContainers - Proyecto IACT
 
@@ -14,7 +14,7 @@ Este documento describe el uso de contenedores Docker y configuración de DevCon
 
 ## Estado Actual
 
-**Actualmente el proyecto usa Vagrant + VirtualBox** para entorno de desarrollo local (ver [ADR-2025-001](../arquitectura/adr/ADR-2025-001-vagrant-mod-wsgi.md)).
+**Actualmente el proyecto usa Vagrant + VirtualBox** para entorno de desarrollo local (ver [ADR_2025_001](../arquitectura/adr/ADR_2025_001-vagrant-mod-wsgi.md)).
 
 Este documento prepara la estrategia de migración futura a contenedores Docker y DevContainers.
 
@@ -329,7 +329,7 @@ GitHub Codespaces utiliza automáticamente la configuración de DevContainers:
 - [Developing inside a Container](https://code.visualstudio.com/docs/devcontainers/containers)
 - [GitHub Codespaces](https://docs.github.com/en/codespaces)
 - [DevContainer Specification](https://containers.dev/)
-- [ADR-2025-001: Vagrant](../arquitectura/adr/ADR-2025-001-vagrant-mod-wsgi.md)
+- [ADR_2025_001: Vagrant](../arquitectura/adr/ADR_2025_001-vagrant-mod-wsgi.md)
 
 ## Notas
 

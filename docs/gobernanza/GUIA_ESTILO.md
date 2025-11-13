@@ -737,7 +737,7 @@ Si necesitas una excepción a esta guía:
 **Alcance:** Solo archivos en /frontend/public/
 **Duración:** Permanente
 **Aprobado por:** Product Owner, Tech Lead
-**ADR:** ADR-2025-007
+**ADR:** ADR_2025_007
 ```
 
 ---

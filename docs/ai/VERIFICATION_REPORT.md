@@ -193,7 +193,7 @@ docs/
 - [OK] alert_on_errors.py: Alerting cron (>10 ERROR/5min, >5 CRITICAL/5min)
 
 **Documentacion:**
-- [OK] Referencias a ADR-2025-004
+- [OK] Referencias a ADR_2025_004
 - [OK] Referencias a OBSERVABILITY_LAYERS.md
 - [OK] Usage examples con comentarios
 
@@ -207,7 +207,7 @@ docs/
 
 **ADRs totales:** 12 (11 activos + 1 plantilla)
 
-**ADR-2025-004 (Cassandra):**
+**ADR_2025_004 (Cassandra):**
 - [OK] Titulo: "Centralized Log Storage en Cassandra" (actualizado de MySQL)
 - [OK] Estado: propuesta
 - [OK] Metadata: id, estado, ultima_actualizacion
@@ -219,7 +219,7 @@ docs/
 - [OK] Metricas validacion: Actualizadas (TTL, cluster health, etc.)
 - [OK] Tamano: 30KB, ~1,100 lineas
 
-**ADR-2025-003 (DORA SDLC):**
+**ADR_2025_003 (DORA SDLC):**
 - [OK] Estado: aceptada
 - [OK] Contenido: Integracion DORA + SDLC Agents
 - [OK] Referencias a DORA_CASSANDRA_INTEGRATION.md
@@ -261,7 +261,7 @@ python scripts/check_no_emojis.py docs/gobernanza/ai/ANALISIS_GAPS_POST_DORA_202
 **Documentacion:**
 - [OK] OBSERVABILITY_LAYERS.md (14KB, docs/implementacion/)
 - [OK] DORA_CASSANDRA_INTEGRATION.md (16KB, docs/gobernanza/ai/)
-- [OK] ADR-2025-004 (30KB, docs/adr/)
+- [OK] ADR_2025_004 (30KB, docs/adr/)
 
 **Separacion de concerns verificada:**
 1. **Capa 1 - DORA Metrics (Proceso):**
@@ -272,12 +272,12 @@ python scripts/check_no_emojis.py docs/gobernanza/ai/ANALISIS_GAPS_POST_DORA_202
 2. **Capa 2 - Application Logs (Runtime Django):**
    - [OK] Storage: Cassandra logging.application_logs
    - [OK] Handler: scripts/logging/cassandra_handler.py
-   - [OK] Documentado: ADR-2025-004
+   - [OK] Documentado: ADR_2025_004
 
 3. **Capa 3 - Infrastructure Logs (Sistema):**
    - [OK] Storage: Cassandra logging.infrastructure_logs
    - [OK] Daemon: scripts/logging/infrastructure_logs_daemon.py (pendiente)
-   - [OK] Documentado: ADR-2025-004
+   - [OK] Documentado: ADR_2025_004
 
 **Integracion:**
 - [OK] DORA_CASSANDRA_INTEGRATION.md explica "Por que DORA NO es un agente"
@@ -305,9 +305,9 @@ python scripts/check_no_emojis.py docs/gobernanza/ai/ANALISIS_GAPS_POST_DORA_202
 - [OK] gobernanza/ai/GAPS_SUMMARY_QUICK_REF.md
 - [OK] gobernanza/ai/DORA_CASSANDRA_INTEGRATION.md
 
-**ADR-2025-004 → docs/:**
+**ADR_2025_004 → docs/:**
 - [OK] OBSERVABILITY_LAYERS.md
-- [OK] ADR-2025-003
+- [OK] ADR_2025_003
 
 **Resultado:** [OK] Todos los enlaces verificados funcionan
 
@@ -339,7 +339,7 @@ Ninguno.
 - Descripcion de cada script (handler, schema, alerts)
 - Quick start guide
 - Prerequisitos (cassandra-driver, requests)
-- Enlaces a ADR-2025-004
+- Enlaces a ADR_2025_004
 
 **Prioridad:** P2 (alta)
 **Esfuerzo:** 1 SP (~30 min)
@@ -347,7 +347,7 @@ Ninguno.
 ### R-002: Actualizar CHANGELOG.md
 **Descripcion:** Mover cambios de seccion "Pendiente" a "Released" en CHANGELOG.md:
 - v1.5.0 → v1.6.0
-- ADR-2025-004 Cassandra
+- ADR_2025_004 Cassandra
 - Documentos GAPS movidos
 - Scripts logging creados
 
@@ -395,7 +395,7 @@ Ninguno.
 2. INDICE.md y ROADMAP.md actualizados
 3. Metadata completa y correcta
 4. Scripts logging creados y documentados
-5. ADRs actualizados (especialmente ADR-2025-004 Cassandra)
+5. ADRs actualizados (especialmente ADR_2025_004 Cassandra)
 6. RNF-NO-EMOJIS cumplido al 100%
 7. Enlaces cruzados funcionando
 8. Arquitectura 3 capas bien documentada

@@ -1472,7 +1472,7 @@ El siguiente paso es implementar el **frontend** en `ui/` directory para consumi
 
 ### ADRs Relacionados
 
-- ADR-2025-017: Sistema de Permisos sin Roles Jerárquicos
+- ADR_2025_017: Sistema de Permisos sin Roles Jerárquicos
 - ADR-XXX: (Pendiente) Decisión de usar Service Layer Pattern
 
 ### Issues y Commits
