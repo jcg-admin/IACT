@@ -1,5 +1,7 @@
 # Plan de remediación para hallazgos de la revisión 2025-11-12
 
+> Revisión consolidada: [`docs/analisis/revision_20251112_consolidada.md`](../analisis/revision_20251112_consolidada.md)
+
 ## Metodología aplicada
 - **Auto-CoT (Chain-of-Thought automatizada)**: descompusimos los hallazgos en clústeres temáticos y, dentro de cada uno, derivamos tareas concretas accionables.
 - **Self-Consistency**: validamos cada decisión crítica contrastando la evidencia del repositorio (listados de directorios y contenido real) y verificando que no existan instrucciones contradictorias en otros documentos.

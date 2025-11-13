@@ -60,3 +60,31 @@ def test_run_all_tests_targets_ui_directory():
 def test_cpython_install_script_renamed():
     renamed_path = REPO_ROOT / "infrastructure/cpython/scripts/install_prebuilt_cpython.sh"
     assert renamed_path.exists()
+
+
+def test_revision_20251112_lives_in_docs_analisis():
+    revision_path = REPO_ROOT / "docs/analisis/revision_20251112_consolidada.md"
+    assert revision_path.exists()
+
+    index_contents = _read(REPO_ROOT / "docs/index.md")
+    assert "analisis/revision_20251112_consolidada.md" in index_contents
+
+    legacy_path = REPO_ROOT / "rev/revision_20251112_consolidada.md"
+    assert not legacy_path.exists()
+
+
+def test_docs_analisis_agent_guides_revision_location():
+    agent_path = REPO_ROOT / "docs/analisis/AGENTS.md"
+    assert agent_path.exists()
+
+    agent_contents = _read(agent_path)
+    assert "ETA-AGENTE CODEX" in agent_contents
+    assert "colocar las revisiones consolidadas" in agent_contents
+
+
+def test_eta_codex_agent_is_implemented_in_agents_tree():
+    agent_module = REPO_ROOT / "scripts/coding/ai/agents/documentation/eta_codex_agent.py"
+    assert agent_module.exists()
+
+    tests_path = REPO_ROOT / "scripts/coding/tests/ai/agents/documentation/test_eta_codex_agent.py"
+    assert tests_path.exists()
