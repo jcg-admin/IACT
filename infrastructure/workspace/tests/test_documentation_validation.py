@@ -30,3 +30,16 @@ def test_workspace_readme_clarifies_mise_is_optional() -> None:
 
     assert "mise ~/.config/mise/config.toml tools" in readme_content
     assert "no es necesario" in readme_content.lower()
+
+
+def test_workspace_readme_explains_how_to_run_the_agent_without_manage_py() -> None:
+    if not README_PATH.exists():
+        raise AssertionError(f"Expected {README_PATH} to exist")
+
+    readme_content = README_PATH.read_text(encoding="utf-8")
+
+    assert "## Ejecución del agente" in readme_content
+    assert "python -m infrastructure.workspace.vpn_proxy_agent.mcp_server" in readme_content
+    assert "npm run vpn:setup-dev" in readme_content
+    assert "manage.py" in readme_content
+    assert "no aplica" in readme_content.lower()

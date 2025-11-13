@@ -39,6 +39,41 @@ contributors.
    npm run vpn:health
    ```
 
+## Ejecución del agente
+
+Este workspace no utiliza Django, por lo que el patrón `manage.py` **no aplica**.
+En su lugar, el agente se orquesta mediante el servidor MCP y los playbooks de
+Codex. Tienes dos maneras de ejecutarlo:
+
+1. **Modo directo (Python)**
+   ```bash
+   cd infrastructure/workspace
+   source .venv/bin/activate  # si aún no lo hiciste
+   python -m infrastructure.workspace.vpn_proxy_agent.mcp_server
+   ```
+   El proceso abre un servidor MCP por `stdin/stdout` que puede ser consumido
+   por cualquier cliente compatible.
+
+2. **Modo asistido (NPM + Codex)**
+   ```bash
+   cd infrastructure/workspace
+   npm run vpn:setup-dev     # configura dependencias simuladas y túnel
+   npm run vpn:setup-tunnel  # únicamente el túnel SOCKS5
+   npm run vpn:health        # chequeos de estado
+   ```
+   Estos comandos envuelven llamadas a `codex mcp run <playbook>` y permiten
+   validar el flujo end-to-end con parámetros declarados en `.env`.
+
+Si deseas invocar manualmente un playbook específico, también puedes ejecutar:
+
+```bash
+codex mcp run setup-dev-environment
+```
+
+La ausencia de `manage.py` no impide la ejecución del agente: todos los
+componentes se inician a través del servidor MCP y los scripts definidos en
+`package.json`.
+
 ## Validación del agente
 
 Para demostrar que el agente VPN/Proxy funciona sin depender de
