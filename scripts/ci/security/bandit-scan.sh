@@ -33,8 +33,17 @@ fi
 
 # Check if bandit is installed
 if ! command -v bandit &> /dev/null; then
-    log_warn "Bandit not installed, installing..."
-    pip install bandit
+    log_warn "Bandit not installed, attempting installation..."
+    if ! pip install bandit >/tmp/bandit_install.log 2>&1; then
+        log_warn "Bandit installation failed - skipping scan"
+        log_warn "Installer output:\n$(tail -n 5 /tmp/bandit_install.log)"
+        exit 2
+    fi
+fi
+
+if ! command -v bandit &> /dev/null; then
+    log_warn "Bandit still unavailable after installation attempt - skipping scan"
+    exit 2
 fi
 
 # Run bandit scan

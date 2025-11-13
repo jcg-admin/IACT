@@ -127,6 +127,12 @@ run_check() {
     fi
 }
 
+invoke_check() {
+    if ! run_check "$@"; then
+        :
+    fi
+}
+
 # ===========================================
 # INFRASTRUCTURE CI SUITE
 # ===========================================
@@ -134,10 +140,10 @@ run_check() {
 if [ -z "$ONLY_SUITE" ] || [ "$ONLY_SUITE" = "infrastructure" ]; then
     log_section "INFRASTRUCTURE CI SUITE"
 
-    run_check "Health Check Scripts" "$SCRIPT_DIR/infrastructure/health-check.sh" "Infrastructure"
-    run_check "Validate Scripts" "$SCRIPT_DIR/infrastructure/validate-scripts.sh" "Infrastructure"
-    run_check "Validate Configuration" "$SCRIPT_DIR/infrastructure/validate-config.sh" "Infrastructure"
-    run_check "Validate Docker" "$SCRIPT_DIR/infrastructure/validate-docker.sh" "Infrastructure"
+    invoke_check "Health Check Scripts" "$SCRIPT_DIR/infrastructure/health-check.sh" "Infrastructure"
+    invoke_check "Validate Scripts" "$SCRIPT_DIR/infrastructure/validate-scripts.sh" "Infrastructure"
+    invoke_check "Validate Configuration" "$SCRIPT_DIR/infrastructure/validate-config.sh" "Infrastructure"
+    invoke_check "Validate Docker" "$SCRIPT_DIR/infrastructure/validate-docker.sh" "Infrastructure"
 fi
 
 # ===========================================
@@ -147,10 +153,10 @@ fi
 if [ -z "$ONLY_SUITE" ] || [ "$ONLY_SUITE" = "security" ]; then
     log_section "SECURITY SCAN SUITE"
 
-    run_check "CSRF Protection Check" "$SCRIPT_DIR/security/csrf-check.sh" "Security"
-    run_check "Django Security Check" "$SCRIPT_DIR/security/django-security-check.sh" "Security"
-    run_check "Bandit Security Scan" "$SCRIPT_DIR/security/bandit-scan.sh" "Security"
-    run_check "NPM Security Audit" "$SCRIPT_DIR/security/npm-audit.sh" "Security"
+    invoke_check "CSRF Protection Check" "$SCRIPT_DIR/security/csrf-check.sh" "Security"
+    invoke_check "Django Security Check" "$SCRIPT_DIR/security/django-security-check.sh" "Security"
+    invoke_check "Bandit Security Scan" "$SCRIPT_DIR/security/bandit-scan.sh" "Security"
+    invoke_check "NPM Security Audit" "$SCRIPT_DIR/security/npm-audit.sh" "Security"
 fi
 
 # ===========================================
@@ -160,8 +166,8 @@ fi
 if [ -z "$ONLY_SUITE" ] || [ "$ONLY_SUITE" = "testing" ]; then
     log_section "TEST PYRAMID VALIDATION SUITE"
 
-    run_check "Analyze Test Pyramid" "$SCRIPT_DIR/testing/test-pyramid.sh" "Testing"
-    run_check "Validate Test Execution Time" "$SCRIPT_DIR/testing/test-execution-time.sh" "Testing"
+    invoke_check "Analyze Test Pyramid" "$SCRIPT_DIR/testing/test-pyramid.sh" "Testing"
+    invoke_check "Validate Test Execution Time" "$SCRIPT_DIR/testing/test-execution-time.sh" "Testing"
 fi
 
 # ===========================================
@@ -171,7 +177,7 @@ fi
 if [ -z "$ONLY_SUITE" ] || [ "$ONLY_SUITE" = "promptops" ]; then
     log_section "PROMPTOPS GATES SUITE"
 
-    run_check "Route Lint Gate" "$SCRIPT_DIR/gate-route-lint.sh" "PromptOps"
+    invoke_check "Route Lint Gate" "$SCRIPT_DIR/gate-route-lint.sh" "PromptOps"
     # Future gates:
     # run_check "Audit Contract Gate" "$SCRIPT_DIR/gate-audit-contract.sh" "PromptOps"
     # run_check "Permission Coverage Gate" "$SCRIPT_DIR/gate-permission-coverage.sh" "PromptOps"
