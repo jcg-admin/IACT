@@ -3,17 +3,55 @@
 TDD Tests for LLMGenerator
 
 Tests the LLMGenerator implementation which generates test code using LLMs.
-Supports Anthropic (Claude), OpenAI (ChatGPT), and Ollama (local models).
+Supports Anthropic (Claude), OpenAI (ChatGPT), Ollama (local models), and
+Hugging Face pipelines for fine-tuned checkpoints.
 
 Tests cover initialization, validation, LLM calls, error handling, and fallbacks.
 """
 
-import pytest
 import json
 import os
+import sys
 from pathlib import Path
+from types import ModuleType
 from unittest.mock import MagicMock, patch, Mock, mock_open
-from scripts.ai.generators.llm_generator import LLMGenerator
+
+import importlib.machinery
+import importlib.util
+import pytest
+
+PROJECT_ROOT = Path(__file__).parent.parent.parent.parent.parent.parent
+SCRIPTS_ROOT = PROJECT_ROOT / "scripts"
+CODING_ROOT = SCRIPTS_ROOT / "coding"
+
+# Ensure namespace package resolution for `scripts.ai` imports used across the suite
+sys.path.insert(0, str(PROJECT_ROOT))
+sys.path.insert(0, str(CODING_ROOT))
+
+namespace_paths = [str(SCRIPTS_ROOT), str(CODING_ROOT)]
+scripts_pkg = ModuleType("scripts")
+scripts_pkg.__package__ = "scripts"
+scripts_pkg.__path__ = namespace_paths
+scripts_pkg.__spec__ = importlib.machinery.ModuleSpec(
+    name="scripts",
+    loader=None,
+    is_package=True
+)
+sys.modules["scripts"] = scripts_pkg
+
+try:
+    from scripts.ai.generators.llm_generator import LLMGenerator
+except ModuleNotFoundError:
+    module_path = CODING_ROOT / "ai" / "generators" / "llm_generator.py"
+    spec = importlib.util.spec_from_file_location(
+        "scripts.ai.generators.llm_generator",
+        module_path
+    )
+    module = importlib.util.module_from_spec(spec)
+    assert spec and spec.loader, "No se pudo cargar spec para llm_generator"
+    spec.loader.exec_module(module)
+    sys.modules["scripts.ai.generators.llm_generator"] = module
+    LLMGenerator = module.LLMGenerator
 
 
 # Fixtures
@@ -124,6 +162,17 @@ class TestLLMGeneratorInitialization:
         assert agent.llm_provider == "ollama"
         assert agent.model == "llama3.1:8b"
 
+    def test_initialization_with_huggingface_config(self):
+        """Should initialize with Hugging Face config."""
+        config = {
+            "llm_provider": "huggingface",
+            "model": "TinyLlama-1.1B-dpo"
+        }
+        agent = LLMGenerator(config=config)
+
+        assert agent.llm_provider == "huggingface"
+        assert agent.model == "TinyLlama-1.1B-dpo"
+
     def test_initialization_with_ollama_custom_url(self):
         """Should initialize with Ollama custom base URL."""
         config = {
@@ -177,6 +226,15 @@ class TestInputValidation:
 
         assert errors == []
 
+    def test_validate_valid_input_huggingface(self, sample_input_data):
+        """Should accept valid input for Hugging Face pipelines."""
+        config = {"llm_provider": "huggingface", "model": "TinyLlama-1.1B-dpo"}
+        agent = LLMGenerator(config=config)
+
+        errors = agent.validate_input(sample_input_data)
+
+        assert errors == []
+
     def test_validate_missing_test_plans(self):
         """Should reject input without test_plans."""
         agent = LLMGenerator()
@@ -218,6 +276,16 @@ class TestInputValidation:
 
             assert len(errors) > 0
             assert any("openai_api_key" in err.lower() for err in errors)
+
+    def test_validate_missing_model_huggingface(self, sample_input_data):
+        """Should reject Hugging Face provider without model path."""
+        config = {"llm_provider": "huggingface"}
+        agent = LLMGenerator(config=config)
+
+        errors = agent.validate_input(sample_input_data)
+
+        assert len(errors) > 0
+        assert any("hugging face" in err.lower() for err in errors)
 
     def test_validate_ollama_no_api_key_required(self, sample_input_data):
         """Should accept Ollama without API key (local model)."""
@@ -474,7 +542,85 @@ class TestOllamaErrorHandling:
         assert result == ""
 
 
-# 5. LLM Routing Tests
+# 5. Hugging Face Pipeline Tests
+class TestHuggingFacePipeline:
+    """Tests for Hugging Face provider integration."""
+
+    def _build_fake_transformers(self, response_builder):
+        """Create a fake transformers module returning controlled responses."""
+        fake_module = ModuleType("transformers")
+        fake_generator = MagicMock(side_effect=lambda prompt, **kwargs: [
+            {"generated_text": response_builder(prompt, kwargs)}
+        ])
+        fake_pipeline = MagicMock(return_value=fake_generator)
+        fake_module.pipeline = fake_pipeline
+        return fake_module, fake_pipeline, fake_generator
+
+    def test_call_huggingface_extracts_code_block(self):
+        """Should extract python code blocks from Hugging Face responses."""
+        config = {"llm_provider": "huggingface", "model": "TinyLlama"}
+        agent = LLMGenerator(config=config)
+
+        fake_module, fake_pipeline, fake_generator = self._build_fake_transformers(
+            lambda prompt, _: f"{prompt}\n```python\nprint('hola')\n```"
+        )
+
+        with patch.dict(sys.modules, {"transformers": fake_module}):
+            result = agent._call_huggingface("Prompt base")
+
+        assert result == "print('hola')"
+        fake_pipeline.assert_called_once()
+        fake_generator.assert_called_once()
+
+    def test_call_huggingface_returns_plain_text(self):
+        """Should return trimmed plain text when no code block is present."""
+        config = {"llm_provider": "huggingface", "model": "TinyLlama"}
+        agent = LLMGenerator(config=config)
+
+        fake_module, fake_pipeline, fake_generator = self._build_fake_transformers(
+            lambda prompt, _: f"{prompt}\nGenerated tests"
+        )
+
+        with patch.dict(sys.modules, {"transformers": fake_module}):
+            result = agent._call_huggingface("Prompt base")
+
+        assert result == "Generated tests"
+        fake_pipeline.assert_called_once()
+        fake_generator.assert_called_once()
+
+    def test_call_huggingface_pipeline_error(self):
+        """Should return empty string when pipeline raises an error."""
+        config = {"llm_provider": "huggingface", "model": "TinyLlama"}
+        agent = LLMGenerator(config=config)
+
+        fake_module = ModuleType("transformers")
+        fake_pipeline = MagicMock(side_effect=RuntimeError("load error"))
+        fake_module.pipeline = fake_pipeline
+
+        with patch.dict(sys.modules, {"transformers": fake_module}):
+            result = agent._call_huggingface("Prompt base")
+
+        assert result == ""
+        fake_pipeline.assert_called_once()
+
+    def test_call_huggingface_reuses_cached_pipeline(self):
+        """Should cache the pipeline between calls for performance."""
+        config = {"llm_provider": "huggingface", "model": "TinyLlama"}
+        agent = LLMGenerator(config=config)
+
+        fake_module, fake_pipeline, fake_generator = self._build_fake_transformers(
+            lambda prompt, _: f"{prompt} -> result"
+        )
+
+        with patch.dict(sys.modules, {"transformers": fake_module}):
+            agent._call_huggingface("Prompt 1")
+            agent._call_huggingface("Prompt 2")
+
+        fake_pipeline.assert_called_once()
+        assert fake_generator.call_count == 2
+
+
+# 6. LLM Routing Tests
 class TestLLMRouting:
     """Test _call_llm() routing to correct provider."""
 
@@ -515,6 +661,19 @@ class TestLLMRouting:
         result = agent._call_llm("Test prompt")
 
         mock_ollama.assert_called_once_with("Test prompt")
+        assert result == "generated code"
+
+    @patch('scripts.ai.generators.llm_generator.LLMGenerator._call_huggingface')
+    def test_call_llm_routes_to_huggingface(self, mock_hf):
+        """Should route to Hugging Face when provider is huggingface."""
+        mock_hf.return_value = "generated code"
+
+        config = {"llm_provider": "huggingface", "model": "TinyLlama"}
+        agent = LLMGenerator(config=config)
+
+        result = agent._call_llm("Test prompt")
+
+        mock_hf.assert_called_once_with("Test prompt")
         assert result == "generated code"
 
     def test_call_llm_unsupported_provider(self):
