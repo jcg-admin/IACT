@@ -311,12 +311,20 @@ def test_meta_agente_codex_is_published_and_linked():
     assert "META-AGENTE CODEX" in meta_part2_contents
     assert "Parte 2 de 3" in meta_part2_contents
 
+    meta_doc_part3 = REPO_ROOT / "docs" / "analisis" / "META_AGENTE_CODEX_PARTE_3.md"
+    assert meta_doc_part3.exists(), "Falta la Parte 3 del META-AGENTE CODEX en docs/analisis"
+
+    meta_part3_contents = _read(meta_doc_part3)
+    assert "META-AGENTE CODEX" in meta_part3_contents
+    assert "PARTE 3 DE 3" in meta_part3_contents.upper()
+
     execplan_path = REPO_ROOT / "docs" / "plans" / "EXECPLAN_meta_agente_codex.md"
     assert execplan_path.exists(), "Debe existir el ExecPlan que gobierna el META-AGENTE CODEX"
 
     docs_index = _read(REPO_ROOT / "docs" / "index.md")
     assert "META_AGENTE_CODEX_PARTE_1" in docs_index
     assert "META_AGENTE_CODEX_PARTE_2" in docs_index
+    assert "META_AGENTE_CODEX_PARTE_3" in docs_index
 
     root_readme = _read(REPO_ROOT / "README.md")
     assert "META-AGENTE CODEX" in root_readme
@@ -324,11 +332,13 @@ def test_meta_agente_codex_is_published_and_linked():
     agent_catalog = _read(REPO_ROOT / ".agent" / "agents" / "README.md")
     assert "META_AGENTE_CODEX_PARTE_1" in agent_catalog
     assert "META_AGENTE_CODEX_PARTE_2" in agent_catalog
+    assert "META_AGENTE_CODEX_PARTE_3" in agent_catalog
 
     docs_agent = _read(REPO_ROOT / ".agent" / "agents" / "docs_agent.md")
     assert "META_AGENTE_CODEX_PARTE_1" in docs_agent
     assert "META_AGENTE_CODEX_PARTE_2" in docs_agent
     assert "EXECPLAN_meta_agente_codex.md" in docs_agent
+    assert "META_AGENTE_CODEX_PARTE_3" in docs_agent
 
     providers = ["claude_agent.md", "chatgpt_agent.md", "huggingface_agent.md"]
     domains = ["api_agent.md", "ui_agent.md", "infrastructure_agent.md", "docs_agent.md", "scripts_agent.md"]
@@ -338,7 +348,9 @@ def test_meta_agente_codex_is_published_and_linked():
         contents = _read(agents_dir / filename)
         assert "META_AGENTE_CODEX_PARTE_1" in contents
         assert "META_AGENTE_CODEX_PARTE_2" in contents
+        assert "META_AGENTE_CODEX_PARTE_3" in contents
 
     execplan_contents = _read(execplan_path)
     assert "Parte 2 de 3" in execplan_contents
+    assert "Parte 3 de 3" in execplan_contents
 

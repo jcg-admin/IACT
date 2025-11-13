@@ -188,6 +188,7 @@ pytest -c docs/pytest.ini docs/testing
 - **META-AGENTE CODEX**
   - [Parte 1](docs/analisis/META_AGENTE_CODEX_PARTE_1.md): Supuestos, restricciones y fundamentos para generar artefactos CODEX multi-LLM.
   - [Parte 2](docs/analisis/META_AGENTE_CODEX_PARTE_2.md): Pipeline detallado (Etapas 4-6), formato de entrada y estructura del artefacto.
+  - [Parte 3](docs/analisis/META_AGENTE_CODEX_PARTE_3.md): Instrucciones de uso, formatos de salida, limitaciones y visión de futuro.
 
 ## Arquitectura y Stack
 

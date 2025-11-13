@@ -6,7 +6,7 @@
 
 ---
 
-> **Serie documental**: Esta es la Parte 2 de 3 del manual del META-AGENTE CODEX. Consulte la Parte 1 en `docs/analisis/META_AGENTE_CODEX_PARTE_1.md` y el ExecPlan rector en [`docs/plans/EXECPLAN_meta_agente_codex.md`](../plans/EXECPLAN_meta_agente_codex.md). El ETA-AGENTE CODEX exige que cada entrega permanezca autocontenida en `docs/analisis/` y enlazada desde los catálogos oficiales.
+> **Serie documental**: Esta es la Parte 2 de 3 del manual del META-AGENTE CODEX. Consulte la Parte 1 en `docs/analisis/META_AGENTE_CODEX_PARTE_1.md`, la Parte 3 en `docs/analisis/META_AGENTE_CODEX_PARTE_3.md` y el ExecPlan rector en [`docs/plans/EXECPLAN_meta_agente_codex.md`](../plans/EXECPLAN_meta_agente_codex.md). El ETA-AGENTE CODEX exige que cada entrega permanezca autocontenida en `docs/analisis/` y enlazada desde los catálogos oficiales.
 
 ## 3. Pipeline de Generación del Artefacto (Continuación)
 

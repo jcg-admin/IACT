@@ -19,6 +19,7 @@ Guiar el uso de modelos Hugging Face (locales o alojados) dentro de los pipeline
 - **Normativa CODEX**:
   - `docs/analisis/META_AGENTE_CODEX_PARTE_1.md` obliga a documentar evidencia formal y empírica al emitir artefactos basados en modelos Hugging Face.
   - `docs/analisis/META_AGENTE_CODEX_PARTE_2.md` prescribe el pipeline detallado, el template YAML y la estructura del artefacto que deben respetar estas entregas.
+  - `docs/analisis/META_AGENTE_CODEX_PARTE_3.md` detalla cómo consumir los artefactos resultantes, qué formatos publicar y qué limitaciones deben informarse al trabajar con modelos Hugging Face.
 
 ## Procedimiento Recomendado
 

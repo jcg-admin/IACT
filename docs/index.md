@@ -108,6 +108,7 @@ Este índice combina lo implementado con la visión futura del proyecto, clarame
 - **META-AGENTE CODEX**:
   - [`analisis/META_AGENTE_CODEX_PARTE_1.md`](analisis/META_AGENTE_CODEX_PARTE_1.md) - Marco autónomo para generar artefactos CODEX multi-LLM (Parte 1 de 3)
   - [`analisis/META_AGENTE_CODEX_PARTE_2.md`](analisis/META_AGENTE_CODEX_PARTE_2.md) - Pipeline detallado del artefacto CODEX (Etapas 4-6 y estructura) (Parte 2 de 3)
+  - [`analisis/META_AGENTE_CODEX_PARTE_3.md`](analisis/META_AGENTE_CODEX_PARTE_3.md) - Instrucciones de uso, formatos de salida, limitaciones y visión de futuro (Parte 3 de 3)
 
 ## [PROYECTO] Proyecto y planificación
 

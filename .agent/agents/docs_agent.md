@@ -14,6 +14,7 @@ Garantizar que los cambios en `docs/` sigan la gobernanza del ETA-AGENTE CODEX y
 - **Referencia normativa**:
   - `docs/analisis/META_AGENTE_CODEX_PARTE_1.md` (Parte 1 de 3) establece los supuestos y restricciones del meta-agente que gobierna todas las redacciones CODEX.
   - `docs/analisis/META_AGENTE_CODEX_PARTE_2.md` (Parte 2 de 3) describe el pipeline detallado, los formatos de entrada y la estructura obligatoria del artefacto CODEX.
+  - `docs/analisis/META_AGENTE_CODEX_PARTE_3.md` (Parte 3 de 3) documenta instrucciones de uso, formatos de salida, limitaciones y visión de futuro que deben comunicarse en cada entrega.
 
 ## Procedimiento Recomendado
 

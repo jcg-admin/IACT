@@ -17,6 +17,7 @@ Orquestar las integraciones con modelos Claude (Anthropic) dentro del flujo SDLC
 - **Normativa CODEX**:
   - `docs/analisis/META_AGENTE_CODEX_PARTE_1.md` fija los supuestos y restricciones que deben respetar los artefactos generados con Claude.
   - `docs/analisis/META_AGENTE_CODEX_PARTE_2.md` define el pipeline detallado y la estructura obligatoria del artefacto CODEX que Claude debe seguir.
+  - `docs/analisis/META_AGENTE_CODEX_PARTE_3.md` describe cómo consumir los artefactos generados, los formatos de salida esperados, las limitaciones conocidas y la visión de evolución del meta-agente.
 
 ## Procedimiento Recomendado
 

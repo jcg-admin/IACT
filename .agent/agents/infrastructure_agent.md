@@ -10,6 +10,7 @@ Coordinar automatizaciones relacionadas con `infrastructure/`, incluyendo IaC, p
 - **Normativa CODEX**:
   - `docs/analisis/META_AGENTE_CODEX_PARTE_1.md` garantiza que las descripciones de infraestructura respeten los supuestos y validaciones del meta-agente.
   - `docs/analisis/META_AGENTE_CODEX_PARTE_2.md` establece el pipeline detallado y la estructura obligatoria que debe reflejarse en artefactos de infraestructura.
+  - `docs/analisis/META_AGENTE_CODEX_PARTE_3.md` indica cómo usar los artefactos resultantes, qué formatos documentar para operaciones y qué limitaciones deben divulgarse al equipo de infraestructura.
 - **Catálogo de prompts**: `docs/ai_capabilities/prompting/PROMPT_TECHNIQUES_CATALOG.md` sirve como guía para seleccionar técnicas multi-LLM cuando la automatización afecta pipelines o servicios usados por los modelos.
 - **Gestión de contexto**: `docs/ai_capabilities/orchestration/CONTEXT_MANAGEMENT_PLAYBOOK.md` y `scripts/coding/ai/shared/context_sessions.py` documentan la memoria compartida entre incidentes prolongados y runbooks de infraestructura.
 - **Gobernanza**: `docs/gobernanza/metodologias/agentes_automatizacion.md` y runbooks en `docs/operaciones/`.

@@ -9,6 +9,7 @@ Este directorio contiene la definición de agentes especializados para automatiz
 - **Documentos base**:
   - [`docs/analisis/META_AGENTE_CODEX_PARTE_1.md`](../../docs/analisis/META_AGENTE_CODEX_PARTE_1.md)
   - [`docs/analisis/META_AGENTE_CODEX_PARTE_2.md`](../../docs/analisis/META_AGENTE_CODEX_PARTE_2.md)
+  - [`docs/analisis/META_AGENTE_CODEX_PARTE_3.md`](../../docs/analisis/META_AGENTE_CODEX_PARTE_3.md)
 - **ExecPlan asociado**: [`docs/plans/EXECPLAN_meta_agente_codex.md`](../../docs/plans/EXECPLAN_meta_agente_codex.md)
 - **Uso**: describe la gobernanza autónoma para generar artefactos CODEX multi-LLM. Todo agente por proveedor o dominio debe validar sus entregables contra este meta-agente antes de generar documentación oficial.
 

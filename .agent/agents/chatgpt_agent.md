@@ -17,6 +17,7 @@ Centralizar el uso de modelos ChatGPT/OpenAI dentro de los flujos de automatizac
 - **Normativa CODEX**:
   - `docs/analisis/META_AGENTE_CODEX_PARTE_1.md` define los supuestos que deben respetar las entregas basadas en modelos GPT.
   - `docs/analisis/META_AGENTE_CODEX_PARTE_2.md` describe el pipeline detallado, la entrada YAML y la estructura esperada que deben seguir estas entregas.
+  - `docs/analisis/META_AGENTE_CODEX_PARTE_3.md` establece las pautas de uso, formatos de salida y limitaciones que deben comunicarse cuando los entregables se generan con modelos GPT.
 
 ## Procedimiento Recomendado
 

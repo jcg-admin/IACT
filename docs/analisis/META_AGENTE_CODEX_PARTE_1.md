@@ -386,7 +386,7 @@ Artefacto CODEX + reporte de validación
 ## Próximos pasos
 
 - **Parte 2:** Cubrirá la construcción de la estructura (Etapa 4) y la aplicación detallada de Auto-CoT y Self-Consistency (Etapa 5).
-- **Parte 3:** Documentará la validación multi-capa, métricas de convergencia y la integración con los agentes operativos.
+- **Parte 3:** Documenta instrucciones de uso, formatos de salida, limitaciones conocidas y la visión de evolución del meta-agente.
 
 Mientras las otras partes se redactan, los agentes de documentación (`docs_agent.md`) y de scripts (`scripts_agent.md`) deben seguir utilizando este documento como referencia para alinear sus ExecPlans y automatizaciones.
 
