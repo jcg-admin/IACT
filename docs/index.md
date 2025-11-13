@@ -32,6 +32,7 @@ Este índice combina lo implementado con la visión futura del proyecto, clarame
   - Guía de uso por rol: [`GUIA_USO.md`](gobernanza/ci_cd/GUIA_USO.md)
   - Troubleshooting: [`TROUBLESHOOTING.md`](gobernanza/ci_cd/TROUBLESHOOTING.md)
   - Ejemplos: [`EJEMPLOS.md`](gobernanza/ci_cd/EJEMPLOS.md)
+- **Hamilton + 6 fases SDLC IA**: [`gobernanza/ai/HAMILTON_FRAMEWORK_INTEGRACION_SDLC.md`](gobernanza/ai/HAMILTON_FRAMEWORK_INTEGRACION_SDLC.md) - Guía para adaptar Hamilton al marco de gobierno IA.
 
 ### Arquitectura ([IMPLEMENTADO] Documentada, [PLANIFICADO] Evolución continua)
 - **ADRs**: [`adr/`](adr/) - 11+ Architecture Decision Records
@@ -86,6 +87,7 @@ Este índice combina lo implementado con la visión futura del proyecto, clarame
 - **Métricas DORA**: [`scripts/dora_metrics.py`](../scripts/dora_metrics.py)
 - **Templates**: [`scripts/templates/`](../scripts/templates/)
 - **Gestión de contexto multi-LLM**: [`ai_capabilities/orchestration/CONTEXT_MANAGEMENT_PLAYBOOK.md`](ai_capabilities/orchestration/CONTEXT_MANAGEMENT_PLAYBOOK.md) y módulo reutilizable [`scripts/coding/ai/shared/context_sessions.py`](../scripts/coding/ai/shared/context_sessions.py).
+- **Hamilton Data→Prompt→LLM ejemplo**: [`scripts/coding/ai/examples/hamilton_llm/`](../scripts/coding/ai/examples/hamilton_llm/) con pruebas [`scripts/coding/tests/ai/examples/test_hamilton_llm_example.py`](../scripts/coding/tests/ai/examples/test_hamilton_llm_example.py).
 
 #### [PLANIFICADO] Planificados (ver [`docs/scripts/README.md`](scripts/README.md))
 - `scripts/sdlc_agent.py` - CLI SDLC
