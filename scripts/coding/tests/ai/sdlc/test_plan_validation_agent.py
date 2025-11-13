@@ -16,9 +16,7 @@ Target: >=90% coverage
 """
 
 import pytest
-import tempfile
 from pathlib import Path
-from dataclasses import asdict
 
 # Import will fail initially (TDD RED phase) - expected
 try:
@@ -27,7 +25,6 @@ try:
         IssueDocument,
         ReasoningPathResult,
         ConsensusResult,
-        ValidationResult,
         IssueDocumentParser,
         CompletenessChecker,
         TechnicalFeasibilityAnalyzer,
