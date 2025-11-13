@@ -16,21 +16,28 @@ Brindar al proyecto una guía y componentes reutilizables para ejecutar flujos m
 - [x] (2025-11-09 14:22Z) Tests de unidad cubriendo generación de flujos single-agent y multi-agent para cada proveedor.
 - [x] (2025-11-09 14:30Z) Secciones de documentación y catálogo de agentes enlazan el nuevo módulo.
 - [x] (2025-11-09 14:40Z) Validación manual del builder y actualización del retrospect.
+- [x] (2025-11-09 15:55Z) Fichas ClaudeAgent/ChatGPTAgent/HuggingFaceAgent añadidas al catálogo `.agent/agents` y referenciadas desde la guía SDLC.
+- [x] (2025-11-09 15:58Z) Pruebas de alineación documental extendidas para exigir presencia de las fichas y sus vínculos multi-LLM.
 
 ## Surprises & Discoveries
 
 - Observación: Hugging Face no requiere token obligatorio para ejecutar checkpoints locales, pero el builder devuelve la clave como opcional para mantener consistencia con los proveedores remotos.
   Evidencia: Decisión codificada en `_SUPPORTED_PROVIDERS` (`required=False`).
+- Observación: Las pruebas de alineación fallaron hasta que cada ficha de agente incluyó referencias explícitas al ExecPlan y a la guía de API keys.
+  Evidencia: `test_llm_provider_agents_are_documented` exige esas referencias para evitar divergencias futuras.
 
 ## Decision Log
 
 - Decision: Registrar el ExecPlan bajo `docs/plans/EXECPLAN_codex_mcp_multi_llm.md` para mantenerlo versionado junto a otras planeaciones.
   Rationale: El árbol `docs/plans/` centraliza los planes operativos referenciados desde documentos oficiales.
   Date/Author: 2025-11-09 / gpt-5-codex
+- Decision: Consolidar las fichas de proveedores LLM en `.agent/agents` y validar su presencia mediante pruebas automatizadas.
+  Rationale: Garantiza que cada proveedor tenga instrucciones autodescriptivas y vínculos a scripts/documentación antes de ejecutar flujos multi-agente.
+  Date/Author: 2025-11-09 / gpt-5-codex
 
 ## Outcomes & Retrospective
 
-Los briefs generados cubren los tres proveedores y mantienen el gating documentado. Las pruebas unitarias confirman la presencia de políticas MCP y trazas; no se detectaron gaps adicionales. Se recomienda monitorizar posibles cambios de nombres de modelos por parte de los proveedores para mantener los defaults vigentes.
+Los briefs generados cubren los tres proveedores y mantienen el gating documentado. Las pruebas unitarias confirman la presencia de políticas MCP y trazas, mientras que las fichas de agentes aseguran que planificación y credenciales permanezcan sincronizadas. Se recomienda monitorizar posibles cambios de nombres de modelos por parte de los proveedores para mantener los defaults vigentes.
 
 ## Context and Orientation
 

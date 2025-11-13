@@ -162,3 +162,29 @@ def test_agent_catalog_links_to_docs_and_scripts():
     agent_readme = _read(REPO_ROOT / ".agent" / "README.md")
     assert "docs/ai/SDLC_AGENTS_GUIDE.md" in agent_readme
     assert "scripts/coding/ai/agents" in agent_readme
+
+
+def test_llm_provider_agents_are_documented():
+    agents_dir = REPO_ROOT / ".agent" / "agents"
+    providers = {
+        "claude_agent.md": "ClaudeAgent",
+        "chatgpt_agent.md": "ChatGPTAgent",
+        "huggingface_agent.md": "HuggingFaceAgent",
+    }
+
+    catalog_contents = _read(agents_dir / "README.md")
+
+    for filename, label in providers.items():
+        agent_path = agents_dir / filename
+        assert agent_path.exists(), f"Falta el archivo {filename} en el catálogo de agentes"
+
+        agent_contents = _read(agent_path)
+        assert "scripts/coding/ai/generators/llm_generator.py" in agent_contents
+        assert "docs/ai/CONFIGURACION_API_KEYS.md" in agent_contents
+        assert "docs/plans/EXECPLAN_codex_mcp_multi_llm.md" in agent_contents
+
+        assert label in catalog_contents
+
+    sdlc_guide = _read(REPO_ROOT / "docs" / "ai" / "SDLC_AGENTS_GUIDE.md")
+    for label in providers.values():
+        assert label in sdlc_guide

@@ -124,6 +124,16 @@ config = {
 
 ## Agentes Disponibles
 
+### Agentes por proveedor LLM
+
+Para asegurar coherencia entre planificación, credenciales y herramientas, consulta las fichas específicas en `.agent/agents/`:
+
+- **ClaudeAgent** (`.agent/agents/claude_agent.md`): describe el flujo completo cuando `llm_provider="anthropic"`, incluyendo configuración de `ANTHROPIC_API_KEY`, uso del `LLMGenerator` y orquestaciones Codex MCP documentadas en `docs/plans/EXECPLAN_codex_mcp_multi_llm.md`.
+- **ChatGPTAgent** (`.agent/agents/chatgpt_agent.md`): guía las integraciones con modelos GPT/OpenAI, detalla el uso de `OPENAI_API_KEY` y enlaza con `scripts/coding/ai/orchestrators/codex_mcp_workflow.py`.
+- **HuggingFaceAgent** (`.agent/agents/huggingface_agent.md`): centraliza el trabajo con modelos locales o alojados en Hugging Face, indicando rutas (`HF_LOCAL_MODEL_PATH`, `HF_MODEL_ID`) y las guías complementarias (`docs/ai_capabilities/prompting/PHI3_PROMPT_ENGINEERING_PLAYBOOK.md`).
+
+Estas fichas son complementarias a esta guía y deben revisarse antes de ejecutar tareas multi-LLM.
+
 ### 1. SDLCFeasibilityAgent
 
 **Propósito:** Evalúa la viabilidad técnica de una feature antes de implementarla.

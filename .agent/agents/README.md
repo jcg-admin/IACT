@@ -4,6 +4,40 @@ Este directorio contiene la definición de agentes especializados para automatiz
 
 ## Agentes Disponibles
 
+### Agentes LLM por proveedor
+
+Estos agentes vinculan la planificación (`.agent/PLANS.md`), la configuración de credenciales y los scripts reutilizables cuando se trabaja con modelos específicos.
+
+#### ClaudeAgent
+
+- **Archivo**: `claude_agent.md`
+- **Cuándo usarlo**: Cada vez que Claude (Anthropic) sea el proveedor principal.
+- **Relaciones clave**:
+  - Configuración en `docs/ai/CONFIGURACION_API_KEYS.md` (`ANTHROPIC_API_KEY`).
+  - ExecPlan vivo: `docs/plans/EXECPLAN_codex_mcp_multi_llm.md`.
+  - Scripts: `scripts/coding/ai/generators/llm_generator.py` (`llm_provider="anthropic"`) y `scripts/coding/ai/orchestrators/codex_mcp_workflow.py`.
+  - Guías: `docs/ai/SDLC_AGENTS_GUIDE.md` y `docs/ai_capabilities/orchestration/CODEX_MCP_MULTI_AGENT_GUIDE.md`.
+
+#### ChatGPTAgent
+
+- **Archivo**: `chatgpt_agent.md`
+- **Cuándo usarlo**: Para operaciones soportadas por modelos GPT de OpenAI.
+- **Relaciones clave**:
+  - Configuración en `docs/ai/CONFIGURACION_API_KEYS.md` (`OPENAI_API_KEY`).
+  - ExecPlan: `docs/plans/EXECPLAN_codex_mcp_multi_llm.md`.
+  - Scripts: `scripts/coding/ai/generators/llm_generator.py` (`llm_provider="openai"`) y `scripts/coding/ai/orchestrators/codex_mcp_workflow.py`.
+  - Guías: `docs/ai/SDLC_AGENTS_GUIDE.md` y `docs/ai_capabilities/orchestration/CODEX_MCP_MULTI_AGENT_GUIDE.md`.
+
+#### HuggingFaceAgent
+
+- **Archivo**: `huggingface_agent.md`
+- **Cuándo usarlo**: Para modelos locales/fine-tuned o integraciones Hugging Face.
+- **Relaciones clave**:
+  - Configuración en `docs/ai/CONFIGURACION_API_KEYS.md` (`HF_LOCAL_MODEL_PATH`, `HF_MODEL_ID`, `HUGGINGFACEHUB_API_TOKEN`).
+  - ExecPlan: `docs/plans/EXECPLAN_codex_mcp_multi_llm.md`.
+  - Scripts: `scripts/coding/ai/generators/llm_generator.py` (`llm_provider="huggingface"`) y `scripts/coding/ai/orchestrators/codex_mcp_workflow.py`.
+  - Guías: `docs/ai/SDLC_AGENTS_GUIDE.md`, `docs/ai_capabilities/prompting/PHI3_PROMPT_ENGINEERING_PLAYBOOK.md` y `docs/ai_capabilities/orchestration/CODEX_MCP_MULTI_AGENT_GUIDE.md`.
+
 ### 1. GitOpsAgent
 
 **Archivo**: `gitops_agent.md`
