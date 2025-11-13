@@ -6,7 +6,7 @@ estrategia: Opción B - Separación clara
 
 # WARNING AVISO: Requisitos Movidos a `docs/implementacion/`
 
-## 📍 Nueva Ubicación
+## [PUNTO] Nueva Ubicación
 
 Los requisitos del backend ahora viven en:
 

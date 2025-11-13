@@ -423,7 +423,7 @@ Antes de crear un nuevo service/adapter/strategy, pregúntate:
 
 ---
 
-## 💡 Tips Finales
+## [IDEA] Tips Finales
 
 1. **Cuando dudes, empieza simple**: Es más fácil refactorizar a un patrón complejo que simplificar un over-engineering.
 

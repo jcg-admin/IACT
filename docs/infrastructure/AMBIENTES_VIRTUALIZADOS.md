@@ -461,12 +461,12 @@ jobs:
 
 El sistema de ambientes virtualizados te da:
 
-✅ **Aislamiento** - Cada ambiente es independiente
-✅ **Rapidez** - Inicia en segundos
-✅ **Ligero** - 100-200 MB por ambiente
-✅ **Múltiples** - Corre varios simultáneamente
-✅ **Limpieza** - Destruir y recrear fácilmente
-✅ **Portabilidad** - Solo requiere Docker
-✅ **CI/CD Ready** - Ya containerizado
+[OK] **Aislamiento** - Cada ambiente es independiente
+[OK] **Rapidez** - Inicia en segundos
+[OK] **Ligero** - 100-200 MB por ambiente
+[OK] **Múltiples** - Corre varios simultáneamente
+[OK] **Limpieza** - Destruir y recrear fácilmente
+[OK] **Portabilidad** - Solo requiere Docker
+[OK] **CI/CD Ready** - Ya containerizado
 
 Es como tener `venv` de Python, pero para servicios completos.

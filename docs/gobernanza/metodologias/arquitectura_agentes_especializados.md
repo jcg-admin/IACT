@@ -115,7 +115,7 @@ class EmojiScanner:
     Output: ScanResult
     """
 
-    EMOJI_PATTERN = r"[\\x{1F300}-\\x{1FAD6}]|[x]|[ ]|[WARNING]|🔴|🟡|🟢"
+    EMOJI_PATTERN = r"[\\x{1F300}-\\x{1FAD6}]|[x]|[ ]|[WARNING]|[CRITICO]|[EN_PROGRESO]|[COMPLETADO]"
 
     def scan(self, root_dir: Path) -> ScanResult:
         """Escanea directorio buscando emojis"""

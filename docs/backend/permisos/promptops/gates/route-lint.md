@@ -129,9 +129,9 @@ Para cada ViewSet identificado:
 
     # Evaluar
     Si (tiene_atributo OR hereda_mixin):
-        ViewSet válido ✅
+        ViewSet válido [OK]
     Sino:
-        VIOLATION ❌
+        VIOLATION [NO]
 ```
 
 ### Paso 4: Generación de Reporte
@@ -213,7 +213,7 @@ Analyzed:
   ViewSets: 10
   Coverage: 80.0%
 
-❌ FAIL - 2 violations found
+[NO] FAIL - 2 violations found
 
 Violations:
 
@@ -421,7 +421,7 @@ class ReporteViewSet(PermisoMixin, SomeMixin, viewsets.ModelViewSet):
 
 ```python
 class ReporteViewSet(viewsets.ModelViewSet):
-    required_permissions = []  # ❌ Vacío
+    required_permissions = []  # [NO] Vacío
 ```
 
 **Manejo:** VIOLATION (lista vacía no es válida)

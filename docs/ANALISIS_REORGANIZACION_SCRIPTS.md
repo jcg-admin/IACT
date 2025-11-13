@@ -53,12 +53,12 @@ scripts/ai/agents/
 ```
 
 **Consecuencias**:
-- ❌ **Difícil navegación**: Encontrar un archivo específico requiere scroll extenso
-- ❌ **Violación de SRP**: Un directorio con responsabilidades múltiples
-- ❌ **Naming inconsistente**: Mezcla de prefijos (`sdlc_`, `tdd_`, `test_`) y sufijos (`_agent`, `_generator`, `_validator`)
-- ❌ **Imports complejos**: `from scripts.ai.agents.sdlc_planner import SDLCPlannerAgent` es largo
-- ❌ **Testing mezclado con producción**: Archivos `test_*.py` junto con código productivo
-- ❌ **Dificulta onboarding**: Nuevos desarrolladores tardan en entender estructura
+- [NO] **Difícil navegación**: Encontrar un archivo específico requiere scroll extenso
+- [NO] **Violación de SRP**: Un directorio con responsabilidades múltiples
+- [NO] **Naming inconsistente**: Mezcla de prefijos (`sdlc_`, `tdd_`, `test_`) y sufijos (`_agent`, `_generator`, `_validator`)
+- [NO] **Imports complejos**: `from scripts.ai.agents.sdlc_planner import SDLCPlannerAgent` es largo
+- [NO] **Testing mezclado con producción**: Archivos `test_*.py` junto con código productivo
+- [NO] **Dificulta onboarding**: Nuevos desarrolladores tardan en entender estructura
 
 #### **Problema 2: Scripts root-level sin organización clara**
 
@@ -75,9 +75,9 @@ scripts/
 ```
 
 **Consecuencias**:
-- ❌ **Responsabilidades mezcladas**: Validación, generación, métricas, sincronización
-- ❌ **Duplicación potencial**: ¿`generate_business_analysis.py` vs `ai/agents/business_analysis_generator.py`?
-- ❌ **No sigue principio de Single Level of Abstraction**: Mezcla CLIs de alto nivel con scripts específicos
+- [NO] **Responsabilidades mezcladas**: Validación, generación, métricas, sincronización
+- [NO] **Duplicación potencial**: ¿`generate_business_analysis.py` vs `ai/agents/business_analysis_generator.py`?
+- [NO] **No sigue principio de Single Level of Abstraction**: Mezcla CLIs de alto nivel con scripts específicos
 
 #### **Problema 3: Tests ubicados incorrectamente**
 
@@ -87,25 +87,25 @@ scripts/
 - `test_planner.py`
 
 **Consecuencia**:
-- ❌ **Violación de convenciones Python**: Tests deben estar en `tests/`, no en `scripts/`
-- ❌ **Dificulta pytest discovery**: Configuración adicional necesaria
-- ❌ **Confusión con test runners**: `test_runner.py` (runner) vs `test_planner.py` (tests)
+- [NO] **Violación de convenciones Python**: Tests deben estar en `tests/`, no en `scripts/`
+- [NO] **Dificulta pytest discovery**: Configuración adicional necesaria
+- [NO] **Confusión con test runners**: `test_runner.py` (runner) vs `test_planner.py` (tests)
 
 #### **Problema 4: Naming Principles no aplicados consistentemente**
 
 **Violaciones de Clean Code Naming**:
 
 1. **Nombres con prefijos técnicos en lugar de dominio**:
-   - ❌ `sdlc_planner.py` → Prefijo técnico `sdlc_`
-   - ✅ Mejor: `planner.py` dentro de `sdlc/`
+   - [NO] `sdlc_planner.py` → Prefijo técnico `sdlc_`
+   - [OK] Mejor: `planner.py` dentro de `sdlc/`
 
 2. **Sufijos redundantes con ubicación**:
-   - ❌ `tdd_feature_agent.py` dentro de `agents/`
-   - ✅ Mejor: `feature_agent.py` dentro de `tdd/`
+   - [NO] `tdd_feature_agent.py` dentro de `agents/`
+   - [OK] Mejor: `feature_agent.py` dentro de `tdd/`
 
 3. **Nombres que no revelan intención**:
-   - ❌ `base.py` → ¿Base de qué?
-   - ✅ Mejor: `agent_base.py` o `base_agent.py`
+   - [NO] `base.py` → ¿Base de qué?
+   - [OK] Mejor: `agent_base.py` o `base_agent.py`
 
 4. **Inconsistencia en sufijos**:
    - Mezcla de `_agent`, `_generator`, `_validator`, `_verifier`, `_analyzer`
@@ -288,19 +288,19 @@ scripts/
 
 **Antes**:
 ```python
-# ❌ No revela qué tipo de base es
+# [NO] No revela qué tipo de base es
 from scripts.ai.agents.base import BaseAgent
 
-# ❌ Nombre genérico
+# [NO] Nombre genérico
 from scripts.ai.agents.test_runner import run_tests
 ```
 
 **Después**:
 ```python
-# ✅ Claro: Es la base para agentes
+# [OK] Claro: Es la base para agentes
 from scripts.ai.shared.agent_base import AgentBase
 
-# ✅ Claro: Runner compartido de tests
+# [OK] Claro: Runner compartido de tests
 from scripts.ai.shared.test_runner import run_tests
 ```
 
@@ -308,15 +308,15 @@ from scripts.ai.shared.test_runner import run_tests
 
 **Antes**:
 ```python
-# ❌ "sdlc_" en el nombre cuando ya está en directorio sdlc/
-# ❌ Duplicación de información
+# [NO] "sdlc_" en el nombre cuando ya está en directorio sdlc/
+# [NO] Duplicación de información
 scripts/ai/agents/sdlc_planner.py
 scripts/ai/agents/sdlc_feasibility.py
 ```
 
 **Después**:
 ```python
-# ✅ Sin prefijo redundante - la ubicación da contexto
+# [OK] Sin prefijo redundante - la ubicación da contexto
 scripts/ai/sdlc/planner_agent.py
 scripts/ai/sdlc/feasibility_agent.py
 ```
@@ -325,7 +325,7 @@ scripts/ai/sdlc/feasibility_agent.py
 
 **Antes**:
 ```python
-# ❌ ¿Cuál es la diferencia entre validator y verifier?
+# [NO] ¿Cuál es la diferencia entre validator y verifier?
 coverage_verifier.py
 code_quality_validator.py
 completeness_validator.py
@@ -333,7 +333,7 @@ completeness_validator.py
 
 **Después**:
 ```python
-# ✅ Todos son validators - mismo sufijo consistente
+# [OK] Todos son validators - mismo sufijo consistente
 scripts/ai/quality/code_quality_validator.py
 scripts/ai/quality/completeness_validator.py
 scripts/ai/quality/coverage_validator.py  # Renombrado de verifier
@@ -343,14 +343,14 @@ scripts/ai/quality/coverage_validator.py  # Renombrado de verifier
 
 **Antes**:
 ```bash
-# ❌ Difícil de buscar "base" - demasiado genérico
+# [NO] Difícil de buscar "base" - demasiado genérico
 find . -name "base.py"
 # Resultados: base.py, sdlc_base.py, test_base.py, etc.
 ```
 
 **Después**:
 ```bash
-# ✅ Fácil de buscar - específico
+# [OK] Fácil de buscar - específico
 find . -name "agent_base.py"
 # Resultado único en scripts/ai/shared/agent_base.py
 ```
@@ -359,7 +359,7 @@ find . -name "agent_base.py"
 
 **Antes**:
 ```python
-# ❌ Mezcla de sufijos para mismo concepto
+# [NO] Mezcla de sufijos para mismo concepto
 business_analysis_generator.py   # "generator"
 template_generator.py             # "generator"
 pdca_automation_agent.py          # "agent"
@@ -369,7 +369,7 @@ llm_generator.py                  # "generator"
 
 **Después**:
 ```python
-# ✅ Agentes usan sufijo _agent, Generators usan _generator
+# [OK] Agentes usan sufijo _agent, Generators usan _generator
 scripts/ai/sdlc/planner_agent.py          # Agente
 scripts/ai/tdd/feature_agent.py           # Agente
 scripts/ai/generators/template_generator.py  # Generador

@@ -6,19 +6,19 @@ This document describes how WASI-style virtualization scripts provide **infrastr
 
 ## Scope and Purpose
 
-**⚠️ IMPORTANT - What WASI IS and ISN'T:**
+**[ATENCION] IMPORTANT - What WASI IS and ISN'T:**
 
 ### WASI IS for:
-- ✅ **Infrastructure virtualization** (PostgreSQL, MySQL, Redis)
-- ✅ **Database isolation** for development and testing
-- ✅ **Test infrastructure** (TDD support - setup before tests)
-- ✅ **Bash scripts** that create isolated environments
+- [OK] **Infrastructure virtualization** (PostgreSQL, MySQL, Redis)
+- [OK] **Database isolation** for development and testing
+- [OK] **Test infrastructure** (TDD support - setup before tests)
+- [OK] **Bash scripts** that create isolated environments
 
 ### WASI IS NOT for:
-- ❌ **SDLC Agents** (feasibility, design, testing agents)
-- ❌ **Business logic** (Django views, React components)
-- ❌ **Application code** (models, services, controllers)
-- ❌ **LLM configuration** (this is handled by environment_config only)
+- [NO] **SDLC Agents** (feasibility, design, testing agents)
+- [NO] **Business logic** (Django views, React components)
+- [NO] **Application code** (models, services, controllers)
+- [NO] **LLM configuration** (this is handled by environment_config only)
 
 ### Integration Flow:
 1. **Application code** uses `environment_config.py` to detect environment and get DB connection parameters

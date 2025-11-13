@@ -63,7 +63,7 @@ def save(self, *args, **kwargs):
     super().save(*args, **kwargs)
 ```
 
-⚠️ Los registros NUNCA se pueden actualizar después de creados.
+[ATENCION] Los registros NUNCA se pueden actualizar después de creados.
 
 **Permisos**:
 - Solo lectura: `view_auditlog`
@@ -110,11 +110,11 @@ def delete_user(user_id):
 - `GET /api/audit/user/{user_id}/` - Logs de usuario específico
 - `GET /api/audit/resource/{resource}/{resource_id}/` - Logs de recurso específico
 
-⚠️ NO hay endpoints POST/PUT/DELETE (inmutabilidad).
+[ATENCION] NO hay endpoints POST/PUT/DELETE (inmutabilidad).
 
 ## Tests
 
-⚠️ **WARNING**: No se detectaron tests automáticos.
+[ATENCION] **WARNING**: No se detectaron tests automáticos.
 
 **Tests requeridos (prioridad ALTA - COMPLIANCE)**:
 1. `test_audit_log_immutability()` - Verificar que no se puede actualizar
@@ -183,9 +183,9 @@ AuditService.log(
 
 | Requisito | Descripción | Estado |
 |-----------|-------------|--------|
-| RN-001 | ISO 27001 compliance | ✅ Auditoría completa e inmutable |
-| RS-001 | Trazabilidad completa | ✅ Todos los campos necesarios |
-| RS-002 | Reportes automáticos | ⚠️ Implementar exports |
+| RN-001 | ISO 27001 compliance | [OK] Auditoría completa e inmutable |
+| RS-001 | Trazabilidad completa | [OK] Todos los campos necesarios |
+| RS-002 | Reportes automáticos | [ATENCION] Implementar exports |
 
 ## Retención y Archivado
 
@@ -204,11 +204,11 @@ python manage.py archive_old_audit_logs --days=90
 ## Seguridad
 
 ### Protecciones Implementadas
-1. ✅ **Inmutabilidad**: RuntimeError si se intenta modificar
-2. ✅ **Sin permisos de escritura**: No está en default_permissions
-3. ✅ **Timestamp indexado**: Queries rápidos por fecha
-4. ⚠️ **Encriptación en reposo**: Configurar a nivel de BD
-5. ⚠️ **Exportación segura**: Implementar firma digital para exports
+1. [OK] **Inmutabilidad**: RuntimeError si se intenta modificar
+2. [OK] **Sin permisos de escritura**: No está en default_permissions
+3. [OK] **Timestamp indexado**: Queries rápidos por fecha
+4. [ATENCION] **Encriptación en reposo**: Configurar a nivel de BD
+5. [ATENCION] **Exportación segura**: Implementar firma digital para exports
 
 ## Notas
 
@@ -219,4 +219,4 @@ python manage.py archive_old_audit_logs --days=90
 - Integrar con SIEM (Security Information and Event Management) si existe
 
 **Última actualización**: 2025-11-06
-**Estado**: ✅ Documentación completa
+**Estado**: [OK] Documentación completa

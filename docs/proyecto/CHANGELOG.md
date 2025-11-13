@@ -570,10 +570,10 @@ Integracion de **DORA Report 2025 - Section 4: Platform Engineering & Organizati
 2. **Platform Team Roles & Evolution - Nueva seccion:**
    - Evolucion: Infrastructure Operators → Strategic Enablers
    - 4 roles DORA documentados con IACT status:
-     - Platform Engineer: 🟡 Distribuido
-     - Data Engineer: ⚠️ Pendiente formalizacion
-     - MLOps Engineer: ⚠️ No formal
-     - Governance Lead: 🟡 Arquitecto-senior
+     - Platform Engineer: [EN_PROGRESO] Distribuido
+     - Data Engineer: [ATENCION] Pendiente formalizacion
+     - MLOps Engineer: [ATENCION] No formal
+     - Governance Lead: [EN_PROGRESO] Arquitecto-senior
    - IACT team structure actual documentado (5 roles)
    - Platform team responsibilities: Foundational systems, Risk mgmt, Data governance, Developer enablement
    - Formalization pending: 4 tareas identificadas

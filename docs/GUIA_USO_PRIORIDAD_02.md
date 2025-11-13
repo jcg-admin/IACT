@@ -9,7 +9,7 @@
 
 ## Estado de Implementacion
 
-### ✅ COMPLETADO
+### [OK] COMPLETADO
 
 #### FASE 1: Seed Data & Database (100%)
 - Migraciones de base de datos creadas

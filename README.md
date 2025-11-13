@@ -1,24 +1,114 @@
 # Call Center Analytics
 
-Repositorio monolítico para la plataforma de analítica de centros de contacto (IACT). El proyecto se encuentra en fase de consolidación documental: la mayor parte del trabajo actual vive en `docs/` y en los scripts de automatización que acompañan la migración.
+Repositorio monolítico para la plataforma de analítica de centros de contacto (IACT) con Django 5, PostgreSQL y MariaDB.
+
+> **Nota sobre el estado del proyecto**: Actualmente en fase de consolidación documental y alineación de código con documentación. Algunas funcionalidades descritas están planificadas pero no implementadas. Consulta las secciones marcadas como "[IMPLEMENTADO]" vs "[PLANIFICADO]" para distinguir entre lo actual y lo futuro.
+>
+> **Leyenda**: [IMPLEMENTADO] = Funciona actualmente | [PLANIFICADO] = Documentado pero pendiente | [ATENCION] = Requiere atención | [NO] = Prohibido
 
 ## Estado actual del repositorio
-- **Documentación activa**: se centraliza en [`docs/index.md`](docs/index.md).
-- **Scripts utilitarios**: viven en [`scripts/`](scripts/README.md) y cubren validaciones, gates de CI y herramientas de soporte.
-- **Infraestructura CPython**: disponible en [`infrastructure/cpython/`](infrastructure/cpython/README.md) para construir e instalar intérpretes precompilados.
-- **Registros temporales**: se almacenan en [`logs_data/`](logs_data/README.md).
-- **Histórico**: contenido legado preservado en [`respaldo/docs_legacy/`](respaldo/docs_legacy/README.md).
-- **No existe un Makefile en la raíz**; cualquier instrucción previa que invoque `make` debe reinterpretarse usando los scripts disponibles.
 
-## Primeros pasos
-1. Clona el repositorio y activa un entorno virtual si trabajarás con herramientas Python opcionales.
-2. Instala dependencias de soporte para documentación si es necesario: `pip install -r docs/requirements.txt` (archivo opcional, revisar README correspondiente).
-3. Revisa el [plan de remediación activo](docs/plans/REV_20251112_remediation_plan.md) para entender el estado del trabajo.
-4. Navega el índice consolidado para ubicar la documentación relevante.
+### [IMPLEMENTADO] Implementado
+- **Documentación activa**: centralizada en [`docs/index.md`](docs/index.md)
+- **Scripts utilitarios**: en [`scripts/`](scripts/README.md) - validaciones, gates de CI y herramientas de soporte
+- **Infraestructura CPython**: builder completo en [`infrastructure/cpython/`](infrastructure/cpython/README.md)
+- **Registros temporales**: almacenados manualmente en [`logs_data/`](logs_data/README.md)
+- **Histórico**: contenido legado preservado en [`respaldo/docs_legacy/`](respaldo/docs_legacy/README.md)
 
-## Verificación manual de servicios
-- La guía vigente se encuentra en [`docs/operaciones/verificar_servicios.md`](docs/operaciones/verificar_servicios.md).
-- Actualmente **no existe** `./scripts/verificar_servicios.sh`. Sigue los pasos manuales descritos en el runbook para validar PostgreSQL y MariaDB.
+### [PLANIFICADO] Planificado
+- Sistema automatizado de métricas DORA
+- Scripts de gestión de requisitos
+- Pipeline completo de SDLC con agentes IA
+- Automatización de deployment con GitHub Actions
+
+## Inicio rápido
+
+### Requisitos locales
+- Python 3.11+
+- [Vagrant](https://developer.hashicorp.com/vagrant/install) (para bases de datos)
+- VirtualBox 7+
+- Cliente PostgreSQL (`postgresql-client`)
+- Cliente MariaDB (`mariadb-client`)
+
+### Setup de entorno
+
+1. **Clonar repositorio**:
+   ```bash
+   git clone https://github.com/2-Coatl/IACT---project.git
+   cd IACT---project
+   ```
+
+2. **Crear entorno virtual Python**:
+   ```bash
+   python3.11 -m venv .venv
+   source .venv/bin/activate
+   pip install -r requirements.txt
+   ```
+
+3. **[ATENCION] Levantar bases de datos** (requerido):
+   ```bash
+   vagrant up  # Levanta PostgreSQL:15432 y MariaDB:13306
+   ```
+
+4. **Verificar servicios** ([IMPLEMENTADO] Runbook disponible, [PLANIFICADO] script automatizado pendiente):
+   - Guía manual: [`docs/operaciones/verificar_servicios.md`](docs/operaciones/verificar_servicios.md)
+   - Script automatizado: `./scripts/verificar_servicios.sh` ([PLANIFICADO] Pendiente de implementar)
+
+## Flujo de desarrollo
+
+### 1. Configurar variables de entorno
+
+Crea un archivo `.env` en la raíz con las credenciales de bases de datos:
+
+```bash
+# PostgreSQL (analytics)
+DB_ANALYTICS_HOST=127.0.0.1
+DB_ANALYTICS_PORT=15432
+DB_ANALYTICS_NAME=iact_analytics
+DB_ANALYTICS_USER=django_user
+DB_ANALYTICS_PASSWORD=django_pass
+
+# MariaDB (IVR read-only)
+DB_IVR_HOST=127.0.0.1
+DB_IVR_PORT=13306
+DB_IVR_NAME=ivr_data
+DB_IVR_USER=django_user
+DB_IVR_PASSWORD=django_pass
+```
+
+### 2. Ejecutar migraciones
+
+```bash
+python manage.py migrate
+```
+
+### 3. Crear superusuario
+
+```bash
+python manage.py createsuperuser
+```
+
+### 4. Ejecutar tests
+
+[IMPLEMENTADO] **Implementado**:
+```bash
+# Tests completos
+./scripts/run_all_tests.sh
+
+# Solo backend
+pytest
+
+# Solo validaciones
+./scripts/validate_critical_restrictions.sh
+```
+
+[PLANIFICADO] **Planificado**: Suite completa con cobertura DORA metrics
+
+### 5. Desarrollo local
+
+[PLANIFICADO] **Pendiente**: El servidor de desarrollo Django aún no está configurado en este proyecto.
+
+**Alternativa temporal**: Consulta [`docs/gobernanza/procesos/procedimientos/procedimiento_desarrollo_local.md`](docs/gobernanza/procesos/procedimientos/procedimiento_desarrollo_local.md)
 
 ## Infraestructura CPython
 Los scripts disponibles dentro de `infrastructure/cpython/scripts/` son:
@@ -32,17 +122,122 @@ Los scripts disponibles dentro de `infrastructure/cpython/scripts/` son:
 Consulta [`docs/infrastructure/README.md`](docs/infrastructure/README.md) y [`docs/infrastructure/CHANGELOG-cpython.md`](docs/infrastructure/CHANGELOG-cpython.md) para conocer más detalles sobre estos flujos.
 
 ## Calidad y contribución
-1. Ejecuta las validaciones disponibles antes de abrir un PR:
-   ```bash
-   # Tests unitarios disponibles
-   pytest -c docs/pytest.ini docs/testing
 
-   # Ejecuta validaciones de shell y gates en cascada
-   ./scripts/run_all_tests.sh --skip-frontend --skip-security
-   ```
-2. Mantén la cobertura mínima del 80% para los módulos Python modificados.
-3. Sigue TDD (Red → Green → Refactor) y registra commits en formato Conventional Commits.
-4. Evita `git push --no-verify`. Si un hook falla, corrige la causa o ajusta la regla correspondiente; documenta cualquier excepción justificada en tu PR.
+### Tests y validación ([IMPLEMENTADO] Parcialmente implementado)
+
+Ejecuta validaciones antes de abrir un PR:
+
+```bash
+# [IMPLEMENTADO] Tests unitarios disponibles
+pytest -c docs/pytest.ini docs/testing
+
+# [IMPLEMENTADO] Validaciones de shell y gates en cascada
+./scripts/run_all_tests.sh --skip-frontend --skip-security
+
+# [IMPLEMENTADO] Validaciones de restricciones críticas (RNF-002: NO Redis)
+./scripts/validate_critical_restrictions.sh
+```
+
+### Métricas de calidad ([PLANIFICADO] Automatización pendiente)
+
+**Targets del proyecto**:
+- Cobertura de código: >= 80%
+- Test Pyramid: 60% unit / 30% integration / 10% E2E
+- Complejidad ciclomática: <= 10
+- MTTR para bugs críticos: <= 2 días
+
+**Estado actual**: Las métricas se calculan manualmente. Ver [`logs_data/SCHEMA.md`](logs_data/SCHEMA.md)
+
+### Workflow de commits
+
+1. **Sigue TDD**: Red → Green → Refactor
+2. **Conventional Commits**: `feat:`, `fix:`, `docs:`, `refactor:`, etc.
+3. **Evita `--no-verify`**: Si un hook falla, corrígelo en lugar de saltearlo
+4. **Coverage mínimo**: 80% en módulos Python modificados
+
+### Guías y estándares ([IMPLEMENTADO] Documentadas)
+
+- **[Guía de Estilo](docs/gobernanza/GUIA_ESTILO.md)** - Convenciones obligatorias (NO emojis, Conventional Commits)
+- **[Procedimiento de Desarrollo Local](docs/gobernanza/procesos/procedimientos/procedimiento_desarrollo_local.md)** - Setup detallado
+- **[Guía Completa de Desarrollo de Features](docs/gobernanza/procesos/procedimientos/guia_completa_desarrollo_features.md)** - Proceso end-to-end
+- **[Estrategia de QA](docs/gobernanza/procesos/qa/ESTRATEGIA_QA.md)** - Testing strategy
+
+## Arquitectura y Stack
+
+### Stack técnico ([IMPLEMENTADO] Implementado)
+- **Backend**: Django 5.1, Python 3.11+
+- **Bases de datos**: 
+  - PostgreSQL 16 (analytics, sessions, metrics)
+  - MariaDB 10.11 (IVR read-only)
+  - [PLANIFICADO] Cassandra (logs - planificado)
+- **Frontend**: [PLANIFICADO] React + Redux Toolkit (planificado)
+- **Infrastructure**: Vagrant, VirtualBox, CPython builder
+
+### Restricciones arquitectónicas críticas ([IMPLEMENTADO] Validadas)
+
+[ATENCION] **RNF-002**: Sesiones DEBEN estar en base de datos
+```python
+# PROHIBIDO
+SESSION_ENGINE = 'django.contrib.sessions.backends.cache'  # Redis/Memcached
+
+# OBLIGATORIO  
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'     # PostgreSQL
+```
+
+Otras restricciones:
+- [NO] NO Redis, Memcached, RabbitMQ, Celery
+- [NO] NO MongoDB, Elasticsearch  
+- [NO] NO Emojis en código/docs
+- [IMPLEMENTADO] Scripts primero, CI/CD después
+
+Ver: [`docs/gobernanza/estilos/GUIA_ESTILO.md`](docs/gobernanza/estilos/GUIA_ESTILO.md)
+
+### Documentación de arquitectura ([IMPLEMENTADO] Disponible)
+- ADRs: [`docs/adr/`](docs/adr/)
+- Lineamientos: [`docs/arquitectura/`](docs/arquitectura/)
+- Patrones: [`docs/backend/arquitectura/`](docs/backend/arquitectura/)
+
+## Navegación por rol
+
+### Desarrollador Backend
+- [`docs/backend/`](docs/backend/) - Arquitectura y diseño
+- [`docs/backend/requisitos/`](docs/backend/requisitos/) - Requisitos de negocio
+- [Guía de desarrollo](docs/gobernanza/procesos/procedimientos/guia_completa_desarrollo_features.md)
+
+### Desarrollador Frontend  
+- [`docs/frontend/`](docs/frontend/) - Arquitectura y componentes
+- [PLANIFICADO] UI en `ui/` (React) - En construcción
+
+### QA / Testing
+- [`docs/qa/`](docs/qa/) - Estrategia y checklists
+- [`scripts/run_all_tests.sh`](scripts/run_all_tests.sh) - Test runner
+- [`docs/testing/`](docs/testing/) - Casos de prueba
+
+### DevOps / SRE
+- [`docs/operaciones/`](docs/operaciones/) - Runbooks operacionales
+- [`infrastructure/cpython/`](infrastructure/cpython/) - Builder CPython
+- [`scripts/`](scripts/) - Scripts de automatización
+- [PLANIFICADO] [`docs/dora/`](docs/dora/) - DORA metrics (planificado)
+
+### Arquitecto
+- [`docs/adr/`](docs/adr/) - Architecture Decision Records
+- [`docs/arquitectura/`](docs/arquitectura/) - Lineamientos generales
+- [`docs/gobernanza/`](docs/gobernanza/) - Procesos y estándares
+
+### Product Owner / BA
+- [`docs/requisitos/`](docs/requisitos/) - Análisis de negocio
+- [`docs/backend/requisitos/`](docs/backend/requisitos/) - Requirements tracking
+- [PLANIFICADO] Matriz de trazabilidad (planificada)
+
+## Proyecto y planificación
+
+### Tracking activo ([PLANIFICADO] En consolidación)
+- **Roadmap**: [`docs/proyecto/ROADMAP.md`](docs/proyecto/ROADMAP.md) - Visión Q4 2025 - Q2 2026
+- **Tareas activas**: [`docs/proyecto/TAREAS_ACTIVAS.md`](docs/proyecto/TAREAS_ACTIVAS.md) - Sprint actual
+- **Changelog**: [`docs/proyecto/CHANGELOG.md`](docs/proyecto/CHANGELOG.md) - Historial completo
+
+### Revisión actual
+- Plan de remediación: [`docs/plans/REV_20251112_remediation_plan.md`](docs/plans/REV_20251112_remediation_plan.md)
 
 ## Estructura de carpetas relevante
 | Carpeta | Propósito |

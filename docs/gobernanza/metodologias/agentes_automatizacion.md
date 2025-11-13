@@ -157,7 +157,7 @@ Reporta:
 # remove_emojis.sh - Generado automáticamente por el agente
 
 for file in docs/**/*.md; do
-  sed -i 's/[x]/OK/g; s/[ ]/NO/g; s/[WARNING]/WARNING/g; s/🔴/CRITICO/g' "$file"
+  sed -i 's/[x]/OK/g; s/[ ]/NO/g; s/[WARNING]/WARNING/g; s/[CRITICO]/CRITICO/g' "$file"
 done
 ```
 

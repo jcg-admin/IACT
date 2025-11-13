@@ -203,7 +203,7 @@ echo "$separator_line"
 | **Error** | NO [FAIL] ☒ | [ERROR] [FAIL] [FAILED] |
 | **Advertencia** | WARNING FAST ⛔ | [WARN] [WARNING] |
 | **Información** | INFO  📢 | [INFO] [NOTE] |
-| **Depuración** | 🐛 BUSCAR | [DEBUG] |
+| **Depuración** | [BUG] BUSCAR | [DEBUG] |
 | **En proceso** | ESPERANDO 🔄 ⌛ | [RUNNING] [PROCESSING] |
 | **Esperando** | ⏰ ⏱️ | [PENDING] [WAITING] |
 | **Inicio** | START >️ | [START] Starting... |

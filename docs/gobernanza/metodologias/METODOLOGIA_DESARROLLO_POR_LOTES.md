@@ -768,14 +768,14 @@ echo "[x] Lote validado - listo para commit"
 ```markdown
 ## LOTE [N]: [Nombre del Lote]
 
-### 📋 Descripción
+### [PLANIFICADO] Descripción
 [Descripción del lote y su propósito]
 
 ###  Componentes a Implementar
 - [ ] Componente A - `ruta/archivo.py` (~XXX líneas)
 - [ ] Componente B - `ruta/archivo.py` (~XXX líneas)
 
-### 🔗 Dependencias
+### [ENLACE] Dependencias
 - **Depende de**: #[issue number] (LOTE N-1)
 - **Requerido por**: #[issue number] (LOTE N+1)
 

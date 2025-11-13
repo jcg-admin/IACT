@@ -4,7 +4,7 @@
 
 ---
 
-## Estructura ACTUAL (❌ Problemas)
+## Estructura ACTUAL ([NO] Problemas)
 
 ```
 scripts/
@@ -18,26 +18,26 @@ scripts/
 ├── 📄 check_no_emojis.py               # Validador - ¿Por qué en root?
 │
 └── 📁 ai/
-    └── 📁 agents/  ❌ 33 ARCHIVOS EN UN SOLO DIRECTORIO
+    └── 📁 agents/  [NO] 33 ARCHIVOS EN UN SOLO DIRECTORIO
         ├── __init__.py
-        ├── base.py                              # ❌ Nombre genérico
-        ├── sdlc_base.py                         # ❌ sdlc_ redundante
-        ├── sdlc_planner.py                      # ❌ sdlc_ redundante
-        ├── sdlc_feasibility.py                  # ❌ sdlc_ redundante
-        ├── sdlc_design.py                       # ❌ sdlc_ redundante
-        ├── sdlc_testing.py                      # ❌ sdlc_ redundante
-        ├── sdlc_deployment.py                   # ❌ sdlc_ redundante
-        ├── sdlc_orchestrator.py                 # ❌ sdlc_ redundante
-        ├── tdd_constitution.py                  # ❌ tdd_ redundante
-        ├── tdd_execution_logger.py              # ❌ tdd_ redundante
-        ├── tdd_feature_agent.py                 # ❌ tdd_ redundante
-        ├── tdd_metrics_dashboard.py             # ❌ tdd_ redundante
+        ├── base.py                              # [NO] Nombre genérico
+        ├── sdlc_base.py                         # [NO] sdlc_ redundante
+        ├── sdlc_planner.py                      # [NO] sdlc_ redundante
+        ├── sdlc_feasibility.py                  # [NO] sdlc_ redundante
+        ├── sdlc_design.py                       # [NO] sdlc_ redundante
+        ├── sdlc_testing.py                      # [NO] sdlc_ redundante
+        ├── sdlc_deployment.py                   # [NO] sdlc_ redundante
+        ├── sdlc_orchestrator.py                 # [NO] sdlc_ redundante
+        ├── tdd_constitution.py                  # [NO] tdd_ redundante
+        ├── tdd_execution_logger.py              # [NO] tdd_ redundante
+        ├── tdd_feature_agent.py                 # [NO] tdd_ redundante
+        ├── tdd_metrics_dashboard.py             # [NO] tdd_ redundante
         ├── business_analysis_generator.py
         ├── business_analysis_pipeline.py
         ├── code_quality_validator.py
         ├── completeness_validator.py
         ├── coverage_analyzer.py
-        ├── coverage_verifier.py                 # ❌ verifier vs validator
+        ├── coverage_verifier.py                 # [NO] verifier vs validator
         ├── syntax_validator.py
         ├── document_splitter.py
         ├── documentation_sync_agent.py
@@ -48,125 +48,125 @@ scripts/
         ├── dora_sdlc_integration.py
         ├── pdca_automation_agent.py
         ├── pr_creator.py
-        ├── test_business_analysis_agents.py     # ❌ Test en scripts/
-        ├── test_constitution_integration.py     # ❌ Test en scripts/
-        ├── test_planner.py                      # ❌ Test en scripts/
-        └── test_runner.py                       # ❌ ¿Test o runner?
+        ├── test_business_analysis_agents.py     # [NO] Test en scripts/
+        ├── test_constitution_integration.py     # [NO] Test en scripts/
+        ├── test_planner.py                      # [NO] Test en scripts/
+        └── test_runner.py                       # [NO] ¿Test o runner?
 ```
 
 **Problemas visualizados**:
-- ❌ **33 archivos** en un solo nivel - imposible navegar
-- ❌ **Prefijos redundantes** (sdlc_, tdd_) cuando podrían ser directorios
-- ❌ **Tests mezclados** con código productivo
-- ❌ **Sin arquitectura clara** - ¿Cómo se relacionan los archivos?
-- ❌ **Nombres inconsistentes** (validator vs verifier, agent vs generator)
-- ❌ **Root scripts desorganizados** - mezcla de CLIs, generadores, validadores
+- [NO] **33 archivos** en un solo nivel - imposible navegar
+- [NO] **Prefijos redundantes** (sdlc_, tdd_) cuando podrían ser directorios
+- [NO] **Tests mezclados** con código productivo
+- [NO] **Sin arquitectura clara** - ¿Cómo se relacionan los archivos?
+- [NO] **Nombres inconsistentes** (validator vs verifier, agent vs generator)
+- [NO] **Root scripts desorganizados** - mezcla de CLIs, generadores, validadores
 
 ---
 
-## Estructura PROPUESTA (✅ Clean Code)
+## Estructura PROPUESTA ([OK] Clean Code)
 
 ```
 scripts/
 │
-├── 📁 cli/  ✅ Entry points de alto nivel
+├── 📁 cli/  [OK] Entry points de alto nivel
 │   ├── __init__.py
 │   ├── README.md
 │   ├── sdlc_agent.py                  # CLI principal SDLC
 │   ├── dora_metrics.py                # CLI métricas DORA
 │   └── sync_documentation.py          # CLI sincronización
 │
-├── 📁 workflows/  ✅ Generación de workflows
+├── 📁 workflows/  [OK] Generación de workflows
 │   ├── __init__.py
 │   ├── README.md
 │   ├── generate_from_template.py
 │   └── check_no_emojis.py             # Validador emojis
 │
-├── 📁 guides/  ✅ Generación de guías
+├── 📁 guides/  [OK] Generación de guías
 │   ├── __init__.py
 │   ├── README.md
 │   └── generate_guides.py
 │
-└── 📁 ai/  ✅ Inteligencia Artificial & Agentes
+└── 📁 ai/  [OK] Inteligencia Artificial & Agentes
     ├── __init__.py
     ├── README.md
     │
-    ├── 📁 sdlc/  ✅ Agentes del ciclo SDLC (7 archivos)
+    ├── 📁 sdlc/  [OK] Agentes del ciclo SDLC (7 archivos)
     │   ├── __init__.py
     │   ├── README.md
-    │   ├── base_agent.py              # ✅ Nombre claro
-    │   ├── planner_agent.py           # ✅ Sin prefijo redundante
-    │   ├── feasibility_agent.py       # ✅ Sin prefijo redundante
-    │   ├── design_agent.py            # ✅ Sin prefijo redundante
-    │   ├── testing_agent.py           # ✅ Sin prefijo redundante
-    │   ├── deployment_agent.py        # ✅ Sin prefijo redundante
-    │   ├── orchestrator.py            # ✅ Orquestador de fases
-    │   └── dora_integration.py        # ✅ Integración métricas
+    │   ├── base_agent.py              # [OK] Nombre claro
+    │   ├── planner_agent.py           # [OK] Sin prefijo redundante
+    │   ├── feasibility_agent.py       # [OK] Sin prefijo redundante
+    │   ├── design_agent.py            # [OK] Sin prefijo redundante
+    │   ├── testing_agent.py           # [OK] Sin prefijo redundante
+    │   ├── deployment_agent.py        # [OK] Sin prefijo redundante
+    │   ├── orchestrator.py            # [OK] Orquestador de fases
+    │   └── dora_integration.py        # [OK] Integración métricas
     │
-    ├── 📁 tdd/  ✅ Sistema TDD Feature Agent (4 archivos)
+    ├── 📁 tdd/  [OK] Sistema TDD Feature Agent (4 archivos)
     │   ├── __init__.py
     │   ├── README.md
-    │   ├── constitution.py            # ✅ 8 reglas TDD
-    │   ├── execution_logger.py        # ✅ Audit trail
-    │   ├── feature_agent.py           # ✅ Agente principal
-    │   └── metrics_dashboard.py       # ✅ Dashboards visuales
+    │   ├── constitution.py            # [OK] 8 reglas TDD
+    │   ├── execution_logger.py        # [OK] Audit trail
+    │   ├── feature_agent.py           # [OK] Agente principal
+    │   └── metrics_dashboard.py       # [OK] Dashboards visuales
     │
-    ├── 📁 quality/  ✅ Quality Assurance (5 archivos)
+    ├── 📁 quality/  [OK] Quality Assurance (5 archivos)
     │   ├── __init__.py
     │   ├── README.md
     │   ├── code_quality_validator.py
     │   ├── completeness_validator.py
     │   ├── syntax_validator.py
     │   ├── coverage_analyzer.py
-    │   └── coverage_validator.py      # ✅ Renombrado de verifier
+    │   └── coverage_validator.py      # [OK] Renombrado de verifier
     │
-    ├── 📁 business_analysis/  ✅ Análisis de Negocio (2 archivos)
+    ├── 📁 business_analysis/  [OK] Análisis de Negocio (2 archivos)
     │   ├── __init__.py
     │   ├── README.md
-    │   ├── generator.py               # ✅ Nombre más corto
-    │   └── pipeline.py                # ✅ Nombre más corto
+    │   ├── generator.py               # [OK] Nombre más corto
+    │   └── pipeline.py                # [OK] Nombre más corto
     │
-    ├── 📁 documentation/  ✅ Gestión Documentación (2 archivos)
+    ├── 📁 documentation/  [OK] Gestión Documentación (2 archivos)
     │   ├── __init__.py
     │   ├── README.md
-    │   ├── sync_agent.py              # ✅ Sincronización docs
+    │   ├── sync_agent.py              # [OK] Sincronización docs
     │   └── document_splitter.py
     │
-    ├── 📁 generators/  ✅ Generadores diversos (3 archivos)
+    ├── 📁 generators/  [OK] Generadores diversos (3 archivos)
     │   ├── __init__.py
     │   ├── README.md
     │   ├── llm_generator.py
     │   ├── template_generator.py
     │   └── traceability_matrix_generator.py
     │
-    ├── 📁 automation/  ✅ Automatización procesos (1 archivo)
+    ├── 📁 automation/  [OK] Automatización procesos (1 archivo)
     │   ├── __init__.py
     │   ├── README.md
-    │   └── pdca_agent.py              # ✅ PDCA automation
+    │   └── pdca_agent.py              # [OK] PDCA automation
     │
-    └── 📁 shared/  ✅ Componentes compartidos (4 archivos)
+    └── 📁 shared/  [OK] Componentes compartidos (4 archivos)
         ├── __init__.py
         ├── README.md
-        ├── agent_base.py              # ✅ Base común agentes
-        ├── constitution_loader.py     # ✅ Loader constitutions
-        ├── pr_creator.py              # ✅ Creación PRs
-        └── test_runner.py             # ✅ Runner de tests
+        ├── agent_base.py              # [OK] Base común agentes
+        ├── constitution_loader.py     # [OK] Loader constitutions
+        ├── pr_creator.py              # [OK] Creación PRs
+        └── test_runner.py             # [OK] Runner de tests
 ```
 
 **Mejoras visualizadas**:
-- ✅ **8 dominios claros** - fácil encontrar lo que buscas
-- ✅ **2-7 archivos por directorio** - navegación rápida
-- ✅ **Sin prefijos redundantes** - la estructura da contexto
-- ✅ **Arquitectura visible** - Clean Architecture
-- ✅ **Nombres consistentes** - validator, agent, generator
-- ✅ **Tests separados** - movidos a `tests/`
-- ✅ **CLIs organizados** - todos en `cli/`
+- [OK] **8 dominios claros** - fácil encontrar lo que buscas
+- [OK] **2-7 archivos por directorio** - navegación rápida
+- [OK] **Sin prefijos redundantes** - la estructura da contexto
+- [OK] **Arquitectura visible** - Clean Architecture
+- [OK] **Nombres consistentes** - validator, agent, generator
+- [OK] **Tests separados** - movidos a `tests/`
+- [OK] **CLIs organizados** - todos en `cli/`
 
 ---
 
 ## Comparativa de Imports
 
-### ANTES (❌ Largo y confuso)
+### ANTES ([NO] Largo y confuso)
 
 ```python
 from scripts.ai.agents.sdlc_planner import SDLCPlannerAgent
@@ -178,11 +178,11 @@ from scripts.ai.agents.business_analysis_generator import BusinessAnalysisGenera
 ```
 
 **Problemas**:
-- ❌ Largos (>50 caracteres)
-- ❌ Repetitivos (scripts.ai.agents en cada import)
-- ❌ No revelan arquitectura
+- [NO] Largos (>50 caracteres)
+- [NO] Repetitivos (scripts.ai.agents en cada import)
+- [NO] No revelan arquitectura
 
-### DESPUÉS (✅ Corto y claro)
+### DESPUÉS ([OK] Corto y claro)
 
 ```python
 from scripts.ai.sdlc.planner_agent import PlannerAgent
@@ -194,15 +194,15 @@ from scripts.ai.business_analysis.generator import BusinessAnalysisGenerator
 ```
 
 **Beneficios**:
-- ✅ Más cortos (~40 caracteres)
-- ✅ Revelan dominio (sdlc, tdd, quality)
-- ✅ Muestran arquitectura del sistema
+- [OK] Más cortos (~40 caracteres)
+- [OK] Revelan dominio (sdlc, tdd, quality)
+- [OK] Muestran arquitectura del sistema
 
 ---
 
 ## Comparativa de Navegación
 
-### ANTES (❌ Difícil)
+### ANTES ([NO] Difícil)
 
 **Tarea**: Encontrar el agente de Planning
 
@@ -223,7 +223,7 @@ code sdlc_planner.py
 
 **Tiempo**: ~30 segundos
 
-### DESPUÉS (✅ Rápido)
+### DESPUÉS ([OK] Rápido)
 
 **Tarea**: Encontrar el agente de Planning
 
@@ -247,16 +247,16 @@ code planner_agent.py
 
 ## Comparativa de Onboarding
 
-### ANTES (❌ Confuso para nuevos)
+### ANTES ([NO] Confuso para nuevos)
 
 **Pregunta del nuevo desarrollador**: "¿Cómo está organizado el código de agentes?"
 
 **Respuesta actual**:
 > "Todo está en `scripts/ai/agents/`. Hay 33 archivos ahí. Los que empiezan con `sdlc_` son agentes SDLC, los que empiezan con `tdd_` son del sistema TDD, los que terminan en `_validator` son validadores... bueno, excepto `coverage_verifier.py` que también es un validador. Y `base.py` es la base de los agentes... no, espera, también hay `sdlc_base.py` que es específica para SDLC. Y los archivos que empiezan con `test_` son tests, no test runners... excepto `test_runner.py` que sí es un runner..."
 
-**Resultado**: ❌ **Confusión total**
+**Resultado**: [NO] **Confusión total**
 
-### DESPUÉS (✅ Auto-explicativo)
+### DESPUÉS ([OK] Auto-explicativo)
 
 **Pregunta del nuevo desarrollador**: "¿Cómo está organizado el código de agentes?"
 
@@ -273,13 +273,13 @@ code planner_agent.py
 >
 > Cada directorio tiene su README explicando qué hace."
 
-**Resultado**: ✅ **Claridad inmediata**
+**Resultado**: [OK] **Claridad inmediata**
 
 ---
 
 ## Comparativa de Mantenimiento
 
-### ANTES (❌ Cambios afectan todo)
+### ANTES ([NO] Cambios afectan todo)
 
 **Escenario**: Actualizar un agente SDLC
 
@@ -290,9 +290,9 @@ cd scripts/ai/agents/
 # Necesito revisar múltiples archivos para asegurarme
 ```
 
-**Riesgo**: ❌ **Alto - fácil romper código no relacionado**
+**Riesgo**: [NO] **Alto - fácil romper código no relacionado**
 
-### DESPUÉS (✅ Cambios aislados)
+### DESPUÉS ([OK] Cambios aislados)
 
 **Escenario**: Actualizar un agente SDLC
 
@@ -303,13 +303,13 @@ cd scripts/ai/sdlc/
 # Fácil ver impacto
 ```
 
-**Riesgo**: ✅ **Bajo - cambios contenidos en dominio**
+**Riesgo**: [OK] **Bajo - cambios contenidos en dominio**
 
 ---
 
 ## Métricas Comparativas
 
-| **Métrica** | **ANTES (❌)** | **DESPUÉS (✅)** | **Mejora** |
+| **Métrica** | **ANTES ([NO])** | **DESPUÉS ([OK])** | **Mejora** |
 |-------------|----------------|------------------|------------|
 | Archivos por directorio | 33 | 2-7 | **6x mejor** |
 | Tiempo de navegación | ~30s | ~5s | **6x más rápido** |
@@ -318,7 +318,7 @@ cd scripts/ai/sdlc/
 | Prefijos redundantes | 15 | 0 | **100% eliminado** |
 | Niveles de jerarquía | 1 | 2 | **Mejor organización** |
 | READMEs por dominio | 1 | 9 | **9x mejor documentación** |
-| Cumplimiento Clean Code | ❌ Bajo | ✅ Alto | **Significativo** |
+| Cumplimiento Clean Code | [NO] Bajo | [OK] Alto | **Significativo** |
 
 ---
 
@@ -367,21 +367,21 @@ ANTES                          DESPUÉS
 0 READMEs por dominio       →  9 READMEs
 Tests mezclados             →  Tests separados
 Prefijos redundantes        →  Sin redundancia
-❌ Difícil navegar          →  ✅ Navegación intuitiva
-❌ Onboarding lento         →  ✅ Auto-explicativo
-❌ Mantenimiento riesgoso   →  ✅ Cambios aislados
+[NO] Difícil navegar          →  [OK] Navegación intuitiva
+[NO] Onboarding lento         →  [OK] Auto-explicativo
+[NO] Mantenimiento riesgoso   →  [OK] Cambios aislados
 ```
 
 ### Principios Clean Code Aplicados
 
 | **Principio** | **Aplicación** |
 |---------------|----------------|
-| **1. Nombres que Revelan Intenciones** | ✅ `agent_base.py` vs `base.py` |
-| **2. Evitar Desinformación** | ✅ Sin prefijos redundantes (`sdlc_`) |
-| **3. Distinciones con Sentido** | ✅ `validator` consistente (no `verifier`) |
-| **4. Nombres Buscables** | ✅ `agent_base.py` vs `base.py` |
-| **5. Una Palabra por Concepto** | ✅ `_agent` para agentes, `_generator` para generadores |
-| **9. Architecture Reveals Intent** | ✅ Estructura muestra dominios del sistema |
+| **1. Nombres que Revelan Intenciones** | [OK] `agent_base.py` vs `base.py` |
+| **2. Evitar Desinformación** | [OK] Sin prefijos redundantes (`sdlc_`) |
+| **3. Distinciones con Sentido** | [OK] `validator` consistente (no `verifier`) |
+| **4. Nombres Buscables** | [OK] `agent_base.py` vs `base.py` |
+| **5. Una Palabra por Concepto** | [OK] `_agent` para agentes, `_generator` para generadores |
+| **9. Architecture Reveals Intent** | [OK] Estructura muestra dominios del sistema |
 
 ---
 
