@@ -18,6 +18,8 @@ We need to transform `infrastructure/workspace/` into a complete VPN/Proxy autom
 - [x] (2025-11-19 16:30Z) Add documentation, environment files, setup script, and gitignore updates
 - [x] (2025-11-19 16:35Z) Implement CI workflow updates and ensure lint/type/test commands pass
 - [x] (2025-11-19 16:40Z) Final verification, coverage confirmation, and retrospective update
+- [x] (2025-11-19 17:05Z) Document validation pipeline and enforce expectations via README test
+- [x] (2025-11-19 17:20Z) Aclarar en README que `mise` es opcional y añadir verificación extra con `codex --version` y `npm run mcp:validate`
 
 ## Surprises & Discoveries
 

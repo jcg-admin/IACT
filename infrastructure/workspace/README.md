@@ -39,6 +39,60 @@ contributors.
    npm run vpn:health
    ```
 
+## Validación del agente
+
+Para demostrar que el agente VPN/Proxy funciona sin depender de
+infraestructura externa sigue esta secuencia cada vez que hagas un cambio:
+
+1. Ejecuta toda la batería de pruebas (Python + Node) y genera cobertura de
+   código de los módulos de `vpn_proxy_agent`.
+   ```bash
+   cd infrastructure/workspace
+   npm test
+   pytest infrastructure/workspace/tests -v --cov=infrastructure.workspace.vpn_proxy_agent
+   ```
+   El primer comando confirma que los scripts definidos en `package.json`
+   integran Pytest y `node --test`; el segundo asegura un mínimo de 80 % de
+   cobertura para los componentes críticos (túnel, diagnósticos, MCP).
+
+2. Verifica que los comandos funcionales respondan correctamente en modo
+   "dry-run" usando las dependencias simuladas de los tests.
+   ```bash
+   npm run vpn:health
+   npm run vpn:stop
+   ```
+   Ambos scripts se apoyan en `codex mcp run` y ejercitan el servidor MCP
+   local descrito en esta carpeta.
+
+3. Opcionalmente, inspecciona la salida del driver de Hamilton para comprobar
+   la orquestación completa:
+   ```bash
+   npm run hamilton:test
+   ```
+
+Si cualquiera de los pasos anteriores falla, revisa los registros generados en
+`logs_data/` o ejecuta Pytest con `-vv` para obtener trazas detalladas.
+
+## Pipeline CI/CD
+
+El flujo automatizado está definido en
+`.github/workflows/infrastructure-ci.yml` y replica los pasos de validación
+anteriores en GitHub Actions:
+
+1. **Job `test-node`**: instala dependencias con `npm ci`, ejecuta `lint:node`
+   y `test:node` en Node.js 18 y 20.
+2. **Job `test-python`**: prepara entornos con Python 3.10–3.12, instala
+   `requirements.txt`, ejecuta `ruff`, `black --check`, `mypy` y
+   `pytest` con reporte de cobertura.
+3. **Job `integration`**: una vez aprobados los jobs previos, repite la
+   instalación completa (`npm ci` + `pip install`) y corre `npm test` para
+   garantizar que la integración entre scripts, Hamilton y el servidor MCP se
+   mantiene intacta.
+
+El pipeline se dispara en cada `push` o `pull_request` contra `main` y
+`develop`. Si necesitas una validación manual, puedes lanzar los mismos
+comandos localmente siguiendo la sección "Validación del agente".
+
 ## Directory map
 
 ```
@@ -124,3 +178,27 @@ are mocked; re-run the command once registry access is restored to refresh
   `hamilton-ui`).
 - The language server helpers in `dev_tools/` are untouched and continue to
   service the existing development workflow.
+
+## Preguntas frecuentes
+
+**¿Necesito configurar `mise ~/.config/mise/config.toml tools` para este workspace?**
+
+No es necesario. El script `setup.sh` instala y valida todas las dependencias
+requeridas (Python, Node.js y las librerías declaradas en `requirements.txt` y
+`package.json`). Si ya usas `mise` como gestor de versiones puedes mantener tu
+configuración, pero no forma parte del flujo oficial ni bloquea la ejecución de
+los comandos documentados aquí.
+
+**¿Hace falta alguna verificación adicional para garantizar que todo funciona?**
+
+Sí: después de ejecutar las pruebas recomendadas en "Validación del agente",
+comprueba que la CLI de Codex MCP está instalada y accesible ejecutando:
+
+```bash
+codex --version
+npm run mcp:validate
+```
+
+Estos comandos confirman que las herramientas MCP disponibles en este workspace
+responden correctamente y que tu entorno cuenta con la versión esperada del
+cliente `codex`.
