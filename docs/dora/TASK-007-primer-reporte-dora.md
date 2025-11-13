@@ -29,6 +29,27 @@ Se ha ejecutado exitosamente el primer reporte de metricas DORA para el proyecto
 | Change Failure Rate | 0.0% | ELITE | <= 15% |
 | Mean Time to Recovery | 0.0 hours | ELITE | <= 4 horas |
 
+
+## Técnicas de Prompt Engineering para Agente
+
+Las siguientes técnicas deben aplicarse al ejecutar esta tarea con un agente:
+
+1. **Tool-use Prompting** (knowledge_techniques.py)
+   - Ejecutar scripts de metricas DORA y comandos de reporte
+
+2. **ReAct** (knowledge_techniques.py)
+   - Analizar metricas actuales, ejecutar reportes, reflexionar sobre resultados
+
+3. **Expert Prompting** (specialized_techniques.py)
+   - Aplicar conocimiento experto de DORA metrics y DevOps
+
+4. **Task Decomposition** (structuring_techniques.py)
+   - Dividir generacion de reportes en fases (extract, transform, load)
+
+5. **Retrieval** (knowledge_techniques.py)
+   - Recuperar datos historicos para analisis de tendencias
+
+Agente recomendado: PDCAAutomationAgent o SDLCTestingAgent
 ## Analisis de Resultados
 
 ### Fortalezas

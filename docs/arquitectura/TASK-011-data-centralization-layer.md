@@ -43,51 +43,71 @@ Data Centralization Layer proporciona:
 - **Retention policies:** Automatizadas por tipo de dato
 - **Backup automation:** Script shell con rotation
 
+## Técnicas de Prompt Engineering para Agente
+
+Las siguientes técnicas deben aplicarse al ejecutar esta tarea con un agente:
+
+1. **Task Decomposition** (structuring_techniques.py)
+ - Dividir el diseno arquitectonico en componentes manejables
+
+2. **Code Generation** (fundamental_techniques.py)
+ - Generar implementaciones base para componentes arquitectonicos
+
+3. **Expert Prompting** (specialized_techniques.py)
+ - Aplicar conocimiento experto de arquitectura Django y patrones de diseno
+
+4. **Constitutional AI** (optimization_techniques.py)
+ - Validar que el diseno cumpla con restricciones y mejores practicas
+
+5. **Meta-prompting** (structuring_techniques.py)
+ - Generar prompts especializados para cada componente del sistema
+
+Agente recomendado: SDLCDesignAgent o FeatureAgent
 ## Arquitectura
 
 ### Componentes
 
 ```
 ┌─────────────────────────────────────────────────────┐
-│         Data Centralization Layer (API)             │
-│                                                      │
-│  GET /api/data/query?type={metrics|logs|health}    │
+│ Data Centralization Layer (API) │
+│ │
+│ GET /api/data/query?type={metrics|logs|health} │
 └──────────────────┬──────────────────────────────────┘
-                   │
-         ┌─────────┴─────────┐
-         │                   │
-    ┌────▼────┐       ┌─────▼──────┐       ┌──────▼──────┐
-    │  MySQL  │       │ JSON Logs  │       │   Health    │
-    │  DORA   │       │ /var/log/  │       │   Scripts   │
-    │ Metrics │       │   iact/    │       │   /scripts/ │
-    └─────────┘       └────────────┘       └─────────────┘
-         │                   │                     │
-         │                   │                     │
-    ┌────▼─────────────────────▼─────────────────▼────┐
-    │           Backup Automation                     │
-    │     /var/backups/iact/backup_YYYYMMDD.tar.gz   │
-    └─────────────────────────────────────────────────┘
+ │
+ ┌─────────┴─────────┐
+ │ │
+ ┌────=>────┐ ┌─────=>──────┐ ┌──────=>──────┐
+ │ MySQL │ │ JSON Logs │ │ Health │
+ │ DORA │ │ /var/log/ │ │ Scripts │
+ │ Metrics │ │ iact/ │ │ /scripts/ │
+ └─────────┘ └────────────┘ └─────────────┘
+ │ │ │
+ │ │ │
+ ┌────=>─────────────────────=>─────────────────=>────┐
+ │ Backup Automation │
+ │ /var/backups/iact/backup_YYYYMMDD.tar.gz │
+ └─────────────────────────────────────────────────┘
 ```
 
 ### Fuentes de Datos
 
 1. **MySQL (DORA Metrics)**
-   - Tabla: `dora_metrics`
-   - Tipo: Metrics permanentes
-   - Retention: Permanente (no delete)
-   - Query: Django ORM
+ - Tabla: `dora_metrics`
+ - Tipo: Metrics permanentes
+ - Retention: Permanente (no delete)
+ - Query: Django ORM
 
 2. **JSON Logs (Application)**
-   - Ubicacion: `/var/log/iact/app.json.log`
-   - Tipo: Application logs estructurados
-   - Retention: Manual (future Cassandra TTL 90 dias)
-   - Query: File parsing
+ - Ubicacion: `/var/log/iact/app.json.log`
+ - Tipo: Application logs estructurados
+ - Retention: Manual (future Cassandra TTL 90 dias)
+ - Query: File parsing
 
 3. **Health Checks**
-   - Script: `/home/user/IACT---project/scripts/health_check.sh`
-   - Tipo: System health real-time
-   - Retention: N/A (real-time only)
-   - Query: Subprocess execution
+ - Script: `/home/user/IACT---project/scripts/health_check.sh`
+ - Tipo: System health real-time
+ - Retention: N/A (real-time only)
+ - Query: Subprocess execution
 
 ### Future Integration: Cassandra
 
@@ -116,11 +136,11 @@ Cassandra Cluster (3 nodes)
 **Response Format:**
 ```json
 {
-  "query_type": "metrics",
-  "source": "MySQL (dora_metrics)",
-  "days": 7,
-  "count": 42,
-  "data": [...]
+ "query_type": "metrics",
+ "source": "MySQL (dora_metrics)",
+ "days": 7,
+ "count": 42,
+ "data": [...]
 }
 ```
 
@@ -134,23 +154,23 @@ curl "http://localhost:8000/api/data/query?type=metrics&days=30&limit=100"
 **Response:**
 ```json
 {
-  "query_type": "metrics",
-  "source": "MySQL (dora_metrics)",
-  "days": 30,
-  "count": 15,
-  "data": [
-    {
-      "id": 1,
-      "cycle_id": "cycle-001",
-      "feature_id": "feature-123",
-      "phase_name": "deployment",
-      "decision": "go",
-      "duration_seconds": 120.5,
-      "metadata": {},
-      "created_at": "2025-11-07T06:00:00Z"
-    },
-    ...
-  ]
+ "query_type": "metrics",
+ "source": "MySQL (dora_metrics)",
+ "days": 30,
+ "count": 15,
+ "data": [
+ {
+ "id": 1,
+ "cycle_id": "cycle-001",
+ "feature_id": "feature-123",
+ "phase_name": "deployment",
+ "decision": "go",
+ "duration_seconds": 120.5,
+ "metadata": {},
+ "created_at": "2025-11-07T06:00:00Z"
+ },
+ ...
+ ]
 }
 ```
 
@@ -164,22 +184,22 @@ curl "http://localhost:8000/api/data/query?type=logs&days=7&limit=500"
 **Response:**
 ```json
 {
-  "query_type": "logs",
-  "source": "JSON log file (Cassandra integration pending)",
-  "days": 7,
-  "count": 234,
-  "data": [
-    {
-      "timestamp": "2025-11-07T06:44:30.909543Z",
-      "level": "INFO",
-      "logger": "callcentersite",
-      "message": "User login",
-      "request_id": "req-123",
-      "user_id": 42
-    },
-    ...
-  ],
-  "note": "Currently reading from JSON log file. Cassandra integration planned for Q1 2026."
+ "query_type": "logs",
+ "source": "JSON log file (Cassandra integration pending)",
+ "days": 7,
+ "count": 234,
+ "data": [
+ {
+ "timestamp": "2025-11-07T06:44:30.909543Z",
+ "level": "INFO",
+ "logger": "callcentersite",
+ "message": "User login",
+ "request_id": "req-123",
+ "user_id": 42
+ },
+ ...
+ ],
+ "note": "Currently reading from JSON log file. Cassandra integration planned for Q1 2026."
 }
 ```
 
@@ -193,16 +213,16 @@ curl "http://localhost:8000/api/data/query?type=health"
 **Response:**
 ```json
 {
-  "query_type": "health",
-  "source": "health_check.sh",
-  "data": {
-    "status": "ok",
-    "checks": {
-      "database": "ok",
-      "disk_space": "ok",
-      "memory": "ok"
-    }
-  }
+ "query_type": "health",
+ "source": "health_check.sh",
+ "data": {
+ "status": "ok",
+ "checks": {
+ "database": "ok",
+ "disk_space": "ok",
+ "memory": "ok"
+ }
+ }
 }
 ```
 
@@ -231,16 +251,16 @@ python manage.py apply_retention
 Applying retention policies...
 
 Retention policies configured:
-  - DORA Metrics (MySQL): PERMANENT (no deletion)
-  - Application Logs (Cassandra): 90 days TTL (automatic)
-  - Health Checks: 30 days (pending implementation)
+ - DORA Metrics (MySQL): PERMANENT (no deletion)
+ - Application Logs (Cassandra): 90 days TTL (automatic)
+ - Health Checks: 30 days (pending implementation)
 
 Retention policies applied successfully
 
 Notes:
-  - DORA metrics are never deleted (historical data)
-  - Cassandra TTL handles log cleanup automatically
-  - Health check cleanup pending implementation
+ - DORA metrics are never deleted (historical data)
+ - Cassandra TTL handles log cleanup automatically
+ - Health check cleanup pending implementation
 ```
 
 ### Retention Policy Table
@@ -274,7 +294,7 @@ export RETENTION_DAYS=30
 export MYSQL_HOST="127.0.0.1"
 export MYSQL_PORT="13306"
 export MYSQL_USER="root"
-export MYSQL_PWD="password"  # Required for MySQL backup
+export MYSQL_PWD="password" # Required for MySQL backup
 export MYSQL_DB="iact_db"
 ```
 
@@ -313,8 +333,8 @@ Retention: 30 days
 
 ```
 /var/backups/iact/
-├── iact_data_backup_20251107_064818.tar.gz  (Combined backup)
-├── iact_data_backup_20251106_020000.tar.gz  (Previous)
+├── iact_data_backup_20251107_064818.tar.gz (Combined backup)
+├── iact_data_backup_20251106_020000.tar.gz (Previous)
 └── ...
 ```
 

@@ -25,6 +25,27 @@ Configuracion y tuning de cluster Cassandra 3 nodos para logs de infraestructura
 - JMX: 7199-7201
 - Inter-node: 7000-7002
 
+
+## Técnicas de Prompt Engineering para Agente
+
+Las siguientes técnicas deben aplicarse al ejecutar esta tarea con un agente:
+
+1. **Tool-use Prompting** (knowledge_techniques.py)
+   - Ejecutar comandos de setup y configuracion de infraestructura
+
+2. **Expert Prompting** (specialized_techniques.py)
+   - Aplicar conocimiento experto de Cassandra, MySQL y arquitectura distribuida
+
+3. **Task Decomposition** (structuring_techniques.py)
+   - Dividir deployment en fases (setup, config, validation)
+
+4. **Constitutional AI** (optimization_techniques.py)
+   - Validar compliance con politicas de seguridad e infraestructura
+
+5. **Simulation** (specialized_techniques.py)
+   - Simular cargas y escenarios de fallo antes de produccion
+
+Agente recomendado: SDLCDesignAgent o PDCAAutomationAgent
 ## Performance Tuning
 
 **Heap Size:**

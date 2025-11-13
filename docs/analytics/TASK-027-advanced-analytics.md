@@ -24,6 +24,26 @@ Proporcionar capacidades analíticas avanzadas para:
 - Detección de anomalías y patrones
 - Predicciones de performance
 
+## Técnicas de Prompt Engineering para Agente
+
+Las siguientes técnicas deben aplicarse al ejecutar esta tarea con un agente:
+
+1. **Code Generation** (fundamental_techniques.py)
+ - Generar queries y transformaciones de datos para analytics
+
+2. **Expert Prompting** (specialized_techniques.py)
+ - Aplicar conocimiento experto de data analytics y visualizacion
+
+3. **Task Decomposition** (structuring_techniques.py)
+ - Dividir pipeline de analytics en fases (ingest, transform, visualize)
+
+4. **Few-Shot** (fundamental_techniques.py)
+ - Usar ejemplos de queries y dashboards similares
+
+5. **RAG** (search_optimization_techniques.py)
+ - Recuperar datos historicos para analisis predictivo
+
+Agente recomendado: FeatureAgent o SDLCDesignAgent
 ## Componentes Implementados
 
 ### 1. Trend Analysis (TrendAnalyzer)
@@ -49,27 +69,27 @@ GET /api/dora/analytics/trends/lead-time/?days=90
 **Ejemplo Response:**
 ```json
 {
-  "metric": "deployment_frequency",
-  "period_days": 90,
-  "data_points": 13,
-  "weekly_data": {
-    "weeks": ["2025-32", "2025-33", ...],
-    "counts": [15, 18, 20, ...]
-  },
-  "trend_analysis": {
-    "direction": "improving",
-    "average_weekly_change": 0.85,
-    "current_week_count": 22,
-    "previous_week_count": 20,
-    "week_over_week_change": 2
-  },
-  "statistics": {
-    "mean": 18.5,
-    "median": 18,
-    "std_dev": 2.3,
-    "min": 15,
-    "max": 23
-  }
+ "metric": "deployment_frequency",
+ "period_days": 90,
+ "data_points": 13,
+ "weekly_data": {
+ "weeks": ["2025-32", "2025-33", ...],
+ "counts": [15, 18, 20, ...]
+ },
+ "trend_analysis": {
+ "direction": "improving",
+ "average_weekly_change": 0.85,
+ "current_week_count": 22,
+ "previous_week_count": 20,
+ "week_over_week_change": 2
+ },
+ "statistics": {
+ "mean": 18.5,
+ "median": 18,
+ "std_dev": 2.3,
+ "min": 15,
+ "max": 23
+ }
 }
 ```
 
@@ -91,38 +111,38 @@ GET /api/dora/analytics/comparative/period-over-period/?current_days=30&previous
 **Ejemplo Response:**
 ```json
 {
-  "comparison_type": "period_over_period",
-  "current_period": {
-    "start": "2025-10-08T00:00:00Z",
-    "end": "2025-11-07T00:00:00Z",
-    "days": 30
-  },
-  "previous_period": {
-    "start": "2025-09-08T00:00:00Z",
-    "end": "2025-10-08T00:00:00Z",
-    "days": 30
-  },
-  "metrics": {
-    "deployment_frequency": {
-      "current": 45,
-      "previous": 38,
-      "change": 7,
-      "percent_change": 18.42
-    },
-    "lead_time_hours": {
-      "current": 2.5,
-      "previous": 3.2,
-      "change": -0.7,
-      "percent_change": -21.88
-    },
-    "change_failure_rate": {
-      "current": 8.5,
-      "previous": 12.0,
-      "change": -3.5,
-      "percent_change": -29.17
-    }
-  },
-  "summary": "Deployment frequency increased significantly (+18.4%); Lead time improved (-21.9%); Change failure rate improved (-29.2%)"
+ "comparison_type": "period_over_period",
+ "current_period": {
+ "start": "2025-10-08T00:00:00Z",
+ "end": "2025-11-07T00:00:00Z",
+ "days": 30
+ },
+ "previous_period": {
+ "start": "2025-09-08T00:00:00Z",
+ "end": "2025-10-08T00:00:00Z",
+ "days": 30
+ },
+ "metrics": {
+ "deployment_frequency": {
+ "current": 45,
+ "previous": 38,
+ "change": 7,
+ "percent_change": 18.42
+ },
+ "lead_time_hours": {
+ "current": 2.5,
+ "previous": 3.2,
+ "change": -0.7,
+ "percent_change": -21.88
+ },
+ "change_failure_rate": {
+ "current": 8.5,
+ "previous": 12.0,
+ "change": -3.5,
+ "percent_change": -29.17
+ }
+ },
+ "summary": "Deployment frequency increased significantly (+18.4%); Lead time improved (-21.9%); Change failure rate improved (-29.2%)"
 }
 ```
 
@@ -145,25 +165,25 @@ GET /api/dora/analytics/historical/monthly/?months=6
 **Ejemplo Response:**
 ```json
 {
-  "report_type": "monthly",
-  "period_months": 6,
-  "data": {
-    "months": ["2025-06", "2025-07", "2025-08", "2025-09", "2025-10", "2025-11"],
-    "deployment_frequency": [32, 38, 42, 45, 48, 52],
-    "avg_lead_time_hours": [3.5, 3.2, 2.8, 2.5, 2.3, 2.1]
-  },
-  "summary": {
-    "total_deployments": 257,
-    "avg_deployments_per_month": 42.83,
-    "best_month": {
-      "month": "2025-11",
-      "deployments": 52
-    },
-    "worst_month": {
-      "month": "2025-06",
-      "deployments": 32
-    }
-  }
+ "report_type": "monthly",
+ "period_months": 6,
+ "data": {
+ "months": ["2025-06", "2025-07", "2025-08", "2025-09", "2025-10", "2025-11"],
+ "deployment_frequency": [32, 38, 42, 45, 48, 52],
+ "avg_lead_time_hours": [3.5, 3.2, 2.8, 2.5, 2.3, 2.1]
+ },
+ "summary": {
+ "total_deployments": 257,
+ "avg_deployments_per_month": 42.83,
+ "best_month": {
+ "month": "2025-11",
+ "deployments": 52
+ },
+ "worst_month": {
+ "month": "2025-06",
+ "deployments": 32
+ }
+ }
 }
 ```
 
@@ -189,35 +209,35 @@ GET /api/dora/analytics/anomalies/?days=30
 **Ejemplo Response:**
 ```json
 {
-  "period_days": 30,
-  "total_deployments": 150,
-  "anomalies_detected": 8,
-  "anomaly_rate": 5.33,
-  "thresholds": {
-    "lower_bound_seconds": 300,
-    "upper_bound_seconds": 7200,
-    "lower_bound_hours": 0.08,
-    "upper_bound_hours": 2.0
-  },
-  "statistics": {
-    "q1": 900,
-    "q3": 2400,
-    "iqr": 1500,
-    "mean": 1650,
-    "median": 1500,
-    "std_dev": 450
-  },
-  "anomalies": [
-    {
-      "cycle_id": "cycle-001",
-      "feature_id": "FEAT-123",
-      "duration_seconds": 9000,
-      "duration_hours": 2.5,
-      "created_at": "2025-11-05T10:00:00Z",
-      "type": "unusually_slow"
-    },
-    ...
-  ]
+ "period_days": 30,
+ "total_deployments": 150,
+ "anomalies_detected": 8,
+ "anomaly_rate": 5.33,
+ "thresholds": {
+ "lower_bound_seconds": 300,
+ "upper_bound_seconds": 7200,
+ "lower_bound_hours": 0.08,
+ "upper_bound_hours": 2.0
+ },
+ "statistics": {
+ "q1": 900,
+ "q3": 2400,
+ "iqr": 1500,
+ "mean": 1650,
+ "median": 1500,
+ "std_dev": 450
+ },
+ "anomalies": [
+ {
+ "cycle_id": "cycle-001",
+ "feature_id": "FEAT-123",
+ "duration_seconds": 9000,
+ "duration_hours": 2.5,
+ "created_at": "2025-11-05T10:00:00Z",
+ "type": "unusually_slow"
+ },
+ ...
+ ]
 }
 ```
 
@@ -243,22 +263,22 @@ GET /api/dora/analytics/forecast/?historical_months=6
 **Ejemplo Response:**
 ```json
 {
-  "forecast_period": "next_month",
-  "based_on_months": 6,
-  "forecasts": {
-    "deployment_frequency": {
-      "predicted": 55,
-      "current_avg": 48.5,
-      "trend": "increasing"
-    },
-    "lead_time_hours": {
-      "predicted": 1.95,
-      "current_avg": 2.3,
-      "trend": "decreasing"
-    }
-  },
-  "confidence": "medium",
-  "note": "Forecasts based on simple linear trend extrapolation"
+ "forecast_period": "next_month",
+ "based_on_months": 6,
+ "forecasts": {
+ "deployment_frequency": {
+ "predicted": 55,
+ "current_avg": 48.5,
+ "trend": "increasing"
+ },
+ "lead_time_hours": {
+ "predicted": 1.95,
+ "current_avg": 2.3,
+ "trend": "decreasing"
+ }
+ },
+ "confidence": "medium",
+ "note": "Forecasts based on simple linear trend extrapolation"
 }
 ```
 
@@ -280,8 +300,8 @@ GET /api/dora/analytics/forecast/?historical_months=6
 ```python
 # Check if deployment frequency is improving
 response = requests.get(
-    'http://localhost:8000/api/dora/analytics/trends/deployment-frequency/',
-    params={'days': 90}
+ 'http://localhost:8000/api/dora/analytics/trends/deployment-frequency/',
+ params={'days': 90}
 )
 trend = response.json()
 
@@ -296,8 +316,8 @@ else:
 ```python
 # Compare current period vs previous
 response = requests.get(
-    'http://localhost:8000/api/dora/analytics/comparative/period-over-period/',
-    params={'current_days': 30, 'previous_days': 30}
+ 'http://localhost:8000/api/dora/analytics/comparative/period-over-period/',
+ params={'current_days': 30, 'previous_days': 30}
 )
 comparison = response.json()
 
@@ -311,8 +331,8 @@ for metric, data in comparison['metrics'].items():
 ```python
 # Detect deployment duration anomalies
 response = requests.get(
-    'http://localhost:8000/api/dora/analytics/anomalies/',
-    params={'days': 30}
+ 'http://localhost:8000/api/dora/analytics/anomalies/',
+ params={'days': 30}
 )
 anomalies = response.json()
 
@@ -326,8 +346,8 @@ if anomalies['anomaly_rate'] > 10:
 ```python
 # Forecast next month metrics
 response = requests.get(
-    'http://localhost:8000/api/dora/analytics/forecast/',
-    params={'historical_months': 6}
+ 'http://localhost:8000/api/dora/analytics/forecast/',
+ params={'historical_months': 6}
 )
 forecast = response.json()
 
@@ -348,11 +368,11 @@ percent_change = (abs(slope * n) / y_mean) * 100
 
 # Classification
 if percent_change < 5:
-    return 'stable'
+ return 'stable'
 elif slope > 0:
-    return 'improving' (or 'declining' if inverse)
+ return 'improving' (or 'declining' if inverse)
 else:
-    return 'declining' (or 'improving' if inverse)
+ return 'declining' (or 'improving' if inverse)
 ```
 
 ### Anomaly Detection (IQR Method)

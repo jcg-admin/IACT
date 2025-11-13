@@ -24,6 +24,26 @@ Establecer un ecosistema de datos saludable mediante:
 - Metadata management
 - Ecosystem health monitoring
 
+## Técnicas de Prompt Engineering para Agente
+
+Las siguientes técnicas deben aplicarse al ejecutar esta tarea con un agente:
+
+1. **RAG** (search_optimization_techniques.py)
+ - Implementar Retrieval Augmented Generation para data catalog
+
+2. **Expert Prompting** (specialized_techniques.py)
+ - Aplicar conocimiento experto de AI/ML y prompt engineering
+
+3. **Meta-prompting** (structuring_techniques.py)
+ - Generar prompts dinamicos para diferentes casos de uso
+
+4. **Task Decomposition** (structuring_techniques.py)
+ - Dividir capabilities AI en componentes reutilizables
+
+5. **Few-Shot** (fundamental_techniques.py)
+ - Usar ejemplos para entrenar modelos de AI
+
+Agente recomendado: FeatureAgent o SDLCDesignAgent
 ## DORA 2025 AI Capability 7
 
 ### Definition
@@ -42,34 +62,34 @@ Establecer un ecosistema de datos saludable mediante:
 
 ```
 Data Ecosystem Platform
-   ↓
-   ├─ Data Quality Monitor
-   │  ├─ Completeness (25%)
-   │  ├─ Validity (25%)
-   │  ├─ Consistency (20%)
-   │  ├─ Timeliness (15%)
-   │  └─ Accuracy (15%)
-   │
-   ├─ Data Governance
-   │  ├─ Retention policies
-   │  ├─ Access controls
-   │  ├─ Compliance rules
-   │  └─ Data ownership
-   │
-   ├─ Data Lineage
-   │  ├─ Data flows (3 pipelines)
-   │  ├─ Transformations
-   │  └─ Dependencies
-   │
-   ├─ Metadata Management
-   │  ├─ Schema registry
-   │  ├─ Field descriptions
-   │  └─ Type information
-   │
-   └─ Ecosystem Health
-      ├─ Component health
-      ├─ Pipeline status
-      └─ Recommendations
+ ↓
+ ├─ Data Quality Monitor
+ │ ├─ Completeness (25%)
+ │ ├─ Validity (25%)
+ │ ├─ Consistency (20%)
+ │ ├─ Timeliness (15%)
+ │ └─ Accuracy (15%)
+ │
+ ├─ Data Governance
+ │ ├─ Retention policies
+ │ ├─ Access controls
+ │ ├─ Compliance rules
+ │ └─ Data ownership
+ │
+ ├─ Data Lineage
+ │ ├─ Data flows (3 pipelines)
+ │ ├─ Transformations
+ │ └─ Dependencies
+ │
+ ├─ Metadata Management
+ │ ├─ Schema registry
+ │ ├─ Field descriptions
+ │ └─ Type information
+ │
+ └─ Ecosystem Health
+ ├─ Component health
+ ├─ Pipeline status
+ └─ Recommendations
 ```
 
 ## Components Implementados
@@ -81,29 +101,29 @@ Data Ecosystem Platform
 **Quality Dimensions:**
 
 1. **Completeness (25% weight)**
-   - Checks for null values in required fields
-   - Target: >= 95%
-   - Fields checked: cycle_id, feature_id, phase_name, decision
+ - Checks for null values in required fields
+ - Target: >= 95%
+ - Fields checked: cycle_id, feature_id, phase_name, decision
 
 2. **Validity (25% weight)**
-   - Validates data against constraints
-   - Target: >= 95%
-   - Checks: duration_seconds in range [0, 86400]
+ - Validates data against constraints
+ - Target: >= 95%
+ - Checks: duration_seconds in range [0, 86400]
 
 3. **Consistency (20% weight)**
-   - Checks data consistency across records
-   - Target: >= 90%
-   - Validates: Consistent feature_id per cycle_id
+ - Checks data consistency across records
+ - Target: >= 90%
+ - Validates: Consistent feature_id per cycle_id
 
 4. **Timeliness (15% weight)**
-   - Measures data freshness
-   - Target: >= 50% data in last 24h
-   - Tracks: created_at timestamps
+ - Measures data freshness
+ - Target: >= 50% data in last 24h
+ - Tracks: created_at timestamps
 
 5. **Accuracy (15% weight)**
-   - Validates reasonable values
-   - Target: >= 90%
-   - Heuristic: durations between 60s and 7200s
+ - Validates reasonable values
+ - Target: >= 90%
+ - Heuristic: durations between 60s and 7200s
 
 **API Endpoint:**
 
@@ -114,44 +134,44 @@ GET /api/dora/ecosystem/quality/?days=30
 **Response Example:**
 ```json
 {
-  "overall_score": 92.5,
-  "assessment_date": "2025-11-07T10:30:00Z",
-  "period_days": 30,
-  "total_records": 1500,
-  "quality_dimensions": {
-    "completeness": {
-      "score": 98.5,
-      "null_counts": {
-        "cycle_id": 0,
-        "feature_id": 5,
-        "phase_name": 0,
-        "decision": 0
-      },
-      "status": "healthy"
-    },
-    "validity": {
-      "score": 99.2,
-      "invalid_records": 12,
-      "status": "healthy"
-    },
-    "consistency": {
-      "score": 95.0,
-      "inconsistent_cycles": 3,
-      "status": "healthy"
-    },
-    "timeliness": {
-      "score": 85.0,
-      "recent_records": 1275,
-      "status": "healthy"
-    },
-    "accuracy": {
-      "score": 88.0,
-      "reasonable_durations": 1320,
-      "status": "healthy"
-    }
-  },
-  "issues": ["No issues detected"],
-  "recommendation": "Excellent data quality. Maintain current practices."
+ "overall_score": 92.5,
+ "assessment_date": "2025-11-07T10:30:00Z",
+ "period_days": 30,
+ "total_records": 1500,
+ "quality_dimensions": {
+ "completeness": {
+ "score": 98.5,
+ "null_counts": {
+ "cycle_id": 0,
+ "feature_id": 5,
+ "phase_name": 0,
+ "decision": 0
+ },
+ "status": "healthy"
+ },
+ "validity": {
+ "score": 99.2,
+ "invalid_records": 12,
+ "status": "healthy"
+ },
+ "consistency": {
+ "score": 95.0,
+ "inconsistent_cycles": 3,
+ "status": "healthy"
+ },
+ "timeliness": {
+ "score": 85.0,
+ "recent_records": 1275,
+ "status": "healthy"
+ },
+ "accuracy": {
+ "score": 88.0,
+ "reasonable_durations": 1320,
+ "status": "healthy"
+ }
+ },
+ "issues": ["No issues detected"],
+ "recommendation": "Excellent data quality. Maintain current practices."
 }
 ```
 
@@ -167,24 +187,24 @@ GET /api/dora/ecosystem/quality/?days=30
 **Policies:**
 
 1. **Data Retention**
-   - DORA metrics (MySQL): permanent
-   - Application logs (JSON): 90 days, 100MB rotation
-   - Infrastructure logs (Cassandra): 90 days TTL
+ - DORA metrics (MySQL): permanent
+ - Application logs (JSON): 90 days, 100MB rotation
+ - Infrastructure logs (Cassandra): 90 days TTL
 
 2. **Access Controls**
-   - API authentication: required
-   - Rate limiting: enabled
-   - Audit logging: enabled
-   - Database: role-based, least privilege
+ - API authentication: required
+ - Rate limiting: enabled
+ - Audit logging: enabled
+ - Database: role-based, least privilege
 
 3. **Compliance Rules**
-   - RNF-002: Technology restrictions compliance
-   - DATA-001: No PII in metrics
-   - DATA-002: Data quality >= 80%
+ - RNF-002: Technology restrictions compliance
+ - DATA-001: No PII in metrics
+ - DATA-002: Data quality >= 80%
 
 4. **Data Ownership**
-   - dora_metrics: backend-team (backend-lead@iact.com)
-   - deployment_cycles: devops-team (devops-lead@iact.com)
+ - dora_metrics: backend-team (backend-lead@iact.com)
+ - deployment_cycles: devops-team (devops-lead@iact.com)
 
 **API Endpoint:**
 
@@ -195,28 +215,28 @@ GET /api/dora/ecosystem/governance/
 **Response Example:**
 ```json
 {
-  "governance_framework": {
-    "version": "1.0.0",
-    "last_updated": "2025-11-07",
-    "owner": "data-governance-team"
-  },
-  "data_retention": {
-    "dora_metrics_mysql": {
-      "policy": "permanent",
-      "reasoning": "Historical analysis and trending",
-      "compliance": "compliant"
-    },
-    ...
-  },
-  "compliance_rules": [
-    {
-      "rule_id": "RNF-002",
-      "description": "Technology restrictions compliance",
-      "status": "compliant",
-      "last_audit": "2025-11-07"
-    },
-    ...
-  ]
+ "governance_framework": {
+ "version": "1.0.0",
+ "last_updated": "2025-11-07",
+ "owner": "data-governance-team"
+ },
+ "data_retention": {
+ "dora_metrics_mysql": {
+ "policy": "permanent",
+ "reasoning": "Historical analysis and trending",
+ "compliance": "compliant"
+ },
+ ...
+ },
+ "compliance_rules": [
+ {
+ "rule_id": "RNF-002",
+ "description": "Technology restrictions compliance",
+ "status": "compliant",
+ "last_audit": "2025-11-07"
+ },
+ ...
+ ]
 }
 ```
 
@@ -227,20 +247,20 @@ GET /api/dora/ecosystem/governance/
 **Data Flows Tracked:**
 
 1. **DORA Metrics Collection (flow_001)**
-   - Source: Application Events
-   - Ingestion: Django ORM (validation, serialization)
-   - Storage: MySQL (dora_metrics_dorametric)
-   - Access: REST APIs
+ - Source: Application Events
+ - Ingestion: Django ORM (validation, serialization)
+ - Storage: MySQL (dora_metrics_dorametric)
+ - Access: REST APIs
 
 2. **Application Logs Pipeline (flow_002)**
-   - Source: Django Application
-   - Formatting: JSONFormatter
-   - Storage: /var/log/iact/app.json.log (100MB rotation)
+ - Source: Django Application
+ - Formatting: JSONFormatter
+ - Storage: /var/log/iact/app.json.log (100MB rotation)
 
 3. **Infrastructure Logs Pipeline (flow_003)**
-   - Sources: syslog, auth.log, kern.log, systemd
-   - Collection: Log Collector Daemon (batch 1000)
-   - Storage: Cassandra (TTL 90 days)
+ - Sources: syslog, auth.log, kern.log, systemd
+ - Collection: Log Collector Daemon (batch 1000)
+ - Storage: Cassandra (TTL 90 days)
 
 **Dependencies Tracked:**
 - DORA Dashboard depends on dora_metrics (real_time)
@@ -256,32 +276,32 @@ GET /api/dora/ecosystem/lineage/
 **Response Example:**
 ```json
 {
-  "lineage_version": "1.0.0",
-  "generated_at": "2025-11-07T10:30:00Z",
-  "data_flows": [
-    {
-      "flow_id": "flow_001",
-      "name": "DORA Metrics Collection",
-      "stages": [
-        {
-          "stage": "source",
-          "component": "Application Events",
-          "type": "event_stream"
-        },
-        {
-          "stage": "ingestion",
-          "component": "Django ORM",
-          "transformations": [
-            "Convert timestamps to UTC",
-            "Validate duration_seconds range"
-          ]
-        },
-        ...
-      ]
-    },
-    ...
-  ],
-  "data_dependencies": [...]
+ "lineage_version": "1.0.0",
+ "generated_at": "2025-11-07T10:30:00Z",
+ "data_flows": [
+ {
+ "flow_id": "flow_001",
+ "name": "DORA Metrics Collection",
+ "stages": [
+ {
+ "stage": "source",
+ "component": "Application Events",
+ "type": "event_stream"
+ },
+ {
+ "stage": "ingestion",
+ "component": "Django ORM",
+ "transformations": [
+ "Convert timestamps to UTC",
+ "Validate duration_seconds range"
+ ]
+ },
+ ...
+ ]
+ },
+ ...
+ ],
+ "data_dependencies": [...]
 }
 ```
 
@@ -312,38 +332,38 @@ GET /api/dora/ecosystem/health/
 **Response Example:**
 ```json
 {
-  "overall_health_score": 91.5,
-  "status": "healthy",
-  "status_color": "green",
-  "assessed_at": "2025-11-07T10:30:00Z",
-  "components": {
-    "data_quality": {
-      "score": 92.5,
-      "status": "healthy"
-    },
-    "data_freshness": {
-      "score": 95.0,
-      "recent_records_1h": 95,
-      "status": "healthy"
-    },
-    "error_rate": {
-      "score": 88.0,
-      "incident_count_7d": 12,
-      "error_rate_percent": 6.0,
-      "status": "healthy"
-    }
-  },
-  "data_pipelines": {
-    "dora_metrics_collection": {
-      "status": "operational",
-      "last_data": "2025-11-07T10:29:00Z",
-      "throughput_24h": 2280
-    },
-    ...
-  },
-  "recommendations": [
-    "Ecosystem healthy. Continue monitoring and maintain current practices."
-  ]
+ "overall_health_score": 91.5,
+ "status": "healthy",
+ "status_color": "green",
+ "assessed_at": "2025-11-07T10:30:00Z",
+ "components": {
+ "data_quality": {
+ "score": 92.5,
+ "status": "healthy"
+ },
+ "data_freshness": {
+ "score": 95.0,
+ "recent_records_1h": 95,
+ "status": "healthy"
+ },
+ "error_rate": {
+ "score": 88.0,
+ "incident_count_7d": 12,
+ "error_rate_percent": 6.0,
+ "status": "healthy"
+ }
+ },
+ "data_pipelines": {
+ "dora_metrics_collection": {
+ "status": "operational",
+ "last_data": "2025-11-07T10:29:00Z",
+ "throughput_24h": 2280
+ },
+ ...
+ },
+ "recommendations": [
+ "Ecosystem healthy. Continue monitoring and maintain current practices."
+ ]
 }
 ```
 
@@ -367,31 +387,31 @@ GET /api/dora/ecosystem/metadata/
 **Response Example:**
 ```json
 {
-  "registry_version": "1.0.0",
-  "last_updated": "2025-11-07T10:30:00Z",
-  "datasets": [
-    {
-      "dataset_id": "dora_metrics",
-      "schema_version": "1.0.0",
-      "table": "dora_metrics_dorametric",
-      "record_count": 15000,
-      "size_estimate_mb": 15.0,
-      "last_updated": "2025-11-07T10:29:00Z",
-      "fields": [
-        {
-          "name": "cycle_id",
-          "type": "CharField",
-          "max_length": 255,
-          "description": "Unique deployment cycle identifier",
-          "nullable": false,
-          "indexed": true,
-          "example": "cycle-2025-001"
-        },
-        ...
-      ],
-      "indexes": [...]
-    }
-  ]
+ "registry_version": "1.0.0",
+ "last_updated": "2025-11-07T10:30:00Z",
+ "datasets": [
+ {
+ "dataset_id": "dora_metrics",
+ "schema_version": "1.0.0",
+ "table": "dora_metrics_dorametric",
+ "record_count": 15000,
+ "size_estimate_mb": 15.0,
+ "last_updated": "2025-11-07T10:29:00Z",
+ "fields": [
+ {
+ "name": "cycle_id",
+ "type": "CharField",
+ "max_length": 255,
+ "description": "Unique deployment cycle identifier",
+ "nullable": false,
+ "indexed": true,
+ "example": "cycle-2025-001"
+ },
+ ...
+ ],
+ "indexes": [...]
+ }
+ ]
 }
 ```
 
@@ -457,10 +477,10 @@ response = requests.get('http://localhost:8000/api/dora/ecosystem/health/')
 health = response.json()
 
 if health['overall_health_score'] < 75:
-    print(f"WARNING: Ecosystem health critical: {health['overall_health_score']}")
-    print(f"Recommendations: {health['recommendations']}")
+ print(f"WARNING: Ecosystem health critical: {health['overall_health_score']}")
+ print(f"Recommendations: {health['recommendations']}")
 else:
-    print(f"Ecosystem healthy: {health['overall_health_score']}")
+ print(f"Ecosystem healthy: {health['overall_health_score']}")
 ```
 
 ## Monitoring and Alerting
@@ -472,20 +492,20 @@ from dora_metrics.data_ecosystem import EcosystemHealth
 from dora_metrics.alerts import warning_alert, critical_alert
 
 def monitor_ecosystem_health():
-    health = EcosystemHealth.get_health_status()
+ health = EcosystemHealth.get_health_status()
 
-    if health['overall_health_score'] < 75:
-        critical_alert.send(
-            sender=None,
-            message=f"Ecosystem health critical: {health['overall_health_score']}",
-            context=health
-        )
-    elif health['overall_health_score'] < 85:
-        warning_alert.send(
-            sender=None,
-            message=f"Ecosystem health degraded: {health['overall_health_score']}",
-            context=health
-        )
+ if health['overall_health_score'] < 75:
+ critical_alert.send(
+ sender=None,
+ message=f"Ecosystem health critical: {health['overall_health_score']}",
+ context=health
+ )
+ elif health['overall_health_score'] < 85:
+ warning_alert.send(
+ sender=None,
+ message=f"Ecosystem health degraded: {health['overall_health_score']}",
+ context=health
+ )
 ```
 
 ### Scheduled Monitoring

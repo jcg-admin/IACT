@@ -34,6 +34,26 @@ El requisito RNF-002 establece restricciones tecnologicas criticas para el proye
 3. **Cassandra** - Logs centralizados
 4. **PostgreSQL** - Base de datos IVR legacy (solo lectura)
 
+## Técnicas de Prompt Engineering para Agente
+
+Las siguientes técnicas deben aplicarse al ejecutar esta tarea con un agente:
+
+1. **Expert Prompting** (specialized_techniques.py)
+ - Aplicar conocimiento experto de compliance y gobernanza
+
+2. **Constitutional AI** (optimization_techniques.py)
+ - Verificar cumplimiento de politicas y restricciones organizacionales
+
+3. **Retrieval** (knowledge_techniques.py)
+ - Recuperar documentacion de politicas y guidelines existentes
+
+4. **Task Decomposition** (structuring_techniques.py)
+ - Dividir auditorias en checks especificos y validaciones
+
+5. **Delimiter-based** (structuring_techniques.py)
+ - Estructurar revisiones usando delimitadores claros entre secciones
+
+Agente recomendado: DocumentationSyncAgent o SDLCPlannerAgent
 ## Objetivos de la Auditoria
 
 1. Escanear TODO el codigo en busca de tecnologias prohibidas
@@ -108,9 +128,9 @@ api/callcentersite/callcentersite/settings/base.py:
 # Session Configuration (RNF-002: NO Redis, use database)
 
 api/callcentersite/tests/authentication/test_single_session.py:
-    def test_010_006_session_engine_es_db_no_redis(self):
-        """TEST-010-006: SESSION_ENGINE configurado como 'db' (NO Redis)"""
-        assert 'redis' not in session_engine.lower()
+ def test_010_006_session_engine_es_db_no_redis(self):
+ """TEST-010-006: SESSION_ENGINE configurado como 'db' (NO Redis)"""
+ assert 'redis' not in session_engine.lower()
 ```
 
 **Conclusion:** [OK] NO se usa Redis. Solo referencias en comentarios y tests de validacion.
@@ -159,10 +179,10 @@ SESSION_ENGINE = "django.contrib.sessions.backends.db"
 **Tests de validacion:**
 ```python
 def test_010_006_session_engine_es_db_no_redis(self):
-    """TEST-010-006: SESSION_ENGINE configurado como 'db' (NO Redis)"""
-    session_engine = settings.SESSION_ENGINE
-    assert session_engine == "django.contrib.sessions.backends.db"
-    assert 'redis' not in session_engine.lower()
+ """TEST-010-006: SESSION_ENGINE configurado como 'db' (NO Redis)"""
+ session_engine = settings.SESSION_ENGINE
+ assert session_engine == "django.contrib.sessions.backends.db"
+ assert 'redis' not in session_engine.lower()
 ```
 
 **Conclusion:** [OK] SESSION_ENGINE correcto (database)
@@ -292,13 +312,13 @@ grep -ri "celery" api/callcentersite/ --include="*.py"
 **Tests de RNF-002:**
 
 1. **test_010_006_session_engine_es_db_no_redis()**
-   - Valida SESSION_ENGINE = db
-   - Valida NO contiene 'redis'
-   - Estado: PASSING
+ - Valida SESSION_ENGINE = db
+ - Valida NO contiene 'redis'
+ - Estado: PASSING
 
 2. **test_010_conf_002_no_usa_redis_como_backend()**
-   - Valida NO se usa Redis como backend
-   - Estado: PASSING
+ - Valida NO se usa Redis como backend
+ - Estado: PASSING
 
 ### Cobertura de Tests
 
@@ -316,19 +336,19 @@ grep -ri "celery" api/callcentersite/ --include="*.py"
 
 ```
 MySQL (13306):
-  - DORA metrics (dora_metrics table)
-  - Sesiones (django_session table)
-  - Mensajeria interna (InternalMessage)
+ - DORA metrics (dora_metrics table)
+ - Sesiones (django_session table)
+ - Mensajeria interna (InternalMessage)
 
 Cassandra (9042):
-  - Application logs (JSON estructurado)
-  - Infrastructure logs (futuro)
-  - Retention 90 dias automatico
+ - Application logs (JSON estructurado)
+ - Infrastructure logs (futuro)
+ - Retention 90 dias automatico
 
 PostgreSQL (5432):
-  - IVR legacy database
-  - Solo lectura
-  - Protegido por database router
+ - IVR legacy database
+ - Solo lectura
+ - Protegido por database router
 ```
 
 **Compliance:** [OK] Arquitectura implementada segun especificacion
@@ -396,19 +416,19 @@ PostgreSQL (5432):
 Si se detecta violacion en futuro:
 
 1. **Immediate:**
-   - Bloquear merge de PR
-   - Notificar arquitecto-senior
-   - Documentar violacion
+ - Bloquear merge de PR
+ - Notificar arquitecto-senior
+ - Documentar violacion
 
 2. **Short-term (24h):**
-   - Identificar origen de violacion
-   - Crear plan de remediacion
-   - Estimar impacto
+ - Identificar origen de violacion
+ - Crear plan de remediacion
+ - Estimar impacto
 
 3. **Medium-term (1 semana):**
-   - Implementar remediacion
-   - Re-ejecutar tests
-   - Validar compliance
+ - Implementar remediacion
+ - Re-ejecutar tests
+ - Validar compliance
 
 ## Recomendaciones
 
@@ -424,14 +444,14 @@ Si se detecta violacion en futuro:
 name: Compliance RNF-002
 on: [push, pull_request]
 jobs:
-  compliance:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Validate RNF-002
-        run: ./scripts/validate_critical_restrictions.sh
-      - name: Fail if violations
-        run: exit $?
+ compliance:
+ runs-on: ubuntu-latest
+ steps:
+ - uses: actions/checkout@v2
+ - name: Validate RNF-002
+ run: ./scripts/validate_critical_restrictions.sh
+ - name: Fail if violations
+ run: exit $?
 ```
 
 **Beneficio:**
@@ -451,8 +471,8 @@ jobs:
 #!/bin/bash
 ./scripts/validate_critical_restrictions.sh
 if [ $? -ne 0 ]; then
-    echo "[ERROR] RNF-002 compliance failed"
-    exit 1
+ echo "[ERROR] RNF-002 compliance failed"
+ exit 1
 fi
 ```
 
@@ -492,21 +512,21 @@ pip list | grep -E "redis|prometheus|grafana|celery"
 ### Archivos Clave
 
 1. **Settings:**
-   - `api/callcentersite/callcentersite/settings/base.py`
-     - Linea 82: `SESSION_ENGINE = "django.contrib.sessions.backends.db"`
+ - `api/callcentersite/callcentersite/settings/base.py`
+ - Linea 82: `SESSION_ENGINE = "django.contrib.sessions.backends.db"`
 
 2. **Tests:**
-   - `api/callcentersite/tests/authentication/test_single_session.py`
-     - test_010_006_session_engine_es_db_no_redis()
-     - test_010_conf_002_no_usa_redis_como_backend()
+ - `api/callcentersite/tests/authentication/test_single_session.py`
+ - test_010_006_session_engine_es_db_no_redis()
+ - test_010_conf_002_no_usa_redis_como_backend()
 
 3. **Docker:**
-   - `docker-compose.cassandra.yml`
-     - Solo servicios Cassandra (permitido)
+ - `docker-compose.cassandra.yml`
+ - Solo servicios Cassandra (permitido)
 
 4. **Scripts:**
-   - `scripts/validate_critical_restrictions.sh`
-     - Validacion automatica de todas las restricciones
+ - `scripts/validate_critical_restrictions.sh`
+ - Validacion automatica de todas las restricciones
 
 ### Logs de Validacion
 
@@ -525,31 +545,31 @@ Estado: COMPLIANT
 ### Q1 2026
 
 1. **CI/CD Integration (Sprint 4):**
-   - Agregar workflow GitHub Actions
-   - Validacion automatica en PRs
-   - Badge de compliance en README
+ - Agregar workflow GitHub Actions
+ - Validacion automatica en PRs
+ - Badge de compliance en README
 
 2. **Pre-commit Hook (Sprint 5):**
-   - Implementar hook local
-   - Distribuir a equipo
-   - Documentar en ONBOARDING
+ - Implementar hook local
+ - Distribuir a equipo
+ - Documentar en ONBOARDING
 
 3. **Dependency Scanning (Sprint 6):**
-   - Implementar safety/pip-audit
-   - Scheduled scans semanales
-   - Alertas automaticas
+ - Implementar safety/pip-audit
+ - Scheduled scans semanales
+ - Alertas automaticas
 
 ### Q2 2026
 
 1. **Compliance Dashboard:**
-   - Visualizacion de compliance en tiempo real
-   - Historial de validaciones
-   - Metricas de compliance
+ - Visualizacion de compliance en tiempo real
+ - Historial de validaciones
+ - Metricas de compliance
 
 2. **Auditoria Externa:**
-   - Contratar auditoria externa
-   - Certificacion ISO 27001 (preparacion)
-   - Remediar findings
+ - Contratar auditoria externa
+ - Certificacion ISO 27001 (preparacion)
+ - Remediar findings
 
 ## Referencias
 

@@ -22,6 +22,27 @@ Para garantizar la salud y estabilidad del sistema, se requieren tareas de mante
 - Monitoreo continuo de salud del sistema
 - Backups automatizados de datos criticos
 
+
+## Técnicas de Prompt Engineering para Agente
+
+Las siguientes técnicas deben aplicarse al ejecutar esta tarea con un agente:
+
+1. **Tool-use Prompting** (knowledge_techniques.py)
+   - Ejecutar comandos shell, cron jobs y scripts de automatizacion
+
+2. **ReAct** (knowledge_techniques.py)
+   - Razonar sobre el estado del sistema, actuar con comandos, reflexionar sobre resultados
+
+3. **Simulation** (specialized_techniques.py)
+   - Simular escenarios de operacion para validar configuraciones
+
+4. **Task Decomposition** (structuring_techniques.py)
+   - Dividir tareas operacionales en pasos ejecutables
+
+5. **Expert Prompting** (specialized_techniques.py)
+   - Aplicar conocimiento experto de DevOps y operaciones
+
+Agente recomendado: PDCAAutomationAgent o SDLCPlannerAgent
 ## Objetivos
 
 1. Configurar cron job para limpieza de sesiones cada 6 horas
