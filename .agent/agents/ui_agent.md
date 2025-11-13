@@ -7,7 +7,8 @@ Alinear el trabajo automatizado sobre el frontend (`ui/`) con las prácticas de 
 ## Integraciones Clave
 
 - **ExecPlans**: `docs/plans/EXECPLAN_agents_domain_alignment.md` y `docs/plans/EXECPLAN_codex_mcp_multi_llm.md`.
-- **Playbooks**: `docs/ai_capabilities/prompting/PROMPT_TECHNIQUES_CATALOG.md`, `docs/ai_capabilities/prompting/CODE_GENERATION_GUIDE.md` y `docs/ai_capabilities/prompting/PHI3_PROMPT_ENGINEERING_PLAYBOOK.md`.
+- **Playbooks**: `docs/ai_capabilities/prompting/PROMPT_TECHNIQUES_CATALOG.md`, `docs/ai_capabilities/prompting/CODE_GENERATION_GUIDE.md`, `docs/ai_capabilities/prompting/PHI3_PROMPT_ENGINEERING_PLAYBOOK.md` y `docs/ai_capabilities/orchestration/CONTEXT_MANAGEMENT_PLAYBOOK.md` (memoria de contexto compartida con backend/infrastructure).
+- **Sesiones de contexto**: `scripts/coding/ai/shared/context_sessions.py` para trimming/summarization cuando los flujos UX requieren iteraciones largas.
 - **Orquestación**: `scripts/coding/ai/orchestrators/codex_mcp_workflow.py` (multi-agente) y `scripts/coding/ai/generators/llm_generator.py` (generación guiada por TDD).
 - **Documentación UX**: briefs y wireframes creados por el Designer Agent se ubican en `docs/` o `design/` según el ExecPlan activo.
 

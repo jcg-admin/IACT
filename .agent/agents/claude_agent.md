@@ -9,6 +9,7 @@ Orquestar las integraciones con modelos Claude (Anthropic) dentro del flujo SDLC
 - **Configuración de credenciales**: `docs/ai/CONFIGURACION_API_KEYS.md` describe cómo declarar `ANTHROPIC_API_KEY` en `.env` y validar la detección automática del proveedor.
 - **ExecPlan vivo**: `docs/plans/EXECPLAN_codex_mcp_multi_llm.md` resume la estrategia multi-LLM y mantiene el historial de decisiones para Codex MCP.
 - **Catálogo de prompts**: `docs/ai_capabilities/prompting/PROMPT_TECHNIQUES_CATALOG.md` reúne las técnicas multi-LLM recomendadas antes de diseñar prompts especializados para Claude.
+- **Gestión de contexto**: `docs/ai_capabilities/orchestration/CONTEXT_MANAGEMENT_PLAYBOOK.md` y `scripts/coding/ai/shared/context_sessions.py` definen trimming y summarization compartidos entre proveedores.
 - **Agente generador de tests**: `scripts/coding/ai/generators/llm_generator.py` soporta `llm_provider="anthropic"` y usa Claude como backend por defecto.
 - **Builder MCP**: `scripts/coding/ai/orchestrators/codex_mcp_workflow.py` genera briefs single/multi-agent asegurando banderas MCP correctas cuando el proveedor es Anthropic.
 - **Guía operativa**: `docs/ai/SDLC_AGENTS_GUIDE.md` contiene los lineamientos de uso y compara el modo LLM vs heurístico.

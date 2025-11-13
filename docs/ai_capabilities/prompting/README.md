@@ -68,6 +68,10 @@ El compendio de patrones agenticos observados en producción—desde LLMs aument
 
 Para estandarizar la orquestación Codex MCP en todos los proveedores soportados, consulta [../orchestration/CODEX_MCP_MULTI_AGENT_GUIDE.md](../orchestration/CODEX_MCP_MULTI_AGENT_GUIDE.md). Describe cómo inicializar el servidor MCP, ensamblar flujos single-agent y multi-agent, habilitar trazas y enlazar el `CodexMCPWorkflowBuilder` con la gobernanza `.agent`.
 
+### Context Management Playbook
+
+El manejo de memoria en sesiones largas se detalla en [../orchestration/CONTEXT_MANAGEMENT_PLAYBOOK.md](../orchestration/CONTEXT_MANAGEMENT_PLAYBOOK.md). Explica cómo aplicar `TrimmingSession` y `SummarizingSession` en Claude, ChatGPT y Hugging Face reutilizando `scripts/coding/ai/shared/context_sessions.py`.
+
 ### Phi-3 Prompt Engineering Playbook
 
 Para alinear el tercer proveedor soportado (Hugging Face) con prácticas de prompting reproducibles, consulta [PHI3_PROMPT_ENGINEERING_PLAYBOOK.md](./PHI3_PROMPT_ENGINEERING_PLAYBOOK.md). Resume la configuración del modelo `microsoft/Phi-3-mini-4k-instruct`, patrones como Chain-of-Thought/Tree-of-Thought y recomendaciones para interoperar con Claude y ChatGPT.

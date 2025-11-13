@@ -9,6 +9,7 @@ Guiar el uso de modelos Hugging Face (locales o alojados) dentro de los pipeline
 - **Configuración de entorno**: `docs/ai/CONFIGURACION_API_KEYS.md` detalla cómo definir rutas locales (`HF_LOCAL_MODEL_PATH`) o `HF_MODEL_ID` y cuándo se requiere `HUGGINGFACEHUB_API_TOKEN`.
 - **ExecPlan vivo**: `docs/plans/EXECPLAN_codex_mcp_multi_llm.md` mantiene la estrategia para balancear los tres proveedores y debe reflejar cualquier cambio en modelos Hugging Face.
 - **Catálogo de prompts**: `docs/ai_capabilities/prompting/PROMPT_TECHNIQUES_CATALOG.md` consolida las técnicas multi-LLM que deben adaptarse antes de aplicar prompt engineering específico (p. ej. TinyLlama o Phi-3).
+- **Gestión de contexto**: `docs/ai_capabilities/orchestration/CONTEXT_MANAGEMENT_PLAYBOOK.md` y `scripts/coding/ai/shared/context_sessions.py` cubren trimming/summarization para sesiones largas en modelos locales.
 - **Agente generador de tests**: `scripts/coding/ai/generators/llm_generator.py` soporta `llm_provider="huggingface"` y permite reutilizar modelos QLoRA o checkpoints locales.
 - **Builder MCP**: `scripts/coding/ai/orchestrators/codex_mcp_workflow.py` expone defaults y banderas MCP al usar el proveedor `huggingface`.
 - **Guías de capacidad**:

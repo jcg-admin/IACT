@@ -8,6 +8,7 @@ Guiar cualquier automatización relacionada con el backend (`api/`) asegurando q
 
 - **ExecPlans**: `docs/plans/EXECPLAN_agents_domain_alignment.md` (relación dominio ↔ agentes) y `docs/plans/EXECPLAN_codex_mcp_multi_llm.md` (estrategia multi-LLM).
 - **Catálogo de prompts**: `docs/ai_capabilities/prompting/PROMPT_TECHNIQUES_CATALOG.md` indica qué técnicas aplicar con Claude, ChatGPT u Hugging Face antes de generar especificaciones para la API.
+- **Gestión de contexto**: `docs/ai_capabilities/orchestration/CONTEXT_MANAGEMENT_PLAYBOOK.md` y `scripts/coding/ai/shared/context_sessions.py` coordinan trimming/summarization para flujos prolongados de soporte o incidentes.
 - **Guías SDLC**: `docs/ai/SDLC_AGENTS_GUIDE.md` y `docs/ai_capabilities/orchestration/CODEX_MCP_MULTI_AGENT_GUIDE.md` para coordinación multi-agente.
 - **Scripts**: `scripts/coding/ai/orchestrators/codex_mcp_workflow.py` (briefs de trabajo) y `scripts/coding/ai/generators/llm_generator.py` (TDD asistido).
 - **Config**: variables en `.env` gestionadas por `scripts/coding/ai/shared/env_loader.py` (autodetección de `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`, `HUGGINGFACEHUB_API_TOKEN`).

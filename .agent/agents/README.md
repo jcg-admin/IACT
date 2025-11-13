@@ -16,7 +16,8 @@ Estos agentes vinculan la planificación (`.agent/PLANS.md`), la configuración 
   - Configuración en `docs/ai/CONFIGURACION_API_KEYS.md` (`ANTHROPIC_API_KEY`).
   - ExecPlan vivo: `docs/plans/EXECPLAN_codex_mcp_multi_llm.md`.
   - Scripts: `scripts/coding/ai/generators/llm_generator.py` (`llm_provider="anthropic"`) y `scripts/coding/ai/orchestrators/codex_mcp_workflow.py`.
-  - Guías: `docs/ai/SDLC_AGENTS_GUIDE.md`, `docs/ai_capabilities/prompting/PROMPT_TECHNIQUES_CATALOG.md` y `docs/ai_capabilities/orchestration/CODEX_MCP_MULTI_AGENT_GUIDE.md`.
+  - Guías: `docs/ai/SDLC_AGENTS_GUIDE.md`, `docs/ai_capabilities/prompting/PROMPT_TECHNIQUES_CATALOG.md`, `docs/ai_capabilities/orchestration/CODEX_MCP_MULTI_AGENT_GUIDE.md` y `docs/ai_capabilities/orchestration/CONTEXT_MANAGEMENT_PLAYBOOK.md`.
+  - Código reutilizable: `scripts/coding/ai/shared/context_sessions.py` para trimming/summarizing multi-LLM.
 
 #### ChatGPTAgent
 
@@ -26,7 +27,8 @@ Estos agentes vinculan la planificación (`.agent/PLANS.md`), la configuración 
   - Configuración en `docs/ai/CONFIGURACION_API_KEYS.md` (`OPENAI_API_KEY`).
   - ExecPlan: `docs/plans/EXECPLAN_codex_mcp_multi_llm.md`.
   - Scripts: `scripts/coding/ai/generators/llm_generator.py` (`llm_provider="openai"`) y `scripts/coding/ai/orchestrators/codex_mcp_workflow.py`.
-  - Guías: `docs/ai/SDLC_AGENTS_GUIDE.md`, `docs/ai_capabilities/prompting/PROMPT_TECHNIQUES_CATALOG.md` y `docs/ai_capabilities/orchestration/CODEX_MCP_MULTI_AGENT_GUIDE.md`.
+  - Guías: `docs/ai/SDLC_AGENTS_GUIDE.md`, `docs/ai_capabilities/prompting/PROMPT_TECHNIQUES_CATALOG.md`, `docs/ai_capabilities/orchestration/CODEX_MCP_MULTI_AGENT_GUIDE.md` y `docs/ai_capabilities/orchestration/CONTEXT_MANAGEMENT_PLAYBOOK.md`.
+  - Código reutilizable: `scripts/coding/ai/shared/context_sessions.py` para trimming/summarizing multi-LLM.
 
 #### HuggingFaceAgent
 
@@ -36,7 +38,8 @@ Estos agentes vinculan la planificación (`.agent/PLANS.md`), la configuración 
   - Configuración en `docs/ai/CONFIGURACION_API_KEYS.md` (`HF_LOCAL_MODEL_PATH`, `HF_MODEL_ID`, `HUGGINGFACEHUB_API_TOKEN`).
   - ExecPlan: `docs/plans/EXECPLAN_codex_mcp_multi_llm.md`.
   - Scripts: `scripts/coding/ai/generators/llm_generator.py` (`llm_provider="huggingface"`) y `scripts/coding/ai/orchestrators/codex_mcp_workflow.py`.
-  - Guías: `docs/ai/SDLC_AGENTS_GUIDE.md`, `docs/ai_capabilities/prompting/PROMPT_TECHNIQUES_CATALOG.md`, `docs/ai_capabilities/prompting/PHI3_PROMPT_ENGINEERING_PLAYBOOK.md` y `docs/ai_capabilities/orchestration/CODEX_MCP_MULTI_AGENT_GUIDE.md`.
+  - Guías: `docs/ai/SDLC_AGENTS_GUIDE.md`, `docs/ai_capabilities/prompting/PROMPT_TECHNIQUES_CATALOG.md`, `docs/ai_capabilities/prompting/PHI3_PROMPT_ENGINEERING_PLAYBOOK.md`, `docs/ai_capabilities/orchestration/CODEX_MCP_MULTI_AGENT_GUIDE.md` y `docs/ai_capabilities/orchestration/CONTEXT_MANAGEMENT_PLAYBOOK.md`.
+  - Código reutilizable: `scripts/coding/ai/shared/context_sessions.py` para trimming/summarizing multi-LLM.
 
 ### Agentes por dominio
 
@@ -46,31 +49,31 @@ Los siguientes agentes conectan la estructura del repositorio (api, ui, infrastr
 
 - **Archivo**: `api_agent.md`
 - **Directorio base**: `api/`
-- **Relaciones clave**: `docs/plans/EXECPLAN_agents_domain_alignment.md`, `docs/ai/SDLC_AGENTS_GUIDE.md`, `docs/ai_capabilities/prompting/PROMPT_TECHNIQUES_CATALOG.md`, `scripts/coding/ai/orchestrators/codex_mcp_workflow.py`.
+- **Relaciones clave**: `docs/plans/EXECPLAN_agents_domain_alignment.md`, `docs/ai/SDLC_AGENTS_GUIDE.md`, `docs/ai_capabilities/prompting/PROMPT_TECHNIQUES_CATALOG.md`, `docs/ai_capabilities/orchestration/CONTEXT_MANAGEMENT_PLAYBOOK.md`, `scripts/coding/ai/shared/context_sessions.py`, `scripts/coding/ai/orchestrators/codex_mcp_workflow.py`.
 
 #### UiAgent (Frontend)
 
 - **Archivo**: `ui_agent.md`
 - **Directorio base**: `ui/`
-- **Relaciones clave**: `docs/plans/EXECPLAN_agents_domain_alignment.md`, `docs/ai_capabilities/prompting/PROMPT_TECHNIQUES_CATALOG.md`, `docs/ai_capabilities/prompting/CODE_GENERATION_GUIDE.md`, `docs/ai_capabilities/prompting/PHI3_PROMPT_ENGINEERING_PLAYBOOK.md`.
+- **Relaciones clave**: `docs/plans/EXECPLAN_agents_domain_alignment.md`, `docs/ai_capabilities/prompting/PROMPT_TECHNIQUES_CATALOG.md`, `docs/ai_capabilities/prompting/CODE_GENERATION_GUIDE.md`, `docs/ai_capabilities/prompting/PHI3_PROMPT_ENGINEERING_PLAYBOOK.md`, `docs/ai_capabilities/orchestration/CONTEXT_MANAGEMENT_PLAYBOOK.md`, `scripts/coding/ai/shared/context_sessions.py`.
 
 #### InfrastructureAgent
 
 - **Archivo**: `infrastructure_agent.md`
 - **Directorio base**: `infrastructure/`
-- **Relaciones clave**: `docs/plans/EXECPLAN_agents_domain_alignment.md`, `docs/ai_capabilities/prompting/PROMPT_TECHNIQUES_CATALOG.md`, `docs/gobernanza/metodologias/agentes_automatizacion.md`, planes `SPEC_INFRA_*`.
+- **Relaciones clave**: `docs/plans/EXECPLAN_agents_domain_alignment.md`, `docs/ai_capabilities/prompting/PROMPT_TECHNIQUES_CATALOG.md`, `docs/ai_capabilities/orchestration/CONTEXT_MANAGEMENT_PLAYBOOK.md`, `docs/gobernanza/metodologias/agentes_automatizacion.md`, `scripts/coding/ai/shared/context_sessions.py`, planes `SPEC_INFRA_*`.
 
 #### DocsAgent
 
 - **Archivo**: `docs_agent.md`
 - **Directorio base**: `docs/`
-- **Relaciones clave**: `docs/analisis/AGENTS.md`, `docs/ai_capabilities/prompting/PROMPT_TECHNIQUES_CATALOG.md`, `scripts/coding/ai/agents/documentation/eta_codex_agent.py`, `docs/testing/test_documentation_alignment.py`.
+- **Relaciones clave**: `docs/analisis/AGENTS.md`, `docs/ai_capabilities/prompting/PROMPT_TECHNIQUES_CATALOG.md`, `docs/ai_capabilities/orchestration/CONTEXT_MANAGEMENT_PLAYBOOK.md`, `scripts/coding/ai/shared/context_sessions.py`, `scripts/coding/ai/agents/documentation/eta_codex_agent.py`, `docs/testing/test_documentation_alignment.py`.
 
 #### ScriptsAgent
 
 - **Archivo**: `scripts_agent.md`
 - **Directorio base**: `scripts/`
-- **Relaciones clave**: `docs/plans/EXECPLAN_codex_mcp_multi_llm.md`, `docs/ai_capabilities/prompting/PROMPT_TECHNIQUES_CATALOG.md`, `docs/scripts/README.md`, `scripts/coding/ai/generators/llm_generator.py`.
+- **Relaciones clave**: `docs/plans/EXECPLAN_codex_mcp_multi_llm.md`, `docs/ai_capabilities/prompting/PROMPT_TECHNIQUES_CATALOG.md`, `docs/ai_capabilities/orchestration/CONTEXT_MANAGEMENT_PLAYBOOK.md`, `docs/scripts/README.md`, `scripts/coding/ai/shared/context_sessions.py`, `scripts/coding/ai/generators/llm_generator.py`.
 
 ### 1. GitOpsAgent
 
