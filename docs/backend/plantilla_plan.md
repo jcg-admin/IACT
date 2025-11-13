@@ -210,7 +210,7 @@ git push -u origin feature/add-subscription-tiers
    SUBSCRIPTION_PRO_LIMIT=100
    ```
 2. Actualizar `.env` local
-3. Documentar en `docs/infrastructure/devops/runbooks/environment_variables.md`
+3. Documentar en `docs/infraestructura/devops/runbooks/environment_variables.md`
 
 **Criterio de completitud**:
 - [ ] Variables en `.env.example`

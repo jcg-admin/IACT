@@ -160,7 +160,7 @@ rioridad Alta, Media, Baja)
 - Procedimientos operativos
 
 **Estado actual:**
-- docs/infrastructure/devops/runbooks/ YA EXISTE
+- docs/infraestructura/devops/runbooks/ YA EXISTE
 - docs/gobernanza/ci_cd/ YA EXISTE (workflows, guias)
 
 **Analisis:**
@@ -179,7 +179,7 @@ rioridad Alta, Media, Baja)
 **Estado actual:**
 - docs/gobernanza/procesos/estrategia_qa.md [OK] EXISTE
 - docs/testing/registros/ [OK] EXISTE
-- docs/backend/qa/, docs/frontend/qa/, docs/infrastructure/qa/ [OK] EXISTEN
+- docs/backend/qa/, docs/frontend/qa/, docs/infraestructura/qa/ [OK] EXISTEN
 
 **Analisis:**
 - **Estado:** [OK] YA MIGRADO
@@ -258,7 +258,7 @@ rioridad Alta, Media, Baja)
 **Estado actual:**
 - docs/backend/diseno_detallado/ [OK] EXISTE
 - docs/frontend/diseno_detallado/ [OK] EXISTE
-- docs/infrastructure/diseno_detallado/ [OK] EXISTE
+- docs/infraestructura/diseno_detallado/ [OK] EXISTE
 
 **Analisis:**
 - **Estado:** [OK] YA MIGRADO

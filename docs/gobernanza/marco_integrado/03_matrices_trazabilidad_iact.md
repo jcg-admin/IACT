@@ -8,7 +8,6 @@ relacionados:
   - DOC-GOB-MARCO-04
   - PROC-TRAZABILIDAD-001
 estandares: ["ISO/IEC/IEEE 29148:2018"]
-date: 2025-11-13
 ---
 
 # Matrices de Trazabilidad: Herramientas de Integración - IACT

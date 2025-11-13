@@ -1,29 +1,29 @@
 ---
-title: Requisitos - Infraestructura
+id: DOC-REQ-INFRA
+estado: borrador
+propietario: equipo-infraestructura
+ultima_actualizacion: 2025-02-20
+relacionados: ["DOC-REQ-INDEX", "DOC-ARQ-INFRA"]
 date: 2025-11-13
-domain: infraestructura
 ---
+# Requisitos de infraestructura
 
-# Requisitos - Infraestructura
+Extiende el espacio corporativo de [`../gobernanza/marco_integrado/README.md`](../gobernanza/marco_integrado/README.md) con políticas operativas, guardrails y SLOs específicos de la plataforma.
 
-## Jerarquía de Requerimientos (5 Niveles)
+## Página padre
+- [`../README.md`](../README.md)
 
-Ver marco conceptual en: `docs/gobernanza/marco_integrado/marco_reglas_negocio.md`
+## Referencias clave
+- Arquitectura de infraestructura: [`../arquitectura/README.md`](../arquitectura/README.md)
+- Runbooks y checklists: [`../checklists/README.md`](../checklists/README.md)
+- Planificación y releases: [`../planificacion_y_releases/README.md`](../planificacion_y_releases/README.md)
 
-```
-Nivel 1: REGLAS DE NEGOCIO → reglas_negocio/
-Nivel 2: REQUERIMIENTOS DE NEGOCIO → requerimientos_negocio/
-Nivel 3: REQUERIMIENTOS DE USUARIO → requerimientos_usuario/
-Nivel 4: REQUERIMIENTOS FUNCIONALES → requerimientos_funcionales/
-Nivel 5: ATRIBUTOS DE CALIDAD → atributos_calidad/
-```
+## Aspectos a documentar
+- Requisitos de disponibilidad, recuperación ante desastres y escalabilidad.
+- Controles de seguridad y cumplimiento regulatorio.
+- Acuerdos sobre observabilidad, alertamiento y gestión de capacidad.
 
-## Estructura
-
-- `reglas_negocio/` - 5 tipos: Hechos, Restricciones, Desencadenadores, Inferencias, Cálculos
-- `requerimientos_negocio/` - Objetivos organizacionales
-- `requerimientos_usuario/` - Casos de uso (VERBO+OBJETO), historias de usuario
-- `requerimientos_funcionales/` - Features, especificaciones funcionales
-- `atributos_calidad/` - Performance, seguridad, usabilidad, etc.
-- `analisis_negocio/` - Análisis del contexto
-- `trazabilidad.md` - Matriz de trazabilidad
+## Próximos pasos sugeridos
+- [ ] Definir catálogo de requisitos no funcionales compartidos con backend y frontend.
+- [ ] Documentar políticas de backup, retención y respuesta a incidentes.
+- [ ] Vincular métricas SLO/SLA con tableros de observabilidad.

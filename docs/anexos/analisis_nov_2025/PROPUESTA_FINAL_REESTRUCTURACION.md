@@ -185,12 +185,12 @@ El sistema **deberá** proporcionar una API REST que calcule el stock mínimo...
 ### Workflow: `.github/workflows/requirements_index.yml`
 
 **Trigger**:
-- Push a `implementacion/**/requisitos/**/*.md`
+- Push a `implementaci../gobernanza/marco_integrado/**/*.md`
 - Pull request modificando requisitos
 - Manual dispatch
 
 **Proceso**:
-1. OK: Escanea todos los `*.md` en `implementacion/**/requisitos/`
+1. OK: Escanea todos los `*.md` en `implementaci../gobernanza/marco_integrado/`
 2. OK: Parsea frontmatter YAML
 3. OK: Valida campos obligatorios (id, tipo, titulo, estado)
 4. OK: Construye mapa de trazabilidad bidireccional

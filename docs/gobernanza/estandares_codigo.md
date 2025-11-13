@@ -4,7 +4,6 @@ estado: activo
 propietario: equipo-arquitectura
 ultima_actualizacion: 2025-11-03
 relacionados: ["DOC-GOB-INDEX", "DOC-ARQ-INDEX", "DOC-GOB-SHELL-GUIDE"]
-date: 2025-11-13
 ---
 # Estándares de Código - Proyecto IACT
 
@@ -200,11 +199,11 @@ echo "$separator_line"
 
 | Concepto | NO No Usar | OK Usar |
 |----------|-----------|---------|
-| **Completado** | OK [OK] ☑ | [OK] [SUCCESS] [DONE] |
-| **Error** | NO [FAIL] ☒ | [ERROR] [FAIL] [FAILED] |
+| **Completado** | OK ✓ ☑ | [OK] [SUCCESS] [DONE] |
+| **Error** | NO ✗ ☒ | [ERROR] [FAIL] [FAILED] |
 | **Advertencia** | WARNING FAST ⛔ | [WARN] [WARNING] |
-| **Información** | INFO  📢 | [INFO] [NOTE] |
-| **Depuración** | [BUG] BUSCAR | [DEBUG] |
+| **Información** | INFO 💡 📢 | [INFO] [NOTE] |
+| **Depuración** | 🐛 BUSCAR | [DEBUG] |
 | **En proceso** | ESPERANDO 🔄 ⌛ | [RUNNING] [PROCESSING] |
 | **Esperando** | ⏰ ⏱️ | [PENDING] [WAITING] |
 | **Inicio** | START >️ | [START] Starting... |
@@ -217,8 +216,8 @@ echo "$separator_line"
 | **Fecha** | 📅 PLAN | DATE: 2025-10-21 |
 | **Viñetas** | > - * ♦ | - * 1. 2. |
 | **Flechas** | -> ⇒ ➜ ➔ | -> => |
-| **Check** | ☑ [OK] ✔ | [OK] PASS |
-| **Cross** | ☒ [FAIL] ✘ | [FAIL] ERROR |
+| **Check** | ☑ ✓ ✔ | [OK] PASS |
+| **Cross** | ☒ ✗ ✘ | [FAIL] ERROR |
 
 ### Excepciones
 

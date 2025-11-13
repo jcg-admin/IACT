@@ -16,7 +16,7 @@
 
 ## Issues
 
-- [HIGH] Broken internal link: ../../requisitos/trazabilidad.md
+- [HIGH] Broken internal link: ../gobernanza/marco_integrado/trazabilidad.md
 - [MEDIUM] No issue links found
 
 ## Recommendations

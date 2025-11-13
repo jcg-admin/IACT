@@ -273,7 +273,7 @@ docs/
 - [docs/backend/arquitectura/](../backend/arquitectura/)
 
 **DevOps:**
-- [docs/infrastructure/](../infrastructure/)
+- [docs/infraestructura/](../infrastructure/)
 - [docs/operaciones/](../operaciones/)
 - [docs/dora/](../dora/)
 

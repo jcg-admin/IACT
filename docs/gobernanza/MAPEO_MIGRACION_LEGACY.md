@@ -143,7 +143,7 @@ Archivos README.md de docs_legacy/ migrados a docs/ (aparecen como [MULTIPLE] po
 - docs_legacy/README.md -> docs/README.md
 - checklists/README.md -> docs/gobernanza/procesos/checklists/README.md
 - desarrollo/README.md (NO EXISTE en legacy, documentos sin README)
-- devops/README.md -> docs/infrastructure/devops/README.md
+- devops/README.md -> docs/infraestructura/devops/README.md
 - diseno_detallado/README.md -> docs/backend/diseno_detallado/README.md
 - gobernanza/README.md -> docs/gobernanza/README.md
 - gobernanza/agentes/README.md -> docs/gobernanza/agentes/README.md

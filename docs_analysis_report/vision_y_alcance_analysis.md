@@ -18,10 +18,10 @@
 
 - [HIGH] Broken internal link: ../../index.md
 - [HIGH] Broken internal link: ../../gobernanza/readme.md
-- [HIGH] Broken internal link: ../../requisitos/readme.md
+- [HIGH] Broken internal link: ../gobernanza/marco_integrado/readme.md
 - [HIGH] Broken internal link: ../../arquitectura/readme.md
 - [HIGH] Broken internal link: ../../gobernanza/readme.md
-- [HIGH] Broken internal link: ../../requisitos/readme.md
+- [HIGH] Broken internal link: ../gobernanza/marco_integrado/readme.md
 - [HIGH] Broken internal link: ../../arquitectura/readme.md
 - [LOW] Possibly malformed tables detected
 - [MEDIUM] No issue links found

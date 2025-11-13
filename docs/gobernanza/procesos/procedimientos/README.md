@@ -328,7 +328,7 @@ graph TB
 
 | Workflow | Trigger | Procedimiento Relacionado |
 |----------|---------|---------------------------|
-| `requirements-index.yml` | Push a `implementacion/**/requisitos/**/*.md` | PROC-TRAZABILIDAD-001 |
+| `requirements-index.yml` | Push a `implementaci../gobernanza/marco_integrado/**/*.md` | PROC-TRAZABILIDAD-001 |
 | `lint.yml` | Pull request | PROC-TRAZABILIDAD-001 |
 | `security-scan.yml` | Push a `main` / `develop` | PROC-SEGURIDAD-001 |
 

@@ -483,7 +483,7 @@ class ReporteViewSet(viewsets.ModelViewSet
 - [ADR-012: Sistema de Permisos Granular](../../../arquitectura/ADR-012-sistema-permisos-sin-roles-jerarquicos.md)
 - [Arquitectura de Permisos UML](../../ARQUITECTURA_PERMISOS_UML.md)
 - [Optimizaciones de Performance](../../OPTIMIZACIONES_PERFORMANCE.md)
-- [Restricciones del Proyecto](../../../requisitos/restricciones_y_lineamientos.md)
+- [Restricciones del Proyecto](../../gobernanza/marco_integrado/restricciones_y_lineamientos.md)
 
 ---
 

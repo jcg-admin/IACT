@@ -213,8 +213,8 @@ Todos los READMEs contienen referencias explícitas a los marcos de gobernanza.
 ## Movimientos Clave Realizados
 
 ### 1. Normalización de Nombres
-- `docs/infrastructure/*` → `docs/infraestructura/*` (33 archivos)
-- `docs/agent/*` → `docs/ai/*` (33 archivos - documentación de agentes al dominio AI)
+- `docs/infraestructura/*` → `docs/infraestructura/*` (33 archivos)
+- `docs/ai/agent/*` → `docs/ai/*` (33 archivos - documentación de agentes al dominio AI)
 
 ### 2. ADRs a Dominios Correspondientes
 - `docs/adr/ADR_011_frontend_*.md` → `docs/frontend/adr/`

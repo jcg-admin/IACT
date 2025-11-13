@@ -671,7 +671,7 @@ on:
 | Eliminar `docs/implementacion/` | [OK] | Directorio no existe |
 | Mover backend/ | [OK] | `docs/backend/` existe con 58 archivos |
 | Mover frontend/ | [OK] | `docs/frontend/` existe con 13 archivos |
-| Fusionar infrastructure/ | [OK] | `docs/infrastructure/` consolidado (25 archivos) |
+| Fusionar infrastructure/ | [OK] | `docs/infraestructura/` consolidado (25 archivos) |
 | Actualizar referencias | [OK] | ~80 referencias actualizadas en .md |
 | Generar 11 documentos | [OK] | Todos creados con metadata YAML |
 | Validar estructura | [OK] | 0 errores, 0 warnings |

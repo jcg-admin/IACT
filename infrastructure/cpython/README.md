@@ -461,9 +461,9 @@ Una vez generado y validado el artefacto:
 
 Para información detallada:
 
-- **[CPython Builder - Documentación Completa](../../docs/infrastructure/cpython-builder.md)**: Arquitectura, componentes, uso detallado
-- **[Guía de Desarrollo](../../docs/infrastructure/cpython-development-guide.md)**: Cómo extender y modificar el sistema
-- **[CHANGELOG](../../docs/infrastructure/CHANGELOG-cpython.md)**: Historial de cambios
+- **[CPython Builder - Documentación Completa](../../docs/infraestructura/cpython-builder.md)**: Arquitectura, componentes, uso detallado
+- **[Guía de Desarrollo](../../docs/infraestructura/cpython-development-guide.md)**: Cómo extender y modificar el sistema
+- **[CHANGELOG](../../docs/infraestructura/CHANGELOG-cpython.md)**: Historial de cambios
 
 ## Referencias
 

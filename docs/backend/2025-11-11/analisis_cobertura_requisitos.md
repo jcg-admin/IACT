@@ -377,9 +377,9 @@ RF-002: Generación tokens JWT - Estado: aprobado
 
 - [Backend Analysis Results](./README.md)
 - [Architecture Analysis](./analisis_arquitectura_completo.puml)
-- [Stakeholder Requirements](../../requisitos/strs_stakeholder_requirements.md)
-- [Business Requirements](../../requisitos/brs_business_requirements.md)
-- [Software Requirements](../../requisitos/srs_software_requirements.md)
+- [Stakeholder Requirements](../gobernanza/marco_integrado/strs_stakeholder_requirements.md)
+- [Business Requirements](../gobernanza/marco_integrado/brs_business_requirements.md)
+- [Software Requirements](../gobernanza/marco_integrado/srs_software_requirements.md)
 - [Use Case Guide](../../gobernanza/casos_de_uso_guide.md)
 
 ---

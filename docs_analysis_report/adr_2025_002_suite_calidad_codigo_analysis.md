@@ -18,7 +18,7 @@
 
 - [HIGH] Found 1 emojis (Principle 2 violation)
 - [HIGH] Broken internal link: ../../backend/calidad_codigo_automatizacion.md
-- [HIGH] Broken internal link: ../../requisitos/restricciones_completas.md
+- [HIGH] Broken internal link: ../gobernanza/marco_integrado/restricciones_completas.md
 - [HIGH] Broken internal link: ../../gobernanza/procesos/procedimiento_qa.md
 - [LOW] 6 code blocks missing language identifier
 - [LOW] Possibly malformed tables detected

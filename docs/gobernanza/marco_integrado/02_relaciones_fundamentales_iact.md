@@ -7,7 +7,6 @@ relacionados:
   - DOC-GOB-MARCO-01
   - DOC-GOB-MARCO-03
 estandares: ["BABOK v3", "ISO/IEC/IEEE 29148:2018"]
-date: 2025-11-13
 ---
 
 # Relaciones Fundamentales: Transformaciones en el Análisis - IACT

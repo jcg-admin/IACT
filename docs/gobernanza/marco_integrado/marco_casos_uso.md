@@ -331,7 +331,7 @@ Indican los otros escenarios, tanto de éxito como de fracaso.
 
 Este marco conceptual se aplica a TODOS los dominios del proyecto:
 
-- `docs/ai/requisitos/requerimientos_usuario/casos_uso/`
+- `do../gobernanza/marco_integrado/requerimientos_usuario/casos_uso/`
 - `docs/backend/requisitos/requerimientos_usuario/casos_uso/`
 - `docs/frontend/requisitos/requerimientos_usuario/casos_uso/`
 - `docs/infraestructura/requisitos/requerimientos_usuario/casos_uso/`

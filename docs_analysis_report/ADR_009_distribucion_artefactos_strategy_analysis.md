@@ -23,7 +23,7 @@
 - [LOW] Possibly malformed tables detected
 - [MEDIUM] Invalid heading hierarchy
 - [MEDIUM] No issue links found
-- [MEDIUM] Broken external link: https://github.com/2-Coatl/IACT---project/blob/main/docs/infrastructure/cpython_precompilado/README.md
+- [MEDIUM] Broken external link: https://github.com/2-Coatl/IACT---project/blob/main/docs/infraestructura/cpython_precompilado/README.md
 - [MEDIUM] Broken external link: https://docs.github.com/en/repositories/releasing-projects-on-github
 - [MEDIUM] Broken external link: https://docs.github.com/en/repositories/releasing-projects-on-github/about-releases#storage-and-bandwidth-quotas
 - [MEDIUM] Broken external link: https://docs.github.com/en/billing/managing-billing-for-git-large-file-storage/about-billing-for-git-large-file-storage

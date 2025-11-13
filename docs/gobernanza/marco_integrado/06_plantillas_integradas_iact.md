@@ -1,10 +1,3 @@
----
-title: Plantillas Integradas del Marco IACT
-date: 2025-11-13
-domain: gobernanza
-status: active
----
-
 # Plantillas Integradas del Marco IACT
 
 **Versión:** 1.0

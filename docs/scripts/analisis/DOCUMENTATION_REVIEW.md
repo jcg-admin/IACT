@@ -28,7 +28,7 @@ Este documento verifica que TODO el proceso de análisis de shell scripts y plan
 
 | Documento | Ubicación | Propósito | Estado |
 |-----------|-----------|-----------|--------|
-| Issue Document | `docs/agent/planificacion_y_releases/issue_shell_script_analysis_agent.md` | Definición del issue FEATURE-SHELL-ANALYSIS-001 con 8 acceptance criteria | COMPLETO |
+| Issue Document | `docs/ai/agent/planificacion_y_releases/issue_shell_script_analysis_agent.md` | Definición del issue FEATURE-SHELL-ANALYSIS-001 con 8 acceptance criteria | COMPLETO |
 
 **Contenido Clave**:
 - Feature request para ShellScriptAnalysisAgent
@@ -43,7 +43,7 @@ Este documento verifica que TODO el proceso de análisis de shell scripts y plan
 
 | Documento | Ubicación | Propósito | Estado |
 |-----------|-----------|-----------|--------|
-| Feasibility Study | `docs/agent/requisitos/feasibility_shell_script_analysis_agent.md` | Análisis de viabilidad usando Self-Consistency | COMPLETO |
+| Feasibility Study | `docs/ai/agent/requisitos/feasibility_shell_script_analysis_agent.md` | Análisis de viabilidad usando Self-Consistency | COMPLETO |
 
 **Contenido Clave**:
 - Decisión: GO (86% confidence via Self-Consistency n=5)
@@ -58,10 +58,10 @@ Este documento verifica que TODO el proceso de análisis de shell scripts y plan
 
 | Documento | Ubicación | Propósito | Estado |
 |-----------|-----------|-----------|--------|
-| High-Level Design (HLD) | `docs/agent/arquitectura/hld_shell_script_analysis_agent.md` | Arquitectura de componentes y flujo de datos | COMPLETO |
-| Architectural Decision Records (ADRs) | `docs/agent/arquitectura/adrs_shell_script_analysis_agent.md` | 4 ADRs validados con Self-Consistency | COMPLETO |
-| Low-Level Design (LLD) | `docs/agent/diseno_detallado/lld_shell_script_analysis_agent.md` | Implementación detallada (981 líneas) generada con Auto-CoT | COMPLETO |
-| Constitution Update Proposal | `docs/agent/gobernanza/constitution_update_proposal.md` | Propuesta para Principle 9 (Prompt Engineering Techniques) | COMPLETO |
+| High-Level Design (HLD) | `docs/ai/agent/arquitectura/hld_shell_script_analysis_agent.md` | Arquitectura de componentes y flujo de datos | COMPLETO |
+| Architectural Decision Records (ADRs) | `docs/ai/agent/arquitectura/adrs_shell_script_analysis_agent.md` | 4 ADRs validados con Self-Consistency | COMPLETO |
+| Low-Level Design (LLD) | `docs/ai/agent/diseno_detallado/lld_shell_script_analysis_agent.md` | Implementación detallada (981 líneas) generada con Auto-CoT | COMPLETO |
+| Constitution Update Proposal | `docs/ai/agent/gobernanza/constitution_update_proposal.md` | Propuesta para Principle 9 (Prompt Engineering Techniques) | COMPLETO |
 
 **Contenido Clave HLD**:
 - 5 componentes principales: ShellScriptAnalysisAgent, ConstitutionalAnalyzer, QualityAnalyzer, SecurityAnalyzer, ReportGenerator
@@ -92,7 +92,7 @@ Este documento verifica que TODO el proceso de análisis de shell scripts y plan
 |-----------|-----------|-----------|--------|
 | Agent Implementation | `scripts/coding/ai/agents/quality/shell_analysis_agent.py` | Código completo del agente (847 líneas) | COMPLETO |
 | Unit Tests | `scripts/coding/tests/ai/agents/quality/test_shell_analysis_agent.py` | 13 tests unitarios (RED phase) | COMPLETO |
-| README | `docs/agent/README.md` | Documentación del directorio de agentes | COMPLETO |
+| README | `docs/ai/agent/README.md` | Documentación del directorio de agentes | COMPLETO |
 
 **Contenido Clave Implementation**:
 - TDD Cycle: RED → GREEN → REFACTOR
@@ -126,7 +126,7 @@ Este documento verifica que TODO el proceso de análisis de shell scripts y plan
 
 | Documento | Ubicación | Propósito | Estado |
 |-----------|-----------|-----------|--------|
-| Testing Strategy | `docs/agent/testing/testing_strategy_shell_script_analysis_agent.md` | Estrategia completa de testing (unit, integration, E2E) | COMPLETO |
+| Testing Strategy | `docs/ai/agent/testing/testing_strategy_shell_script_analysis_agent.md` | Estrategia completa de testing (unit, integration, E2E) | COMPLETO |
 
 **Contenido Clave**:
 - Test Pyramid: 65% unit, 25% integration, 10% E2E
@@ -141,7 +141,7 @@ Este documento verifica que TODO el proceso de análisis de shell scripts y plan
 
 | Documento | Ubicación | Propósito | Estado |
 |-----------|-----------|-----------|--------|
-| Deployment Plan | `docs/agent/deployment/deployment_plan_shell_script_analysis_agent.md` | Plan completo de deployment | COMPLETO |
+| Deployment Plan | `docs/ai/agent/deployment/deployment_plan_shell_script_analysis_agent.md` | Plan completo de deployment | COMPLETO |
 
 **Contenido Clave**:
 - Pre-deployment checklist
@@ -219,7 +219,7 @@ Este documento verifica que TODO el proceso de análisis de shell scripts y plan
 - Issue prioritization (clustering por dominio)
 
 **Evidencia**:
-- `docs/agent/diseno_detallado/lld_shell_script_analysis_agent.md`: 981 líneas generadas sistemáticamente
+- `docs/ai/agent/diseno_detallado/lld_shell_script_analysis_agent.md`: 981 líneas generadas sistemáticamente
 - `docs/scripts/analisis/REMEDIATION_PLAN.md`: Section 2 "Auto-CoT: Problem Clustering"
 
 ### 3.2 Self-Consistency
@@ -230,8 +230,8 @@ Este documento verifica que TODO el proceso de análisis de shell scripts y plan
 - Remediation prioritization (n=5 paths for P0-P3 assignment)
 
 **Evidencia**:
-- `docs/agent/requisitos/feasibility_shell_script_analysis_agent.md`: Section 4 "Self-Consistency Validation"
-- `docs/agent/arquitectura/adrs_shell_script_analysis_agent.md`: Each ADR includes confidence scores
+- `docs/ai/agent/requisitos/feasibility_shell_script_analysis_agent.md`: Section 4 "Self-Consistency Validation"
+- `docs/ai/agent/arquitectura/adrs_shell_script_analysis_agent.md`: Each ADR includes confidence scores
 - `docs/scripts/analisis/REMEDIATION_PLAN.md`: Section 3 "Matriz de Priorización" with Self-Consistency justification
 
 ### 3.3 Pattern Recognition
@@ -245,7 +245,7 @@ Este documento verifica que TODO el proceso de análisis de shell scripts y plan
 - `scripts/cli/sdlc_agent.py`: Lines with Pattern Recognition implementation
 - `scripts/coding/ai/sdlc/base_agent.py`: `_detect_output_dir()` method
 - `scripts/coding/ai/agents/quality/shell_analysis_agent.py`: `classify_domain()` static method (lines 320-392)
-- `docs/agent/gobernanza/constitution_update_proposal.md`: Section 9.5 "Pattern Recognition"
+- `docs/ai/agent/gobernanza/constitution_update_proposal.md`: Section 9.5 "Pattern Recognition"
 
 ### 3.4 Chain-of-Verification
 
@@ -308,7 +308,7 @@ grep -r "[emoji_pattern]" docs/scripts/analisis/*.md
 
 Verificación realizada:
 ```bash
-grep -r "FEATURE-SHELL-ANALYSIS-001" docs/agent/ | wc -l
+grep -r "FEATURE-SHELL-ANALYSIS-001" docs/ai/agent/ | wc -l
 # Resultado: 9 documentos con trazabilidad
 
 grep -r "REMEDIATION-SHELL-SCRIPTS-001" docs/scripts/analisis/ | wc -l
@@ -395,7 +395,7 @@ Todos los aspectos del proyecto están completamente documentados:
 
 2. **Directory Structure Issue**: Hardcoded "docs/sdlc_outputs" en vez de seguir pattern del proyecto
    - **Solución**: Implementar Pattern Recognition technique
-   - **Documentado en**: `docs/agent/gobernanza/constitution_update_proposal.md` Section 9.5
+   - **Documentado en**: `docs/ai/agent/gobernanza/constitution_update_proposal.md` Section 9.5
 
 3. **Domain Organization Missing**: Análisis inicial no agrupaba por dominios
    - **Solución**: Agregar `classify_domain()` method y domain-grouped summary
@@ -413,7 +413,7 @@ Todos los aspectos del proyecto están completamente documentados:
 4. Agregar LLM-powered DEEP analysis mode
 5. Crear dashboard HTML interactivo
 
-**Documentado en**: `docs/agent/testing/testing_strategy_shell_script_analysis_agent.md` Section 9
+**Documentado en**: `docs/ai/agent/testing/testing_strategy_shell_script_analysis_agent.md` Section 9
 
 ---
 

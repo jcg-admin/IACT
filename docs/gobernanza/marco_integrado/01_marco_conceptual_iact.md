@@ -7,7 +7,6 @@ relacionados:
   - DOC-GOB-MARCO-00
   - DOC-GOB-MARCO-02
 estandares: ["ISO/IEC/IEEE 29148:2018", "BABOK v3"]
-date: 2025-11-13
 ---
 
 # Marco Conceptual: Ecosistema Integrado de Análisis - IACT

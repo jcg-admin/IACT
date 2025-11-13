@@ -71,7 +71,7 @@ FILE: **checklist_cambios_documentales.md**
 
 **Ubicaciones:**
 - `docs/checklists/checklist_cambios_documentales.md`
-- `docs/infrastructure/checklists/checklist_cambios_documentales.md`
+- `docs/infraestructura/checklists/checklist_cambios_documentales.md`
 
 **Recomendación**: Estos archivos son 100% idénticos. Mantener solo la versión en `docs/checklists/` (general) o en `docs/implementacion/` (específica). Se recomienda eliminar el duplicado según el propósito del archivo.
 
@@ -112,7 +112,7 @@ Estos archivos tienen el mismo nombre pero contenido diferente. Requieren revisi
 - **Tamaño**: 8,590 bytes (320 líneas)
 - **Propósito**: Documentación COMPLETA sobre devcontainers
 
-**Ubicación 2**: `docs/infrastructure/devops/contenedores_devcontainer.md`
+**Ubicación 2**: `docs/infraestructura/devops/contenedores_devcontainer.md`
 - **MD5**: `fc4ad99a3387b70ebabeefbb14a59768`
 - **Tamaño**: 1,953 bytes (29 líneas)
 - **Propósito**: Stub/placeholder de documentación
@@ -130,7 +130,7 @@ Estos archivos tienen el mismo nombre pero contenido diferente. Requieren revisi
 - **Tamaño**: 9,526 bytes (428 líneas)
 - **Propósito**: Runbook completo
 
-**Ubicación 2**: `docs/infrastructure/devops/runbooks/github_copilot_codespaces.md`
+**Ubicación 2**: `docs/infraestructura/devops/runbooks/github_copilot_codespaces.md`
 - **MD5**: `612a10506a3173e01210c73a951286f9`
 - **Tamaño**: 13,618 bytes (252 líneas)
 - **Propósito**: Runbook completo (¿versión diferente?)
@@ -166,7 +166,7 @@ Estos archivos tienen el mismo nombre pero contenido diferente. Requieren revisi
 - **Tamaño**: 358 bytes (13 líneas)
 - **Propósito**: Lineamientos generales
 
-**Ubicación 2**: `docs/infrastructure/gobernanza/lineamientos_gobernanza.md`
+**Ubicación 2**: `docs/infraestructura/gobernanza/lineamientos_gobernanza.md`
 - **MD5**: `4cc25f2007ed1920d673dea85546ae08`
 - **Tamaño**: 417 bytes (13 líneas)
 - **Propósito**: Lineamientos de infrastructure
@@ -202,7 +202,7 @@ Estos archivos tienen el mismo nombre pero contenido diferente. Requieren revisi
 - **Tamaño**: 7,579 bytes (352 líneas)
 - **Propósito**: Runbook completo
 
-**Ubicación 2**: `docs/infrastructure/devops/runbooks/verificar_servicios.md`
+**Ubicación 2**: `docs/infraestructura/devops/runbooks/verificar_servicios.md`
 - **MD5**: `78900708eccd59c14003b04f2f46996b`
 - **Tamaño**: 1,028 bytes (30 líneas)
 - **Propósito**: Stub
@@ -220,7 +220,7 @@ Estos archivos tienen el mismo nombre pero contenido diferente. Requieren revisi
 - **Tamaño**: 8,026 bytes (399 líneas)
 - **Propósito**: Runbook completo
 
-**Ubicación 2**: `docs/infrastructure/devops/runbooks/post_create.md`
+**Ubicación 2**: `docs/infraestructura/devops/runbooks/post_create.md`
 - **MD5**: `837ac1fbd729eaad74e4499ab48228bc`
 - **Tamaño**: 1,033 bytes (29 líneas)
 - **Propósito**: Stub
@@ -238,7 +238,7 @@ Estos archivos tienen el mismo nombre pero contenido diferente. Requieren revisi
 - **Tamaño**: 7,596 bytes (260 líneas)
 - **Propósito**: ADR completo
 
-**Ubicación 2**: `docs/infrastructure/arquitectura/adr/adr_2025_001_vagrant_mod_wsgi.md`
+**Ubicación 2**: `docs/infraestructura/arquitectura/adr/adr_2025_001_vagrant_mod_wsgi.md`
 - **MD5**: `f4edf7e92049505ac76b535d9671fef4`
 - **Tamaño**: 1,263 bytes (23 líneas)
 - **Propósito**: Stub/resumen
@@ -256,7 +256,7 @@ Estos archivos tienen el mismo nombre pero contenido diferente. Requieren revisi
 - **Tamaño**: 4,682 bytes (198 líneas)
 - **Propósito**: Plantilla completa
 
-**Ubicación 2**: `docs/infrastructure/arquitectura/adr/plantilla_adr.md`
+**Ubicación 2**: `docs/infraestructura/arquitectura/adr/plantilla_adr.md`
 - **MD5**: `40f698d0ce480636689a983ff4171641`
 - **Tamaño**: 709 bytes (34 líneas)
 - **Propósito**: Plantilla simplificada
@@ -275,7 +275,7 @@ Estos archivos tienen el mismo nombre pero contenido diferente. Requieren revisi
 # Eliminar archivos 100% duplicados
 rm docs/backend/checklists/checklist_testing.md
 rm docs/backend/checklists/checklist_trazabilidad_requisitos.md
-rm docs/infrastructure/checklists/checklist_cambios_documentales.md
+rm docs/infraestructura/checklists/checklist_cambios_documentales.md
 ```
 
 **Justificación**: Estos archivos están en docs/checklists/ (general) y son idénticos a los movidos.
@@ -284,12 +284,12 @@ rm docs/infrastructure/checklists/checklist_cambios_documentales.md
 
 ```bash
 # Eliminar stubs que duplican documentación completa en docs/ raíz
-rm docs/infrastructure/devops/contenedores_devcontainer.md
+rm docs/infraestructura/devops/contenedores_devcontainer.md
 rm docs/backend/devops/runbooks/reprocesar_etl_fallido.md
-rm docs/infrastructure/devops/runbooks/verificar_servicios.md
-rm docs/infrastructure/devops/runbooks/post_create.md
-rm docs/infrastructure/arquitectura/adr/adr_2025_001_vagrant_mod_wsgi.md
-rm docs/infrastructure/arquitectura/adr/plantilla_adr.md
+rm docs/infraestructura/devops/runbooks/verificar_servicios.md
+rm docs/infraestructura/devops/runbooks/post_create.md
+rm docs/infraestructura/arquitectura/adr/adr_2025_001_vagrant_mod_wsgi.md
+rm docs/infraestructura/arquitectura/adr/plantilla_adr.md
 rm docs/backend/arquitectura/lineamientos_codigo.md  # opcional - puede expandirse
 ```
 

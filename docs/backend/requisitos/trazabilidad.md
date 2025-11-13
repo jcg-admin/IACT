@@ -8,7 +8,7 @@ date: 2025-11-13
 ---
 # Trazabilidad de requisitos del backend
 
-Utiliza la matriz maestra localizada en [`../../requisitos/trazabilidad.md`](../../requisitos/trazabilidad.md) para mantener la relación RQ ↔ UC ↔ TC.
+Utiliza la matriz maestra localizada en [(trazabilidad.md local del dominio)](./trazabilidad.md) para mantener la relación RQ ↔ UC ↔ TC.
 
 Cuando se requieran vistas específicas del backend, añade secciones con:
 

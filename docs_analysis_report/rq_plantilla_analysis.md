@@ -16,7 +16,7 @@
 
 ## Issues
 
-- [HIGH] Broken internal link: ../../requisitos/rq_plantilla.md
+- [HIGH] Broken internal link: ../gobernanza/marco_integrado/rq_plantilla.md
 - [MEDIUM] No issue links found
 
 ## Recommendations

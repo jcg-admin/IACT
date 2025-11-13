@@ -259,30 +259,30 @@ Los siguientes directorios están vacíos o solo contienen .gitkeep:
 
 ### 5.1 Referencias a Rutas Antiguas
 
-#### A. Referencias a `../../requisitos/` (No existe en raíz)
+#### A. Referencias a `../gobernanza/marco_integrado/` (No existe en raíz)
 
 **Archivos afectados**:
 
 1. `backend/requisitos/README.md`:
    ```markdown
-   [`../../requisitos/README.md`](../../requisitos/README.md)
-   [`../../requisitos/trazabilidad.md`](../../requisitos/trazabilidad.md)
-   [`../../requisitos/rq_plantilla.md`](../../requisitos/rq_plantilla.md)
+   [`../gobernanza/marco_integrado/README.md`](../gobernanza/marco_integrado/README.md)
+   [`../gobernanza/marco_integrado/trazabilidad.md`](../gobernanza/marco_integrado/trazabilidad.md)
+   [`../gobernanza/marco_integrado/rq_plantilla.md`](../gobernanza/marco_integrado/rq_plantilla.md)
    ```
 
 2. `backend/requisitos/trazabilidad.md`:
    ```markdown
-   [`../../requisitos/trazabilidad.md`](../../requisitos/trazabilidad.md)
+   [`../gobernanza/marco_integrado/trazabilidad.md`](../gobernanza/marco_integrado/trazabilidad.md)
    ```
 
 3. `backend/requisitos/rq_plantilla.md`:
    ```markdown
-   [`../../requisitos/rq_plantilla.md`](../../requisitos/rq_plantilla.md)
+   [`../gobernanza/marco_integrado/rq_plantilla.md`](../gobernanza/marco_integrado/rq_plantilla.md)
    ```
 
 4. `frontend/requisitos/README.md`:
    ```markdown
-   [`../../requisitos/README.md`](../../requisitos/README.md)
+   [`../gobernanza/marco_integrado/README.md`](../gobernanza/marco_integrado/README.md)
    ```
 
 **Impacto**: 🔴 ALTO - Enlaces rotos en documentación de requisitos
@@ -291,7 +291,7 @@ Los siguientes directorios están vacíos o solo contienen .gitkeep:
 - Actualizar referencias para apuntar a `docs/gobernanza/plantillas/` o eliminar referencias a recursos globales que ya no existen
 - O crear el recurso global si es necesario para coordinación entre dominios
 
-#### B. Referencias a `docs/infrastructure/` (Antiguo, ahora `infraestructura/`)
+#### B. Referencias a `docs/infraestructura/` (Antiguo, ahora `infraestructura/`)
 
 **Archivos afectados** (10 referencias encontradas):
 
@@ -304,43 +304,43 @@ Los siguientes directorios están vacíos o solo contienen .gitkeep:
 
 **Ejemplo**:
 ```markdown
-- docs/infrastructure/AMBIENTES_VIRTUALIZADOS.md
-- docs/infrastructure/cpython_precompilado/README.md
-- docs/infrastructure/devops/runbooks/deployment.md
+- docs/infraestructura/AMBIENTES_VIRTUALIZADOS.md
+- docs/infraestructura/cpython_precompilado/README.md
+- docs/infraestructura/devops/runbooks/deployment.md
 ```
 
 **Impacto**: 🟡 MEDIO - Enlaces rotos a documentación de infraestructura
 
 **Solución propuesta**: Búsqueda y reemplazo global:
 ```bash
-docs/infrastructure/ → docs/infraestructura/
+docs/infraestructura/ → docs/infraestructura/
 ```
 
-#### C. Referencias a `docs/agent/` (Antiguo, debería ser `ai/agent/`)
+#### C. Referencias a `docs/ai/agent/` (Antiguo, debería ser `ai/agent/`)
 
 **Archivos afectados**: `scripts/analisis/DOCUMENTATION_REVIEW.md` (10+ referencias)
 
 **Ejemplo**:
 ```markdown
-- docs/agent/planificacion_y_releases/issue_shell_script_analysis_agent.md
-- docs/agent/requisitos/feasibility_shell_script_analysis_agent.md
-- docs/agent/arquitectura/hld_shell_script_analysis_agent.md
+- docs/ai/agent/planificacion_y_releases/issue_shell_script_analysis_agent.md
+- docs/ai/agent/requisitos/feasibility_shell_script_analysis_agent.md
+- docs/ai/agent/arquitectura/hld_shell_script_analysis_agent.md
 ```
 
 **Impacto**: 🟢 BAJO - Solo afecta documentación de análisis en scripts/
 
 **Solución propuesta**: Una vez movidos los archivos de `agent/` a `ai/agent/`, actualizar:
 ```bash
-docs/agent/ → docs/ai/agent/
+docs/ai/agent/ → docs/ai/agent/
 ```
 
 ### 5.2 Resumen de Enlaces Rotos
 
 | Patrón | Ocurrencias | Impacto | Estado |
 |--------|-------------|---------|--------|
-| `../../requisitos/` | 6+ | 🔴 ALTO | Pendiente |
-| `docs/infrastructure/` | 10+ | 🟡 MEDIO | Pendiente |
-| `docs/agent/` | 10+ | 🟢 BAJO | Pendiente |
+| `../gobernanza/marco_integrado/` | 6+ | 🔴 ALTO | Pendiente |
+| `docs/infraestructura/` | 10+ | 🟡 MEDIO | Pendiente |
+| `docs/ai/agent/` | 10+ | 🟢 BAJO | Pendiente |
 
 **Total estimado de enlaces rotos**: ~26+ referencias
 
@@ -484,7 +484,7 @@ Total archivos huérfanos: ~95 archivos
    - [ ] Actualizar todas las referencias en archivos
 
 2. **Corregir enlaces rotos de alta prioridad**
-   - [ ] Actualizar referencias `../../requisitos/` en backend/frontend (6 archivos)
+   - [ ] Actualizar referencias `../gobernanza/marco_integrado/` en backend/frontend (6 archivos)
    - [ ] Actualizar README de backend/requisitos con nueva estructura
    - [ ] Crear o definir recursos globales si son necesarios
 
@@ -494,8 +494,8 @@ Total archivos huérfanos: ~95 archivos
 ### 8.2 🟡 Prioridad ALTA (Semana 2-3)
 
 4. **Completar enlaces rotos restantes**
-   - [ ] Búsqueda y reemplazo: `docs/infrastructure/` → `docs/infraestructura/` (10 archivos)
-   - [ ] Actualizar referencias `docs/agent/` → `docs/ai/agent/` (1 archivo)
+   - [ ] Búsqueda y reemplazo: `docs/infraestructura/` → `docs/infraestructura/` (10 archivos)
+   - [ ] Actualizar referencias `docs/ai/agent/` → `docs/ai/agent/` (1 archivo)
 
 5. **Migrar plantillas a gobernanza**
    - [ ] Mover `plantillas/` → `gobernanza/plantillas/`
@@ -729,8 +729,8 @@ grep -r "marco_reglas_negocio\|marco_casos_uso" \
 
 # Buscar enlaces rotos
 grep -r "\.\./\.\./requisitos/" backend/requisitos/ frontend/requisitos/
-grep -r "docs/infrastructure/" . --include="*.md"
-grep -r "docs/agent/" . --include="*.md"
+grep -r "docs/infraestructura/" . --include="*.md"
+grep -r "docs/ai/agent/" . --include="*.md"
 
 # Buscar archivos de trazabilidad
 find ai backend frontend infraestructura -name "*trazabilidad*" -o -name "*traceability*"

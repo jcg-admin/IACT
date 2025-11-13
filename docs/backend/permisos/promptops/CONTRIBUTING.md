@@ -1111,7 +1111,7 @@ Al crear un nuevo componente PromptOps, verifica:
 ### Documentación Relacionada
 
 - [ADR-012: Sistema de Permisos](../../arquitectura/ADR-012-sistema-permisos-sin-roles-jerarquicos.md)
-- [Restricciones del Proyecto](../../requisitos/restricciones_y_lineamientos.md)
+- [Restricciones del Proyecto](../gobernanza/marco_integrado/restricciones_y_lineamientos.md)
 - [Arquitectura de Permisos](../ARQUITECTURA_PERMISOS_UML.md)
 
 ### Herramientas

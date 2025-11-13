@@ -887,9 +887,9 @@ Mantener docs actualizada:
 - `scripts/rollback.sh` - Rollback a versi?n anterior
 
 ### Runbooks
-- `docs/infrastructure/devops/runbooks/deployment.md`
-- `docs/infrastructure/devops/runbooks/incident_response.md`
-- `docs/infrastructure/devops/runbooks/rollback.md`
+- `docs/infraestructura/devops/runbooks/deployment.md`
+- `docs/infraestructura/devops/runbooks/incident_response.md`
+- `docs/infraestructura/devops/runbooks/rollback.md`
 
 ---
 

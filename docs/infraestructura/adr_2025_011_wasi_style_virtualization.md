@@ -357,7 +357,7 @@ io de minimo privilegio
 - Bubblewrap: https://github.com/containers/bubblewrap
 
 ### Internal Docs
-- docs/infrastructure/AMBIENTES_VIRTUALIZADOS.md
+- docs/infraestructura/AMBIENTES_VIRTUALIZADOS.md
 - scripts/infrastructure/wasi/README.md
 - docs/ai/CONFIGURACION_AMBIENTES.md
 

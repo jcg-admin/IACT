@@ -389,7 +389,7 @@ def test_calculate_min_stock_happy_path():
 **Archivo:** `.github/workflows/requirements-index.yml`
 
 **Trigger:**
-- Push a `implementacion/**/requisitos/**/*.md`
+- Push a `implementaci../gobernanza/marco_integrado/**/*.md`
 - Pull request modificando requisitos
 - Manual dispatch
 
@@ -401,10 +401,10 @@ name: Generate Requirements Indices (ISO 29148)
 on:
   push:
     paths:
-      - 'implementacion/**/requisitos/**/*.md'
+      - 'implementaci../gobernanza/marco_integrado/**/*.md'
   pull_request:
     paths:
-      - 'implementacion/**/requisitos/**/*.md'
+      - 'implementaci../gobernanza/marco_integrado/**/*.md'
   workflow_dispatch:
 
 jobs:
@@ -460,7 +460,7 @@ El workflow genera 5 documentos automáticamente:
 
 **Conforme a:** ISO/IEC/IEEE 29148:2018 - Clause 9.3
 **Generado:** 2025-11-04 10:30:00 UTC
-**Fuente:** Escaneo automático de `implementacion/**/requisitos/necesidades/*.md` y `**/negocio/*.md`
+**Fuente:** Escaneo automático de `implementaci../gobernanza/marco_integrado/necesidades/*.md` y `**/negocio/*.md`
 
 ---
 

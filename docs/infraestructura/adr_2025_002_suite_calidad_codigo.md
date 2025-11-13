@@ -343,7 +343,7 @@ Performance:
 
 ### Documentos del Proyecto
 - [QUALITY_SETUP.md](../../backend/calidad_codigo_automatizacion.md) - Guía completa
-- [Restricciones Completas](../../requisitos/restricciones_completas.md) - Documento maestro
+- [Restricciones Completas](../gobernanza/marco_integrado/restricciones_completas.md) - Documento maestro
 - [Procedimiento QA](../../gobernanza/procesos/procedimiento_qa.md)
 
 ## Notas Adicionales

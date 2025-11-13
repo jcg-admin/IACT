@@ -101,11 +101,11 @@ DETALLE POR ARCHIVO
 --------------------------------------------------------------------------------
   Linea   10 [XXX        ]: **Estado:** [propuesta | aceptada | rechazada | deprecada | reemplazad
 
-/home/user/IACT---project/docs/agent/diseno_detallado/lld_documentation_analysis_agent.md (1 items):
+/home/user/IACT---project/docs/ai/agent/diseno_detallado/lld_documentation_analysis_agent.md (1 items):
 --------------------------------------------------------------------------------
   Linea  781 [TODO       ]: # TODO: Deserialize to DocumentAnalysis
 
-/home/user/IACT---project/docs/agent/diseno_detallado/lld_shell_script_analysis_agent.md (17 items):
+/home/user/IACT---project/docs/ai/agent/diseno_detallado/lld_shell_script_analysis_agent.md (17 items):
 --------------------------------------------------------------------------------
   Linea  570 [TODO       ]: end_line = i  # TODO: Implement proper brace matching
   Linea  585 [TODO       ]: # TODO: Implement Chain-of-Verification
@@ -125,11 +125,11 @@ DETALLE POR ARCHIVO
   Linea  857 [TODO       ]: # TODO: Implement caching
   Linea  862 [TODO       ]: # TODO: Implement caching
 
-/home/user/IACT---project/docs/agent/planificacion_y_releases/issue_shell_script_remediation_agent.md (1 items):
+/home/user/IACT---project/docs/ai/agent/planificacion_y_releases/issue_shell_script_remediation_agent.md (1 items):
 --------------------------------------------------------------------------------
   Linea  180 [TODO       ]: El agente remueve TODOS los issues automáticamente fixables:
 
-/home/user/IACT---project/docs/agent/testing/testing_strategy_plan_validation_agent.md (1 items):
+/home/user/IACT---project/docs/ai/agent/testing/testing_strategy_plan_validation_agent.md (1 items):
 --------------------------------------------------------------------------------
   Linea  213 [XXX        ]: 4.  Various heading formats (AC-X:, RF-XXX:, Risk N:)
 
@@ -763,7 +763,7 @@ DETALLE POR ARCHIVO
   Linea   57 [XXX        ]: - Funcionales (RF-XXX): 10 documentados
   Linea   58 [XXX        ]: - [ATENCION] No funcionales (RNF-XXX): **RNF-002 CRÍTICO** (NO Redis)
 
-/home/user/IACT---project/docs/infrastructure/AMBIENTES_VIRTUALIZADOS.md (1 items):
+/home/user/IACT---project/docs/infraestructura/AMBIENTES_VIRTUALIZADOS.md (1 items):
 --------------------------------------------------------------------------------
   Linea  103 [TODO       ]: # ADVERTENCIA: Elimina TODOS los datos
 

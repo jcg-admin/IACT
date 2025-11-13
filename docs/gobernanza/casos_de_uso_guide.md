@@ -5,7 +5,6 @@ propietario: equipo-producto
 ultima_actualizacion: 2025-11-04
 estandares: ["UML 2.5", "BABOK v3", "Ivar Jacobson Use Case Methodology"]
 relacionados: ["DOC-GOB-INDEX", "DOC-PLANTILLAS-INDEX"]
-date: 2025-11-13
 ---
 # Guía de Casos de Uso - Proyecto IACT
 

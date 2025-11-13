@@ -201,7 +201,7 @@ Por dominio:
 - **Owner**: equipo-infraestructura
 - **Prioridad**: media
 - **Estado**: aprobado
-- **Archivo**: `docs/infrastructure/requisitos/funcionales/rf020_cpython_precompilado.md`
+- **Archivo**: `docs/infraestructura/requisitos/funcionales/rf020_cpython_precompilado.md`
 - **Deriva de**: [, O, b, j, e, t, i, v, o, -, D, e, v, E, x, p, ]
 - **Verificación**: demonstration
 

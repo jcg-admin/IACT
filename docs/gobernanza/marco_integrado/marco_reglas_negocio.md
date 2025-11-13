@@ -165,7 +165,7 @@ Un hecho describe asociaciones o relaciones entre términos comerciales importan
 
 Este marco conceptual se aplica a TODOS los dominios del proyecto:
 
-- `docs/ai/requisitos/reglas_negocio/`
+- `do../gobernanza/marco_integrado/reglas_negocio/`
 - `docs/backend/requisitos/reglas_negocio/`
 - `docs/frontend/requisitos/reglas_negocio/`
 - `docs/infraestructura/requisitos/reglas_negocio/`

@@ -46,7 +46,7 @@ status: active
    - `infrastructure/cpython/scripts/Install prebuilt cpython.sh` → `install_prebuilt_cpython.sh`.
    - Actualizar referencias y tests.
 2. **Documentación**
-   - Ajustar `docs/infrastructure/README.md` y `CHANGELOG-cpython.md` a nombres reales de scripts/utilidades.
+   - Ajustar `docs/infraestructura/README.md` y `CHANGELOG-cpython.md` a nombres reales de scripts/utilidades.
    - Revisar `infrastructure/cpython/README.md` para alinear comandos (`validate_build.sh`, nuevo script de instalación).
 
 ### C5. Respaldo y señalización de legado

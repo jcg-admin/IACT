@@ -77,7 +77,7 @@ Según la estructura propuesta donde:
 
 **Acción**:
 - OK MANTENER: `docs/checklists/checklist_cambios_documentales.md`
-- NO ELIMINAR: `docs/infrastructure/checklists/checklist_cambios_documentales.md` (idéntico)
+- NO ELIMINAR: `docs/infraestructura/checklists/checklist_cambios_documentales.md` (idéntico)
 
 ---
 
@@ -95,7 +95,7 @@ Según la estructura propuesta donde:
 
 **Acción**:
 - OK MANTENER: `docs/devops/contenedores_devcontainer.md`
-- NO ELIMINAR: `docs/infrastructure/devops/contenedores_devcontainer.md` (stub)
+- NO ELIMINAR: `docs/infraestructura/devops/contenedores_devcontainer.md` (stub)
 
 ---
 
@@ -114,7 +114,7 @@ Según la estructura propuesta donde:
 **Acción**:
 - REVISAR MANUALMENTE: Comparar ambas versiones para determinar cuál es más actual
 - Luego mantener solo una en `docs/devops/runbooks/`
-- Eliminar la versión en `docs/infrastructure/`
+- Eliminar la versión en `docs/infraestructura/`
 
 ---
 
@@ -202,7 +202,7 @@ Ver lineamientos base en: `docs/arquitectura/lineamientos_codigo.md`
 
 **Acción**:
 - OK MANTENER: `docs/devops/runbooks/verificar_servicios.md`
-- NO ELIMINAR: `docs/infrastructure/devops/runbooks/verificar_servicios.md` (stub)
+- NO ELIMINAR: `docs/infraestructura/devops/runbooks/verificar_servicios.md` (stub)
 
 ---
 
@@ -219,7 +219,7 @@ Ver lineamientos base en: `docs/arquitectura/lineamientos_codigo.md`
 
 **Acción**:
 - OK MANTENER: `docs/devops/runbooks/post_create.md`
-- NO ELIMINAR: `docs/infrastructure/devops/runbooks/post_create.md` (stub)
+- NO ELIMINAR: `docs/infraestructura/devops/runbooks/post_create.md` (stub)
 
 ---
 
@@ -237,7 +237,7 @@ Ver lineamientos base en: `docs/arquitectura/lineamientos_codigo.md`
 
 **Acción**:
 - OK MANTENER: `docs/arquitectura/adr/`
-- NO ELIMINAR: `docs/infrastructure/arquitectura/adr/` (stub)
+- NO ELIMINAR: `docs/infraestructura/arquitectura/adr/` (stub)
 
 **Principio**: Un proyecto debe tener UNA ÚNICA fuente de ADRs
 
@@ -258,7 +258,7 @@ Ver lineamientos base en: `docs/arquitectura/lineamientos_codigo.md`
 
 **Acción**:
 - OK MANTENER: `docs/arquitectura/adr/plantilla_adr.md`
-- NO ELIMINAR: `docs/infrastructure/arquitectura/adr/plantilla_adr.md` (simplificada)
+- NO ELIMINAR: `docs/infraestructura/arquitectura/adr/plantilla_adr.md` (simplificada)
 
 ---
 
@@ -313,18 +313,18 @@ Ver lineamientos base en: `docs/arquitectura/lineamientos_codigo.md`
 # Duplicados idénticos
 rm docs/backend/checklists/checklist_testing.md
 rm docs/backend/checklists/checklist_trazabilidad_requisitos.md
-rm docs/infrastructure/checklists/checklist_cambios_documentales.md
+rm docs/infraestructura/checklists/checklist_cambios_documentales.md
 
 # Stubs de backend
 rm docs/backend/checklists/checklist_desarrollo.md
 rm docs/backend/devops/runbooks/reprocesar_etl_fallido.md
 
 # Stubs de infrastructure
-rm docs/infrastructure/devops/contenedores_devcontainer.md
-rm docs/infrastructure/devops/runbooks/verificar_servicios.md
-rm docs/infrastructure/devops/runbooks/post_create.md
-rm docs/infrastructure/arquitectura/adr/adr_2025_001_vagrant_mod_wsgi.md
-rm docs/infrastructure/arquitectura/adr/plantilla_adr.md
+rm docs/infraestructura/devops/contenedores_devcontainer.md
+rm docs/infraestructura/devops/runbooks/verificar_servicios.md
+rm docs/infraestructura/devops/runbooks/post_create.md
+rm docs/infraestructura/arquitectura/adr/adr_2025_001_vagrant_mod_wsgi.md
+rm docs/infraestructura/arquitectura/adr/plantilla_adr.md
 ```
 
 ### Revisar manualmente (2 archivos):

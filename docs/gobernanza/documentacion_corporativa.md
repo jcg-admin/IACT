@@ -1,10 +1,3 @@
----
-title: Documentación Corporativa para Proyectos de Software (Repositorio Markdown)
-date: 2025-11-13
-domain: gobernanza
-status: active
----
-
 # Documentación Corporativa para Proyectos de Software (Repositorio Markdown)
 
 <thinking>
