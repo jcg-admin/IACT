@@ -14,14 +14,15 @@ def test_readme_acknowledges_absence_of_root_makefile():
     readme = _read(REPO_ROOT / "README.md")
     assert "No existe un Makefile en la raíz" in readme
     assert "docs/operaciones/verificar_servicios.md" in readme
-    assert "Actualmente **no existe** `./scripts/verificar_servicios.sh`" in readme
+    assert "./scripts/verificar_servicios.sh" in readme
+    assert "[IMPLEMENTADO]" in readme
     assert "make docs-serve" not in readme
 
 
 def test_docs_index_and_stubs_are_canonical():
     index = _read(REPO_ROOT / "docs/index.md")
-    assert "## Documentación activa" in index
-    assert "## Contenido legado" in index
+    assert "## [DOCS] Documentación activa" in index
+    assert "## [LEGADO] Contenido legado" in index
 
     index_stub = _read(REPO_ROOT / "docs/INDEX.md")
     indice_stub = _read(REPO_ROOT / "docs/INDICE.md")
@@ -43,8 +44,8 @@ def test_scripts_documentation_reflects_current_inventory():
 
 def test_logs_and_analysis_documentation_are_updated():
     schema = _read(REPO_ROOT / "logs_data/SCHEMA.md")
-    assert "Automatización pendiente" in schema
-    assert "scripts/dora_metrics.py" not in schema
+    assert "Automatización parcial" in schema
+    assert "scripts/dora_metrics.py" in schema
 
     analyzer = _read(REPO_ROOT / "scripts/analyze_backend.py")
     assert "logs_data/analysis/backend_analysis_results.json" in analyzer

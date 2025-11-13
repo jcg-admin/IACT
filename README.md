@@ -6,6 +6,8 @@ Repositorio monolítico para la plataforma de analítica de centros de contacto 
 >
 > **Leyenda**: [IMPLEMENTADO] = Funciona actualmente | [PLANIFICADO] = Documentado pero pendiente | [ATENCION] = Requiere atención | [NO] = Prohibido
 
+> **Importante**: No existe un Makefile en la raíz; usa los scripts documentados para orquestar tareas.
+
 ## Estado actual del repositorio
 
 ### [IMPLEMENTADO] Implementado
@@ -50,9 +52,9 @@ Repositorio monolítico para la plataforma de analítica de centros de contacto 
    vagrant up  # Levanta PostgreSQL:15432 y MariaDB:13306
    ```
 
-4. **Verificar servicios** ([IMPLEMENTADO] Runbook disponible, [PLANIFICADO] script automatizado pendiente):
+4. **Verificar servicios** ([IMPLEMENTADO] Runbook + script):
    - Guía manual: [`docs/operaciones/verificar_servicios.md`](docs/operaciones/verificar_servicios.md)
-   - Script automatizado: `./scripts/verificar_servicios.sh` ([PLANIFICADO] Pendiente de implementar)
+   - Script automatizado: `./scripts/verificar_servicios.sh` (`--dry-run` disponible para CI)
 
 ## Flujo de desarrollo
 
@@ -146,7 +148,7 @@ pytest -c docs/pytest.ini docs/testing
 - Complejidad ciclomática: <= 10
 - MTTR para bugs críticos: <= 2 días
 
-**Estado actual**: Las métricas se calculan manualmente. Ver [`logs_data/SCHEMA.md`](logs_data/SCHEMA.md)
+**Estado actual**: Las métricas se generan con [`scripts/dora_metrics.py`](scripts/dora_metrics.py) (baseline local). Ver [`logs_data/SCHEMA.md`](logs_data/SCHEMA.md)
 
 ### Workflow de commits
 

@@ -9,7 +9,7 @@
 
 ### C1. Documentación raíz desalineada
 1. **README**
-   - Alinear la guía de inicio con el estado real (sin Makefile raíz, sin script `verificar_servicios.sh`).
+   - Alinear la guía de inicio con el estado real (sin Makefile raíz, con script `verificar_servicios.sh`).
    - Documentar rutas válidas a runbooks vigentes (`docs/operaciones/`).
    - Reforzar política anti `git push --no-verify` con alternativas reales.
 2. **Resumen de estructura**
@@ -76,4 +76,4 @@
 ## Próximos pasos futuros (fuera de alcance inmediato)
 - Automatizar validación de enlaces Markdown a través de hook CI.
 - Diseñar ADR sobre estrategia definitiva de consolidación `docs/` ↔ `respaldo/`.
-- Implementar script real para verificación de servicios y cobertura de pruebas asociada.
+- Extender el script de verificación de servicios con chequeos adicionales (latencia, usuarios read-only).
