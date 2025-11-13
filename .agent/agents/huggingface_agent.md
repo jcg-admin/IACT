@@ -16,6 +16,7 @@ Guiar el uso de modelos Hugging Face (locales o alojados) dentro de los pipeline
     - `docs/ai/SDLC_AGENTS_GUIDE.md` explica cuándo preferir modos locales vs nube.
     - `docs/ai_capabilities/prompting/PHI3_PROMPT_ENGINEERING_PLAYBOOK.md` y `docs/ai_capabilities/prompting/CODE_GENERATION_GUIDE.md` muestran patrones de prompting reutilizables.
     - `docs/ai_capabilities/orchestration/CODEX_MCP_MULTI_AGENT_GUIDE.md` unifica el procedimiento multi-agente.
+- **Normativa CODEX**: `docs/analisis/META_AGENTE_CODEX_PARTE_1.md` obliga a documentar evidencia formal y empírica al emitir artefactos basados en modelos Hugging Face.
 
 ## Procedimiento Recomendado
 

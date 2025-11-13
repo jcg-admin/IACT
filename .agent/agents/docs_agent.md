@@ -7,10 +7,11 @@ Garantizar que los cambios en `docs/` sigan la gobernanza del ETA-AGENTE CODEX y
 ## Integraciones Clave
 
 - **Agente rector**: `docs/analisis/AGENTS.md` (ETA-AGENTE CODEX) y `scripts/coding/ai/agents/documentation/eta_codex_agent.py`.
-- **ExecPlans**: `docs/plans/EXECPLAN_agents_domain_alignment.md`, `docs/plans/EXECPLAN_codex_mcp_multi_llm.md`.
+- **ExecPlans**: `docs/plans/EXECPLAN_agents_domain_alignment.md`, `docs/plans/EXECPLAN_codex_mcp_multi_llm.md`, `docs/plans/EXECPLAN_meta_agente_codex.md`.
 - **Pruebas**: `docs/testing/test_documentation_alignment.py` asegura consistencia de enlaces y ubicación.
 - **Playbooks**: `docs/ai_capabilities/prompting/PROMPT_TECHNIQUES_CATALOG.md`, `docs/ai_capabilities/orchestration/CODEX_MCP_MULTI_AGENT_GUIDE.md`, `docs/ai_capabilities/orchestration/CONTEXT_MANAGEMENT_PLAYBOOK.md`, `docs/ai_capabilities/prompting/CODE_GENERATION_GUIDE.md`.
 - **Sesiones de contexto**: `scripts/coding/ai/shared/context_sessions.py` para mantener resúmenes consistentes en revisiones prolongadas.
+- **Referencia normativa**: `docs/analisis/META_AGENTE_CODEX_PARTE_1.md` (Parte 1 de 3) establece los supuestos y restricciones del meta-agente que gobierna todas las redacciones CODEX.
 
 ## Procedimiento Recomendado
 

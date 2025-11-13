@@ -185,6 +185,7 @@ pytest -c docs/pytest.ini docs/testing
 - **[Guía Completa de Desarrollo de Features](docs/gobernanza/procesos/procedimientos/guia_completa_desarrollo_features.md)** - Proceso end-to-end
 - **[Estrategia de QA](docs/gobernanza/procesos/qa/ESTRATEGIA_QA.md)** - Testing strategy
 - **[Codex MCP Multi-Agent Guide](docs/ai_capabilities/orchestration/CODEX_MCP_MULTI_AGENT_GUIDE.md)** - Configura el `CodexMCPWorkflowBuilder` para flujos single/multi-agent en Claude, ChatGPT y Hugging Face.
+- **[META-AGENTE CODEX](docs/analisis/META_AGENTE_CODEX_PARTE_1.md)** - Supuestos, restricciones y pipeline formal para generar artefactos CODEX multi-LLM (Parte 1 de 3).
 
 ## Arquitectura y Stack
 

@@ -294,3 +294,37 @@ def test_context_management_playbook_is_linked_across_guides():
     sdlc_guide = _read(REPO_ROOT / "docs" / "ai" / "SDLC_AGENTS_GUIDE.md")
     assert "CONTEXT_MANAGEMENT_PLAYBOOK" in sdlc_guide
     assert "context_sessions.py" in sdlc_guide
+
+
+def test_meta_agente_codex_is_published_and_linked():
+    meta_doc = REPO_ROOT / "docs" / "analisis" / "META_AGENTE_CODEX_PARTE_1.md"
+    assert meta_doc.exists(), "Falta la Parte 1 del META-AGENTE CODEX en docs/analisis"
+
+    meta_contents = _read(meta_doc)
+    assert "META-AGENTE CODEX" in meta_contents
+    assert "Parte 1 de 3" in meta_contents
+
+    execplan_path = REPO_ROOT / "docs" / "plans" / "EXECPLAN_meta_agente_codex.md"
+    assert execplan_path.exists(), "Debe existir el ExecPlan que gobierna el META-AGENTE CODEX"
+
+    docs_index = _read(REPO_ROOT / "docs" / "index.md")
+    assert "META_AGENTE_CODEX_PARTE_1" in docs_index
+
+    root_readme = _read(REPO_ROOT / "README.md")
+    assert "META-AGENTE CODEX" in root_readme
+
+    agent_catalog = _read(REPO_ROOT / ".agent" / "agents" / "README.md")
+    assert "META_AGENTE_CODEX_PARTE_1" in agent_catalog
+
+    docs_agent = _read(REPO_ROOT / ".agent" / "agents" / "docs_agent.md")
+    assert "META_AGENTE_CODEX_PARTE_1" in docs_agent
+    assert "EXECPLAN_meta_agente_codex.md" in docs_agent
+
+    providers = ["claude_agent.md", "chatgpt_agent.md", "huggingface_agent.md"]
+    domains = ["api_agent.md", "ui_agent.md", "infrastructure_agent.md", "docs_agent.md", "scripts_agent.md"]
+    agents_dir = REPO_ROOT / ".agent" / "agents"
+
+    for filename in providers + domains:
+        contents = _read(agents_dir / filename)
+        assert "META_AGENTE_CODEX_PARTE_1" in contents
+
