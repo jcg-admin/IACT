@@ -132,7 +132,7 @@ Cada subsección resume objetivos, acciones Hamilton y validaciones alineadas co
 
 ## 6. Próximos pasos
 
-1. Incorporar ejemplos de código Hamilton en `scripts/coding/ai/` siguiendo TDD.
+1. Ejemplo base publicado en `scripts/coding/ai/examples/hamilton_llm/`: driver declarativo + pruebas `scripts/coding/tests/ai/examples/test_hamilton_llm_example.py`. A partir de este flujo se pueden derivar variantes (e.g. adaptadores FastAPI) conservando el enfoque TDD.
 2. Evaluar integración con `TASK-024-ai-telemetry-system.md` para recolectar métricas de ejecución.
 3. Registrar aprendizajes en `docs/qa/registros/` una vez ejecutados pilotos.
 
