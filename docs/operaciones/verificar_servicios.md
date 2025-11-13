@@ -27,19 +27,35 @@ Validar que PostgreSQL y MariaDB estén operativos y accesibles desde el entorno
 
 ## Procedimiento Automático
 
-### Opción 1: Script Automatizado
+### Opción 1: Script automatizado (recomendado)
 
 ```bash
 ./scripts/verificar_servicios.sh
 ```
 
-**Output esperado:**
+**Tips clave:**
+
+- Usa `--dry-run` en entornos CI/CD o cuando las bases de datos aún no están levantadas.
+- Sobrescribe credenciales mediante flags (`--postgres-host`, `--mariadb-password`, etc.) o variables de entorno.
+- Códigos de salida: `0` (OK), `1` (fallo de conexión), `2` (clientes faltantes).
+
+**Output esperado (éxito):**
 ```
-[OK] Cliente PostgreSQL (psql) instalado
-[OK] Cliente MariaDB (mysql) instalado
-[OK] PostgreSQL conectado exitosamente en 127.0.0.1:15432
-[OK] MariaDB conectado exitosamente en 127.0.0.1:13306
+[OK] Cliente psql disponible
+[OK] Cliente mysql disponible
+[INFO] Verificando PostgreSQL...
+[OK] PostgreSQL respondió correctamente
+[INFO] Verificando MariaDB...
+[OK] MariaDB respondió correctamente
 [OK] Todos los servicios están operativos
+```
+
+**Output esperado (`--dry-run`):**
+```
+[DRY-RUN] Validación de conectividad omitida.
+[DRY-RUN] Ejecutarías:
+  PGPASSWORD=**** psql -h 127.0.0.1 -p 15432 -U django_user -d iact_analytics -c 'SELECT 1;'
+  mysql -h 127.0.0.1 -P 13306 -u django_user -p**** -e 'SELECT 1;' ivr_data
 ```
 
 ### Opción 2: Verificación Manual

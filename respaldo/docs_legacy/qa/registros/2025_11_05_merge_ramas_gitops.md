@@ -508,7 +508,7 @@ origin/main
 
 ## Referencias
 
-- **Agente**: `.github/agents/gitops-agent.md`
+- **Agente**: `.agent/agents/gitops_agent.md`
 - **Runbook**: `docs/devops/runbooks/merge_y_limpieza_ramas.md`
 - **Script**: `scripts/complete_sync.sh`
 - **Registro anterior**: `docs/qa/registros/2025_11_05_merge_ramas.md`
