@@ -78,6 +78,13 @@ DB_IVR_USER=django_user
 DB_IVR_PASSWORD=django_pass
 ```
 
+> **LLMs soportados**: Los agentes SDLC detectan automáticamente el mejor proveedor
+> disponible entre Claude (Anthropic), ChatGPT (OpenAI) y modelos fine-tuned vía
+> Hugging Face. Consulta [`docs/ai/CONFIGURACION_API_KEYS.md`](docs/ai/CONFIGURACION_API_KEYS.md)
+> para declarar `ANTHROPIC_API_KEY`, `OPENAI_API_KEY` o las variables
+> `HF_LOCAL_MODEL_PATH`/`HF_MODEL_ID` cuando ejecutes el flujo de fine-tuning
+> documentado en [`docs/ai/FINE_TUNING_TINYLLAMA.md`](docs/ai/FINE_TUNING_TINYLLAMA.md).
+
 ### 2. Ejecutar migraciones
 
 ```bash

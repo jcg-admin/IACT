@@ -122,6 +122,7 @@ Este índice combina lo implementado con la visión futura del proyecto, clarame
 ### DORA Metrics y AI Excellence
 - **Estrategia IA**: [`gobernanza/ai/ESTRATEGIA_IA.md`](gobernanza/ai/ESTRATEGIA_IA.md)
 - **AI Capabilities**: [`gobernanza/ai/AI_CAPABILITIES.md`](gobernanza/ai/AI_CAPABILITIES.md)
+- **Fine-tuning local**: [`ai/FINE_TUNING_TINYLLAMA.md`](ai/FINE_TUNING_TINYLLAMA.md)
 - **Gaps post-DORA 2025**: [`gobernanza/ai/ANALISIS_GAPS_POST_DORA_2025.md`](gobernanza/ai/ANALISIS_GAPS_POST_DORA_2025.md)
 - **Target**: 7/7 prácticas AI (actual: 5/7 - 71%)
 - **Roadmap**: 144 SP, completar Q2 2026
