@@ -16,13 +16,12 @@ from enum import Enum
 from pathlib import Path
 from typing import Dict, List, Optional, Any
 from concurrent.futures import ThreadPoolExecutor, as_completed
-import subprocess
+from datetime import datetime
 import hashlib
 import json
-import logging
 
 # Import Agent framework
-from scripts.coding.ai.shared.agent_base import Agent, AgentResult, AgentStatus
+from scripts.coding.ai.shared.agent_base import Agent
 
 
 # ============================================================================
@@ -413,8 +412,6 @@ class ShellScriptAnalysisAgent(Agent):
 
     def _analyze_single(self, script_path: Path) -> ConsolidatedResult:
         """Analyze a single script."""
-        from datetime import datetime
-
         self.logger.info(f"Analyzing: {script_path}")
 
         # Check cache
@@ -840,20 +837,8 @@ if __name__ == "__main__":
 
     if result.is_success():
         summary = result.data["summary"]
-        print(f"\nAnalysis complete!")
+        print("\nAnalysis complete!")
         print(f"Scripts analyzed: {summary.get('total_scripts', 0)}")
         print(f"Average score: {summary.get('average_score', 0):.1f}/100")
     else:
         print(f"\nAnalysis failed: {result.errors}")
-# Standard library
-import subprocess
-import hashlib
-import json
-import logging
-from dataclasses import dataclass, field
-from enum import Enum
-from pathlib import Path
-from typing import Dict, List, Optional, Any
-from concurrent.futures import ThreadPoolExecutor, as_completed
-from datetime import datetime
-
