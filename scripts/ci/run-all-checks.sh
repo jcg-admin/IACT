@@ -11,7 +11,8 @@
 #   0 - All checks passed
 #   1 - One or more checks failed
 
-set -euo pipefail
+set -u
+set -o pipefail
 
 RED='\033[0;31m'
 GREEN='\033[0;32m'

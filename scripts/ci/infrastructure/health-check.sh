@@ -53,18 +53,7 @@ fi
 log_info "Checking database connectivity..."
 cd "$PROJECT_ROOT/api/callcentersite"
 
-DJANGO_READY=true
-if ! python3 -c "import django" >/dev/null 2>&1; then
-    DJANGO_READY=false
-    log_warn "Skipping Django checks: Django is not installed in the current environment"
-    CHECKS_SKIPPED=$((CHECKS_SKIPPED + 1))
-elif [ ! -f "manage.py" ]; then
-    DJANGO_READY=false
-    log_warn "Skipping Django checks: manage.py not found"
-    CHECKS_SKIPPED=$((CHECKS_SKIPPED + 1))
-fi
-
-if [ "$DJANGO_READY" = true ]; then
+if [ -f "manage.py" ]; then
     if DB_CHECK_OUTPUT=$(python3 manage.py check --database default 2>&1); then
         log_info "Database connectivity: OK"
         CHECKS_PASSED=$((CHECKS_PASSED + 1))
@@ -76,19 +65,17 @@ if [ "$DJANGO_READY" = true ]; then
         CHECKS_FAILED=$((CHECKS_FAILED + 1))
     fi
 
-    log_info "Checking Django configuration..."
-    if DJANGO_CHECK_OUTPUT=$(python3 manage.py check 2>&1); then
-        log_info "Django configuration: OK"
-        CHECKS_PASSED=$((CHECKS_PASSED + 1))
-    else
-        log_error "Django configuration check failed"
-        echo "$DJANGO_CHECK_OUTPUT" | tail -n 20 | while IFS= read -r line; do
-            log_error "    $line"
-        done
-        CHECKS_FAILED=$((CHECKS_FAILED + 1))
-    fi
+# Check 4: Django configuration
+log_info "Checking Django configuration..."
+if DJANGO_CHECK_OUTPUT=$(python3 manage.py check 2>&1); then
+    log_info "Django configuration: OK"
+    CHECKS_PASSED=$((CHECKS_PASSED + 1))
 else
-    log_warn "Skipping Django checks due to missing prerequisites"
+    log_error "Django configuration check failed"
+    echo "$DJANGO_CHECK_OUTPUT" | tail -n 20 | while IFS= read -r line; do
+        log_error "    $line"
+    done
+    CHECKS_FAILED=$((CHECKS_FAILED + 1))
 fi
 
 # Check 5: Required directories exist
