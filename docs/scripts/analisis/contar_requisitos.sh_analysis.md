@@ -1,0 +1,19 @@
+# Analysis: contar_requisitos.sh
+
+## Summary
+- **Overall Score**: 96.0/100
+- **Timestamp**: 2025-11-13T09:06:18.956332
+- **Mode**: standard
+
+## Constitutional Compliance
+- **Compliant**: False
+- **Score**: 97.5/100
+- **Violations**: 1
+
+## Code Quality
+- **Score**: 100.0/100
+- **Code Smells**: 0
+
+## Security
+- **Score**: 90.0/100
+- **Issues**: 1
