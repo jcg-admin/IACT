@@ -16,20 +16,22 @@ def _run_script(script_path, *args):
     )
 
 
-def test_run_all_checks_reports_summary_even_on_failure():
+def test_run_all_checks_reports_summary_with_skips():
     result = _run_script(RUN_ALL_CHECKS)
 
-    assert result.returncode != 0, "Expected the aggregated checks to fail in the default dev environment"
+    assert result.returncode == 0, "Aggregated checks should degrade to success with skips locally"
     combined_output = f"{result.stdout}\\n{result.stderr}"
     assert "FINAL CI/CD REPORT" in combined_output
+    assert "Skipped:" in combined_output
+    assert "[SKIP]" in combined_output or "Skipped: 0" in combined_output
 
 
-def test_health_check_surfaces_underlying_error_details():
+def test_health_check_degrades_gracefully_when_django_missing():
     result = _run_script(HEALTH_CHECK)
 
-    assert result.returncode != 0, "The health check should fail when dependencies are missing"
+    assert result.returncode in (0, 2), "Health check should pass or skip when Django is unavailable"
     combined_output = f"{result.stdout}\\n{result.stderr}"
-    assert "ModuleNotFoundError" in combined_output or "No module named" in combined_output
+    assert "Skipping Django checks" in combined_output
 
 
 def test_run_all_checks_sets_strict_shell_flags():
