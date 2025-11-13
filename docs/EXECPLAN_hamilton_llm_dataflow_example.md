@@ -9,7 +9,8 @@ Queremos que cualquier integrante del proyecto pueda ejecutar un ejemplo mínimo
 ## Progress
 
 - [x] (2025-11-19 10:00Z) ExecPlan creado y alcance documentado.
-- [x] (2025-11-19 10:25Z) Pruebas unitarias que describen el dataflow Hamilton deseado creadas en scripts/coding/tests/ai/examples/test_hamilton_llm_example.py.
+- [x] (2025-11-19 10:25Z) Pruebas unitarias que describen el dataflow Hamilton deseado creadas en `scripts/coding/tests/ai/examples/test_hamilton_llm_example.py` (ahora residiendo en `infrastructure/workspace/tests/hamilton_llm/test_driver.py`).
+- [x] (2025-11-19 12:20Z) Registro de suites de prueba en `infrastructure.workspace.TEST_SUITES` y reubicación del paquete de pruebas a `infrastructure/workspace/tests/hamilton_llm/`.
 - [x] (2025-11-19 11:05Z) Implementación del ejemplo Hamilton (driver, dataflow y cliente LLM) con pruebas pasando.
 - [x] (2025-11-19 11:20Z) Documentación actualizada (guía Hamilton e índice general) y validaciones ejecutadas.
 - [x] (2025-11-13 11:05Z) Refactor del driver para exponer Builder/Driver/DictResult estilo apache/hamilton y ampliación de pruebas.
@@ -33,6 +34,9 @@ Queremos que cualquier integrante del proyecto pueda ejecutar un ejemplo mínimo
 - Decision: Trasladar el ejemplo Hamilton al árbol `infrastructure/workspace` para alinearlo con la organización de entornos ejecutables y facilitar su descubrimiento desde infraestructura.
   Rationale: El ejemplo sirve como workspace autocontenible; ubicarlo junto al resto de utilidades de infraestructura responde a la retroalimentación del stakeholder y mantiene la separación documentación/código.
   Date/Author: 2025-11-19 / coding-agent
+- Decision: Registrar las suites de prueba del workspace en `infrastructure.workspace.TEST_SUITES` para que automatizaciones y documentación puedan descubrirlas sin depender de rutas históricas.
+  Rationale: La reubicación desde `scripts/coding/tests/` rompía la convención previa; proveer un registro explícito evita referencias obsoletas en guías y herramientas.
+  Date/Author: 2025-11-19 / coding-agent
 
 ## Outcomes & Retrospective
 
@@ -42,7 +46,7 @@ Las pruebas de documentación existentes siguen fallando por deuda histórica; s
 
 ## Context and Orientation
 
-El repositorio organiza scripts de agentes en `scripts/coding/ai/` y pruebas correspondientes en `scripts/coding/tests/`. La guía `docs/gobernanza/ai/HAMILTON_FRAMEWORK_INTEGRACION_SDLC.md` solicita como siguiente paso incorporar ejemplos de código Hamilton usando TDD. Actualmente no existe un paquete que demuestre un dataflow Hamilton; tampoco tenemos dependencias a `sf-hamilton`. Implementaremos un micro-driver declarativo interno inspirado en Hamilton, suficiente para ejecutar funciones nombradas según los nodos del grafo y resolver dependencias mediante introspección. Las pruebas se ubicarán en `scripts/coding/tests/ai/examples/` para mantener la correspondencia.
+El repositorio organiza scripts de agentes en `scripts/coding/ai/` y pruebas correspondientes en `scripts/coding/tests/`. La guía `docs/gobernanza/ai/HAMILTON_FRAMEWORK_INTEGRACION_SDLC.md` solicita como siguiente paso incorporar ejemplos de código Hamilton usando TDD. Actualmente no existe un paquete que demuestre un dataflow Hamilton; tampoco tenemos dependencias a `sf-hamilton`. Implementaremos un micro-driver declarativo interno inspirado en Hamilton, suficiente para ejecutar funciones nombradas según los nodos del grafo y resolver dependencias mediante introspección. Las pruebas residirán en `infrastructure/workspace/tests/hamilton_llm/` para mantenerlas junto al workspace correspondiente.
 
 El ejemplo debe incluir:
 1. Una representación explícita de la diferencia entre flujos de desarrollo ML tradicional y LLM, ya sea en docstrings o constantes que puedan inspeccionarse desde las pruebas.
@@ -54,7 +58,7 @@ El ejemplo debe incluir:
 
 1. Crear paquete `infrastructure/workspace/hamilton_llm/` con archivos `__init__.py`, `dataflow.py` y `llm_client.py`. `dataflow.py` contendrá funciones declarativas (topic, prompt_template, prompt, llm_response, business_value, cost_estimate). `llm_client.py` expondrá una clase `MockLLMClient` parametrizable. Documentar en docstrings las diferencias de ritmo de desarrollo.
 2. Implementar micro driver en `infrastructure/workspace/hamilton_llm/driver.py` que resuelva dependencias mediante inspección de firmas, exponiendo además un `Builder` y adaptadores `DictResult` compatibles con la API oficial. La ejecución debe aceptar configuración base (`with_config`) y adaptadores encadenables.
-3. Escribir pruebas TDD en `scripts/coding/tests/ai/examples/test_hamilton_llm_example.py` que:
+3. Escribir pruebas TDD en `infrastructure/workspace/tests/hamilton_llm/test_driver.py` que:
    - Construyan el driver con el módulo `dataflow`.
    - Injecten entradas (por ejemplo, `idea`, `domain_data`, `pricing_policy`).
    - Verifiquen que `llm_response` y `business_value` devuelvan valores esperados.
@@ -63,12 +67,12 @@ El ejemplo debe incluir:
 5. Implementar código real en los módulos descritos, asegurando cobertura >80 % mediante pruebas que ejerciten rutas principales, errores controlados (por ejemplo, dependencia faltante) y adaptadores personalizados.
 6. Re-ejecutar pytest (Green) y refactorizar si procede.
 7. Actualizar `docs/gobernanza/ai/HAMILTON_FRAMEWORK_INTEGRACION_SDLC.md` en la sección de próximos pasos para referenciar el nuevo ejemplo y añadir entrada en `docs/index.md` si corresponde.
-8. Documentar en el ExecPlan las decisiones, sorpresas y resultados. Incluir instrucciones de validación (`python3 -m pytest scripts/coding/tests/ai/examples/test_hamilton_llm_example.py`).
+8. Documentar en el ExecPlan las decisiones, sorpresas y resultados. Incluir instrucciones de validación (`python3 -m pytest infrastructure/workspace/tests/hamilton_llm/test_driver.py`).
 9. Mantener el shim alineado con apache/hamilton agregando pruebas de Builder y adaptadores para evitar regresiones.
 
 ## Concrete Steps
 
-1. Añadir pruebas fallidas: crear archivo de test y ejecutar `python3 -m pytest scripts/coding/tests/ai/examples/test_hamilton_llm_example.py` desde la raíz del repo.
+1. Añadir pruebas fallidas: crear archivo de test y ejecutar `python3 -m pytest infrastructure/workspace/tests/hamilton_llm/test_driver.py` desde la raíz del repo.
 2. Implementar paquetes y funciones según el plan, escribir docstrings que recojan la narrativa de ritmo de desarrollo y habilidades SWE.
 3. Añadir pruebas de Builder/adaptadores (`test_custom_adapter_transforms_execution_result`, `test_builder_requires_modules_before_building`) antes de implementar el shim.
 4. Ejecutar pytest nuevamente hasta que pase y revisar cobertura si se añade reporte.
@@ -77,7 +81,7 @@ El ejemplo debe incluir:
 
 ## Validation and Acceptance
 
-- `python3 -m pytest scripts/coding/tests/ai/examples/test_hamilton_llm_example.py` debe pasar, mostrando que el driver ejecuta correctamente el dataflow y que la metadata esperada está disponible.
+- `python3 -m pytest infrastructure/workspace/tests/hamilton_llm/test_driver.py` debe pasar, mostrando que el driver ejecuta correctamente el dataflow y que la metadata esperada está disponible.
 - `python3 -m pytest docs/qa/testing/test_documentation_alignment.py` debe continuar pasando, confirmando integridad documental.
 - La documentación Hamilton debe mencionar explícitamente el nuevo ejemplo.
 
@@ -89,9 +93,9 @@ El driver declarativo resolverá dependencias determinísticamente, por lo que e
 
 Salida relevante de validaciones más recientes:
 
-- `python3 -m pytest scripts/coding/tests/ai/examples/test_hamilton_llm_example.py`
+- `python3 -m pytest infrastructure/workspace/tests/hamilton_llm/test_driver.py`
 
-      scripts/coding/tests/ai/examples/test_hamilton_llm_example.py .....
+      infrastructure/workspace/tests/hamilton_llm/test_driver.py .....
 
 - `python3 -m pytest docs/qa/testing/test_documentation_alignment.py` (sigue fallando por deuda documental heredada)
 
