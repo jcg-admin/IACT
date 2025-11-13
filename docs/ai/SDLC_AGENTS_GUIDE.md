@@ -128,9 +128,9 @@ config = {
 
 Para asegurar coherencia entre planificación, credenciales y herramientas, consulta las fichas específicas en `.agent/agents/`:
 
-- **ClaudeAgent** (`.agent/agents/claude_agent.md`): describe el flujo completo cuando `llm_provider="anthropic"`, incluyendo configuración de `ANTHROPIC_API_KEY`, uso del `LLMGenerator` y orquestaciones Codex MCP documentadas en `docs/plans/EXECPLAN_codex_mcp_multi_llm.md`.
-- **ChatGPTAgent** (`.agent/agents/chatgpt_agent.md`): guía las integraciones con modelos GPT/OpenAI, detalla el uso de `OPENAI_API_KEY` y enlaza con `scripts/coding/ai/orchestrators/codex_mcp_workflow.py`.
-- **HuggingFaceAgent** (`.agent/agents/huggingface_agent.md`): centraliza el trabajo con modelos locales o alojados en Hugging Face, indicando rutas (`HF_LOCAL_MODEL_PATH`, `HF_MODEL_ID`) y las guías complementarias (`docs/ai_capabilities/prompting/PHI3_PROMPT_ENGINEERING_PLAYBOOK.md`).
+- **ClaudeAgent** (`.agent/agents/claude_agent.md`): describe el flujo completo cuando `llm_provider="anthropic"`, enlazando el catálogo `docs/ai_capabilities/prompting/PROMPT_TECHNIQUES_CATALOG.md`, la configuración de `ANTHROPIC_API_KEY`, el uso del `LLMGenerator`, la memoria de contexto documentada en `docs/ai_capabilities/orchestration/CONTEXT_MANAGEMENT_PLAYBOOK.md` y las orquestaciones Codex MCP de `docs/plans/EXECPLAN_codex_mcp_multi_llm.md`.
+- **ChatGPTAgent** (`.agent/agents/chatgpt_agent.md`): guía las integraciones con modelos GPT/OpenAI, combina el catálogo `PROMPT_TECHNIQUES_CATALOG.md`, el playbook de contexto multi-LLM (`CONTEXT_MANAGEMENT_PLAYBOOK.md`), `OPENAI_API_KEY` y referencia `scripts/coding/ai/orchestrators/codex_mcp_workflow.py` junto a `scripts/coding/ai/shared/context_sessions.py`.
+- **HuggingFaceAgent** (`.agent/agents/huggingface_agent.md`): centraliza el trabajo con modelos locales o alojados en Hugging Face, relacionando `PROMPT_TECHNIQUES_CATALOG.md`, rutas (`HF_LOCAL_MODEL_PATH`, `HF_MODEL_ID`), el playbook `PHI3_PROMPT_ENGINEERING_PLAYBOOK.md` y la guía de contexto compartido `CONTEXT_MANAGEMENT_PLAYBOOK.md`.
 
 Estas fichas son complementarias a esta guía y deben revisarse antes de ejecutar tareas multi-LLM.
 
@@ -138,11 +138,11 @@ Estas fichas son complementarias a esta guía y deben revisarse antes de ejecuta
 
 Para alinear la arquitectura del repositorio con los agentes automatizados, consulta también las fichas por dominio en `.agent/agents/`:
 
-- **ApiAgent** (`api_agent.md`): centraliza la coordinación del backend (`api/`) con los ExecPlans `EXECPLAN_agents_domain_alignment.md` y `EXECPLAN_codex_mcp_multi_llm.md`, además de los briefs generados por `CodexMCPWorkflowBuilder`.
-- **UiAgent** (`ui_agent.md`): une los entregables del Designer Agent con la implementación en `ui/`, reutilizando los playbooks de prompting (`CODE_GENERATION_GUIDE.md`, `PHI3_PROMPT_ENGINEERING_PLAYBOOK.md`).
-- **InfrastructureAgent** (`infrastructure_agent.md`): orquesta cambios en `infrastructure/` en conjunto con los agentes operativos (Dependency, Release, Security) y los planes `SPEC_INFRA_*`.
-- **DocsAgent** (`docs_agent.md`): asegura que toda modificación en `docs/` respete al ETA-AGENTE CODEX y a los validadores de documentación.
-- **ScriptsAgent** (`scripts_agent.md`): gobierna la evolución de `scripts/` manteniendo el enfoque TDD y sincronización con los generadores/orquestadores LLM.
+- **ApiAgent** (`api_agent.md`): centraliza la coordinación del backend (`api/`) con los ExecPlans `EXECPLAN_agents_domain_alignment.md`, `EXECPLAN_codex_mcp_multi_llm.md`, el catálogo `PROMPT_TECHNIQUES_CATALOG.md`, el playbook `CONTEXT_MANAGEMENT_PLAYBOOK.md` y los briefs generados por `CodexMCPWorkflowBuilder`.
+- **UiAgent** (`ui_agent.md`): une los entregables del Designer Agent con la implementación en `ui/`, reutilizando los playbooks de prompting (`PROMPT_TECHNIQUES_CATALOG.md`, `CODE_GENERATION_GUIDE.md`, `PHI3_PROMPT_ENGINEERING_PLAYBOOK.md`) y las sesiones de contexto descritas en `CONTEXT_MANAGEMENT_PLAYBOOK.md`.
+- **InfrastructureAgent** (`infrastructure_agent.md`): orquesta cambios en `infrastructure/` en conjunto con los agentes operativos (Dependency, Release, Security), el catálogo `PROMPT_TECHNIQUES_CATALOG.md`, el playbook `CONTEXT_MANAGEMENT_PLAYBOOK.md` y los planes `SPEC_INFRA_*`.
+- **DocsAgent** (`docs_agent.md`): asegura que toda modificación en `docs/` respete al ETA-AGENTE CODEX, el catálogo `PROMPT_TECHNIQUES_CATALOG.md`, la guía de contexto multi-LLM y los validadores de documentación.
+- **ScriptsAgent** (`scripts_agent.md`): gobierna la evolución de `scripts/` manteniendo el enfoque TDD, el catálogo `PROMPT_TECHNIQUES_CATALOG.md`, el playbook `CONTEXT_MANAGEMENT_PLAYBOOK.md` y la sincronización con los generadores/orquestadores LLM.
 
 Cada vez que inicies un ExecPlan nuevo, referencia tanto la ficha del proveedor LLM como la del dominio involucrado para mantener la trazabilidad completa.
 

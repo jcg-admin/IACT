@@ -8,6 +8,8 @@ Centralizar el uso de modelos ChatGPT/OpenAI dentro de los flujos de automatizac
 
 - **Configuración de credenciales**: `docs/ai/CONFIGURACION_API_KEYS.md` incluye los pasos para definir `OPENAI_API_KEY` y habilitar modos híbridos.
 - **ExecPlan vivo**: `docs/plans/EXECPLAN_codex_mcp_multi_llm.md` mantiene la estrategia multi-LLM y debe actualizarse cuando cambien las capacidades o defaults de OpenAI.
+- **Catálogo de prompts**: `docs/ai_capabilities/prompting/PROMPT_TECHNIQUES_CATALOG.md` consolida las técnicas multi-LLM antes de personalizar prompts para ChatGPT.
+- **Gestión de contexto**: `docs/ai_capabilities/orchestration/CONTEXT_MANAGEMENT_PLAYBOOK.md` y `scripts/coding/ai/shared/context_sessions.py` definen trimming y summarization compatibles con OpenAI.
 - **Agente generador de tests**: `scripts/coding/ai/generators/llm_generator.py` soporta `llm_provider="openai"` para generar pruebas o documentación asistida con ChatGPT.
 - **Builder MCP**: `scripts/coding/ai/orchestrators/codex_mcp_workflow.py` emite briefs con banderas MCP y modelos recomendados (por ejemplo `gpt-5`) para OpenAI.
 - **Guía operativa**: `docs/ai/SDLC_AGENTS_GUIDE.md` detalla cuándo alternar entre modos heurísticos y LLM.

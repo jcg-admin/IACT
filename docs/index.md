@@ -84,6 +84,7 @@ Este índice combina lo implementado con la visión futura del proyecto, clarame
 - **Test runner**: [`scripts/run_all_tests.sh`](../scripts/run_all_tests.sh)
 - **Métricas DORA**: [`scripts/dora_metrics.py`](../scripts/dora_metrics.py)
 - **Templates**: [`scripts/templates/`](../scripts/templates/)
+- **Gestión de contexto multi-LLM**: [`ai_capabilities/orchestration/CONTEXT_MANAGEMENT_PLAYBOOK.md`](ai_capabilities/orchestration/CONTEXT_MANAGEMENT_PLAYBOOK.md) y módulo reutilizable [`scripts/coding/ai/shared/context_sessions.py`](../scripts/coding/ai/shared/context_sessions.py).
 
 #### [PLANIFICADO] Planificados (ver [`docs/scripts/README.md`](scripts/README.md))
 - `scripts/sdlc_agent.py` - CLI SDLC

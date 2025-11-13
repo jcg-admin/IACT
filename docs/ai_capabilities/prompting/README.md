@@ -22,6 +22,12 @@ Estas técnicas son **generales y transversales**, no específicas a un módulo 
 
 ---
 
+### Prompt Techniques Catalog (multi-LLM)
+
+Para una cobertura exhaustiva de técnicas aplicables a Claude, ChatGPT y Hugging Face, consulta el [PROMPT_TECHNIQUES_CATALOG.md](./PROMPT_TECHNIQUES_CATALOG.md). Este catálogo enlaza directamente con los agentes por proveedor y con los agentes de dominio descritos en `.agent/agents/`, asegurando que Backend (API), Frontend (UI), Infrastructure, Docs y Scripts trabajen con el mismo inventario de estrategias.
+
+---
+
 ## Implemented Techniques (38 Total)
 
 ### Core Techniques (32)
@@ -61,6 +67,10 @@ El compendio de patrones agenticos observados en producción—desde LLMs aument
 ### Codex MCP Multi-Agent Guide
 
 Para estandarizar la orquestación Codex MCP en todos los proveedores soportados, consulta [../orchestration/CODEX_MCP_MULTI_AGENT_GUIDE.md](../orchestration/CODEX_MCP_MULTI_AGENT_GUIDE.md). Describe cómo inicializar el servidor MCP, ensamblar flujos single-agent y multi-agent, habilitar trazas y enlazar el `CodexMCPWorkflowBuilder` con la gobernanza `.agent`.
+
+### Context Management Playbook
+
+El manejo de memoria en sesiones largas se detalla en [../orchestration/CONTEXT_MANAGEMENT_PLAYBOOK.md](../orchestration/CONTEXT_MANAGEMENT_PLAYBOOK.md). Explica cómo aplicar `TrimmingSession` y `SummarizingSession` en Claude, ChatGPT y Hugging Face reutilizando `scripts/coding/ai/shared/context_sessions.py`.
 
 ### Phi-3 Prompt Engineering Playbook
 

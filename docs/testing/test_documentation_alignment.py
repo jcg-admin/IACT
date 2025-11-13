@@ -217,3 +217,80 @@ def test_domain_agents_are_documented_and_linked():
         assert label in root_readme
         assert label in sdlc_guide
 
+
+def test_prompt_techniques_catalog_is_linked_across_agents():
+    catalog_path = REPO_ROOT / "docs" / "ai_capabilities" / "prompting" / "PROMPT_TECHNIQUES_CATALOG.md"
+    assert catalog_path.exists(), "Falta el catálogo de técnicas de prompting"
+
+    catalog_contents = _read(catalog_path)
+    assert "Catálogo Completo de Técnicas de Prompts" in catalog_contents
+
+    prompting_index = _read(REPO_ROOT / "docs" / "ai_capabilities" / "prompting" / "README.md")
+    assert "PROMPT_TECHNIQUES_CATALOG.md" in prompting_index
+
+    root_readme = _read(REPO_ROOT / "README.md")
+    assert "PROMPT_TECHNIQUES_CATALOG.md" in root_readme
+
+    agent_catalog = _read(REPO_ROOT / ".agent" / "agents" / "README.md")
+    assert "PROMPT_TECHNIQUES_CATALOG.md" in agent_catalog
+
+    provider_agents = [
+        "claude_agent.md",
+        "chatgpt_agent.md",
+        "huggingface_agent.md",
+    ]
+
+    domain_agents = [
+        "api_agent.md",
+        "ui_agent.md",
+        "infrastructure_agent.md",
+        "docs_agent.md",
+        "scripts_agent.md",
+    ]
+
+    agents_dir = REPO_ROOT / ".agent" / "agents"
+
+    for filename in provider_agents + domain_agents:
+        contents = _read(agents_dir / filename)
+        assert "PROMPT_TECHNIQUES_CATALOG.md" in contents
+
+    sdlc_guide = _read(REPO_ROOT / "docs" / "ai" / "SDLC_AGENTS_GUIDE.md")
+    assert "PROMPT_TECHNIQUES_CATALOG.md" in sdlc_guide
+
+
+def test_context_management_playbook_is_linked_across_guides():
+    playbook_path = REPO_ROOT / "docs" / "ai_capabilities" / "orchestration" / "CONTEXT_MANAGEMENT_PLAYBOOK.md"
+    assert playbook_path.exists(), "Debe existir el playbook de gestión de contexto"
+
+    playbook_contents = _read(playbook_path)
+    assert "Context Management Playbook" in playbook_contents
+    assert "TrimmingSession" in playbook_contents
+    assert "SummarizingSession" in playbook_contents
+
+    context_module = REPO_ROOT / "scripts" / "coding" / "ai" / "shared" / "context_sessions.py"
+    assert context_module.exists(), "Falta el módulo reutilizable de sesiones de contexto"
+
+    readme_root = _read(REPO_ROOT / "README.md")
+    assert "CONTEXT_MANAGEMENT_PLAYBOOK" in readme_root
+
+    docs_index = _read(REPO_ROOT / "docs" / "index.md")
+    assert "CONTEXT_MANAGEMENT_PLAYBOOK" in docs_index
+
+    prompting_index = _read(REPO_ROOT / "docs" / "ai_capabilities" / "prompting" / "README.md")
+    assert "Context Management Playbook" in prompting_index
+
+    agent_catalog = _read(REPO_ROOT / ".agent" / "agents" / "README.md")
+    assert "CONTEXT_MANAGEMENT_PLAYBOOK" in agent_catalog
+
+    agents_dir = REPO_ROOT / ".agent" / "agents"
+    provider_agents = ["claude_agent.md", "chatgpt_agent.md", "huggingface_agent.md"]
+    domain_agents = ["api_agent.md", "ui_agent.md", "infrastructure_agent.md", "docs_agent.md", "scripts_agent.md"]
+
+    for filename in provider_agents + domain_agents:
+        contents = _read(agents_dir / filename)
+        assert "CONTEXT_MANAGEMENT_PLAYBOOK" in contents
+        assert "context_sessions.py" in contents
+
+    sdlc_guide = _read(REPO_ROOT / "docs" / "ai" / "SDLC_AGENTS_GUIDE.md")
+    assert "CONTEXT_MANAGEMENT_PLAYBOOK" in sdlc_guide
+    assert "context_sessions.py" in sdlc_guide

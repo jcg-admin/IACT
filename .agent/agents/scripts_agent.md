@@ -7,6 +7,8 @@ Orquestar cambios en `scripts/` garantizando que las automatizaciones, generador
 ## Integraciones Clave
 
 - **ExecPlans**: `docs/plans/EXECPLAN_agents_domain_alignment.md`, `docs/plans/EXECPLAN_codex_mcp_multi_llm.md`.
+- **Catálogo de prompts**: `docs/ai_capabilities/prompting/PROMPT_TECHNIQUES_CATALOG.md` para seleccionar estrategias multi-LLM antes de automatizar generadores o validadores.
+- **Memoria de contexto**: `docs/ai_capabilities/orchestration/CONTEXT_MANAGEMENT_PLAYBOOK.md` y `scripts/coding/ai/shared/context_sessions.py` habilitan sesiones compartidas en herramientas que atienden hilos extensos.
 - **Código**: `scripts/coding/ai/` (generators, orchestrators, shared utilities) y `scripts/tests/`.
 - **Pruebas**: `pytest scripts/coding/tests/...` y `pytest scripts/tests/...`.
 - **Documentación**: `docs/scripts/README.md`, `docs/scripts/SCRIPTS_MATRIX.md` y `docs/operaciones/verificar_servicios.md`.

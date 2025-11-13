@@ -87,6 +87,11 @@ DB_IVR_PASSWORD=django_pass
 > documentado en [`docs/ai/FINE_TUNING_TINYLLAMA.md`](docs/ai/FINE_TUNING_TINYLLAMA.md), y
 > revisa el playbook de prompting con Phi-3 en
 > [`docs/ai_capabilities/prompting/PHI3_PROMPT_ENGINEERING_PLAYBOOK.md`](docs/ai_capabilities/prompting/PHI3_PROMPT_ENGINEERING_PLAYBOOK.md).
+> Para técnicas de prompting transversales a todos los proveedores revisa el catálogo
+> multi-LLM en [`docs/ai_capabilities/prompting/PROMPT_TECHNIQUES_CATALOG.md`](docs/ai_capabilities/prompting/PROMPT_TECHNIQUES_CATALOG.md).
+> Para memoria de contexto y manejo de sesiones largas (trimming/summarization), consulta
+> [`docs/ai_capabilities/orchestration/CONTEXT_MANAGEMENT_PLAYBOOK.md`](docs/ai_capabilities/orchestration/CONTEXT_MANAGEMENT_PLAYBOOK.md)
+> y reutiliza las clases disponibles en [`scripts/coding/ai/shared/context_sessions.py`](scripts/coding/ai/shared/context_sessions.py).
 
 ### 2. Ejecutar migraciones
 
