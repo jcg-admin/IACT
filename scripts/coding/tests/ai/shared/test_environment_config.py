@@ -6,9 +6,33 @@ Estos tests SI se ejecutan y validan que el sistema funciona correctamente.
 """
 
 import os
+import sys
+from pathlib import Path
+from types import ModuleType
+import importlib.machinery
+
 import pytest
 from unittest.mock import patch, MagicMock
+
+PROJECT_ROOT = Path(__file__).parent.parent.parent.parent.parent.parent
+SCRIPTS_ROOT = PROJECT_ROOT / "scripts"
+CODING_ROOT = SCRIPTS_ROOT / "coding"
+
+sys.path.insert(0, str(PROJECT_ROOT))
+sys.path.insert(0, str(CODING_ROOT))
+
+scripts_pkg = ModuleType("scripts")
+scripts_pkg.__package__ = "scripts"
+scripts_pkg.__path__ = [str(SCRIPTS_ROOT), str(CODING_ROOT)]
+scripts_pkg.__spec__ = importlib.machinery.ModuleSpec(
+    name="scripts",
+    loader=None,
+    is_package=True
+)
+sys.modules["scripts"] = scripts_pkg
+
 from scripts.ai.shared.environment_config import EnvironmentConfig, get_environment_config
+from scripts.ai.shared.env_loader import get_llm_config_from_env
 import scripts.ai.shared.environment_config as env_module
 
 
@@ -218,6 +242,47 @@ class TestCacheConfig:
 
             assert cache_config["backend"] == "redis"
             assert "password" in cache_config
+
+
+class TestEnvLoaderHuggingFace:
+    """Tests de auto detección de Hugging Face en env_loader."""
+
+    def test_auto_detects_huggingface_provider(self):
+        """Debe detectar Hugging Face cuando hay modelo local configurado."""
+        with patch("scripts.ai.shared.env_loader.load_env_file", MagicMock()):
+            with patch.dict(os.environ, {
+                "PREFER_LLM_PROVIDER": "auto",
+                "HF_LOCAL_MODEL_PATH": "/models/tiny-llama"
+            }, clear=True):
+                config = get_llm_config_from_env()
+
+        assert config is not None
+        assert config["llm_provider"] == "huggingface"
+        assert config["model"] == "/models/tiny-llama"
+
+    def test_prefer_huggingface_uses_model_id(self):
+        """Debe respetar el modelo indicado vía HF_MODEL_ID."""
+        with patch("scripts.ai.shared.env_loader.load_env_file", MagicMock()):
+            with patch.dict(os.environ, {
+                "PREFER_LLM_PROVIDER": "huggingface",
+                "HF_MODEL_ID": "TinyLlama/TinyLlama-1.1B-Chat-v1.0"
+            }, clear=True):
+                config = get_llm_config_from_env()
+
+        assert config is not None
+        assert config["llm_provider"] == "huggingface"
+        assert config["model"] == "TinyLlama/TinyLlama-1.1B-Chat-v1.0"
+        assert config["hf_model_id"] == "TinyLlama/TinyLlama-1.1B-Chat-v1.0"
+
+    def test_prefer_huggingface_without_model_returns_none(self):
+        """Debe regresar None si no hay información del modelo."""
+        with patch("scripts.ai.shared.env_loader.load_env_file", MagicMock()):
+            with patch.dict(os.environ, {
+                "PREFER_LLM_PROVIDER": "huggingface"
+            }, clear=True):
+                config = get_llm_config_from_env()
+
+        assert config is None
 
     def test_cache_can_be_disabled(self):
         """Cache puede deshabilitarse."""
