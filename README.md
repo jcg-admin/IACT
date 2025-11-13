@@ -119,6 +119,25 @@ pytest
 ./scripts/validate_critical_restrictions.sh
 ```
 
+### Workspace VPN/Proxy Agent (nuevo)
+
+El directorio [`infrastructure/workspace/`](infrastructure/workspace/README.md)
+contiene el agente VPN/Proxy y los playbooks MCP actualizados. Para instalar y
+validar esta área:
+
+```bash
+cd infrastructure/workspace
+./setup.sh                 # instala dependencias Node + Python
+cp .env.example .env       # configura variables MCP/LLM
+npm test                   # ejecuta pruebas (Pytest + node --test)
+```
+
+Scripts disponibles (`package.json`):
+
+- `npm run vpn:setup-dev`, `npm run vpn:health`, `npm run vpn:stop`
+- `npm run mcp:list`, `npm run mcp:validate`, `npm run mcp:run`
+- `npm run lint`, `npm run typecheck`, `npm run hamilton:test`
+
 [PLANIFICADO] **Planificado**: Suite completa con cobertura DORA metrics
 
 ### 5. Desarrollo local

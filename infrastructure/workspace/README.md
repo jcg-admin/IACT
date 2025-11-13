@@ -1,169 +1,126 @@
-# Workspace Infrastructure Modules
+# MCP Workflows Infrastructure Workspace
 
-This package documents the helper modules located in `infrastructure/workspace/`.
-They support local automation experiments (Hamilton-inspired pipelines, Codex MCP
-playbooks and language server tooling) and ship intentionally without a dedicated
-`requirements.txt`. The modules either re-implement small portions of external
-packages for educational purposes or model optional integrations that require the
-consumer to decide whether to install the third-party dependency.
+This workspace bundles the automation artefacts that power the VPN/Proxy agent,
+Hamilton DAGs, and Codex MCP playbooks. It now ships with explicit Python and
+Node.js dependencies so that the same tooling used in CI is available to local
+contributors.
 
-## Execution quickstart
+## Quick start
 
-1. **Activate the project virtual environment** (see repository root `README.md`).
-2. **Run the module tests** to validate the self-contained helpers:
+1. **Install dependencies**
    ```bash
-   pytest infrastructure/workspace/tests
+   cd infrastructure/workspace
+   ./setup.sh
    ```
-3. **Walk the Hamilton dataflow end to end**:
+   The script verifies Node.js ≥ 18 and Python ≥ 3.10, creates `.venv/`, installs
+   `requirements.txt`, and attempts to run `npm install` (the command emits a
+   warning if the registry is unreachable in offline environments).
+
+2. **Configure environment variables**
    ```bash
-   pytest infrastructure/workspace/tests/hamilton_llm/test_driver.py \
-       --maxfail=1 -k hamilton_builder_executes_llm_business_flow -vv
+   cp .env.example .env
+   # edit .env with your MCP, OpenAI or Claude credentials
    ```
-   Pytest executes the declarative pipeline and prints the captured plan to the
-   console. The Hamilton shim in `hamilton_llm/` mirrors the public API of the
-   real `hamilton` package without requiring external installs. Step-by-step
-   output demonstrates the execution order, configuration overrides and adapter
-   chaining you would observe inside the official Hamilton UI.
-4. **Review Codex MCP playbooks** in `codex_mcp/playbooks.py`. They describe the
-   declarative configuration passed to the Codex CLI (`npx codex mcp`). Optional
-   dependencies (`openai-agents`, `openai`) are listed inside the module under
-   `ENVIRONMENT_SETUP` instead of a requirements file because installing them is
-   only necessary when exercising the Codex workflow.
-5. **Language server tooling** (`dev_tools/language_server/`) exposes utilities
-   used by the internal development environment. They rely solely on the Python
-   standard library and therefore do not require extra dependencies.
 
-> **Why you do not see a browser UI**
->
-> The Hamilton demo is purposely console-first to keep the repository
-> dependency-light. When you run the test target above pytest prints the
-> executed nodes and their order. Connecting the same modules to a browser UI is
-> possible (for example by embedding the driver inside a FastAPI app), but the
-> repository keeps that integration out of scope to avoid shipping additional
-> JavaScript tooling or backend frameworks.
+3. **Run the full test suite**
+   ```bash
+   npm test
+   ```
+   This command invokes the Python tests under `infrastructure/workspace/tests`
+   and the Node test runner (`node --test`). All modules are exercised via unit
+   tests; the Hamilton driver, tunnel manager, and MCP server components are
+   validated without hitting external services thanks to dependency injection.
 
-### Visualising the pipeline on the command line
+4. **Inspect available scripts**
+   ```bash
+   npm run lint       # ruff + black + eslint
+   npm run format    # opinionated formatting for Python/TypeScript
+   npm run mcp:list  # list Codex MCP playbooks via codex-mcp
+   npm run vpn:health
+   ```
 
-Run the snippet below to print the resolved nodes and the resulting business
-package exactly as the tests assert:
+## Directory map
+
+```
+infrastructure/workspace/
+├── package.json               # Node scripts for testing, linting and MCP helpers
+├── requirements.txt           # Python dependencies for vpn_proxy_agent & tests
+├── .env.example               # Required environment variables
+├── setup.sh                   # Bootstrap script (Node + Python)
+├── codex_mcp/                 # Playbooks + vpn_proxy playbook registry
+├── hamilton_llm/              # Hamilton driver shim & dual-provider LLM client
+├── vpn_proxy_agent/           # Tunnel manager, diagnostics, MCP server & tools
+├── tests/                     # Pytest suite covering all modules
+└── dev_tools/                 # Language server helpers (unchanged)
+```
+
+### vpn_proxy_agent package
+
+The new package orchestrates SSH tunnels, system diagnostics, connectivity
+checks and MCP tool wiring. Key modules:
+
+- `tunnel.manager.TunnelManager` – wraps an asynchronous SSH client and stores
+  tunnel state on disk via `state.manager.StateManager`.
+- `ssh.keys.generate_keypair` – utility for provisioning SSH keys (Paramiko).
+- `system.services.SystemDiagnostics` – exposes CPU/memory/disk/network metrics
+  with psutil.
+- `network.connectivity.test_endpoints` – asynchronous HTTPX checks routed
+  through a SOCKS proxy.
+- `mcp_tools.VPNProxyTools` – high level façade consumed by the MCP server.
+- `mcp_server.py` – lightweight MCP stdio server exposing Codex tools.
+
+### Hamilton integration
+
+`hamilton_llm/driver.py` now exports `execute_vpn_workflow`, an async helper that
+composes the Hamilton dataflow with VPN diagnostics, tunnel status, and LLM
+responses. The LLM factory in `hamilton_llm/llm_client.py` selects OpenAI or
+Claude based on the environment (`LLM_PROVIDER`, `OPENAI_API_KEY`,
+`ANTHROPIC_API_KEY`).
+
+### Codex MCP playbooks
+
+`codex_mcp/vpn_proxy_playbooks.py` registers `setup-dev-environment`,
+`health-check`, and `stop-tunnel` playbooks. The Node scripts (`npm run
+vpn:setup-dev`, etc.) wrap these playbooks via `codex-mcp`.
+
+## Running commands individually
 
 ```bash
-python - <<'PY'
-from infrastructure.workspace.hamilton_llm import dataflow, driver
-from infrastructure.workspace.hamilton_llm.llm_client import MockLLMClient
+# Python tests only
+pytest infrastructure/workspace/tests -v --cov=infrastructure.workspace.vpn_proxy_agent
 
-mock = MockLLMClient(
-    price_per_1k_tokens=0.4,
-    response_catalog={dataflow.DATAFLOW_LABEL: "Use Hamilton declarative functions to guard prompts."},
-)
+# Node tests only
+npm run test:node
 
-pipeline = (
-    driver.Builder()
-    .with_modules(dataflow)
-    .with_config({"pricing_policy": {"price_per_1k_tokens": 0.4, "safety_multiplier": 1.15}})
-    .build()
-)
+# Type checking (Python)
+npm run typecheck
 
-result = pipeline.execute(
-    ["business_value", "cost_estimate"],
-    {
-        "idea": "AI copilots for compliance analysts",
-        "domain_data": {
-            "data": "archived compliance tickets",
-            "ui": "browser extension",
-            "business_process": "regulatory audit",
-        },
-        "edge_cases": [
-            "Input state space",
-            "Guard against prompt injection",
-            "Domain expertise",
-            "Evaluation",
-            "Cost/GPUs",
-        ],
-        "llm_client": mock,
-    },
-)
-
-print("Execution order:", pipeline.execution_log)
-print("Business payload:", result["business_value"]["llm_plan"])
-print("Estimated cost:", result["cost_estimate"])
-PY
+# Launch Hamilton driver smoke test
+npm run hamilton:test
 ```
 
-The script mirrors the pytest fixture and produces terminal output such as:
+## Environment variables
 
-```
-Execution order: ['pace_of_development', 'prompt_template', 'llm_prompt', 'llm_response', 'prompt_token_estimate', 'business_value', 'cost_estimate']
-Business payload: Use Hamilton declarative functions to guard prompts.
-Estimated cost: 0.0552
-```
+`infrastructure/workspace/.env.example` documents the expected variables:
 
-## Bootstrapping a clean virtual environment
+- `MCP_SERVER_URL`, `MCP_API_KEY`
+- `OPENAI_API_KEY`, `OPENAI_ORG_ID`
+- `LLM_PROVIDER` (`openai` or `claude`), `ANTHROPIC_API_KEY`
+- `TUNNEL_HOST`, `TUNNEL_PORT`, `SSH_USER`, `SSH_KEY_PATH`
+- `API_URLS` for connectivity probes
+- `STATE_DIR` for persisted tunnel state
 
-The modules in this directory run on standard library primitives, but the test
-suite and Codex integrations expect a handful of optional dependencies. When
-working inside a fresh virtual environment run the following commands:
+## Offline environments
 
-```bash
-python3.11 -m venv .venv
-source .venv/bin/activate
-pip install --upgrade pip setuptools wheel
-pip install pytest
-```
+If you are developing in an air-gapped environment, `npm install` may fail when
+accessing the public registry. The tests still pass because all network calls
+are mocked; re-run the command once registry access is restored to refresh
+`node_modules/` locally.
 
-Install the Codex/OpenAI extras only if you plan to exercise the MCP playbooks:
+## Additional resources
 
-```bash
-pip install openai-agents openai python-dotenv
-```
-
-Create a `.env` file at the project root and load it via `python-dotenv` to make
-the API keys available to the workflows:
-
-```bash
-OPENAI_API_KEY=sk-your-api-key
-```
-
-The Hamilton driver example and developer tooling modules continue to operate
-without additional packages beyond what ships with CPython.
-
-### Capturing a requirements snapshot (optional)
-
-When teams want to reproduce the exact versions used during an experiment they
-can materialise a temporary `requirements.txt` from the active environment
-without committing it to source control:
-
-```bash
-pip install openai-agents openai python-dotenv  # only if Codex integrations are needed
-pip freeze --exclude-editable > infrastructure/workspace/requirements.txt
-```
-
-The generated file documents the state of your virtual environment at that
-moment (suitable for sharing in an issue or attaching to a pipeline artifact),
-while keeping the repository source clean. Delete the file afterwards if it is
-only needed for local troubleshooting:
-
-```bash
-rm infrastructure/workspace/requirements.txt
-```
-
-## Why there is no `requirements.txt`
-
-- **Hamilton example**: the code re-implements the essentials of the Apache
-  Hamilton driver so that unit tests run without external packages.
-- **Codex MCP integration**: the dependencies depend on the MCP client chosen
-  by the operator. The module documents the recommended packages and environment
-  variables but does not enforce their installation globally.
-- **Developer tools**: rely on the standard library. Pinning versions in a
-  separate requirements file would duplicate the repository-level dependency
-  management without bringing additional value.
-
-When using the Codex or OpenAI integrations, install the optional packages in
-your active environment:
-
-```bash
-pip install openai-agents openai python-dotenv
-```
-
-Create a `.env` file with the required keys (`OPENAI_API_KEY`, etc.) before
-running the workflows.
+- The Hamilton driver shim remains compatible with upstream Hamilton
+  documentation and can be visualised via `npm run hamilton:visualize` (requires
+  `hamilton-ui`).
+- The language server helpers in `dev_tools/` are untouched and continue to
+  service the existing development workflow.
