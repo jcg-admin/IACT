@@ -80,6 +80,9 @@ def get_llm_config_from_env() -> dict:
         elif os.getenv("OPENAI_API_KEY"):
             provider = "openai"
             model = "gpt-4o"
+        elif os.getenv("HF_LOCAL_MODEL_PATH") or os.getenv("HF_MODEL_ID"):
+            provider = "huggingface"
+            model = os.getenv("HF_LOCAL_MODEL_PATH") or os.getenv("HF_MODEL_ID")
         elif os.getenv("OLLAMA_BASE_URL"):
             provider = "ollama"
             model = "qwen2.5-coder:32b"
@@ -105,6 +108,13 @@ def get_llm_config_from_env() -> dict:
         provider = "ollama"
         model = os.getenv("OLLAMA_MODEL", "qwen2.5-coder:32b")
 
+    elif prefer_provider == "huggingface":
+        model = os.getenv("HF_LOCAL_MODEL_PATH") or os.getenv("HF_MODEL_ID")
+        if not model:
+            print("Warning: HF_LOCAL_MODEL_PATH/HF_MODEL_ID not found, heuristics fallback")
+            return None
+        provider = "huggingface"
+
     else:
         print(f"Warning: Unknown provider '{prefer_provider}', using heuristics")
         return None
@@ -119,6 +129,17 @@ def get_llm_config_from_env() -> dict:
     # Agregar URL de Ollama si es necesario
     if provider == "ollama":
         config["ollama_base_url"] = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
+
+    if provider == "huggingface":
+        if os.getenv("HF_MODEL_ID"):
+            config["hf_model_id"] = os.getenv("HF_MODEL_ID")
+        generate_kwargs = os.getenv("HF_GENERATE_KWARGS")
+        if generate_kwargs:
+            try:
+                import json
+                config["hf_generate_kwargs"] = json.loads(generate_kwargs)
+            except Exception:
+                print("Warning: No se pudo parsear HF_GENERATE_KWARGS, se ignora")
 
     return config
 

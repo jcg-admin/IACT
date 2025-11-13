@@ -22,6 +22,12 @@ Estas técnicas son **generales y transversales**, no específicas a un módulo 
 
 ---
 
+### Prompt Techniques Catalog (multi-LLM)
+
+Para una cobertura exhaustiva de técnicas aplicables a Claude, ChatGPT y Hugging Face, consulta el [PROMPT_TECHNIQUES_CATALOG.md](./PROMPT_TECHNIQUES_CATALOG.md). Este catálogo enlaza directamente con los agentes por proveedor y con los agentes de dominio descritos en `.agent/agents/`, asegurando que Backend (API), Frontend (UI), Infrastructure, Docs y Scripts trabajen con el mismo inventario de estrategias.
+
+---
+
 ## Implemented Techniques (38 Total)
 
 ### Core Techniques (32)
@@ -47,6 +53,28 @@ Ver documentación completa en: [SEARCH_OPTIMIZATION_TECHNIQUES.md](./SEARCH_OPT
 4. Divide-and-Conquer Search
 5. Branch-and-Bound Prompting
 6. **Hybrid Optimization** (Recomendado)
+
+---
+
+### Code Generation Guide
+
+Material complementario centrado en estrategias de generación de código (planificación, uso de herramientas y memoria) y en patrones de prompts paso a paso está disponible en [CODE_GENERATION_GUIDE.md](./CODE_GENERATION_GUIDE.md). Resume ejemplos prácticos y recordatorios de validación para mantener alineados a los agentes orientados a código.
+
+### Agentic System Patterns
+
+El compendio de patrones agenticos observados en producción—desde LLMs aumentados hasta orquestadores y evaluadores—se documenta en [AGENTIC_SYSTEM_PATTERNS.md](./AGENTIC_SYSTEM_PATTERNS.md). El material enfatiza cuándo escalar de flujos deterministas a agentes autónomos, qué compromisos evaluar (latencia, costo, confianza) y cómo diseñar la interfaz agente-computadora.
+
+### Codex MCP Multi-Agent Guide
+
+Para estandarizar la orquestación Codex MCP en todos los proveedores soportados, consulta [../orchestration/CODEX_MCP_MULTI_AGENT_GUIDE.md](../orchestration/CODEX_MCP_MULTI_AGENT_GUIDE.md). Describe cómo inicializar el servidor MCP, ensamblar flujos single-agent y multi-agent, habilitar trazas y enlazar el `CodexMCPWorkflowBuilder` con la gobernanza `.agent`.
+
+### Context Management Playbook
+
+El manejo de memoria en sesiones largas se detalla en [../orchestration/CONTEXT_MANAGEMENT_PLAYBOOK.md](../orchestration/CONTEXT_MANAGEMENT_PLAYBOOK.md). Explica cómo aplicar `TrimmingSession` y `SummarizingSession` en Claude, ChatGPT y Hugging Face reutilizando `scripts/coding/ai/shared/context_sessions.py`.
+
+### Phi-3 Prompt Engineering Playbook
+
+Para alinear el tercer proveedor soportado (Hugging Face) con prácticas de prompting reproducibles, consulta [PHI3_PROMPT_ENGINEERING_PLAYBOOK.md](./PHI3_PROMPT_ENGINEERING_PLAYBOOK.md). Resume la configuración del modelo `microsoft/Phi-3-mini-4k-instruct`, patrones como Chain-of-Thought/Tree-of-Thought y recomendaciones para interoperar con Claude y ChatGPT.
 
 ---
 
