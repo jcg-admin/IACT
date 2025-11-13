@@ -20,6 +20,7 @@ def _setup_repository(
     tmp_path: Path,
     *,
     include_agent_manifest: bool = True,
+    include_components_guidance: bool = True,
     link_revision_in_index: bool = True,
     create_legacy_revision: bool = False,
 ) -> Path:
@@ -32,7 +33,11 @@ def _setup_repository(
     _write(revision, "# Revisión consolidada 2025-11-12\n")
 
     if include_agent_manifest:
-        _write(analysis / "AGENTS.md", "# ETA-AGENTE CODEX\n")
+        if include_components_guidance:
+            manifest_content = """# ETA-AGENTE CODEX\n\n## Componentes fundamentales del agente\n- Planificación\n- Uso de herramientas\n- Sistemas de memoria\n"""
+        else:
+            manifest_content = "# ETA-AGENTE CODEX\n"
+        _write(analysis / "AGENTS.md", manifest_content)
 
     if link_revision_in_index:
         index_content = (
@@ -104,3 +109,15 @@ class TestETACodexAgent:
 
         assert report.passed is False
         assert any(issue.code == "index_missing_revision_link" for issue in report.issues)
+
+    def test_detects_manifest_missing_agent_components_guidance(self, tmp_path):
+        """El manifiesto debe explicar planificación, herramientas y memoria del agente."""
+        repo = _setup_repository(tmp_path, include_components_guidance=False)
+
+        from scripts.coding.ai.agents.documentation.eta_codex_agent import ETACodexAgent
+
+        agent = ETACodexAgent(repo_root=repo)
+        report = agent.validate()
+
+        assert report.passed is False
+        assert any(issue.code == "agent_manifest_missing_components" for issue in report.issues)

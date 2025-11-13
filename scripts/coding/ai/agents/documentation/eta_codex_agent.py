@@ -91,6 +91,34 @@ class ETACodexAgent:
                     recommendation="Actualizar `docs/analisis/AGENTS.md` para incluir el identificador oficial.",
                 )
             ]
+        required_snippets = {
+            "agent_manifest_missing_components": [
+                "Componentes fundamentales del agente",
+                "Planificación",
+                "Uso de herramientas",
+                "Sistemas de memoria",
+            ]
+        }
+
+        issues: List[ValidationIssue] = []
+        for code, snippets in required_snippets.items():
+            if not all(snippet in contents for snippet in snippets):
+                issues.append(
+                    ValidationIssue(
+                        code=code,
+                        message=(
+                            "El manifiesto de agentes no describe planificación, herramientas y sistemas de memoria "
+                            "como componentes esenciales."
+                        ),
+                        recommendation=(
+                            "Actualizar `docs/analisis/AGENTS.md` para documentar explícitamente los componentes de "
+                            "planificación, uso de herramientas y gestión de memoria del agente."
+                        ),
+                    )
+                )
+
+        if issues:
+            return issues
         return []
 
     def _validate_index_links(self, revision_files: Iterable[Path]) -> Iterable[ValidationIssue]:

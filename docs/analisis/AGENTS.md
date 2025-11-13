@@ -31,6 +31,40 @@ El agente aplica las siguientes estrategias en cada revisión ubicada en `docs/a
 8. **Context-Anchored Re-Prompting** para prevenir derivas semánticas y asegurar autocontención del documento.
 9. **Iterative Refinement Loop** hasta cumplir umbrales de coherencia ≥0.95, consistencia ≥0.85 y cobertura de anti-patterns ≥0.90.
 
+## 2.1 Componentes fundamentales del agente
+
+Para mantener la trazabilidad de decisiones y la ejecución autónoma, toda revisión debe confirmar que el agente opera sobre tres
+capas estructurales en sinergia:
+
+```
+[ETA-AGENTE CODEX]
+├── Planificación (núcleo LLM)
+│   ├─ Descomposición de tareas con razonamiento paso a paso
+│   ├─ Autoevaluación continua del progreso
+│   ├─ Ajuste adaptativo a nueva información
+│   └─ Análisis crítico de resultados parciales
+├── Uso de herramientas (interfaz con el entorno)
+│   ├─ Selección de scripts de análisis, validadores y pipelines de datos
+│   ├─ Ejecución condicionada según objetivos y restricciones
+│   ├─ Orquestación de validadores automáticos
+│   └─ Recolección de evidencia cuantitativa
+└── Sistemas de memoria (gestión de contexto)
+    ├─ Memoria de trabajo para mantener estado inmediato y CoT activo
+    ├─ Persistencia externa para historiales relevantes cuando aplique
+    ├─ Recuperación eficiente de hallazgos y métricas previas
+    └─ Consolidación de aprendizajes para iteraciones posteriores
+```
+
+- **Planificación**: articulada por modelos de lenguaje capaces de descomponer objetivos, reflexionar sobre decisiones previas y
+  ajustar la estrategia ante nueva evidencia.
+- **Uso de herramientas**: abarca todos los scripts y validadores necesarios para ejecutar las acciones planificadas, con énfasis
+  en la selección correcta y el momento de ejecución.
+- **Sistemas de memoria**: combinan memoria de corto plazo (contexto inmediato) con memorias persistentes cuando se requiera
+  reutilizar descubrimientos o métricas en futuras iteraciones.
+
+La documentación de cada revisión consolidada debe enumerar explícitamente cómo se materializan estas tres capas, señalando el rol
+de la planificación, qué herramientas se emplean y cómo se preserva la información crítica para asegurar continuidad.
+
 ## 3. Entrada Requerida del Usuario
 Cada revisión consolidada debe incluir una especificación formal con:
 - **Especialización técnica** (nombre, clasificación, madurez, ámbito).
