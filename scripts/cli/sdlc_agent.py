@@ -40,6 +40,59 @@ def setup_logging(verbose: bool = False) -> None:
     )
 
 
+def _detect_docs_structure() -> str:
+    """
+    Auto-detecta la estructura de directorios de documentación del proyecto.
+
+    Técnica de Prompt Engineering: Pattern Recognition
+    - Examina estructuras existentes (backend, frontend, infrastructure)
+    - Identifica patrón común de subdirectorios
+    - Infiere estructura para nuevos componentes (agents)
+
+    Returns:
+        Directorio base para documentación de agentes
+    """
+    project_root = Path.cwd()
+    docs_dir = project_root / "docs"
+
+    # Pattern Recognition: Detectar componentes existentes con estructura SDLC
+    existing_components = ["backend", "frontend", "infrastructure", "api"]
+    detected_pattern = None
+
+    for component in existing_components:
+        component_dir = docs_dir / component
+        if component_dir.exists():
+            # Verificar subdirectorios típicos de SDLC
+            expected_subdirs = [
+                "arquitectura",
+                "diseno_detallado",
+                "planificacion_y_releases",
+                "requisitos"
+            ]
+
+            has_pattern = all(
+                (component_dir / subdir).exists()
+                for subdir in expected_subdirs[:2]  # Al menos arquitectura y diseno_detallado
+            )
+
+            if has_pattern:
+                detected_pattern = {
+                    "base": "docs",
+                    "component_level": True,
+                    "subdirs": expected_subdirs
+                }
+                break
+
+    # Si se detectó el patrón, aplicarlo a "agent"
+    if detected_pattern:
+        # Patrón: docs/{component}/{fase}/
+        # Para agents: docs/agent/
+        return "docs/agent"
+    else:
+        # Fallback: estructura legacy
+        return "docs/sdlc_outputs"
+
+
 def load_config(config_path: Optional[Path] = None) -> Dict[str, Any]:
     """
     Carga configuración de agentes SDLC.
@@ -55,9 +108,12 @@ def load_config(config_path: Optional[Path] = None) -> Dict[str, Any]:
             return json.load(f)
 
     # Configuración por defecto
+    # Auto-detect output directory structure pattern from project
+    output_dir = _detect_docs_structure()
+
     return {
         "project_root": str(Path.cwd()),
-        "output_dir": "docs/sdlc_outputs",
+        "output_dir": output_dir,
         "llm_provider": "anthropic",
         "model": "claude-sonnet-4-5-20250929"
     }

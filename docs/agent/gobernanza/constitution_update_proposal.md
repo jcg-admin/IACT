@@ -236,6 +236,100 @@ Paso 3: Diseñar preprocessing
 - **Razonamiento minoritario**: Válido para evitar tech debt, pero riesgo mayor
 ```
 
+#### 9.5 Pattern Recognition (Reconocimiento de Patrones)
+
+Los agentes DEBEN usar Pattern Recognition para detectar y replicar estructuras consistentes del proyecto:
+
+**Proceso** (implementado en `scripts/cli/sdlc_agent.py:_detect_docs_structure()`):
+1. **Analizar estructuras existentes**: Examinar componentes similares (backend, frontend, api)
+2. **Identificar patrón común**: Detectar subdirectorios y convenciones de nombres
+3. **Inferir estructura para nuevos componentes**: Aplicar patrón detectado automáticamente
+4. **Validar consistencia**: Verificar que nuevo componente siga el patrón
+
+**Cuándo aplicar**:
+- Creación de nuevos módulos/componentes
+- Generación de documentación SDLC
+- Organización de estructura de archivos
+- Naming conventions
+
+**Ejemplo de aplicación: Detección de estructura de docs**
+```python
+def _detect_docs_structure() -> str:
+    """
+    Auto-detecta la estructura de directorios de documentación del proyecto.
+
+    Técnica: Pattern Recognition
+    - Examina estructuras existentes (backend, frontend, infrastructure)
+    - Identifica patrón común de subdirectorios
+    - Infiere estructura para nuevos componentes (agents)
+    """
+    project_root = Path.cwd()
+    docs_dir = project_root / "docs"
+
+    # Pattern Recognition: Detectar componentes existentes con estructura SDLC
+    existing_components = ["backend", "frontend", "infrastructure", "api"]
+
+    for component in existing_components:
+        component_dir = docs_dir / component
+        if component_dir.exists():
+            # Verificar subdirectorios típicos de SDLC
+            expected_subdirs = [
+                "arquitectura",
+                "diseno_detallado",
+                "planificacion_y_releases",
+                "requisitos"
+            ]
+
+            has_pattern = all(
+                (component_dir / subdir).exists()
+                for subdir in expected_subdirs[:2]
+            )
+
+            if has_pattern:
+                # Patrón detectado: docs/{component}/{fase}/
+                # Aplicar a nuevo componente: docs/agent/
+                return "docs/agent"
+
+    # Fallback si no se detecta patrón
+    return "docs/sdlc_outputs"  # Legacy
+```
+
+**Resultado**:
+- **Antes**: Hardcoded `"docs/sdlc_outputs"` (inconsistente con resto del proyecto)
+- **Después**: Auto-detectado `"docs/agent"` (consistente con backend/, frontend/, infrastructure/)
+
+**Estructura detectada**:
+```
+docs/
+├── backend/
+│   ├── arquitectura/        # HLD + ADRs
+│   ├── diseno_detallado/    # LLD
+│   ├── planificacion_y_releases/  # Issues/Planning
+│   └── requisitos/          # Requirements/Feasibility
+├── frontend/
+│   ├── arquitectura/
+│   ├── diseno_detallado/
+│   └── ...
+└── agent/  ← NUEVO (aplica patrón detectado)
+    ├── arquitectura/
+    ├── diseno_detallado/
+    ├── planificacion_y_releases/
+    ├── requisitos/
+    └── gobernanza/
+```
+
+**Artefactos requeridos**:
+- Documentar patrón detectado en comentarios del código
+- Incluir técnica aplicada en docstrings
+- Fallback a estructura legacy si patrón no detectado
+- Log de decisión (qué patrón se usó y por qué)
+
+**Beneficios**:
+- **Consistencia automática**: Nuevos componentes siguen convenciones existentes
+- **Reducción de errores**: No depende de memoria humana o hardcoding
+- **Adaptabilidad**: Si proyecto cambia estructura, agente la detecta
+- **Documentación implícita**: Código autodocumenta decisiones de estructura
+
 ---
 
 ## Impacto de Implementar Este Principio
