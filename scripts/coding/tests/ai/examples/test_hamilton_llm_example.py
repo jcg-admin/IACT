@@ -2,9 +2,10 @@
 
 import pytest
 
-from scripts.coding.ai.examples.hamilton_llm import dataflow
-from scripts.coding.ai.examples.hamilton_llm.driver import HamiltonDriver, MissingDependencyError
-from scripts.coding.ai.examples.hamilton_llm.llm_client import MockLLMClient
+from infrastructure.workspace.hamilton_llm import dataflow
+from infrastructure.workspace.hamilton_llm import driver as mini_driver
+from infrastructure.workspace.hamilton_llm.driver import MissingDependencyError
+from infrastructure.workspace.hamilton_llm.llm_client import MockLLMClient
 
 
 def test_pace_of_development_metadata_matches_expected_sequence():
@@ -29,9 +30,15 @@ def test_pace_of_development_metadata_matches_expected_sequence():
     ]
 
 
-def test_hamilton_driver_executes_llm_business_flow(monkeypatch):
+def test_hamilton_builder_executes_llm_business_flow():
     """End-to-end execution should transform data into a business value package and cost estimate."""
-    driver = HamiltonDriver(modules=[dataflow])
+    driver = (
+        mini_driver.Builder()
+        .with_modules(dataflow)
+        .with_config({"pricing_policy": {"price_per_1k_tokens": 0.4, "safety_multiplier": 1.15}})
+        .with_adapters(mini_driver.DictResult())
+        .build()
+    )
     mock_client = MockLLMClient(
         price_per_1k_tokens=0.4,
         response_catalog={
@@ -53,7 +60,6 @@ def test_hamilton_driver_executes_llm_business_flow(monkeypatch):
             "Evaluation",
             "Cost/GPUs",
         ],
-        "pricing_policy": {"price_per_1k_tokens": 0.4, "safety_multiplier": 1.15},
         "llm_client": mock_client,
     }
 
@@ -70,7 +76,7 @@ def test_hamilton_driver_executes_llm_business_flow(monkeypatch):
 
 
 def test_driver_reports_missing_inputs():
-    driver = HamiltonDriver(modules=[dataflow])
+    driver = mini_driver.Builder().with_modules(dataflow).build()
     mock_client = MockLLMClient(price_per_1k_tokens=0.5, response_catalog={})
 
     with pytest.raises(MissingDependencyError) as exc:
@@ -85,3 +91,25 @@ def test_driver_reports_missing_inputs():
         )
 
     assert "pricing_policy" in str(exc.value)
+
+
+def test_builder_requires_modules_before_building():
+    with pytest.raises(ValueError) as exc:
+        mini_driver.Builder().build()
+
+    assert "modules" in str(exc.value).lower()
+
+
+def test_custom_adapter_transforms_execution_result():
+    class KeysAdapter:
+        def __call__(self, results):
+            return tuple(sorted(results))
+
+    driver = (
+        mini_driver.Builder()
+        .with_modules(dataflow)
+        .with_adapters(KeysAdapter())
+        .build()
+    )
+
+    assert driver.execute(["pace_of_development"], {}) == ("pace_of_development",)
