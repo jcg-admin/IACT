@@ -11,10 +11,7 @@ Garantizar que los cambios en `docs/` sigan la gobernanza del ETA-AGENTE CODEX y
 - **Pruebas**: `docs/testing/test_documentation_alignment.py` asegura consistencia de enlaces y ubicación.
 - **Playbooks**: `docs/ai_capabilities/prompting/PROMPT_TECHNIQUES_CATALOG.md`, `docs/ai_capabilities/orchestration/CODEX_MCP_MULTI_AGENT_GUIDE.md`, `docs/ai_capabilities/orchestration/CONTEXT_MANAGEMENT_PLAYBOOK.md`, `docs/ai_capabilities/prompting/CODE_GENERATION_GUIDE.md`.
 - **Sesiones de contexto**: `scripts/coding/ai/shared/context_sessions.py` para mantener resúmenes consistentes en revisiones prolongadas.
-- **Referencia normativa**:
-  - `docs/analisis/META_AGENTE_CODEX_PARTE_1.md` (Parte 1 de 3) establece los supuestos y restricciones del meta-agente que gobierna todas las redacciones CODEX.
-  - `docs/analisis/META_AGENTE_CODEX_PARTE_2.md` (Parte 2 de 3) describe el pipeline detallado, los formatos de entrada y la estructura obligatoria del artefacto CODEX.
-  - `docs/analisis/META_AGENTE_CODEX_PARTE_3.md` (Parte 3 de 3) documenta instrucciones de uso, formatos de salida, limitaciones y visión de futuro que deben comunicarse en cada entrega.
+- **Referencia normativa**: `docs/analisis/META_AGENTE_CODEX_PARTE_1.md` (Parte 1 de 3) establece los supuestos y restricciones del meta-agente que gobierna todas las redacciones CODEX.
 
 ## Procedimiento Recomendado
 

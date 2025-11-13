@@ -23,8 +23,8 @@ Procedimientos operativos específicos del frontend que complementan los runbook
 - Configuración de entornos de desarrollo
 
 ### Integraciones operativas
-- Coordina despliegues con [`../../infrastructure/planificacion_y_releases/README.md`](../../infraestructura/planificacion_y_releases/README.md)
-- Requiere lineamientos de build publicados en [`../../infrastructure/devops/README.md`](../../infraestructura/devops/README.md)
+- Coordina despliegues con [`../../infrastructure/planificacion_y_releases/README.md`](../../infrastructure/planificacion_y_releases/README.md)
+- Requiere lineamientos de build publicados en [`../../infrastructure/devops/README.md`](../../infrastructure/devops/README.md)
 - Reporta métricas de performance a [`../qa/README.md`](../qa/README.md) para garantizar calidad
 
 ### Procesos clave

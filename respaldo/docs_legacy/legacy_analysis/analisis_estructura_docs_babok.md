@@ -708,7 +708,7 @@ mkdir -p docs/01_necesidades_negocio/{historial}
 # Crear estructura de nivel 2
 mkdir -p docs/02_requisitos/{requisitos_negocio,requisitos_stakeholders,requisitos_solucion,requisitos_transicion}
 mkdir -p docs/02_requisitos/requisitos_solucion/{funcionales,no_funcionales}
-mkdir -p docs/02_requisitos/por_dominio/{backend,frontend,infraestructura}
+mkdir -p docs/02_requisitos/por_dominio/{backend,frontend,infrastructure}
 
 # Crear estructura de nivel 3
 mkdir -p docs/03_tareas_analisis/{planificacion_y_monitoreo,elicitacion_colaboracion}
@@ -719,7 +719,7 @@ mkdir -p docs/03_tareas_analisis/{analisis_requisitos_diseno,evaluacion_solucion
 mkdir -p docs/04_diseno_solucion/{arquitectura_empresarial,arquitectura_sistemas,diseno_detallado}
 
 # Crear estructura de nivel 5
-mkdir -p docs/05_implementacion/{backend,frontend,infraestructura}
+mkdir -p docs/05_implementacion/{backend,frontend,infrastructure}
 
 # Crear estructura de nivel 6
 mkdir -p docs/06_validacion_evaluacion/{estrategia_qa,casos_prueba,resultados_pruebas,metricas_calidad,evaluacion_solucion}

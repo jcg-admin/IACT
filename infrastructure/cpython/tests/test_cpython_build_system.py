@@ -38,7 +38,7 @@ def _extract_function_body(script_text: str, function_name: str) -> str:
 
 # Paths del proyecto
 BASE_DIR = Path(__file__).parent.parent.parent.parent
-VAGRANT_DIR = BASE_DIR / "infraestructura" / "cpython"
+VAGRANT_DIR = BASE_DIR / "infrastructure" / "cpython"
 SCRIPTS_INFRA_DIR = VAGRANT_DIR / "scripts"
 ARTIFACTS_DIR = VAGRANT_DIR / "artifacts"
 
@@ -108,7 +108,7 @@ def test_artifacts_directory_structure():
     assert ARTIFACTS_DIR.exists(), f"Directorio de artefactos no existe: {ARTIFACTS_DIR}"
     assert ARTIFACTS_DIR.is_dir(), "Artifacts path no es directorio"
 
-    artifacts_md = BASE_DIR / "infraestructura" / "artifacts" / "ARTIFACTS.md"
+    artifacts_md = BASE_DIR / "infrastructure" / "artifacts" / "ARTIFACTS.md"
     assert artifacts_md.exists(), "ARTIFACTS.md no encontrado"
 
     content = artifacts_md.read_text()
@@ -222,7 +222,7 @@ def test_directory_structure_complete():
         VAGRANT_DIR,
         SCRIPTS_INFRA_DIR,
         ARTIFACTS_DIR,
-        BASE_DIR / "infraestructura" / "tests",
+        BASE_DIR / "infrastructure" / "tests",
     ]
 
     for dir_path in required_dirs:
@@ -248,7 +248,7 @@ def test_devcontainer_references_checksum_artifact():
     devcontainer_contents = (BASE_DIR / ".devcontainer" / "devcontainer.json").read_text()
 
     expected_local_checksum = (
-        f"infraestructura/cpython/artifacts/cpython-{python_version}-{distro_name}-build{build_number}.tgz.sha256"
+        f"infrastructure/cpython/artifacts/cpython-{python_version}-{distro_name}-build{build_number}.tgz.sha256"
     )
     assert (
         expected_local_checksum in devcontainer_contents
@@ -345,7 +345,7 @@ def test_feature_install_resolves_relative_artifact_path(tmp_path):
 
     script_path = VAGRANT_DIR / "scripts" / "install_prebuilt_cpython.sh"
 
-    artifact_relative = "infraestructura/cpython/artifacts/cpython-3.12.6-ubuntu20.04-build1.tgz"
+    artifact_relative = "infrastructure/cpython/artifacts/cpython-3.12.6-ubuntu20.04-build1.tgz"
     artifact_path = tmp_path / artifact_relative
     artifact_path.parent.mkdir(parents=True)
     artifact_path.write_text("placeholder artifact")

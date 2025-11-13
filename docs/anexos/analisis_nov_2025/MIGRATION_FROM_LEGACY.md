@@ -111,7 +111,7 @@ docs/
    # Buscar archivos de requisitos legacy
    find docs/backend/requisitos -name "*.md" ! -name "README.md"
    find docs/frontend/requisitos -name "*.md" ! -name "README.md"
-   find docs/infraestructura/requisitos -name "*.md" ! -name "README.md"
+   find docs/infrastructure/requisitos -name "*.md" ! -name "README.md"
    ```
 
 2. **Crea un inventario** en una hoja de cálculo:
@@ -228,7 +228,7 @@ Cuando toda la migración esté completa:
 mkdir -p docs/legacy_requirements_archive
 mv docs/backend/requisitos/*.md docs/legacy_requirements_archive/
 mv docs/frontend/requisitos/*.md docs/legacy_requirements_archive/
-mv docs/infraestructura/requisitos/*.md docs/legacy_requirements_archive/
+mv docs/infrastructure/requisitos/*.md docs/legacy_requirements_archive/
 ```
 
 ---

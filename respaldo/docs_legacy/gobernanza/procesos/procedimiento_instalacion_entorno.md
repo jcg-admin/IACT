@@ -1,7 +1,7 @@
 ---
 id: PROC-INSTALL
 tipo: procedimiento
-categoria: infraestructura
+categoria: infrastructure
 version: 1.0.0
 fecha_creacion: 2025-11-04
 propietario: equipo-devops

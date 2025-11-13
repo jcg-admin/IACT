@@ -385,7 +385,7 @@ vim implementacion/backend/requisitos/funcionales/rf001_api_calcular_stock.md
 
 ### FASE 1: Crear Estructura (Semana 2)
 ```bash
-mkdir -p implementacion/{backend,frontend,infraestructura}/requisitos/{necesidades,negocio,stakeholders,funcionales,no_funcionales}
+mkdir -p implementacion/{backend,frontend,infrastructure}/requisitos/{necesidades,negocio,stakeholders,funcionales,no_funcionales}
 mkdir -p docs/requisitos
 ```
 

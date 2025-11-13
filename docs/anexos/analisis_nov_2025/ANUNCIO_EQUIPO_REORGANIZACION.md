@@ -104,7 +104,7 @@ Implementamos un agente IA que sincroniza código ↔ documentación automática
 
 **Comando**:
 ```bash
-python scripts/sync_documentation.py --domains api,ui,infraestructura
+python scripts/sync_documentation.py --domains api,ui,infrastructure
 ```
 
 **Características**:
@@ -209,7 +209,7 @@ Ayuda individual si tienes problemas o preguntas.
 python scripts/sync_documentation.py --dry-run --domains api
 
 # Sincronizar docs (real)
-python scripts/sync_documentation.py --domains api,ui,infraestructura
+python scripts/sync_documentation.py --domains api,ui,infrastructure
 ```
 
 ### Reportes

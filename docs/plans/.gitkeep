@@ -1,0 +1,15 @@
+# Directorio para planes de implementación
+
+Este directorio contiene planes detallados de implementación de features.
+
+Usar plantilla: `docs/plantillas/desarrollo/plantilla_plan.md`
+
+Para generar un plan desde una spec:
+```bash
+make generate_plan SPEC=docs/specs/nombre-feature.md
+```
+
+O manualmente:
+```bash
+cp docs/plantillas/desarrollo/plantilla_plan.md docs/plans/nombre-feature-plan.md
+```

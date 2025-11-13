@@ -4,7 +4,7 @@ import pathlib
 PROCEDURE_PATH = (
     pathlib.Path(__file__).resolve().parents[3]
     / "docs"
-    / "infraestructura"
+    / "infrastructure"
     / "cpython_precompilado"
     / "FASE-3-PROCEDIMIENTO.md"
 )
