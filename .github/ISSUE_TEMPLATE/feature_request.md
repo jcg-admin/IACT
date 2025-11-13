@@ -28,6 +28,7 @@ Antes de iniciar cualquier desarrollo:
 
 ## Coordinación con agentes
 
+Si necesitas apoyo autónomo, referencia el agente adecuado desde `.agent/agents/README.md`.
 
 ## Dependencias y riesgos
 

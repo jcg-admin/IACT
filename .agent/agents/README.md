@@ -134,6 +134,31 @@ Genera reporte priorizado por severidad.
 
 ---
 
+### 6. CodexMCPWorkflow Orchestrator
+
+**Archivo**: `codex_mcp_workflow.md`
+
+**Propósito**: Normalizar flujos Codex MCP single-agent y multi-agent en todos los proveedores LLM soportados.
+
+**Capacidades**:
+- Genera briefs declarativos vía `CodexMCPWorkflowBuilder` (`scripts/coding/ai/orchestrators/codex_mcp_workflow.py`).
+- Expone configuración del servidor MCP (`npx -y codex mcp`) y políticas de escritura (`approval-policy`, `sandbox`).
+- Documenta gating de artefactos (`design/design_spec.md`, `frontend/index.html`, etc.) y observabilidad con Traces.
+- Enlaza la guía completa [`docs/ai_capabilities/orchestration/CODEX_MCP_MULTI_AGENT_GUIDE.md`].
+
+**Cuándo usar**:
+- Ejecutar el ejemplo “Implement a fun new game!” o flujos similares en Claude, ChatGPT u orígenes Hugging Face.
+- Coordinar un flujo multi-agente con Project Manager + especialistas y validar artefactos antes de cada handoff.
+- Establecer la instrumentación de Traces y las variables de entorno antes de ejecuciones prolongadas.
+
+**Ejemplo**:
+```
+CodexMCPWorkflow Orchestrator: Genera brief multi-agente para "Bug Busters" usando proveedor Anthropic.
+Adjunta artefactos generados y traza resultante.
+```
+
+---
+
 ## Cómo Usar los Agentes
 
 ### Sintaxis General
