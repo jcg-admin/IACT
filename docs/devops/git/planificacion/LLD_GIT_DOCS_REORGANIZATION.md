@@ -20,7 +20,7 @@ domain: operaciones
 
 ### 1.1 README.md
 
-**Location**: `docs/operaciones/git/README.md`
+**Location**: `docs/devops/git/README.md`
 **Purpose**: Entry point, navigation hub, learning roadmap
 **Estimated Length**: 300-400 lines
 
@@ -152,7 +152,7 @@ status: active
 
 ### 1.2 nivel_1_basico/GIT_GITHUB_GUIA_INICIO.md
 
-**Location**: `docs/operaciones/git/nivel_1_basico/GIT_GITHUB_GUIA_INICIO.md`
+**Location**: `docs/devops/git/nivel_1_basico/GIT_GITHUB_GUIA_INICIO.md`
 **Purpose**: Teach fundamental Git commands and workflows
 **Estimated Length**: 400-500 lines
 **Source**: User-provided content + enhancements
@@ -242,7 +242,7 @@ Has completado este nivel cuando puedes:
 
 ### 1.3 nivel_2_intermedio/FLUJO_SYNC_DEVELOP_ANTES_MERGE.md
 
-**Location**: `docs/operaciones/git/nivel_2_intermedio/FLUJO_SYNC_DEVELOP_ANTES_MERGE.md`
+**Location**: `docs/devops/git/nivel_2_intermedio/FLUJO_SYNC_DEVELOP_ANTES_MERGE.md`
 **Purpose**: Teach sync workflow for long-running branches
 **Estimated Length**: 600+ lines (existing content)
 **Source**: Existing file at `docs/operaciones/FLUJO_SYNC_DEVELOP_ANTES_MERGE.md`
@@ -327,7 +327,7 @@ Has completado este nivel cuando puedes:
 
 ### 1.4 nivel_3_avanzado/MERGE_STRATEGY_NO_COMMON_ANCESTOR.md
 
-**Location**: `docs/operaciones/git/nivel_3_avanzado/MERGE_STRATEGY_NO_COMMON_ANCESTOR.md`
+**Location**: `docs/devops/git/nivel_3_avanzado/MERGE_STRATEGY_NO_COMMON_ANCESTOR.md`
 **Purpose**: Resolve branches without common ancestor
 **Estimated Length**: 800+ lines (existing content)
 **Source**: Existing file at `docs/operaciones/MERGE_STRATEGY_NO_COMMON_ANCESTOR.md`
@@ -515,22 +515,22 @@ python3 -c "import yaml; yaml.safe_load(open('file.md').read().split('---')[1])"
 
 **From Level 1 to Level 2**:
 ```markdown
-Current: docs/operaciones/git/nivel_1_basico/GIT_GITHUB_GUIA_INICIO.md
-Target:  docs/operaciones/git/nivel_2_intermedio/FLUJO_SYNC_DEVELOP_ANTES_MERGE.md
+Current: docs/devops/git/nivel_1_basico/GIT_GITHUB_GUIA_INICIO.md
+Target:  docs/devops/git/nivel_2_intermedio/FLUJO_SYNC_DEVELOP_ANTES_MERGE.md
 Path:    ../nivel_2_intermedio/FLUJO_SYNC_DEVELOP_ANTES_MERGE.md
 ```
 
 **From Level 2 to Level 1**:
 ```markdown
-Current: docs/operaciones/git/nivel_2_intermedio/FLUJO_SYNC_DEVELOP_ANTES_MERGE.md
-Target:  docs/operaciones/git/nivel_1_basico/GIT_GITHUB_GUIA_INICIO.md
+Current: docs/devops/git/nivel_2_intermedio/FLUJO_SYNC_DEVELOP_ANTES_MERGE.md
+Target:  docs/devops/git/nivel_1_basico/GIT_GITHUB_GUIA_INICIO.md
 Path:    ../nivel_1_basico/GIT_GITHUB_GUIA_INICIO.md
 ```
 
 **From Level 2 to Level 3**:
 ```markdown
-Current: docs/operaciones/git/nivel_2_intermedio/FLUJO_SYNC_DEVELOP_ANTES_MERGE.md
-Target:  docs/operaciones/git/nivel_3_avanzado/MERGE_STRATEGY_NO_COMMON_ANCESTOR.md
+Current: docs/devops/git/nivel_2_intermedio/FLUJO_SYNC_DEVELOP_ANTES_MERGE.md
+Target:  docs/devops/git/nivel_3_avanzado/MERGE_STRATEGY_NO_COMMON_ANCESTOR.md
 Path:    ../nivel_3_avanzado/MERGE_STRATEGY_NO_COMMON_ANCESTOR.md
 ```
 
@@ -609,7 +609,7 @@ Crear rama feature
 **After Removal**:
 ```bash
 # Should return zero results
-grep -P "[\x{1F600}-\x{1F64F}]|[\x{1F300}-\x{1F5FF}]|[\x{1F680}-\x{1F6FF}]|[\x{2600}-\x{27BF}]|[\x{2700}-\x{27BF}]" docs/operaciones/git/ -r
+grep -P "[\x{1F600}-\x{1F64F}]|[\x{1F300}-\x{1F5FF}]|[\x{1F680}-\x{1F6FF}]|[\x{2600}-\x{27BF}]|[\x{2700}-\x{27BF}]" docs/devops/git/ -r
 echo $?  # Should be 1 (no matches found)
 ```
 
@@ -651,10 +651,10 @@ ls -R git/
 **Validation**:
 ```bash
 # Check all folders exist
-test -d docs/operaciones/git/nivel_1_basico && echo "Level 1 OK"
-test -d docs/operaciones/git/nivel_2_intermedio && echo "Level 2 OK"
-test -d docs/operaciones/git/nivel_3_avanzado && echo "Level 3 OK"
-test -d docs/operaciones/git/planificacion && echo "Planning OK"
+test -d docs/devops/git/nivel_1_basico && echo "Level 1 OK"
+test -d docs/devops/git/nivel_2_intermedio && echo "Level 2 OK"
+test -d docs/devops/git/nivel_3_avanzado && echo "Level 3 OK"
+test -d docs/devops/git/planificacion && echo "Planning OK"
 ```
 
 ---
@@ -662,14 +662,14 @@ test -d docs/operaciones/git/planificacion && echo "Planning OK"
 ### 5.2 Procedure: Integrate Basic Guide
 
 **Input**: User-provided basic guide content (in conversation)
-**Output**: docs/operaciones/git/nivel_1_basico/GIT_GITHUB_GUIA_INICIO.md
+**Output**: docs/devops/git/nivel_1_basico/GIT_GITHUB_GUIA_INICIO.md
 **Duration**: 2 hours
 
 **Steps**:
 
 1. **Create file with frontmatter**:
 ```bash
-cat > docs/operaciones/git/nivel_1_basico/GIT_GITHUB_GUIA_INICIO.md <<'EOF'
+cat > docs/devops/git/nivel_1_basico/GIT_GITHUB_GUIA_INICIO.md <<'EOF'
 ---
 title: Guia de Inicio con Git/GitHub
 date: 2025-11-13
@@ -687,14 +687,14 @@ EOF
 ```bash
 # Copy user-provided content from conversation
 # Paste into file (using editor)
-vim docs/operaciones/git/nivel_1_basico/GIT_GITHUB_GUIA_INICIO.md
+vim docs/devops/git/nivel_1_basico/GIT_GITHUB_GUIA_INICIO.md
 # (append content after frontmatter)
 ```
 
 3. **Remove emojis**:
 ```bash
 # Search for emojis
-grep -P "[\x{1F600}-\x{1F64F}]|[\x{1F300}-\x{1F5FF}]|[\x{1F680}-\x{1F6FF}]|[\x{2600}-\x{27BF}]|[\x{2700}-\x{27BF}]" docs/operaciones/git/nivel_1_basico/GIT_GITHUB_GUIA_INICIO.md
+grep -P "[\x{1F600}-\x{1F64F}]|[\x{1F300}-\x{1F5FF}]|[\x{1F680}-\x{1F6FF}]|[\x{2600}-\x{27BF}]|[\x{2700}-\x{27BF}]" docs/devops/git/nivel_1_basico/GIT_GITHUB_GUIA_INICIO.md
 
 # Manually replace each emoji with text equivalent
 # Example: "📘 **Para..." → "NOTA: Para..."
@@ -734,10 +734,10 @@ Has completado este nivel cuando puedes:
 6. **Validate**:
 ```bash
 # Check frontmatter syntax
-python3 -c "import yaml; yaml.safe_load(open('docs/operaciones/git/nivel_1_basico/GIT_GITHUB_GUIA_INICIO.md').read().split('---')[1])"
+python3 -c "import yaml; yaml.safe_load(open('docs/devops/git/nivel_1_basico/GIT_GITHUB_GUIA_INICIO.md').read().split('---')[1])"
 
 # Check no emojis
-grep -P "[\x{1F600}-\x{1F64F}]|[\x{1F300}-\x{1F5FF}]|[\x{1F680}-\x{1F6FF}]|[\x{2600}-\x{27BF}]|[\x{2700}-\x{27BF}]" docs/operaciones/git/nivel_1_basico/GIT_GITHUB_GUIA_INICIO.md
+grep -P "[\x{1F600}-\x{1F64F}]|[\x{1F300}-\x{1F5FF}]|[\x{1F680}-\x{1F6FF}]|[\x{2600}-\x{27BF}]|[\x{2700}-\x{27BF}]" docs/devops/git/nivel_1_basico/GIT_GITHUB_GUIA_INICIO.md
 # Should return nothing
 
 # Check cross-references point to existing paths (will validate after all files moved)
@@ -756,18 +756,18 @@ grep -P "[\x{1F600}-\x{1F64F}]|[\x{1F300}-\x{1F5FF}]|[\x{1F680}-\x{1F6FF}]|[\x{2
 1. **Move Level 2 guide** (preserves Git history):
 ```bash
 git mv docs/operaciones/FLUJO_SYNC_DEVELOP_ANTES_MERGE.md \
-       docs/operaciones/git/nivel_2_intermedio/FLUJO_SYNC_DEVELOP_ANTES_MERGE.md
+       docs/devops/git/nivel_2_intermedio/FLUJO_SYNC_DEVELOP_ANTES_MERGE.md
 ```
 
 2. **Move Level 3 guide**:
 ```bash
 git mv docs/operaciones/MERGE_STRATEGY_NO_COMMON_ANCESTOR.md \
-       docs/operaciones/git/nivel_3_avanzado/MERGE_STRATEGY_NO_COMMON_ANCESTOR.md
+       docs/devops/git/nivel_3_avanzado/MERGE_STRATEGY_NO_COMMON_ANCESTOR.md
 ```
 
 3. **Update Level 2 frontmatter**:
 ```bash
-vim docs/operaciones/git/nivel_2_intermedio/FLUJO_SYNC_DEVELOP_ANTES_MERGE.md
+vim docs/devops/git/nivel_2_intermedio/FLUJO_SYNC_DEVELOP_ANTES_MERGE.md
 ```
 
 Replace frontmatter section with:
@@ -836,7 +836,7 @@ Has completado este nivel cuando puedes:
 
 7. **Update Level 3 frontmatter**:
 ```bash
-vim docs/operaciones/git/nivel_3_avanzado/MERGE_STRATEGY_NO_COMMON_ANCESTOR.md
+vim docs/devops/git/nivel_3_avanzado/MERGE_STRATEGY_NO_COMMON_ANCESTOR.md
 ```
 
 Replace frontmatter:
@@ -894,16 +894,16 @@ NOTA: Este es un caso especial. No hay "proximo nivel" - consulta documentacion 
 10. **Validate**:
 ```bash
 # Check files moved
-ls docs/operaciones/git/nivel_2_intermedio/FLUJO_SYNC_DEVELOP_ANTES_MERGE.md
-ls docs/operaciones/git/nivel_3_avanzado/MERGE_STRATEGY_NO_COMMON_ANCESTOR.md
+ls docs/devops/git/nivel_2_intermedio/FLUJO_SYNC_DEVELOP_ANTES_MERGE.md
+ls docs/devops/git/nivel_3_avanzado/MERGE_STRATEGY_NO_COMMON_ANCESTOR.md
 
 # Check Git history preserved
-git log --follow docs/operaciones/git/nivel_2_intermedio/FLUJO_SYNC_DEVELOP_ANTES_MERGE.md
+git log --follow docs/devops/git/nivel_2_intermedio/FLUJO_SYNC_DEVELOP_ANTES_MERGE.md
 # Should show history from original location
 
 # Check frontmatter syntax
-python3 -c "import yaml; yaml.safe_load(open('docs/operaciones/git/nivel_2_intermedio/FLUJO_SYNC_DEVELOP_ANTES_MERGE.md').read().split('---')[1])"
-python3 -c "import yaml; yaml.safe_load(open('docs/operaciones/git/nivel_3_avanzado/MERGE_STRATEGY_NO_COMMON_ANCESTOR.md').read().split('---')[1])"
+python3 -c "import yaml; yaml.safe_load(open('docs/devops/git/nivel_2_intermedio/FLUJO_SYNC_DEVELOP_ANTES_MERGE.md').read().split('---')[1])"
+python3 -c "import yaml; yaml.safe_load(open('docs/devops/git/nivel_3_avanzado/MERGE_STRATEGY_NO_COMMON_ANCESTOR.md').read().split('---')[1])"
 ```
 
 ---
@@ -911,14 +911,14 @@ python3 -c "import yaml; yaml.safe_load(open('docs/operaciones/git/nivel_3_avanz
 ### 5.4 Procedure: Create README
 
 **Input**: Knowledge of all guides
-**Output**: docs/operaciones/git/README.md
+**Output**: docs/devops/git/README.md
 **Duration**: 1.5 hours
 
 **Steps**:
 
 1. **Create file skeleton**:
 ```bash
-cat > docs/operaciones/git/README.md <<'EOF'
+cat > docs/devops/git/README.md <<'EOF'
 ---
 title: Git/GitHub Documentation - Learning Roadmap
 date: 2025-11-13
@@ -1062,7 +1062,7 @@ Add contribution guidelines:
 ### Agregar Nueva Guia
 
 1. Determinar nivel apropiado (basico/intermedio/avanzado)
-2. Crear archivo en carpeta correspondiente: `docs/operaciones/git/nivel_X_XXX/NOMBRE_GUIA.md`
+2. Crear archivo en carpeta correspondiente: `docs/devops/git/nivel_X_XXX/NOMBRE_GUIA.md`
 3. Usar plantilla de metadata (ver seccion Plantilla)
 4. Actualizar este README:
    - Agregar a Matriz de Decisiones
@@ -1117,13 +1117,13 @@ Para casos urgentes o bloqueantes, escalar a tech lead directamente.
 3. **Validate**:
 ```bash
 # Check frontmatter
-python3 -c "import yaml; yaml.safe_load(open('docs/operaciones/git/README.md').read().split('---')[1])"
+python3 -c "import yaml; yaml.safe_load(open('docs/devops/git/README.md').read().split('---')[1])"
 
 # Check all links point to existing files
 # (Manual check or use markdown link checker)
 
 # Check no emojis
-grep -P "[\x{1F600}-\x{1F64F}]|[\x{1F300}-\x{1F5FF}]|[\x{1F680}-\x{1F6FF}]|[\x{2600}-\x{27BF}]|[\x{2700}-\x{27BF}]" docs/operaciones/git/README.md
+grep -P "[\x{1F600}-\x{1F64F}]|[\x{1F300}-\x{1F5FF}]|[\x{1F680}-\x{1F6FF}]|[\x{2600}-\x{27BF}]|[\x{2700}-\x{27BF}]" docs/devops/git/README.md
 ```
 
 ---
@@ -1139,25 +1139,25 @@ grep -P "[\x{1F600}-\x{1F64F}]|[\x{1F300}-\x{1F5FF}]|[\x{1F680}-\x{1F6FF}]|[\x{2
 1. **Structure Validation**:
 ```bash
 # Check all folders exist
-test -d docs/operaciones/git/nivel_1_basico && echo "✓ Level 1 folder" || echo "✗ Missing Level 1"
-test -d docs/operaciones/git/nivel_2_intermedio && echo "✓ Level 2 folder" || echo "✗ Missing Level 2"
-test -d docs/operaciones/git/nivel_3_avanzado && echo "✓ Level 3 folder" || echo "✗ Missing Level 3"
-test -d docs/operaciones/git/planificacion && echo "✓ Planning folder" || echo "✗ Missing Planning"
+test -d docs/devops/git/nivel_1_basico && echo "✓ Level 1 folder" || echo "✗ Missing Level 1"
+test -d docs/devops/git/nivel_2_intermedio && echo "✓ Level 2 folder" || echo "✗ Missing Level 2"
+test -d docs/devops/git/nivel_3_avanzado && echo "✓ Level 3 folder" || echo "✗ Missing Level 3"
+test -d docs/devops/git/planificacion && echo "✓ Planning folder" || echo "✗ Missing Planning"
 
 # Check all guides exist
-test -f docs/operaciones/git/README.md && echo "✓ README" || echo "✗ Missing README"
-test -f docs/operaciones/git/nivel_1_basico/GIT_GITHUB_GUIA_INICIO.md && echo "✓ Level 1 guide" || echo "✗ Missing Level 1 guide"
-test -f docs/operaciones/git/nivel_2_intermedio/FLUJO_SYNC_DEVELOP_ANTES_MERGE.md && echo "✓ Level 2 guide" || echo "✗ Missing Level 2 guide"
-test -f docs/operaciones/git/nivel_3_avanzado/MERGE_STRATEGY_NO_COMMON_ANCESTOR.md && echo "✓ Level 3 guide" || echo "✗ Missing Level 3 guide"
+test -f docs/devops/git/README.md && echo "✓ README" || echo "✗ Missing README"
+test -f docs/devops/git/nivel_1_basico/GIT_GITHUB_GUIA_INICIO.md && echo "✓ Level 1 guide" || echo "✗ Missing Level 1 guide"
+test -f docs/devops/git/nivel_2_intermedio/FLUJO_SYNC_DEVELOP_ANTES_MERGE.md && echo "✓ Level 2 guide" || echo "✗ Missing Level 2 guide"
+test -f docs/devops/git/nivel_3_avanzado/MERGE_STRATEGY_NO_COMMON_ANCESTOR.md && echo "✓ Level 3 guide" || echo "✗ Missing Level 3 guide"
 ```
 
 2. **Emoji Validation**:
 ```bash
 # Should return 0 matches
-grep -rP "[\x{1F600}-\x{1F64F}]|[\x{1F300}-\x{1F5FF}]|[\x{1F680}-\x{1F6FF}]|[\x{2600}-\x{27BF}]|[\x{2700}-\x{27BF}]" docs/operaciones/git/nivel_1_basico/
-grep -rP "[\x{1F600}-\x{1F64F}]|[\x{1F300}-\x{1F5FF}]|[\x{1F680}-\x{1F6FF}]|[\x{2600}-\x{27BF}]|[\x{2700}-\x{27BF}]" docs/operaciones/git/nivel_2_intermedio/
-grep -rP "[\x{1F600}-\x{1F64F}]|[\x{1F300}-\x{1F5FF}]|[\x{1F680}-\x{1F6FF}]|[\x{2600}-\x{27BF}]|[\x{2700}-\x{27BF}]" docs/operaciones/git/nivel_3_avanzado/
-grep -rP "[\x{1F600}-\x{1F64F}]|[\x{1F300}-\x{1F5FF}]|[\x{1F680}-\x{1F6FF}]|[\x{2600}-\x{27BF}]|[\x{2700}-\x{27BF}]" docs/operaciones/git/README.md
+grep -rP "[\x{1F600}-\x{1F64F}]|[\x{1F300}-\x{1F5FF}]|[\x{1F680}-\x{1F6FF}]|[\x{2600}-\x{27BF}]|[\x{2700}-\x{27BF}]" docs/devops/git/nivel_1_basico/
+grep -rP "[\x{1F600}-\x{1F64F}]|[\x{1F300}-\x{1F5FF}]|[\x{1F680}-\x{1F6FF}]|[\x{2600}-\x{27BF}]|[\x{2700}-\x{27BF}]" docs/devops/git/nivel_2_intermedio/
+grep -rP "[\x{1F600}-\x{1F64F}]|[\x{1F300}-\x{1F5FF}]|[\x{1F680}-\x{1F6FF}]|[\x{2600}-\x{27BF}]|[\x{2700}-\x{27BF}]" docs/devops/git/nivel_3_avanzado/
+grep -rP "[\x{1F600}-\x{1F64F}]|[\x{1F300}-\x{1F5FF}]|[\x{1F680}-\x{1F6FF}]|[\x{2600}-\x{27BF}]|[\x{2700}-\x{27BF}]" docs/devops/git/README.md
 
 echo "✓ No emojis found" # if all return 0
 ```
@@ -1165,7 +1165,7 @@ echo "✓ No emojis found" # if all return 0
 3. **Metadata Validation**:
 ```bash
 # Validate YAML syntax for all guides
-for file in docs/operaciones/git/{nivel_1_basico,nivel_2_intermedio,nivel_3_avanzado}/*.md docs/operaciones/git/README.md; do
+for file in docs/devops/git/{nivel_1_basico,nivel_2_intermedio,nivel_3_avanzado}/*.md docs/devops/git/README.md; do
   echo "Checking: $file"
   python3 -c "import yaml; yaml.safe_load(open('$file').read().split('---')[1])" && echo "✓ Valid YAML" || echo "✗ Invalid YAML"
 done

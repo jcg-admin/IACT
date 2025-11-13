@@ -20,7 +20,7 @@ status: planning
 ### 1.1 Estructura Actual IACT---project
 
 ```
-IACT---project/docs/operaciones/git/
+IACT---project/docs/devops/git/
 ├── README.md                           # Entry point, roadmap
 ├── planificacion/                      # SDLC docs
 │   ├── ISSUE_GIT_DOCS_REORGANIZATION.md
@@ -73,7 +73,7 @@ TFG-server/docs/
 cd /path/to/TFG-server
 
 # 2. Copiar estructura completa
-cp -r /home/user/IACT---project/docs/operaciones/git/ docs/devops/
+cp -r /home/user/IACT---project/docs/devops/git/ docs/devops/
 
 # 3. Adaptar referencias especificas de IACT a TFG-Server
 # (ver seccion 2.3)
@@ -255,7 +255,7 @@ git pull origin main  # Asegurar actualizado
 
 ```bash
 # Desde directorio TFG-server
-cp -r /home/user/IACT---project/docs/operaciones/git/ docs/devops/
+cp -r /home/user/IACT---project/docs/devops/git/ docs/devops/
 
 # Verificar copia exitosa
 ls -R docs/devops/git/
@@ -310,7 +310,7 @@ Features:
 - Integrated with existing CI/CD automation
 - Full SDLC documentation (planning, design, testing, deployment, maintenance)
 
-Source: IACT---project docs/operaciones/git/
+Source: IACT---project docs/devops/git/
 Adapted for: TFG-server environment
 
 Benefits:

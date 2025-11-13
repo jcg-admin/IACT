@@ -81,7 +81,7 @@ find docs -type d -maxdepth 3 | head -30
 | docs/backend/ | docs/diseno_solucion/diseno_detallado/backend/ | MOVER |
 | docs/frontend/ | docs/diseno_solucion/diseno_detallado/frontend/ | MOVER |
 | docs/infraestructura/ | docs/diseno_solucion/arquitectura_sistemas/infraestructura/ | MOVER |
-| docs/operaciones/git/ | docs/devops/git/ | MOVER |
+| docs/devops/git/ | docs/devops/git/ | MOVER |
 | docs/operaciones/* (otros) | docs/devops/operaciones/ | MOVER |
 | docs/sesiones/ | docs/anexos/sesiones/ | MOVER |
 
@@ -120,7 +120,7 @@ find docs -type d -maxdepth 3 | head -30
 1. Crear estructura base de carpetas (analisis/, diseno_solucion/, devops/, anexos/)
 2. Crear README.md principal simple
 3. Crear README.md en devops/
-4. Mover docs/operaciones/git/ → docs/devops/git/
+4. Mover docs/devops/git/ → docs/devops/git/
 5. Validar links en guias Git
 6. Commit Fase 1
 
@@ -159,7 +159,7 @@ find docs -type d -maxdepth 3 | head -30
 **Pasos**:
 1. Crear docs/devops/
 2. Crear docs/devops/README.md
-3. Mover docs/operaciones/git/ → docs/devops/git/
+3. Mover docs/devops/git/ → docs/devops/git/
 4. Mover docs/operaciones/* (otros) → docs/devops/operaciones/
 5. Actualizar referencias
 6. Crear docs/README.md basico mencionando devops/
@@ -183,7 +183,7 @@ find docs -type d -maxdepth 3 | head -30
 5. Estructura final identica a OPCION A pero con menos riesgo
 
 **Inicio Recomendado**: FASE 1 (mover git/ a devops/)
-- Ya tenemos docs/operaciones/git/ completo y validado
+- Ya tenemos docs/devops/git/ completo y validado
 - Es contenido nuevo, minimo riesgo de romper referencias existentes
 - Crea la base para el resto de reorganizacion
 
@@ -217,7 +217,7 @@ grep -r "docs/gobernanza/ADR_" docs/ --include="*.md"
 
 **Patron Actual** (despues de reorganizacion inicial):
 ```markdown
-Ver: docs/operaciones/git/nivel_1_basico/GIT_GITHUB_GUIA_INICIO.md
+Ver: docs/devops/git/nivel_1_basico/GIT_GITHUB_GUIA_INICIO.md
 ```
 
 **Patron Nuevo**:
@@ -227,7 +227,7 @@ Ver: docs/devops/git/nivel_1_basico/GIT_GITHUB_GUIA_INICIO.md
 
 **Script de Actualizacion**:
 ```bash
-find docs/ -name "*.md" -exec sed -i 's|docs/operaciones/git/|docs/devops/git/|g' {} \;
+find docs/ -name "*.md" -exec sed -i 's|docs/devops/git/|docs/devops/git/|g' {} \;
 ```
 
 ---

@@ -149,7 +149,7 @@ All three validation approaches converge on: **GO DECISION**
 **Requirement**: Create nested directory structure
 
 **Analysis**:
-- Target: docs/operaciones/git/ with 3 subdirectories
+- Target: docs/devops/git/ with 3 subdirectories
 - Current OS: Linux (supports unlimited nesting)
 - Permissions: Write access confirmed (we created files previously)
 - Disk space: Negligible (only reorganizing existing files)
@@ -296,7 +296,7 @@ git mv old/path.md new/path.md
 **Mitigation Strategy**:
 1. Use comprehensive emoji regex:
    ```bash
-   grep -P "[\x{1F600}-\x{1F64F}]|[\x{2700}-\x{27BF}]|[\x{1F300}-\x{1F5FF}]|[\x{1F680}-\x{1F6FF}]|[\x{2600}-\x{26FF}]" docs/operaciones/git/ -r
+   grep -P "[\x{1F600}-\x{1F64F}]|[\x{2700}-\x{27BF}]|[\x{1F300}-\x{1F5FF}]|[\x{1F680}-\x{1F6FF}]|[\x{2600}-\x{26FF}]" docs/devops/git/ -r
    ```
 2. Manual review of each flagged line
 3. Replace with text equivalents (NOTA:, ADVERTENCIA:, etc.)
@@ -375,7 +375,7 @@ git mv old/path.md new/path.md
 **Future State**:
 - Structured Git documentation provides foundation
 - Agents can reference specific guides in error messages
-- Example: "No common ancestor detected. See: docs/operaciones/git/nivel_3_avanzado/MERGE_STRATEGY_NO_COMMON_ANCESTOR.md"
+- Example: "No common ancestor detected. See: docs/devops/git/nivel_3_avanzado/MERGE_STRATEGY_NO_COMMON_ANCESTOR.md"
 
 **Value**:
 - Enables future automation (enables 13 SP of agent work)
@@ -568,12 +568,12 @@ git mv old/path.md new/path.md
 **AC1: Folder Structure Exists**
 - Feasible: YES (100% confidence)
 - Tools: mkdir -p (standard)
-- Validation: ls -R docs/operaciones/git/
+- Validation: ls -R docs/devops/git/
 
 **AC2: Guides Properly Categorized**
 - Feasible: YES (100% confidence)
 - Tools: git mv (preserves history)
-- Validation: ls docs/operaciones/git/*/
+- Validation: ls docs/devops/git/*/
 
 **AC3: README with Learning Roadmap**
 - Feasible: YES (95% confidence)

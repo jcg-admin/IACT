@@ -92,7 +92,7 @@ story_points: 3
 
 **AC1: Folder Structure Exists**
 - GIVEN the docs/operaciones directory
-- WHEN I navigate to docs/operaciones/git/
+- WHEN I navigate to docs/devops/git/
 - THEN I see 3 subdirectories: nivel_1_basico/, nivel_2_intermedio/, nivel_3_avanzado/
 
 **AC2: Guides Properly Categorized**
@@ -104,7 +104,7 @@ story_points: 3
   - Level 3: MERGE_STRATEGY_NO_COMMON_ANCESTOR.md (special cases)
 
 **AC3: README with Learning Roadmap**
-- GIVEN docs/operaciones/git/README.md
+- GIVEN docs/devops/git/README.md
 - WHEN I read it
 - THEN it contains:
   - Learning path for each level
@@ -209,7 +209,7 @@ story_points: 3
 **Estimated**: 5 minutes
 
 ```
-docs/operaciones/git/
+docs/devops/git/
 ├── nivel_1_basico/
 ├── nivel_2_intermedio/
 ├── nivel_3_avanzado/
@@ -242,7 +242,7 @@ docs/operaciones/git/
 ### Operation 4: Create README Roadmap
 
 **Input**: Knowledge of all guides
-**Output**: docs/operaciones/git/README.md
+**Output**: docs/devops/git/README.md
 **Content**:
 - Overview of 3-level structure
 - Learning roadmap with time estimates

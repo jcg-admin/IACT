@@ -78,16 +78,16 @@ Execute BEFORE starting implementation:
 cd /home/user/IACT---project
 
 # Create directory structure
-mkdir -p docs/operaciones/git/{nivel_1_basico,nivel_2_intermedio,nivel_3_avanzado,planificacion}
+mkdir -p docs/devops/git/{nivel_1_basico,nivel_2_intermedio,nivel_3_avanzado,planificacion}
 ```
 
 **Validation**:
 ```bash
 # Run structural tests (TEST-001 to TEST-004)
-test -d docs/operaciones/git/nivel_1_basico && echo "PASS: Level 1" || echo "FAIL: Level 1"
-test -d docs/operaciones/git/nivel_2_intermedio && echo "PASS: Level 2" || echo "FAIL: Level 2"
-test -d docs/operaciones/git/nivel_3_avanzado && echo "PASS: Level 3" || echo "FAIL: Level 3"
-test -d docs/operaciones/git/planificacion && echo "PASS: Planning" || echo "FAIL: Planning"
+test -d docs/devops/git/nivel_1_basico && echo "PASS: Level 1" || echo "FAIL: Level 1"
+test -d docs/devops/git/nivel_2_intermedio && echo "PASS: Level 2" || echo "FAIL: Level 2"
+test -d docs/devops/git/nivel_3_avanzado && echo "PASS: Level 3" || echo "FAIL: Level 3"
+test -d docs/devops/git/planificacion && echo "PASS: Planning" || echo "FAIL: Planning"
 ```
 
 **Expected Output**: All 4 "PASS" messages
@@ -103,27 +103,27 @@ test -d docs/operaciones/git/planificacion && echo "PASS: Planning" || echo "FAI
 **Commands**:
 ```bash
 # Move all planning docs to planificacion folder
-git mv docs/operaciones/git/planificacion/ISSUE_GIT_DOCS_REORGANIZATION.md \
-        docs/operaciones/git/planificacion/ 2>/dev/null || echo "Already in place"
+git mv docs/devops/git/planificacion/ISSUE_GIT_DOCS_REORGANIZATION.md \
+        docs/devops/git/planificacion/ 2>/dev/null || echo "Already in place"
 
-git mv docs/operaciones/git/planificacion/FEASIBILITY_ANALYSIS_GIT_DOCS.md \
-        docs/operaciones/git/planificacion/ 2>/dev/null || echo "Already in place"
+git mv docs/devops/git/planificacion/FEASIBILITY_ANALYSIS_GIT_DOCS.md \
+        docs/devops/git/planificacion/ 2>/dev/null || echo "Already in place"
 
-git mv docs/operaciones/git/planificacion/HLD_GIT_DOCS_REORGANIZATION.md \
-        docs/operaciones/git/planificacion/ 2>/dev/null || echo "Already in place"
+git mv docs/devops/git/planificacion/HLD_GIT_DOCS_REORGANIZATION.md \
+        docs/devops/git/planificacion/ 2>/dev/null || echo "Already in place"
 
-git mv docs/operaciones/git/planificacion/LLD_GIT_DOCS_REORGANIZATION.md \
-        docs/operaciones/git/planificacion/ 2>/dev/null || echo "Already in place"
+git mv docs/devops/git/planificacion/LLD_GIT_DOCS_REORGANIZATION.md \
+        docs/devops/git/planificacion/ 2>/dev/null || echo "Already in place"
 
-git mv docs/operaciones/git/planificacion/TESTING_PLAN_GIT_DOCS.md \
-        docs/operaciones/git/planificacion/ 2>/dev/null || echo "Already in place"
+git mv docs/devops/git/planificacion/TESTING_PLAN_GIT_DOCS.md \
+        docs/devops/git/planificacion/ 2>/dev/null || echo "Already in place"
 
 # This file (DEPLOYMENT_PLAN) will be moved after creation
 ```
 
 **Validation**:
 ```bash
-ls docs/operaciones/git/planificacion/*.md | wc -l
+ls docs/devops/git/planificacion/*.md | wc -l
 # Expected: 5 (or 6 once DEPLOYMENT_PLAN and MAINTENANCE_PLAN added)
 ```
 
@@ -138,7 +138,7 @@ ls docs/operaciones/git/planificacion/*.md | wc -l
 
 1. **Create file with frontmatter**:
 
-Use Write tool to create `docs/operaciones/git/nivel_1_basico/GIT_GITHUB_GUIA_INICIO.md` with:
+Use Write tool to create `docs/devops/git/nivel_1_basico/GIT_GITHUB_GUIA_INICIO.md` with:
 - Complete YAML frontmatter (from LLD Section 1.2)
 - User-provided content (from conversation)
 - All required enhancements:
@@ -151,7 +151,7 @@ Use Write tool to create `docs/operaciones/git/nivel_1_basico/GIT_GITHUB_GUIA_IN
 Search for emojis:
 ```bash
 grep -P "[\x{1F600}-\x{1F64F}]|[\x{1F300}-\x{1F5FF}]|[\x{1F680}-\x{1F6FF}]|[\x{2600}-\x{27BF}]|[\x{2700}-\x{27BF}]" \
-  docs/operaciones/git/nivel_1_basico/GIT_GITHUB_GUIA_INICIO.md
+  docs/devops/git/nivel_1_basico/GIT_GITHUB_GUIA_INICIO.md
 ```
 
 For each emoji found:
@@ -163,14 +163,14 @@ For each emoji found:
 ```bash
 # Test no emojis (TEST-012)
 ! grep -qP "[\x{1F600}-\x{1F64F}]|[\x{1F300}-\x{1F5FF}]|[\x{1F680}-\x{1F6FF}]|[\x{2600}-\x{27BF}]|[\x{2700}-\x{27BF}]" \
-  docs/operaciones/git/nivel_1_basico/GIT_GITHUB_GUIA_INICIO.md && echo "PASS: No emojis" || echo "FAIL: Emojis found"
+  docs/devops/git/nivel_1_basico/GIT_GITHUB_GUIA_INICIO.md && echo "PASS: No emojis" || echo "FAIL: Emojis found"
 
 # Test valid YAML (TEST-016)
-python3 -c "import yaml; yaml.safe_load(open('docs/operaciones/git/nivel_1_basico/GIT_GITHUB_GUIA_INICIO.md').read().split('---')[1])" \
+python3 -c "import yaml; yaml.safe_load(open('docs/devops/git/nivel_1_basico/GIT_GITHUB_GUIA_INICIO.md').read().split('---')[1])" \
   && echo "PASS: Valid YAML" || echo "FAIL: Invalid YAML"
 
 # Test file exists (TEST-006)
-test -f docs/operaciones/git/nivel_1_basico/GIT_GITHUB_GUIA_INICIO.md && echo "PASS: File exists" || echo "FAIL: File missing"
+test -f docs/devops/git/nivel_1_basico/GIT_GITHUB_GUIA_INICIO.md && echo "PASS: File exists" || echo "FAIL: File missing"
 ```
 
 **Expected**: All 3 "PASS" messages
@@ -194,19 +194,19 @@ test -f docs/operaciones/git/nivel_1_basico/GIT_GITHUB_GUIA_INICIO.md && echo "P
 
 ```bash
 git mv docs/operaciones/FLUJO_SYNC_DEVELOP_ANTES_MERGE.md \
-       docs/operaciones/git/nivel_2_intermedio/FLUJO_SYNC_DEVELOP_ANTES_MERGE.md
+       docs/devops/git/nivel_2_intermedio/FLUJO_SYNC_DEVELOP_ANTES_MERGE.md
 ```
 
 2. **Move Level 3 guide**:
 
 ```bash
 git mv docs/operaciones/MERGE_STRATEGY_NO_COMMON_ANCESTOR.md \
-       docs/operaciones/git/nivel_3_avanzado/MERGE_STRATEGY_NO_COMMON_ANCESTOR.md
+       docs/devops/git/nivel_3_avanzado/MERGE_STRATEGY_NO_COMMON_ANCESTOR.md
 ```
 
 3. **Update Level 2 guide**:
 
-Use Edit tool on `docs/operaciones/git/nivel_2_intermedio/FLUJO_SYNC_DEVELOP_ANTES_MERGE.md`:
+Use Edit tool on `docs/devops/git/nivel_2_intermedio/FLUJO_SYNC_DEVELOP_ANTES_MERGE.md`:
 - Replace frontmatter (LLD Section 1.3)
 - Add prerequisites section (after frontmatter)
 - Add cross-references (in appropriate sections)
@@ -215,7 +215,7 @@ Use Edit tool on `docs/operaciones/git/nivel_2_intermedio/FLUJO_SYNC_DEVELOP_ANT
 
 4. **Update Level 3 guide**:
 
-Use Edit tool on `docs/operaciones/git/nivel_3_avanzado/MERGE_STRATEGY_NO_COMMON_ANCESTOR.md`:
+Use Edit tool on `docs/devops/git/nivel_3_avanzado/MERGE_STRATEGY_NO_COMMON_ANCESTOR.md`:
 - Replace frontmatter (LLD Section 1.4)
 - Add prerequisites section (after frontmatter)
 - Add success criteria (before final status)
@@ -225,22 +225,22 @@ Use Edit tool on `docs/operaciones/git/nivel_3_avanzado/MERGE_STRATEGY_NO_COMMON
 
 ```bash
 # Test files moved (TEST-007, TEST-008, TEST-009)
-test -f docs/operaciones/git/nivel_2_intermedio/FLUJO_SYNC_DEVELOP_ANTES_MERGE.md && echo "PASS: Level 2 exists" || echo "FAIL"
-test -f docs/operaciones/git/nivel_3_avanzado/MERGE_STRATEGY_NO_COMMON_ANCESTOR.md && echo "PASS: Level 3 exists" || echo "FAIL"
+test -f docs/devops/git/nivel_2_intermedio/FLUJO_SYNC_DEVELOP_ANTES_MERGE.md && echo "PASS: Level 2 exists" || echo "FAIL"
+test -f docs/devops/git/nivel_3_avanzado/MERGE_STRATEGY_NO_COMMON_ANCESTOR.md && echo "PASS: Level 3 exists" || echo "FAIL"
 ! test -f docs/operaciones/FLUJO_SYNC_DEVELOP_ANTES_MERGE.md && echo "PASS: Old file removed" || echo "FAIL: Old file still exists"
 
 # Test no emojis (TEST-013, TEST-014)
 ! grep -qP "[\x{1F600}-\x{1F64F}]|[\x{1F300}-\x{1F5FF}]|[\x{1F680}-\x{1F6FF}]|[\x{2600}-\x{27BF}]|[\x{2700}-\x{27BF}]" \
-  docs/operaciones/git/nivel_2_intermedio/FLUJO_SYNC_DEVELOP_ANTES_MERGE.md && echo "PASS: Level 2 no emojis" || echo "FAIL"
+  docs/devops/git/nivel_2_intermedio/FLUJO_SYNC_DEVELOP_ANTES_MERGE.md && echo "PASS: Level 2 no emojis" || echo "FAIL"
 
 ! grep -qP "[\x{1F600}-\x{1F64F}]|[\x{1F300}-\x{1F5FF}]|[\x{1F680}-\x{1F6FF}]|[\x{2600}-\x{27BF}]|[\x{2700}-\x{27BF}]" \
-  docs/operaciones/git/nivel_3_avanzado/MERGE_STRATEGY_NO_COMMON_ANCESTOR.md && echo "PASS: Level 3 no emojis" || echo "FAIL"
+  docs/devops/git/nivel_3_avanzado/MERGE_STRATEGY_NO_COMMON_ANCESTOR.md && echo "PASS: Level 3 no emojis" || echo "FAIL"
 
 # Test valid YAML (TEST-017, TEST-018)
-python3 -c "import yaml; yaml.safe_load(open('docs/operaciones/git/nivel_2_intermedio/FLUJO_SYNC_DEVELOP_ANTES_MERGE.md').read().split('---')[1])" \
+python3 -c "import yaml; yaml.safe_load(open('docs/devops/git/nivel_2_intermedio/FLUJO_SYNC_DEVELOP_ANTES_MERGE.md').read().split('---')[1])" \
   && echo "PASS: Level 2 YAML" || echo "FAIL"
 
-python3 -c "import yaml; yaml.safe_load(open('docs/operaciones/git/nivel_3_avanzado/MERGE_STRATEGY_NO_COMMON_ANCESTOR.md').read().split('---')[1])" \
+python3 -c "import yaml; yaml.safe_load(open('docs/devops/git/nivel_3_avanzado/MERGE_STRATEGY_NO_COMMON_ANCESTOR.md').read().split('---')[1])" \
   && echo "PASS: Level 3 YAML" || echo "FAIL"
 ```
 
@@ -257,7 +257,7 @@ python3 -c "import yaml; yaml.safe_load(open('docs/operaciones/git/nivel_3_avanz
 
 1. **Create README with all sections**:
 
-Use Write tool to create `docs/operaciones/git/README.md` following template in LLD Section 1.1:
+Use Write tool to create `docs/devops/git/README.md` following template in LLD Section 1.1:
 - Frontmatter
 - Overview (1-2 paragraphs)
 - Inicio Rapido
@@ -284,14 +284,14 @@ Check that all links use correct relative paths:
 
 ```bash
 # Test README exists (TEST-005)
-test -f docs/operaciones/git/README.md && echo "PASS: README exists" || echo "FAIL"
+test -f docs/devops/git/README.md && echo "PASS: README exists" || echo "FAIL"
 
 # Test no emojis (TEST-011)
 ! grep -qP "[\x{1F600}-\x{1F64F}]|[\x{1F300}-\x{1F5FF}]|[\x{1F680}-\x{1F6FF}]|[\x{2600}-\x{27BF}]|[\x{2700}-\x{27BF}]" \
-  docs/operaciones/git/README.md && echo "PASS: No emojis" || echo "FAIL"
+  docs/devops/git/README.md && echo "PASS: No emojis" || echo "FAIL"
 
 # Test valid YAML (TEST-015)
-python3 -c "import yaml; yaml.safe_load(open('docs/operaciones/git/README.md').read().split('---')[1])" \
+python3 -c "import yaml; yaml.safe_load(open('docs/devops/git/README.md').read().split('---')[1])" \
   && echo "PASS: Valid YAML" || echo "FAIL"
 ```
 
@@ -308,19 +308,19 @@ python3 -c "import yaml; yaml.safe_load(open('docs/operaciones/git/README.md').r
 
 1. **Create validation script** (if not exists):
 
-Create `docs/operaciones/git/planificacion/validate-git-docs.sh` from TESTING_PLAN Section 4.2.
+Create `docs/devops/git/planificacion/validate-git-docs.sh` from TESTING_PLAN Section 4.2.
 
 2. **Make executable**:
 
 ```bash
-chmod +x docs/operaciones/git/planificacion/validate-git-docs.sh
+chmod +x docs/devops/git/planificacion/validate-git-docs.sh
 ```
 
 3. **Run all automated tests**:
 
 ```bash
 cd /home/user/IACT---project
-./docs/operaciones/git/planificacion/validate-git-docs.sh
+./docs/devops/git/planificacion/validate-git-docs.sh
 ```
 
 **Expected Output**:
@@ -380,7 +380,7 @@ Next: Run manual tests (TEST-020 to TEST-030)
 
 **Procedure**:
 
-Use `docs/operaciones/git/planificacion/manual-test-checklist.md`:
+Use `docs/devops/git/planificacion/manual-test-checklist.md`:
 
 1. **Functional Tests (Links)**:
 
@@ -419,7 +419,7 @@ For TEST-026 to TEST-030:
 
 ```bash
 # Add all changes
-git add docs/operaciones/git/
+git add docs/devops/git/
 
 # Create commit with descriptive message
 git commit -m "$(cat <<'EOF'
@@ -454,12 +454,12 @@ FASE 6 - MAINTENANCE:
 - Update procedures documented
 
 Changes:
-- Created: docs/operaciones/git/ (hierarchical structure)
-- Created: docs/operaciones/git/README.md (entry point, roadmap)
-- Created: docs/operaciones/git/nivel_1_basico/GIT_GITHUB_GUIA_INICIO.md (basic guide)
+- Created: docs/devops/git/ (hierarchical structure)
+- Created: docs/devops/git/README.md (entry point, roadmap)
+- Created: docs/devops/git/nivel_1_basico/GIT_GITHUB_GUIA_INICIO.md (basic guide)
 - Moved: FLUJO_SYNC_DEVELOP_ANTES_MERGE.md -> nivel_2_intermedio/
 - Moved: MERGE_STRATEGY_NO_COMMON_ANCESTOR.md -> nivel_3_avanzado/
-- Created: docs/operaciones/git/planificacion/ (6 SDLC documents)
+- Created: docs/devops/git/planificacion/ (6 SDLC documents)
 
 Benefits:
 - New developer onboarding time: -30% (estimated)
@@ -549,7 +549,7 @@ cd git-docs-test
 git checkout claude/analyze-scripts-output-011CV5YLxdEnu9YN3qpzGV2R
 
 # Run validation script
-./docs/operaciones/git/planificacion/validate-git-docs.sh
+./docs/devops/git/planificacion/validate-git-docs.sh
 
 # Expected: All tests pass in fresh clone
 ```
@@ -658,7 +658,7 @@ git checkout -b claude/analyze-scripts-output-011CV5YLxdEnu9YN3qpzGV2R-fixed
 
 **Risk**: If develop advanced during work, push may conflict
 **Mitigation**: Pull before push, resolve conflicts if needed
-**Note**: Work is in isolated folder (docs/operaciones/git/), low conflict probability
+**Note**: Work is in isolated folder (docs/devops/git/), low conflict probability
 
 ---
 

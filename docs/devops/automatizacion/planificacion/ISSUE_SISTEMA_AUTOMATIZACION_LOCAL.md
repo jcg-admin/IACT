@@ -1,5 +1,5 @@
 ---
-title: Feature Request - Adopcion Sistema de Automatizacion TFG-Server
+title: Feature Request - Sistema de Automatizacion Local con Scripts Shell
 issue_number: IACT-AUTO-001
 date: 2025-11-13
 phase: planning
@@ -7,9 +7,10 @@ status: pending
 domain: operaciones
 priority: P1
 story_points: 13
+modelo_referencia: TFG-Server (solo como referencia tecnica)
 ---
 
-# Feature Request: Adopcion Sistema de Automatizacion TFG-Server en IACT
+# Feature Request: Sistema de Automatizacion Local con Scripts Shell
 
 **Issue**: IACT-AUTO-001
 **Domain**: Operaciones
@@ -40,9 +41,9 @@ story_points: 13
 - Sin pipeline CI/CD ejecutable offline
 - Sin automatizacion de releases
 
-### Step 2: Analizar Solucion (TFG-Server)
+### Step 2: Analizar Solucion (Modelo de Referencia)
 
-**TFG-Server ofrece**:
+**El sistema de automatizacion local (basado en patron de TFG-Server) ofrece**:
 1. Sistema de scripts shell puro (`scripts/bash/`)
 2. Pipeline CI/CD local completo
 3. Sistema de constitucion para agentes IA (`memory/constitution.md`)
@@ -212,7 +213,7 @@ Alto Valor
 
 **AC5: Documentacion de Sistema Completa**
 - GIVEN desarrollador nuevo al sistema
-- WHEN lee `docs/operaciones/automatizacion/README.md`
+- WHEN lee `docs/devops/automatizacion/README.md`
 - THEN entiende como usar git hooks
 - AND entiende como ejecutar CI local
 - AND entiende como crear releases
@@ -224,7 +225,7 @@ Alto Valor
 - THEN NO rompe estructura de dominios existente
 - AND scripts en `scripts/automatizacion/` (nueva carpeta)
 - AND constitucion en `docs/gobernanza/` (carpeta existente)
-- AND documentacion en `docs/operaciones/automatizacion/` (nueva)
+- AND documentacion en `docs/devops/automatizacion/` (nueva)
 
 ---
 
@@ -330,7 +331,7 @@ IACT---project/
 **Implementacion**:
 - Scripts en `scripts/automatizacion/` (nueva carpeta hermana de `scripts/coding/`)
 - Constitucion en `docs/gobernanza/` (carpeta existente)
-- Docs en `docs/operaciones/automatizacion/` (paralela a `docs/operaciones/git/`)
+- Docs en `docs/devops/automatizacion/` (paralela a `docs/devops/git/`)
 
 ### TR-2: Git Hooks Configurables
 

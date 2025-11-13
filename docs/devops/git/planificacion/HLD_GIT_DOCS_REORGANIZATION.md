@@ -72,7 +72,7 @@ Create a hierarchical 3-level documentation system for Git/GitHub workflows that
 ### 2.1 Folder Structure Architecture
 
 ```
-docs/operaciones/git/
+docs/devops/git/
 ├── README.md                           # Entry point, roadmap, decision matrix
 ├── planificacion/                      # SDLC documentation for this reorganization
 │   ├── ISSUE_GIT_DOCS_REORGANIZATION.md
@@ -459,7 +459,7 @@ See: [Conventional Commits](https://www.conventionalcommits.org/)
 - README structure supports additional sections
 
 **Example**: Adding "REBASE_VS_MERGE.md" (intermediate)
-1. Create docs/operaciones/git/nivel_2_intermedio/REBASE_VS_MERGE.md
+1. Create docs/devops/git/nivel_2_intermedio/REBASE_VS_MERGE.md
 2. Add to README decision matrix: "Need to clean up commits before PR? -> REBASE_VS_MERGE.md"
 3. Cross-reference from Level 1 (mention rebase exists)
 4. Update Level 2 prerequisite list
@@ -493,7 +493,7 @@ See: [Conventional Commits](https://www.conventionalcommits.org/)
 ```python
 error_message = (
     "No common ancestor detected. "
-    "See: docs/operaciones/git/nivel_3_avanzado/MERGE_STRATEGY_NO_COMMON_ANCESTOR.md"
+    "See: docs/devops/git/nivel_3_avanzado/MERGE_STRATEGY_NO_COMMON_ANCESTOR.md"
 )
 ```
 
@@ -587,7 +587,7 @@ IMPORTANTE: This is an ADVANCED guide. Prerequisites:
 
 ### 11.1 File Deployment
 
-**Location**: docs/operaciones/git/ within IACT---project repository
+**Location**: docs/devops/git/ within IACT---project repository
 
 **Access**:
 - Local: Via cloned repository
@@ -630,7 +630,7 @@ IMPORTANTE: This is an ADVANCED guide. Prerequisites:
 **Context**: User plans integration with TFG-Server project after Git phases
 
 **Integration Strategy**:
-- Copy or symlink docs/operaciones/git/ -> TFG-server/docs/devops/git/
+- Copy or symlink docs/devops/git/ -> TFG-server/docs/devops/git/
 - Adapt content references to TFG-Server conventions
 - Align with TFG-Server script names (ci-local.sh, etc.)
 - Add TFG-Server-specific examples
@@ -657,7 +657,7 @@ class GitAnalysisAgent:
     def _detect_no_merge_base(self, branch1, branch2):
         result = {
             "error": "no_merge_base",
-            "recommendation": "docs/operaciones/git/nivel_3_avanzado/MERGE_STRATEGY_NO_COMMON_ANCESTOR.md"
+            "recommendation": "docs/devops/git/nivel_3_avanzado/MERGE_STRATEGY_NO_COMMON_ANCESTOR.md"
         }
         return result
 ```
@@ -685,7 +685,7 @@ See: docs/devops/git-hooks/PRECOMMIT.3-naming-validation.sh
 ```bash
 # PRECOMMIT.3
 echo "ERROR: Invalid branch name. See naming conventions:"
-echo "docs/operaciones/git/nivel_1_basico/GIT_GITHUB_GUIA_INICIO.md#convenciones-de-nombres-de-ramas"
+echo "docs/devops/git/nivel_1_basico/GIT_GITHUB_GUIA_INICIO.md#convenciones-de-nombres-de-ramas"
 ```
 
 ---
@@ -843,7 +843,7 @@ echo "docs/operaciones/git/nivel_1_basico/GIT_GITHUB_GUIA_INICIO.md#convenciones
 
 **Structure**:
 ```
-docs/operaciones/git/
+docs/devops/git/
 ├── README.md
 ├── basic_guide.md
 ├── intermediate_guide.md
@@ -858,7 +858,7 @@ docs/operaciones/git/
 
 **Structure**:
 ```
-docs/operaciones/git/
+docs/devops/git/
 ├── branching/
 ├── merging/
 ├── conflicts/
@@ -873,7 +873,7 @@ docs/operaciones/git/
 
 **Structure**:
 ```
-docs/operaciones/git/
+docs/devops/git/
 ├── developers/
 ├── tech_leads/
 └── devops/

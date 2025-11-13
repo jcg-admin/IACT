@@ -84,7 +84,7 @@ Action Items: [if any]
 1. **Run automated validation**:
 ```bash
 cd /home/user/IACT---project
-./docs/operaciones/git/planificacion/validate-git-docs.sh
+./docs/devops/git/planificacion/validate-git-docs.sh
 ```
 Expected: All tests pass
 If failures: Create issue, fix within 1 week
@@ -134,7 +134,7 @@ Run link checker on all documentation:
 # Open each guide, click every cross-reference
 
 # Option 2: Automated (if tool available)
-# markdown-link-check docs/operaciones/git/**/*.md
+# markdown-link-check docs/devops/git/**/*.md
 ```
 
 Document results, fix any broken links immediately.
@@ -148,7 +148,7 @@ Document results, fix any broken links immediately.
 3. **Metadata audit**:
 ```bash
 # Check all guides have complete metadata
-for file in docs/operaciones/git/{nivel_1_basico,nivel_2_intermedio,nivel_3_avanzado}/*.md docs/operaciones/git/README.md; do
+for file in docs/devops/git/{nivel_1_basico,nivel_2_intermedio,nivel_3_avanzado}/*.md docs/devops/git/README.md; do
   echo "Checking: $file"
   python3 -c "
 import yaml
@@ -292,7 +292,7 @@ done
 2. Update guide(s) with new content
 3. Update `date` field in frontmatter
 4. Update README if navigation impacted
-5. Run validation script: `./docs/operaciones/git/planificacion/validate-git-docs.sh`
+5. Run validation script: `./docs/devops/git/planificacion/validate-git-docs.sh`
 6. Fix any test failures
 7. Commit with detailed message
 8. Push and create PR
@@ -310,7 +310,7 @@ done
 **Procedure**:
 1. Determine appropriate level (basic/intermediate/advanced)
 2. Create feature branch: `git checkout -b docs/add-git-lfs-guide`
-3. Create new guide file: `docs/operaciones/git/nivel_X_XXX/NEW_GUIDE.md`
+3. Create new guide file: `docs/devops/git/nivel_X_XXX/NEW_GUIDE.md`
 4. Use metadata template (from README "Contribuir" section)
 5. Write content following style of existing guides
 6. Update README:
@@ -437,7 +437,7 @@ Create simple dashboard showing:
 **Diagnosis**:
 ```bash
 grep -P "[\x{1F600}-\x{1F64F}]|[\x{1F300}-\x{1F5FF}]|[\x{1F680}-\x{1F6FF}]|[\x{2600}-\x{27BF}]|[\x{2700}-\x{27BF}]" \
-  docs/operaciones/git/ -rn
+  docs/devops/git/ -rn
 # Shows file:line with emoji
 ```
 

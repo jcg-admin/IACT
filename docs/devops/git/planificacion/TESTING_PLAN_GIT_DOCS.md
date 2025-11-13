@@ -96,7 +96,7 @@ This reorganization follows TDD principles adapted for documentation:
 
 **Test Procedure**:
 ```bash
-test -d docs/operaciones/git/nivel_1_basico
+test -d docs/devops/git/nivel_1_basico
 echo $?  # Expected: 0 (success)
 ```
 
@@ -114,7 +114,7 @@ echo $?  # Expected: 0 (success)
 
 **Test Procedure**:
 ```bash
-test -d docs/operaciones/git/nivel_2_intermedio
+test -d docs/devops/git/nivel_2_intermedio
 echo $?  # Expected: 0 (success)
 ```
 
@@ -132,7 +132,7 @@ echo $?  # Expected: 0 (success)
 
 **Test Procedure**:
 ```bash
-test -d docs/operaciones/git/nivel_3_avanzado
+test -d docs/devops/git/nivel_3_avanzado
 echo $?  # Expected: 0 (success)
 ```
 
@@ -150,7 +150,7 @@ echo $?  # Expected: 0 (success)
 
 **Test Procedure**:
 ```bash
-test -d docs/operaciones/git/planificacion
+test -d docs/devops/git/planificacion
 echo $?  # Expected: 0 (success)
 ```
 
@@ -168,7 +168,7 @@ echo $?  # Expected: 0 (success)
 
 **Test Procedure**:
 ```bash
-test -f docs/operaciones/git/README.md
+test -f docs/devops/git/README.md
 echo $?  # Expected: 0 (success)
 ```
 
@@ -186,7 +186,7 @@ echo $?  # Expected: 0 (success)
 
 **Test Procedure**:
 ```bash
-test -f docs/operaciones/git/nivel_1_basico/GIT_GITHUB_GUIA_INICIO.md
+test -f docs/devops/git/nivel_1_basico/GIT_GITHUB_GUIA_INICIO.md
 echo $?  # Expected: 0 (success)
 ```
 
@@ -204,7 +204,7 @@ echo $?  # Expected: 0 (success)
 
 **Test Procedure**:
 ```bash
-test -f docs/operaciones/git/nivel_2_intermedio/FLUJO_SYNC_DEVELOP_ANTES_MERGE.md
+test -f docs/devops/git/nivel_2_intermedio/FLUJO_SYNC_DEVELOP_ANTES_MERGE.md
 echo $?  # Expected: 0 (success)
 ```
 
@@ -222,7 +222,7 @@ echo $?  # Expected: 0 (success)
 
 **Test Procedure**:
 ```bash
-test -f docs/operaciones/git/nivel_3_avanzado/MERGE_STRATEGY_NO_COMMON_ANCESTOR.md
+test -f docs/devops/git/nivel_3_avanzado/MERGE_STRATEGY_NO_COMMON_ANCESTOR.md
 echo $?  # Expected: 0 (success)
 ```
 
@@ -262,11 +262,11 @@ echo $?  # Expected: 2 (file not found)
 
 **Test Procedure**:
 ```bash
-test -f docs/operaciones/git/planificacion/ISSUE_GIT_DOCS_REORGANIZATION.md && \
-test -f docs/operaciones/git/planificacion/FEASIBILITY_ANALYSIS_GIT_DOCS.md && \
-test -f docs/operaciones/git/planificacion/HLD_GIT_DOCS_REORGANIZATION.md && \
-test -f docs/operaciones/git/planificacion/LLD_GIT_DOCS_REORGANIZATION.md && \
-test -f docs/operaciones/git/planificacion/TESTING_PLAN_GIT_DOCS.md
+test -f docs/devops/git/planificacion/ISSUE_GIT_DOCS_REORGANIZATION.md && \
+test -f docs/devops/git/planificacion/FEASIBILITY_ANALYSIS_GIT_DOCS.md && \
+test -f docs/devops/git/planificacion/HLD_GIT_DOCS_REORGANIZATION.md && \
+test -f docs/devops/git/planificacion/LLD_GIT_DOCS_REORGANIZATION.md && \
+test -f docs/devops/git/planificacion/TESTING_PLAN_GIT_DOCS.md
 echo $?  # Expected: 0 (all exist)
 ```
 
@@ -284,7 +284,7 @@ echo $?  # Expected: 0 (all exist)
 
 **Test Procedure**:
 ```bash
-grep -P "[\x{1F600}-\x{1F64F}]|[\x{1F300}-\x{1F5FF}]|[\x{1F680}-\x{1F6FF}]|[\x{2600}-\x{27BF}]|[\x{2700}-\x{27BF}]" docs/operaciones/git/README.md
+grep -P "[\x{1F600}-\x{1F64F}]|[\x{1F300}-\x{1F5FF}]|[\x{1F680}-\x{1F6FF}]|[\x{2600}-\x{27BF}]|[\x{2700}-\x{27BF}]" docs/devops/git/README.md
 echo $?  # Expected: 1 (no matches)
 ```
 
@@ -302,7 +302,7 @@ echo $?  # Expected: 1 (no matches)
 
 **Test Procedure**:
 ```bash
-grep -P "[\x{1F600}-\x{1F64F}]|[\x{1F300}-\x{1F5FF}]|[\x{1F680}-\x{1F6FF}]|[\x{2600}-\x{27BF}]|[\x{2700}-\x{27BF}]" docs/operaciones/git/nivel_1_basico/GIT_GITHUB_GUIA_INICIO.md
+grep -P "[\x{1F600}-\x{1F64F}]|[\x{1F300}-\x{1F5FF}]|[\x{1F680}-\x{1F6FF}]|[\x{2600}-\x{27BF}]|[\x{2700}-\x{27BF}]" docs/devops/git/nivel_1_basico/GIT_GITHUB_GUIA_INICIO.md
 echo $?  # Expected: 1 (no matches)
 ```
 
@@ -320,7 +320,7 @@ echo $?  # Expected: 1 (no matches)
 
 **Test Procedure**:
 ```bash
-grep -P "[\x{1F600}-\x{1F64F}]|[\x{1F300}-\x{1F5FF}]|[\x{1F680}-\x{1F6FF}]|[\x{2600}-\x{27BF}]|[\x{2700}-\x{27BF}]" docs/operaciones/git/nivel_2_intermedio/FLUJO_SYNC_DEVELOP_ANTES_MERGE.md
+grep -P "[\x{1F600}-\x{1F64F}]|[\x{1F300}-\x{1F5FF}]|[\x{1F680}-\x{1F6FF}]|[\x{2600}-\x{27BF}]|[\x{2700}-\x{27BF}]" docs/devops/git/nivel_2_intermedio/FLUJO_SYNC_DEVELOP_ANTES_MERGE.md
 echo $?  # Expected: 1 (no matches)
 ```
 
@@ -338,7 +338,7 @@ echo $?  # Expected: 1 (no matches)
 
 **Test Procedure**:
 ```bash
-grep -P "[\x{1F600}-\x{1F64F}]|[\x{1F300}-\x{1F5FF}]|[\x{1F680}-\x{1F6FF}]|[\x{2600}-\x{27BF}]|[\x{2700}-\x{27BF}]" docs/operaciones/git/nivel_3_avanzado/MERGE_STRATEGY_NO_COMMON_ANCESTOR.md
+grep -P "[\x{1F600}-\x{1F64F}]|[\x{1F300}-\x{1F5FF}]|[\x{1F680}-\x{1F6FF}]|[\x{2600}-\x{27BF}]|[\x{2700}-\x{27BF}]" docs/devops/git/nivel_3_avanzado/MERGE_STRATEGY_NO_COMMON_ANCESTOR.md
 echo $?  # Expected: 1 (no matches)
 ```
 
@@ -356,7 +356,7 @@ echo $?  # Expected: 1 (no matches)
 
 **Test Procedure**:
 ```bash
-python3 -c "import yaml; yaml.safe_load(open('docs/operaciones/git/README.md').read().split('---')[1])"
+python3 -c "import yaml; yaml.safe_load(open('docs/devops/git/README.md').read().split('---')[1])"
 echo $?  # Expected: 0 (success)
 ```
 
@@ -374,7 +374,7 @@ echo $?  # Expected: 0 (success)
 
 **Test Procedure**:
 ```bash
-python3 -c "import yaml; yaml.safe_load(open('docs/operaciones/git/nivel_1_basico/GIT_GITHUB_GUIA_INICIO.md').read().split('---')[1])"
+python3 -c "import yaml; yaml.safe_load(open('docs/devops/git/nivel_1_basico/GIT_GITHUB_GUIA_INICIO.md').read().split('---')[1])"
 echo $?  # Expected: 0 (success)
 ```
 
@@ -392,7 +392,7 @@ echo $?  # Expected: 0 (success)
 
 **Test Procedure**:
 ```bash
-python3 -c "import yaml; yaml.safe_load(open('docs/operaciones/git/nivel_2_intermedio/FLUJO_SYNC_DEVELOP_ANTES_MERGE.md').read().split('---')[1])"
+python3 -c "import yaml; yaml.safe_load(open('docs/devops/git/nivel_2_intermedio/FLUJO_SYNC_DEVELOP_ANTES_MERGE.md').read().split('---')[1])"
 echo $?  # Expected: 0 (success)
 ```
 
@@ -410,7 +410,7 @@ echo $?  # Expected: 0 (success)
 
 **Test Procedure**:
 ```bash
-python3 -c "import yaml; yaml.safe_load(open('docs/operaciones/git/nivel_3_avanzado/MERGE_STRATEGY_NO_COMMON_ANCESTOR.md').read().split('---')[1])"
+python3 -c "import yaml; yaml.safe_load(open('docs/devops/git/nivel_3_avanzado/MERGE_STRATEGY_NO_COMMON_ANCESTOR.md').read().split('---')[1])"
 echo $?  # Expected: 0 (success)
 ```
 
@@ -432,9 +432,9 @@ import yaml
 
 required_fields = ['title', 'date', 'level', 'domain', 'prerequisites', 'estimated_time', 'status']
 guides = [
-    'docs/operaciones/git/nivel_1_basico/GIT_GITHUB_GUIA_INICIO.md',
-    'docs/operaciones/git/nivel_2_intermedio/FLUJO_SYNC_DEVELOP_ANTES_MERGE.md',
-    'docs/operaciones/git/nivel_3_avanzado/MERGE_STRATEGY_NO_COMMON_ANCESTOR.md'
+    'docs/devops/git/nivel_1_basico/GIT_GITHUB_GUIA_INICIO.md',
+    'docs/devops/git/nivel_2_intermedio/FLUJO_SYNC_DEVELOP_ANTES_MERGE.md',
+    'docs/devops/git/nivel_3_avanzado/MERGE_STRATEGY_NO_COMMON_ANCESTOR.md'
 ]
 
 for guide in guides:
@@ -460,7 +460,7 @@ for guide in guides:
 **Priority**: P0 (Critical)
 
 **Test Procedure**:
-1. Open docs/operaciones/git/README.md in text editor or GitHub
+1. Open docs/devops/git/README.md in text editor or GitHub
 2. Find link to Level 1 guide (in "Inicio Rapido" or "Roadmap")
 3. Verify link format: `[text](nivel_1_basico/GIT_GITHUB_GUIA_INICIO.md)`
 4. Click/follow link
@@ -479,7 +479,7 @@ for guide in guides:
 **Priority**: P0 (Critical)
 
 **Test Procedure**:
-1. Open docs/operaciones/git/README.md
+1. Open docs/devops/git/README.md
 2. Find link to Level 2 guide (in "Roadmap" or "Decision Matrix")
 3. Verify link format: `[text](nivel_2_intermedio/FLUJO_SYNC_DEVELOP_ANTES_MERGE.md)`
 4. Click/follow link
@@ -498,7 +498,7 @@ for guide in guides:
 **Priority**: P0 (Critical)
 
 **Test Procedure**:
-1. Open docs/operaciones/git/README.md
+1. Open docs/devops/git/README.md
 2. Find link to Level 3 guide (in "Roadmap" or "Decision Matrix")
 3. Verify link format: `[text](nivel_3_avanzado/MERGE_STRATEGY_NO_COMMON_ANCESTOR.md)`
 4. Click/follow link
@@ -517,7 +517,7 @@ for guide in guides:
 **Priority**: P1 (High)
 
 **Test Procedure**:
-1. Open docs/operaciones/git/nivel_1_basico/GIT_GITHUB_GUIA_INICIO.md
+1. Open docs/devops/git/nivel_1_basico/GIT_GITHUB_GUIA_INICIO.md
 2. Find cross-reference to Level 2 (search for "FLUJO_SYNC_DEVELOP")
 3. Verify link format: `../nivel_2_intermedio/FLUJO_SYNC_DEVELOP_ANTES_MERGE.md`
 4. Click/follow link
@@ -536,7 +536,7 @@ for guide in guides:
 **Priority**: P1 (High)
 
 **Test Procedure**:
-1. Open docs/operaciones/git/nivel_1_basico/GIT_GITHUB_GUIA_INICIO.md
+1. Open docs/devops/git/nivel_1_basico/GIT_GITHUB_GUIA_INICIO.md
 2. Find cross-reference to Level 3 (search for "MERGE_STRATEGY")
 3. Verify link format: `../nivel_3_avanzado/MERGE_STRATEGY_NO_COMMON_ANCESTOR.md`
 4. Click/follow link
@@ -555,7 +555,7 @@ for guide in guides:
 **Priority**: P1 (High)
 
 **Test Procedure**:
-1. Open docs/operaciones/git/nivel_2_intermedio/FLUJO_SYNC_DEVELOP_ANTES_MERGE.md
+1. Open docs/devops/git/nivel_2_intermedio/FLUJO_SYNC_DEVELOP_ANTES_MERGE.md
 2. Find cross-reference to Level 3 (search for "MERGE_STRATEGY" or "Casos Especiales")
 3. Verify link format: `../nivel_3_avanzado/MERGE_STRATEGY_NO_COMMON_ANCESTOR.md`
 4. Click/follow link
@@ -576,7 +576,7 @@ for guide in guides:
 **Test Scenario**:
 - **Actor**: New developer (0-6 months Git experience)
 - **Goal**: Find basic guide to start learning
-- **Starting Point**: docs/operaciones/git/README.md
+- **Starting Point**: docs/devops/git/README.md
 
 **Test Procedure**:
 1. Open README.md
@@ -600,7 +600,7 @@ for guide in guides:
 **Test Scenario**:
 - **Actor**: Developer with 3+ day feature branch
 - **Goal**: Find guide on syncing with develop
-- **Starting Point**: docs/operaciones/git/README.md
+- **Starting Point**: docs/devops/git/README.md
 
 **Test Procedure**:
 1. Open README.md
@@ -625,7 +625,7 @@ for guide in guides:
 **Test Scenario**:
 - **Actor**: Developer encountering "no merge base" error
 - **Goal**: Find guide for this specific error
-- **Starting Point**: docs/operaciones/git/README.md
+- **Starting Point**: docs/devops/git/README.md
 
 **Test Procedure**:
 1. Open README.md
@@ -672,7 +672,7 @@ for guide in guides:
 **Priority**: P1 (High)
 
 **Test Procedure**:
-1. Open docs/operaciones/git/nivel_1_basico/GIT_GITHUB_GUIA_INICIO.md
+1. Open docs/devops/git/nivel_1_basico/GIT_GITHUB_GUIA_INICIO.md
 2. Search for "Criterio de Exito" section
 3. Verify section exists with checklist items
 4. Repeat for Level 2 and Level 3 guides
@@ -713,7 +713,7 @@ for guide in guides:
 
 ### 4.2 Test Automation Script
 
-Create `docs/operaciones/git/planificacion/validate-git-docs.sh`:
+Create `docs/devops/git/planificacion/validate-git-docs.sh`:
 
 ```bash
 #!/bin/bash
@@ -745,56 +745,56 @@ echo "PHASE 1: Structural Tests"
 echo "-----------------------------------------"
 
 # TEST-001
-if [ -d "docs/operaciones/git/nivel_1_basico" ]; then
+if [ -d "docs/devops/git/nivel_1_basico" ]; then
     test_pass "001" "Level 1 folder exists"
 else
     test_fail "001" "Level 1 folder missing"
 fi
 
 # TEST-002
-if [ -d "docs/operaciones/git/nivel_2_intermedio" ]; then
+if [ -d "docs/devops/git/nivel_2_intermedio" ]; then
     test_pass "002" "Level 2 folder exists"
 else
     test_fail "002" "Level 2 folder missing"
 fi
 
 # TEST-003
-if [ -d "docs/operaciones/git/nivel_3_avanzado" ]; then
+if [ -d "docs/devops/git/nivel_3_avanzado" ]; then
     test_pass "003" "Level 3 folder exists"
 else
     test_fail "003" "Level 3 folder missing"
 fi
 
 # TEST-004
-if [ -d "docs/operaciones/git/planificacion" ]; then
+if [ -d "docs/devops/git/planificacion" ]; then
     test_pass "004" "Planning folder exists"
 else
     test_fail "004" "Planning folder missing"
 fi
 
 # TEST-005
-if [ -f "docs/operaciones/git/README.md" ]; then
+if [ -f "docs/devops/git/README.md" ]; then
     test_pass "005" "README exists"
 else
     test_fail "005" "README missing"
 fi
 
 # TEST-006
-if [ -f "docs/operaciones/git/nivel_1_basico/GIT_GITHUB_GUIA_INICIO.md" ]; then
+if [ -f "docs/devops/git/nivel_1_basico/GIT_GITHUB_GUIA_INICIO.md" ]; then
     test_pass "006" "Level 1 guide exists"
 else
     test_fail "006" "Level 1 guide missing"
 fi
 
 # TEST-007
-if [ -f "docs/operaciones/git/nivel_2_intermedio/FLUJO_SYNC_DEVELOP_ANTES_MERGE.md" ]; then
+if [ -f "docs/devops/git/nivel_2_intermedio/FLUJO_SYNC_DEVELOP_ANTES_MERGE.md" ]; then
     test_pass "007" "Level 2 guide exists"
 else
     test_fail "007" "Level 2 guide missing"
 fi
 
 # TEST-008
-if [ -f "docs/operaciones/git/nivel_3_avanzado/MERGE_STRATEGY_NO_COMMON_ANCESTOR.md" ]; then
+if [ -f "docs/devops/git/nivel_3_avanzado/MERGE_STRATEGY_NO_COMMON_ANCESTOR.md" ]; then
     test_pass "008" "Level 3 guide exists"
 else
     test_fail "008" "Level 3 guide missing"
@@ -808,11 +808,11 @@ else
 fi
 
 # TEST-010
-if [ -f "docs/operaciones/git/planificacion/ISSUE_GIT_DOCS_REORGANIZATION.md" ] && \
-   [ -f "docs/operaciones/git/planificacion/FEASIBILITY_ANALYSIS_GIT_DOCS.md" ] && \
-   [ -f "docs/operaciones/git/planificacion/HLD_GIT_DOCS_REORGANIZATION.md" ] && \
-   [ -f "docs/operaciones/git/planificacion/LLD_GIT_DOCS_REORGANIZATION.md" ] && \
-   [ -f "docs/operaciones/git/planificacion/TESTING_PLAN_GIT_DOCS.md" ]; then
+if [ -f "docs/devops/git/planificacion/ISSUE_GIT_DOCS_REORGANIZATION.md" ] && \
+   [ -f "docs/devops/git/planificacion/FEASIBILITY_ANALYSIS_GIT_DOCS.md" ] && \
+   [ -f "docs/devops/git/planificacion/HLD_GIT_DOCS_REORGANIZATION.md" ] && \
+   [ -f "docs/devops/git/planificacion/LLD_GIT_DOCS_REORGANIZATION.md" ] && \
+   [ -f "docs/devops/git/planificacion/TESTING_PLAN_GIT_DOCS.md" ]; then
     test_pass "010" "All SDLC docs present"
 else
     test_fail "010" "Some SDLC docs missing"
@@ -826,28 +826,28 @@ echo "-----------------------------------------"
 EMOJI_REGEX="[\x{1F600}-\x{1F64F}]|[\x{1F300}-\x{1F5FF}]|[\x{1F680}-\x{1F6FF}]|[\x{2600}-\x{27BF}]|[\x{2700}-\x{27BF}]"
 
 # TEST-011
-if ! grep -qP "$EMOJI_REGEX" docs/operaciones/git/README.md 2>/dev/null; then
+if ! grep -qP "$EMOJI_REGEX" docs/devops/git/README.md 2>/dev/null; then
     test_pass "011" "No emojis in README"
 else
     test_fail "011" "Emojis found in README"
 fi
 
 # TEST-012
-if ! grep -qP "$EMOJI_REGEX" docs/operaciones/git/nivel_1_basico/GIT_GITHUB_GUIA_INICIO.md 2>/dev/null; then
+if ! grep -qP "$EMOJI_REGEX" docs/devops/git/nivel_1_basico/GIT_GITHUB_GUIA_INICIO.md 2>/dev/null; then
     test_pass "012" "No emojis in Level 1 guide"
 else
     test_fail "012" "Emojis found in Level 1 guide"
 fi
 
 # TEST-013
-if ! grep -qP "$EMOJI_REGEX" docs/operaciones/git/nivel_2_intermedio/FLUJO_SYNC_DEVELOP_ANTES_MERGE.md 2>/dev/null; then
+if ! grep -qP "$EMOJI_REGEX" docs/devops/git/nivel_2_intermedio/FLUJO_SYNC_DEVELOP_ANTES_MERGE.md 2>/dev/null; then
     test_pass "013" "No emojis in Level 2 guide"
 else
     test_fail "013" "Emojis found in Level 2 guide"
 fi
 
 # TEST-014
-if ! grep -qP "$EMOJI_REGEX" docs/operaciones/git/nivel_3_avanzado/MERGE_STRATEGY_NO_COMMON_ANCESTOR.md 2>/dev/null; then
+if ! grep -qP "$EMOJI_REGEX" docs/devops/git/nivel_3_avanzado/MERGE_STRATEGY_NO_COMMON_ANCESTOR.md 2>/dev/null; then
     test_pass "014" "No emojis in Level 3 guide"
 else
     test_fail "014" "Emojis found in Level 3 guide"
@@ -856,10 +856,10 @@ fi
 # TEST-015 to 018: YAML validation
 for test_num in 015 016 017 018; do
     case $test_num in
-        015) file="docs/operaciones/git/README.md"; name="README" ;;
-        016) file="docs/operaciones/git/nivel_1_basico/GIT_GITHUB_GUIA_INICIO.md"; name="Level 1" ;;
-        017) file="docs/operaciones/git/nivel_2_intermedio/FLUJO_SYNC_DEVELOP_ANTES_MERGE.md"; name="Level 2" ;;
-        018) file="docs/operaciones/git/nivel_3_avanzado/MERGE_STRATEGY_NO_COMMON_ANCESTOR.md"; name="Level 3" ;;
+        015) file="docs/devops/git/README.md"; name="README" ;;
+        016) file="docs/devops/git/nivel_1_basico/GIT_GITHUB_GUIA_INICIO.md"; name="Level 1" ;;
+        017) file="docs/devops/git/nivel_2_intermedio/FLUJO_SYNC_DEVELOP_ANTES_MERGE.md"; name="Level 2" ;;
+        018) file="docs/devops/git/nivel_3_avanzado/MERGE_STRATEGY_NO_COMMON_ANCESTOR.md"; name="Level 3" ;;
     esac
 
     if python3 -c "import yaml; yaml.safe_load(open('$file').read().split('---')[1])" 2>/dev/null; then
@@ -893,7 +893,7 @@ fi
 
 ### 4.3 Manual Test Checklist
 
-Create `docs/operaciones/git/planificacion/manual-test-checklist.md`:
+Create `docs/devops/git/planificacion/manual-test-checklist.md`:
 
 ```markdown
 # Manual Test Checklist
