@@ -11,7 +11,8 @@
 #   0 - All checks passed
 #   1 - One or more checks failed
 
-set -e
+set -u
+set -o pipefail
 
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -77,13 +78,30 @@ run_check() {
 
     chmod +x "$check_script"
 
-    if [ "$VERBOSE" = true ]; then
-        "$check_script"
-    else
-        "$check_script" > /dev/null 2>&1
+    local exit_code
+    local output=""
+    local previous_errexit=0
+
+    if [[ $- == *e* ]]; then
+        previous_errexit=1
+        set +e
     fi
 
-    local exit_code=$?
+    if [ "$VERBOSE" = true ]; then
+        "$check_script"
+        exit_code=$?
+    else
+        output=$("$check_script" 2>&1)
+        exit_code=$?
+    fi
+
+    if [ $previous_errexit -eq 1 ]; then
+        set -e
+    fi
+
+    if [ "$VERBOSE" != true ] && [ $exit_code -ne 0 ] && [ -n "$output" ]; then
+        echo "$output"
+    fi
 
     if [ $exit_code -eq 0 ]; then
         log_info "$check_name: PASS"

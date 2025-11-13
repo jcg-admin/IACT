@@ -53,11 +53,14 @@ log_info "Checking database connectivity..."
 cd "$PROJECT_ROOT/api/callcentersite"
 
 if [ -f "manage.py" ]; then
-    if python3 manage.py check --database default &> /dev/null; then
+    if DB_CHECK_OUTPUT=$(python3 manage.py check --database default 2>&1); then
         log_info "Database connectivity: OK"
         CHECKS_PASSED=$((CHECKS_PASSED + 1))
     else
         log_error "Database connectivity failed"
+        echo "$DB_CHECK_OUTPUT" | tail -n 20 | while IFS= read -r line; do
+            log_error "    $line"
+        done
         CHECKS_FAILED=$((CHECKS_FAILED + 1))
     fi
 else
@@ -67,11 +70,14 @@ fi
 
 # Check 4: Django configuration
 log_info "Checking Django configuration..."
-if python3 manage.py check &> /dev/null; then
+if DJANGO_CHECK_OUTPUT=$(python3 manage.py check 2>&1); then
     log_info "Django configuration: OK"
     CHECKS_PASSED=$((CHECKS_PASSED + 1))
 else
     log_error "Django configuration check failed"
+    echo "$DJANGO_CHECK_OUTPUT" | tail -n 20 | while IFS= read -r line; do
+        log_error "    $line"
+    done
     CHECKS_FAILED=$((CHECKS_FAILED + 1))
 fi
 
