@@ -105,7 +105,9 @@ Este índice combina lo implementado con la visión futura del proyecto, clarame
 - **Logs temporales**: [`logs_data/`](../logs_data/)
   - Schemas: deployment, DORA metrics, incidents
   - Estado: generación manual, rotación pendiente
-- **META-AGENTE CODEX**: [`analisis/META_AGENTE_CODEX_PARTE_1.md`](analisis/META_AGENTE_CODEX_PARTE_1.md) - Marco autónomo para generar artefactos CODEX multillm (Parte 1 de 3)
+- **META-AGENTE CODEX**:
+  - [`analisis/META_AGENTE_CODEX_PARTE_1.md`](analisis/META_AGENTE_CODEX_PARTE_1.md) - Marco autónomo para generar artefactos CODEX multi-LLM (Parte 1 de 3)
+  - [`analisis/META_AGENTE_CODEX_PARTE_2.md`](analisis/META_AGENTE_CODEX_PARTE_2.md) - Pipeline detallado del artefacto CODEX (Etapas 4-6 y estructura) (Parte 2 de 3)
 
 ## [PROYECTO] Proyecto y planificación
 

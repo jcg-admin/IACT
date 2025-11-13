@@ -6,7 +6,7 @@ Este documento se mantiene según `.agent/PLANS.md` y regula la incorporación d
 
 ## Purpose / Big Picture
 
-Incorporar el documento normativo "META-AGENTE CODEX" (parte 1 de 3) dentro del árbol oficial de análisis, asegurando que la gobernanza del repositorio conozca la nueva especificación, que los índices y catálogos de agentes lo referencien y que la batería de pruebas de alineación lo vigile. Al finalizar, cualquier colaborador podrá localizar el meta-agente y entender cómo se relaciona con los agentes existentes y los dominios del proyecto.
+Integrar el documento normativo "META-AGENTE CODEX" (partes 1 y 2 de 3) dentro del árbol oficial de análisis, asegurando que la gobernanza del repositorio conozca la especificación completa publicada hasta la fecha, que los índices y catálogos de agentes lo referencien y que la batería de pruebas de alineación lo vigile. Al finalizar, cualquier colaborador podrá localizar el meta-agente, comprender su pipeline de generación y entender cómo se relaciona con los agentes existentes y los dominios del proyecto.
 
 ## Progress
 
@@ -14,6 +14,8 @@ Incorporar el documento normativo "META-AGENTE CODEX" (parte 1 de 3) dentro del 
 - [x] (2025-11-13 08:25Z) Actualizar índices y catálogos (`docs/index.md`, `.agent/agents/README.md`, fichas relevantes) para reflejar el nuevo meta-agente.
 - [x] (2025-11-13 08:40Z) Ajustar las pruebas de alineación documental en `docs/testing/test_documentation_alignment.py` para exigir referencias al nuevo documento.
 - [x] (2025-11-13 08:55Z) Ejecutar las pruebas relacionadas y registrar resultados.
+- [x] (2025-11-13 09:12Z) Incorporar la Parte 2 de 3 del META-AGENTE CODEX en `docs/analisis/`, manteniendo consistencia con el ETA-AGENTE.
+- [x] (2025-11-13 09:25Z) Extender índices, catálogos y pruebas para vigilar la Parte 2 y documentar la actualización.
 
 ## Surprises & Discoveries
 
@@ -34,17 +36,18 @@ El repositorio separa contenido en `api/`, `ui/`, `infrastructure/`, `docs/` y `
 ## Plan of Work
 
 1. Revisar el contenido proporcionado por el usuario y adaptarlo a la convención de `docs/analisis/` (sin emojis, secciones claras, referencias internas cuando proceda).
-2. Crear el archivo en `docs/analisis/` con título, versión y estructura preservada, asegurando vínculos a los procesos ya descritos en `docs/plans/` y `.agent/` cuando corresponda.
-3. Actualizar los índices y catálogos (`docs/index.md`, `.agent/agents/README.md`, fichas de agentes por proveedor o dominio) para enlazar el nuevo documento.
-4. Extender `docs/testing/test_documentation_alignment.py` para verificar la existencia de los enlaces y la ubicación correcta del meta-agente.
+2. Crear los archivos en `docs/analisis/` con título, versión y estructura preservada, asegurando vínculos a los procesos ya descritos en `docs/plans/` y `.agent/` cuando corresponda.
+3. Actualizar los índices y catálogos (`docs/index.md`, `.agent/agents/README.md`, fichas de agentes por proveedor o dominio) para enlazar cada parte publicada del META-AGENTE CODEX.
+4. Extender `docs/testing/test_documentation_alignment.py` para verificar la existencia de los enlaces y la ubicación correcta del meta-agente (partes 1 y 2).
 5. Ejecutar `pytest docs/testing/test_documentation_alignment.py` y documentar el resultado.
 
 ## Concrete Steps
 
 1. Crear `docs/analisis/META_AGENTE_CODEX_PARTE_1.md` con el contenido adaptado proporcionado por el usuario.
-2. Añadir referencias al nuevo documento en los índices y catálogos relevantes.
-3. Modificar `docs/testing/test_documentation_alignment.py` para cubrir el nuevo enlace.
-4. Ejecutar `pytest docs/testing/test_documentation_alignment.py`.
+2. Crear `docs/analisis/META_AGENTE_CODEX_PARTE_2.md` siguiendo el mismo estándar editorial.
+3. Añadir referencias actualizadas en los índices y catálogos relevantes para cada parte disponible.
+4. Modificar `docs/testing/test_documentation_alignment.py` para cubrir los enlaces obligatorios de ambas partes.
+5. Ejecutar `pytest docs/testing/test_documentation_alignment.py`.
 
 ## Validation and Acceptance
 
