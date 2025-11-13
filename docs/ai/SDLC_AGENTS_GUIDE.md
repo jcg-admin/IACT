@@ -560,6 +560,7 @@ python3 -m pytest tests/ai/sdlc/
 6. **Combina Modos:** Usa LLM para diseño/feasibility, heurísticas para testing
 7. **Monitorea Costos:** Si usas APIs cloud, trackea llamadas
 8. **Valida Salidas:** LLMs pueden alucinar, siempre revisa manualmente
+9. **Apóyate en Hamilton:** Sigue [`gobernanza/ai/HAMILTON_FRAMEWORK_INTEGRACION_SDLC.md`](gobernanza/ai/HAMILTON_FRAMEWORK_INTEGRACION_SDLC.md) para estructurar integraciones declarativas en las seis fases.
 
 ---
 

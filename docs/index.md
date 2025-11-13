@@ -32,6 +32,7 @@ Este índice combina lo implementado con la visión futura del proyecto, clarame
   - Guía de uso por rol: [`GUIA_USO.md`](gobernanza/ci_cd/GUIA_USO.md)
   - Troubleshooting: [`TROUBLESHOOTING.md`](gobernanza/ci_cd/TROUBLESHOOTING.md)
   - Ejemplos: [`EJEMPLOS.md`](gobernanza/ci_cd/EJEMPLOS.md)
+- **Hamilton + 6 fases SDLC IA**: [`gobernanza/ai/HAMILTON_FRAMEWORK_INTEGRACION_SDLC.md`](gobernanza/ai/HAMILTON_FRAMEWORK_INTEGRACION_SDLC.md) - Guía para adaptar Hamilton al marco de gobierno IA.
 
 ### Arquitectura ([IMPLEMENTADO] Documentada, [PLANIFICADO] Evolución continua)
 - **ADRs**: [`adr/`](adr/) - 11+ Architecture Decision Records
