@@ -3,15 +3,25 @@
 ## Información General
 
 - **Fecha de creación**: 2025-11-13
+- **Última actualización**: 2025-11-13
 - **PR Origen**: #175 (copilot/sub-pr-175-yet-again)
-- **Branch Destino**: main
+- **Branch Destino**: develop (rama principal de desarrollo)
 - **Branch de Prioridad**: claude/analyze-scripts-output-011CV5YLxdEnu9YN3qpzGV2R
 - **Responsable**: @copilot
 - **Solicitado por**: @2-Coatl
+- **Restricciones**: Sin emojis ni iconos en documentación
 
 ## Objetivo
 
-Resolver conflictos de merge entre el PR #175 y la rama principal, manteniendo como **prioridad absoluta** los cambios existentes en `claude/analyze-scripts-output-011CV5YLxdEnu9YN3qpzGV2R`.
+Integrar correctamente el PR #175 a la rama **develop**, manteniendo como **prioridad absoluta** los cambios existentes en `claude/analyze-scripts-output-011CV5YLxdEnu9YN3qpzGV2R`. La rama develop debe contener todos los commits del historial.
+
+## Requisitos de Integración
+
+1. **Destino**: develop (rama principal de desarrollo)
+2. **Prioridad**: Cambios de claude/analyze-scripts-output-011CV5YLxdEnu9YN3qpzGV2R
+3. **Historial**: Preservar todos los commits
+4. **Formato**: Sin emojis ni iconos en documentación
+5. **Validación**: 21 ADRs en formato correcto (ADR_2025_XXX_)
 
 ## Contexto del PR #175
 
@@ -33,9 +43,13 @@ Resolver conflictos de merge entre el PR #175 y la rama principal, manteniendo c
 
 ## Estrategia de Merge - Opción Recomendada
 
+### Importante: Integración a Develop
+
+Esta estrategia está diseñada para integrar los cambios a la rama **develop**, que es la rama principal de desarrollo del proyecto. Todos los commits deben ser preservados en el historial de develop.
+
 ### Opción 1: Merge con Prioridad Claude (RECOMENDADA)
 
-Esta estrategia garantiza que los cambios de la rama Claude se mantengan intactos.
+Esta estrategia garantiza que los cambios de la rama Claude se mantengan intactos y que todos los commits sean incluidos en develop.
 
 #### Paso 1: Preparación
 
@@ -47,8 +61,9 @@ git checkout copilot/sub-pr-175-yet-again
 # Verificar estado limpio
 git status
 
-# Actualizar referencias remotas
+# Actualizar referencias remotas (incluyendo develop)
 git fetch origin
+git fetch origin develop:develop 2>/dev/null || echo "Develop branch will be updated"
 ```
 
 #### Paso 2: Obtener Rama Claude
@@ -122,11 +137,46 @@ find docs -name "ADR_2025_*" | wc -l  # Debe ser 21
 find docs -name "ADR-2025-*" | wc -l  # Debe ser 0
 ```
 
-#### Paso 7: Push
+#### Paso 7: Integración a Develop
 
 ```bash
-# Push a la rama de trabajo
+# Una vez verificado que el merge es correcto, integrar a develop
+# IMPORTANTE: Este paso debe ser realizado por alguien con permisos en develop
+
+# Opción A: Merge directo a develop (requiere permisos)
+git checkout develop
+git merge copilot/sub-pr-175-yet-again --no-ff -m "feat: integrate ADR standardization and SDLC documentation"
+git push origin develop
+
+# Opción B: Crear PR a develop (recomendado para revisión)
+# El PR ya existe, solo asegurar que la rama base sea develop
+# GitHub/GitLab permitirá merge con revisión
+```
+
+**Verificación post-integración a develop**:
+```bash
+# Verificar que develop tiene todos los commits
+git checkout develop
+git log --oneline -20
+
+# Verificar que los ADRs están en formato correcto
+find docs -name "ADR_2025_*" | wc -l  # Debe ser 21
+find docs -name "ADR-2025-*" | wc -l  # Debe ser 0
+
+# Verificar que no hay emojis en documentación nueva
+grep -r "✅\|❌\|⏸️" MERGE_STRATEGY_PR_175.md PR_DESCRIPTION.md || echo "Sin emojis - Correcto"
+```
+
+#### Paso 8: Push y Cleanup
+
+```bash
+# Push de la rama de trabajo (si aún no se hizo)
+git checkout copilot/sub-pr-175-yet-again
 git push origin copilot/sub-pr-175-yet-again
+
+# Después de merge a develop, limpiar rama de trabajo
+# (Opcional, solo después de confirmar que develop tiene todo)
+git push origin --delete copilot/sub-pr-175-yet-again
 ```
 
 ## Estrategia Alternativa - Opción 2: Rebase con Prioridad Claude
@@ -273,6 +323,7 @@ git diff --ours --theirs path/to/doc
 
 ## Checklist de Validación Post-Merge
 
+### Validaciones Técnicas
 ```markdown
 - [ ] Merge completado sin conflictos pendientes
 - [ ] git status muestra "working tree clean"
@@ -286,8 +337,23 @@ git diff --ours --theirs path/to/doc
 - [ ] Referencias actualizadas (sin formato antiguo)
 - [ ] Build pasa (si aplica)
 - [ ] Tests pasan (si aplica)
+```
+
+### Validaciones de Formato
+```markdown
+- [ ] Sin emojis en MERGE_STRATEGY_PR_175.md
+- [ ] Sin emojis en PR_DESCRIPTION.md
+- [ ] Sin iconos en documentación nueva
+- [ ] Formato markdown correcto
+```
+
+### Validaciones de Integración
+```markdown
 - [ ] Commit de merge creado
 - [ ] Push exitoso a rama de trabajo
+- [ ] Rama develop contiene todos los commits
+- [ ] Historial de commits preservado
+- [ ] PR actualizado con estrategia de merge
 ```
 
 ## Rollback Plan
@@ -341,7 +407,7 @@ Después de completar el merge exitosamente:
 
 2. **Comentar en PR** con resumen:
    ```markdown
-   ✅ Merge completado con prioridad en rama Claude
+   Merge completado con prioridad en rama Claude
    
    **Estrategia**: [Opción utilizada]
    **Conflictos resueltos**: X archivos
@@ -390,12 +456,12 @@ En contexto de merge:
 
 ## Métricas de Éxito
 
-- ✅ **0 conflictos** pendientes después del merge
-- ✅ **100%** de archivos Claude priorizados mantenidos
-- ✅ **21 ADRs** en formato correcto
-- ✅ **0 referencias** a formato antiguo
-- ✅ **All checks passing** (CI/CD)
-- ✅ **Review approved** por @2-Coatl
+- **0 conflictos** pendientes después del merge
+- **100%** de archivos Claude priorizados mantenidos
+- **21 ADRs** en formato correcto
+- **0 referencias** a formato antiguo
+- **All checks passing** (CI/CD)
+- **Review approved** por @2-Coatl
 
 ---
 
