@@ -13,14 +13,17 @@ Sistema de gestión de call center que integra backend Django con frontend React
 - **Target Runtimes**: Python 3.11+, Node.js 16+
 - **Deployment Environment**: Web-based application
 
+### Current State
+The repository is in **consolidation phase**, aligning code with extensive documentation. Some features are documented but not yet implemented (marked as [PLANIFICADO] vs [IMPLEMENTADO] in docs).
+
 ## Build and Validation Process
 
 ### Environment Setup Requirements
 1. Crear entorno virtual Python 3.11+
-2. Instalar dependencias backend (usar `api/callcentersite/pyproject.toml`, NO hay requirements.txt en root)
+2. Instalar dependencias backend (usar `api/callcentersite/pyproject.toml`, **NO** hay requirements.txt en root)
 3. Levantar bases de datos con Vagrant (`vagrant up` desde root o `infrastructure/vagrant/`)
 4. Configurar variables de entorno (.env con credenciales DB)
-5. Ejecutar migraciones Django SOLO en PostgreSQL
+5. Ejecutar migraciones Django **SOLO** en PostgreSQL (nunca en MariaDB)
 6. Instalar dependencias frontend (`ui/package.json`)
 
 ### Critical Setup Steps
@@ -37,13 +40,28 @@ cd ui && npm install
 vagrant up  # PostgreSQL:15432, MariaDB:13306
 ```
 
+### Database Architecture (CRITICAL)
+**Two-database setup** managed via Vagrant:
+
+1. **PostgreSQL** (analytics, port 15432)
+   - Purpose: Django models, analytics data
+   - **Run migrations here**: `python manage.py migrate`
+   - Credentials: DB_ANALYTICS_* variables in .env
+
+2. **MariaDB** (IVR read-only, port 13306)
+   - Purpose: Legacy IVR data
+   - **NEVER run migrations here** - read-only via Django database router
+   - Credentials: DB_IVR_* variables in .env
+
 ### Potential Pitfalls to Avoid
 - **NUNCA** ejecutar migraciones en MariaDB (es read-only para datos IVR legacy)
 - **NO** modificar directamente archivos de migración Django sin ExecPlan
 - **SIEMPRE** usar Black (line-length=100) y flake8 antes de commit
 - **VERIFICAR** que estás en `api/callcentersite/` antes de `python manage.py` commands
-- **NO** commitear emojis (R2 principle enforcement via CI)
+- **NO** commitear emojis (R2 principle enforcement via CI/emoji-validation.yml)
 - **INSTALAR** pre-commit hooks: `pre-commit install && pre-commit run --all-files`
+- **EVITAR** cambios en .github/agents/ directory (contiene instrucciones para otros agentes)
+- **NO** usar `git rebase` o `git reset --hard` (force push no disponible)
 
 ## Architectural Overview
 
@@ -102,24 +120,70 @@ vagrant up  # PostgreSQL:15432, MariaDB:13306
 
 ### Error Handling Recommendations
 **Common Errors & Solutions**:
-- `"No module named 'callcentersite'"` → cd `api/callcentersite/` antes de manage.py
-- `"could not connect to server"` → `vagrant up` para levantar DBs
-- `"Black would reformat"` → `black . --line-length=100`
-- `"Agent not found"` → verificar `.github/copilot/agents.json` y `.agent/agents/*.md`
-- `"ImportError: anthropic"` → `pip install -r scripts/coding/ai/requirements.txt`
+
+1. **`"No module named 'callcentersite'"`**
+   - Causa: Estás en directorio incorrecto
+   - Solución: `cd api/callcentersite/` antes de ejecutar `python manage.py`
+
+2. **`"django.db.utils.OperationalError: could not connect to server"`**
+   - Causa: Bases de datos no están corriendo
+   - Solución: `vagrant up` en root o `infrastructure/vagrant/`
+   - Verificar: `vagrant status`
+
+3. **`"Black would reformat"`**
+   - Causa: Código no formateado según estándar Black
+   - Solución: `black . --line-length=100` o `pre-commit run black --all-files`
+
+4. **`"Agent not found: @agent_name"`**
+   - Causa: Configuración de agentes custom falta o incorrecta
+   - Solución: Verificar `.github/copilot/agents.json` existe y `.agent/agents/*.md` están presentes
+
+5. **`"ImportError: No module named 'anthropic'"`**
+   - Causa: Dependencias de agentes AI no instaladas
+   - Solución: `pip install -r scripts/coding/ai/requirements.txt`
+
+6. **Emoji validation failures**
+   - Causa: Emojis en código/automation outputs (viola R2)
+   - Solución: Remover todos los emojis, usar texto plano
+   - Workflow: `.github/workflows/emoji-validation.yml`
+
+7. **Migration errors on MariaDB**
+   - Causa: Intentando migrar base de datos read-only
+   - Solución: **NUNCA** migrar MariaDB, solo PostgreSQL
+   - Verificar: Database router en `settings.py`
 
 ### Compliance and Standards
-- **Commits**: Usar conventional commits (`feat:`, `fix:`, `docs:`, etc.)
-- **Branches**: `feature/*`, `hotfix/*`, `docs`, NO commit directo a main/master
-- **Code Style**: Python (PEP 8, Black 100), React (ESLint)
-- **Secrets**: NUNCA commitear, usar .env, validar con gitleaks
+- **Commits**: Usar conventional commits (`feat:`, `fix:`, `docs:`, `chore:`, etc.)
+- **Branches**: `feature/*`, `hotfix/*`, `docs`, **NO** commit directo a main/master
+- **Code Style**: 
+  - Python: PEP 8, Black (line-length=100), flake8
+  - JavaScript/React: ESLint, Prettier
+- **Secrets**: **NUNCA** commitear, usar .env, validar con gitleaks
 - **Documentation**: Actualizar docs cuando cambias funcionalidad
 - **Tests**: Test pyramid (70% unit, 20% integration, 10% E2E)
+
+### Testing Strategy
+- **Backend**: `cd api/callcentersite && pytest` (con coverage: `pytest --cov=.`)
+- **Frontend**: `cd ui && npm test`
+- **Pre-commit**: `pre-commit run --all-files` (ejecuta Black, flake8, ESLint, etc.)
+- **CI Local**: `./scripts/ci-local.sh` (si disponible, simula CI localmente)
 
 ### Performance Optimization
 - Django: usar `.select_related()`, `.prefetch_related()`, evitar N+1 queries
 - React: code splitting, lazy loading routes
 - CI/CD: matrix builds, caching (pip, npm), conditional jobs
+
+### Security Considerations
+- **Secrets Management**: Usar .env para desarrollo, GitHub Secrets para CI/CD
+- **Security Scanning**: Bandit (Python), Safety (CVE), gitleaks (secrets), CodeQL
+- **Database**: Credenciales separadas PostgreSQL vs MariaDB, MariaDB read-only
+- **Validation**: Gitleaks corre en CI para detectar secrets expuestos
+
+### Git Workflow Best Practices
+- **Branch Strategy**: main (producción) → develop (integración) → feature/* (desarrollo)
+- **Conventional Commits**: `type(scope): subject` (types: feat, fix, docs, style, refactor, test, chore, ci)
+- **Pre-commit Checks**: Black, flake8, ESLint, YAML/JSON validation, no debug statements
+- **No Force Push**: `git reset --hard` y `git rebase` no disponibles (no force push)
 
 ### Key Commands Reference
 ```bash
@@ -153,8 +217,20 @@ pytest --cov=.
 - **Legibilidad**: Código debe ser auto-explicativo
 - **Tests**: Agregar tests para nuevas funcionalidades
 - **Docs**: Mantener docs sincronizadas con código
-- **Principles**: Seguir R1-R5 de `.constitucion.yaml` estrictamente
+- **Principles**: Seguir R1-R5 de `.constitucion.yaml` estrictamente:
+  - R1: Idempotencia (operaciones repetibles con mismo resultado)
+  - R2: Sin Emojis (texto plano para compatibilidad automation)
+  - R3: Verificación (validar cada cambio)
+  - R4: Documentación (documentar cada modificación)
+  - R5: Trazabilidad (logging completo con contexto)
 - **Agents**: Aprovechar custom agents (`@my_agent`, etc.) para tasks especializadas
+- **ExecPlans**: Para features complejos, crear ExecPlan en `.agent/PLANS.md` format antes de implementar
+
+### When Things Go Wrong
+- **Check Docs**: `docs/operaciones/` tiene runbooks para troubleshooting
+- **Verify Services**: `./scripts/verificar_servicios.sh` valida configuración
+- **Review Logs**: Django logs, workflow logs en `.github/workflows/`, agent outputs
+- **Consult Custom Agents**: Usar `@security_agent` para auditorías, `@gitops_agent` para Git issues
 
 ---
-**Version**: 2.0.0 | **Last Updated**: 2025-11-14 | **Lines**: <120
+**Version**: 2.1.0 | **Last Updated**: 2025-11-14 | **Lines**: ~220 | **Status**: Enhanced with error prevention details
