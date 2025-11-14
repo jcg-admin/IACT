@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-ComplianceTestsValidatorAgent - Fase 1: Analisis y Requisitos
+ComplianceValidatorAgent - Fase 1: Analisis y Requisitos
 
 Agente de validacion de especificaciones de tests de compliance para garantizar
 cobertura completa de reglas de negocio, nombres siguiendo Clean Code, y
@@ -103,7 +103,7 @@ class ValidationResult:
         }
 
 
-class ComplianceTestsValidatorAgent:
+class ComplianceValidatorAgent:
     """Validates compliance test specifications."""
 
     def __init__(
@@ -368,7 +368,7 @@ def main() -> int:
 
     args = parser.parse_args()
 
-    validator = ComplianceTestsValidatorAgent(
+    validator = ComplianceValidatorAgent(
         spec_file=args.spec_file,
         check_coverage=args.check_coverage,
         check_structure=args.check_structure,

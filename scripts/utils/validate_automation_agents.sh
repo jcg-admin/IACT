@@ -29,7 +29,7 @@
 #   6. ci_pipeline_orchestrator_agent.py
 #   7. pdca_agent.py
 #   8. business_rules_validator_agent.py
-#   9. compliance_tests_validator_agent.py
+#   9. compliance_validator_agent.py
 #
 ################################################################################
 
@@ -394,16 +394,16 @@ test_business_rules_validator_agent() {
     return 0
 }
 
-# Test compliance_tests_validator_agent.py
-test_compliance_tests_validator_agent() {
-    local agent_name="compliance_tests_validator_agent.py"
+# Test compliance_validator_agent.py
+test_compliance_validator_agent() {
+    local agent_name="compliance_validator_agent.py"
     log_info "Testing ${agent_name}..."
 
     check_agent_exists "$agent_name" || return 1
 
     local agent_path="${AGENTS_DIR}/${agent_name}"
 
-    # Test compliance tests validation
+    # Test compliance validation
     log_verbose "Running ${agent_name}..."
     if python3 "$agent_path" --spec-file docs/gobernanza/requisitos/REGLAS_NEGOCIO/ESPECIFICACION_TESTS_COMPLIANCE.md >/dev/null 2>&1; then
         record_test "${agent_name}: Execution" "PASS"
@@ -482,7 +482,7 @@ main() {
     test_business_rules_validator_agent || true
     echo ""
 
-    test_compliance_tests_validator_agent || true
+    test_compliance_validator_agent || true
     echo ""
 
     # Print summary

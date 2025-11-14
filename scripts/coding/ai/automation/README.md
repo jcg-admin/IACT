@@ -7,7 +7,7 @@ Agentes de automatización para validación de calidad, gobernanza y procesos.
 ### Governance & Compliance
 
 - **`business_rules_validator_agent.py`** - Valida documentación de reglas de negocio (5 tipos: Hechos, Restricciones, Desencadenadores, Inferencias, Cálculos)
-- **`compliance_tests_validator_agent.py`** - Valida especificaciones de tests de compliance (cobertura, estructura Given/When/Then, Clean Code naming)
+- **`compliance_validator_agent.py`** - Valida especificaciones de tests de compliance (cobertura, estructura Given/When/Then, Clean Code naming)
 
 ### Process Automation
 
@@ -26,7 +26,7 @@ python3 scripts/coding/ai/automation/business_rules_validator_agent.py \
 ### Compliance Tests Validator
 
 ```bash
-python3 scripts/coding/ai/automation/compliance_tests_validator_agent.py \
+python3 scripts/coding/ai/automation/compliance_validator_agent.py \
   --spec-file docs/gobernanza/requisitos/REGLAS_NEGOCIO/ESPECIFICACION_TESTS_COMPLIANCE.md \
   --output-format json
 ```
@@ -52,7 +52,7 @@ automation_agents:
     check_categorization: true
     output_format: json
 
-  compliance_tests_validator_agent:
+  compliance_validator_agent:
     spec_file: docs/gobernanza/requisitos/REGLAS_NEGOCIO/ESPECIFICACION_TESTS_COMPLIANCE.md
     check_coverage: true
     check_structure: true
@@ -66,5 +66,5 @@ automation_agents:
 Tests ubicados en `scripts/coding/tests/ai/automation/`:
 
 ```bash
-pytest scripts/coding/tests/ai/automation/test_compliance_tests_validator_agent.py -v
+pytest scripts/coding/tests/ai/automation/test_compliance_validator_agent.py -v
 ```

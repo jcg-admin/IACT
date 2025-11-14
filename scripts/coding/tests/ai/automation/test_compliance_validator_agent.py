@@ -1,5 +1,5 @@
 """
-Comprehensive tests for ComplianceTestsValidatorAgent following TDD approach.
+Comprehensive tests for ComplianceValidatorAgent following TDD approach.
 
 Test Coverage:
 - Business rule coverage validation
@@ -25,16 +25,16 @@ from unittest.mock import patch
 import sys
 sys.path.insert(0, str(Path(__file__).parent.parent.parent.parent))
 
-from scripts.coding.ai.automation.compliance_tests_validator_agent import (
-    ComplianceTestsValidatorAgent,
+from scripts.coding.ai.automation.compliance_validator_agent import (
+    ComplianceValidatorAgent,
     ValidationResult,
     ValidationIssue,
     ExitCode
 )
 
 
-class TestComplianceTestsValidatorAgent:
-    """Test suite for ComplianceTestsValidatorAgent."""
+class TestComplianceValidatorAgent:
+    """Test suite for ComplianceValidatorAgent."""
 
     @pytest.fixture
     def valid_spec_content(self):
@@ -146,7 +146,7 @@ def test_retention_enforced():
 """
         temp_spec_file.write_text(content)
 
-        agent = ComplianceTestsValidatorAgent(spec_file=temp_spec_file)
+        agent = ComplianceValidatorAgent(spec_file=temp_spec_file)
         result = agent.validate()
 
         assert result.coverage_valid is True
@@ -172,7 +172,7 @@ def test_consent():
 """
         temp_spec_file.write_text(content)
 
-        agent = ComplianceTestsValidatorAgent(spec_file=temp_spec_file)
+        agent = ComplianceValidatorAgent(spec_file=temp_spec_file)
         result = agent.validate()
 
         assert result.coverage_valid is False
@@ -186,7 +186,7 @@ def test_consent():
 
     def test_structure_given_when_then_present(self, temp_spec_file):
         """Test validation of Given/When/Then structure."""
-        agent = ComplianceTestsValidatorAgent(spec_file=temp_spec_file)
+        agent = ComplianceValidatorAgent(spec_file=temp_spec_file)
         result = agent.validate()
 
         assert result.structure_valid is True
@@ -202,7 +202,7 @@ def test_consent():
 ### Nivel 3: Tests End-to-End
 """)
 
-        agent = ComplianceTestsValidatorAgent(spec_file=temp_spec_file)
+        agent = ComplianceValidatorAgent(spec_file=temp_spec_file)
         result = agent.validate()
 
         assert result.structure_valid is False
@@ -216,7 +216,7 @@ def test_consent():
 
     def test_naming_clean_code_compliant(self, temp_spec_file):
         """Test that naming follows Clean Code principles."""
-        agent = ComplianceTestsValidatorAgent(spec_file=temp_spec_file)
+        agent = ComplianceValidatorAgent(spec_file=temp_spec_file)
         result = agent.validate()
 
         assert result.naming_valid is True
@@ -231,7 +231,7 @@ def test_consent():
 ### Nivel 3: Tests End-to-End
 """)
 
-        agent = ComplianceTestsValidatorAgent(spec_file=temp_spec_file)
+        agent = ComplianceValidatorAgent(spec_file=temp_spec_file)
         result = agent.validate()
 
         assert result.naming_valid is False
@@ -256,7 +256,7 @@ def test_that_client_rfc_data_is_properly_encrypted_in_database_storage():
 """
         temp_spec_file.write_text(content)
 
-        agent = ComplianceTestsValidatorAgent(spec_file=temp_spec_file)
+        agent = ComplianceValidatorAgent(spec_file=temp_spec_file)
         result = agent.validate()
 
         assert any("too long" in warn.message.lower() for warn in result.warnings)
@@ -269,7 +269,7 @@ def test_that_client_rfc_data_is_properly_encrypted_in_database_storage():
 
     def test_levels_all_present(self, temp_spec_file):
         """Test that all three test levels are documented."""
-        agent = ComplianceTestsValidatorAgent(spec_file=temp_spec_file)
+        agent = ComplianceValidatorAgent(spec_file=temp_spec_file)
         result = agent.validate()
 
         assert result.levels_valid is True
@@ -292,7 +292,7 @@ def test_encryption():
 """
         temp_spec_file.write_text(content)
 
-        agent = ComplianceTestsValidatorAgent(spec_file=temp_spec_file)
+        agent = ComplianceValidatorAgent(spec_file=temp_spec_file)
         result = agent.validate()
 
         assert result.levels_valid is False
@@ -325,7 +325,7 @@ def test_unit():
 """
         temp_spec_file.write_text(content)
 
-        agent = ComplianceTestsValidatorAgent(spec_file=temp_spec_file)
+        agent = ComplianceValidatorAgent(spec_file=temp_spec_file)
         result = agent.validate()
 
         assert any("django" in warn.message.lower() for warn in result.warnings)
@@ -350,7 +350,7 @@ def test_unit():
 
     def test_json_output_format(self, temp_spec_file):
         """Test JSON output structure."""
-        agent = ComplianceTestsValidatorAgent(spec_file=temp_spec_file)
+        agent = ComplianceValidatorAgent(spec_file=temp_spec_file)
         result = agent.validate()
 
         json_output = result.to_json()
