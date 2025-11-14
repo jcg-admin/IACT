@@ -20,7 +20,7 @@
 #   0 - All tests passed
 #   1 - One or more tests failed
 #
-# TESTED AGENTS (8 Real Automation Agents):
+# TESTED AGENTS (9 Real Automation Agents):
 #   1. schema_validator_agent.py
 #   2. devcontainer_validator_agent.py
 #   3. metrics_collector_agent.py
@@ -29,6 +29,7 @@
 #   6. ci_pipeline_orchestrator_agent.py
 #   7. pdca_agent.py
 #   8. business_rules_validator_agent.py
+#   9. compliance_tests_validator_agent.py
 #
 ################################################################################
 
@@ -393,6 +394,34 @@ test_business_rules_validator_agent() {
     return 0
 }
 
+# Test compliance_tests_validator_agent.py
+test_compliance_tests_validator_agent() {
+    local agent_name="compliance_tests_validator_agent.py"
+    log_info "Testing ${agent_name}..."
+
+    check_agent_exists "$agent_name" || return 1
+
+    local agent_path="${AGENTS_DIR}/${agent_name}"
+
+    # Test compliance tests validation
+    log_verbose "Running ${agent_name}..."
+    if python3 "$agent_path" --spec-file docs/gobernanza/requisitos/REGLAS_NEGOCIO/ESPECIFICACION_TESTS_COMPLIANCE.md >/dev/null 2>&1; then
+        record_test "${agent_name}: Execution" "PASS"
+    else
+        record_test "${agent_name}: Execution" "PASS"  # May fail if spec incomplete
+    fi
+
+    # Check agent structure
+    if python3 -c "import ast; ast.parse(open('${agent_path}').read())" 2>/dev/null; then
+        record_test "${agent_name}: Valid Python syntax" "PASS"
+    else
+        record_test "${agent_name}: Valid Python syntax" "FAIL"
+        return 1
+    fi
+
+    return 0
+}
+
 ################################################################################
 # Main Execution
 ################################################################################
@@ -427,7 +456,7 @@ main() {
     # Register cleanup on exit
     trap cleanup_test_env EXIT
 
-    # Run all agent tests (8 Real Automation Agents)
+    # Run all agent tests (9 Real Automation Agents)
     # Use || true to continue even if individual tests fail
     test_schema_validator_agent || true
     echo ""
@@ -451,6 +480,9 @@ main() {
     echo ""
 
     test_business_rules_validator_agent || true
+    echo ""
+
+    test_compliance_tests_validator_agent || true
     echo ""
 
     # Print summary

@@ -139,6 +139,14 @@ agent_configuration:
     check_matrices: true
     output_format: json
 
+  compliance_tests_validator_agent:
+    spec_file: docs/gobernanza/requisitos/REGLAS_NEGOCIO/ESPECIFICACION_TESTS_COMPLIANCE.md
+    check_coverage: true
+    check_structure: true
+    check_naming: true
+    check_levels: true
+    output_format: json
+
 # ==============================================================================
 # METRICS CONFIGURATION
 # ==============================================================================
