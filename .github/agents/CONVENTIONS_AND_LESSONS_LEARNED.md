@@ -148,6 +148,122 @@ Razón: El SDLC documenta desarrollo de código backend
 
 ---
 
+### LL-003: Validación Automática de Documentación en SDLC
+
+**Fecha**: 2025-11-14
+
+**Problema**: Errores en documentación solo se detectan manualmente después de generarla (ubicación incorrecta, emojis, números, etc.).
+
+**Causa Raíz**: No hay validación automática cuando agentes SDLC generan documentación.
+
+**Solución Propuesta**: Integrar DocumentationValidatorAgent en el pipeline SDLC
+
+**Arquitectura del Agente**:
+
+```python
+# Patrón: Agente Genérico + Componentes Especializados + Configuración por Dominio
+
+class DocumentationValidatorAgent(Agent):
+    """
+    Valida documentación generada por agentes SDLC.
+    Se ejecuta automáticamente después de cada fase que genere docs.
+    """
+
+    def __init__(self, config):
+        # Componentes especializados (Strategy Pattern)
+        self.validators = [
+            LocationValidator(),      # Verifica docs/backend/ vs docs/agent/
+            ConventionValidator(),    # Sin emojis, sin números
+            StructureValidator(),     # H1 único, jerarquía
+            ConstitutionValidator()   # Principios 2, 7, etc.
+        ]
+
+    def run(self, input_data):
+        domain = self._classify_domain(input_data["doc_path"])
+        rules = self._load_domain_rules(domain)
+
+        results = []
+        for validator in self.validators:
+            result = validator.validate(doc_content, rules)
+            results.append(result)
+
+        return self._generate_report(results)
+```
+
+**Integración en SDLC**:
+
+```python
+# En cada agente SDLC (Planning, Feasibility, Design, Testing, Deployment)
+
+class SDLCPlannerAgent(SDLCAgent):
+    def run(self, input_data):
+        # 1. Generar documentación
+        doc_path = self._generate_planning_doc(input_data)
+
+        # 2. VALIDAR automáticamente
+        validator = DocumentationValidatorAgent()
+        validation = validator.run({
+            "doc_path": doc_path,
+            "domain": "backend"  # o detectar automáticamente
+        })
+
+        # 3. Si hay errores CRÍTICOS, fallar
+        if validation["critical_errors"] > 0:
+            raise DocumentationError(validation["errors"])
+
+        return {"status": "success", "doc_path": doc_path}
+```
+
+**Configuración por Dominio**:
+
+```yaml
+# .github/agents/configs/documentation_rules.yaml
+
+backend:
+  location: "docs/backend/"
+  naming: "snake_case"
+  no_numbers: true
+  no_emojis: true
+  required_sections:
+    - "Planning"
+    - "Feasibility"
+    - "Design"
+    - "Testing"
+    - "Deployment"
+
+frontend:
+  location: "docs/frontend/"
+  naming: "kebab-case"
+  no_numbers: true
+  no_emojis: true
+  required_sections:
+    - "Components"
+    - "State Management"
+    - "Testing"
+```
+
+**Cuándo se ejecuta**:
+
+| Fase SDLC | Genera Docs | Valida con |
+|-----------|-------------|------------|
+| Planning | planning_output.md | DocumentationValidatorAgent |
+| Feasibility | feasibility_analysis.md | DocumentationValidatorAgent |
+| Design | design_hld_lld.md | DocumentationValidatorAgent |
+| Testing | testing_strategy.md | DocumentationValidatorAgent |
+| Deployment | deployment_plan.md | DocumentationValidatorAgent |
+
+**Beneficios**:
+- Detecta errores inmediatamente (no después)
+- Previene ubicaciones incorrectas (docs/agent/ vs docs/backend/)
+- Valida convenciones automáticamente
+- Falla rápido si hay errores críticos
+
+**Estado**: PROPUESTO (pendiente implementación)
+
+**Issue**: Crear FEATURE-DOC-VALIDATOR-SDLC-001
+
+---
+
 ## Checklist Pre-Documentación
 
 Antes de crear documentación nueva, verificar:
@@ -202,6 +318,7 @@ Antes de crear documentación nueva, verificar:
 **2025-11-14**: Documento inicial
 - LL-001: Verificar estructura antes de crear directorios
 - LL-002: Nomenclatura sin números
+- LL-003: Validación automática de documentación en SDLC (patrón de arquitectura)
 - Convenciones de ubicación de documentación
 
 ---
