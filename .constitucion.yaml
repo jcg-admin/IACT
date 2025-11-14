@@ -80,27 +80,43 @@ rules:
     implementation: Maximize parallelization for independent operations
 
 # ==============================================================================
-# AGENT CONFIGURATION
+# AGENT CONFIGURATION (7 Real Automation Agents)
 # ==============================================================================
 agent_configuration:
-  semantic_git_history_agent:
-    max_commits: 100
+  schema_validator_agent:
+    schemas_dir: schemas/
+    validation_mode: strict
     output_format: json
-    include_diffs: false
+    fail_on_warnings: false
 
-  unified_system_context_agent:
-    max_files: 1000
-    ignore_patterns:
-      - node_modules
-      - .git
-      - __pycache__
+  devcontainer_validator_agent:
+    devcontainer_config: .devcontainer/devcontainer.json
+    check_extensions: true
+    check_features: true
     output_format: json
 
-  agent_discovery_agent:
-    search_paths:
-      - .agent/agents
-      - scripts/coding/ai
+  metrics_collector_agent:
+    metrics_output: /tmp/automation_metrics.json
+    track_execution_time: true
+    track_success_rate: true
+    retention_days: 30
+
+  coherence_analyzer_agent:
+    ui_path: frontend/src/components
+    api_path: api/callcentersite
+    analysis_depth: full
+    report_mismatches: true
     output_format: json
+
+  constitution_validator_agent:
+    rules_to_check:
+      - R1  # Branch protection
+      - R2  # No emojis
+      - R3  # UI/API coherence
+      - R4  # Database router
+      - R5  # Test execution
+      - R6  # DevContainer validation
+    enforcement_mode: strict
 
   ci_pipeline_orchestrator_agent:
     config_file: .ci-local.yaml
@@ -108,15 +124,11 @@ agent_configuration:
     fail_fast: true
     smart_detection: true
 
-  git_hook_manager_agent:
-    hooks_dir: .git/hooks
-    validation_mode: strict
-
-  test_results_analyzer_agent:
-    test_dirs:
-      - tests
-      - scripts/coding/tests
-    report_format: json
+  pdca_agent:
+    dora_metrics_enabled: true
+    pdca_cycle_tracking: true
+    improvement_suggestions: true
+    output_format: json
 
 # ==============================================================================
 # METRICS CONFIGURATION
