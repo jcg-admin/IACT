@@ -1,32 +1,549 @@
+# DevOps - Documentación
+
+Documentación del dominio DevOps de IACT.
+
+## Propósito
+
+Esta documentación proporciona:
+
+1. **Arquitectura de Automatización**: CI/CD pipeline, quality gates, git hooks, SDLC orchestration
+2. **Scripts DevOps**: 100+ scripts organizados por categoría
+3. **Guías de Desarrollo**: Para developers y DevOps engineers
+4. **Convenciones**: Estándares de scripting, testing y deployment
+
 ---
-title: DevOps - Automatizacion y CI/CD
-date: 2025-11-13
-proyecto: IACT---project
-status: active
+
+## Arquitectura de Automatización
+
+IACT implementa automatización DevOps en 4 capas:
+
+```
+┌─────────────────────────────────────────────────────────┐
+│             1. Git Hooks (Pre-commit/Pre-push)          │
+│  Validación temprana: secrets, naming, environment     │
+└─────────────────────────────────────────────────────────┘
+                          ↓
+┌─────────────────────────────────────────────────────────┐
+│             2. CI/CD Local Pipeline                     │
+│  scripts/ci-local.sh - Ejecuta todos los checks        │
+└─────────────────────────────────────────────────────────┘
+                          ↓
+┌─────────────────────────────────────────────────────────┐
+│             3. Quality Gates                            │
+│  Validación de calidad, arquitectura, seguridad        │
+└─────────────────────────────────────────────────────────┘
+                          ↓
+┌─────────────────────────────────────────────────────────┐
+│             4. SDLC Orchestration (AI Agents)           │
+│  Planning → Feasibility → Design → Testing → Deploy    │
+└─────────────────────────────────────────────────────────┘
+```
+
 ---
 
-# DevOps: Automatizacion y CI/CD
+## Scripts Principales
 
-**Proposito**: Este directorio contiene documentacion, guias, scripts y configuraciones relacionadas con la automatizacion del ciclo de desarrollo y operaciones (DevOps).
+### 1. CI/CD Pipeline
 
-**Ultima Actualizacion**: 2025-11-13
+**Script principal**: `scripts/ci-local.sh`
+- Ejecuta pipeline completo sin dependencia de GitHub Actions
+- 30,000+ líneas de automatización
+- Validación de código, tests, seguridad, calidad
+
+**Scripts de soporte**:
+```bash
+scripts/ci/
+├── run-all-checks.sh           # Ejecuta todos los checks
+├── run-all-gates.sh            # Ejecuta quality gates
+├── run-tdd-cycle.sh            # Ciclo TDD completo
+├── evaluate_quality_score.py   # Score de calidad
+└── run_architecture_analysis.py # Análisis arquitectónico
+```
+
+**Quality Gates**:
+```bash
+scripts/ci/
+├── gate-db-router.sh           # Validación de DB router
+├── gate-docs-structure.sh      # Estructura de docs
+├── gate-no-emojis.sh           # Sin emojis en código
+├── gate-restrictions.sh        # Restricciones críticas
+└── gate-route-lint.sh          # Linting de rutas
+```
+
+**Testing**:
+```bash
+scripts/ci/testing/
+├── test-execution-time.sh      # Tiempo de ejecución
+└── test-pyramid.sh             # Pirámide de tests
+```
+
+**Security**:
+```bash
+scripts/ci/security/
+├── bandit-scan.sh              # Bandit security scan
+├── csrf-check.sh               # CSRF protection
+├── django-security-check.sh    # Django security
+└── npm-audit.sh                # NPM vulnerabilities
+```
+
+**Infrastructure**:
+```bash
+scripts/ci/infrastructure/
+├── health-check.sh             # Health checks
+├── validate-config.sh          # Config validation
+├── validate-docker.sh          # Docker validation
+└── validate-scripts.sh         # Script validation
+```
+
+### 2. Git Hooks
+
+**Instalación**: `scripts/install_hooks.sh`
+
+**Hooks disponibles**:
+```bash
+scripts/git-hooks/
+├── pre-up-validations.sh                   # Pre-up validations
+├── validate-environment-files.sh           # .env files
+├── validate-environment.sh                 # Environment
+├── validate-hardware-requirements.sh       # Hardware
+├── validate-naming-compliance.sh           # Naming conventions
+├── validate-network-configuration.sh       # Network config
+├── validate-secrets-enhanced.sh            # Secrets detection
+└── validate-software-dependencies.sh       # Dependencies
+```
+
+**Propósito**: Validación automática antes de commits y pushes
+
+**Guías completas**: Ver [git/](git/) para workflows Git de 3 niveles
+
+### 3. Validation Scripts
+
+**Security Validation**:
+```bash
+scripts/validation/security/
+├── check_csrf_protection.sh    # CSRF validation
+├── check_django_security.sh    # Django security
+├── check_sql_injection.sh      # SQL injection
+├── check_xss_protection.sh     # XSS protection
+└── run_all_security_checks.sh  # All security
+```
+
+**Compliance Validation**:
+```bash
+scripts/validation/compliance/
+├── check_email_usage.sh                # Email usage
+├── check_redis_usage.sh                # Redis compliance
+├── validate_session_backend.sh         # Session backend
+└── run_all_compliance_checks.sh        # All compliance
+```
+
+**Documentation Validation**:
+```bash
+scripts/validation/docs/
+├── check_docs_old_references.sh        # Old references
+├── generate_docs_stats.sh              # Docs statistics
+└── validate_autogenerated_docs.sh      # Autogen docs
+```
+
+**Quality Validation**:
+```bash
+scripts/validation/quality/
+├── validate_frontmatter.sh             # Frontmatter
+└── validate_shell_constitution.sh      # Shell constitution
+```
+
+### 4. Infrastructure Scripts
+
+**Cassandra**:
+```bash
+scripts/infrastructure/cassandra/
+├── install-cassandra.sh        # Installation
+├── configure-django.sh         # Django integration
+└── setup-cron-jobs.sh          # Cron automation
+```
+
+**Disaster Recovery**:
+```bash
+scripts/infrastructure/disaster_recovery/
+├── backup_cassandra.sh         # Cassandra backup
+├── backup_mysql.sh             # MySQL backup
+├── restore_mysql.sh            # MySQL restore
+└── test_dr.sh                  # DR testing
+```
+
+**Load Testing**:
+```bash
+scripts/infrastructure/load_testing/
+├── locustfile.py               # Locust test
+└── simple_load_test.sh         # Simple load test
+```
+
+**Logging**:
+```bash
+scripts/infrastructure/logging/
+├── cassandra_handler.py                        # Cassandra handler
+├── cassandra_schema_setup.py                   # Schema setup
+├── infrastructure_logs_daemon.py               # Daemon
+├── alert_on_errors.py                          # Alerting
+└── collectors/infrastructure_log_collector.py  # Collector
+```
+
+**WASI Sandboxing**:
+```bash
+scripts/infrastructure/wasi/
+├── demo.sh                     # WASI demo
+├── lightweight_venv.sh         # Lightweight venv
+├── virtualize.sh               # Virtualization
+└── wasm_style_sandbox.sh       # WebAssembly sandbox
+```
+
+### 5. SDLC Orchestration (AI Agents)
+
+**Agentes SDLC**:
+```bash
+scripts/coding/ai/sdlc/
+├── planner_agent.py            # Planning phase
+├── feasibility_agent.py        # Feasibility analysis
+├── design_agent.py             # Design HLD/LLD
+├── testing_agent.py            # Testing strategy
+├── deployment_agent.py         # Deployment planning
+├── orchestrator.py             # SDLC orchestration
+└── base_agent.py               # Base SDLC agent
+```
+
+**Agentes de Automatización**:
+```bash
+scripts/coding/ai/automation/
+├── ci_pipeline_orchestrator_agent.py       # CI/CD orchestration
+├── constitution_validator_agent.py         # Constitution validation
+├── compliance_validator_agent.py           # Compliance validation
+├── business_rules_validator_agent.py       # Business rules
+├── coherence_analyzer_agent.py             # Coherence analysis
+├── devcontainer_validator_agent.py         # Devcontainer
+├── metrics_collector_agent.py              # Metrics collection
+├── pdca_agent.py                           # PDCA cycle
+└── schema_validator_agent.py               # Schema validation
+```
+
+**Características**:
+- Constitutional AI: Guardrails en todos los agentes
+- Auto-CoT: Razonamiento automático
+- Self-Consistency: Validación multi-path
+- TDD estricto: 100% de agentes siguen TDD
+
+Ver detalles: [docs/ai/README.md](../ai/README.md) y [.github/agents/README.md](../../.github/agents/README.md)
+
+### 6. Testing Automation
+
+**Test Runners**:
+```bash
+scripts/run_all_tests.sh                # All tests
+scripts/run_integration_tests.sh        # Integration tests
+scripts/coding/ai/run_test_generation.sh  # Test generation
+scripts/coding/tests/shell/run_all_unit_tests.sh  # Unit tests
+```
+
+**Test Generation (AI)**:
+```bash
+scripts/coding/ai/agents/tdd/
+├── tdd_agent.py                # TDD agent
+├── test_generator.py           # Test generator
+└── test_generator_autocot.py   # Auto-CoT test gen
+```
+
+**Coverage**: 200+ tests, 80%+ coverage objetivo
+
+Ver detalles: [docs/backend/testing/](../backend/testing/)
+
+### 7. Deployment & Operations
+
+**Deployment**:
+```bash
+scripts/deploy.sh               # Main deployment
+scripts/health_check.sh         # Health checks
+scripts/verificar_servicios.sh  # Service verification
+```
+
+**Backup**:
+```bash
+scripts/backup_data_centralization.sh   # Centralized backup
+scripts/infrastructure/disaster_recovery/  # DR scripts
+```
+
+**Utilities**:
+```bash
+scripts/cleanup_branches.sh     # Branch cleanup
+scripts/cleanup_sessions.sh     # Session cleanup
+scripts/complete_sync.sh        # Complete sync
+```
+
+Ver detalles: [docs/operaciones/](../operaciones/)
+
+### 8. DORA Metrics
+
+**Scripts**:
+```bash
+scripts/dora_metrics.py         # Metrics collection
+scripts/generate_dora_report.sh # Report generation
+scripts/cli/dora_metrics.py     # CLI interface
+```
+
+**Métricas**:
+- Deployment frequency
+- Lead time for changes
+- Mean time to recovery
+- Change failure rate
+
+Ver detalles: [docs/dora/README.md](../dora/README.md)
+
+### 9. Constitution Management
+
+**Scripts**:
+```bash
+scripts/constitucion.sh                                 # Constitution setup
+scripts/validate_constitution_schema.sh                 # Schema validation
+scripts/coding/ai/automation/constitution_validator_agent.py  # Validator agent
+```
+
+**Constitution**: Principios y reglas que rigen el comportamiento de agentes AI
+
+Ver detalles: [automatizacion/constitucion/](automatizacion/constitucion/)
 
 ---
 
-## Que es DevOps en IACT?
+## Organización de Scripts
 
-**DevOps** en IACT se enfoca en:
-- Automatizacion de workflows de desarrollo
-- Pipelines CI/CD (Continuous Integration/Continuous Deployment)
-- Git workflows, hooks y mejores practicas
-- Testing automatizado
-- Release management
-- Scripts de automatizacion para desarrollo
+### Estructura
 
-**Diferencia con otras secciones**:
-- **docs/infraestructura/**: Configuracion de recursos (servidores, DB, network)
-- **docs/operaciones/**: Procedimientos operativos manuales (runbooks, incident response)
-- **docs/devops/**: Automatizacion de desarrollo y deployment
+```
+scripts/
+├── ci/                         # CI/CD automation (40+ scripts)
+│   ├── testing/               # Test automation
+│   ├── security/              # Security checks
+│   └── infrastructure/        # Infrastructure validation
+│
+├── git-hooks/                  # Git hooks (8+ hooks)
+│
+├── validation/                 # Validation scripts (20+ scripts)
+│   ├── security/              # Security validation
+│   ├── compliance/            # Compliance validation
+│   ├── docs/                  # Documentation validation
+│   └── quality/               # Quality validation
+│
+├── infrastructure/             # Infrastructure scripts (30+ scripts)
+│   ├── cassandra/             # Cassandra automation
+│   ├── disaster_recovery/     # DR automation
+│   ├── load_testing/          # Load testing
+│   ├── logging/               # Centralized logging
+│   └── wasi/                  # WASI sandboxing
+│
+├── coding/ai/                  # AI agents and automation (100+ files)
+│   ├── agents/                # 30+ AI agents
+│   ├── sdlc/                  # SDLC orchestration
+│   ├── automation/            # Automation agents
+│   └── tests/                 # Agent tests
+│
+├── cli/                        # CLI tools
+├── examples/                   # Usage examples
+├── templates/                  # Script templates
+├── lib/                        # Shared libraries
+└── utils/                      # Utilities
+```
+
+### Principios de Diseño
+
+1. **Modularidad**: Scripts pequeños, composables
+2. **Reutilización**: Libraries compartidas (`scripts/lib/`)
+3. **Testing**: Todos los scripts críticos tienen tests
+4. **Documentación**: Help integrado (`--help`)
+5. **Exit Codes**: Códigos de salida estándar (`scripts/lib/exit_codes.sh`)
+6. **Logging**: Logging estructurado (`scripts/lib/common.sh`)
+
+---
+
+## Guías de Uso
+
+### Ejecutar Pipeline Local Completo
+
+```bash
+# Pipeline completo (lint, tests, security, quality)
+./scripts/ci-local.sh
+
+# Solo linting
+./scripts/validation/quality/validate_shell_constitution.sh
+
+# Solo tests
+./scripts/run_all_tests.sh
+
+# Solo security checks
+./scripts/validation/security/run_all_security_checks.sh
+
+# Solo quality gates
+./scripts/ci/run-all-gates.sh
+```
+
+### Instalar Git Hooks
+
+```bash
+# Instalar todos los hooks
+./scripts/install_hooks.sh
+
+# Los hooks se ejecutarán automáticamente en:
+# - Pre-commit: Validación de secrets, naming, environment
+# - Pre-push: Validación completa
+```
+
+**Guías completas**: Ver [git/nivel_1_basico/](git/nivel_1_basico/) para workflows básicos
+
+### Ejecutar SDLC Completo
+
+```bash
+# Ejecutar pipeline SDLC para nueva feature
+python scripts/run_sdlc_pipeline_for_tdd.py
+
+# Fases ejecutadas:
+# 1. Planning → issue, story points, acceptance criteria
+# 2. Feasibility → risk analysis, go/no-go
+# 3. Design → HLD/LLD, arquitectura
+# 4. Testing → estrategia, casos de uso
+# 5. Deployment → plan de deployment
+```
+
+Ver detalles: [automatizacion/planificacion/](automatizacion/planificacion/)
+
+### Generar Tests con AI
+
+```bash
+# Generar tests con Auto-CoT
+./scripts/coding/ai/run_test_generation.sh
+
+# Ejemplo específico
+python -m scripts.coding.ai.examples.example_auto_cot
+```
+
+### Health Checks
+
+```bash
+# Health check completo
+./scripts/health_check.sh
+
+# Verificar servicios
+./scripts/verificar_servicios.sh
+
+# Validar environment
+./scripts/git-hooks/validate-environment.sh
+```
+
+### DORA Metrics
+
+```bash
+# Generar reporte DORA
+./scripts/generate_dora_report.sh
+
+# Ver métricas específicas
+python scripts/dora_metrics.py --metric deployment_frequency
+```
+
+### Backup y Disaster Recovery
+
+```bash
+# Backup completo
+./scripts/backup_data_centralization.sh
+
+# Backup Cassandra
+./scripts/infrastructure/disaster_recovery/backup_cassandra.sh
+
+# Test DR
+./scripts/infrastructure/disaster_recovery/test_dr.sh
+```
+
+---
+
+## Convenciones DevOps
+
+### Shell Scripting Standards
+
+**Shebang**: `#!/usr/bin/env bash`
+
+**Exit on error**:
+```bash
+set -euo pipefail
+```
+
+**Logging**:
+```bash
+source "$(dirname "$0")/lib/common.sh"
+
+log_info "Starting process..."
+log_success "Process completed"
+log_error "Error occurred"
+```
+
+**Exit codes** (según `scripts/lib/exit_codes.sh`):
+```bash
+EXIT_SUCCESS=0
+EXIT_GENERAL_ERROR=1
+EXIT_MISUSE=2
+EXIT_NOT_FOUND=127
+EXIT_SIGINT=130
+```
+
+**Help message**:
+```bash
+if [[ "${1:-}" == "--help" ]] || [[ "${1:-}" == "-h" ]]; then
+    cat <<EOF
+Usage: $0 [OPTIONS]
+
+Description of the script
+
+Options:
+  -h, --help     Show this help message
+  -v, --verbose  Verbose output
+
+Examples:
+  $0 --verbose
+EOF
+    exit 0
+fi
+```
+
+### Python Standards
+
+**Type hints**: Obligatorios
+```python
+def process_data(input: str) -> dict[str, Any]:
+    """Process input data and return result."""
+    return {"status": "success"}
+```
+
+**Docstrings**: Google style
+```python
+def complex_function(param1: str, param2: int) -> bool:
+    """
+    Brief description.
+
+    Args:
+        param1: Description of param1
+        param2: Description of param2
+
+    Returns:
+        True if successful, False otherwise
+
+    Raises:
+        ValueError: If param2 is negative
+    """
+    pass
+```
+
+**Testing**: Pytest con TDD estricto (AAA pattern)
+
+### CI/CD Standards
+
+**Local-first**: Todo script debe poder ejecutarse localmente
+
+**Idempotencia**: Scripts deben ser idempotentes
+
+**Atomic operations**: Commits atómicos con conventional commits
 
 ---
 
@@ -34,293 +551,242 @@ status: active
 
 ```
 docs/devops/
-├── README.md                      # Este archivo
+├── README.md                           # Este archivo
 │
-├── git/                          # Git Workflows y Guias
-│   ├── nivel_1_basico/          # Comandos basicos Git/GitHub
-│   ├── nivel_2_intermedio/      # Sync con develop, resolución conflictos
-│   ├── nivel_3_avanzado/        # Casos especiales (no common ancestor)
-│   └── planificacion/           # Documentacion SDLC de reorganizacion Git
+├── analysis_tfg_server_vs_iact_scripts.md  # Análisis comparativo
 │
-├── ci_cd/                        # Pipelines CI/CD
-│   ├── local/                   # Pipeline ejecutable localmente (scripts shell)
-│   └── github_actions/          # GitHub Actions workflows
+├── git/                                # Git Workflows y Guías
+│   ├── nivel_1_basico/                # Comandos básicos Git/GitHub
+│   ├── nivel_2_intermedio/            # Sync con develop, resolución conflictos
+│   ├── nivel_3_avanzado/              # Casos especiales (no common ancestor)
+│   └── planificacion/                 # Documentación SDLC de reorganización Git
 │
-├── automatizacion/               # Scripts y Herramientas de Automatizacion
-│   ├── git_hooks/               # Hooks pre-commit, pre-push, post-commit
-│   ├── constitucion/            # Sistema de constitucion para agentes IA
-│   ├── validaciones/            # Scripts de validacion automatizada
-│   └── planificacion/           # Documentacion SDLC del sistema automatizacion
+├── automatizacion/                     # Scripts y Herramientas de Automatización
+│   ├── git_hooks/                     # Hooks pre-commit, pre-push, post-commit
+│   ├── constitucion/                  # Sistema de constitución para agentes IA
+│   ├── validaciones/                  # Scripts de validación automatizada
+│   └── planificacion/                 # Documentación SDLC del sistema automatización
 │
-├── testing/                      # Automatizacion de Testing
-│   └── tdd/                     # Practicas TDD, test runners
-│
-└── release/                      # Release Management
-    └── semantic_versioning/     # Versionado semantico automatizado
+└── release/                            # Release Management
+    └── semantic_versioning/           # Versionado semántico automatizado
 ```
 
 ---
 
-## Contenido por Seccion
+## Relación con otras Secciones
 
-### 1. git/ - Git Workflows y Guias
+- [docs/ai/](../ai/) - Agentes AI/ML y técnicas de prompting
+- [docs/backend/](../backend/) - Código backend y SDLC
+- [docs/infraestructura/](../infraestructura/) - IaC (Diseño y construcción)
+- [docs/operaciones/](../operaciones/) - Runbooks (Uso y mantenimiento)
+- [docs/qa/](../qa/) - Quality Assurance y testing
+- [docs/dora/](../dora/) - DORA Metrics
+- [.github/agents/](../../.github/agents/) - Definiciones de agentes
 
-**Proposito**: Guias de 3 niveles para Git/GitHub workflows
-
-**Niveles**:
-- **Nivel 1 (Basico)**: Comandos esenciales, primer PR, flujo basico
-- **Nivel 2 (Intermedio)**: Sincronizacion con develop antes de merge, resolucion conflictos complejos
-- **Nivel 3 (Avanzado)**: Merge sin ancestro comun, casos especiales
-
-**Documentacion SDLC**: Ver `git/planificacion/` para proceso completo de creacion (6 fases)
-
-**Quien lo usa**: Todos los desarrolladores del equipo
-
----
-
-### 2. ci_cd/ - Pipelines CI/CD
-
-**Proposito**: Pipelines de integracion y deployment continuo
-
-**Componentes**:
-- **local/**: Pipeline ejecutable localmente sin dependencia de GitHub Actions
-  - Validacion pre-commit/pre-push
-  - Tests automatizados
-  - Build y linting
-  - Offline-capable para trabajo sin conexion
-
-- **github_actions/**: Workflows en GitHub Actions
-  - CI triggers en PRs
-  - CD para deployment automatico
-  - Validacion de conformidad
-
-**Status**: En desarrollo (SDLC FASE 3 pendiente)
+**Diferencia clave**:
+- **DevOps**: Automatización de desarrollo y deployment (CI/CD, git hooks, SDLC)
+- **Infraestructura**: Diseño y construcción de recursos (IaC, Kubernetes, Cassandra)
+- **Operaciones**: Uso y mantenimiento día a día (runbooks, health checks, backups)
 
 ---
 
-### 3. automatizacion/ - Scripts de Automatizacion
+## Para Empezar
 
-**Proposito**: Scripts y herramientas para automatizar tareas repetitivas de desarrollo
+### Si eres DevOps Engineer
 
-**Componentes**:
-- **git_hooks/**: Hooks Git automaticos
-  - pre-commit: Validacion formato, linting, no-emojis
-  - pre-push: Tests pasan, branch naming, conventional commits
-  - post-commit: Actualizacion metadata
+1. Revisar [arquitectura de automatización](#arquitectura-de-automatización)
+2. Ejecutar `./scripts/ci-local.sh` para validar environment
+3. Instalar hooks: `./scripts/install_hooks.sh`
+4. Explorar scripts en `scripts/ci/`
 
-- **constitucion/**: Sistema de gobernanza para agentes IA
-  - Principios codificados que guian decisiones de agentes
-  - Evolucion basada en experiencia del proyecto
-  - Validacion de conformidad
+### Si eres Developer
 
-- **validaciones/**: Scripts de validacion
-  - Validacion estructura documentacion
-  - Verificacion ADRs
-  - Link checking
-  - Metadata compliance
+1. Leer guías Git: [git/nivel_1_basico/](git/nivel_1_basico/)
+2. Instalar hooks: `./scripts/install_hooks.sh`
+3. Ejecutar pipeline local antes de PR: `./scripts/ci-local.sh`
+4. Usar agentes SDLC: `python scripts/run_sdlc_pipeline_for_tdd.py`
 
-**Documentacion SDLC**: Ver `automatizacion/planificacion/` para analisis completo
+### Si eres SRE
 
-**Status**: En desarrollo
-- FASE 1 (Planning): Completa
-- FASE 2 (Feasibility): Completa (GO decision 92% confidence)
-- FASE 3 (Design): Pendiente
+1. Revisar [health checks](#health-checks)
+2. Ver runbooks: [docs/operaciones/](../operaciones/)
+3. Configurar backups y DR
+4. Implementar logging centralizado
 
 ---
 
-### 4. testing/ - Automatizacion de Testing
+## Estado Actual
 
-**Proposito**: Frameworks, scripts y guias para testing automatizado
+### Cobertura de Automatización
 
-**Componentes**:
-- **tdd/**: Test-Driven Development
-  - Practicas TDD (RED-GREEN-REFACTOR)
-  - Test runners automaticos
-  - Coverage reporting
+- **CI/CD**: ✅ 100% automatizado localmente
+- **Quality Gates**: ✅ 8 gates activos
+- **Security Checks**: ✅ 9 checks automáticos
+- **Git Hooks**: ✅ 8 hooks instalables
+- **Tests**: ✅ 200+ tests, 80%+ coverage
+- **SDLC**: ✅ 5 fases automatizadas con AI
+- **Infrastructure**: ✅ Cassandra, DR, logging automatizados
+- **DORA Metrics**: ✅ 4 métricas tracked
 
-**Status**: En desarrollo futuro
+### Gaps Identificados
 
----
+**Release Automation** (Priority 1):
+- ❌ No hay semantic versioning automático
+- ❌ No hay auto-generación de release notes
+- ❌ No hay rollback automático
 
-### 5. release/ - Release Management
+**Solución propuesta**: Adoptar sistema de releases de TFG-Server
 
-**Proposito**: Automatizacion de releases y versionado
-
-**Componentes**:
-- **semantic_versioning/**: Versionado semantico automatizado
-  - Calculo automatico de version (MAJOR.MINOR.PATCH)
-  - Basado en conventional commits
-  - Generacion de CHANGELOG
-  - Tagging automatico en Git
-
-**Status**: En desarrollo futuro
+Ver análisis completo: [analysis_tfg_server_vs_iact_scripts.md](analysis_tfg_server_vs_iact_scripts.md)
 
 ---
 
-## Guia Rapida: Como Usar esta Documentacion
+## Roadmap
 
-### Soy nuevo en el proyecto y necesito aprender Git
-→ Empieza en `git/nivel_1_basico/GIT_GITHUB_GUIA_INICIO.md`
+### Completado ✓
+- Reorganización Git docs (3 niveles jerárquicos)
+- Documentación SDLC 6 fases para Git guides
+- Análisis y feasibility de sistema automatización local
+- Estructura docs/devops/ establecida
+- 30+ agentes AI con Constitutional AI
+- 100+ scripts de automatización organizados
 
-### Necesito hacer sync con develop antes de merge
-→ Ve a `git/nivel_2_intermedio/FLUJO_SYNC_DEVELOP_ANTES_MERGE.md`
+### En Progreso
+- FASE 3-6 SDLC: Sistema de automatización local
+- Implementación completa de git hooks
+- Sistema constitución agentes IA
+- CI/CD pipeline local
 
-### Tengo un conflicto de merge sin ancestro comun
-→ Ve a `git/nivel_3_avanzado/MERGE_STRATEGY_NO_COMMON_ANCESTOR.md`
+### Q1 2025
+- [ ] Implementar release automation (semantic versioning)
+- [ ] Auto-generar release notes
+- [ ] Implementar rollback automático
+- [ ] Constitution evolution automation
 
-### Quiero entender el sistema de automatizacion que estamos construyendo
-→ Lee `automatizacion/planificacion/ISSUE_SISTEMA_AUTOMATIZACION_LOCAL.md` y `FEASIBILITY_SISTEMA_AUTOMATIZACION.md`
+### Q2 2025
+- [ ] Feature creation CLI (`create-new-feature.sh`)
+- [ ] Enhanced DORA dashboards
+- [ ] Performance benchmarking automation
+- [ ] Chaos engineering scripts
 
-### Quiero contribuir a la documentacion DevOps
-→ Lee seccion "Contribuir" abajo
+### Futuro (Q3+ 2025)
+- [ ] GitOps integration
+- [ ] Observability stack automation
+- [ ] Cost optimization scripts
+- [ ] Multi-cloud deployment
 
 ---
 
-## Contribuir a docs/devops/
+## Métricas de Éxito
 
-### Agregar Nueva Guia Git
+**M1: Adopción**
+- Target: 100% desarrolladores usan guías Git
+- Medición: Encuestas trimestrales
 
-1. Determinar nivel apropiado (basico/intermedio/avanzado)
+**M2: Calidad de PRs**
+- Target: Reducción 30% iteraciones review
+- Medición: Promedio iteraciones por PR
+
+**M3: Time-to-Productivity**
+- Target: Nuevos devs productivos en <3 días
+- Medición: Tiempo primer PR exitoso
+
+**M4: Automatización Coverage**
+- Target: 80% tareas repetitivas automatizadas
+- Medición: % tareas con scripts vs manuales
+
+**M5: Satisfacción Desarrolladores**
+- Target: >8/10 satisfacción con herramientas DevOps
+- Medición: Encuestas trimestrales
+
+---
+
+## Comandos Útiles
+
+```bash
+# CI/CD
+./scripts/ci-local.sh                                    # Pipeline completo
+./scripts/ci/run-all-checks.sh                          # Todos los checks
+./scripts/ci/run-all-gates.sh                           # Quality gates
+
+# Testing
+./scripts/run_all_tests.sh                              # Todos los tests
+./scripts/run_integration_tests.sh                      # Integration tests
+pytest scripts/coding/ai/tests/ -v --cov                # Tests con coverage
+
+# Validation
+./scripts/validation/security/run_all_security_checks.sh   # Security
+./scripts/validation/compliance/run_all_compliance_checks.sh # Compliance
+./scripts/validation/quality/validate_shell_constitution.sh  # Quality
+
+# Git Hooks
+./scripts/install_hooks.sh                              # Instalar hooks
+
+# SDLC
+python scripts/run_sdlc_pipeline_for_tdd.py             # SDLC completo
+
+# Infrastructure
+./scripts/health_check.sh                               # Health check
+./scripts/backup_data_centralization.sh                 # Backup
+./scripts/infrastructure/disaster_recovery/test_dr.sh   # Test DR
+
+# DORA
+./scripts/generate_dora_report.sh                       # DORA report
+
+# Utilities
+./scripts/cleanup_branches.sh                           # Cleanup branches
+./scripts/verificar_servicios.sh                        # Verify services
+```
+
+---
+
+## Contribuir
+
+### Agregar Nueva Guía Git
+
+1. Determinar nivel apropiado (básico/intermedio/avanzado)
 2. Crear archivo en `git/nivel_X_XXX/NOMBRE_GUIA.md`
-3. Usar metadata template (ver guias existentes)
-4. Actualizar referencias cruzadas desde/hacia otras guias
+3. Usar metadata template (ver guías existentes)
+4. Actualizar referencias cruzadas
 5. Crear PR siguiendo workflow IACT
 
-### Agregar Script de Automatizacion
+### Agregar Script de Automatización
 
-1. Determinar categoria (git_hooks, constitucion, validaciones, ci_cd)
-2. Crear script en directorio apropiado
-3. Documentar uso en README dentro del subdirectorio
+1. Determinar categoría (ci/, git-hooks/, validation/, etc.)
+2. Crear script siguiendo [convenciones](#shell-scripting-standards)
+3. Documentar uso con `--help`
 4. Agregar tests si aplica
-5. Crear PR
+5. Actualizar este README
+6. Crear PR
 
-### Actualizar Documentacion Existente
+### Actualizar Documentación
 
 **Cambios menores** (typos, clarificaciones):
 1. Editar archivo directamente
-2. Actualizar campo `date` en frontmatter
-3. PR con descripcion concisa
+2. PR con descripción concisa
 
-**Cambios mayores** (nuevo flujo, deprecacion):
-1. Seguir proceso SDLC completo (ver `git/planificacion/MAINTENANCE_PLAN_GIT_DOCS.md`)
+**Cambios mayores** (nuevo flujo, deprecación):
+1. Seguir proceso SDLC completo
 2. Actualizar referencias cruzadas
 3. Run validaciones
 4. PR con review de 2+ personas
 
----
-
-## Estandares y Convenciones
-
-### Nombres de Archivos
-- MAYUSCULAS con guiones bajos: `NOMBRE_DESCRIPTIVO.md`
-- Sin emojis en ningun documento
-- Descriptivos y autoconsistentes
-
-### Metadata (Frontmatter YAML)
-Todos los archivos .md deben incluir:
-```yaml
----
-title: string
-date: YYYY-MM-DD
-level: basic|intermediate|advanced (para guias Git)
-domain: devops
-prerequisites: string|list (opcional)
-estimated_time: string (opcional)
-status: active|deprecated|in_development
----
-```
-
-### Estilo de Escritura
-- Claro y conciso
-- Ejemplos practicos
-- Comandos ejecutables (no pseudocodigo)
-- Referencias cruzadas cuando relevante
-- NO usar emojis (usar texto: NOTA:, ADVERTENCIA:, IMPORTANTE:)
-
-### Commits
-Seguir Conventional Commits:
-```
-docs(git): add guide for cherry-pick workflows
-feat(ci): add local pipeline validation script
-fix(hooks): correct pre-commit emoji detection regex
-```
-
----
-
-## Roadmap DevOps IACT
-
-### Completado ✓
-- Reorganizacion Git docs (3 niveles jerarquicos)
-- Documentacion SDLC 6 fases para Git guides
-- Analisis y feasibility de sistema automatizacion local
-- Estructura docs/devops/ establecida
-
-### En Progreso
-- FASE 3-6 SDLC: Sistema de automatizacion local
-  - Git hooks automaticos
-  - Sistema constitucion agentes IA
-  - CI/CD pipeline local
-
-### Proximo (Q1 2026)
-- Implementacion git hooks (pre-commit, pre-push)
-- Sistema constitucion para agentes
-- Pipeline CI/CD local ejecutable
-- Testing automatizado TDD
-
-### Futuro (Q2+ 2026)
-- GitHub Actions workflows
-- Release automation con semantic versioning
-- Integracion con herramientas de monitoring
-- Expansion testing automation
-
----
-
-## Metricas de Exito
-
-**M1: Adopcion**
-- Target: 100% desarrolladores usan guias Git
-- Medicion: Encuestas trimestrales
-
-**M2: Calidad de PRs**
-- Target: Reduccion 30% iteraciones review
-- Medicion: Promedio iteraciones por PR
-
-**M3: Time-to-Productivity**
-- Target: Nuevos devs productivos en <3 dias
-- Medicion: Tiempo primer PR exitoso
-
-**M4: Automatizacion Coverage**
-- Target: 80% tareas repetitivas automatizadas
-- Medicion: % tareas con scripts vs manuales
-
-**M5: Satisfaccion Desarrolladores**
-- Target: >8/10 satisfaccion con herramientas DevOps
-- Medicion: Encuestas trimestrales
-
----
-
-## Contacto y Soporte
-
-**Preguntas sobre Git workflows**: Revisar guias en `git/`, si no resuelve → Slack #git-help
-
-**Problemas con automatizacion**: Revisar docs en `automatizacion/planificacion/`, si no resuelve → Crear issue
-
-**Sugerencias de mejora**: Crear issue con label "devops" o PR directamente
-
-**Maintainer**: Tech Lead / DevOps Team
+Ver guía completa: [../../CONTRIBUTING.md](../../CONTRIBUTING.md)
 
 ---
 
 ## Referencias
 
-- **Modelo de Referencia**: TFG-Server (solo estructura tecnica, adaptada a IACT)
-- **Metodologia**: SDLC 6 Fases (Planning, Feasibility, Design, Testing, Deployment, Maintenance)
-- **Prompt Engineering**: Auto-CoT, Self-Consistency
-- **Testing**: TDD (RED-GREEN-REFACTOR)
+- [TFG-Server DevOps Analysis](analysis_tfg_server_vs_iact_scripts.md)
+- [IACT Scripts Organization](../../scripts/README.md)
+- [Git Workflows](git/)
+- [SDLC Agents Documentation](../../.github/agents/sdlc/README.md)
+- [AI Agents Documentation](../../.github/agents/README.md)
+- [Conventions and Lessons Learned](../../.github/agents/CONVENTIONS_AND_LESSONS_LEARNED.md)
 
 ---
 
-**Status**: ACTIVO
-**Creacion**: 2025-11-13
-**Ultima Revision**: 2025-11-13
-**Proxima Revision**: 2026-01-13 (trimestral)
+**Última actualización**: 2025-11-14
+**Owner**: DevOps Team
+**Status**: Active development
+**Próxima revisión**: 2025-02-14 (trimestral)
