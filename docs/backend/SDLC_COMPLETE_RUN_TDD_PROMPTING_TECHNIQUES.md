@@ -51,7 +51,7 @@ Se completó exitosamente el pipeline SDLC completo para implementar tests TDD d
 - [x] Docstrings descriptivos
 - [x] Tests cubren casos happy path, edge cases y errores
 
-**Documento**: `docs/agent/planning/planning_output.md`
+**Documento**: `docs/backend/planning/planning_output.md`
 
 ---
 
@@ -93,7 +93,7 @@ specialized_techniques
 - ✅ Riesgos críticos mitigados
 - ⚠️ Complejidad técnica manejable
 
-**Documento**: `docs/agent/feasibility/feasibility_analysis.md`
+**Documento**: `docs/backend/feasibility/feasibility_analysis.md`
 
 ---
 
@@ -173,7 +173,7 @@ scripts/coding/ai/
 | tree_of_thoughts | 75% | Tree traversal |
 | fundamental_techniques | 90% | Simple, alta cobertura |
 
-**Documento**: `docs/agent/design/design_hld_lld.md`
+**Documento**: `docs/backend/design/design_hld_lld.md`
 
 ---
 
@@ -277,7 +277,7 @@ Observation 3: 85%+ coverage alcanzado
 
 **Resultado**: Tests robustos con alta confianza
 
-**Documento**: `docs/agent/testing/testing_strategy.md`
+**Documento**: `docs/backend/testing/testing_strategy.md`
 
 ---
 
@@ -349,7 +349,7 @@ Si hay fallos:
 - [ ] CI/CD passing (pending configuración)
 - [ ] Documentation complete
 
-**Documento**: `docs/agent/deployment/deployment_plan.md`
+**Documento**: `docs/backend/deployment/deployment_plan.md`
 
 ---
 
