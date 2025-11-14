@@ -97,7 +97,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     owner: "vagrant",
     group: "vagrant",
     mount_options: [
-      "dmode=755,fmode=664",  # 664 for files allows VM to write artifacts
+      "dmode=755,fmode=775",  # 775 keeps files writable and executable for build scripts
       "iocharset=utf8",
       "ttl=1"
     ]
