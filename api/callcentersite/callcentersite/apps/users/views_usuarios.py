@@ -11,6 +11,7 @@ Endpoints:
     - POST   /api/usuarios/:id/suspender/    (action)
     - POST   /api/usuarios/:id/reactivar/    (action)
     - POST   /api/usuarios/:id/asignar_grupos/  (action)
+    - POST   /api/register/             (public registration)
 
 Referencia: docs/PLAN_MAESTRO_PRIORIDAD_02.md (Tareas 43-59)
 """
@@ -19,14 +20,16 @@ from __future__ import annotations
 
 from django.contrib.auth import get_user_model
 from django.core.exceptions import PermissionDenied, ValidationError
-from rest_framework import status, viewsets
+from rest_framework import generics, status, viewsets
 from rest_framework.decorators import action
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
 from .serializers_usuarios import (
     AsignarGruposSerializer,
     SuspenderUsuarioSerializer,
     UserListSerializer,
+    UserRegistrationSerializer,
     UserSerializer,
 )
 from .services_usuarios import UsuarioService
@@ -354,3 +357,42 @@ class UserViewSet(viewsets.ModelViewSet):
                 {'error': str(e)},
                 status=status.HTTP_400_BAD_REQUEST,
             )
+
+
+class UserRegistrationView(generics.CreateAPIView):
+    """
+    Vista para registro publico de usuarios.
+    
+    POST /api/register/
+    
+    Body:
+        - username: str (requerido, unico)
+        - email: str (requerido, unico)
+        - password: str (requerido, minimo 8 caracteres)
+        - password_confirm: str (requerido, debe coincidir)
+    
+    Returns:
+        - 201 Created: Usuario registrado exitosamente
+        - 400 Bad Request: Datos invalidos
+    """
+    
+    serializer_class = UserRegistrationSerializer
+    permission_classes = [AllowAny]
+    
+    def create(self, request, *args, **kwargs):
+        """Registra un nuevo usuario."""
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.save()
+        
+        return Response(
+            {
+                'message': 'Usuario registrado exitosamente',
+                'user': {
+                    'id': user.id,
+                    'username': user.username,
+                    'email': user.email,
+                }
+            },
+            status=status.HTTP_201_CREATED,
+        )
