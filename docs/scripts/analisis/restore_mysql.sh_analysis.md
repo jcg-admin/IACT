@@ -1,3 +1,10 @@
+---
+title: Analysis: restore_mysql.sh
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Analysis: restore_mysql.sh
 
 ## Summary

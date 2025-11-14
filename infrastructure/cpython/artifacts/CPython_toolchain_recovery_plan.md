@@ -9,7 +9,7 @@
    - `.devcontainer/devcontainer.json` consume los artefactos generados por la VM (tarball y checksum) para mantener alineados local y release.
    - `ARTIFACTS.md` registra el inventario de builds publicados y sirve como fuente de verdad para la distribución.
 3. **Mejoras recientes**
-   - Se documentó el pipeline completo en `README.md` y `docs/infrastructure/CHANGELOG-cpython.md`.
+   - Se documentó el pipeline completo en `README.md` y `docs/infraestructura/CHANGELOG-cpython.md`.
    - `bootstrap.sh` ahora incluye `ensure_toolchain_ready` para reinstalar GCC/Make cuando el estado de la VM se recicla sin toolchain.
 
 ## Estado actual del problema

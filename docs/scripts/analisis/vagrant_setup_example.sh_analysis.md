@@ -1,3 +1,10 @@
+---
+title: Analysis: vagrant_setup_example.sh
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Analysis: vagrant_setup_example.sh
 
 ## Summary

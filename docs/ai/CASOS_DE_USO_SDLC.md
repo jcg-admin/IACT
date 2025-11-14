@@ -1,3 +1,10 @@
+---
+title: Casos de Uso: Agentes SDLC
+date: 2025-11-13
+domain: ai
+status: active
+---
+
 # Casos de Uso: Agentes SDLC
 
 Guía práctica con ejemplos ejecutables para diferentes escenarios reales.

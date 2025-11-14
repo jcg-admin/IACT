@@ -1,3 +1,10 @@
+---
+title: Guía Completa: TDD Feature Agent
+date: 2025-11-13
+domain: gobernanza
+status: active
+---
+
 # Guía Completa: TDD Feature Agent
 
 Documentación detallada del agente de implementación TDD con garantías de calidad y compliance.

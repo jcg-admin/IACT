@@ -7,6 +7,7 @@ fecha_creacion: 2025-11-06
 propietario: arquitecto-senior
 fuente: FASES_IMPLEMENTACION_IA.md + dora_sdlc_integration.py
 relacionados: ["ESTRATEGIA_IA.md", "FASES_IMPLEMENTACION_IA.md", "AI_CAPABILITIES.md"]
+date: 2025-11-13
 ---
 
 # Guia de Integracion DORA + SDLC Agents

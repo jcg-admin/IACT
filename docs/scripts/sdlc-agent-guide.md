@@ -1,3 +1,10 @@
+---
+title: Guia Completa: sdlc_agent.py
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Guia Completa: sdlc_agent.py
 
 Documentacion detallada del CLI principal para ejecutar agentes SDLC del proyecto IACT.

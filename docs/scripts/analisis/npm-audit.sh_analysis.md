@@ -1,3 +1,10 @@
+---
+title: Analysis: npm-audit.sh
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Analysis: npm-audit.sh
 
 ## Summary

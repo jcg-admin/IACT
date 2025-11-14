@@ -1,3 +1,10 @@
+---
+title: Analysis: django-security-check.sh
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Analysis: django-security-check.sh
 
 ## Summary

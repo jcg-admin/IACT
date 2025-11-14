@@ -1,3 +1,10 @@
+---
+title: UBICACIÓN CORRECTA DE ARCHIVOS DUPLICADOS
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # UBICACIÓN CORRECTA DE ARCHIVOS DUPLICADOS
 
 Según la estructura propuesta donde:
@@ -70,7 +77,7 @@ Según la estructura propuesta donde:
 
 **Acción**:
 - OK MANTENER: `docs/checklists/checklist_cambios_documentales.md`
-- NO ELIMINAR: `docs/infrastructure/checklists/checklist_cambios_documentales.md` (idéntico)
+- NO ELIMINAR: `docs/infraestructura/checklists/checklist_cambios_documentales.md` (idéntico)
 
 ---
 
@@ -88,7 +95,7 @@ Según la estructura propuesta donde:
 
 **Acción**:
 - OK MANTENER: `docs/devops/contenedores_devcontainer.md`
-- NO ELIMINAR: `docs/infrastructure/devops/contenedores_devcontainer.md` (stub)
+- NO ELIMINAR: `docs/infraestructura/devops/contenedores_devcontainer.md` (stub)
 
 ---
 
@@ -107,7 +114,7 @@ Según la estructura propuesta donde:
 **Acción**:
 - REVISAR MANUALMENTE: Comparar ambas versiones para determinar cuál es más actual
 - Luego mantener solo una en `docs/devops/runbooks/`
-- Eliminar la versión en `docs/infrastructure/`
+- Eliminar la versión en `docs/infraestructura/`
 
 ---
 
@@ -195,7 +202,7 @@ Ver lineamientos base en: `docs/arquitectura/lineamientos_codigo.md`
 
 **Acción**:
 - OK MANTENER: `docs/devops/runbooks/verificar_servicios.md`
-- NO ELIMINAR: `docs/infrastructure/devops/runbooks/verificar_servicios.md` (stub)
+- NO ELIMINAR: `docs/infraestructura/devops/runbooks/verificar_servicios.md` (stub)
 
 ---
 
@@ -212,15 +219,15 @@ Ver lineamientos base en: `docs/arquitectura/lineamientos_codigo.md`
 
 **Acción**:
 - OK MANTENER: `docs/devops/runbooks/post_create.md`
-- NO ELIMINAR: `docs/infrastructure/devops/runbooks/post_create.md` (stub)
+- NO ELIMINAR: `docs/infraestructura/devops/runbooks/post_create.md` (stub)
 
 ---
 
-### 12. adr_2025_001_vagrant_mod_wsgi.md
+### 12. ADR_2025_001-vagrant-mod-wsgi.md
 
 **Naturaleza**: ADR (Architecture Decision Record)
 
-**Ubicación correcta**: `docs/arquitectura/adr/adr_2025_001_vagrant_mod_wsgi.md` OK
+**Ubicación correcta**: `docs/arquitectura/adr/ADR_2025_001-vagrant-mod-wsgi.md` OK
 
 **Razón**:
 - Los ADRs deben estar CENTRALIZADOS en un solo lugar
@@ -230,7 +237,7 @@ Ver lineamientos base en: `docs/arquitectura/lineamientos_codigo.md`
 
 **Acción**:
 - OK MANTENER: `docs/arquitectura/adr/`
-- NO ELIMINAR: `docs/infrastructure/arquitectura/adr/` (stub)
+- NO ELIMINAR: `docs/infraestructura/arquitectura/adr/` (stub)
 
 **Principio**: Un proyecto debe tener UNA ÚNICA fuente de ADRs
 
@@ -251,7 +258,7 @@ Ver lineamientos base en: `docs/arquitectura/lineamientos_codigo.md`
 
 **Acción**:
 - OK MANTENER: `docs/arquitectura/adr/plantilla_adr.md`
-- NO ELIMINAR: `docs/infrastructure/arquitectura/adr/plantilla_adr.md` (simplificada)
+- NO ELIMINAR: `docs/infraestructura/arquitectura/adr/plantilla_adr.md` (simplificada)
 
 ---
 
@@ -272,7 +279,7 @@ Ver lineamientos base en: `docs/arquitectura/lineamientos_codigo.md`
 
 ### Arquitectura → `docs/arquitectura/`
 - OK: lineamientos_codigo.md
-- OK: adr/adr_2025_001_vagrant_mod_wsgi.md
+- OK: adr/ADR_2025_001-vagrant-mod-wsgi.md
 - OK: adr/plantilla_adr.md
 
 ### Gobernanza → `docs/gobernanza/`
@@ -312,11 +319,11 @@ rm docs/infraestructura/checklists/checklist_cambios_documentales.md
 rm docs/backend/checklists/checklist_desarrollo.md
 rm docs/backend/devops/runbooks/reprocesar_etl_fallido.md
 
-# Stubs de infraestructura
+# Stubs de infrastructure
 rm docs/infraestructura/devops/contenedores_devcontainer.md
 rm docs/infraestructura/devops/runbooks/verificar_servicios.md
 rm docs/infraestructura/devops/runbooks/post_create.md
-rm docs/infraestructura/arquitectura/adr/adr_2025_001_vagrant_mod_wsgi.md
+rm docs/infraestructura/arquitectura/adr/ADR_2025_001-vagrant-mod-wsgi.md
 rm docs/infraestructura/arquitectura/adr/plantilla_adr.md
 ```
 

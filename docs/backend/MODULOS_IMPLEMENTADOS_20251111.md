@@ -15,6 +15,7 @@ relacionados:
   - RF-BUZON-INTERNO
   - RF-ETL-JOBS
 tags: [tdd, django, rest-api, etl, reportes, notifications]
+date: 2025-11-13
 ---
 
 # Actualización de Arquitectura - Módulos Implementados
@@ -1471,7 +1472,7 @@ El siguiente paso es implementar el **frontend** en `ui/` directory para consumi
 
 ### ADRs Relacionados
 
-- ADR-012: Sistema de Permisos sin Roles Jerárquicos
+- ADR_2025_017: Sistema de Permisos sin Roles Jerárquicos
 - ADR-XXX: (Pendiente) Decisión de usar Service Layer Pattern
 
 ### Issues y Commits

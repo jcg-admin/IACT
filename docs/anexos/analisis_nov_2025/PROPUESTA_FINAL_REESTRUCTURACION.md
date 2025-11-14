@@ -185,12 +185,12 @@ El sistema **deberá** proporcionar una API REST que calcule el stock mínimo...
 ### Workflow: `.github/workflows/requirements_index.yml`
 
 **Trigger**:
-- Push a `implementacion/**/requisitos/**/*.md`
+- Push a `implementaci../gobernanza/marco_integrado/**/*.md`
 - Pull request modificando requisitos
 - Manual dispatch
 
 **Proceso**:
-1. OK: Escanea todos los `*.md` en `implementacion/**/requisitos/`
+1. OK: Escanea todos los `*.md` en `implementaci../gobernanza/marco_integrado/`
 2. OK: Parsea frontmatter YAML
 3. OK: Valida campos obligatorios (id, tipo, titulo, estado)
 4. OK: Construye mapa de trazabilidad bidireccional
@@ -246,7 +246,7 @@ El sistema **deberá** proporcionar una API REST que calcule el stock mínimo...
 **Objetivos**:
 ```bash
 # Crear estructura
-mkdir -p implementacion/{backend,frontend,infraestructura}/requisitos/{necesidades,negocio,stakeholders,funcionales,no_funcionales}
+mkdir -p implementacion/{backend,frontend,infrastructure}/requisitos/{necesidades,negocio,stakeholders,funcionales,no_funcionales}
 mkdir -p docs/requisitos
 
 # Copiar plantillas
@@ -367,7 +367,7 @@ mkdir docs_legacy
 mv docs/backend docs_legacy/
 mv docs/frontend docs_legacy/
 mv docs/solicitudes docs_legacy/
-mv docs/infraestructura docs_legacy/
+mv docs/infrastructure docs_legacy/
 
 # Mantener solo nueva estructura
 ls docs/

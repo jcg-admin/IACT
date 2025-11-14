@@ -1,3 +1,10 @@
+---
+title: Analysis: test_pyramid_check.sh
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Analysis: test_pyramid_check.sh
 
 ## Summary

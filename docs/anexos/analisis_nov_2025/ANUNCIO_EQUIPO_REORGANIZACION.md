@@ -68,8 +68,8 @@ docs/
 |--------------|------------|
 | `docs/implementacion/backend/` | `docs/backend/` |
 | `docs/implementacion/frontend/` | `docs/frontend/` |
-| `docs/implementacion/infrastructure/` | `docs/infrastructure/` |
-| `docs/infraestructura/` | `docs/infrastructure/` |
+| `docs/implementacion/infrastructure/` | `docs/infraestructura/` |
+| `docs/infraestructura/` | `docs/infraestructura/` |
 
 **Todas las referencias en archivos .md ya fueron actualizadas automáticamente** (~80 archivos).
 
@@ -104,7 +104,7 @@ Implementamos un agente IA que sincroniza código ↔ documentación automática
 
 **Comando**:
 ```bash
-python scripts/sync_documentation.py --domains api,ui,infraestructura
+python scripts/sync_documentation.py --domains api,ui,infrastructure
 ```
 
 **Características**:
@@ -126,7 +126,7 @@ Implementamos ownership de documentación:
 
 - `docs/backend/**` → @equipo-backend-lead @arquitecto-senior
 - `docs/frontend/**` → @equipo-frontend-lead @arquitecto-senior
-- `docs/infrastructure/**` → @devops-lead @arquitecto-senior
+- `docs/infraestructura/**` → @devops-lead @arquitecto-senior
 - `docs/requisitos/**` → @product-owner @arquitecto-senior
 
 **Impacto**: PRs que modifiquen docs requieren aprobación de owners.
@@ -209,7 +209,7 @@ Ayuda individual si tienes problemas o preguntas.
 python scripts/sync_documentation.py --dry-run --domains api
 
 # Sincronizar docs (real)
-python scripts/sync_documentation.py --domains api,ui,infraestructura
+python scripts/sync_documentation.py --domains api,ui,infrastructure
 ```
 
 ### Reportes
@@ -222,7 +222,7 @@ python scripts/sync_documentation.py --domains api,ui,infraestructura
 ### ¿Necesito hacer algo ahora mismo?
 **No**. Todos los cambios ya están aplicados. Solo necesitas:
 1. Actualizar tus bookmarks/favoritos
-2. Usar nuevas rutas: `docs/backend/`, `docs/frontend/`, `docs/infrastructure/`
+2. Usar nuevas rutas: `docs/backend/`, `docs/frontend/`, `docs/infraestructura/`
 
 ### ¿Mis links antiguos están rotos?
 **No**. Todas las referencias en archivos .md fueron actualizadas automáticamente.

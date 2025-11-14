@@ -1,3 +1,10 @@
+---
+title: Scripts de Disaster Recovery
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Scripts de Disaster Recovery
 
 Documentacion de scripts para backup, restore y testing de DR.
@@ -200,7 +207,7 @@ sudo systemctl start iact-backend
 
 ```bash
 # 1. Provisionar nuevo servidor
-# (usar infraestructura as code)
+# (usar infrastructure as code)
 
 # 2. Restaurar ultimo backup
 ./scripts/disaster_recovery/restore_mysql.sh <latest_backup>

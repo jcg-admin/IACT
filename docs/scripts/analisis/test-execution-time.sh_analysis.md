@@ -1,3 +1,10 @@
+---
+title: Analysis: test-execution-time.sh
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Analysis: test-execution-time.sh
 
 ## Summary

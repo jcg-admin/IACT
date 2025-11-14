@@ -4,6 +4,7 @@ estado: borrador
 propietario: equipo-producto
 ultima_actualizacion: 2025-11-02
 relacionados: ["DOC-ANX-INDEX", "DOC-VIS-001"]
+date: 2025-11-13
 ---
 # Glosario de términos
 

@@ -42,6 +42,7 @@ verificacion_metodo: test
 # Experiencia de usuario
 categoria_ux: performance
 impacto_experiencia: alto
+date: 2025-11-13
 ---
 
 # RS-002: Usuarios requieren acceso rapido menor 2 segundos

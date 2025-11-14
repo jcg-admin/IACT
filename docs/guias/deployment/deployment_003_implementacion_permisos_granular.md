@@ -7,7 +7,7 @@ prioridad: P1
 tiempo_lectura: 25 minutos
 version: 1.0.0
 fecha: 2025-11-07
-relacionados: ["prioridad_01_estructura_base_datos", "MAPEO_FUNCIONES_MODULOS_DJANGO", "ADR-2025-005"]
+relacionados: ["prioridad_01_estructura_base_datos", "MAPEO_FUNCIONES_MODULOS_DJANGO", "ADR_2025_005"]
 ---
 
 # Implementación del Sistema de Permisos Granular
@@ -26,7 +26,7 @@ Esta guía está dirigida a: **Desarrolladores backend** responsables de impleme
 - [ ] Ambiente de desarrollo Django configurado
 - [ ] Conocimiento de Django ORM y Django REST Framework
 - [ ] Permisos de administrador en base de datos de desarrollo
-- [ ] Haber leído ADR-2025-005 (Grupos Funcionales sin Jerarquía)
+- [ ] Haber leído ADR_2025_005 (Grupos Funcionales sin Jerarquía)
 
 ## Tiempo estimado
 
@@ -37,7 +37,7 @@ Tiempo de implementación: 20-30 horas (distribuidas en 4 semanas)
 
 ### Decisión Arquitectónica
 
-Según **ADR-2025-005**, el sistema se basa en:
+Según **ADR_2025_005**, el sistema se basa en:
 
 ```
 Filosofía:
@@ -756,7 +756,7 @@ Después de completar esta guía:
 ## Referencias
 
 - Documentación base de datos: `docs/backend/requisitos/prioridad_01_estructura_base_datos.md`
-- ADR-2025-005: `docs/adr/adr_2025_005_grupos_funcionales_sin_jerarquia.md`
+- ADR_2025_005: `docs/adr/ADR_2025_005-grupos-funcionales-sin-jerarquia.md`
 - Mapeo Django: `docs/backend/requisitos/MAPEO_FUNCIONES_MODULOS_DJANGO.md`
 - Casos de uso: `docs/backend/requisitos/CASOS_DE_USO_SISTEMA_PERMISOS.md`
 

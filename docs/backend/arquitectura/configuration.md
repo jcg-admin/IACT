@@ -1,3 +1,10 @@
+---
+title: App: configuration
+date: 2025-11-13
+domain: backend
+status: active
+---
+
 # App: configuration
 
 **Dominio**: Sistema

@@ -1,3 +1,10 @@
+---
+title: Plan de Remediación: Shell Scripts by Domain (DDD)
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Plan de Remediación: Shell Scripts by Domain (DDD)
 
 **Issue ID**: REMEDIATION-SHELL-SCRIPTS-001

@@ -1,3 +1,10 @@
+---
+title: Analysis: generate_dora_report.sh
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Analysis: generate_dora_report.sh
 
 ## Summary

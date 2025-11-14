@@ -1,3 +1,10 @@
+---
+title: Analysis: run_test_generation.sh
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Analysis: run_test_generation.sh
 
 ## Summary

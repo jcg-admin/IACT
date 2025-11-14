@@ -1,3 +1,10 @@
+---
+title: Advanced Prompting Techniques in IACT Project
+date: 2025-11-13
+domain: backend
+status: active
+---
+
 # Advanced Prompting Techniques in IACT Project
 
 **Date:** 2025-11-11

@@ -1,3 +1,10 @@
+---
+title: Analysis: wasm_style_sandbox.sh
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Analysis: wasm_style_sandbox.sh
 
 ## Summary

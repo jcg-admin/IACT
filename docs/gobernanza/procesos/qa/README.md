@@ -4,6 +4,7 @@ estado: borrador
 propietario: lider-qa
 ultima_actualizacion: 2025-02-18
 relacionados: ["DOC-QA-001", "DOC-CHECKLISTS-INDEX", "DOC-REL-INDEX"]
+date: 2025-11-13
 ---
 # Gestión de calidad
 

@@ -5,6 +5,7 @@ estado: borrador
 propietario: equipo-frontend
 ultima_actualizacion: 2025-11-10
 relacionados: ["DOC-ARQ-FRONTEND"]
+date: 2025-11-13
 ---
 
 # Shared Webpack configs para microfrontends single-spa

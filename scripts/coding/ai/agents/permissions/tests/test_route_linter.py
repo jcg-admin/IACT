@@ -19,7 +19,7 @@ from pathlib import Path
 from textwrap import dedent
 
 # Import del agent a testear
-from scripts.ai.agents.permissions.route_linter import (
+from scripts.coding.ai.agents.permissions.route_linter import (
     RouteLintAgent,
     Violation,
     LintResult

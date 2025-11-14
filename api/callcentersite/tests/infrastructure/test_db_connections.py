@@ -5,10 +5,10 @@ Estos tests verifican la conectividad a nivel de base de datos RAW,
 SIN requerir migraciones de Django ni modelos creados.
 
 Ejecutar:
-    pytest api/callcentersite/tests/infraestructura/test_vagrant_db_connections.py -v
+    pytest api/callcentersite/tests/infrastructure/test_vagrant_db_connections.py -v
 
 O con pytest desde el directorio api/callcentersite:
-    pytest tests/infraestructura/test_vagrant_db_connections.py -v
+    pytest tests/infrastructure/test_vagrant_db_connections.py -v
 
 Marcar como slow para excluir en CI/CD:
     pytest -m "not slow"

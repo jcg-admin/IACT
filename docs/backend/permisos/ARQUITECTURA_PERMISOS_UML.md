@@ -1,8 +1,15 @@
+---
+title: Arquitectura del Sistema de Permisos - Diagramas UML
+date: 2025-11-13
+domain: backend
+status: active
+---
+
 # Arquitectura del Sistema de Permisos - Diagramas UML
 
 **Fecha:** 2025-11-11
 **Propósito:** Documentar la arquitectura actual y propuesta del sistema de permisos con diagramas UML
-**Referencia:** ADR-012-sistema-permisos-sin-roles-jerarquicos.md
+**Referencia:** ADR_2025_017-sistema-permisos-sin-roles-jerarquicos.md
 
 ---
 
@@ -853,7 +860,7 @@ gantt
 2. **Mantenibilidad:** Lógica centralizada, fácil de modificar
 3. **Escalabilidad:** Agregar nuevos módulos es trivial (solo heredar PermisoMixin)
 4. **Seguridad:** Imposible olvidar verificar permisos
-5. **Cumple ADR-012:** Sistema granular sin roles jerárquicos
+5. **Cumple ADR_2025_017:** Sistema granular sin roles jerárquicos
 
 ### 10.2 Trade-offs Aceptados
 
@@ -872,7 +879,7 @@ gantt
 
 ## Referencias
 
-- **ADR-012:** Sistema de Permisos Granular SIN Roles Jerárquicos
+- **ADR_2025_017:** Sistema de Permisos Granular SIN Roles Jerárquicos
 - **Django Middleware:** https://docs.djangoproject.com/en/5.2/topics/http/middleware/
 - **DRF Permissions:** https://www.django-rest-framework.org/api-guide/permissions/
 - **Código actual:**

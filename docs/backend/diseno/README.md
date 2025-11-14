@@ -1,3 +1,10 @@
+---
+title: Diseño del Backend IACT
+date: 2025-11-13
+domain: backend
+status: active
+---
+
 # Diseño del Backend IACT
 
 **Proposito**: Documentacion de diseño detallado de componentes

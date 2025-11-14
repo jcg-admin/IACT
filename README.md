@@ -119,25 +119,6 @@ pytest
 ./scripts/validate_critical_restrictions.sh
 ```
 
-### Workspace VPN/Proxy Agent (nuevo)
-
-El directorio [`infrastructure/workspace/`](infrastructure/workspace/README.md)
-contiene el agente VPN/Proxy y los playbooks MCP actualizados. Para instalar y
-validar esta área:
-
-```bash
-cd infrastructure/workspace
-./setup.sh                 # instala dependencias Node + Python
-cp .env.example .env       # configura variables MCP/LLM
-npm test                   # ejecuta pruebas (Pytest + node --test)
-```
-
-Scripts disponibles (`package.json`):
-
-- `npm run vpn:setup-dev`, `npm run vpn:health`, `npm run vpn:stop`
-- `npm run mcp:list`, `npm run mcp:validate`, `npm run mcp:run`
-- `npm run lint`, `npm run typecheck`, `npm run hamilton:test`
-
 [PLANIFICADO] **Planificado**: Suite completa con cobertura DORA metrics
 
 ### 5. Desarrollo local
@@ -155,7 +136,7 @@ Los scripts disponibles dentro de `infrastructure/cpython/scripts/` son:
 | `validate_build.sh` | Verifica la integridad del artefacto generado (`.tgz` + `.sha256`). | `./infrastructure/cpython/scripts/validate_build.sh cpython-3.12.6-ubuntu20.04-build1.tgz` |
 | `install_prebuilt_cpython.sh` | Instala un artefacto precompilado existente en un destino (`INSTALLPREFIX`). | `VERSION=3.12.6 INSTALLPREFIX=/opt/python ./infrastructure/cpython/scripts/install_prebuilt_cpython.sh` |
 
-Consulta [`docs/infrastructure/README.md`](docs/infraestructura/README.md) y [`docs/infrastructure/CHANGELOG-cpython.md`](docs/infraestructura/CHANGELOG-cpython.md) para conocer más detalles sobre estos flujos.
+Consulta [`docs/infraestructura/README.md`](docs/infraestructura/README.md) y [`docs/infraestructura/CHANGELOG-cpython.md`](docs/infraestructura/CHANGELOG-cpython.md) para conocer más detalles sobre estos flujos.
 
 ## Calidad y contribución
 
@@ -204,10 +185,7 @@ pytest -c docs/pytest.ini docs/testing
 - **[Guía Completa de Desarrollo de Features](docs/gobernanza/procesos/procedimientos/guia_completa_desarrollo_features.md)** - Proceso end-to-end
 - **[Estrategia de QA](docs/gobernanza/procesos/qa/ESTRATEGIA_QA.md)** - Testing strategy
 - **[Codex MCP Multi-Agent Guide](docs/ai_capabilities/orchestration/CODEX_MCP_MULTI_AGENT_GUIDE.md)** - Configura el `CodexMCPWorkflowBuilder` para flujos single/multi-agent en Claude, ChatGPT y Hugging Face.
-- **META-AGENTE CODEX**
-  - [Parte 1](docs/analisis/META_AGENTE_CODEX_PARTE_1.md): Supuestos, restricciones y fundamentos para generar artefactos CODEX multi-LLM.
-  - [Parte 2](docs/analisis/META_AGENTE_CODEX_PARTE_2.md): Pipeline detallado (Etapas 4-6), formato de entrada y estructura del artefacto.
-  - [Parte 3](docs/analisis/META_AGENTE_CODEX_PARTE_3.md): Instrucciones de uso, formatos de salida, limitaciones y visión de futuro.
+- **[META-AGENTE CODEX](docs/analisis/META_AGENTE_CODEX_PARTE_1.md)** - Supuestos, restricciones y pipeline formal para generar artefactos CODEX multi-LLM (Parte 1 de 3).
 
 ## Arquitectura y Stack
 

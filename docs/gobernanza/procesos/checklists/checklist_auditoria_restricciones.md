@@ -6,6 +6,7 @@ version: 1.0.0
 fecha_creacion: 2025-11-04
 propietario: equipo-qa
 relacionados: ["PROC-QA", "restricciones_completas.md"]
+date: 2025-11-13
 ---
 # Checklist de Auditoría de Restricciones - IACT
 

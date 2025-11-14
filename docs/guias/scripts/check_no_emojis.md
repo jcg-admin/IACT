@@ -1,3 +1,10 @@
+---
+title: Script: check_no_emojis.py
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Script: check_no_emojis.py
 
 **Ubicacion:** `scripts/check_no_emojis.py`

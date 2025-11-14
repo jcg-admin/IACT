@@ -1,3 +1,10 @@
+---
+title: Analysis: contar_requisitos.sh
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Analysis: contar_requisitos.sh
 
 ## Summary

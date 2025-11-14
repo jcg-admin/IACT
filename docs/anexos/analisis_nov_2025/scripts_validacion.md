@@ -1,3 +1,10 @@
+---
+title: Scripts de Validación - Proyecto IACT
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Scripts de Validación - Proyecto IACT
 
 Este directorio contiene scripts shell para validar el cumplimiento de las restricciones del proyecto y la configuración de seguridad.

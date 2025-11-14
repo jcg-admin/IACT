@@ -1,3 +1,10 @@
+---
+title: Analysis: validar_estructura_docs.sh
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Analysis: validar_estructura_docs.sh
 
 ## Summary

@@ -21,6 +21,7 @@ stakeholders:
 
 iso29148_clause: "9.6.4"
 verificacion_metodo: test
+date: 2025-11-13
 ---
 
 # RF-004: Segmentación de usuarios con criterios dinámicos

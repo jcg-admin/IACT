@@ -158,23 +158,6 @@ Temporary Items
 *.backup
 *.orig
 *.tmp
-
-# ==========================================
-# Node.js
-# ==========================================
-node_modules/
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-package-lock.json
-dist/
-
-# ==========================================
-# VPN/Proxy Agent
-# ==========================================
-.vpn-proxy-agent/
-*.log
-infrastructure/workspace/.env
 /backups/
 *backup-copy-log-*.txt
 *backup-*log-*.txt
@@ -288,4 +271,6 @@ infrastructure/vagrant/*.box
 package-lock.json
 infrastructure/box/tests/**/verify_connections_*.txt
 
-infrastructure/cpython/.build_state/*
+infrastructure/cpython/.build_state/*docs_analysis_report/
+# Build artifacts
+infrastructure/cpython/.build_state/

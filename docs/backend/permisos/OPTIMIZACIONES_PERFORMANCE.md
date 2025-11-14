@@ -1,3 +1,10 @@
+---
+title: Optimizaciones de Performance - Sistema de Permisos
+date: 2025-11-13
+domain: backend
+status: active
+---
+
 # Optimizaciones de Performance - Sistema de Permisos
 
 **Versión:** 1.0
@@ -19,7 +26,7 @@ Documentar optimizaciones de implementación que mejoran la performance del sist
 
 ## Contexto: Sistema de Permisos Granular
 
-El sistema IACT utiliza un modelo de permisos basado en **capacidades** (no roles jerárquicos), documentado en ADR-012.
+El sistema IACT utiliza un modelo de permisos basado en **capacidades** (no roles jerárquicos), documentado en ADR_2025_017.
 
 ### Componentes Principales
 
@@ -384,7 +391,7 @@ for permiso in permisos_requeridos:
 - [NO] 2-3 queries por validación
 - [NO] NO usa `PermisoService`
 - [NO] NO soporta permisos excepcionales
-- [NO] Inconsistente con arquitectura (ADR-012)
+- [NO] Inconsistente con arquitectura (ADR_2025_017)
 
 **Solución Integrada:**
 
@@ -427,7 +434,7 @@ def validar_permisos_modulo(usuario_id, module_id):
 
 **Ventajas:**
 - [OK] Usa optimización de queries (6→3 por capacidad)
-- [OK] Consistente con ADR-012
+- [OK] Consistente con ADR_2025_017
 - [OK] Soporta `PermisoExcepcional`
 - [OK] Centralizado en `PermisoService`
 
@@ -743,7 +750,7 @@ def test_optimizacion_reduce_queries():
 ## Referencias
 
 - **Código:** `api/callcentersite/callcentersite/apps/permissions/services.py:42-130`
-- **ADR:** `docs/adr/ADR-012-sistema-permisos-sin-roles-jerarquicos.md`
+- **ADR:** `docs/adr/ADR_2025_017-sistema-permisos-sin-roles-jerarquicos.md`
 - **Restricciones:** `docs/backend/requisitos/restricciones_y_lineamientos.md` (Sección 9: Logging)
 - **Tests:** `api/callcentersite/callcentersite/apps/permissions/tests/test_services.py`
 - **Casos de Uso:** `docs/requisitos/casos_uso/UC-012_asignar_modulos.md` a `UC-016_configurar_permisos.md`

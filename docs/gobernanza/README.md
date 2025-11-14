@@ -15,7 +15,7 @@ Este espacio documenta las políticas, estándares, procesos de revisión y cont
 ## Páginas hijas
 
 ### Procesos Operativos
-- [Procesos de Gobernanza](procesos/readme.md)  NUEVO
+- [Procesos de Gobernanza](procesos/readme.md) ⭐ NUEVO
   - [Procedimiento: Diseño Técnico](procesos/procedimiento_diseno_tecnico.md)
   - [Procedimiento: Análisis de Seguridad](procesos/procedimiento_analisis_seguridad.md)
   - [Procedimiento: Trazabilidad de Requisitos](procesos/procedimiento_trazabilidad_requisitos.md)
@@ -28,7 +28,7 @@ Este espacio documenta las políticas, estándares, procesos de revisión y cont
 ### Gobernanza por Dominio
 - [Backend - Gobernanza](../backend/gobernanza/readme.md)
 - [Frontend - Gobernanza](../frontend/gobernanza/readme.md)
-- [Infrastructure - Gobernanza](../infraestructura/gobernanza/readme.md)
+- [Infrastructure - Gobernanza](../infrastructure/gobernanza/readme.md)
 
 ## Información clave
 

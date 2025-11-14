@@ -1,93 +1,156 @@
 ---
-id: DOC-BACKEND-INDEX
+id: DOC-PLANTILLAS-INDEX
 estado: borrador
-propietario: equipo-backend
-ultima_actualizacion: 2025-11-04
-relacionados: ["DOC-INDEX-GENERAL", "DOC-FRONTEND-INDEX", "DOC-SOL-SC03", "ADR-2025-002", "DOC-BACKEND-CALIDAD-AUTO"]
+propietario: equipo-documentacion
+ultima_actualizacion: 2025-11-06
+relacionados: ["DOC-INDEX-GENERAL", "DOC-REQ-INDEX", "PLANTILLA-SPEC", "PLANTILLA-PLAN", "DOC-GOB-CONSTITUTION-AI"]
+date: 2025-11-13
 ---
-# Espacio de documentación - Backend
+# Plantillas
 
-## Rol del espacio
+Colección de formatos reutilizables para discovery, análisis, diseño, QA y operación. Las plantillas se mantienen en Markdown para facilitar su adaptación.
 
-El espacio consolida la documentación técnica del backend del proyecto IACT y actúa como punto único de referencia para el equipo.
-Su objetivo es coordinar decisiones de arquitectura, lineamientos de desarrollo y procedimientos operativos que respaldan el
-monolito modular desplegado actualmente. Cada entrada debe permitir reproducir pasos técnicos en menos de cinco minutos y
-vincular la evidencia correspondiente, siguiendo lo establecido en [documentacion_corporativa.md](../documentacion_corporativa.md).
+## Página padre
+- [`../index.md`](../index.md)
 
-### Alcance
+## Páginas hijas
+- [`plantilla_project_charter.md`](plantilla_project_charter.md)
+- [`plantilla_business_case.md`](plantilla_business_case.md)
+- [`plantilla_srs.md`](plantilla_srs.md)
+- [`plantilla_sad.md`](plantilla_sad.md)
+- [`plantilla_tdd.md`](plantilla_tdd.md)
+- [`plantilla_django_app.md`](plantilla_django_app.md)
+- [`plantilla_etl_job.md`](plantilla_etl_job.md)
+- [`plantilla_database_design.md`](plantilla_database_design.md)
+- [`plantilla_api_reference.md`](plantilla_api_reference.md)
+- [`plantilla_plan_pruebas.md`](plantilla_plan_pruebas.md)
+- [`plantilla_runbook.md`](plantilla_runbook.md)
+- [`plantilla_espacio_documental.md`](plantilla_espacio_documental.md)
+- [`desarrollo/plantilla_spec.md`](desarrollo/plantilla_spec.md) [NUEVO 2025-11-06]
+- [`desarrollo/plantilla_plan.md`](desarrollo/plantilla_plan.md) [NUEVO 2025-11-06]
 
-- Reglas y lineamientos de diseño del backend.
-- Operación y despliegues asociados al componente.
-- Estrategias de aseguramiento de calidad y reportes derivados.
+## Información clave
+### Uso recomendado
+1. Clonar el archivo correspondiente y registrar la relación en el front matter del nuevo documento.
+2. Actualizar campos resaltados con `TODO` o comentarios antes de compartir el artefacto.
+3. Notificar cambios relevantes en [`../gobernanza/readme.md`](../gobernanza/readme.md) para asegurar que todos los equipos utilicen la versión vigente.
 
-### Limitaciones
+### Categorías destacadas
+- **Producto y alcance:** `plantilla_project_charter.md`, `plantilla_business_case.md`.
+- **Requisitos y análisis:** `plantilla_srs.md`, `plantilla_regla_negocio.md`, `plantilla_caso_de_uso.md` (ver [Guía de Casos de Uso](../gobernanza/casos_de_uso_guide.md) para estándares completos).
+- **Diseño y arquitectura:** `plantilla_sad.md`, `plantilla_tdd.md`, `plantilla_database_design.md`, `plantilla_api_reference.md`.
+- **Django y Python:** `plantilla_django_app.md` (documentación de aplicaciones Django), `plantilla_etl_job.md` (documentación de jobs ETL).
+- **Desarrollo de features:** [NUEVO] `desarrollo/plantilla_spec.md` (especificación formal de features), `desarrollo/plantilla_plan.md` (plan de implementación detallado).
+- **QA y soporte:** `plantilla_plan_pruebas.md`, `plantilla_caso_prueba.md`, `plantilla_runbook.md`.
+- **Documentación corporativa:** `plantilla_espacio_documental.md` para replicar portadas y jerarquías alineadas con la base maestra.
 
-- No sustituye la documentación de APIs externas; únicamente referencia su consumo.
-- Las decisiones de infraestructura compartida se documentan en `../infrastructure/` y se enlazan desde este espacio.
-- Cualquier automatización experimental debe registrarse como borrador hasta contar con evidencia reproducible.
+## Estado de cumplimiento
+| Elemento en la base maestra | ¿Existe en repositorio? | Observaciones |
+| --- | --- | --- |
+| Portada del espacio de plantillas | Sí | Este archivo replica metadatos y navegación requeridos. |
+| Plantillas de discovery y negocio | Sí | Incluyen Project Charter y Business Case. |
+| Plantillas de ingeniería y QA | Sí | Están disponibles las guías de SRS, SAD, plan de pruebas y runbooks. |
+| Plantilla para espacios documentales | Sí | Documentada en [`plantilla_espacio_documental.md`](plantilla_espacio_documental.md). |
+| Plantillas específicas de Django | OK Sí |  Creadas `plantilla_django_app.md` y `plantilla_etl_job.md` para SC02 (2025-11-04). |
+| Registro de versiones y owners | No | Falta crear un inventario que detalle responsables y fecha de vigencia. |
 
-##  Documentación Activa
+## Acciones prioritarias
+- [ ] Elaborar inventario maestro de plantillas con responsables y fechas de revisión.
+- [ ] Automatizar la verificación de enlaces rotos dentro de las plantillas.
+- [ ] Coordinar con Gobernanza la publicación de la guía de adopción de plantillas en rituales oficiales.
+- [x] Crear plantillas específicas para Django (completado 2025-11-04).
 
-### Calidad de Código y Automatización
-- [`calidad_codigo_automatizacion.md`](calidad_codigo_automatizacion.md) - OK **NUEVO** - Guía completa de calidad de código
-  - **Pre-commit hooks**: Ruff, MyPy, Bandit, Detect Secrets
-  - **CI/CD**: GitHub Actions con 4 jobs paralelos
-  - **Testing**: Pytest con ejecución paralela y coverage
-  - **Performance**: Profiling, benchmarking, AsyncIO
-  - **Logging**: Sistema profesional sin servicios externos
-  - **Automatización**: Makefile con 40+ comandos
-  - **Relacionado**: [ADR-2025-002](../../arquitectura/adr/adr_2025_002_suite_calidad_codigo.md)
+## Nuevas plantillas 2025-11-04
 
-### Planificación de Documentación de Apps
-- [`planificacion_documentacion.md`](planificacion_documentacion.md) -  **NUEVO** - Planificación detallada para documentar las 10 apps Django
-  - **Alcance**: ~12,000 líneas, 40 diagramas
-  - **Timeline**: 5 semanas (238 horas)
-  - **Fases**: Apps críticas, soporte, integración
-  - **Estado**: En ejecución (SC03)
+### plantilla_django_app.md
+Plantilla especializada para documentar aplicaciones Django con estructura completa de 13 secciones:
+1. Información general
+2. Modelos (models.py)
+3. Servicios (services.py)
+4. Vistas (views.py)
+5. URLs (urls.py)
+6. Comandos de management
+7. Signals y receivers
+8. Tests
+9. Configuración adicional
+10. Diagramas
+11. Flujos principales
+12. Troubleshooting
+13. Referencias
 
-### Arquitectura
-- [`arquitectura/patrones_arquitectonicos.md`](arquitectura/patrones_arquitectonicos.md) -  6 patrones documentados
-- [`arquitectura/guia_decision_patrones.md`](arquitectura/guia_decision_patrones.md) -  Decision tree para elegir patrones
-- [`arquitectura/lineamientos_codigo.md`](arquitectura/lineamientos_codigo.md) - Lineamientos de código
+**Uso recomendado**: Documentación de apps Django en `api/callcentersite/callcentersite/apps/`
 
-## Árbol de páginas espejo
+### plantilla_etl_job.md
+Plantilla especializada para documentar jobs ETL con estructura completa de 12 secciones:
+1. Información del Job (programación, SLA, configuración)
+2. Fuente de datos (Extract)
+3. Transformaciones (Transform)
+4. Destino (Load)
+5. Dependencias y orden de ejecución
+6. Monitoreo y métricas
+7. Recuperación ante fallos
+8. Diagramas de flujo
+9. Testing y validación
+10. Changelog y versionado
+11. Referencias
+12. Notas adicionales
 
-| Página origen | Ubicación local | Estado | Comentarios |
-| --- | --- | --- | --- |
-| docs/backend/planificacion_documentacion.md | `planificacion_documentacion.md` |  Completado | Planificación detallada SC03 |
-| docs/backend/arquitectura/README.md | `arquitectura/README.md` |  Completado | Patrones arquitectónicos documentados |
-| docs/backend/checklists/README.md | `checklists/README.md` | Pendiente | Crear checklist de despliegues.
-| docs/backend/devops/README.md | `devops/README.md` | Pendiente | Definir scripts de CI/CD.
-| docs/backend/diseno_detallado/README.md | `diseno_detallado/README.md` |  En progreso | SC03: Documentar 10 apps Django |
-| docs/backend/planificacion_y_releases/README.md | `planificacion_y_releases/README.md` | Pendiente | Necesita cronograma vigente.
-| docs/backend/qa/README.md | `qa/README.md` | Pendiente | Documentar métricas de cobertura.
-| docs/backend/requisitos/README.md | `requisitos/README.md` | Pendiente | Sincronizar historias de usuario.
-| docs/backend/gobernanza/README.md | `gobernanza/README.md` | Pendiente | Trasladar lineamientos aprobados.
+**Uso recomendado**: Documentación de jobs ETL en `api/callcentersite/callcentersite/apps/etl/jobs/`
 
-## Backlog de sincronización
+## Nuevas plantillas 2025-11-06: Desarrollo Spec-Driven
 
-| Identificador | Actividad | Responsable | Estado | Comentarios |
-| --- | --- | --- | --- | --- |
-| DOC-BE-SYNC-001 | Completar checklist editorial del espacio backend. | QA documental | En progreso | Ejecutar según [plan_general.md](../plan_general.md).
-| DOC-BE-SYNC-002 | Publicar índice espejo de subcarpetas. | Equipo backend | Pendiente | Requiere confirmación con repositorio corporativo.
-| DOC-BE-SYNC-003 | Registrar métricas de cobertura en `qa/registros/`. | Equipo QA | Pendiente | Depende de resultados de `pytest --cov`.
-| DOC-BE-SYNC-004 | Verificar enlaces relativos en MkDocs. | Equipo documentación | Pendiente | Ajustar navegación antes del primer release.
+### desarrollo/plantilla_spec.md
+Plantilla formal para especificación de features siguiendo ISO 29148:2018, con estructura completa de 14 secciones:
 
-## Checklist operativo
+1. Metadata y trazabilidad
+2. Resumen ejecutivo
+3. Contexto y motivación
+4. Requisitos funcionales (casos de uso, reglas de negocio, criterios de aceptación)
+5. Requisitos no funcionales (performance, seguridad, disponibilidad, escalabilidad)
+6. Diseño de solución (arquitectura, modelos, API endpoints)
+7. Dependencias (técnicas, features, infraestructura)
+8. Plan de testing
+9. Plan de despliegue
+10. Plan de rollout
+11. Riesgos e impacto
+12. Documentación requerida
+13. Criterios de completitud
+14. Aprobaciones y historial
 
-- [ ] Confirmar que los metadatos del front matter coinciden con el espacio maestro.
-- [ ] Actualizar `ultima_actualizacion` tras cada sincronización.
-- [ ] Registrar hallazgos en `../qa/registros/` al concluir cada revisión.
-- [ ] Validar limitaciones y dependencias cruzadas con `../infrastructure/`.
+**Uso recomendado**: Especificación formal de features complejas antes de implementación, especialmente cuando:
+- Afectan múltiples componentes
+- Requieren cambios arquitectónicos
+- Necesitan aprobación de stakeholders
+- Tienen requisitos de negocio complejos
 
-## Integraciones relevantes
+**Workflow**: Ver [Guía de desarrollo de features](../gobernanza/procesos/guia_completa_desarrollo_features.md) para integración en proceso.
 
-- `../infrastructure/README.md`: referencia obligada para despliegues y configuraciones compartidas.
-- `../qa/`: origen de métricas de pruebas automatizadas y reportes de cobertura.
-- `../vision_y_alcance/`: mantiene alineadas las prioridades del backend con la visión de producto.
+### desarrollo/plantilla_plan.md
+Plantilla detallada para planificación de implementación, con estructura completa de 11 secciones:
 
-## Próximos pasos
+1. Metadata y trazabilidad (link a spec)
+2. Resumen del plan y alcance
+3. Pre-requisitos (conocimientos, setup, documentación)
+4. Plan de tareas detallado por fases con:
+   - Estimaciones de tiempo por tarea
+   - Asignaciones de responsables
+   - Criterios de completitud por tarea
+   - Código de ejemplo esperado
+   - Tests requeridos
+5. Plan de deploy (staging y production)
+6. Riesgos y mitigaciones
+7. Rollback plan
+8. Métricas de éxito
+9. Checklist final
+10. Lecciones aprendidas (post-implementación)
+11. Historial de cambios del plan
 
-1. Publicar el árbol de navegación definitivo en `mkdocs.yml` una vez que las subcarpetas estén sincronizadas.
-2. Incorporar ejemplos reproducibles de pipelines en la sección `devops/` con comandos probados.
-3. Documentar decisiones clave mediante ADR y referenciarlas desde `arquitectura/`.
+**Uso recomendado**: Plan de implementación paso a paso para features especificadas, especialmente cuando:
+- Feature toma más de 2 días de desarrollo
+- Múltiples desarrolladores trabajan en paralelo
+- Se requiere coordinación con otros equipos
+- Existe una especificación formal (spec)
+
+**Workflow**: Crear después de aprobación de spec, actualizar durante implementación como documento vivo.
+
+**Integración con Constitution AI**: Ambas plantillas están alineadas con [Constitution para agentes AI](../gobernanza/agentes/constitution.md) para garantizar que agentes AI generen especificaciones y planes que cumplan estándares del proyecto.

@@ -5,6 +5,7 @@ propietario: equipo-documentacion
 ultima_actualizacion: 2025-11-04
 relacionados: ["DOC-ANEXO-INDEX", "DOC-ARQ-INDEX", "DOC-GOB-CASOS-USO-GUIDE"]
 herramientas: ["Mermaid", "PlantUML", "Draw.io"]
+date: 2025-11-13
 ---
 # Diagramas de Referencia
 

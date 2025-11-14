@@ -1,3 +1,10 @@
+---
+title: Analysis: quickstart.sh
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Analysis: quickstart.sh
 
 ## Summary

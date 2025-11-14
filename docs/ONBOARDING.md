@@ -392,7 +392,7 @@ Todos los documentos Markdown tienen frontmatter:
 ---
 id: DOC-UNIQUE-ID
 tipo: guia|adr|spec|procedimiento
-categoria: backend|frontend|infraestructura
+categoria: backend|frontend|infrastructure
 fecha: 2025-11-07
 version: 1.0.0
 propietario: tech-lead

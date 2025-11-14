@@ -1,0 +1,23 @@
+---
+version: "1.0"
+project: "IACT---project"
+
+rules:
+  - rule_id: "R1_branch_protection"
+    principle_id: "P999"
+    description: "Protect main/master branches"
+    severity: "critical"
+    enabled: true
+
+  - rule_id: "R2_no_emojis"
+    principle_id: "P2"
+    description: "No emojis"
+    severity: "invalid_severity"
+    enabled: "yes"
+
+principles:
+  - principle_id: "P1"
+    name: "Branch Protection"
+
+  - principle_id: "P2"
+    name: "No Emojis"

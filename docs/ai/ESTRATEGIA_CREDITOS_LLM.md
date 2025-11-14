@@ -1,3 +1,10 @@
+---
+title: Estrategia de Optimización de Créditos LLM
+date: 2025-11-13
+domain: ai
+status: active
+---
+
 # Estrategia de Optimización de Créditos LLM
 
 Análisis y recomendaciones para uso eficiente de créditos Claude/OpenAI en producción.

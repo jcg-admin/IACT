@@ -1,3 +1,10 @@
+---
+title: Gobernanza del Backend IACT
+date: 2025-11-13
+domain: backend
+status: active
+---
+
 # Gobernanza del Backend IACT
 
 **Proposito**: Politicas y procesos de gobernanza de desarrollo

@@ -1,3 +1,10 @@
+---
+title: Analysis: update_version.sh
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Analysis: update_version.sh
 
 ## Summary

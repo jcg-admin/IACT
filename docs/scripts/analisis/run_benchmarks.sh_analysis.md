@@ -1,3 +1,10 @@
+---
+title: Analysis: run_benchmarks.sh
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Analysis: run_benchmarks.sh
 
 ## Summary

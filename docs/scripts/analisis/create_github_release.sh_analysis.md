@@ -1,3 +1,10 @@
+---
+title: Analysis: create_github_release.sh
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Analysis: create_github_release.sh
 
 ## Summary

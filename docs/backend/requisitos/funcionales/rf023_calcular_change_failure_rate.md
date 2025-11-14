@@ -12,6 +12,7 @@ trazabilidad_upward:
   - RN-004
   - RF-020
 verificacion: test
+date: 2025-11-13
 ---
 
 # RF-023: Calcular Change Failure Rate (CFR)

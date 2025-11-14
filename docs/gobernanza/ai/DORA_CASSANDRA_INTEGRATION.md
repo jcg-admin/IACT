@@ -5,7 +5,8 @@ categoria: integracion
 version: 1.0.0
 fecha_creacion: 2025-11-06
 propietario: arquitecto-senior
-relacionados: ["ADR-2025-003", "ADR-2025-004", "OBSERVABILITY_LAYERS.md", "DORA_SDLC_INTEGRATION_GUIDE.md"]
+relacionados: ["ADR_2025_003", "ADR_2025_004", "OBSERVABILITY_LAYERS.md", "DORA_SDLC_INTEGRATION_GUIDE.md"]
+date: 2025-11-13
 ---
 
 # Integracion DORA Metrics + Cassandra Logs + SDLC Agents
@@ -521,8 +522,8 @@ DORA NO es un agente porque NO EJECUTA tareas, solo MIDE el rendimiento del proc
 
 ## Referencias
 
-- ADR-2025-003: DORA + SDLC Integration
-- ADR-2025-004: Centralized Log Storage en Cassandra
+- ADR_2025_003: DORA + SDLC Integration
+- ADR_2025_004: Centralized Log Storage en Cassandra
 - OBSERVABILITY_LAYERS.md: 3 capas independientes
 - DORA_SDLC_INTEGRATION_GUIDE.md: Guia tecnica integracion
 - WORKFLOW_AGENTES_DORA.md: Workflow operacional completo

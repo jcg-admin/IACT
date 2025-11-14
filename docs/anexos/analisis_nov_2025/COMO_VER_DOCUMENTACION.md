@@ -4,6 +4,7 @@ estado: activo
 propietario: equipo-documentacion
 ultima_actualizacion: 2025-11-04
 relacionados: ["DOC-INDEX-GENERAL", "DOC-SOL-SC01"]
+date: 2025-11-13
 ---
 # Cómo Ver la Documentación - Proyecto IACT
 

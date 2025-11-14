@@ -1,3 +1,10 @@
+---
+title: Analysis: posix_script_template.sh
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Analysis: posix_script_template.sh
 
 ## Summary

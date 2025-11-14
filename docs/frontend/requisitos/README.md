@@ -4,10 +4,11 @@ estado: borrador
 propietario: equipo-frontend
 ultima_actualizacion: 2025-02-20
 relacionados: ["DOC-REQ-INDEX", "DOC-ARQ-FRONTEND"]
+date: 2025-11-13
 ---
 # Requisitos del frontend
 
-Complementa los lineamientos corporativos de [`../../requisitos/README.md`](../../requisitos/README.md) con criterios de experiencia de usuario y comportamiento del cliente web.
+Complementa los lineamientos corporativos de [el marco de gobernanza (`../gobernanza/marco_integrado/`)](../gobernanza/marco_integrado/) con criterios de experiencia de usuario y comportamiento del cliente web.
 
 ## Página padre
 - [`../README.md`](../README.md)

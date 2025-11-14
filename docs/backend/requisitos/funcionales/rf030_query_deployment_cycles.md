@@ -14,6 +14,7 @@ trazabilidad_upward:
   - RF-028
 dora_capability: "6. AI-accessible Internal Data (DORA 2025)"
 verificacion: test
+date: 2025-11-13
 ---
 
 # RF-030: Query Deployment Cycles Dataset

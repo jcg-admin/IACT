@@ -5,6 +5,7 @@ categoria: desarrollo
 version: 1.0.0
 fecha_creacion: 2025-11-05
 propietario: equipo-desarrollo
+date: 2025-11-13
 ---
 
 # Workflows Completos del Proyecto IACT
@@ -196,7 +197,7 @@ Ejecuta:
 
 **Trigger**:
 - Push a: `main`, `develop`
-- Paths: `implementacion/**/requisitos/**/*.md`
+- Paths: `implementaci../gobernanza/marco_integrado/**/*.md`
 - Pull requests (paths)
 - Manual: `workflow_dispatch`
 
@@ -347,7 +348,7 @@ El proyecto cuenta con múltiples categorías de scripts.
 **Propósito**: Generar índices de requisitos ISO 29148
 
 **Funcionalidad**:
-- Escanea `implementacion/**/requisitos/**/*.md`
+- Escanea `implementaci../gobernanza/marco_integrado/**/*.md`
 - Extrae frontmatter YAML
 - Genera BRS, StRS, SyRS, SRS
 - Crea matriz de trazabilidad

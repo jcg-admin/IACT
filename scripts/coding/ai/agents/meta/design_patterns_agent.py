@@ -20,7 +20,7 @@ from typing import List, Dict, Any, Optional
 import os
 import logging
 
-from scripts.ai.agents.base import (
+from scripts.coding.ai.agents.base import (
     AutoCoTAgent,
     Demonstration,
     Question
@@ -28,7 +28,7 @@ from scripts.ai.agents.base import (
 
 # Import LLMGenerator for AI-powered recommendations
 try:
-    from scripts.ai.generators.llm_generator import LLMGenerator
+    from scripts.coding.ai.generators.llm_generator import LLMGenerator
     LLM_AVAILABLE = True
 except ImportError:
     LLM_AVAILABLE = False

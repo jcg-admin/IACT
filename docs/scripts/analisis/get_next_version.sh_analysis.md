@@ -1,3 +1,10 @@
+---
+title: Analysis: get_next_version.sh
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Analysis: get_next_version.sh
 
 ## Summary

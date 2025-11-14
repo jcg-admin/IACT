@@ -16,6 +16,7 @@ babok_knowledge_area: "Business Analysis Planning and Monitoring"
 iso29148_clause: "6.2"
 valor_negocio: alto
 urgencia: alta
+date: 2025-11-13
 ---
 
 # N-002: Datos actualizados para toma de decisiones oportunas

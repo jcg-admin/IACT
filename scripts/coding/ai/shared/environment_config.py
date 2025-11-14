@@ -6,7 +6,7 @@ Maneja configuraciones diferentes según el ambiente (dev, staging, prod).
 Permite a los agentes adaptarse automáticamente al contexto de ejecución.
 
 Uso:
-    from scripts.ai.shared.environment_config import EnvironmentConfig
+    from scripts.coding.ai.shared.environment_config import EnvironmentConfig
 
     config = EnvironmentConfig()
     db_config = config.get_database_config()

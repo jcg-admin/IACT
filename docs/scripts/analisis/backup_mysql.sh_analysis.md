@@ -1,3 +1,10 @@
+---
+title: Analysis: backup_mysql.sh
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Analysis: backup_mysql.sh
 
 ## Summary

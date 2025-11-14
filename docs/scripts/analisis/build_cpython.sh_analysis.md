@@ -1,3 +1,10 @@
+---
+title: Analysis: build_cpython.sh
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Analysis: build_cpython.sh
 
 ## Summary

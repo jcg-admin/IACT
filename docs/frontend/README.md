@@ -4,6 +4,7 @@ estado: borrador
 propietario: equipo-frontend
 ultima_actualizacion: 2025-02-20
 relacionados: ["DOC-INDEX-GENERAL", "DOC-BACKEND-INDEX"]
+date: 2025-11-13
 ---
 # Espacio de documentación - Frontend
 

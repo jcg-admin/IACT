@@ -389,7 +389,7 @@ class DocumentationGuideGenerator:
                     "titulo": "Explorar directorio raíz",
                     "descripcion": "Familiarízate con los directorios principales del proyecto.",
                     "comando": "ls -la",
-                    "output": "api/, frontend/, docs/, scripts/, infraestructura/, .github/"
+                    "output": "api/, frontend/, docs/, scripts/, infrastructure/, .github/"
                 },
                 {
                     "titulo": "Revisar backend (api/)",

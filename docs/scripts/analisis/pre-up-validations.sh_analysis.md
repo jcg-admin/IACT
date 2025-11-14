@@ -1,3 +1,10 @@
+---
+title: Analysis: pre-up-validations.sh
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Analysis: pre-up-validations.sh
 
 ## Summary

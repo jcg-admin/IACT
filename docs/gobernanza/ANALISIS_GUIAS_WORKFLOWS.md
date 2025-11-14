@@ -217,7 +217,7 @@ Desglose:
 - Proposito: Generacion automatica indice requisitos
 - Triggers:
   - Push a: main, develop
-  - Paths: docs/**/requisitos/**/*.md
+  - Paths: do../gobernanza/marco_integrado/**/*.md
   - Pull requests (paths)
 - Jobs: generate-index
 - Scripts asociados: scripts/requisitos/generar_indices.py
@@ -228,7 +228,7 @@ Desglose:
 - Proposito: Validacion trazabilidad requisitos
 - Triggers:
   - Push a: main, develop
-  - Paths: docs/**/requisitos/**/*.md
+  - Paths: do../gobernanza/marco_integrado/**/*.md
   - Pull requests (paths)
 - Jobs: validate-traceability
 - Scripts asociados: scripts/requisitos/validar_frontmatter.py

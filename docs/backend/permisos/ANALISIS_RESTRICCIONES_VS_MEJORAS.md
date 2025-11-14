@@ -1,3 +1,10 @@
+---
+title: Análisis: Restricciones del Proyecto vs Mejoras Propuestas al Middleware
+date: 2025-11-13
+domain: backend
+status: active
+---
+
 # Análisis: Restricciones del Proyecto vs Mejoras Propuestas al Middleware
 
 **Fecha**: 2025-11-11

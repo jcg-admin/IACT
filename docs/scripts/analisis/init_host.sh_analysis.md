@@ -1,3 +1,10 @@
+---
+title: Analysis: init_host.sh
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Analysis: init_host.sh
 
 ## Summary

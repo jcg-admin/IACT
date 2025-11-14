@@ -1,3 +1,10 @@
+---
+title: Analysis: bootstrap_test.sh
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Analysis: bootstrap_test.sh
 
 ## Summary

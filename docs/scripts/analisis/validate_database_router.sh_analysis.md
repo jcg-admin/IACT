@@ -1,3 +1,10 @@
+---
+title: Analysis: validate_database_router.sh
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Analysis: validate_database_router.sh
 
 ## Summary

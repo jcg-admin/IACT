@@ -1,3 +1,10 @@
+---
+title: Script: validate_critical_restrictions.sh
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Script: validate_critical_restrictions.sh
 
 **Ubicacion:** `scripts/validate_critical_restrictions.sh`

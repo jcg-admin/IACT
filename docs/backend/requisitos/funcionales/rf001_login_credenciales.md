@@ -48,6 +48,7 @@ dependencias:
 impacto_usuarios: alto
 impacto_sistema: alto
 breaking_change: no
+date: 2025-11-13
 ---
 
 # RF-001: Login con credenciales username/password

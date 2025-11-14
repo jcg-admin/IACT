@@ -1,3 +1,10 @@
+---
+title: Documentación IACT (estado consolidado)
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Documentación IACT (estado consolidado)
 
 > Actualización: 2025-11-12
@@ -29,7 +36,7 @@ IACT---project/
 ## Puntos de entrada recomendados
 - [Índice consolidado](index.md)
 - [Plan de remediación actual](plans/REV_20251112_remediation_plan.md)
-- [Manual de infraestructura](infraestructura/README.md)
+- [Manual de infraestructura](infrastructure/README.md)
 - [Runbooks operativos](operaciones/)
 - [Documentación de scripts](scripts/README.md)
 

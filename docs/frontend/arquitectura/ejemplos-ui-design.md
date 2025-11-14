@@ -7,6 +7,7 @@ relacionados:
   - DOC-ARQ-FRONTEND
   - DOC-FRONTEND-INDEX
   - DOC-PROMPT-ENGINEERING
+date: 2025-11-13
 ---
 # Ejemplos avanzados de prompt engineering para UI design
 

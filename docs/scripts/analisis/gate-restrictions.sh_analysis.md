@@ -1,3 +1,10 @@
+---
+title: Analysis: gate-restrictions.sh
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Analysis: gate-restrictions.sh
 
 ## Summary

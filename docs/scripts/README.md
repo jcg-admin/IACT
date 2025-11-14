@@ -1,3 +1,10 @@
+---
+title: Documentación de scripts
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Documentación de scripts
 
 > **Leyenda**: [IMPLEMENTADO] = Implementado | [PLANIFICADO] = Planificado | [ATENCION] = En migración
@@ -10,15 +17,6 @@ Este documento combina el inventario real de scripts con la visión documentada 
 - **Ver todos los checks de CI**: `./scripts/ci/run-all-checks.sh`
 - **Plantillas para nuevos scripts**: [`templates/`](../../scripts/templates/)
 - **Matriz completa**: [`SCRIPTS_MATRIX.md`](SCRIPTS_MATRIX.md)
-
-## [IMPLEMENTADO] Diferencias clave entre `scripts/ci/` y `scripts/git-hooks/`
-
-| Directorio | Propósito principal | Momento de ejecución | Integraciones destacadas |
-|------------|---------------------|-----------------------|---------------------------|
-| `scripts/ci/` | Pipelines de Integración Continua y automatizaciones pensadas para ejecutarse en servidores (GitHub Actions o entornos locales equivalentes). Incluye orquestadores como `run-all-checks.sh`, validaciones de infraestructura, escaneos de seguridad y reportes agregados. | Se ejecutan bajo demanda durante pipelines CI/CD o cuando un desarrollador lanza manualmente los *smoke tests* locales. | Utiliza dependencias del proyecto (Django, Bandit, npm, etc.), genera reportes compartidos y coordina múltiples subsistemas. |
-| `scripts/git-hooks/` | Hooks de Git que refuerzan políticas antes de permitir commits, pushes o rebases. Valida el estado del entorno local, dependencias instaladas y convenciones de nomenclatura. | Se disparan automáticamente en la máquina del desarrollador cuando Git procesa eventos (`pre-commit`, `commit-msg`, `pre-push`, etc.). | Se apoyan en validadores locales (`validate-environment.sh`, `validate-secrets-enhanced.sh`) y en instaladores como `scripts/install_hooks.sh`. |
-
-> **Nota:** Ambos conjuntos comparten algunas validaciones (por ejemplo, comprobaciones de entorno), pero los hooks priorizan retroalimentación inmediata en la estación de trabajo mientras que los scripts de CI entregan reportes consolidados para todo el equipo.
 
 ## [IMPLEMENTADO] Scripts implementados
 

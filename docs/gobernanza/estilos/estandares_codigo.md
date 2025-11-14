@@ -4,6 +4,7 @@ estado: activo
 propietario: equipo-arquitectura
 ultima_actualizacion: 2025-11-03
 relacionados: ["DOC-GOB-INDEX", "DOC-ARQ-INDEX", "DOC-GOB-SHELL-GUIDE"]
+date: 2025-11-13
 ---
 # Estándares de Código - Proyecto IACT
 

@@ -41,7 +41,7 @@ echo ""
 echo "Requisitos por dominio:"
 backend=$(find "$IMPL_PATH/backend/requisitos" -name "*.md" -type f ! -name "README.md" ! -name "_*.md" 2>/dev/null | wc -l)
 frontend=$(find "$IMPL_PATH/frontend/requisitos" -name "*.md" -type f ! -name "README.md" ! -name "_*.md" 2>/dev/null | wc -l)
-infraestructura=$(find "$IMPL_PATH/infrastructure/requisitos" -name "*.md" -type f ! -name "README.md" ! -name "_*.md" 2>/dev/null | wc -l)
+infrastructure=$(find "$IMPL_PATH/infrastructure/requisitos" -name "*.md" -type f ! -name "README.md" ! -name "_*.md" 2>/dev/null | wc -l)
 
 echo "  Backend:                    $backend"
 echo "  Frontend:                   $frontend"

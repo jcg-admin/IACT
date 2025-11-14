@@ -4,6 +4,7 @@ estado: borrador
 propietario: equipo-documentacion
 ultima_actualizacion: 2025-02-18
 relacionados: ["DOC-INDEX-GENERAL", "DOC-REL-INDEX"]
+date: 2025-11-13
 ---
 # Anexos
 

@@ -150,12 +150,12 @@ from scripts.ai.agents.documentation_sync_agent import create_documentation_sync
 pipeline = create_documentation_sync_pipeline(
     project_root="/home/user/IACT---project",
     dry_run=True,  # Cambiar a False para escritura real
-    domains=["api", "ui", "infraestructura"]
+    domains=["api", "ui", "infrastructure"]
 )
 
 # Ejecutar
 result = pipeline.execute({
-    "domains": ["api", "ui", "infraestructura"]
+    "domains": ["api", "ui", "infrastructure"]
 })
 
 # Verificar resultado
@@ -322,7 +322,7 @@ python scripts/sync_documentation.py --domains api
 # Solo frontend
 python scripts/sync_documentation.py --domains ui
 
-# Backend + Frontend (sin infraestructura)
+# Backend + Frontend (sin infrastructure)
 python scripts/sync_documentation.py --domains api,ui
 ```
 
@@ -349,7 +349,7 @@ on:
     paths:
       - 'api/**'
       - 'ui/**'
-      - 'infraestructura/**'
+      - 'infrastructure/**'
   schedule:
     - cron: '0 0 * * 0'  # Semanal
 

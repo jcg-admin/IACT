@@ -1,3 +1,10 @@
+---
+title: Analysis: validate_session_backend.sh
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Analysis: validate_session_backend.sh
 
 ## Summary

@@ -1,3 +1,10 @@
+---
+title: Analysis: setup_postgres_database.sh
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Analysis: setup_postgres_database.sh
 
 ## Summary

@@ -4,6 +4,7 @@ estado: activo
 propietario: equipo-frontend
 ultima_actualizacion: 2025-11-02
 relacionados: ["DOC-FRONTEND-INDEX", "DOC-GOB-INDEX"]
+date: 2025-11-13
 ---
 # Gobernanza del frontend
 

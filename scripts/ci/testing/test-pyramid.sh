@@ -50,7 +50,7 @@ TOTAL_TESTS=$((UNIT_TESTS + INTEGRATION_TESTS + E2E_TESTS))
 
 if [ $TOTAL_TESTS -eq 0 ]; then
     log_warn "No tests found with pyramid marks"
-    exit 2
+    exit 1
 fi
 
 # Calculate percentages

@@ -1,3 +1,10 @@
+---
+title: Referencia Completa de Agentes SDLC
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Referencia Completa de Agentes SDLC
 
 Documentacion de todos los agentes AI del sistema SDLC del proyecto IACT.

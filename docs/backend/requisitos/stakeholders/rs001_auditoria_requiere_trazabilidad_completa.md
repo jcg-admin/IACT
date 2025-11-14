@@ -43,6 +43,7 @@ verificacion_metodo: inspection
 # Experiencia de usuario
 categoria_ux: usabilidad
 impacto_experiencia: alto
+date: 2025-11-13
 ---
 
 # RS-001: Auditoria requiere trazabilidad completa de accesos

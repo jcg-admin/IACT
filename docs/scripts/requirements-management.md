@@ -1,3 +1,10 @@
+---
+title: Scripts de Gestion de Requisitos
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Scripts de Gestion de Requisitos
 
 Documentacion de scripts para gestionar requisitos (RF, RNF).

@@ -22,16 +22,16 @@ import re
 import os
 import logging
 
-from scripts.ai.agents.base import (
+from scripts.coding.ai.agents.base import (
     TreeOfThoughtsAgent,
     Thought,
     ThoughtState
 )
-from scripts.ai.agents.base.tree_of_thoughts import SearchStrategy
+from scripts.coding.ai.agents.base.tree_of_thoughts import SearchStrategy
 
 # Import LLMGenerator for AI-powered test generation
 try:
-    from scripts.ai.generators.llm_generator import LLMGenerator
+    from scripts.coding.ai.generators.llm_generator import LLMGenerator
     LLM_AVAILABLE = True
 except ImportError:
     LLM_AVAILABLE = False

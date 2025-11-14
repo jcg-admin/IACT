@@ -1,3 +1,10 @@
+---
+title: Analysis: validate-software-dependencies.sh
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Analysis: validate-software-dependencies.sh
 
 ## Summary

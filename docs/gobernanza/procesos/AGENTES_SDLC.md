@@ -1,3 +1,10 @@
+---
+title: Agentes SDLC - Documentacion Completa
+date: 2025-11-13
+domain: gobernanza
+status: active
+---
+
 # Agentes SDLC - Documentacion Completa
 
 Sistema multi-agente para automatizar el proceso SDLC completo.

@@ -1,3 +1,10 @@
+---
+title: PromptOps en Módulo de Permisos
+date: 2025-11-13
+domain: backend
+status: active
+---
+
 # PromptOps en Módulo de Permisos
 
 **Contexto:** Backend - Módulo de Permisos

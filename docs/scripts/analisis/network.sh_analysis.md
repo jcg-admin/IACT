@@ -1,3 +1,10 @@
+---
+title: Analysis: network.sh
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Analysis: network.sh
 
 ## Summary

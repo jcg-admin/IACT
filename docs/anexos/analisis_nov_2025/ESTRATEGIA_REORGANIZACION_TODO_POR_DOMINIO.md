@@ -202,7 +202,7 @@ docs/
     │   ├── arquitectura/
     │   └── [...]
     │
-    └── infrastructure/ <- Debería ser docs/infrastructure/
+    └── infrastructure/ <- Debería ser docs/infraestructura/
         ├── requisitos/
         └── [...]
 
@@ -218,7 +218,7 @@ docs/
 |--------|-------------|-------|
 | `api/` | `docs/backend/` | NO No coincide |
 | `ui/` | `docs/frontend/` | NO No coincide |
-| `infrastructure/` | `docs/infrastructure/` + `docs/infrastructure/` | NO Duplicado |
+| `infrastructure/` | `docs/infraestructura/` + `docs/infraestructura/` | NO Duplicado |
 
 **Impacto**: Desarrolladores confundidos sobre dónde buscar documentación de cada componente.
 
@@ -228,12 +228,12 @@ El archivo `docs/implementacion/README.md` líneas 26-34 declara:
 
 ```markdown
 ### OK `docs/implementacion/` = REQUISITOS
-### OK `docs/backend/`, `docs/frontend/`, `docs/infrastructure/` = DOCUMENTACIÓN TÉCNICA
+### OK `docs/backend/`, `docs/frontend/`, `docs/infraestructura/` = DOCUMENTACIÓN TÉCNICA
 ```
 
 **Realidad**:
 - NO `docs/implementacion/` contiene TODO mezclado (requisitos + arquitectura + checklists + devops + diseño + gobernanza + qa + seguridad)
-- NO NO existen `docs/backend/`, `docs/frontend/`, `docs/infrastructure/` como directorios raíz
+- NO NO existen `docs/backend/`, `docs/frontend/`, `docs/infraestructura/` como directorios raíz
 
 **Impacto**: La documentación miente sobre su propia estructura.
 
@@ -254,8 +254,8 @@ docs/frontend/arquitectura/componentes_react.md
 #### Problema 4: Duplicación Confusa
 
 Existen DOS directorios para infraestructura:
-- `docs/infrastructure/`
-- `docs/infrastructure/`
+- `docs/infraestructura/`
+- `docs/infraestructura/`
 
 **Contenido**:
 - `infrastructure/`: 43 archivos (requisitos + runbooks + arquitectura)
@@ -366,7 +366,7 @@ docs/
 │   │   └── README.md
 │   ├── qa/
 │   │   └── README.md
-│   └── cpython_precompilado/               Fusionado desde docs/infrastructure/
+│   └── cpython_precompilado/               Fusionado desde docs/infraestructura/
 │       └── [contenido CPython]
 │
 ├── arquitectura/                           <- Arquitectura TRANSVERSAL
@@ -391,15 +391,15 @@ docs/
 │
 ├── adr/                                    <- ADRs TRANSVERSALES
 │   ├── plantilla_adr.md
-│   ├── ADR_008_cpython_features_vs_imagen_base.md
-│   ├── ADR_009_distribucion_artefactos_strategy.md
-│   ├── ADR_010_organizacion_proyecto_por_dominio.md
-│   ├── ADR_011_frontend_modular_monolith.md
-│   ├── ADR_012_redux_toolkit_state_management.md
-│   ├── ADR_013_webpack_bundler.md
-│   ├── ADR_014_testing_strategy_jest_testing_library.md
-│   ├── adr_2025_001_vagrant_mod_wsgi.md
-│   └── adr_2025_002_suite_calidad_codigo.md
+│   ├── ADR_2025_012-cpython-features-vs-imagen-base.md
+│   ├── ADR_2025_013-distribucion-artefactos-strategy.md
+│   ├── ADR_2025_014-organizacion-proyecto-por-dominio.md
+│   ├── ADR_2025_015-frontend-modular-monolith.md
+│   ├── ADR_2025_016-redux-toolkit-state-management.md
+│   ├── ADR_2025_018-webpack-bundler.md
+│   ├── ADR_2025_019-testing-strategy-jest-testing-library.md
+│   ├── ADR_2025_001-vagrant-mod-wsgi.md
+│   └── ADR_2025_002-suite-calidad-codigo.md
 │
 ├── plantillas/                             <- PLANTILLAS TRANSVERSALES
 │   ├── README.md
@@ -445,7 +445,7 @@ docs/
 
 ### Principios de la Estructura
 
-1. **Mapeo 1:1**: `api/` → `docs/backend/`, `ui/` → `docs/frontend/`, `infrastructure/` → `docs/infrastructure/`
+1. **Mapeo 1:1**: `api/` → `docs/backend/`, `ui/` → `docs/frontend/`, `infrastructure/` → `docs/infraestructura/`
 
 2. **Todo junto**: Cada dominio contiene TODO su contenido (requisitos + arquitectura + diseño + devops + qa + seguridad)
 
@@ -495,7 +495,7 @@ tree -L 3 docs/ > docs/anexos/analisis_nov_2025/estructura_antes_reorganizacion.
 # Contar archivos por directorio
 find docs/implementacion/backend -type f -name "*.md" | wc -l > /tmp/backend_count.txt
 find docs/implementacion/frontend -type f -name "*.md" | wc -l > /tmp/frontend_count.txt
-find docs/implementacion/infraestructura -type f -name "*.md" | wc -l > /tmp/infra_count.txt
+find docs/implementacion/infrastructure -type f -name "*.md" | wc -l > /tmp/infra_count.txt
 ```
 
 ---
@@ -531,33 +531,33 @@ tree -L 2 frontend/
 ```bash
 # Listar contenido de ambos directorios
 echo "=== infrastructure/ ===" > /tmp/infra_comparison.txt
-ls -lR infraestructura/ >> /tmp/infra_comparison.txt
+ls -lR infrastructure/ >> /tmp/infra_comparison.txt
 
 echo "=== infraestructura/ ===" >> /tmp/infra_comparison.txt
 ls -lR infraestructura/ >> /tmp/infra_comparison.txt
 
 cat /tmp/infra_comparison.txt
 
-# Crear nuevo directorio infraestructura/
+# Crear nuevo directorio infrastructure/
 mkdir -p infrastructure_temp/
 
-# Mover contenido de infraestructura/
-cp -r infraestructura/* infrastructure_temp/
+# Mover contenido de infrastructure/
+cp -r infrastructure/* infrastructure_temp/
 
 # Fusionar contenido de infraestructura/
 # NOTA: infraestructura/ tiene cpython_precompilado/
-cp -r infraestructura/cpython_precompilado infrastructure_temp/
+cp -r infrastructure/cpython_precompilado infrastructure_temp/
 
 # Renombrar
-mv infrastructure_temp infraestructura
+mv infrastructure_temp infrastructure
 
 # Verificar fusión
-ls -la infraestructura/
-tree -L 2 infraestructura/
+ls -la infrastructure/
+tree -L 2 infrastructure/
 
 # Eliminar directorios antiguos (después de verificar)
 # NO EJECUTAR AÚN - Verificar primero
-# rm -rf infraestructura/
+# rm -rf infrastructure/
 # rm -rf infraestructura/
 ```
 
@@ -583,7 +583,7 @@ ls -la docs/ | grep ^d
 # Debe mostrar:
 # backend/
 # frontend/
-# infraestructura/
+# infrastructure/
 # arquitectura/
 # gobernanza/
 # requisitos/
@@ -618,7 +618,7 @@ cat /tmp/referencias_implementacion.txt | wc -l
 echo "Referencias encontradas. Revisar /tmp/referencias_implementacion.txt"
 
 # Buscar referencias a infraestructura/ (antiguo)
-grep -r "docs/infrastructure/" docs/ --include="*.md" > /tmp/referencias_infraestructura.txt
+grep -r "docs/infraestructura/" docs/ --include="*.md" > /tmp/referencias_infraestructura.txt
 cat /tmp/referencias_infraestructura.txt
 ```
 
@@ -645,14 +645,14 @@ find docs/ -name "*.md" -type f -exec sed -i \
     {} +
 
 find docs/ -name "*.md" -type f -exec sed -i \
-    -e 's|docs/infrastructure/|docs/infrastructure/|g' \
+    -e 's|docs/infraestructura/|docs/infraestructura/|g' \
     -e 's|infrastructure/|infrastructure/|g' \
     -e 's|\.\./\.\./\.\./infrastructure/|../../infrastructure/|g' \
     -e 's|\.\./infrastructure/|../infrastructure/|g' \
     {} +
 
 find docs/ -name "*.md" -type f -exec sed -i \
-    -e 's|docs/infrastructure/|docs/infrastructure/|g' \
+    -e 's|docs/infraestructura/|docs/infraestructura/|g' \
     -e 's|infrastructure/cpython|infrastructure/cpython|g' \
     {} +
 
@@ -672,7 +672,7 @@ vim docs/README.md
 
 # Buscar sección "Estructura" y actualizar:
 # - Eliminar referencia a implementacion/
-# - Agregar backend/, frontend/, infraestructura/
+# - Agregar backend/, frontend/, infrastructure/
 # - Actualizar descripciones
 ```
 
@@ -691,7 +691,7 @@ vim docs/mkdocs.yml
 # Por:
 #   - Backend: backend/README.md
 #   - Frontend: frontend/README.md
-#   - Infrastructure: infraestructura/README.md
+#   - Infrastructure: infrastructure/README.md
 ```
 
 #### 2.5 Actualizar Scripts de Generación de Índices
@@ -768,7 +768,7 @@ echo "FRONTEND:" >> /tmp/validacion_conteo.txt
 find docs/frontend -type f -name "*.md" | wc -l >> /tmp/validacion_conteo.txt
 
 echo "INFRASTRUCTURE:" >> /tmp/validacion_conteo.txt
-find docs/infraestructura -type f -name "*.md" | wc -l >> /tmp/validacion_conteo.txt
+find docs/infrastructure -type f -name "*.md" | wc -l >> /tmp/validacion_conteo.txt
 
 echo "TOTAL docs/:" >> /tmp/validacion_conteo.txt
 find docs/ -type f -name "*.md" | wc -l >> /tmp/validacion_conteo.txt
@@ -929,7 +929,7 @@ La estructura de documentación presentaba inconsistencias:
 Reorganizar docs/ eliminando nivel implementacion/ y creando estructura plana:
 - `api/` → `docs/backend/`
 - `ui/` → `docs/frontend/`
-- `infrastructure/` → `docs/infrastructure/`
+- `infrastructure/` → `docs/infraestructura/`
 
 Cada dominio contiene TODO: requisitos + arquitectura + diseño + devops + qa + seguridad.
 
@@ -1011,7 +1011,7 @@ BREAKING CHANGE: Estructura de documentación reorganizada
 - Eliminar nivel docs/implementacion/
 - Mover backend/ -> docs/backend/
 - Mover frontend/ -> docs/frontend/
-- Fusionar infrastructure/ + infraestructura/ -> docs/infrastructure/
+- Fusionar infrastructure/ + infraestructura/ -> docs/infraestructura/
 - Actualizar ~50 referencias en archivos .md
 - Actualizar mkdocs.yml con nueva navegación
 - Regenerar índices ISO 29148
@@ -1068,7 +1068,7 @@ AVISO: Reorganización de Documentación - docs/implementacion/ eliminado
 Estructura nueva:
 - docs/backend/          (antes: docs/backend/)
 - docs/frontend/         (antes: docs/frontend/)
-- docs/infrastructure/   (antes: docs/infrastructure/ + docs/infrastructure/)
+- docs/infraestructura/   (antes: docs/infraestructura/ + docs/infraestructura/)
 
 Beneficios:
 - Mapeo 1:1 con código (api/ -> backend/, ui/ -> frontend/)

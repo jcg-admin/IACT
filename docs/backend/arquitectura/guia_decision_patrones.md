@@ -5,6 +5,7 @@ estado: activo
 fecha_creacion: 2025-11-04
 version: 1.0
 relacionados: ["DOC-ARQ-PATRONES"]
+date: 2025-11-13
 ---
 
 # Guía Rápida de Decisión de Patrones

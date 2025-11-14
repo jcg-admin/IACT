@@ -4,6 +4,7 @@ estado: borrador
 propietario: equipo-backend
 ultima_actualizacion: 2025-02-18
 relacionados: ["DOC-ARQ-BACKEND", "DOC-REQ-INDEX", "DOC-UX-INDEX"]
+date: 2025-11-13
 ---
 # Diseño detallado del backend
 
