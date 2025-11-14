@@ -12,38 +12,114 @@ Este documento registra convenciones del proyecto y lecciones aprendidas para ev
 
 ### Estructura de Documentación
 
+La documentación sigue un patrón de **Gobernanza Multinivel**:
+
+#### Nivel Padre (Transversal)
+
+Documentación de alto nivel que aplica a todos los dominios:
+
 ```
 docs/
-├── backend/          # Documentación de código backend
-│   ├── planning/
-│   ├── feasibility/
-│   ├── design/
-│   ├── testing/      # Tests de código backend
-│   └── deployment/
+├── gobernanza/              # Gobernanza padre con matriz de relación a dominios
+├── adr/                     # ADRs arquitectónicos de alto nivel
+├── analisis/                # Análisis general del proyecto
+├── vision_y_alcance/        # Visión y alcance del proyecto
+├── planificacion_y_releases/# Planificación general
+├── guias/                   # Guías transversales
+├── anexos/                  # Material complementario
+└── INDEX.md                 # Punto de entrada principal
+```
+
+#### Dominios (Autónomos)
+
+Cada dominio tiene su propia estructura completa:
+
+```
+docs/
+├── ai/                      # Dominio AI/ML
+│   ├── gobernanza/         # Gobernanza específica de AI
+│   ├── adr/                # ADRs de AI
+│   ├── procedimientos/     # Procedimientos de AI
+│   ├── testing/            # Tests de AI
+│   └── README.md           # Índice del dominio
 │
-├── frontend/         # Documentación de código frontend
-│   ├── components/
-│   ├── testing/      # Tests de código frontend
-│   └── ...
+├── backend/                 # Dominio Backend
+│   ├── gobernanza/
+│   ├── adr/
+│   ├── procedimientos/
+│   ├── testing/
+│   ├── planning/           # SDLC Planning
+│   ├── feasibility/        # SDLC Feasibility
+│   ├── design/             # SDLC Design
+│   ├── deployment/         # SDLC Deployment
+│   └── README.md
 │
-├── infrastructure/   # Documentación de infraestructura
-│   ├── terraform/
-│   ├── kubernetes/
-│   └── ...
+├── frontend/                # Dominio Frontend
+│   ├── gobernanza/
+│   ├── adr/
+│   ├── procedimientos/
+│   ├── testing/
+│   └── README.md
 │
-├── ai/              # Documentación de sistema AI/ML
-│   ├── prompting/
-│   ├── agents/
-│   └── ...
+├── infraestructura/         # Dominio Infraestructura
+│   ├── gobernanza/
+│   ├── adr/
+│   ├── procedimientos/
+│   └── README.md
 │
-└── .github/agents/  # Documentación de DEFINICIÓN de agentes
-    ├── README.md
-    ├── sdlc/
-    ├── automation/
-    └── ...
+├── devops/                  # Dominio DevOps
+│   ├── gobernanza/
+│   ├── adr/
+│   ├── procedimientos/
+│   └── README.md
+│
+├── operaciones/             # Dominio Operaciones
+│   ├── gobernanza/
+│   ├── adr/
+│   ├── procedimientos/
+│   └── README.md
+│
+├── dora/                    # Dominio Métricas DORA
+│   ├── gobernanza/
+│   ├── adr/
+│   └── README.md
+│
+└── qa/                      # Dominio Quality Assurance
+    ├── gobernanza/
+    ├── adr/
+    ├── procedimientos/
+    └── README.md
+```
+
+#### Definiciones de Agentes
+
+```
+.github/agents/              # Definiciones de agentes (fuera de docs/)
+├── README.md                # Catálogo de agentes
+├── sdlc/
+├── automation/
+└── CONVENTIONS_AND_LESSONS_LEARNED.md
 ```
 
 ### Casos Específicos
+
+#### Gobernanza de Alto Nivel vs Gobernanza de Dominio
+```
+CORRECTO (Padre): docs/gobernanza/matriz_relacion_dominios.md
+CORRECTO (Dominio): docs/backend/gobernanza/coding_standards.md
+
+Razón: docs/gobernanza/ es nivel padre con matriz de relación.
+       Cada dominio tiene su propia gobernanza específica.
+```
+
+#### ADRs de Arquitectura vs ADRs de Dominio
+```
+CORRECTO (Alto nivel): docs/adr/ADR-001-multi-tenant-architecture.md
+CORRECTO (Dominio AI): docs/ai/adr/ADR-AI-001-llm-provider-selection.md
+
+Razón: docs/adr/ para decisiones arquitectónicas transversales.
+       docs/{dominio}/adr/ para decisiones específicas del dominio.
+```
 
 #### Tests de Código Backend
 ```
@@ -64,17 +140,28 @@ Razón: Consistencia con estructura docs/backend/
 #### Documentación de Agentes (Definiciones)
 ```
 CORRECTO: .github/agents/
-INCORRECTO: docs/agents/
+INCORRECTO: docs/agents/ o docs/ai/agents/
 
 Razón: Definiciones de agentes van en .github/ para CI/CD integration
+       Documentación de uso/arquitectura de agentes va en docs/ai/
 ```
 
 #### Ejecuciones SDLC de Proyectos Backend
 ```
-CORRECTO: docs/backend/SDLC_*.md
+CORRECTO: docs/backend/planning/planning_output.md
 INCORRECTO: docs/agent/SDLC_*.md
 
 Razón: El SDLC documenta desarrollo de código backend
+       Cada fase tiene su carpeta en el dominio
+```
+
+#### Procedimientos Operacionales
+```
+CORRECTO (Dominio): docs/devops/procedimientos/rollback_deployment.md
+CORRECTO (Transversal): docs/procedimientos/incident_response.md
+
+Razón: Procedimientos específicos van en el dominio.
+       Procedimientos generales pueden estar en docs/procedimientos/
 ```
 
 ---
@@ -340,18 +427,48 @@ Antes de crear documentación nueva, verificar:
 
 DOCUMENTO VIVO: Actualizar cuando se agreguen nuevos dominios
 
-| Tipo de Código | Ubicación Código | Ubicación Docs |
-|----------------|------------------|----------------|
-| Backend Python | `api/`, `scripts/coding/` | `docs/backend/` |
-| Frontend React | `ui/`, `frontend/` | `docs/frontend/` |
-| Infrastructure | `infrastructure/`, `terraform/` | `docs/infraestructura/` |
-| DevOps | Pipelines, CI/CD | `docs/devops/` |
-| Operaciones | Runbooks, procedures | `docs/operaciones/` |
-| Gobernanza | Policies, standards | `docs/gobernanza/` |
-| Tests Backend | `scripts/coding/ai/tests/` | `docs/backend/testing/` |
-| Tests Frontend | `ui/tests/`, `frontend/tests/` | `docs/frontend/testing/` |
-| Definiciones Agentes | N/A | `.github/agents/` |
-| Sistema AI/Prompting | `scripts/coding/ai/agents/` | `docs/ai/`, `docs/ai/prompting/` |
+### Dominios Principales
+
+| Dominio | Código | Documentación | Scripts |
+|---------|--------|---------------|---------|
+| **AI/ML** | `scripts/coding/ai/agents/` | `docs/ai/` | `scripts/examples/`, `scripts/coding/ai/` |
+| **Backend** | `api/`, `scripts/coding/` | `docs/backend/` | `scripts/coding/` |
+| **Frontend** | `ui/`, `frontend/` | `docs/frontend/` | N/A |
+| **Infraestructura** | `infrastructure/`, `terraform/` | `docs/infraestructura/` | `scripts/infrastructure/` |
+| **DevOps** | Pipelines, CI/CD | `docs/devops/` | `scripts/ci/`, `scripts/git-hooks/` |
+| **Operaciones** | Runbooks, procedures | `docs/operaciones/` | `scripts/health_check.sh`, `scripts/backup_*` |
+| **QA** | Tests | `docs/qa/` | `scripts/validation/`, `scripts/tests/` |
+| **DORA** | Métricas | `docs/dora/` | `scripts/dora_metrics.py` |
+
+### Documentación Transversal (Nivel Padre)
+
+| Tipo | Ubicación | Propósito |
+|------|-----------|-----------|
+| Gobernanza Padre | `docs/gobernanza/` | Matriz de relación con gobernanzas de dominios |
+| ADRs Alto Nivel | `docs/adr/` | Decisiones arquitectónicas transversales |
+| Análisis General | `docs/analisis/` | Análisis del proyecto |
+| Visión | `docs/vision_y_alcance/` | Visión y alcance |
+| Planificación | `docs/planificacion_y_releases/` | Planificación general |
+| Guías | `docs/guias/` | Guías transversales |
+| Anexos | `docs/anexos/` | Material complementario |
+
+### Subcarpetas por Dominio
+
+Cada dominio puede tener:
+- `{dominio}/gobernanza/` - Gobernanza específica
+- `{dominio}/adr/` - ADRs del dominio
+- `{dominio}/procedimientos/` - Procedimientos del dominio
+- `{dominio}/testing/` - Tests del dominio
+- `{dominio}/README.md` - Índice del dominio
+
+### Casos Especiales
+
+| Tipo | Ubicación | Razón |
+|------|-----------|-------|
+| Definiciones Agentes | `.github/agents/` | CI/CD integration |
+| Tests Backend | `docs/backend/testing/` | Tests son código backend |
+| Tests Frontend | `docs/frontend/testing/` | Tests son código frontend |
+| SDLC Backend | `docs/backend/{planning,feasibility,design,deployment}/` | SDLC es proceso de desarrollo |
 
 ---
 
@@ -385,6 +502,9 @@ DOCUMENTO VIVO: Actualizar cuando se agreguen nuevos dominios
 - LL-002: Nomenclatura sin números
 - LL-003: Validación automática de documentación en SDLC (patrón de arquitectura)
 - Convenciones de ubicación de documentación
+- Estructura multinivel: Gobernanza Padre + Dominios Autónomos
+- Mapeo completo de 8 dominios (ai, backend, frontend, infraestructura, devops, operaciones, qa, dora)
+- Documentación transversal (gobernanza, adr, analisis, vision, planificacion, guias, anexos)
 
 ---
 
