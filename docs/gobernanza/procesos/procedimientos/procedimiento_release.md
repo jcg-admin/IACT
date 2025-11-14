@@ -6,6 +6,7 @@ version: 1.0.0
 fecha_creacion: 2025-11-04
 propietario: equipo-devops
 relacionados: ["PROC-CAMBIOS", "PROC-QA"]
+date: 2025-11-13
 ---
 # Procedimiento: Release y Deployment
 

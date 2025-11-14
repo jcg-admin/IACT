@@ -9,6 +9,7 @@ fecha_inicio: 2025-11-07
 fecha_fin: 2025-11-07
 asignado: devops-lead
 relacionados: ["TASK-011", "TASK-012"]
+date: 2025-11-13
 ---
 
 # TASK-013: Configuracion de Cron Jobs para Mantenimiento

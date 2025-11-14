@@ -1,3 +1,10 @@
+---
+title: Alinear catálogo de agentes con dominios del proyecto
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Alinear catálogo de agentes con dominios del proyecto
 
 Este ExecPlan es un documento vivo. Las secciones `Progress`, `Surprises & Discoveries`, `Decision Log`, y `Outcomes & Retrospective` deben mantenerse actualizadas conforme avance el trabajo.

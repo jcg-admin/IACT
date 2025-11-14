@@ -1,3 +1,10 @@
+---
+title: API del Sistema de Permisos Granular
+date: 2025-11-13
+domain: backend
+status: active
+---
+
 # API del Sistema de Permisos Granular
 
 **Version:** 1.0
@@ -666,7 +673,7 @@ curl -X GET \
 
 ## Referencias
 
-- ADR: `docs/adr/ADR-012-sistema-permisos-sin-roles-jerarquicos.md`
+- ADR: `docs/adr/ADR_2025_017-sistema-permisos-sin-roles-jerarquicos.md`
 - Arquitectura: `docs/backend/permisos/arquitectura-permisos-granular.md`
 - Codigo: `api/callcentersite/callcentersite/apps/permissions/`
 - OpenAPI Schema: `/api/schema/`

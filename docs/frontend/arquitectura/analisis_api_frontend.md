@@ -1,3 +1,10 @@
+---
+title: Análisis de API y derivación de vistas frontend
+date: 2025-11-13
+domain: frontend
+status: active
+---
+
 # Análisis de API y derivación de vistas frontend
 
 ## 1. Metodología empleada

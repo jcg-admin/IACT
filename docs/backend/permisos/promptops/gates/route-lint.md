@@ -1,3 +1,10 @@
+---
+title: Route Lint Gate: Verificación de Permisos en ViewSets
+date: 2025-11-13
+domain: backend
+status: active
+---
+
 # Route Lint Gate: Verificación de Permisos en ViewSets
 
 **Tipo:** Gate (CI/CD Blocking)
@@ -44,7 +51,7 @@ Eres un senior security engineer especializado en revisión de código de sistem
   1. Atributo `required_permissions = ['cap1', 'cap2']`
   2. Herencia de `PermisoMixin`
 - Middleware `PermisoMiddleware` valida permisos automáticamente
-- ADR-012: Sistema de permisos sin roles jerárquicos
+- ADR_2025_017: Sistema de permisos sin roles jerárquicos
 
 **Contexto Histórico:**
 - 3 de 4 módulos originales NO usaban permisos granulares
@@ -473,10 +480,10 @@ class ReporteViewSet(viewsets.ModelViewSet
 
 ## Referencias
 
-- [ADR-012: Sistema de Permisos Granular](../../../arquitectura/ADR-012-sistema-permisos-sin-roles-jerarquicos.md)
+- [ADR_2025_017: Sistema de Permisos Granular](../../../arquitectura/ADR_2025_017-sistema-permisos-sin-roles-jerarquicos.md)
 - [Arquitectura de Permisos UML](../../ARQUITECTURA_PERMISOS_UML.md)
 - [Optimizaciones de Performance](../../OPTIMIZACIONES_PERFORMANCE.md)
-- [Restricciones del Proyecto](../../../requisitos/restricciones_y_lineamientos.md)
+- [Restricciones del Proyecto](../../gobernanza/marco_integrado/restricciones_y_lineamientos.md)
 
 ---
 

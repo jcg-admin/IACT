@@ -1,3 +1,10 @@
+---
+title: CLI de Agentes SDLC - Documentación Completa
+date: 2025-11-13
+domain: backend
+status: active
+---
+
 # CLI de Agentes SDLC - Documentación Completa
 
 **Archivo**: `scripts/sdlc_agent.py`

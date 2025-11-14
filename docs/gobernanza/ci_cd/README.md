@@ -1,3 +1,10 @@
+---
+title: CI/CD - Documentacion Completa
+date: 2025-11-13
+domain: gobernanza
+status: active
+---
+
 # CI/CD - Documentacion Completa
 
 **Principio IACT**: Scripts Primero, CI/CD Despues

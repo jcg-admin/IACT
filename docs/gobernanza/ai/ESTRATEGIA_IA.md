@@ -9,6 +9,7 @@ propietario: arquitecto-senior
 fuente: DORA Report 2025 (Sections 3, 4, 6)
 muestra: 5000 profesionales, 50+ paises, Abril-Junio 2025
 relacionados: ["AGENTES_SDLC.md", "ROADMAP.md", "AI_CAPABILITIES.md"]
+date: 2025-11-13
 ---
 
 # ESTRATEGIA DE IA - Proyecto IACT

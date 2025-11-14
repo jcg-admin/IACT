@@ -1,3 +1,10 @@
+---
+title: Estrategia de Migraciones Django
+date: 2025-11-13
+domain: backend
+status: active
+---
+
 # Estrategia de Migraciones Django
 
 **Autor**: Backend Team

@@ -4,7 +4,7 @@ Base classes for Generators
 Re-exports from shared.agent_base for backwards compatibility
 """
 
-from scripts.ai.shared.agent_base import (
+from scripts.coding.ai.shared.agent_base import (
     Agent,
     AgentResult,
     AgentStatus,

@@ -372,7 +372,7 @@ PROJECT_ROOT=/path/to/IACT---project
 GITHUB_TOKEN=ghp_...
 
 # Outputs
-SDLC_OUTPUT_DIR=docs/sdlc_outputs
+SDLC_OUTPUT_DIR=docs/agent
 ```
 
 ### Config File

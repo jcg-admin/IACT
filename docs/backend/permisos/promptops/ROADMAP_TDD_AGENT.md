@@ -1,3 +1,10 @@
+---
+title: Roadmap: TDD Agent Evolution
+date: 2025-11-13
+domain: backend
+status: active
+---
+
 # Roadmap: TDD Agent Evolution
 
 **Documento:** Roadmap de Extensiones TDD Agent

@@ -4,6 +4,7 @@ estado: borrador
 propietario: lider-qa
 ultima_actualizacion: 2025-02-18
 relacionados: ["TC-USR-010", "QA-LOG-20250216"]
+date: 2025-11-13
 ---
 # Estrategia de QA
 

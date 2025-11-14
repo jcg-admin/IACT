@@ -1,3 +1,10 @@
+---
+title: CI/CD - Troubleshooting
+date: 2025-11-13
+domain: gobernanza
+status: active
+---
+
 # CI/CD - Troubleshooting
 
 Problemas comunes y sus soluciones.

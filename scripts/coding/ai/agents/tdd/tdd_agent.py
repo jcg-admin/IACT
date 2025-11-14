@@ -289,7 +289,7 @@ from pathlib import Path
 from textwrap import dedent
 
 # TODO: Import your agent here
-# from scripts.ai.agents.{component}.{component}_agent import {component.title()}Agent
+# from scripts.coding.ai.agents.{component}.{component}_agent import {component.title()}Agent
 
 
 class Test{component.title()}Basics:

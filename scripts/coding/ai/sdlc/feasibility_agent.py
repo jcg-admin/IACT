@@ -31,7 +31,7 @@ from .base_agent import SDLCAgent, SDLCPhaseResult
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
 try:
-    from scripts.ai.generators.llm_generator import LLMGenerator
+    from scripts.coding.ai.generators.llm_generator import LLMGenerator
     LLM_AVAILABLE = True
 except ImportError:
     LLM_AVAILABLE = False

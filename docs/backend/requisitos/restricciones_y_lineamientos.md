@@ -8,6 +8,7 @@ ultima_actualizacion: 2025-11-04
 dominio: global
 owner: equipo-arquitectura
 estado: definitivo
+date: 2025-11-13
 ---
 
 ## Documento Maestro de Restricciones y Lineamientos

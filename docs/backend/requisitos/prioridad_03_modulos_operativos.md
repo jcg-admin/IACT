@@ -8,7 +8,8 @@ estado: por_implementar
 propietario: equipo-backend
 prioridad: media_alta
 estandares: ["ISO/IEC/IEEE 29148:2018", "REST API", "Django Best Practices"]
-relacionados: ["INDICE_MAESTRO_PERMISOS_GRANULAR", "prioridad_02_funciones_core", "ADR-2025-005"]
+relacionados: ["INDICE_MAESTRO_PERMISOS_GRANULAR", "prioridad_02_funciones_core", "ADR_2025_005"]
+date: 2025-11-13
 ---
 
 # PRIORIDAD 3: Módulos Operativos

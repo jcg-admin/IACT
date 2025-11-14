@@ -1,3 +1,10 @@
+---
+title: Diseño Técnico: Sistema de Autenticación y Sesiones
+date: 2025-11-13
+domain: backend
+status: active
+---
+
 # Diseño Técnico: Sistema de Autenticación y Sesiones
 
 **Versión:** 1.0

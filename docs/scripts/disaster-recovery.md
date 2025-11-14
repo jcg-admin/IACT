@@ -1,3 +1,10 @@
+---
+title: Scripts de Disaster Recovery
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Scripts de Disaster Recovery
 
 Documentacion de scripts para backup, restore y testing de DR.

@@ -1,3 +1,10 @@
+---
+title: Flujo de Conexion a Base de Datos
+date: 2025-11-13
+domain: ai
+status: active
+---
+
 # Flujo de Conexion a Base de Datos
 
 Explicacion visual de como funciona la conexion a base de datos en diferentes ambientes.

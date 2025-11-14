@@ -11,6 +11,7 @@ trazabilidad_upward:
   - N-004  # Metricas DORA para performance ciclo desarrollo
   - RN-004  # Sistema metricas DORA performance ingenieria
 verificacion: test
+date: 2025-11-13
 ---
 
 # RF-020: Registrar ciclos de desarrollo con fases DORA
@@ -424,7 +425,7 @@ def test_create_dora_metric_duplicate_cycle():
 - **Código**: `api/callcentersite/dora_metrics/models.py` (línea 9-30)
 - **API View**: `api/callcentersite/dora_metrics/views.py` (función `dora_metrics_create`)
 - **Tests**: `api/callcentersite/dora_metrics/tests.py`
-- **ADR**: ADR-2025-003 (Integración DORA Metrics con SDLC Agents)
+- **ADR**: ADR_2025_003 (Integración DORA Metrics con SDLC Agents)
 
 ### 9.3 Sideward (Relacionados)
 
@@ -435,7 +436,7 @@ def test_create_dora_metric_duplicate_cycle():
 
 ## 10. Referencias
 
-- **ADR-2025-003**: Integración DORA Metrics con SDLC Agents
+- **ADR_2025_003**: Integración DORA Metrics con SDLC Agents
 - **DORA Research**: https://dora.dev/
 - **Código implementado**: api/callcentersite/dora_metrics/
 - **Django Models**: https://docs.djangoproject.com/en/4.2/topics/db/models/

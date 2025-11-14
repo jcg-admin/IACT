@@ -1,3 +1,10 @@
+---
+title: Revisión integral de inconsistencias del repositorio (2025-11-12)
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Revisión integral de inconsistencias del repositorio (2025-11-12)
 
 ## Contexto y enfoque
@@ -17,7 +24,7 @@
 - `docs/index.md` enlaza a archivos inexistentes (`docs/proyecto/ONBOARDING.md`, `proyecto/TASK-012-ai-guidelines-onboarding.md`, `../TAREAS_ACTIVAS.md`, `../PLAN_EJECUCION_COMPLETO.md`).
 - Tanto `docs/index.md` como `docs/README.md` describen una “estructura v4.0” con carpeta raíz `implementacion/` que nunca se materializó; subsisten directorios que la documentación considera eliminados (`docs/gobernanza`, `docs/desarrollo`, `docs/operaciones`, `docs/scripts`, `docs/features`, `docs/backend`).
 - Persisten requisitos dentro de `docs/backend/requisitos` y `docs/frontend/requisitos`, contradiciendo la supuesta migración.
-- Directorios duplicados por idioma (`docs/infrastructure/` vs `docs/infraestructura/`) mantienen contenidos divergentes y enlaces rotos hacia rutas que nunca se crearon (`docs/infrastructure/devops/`, `docs/frontend/componentes/`, etc.).
+- Directorios duplicados por idioma (`docs/infraestructura/` vs `docs/infraestructura/`) mantienen contenidos divergentes y enlaces rotos hacia rutas que nunca se crearon (`docs/infraestructura/devops/`, `docs/frontend/componentes/`, etc.).
 
 ### 3. Documentación de scripts vs realidad
 - `scripts/README.md` describe estructuras y comandos (`scripts/requisitos/`, `generar_indices.py`, `contar_requisitos.sh`) que no existen físicamente.
@@ -28,10 +35,10 @@
 - `scripts/validar_estructura_docs.sh` valida supuestos post-migración que hoy no se cumplen, produciendo falsos positivos masivos.
 
 ### 4. Infraestructura y CPython
-- `docs/infrastructure/README.md` enumera subcarpetas (`arquitectura`, `checklists`, `planificacion_y_releases`, `qa`, etc.) que están vacías o con placeholders.
+- `docs/infraestructura/README.md` enumera subcarpetas (`arquitectura`, `checklists`, `planificacion_y_releases`, `qa`, etc.) que están vacías o con placeholders.
 - `infrastructure/cpython/README.md` instruye ejecutar `./infrastructure/cpython/scripts/validate-cpython.sh`, pero el script real se llama `validate_build.sh`.
 - Existe un archivo con nombre anómalo `'Install prebuilt cpython.sh'` en `infrastructure/cpython/scripts/`, no documentado.
-- `docs/infrastructure/CHANGELOG-cpython.md` describe utilidades (`utils/logging.sh`, `utils/common.sh`, `config/versions.conf`) y pruebas Ruby que no existen.
+- `docs/infraestructura/CHANGELOG-cpython.md` describe utilidades (`utils/logging.sh`, `utils/common.sh`, `config/versions.conf`) y pruebas Ruby que no existen.
 
 ### 5. Carpeta `respaldo/`
 - `respaldo/docs_legacy/README.md` afirma que todo fue migrado a `implementacion/*`, pero la estructura nunca se completó; la documentación activa convive con la archivada sin señalización clara.

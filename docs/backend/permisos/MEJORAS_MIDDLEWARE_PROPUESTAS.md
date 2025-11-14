@@ -8,8 +8,9 @@ version: 1.0
 propietario: equipo-backend
 relacionados:
   - permissions/middleware.py
-  - ADR-012-sistema-permisos-sin-roles-jerarquicos.md
+  - ADR_2025_017-sistema-permisos-sin-roles-jerarquicos.md
 tags: [middleware, permisos, mejoras, performance, drf]
+date: 2025-11-13
 ---
 
 # Análisis y Mejoras del Middleware de Permisos

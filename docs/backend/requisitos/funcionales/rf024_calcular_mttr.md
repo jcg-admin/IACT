@@ -12,6 +12,7 @@ trazabilidad_upward:
   - RN-004
   - RF-020
 verificacion: test
+date: 2025-11-13
 ---
 
 # RF-024: Calcular Mean Time to Recovery (MTTR)
@@ -259,4 +260,4 @@ def test_mttr_statistical_coherence():
 - Origen: N-004, RN-004, RF-020
 - Implementado: api/callcentersite/dora_metrics/views.py:mttr_chart_data
 - Tests: tests/dora_metrics/test_mttr.py
-- ADR: ADR-2025-003 (DORA metrics integration)
+- ADR: ADR_2025_003 (DORA metrics integration)

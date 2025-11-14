@@ -8,6 +8,9 @@ Uso:
     # Planning phase
     python scripts/sdlc_agent.py --phase planning --input "Feature: Implementar 2FA"
 
+    # Completeness analysis
+    python scripts/sdlc_agent.py --phase completeness_analysis --docs-path docs/
+
     # Pipeline completo
     python scripts/sdlc_agent.py --pipeline --input "Feature: Sistema de notificaciones"
 
@@ -29,6 +32,9 @@ from agents.sdlc_base import SDLCAgent, SDLCPipeline
 from agents.sdlc_planner import SDLCPlannerAgent
 from agents.tdd_feature_agent import TDDFeatureAgent
 
+# Add scripts/ to path for completeness_analysis_agent
+sys.path.insert(0, str(Path(__file__).parent.parent))
+
 
 def setup_logging(verbose: bool = False) -> None:
     """Configura logging."""
@@ -38,6 +44,59 @@ def setup_logging(verbose: bool = False) -> None:
         format='[%(asctime)s] %(name)s - %(levelname)s - %(message)s',
         datefmt='%H:%M:%S'
     )
+
+
+def _detect_docs_structure() -> str:
+    """
+    Auto-detecta la estructura de directorios de documentación del proyecto.
+
+    Técnica de Prompt Engineering: Pattern Recognition
+    - Examina estructuras existentes (backend, frontend, infrastructure)
+    - Identifica patrón común de subdirectorios
+    - Infiere estructura para nuevos componentes (agents)
+
+    Returns:
+        Directorio base para documentación de agentes
+    """
+    project_root = Path.cwd()
+    docs_dir = project_root / "docs"
+
+    # Pattern Recognition: Detectar componentes existentes con estructura SDLC
+    existing_components = ["backend", "frontend", "infrastructure", "api"]
+    detected_pattern = None
+
+    for component in existing_components:
+        component_dir = docs_dir / component
+        if component_dir.exists():
+            # Verificar subdirectorios típicos de SDLC
+            expected_subdirs = [
+                "arquitectura",
+                "diseno_detallado",
+                "planificacion_y_releases",
+                "requisitos"
+            ]
+
+            has_pattern = all(
+                (component_dir / subdir).exists()
+                for subdir in expected_subdirs[:2]  # Al menos arquitectura y diseno_detallado
+            )
+
+            if has_pattern:
+                detected_pattern = {
+                    "base": "docs",
+                    "component_level": True,
+                    "subdirs": expected_subdirs
+                }
+                break
+
+    # Si se detectó el patrón, aplicarlo a "agent"
+    if detected_pattern:
+        # Patrón: docs/{component}/{fase}/
+        # Para agents: docs/agent/
+        return "docs/agent"
+    else:
+        # Fallback: estructura legacy
+        return "docs/sdlc_outputs"
 
 
 def load_config(config_path: Optional[Path] = None) -> Dict[str, Any]:
@@ -55,9 +114,12 @@ def load_config(config_path: Optional[Path] = None) -> Dict[str, Any]:
             return json.load(f)
 
     # Configuración por defecto
+    # Auto-detect output directory structure pattern from project
+    output_dir = _detect_docs_structure()
+
     return {
         "project_root": str(Path.cwd()),
-        "output_dir": "docs/sdlc_outputs",
+        "output_dir": output_dir,
         "llm_provider": "anthropic",
         "model": "claude-sonnet-4-5-20250929"
     }
@@ -125,6 +187,60 @@ def run_implementation_phase(
     result = agent.execute(issue_data)
 
     return result.to_dict()
+
+
+def run_completeness_analysis(
+    docs_path: str,
+    output_path: Optional[str] = None,
+    format_type: str = "text"
+) -> Dict[str, Any]:
+    """
+    Ejecuta el agente de análisis de completitud de documentación.
+
+    Args:
+        docs_path: Ruta al directorio de documentación
+        output_path: Ruta para guardar el reporte JSON (opcional)
+        format_type: Formato de salida (text o json)
+
+    Returns:
+        Resultado del análisis
+    """
+    try:
+        from completeness_analysis_agent import CompletenessAnalysisAgent
+    except ImportError:
+        return {
+            "status": "failed",
+            "errors": ["No se pudo importar CompletenessAnalysisAgent. Verifica que el script esté en scripts/"]
+        }
+
+    try:
+        # Crear y ejecutar agente
+        agent = CompletenessAnalysisAgent(base_path=docs_path)
+        results = agent.run_full_analysis()
+
+        # Imprimir resumen si es formato text
+        if format_type == "text":
+            agent.print_summary()
+
+        # Guardar reporte
+        if output_path:
+            report_path = agent.save_report(output_path)
+        else:
+            report_path = agent.save_report()  # Usa default en /tmp/
+
+        return {
+            "status": "success",
+            "data": {
+                "results": results,
+                "report_path": report_path
+            }
+        }
+
+    except Exception as e:
+        return {
+            "status": "failed",
+            "errors": [f"Error ejecutando completeness analysis: {str(e)}"]
+        }
 
 
 def run_pipeline(
@@ -254,28 +370,34 @@ def main() -> int:
 Ejemplos:
 
   # Ejecutar planning phase
-  python scripts/sdlc_agent.py --phase planning --input "Feature: Sistema de notificaciones push"
+  python scripts/cli/sdlc_agent.py --phase planning --input "Feature: Sistema de notificaciones push"
 
   # Ejecutar implementation phase con TDD
-  python scripts/sdlc_agent.py --phase implementation --issue-file issue_data.json
+  python scripts/cli/sdlc_agent.py --phase implementation --issue-file issue_data.json
+
+  # Ejecutar completeness analysis
+  python scripts/cli/sdlc_agent.py --phase completeness_analysis --docs-path docs/
+
+  # Completeness analysis con output personalizado
+  python scripts/cli/sdlc_agent.py --phase completeness_analysis --docs-path docs/ --output-path /tmp/report.json
 
   # Leer desde archivo
-  python scripts/sdlc_agent.py --phase planning --input-file feature_request.txt
+  python scripts/cli/sdlc_agent.py --phase planning --input-file feature_request.txt
 
   # Pipeline completo (cuando esté implementado)
-  python scripts/sdlc_agent.py --pipeline --input "Feature: Dashboard de métricas"
+  python scripts/cli/sdlc_agent.py --pipeline --input "Feature: Dashboard de métricas"
 
   # Dry-run (no guarda artefactos)
-  python scripts/sdlc_agent.py --phase planning --input "..." --dry-run
+  python scripts/cli/sdlc_agent.py --phase planning --input "..." --dry-run
 
   # Output en JSON
-  python scripts/sdlc_agent.py --phase planning --input "..." --format json
+  python scripts/cli/sdlc_agent.py --phase planning --input "..." --format json
         """
     )
 
     parser.add_argument(
         "--phase",
-        choices=["planning", "implementation", "feasibility", "design", "testing", "deployment", "maintenance"],
+        choices=["planning", "implementation", "feasibility", "design", "testing", "deployment", "maintenance", "completeness_analysis"],
         help="Fase SDLC a ejecutar"
     )
 
@@ -301,6 +423,19 @@ Ejemplos:
         "--issue-file",
         type=Path,
         help="Archivo JSON con issue data (para fase implementation)"
+    )
+
+    parser.add_argument(
+        "--docs-path",
+        type=str,
+        default="docs",
+        help="Ruta al directorio de documentación (para completeness_analysis)"
+    )
+
+    parser.add_argument(
+        "--output-path",
+        type=str,
+        help="Ruta para guardar reporte JSON (para completeness_analysis)"
     )
 
     parser.add_argument(
@@ -350,6 +485,9 @@ Ejemplos:
     if args.phase == "implementation":
         if not args.issue_file:
             parser.error("Fase implementation requiere --issue-file con datos del issue")
+    elif args.phase == "completeness_analysis":
+        # completeness_analysis no requiere input, usa --docs-path
+        pass
     elif not args.input and not args.input_file:
         parser.error("Debes especificar --input o --input-file")
 
@@ -390,6 +528,12 @@ Ejemplos:
                 issue_data=issue_data,
                 config=config,
                 dry_run=args.dry_run
+            )
+        elif args.phase == "completeness_analysis":
+            result = run_completeness_analysis(
+                docs_path=args.docs_path,
+                output_path=args.output_path,
+                format_type=args.format
             )
         else:
             print(f"ERROR: Fase '{args.phase}' no implementada aún")

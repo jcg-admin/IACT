@@ -38,6 +38,7 @@ verificacion_metodo: inspection
 impacto_financiero: alto
 impacto_operacional: alto
 urgencia: critica
+date: 2025-11-13
 ---
 
 # RN-001: Sistema de seguridad y auditoría conforme a ISO 27001

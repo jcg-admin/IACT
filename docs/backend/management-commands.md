@@ -1,3 +1,10 @@
+---
+title: Django Management Commands - Guia Centralizada
+date: 2025-11-13
+domain: backend
+status: active
+---
+
 # Django Management Commands - Guia Centralizada
 
 **Autor**: Backend Team
@@ -457,7 +464,7 @@ Recommendations:
 2. Optimizacion de endpoints lentos
 3. Analisis de queries
 
-**Referencia**: `docs/infrastructure/performance-tuning.md`
+**Referencia**: `docs/infraestructura/performance-tuning.md`
 
 **Ejemplo completo**:
 ```bash

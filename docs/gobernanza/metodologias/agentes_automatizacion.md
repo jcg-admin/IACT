@@ -7,6 +7,7 @@ fecha_creacion: 2025-11-04
 fecha_actualizacion: 2025-11-06
 propietario: equipo-desarrollo
 relacionados: ["DOC-GOB-ESTANDARES", "DOC-SCRIPTS-VALIDACION", "RUNBOOK-GIT-MERGE-CLEANUP"]
+date: 2025-11-13
 ---
 # Agentes de Automatización - Proyecto IACT
 

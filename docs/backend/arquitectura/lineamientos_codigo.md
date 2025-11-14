@@ -1,3 +1,10 @@
+---
+title: Lineamientos de código
+date: 2025-11-13
+domain: backend
+status: active
+---
+
 # Lineamientos de código
 
 ## Principios generales

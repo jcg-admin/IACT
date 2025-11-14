@@ -19,7 +19,7 @@ Consolida la narrativa estratégica del proyecto y actúa como punto de partida 
 ### Rol dentro del flujo de documentación
 - **Contexto inicial.** Define título maestro, responsables y objetivos antes de abrir nuevas páginas en otros espacios.
 - **Resumen ejecutivo.** Mantiene el business case y los indicadores clave que dan foco a las sesiones documentadas.
-- **Dependencias.** Explica cómo la visión condiciona decisiones en [`../../gobernanza/readme.md`](../../gobernanza/readme.md), [`../../requisitos/readme.md`](../../requisitos/readme.md) y [`../../arquitectura/readme.md`](../../arquitectura/readme.md).
+- **Dependencias.** Explica cómo la visión condiciona decisiones en [`../../gobernanza/readme.md`](../../gobernanza/readme.md), [`../gobernanza/marco_integrado/readme.md`](../gobernanza/marco_integrado/readme.md) y [`../../arquitectura/readme.md`](../../arquitectura/readme.md).
 
 ### Artefactos obligatorios
 - Glosario oficial (`glossary.md`).
@@ -36,7 +36,7 @@ Consolida la narrativa estratégica del proyecto y actúa como punto de partida 
 
 ## Integración con el flujo documental principal
 - Alimenta rituales documentados en [`../../gobernanza/readme.md`](../../gobernanza/readme.md).
-- Provee contexto para priorizar requisitos en [`../../requisitos/readme.md`](../../requisitos/readme.md).
+- Provee contexto para priorizar requisitos en [`../gobernanza/marco_integrado/readme.md`](../gobernanza/marco_integrado/readme.md).
 - Establece restricciones iniciales para [`../../arquitectura/readme.md`](../../arquitectura/readme.md).
 
 ## Acciones prioritarias

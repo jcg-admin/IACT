@@ -9,6 +9,7 @@ propietario: equipo-backend
 prioridad: critica
 estandares: ["ISO/IEC/IEEE 29148:2018", "PostgreSQL 12+"]
 relacionados: ["INDICE_MAESTRO_PERMISOS_GRANULAR", "RF-001", "RF-002", "RF-003", "RF-004"]
+date: 2025-11-13
 ---
 
 # PRIORIDAD 1: Estructura Base (Base de Datos)

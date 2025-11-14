@@ -14,6 +14,7 @@ iso29148_clause: "9.6.5"
 verificacion_metodo: test
 categoria: performance
 modulo: authentication
+date: 2025-11-13
 ---
 
 # RNF-001: Tiempo de respuesta login menor 2 segundos

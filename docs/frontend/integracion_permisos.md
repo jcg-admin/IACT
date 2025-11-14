@@ -5,7 +5,7 @@ estado: activo
 fecha: 2025-11-09
 owner: equipo-frontend
 prioridad: alta
-relacionados: ["ADR-2025-010", "permisos-granular.md", "GAP_ANALYSIS_SISTEMA_PERMISOS.md"]
+relacionados: ["ADR_2025_010", "permisos-granular.md", "GAP_ANALYSIS_SISTEMA_PERMISOS.md"]
 ---
 
 # Guía de Integración - Sistema de Permisos Granular (Frontend)
@@ -961,7 +961,7 @@ if (hasPermission(permission)) { ... }
 
 ### Documentación Backend
 - [Sistema de Permisos Granular](../backend/arquitectura/permisos-granular.md)
-- [ADR-2025-010: Estrategia Híbrida ORM + SQL](../adr/adr_2025_010_orm_sql_hybrid_permissions.md)
+- [ADR_2025_010: Estrategia Híbrida ORM + SQL](../adr/ADR_2025_010-orm-sql-hybrid-permissions.md)
 - [GAP Analysis](../analisis/GAP_ANALYSIS_SISTEMA_PERMISOS.md)
 
 ### Código de Implementación

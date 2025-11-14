@@ -1,3 +1,10 @@
+---
+title: Análisis de Seguridad y Threat Modeling - Sistema IACT
+date: 2025-11-13
+domain: backend
+status: active
+---
+
 # Análisis de Seguridad y Threat Modeling - Sistema IACT
 
 **Versión:** 1.0

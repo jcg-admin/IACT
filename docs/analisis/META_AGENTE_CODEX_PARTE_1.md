@@ -1,3 +1,10 @@
+---
+title: META-AGENTE CODEX: Generador Autónomo de Artefactos Técnicos con Razonamiento Complejo
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # META-AGENTE CODEX: Generador Autónomo de Artefactos Técnicos con Razonamiento Complejo
 
 **Versión:** 2.0.0 (Enfoque Técnico-Científico Riguroso)  

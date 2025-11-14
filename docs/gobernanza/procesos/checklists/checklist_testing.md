@@ -1,3 +1,10 @@
+---
+title: Checklist de testing
+date: 2025-11-13
+domain: gobernanza
+status: active
+---
+
 # Checklist de testing
 
 - [ ] Plan de pruebas aprobado.

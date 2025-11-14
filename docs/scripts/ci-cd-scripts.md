@@ -1,3 +1,10 @@
+---
+title: Scripts de CI/CD del Proyecto IACT
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Scripts de CI/CD del Proyecto IACT
 
 Documentacion completa de scripts de integracion continua y deployment continuo.

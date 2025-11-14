@@ -23,7 +23,7 @@ Script principal que ejecuta la reorganización completa de forma automatizada.
 1. Crea backup automático en `respaldo/docs_backup_YYYYMMDD_HHMMSS.tar.gz`
 2. Mueve `docs/implementacion/backend/` → `docs/backend/`
 3. Mueve `docs/implementacion/frontend/` → `docs/frontend/`
-4. Fusiona `docs/implementacion/infrastructure/` + `docs/infraestructura/` → `docs/infrastructure/`
+4. Fusiona `docs/implementacion/infrastructure/` + `docs/infraestructura/` → `docs/infraestructura/`
 5. Elimina directorio vacío `docs/implementacion/`
 6. Actualiza TODAS las referencias en archivos `.md` automáticamente
 7. Actualiza scripts Python de generación de índices

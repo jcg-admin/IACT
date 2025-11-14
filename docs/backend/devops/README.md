@@ -1,3 +1,10 @@
+---
+title: DevOps Backend IACT
+date: 2025-11-13
+domain: backend
+status: active
+---
+
 # DevOps Backend IACT
 
 **Proposito**: Documentacion de operaciones y herramientas DevOps

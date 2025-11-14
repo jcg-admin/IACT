@@ -4,6 +4,7 @@ estado: activo
 propietario: equipo-devops
 ultima_actualizacion: 2025-11-02
 relacionados: ["DOC-DEVOPS-INDEX", "RUNBOOK-VERIFY-SERVICES"]
+date: 2025-11-13
 ---
 # Runbook: Post-Create Setup - Vagrant
 

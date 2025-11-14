@@ -5,6 +5,7 @@ estado: activo
 propietario: equipo-frontend
 ultima_actualizacion: 2025-11-08
 relacionados: ["DOC-ARQ-FRONTEND", "DOC-FRONTEND-BFF-STRATEGY"]
+date: 2025-11-13
 ---
 
 # TODO Arquitectura Frontend - Integración con Backend
@@ -49,7 +50,7 @@ Lista priorizada de trabajos arquitectónicos necesarios para que la UI absorba 
 
 - [x] **Crear `ui/src/services` con contrato común** `5SP`
   - `createResilientService` estandariza `fetchFromApi`, `fetchFromMock`, `shouldUseMock` y telemetría.【F:ui/src/services/createResilientService.js†L1-L72】
-  - ADR documentado en `adr/ADR-0001-servicios-resilientes.md`.【F:docs/frontend/arquitectura/adr/ADR-0001-servicios-resilientes.md†L1-L41】
+  - ADR documentado en `adr/ADR_2025_020-servicios-resilientes.md`.【F:docs/frontend/arquitectura/adr/ADR_2025_020-servicios-resilientes.md†L1-L41】
 
 - [x] **Gestión centralizada de mocks** `3SP`
   - Registro y validación en `src/mocks/registry.js`, `schemas.js` y `metadata.js`.【F:ui/src/mocks/registry.js†L1-L36】【F:ui/src/mocks/schemas.js†L1-L72】【F:ui/src/mocks/metadata.js†L1-L15】

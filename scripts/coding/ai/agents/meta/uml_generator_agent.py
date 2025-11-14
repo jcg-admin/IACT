@@ -22,11 +22,11 @@ import re
 import logging
 
 # Import DiagramType from validation agent (shared enum)
-from scripts.ai.agents.meta.uml_validation_agent import DiagramType
+from scripts.coding.ai.agents.meta.uml_validation_agent import DiagramType
 
 # Import LLMGenerator for AI-powered generation
 try:
-    from scripts.ai.generators.llm_generator import LLMGenerator
+    from scripts.coding.ai.generators.llm_generator import LLMGenerator
     LLM_AVAILABLE = True
 except ImportError:
     LLM_AVAILABLE = False

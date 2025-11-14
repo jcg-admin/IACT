@@ -1,3 +1,10 @@
+---
+title: Tareas Pendientes - Análisis de Amenazas de Módulos de Aplicación
+date: 2025-11-13
+domain: backend
+status: active
+---
+
 # Tareas Pendientes - Análisis de Amenazas de Módulos de Aplicación
 
 **Fecha de creación:** 2025-11-04

@@ -1,3 +1,10 @@
+---
+title: Ejemplos de Prompts: Diseño RESTful y Mejores Prácticas
+date: 2025-11-13
+domain: backend
+status: active
+---
+
 # Ejemplos de Prompts: Diseño RESTful y Mejores Prácticas
 
 **Fecha:** 2025-11-11
@@ -1050,7 +1057,7 @@ VERIFICACIÓN:
 - Diferencia clara entre grupos y roles jerárquicos
 - Permisos excepcionales para casos edge
 
-**Referencia:** Este diseño está basado en ADR-012 del proyecto IACT
+**Referencia:** Este diseño está basado en ADR_2025_017 del proyecto IACT
 
 ---
 
@@ -2022,7 +2029,7 @@ El documento ya supera 1,500 líneas. He completado secciones 1-7 con:
 - Diseño de URLs (con anti-patrones)
 - Métodos HTTP y códigos de estado (con tabla exhaustiva)
 - Autenticación JWT (con checklist de seguridad)
-- Permisos granulares (basado en ADR-012)
+- Permisos granulares (basado en ADR_2025_017)
 - Versionado (4 estrategias comparadas)
 - Paginación (Offset vs Cursor con Self-Consistency)
 - Filtrado seguro (validado contra SQL injection)

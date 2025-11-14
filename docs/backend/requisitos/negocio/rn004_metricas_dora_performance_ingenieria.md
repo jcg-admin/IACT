@@ -16,6 +16,7 @@ stakeholders:
   - devops-team
 babok_knowledge_area: "Business Analysis Planning and Monitoring"
 iso29148_clause: "9.3"
+date: 2025-11-13
 ---
 
 # RN-004: Sistema de métricas DORA para mejorar performance de ingeniería de software
@@ -54,7 +55,7 @@ Sin métricas objetivas de performance de ingeniería, la organización opera "a
 ### 2.2 Valor de Negocio
 
 **Beneficios cuantitativos:**
-- Reducción 25% en Lead Time (validado en ADR-2025-003)
+- Reducción 25% en Lead Time (validado en ADR_2025_003)
 - Reducción 20% en Change Failure Rate
 - Reducción 30% en MTTR mediante auto-remediation
 - Aumento 50% en Deployment Frequency
@@ -120,7 +121,7 @@ Sin métricas objetivas de performance de ingeniería, la organización opera "a
 
 ### 3.3 Restricciones
 
-Según **ADR-2025-003**:
+Según **ADR_2025_003**:
 
 **Técnicas:**
 1. NO Redis - Solo PostgreSQL, MySQL, filesystem (RNF-002)
@@ -132,7 +133,7 @@ Según **ADR-2025-003**:
 **Operacionales:**
 6. Dashboard carga en <3 segundos
 7. Predictions ML en <500ms
-8. Overhead pipeline <1% (ADR-2025-003 target)
+8. Overhead pipeline <1% (ADR_2025_003 target)
 
 ## 4. Stakeholders
 
@@ -152,7 +153,7 @@ Según **ADR-2025-003**:
 4. **Predictions:** Riesgo de deployment predicho con >70% accuracy
 5. **Auto-Remediation:** >5 problemas comunes detectados y corregidos automáticamente
 6. **Adopción:** 100% equipo ingeniería consulta dashboard semanalmente
-7. **Overhead:** <1% overhead en duración de pipeline (según ADR-2025-003)
+7. **Overhead:** <1% overhead en duración de pipeline (según ADR_2025_003)
 
 ## 6. Dependencias
 
@@ -160,7 +161,7 @@ Según **ADR-2025-003**:
 
 - **MySQL**: Para almacenamiento de métricas (tabla `dora_metrics`)
 - **Python 3.11+**: Para ML predictions con scikit-learn
-- **Django Admin**: Para dashboards (opcional, fase 4 según ADR-2025-003)
+- **Django Admin**: Para dashboards (opcional, fase 4 según ADR_2025_003)
 
 ### 6.2 Dependencias de Datos
 
@@ -215,7 +216,7 @@ Según **ADR-2025-003**:
 
 **Implementación:**
 - Módulo: `api/callcentersite/dora_metrics/`
-- ADR: ADR-2025-003 (Integración DORA Metrics con SDLC Agents)
+- ADR: ADR_2025_003 (Integración DORA Metrics con SDLC Agents)
 
 **Casos de Uso:**
 - UC-DM-001 a UC-DM-010 (pendientes de documentar)
@@ -224,7 +225,7 @@ Según **ADR-2025-003**:
 
 ### 10.1 Documentación Técnica
 
-- **ADR-2025-003**: Integración DORA Metrics con SDLC Agents (docs/adr/)
+- **ADR_2025_003**: Integración DORA Metrics con SDLC Agents (docs/adr/)
 - **Código implementado**: api/callcentersite/dora_metrics/
 - **Backend analysis**: docs/backend_analisis/2025-11-11/
 - **DORA SDLC Integration Guide**: docs/gobernanza/ai/DORA_SDLC_INTEGRATION_GUIDE.md
@@ -258,8 +259,8 @@ Este requisito de negocio documenta funcionalidad YA IMPLEMENTADA en el módulo 
 2. **Documentar QUÉ**: El negocio necesita métricas DORA
 3. **Justificar implementación**: Por qué existe este módulo
 4. **Criterios de validación**: Cómo validar que cumple necesidad
-5. **Contexto para mantenimiento**: Por qué decisiones arquitecturales (ver ADR-2025-003)
+5. **Contexto para mantenimiento**: Por qué decisiones arquitecturales (ver ADR_2025_003)
 
-**Estado actual**: Implementado según ADR-2025-003 con 6 fases:
+**Estado actual**: Implementado según ADR_2025_003 con 6 fases:
 - Fase 1: Core Integration (COMPLETADO)
 - Fase 2-6: Refactor, MySQL, Dashboards, GitHub Sync, PDCA (EN ROADMAP)

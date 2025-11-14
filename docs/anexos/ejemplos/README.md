@@ -4,6 +4,7 @@ estado: activo
 propietario: equipo-documentacion
 ultima_actualizacion: 2025-11-02
 relacionados: ["DOC-ANEXO-INDEX", "DOC-PLANTILLAS-INDEX"]
+date: 2025-11-13
 ---
 # Ejemplos Completos
 
@@ -38,7 +39,7 @@ Este espacio contiene ejemplos completos y funcionales de artefactos documentale
 
 ### 1. ADR Ejemplo - Vagrant Infrastructure
 
-**Archivo:** [ADR-2025-001](../../arquitectura/adr/adr_2025_001_vagrant_mod_wsgi.md)
+**Archivo:** [ADR_2025_001](../../arquitectura/adr/ADR_2025_001-vagrant-mod-wsgi.md)
 
 **Qué demuestra:**
 - Estructura completa de un ADR

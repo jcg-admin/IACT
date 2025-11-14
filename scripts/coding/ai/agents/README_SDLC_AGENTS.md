@@ -91,7 +91,7 @@ Issue generado:
   T?tulo: Implementar sistema de autenticaci?n de 2 factores
   Story Points: 8
   Prioridad: P1
-  Artefacto: docs/sdlc_outputs/planning/ISSUE_20251106_150610.md
+  Artefacto: docs/ai/agent/planificacion_y_releases/ISSUE_20251106_150610.md
 
 Acceptance Criteria (7):
   1. Sistema de autenticaci?n funciona correctamente
@@ -203,8 +203,8 @@ INFO - ? All CRITICAL rules passed
 INFO - Compliance Score: 95.5/100
 
 INFO - Status: ? COMPLIANT
-INFO - Execution log: docs/sdlc_outputs/tdd_logs/tdd_execution_*.json
-INFO - Dashboard: docs/sdlc_outputs/tdd_logs/dashboard_*.md
+INFO - Execution log: docs/ai/agent/tdd_logs/tdd_execution_*.json
+INFO - Dashboard: docs/ai/agent/tdd_logs/dashboard_*.md
 ```
 
 **Herramientas QA Integradas**:
@@ -318,7 +318,7 @@ Crear `config/sdlc_agents.json`:
 ```json
 {
   "project_root": "/home/user/IACT---project",
-  "output_dir": "docs/sdlc_outputs",
+  "output_dir": "docs/agent",
   "llm_provider": "anthropic",
   "model": "claude-3-5-sonnet-20241022",
   "agents": {
@@ -348,10 +348,10 @@ python scripts/sdlc_agent.py --phase planning \
 
 ## Artefactos Generados
 
-Los agentes guardan sus outputs en `docs/sdlc_outputs/` organizados por fase:
+Los agentes guardan sus outputs en `docs/ai/agent/` organizados por fase:
 
 ```
-docs/sdlc_outputs/
+docs/ai/agent/
 +-- planning/
 |   +-- ISSUE_20251106_150610.md
 |   +-- ISSUE_20251106_150615.md
@@ -459,7 +459,7 @@ python scripts/sdlc_agent.py --phase planning \
   --input "Feature: 2FA" > planning.txt
 
 # 2. Revisar planning
-cat docs/sdlc_outputs/planning/ISSUE_*.md
+cat docs/ai/agent/planning/ISSUE_*.md
 
 # 3. Crear issue en GitHub
 gh issue create --title "..." --body "..."
@@ -604,7 +604,7 @@ class SDLCFeasibilityAgent(SDLCAgent):
 - **Arquitectura completa**: `scripts/ai/agents/ARCHITECTURE_SDLC_AGENTS.md`
 - **Proceso SDLC**: `docs/gobernanza/procesos/SDLC_PROCESS.md`
 - **Base Agent**: `scripts/ai/agents/base.py`
-- **Issues generados**: `docs/sdlc_outputs/planning/`
+- **Issues generados**: `docs/ai/agent/planning/`
 
 ---
 

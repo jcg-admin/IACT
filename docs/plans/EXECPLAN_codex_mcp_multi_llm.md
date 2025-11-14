@@ -1,3 +1,10 @@
+---
+title: Integrar orquestación Codex MCP para todos los LLM soportados
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Integrar orquestación Codex MCP para todos los LLM soportados
 
 Este ExecPlan es una living document. Las secciones `Progress`, `Surprises & Discoveries`, `Decision Log` y `Outcomes & Retrospective` deben mantenerse al día conforme avancemos.

@@ -1,3 +1,10 @@
+---
+title: Guía para Crear Componentes PromptOps
+date: 2025-11-13
+domain: backend
+status: active
+---
+
 # Guía para Crear Componentes PromptOps
 
 **Propósito:** Documentar la metodología para crear nuevos gates, chains, templates y meta-prompts siguiendo el estándar PromptOps del proyecto IACT.
@@ -268,7 +275,7 @@ Eres un [rol específico] especializado en [dominio].
 - Basado en capacidades granulares (NO roles jerárquicos)
 - Formato: `sistema.dominio.recurso.accion`
 - Middleware + Mixin para validación
-- ADR-012: Sistema de permisos sin roles jerárquicos
+- ADR_2025_017: Sistema de permisos sin roles jerárquicos
 
 ---
 
@@ -1103,8 +1110,8 @@ Al crear un nuevo componente PromptOps, verifica:
 
 ### Documentación Relacionada
 
-- [ADR-012: Sistema de Permisos](../../arquitectura/ADR-012-sistema-permisos-sin-roles-jerarquicos.md)
-- [Restricciones del Proyecto](../../requisitos/restricciones_y_lineamientos.md)
+- [ADR_2025_017: Sistema de Permisos](../../arquitectura/ADR_2025_017-sistema-permisos-sin-roles-jerarquicos.md)
+- [Restricciones del Proyecto](../gobernanza/marco_integrado/restricciones_y_lineamientos.md)
 - [Arquitectura de Permisos](../ARQUITECTURA_PERMISOS_UML.md)
 
 ### Herramientas

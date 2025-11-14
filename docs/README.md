@@ -1,3 +1,10 @@
+---
+title: Documentación IACT (estado consolidado)
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Documentación IACT (estado consolidado)
 
 > Actualización: 2025-11-12

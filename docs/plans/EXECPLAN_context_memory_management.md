@@ -1,3 +1,10 @@
+---
+title: Integrar gestión de contexto multi-LLM en agentes y documentación
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Integrar gestión de contexto multi-LLM en agentes y documentación
 
 Este ExecPlan es un documento vivo. Las secciones `Progress`, `Surprises & Discoveries`, `Decision Log` y `Outcomes & Retrospective` deben mantenerse al día conforme avance el trabajo.

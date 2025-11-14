@@ -8,6 +8,7 @@ autores: ["Equipo Backend"]
 revisores: []
 version: 1.0
 relacionados: ["DOC-SOL-SC02", "DOC-ARQ-BACKEND"]
+date: 2025-11-13
 ---
 
 # Patrones Arquitectónicos del Backend

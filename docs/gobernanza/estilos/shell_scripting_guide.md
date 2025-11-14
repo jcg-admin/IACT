@@ -5,6 +5,7 @@ propietario: equipo-arquitectura
 ultima_actualizacion: 2025-11-03
 version: 2.1
 relacionados: ["DOC-GOB-CODING-STANDARDS", "DOC-INFRA-SCRIPTS"]
+date: 2025-11-13
 ---
 
 # Shell Scripting Guide - Proyecto IACT

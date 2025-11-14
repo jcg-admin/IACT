@@ -4,6 +4,7 @@ estado: activo
 propietario: equipo-documentacion
 ultima_actualizacion: 2025-11-02
 relacionados: ["DOC-ANEXO-INDEX"]
+date: 2025-11-13
 ---
 # Referencias y Bibliografía
 

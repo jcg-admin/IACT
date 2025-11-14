@@ -1,3 +1,10 @@
+---
+title: Métricas y reporting
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Métricas y reporting
 
 Actualmente no existe un script automatizado para generar métricas DORA o reportes de despliegue. Los JSON en `logs_data/` se mantienen de forma manual.

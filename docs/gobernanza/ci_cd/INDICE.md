@@ -1,3 +1,10 @@
+---
+title: CI/CD - Indice General de Documentacion
+date: 2025-11-13
+domain: gobernanza
+status: active
+---
+
 # CI/CD - Indice General de Documentacion
 
 Documentacion completa del sistema CI/CD de IACT.

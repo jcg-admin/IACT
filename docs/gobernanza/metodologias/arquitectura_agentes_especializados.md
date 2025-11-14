@@ -6,6 +6,7 @@ version: 1.0.0
 fecha_creacion: 2025-11-04
 propietario: equipo-desarrollo
 relacionados: ["DOC-DEV-AGENTES", "DOC-GOB-ESTANDARES"]
+date: 2025-11-13
 ---
 # Arquitectura de Agentes Especializados
 

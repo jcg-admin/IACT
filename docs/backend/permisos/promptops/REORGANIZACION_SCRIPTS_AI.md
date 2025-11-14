@@ -1,3 +1,10 @@
+---
+title: Reorganización: scripts/ → scripts/ai
+date: 2025-11-13
+domain: backend
+status: active
+---
+
 # Reorganización: scripts/ → scripts/ai
 
 **Fecha:** 2025-11-11

@@ -14,6 +14,7 @@ iso29148_clause: "9.6.4"
 verificacion_metodo: demonstration
 categoria: ui
 modulo: authentication-ui
+date: 2025-11-13
 ---
 
 # RF-010: Pantalla de login con validaciones

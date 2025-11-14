@@ -4,6 +4,7 @@ dominio: frontend
 owner: equipo-frontend
 fecha_creacion: 2025-11-04
 tipo: enlace
+date: 2025-11-13
 ---
 # Necesidades de Negocio Vinculadas
 

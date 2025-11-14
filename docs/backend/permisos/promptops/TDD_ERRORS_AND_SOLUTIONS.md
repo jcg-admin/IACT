@@ -1,3 +1,10 @@
+---
+title: TDD: Errores y Soluciones - Route Lint Agent
+date: 2025-11-13
+domain: backend
+status: active
+---
+
 # TDD: Errores y Soluciones - Route Lint Agent
 
 **Fecha:** 2025-11-11

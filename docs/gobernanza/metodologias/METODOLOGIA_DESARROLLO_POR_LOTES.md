@@ -1,3 +1,10 @@
+---
+title: Metodología de Desarrollo por Lotes
+date: 2025-11-13
+domain: gobernanza
+status: active
+---
+
 # Metodología de Desarrollo por Lotes
 
 ## 1. Introducción

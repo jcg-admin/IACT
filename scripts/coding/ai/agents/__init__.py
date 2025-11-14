@@ -18,10 +18,10 @@ Para imports, usar las nuevas ubicaciones:
 
 ```python
 # Antes:
-from scripts.ai.agents.sdlc_planner import SDLCPlannerAgent
+from scripts.coding.ai.agents.sdlc_planner import SDLCPlannerAgent
 
 # Ahora:
-from scripts.ai.sdlc.planner_agent import PlannerAgent
+from scripts.coding.ai.sdlc.planner_agent import PlannerAgent
 ```
 
 Ver documentación completa en los READMEs de este directorio.
@@ -33,7 +33,7 @@ import warnings
 def __getattr__(name):
     """Provide backward compatibility with deprecation warnings."""
     warnings.warn(
-        f"Importing from scripts.ai.agents is deprecated. "
+        f"Importing from scripts.coding.ai.agents is deprecated. "
         f"Please update imports to use domain-specific modules "
         f"(scripts.ai.sdlc, scripts.ai.tdd, scripts.ai.quality, etc.)",
         DeprecationWarning,

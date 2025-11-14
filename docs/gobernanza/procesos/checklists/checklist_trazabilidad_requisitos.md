@@ -1,3 +1,10 @@
+---
+title: Checklist de trazabilidad de requisitos
+date: 2025-11-13
+domain: gobernanza
+status: active
+---
+
 # Checklist de trazabilidad de requisitos
 
 - [ ] Cada requisito funcional enlaza con al menos un caso de uso.

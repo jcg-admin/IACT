@@ -1,3 +1,10 @@
+---
+title: Deployment del Backend IACT
+date: 2025-11-13
+domain: backend
+status: active
+---
+
 # Deployment del Backend IACT
 
 **Proposito**: Procedimientos y documentacion de deployment

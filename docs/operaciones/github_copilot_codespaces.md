@@ -4,6 +4,7 @@ estado: draft
 propietario: equipo-devops
 ultima_actualizacion: 2025-11-02
 relacionados: ["DOC-DEVOPS-INDEX", "DOC-DEVOPS-CONTAINERS"]
+date: 2025-11-13
 ---
 # Runbook: Desarrollo con GitHub Codespaces y Copilot
 
@@ -13,7 +14,7 @@ Guía para configurar y usar GitHub Codespaces con GitHub Copilot para el desarr
 
 ## Estado Actual
 
-WARNING **Nota**: Esta funcionalidad está en planificación. El proyecto actualmente usa Vagrant (ver [ADR-2025-001](../../arquitectura/adr/adr_2025_001_vagrant_mod_wsgi.md)).
+WARNING **Nota**: Esta funcionalidad está en planificación. El proyecto actualmente usa Vagrant (ver [ADR_2025_001](../../arquitectura/adr/ADR_2025_001-vagrant-mod-wsgi.md)).
 
 Este runbook documenta el proceso futuro cuando se implemente DevContainers y Codespaces.
 

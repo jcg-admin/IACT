@@ -8,6 +8,7 @@ category: features/ai
 tags: [ai, auto-remediation, automation, incident-response, dora-2025]
 created: 2025-11-07
 updated: 2025-11-07
+date: 2025-11-13
 ---
 
 # Auto-remediation System

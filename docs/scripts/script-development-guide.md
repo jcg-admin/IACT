@@ -1,3 +1,10 @@
+---
+title: Guia de Desarrollo de Scripts
+date: 2025-11-13
+domain: general
+status: active
+---
+
 # Guia de Desarrollo de Scripts
 
 Como crear nuevos scripts para el proyecto IACT.

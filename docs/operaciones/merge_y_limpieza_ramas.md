@@ -4,6 +4,7 @@ estado: activo
 propietario: equipo-devops
 ultima_actualizacion: 2025-11-05
 relacionados: ["PROC-CAMBIOS", "PROC-RELEASE"]
+date: 2025-11-13
 ---
 # Runbook: Merge y Limpieza de Ramas
 

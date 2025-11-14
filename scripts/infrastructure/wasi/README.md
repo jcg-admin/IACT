@@ -194,4 +194,4 @@ db_config = config.get_database_config()
 
 ## Documentación Completa
 
-Ver: `docs/infrastructure/AMBIENTES_VIRTUALIZADOS.md`
+Ver: `docs/infraestructura/AMBIENTES_VIRTUALIZADOS.md`

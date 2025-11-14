@@ -390,7 +390,7 @@ from textwrap import dedent
 
 # Import del agente a testear
 # TODO: Ajustar import según ubicación real del agente
-# from scripts.ai.agents.{component}.{component}_agent import {Component}Agent
+# from scripts.coding.ai.agents.{component}.{component}_agent import {Component}Agent
 
 
 '''

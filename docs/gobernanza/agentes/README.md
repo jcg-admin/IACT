@@ -57,20 +57,6 @@ Más agentes especializados en desarrollo activo.
 
 **Documentación completa**: Ver `scripts/ai/agents/README_BUSINESS_ANALYSIS.md`
 
-### Agentes SDLC (Software Development Life Cycle)
-
-Ubicación: `scripts/ai/agents/`
-
-1. **SDLCPlannerAgent**: Convierte feature requests en issues estructurados
-2. **TDDFeatureAgent**: Implementa features siguiendo metodología TDD con compliance
-3. **SDLCFeasibilityAgent**: Analiza viabilidad técnica y de negocio
-4. **SDLCDesignAgent**: Genera diseños HLD/LLD y ADRs
-5. **SDLCTestingAgent**: Genera estrategias de testing
-6. **SDLCDeploymentAgent**: Genera planes de deployment
-7. **SDLCOrchestratorAgent**: Orquesta pipeline completo SDLC
-
-**Documentación completa**: Ver [tdd-feature-agent.md](tdd-feature-agent.md) y `docs/scripts/sdlc-agents-reference.md`
-
 ---
 
 ## Constitution
@@ -319,7 +305,7 @@ Cuando un agente ejecuta, se validan automáticamente:
 
 **Qué valida**: Output no contiene emojis prohibidos
 
-**Emojis buscados**: [x] [ ] [WARNING]      y 100+ más
+**Emojis buscados**: ✅ ❌ ⚠️ 🚀 🔧 📝 💡 🚨 y 100+ más
 
 **Alternativas**: Ver `docs/gobernanza/GUIA_ESTILO.md`
 
