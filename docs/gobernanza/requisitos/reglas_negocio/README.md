@@ -106,9 +106,9 @@ Transforman datos existentes en nuevos datos usando fórmulas matemáticas o alg
 
 ## Documentos Relacionados
 
-- [Constitución del Proyecto](../../CONSTITUCION.md) - Reglas R1-R6
-- [ADR-001: Arquitectura Django-React](../../adr/ADR-001-architecture-django-react.md)
-- [Estrategia de IA](../../ai_capabilities/ESTRATEGIA_IA.md)
+- [Constitución del Proyecto](../../../../.constitucion.yaml) - Reglas R1-R6
+- [ADR-010: Organización por Dominio](../../adr/ADR_010_organizacion_proyecto_por_dominio.md)
+- [Estrategia de IA](../../ai/ESTRATEGIA_IA.md)
 
 ---
 

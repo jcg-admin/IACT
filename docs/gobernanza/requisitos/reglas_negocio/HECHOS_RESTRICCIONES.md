@@ -333,7 +333,7 @@ Una manera eficiente de documentar restricciones es a través de una **matriz de
 - [Introducción a las Reglas de Negocio](INTRODUCCION.md)
 - [Tipos Avanzados: Activadores, Inferencias y Cálculos](TIPOS_AVANZADOS.md)
 - [Aplicación en el Proyecto IACT](APLICACION_IACT.md)
-- [Constitución del Proyecto - Reglas R1-R6](../../CONSTITUCION.md)
+- [Constitución del Proyecto - Reglas R1-R6](../../../../.constitucion.yaml)
 
 ---
 
