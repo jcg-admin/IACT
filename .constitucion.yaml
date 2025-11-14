@@ -1,0 +1,147 @@
+# Automation System Configuration
+# Version: 1.0.0
+# Last Updated: 2025-11-14
+# Purpose: Production-ready configuration file for the automation system
+
+# ==============================================================================
+# METADATA
+# ==============================================================================
+metadata:
+  version: 1.0.0
+  last_updated: 2025-11-14
+  description: Automation system configuration
+
+# ==============================================================================
+# PRINCIPLES (5 Core Principles)
+# ==============================================================================
+principles:
+  R1:
+    name: Idempotencia
+    description: All operations must be idempotent
+    enforcement: Operations can be executed multiple times with same result
+
+  R2:
+    name: Sin Emojis
+    description: No emojis or icons in outputs
+    enforcement: All output must be text-only for automation compatibility
+
+  R3:
+    name: Verificacion
+    description: All changes must be verified
+    enforcement: Verification step required after each operation
+
+  R4:
+    name: Documentacion
+    description: All changes must be documented
+    enforcement: Documentation update required for all modifications
+
+  R5:
+    name: Trazabilidad
+    description: Complete traceability of changes
+    enforcement: All changes must be logged with context and metadata
+
+# ==============================================================================
+# RULES (6 Operational Rules)
+# ==============================================================================
+rules:
+  rule_1:
+    name: Exit Codes
+    description: Standardized exit codes for all operations
+    implementation:
+      success: 0
+      failure: 1
+      warnings: 2
+
+  rule_2:
+    name: JSON Output Format
+    description: Agent results must use JSON format
+    implementation: All agent outputs structured as valid JSON
+
+  rule_3:
+    name: Logging Standards
+    description: Logging to STDERR, results to STDOUT
+    implementation:
+      logs: STDERR
+      results: STDOUT
+
+  rule_4:
+    name: Configuration Validation
+    description: Configuration validation before execution
+    implementation: Validate all config files before running operations
+
+  rule_5:
+    name: Graceful Degradation
+    description: Graceful degradation on errors
+    implementation: Continue execution with reduced functionality on non-critical errors
+
+  rule_6:
+    name: Parallel Execution
+    description: Parallel execution where possible
+    implementation: Maximize parallelization for independent operations
+
+# ==============================================================================
+# AGENT CONFIGURATION
+# ==============================================================================
+agent_configuration:
+  semantic_git_history_agent:
+    max_commits: 100
+    output_format: json
+    include_diffs: false
+
+  unified_system_context_agent:
+    max_files: 1000
+    ignore_patterns:
+      - node_modules
+      - .git
+      - __pycache__
+    output_format: json
+
+  agent_discovery_agent:
+    search_paths:
+      - .agent/agents
+      - scripts/coding/ai
+    output_format: json
+
+  ci_pipeline_orchestrator_agent:
+    config_file: .ci-local.yaml
+    max_concurrent_jobs: 10
+    fail_fast: true
+    smart_detection: true
+
+  git_hook_manager_agent:
+    hooks_dir: .git/hooks
+    validation_mode: strict
+
+  test_results_analyzer_agent:
+    test_dirs:
+      - tests
+      - scripts/coding/tests
+    report_format: json
+
+# ==============================================================================
+# METRICS CONFIGURATION
+# ==============================================================================
+metrics_configuration:
+  enable_metrics: true
+  metrics_output: /tmp/automation_metrics.json
+  track_execution_time: true
+  track_success_rate: true
+
+# ==============================================================================
+# EVOLUTION GUIDELINES
+# ==============================================================================
+evolution_guidelines:
+  schema_versioning:
+    description: Use semantic versioning for schema changes
+    breaking_changes: Increment major version for breaking changes
+    backward_compatibility: Maintain compatibility within major versions
+
+  backward_compatibility:
+    description: Requirements for backward compatibility
+    policy: New minor versions must support previous minor version configurations
+    deprecation_notice: Provide at least one minor version deprecation notice
+
+  migration_path:
+    description: Migration path documentation requirements
+    requirement: All breaking changes must include migration documentation
+    location: Document migration steps in CHANGELOG.md and migration guides
