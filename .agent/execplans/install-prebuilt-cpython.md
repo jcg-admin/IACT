@@ -12,6 +12,7 @@ Provide a reproducible fallback script that downloads a prebuilt CPython artifac
 - [x] (2024-09-27 12:45Z) Implement `scripts/install_prebuilt_cpython.sh` to satisfy the new tests with configurable artifact/version variables; targeted pytest suite now passes.
 - [x] (2024-09-27 12:55Z) Confirmed bootstrap messaging already highlights the symlink; documented fallback via automated tests and noted unrelated suite failures during full pytest run.
 - [x] (2025-11-14 06:12Z) Refactored the install script to source shared logging utilities and adjusted tests to enforce the DRY expectation raised during review feedback.
+- [x] (2025-11-14 07:25Z) Added a top-level `scripts/build_cpython.sh` entrypoint that delegates to the infrastructure build script so the Vagrant guidance matches the repository layout; captured coverage with a new pytest module.
 
 ## Surprises & Discoveries
 
@@ -25,6 +26,9 @@ Provide a reproducible fallback script that downloads a prebuilt CPython artifac
   Date/Author: 2024-09-27 / ChatGPT
 - Decision: Reuse the repository's shared logging helpers instead of redefining ad-hoc `log_info`/`log_error` functions inside the installer.
   Rationale: Aligns with DRY expectations from reviewers and ensures consistent log formatting across infrastructure scripts.
+  Date/Author: 2025-11-14 / ChatGPT
+- Decision: Provide a thin executable wrapper in `scripts/` that defers to `infrastructure/cpython/scripts/build_cpython.sh` instead of duplicating the build logic.
+  Rationale: Keeps the single source of truth for build operations while satisfying the provisioning instructions that reference `./scripts/build_cpython.sh`.
   Date/Author: 2025-11-14 / ChatGPT
 
 ## Outcomes & Retrospective
