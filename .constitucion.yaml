@@ -80,7 +80,7 @@ rules:
     implementation: Maximize parallelization for independent operations
 
 # ==============================================================================
-# AGENT CONFIGURATION (7 Real Automation Agents)
+# AGENT CONFIGURATION (8 Real Automation Agents)
 # ==============================================================================
 agent_configuration:
   schema_validator_agent:
@@ -128,6 +128,15 @@ agent_configuration:
     dora_metrics_enabled: true
     pdca_cycle_tracking: true
     improvement_suggestions: true
+    output_format: json
+
+  business_rules_validator_agent:
+    docs_dir: docs/gobernanza/requisitos/reglas_negocio
+    check_structure: true
+    check_categorization: true
+    check_examples: true
+    check_references: true
+    check_matrices: true
     output_format: json
 
 # ==============================================================================

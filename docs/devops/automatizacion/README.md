@@ -40,7 +40,7 @@ The IACT Automation System is a hybrid Bash/Python framework designed to automat
 
 ### System Overview
 
-The automation system consists of 7 core agents working in coordination:
+The automation system consists of 8 core agents working in coordination:
 
 1. **Schema Validator Agent** - Validates YAML/JSON configuration schemas
 2. **DevContainer Validator Agent** - Ensures environment consistency
@@ -49,6 +49,7 @@ The automation system consists of 7 core agents working in coordination:
 5. **Constitution Validator Agent** - Enforces R1-R6 constitution rules
 6. **CI Pipeline Orchestrator Agent** - Coordinates pipeline execution
 7. **PDCA Agent** - Continuous improvement with DORA metrics
+8. **Business Rules Validator Agent** - Validates business rules documentation structure and compliance
 
 These agents are invoked through Bash entry points integrated with Git hooks and CI/CD pipelines.
 
