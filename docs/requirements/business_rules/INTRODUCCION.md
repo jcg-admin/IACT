@@ -204,9 +204,9 @@ En el contexto del proyecto IACT (sistema de call center), las reglas de negocio
 
 ## Documentos Relacionados
 
-- [Tipos de Reglas: Hechos y Restricciones](02_HECHOS_RESTRICCIONES.md)
-- [Tipos Avanzados: Activadores, Inferencias y Cálculos](03_TIPOS_AVANZADOS.md)
-- [Aplicación en el Proyecto IACT](04_APLICACION_IACT.md)
+- [Tipos de Reglas: Hechos y Restricciones](HECHOS_RESTRICCIONES.md)
+- [Tipos Avanzados: Activadores, Inferencias y Cálculos](TIPOS_AVANZADOS.md)
+- [Aplicación en el Proyecto IACT](APLICACION_IACT.md)
 - [Constitución del Proyecto](../../CONSTITUCION.md)
 
 ---

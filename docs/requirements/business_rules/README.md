@@ -10,10 +10,10 @@
 
 ## Índice
 
-1. [Introducción a las Reglas de Negocio](01_INTRODUCCION.md)
-2. [Tipos de Reglas: Hechos y Restricciones](02_HECHOS_RESTRICCIONES.md)
-3. [Tipos Avanzados: Activadores, Inferencias y Cálculos](03_TIPOS_AVANZADOS.md)
-4. [Aplicación en el Proyecto IACT](04_APLICACION_IACT.md)
+1. [Introducción a las Reglas de Negocio](INTRODUCCION.md)
+2. [Tipos de Reglas: Hechos y Restricciones](HECHOS_RESTRICCIONES.md)
+3. [Tipos Avanzados: Activadores, Inferencias y Cálculos](TIPOS_AVANZADOS.md)
+4. [Aplicación en el Proyecto IACT](APLICACION_IACT.md)
 
 ---
 
