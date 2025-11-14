@@ -50,6 +50,64 @@ fi
 # FUNCTIONS
 # =============================================================================
 
+configure_old_releases_mirror() {
+    local sources=(/etc/apt/sources.list /etc/apt/sources.list.d/*.list)
+    local updated=0
+
+    log_info "Configuring Ubuntu old-releases mirror as fallback"
+
+    for source_file in "${sources[@]}"; do
+        if [[ ! -f "$source_file" ]]; then
+            continue
+        fi
+
+        if ! grep -Eq "archive.ubuntu.com|security.ubuntu.com" "$source_file"; then
+            continue
+        fi
+
+        log_info "Updating APT source: $source_file"
+        cp "$source_file" "${source_file}.bak" 2>/dev/null || true
+
+        sed -i \
+            -e 's|http://archive.ubuntu.com/ubuntu|http://old-releases.ubuntu.com/ubuntu|g' \
+            -e 's|https://archive.ubuntu.com/ubuntu|http://old-releases.ubuntu.com/ubuntu|g' \
+            -e 's|http://security.ubuntu.com/ubuntu|http://old-releases.ubuntu.com/ubuntu|g' \
+            -e 's|https://security.ubuntu.com/ubuntu|http://old-releases.ubuntu.com/ubuntu|g' \
+            "$source_file"
+
+        updated=1
+    done
+
+    if (( updated == 0 )); then
+        log_warning "No APT sources required migration to old-releases mirror"
+    fi
+
+    return 0
+}
+
+refresh_package_metadata() {
+    log_info "Refreshing package metadata"
+
+    if execute_with_retry 3 "apt-get update" apt-get update -qq; then
+        return 0
+    fi
+
+    log_warning "apt-get update failed, applying old-releases mirror fallback"
+
+    if ! configure_old_releases_mirror; then
+        log_error "Failed to configure old-releases mirror"
+        return 1
+    fi
+
+    if execute_with_retry 3 "apt-get update (old-releases fallback)" apt-get update -qq; then
+        log_info "Package metadata refreshed using old-releases mirror"
+        return 0
+    fi
+
+    log_error "Failed to refresh package metadata after applying old-releases mirror"
+    return 1
+}
+
 update_system() {
     log_step 1 6 "Updating system"
 
@@ -60,7 +118,7 @@ update_system() {
     fi
 
     log_info "Updating package lists..."
-    if ! execute_with_retry 3 "apt-get update" apt-get update -qq; then
+    if ! refresh_package_metadata; then
         log_error "Failed to update package lists"
         return 1
     fi
@@ -85,6 +143,11 @@ install_build_dependencies() {
     fi
 
     log_info "Installing build toolchain..."
+
+    if ! refresh_package_metadata; then
+        log_error "Failed to refresh package metadata before installing dependencies"
+        return 1
+    fi
 
     # Dependencies from: https://devguide.python.org/getting-started/setup-building/
     local packages=(
