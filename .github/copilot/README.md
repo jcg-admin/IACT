@@ -12,6 +12,10 @@ El archivo `agents.json` define los agentes personalizados disponibles en este r
 
 ## Agentes Disponibles
 
+### GitHub Copilot Custom Agents (5 agentes configurados)
+
+Los siguientes agentes están configurados para uso con GitHub Copilot mediante `@agent_name`:
+
 ### 1. my_agent (CodeTasker)
 **Descripción**: Agente autónomo basado en GitHub Copilot que ejecuta tareas de programación, monitorea el progreso y reporta avances.
 
@@ -61,6 +65,64 @@ El archivo `agents.json` define los agentes personalizados disponibles en este r
 ```
 @security_agent Ejecuta auditoría completa de seguridad
 ```
+
+## Python SDLC Agents (33 agentes implementados)
+
+El proyecto también incluye 33 agentes Python implementados en `scripts/coding/ai/` que pueden ejecutarse directamente:
+
+### SDLC Agents (scripts/coding/ai/sdlc/)
+- `planner_agent.py` - Planificación y estimación de tareas
+- `feasibility_agent.py` - Análisis de viabilidad y riesgos
+- `design_agent.py` - Generación de diseños HLD/LLD
+- `testing_agent.py` - Generación automática de tests
+- `deployment_agent.py` - Planificación de despliegues
+- `plan_validation_agent.py` - Validación de planes SDLC
+
+### Automation Agents (scripts/coding/ai/automation/)
+- `coherence_analyzer_agent.py` - Análisis de coherencia código/tests/docs
+- `pdca_agent.py` - Ciclo Plan-Do-Check-Act automatizado
+- `constitution_validator_agent.py` - Validación de principios constitucionales
+- `devcontainer_validator_agent.py` - Validación de devcontainer
+- `metrics_collector_agent.py` - Recolección de métricas DORA
+- `schema_validator_agent.py` - Validación de esquemas JSON
+- `ci_pipeline_orchestrator_agent.py` - Orquestación de pipelines CI
+- `compliance_validator_agent.py` - Validación de compliance
+- `business_rules_validator_agent.py` - Validación de reglas de negocio
+
+### Documentation Agents (scripts/coding/ai/agents/documentation/)
+- `eta_codex_agent.py` - Agente ETA CODEX
+- `documentation_analysis_agent.py` - Análisis de documentación
+
+### Meta Agents (scripts/coding/ai/agents/meta/)
+- `architecture_analysis_agent.py` - Análisis de arquitectura
+- `design_patterns_agent.py` - Patrones de diseño
+- `drf_architecture_agent.py` - Arquitectura Django REST Framework
+- `refactoring_opportunities_agent.py` - Oportunidades de refactorización
+- `test_generation_agent.py` - Generación de tests
+- `uml_generator_agent.py` - Generación de diagramas UML
+- `uml_validation_agent.py` - Validación de diagramas UML
+
+### Quality Agents (scripts/coding/ai/agents/quality/)
+- `shell_analysis_agent.py` - Análisis de scripts shell
+- `shell_remediation_agent.py` - Remediación de scripts shell
+
+### Base Techniques (scripts/coding/ai/agents/base/)
+- `auto_cot_agent.py` - Auto Chain-of-Thought prompting
+
+### TDD Agents (scripts/coding/ai/agents/tdd/)
+- `tdd_agent.py` - Agente TDD
+- `feature_agent.py` - Agente de features TDD
+
+**Uso de Python Agents**:
+```bash
+# Ejemplo: Testing Agent
+python scripts/coding/ai/sdlc/testing_agent.py --project-root . --target-module "api/authentication"
+
+# Ejemplo: Coherence Analyzer
+python scripts/coding/ai/automation/coherence_analyzer_agent.py --project-root . --module "scripts/coding/ai/sdlc"
+```
+
+Consulta `scripts/coding/ai/README.md` para documentación detallada de cada agente.
 
 ## Cómo Funcionan los Agentes
 
@@ -115,7 +177,7 @@ cat .github/copilot/agents.json | python3 -m json.tool
 
 # Verificar que existen los archivos de instrucciones
 for agent in $(jq -r '.agents[].instructions' .github/copilot/agents.json); do
-  [ -f "$agent" ] && echo "✓ $agent" || echo "✗ $agent missing"
+  [ -f "$agent" ] && echo "[OK] $agent" || echo "[MISSING] $agent"
 done
 ```
 

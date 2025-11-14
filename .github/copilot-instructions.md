@@ -93,7 +93,15 @@ vagrant up  # PostgreSQL:15432, MariaDB:13306
 - **Dual-database**: PostgreSQL (analytics, Django models) + MariaDB (IVR read-only via router)
 - **No root Makefile**: usar scripts documentados en `scripts/`
 - **ExecPlans**: documentos de planificación para features complejos (`.agent/PLANS.md`, `docs/plans/`)
-- **30+ Python SDLC agents**: en `scripts/coding/ai/` con soporte multi-LLM (Claude, ChatGPT, HuggingFace)
+- **33 Python SDLC agents**: en `scripts/coding/ai/` con soporte multi-LLM (Claude, ChatGPT, HuggingFace)
+  - SDLC: planner, feasibility, design, testing, deployment (6 agents)
+  - Automation: coherence, PDCA, validators, metrics (9 agents)
+  - Meta: architecture, design patterns, UML, refactoring (7 agents)
+  - Documentation: ETA CODEX, analysis (2 agents)
+  - Quality: shell analysis/remediation (2 agents)
+  - TDD: feature, tdd agents (2 agents)
+  - Base techniques: Auto-CoT (1 agent)
+  - Ver: `scripts/coding/ai/README.md` para detalles
 - **5 custom Copilot agents**: `@my_agent`, `@gitops_agent`, `@release_agent`, `@dependency_agent`, `@security_agent`
 
 ## Agent Interaction Guidelines
