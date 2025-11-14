@@ -1,0 +1,11 @@
+{
+  "version": "1.0",
+  "project": "test-project",
+  "rules": [
+    {
+      "rule_id": "R1",
+      "severity": "error",
+      "enabled": true
+    }
+  ]
+}

@@ -1,10 +1,3 @@
----
-title: Sistema de Ambientes Virtualizados
-date: 2025-11-13
-domain: infraestructura
-status: active
----
-
 # Sistema de Ambientes Virtualizados
 
 Sistema de "caparazones" aislados para servicios de bases de datos y cache.
@@ -32,7 +25,7 @@ Cada ambiente es un **contenedor Docker aislado** con:
 docker --version
 
 # El script está listo para usar
-cd scripts/infrastructure
+cd scripts/infraestructura
 ./virtualize.sh
 ```
 
@@ -240,7 +233,7 @@ import subprocess
 venv_name = os.getenv("DB_VENV", "postgres-dev")
 try:
     result = subprocess.run(
-        ["./scripts/infrastructure/virtualize.sh", "activate", "postgres", "dev"],
+        ["./scripts/infraestructura/virtualize.sh", "activate", "postgres", "dev"],
         capture_output=True,
         text=True
     )
@@ -417,18 +410,18 @@ set -e
 echo "Configurando ambiente de desarrollo..."
 
 # PostgreSQL
-./scripts/infrastructure/virtualize.sh create postgres dev 5432
-./scripts/infrastructure/virtualize.sh start postgres dev
+./scripts/infraestructura/virtualize.sh create postgres dev 5432
+./scripts/infraestructura/virtualize.sh start postgres dev
 
 # Redis
-./scripts/infrastructure/virtualize.sh create redis cache 6379
-./scripts/infrastructure/virtualize.sh start redis cache
+./scripts/infraestructura/virtualize.sh create redis cache 6379
+./scripts/infraestructura/virtualize.sh start redis cache
 
 # Esperar a que estén listos
 sleep 5
 
 # Migrar base de datos
-source <(./scripts/infrastructure/virtualize.sh activate postgres dev)
+source <(./scripts/infraestructura/virtualize.sh activate postgres dev)
 python3 manage.py migrate
 
 echo "Ambiente listo!"

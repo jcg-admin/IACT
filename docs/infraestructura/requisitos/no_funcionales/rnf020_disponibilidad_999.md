@@ -2,7 +2,7 @@
 id: RNF-020
 tipo: no_funcional
 titulo: Disponibilidad del sistema 99.9% uptime
-dominio: infrastructure
+dominio: infraestructura
 owner: equipo-infraestructura
 prioridad: alta
 estado: aprobado
@@ -13,8 +13,7 @@ stakeholders: [usuarios-finales, gerente-operaciones]
 iso29148_clause: "9.6.5"
 verificacion_metodo: analysis
 categoria: availability
-modulo: infrastructure
-date: 2025-11-13
+modulo: infraestructura
 ---
 
 # RNF-020: Disponibilidad 99.9% uptime

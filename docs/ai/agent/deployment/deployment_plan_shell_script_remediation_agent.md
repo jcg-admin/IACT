@@ -17,7 +17,7 @@ status: active
 
 ## 1. Overview
 
-Este documento describe el plan de deployment completo para ShellScriptRemediationAgent Tier 1 (Rule-Based MVP).
+Este documento describe el plan de despliegue completo para ShellScriptRemediationAgent Tier 1 (Rule-Based MVP).
 
 **Deployment Scope**:
 - Tier 1: Rule-based fixes (4 fix rules)

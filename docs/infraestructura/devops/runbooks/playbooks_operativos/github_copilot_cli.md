@@ -1,10 +1,3 @@
----
-title: Instalar y validar GitHub Copilot CLI
-date: 2025-11-13
-domain: infraestructura
-status: active
----
-
 # Instalar y validar GitHub Copilot CLI
 
 ## Contexto

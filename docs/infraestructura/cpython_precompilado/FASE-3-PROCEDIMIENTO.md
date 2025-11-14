@@ -5,7 +5,6 @@ estado: activo
 propietario: equipo-infraestructura
 ultima_actualizacion: 2025-11-06
 relacionados: ["SPEC_INFRA_001", "ADR_008", "ADR_009"]
-date: 2025-11-13
 ---
 
 # Procedimiento: Fase 3 - Integración y Validación CPython Precompilado
@@ -53,7 +52,7 @@ cd /ruta/al/proyecto/IACT---project
 make vagrant-cpython-up
 
 # Opción B: Manual
-cd infrastructure/cpython
+cd infraestructura/cpython
 vagrant up
 ```
 
@@ -72,7 +71,7 @@ SSH disponible en 127.0.0.1:2222
 make build_cpython VERSION=3.12.6 BUILD=1
 
 # O manualmente
-./infrastructure/cpython/scripts/build_cpython.sh 3.12.6 1
+./infraestructura/cpython/scripts/build_cpython.sh 3.12.6 1
 ```
 
 **Tiempo estimado**: 45-90 minutos (depende de CPU)
@@ -97,7 +96,7 @@ Tamaño: ~50-70 MB
 make validate-cpython ARTIFACT=cpython-3.12.6-ubuntu20.04-build1.tgz
 
 # O manualmente
-./infrastructure/cpython/scripts/validate-cpython.sh cpython-3.12.6-ubuntu20.04-build1.tgz
+./infraestructura/cpython/scripts/validate-cpython.sh cpython-3.12.6-ubuntu20.04-build1.tgz
 ```
 
 **Validaciones ejecutadas**:
@@ -204,7 +203,7 @@ sha256sum -c cpython-3.12.6-ubuntu20.04-build1.tgz.sha256
 ```bash
 gh release create cpython-3.12.6-build1 \
   --title "CPython 3.12.6 Precompilado - Build 1" \
-  --notes-file docs/infraestructura/cpython_precompilado/release-notes-template.md \
+  --notes-file docs/infrastructure/cpython_precompilado/release-notes-template.md \
   --prerelease \
   infrastructure/cpython/artifacts/cpython-3.12.6-ubuntu20.04-build1.tgz \
   infrastructure/cpython/artifacts/cpython-3.12.6-ubuntu20.04-build1.tgz.sha256
@@ -254,7 +253,7 @@ gh release download cpython-3.12.6-build1 -D /tmp/test-release
   "features": {
     "./infrastructure/cpython/installer": {
       "version": "3.12.6",
-      "artifactUrl": "/workspaces/${localWorkspaceFolderBasename}/infrastructure/cpython/artifacts/cpython-3.12.6-ubuntu20.04-build1.tgz"
+      "artifactUrl": "/workspaces/${localWorkspaceFolderBasename}/infraestructura/cpython/artifacts/cpython-3.12.6-ubuntu20.04-build1.tgz"
     }
   }
 }
@@ -320,10 +319,10 @@ python3 -c "import ssl, sqlite3, lzma, bz2; print('OK')"
 
 ```bash
 # Tests de infraestructura
-pytest infrastructure/cpython/tests/ -v
+pytest infraestructura/cpython/tests/ -v
 
 # Tests de integración
-pytest infrastructure/cpython/tests/test_cpython_feature.py -v -m critical
+pytest infraestructura/cpython/tests/test_cpython_feature.py -v -m critical
 ```
 
 ### 4.3 Verificar Extensiones VS Code
@@ -342,7 +341,7 @@ code --list-extensions | grep pylance
 
 ### 5.1 Registrar Métricas
 
-Crear archivo: `docs/infraestructura/cpython_precompilado/fase-3-resultados.md`
+Crear archivo: `docs/infrastructure/cpython_precompilado/fase-3-resultados.md`
 
 ```markdown
 # Fase 3 - Resultados de Validación
@@ -377,8 +376,8 @@ Ninguno.
 
 ```bash
 echo "
-| 3.12.6 | ubuntu20.04 | build1 | 2025-11-06 | cpython-3.12.6-ubuntu20.04-build1.tgz | $(sha256sum infrastructure/cpython/artifacts/cpython-3.12.6-ubuntu20.04-build1.tgz | cut -d' ' -f1) | GitHub Release |
-" >> infrastructure/artifacts/ARTIFACTS.md
+| 3.12.6 | ubuntu20.04 | build1 | 2025-11-06 | cpython-3.12.6-ubuntu20.04-build1.tgz | $(sha256sum infraestructura/cpython/artifacts/cpython-3.12.6-ubuntu20.04-build1.tgz | cut -d' ' -f1) | GitHub Release |
+" >> infraestructura/artifacts/ARTIFACTS.md
 ```
 
 ---
@@ -437,7 +436,7 @@ git push origin <branch-name>
 
 ```bash
 # Verificar logs
-cd infrastructure/cpython
+cd infraestructura/cpython
 vagrant up --debug
 
 # Reiniciar

@@ -1,10 +1,3 @@
----
-title: Playbook: tareas para Copilot CLI en Codespaces
-date: 2025-11-13
-domain: infraestructura
-status: active
----
-
 # Playbook: tareas para Copilot CLI en Codespaces
 
 > **Nota**: la verificación operativa y la bitácora viva se mantienen en `docs/07-devops/runbooks/github-copilot_codespaces.md`.

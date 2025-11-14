@@ -1,10 +1,3 @@
----
-title: DevContainer - Entorno de Desarrollo Contenedorizado
-date: 2025-11-13
-domain: infraestructura
-status: active
----
-
 # DevContainer - Entorno de Desarrollo Contenedorizado
 
 **Autor**: Infrastructure Team
@@ -103,8 +96,8 @@ El DevContainer del proyecto IACT es un entorno de desarrollo completamente cont
 
 2. **Validacion de estructura de directorios**
    ```bash
-   infrastructure/devcontainer
-   infrastructure/devcontainer/scripts
+   infraestructura/devcontainer
+   infraestructura/devcontainer/scripts
    api/callcentersite
    ```
 
@@ -130,8 +123,8 @@ El DevContainer del proyecto IACT es un entorno de desarrollo completamente cont
 
 6. **Creacion de directorios necesarios**
    ```bash
-   infrastructure/devcontainer/logs
-   infrastructure/state
+   infraestructura/devcontainer/logs
+   infraestructura/state
    ```
 
 7. **Setup de env file**
@@ -207,8 +200,8 @@ DEVCONTAINER PRE-INITIALIZATION
 
 4. **Crear directorios necesarios**
    ```bash
-   infrastructure/devcontainer/logs
-   infrastructure/state
+   infraestructura/devcontainer/logs
+   infraestructura/state
    .devcontainer
    ```
 
@@ -744,11 +737,11 @@ fi
 **Lifecycle hooks**:
 ```json
 {
-  "initializeCommand": "bash infrastructure/devcontainer/scripts/init_host.sh",
-  "onCreateCommand": "bash infrastructure/devcontainer/scripts/on_create.sh",
-  "updateContentCommand": "bash infrastructure/devcontainer/scripts/update_content.sh",
-  "postCreateCommand": "bash infrastructure/devcontainer/scripts/post_create.sh",
-  "postStartCommand": "bash infrastructure/devcontainer/scripts/post_start.sh"
+  "initializeCommand": "bash infraestructura/devcontainer/scripts/init_host.sh",
+  "onCreateCommand": "bash infraestructura/devcontainer/scripts/on_create.sh",
+  "updateContentCommand": "bash infraestructura/devcontainer/scripts/update_content.sh",
+  "postCreateCommand": "bash infraestructura/devcontainer/scripts/post_create.sh",
+  "postStartCommand": "bash infraestructura/devcontainer/scripts/post_start.sh"
 }
 ```
 
@@ -835,7 +828,7 @@ DJANGO_SUPERUSER_PASSWORD=admin
 
 **Solucion**:
 ```bash
-chmod +x infrastructure/devcontainer/scripts/*.sh
+chmod +x infraestructura/devcontainer/scripts/*.sh
 ```
 
 ### Problema: PostgreSQL no responde en post_create.sh
@@ -910,10 +903,10 @@ ping pypi.org
 **Solucion**:
 ```bash
 # Crear directorio
-mkdir -p infrastructure/devcontainer/logs
+mkdir -p infraestructura/devcontainer/logs
 
 # Verificar permisos
-ls -la infrastructure/devcontainer/
+ls -la infraestructura/devcontainer/
 ```
 
 ### Problema: Estado corrupto - contenedor no inicia
@@ -923,7 +916,7 @@ ls -la infrastructure/devcontainer/
 **Solucion NUCLEAR**:
 ```bash
 # Eliminar estado completamente
-rm -rf infrastructure/state/*
+rm -rf infraestructura/state/*
 rm -f .devcontainer/.init_completed
 
 # Rebuild contenedor
@@ -950,47 +943,47 @@ docker-compose -f .devcontainer/docker_compose.yml build --no-cache
 
 ```bash
 # Logs mas recientes
-ls -lt infrastructure/devcontainer/logs/ | head -10
+ls -lt infraestructura/devcontainer/logs/ | head -10
 
 # Ver log especifico
-cat infrastructure/devcontainer/logs/post-create-20251109-103045.log
+cat infraestructura/devcontainer/logs/post-create-20251109-103045.log
 
 # Tail en tiempo real (durante ejecucion)
-tail -f infrastructure/devcontainer/logs/post-create-*.log
+tail -f infraestructura/devcontainer/logs/post-create-*.log
 ```
 
 ### Ejecutar script manualmente
 
 ```bash
 # init_host (desde HOST)
-bash infrastructure/devcontainer/scripts/init_host.sh
+bash infraestructura/devcontainer/scripts/init_host.sh
 
 # Dentro del contenedor
-bash infrastructure/devcontainer/scripts/on_create.sh
-bash infrastructure/devcontainer/scripts/update_content.sh
-bash infrastructure/devcontainer/scripts/post_create.sh
-bash infrastructure/devcontainer/scripts/post_start.sh
+bash infraestructura/devcontainer/scripts/on_create.sh
+bash infraestructura/devcontainer/scripts/update_content.sh
+bash infraestructura/devcontainer/scripts/post_create.sh
+bash infraestructura/devcontainer/scripts/post_start.sh
 ```
 
 ### Verificar estado
 
 ```bash
 # Ver archivos de estado
-ls -la infrastructure/state/
+ls -la infraestructura/state/
 
 # Ver contenido
-cat infrastructure/state/post-create.completed
+cat infraestructura/state/post-create.completed
 ```
 
 ### Limpiar estado
 
 ```bash
 # Limpiar estado de lifecycle
-rm -f infrastructure/state/*.completed
-rm -f infrastructure/state/*.last-run
+rm -f infraestructura/state/*.completed
+rm -f infraestructura/state/*.last-run
 
 # Limpiar logs antiguos (>7 dias)
-find infrastructure/devcontainer/logs/ -name "*.log" -mtime +7 -delete
+find infraestructura/devcontainer/logs/ -name "*.log" -mtime +7 -delete
 ```
 
 ---

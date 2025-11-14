@@ -1,10 +1,3 @@
----
-title: WASI Scripts + Environment Config Integration
-date: 2025-11-13
-domain: infraestructura
-status: active
----
-
 # WASI Scripts + Environment Config Integration
 
 ## Overview
@@ -85,7 +78,7 @@ This document describes how WASI-style virtualization scripts provide **infrastr
 Infrastructure setup scripts invoke WASI to create isolated database environments:
 
 ```python
-# scripts/infrastructure/setup_dev_database.py
+# scripts/infraestructura/setup_dev_database.py
 """
 Infrastructure setup - creates isolated dev database.
 This is NOT part of application code.
@@ -102,7 +95,7 @@ if config.is_dev:
     # Create isolated PostgreSQL environment using WASI
     result = subprocess.run([
         "bash",
-        "scripts/infrastructure/wasi/lightweight_venv.sh",
+        "scripts/infraestructura/wasi/lightweight_venv.sh",
         "create",
         "dev-postgres",
         "postgres",
@@ -119,7 +112,7 @@ WASI scripts can read the same `.env` file used by Python:
 
 ```bash
 #!/bin/bash
-# scripts/infrastructure/wasi/setup_database.sh
+# scripts/infraestructura/wasi/setup_database.sh
 
 # Source environment detection
 if [ -f "$(dirname $0)/../../../.env" ]; then
@@ -131,12 +124,12 @@ case "${ENVIRONMENT:-development}" in
     development)
         echo "Setting up development database with VM tunnel..."
         # Use lightweight_venv.sh for local isolated PostgreSQL
-        bash scripts/infrastructure/wasi/lightweight_venv.sh create dev-db postgres 5432
+        bash scripts/infraestructura/wasi/lightweight_venv.sh create dev-db postgres 5432
         ;;
     staging)
         echo "Connecting to staging database..."
         # Use virtualize.sh for containerized staging environment
-        bash scripts/infrastructure/wasi/virtualize.sh create staging-db postgres 5433
+        bash scripts/infraestructura/wasi/virtualize.sh create staging-db postgres 5433
         ;;
     production)
         echo "Using production database credentials from .env..."
@@ -210,7 +203,7 @@ if config.is_dev:
     # Optional: Create local isolated test DB
     import subprocess
     subprocess.run([
-        "bash", "scripts/infrastructure/wasi/lightweight_venv.sh",
+        "bash", "scripts/infraestructura/wasi/lightweight_venv.sh",
         "create", "test-db", "postgres", "5433"
     ])
 ```
@@ -237,7 +230,7 @@ if config.is_staging:
     # Create isolated staging environment for this test run
     test_id = "test-123"
     subprocess.run([
-        "bash", "scripts/infrastructure/wasi/virtualize.sh",
+        "bash", "scripts/infraestructura/wasi/virtualize.sh",
         "create", f"staging-{test_id}", "postgres", "5434"
     ])
 
@@ -246,7 +239,7 @@ if config.is_staging:
 
     # Cleanup
     subprocess.run([
-        "bash", "scripts/infrastructure/wasi/virtualize.sh",
+        "bash", "scripts/infraestructura/wasi/virtualize.sh",
         "destroy", f"staging-{test_id}"
     ])
 ```
@@ -367,7 +360,7 @@ Always cleanup virtualized environments:
 import atexit
 
 def cleanup_sandbox():
-    subprocess.run(["bash", "scripts/infrastructure/wasi/virtualize.sh",
+    subprocess.run(["bash", "scripts/infraestructura/wasi/virtualize.sh",
                     "destroy", "my-sandbox"])
 
 atexit.register(cleanup_sandbox)
@@ -406,7 +399,7 @@ def isolated_database():
         test_db_name = "pytest-isolated-db"
         subprocess.run([
             "bash",
-            "scripts/infrastructure/wasi/lightweight_venv.sh",
+            "scripts/infraestructura/wasi/lightweight_venv.sh",
             "create",
             test_db_name,
             "postgres",
@@ -421,7 +414,7 @@ def isolated_database():
         # Cleanup
         subprocess.run([
             "bash",
-            "scripts/infrastructure/wasi/lightweight_venv.sh",
+            "scripts/infraestructura/wasi/lightweight_venv.sh",
             "destroy",
             test_db_name
         ])
@@ -443,7 +436,7 @@ def test_database_connection(isolated_database):
 ```python
 #!/usr/bin/env python3
 """
-Test infrastructure setup for TDD
+Test infraestructura setup for TDD
 Uses WASI to create isolated test database
 """
 import subprocess
@@ -453,7 +446,7 @@ from scripts.ai.shared.environment_config import EnvironmentConfig
 @pytest.fixture(scope="session", autouse=True)
 def setup_test_infrastructure():
     """
-    Setup isolated test database infrastructure.
+    Setup isolated test database infraestructura.
     This runs ONCE per test session.
     """
     config = EnvironmentConfig()
@@ -464,7 +457,7 @@ def setup_test_infrastructure():
         # Create isolated test database using WASI
         subprocess.run([
             "bash",
-            "scripts/infrastructure/wasi/lightweight_venv.sh",
+            "scripts/infraestructura/wasi/lightweight_venv.sh",
             "create",
             "pytest-db",
             "postgres",
@@ -479,7 +472,7 @@ def setup_test_infrastructure():
         print("\n[TDD] Cleaning up test database...")
         subprocess.run([
             "bash",
-            "scripts/infrastructure/wasi/lightweight_venv.sh",
+            "scripts/infraestructura/wasi/lightweight_venv.sh",
             "destroy",
             "pytest-db"
         ])
@@ -532,14 +525,14 @@ fi
 
 **Solution**: Make scripts executable:
 ```bash
-chmod +x scripts/infrastructure/wasi/*.sh
+chmod +x scripts/infraestructura/wasi/*.sh
 ```
 
 ## References
 
 - [Environment Config Documentation](../ai/CONFIGURACION_AMBIENTES.md)
 - [WASI Scripts README](../../scripts/infrastructure/wasi/README.md)
-- [ADR-011: WASI-style Virtualization](../infraestructura/ADR_2025_011-wasi_style_virtualization.md)
+- [ADR-011: WASI-style Virtualization](../infraestructura/adr_2025_011_wasi_style_virtualization.md)
 
 ---
 
