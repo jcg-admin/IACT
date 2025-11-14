@@ -554,11 +554,11 @@ Tests (validación de reglas y casos de uso)
 
 ## Documentos Relacionados
 
-- [Reglas de Negocio - README](reglas_negocio/README.md)
-- [Introducción a Reglas de Negocio](reglas_negocio/INTRODUCCION.md)
-- [Hechos y Restricciones](reglas_negocio/HECHOS_RESTRICCIONES.md)
-- [Tipos Avanzados](reglas_negocio/TIPOS_AVANZADOS.md)
-- [Aplicación IACT](reglas_negocio/APLICACION_IACT.md)
+- [Reglas de Negocio - README](REGLAS_NEGOCIO/README.md)
+- [Introducción a Reglas de Negocio](REGLAS_NEGOCIO/INTRODUCCION.md)
+- [Hechos y Restricciones](REGLAS_NEGOCIO/HECHOS_RESTRICCIONES.md)
+- [Tipos Avanzados](REGLAS_NEGOCIO/TIPOS_AVANZADOS.md)
+- [Aplicación IACT](REGLAS_NEGOCIO/APLICACION_IACT.md)
 - [Constitución del Proyecto](../../.constitucion.yaml)
 
 ---

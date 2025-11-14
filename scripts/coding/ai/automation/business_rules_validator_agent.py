@@ -16,7 +16,7 @@ Tareas:
 
 Autor: SDLC Agent
 Fecha: 2025-11-14
-Relacionado: docs/gobernanza/requisitos/reglas_negocio/, ADR_010_organizacion_proyecto_por_dominio.md
+Relacionado: docs/gobernanza/requisitos/REGLAS_NEGOCIO/, ADR_010_organizacion_proyecto_por_dominio.md
 Arquitectura: docs/devops/automatizacion/planificacion/AGENTS_ARCHITECTURE.md
 """
 
@@ -151,6 +151,7 @@ class BusinessRulesValidator:
         self._validate_examples()
         self._validate_references()
         self._validate_matrices()
+        self._validate_use_case_traceability()
 
         # Determine overall validity
         self.result.is_valid = (
@@ -344,6 +345,65 @@ class BusinessRulesValidator:
                     severity="info"
                 ))
 
+    def _validate_use_case_traceability(self) -> None:
+        """Validate traceability between business rules and use cases."""
+        # Look for use cases directory
+        use_cases_dir = self.docs_dir.parent.parent / "casos_de_uso"
+
+        if not use_cases_dir.exists():
+            self.result.info.append(ValidationIssue(
+                type="traceability",
+                message="Use cases directory not found. Skipping traceability validation.",
+                severity="info"
+            ))
+            return
+
+        # Find all use case files
+        use_case_files = list(use_cases_dir.glob("UC-*.md"))
+
+        if len(use_case_files) == 0:
+            self.result.warnings.append(ValidationIssue(
+                type="traceability",
+                message="No use case files found in casos_de_uso/",
+                severity="warning"
+            ))
+            return
+
+        # Extract business rule IDs from use cases
+        br_references_in_ucs = set()
+        ucs_with_br = []
+
+        for uc_file in use_case_files:
+            content = uc_file.read_text(encoding='utf-8')
+
+            # Find BR-XXX references
+            br_pattern = r'BR-[A-Z]\d+'
+            found_brs = re.findall(br_pattern, content)
+
+            if found_brs:
+                br_references_in_ucs.update(found_brs)
+                ucs_with_br.append(uc_file.name)
+
+        # Report findings
+        if len(ucs_with_br) > 0:
+            self.result.info.append(ValidationIssue(
+                type="traceability",
+                message=f"Found {len(ucs_with_br)} use cases referencing business rules: {', '.join(ucs_with_br[:3])}{'...' if len(ucs_with_br) > 3 else ''}",
+                severity="info"
+            ))
+
+            self.result.info.append(ValidationIssue(
+                type="traceability",
+                message=f"Use cases reference {len(br_references_in_ucs)} unique business rules: {', '.join(sorted(list(br_references_in_ucs))[:5])}{'...' if len(br_references_in_ucs) > 5 else ''}",
+                severity="info"
+            ))
+        else:
+            self.result.warnings.append(ValidationIssue(
+                type="traceability",
+                message=f"Found {len(use_case_files)} use case files but none reference business rules (BR-XXX)",
+                severity="warning"
+            ))
+
 
 def main() -> int:
     """Main entry point."""
@@ -353,7 +413,7 @@ def main() -> int:
     parser.add_argument(
         "--docs-dir",
         type=Path,
-        default=Path("docs/gobernanza/requisitos/reglas_negocio"),
+        default=Path("docs/gobernanza/requisitos/REGLAS_NEGOCIO"),
         help="Path to business rules documentation directory"
     )
     parser.add_argument(

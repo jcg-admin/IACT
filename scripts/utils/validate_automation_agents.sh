@@ -376,7 +376,7 @@ test_business_rules_validator_agent() {
 
     # Test business rules validation
     log_verbose "Running ${agent_name}..."
-    if python3 "$agent_path" --docs-dir docs/gobernanza/requisitos/reglas_negocio >/dev/null 2>&1; then
+    if python3 "$agent_path" --docs-dir docs/gobernanza/requisitos/REGLAS_NEGOCIO >/dev/null 2>&1; then
         record_test "${agent_name}: Execution" "PASS"
     else
         record_test "${agent_name}: Execution" "PASS"  # May fail if docs not complete

@@ -131,7 +131,7 @@ agent_configuration:
     output_format: json
 
   business_rules_validator_agent:
-    docs_dir: docs/gobernanza/requisitos/reglas_negocio
+    docs_dir: docs/gobernanza/requisitos/REGLAS_NEGOCIO
     check_structure: true
     check_categorization: true
     check_examples: true
