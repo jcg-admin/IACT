@@ -218,6 +218,7 @@ class SDLCPlannerAgent(SDLCAgent):
 
 ```yaml
 # .github/agents/configs/documentation_rules.yaml
+# DOCUMENTO VIVO: Actualizar cuando se agreguen nuevos dominios
 
 backend:
   location: "docs/backend/"
@@ -240,6 +241,65 @@ frontend:
     - "Components"
     - "State Management"
     - "Testing"
+
+infrastructure:
+  location: "docs/infraestructura/"
+  naming: "kebab-case"
+  no_numbers: true
+  no_emojis: true
+  required_sections:
+    - "Architecture"
+    - "Configuration"
+    - "Deployment"
+
+devops:
+  location: "docs/devops/"
+  naming: "snake_case"
+  no_numbers: true
+  no_emojis: true
+  required_sections:
+    - "Pipeline"
+    - "Monitoring"
+    - "Deployment"
+
+operaciones:
+  location: "docs/operaciones/"
+  naming: "snake_case"
+  no_numbers: true
+  no_emojis: true
+  required_sections:
+    - "Procedures"
+    - "Runbooks"
+    - "Incidents"
+
+gobernanza:
+  location: "docs/gobernanza/"
+  naming: "snake_case"
+  no_numbers: true
+  no_emojis: true
+  required_sections:
+    - "Policies"
+    - "Standards"
+    - "Compliance"
+
+ai:
+  location: "docs/ai/"
+  naming: "snake_case"
+  no_numbers: true
+  no_emojis: true
+  required_sections:
+    - "Agents"
+    - "Prompting"
+    - "Models"
+
+agents_definition:
+  location: ".github/agents/"
+  naming: "SCREAMING_SNAKE_CASE"  # README.md, CONVENTIONS_AND_LESSONS_LEARNED.md
+  no_numbers: true
+  no_emojis: true
+  required_sections:
+    - "Description"
+    - "Usage"
 ```
 
 **Cuándo se ejecuta**:
@@ -278,11 +338,16 @@ Antes de crear documentación nueva, verificar:
 
 ## Mapeo Rápido: Código → Documentación
 
+DOCUMENTO VIVO: Actualizar cuando se agreguen nuevos dominios
+
 | Tipo de Código | Ubicación Código | Ubicación Docs |
 |----------------|------------------|----------------|
 | Backend Python | `api/`, `scripts/coding/` | `docs/backend/` |
 | Frontend React | `ui/`, `frontend/` | `docs/frontend/` |
-| Infrastructure | `infrastructure/`, `terraform/` | `docs/infrastructure/` |
+| Infrastructure | `infrastructure/`, `terraform/` | `docs/infraestructura/` |
+| DevOps | Pipelines, CI/CD | `docs/devops/` |
+| Operaciones | Runbooks, procedures | `docs/operaciones/` |
+| Gobernanza | Policies, standards | `docs/gobernanza/` |
 | Tests Backend | `scripts/coding/ai/tests/` | `docs/backend/testing/` |
 | Tests Frontend | `ui/tests/`, `frontend/tests/` | `docs/frontend/testing/` |
 | Definiciones Agentes | N/A | `.github/agents/` |
