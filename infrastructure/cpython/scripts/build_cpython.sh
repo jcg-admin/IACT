@@ -337,10 +337,10 @@ OPTIONAL_MODULES=("sqlite3" "uuid" "lzma" "bz2" "zlib" "_ctypes")
 log_info "Checking optional modules: ${OPTIONAL_MODULES[*]}"
 
 missing_optional=()
+PYTHON_LIB_DIR="$INSTALL_PREFIX/lib"
 for module in "${OPTIONAL_MODULES[@]}"; do
     # Set LD_LIBRARY_PATH temporarily for validation
-    local lib_dir="$INSTALL_PREFIX/lib"
-    if LD_LIBRARY_PATH="$lib_dir:${LD_LIBRARY_PATH:-}" "$PYTHON_BIN" -c "import $module" 2>/dev/null; then
+    if LD_LIBRARY_PATH="$PYTHON_LIB_DIR:${LD_LIBRARY_PATH:-}" "$PYTHON_BIN" -c "import $module" 2>/dev/null; then
         log_debug "Optional module $module: OK"
     else
         log_warning "Optional module $module: NOT AVAILABLE"
@@ -364,6 +364,9 @@ fi
 
 PIP_VERSION=$("$PIP_BIN" --version 2>&1)
 log_info "pip available: $PIP_VERSION"
+
+# Consolidate module inventory for metadata persistence
+MODULES_TO_CHECK=("${CRITICAL_MODULES[@]}" "${OPTIONAL_MODULES[@]}")
 
 # =============================================================================
 # DOCUMENT BUILD INFO
