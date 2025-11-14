@@ -1043,6 +1043,7 @@ class ClienteSerializer(serializers.ModelSerializer):
 
 ## Documentos Relacionados
 
+- [Casos de Uso](../CASOS_USO.md) - Integración de reglas en casos de uso
 - [Introducción a las Reglas de Negocio](INTRODUCCION.md)
 - [Tipos Básicos: Hechos y Restricciones](HECHOS_RESTRICCIONES.md)
 - [Tipos Avanzados: Desencadenadores, Inferencias y Cálculos](TIPOS_AVANZADOS.md)

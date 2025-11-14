@@ -106,6 +106,7 @@ Transforman datos existentes en nuevos datos usando fórmulas matemáticas o alg
 
 ## Documentos Relacionados
 
+- [Casos de Uso](../CASOS_USO.md) - Metodología y especificación de casos de uso
 - [Constitución del Proyecto](../../../../.constitucion.yaml) - Reglas R1-R6
 - [ADR-010: Organización por Dominio](../../adr/ADR_010_organizacion_proyecto_por_dominio.md)
 - [Estrategia de IA](../../ai/ESTRATEGIA_IA.md)
