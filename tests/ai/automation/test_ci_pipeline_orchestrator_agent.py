@@ -530,9 +530,8 @@ class TestDependencyResolution:
 class TestTimeoutHandling:
     """Test timeout handling for jobs and pipeline."""
 
-    def async def (test_job_timeout):
-self"""        """
-        async def run_test():
+    async def test_job_timeout(self):
+        """Test job timeout handling."""
         job = Job(name="long_job", command="sleep 10", timeout=1)
 
         executor = JobExecutor()
@@ -541,9 +540,8 @@ self"""        """
         assert result.status == "timeout"
         assert result.duration < 2  # Should timeout around 1 second
 
-    def async def (test_pipeline_timeout):
-self, temp_ci_config_file"""        """
-        async def run_test():
+    async def test_pipeline_timeout(self, temp_ci_config_file):
+        """Test pipeline timeout handling."""
         config_with_short_timeout = {
             "version": "1.0",
             "pipeline": {
@@ -577,9 +575,8 @@ self, temp_ci_config_file"""        """
         finally:
             os.unlink(temp_path)
 
-    def async def (test_timeout_cleanup):
-self"""        """
-        async def run_test():
+    async def test_timeout_cleanup(self):
+        """Test timeout cleanup of processes."""
         job = Job(name="test", command="sleep 100", timeout=1)
 
         executor = JobExecutor()
@@ -590,9 +587,8 @@ self"""        """
         # No zombie processes should remain
         # (In real implementation, check process cleanup)
 
-    def async def (test_configurable_timeout_per_job):
-self"""        """
-        async def run_test():
+    async def test_configurable_timeout_per_job(self):
+        """Test configurable timeout per job."""
         jobs = [
             Job(name="fast", command="echo 'fast'", timeout=1),
             Job(name="slow", command="sleep 5", timeout=2)
@@ -615,9 +611,8 @@ self"""        """
 class TestFailFastBehavior:
     """Test fail-fast pipeline behavior."""
 
-    def async def (test_fail_fast_enabled):
-self"""        """
-        async def run_test():
+    async def test_fail_fast_enabled(self):
+        """Test fail-fast enabled behavior."""
         config = {
             "version": "1.0",
             "pipeline": {
@@ -650,9 +645,8 @@ self"""        """
         finally:
             os.unlink(temp_path)
 
-    def async def (test_fail_fast_disabled):
-self"""        """
-        async def run_test():
+    async def test_fail_fast_disabled(self):
+        """Test fail-fast disabled behavior."""
         config = {
             "version": "1.0",
             "pipeline": {
@@ -688,9 +682,8 @@ self"""        """
         finally:
             os.unlink(temp_path)
 
-    def async def (test_continue_on_error_per_job):
-self"""        """
-        async def run_test():
+    async def test_continue_on_error_per_job(self):
+        """Test continue on error per job."""
         job1 = Job(name="job1", command="exit 1", continue_on_error=True)
         job2 = Job(name="job2", command="echo 'ok'", continue_on_error=False)
 
@@ -792,9 +785,8 @@ class TestResultAggregation:
 class TestDryRunMode:
     """Test dry-run mode functionality."""
 
-    def async def (test_dry_run_no_execution):
-self, temp_ci_config_file"""        """
-        async def run_test():
+    async def test_dry_run_no_execution(self, temp_ci_config_file):
+        """Test dry-run mode with no execution."""
         agent = CIPipelineOrchestratorAgent(
             config_file=temp_ci_config_file,
             dry_run=True
@@ -809,9 +801,8 @@ self, temp_ci_config_file"""        """
             for job_result in stage_result.job_results:
                 assert job_result.status == "skipped"
 
-    def async def (test_dry_run_shows_execution_plan):
-self, temp_ci_config_file"""        """
-        async def run_test():
+    async def test_dry_run_shows_execution_plan(self, temp_ci_config_file):
+        """Test dry-run shows execution plan."""
         agent = CIPipelineOrchestratorAgent(
             config_file=temp_ci_config_file,
             dry_run=True
@@ -823,9 +814,8 @@ self, temp_ci_config_file"""        """
         assert "jobs" in plan
         assert len(plan["stages"]) > 0
 
-    def async def (test_dry_run_validates_config):
-self, temp_ci_config_file"""        """
-        async def run_test():
+    async def test_dry_run_validates_config(self, temp_ci_config_file):
+        """Test dry-run validates config."""
         agent = CIPipelineOrchestratorAgent(
             config_file=temp_ci_config_file,
             dry_run=True
@@ -987,17 +977,15 @@ class TestCLIInterface:
 class TestExitCodes:
     """Test exit code handling."""
 
-    def async def (test_exit_code_success):
-self, temp_ci_config_file"""        """
-        async def run_test():
+    async def test_exit_code_success(self, temp_ci_config_file):
+        """Test exit code on success."""
         agent = CIPipelineOrchestratorAgent(config_file=temp_ci_config_file)
         exit_code = await agent.run()
 
         assert exit_code == 0
 
-    def async def (test_exit_code_failure):
-self"""        """
-        async def run_test():
+    async def test_exit_code_failure(self):
+        """Test exit code on failure."""
         config = {
             "version": "1.0",
             "pipeline": {"name": "Test"},
@@ -1021,9 +1009,8 @@ self"""        """
         finally:
             os.unlink(temp_path)
 
-    def async def (test_exit_code_warnings):
-self"""        """
-        async def run_test():
+    async def test_exit_code_warnings(self):
+        """Test exit code with warnings."""
         config = {
             "version": "1.0",
             "pipeline": {"name": "Test"},
@@ -1063,9 +1050,8 @@ self"""        """
 class TestIntegration:
     """Integration tests for complete pipeline execution."""
 
-    def async def (test_full_pipeline_execution):
-self, temp_ci_config_file"""        """
-        async def run_test():
+    async def test_full_pipeline_execution(self, temp_ci_config_file):
+        """Test full pipeline execution."""
         agent = CIPipelineOrchestratorAgent(config_file=temp_ci_config_file)
         result = await agent.run_pipeline()
 
@@ -1073,9 +1059,8 @@ self, temp_ci_config_file"""        """
         assert hasattr(result, 'status')
         assert hasattr(result, 'stage_results')
 
-    def async def (test_pipeline_with_smart_detection):
-self, temp_ci_config_file, mock_git_context"""        """
-        async def run_test():
+    async def test_pipeline_with_smart_detection(self, temp_ci_config_file, mock_git_context):
+        """Test pipeline with smart detection."""
         agent = CIPipelineOrchestratorAgent(
             config_file=temp_ci_config_file,
             git_context=mock_git_context
@@ -1086,9 +1071,8 @@ self, temp_ci_config_file, mock_git_context"""        """
         # Should only run jobs for changed components
         assert result is not None
 
-    def async def (test_error_recovery_and_logging):
-self, temp_ci_config_file"""        """
-        async def run_test():
+    async def test_error_recovery_and_logging(self, temp_ci_config_file):
+        """Test error recovery and logging."""
         agent = CIPipelineOrchestratorAgent(config_file=temp_ci_config_file)
 
         with patch('logging.Logger.error') as mock_logger:
@@ -1154,9 +1138,8 @@ class TestEdgeCases:
         finally:
             os.unlink(temp_path)
 
-    def async def (test_concurrent_job_limit):
-self"""        """
-        async def run_test():
+    async def test_concurrent_job_limit(self):
+        """Test concurrent job limit."""
         jobs = [Job(name=f"job{i}", command="sleep 0.1", timeout=5) for i in range(20)]
 
         executor = JobExecutor(max_concurrent=5)
