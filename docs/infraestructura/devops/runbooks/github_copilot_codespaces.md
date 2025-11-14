@@ -1,428 +1,252 @@
 ---
-id: RUNBOOK-CODESPACES
-estado: draft
+id: RB-DEVOPS-004
+estado: vigente
 propietario: equipo-devops
-ultima_actualizacion: 2025-11-02
-relacionados: ["DOC-DEVOPS-INDEX", "DOC-DEVOPS-CONTAINERS"]
+ultima_actualizacion: 2025-02-16
+relacionados: ["DOC-OPS-001", "playbooks_operativos/copilot_codespaces.md"]
 ---
-# Runbook: Desarrollo con GitHub Codespaces y Copilot
+# Runbook de verificación: GitHub Copilot y Codespaces
 
-## Propósito
+Este runbook confirma que el Codespace corporativo deja lista la integración con GitHub Copilot y registra las evidencias clave descritas en `playbooks_operativos/copilot_codespaces.md`.
 
-Guía para configurar y usar GitHub Codespaces con GitHub Copilot para el desarrollo del proyecto IACT.
+## 1. Matriz de cumplimiento
 
-## Estado Actual
+| Requisito | Evidencia | Validación |
+|-----------|-----------|------------|
+| Extensiones `github.copilot` y `github.copilot-chat` preinstaladas | `.devcontainer/devcontainer.json` → `customizations.vscode.extensions` | Ambas extensiones figuran junto al stack Python/SQL y se distribuyen en cada Codespace. |
+| Políticas `github.copilot.enable` aplicadas | `.devcontainer/devcontainer.json` → `customizations.vscode.settings` | El ajuste deshabilita Copilot en texto plano y entradas de commit conforme a las políticas de seguridad. |
+| Scripts centralizados para aprovisionamiento | `infrastructure/devcontainer/scripts/post_create.sh` y `post-start.sh` | Los comandos de bootstrap se ejecutan desde el repositorio y persisten logs en `infrastructure/devcontainer/logs/`. |
+| Validación automática de Django | `post_create.sh` ejecuta `python manage.py check` tras instalar dependencias. | El resultado queda trazado en `post_create.log`. |
+| Smoke test de `pytest` no bloqueante | `post_create.sh` ejecuta `python -m pytest --maxfail=1 --disable-warnings -q` por defecto y solo registra advertencias ante fallos. | Garantiza visibilidad temprana sin frenar la creación del Codespace. |
+| Banderas de aprovisionamiento controladas | `.devcontainer/devcontainer.json` → `containerEnv.DEVCONTAINER_*` | Permiten habilitar/omitir instalación de Copilot, pruebas automáticas y diagnósticos de npm según la necesidad. |
+| Verificación en el arranque | `post-start.sh` relanza `python manage.py check` al iniciarse el contenedor remoto. | La salida se guarda en `post-start.log` para diagnóstico. |
+| Copilot CLI preparado | `post_create.sh` valida `node >=22` y `npm >=10`, ejecuta `npm-diagnostics.sh` (log en `infrastructure/devcontainer/logs/npm-diagnostics.log`) e instala `@github/copilot`. | La instalación cumple el flujo "install once, authenticate, work" sin pasos manuales y conserva trazas para soporte. |
+| Bootstrap de variables de entorno | `post_create.sh` copia `env.example` → `env` en `api/callcentersite/` si el archivo no existe. | Evita errores en `manage.py` tras el primer arranque. |
 
-WARNING **Nota**: Esta funcionalidad está en planificación. El proyecto actualmente usa Vagrant (ver [ADR_2025_001](../../arquitectura/adr/ADR_2025_001-vagrant-mod-wsgi.md)).
+## 2. Procedimiento de auditoría rápida
 
-Este runbook documenta el proceso futuro cuando se implemente DevContainers y Codespaces.
+1. **Reconstruir Codespace**
+   ```bash
+   Codespaces: Rebuild Container
+   ```
+   - Revisar `infrastructure/devcontainer/logs/post_create.log` y confirmar que no existan errores fatales de `pip`.
+   - Verificar que el bloque `[post_create] Ejecutando pytest` aparezca incluso cuando existan fallos en las pruebas.
+   - Consultar `infrastructure/devcontainer/logs/npm-diagnostics-*.log` para validar `npm ping`, registry y configuración de proxy registrada automáticamente.
+2. **Verificar Copilot CLI**
+   ```bash
+   gh auth status
+   gh copilot status
+   node --version
+   npm --version
+   copilot
+   ```
+   - Confirmar que la CLI responda, que las versiones cumplan `node >=22` / `npm >=10` y que la sesión pertenezca a la cuenta corporativa.
+3. **Solicitar sugerencia en VS Code**
+   - Abrir un archivo Python y usar `Ctrl+Enter` para pedir una propuesta de código.
+   - Comprobar la barra de estado de VS Code: debe mostrar “GitHub Copilot: conectado”.
+4. **Ejecutar pruebas manuales**
+   ```bash
+   cd api/callcentersite
+   python -m pytest --maxfail=1
+   ```
+   - Registrar cobertura ≥80 % y adjuntar la salida al ticket o wiki correspondiente.
+5. **Actualizar documentación**
+   - Registrar fecha, persona responsable y hallazgos en la wiki interna.
+   - Escalar incidentes de firewall con logs adjuntos y referencias a dominios bloqueados.
 
-## Pre-requisitos
+## 3. Manejo de incidentes
 
-- Cuenta GitHub con acceso al repositorio
-- GitHub Copilot habilitado (licencia individual o empresa)
-- Navegador web moderno (Chrome, Firefox, Edge)
-- Opcional: VS Code instalado localmente
+1. **Diagnóstico inicial**
+   - Ejecutar `gh auth status` y `gh copilot status` para confirmar autenticación.
+   - Validar que las variables de entorno de proxy sigan presentes en el Codespace (`printenv | grep -i proxy`).
+2. **Recolección de evidencias**
+   - Guardar capturas de los mensajes de la extensión y de la barra de estado.
+   - Documentar dominios o puertos bloqueados reportados en el firewall.
+3. **Contención**
+   - Indicar a la persona desarrolladora que continúe con el flujo TDD estándar mientras se gestiona la apertura de red.
+   - Mantener actualizado el ticket hasta recibir confirmación de que Copilot vuelve a conectarse.
 
-## ¿Qué es GitHub Codespaces?
+## 4. Checklist para entrega semanal
 
-GitHub Codespaces es un entorno de desarrollo en la nube que:
+- [ ] `post_create.log` y `post-start.log` sin errores críticos.
+- [ ] Copilot CLI instalado (`copilot --version`) y accesible desde la terminal.
+- [ ] Extensiones de Copilot visibles en VS Code.
+- [ ] `pytest` ejecutado automáticamente tras la reconstrucción del contenedor.
+- [ ] Documentación interna actualizada con hallazgos y bloqueos.
 
-- START Se configura automáticamente desde `.devcontainer/`
-- ☁️ Corre en servidores de GitHub (o Azure)
-- 💻 Accesible desde navegador o VS Code
-- HERRAMIENTA Incluye todas las herramientas y dependencias
+## 5. Guía rápida para el equipo
 
-## ¿Qué es GitHub Copilot?
+1. **Instala y autentica**
+   - Sigue el resumen de los apartados §6.1 y §6.2 para dejar lista la CLI y validar la sesión corporativa.
+2. **Conoce el repositorio**
+   - Consulta el flujo descrito en §6.3 para recopilar el layout y el estado del entorno.
+3. **Encuentra trabajo relevante**
+   - Prioriza issues con el procedimiento §6.4 y registra evidencias en la wiki.
+4. **Implementa con control**
+   - Mantén el ciclo TDD utilizando los pasos guiados de §6.5 y verifica comandos antes de ejecutarlos.
+5. **Prepara la entrega**
+   - Aplica las convenciones corporativas apoyándote en §6.6.
+6. **Resuelve incidentes operativos**
+   - Revisa §6.7 y §6.8 para liberar recursos y gestionar extensiones MCP.
 
-GitHub Copilot es un asistente de programación con IA que:
+> **Tip:** ante restricciones de red persistentes, coordinar con TI la creación de un túnel temporal usando la VPN corporativa oficial antes de iniciar Codespaces.
 
-- AUTO Sugiere código mientras escribes
-- NOTA Genera funciones completas desde comentarios
-- BUSCAR Ayuda con tests, documentación, refactoring
-- 🧠 Aprende del contexto de tu proyecto
+## 6. Recetario de Copilot CLI
 
-## Crear un Codespace
+### 6.1 Instalación automatizada
 
-### Desde GitHub Web
+- El script `infrastructure/devcontainer/scripts/post_create.sh` valida versiones (`node --version`, `npm --version`) y exige `node >=22` y `npm >=10` antes de instalar la CLI.
+- Cuando `DEVCONTAINER_INSTALL_COPILOT_CLI=1` (valor por defecto) se ejecuta `infrastructure/devcontainer/scripts/npm-diagnostics.sh` y el resultado queda en `infrastructure/devcontainer/logs/npm-diagnostics.log`; adjunta este archivo al ticket de soporte cuando existan fallos de red o permisos.
+- Para omitir tanto la instalación como la recopilación de diagnósticos establece `DEVCONTAINER_INSTALL_COPILOT_CLI=0` en `devcontainer.json` o en los Secrets del Codespace y reconstruye el contenedor.
+- El script de diagnósticos acepta `DEVCONTAINER_NPM_DIAGNOSTICS_DRY_RUN=1` para ejecutar `npm install -g @github/copilot --dry-run --verbose` y registrar la traza completa; deja el valor `0` (por defecto) si no requieres el volcado detallado.
+- La instalación se realiza con:
+  ```bash
+  npm install -g @github/copilot
+  copilot --help
+  ```
+- Si `copilot` no queda disponible, revisar `~/.npm-global/bin` y ajustar `PATH` en `.bashrc`.
+- Registrar en la bitácora `post_create.log` la línea `[post_create] Copilot CLI disponible`.
+- El script genera un informe adicional `npm-diagnostics-<fecha>.log` con `npm ping`, proxies configurados y contenidos de `.npmrc`; adjúntalo en cualquier ticket de red.
 
-1. Ve al repositorio: `https://github.com/2-Coatl/IACT---project`
-2. Click en botón verde **"Code"**
-3. Selecciona tab **"Codespaces"**
-4. Click en **"Create codespace on main"** (o la rama que prefieras)
-5. Espera ~2 minutos mientras se aprovisiona
+#### 6.1.1 Error `403 Forbidden` al instalar `@github/copilot`
 
-### Desde VS Code Local
+En entornos corporativos con proxies estrictos puede aparecer el error:
 
-1. Instala extensión: [GitHub Codespaces](https://marketplace.visualstudio.com/items?itemName=GitHub.codespaces)
-2. Presiona `Cmd+Shift+P` (macOS) o `Ctrl+Shift+P` (Windows/Linux)
-3. Escribe: "Codespaces: Create New Codespace"
-4. Selecciona repositorio: `2-Coatl/IACT---project`
-5. Selecciona rama (típicamente `main` o `develop`)
+```text
+npm ERR! code E403
+npm ERR! 403 403 Forbidden - GET https://registry.npmjs.org/@github%2fcopilot - request forbidden by corporate proxy
+```
 
-### Desde CLI
+**Causa.** `@github/copilot` se publica en el registro público `https://registry.npmjs.org/`. El error suele ocurrir cuando el proxy o
+mirror corporativo bloquea el paquete (por ejemplo, Artifactory mal configurado), fuerza autenticación con credenciales externas
+o intercepta las solicitudes `@github/*`. En estos casos `npm` no debe apuntar a `npm.pkg.github.com` ni requiere tokens con
+`read:packages`.
+
+**Solución.** Restablecer la configuración de `npm` para usar el registro público oficial, validar la ruta a través del proxy y, si el bloqueo
+persiste, escalar a la mesa de redes con evidencias:
 
 ```bash
-# Instalar GitHub CLI
-brew install gh  # macOS
-# o descargar desde https://cli.github.com/
-
-# Autenticar
-gh auth login
-
-# Crear codespace
-gh codespace create --repo 2-Coatl/IACT---project
-
-# Conectar a codespace
-gh codespace code
+npm config delete @github:registry            # elimina overrides heredados
+npm config set registry https://registry.npmjs.org/
+npm config delete //npm.pkg.github.com/:_authToken || true
+npm cache clean --force
+npm ping                                      # verifica conectividad con el registro público
+npm install -g @github/copilot
 ```
 
-## Configuración de Copilot
+> **Seguimiento:** si `npm ping` también devuelve `403`, abrir ticket con el equipo de redes adjuntando la hora, IP del proxy y la URL
+> bloqueada. Para instalaciones críticas, solicitar whitelist temporal del dominio `registry.npmjs.org` y del scope `@github`.
 
-### Activar Copilot
+> **Banderas útiles:**
+> - `DEVCONTAINER_INSTALL_COPILOT_CLI=0` omite la instalación automática (útil si el equipo de redes está depurando manualmente).
+> - `DEVCONTAINER_CAPTURE_NPM_DIAGNOSTICS=0` evita generar logs extra cuando no son necesarios.
+> - `DEVCONTAINER_NPM_DIAGNOSTICS_DRY_RUN=1` añade un `npm install --dry-run --verbose` al reporte para reproducir el error.
 
-1. En Codespace, abre Command Palette (`Cmd+Shift+P` / `Ctrl+Shift+P`)
-2. Busca: "GitHub Copilot: Sign In"
-3. Sigue el flujo de autenticación
+#### 6.1.1 Error `403 Forbidden` al instalar `@github/copilot`
 
-### Configurar Sugerencias
+En entornos restringidos puede aparecer el error:
 
-**Settings JSON:**
-```json
-{
-  "github.copilot.enable": {
-    "*": true,
-    "python": true,
-    "markdown": true,
-    "yaml": true
-  },
-  "github.copilot.editor.enableAutoCompletions": true,
-  "github.copilot.advanced": {
-    "inlineSuggestCount": 3
-  }
-}
+```text
+npm ERR! code E403
+npm ERR! 403 403 Forbidden - GET https://registry.npmjs.org/@github%2fcopilot - no hay permiso para acceder al registro
 ```
 
-## Usar Copilot Efectivamente
+**Causa.** El paquete `@github/copilot` vive en el registro privado `https://npm.pkg.github.com` y exige autenticación con un token
+personal de GitHub que tenga el scope `read:packages`. Cuando `npm` intenta descargarlo desde `registry.npmjs.org` sin esa
+configuración, el proxy corporativo responde `403`.
 
-### 1. Completado de Código
-
-**Ejemplo:**
-
-```python
-# Escribes un comentario descriptivo:
-# Función que calcula el Average Handling Time de una lista de llamadas
-
-# Copilot sugiere:
-def calculate_aht(calls: List[Dict]) -> float:
-    """Calcula Average Handling Time."""
-    if not calls:
-        return 0.0
-    total_duration = sum(call['duration'] for call in calls)
-    return total_duration / len(calls)
-```
-
-### 2. Generar Tests
-
-**Ejemplo:**
-
-```python
-# Dado este código:
-def calculate_aht(calls: List[Dict]) -> float:
-    if not calls:
-        return 0.0
-    total_duration = sum(call['duration'] for call in calls)
-    return total_duration / len(calls)
-
-# Escribes:
-def test_calculate_aht_
-
-# Copilot sugiere:
-def test_calculate_aht_with_valid_calls():
-    """Should calculate correct AHT."""
-    calls = [
-        {'duration': 100},
-        {'duration': 200},
-        {'duration': 300},
-    ]
-    assert calculate_aht(calls) == 200.0
-
-def test_calculate_aht_with_empty_list():
-    """Should return 0 for empty list."""
-    assert calculate_aht([]) == 0.0
-```
-
-### 3. Documentación
-
-**Ejemplo:**
-
-```python
-# Posiciona cursor sobre función y presiona Option+Cmd+I (macOS)
-# Copilot genera docstring:
-
-def process_ivr_data(raw_data: dict) -> ProcessedCall:
-    """
-    Procesa datos crudos del sistema IVR.
-
-    Args:
-        raw_data: Diccionario con datos crudos de la llamada desde IVR
-
-    Returns:
-        ProcessedCall: Objeto con datos transformados y validados
-
-    Raises:
-        ValidationError: Si datos no cumplen schema requerido
-        TransformationError: Si falla transformación de datos
-
-    Example:
-        >>> raw = {'call_id': '123', 'duration': 120}
-        >>> process_ivr_data(raw)
-        ProcessedCall(id='123', duration=120)
-    """
-    pass
-```
-
-### 4. Chat con Copilot
-
-**Abrir Chat:**
-- Click en ícono de Copilot en sidebar
-- O presiona `Cmd+Shift+I` / `Ctrl+Shift+I`
-
-**Preguntas útiles:**
-
-```
-# Explicar código
-"Explica qué hace esta función"
-
-# Optimizar
-"¿Cómo puedo optimizar esta query de Django?"
-
-# Debugging
-"¿Por qué este test está fallando?"
-
-# Refactoring
-"Refactoriza esta función para usar Repository Pattern"
-
-# Generar tests
-"Genera tests para esta clase"
-```
-
-## Flujo de Trabajo Típico
-
-### 1. Crear Feature
+**Solución.** Configurar `npm` para usar el registro correcto y autenticar la sesión antes de ejecutar el script automatizado:
 
 ```bash
-# En terminal de Codespace
-git checkout -b feature/nueva-funcionalidad-$(date +%H-%M-%S)
+export GITHUB_TOKEN="<token-con-read:packages>"
+printf "@github:registry=https://npm.pkg.github.com\n//npm.pkg.github.com/:_authToken=%s\n" "$GITHUB_TOKEN" > "$HOME/.npmrc"
+npm config set @github:registry https://npm.pkg.github.com
+npm config set //npm.pkg.github.com/:_authToken "$GITHUB_TOKEN"
+npm install -g @github/copilot --registry=https://npm.pkg.github.com
 ```
 
-### 2. Escribir Código con Copilot
+> **Nota:** guarda el token en el gestor de secretos corporativo y nunca lo incluyas en commits ni variables compartidas. Si el
+entorno no permite escribir en `$HOME/.npmrc`, exporta `NPM_CONFIG_USERCONFIG` apuntando a un archivo dentro de
+`infrastructure/devcontainer/logs/` con permisos adecuados y reutiliza la configuración anterior.
 
-```python
-# Escribe comentarios descriptivos
-# Copilot sugiere implementación
-# Acepta con Tab o rechaza con Esc
+### 6.2 Autenticación y validaciones
 
-# Ejemplo:
-# Clase que representa un agente del call center
-class Agent(models.Model):  # Copilot completa automáticamente
-    agent_id = models.IntegerField(unique=True)
-    name = models.CharField(max_length=100)
-    # Copilot sugiere más campos relevantes...
-```
+1. Lanzar la CLI:
+   ```bash
+   copilot
+   /login
+   ```
+2. Autenticar con una cuenta que tenga plan Copilot Pro/Pro+/Business/Enterprise.
+3. Confirmar que la sesión quedó enlazada:
+   ```bash
+   gh auth status
+   gh copilot status
+   ```
+4. Documentar en la wiki: fecha, responsable, tipo de red, resultado y si fue necesario ejecutar `/reset`.
 
-### 3. Generar Tests
+### 6.3 Arranque rápido del repositorio
 
-```python
-# Escribe: def test_
-# Copilot sugiere tests basados en código existente
-```
+1. Solicitar un resumen del proyecto:
+   ```text
+   Explain the layout of this project.
+   ```
+2. Verificar dependencias y entorno:
+   ```text
+   Make sure my environment is ready to build this project.
+   ```
+3. Confirmar que Copilot enlistó comandos como `python manage.py check` y la instalación de Go cuando corresponda.
+4. Registrar la respuesta en la wiki de onboarding.
 
-### 4. Ejecutar Tests
+### 6.4 Rastreo de issues y priorización
 
-```bash
-pytest
-```
+1. Usar el MCP de GitHub integrado:
+   ```text
+   Find good first issues in this repository and rank them by difficulty.
+   ```
+2. Validar que cada issue incluya enlace, tags y justificación de dificultad.
+3. Documentar el issue seleccionado, responsable y decisión tomada en la wiki interna.
 
-### 5. Commit y Push
+### 6.5 Flujo de implementación asistida
 
-```bash
-git add .
-git commit -m "feat(agents): agregar modelo Agent con validaciones"
-git push -u origin feature/nueva-funcionalidad-XX-XX-XX
-```
+1. Crear un branch siguiendo la convención `feature/<ticket>`.
+2. Pedir a Copilot un plan y revisión del diff:
+   ```text
+   Start implementing issue #1234. Show me the diff before applying.
+   ```
+3. Revisar el plan, ajustar el alcance y aprobar los cambios cuando respeten el ciclo TDD.
+4. Ejecutar manualmente los tests relevantes (`pytest`, `python manage.py test`) antes de confirmar cambios.
 
-### 6. Crear PR desde Codespace
+### 6.6 Automatización de entrega
 
-```bash
-# Usando gh CLI
-gh pr create --title "Agregar modelo Agent" --body "Implementa modelo de agente..."
-```
+1. Mantener control humano sobre el empaquetado:
+   ```text
+   Stage changes, write a commit referencing #1234, and open a draft PR.
+   ```
+2. Validar que el mensaje de commit respete el formato `<type>(<scope>): <description>`.
+3. Confirmar que el PR queda en modo borrador y añadir checklist de revisión.
 
-## Configuración del Codespace
+### 6.7 Utilidades de soporte
 
-### Personalizar `.devcontainer/devcontainer.json`
+1. Liberar puertos ocupados cuando aparezca el error "address already in use":
+   ```text
+   What process is using port 8080? Kill it and verify the port is free.
+   ```
+2. Gestionar permisos activos:
+   ```text
+   /session
+   /reset
+   /add-directory
+   ```
+3. Registrar incidentes de red en el tablero de plataforma y adjuntar logs generados.
 
-```json
-{
-  "name": "IACT Development",
-  "image": "mcr.microsoft.com/devcontainers/python:3.11",
+### 6.8 Extensión con MCP adicionales
 
-  "features": {
-    "ghcr.io/devcontainers/features/python:1": {
-      "version": "3.11"
-    },
-    "ghcr.io/devcontainers/features/github-cli:1": {}
-  },
+1. Revisar lineamientos de seguridad en `playbooks_operativos/copilot_codespaces.md` antes de agregar servidores.
+2. Solicitar la instalación de nuevas herramientas:
+   ```text
+   /mcp add
+   ```
+3. Documentar nombre, tipo (Local/HTTP/SSE), comando, argumentos y variables de entorno propuestas.
+4. Someter la solicitud a Seguridad TI, incluyendo evaluación de riesgos y plan de rollback.
 
-  "customizations": {
-    "vscode": {
-      "extensions": [
-        "GitHub.copilot",
-        "GitHub.copilot-chat",
-        "ms-python.python",
-        "ms-python.vscode-pylance",
-        "ms-python.black-formatter"
-      ],
-      "settings": {
-        "github.copilot.enable": {
-          "*": true
-        }
-      }
-    }
-  },
-
-  "postCreateCommand": "bash .devcontainer/post-create.sh",
-
-  "forwardPorts": [8000, 15432, 13306]
-}
-```
-
-## Límites y Cuotas
-
-### Free Tier
-
-- **Horas gratuitas/mes**: 60 horas (2 cores) o 30 horas (4 cores)
-- **Storage**: 15 GB
-- **Codespaces simultáneos**: 2
-
-### Pro Tier
-
-- **Horas gratuitas/mes**: 90 horas (2 cores) o 45 horas (4 cores)
-- **Storage**: 20 GB
-- **Codespaces simultáneos**: 4
-
-### Team/Enterprise
-
-- Configurado por organización
-- Típicamente más horas y recursos
-
-**Ver uso:**
-```
-https://github.com/settings/billing
-```
-
-## Mejores Prácticas
-
-### 1. Detener Codespaces Cuando No Uses
-
-```bash
-# Desde CLI
-gh codespace stop
-
-# O desde web: Code > Codespaces > ⋮ > Stop codespace
-```
-
-### 2. Configurar Auto-Stop
-
-En settings del Codespace:
-- Default: 30 minutos de inactividad
-- Ajustable: 5 min - 4 horas
-
-### 3. Usar Dotfiles Personales
-
-Crear repositorio `github.com/<tu-usuario>/dotfiles`:
-
-```
-dotfiles/
-├── .bashrc
-├── .gitconfig
-└── install.sh
-```
-
-GitHub Codespaces lo clona automáticamente.
-
-### 4. Secretos en Codespaces
-
-```
-GitHub Settings > Codespaces > Secrets
-```
-
-Agregar:
-- `DB_PASSWORD`
-- `SECRET_KEY`
-- API keys
-
-Accesibles en codespace via env vars.
-
-## Troubleshooting
-
-### Copilot No Sugiere Nada
-
-**Verificar:**
-1. Copilot está activado (ícono en status bar)
-2. Licencia válida: `https://github.com/settings/copilot`
-3. Archivo es de tipo soportado (`.py`, `.js`, etc.)
-
-**Reiniciar:**
-```
-Cmd+Shift+P > "Developer: Reload Window"
-```
-
-### Codespace Lento
-
-**Aumentar recursos:**
-1. Detener codespace
-2. Crear nuevo con más cores (4-core en vez de 2-core)
-3. Migrar código si es necesario
-
-**Optimizar:**
-- Cerrar archivos/tabs innecesarios
-- Desactivar extensiones no usadas
-- Limpiar node_modules, __pycache__
-
-### Error de Conexión a DB
-
-**Verificar:**
-```bash
-# Desde terminal de Codespace
-./scripts/verificar_servicios.sh
-```
-
-**Logs de contenedores:**
-```bash
-docker-compose logs postgres
-docker-compose logs mariadb
-```
-
-## Shortcuts Útiles
-
-| Acción | macOS | Windows/Linux |
-|--------|-------|---------------|
-| Aceptar sugerencia Copilot | Tab | Tab |
-| Siguiente sugerencia | Option+] | Alt+] |
-| Sugerencia anterior | Option+[ | Alt+[ |
-| Abrir Copilot Chat | Cmd+Shift+I | Ctrl+Shift+I |
-| Command Palette | Cmd+Shift+P | Ctrl+Shift+P |
-| Terminal | Ctrl+` | Ctrl+` |
-
-## Referencias
-
-- [GitHub Codespaces Docs](https://docs.github.com/en/codespaces)
-- [GitHub Copilot Docs](https://docs.github.com/en/copilot)
-- [DevContainers](contenedores_devcontainer.md)
-- [VS Code Remote Development](https://code.visualstudio.com/docs/remote/remote-overview)
-
-## Changelog
-
-- 2025-11-02: Creación inicial (draft - pendiente implementación)
+> **Nota:** cualquier integración MCP debe contar con aprobación previa y pruebas controladas en un Codespace aislado.

@@ -4,7 +4,6 @@ estado: borrador
 propietario: equipo-infraestructura
 ultima_actualizacion: 2025-02-18
 relacionados: ["DOC-GOB-INDEX", "DOC-REL-INDEX"]
-date: 2025-11-13
 ---
 # Checklists de infraestructura y gobernanza
 

@@ -1,10 +1,3 @@
----
-title: Template: GitHub Release - CPython Precompilado
-date: 2025-11-13
-domain: infraestructura
-status: active
----
-
 # Template: GitHub Release - CPython Precompilado
 
 Use este template al crear una GitHub Release para publicar un artefacto CPython.
@@ -142,7 +135,7 @@ tar -xzf cpython-{VERSION}-ubuntu20.04-build{BUILD_NUMBER}.tgz -C /tmp/test-cpyt
 
 Compilado usando:
 ```bash
-./infrastructure/cpython/scripts/build_cpython.sh {VERSION} {BUILD_NUMBER}
+./infraestructura/cpython/scripts/build_cpython.sh {VERSION} {BUILD_NUMBER}
 ```
 
 En entorno:
@@ -247,7 +240,7 @@ ARTIFACTS_DIR="infrastructure/cpython/artifacts"
 # Crear release
 gh release create "${TAG}" \
   --title "CPython ${VERSION} Precompilado - Build ${BUILD}" \
-  --notes-file docs/infraestructura/cpython_precompilado/github_release_template.md \
+  --notes-file docs/infrastructure/cpython_precompilado/github_release_template.md \
   --prerelease \
   "${ARTIFACTS_DIR}/cpython-${VERSION}-ubuntu20.04-build${BUILD}.tgz" \
   "${ARTIFACTS_DIR}/cpython-${VERSION}-ubuntu20.04-build${BUILD}.tgz.sha256"

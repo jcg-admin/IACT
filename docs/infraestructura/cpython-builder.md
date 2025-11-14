@@ -1,12 +1,11 @@
 ---
 id: DOC-INFRA-CPYTHON-BUILDER
 tipo: documentacion-tecnica
-categoria: infrastructure
+categoria: infraestructura
 version: 1.0.0
 fecha_creacion: 2025-11-07
 propietario: devops-lead
 relacionados: ["SPEC_INFRA_001", "ADR_008"]
-date: 2025-11-13
 ---
 
 # CPython Builder - Sistema de Compilacion
@@ -459,13 +458,13 @@ cleanup_temp_dir "/tmp/build"
 **Sintaxis**:
 
 ```bash
-./infrastructure/cpython/scripts/build_wrapper.sh <version> [build-number]
+./infraestructura/cpython/scripts/build_wrapper.sh <version> [build-number]
 ```
 
 **Ejemplo**:
 
 ```bash
-./infrastructure/cpython/scripts/build_wrapper.sh 3.12.6
+./infraestructura/cpython/scripts/build_wrapper.sh 3.12.6
 ```
 
 **Proceso**:
@@ -482,13 +481,13 @@ cleanup_temp_dir "/tmp/build"
 **Sintaxis**:
 
 ```bash
-./infrastructure/cpython/scripts/validate_wrapper.sh <artifact-name>
+./infraestructura/cpython/scripts/validate_wrapper.sh <artifact-name>
 ```
 
 **Ejemplo**:
 
 ```bash
-./infrastructure/cpython/scripts/validate_wrapper.sh cpython-3.12.6-ubuntu20.04-build1.tgz
+./infraestructura/cpython/scripts/validate_wrapper.sh cpython-3.12.6-ubuntu20.04-build1.tgz
 ```
 
 ## Configuracion
@@ -564,7 +563,7 @@ echo "Modulos requeridos: ${REQUIRED_MODULES[@]}"
 #### 1. Iniciar VM
 
 ```bash
-cd infrastructure/cpython
+cd infraestructura/cpython
 vagrant up
 ```
 
@@ -575,7 +574,7 @@ Primera vez: 10-15 minutos (descarga box + provisioning)
 Opcion A - Desde fuera de VM (recomendado):
 
 ```bash
-./infrastructure/cpython/scripts/build_cpython.sh 3.12.6
+./infraestructura/cpython/scripts/build_cpython.sh 3.12.6
 ```
 
 Opcion B - Dentro de VM:
@@ -589,7 +588,7 @@ cd /vagrant
 #### 3. Validar Artefacto
 
 ```bash
-./infrastructure/cpython/scripts/validate_build.sh cpython-3.12.6-ubuntu20.04-build1.tgz
+./infraestructura/cpython/scripts/validate_build.sh cpython-3.12.6-ubuntu20.04-build1.tgz
 ```
 
 #### 4. Resultado
@@ -835,10 +834,10 @@ Scripts deben ejecutarse desde:
 ### Documentacion del Proyecto
 
 - [SPEC_INFRA_001: CPython Precompilado](/home/user/IACT---project/docs/specs/SPEC_INFRA_001_cpython_precompilado.md)
-- [ADR_008: Features vs Imagen Base](/home/user/IACT---project/docs/adr/ADR_2025_012-cpython-features-vs-imagen-base.md)
+- [ADR_008: Features vs Imagen Base](/home/user/IACT---project/docs/adr/ADR_008_cpython_features_vs_imagen_base.md)
 - [README del Sistema](/home/user/IACT---project/infrastructure/cpython/README.md)
-- [Guia de Desarrollo](/home/user/IACT---project/docs/infraestructura/cpython-development-guide.md)
-- [CHANGELOG](/home/user/IACT---project/docs/infraestructura/CHANGELOG-cpython.md)
+- [Guia de Desarrollo](/home/user/IACT---project/docs/infrastructure/cpython-development-guide.md)
+- [CHANGELOG](/home/user/IACT---project/docs/infrastructure/CHANGELOG-cpython.md)
 
 ### Documentacion Externa
 

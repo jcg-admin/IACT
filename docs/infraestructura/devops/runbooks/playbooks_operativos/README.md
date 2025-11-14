@@ -1,10 +1,3 @@
----
-title: Playbooks operativos
-date: 2025-11-13
-domain: infraestructura
-status: active
----
-
 # Playbooks operativos
 
 Este directorio agrupa tareas repetibles para soporte y operaciones. Cada archivo documenta un procedimiento específico y se acompaña de checklists de validación.

@@ -4,11 +4,10 @@ estado: borrador
 propietario: equipo-infraestructura
 ultima_actualizacion: 2025-02-20
 relacionados: ["DOC-REQ-INDEX", "DOC-ARQ-INFRA"]
-date: 2025-11-13
 ---
 # Requisitos de infraestructura
 
-Extiende el espacio corporativo de [`../gobernanza/marco_integrado/README.md`](../gobernanza/marco_integrado/README.md) con políticas operativas, guardrails y SLOs específicos de la plataforma.
+Extiende el espacio corporativo de [`../../requisitos/README.md`](../../requisitos/README.md) con políticas operativas, guardrails y SLOs específicos de la plataforma.
 
 ## Página padre
 - [`../README.md`](../README.md)

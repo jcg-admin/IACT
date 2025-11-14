@@ -3,8 +3,7 @@ id: DOC-ARQ-INFRA
 estado: borrador
 propietario: equipo-infraestructura
 ultima_actualizacion: 2025-02-18
-relacionados: ["ADR_2025_001", "DOC-DEVOPS-INFRA"]
-date: 2025-11-13
+relacionados: ["ADR-2025-001", "DOC-DEVOPS-INFRA"]
 ---
 # Arquitectura de infraestructura
 
@@ -17,7 +16,7 @@ Inventario de decisiones y topologías que sostienen la plataforma de infraestru
 - [`adr/`](adr/)
 
 ## Información clave
-- Los ADR documentan lineamientos como el uso de Vagrant y Apache con mod_wsgi (`adr/ADR_2025_001-vagrant-mod-wsgi.md`).
+- Los ADR documentan lineamientos como el uso de Vagrant y Apache con mod_wsgi (`adr/adr_2025_001_vagrant_mod_wsgi.md`).
 - Mantiene enlaces hacia scripts y configuraciones ubicadas en `infrastructure/` dentro del repositorio.
 - Sirve como punto de coordinación con [`../devops/README.md`](../devops/README.md) para el ciclo de vida de ambientes.
 

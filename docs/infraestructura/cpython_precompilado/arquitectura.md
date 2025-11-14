@@ -1,10 +1,3 @@
----
-title: Arquitectura del Sistema CPython Precompilado
-date: 2025-11-13
-domain: infraestructura
-status: active
----
-
 # Arquitectura del Sistema CPython Precompilado
 
 **Versión**: 1.0.0
@@ -130,7 +123,7 @@ Ejemplos:
 **Proceso de publicación**:
 ```bash
 # Desde Vagrant (manual)
-cd /vagrant/infrastructure/cpython/artifacts/
+cd /vagrant/infraestructura/cpython/artifacts/
 
 gh release create cpython-3.12.6-build1 \
   cpython-3.12.6-ubuntu20.04-build1.tgz \

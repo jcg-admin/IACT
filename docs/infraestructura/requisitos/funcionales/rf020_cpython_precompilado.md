@@ -2,7 +2,7 @@
 id: RF-020
 tipo: funcional
 titulo: CPython 3.12.6 precompilado en Dev Container
-dominio: infrastructure
+dominio: infraestructura
 owner: equipo-infraestructura
 prioridad: media
 estado: aprobado
@@ -14,7 +14,6 @@ iso29148_clause: "9.6.4"
 verificacion_metodo: demonstration
 categoria: development-environment
 modulo: devcontainer
-date: 2025-11-13
 ---
 
 # RF-020: CPython 3.12.6 precompilado en Dev Container

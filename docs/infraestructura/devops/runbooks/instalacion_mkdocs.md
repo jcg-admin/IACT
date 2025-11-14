@@ -4,7 +4,6 @@ estado: borrador
 propietario: equipo-devops
 ultima_actualizacion: 2025-02-19
 relacionados: ["DOC-INDEX-GENERAL", "docs/mkdocs.yml"]
-date: 2025-11-13
 ---
 # Runbook: Instalación de MkDocs
 
