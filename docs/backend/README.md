@@ -1,156 +1,190 @@
+# Backend - Documentación
+
+Documentación del dominio Backend de IACT.
+
+## Propósito
+
+Esta documentación proporciona:
+
+1. **SDLC completo**: Implementación TDD para técnicas de prompting y código backend
+2. **Arquitectura de Agentes**: Design patterns y estructura de agentes AI
+3. **Tests automatizados**: 80%+ coverage con pytest
+4. **Guías de desarrollo**: Para developers backend y AI engineers
+
+## Contenido Principal
+
+### SDLC (Software Development Lifecycle)
+
+Documentación completa del ciclo SDLC para implementación de tests TDD de técnicas de prompting:
+
+- **[planning/](planning/)** - Fase de planificación
+  - Issue tracking
+  - Story points
+  - Acceptance criteria
+
+- **[feasibility/](feasibility/)** - Análisis de viabilidad
+  - Risk analysis
+  - Dependency mapping
+  - Go/No-Go decision
+
+- **[design/](design/)** - Diseño HLD/LLD
+  - High-Level Design
+  - Low-Level Design
+  - Test architecture
+
+- **[testing/](testing/)** - Estrategia de testing
+  - Test strategy
+  - Test use cases
+  - Coverage reports
+
+- **[deployment/](deployment/)** - Plan de deployment
+  - Deployment strategy
+  - Rollback plan
+  - CI/CD integration
+
+Ver resumen completo: [SDLC_COMPLETE_RUN_TDD_PROMPTING_TECHNIQUES.md](SDLC_COMPLETE_RUN_TDD_PROMPTING_TECHNIQUES.md)
+
+### Gobernanza del Dominio
+
+- **gobernanza/** - Estándares y políticas específicas de backend
+  - Coding standards Python
+  - Testing requirements (TDD estricto)
+  - Code review guidelines
+
+### ADRs del Dominio
+
+- **adr/** - Architecture Decision Records específicos de backend
+  - Decisiones de diseño de agentes
+  - Patrones de testing
+  - Arquitectura de código
+
+### Procedimientos
+
+- **procedimientos/** - Procedimientos específicos de desarrollo backend
+  - Workflow de desarrollo TDD
+  - Proceso de code review
+  - Deployment de código Python
+
+## Relación con otras Secciones
+
+- [docs/ai/](../ai/) - Sistema de agentes AI/ML (código vivo)
+- [.github/agents/](.github/agents/) - Definiciones de agentes
+- [docs/devops/](../devops/) - Automatización CI/CD
+- [docs/qa/](../qa/) - Validación y quality gates
+- [docs/gobernanza/](../gobernanza/) - Gobernanza padre
+
+## Código Relacionado
+
+### Scripts
+
+```
+scripts/coding/ai/          # Código de agentes AI (Python)
+├── agents/                 # 30+ agentes
+├── sdlc/                   # Agentes SDLC
+├── automation/             # Agentes de automatización
+└── tests/                  # Tests TDD
+```
+
+### API
+
+```
+api/                        # Django REST API
+```
+
+## Para Empezar
+
+### Si eres AI Engineer
+
+1. Ver [documentación SDLC completa](SDLC_COMPLETE_RUN_TDD_PROMPTING_TECHNIQUES.md)
+2. Explorar [tests de prompting techniques](testing/test_use_cases.md)
+3. Revisar código en `scripts/coding/ai/agents/`
+
+### Si eres Backend Developer
+
+1. Ver [planning de features](planning/planning_output.md)
+2. Revisar [diseño arquitectónico](design/design_hld_lld.md)
+3. Ejecutar tests:
+   ```bash
+   pytest scripts/coding/ai/tests/
+   ```
+
+### Si estás implementando TDD
+
+1. Leer [estrategia de testing](testing/testing_strategy.md)
+2. Ver [casos de uso de tests](testing/test_use_cases.md)
+3. Seguir patrones en `scripts/coding/ai/tests/conftest.py`
+
+## Comandos Útiles
+
+```bash
+# Ejecutar tests de backend
+pytest scripts/coding/ai/tests/ -v
+
+# Ver coverage
+pytest --cov=scripts/coding/ai/agents/base --cov-report=html
+
+# Ejecutar tests específicos
+pytest scripts/coding/ai/tests/techniques/test_auto_cot_agent.py
+
+# Validar código Python
+ruff check scripts/coding/ai/
+
+# Ejecutar SDLC pipeline
+python scripts/run_sdlc_pipeline_for_tdd.py
+```
+
+## Convenciones del Dominio
+
+### Nomenclatura
+
+- Archivos: `snake_case.md`
+- Sin números en prefijos
+- Sin emojis
+
+### Estructura de Tests
+
+```python
+# Patrón AAA (Arrange, Act, Assert)
+def test_feature():
+    # Arrange
+    agent = AutoCoTAgent()
+
+    # Act
+    result = agent.process(input_data)
+
+    # Assert
+    assert result.status == "success"
+```
+
+### Coverage Target
+
+- Mínimo: 80%
+- Ideal: 90%+
+- Crítico: 100% para código de agentes SDLC
+
+## Estado Actual
+
+- SDLC completo: ✅ Documentado
+- Tests implementados: 2/11 módulos (18%)
+  - ✅ `test_auto_cot_agent.py` (25 tests)
+  - ✅ `test_self_consistency.py` (20 tests)
+  - ⏳ 9 módulos pendientes
+
+Ver progreso completo en [testing/testing_strategy.md](testing/testing_strategy.md)
+
+## Contribuir
+
+Para contribuir a backend:
+
+1. Seguir TDD estricto
+2. Alcanzar 80%+ coverage
+3. Pasar `./scripts/ci-local.sh`
+4. Actualizar documentación relevante
+
+Ver guía completa: [../CONTRIBUTING.md](../../CONTRIBUTING.md)
+
 ---
-id: DOC-PLANTILLAS-INDEX
-estado: borrador
-propietario: equipo-documentacion
-ultima_actualizacion: 2025-11-06
-relacionados: ["DOC-INDEX-GENERAL", "DOC-REQ-INDEX", "PLANTILLA-SPEC", "PLANTILLA-PLAN", "DOC-GOB-CONSTITUTION-AI"]
-date: 2025-11-13
----
-# Plantillas
 
-Colección de formatos reutilizables para discovery, análisis, diseño, QA y operación. Las plantillas se mantienen en Markdown para facilitar su adaptación.
-
-## Página padre
-- [`../index.md`](../index.md)
-
-## Páginas hijas
-- [`plantilla_project_charter.md`](plantilla_project_charter.md)
-- [`plantilla_business_case.md`](plantilla_business_case.md)
-- [`plantilla_srs.md`](plantilla_srs.md)
-- [`plantilla_sad.md`](plantilla_sad.md)
-- [`plantilla_tdd.md`](plantilla_tdd.md)
-- [`plantilla_django_app.md`](plantilla_django_app.md)
-- [`plantilla_etl_job.md`](plantilla_etl_job.md)
-- [`plantilla_database_design.md`](plantilla_database_design.md)
-- [`plantilla_api_reference.md`](plantilla_api_reference.md)
-- [`plantilla_plan_pruebas.md`](plantilla_plan_pruebas.md)
-- [`plantilla_runbook.md`](plantilla_runbook.md)
-- [`plantilla_espacio_documental.md`](plantilla_espacio_documental.md)
-- [`desarrollo/plantilla_spec.md`](desarrollo/plantilla_spec.md) [NUEVO 2025-11-06]
-- [`desarrollo/plantilla_plan.md`](desarrollo/plantilla_plan.md) [NUEVO 2025-11-06]
-
-## Información clave
-### Uso recomendado
-1. Clonar el archivo correspondiente y registrar la relación en el front matter del nuevo documento.
-2. Actualizar campos resaltados con `TODO` o comentarios antes de compartir el artefacto.
-3. Notificar cambios relevantes en [`../gobernanza/readme.md`](../gobernanza/readme.md) para asegurar que todos los equipos utilicen la versión vigente.
-
-### Categorías destacadas
-- **Producto y alcance:** `plantilla_project_charter.md`, `plantilla_business_case.md`.
-- **Requisitos y análisis:** `plantilla_srs.md`, `plantilla_regla_negocio.md`, `plantilla_caso_de_uso.md` (ver [Guía de Casos de Uso](../gobernanza/casos_de_uso_guide.md) para estándares completos).
-- **Diseño y arquitectura:** `plantilla_sad.md`, `plantilla_tdd.md`, `plantilla_database_design.md`, `plantilla_api_reference.md`.
-- **Django y Python:** `plantilla_django_app.md` (documentación de aplicaciones Django), `plantilla_etl_job.md` (documentación de jobs ETL).
-- **Desarrollo de features:** [NUEVO] `desarrollo/plantilla_spec.md` (especificación formal de features), `desarrollo/plantilla_plan.md` (plan de implementación detallado).
-- **QA y soporte:** `plantilla_plan_pruebas.md`, `plantilla_caso_prueba.md`, `plantilla_runbook.md`.
-- **Documentación corporativa:** `plantilla_espacio_documental.md` para replicar portadas y jerarquías alineadas con la base maestra.
-
-## Estado de cumplimiento
-| Elemento en la base maestra | ¿Existe en repositorio? | Observaciones |
-| --- | --- | --- |
-| Portada del espacio de plantillas | Sí | Este archivo replica metadatos y navegación requeridos. |
-| Plantillas de discovery y negocio | Sí | Incluyen Project Charter y Business Case. |
-| Plantillas de ingeniería y QA | Sí | Están disponibles las guías de SRS, SAD, plan de pruebas y runbooks. |
-| Plantilla para espacios documentales | Sí | Documentada en [`plantilla_espacio_documental.md`](plantilla_espacio_documental.md). |
-| Plantillas específicas de Django | OK Sí |  Creadas `plantilla_django_app.md` y `plantilla_etl_job.md` para SC02 (2025-11-04). |
-| Registro de versiones y owners | No | Falta crear un inventario que detalle responsables y fecha de vigencia. |
-
-## Acciones prioritarias
-- [ ] Elaborar inventario maestro de plantillas con responsables y fechas de revisión.
-- [ ] Automatizar la verificación de enlaces rotos dentro de las plantillas.
-- [ ] Coordinar con Gobernanza la publicación de la guía de adopción de plantillas en rituales oficiales.
-- [x] Crear plantillas específicas para Django (completado 2025-11-04).
-
-## Nuevas plantillas 2025-11-04
-
-### plantilla_django_app.md
-Plantilla especializada para documentar aplicaciones Django con estructura completa de 13 secciones:
-1. Información general
-2. Modelos (models.py)
-3. Servicios (services.py)
-4. Vistas (views.py)
-5. URLs (urls.py)
-6. Comandos de management
-7. Signals y receivers
-8. Tests
-9. Configuración adicional
-10. Diagramas
-11. Flujos principales
-12. Troubleshooting
-13. Referencias
-
-**Uso recomendado**: Documentación de apps Django en `api/callcentersite/callcentersite/apps/`
-
-### plantilla_etl_job.md
-Plantilla especializada para documentar jobs ETL con estructura completa de 12 secciones:
-1. Información del Job (programación, SLA, configuración)
-2. Fuente de datos (Extract)
-3. Transformaciones (Transform)
-4. Destino (Load)
-5. Dependencias y orden de ejecución
-6. Monitoreo y métricas
-7. Recuperación ante fallos
-8. Diagramas de flujo
-9. Testing y validación
-10. Changelog y versionado
-11. Referencias
-12. Notas adicionales
-
-**Uso recomendado**: Documentación de jobs ETL en `api/callcentersite/callcentersite/apps/etl/jobs/`
-
-## Nuevas plantillas 2025-11-06: Desarrollo Spec-Driven
-
-### desarrollo/plantilla_spec.md
-Plantilla formal para especificación de features siguiendo ISO 29148:2018, con estructura completa de 14 secciones:
-
-1. Metadata y trazabilidad
-2. Resumen ejecutivo
-3. Contexto y motivación
-4. Requisitos funcionales (casos de uso, reglas de negocio, criterios de aceptación)
-5. Requisitos no funcionales (performance, seguridad, disponibilidad, escalabilidad)
-6. Diseño de solución (arquitectura, modelos, API endpoints)
-7. Dependencias (técnicas, features, infraestructura)
-8. Plan de testing
-9. Plan de despliegue
-10. Plan de rollout
-11. Riesgos e impacto
-12. Documentación requerida
-13. Criterios de completitud
-14. Aprobaciones y historial
-
-**Uso recomendado**: Especificación formal de features complejas antes de implementación, especialmente cuando:
-- Afectan múltiples componentes
-- Requieren cambios arquitectónicos
-- Necesitan aprobación de stakeholders
-- Tienen requisitos de negocio complejos
-
-**Workflow**: Ver [Guía de desarrollo de features](../gobernanza/procesos/guia_completa_desarrollo_features.md) para integración en proceso.
-
-### desarrollo/plantilla_plan.md
-Plantilla detallada para planificación de implementación, con estructura completa de 11 secciones:
-
-1. Metadata y trazabilidad (link a spec)
-2. Resumen del plan y alcance
-3. Pre-requisitos (conocimientos, setup, documentación)
-4. Plan de tareas detallado por fases con:
-   - Estimaciones de tiempo por tarea
-   - Asignaciones de responsables
-   - Criterios de completitud por tarea
-   - Código de ejemplo esperado
-   - Tests requeridos
-5. Plan de deploy (staging y production)
-6. Riesgos y mitigaciones
-7. Rollback plan
-8. Métricas de éxito
-9. Checklist final
-10. Lecciones aprendidas (post-implementación)
-11. Historial de cambios del plan
-
-**Uso recomendado**: Plan de implementación paso a paso para features especificadas, especialmente cuando:
-- Feature toma más de 2 días de desarrollo
-- Múltiples desarrolladores trabajan en paralelo
-- Se requiere coordinación con otros equipos
-- Existe una especificación formal (spec)
-
-**Workflow**: Crear después de aprobación de spec, actualizar durante implementación como documento vivo.
-
-**Integración con Constitution AI**: Ambas plantillas están alineadas con [Constitution para agentes AI](../gobernanza/agentes/constitution.md) para garantizar que agentes AI generen especificaciones y planes que cumplan estándares del proyecto.
+**Última actualización**: 2025-11-14
+**Owner**: AI Engineering Team
+**Status**: Active development
