@@ -1,0 +1,30 @@
+{
+  "version": "1.0.0",
+  "agents": [
+    {
+      "name": "my_agent",
+      "description": "Agente autónomo basado en GitHub Copilot que ejecuta tareas de programación, monitorea el progreso y reporta avances.",
+      "instructions": ".agent/agents/my_agent.md"
+    },
+    {
+      "name": "gitops_agent",
+      "description": "Agente especializado en operaciones Git y DevOps para sincronización de ramas, limpieza de repositorio y gestión de workflow Git.",
+      "instructions": ".agent/agents/gitops_agent.md"
+    },
+    {
+      "name": "release_agent",
+      "description": "Agente especializado en gestión de releases, versionado semántico, generación de changelogs y creación de tags Git.",
+      "instructions": ".agent/agents/release_agent.md"
+    },
+    {
+      "name": "dependency_agent",
+      "description": "Agente especializado en gestión de dependencias, actualización de paquetes, escaneo de vulnerabilidades y mantenimiento de lockfiles.",
+      "instructions": ".agent/agents/dependency_agent.md"
+    },
+    {
+      "name": "security_agent",
+      "description": "Agente especializado en auditorías de seguridad, escaneo de vulnerabilidades, detección de secrets y análisis de amenazas según STRIDE.",
+      "instructions": ".agent/agents/security_agent.md"
+    }
+  ]
+}
