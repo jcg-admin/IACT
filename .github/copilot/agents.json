@@ -25,6 +25,191 @@
       "name": "security_agent",
       "description": "Agente especializado en auditorías de seguridad, escaneo de vulnerabilidades, detección de secrets y análisis de amenazas según STRIDE.",
       "instructions": ".agent/agents/security_agent.md"
+    },
+    {
+      "name": "api_agent",
+      "description": "Agente de dominio para `api/` que coordina automatizaciones, ExecPlans y selección de LLM en el backend.",
+      "instructions": ".agent/agents/api_agent.md"
+    },
+    {
+      "name": "ui_agent",
+      "description": "Agente de dominio para `ui/` que guía el frontend con lineamientos de diseño, orquestaciones multi-LLM y validaciones TDD.",
+      "instructions": ".agent/agents/ui_agent.md"
+    },
+    {
+      "name": "infrastructure_agent",
+      "description": "Agente de dominio que orquesta IaC y DevOps en `infrastructure/`, alineando runbooks y planes de despliegue.",
+      "instructions": ".agent/agents/infrastructure_agent.md"
+    },
+    {
+      "name": "docs_agent",
+      "description": "Agente de dominio que centraliza automatizaciones de documentación en `docs/` y garantiza cumplimiento de políticas CODEX.",
+      "instructions": ".agent/agents/docs_agent.md"
+    },
+    {
+      "name": "scripts_agent",
+      "description": "Agente de dominio para `scripts/` que mantiene coherencia entre utilidades CLI, automatizaciones y ExecPlans vigentes.",
+      "instructions": ".agent/agents/scripts_agent.md"
+    },
+    {
+      "name": "claude_agent",
+      "description": "Agente de proveedor que orquesta trabajos con modelos Claude (Anthropic), credenciales y flujos Codex MCP.",
+      "instructions": ".agent/agents/claude_agent.md"
+    },
+    {
+      "name": "chatgpt_agent",
+      "description": "Agente de proveedor que gestiona operaciones con modelos GPT de OpenAI, enlazando generadores, ExecPlans y catálogos de prompting.",
+      "instructions": ".agent/agents/chatgpt_agent.md"
+    },
+    {
+      "name": "huggingface_agent",
+      "description": "Agente de proveedor que coordina modelos hospedados en Hugging Face dentro de flujos Codex MCP y pipelines multi-LLM.",
+      "instructions": ".agent/agents/huggingface_agent.md"
+    },
+    {
+      "name": "codex_mcp_workflow",
+      "description": "Orquestador que construye briefs Codex MCP single y multi-agente para coordinar proveedores LLM y trazas MCP.",
+      "instructions": ".agent/agents/codex_mcp_workflow.md"
+    },
+    {
+      "name": "automation_coherence_analyzer_agent",
+      "description": "Analiza coherencia entre código, pruebas y documentación aplicando métricas automatizadas.",
+      "instructions": ".agent/agents/automation_coherence_analyzer_agent.md"
+    },
+    {
+      "name": "automation_pdca_agent",
+      "description": "Automatiza ciclos Plan-Do-Check-Act con seguimiento de métricas y propuestas de mejora continua.",
+      "instructions": ".agent/agents/automation_pdca_agent.md"
+    },
+    {
+      "name": "automation_constitution_validator_agent",
+      "description": "Verifica cumplimiento de principios constitucionales y políticas CODEX en entregables automatizados.",
+      "instructions": ".agent/agents/automation_constitution_validator_agent.md"
+    },
+    {
+      "name": "automation_devcontainer_validator_agent",
+      "description": "Valida configuraciones de devcontainer y entornos locales contra los estándares del repositorio.",
+      "instructions": ".agent/agents/automation_devcontainer_validator_agent.md"
+    },
+    {
+      "name": "automation_metrics_collector_agent",
+      "description": "Recolecta métricas DORA y de flujo para alimentar reportes operativos automatizados.",
+      "instructions": ".agent/agents/automation_metrics_collector_agent.md"
+    },
+    {
+      "name": "automation_schema_validator_agent",
+      "description": "Valida esquemas JSON/YAML y contratos de datos generando reportes de conformidad.",
+      "instructions": ".agent/agents/automation_schema_validator_agent.md"
+    },
+    {
+      "name": "automation_ci_pipeline_orchestrator_agent",
+      "description": "Orquesta pipelines CI/CD integrando validaciones automáticas y despliegues condicionados.",
+      "instructions": ".agent/agents/automation_ci_pipeline_orchestrator_agent.md"
+    },
+    {
+      "name": "automation_compliance_validator_agent",
+      "description": "Evalúa cumplimiento normativo y regulatorio en artefactos y automatizaciones del repositorio.",
+      "instructions": ".agent/agents/automation_compliance_validator_agent.md"
+    },
+    {
+      "name": "automation_business_rules_validator_agent",
+      "description": "Comprueba reglas de negocio y consistencia lógica en automatizaciones y entregables generados.",
+      "instructions": ".agent/agents/automation_business_rules_validator_agent.md"
+    },
+    {
+      "name": "sdlc_planner_agent",
+      "description": "Planifica iteraciones y desgloses de trabajo siguiendo las políticas SDLC del proyecto.",
+      "instructions": ".agent/agents/sdlc_planner_agent.md"
+    },
+    {
+      "name": "sdlc_feasibility_agent",
+      "description": "Analiza viabilidad y riesgos técnicos u operativos antes de iniciar nuevas iniciativas.",
+      "instructions": ".agent/agents/sdlc_feasibility_agent.md"
+    },
+    {
+      "name": "sdlc_design_agent",
+      "description": "Produce diseños HLD/LLD alineados con ExecPlans, catálogos CODEX y guías multi-LLM.",
+      "instructions": ".agent/agents/sdlc_design_agent.md"
+    },
+    {
+      "name": "sdlc_testing_agent",
+      "description": "Genera estrategias y suites de pruebas automáticas aplicando principios TDD.",
+      "instructions": ".agent/agents/sdlc_testing_agent.md"
+    },
+    {
+      "name": "sdlc_deployment_agent",
+      "description": "Planifica despliegues y coordinación release-to-prod manteniendo trazabilidad SDLC.",
+      "instructions": ".agent/agents/sdlc_deployment_agent.md"
+    },
+    {
+      "name": "sdlc_plan_validation_agent",
+      "description": "Valida planes SDLC existentes comprobando dependencias, riesgos y cobertura documental.",
+      "instructions": ".agent/agents/sdlc_plan_validation_agent.md"
+    },
+    {
+      "name": "meta_architecture_analysis_agent",
+      "description": "Analiza la arquitectura global comparándola con lineamientos CODEX y decisiones registradas.",
+      "instructions": ".agent/agents/meta_architecture_analysis_agent.md"
+    },
+    {
+      "name": "meta_design_patterns_agent",
+      "description": "Identifica y recomienda patrones de diseño aplicables al código base para mejorar mantenibilidad.",
+      "instructions": ".agent/agents/meta_design_patterns_agent.md"
+    },
+    {
+      "name": "meta_drf_architecture_agent",
+      "description": "Evalúa la alineación del proyecto con las mejores prácticas de Django REST Framework.",
+      "instructions": ".agent/agents/meta_drf_architecture_agent.md"
+    },
+    {
+      "name": "meta_refactoring_opportunities_agent",
+      "description": "Detecta oportunidades de refactorización priorizando impacto, riesgos y alineación con los estándares.",
+      "instructions": ".agent/agents/meta_refactoring_opportunities_agent.md"
+    },
+    {
+      "name": "meta_test_generation_agent",
+      "description": "Recomienda estrategias avanzadas de generación de pruebas y cobertura automatizada.",
+      "instructions": ".agent/agents/meta_test_generation_agent.md"
+    },
+    {
+      "name": "meta_uml_generator_agent",
+      "description": "Genera diagramas UML consistentes con la arquitectura documentada y los ExecPlans vigentes.",
+      "instructions": ".agent/agents/meta_uml_generator_agent.md"
+    },
+    {
+      "name": "meta_uml_validation_agent",
+      "description": "Valida diagramas UML frente al código y especificaciones para asegurar trazabilidad.",
+      "instructions": ".agent/agents/meta_uml_validation_agent.md"
+    },
+    {
+      "name": "quality_shell_analysis_agent",
+      "description": "Analiza scripts shell para detectar problemas de estilo, seguridad y portabilidad.",
+      "instructions": ".agent/agents/quality_shell_analysis_agent.md"
+    },
+    {
+      "name": "quality_shell_remediation_agent",
+      "description": "Propone remediaciones y mejoras en scripts shell basadas en hallazgos de calidad.",
+      "instructions": ".agent/agents/quality_shell_remediation_agent.md"
+    },
+    {
+      "name": "documentation_analysis_agent",
+      "description": "Audita documentación técnica para detectar brechas, inconsistencias y referencias faltantes.",
+      "instructions": ".agent/agents/documentation_analysis_agent.md"
+    },
+    {
+      "name": "documentation_eta_codex_agent",
+      "description": "Genera entregables ETA CODEX garantizando formato, cumplimiento normativo y trazabilidad.",
+      "instructions": ".agent/agents/documentation_eta_codex_agent.md"
+    },
+    {
+      "name": "tdd_feature_agent",
+      "description": "Guía la implementación de features siguiendo el ciclo TDD extremo a extremo.",
+      "instructions": ".agent/agents/tdd_feature_agent.md"
+    },
+    {
+      "name": "tdd_tdd_agent",
+      "description": "Supervisa la disciplina TDD asegurando ciclos Red-Green-Refactor y métricas de cobertura.",
+      "instructions": ".agent/agents/tdd_tdd_agent.md"
     }
   ]
 }
