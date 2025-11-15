@@ -13,6 +13,8 @@ Este documento mapea todos los agentes del proyecto a su implementación en cód
 | SDLCDesignAgent | `scripts/coding/ai/sdlc/design_agent.py` | `scripts/coding/ai/tests/test_sdlc_design_agent.py` | Parcial |
 | SDLCTestingAgent | `scripts/coding/ai/sdlc/testing_agent.py` | `scripts/coding/ai/tests/test_sdlc_testing_agent.py` | Completo |
 | SDLCDeploymentAgent | `scripts/coding/ai/sdlc/deployment_agent.py` | `scripts/coding/ai/tests/test_sdlc_deployment_agent.py` | Parcial |
+| SDLCOrchestratorAgent | `scripts/coding/ai/sdlc/orchestrator.py` | - | Pendiente |
+| DORATrackedSDLCAgent | `scripts/coding/ai/sdlc/dora_integration.py` | - | Pendiente |
 | SDLCAgent (Base) | `scripts/coding/ai/sdlc/base_agent.py` | - | - |
 
 ### Automation Agents
@@ -55,7 +57,43 @@ Este documento mapea todos los agentes del proyecto a su implementación en cód
 | Componente | Implementación | Tests | Estado TDD |
 |------------|---------------|-------|------------|
 | CodexMCPWorkflow | `scripts/coding/ai/orchestrators/codex_mcp_workflow.py` | - | Pendiente |
+| BusinessAnalysisGenerator | `scripts/coding/ai/business_analysis/generator.py` | - | Pendiente |
+| TemplateGenerator | `scripts/coding/ai/generators/template_generator.py` | - | Pendiente |
+| TraceabilityMatrixGenerator | `scripts/coding/ai/generators/traceability_matrix_generator.py` | - | Pendiente |
+| DocumentSplitter | `scripts/coding/ai/documentation/document_splitter.py` | - | Pendiente |
 | LLMGenerator | `scripts/coding/ai/generators/llm_generator.py` | - | Pendiente |
+
+### Documentation Sync Agents
+
+| Agente | Implementación | Tests | Estado TDD |
+|--------|----------------|-------|------------|
+| CodeInspectorAgent | `scripts/coding/ai/documentation/sync_agent.py` | - | Pendiente |
+| DocumentationEditorAgent | `scripts/coding/ai/documentation/sync_agent.py` | - | Pendiente |
+| ConsistencyVerifierAgent | `scripts/coding/ai/documentation/sync_agent.py` | - | Pendiente |
+| SyncReporterAgent | `scripts/coding/ai/documentation/sync_agent.py` | - | Pendiente |
+
+### Quality Automation Agents
+
+| Agente | Implementación | Tests | Estado TDD |
+|--------|----------------|-------|------------|
+| CompletenessValidator | `scripts/coding/ai/quality/completeness_validator.py` | - | Pendiente |
+| CoverageAnalyzer | `scripts/coding/ai/quality/coverage_analyzer.py` | - | Pendiente |
+| CoverageVerifier | `scripts/coding/ai/quality/coverage_validator.py` | - | Pendiente |
+| SyntaxValidator | `scripts/coding/ai/quality/syntax_validator.py` | - | Pendiente |
+
+### Shared Delivery Agents
+
+| Agente | Implementación | Tests | Estado TDD |
+|--------|----------------|-------|------------|
+| TestRunner | `scripts/coding/ai/shared/test_runner.py` | - | Pendiente |
+| PRCreator | `scripts/coding/ai/shared/pr_creator.py` | - | Pendiente |
+
+### Permissions Gates
+
+| Agente | Implementación | Tests | Estado TDD |
+|--------|----------------|-------|------------|
+| BasePermissionAgent | `scripts/coding/ai/agents/permissions/base.py` | - | Base |
+| RouteLintAgent | `scripts/coding/ai/agents/permissions/route_linter.py` | - | Pendiente |
 
 ## Agentes Definidos (Markdown - No implementados en Python)
 
