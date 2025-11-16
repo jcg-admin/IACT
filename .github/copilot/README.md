@@ -251,6 +251,79 @@ Para agregar un nuevo agente personalizado:
 - Copilot actualizará título y descripción del PR a medida que itera; monitorea cambios hasta que cumplan los criterios.
 - Consulta la documentación oficial de "Adding repository custom instructions for GitHub Copilot" cuando necesites más detalles.
 
+## Copilot coding agent en acción
+
+### Qué puede hacer
+- Resolver bugs, implementar mejoras incrementales, escribir o actualizar documentación, aumentar cobertura de tests y pagar deuda técnica.
+- Evaluar el prompt (issue o comentario) y abrir un PR con commits trazables, solicitando tu revisión al finalizar.
+- Trabajar en un entorno efímero basado en GitHub Actions con acceso controlado al repo, ejecución de linters/tests y tooling declarado.
+
+### Cómo delegar tareas
+- Asigna issues a Copilot (desde Issues, VS Code o el panel de agentes) para que abra un PR nuevo.
+- Menciona `@copilot` en comentarios de PR existentes para que continúe iterando sobre la misma rama.
+- Escala alertas de seguridad desde campañas marcándolas para Copilot cuando requieras remediaciones automatizadas.
+
+### Agentes personalizados
+- Define agentes especializados (frontend reviewer, generador de pruebas, auditor de seguridad, etc.) con prompts y herramientas propios.
+- Cada agente hereda servidores MCP habilitados en el repo, pero puedes restringirlo a los necesarios.
+- Invócalos igual que al agente estándar desde issues, comentarios o el panel de agentes.
+
+## Beneficios frente a asistentes locales
+- Copilot coding agent automatiza creación de ramas `copilot/*`, commits, push y PRs con historiales auditables.
+- Todo sucede en el flujo estándar de PRs, facilitando revisiones y transparencia mediante logs y session records.
+- Los asistentes IDE requieren sesiones síncronas y pasos manuales (branch, push, PR); Copilot coding agent trabaja en segundo plano para tareas rutinarias.
+
+## Copilot coding agent vs Agent Mode
+- **Copilot coding agent** opera en un runner efímero de GitHub Actions, autónomo y limitado al repo objetivo, produciendo PRs completos.
+- **Agent mode en IDE** actúa localmente en tu entorno; útil para pair-programming rápido pero sin automatizar el ciclo de PRs.
+
+## Flujo de desarrollo optimizado
+- Asigna issues bien definidas del backlog (refactors pequeños, logging adicional, mejoras de accesibilidad o documentación).
+- Deja que Copilot arranque tareas repetitivas (scaffolding, configuraciones) y luego continúa tú si el trabajo requiere criterio humano.
+- Crea agentes específicos para frontend/React, documentación o testing para reforzar estándares por dominio.
+
+## Integraciones externas
+- Puedes invocar al agente desde herramientas de terceros para abrir PRs sin salir de tu flujo. Consulta "About Copilot integrations" para configurar conectores.
+
+## Disponibilidad y habilitación
+- Disponible con planes Copilot Pro, Pro+, Business y Enterprise.
+- En Business/Enterprise, un administrador debe habilitar la política antes de delegar tareas.
+- Propietarios del repo pueden excluir proyectos específicos si las políticas internas así lo requieren.
+
+## Costos y consumo
+- Consume minutos de GitHub Actions y solicitudes premium de Copilot; mientras te mantengas dentro de la cuota contratada no hay cargos adicionales.
+
+## Seguridad integrada
+- Validaciones automáticas: análisis de seguridad sobre el código propuesto, ejecución de CodeQL, chequeo de dependencias nuevas contra GitHub Advisory Database y secret scanning.
+- Entorno restringido: sandbox con firewall, acceso de solo lectura al repo y capacidad de crear únicamente ramas `copilot/*`, respetando branch protections.
+- Gobernanza: solo responde a usuarios con permisos de escritura, los commits quedan co-firmados y no puede marcar PRs como "Ready for review" ni aprobar/mergear.
+- Cumplimiento: los PRs creados requieren que un humano pulse `Approve and run workflows` antes de ejecutar GitHub Actions.
+
+## Riesgos y mitigaciones
+### Cambios en el repositorio
+- Solo usuarios con write pueden invocarlo, y sus credenciales limitan los permisos Git.
+- Los pushes se restringen a ramas `copilot/*` y no puede ejecutar comandos Git arbitrarios.
+- Los workflows permanecen bloqueados hasta que un revisor los apruebe manualmente.
+- La persona que solicitó el PR no puede aprobarlo, asegurando separación de funciones.
+
+### Acceso a información sensible
+- Opera con firewall y conectividad controlada.
+- Se filtran caracteres ocultos (como comentarios HTML) para mitigar prompt injection antes de entregar instrucciones al modelo.
+
+## Limitaciones conocidas
+### Flujo de desarrollo
+- Solo modifica el repositorio que contiene el issue/comentario asignado; no cruza múltiples repos.
+- Abre un único PR por tarea y solo dispone del contexto disponible en ese mismo repo (ampliable mediante MCP si se configura).
+
+### Compatibilidad con reglas del repo
+- Algunas reglas (ej. "Require signed commits") bloquean su ejecución; configúralo como bypass actor cuando sea necesario.
+- No funciona en repos personales de cuentas administradas (no hay runners hospedados disponibles).
+- No respeta content exclusions; puede leer/escribir cualquier archivo visible en el repo.
+- Solo funciona en GitHub.com y actualmente usa el modelo Claude Sonnet 4.5 sin selector de modelo.
+
+### Hands-on practice
+- Revisa la documentación oficial de GitHub para ejercicios y guías de adopción organizacional.
+
 ## Referencias
 
 - **Documentación de agentes**: [.agent/agents/README.md](../../.agent/agents/README.md)
