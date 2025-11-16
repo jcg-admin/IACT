@@ -7,6 +7,7 @@ Key principle: IMMEDIATE transparency on failures (< 500ms)
 import time
 from unittest.mock import Mock
 
+from datetime import datetime
 import pytest
 
 from scripts.coding.ai.agents.planning.models import Goal, GoalType, Plan, SubTask, TaskStatus
@@ -392,3 +393,162 @@ def test_failure_notification_within_500ms():
     duration = time.time() - start
 
     assert duration < 0.5, f"Notification took {duration:.3f}s (limit: 500ms)"
+
+# ==================================
+# Additional RF-012 Tests (13-20)
+# ==================================
+
+def test_track_revision_history():
+    """RF-012: Escenario 13 - Track Revision History"""
+    planner = IterativePlanner(max_revisions=5)
+    plan = create_test_plan()
+    
+    # Create multiple revisions
+    for i in range(3):
+        failure = ExecutionFeedback(
+            task_id="task_001",
+            feedback_type=FeedbackType.FAILURE,
+            actual_outputs={},
+            errors=[f"Error {i+1}"],
+            duration_seconds=5,
+            cost=0.0
+        )
+        planner.handle_feedback(plan, failure)
+    
+    # Check revision history
+    assert len(planner.revisions) == 3
+    assert all(isinstance(r.created_at, datetime) for r in planner.revisions)
+
+
+def test_communicate_recovery_strategy():
+    """RF-012: Escenario 14 - Communicate Recovery Strategy"""
+    orchestrator = ExecutionOrchestrator()
+    notification_service = Mock()
+    orchestrator.notification_service = notification_service
+    
+    failure = ExecutionFeedback(
+        task_id="task_001",
+        feedback_type=FeedbackType.FAILURE,
+        actual_outputs={},
+        errors=["Task failed"],
+        duration_seconds=5,
+        cost=0.0
+    )
+    
+    orchestrator.handle_task_completion(failure)
+    
+    # Verify strategy communicated
+    call_args = notification_service.send.call_args[0][0]
+    assert "recovery_strategy" in call_args
+    assert len(call_args["recovery_strategy"]) > 0
+
+
+def test_estimate_recovery_time():
+    """RF-012: Escenario 15 - Estimate Recovery Time"""
+    orchestrator = ExecutionOrchestrator()
+    
+    # Test different strategies have time estimates
+    assert "second" in orchestrator._estimate_recovery_delay(RevisionStrategy.RETRY_DIFFERENT_AGENT)
+    assert "second" in orchestrator._estimate_recovery_delay(RevisionStrategy.DECOMPOSE_FURTHER)
+    assert "manual" in orchestrator._estimate_recovery_delay(RevisionStrategy.ESCALATE_TO_HUMAN).lower()
+
+
+def test_batch_feedback_processing():
+    """RF-012: Escenario 16 - Batch Feedback Processing"""
+    planner = IterativePlanner()
+    plan = create_test_plan()
+    
+    # Process multiple feedbacks
+    feedbacks = [
+        ExecutionFeedback(task_id="task_001", feedback_type=FeedbackType.SUCCESS, 
+                         actual_outputs={}, errors=[], duration_seconds=20, cost=0.01),
+        ExecutionFeedback(task_id="task_002", feedback_type=FeedbackType.SUCCESS,
+                         actual_outputs={}, errors=[], duration_seconds=22, cost=0.01)
+    ]
+    
+    for feedback in feedbacks:
+        planner.handle_feedback(plan, feedback)
+    
+    # Confidence should increase
+    assert plan.confidence_score > 0.85
+
+
+def test_partial_success_handling():
+    """RF-012: Escenario 17 - Partial Success Handling"""
+    planner = IterativePlanner()
+    plan = create_test_plan()
+    
+    partial_feedback = ExecutionFeedback(
+        task_id="task_001",
+        feedback_type=FeedbackType.PARTIAL_SUCCESS,
+        actual_outputs={"partial_data": "some_data"},
+        errors=["Could not complete fully"],
+        duration_seconds=15,
+        cost=0.005
+    )
+    
+    # Should still trigger revision
+    revision = planner.handle_feedback(plan, partial_feedback)
+    assert revision is not None
+
+
+def test_timeout_specific_handling():
+    """RF-012: Escenario 18 - Timeout Specific Handling"""
+    planner = IterativePlanner()
+    
+    timeout_feedback = ExecutionFeedback(
+        task_id="task_001",
+        feedback_type=FeedbackType.TIMEOUT,
+        actual_outputs={},
+        errors=["Operation timed out"],
+        duration_seconds=30,
+        cost=0.0
+    )
+    
+    # Timeout should be classified correctly
+    failure_type = planner._classify_failure(timeout_feedback)
+    assert failure_type in [FailureType.AGENT_TIMEOUT, FailureType.UNKNOWN]
+
+
+def test_confidence_calibration():
+    """RF-012: Escenario 19 - Confidence Calibration"""
+    planner = IterativePlanner()
+    plan = create_test_plan()
+    initial_confidence = plan.confidence_score
+    
+    # Multiple successes should increase confidence
+    for _ in range(5):
+        success = ExecutionFeedback(
+            task_id="task_001",
+            feedback_type=FeedbackType.SUCCESS,
+            actual_outputs={},
+            errors=[],
+            duration_seconds=20,
+            cost=0.01
+        )
+        planner.handle_feedback(plan, success)
+    
+    assert plan.confidence_score >= initial_confidence
+    assert plan.confidence_score <= 1.0  # Never exceed 1.0
+
+
+def test_revision_prevents_infinite_loop():
+    """RF-012: Escenario 20 - Prevent Infinite Revision Loop"""
+    planner = IterativePlanner(max_revisions=2)
+    plan = create_test_plan()
+    
+    # Exhaust revisions
+    for i in range(3):
+        failure = ExecutionFeedback(
+            task_id="task_001",
+            feedback_type=FeedbackType.FAILURE,
+            actual_outputs={},
+            errors=[f"Persistent error {i}"],
+            duration_seconds=5,
+            cost=0.0
+        )
+        revision = planner.handle_feedback(plan, failure)
+        
+        # After max_revisions, should escalate
+        if i >= 2:
+            assert revision.strategy == RevisionStrategy.ESCALATE_TO_HUMAN

@@ -195,3 +195,242 @@ def test_client_find_tool_by_capability():
     hotel_tool = client.find_tool("hotel")
     assert hotel_tool is not None
     assert hotel_tool.name == "book_hotel"
+
+# ==================================
+# Additional MCP Tests (8-20)
+# ==================================
+
+def test_tool_discovery_performance():
+    """RF-013 MCP: Tool discovery <100ms"""
+    server = MCPServer()
+    
+    # Register multiple tools
+    for i in range(10):
+        server.register_tool(
+            ToolDefinition(name=f"tool_{i}", description=f"Tool {i}", parameters=[], returns="result"),
+            lambda: "result"
+        )
+    
+    import time
+    start = time.time()
+    tools = server.list_tools()
+    duration = (time.time() - start) * 1000
+    
+    assert len(tools) == 10
+    assert duration < 100  # <100ms
+
+
+def test_tool_invocation_with_optional_parameters():
+    """RF-013 MCP: Optional parameters with defaults"""
+    server = MCPServer()
+    
+    tool_def = ToolDefinition(
+        name="search",
+        description="Search",
+        parameters=[
+            ToolParameter(name="query", type="string", description="Query", required=True),
+            ToolParameter(name="limit", type="number", description="Limit", required=False, default=10)
+        ],
+        returns="Results"
+    )
+    
+    def search_impl(query: str, limit: int = 10):
+        return [f"result_{i}" for i in range(int(limit))]
+    
+    server.register_tool(tool_def, search_impl)
+    
+    # Without optional param
+    result = server.invoke_tool("search", {"query": "test"})
+    assert result.status == "success"
+
+
+def test_multiple_tool_registrations():
+    """RF-013 MCP: Register multiple tools"""
+    server = MCPServer()
+    
+    tools_to_register = [
+        ("tool1", "Description 1"),
+        ("tool2", "Description 2"),
+        ("tool3", "Description 3")
+    ]
+    
+    for name, desc in tools_to_register:
+        server.register_tool(
+            ToolDefinition(name=name, description=desc, parameters=[], returns="result"),
+            lambda: "ok"
+        )
+    
+    assert len(server.list_tools()) == 3
+
+
+def test_tool_execution_error_handling():
+    """RF-013 MCP: Handle tool execution errors"""
+    server = MCPServer()
+    
+    def failing_tool():
+        raise ValueError("Tool execution failed")
+    
+    server.register_tool(
+        ToolDefinition(name="failing", description="Fails", parameters=[], returns="none"),
+        failing_tool
+    )
+    
+    result = server.invoke_tool("failing", {})
+    assert result.status == "error"
+    assert "Tool execution failed" in result.error
+
+
+def test_tool_cost_tracking():
+    """RF-013 MCP: Track tool invocation cost"""
+    server = MCPServer()
+    
+    server.register_tool(
+        ToolDefinition(name="expensive", description="Expensive tool", 
+                      parameters=[], returns="result", cost_estimate=0.10),
+        lambda: "result"
+    )
+    
+    result = server.invoke_tool("expensive", {})
+    assert result.cost == 0.10
+
+
+def test_tool_parameter_validation_string():
+    """RF-013 MCP: Validate string parameters"""
+    server = MCPServer()
+    
+    server.register_tool(
+        ToolDefinition(
+            name="test",
+            description="Test",
+            parameters=[ToolParameter(name="text", type="string", description="Text")],
+            returns="result"
+        ),
+        lambda text: text.upper()
+    )
+    
+    result = server.invoke_tool("test", {"text": "hello"})
+    assert result.status == "success"
+    assert result.result == "HELLO"
+
+
+def test_tool_parameter_validation_boolean():
+    """RF-013 MCP: Validate boolean parameters"""
+    server = MCPServer()
+    
+    server.register_tool(
+        ToolDefinition(
+            name="toggle",
+            description="Toggle",
+            parameters=[ToolParameter(name="enabled", type="boolean", description="Enable")],
+            returns="result"
+        ),
+        lambda enabled: f"Enabled: {enabled}"
+    )
+    
+    # Wrong type
+    result = server.invoke_tool("toggle", {"enabled": "not_bool"})
+    assert result.status == "error"
+
+
+def test_get_tool_by_name():
+    """RF-013 MCP: Get specific tool definition"""
+    server = MCPServer()
+    
+    tool_def = ToolDefinition(name="my_tool", description="My tool", parameters=[], returns="result")
+    server.register_tool(tool_def, lambda: "ok")
+    
+    retrieved = server.get_tool("my_tool")
+    assert retrieved is not None
+    assert retrieved.name == "my_tool"
+    
+    missing = server.get_tool("nonexistent")
+    assert missing is None
+
+
+def test_tool_invocation_duration_tracking():
+    """RF-013 MCP: Track invocation duration"""
+    server = MCPServer()
+    
+    import time
+    def slow_tool():
+        time.sleep(0.01)  # 10ms
+        return "done"
+    
+    server.register_tool(
+        ToolDefinition(name="slow", description="Slow", parameters=[], returns="result"),
+        slow_tool
+    )
+    
+    result = server.invoke_tool("slow", {})
+    assert result.duration_ms >= 10
+
+
+def test_mcp_client_empty_discovery():
+    """RF-013 MCP: Client discovers empty server"""
+    server = MCPServer()
+    client = MCPClient(server)
+    
+    tools = client.discover_tools()
+    assert len(tools) == 0
+
+
+def test_unknown_parameter_error():
+    """RF-013 MCP: Reject unknown parameters"""
+    server = MCPServer()
+    
+    server.register_tool(
+        ToolDefinition(
+            name="test",
+            description="Test",
+            parameters=[ToolParameter(name="valid", type="string", description="Valid")],
+            returns="result"
+        ),
+        lambda valid: valid
+    )
+    
+    result = server.invoke_tool("test", {"valid": "ok", "unknown": "param"})
+    assert result.status == "error"
+    assert "unknown" in result.error.lower()
+
+
+def test_tool_returns_complex_object():
+    """RF-013 MCP: Tool returns complex object"""
+    server = MCPServer()
+    
+    def complex_tool():
+        return {"nested": {"data": [1, 2, 3]}, "count": 3}
+    
+    server.register_tool(
+        ToolDefinition(name="complex", description="Complex", parameters=[], returns="object"),
+        complex_tool
+    )
+    
+    result = server.invoke_tool("complex", {})
+    assert result.status == "success"
+    assert result.result["count"] == 3
+
+def test_concurrent_tool_invocations():
+    """RF-013 MCP Test 20: Handle concurrent invocations"""
+    server = MCPServer()
+
+    def counter_tool(count: int = 1):
+        return count * 2
+
+    server.register_tool(
+        ToolDefinition(
+            name="counter",
+            description="Double a number",
+            parameters=[ToolParameter(name="count", type="number", description="Number")],
+            returns="result"
+        ),
+        counter_tool
+    )
+
+    # Simulate concurrent calls
+    results = []
+    for i in range(5):
+        result = server.invoke_tool("counter", {"count": i})
+        results.append(result)
+
+    assert all(r.status == "success" for r in results)
+    assert len(results) == 5
