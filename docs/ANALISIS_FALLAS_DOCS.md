@@ -9,8 +9,13 @@ Branch: claude/complete-docs-generation-01PQVB5kB6yrSmSZ46fb65xd
 
 **Total archivos .md:** 862
 **Total directorios:** 179
-**Fallas criticas identificadas:** 15
+**Fallas criticas identificadas:** 13 (15 originales - 2 resueltas)
 **Fallas menores identificadas:** 8
+
+**ACTUALIZACION 2025-11-16:**
+- RESUELTA: QA distribuido por dominio (ver ADR-020)
+- ACLARADO: Requisitos en 4 lugares es CORRECTO por diseño de dominio
+- NUEVO: ADR-020 documenta organizacion por dominio
 
 ---
 
@@ -47,29 +52,27 @@ rm -rf gobernanza/ai/
 
 ---
 
-### 2. DUPLICACION: requisitos en 3 ubicaciones
+### 2. ~~DUPLICACION: requisitos en 3 ubicaciones~~ - ACLARADO: CORRECTO POR DISEÑO
 
-**Problema:** Requisitos duplicados en multiples dominios
+**ACTUALIZACION:** Esta NO es una falla. Es el diseño correcto siguiendo organizacion por dominio (ver ADR-020).
 
-**Ubicaciones:**
-1. docs/gobernanza/requisitos/ - Requisitos generales, casos de uso
-2. docs/infraestructura/requisitos/ - Requisitos de infraestructura
-3. docs/backend/requisitos/ - Requisitos de backend
-4. docs/frontend/requisitos/ - Requisitos de frontend
+**Ubicaciones (CORRECTAS):**
+1. docs/gobernanza/requisitos/ - Requisitos de negocio, stakeholders, transversales
+2. docs/infraestructura/requisitos/ - Requisitos especificos de infraestructura
+3. docs/backend/requisitos/ - Requisitos especificos de backend
+4. docs/frontend/requisitos/ - Requisitos especificos de frontend
 
-**Analisis:**
-- gobernanza/requisitos/ tiene contenido GENERICO que deberia distribuirse
-- infraestructura/requisitos/ es ESPECIFICO de infraestructura (OK)
-- backend/requisitos/ es ESPECIFICO de backend (OK)
-- frontend/requisitos/ es ESPECIFICO de frontend (OK)
+**Principio:** Cada dominio mantiene sus propios requisitos. La trazabilidad entre dominios se maneja mediante matriz en gobernanza/requisitos/MATRIZ_TRAZABILIDAD.md
 
-**Solucion:**
+**Accion requerida:**
 ```bash
-# Mover requisitos genericos/negocio de gobernanza/ a ubicaciones correctas
-# Mantener solo requisitos especificos en cada dominio
+# Crear matriz de trazabilidad
+# NO consolidar - mantener separados por dominio
 ```
 
-**Impacto:** ALTO - No se sabe donde buscar requisitos
+**Estado:** CORRECTO - No requiere cambios
+
+**Referencia:** ADR-020 Seccion "Regla 3: Requisitos por dominio con matriz de trazabilidad"
 
 ---
 
@@ -92,21 +95,26 @@ rm -rf gobernanza/ai/
 
 ---
 
-### 4. DUPLICACION: qa/ en gobernanza/procesos/qa/ y docs/qa/
+### 4. ~~DUPLICACION: qa/ en gobernanza/procesos/qa/ y docs/qa/~~ - RESUELTO
 
-**Problema:** QA duplicado
+**Estado:** RESUELTO - 2025-11-16
 
-**Ubicacion 1:** docs/qa/ (primer nivel - CORRECTO)
-**Ubicacion 2:** docs/gobernanza/procesos/qa/ (INCORRECTO)
+**Accion tomada:** QA distribuido por dominio siguiendo ADR-020
 
-**Solucion:**
-```bash
-# Consolidar en docs/qa/
-mv gobernanza/procesos/qa/* qa/
-rm -rf gobernanza/procesos/qa/
+**Estructura final:**
+```
+backend/qa/        # Testing backend (pytest, unit, integration)
+frontend/qa/       # Testing frontend (jest, e2e, cypress)
+devops/qa/         # Testing CI/CD, pipelines
+gobernanza/qa/     # Solo estrategia QA general (no testing especifico)
 ```
 
-**Impacto:** MEDIO - Confusion sobre donde estan los docs de QA
+**Beneficios:**
+- Cada dominio responsable de su propio testing
+- Sin duplicacion
+- Ownership claro
+
+**Referencia:** ADR-020 Seccion "Regla 4: QA por dominio"
 
 ---
 
