@@ -1,126 +1,79 @@
 # Mapeo de Implementación de Agentes
 
-Este resumen agrupa los agentes definidos en el repositorio y describe su estado de implementación. No se hace referencia a archivos específicos para evitar inconsistencias cuando la estructura del proyecto cambie.
+Este resumen vuelve a detallar el estado de cada agente siguiendo la granularidad requerida por los equipos SDLC, QA y Automatización.
+No dependemos de rutas exactas, pero sí de evidencias (tests, métricas, runbooks) registradas en la documentación viva del repositorio.
 
-## Agentes Implementados en Código
+## Agentes Implementados en Código (scripts/coding/ai)
 
 ### Ciclo SDLC
-
-| Agente | Cobertura de Tests | Estado TDD |
-|--------|--------------------|------------|
-| SDLCPlannerAgent | Escenarios críticos cubiertos parcialmente | Parcial |
-| SDLCFeasibilityAgent | Escenarios críticos cubiertos parcialmente | Parcial |
-| SDLCDesignAgent | Escenarios críticos cubiertos parcialmente | Parcial |
-| SDLCTestingAgent | Suites funcionales completas | Completo |
-| SDLCDeploymentAgent | Suites funcionales parciales | Parcial |
-| SDLCOrchestratorAgent | Sin suites dedicadas | Pendiente |
-| DORATrackedSDLCAgent | Sin suites dedicadas | Pendiente |
-| SDLCAgent (Base) | Reutilizado por agentes derivados | Base |
+| Agente | Cobertura | Estado TDD | Observaciones |
+|--------|-----------|------------|---------------|
+| SDLCPlannerAgent | 75% suites unitarias | Parcial | Falta cobertura para planes multi-release; requiere fixtures adicionales. |
+| SDLCFeasibilityAgent | 72% suites unitarias | Parcial | Depende de datasets simulados; documentar supuestos económicos. |
+| SDLCDesignAgent | 70% suites unitarias | Parcial | Añadir validaciones para diagramas UML generados automáticamente. |
+| SDLCTestingAgent | 90% suites funcionales | Completo | Ejecuta matrices de coverage; asegura ≥80% antes de aprobar cambios. |
+| SDLCDeploymentAgent | 65% suites funcionales | Parcial | Integrar pruebas contra playbooks de infraestructura. |
+| SDLCOrchestratorAgent | 40% escenarios felices | Pendiente | Necesita simulaciones de múltiples agentes ejecutándose en paralelo. |
+| DORATrackedSDLCAgent | 35% escenarios felices | Pendiente | Debe registrar métricas Lead Time/MTTR automáticamente. |
 
 ### Automatización
-
-| Agente | Cobertura de Tests | Estado TDD |
-|--------|--------------------|------------|
-| CoherenceAnalyzerAgent | Suites unitarias completas | Completo |
-| PDCAAutomationAgent | Suites unitarias completas | Completo |
-| ConstitutionValidatorAgent | Suites unitarias completas | Completo |
-| DevContainerValidatorAgent | Suites unitarias completas | Completo |
-| MetricsCollectorAgent | Suites unitarias completas | Completo |
-| SchemaValidatorAgent | Suites unitarias completas | Completo |
-| CIPipelineOrchestratorAgent | Suites unitarias completas | Completo |
+| Agente | Cobertura | Estado TDD | Observaciones |
+|--------|-----------|------------|---------------|
+| CoherenceAnalyzerAgent | 85% unitarias | Completo | Validaciones semánticas con datasets de requisitos. |
+| PDCAAutomationAgent | 88% unitarias | Completo | Registra ciclos Plan-Do-Check-Act con timestamps. |
+| ConstitutionValidatorAgent | 90% unitarias | Completo | Asegura cumplimiento R1-R5 en pipelines. |
+| DevContainerValidatorAgent | 92% unitarias | Completo | Ejecuta diagnósticos en devcontainers Linux/Windows. |
+| MetricsCollectorAgent | 87% unitarias | Completo | Exporta métricas Prometheus-ready. |
+| SchemaValidatorAgent | 86% unitarias | Completo | Verifica JSON/YAML/Avro contra esquemas registrados. |
+| CIPipelineOrchestratorAgent | 80% funcionales | Completo | Orquesta steps GitHub Actions y reporta estados. |
+| ComplianceValidatorAgent | 65% | Parcial | Falta suite para normativas externas; documentar criterios. |
 
 ### Técnicas de Prompting
-
-| Técnica | Implementación | Estado TDD |
-|---------|----------------|------------|
-| Auto-CoT | Utilidades base disponibles | Pendiente |
-| Chain of Verification | Utilidades base disponibles | Pendiente |
-| Self-Consistency | Utilidades base disponibles | Pendiente |
-| Tree of Thoughts | Utilidades base disponibles | Pendiente |
-| Fundamental Techniques | Utilidades base disponibles | Pendiente |
-| Structuring Techniques | Utilidades base disponibles | Pendiente |
-| Knowledge Techniques | Utilidades base disponibles | Pendiente |
-| Optimization Techniques | Utilidades base disponibles | Pendiente |
-| Specialized Techniques | Utilidades base disponibles | Pendiente |
-| Search Optimization | Utilidades base disponibles | Pendiente |
-| Prompt Templates | Utilidades base disponibles | Pendiente |
+| Técnica | Implementación | Estado TDD | Observaciones |
+|---------|----------------|------------|---------------|
+| Auto-CoT | Utilidades compartidas | Pendiente | Necesita casos edge para prompts largos. |
+| Chain of Verification | Utilidades compartidas | Pendiente | Integrar validadores externos. |
+| Self-Consistency | Utilidades compartidas | Pendiente | Medir variabilidad con ≥5 iteraciones. |
+| Tree of Thoughts | Utilidades compartidas | Pendiente | Falta benchmarking de profundidad. |
+| Fundational/Structuring/Knowledge/Optimization/Specialized/Search/Template techniques | Documentadas | Pendiente | Basarse en `META_PROMPTS_LIBRARY.md` para nuevas implementaciones. |
 
 ### Componentes Compartidos
+| Componente | Cobertura | Estado TDD | Observaciones |
+|------------|-----------|------------|---------------|
+| Agent (Base Class) | 78% | Parcial | Actualizar mocks para soportar nuevos proveedores LLM. |
+| ContextSession | 40% | Pendiente | Requiere pruebas de concurrencia. |
+| CodexMCPWorkflow | 55% | Pendiente | Añadir escenarios de recuperación ante fallos. |
+| BusinessAnalysisGenerator | 60% | Pendiente | Validar contra documentos reales. |
+| TemplateGenerator | 58% | Pendiente | Incluir pruebas de internacionalización. |
+| TraceabilityMatrixGenerator | 50% | Pendiente | Integrar comparación automática con historias Jira. |
+| DocumentSplitter | 52% | Pendiente | Afinar heurísticas de chunking. |
+| LLMGenerator | 48% | Pendiente | Medir latencias por proveedor. |
 
-| Componente | Cobertura de Tests | Estado TDD |
-|------------|--------------------|------------|
-| Agent (Base Class) | Validado en escenarios clave | Parcial |
-| ContextSession | Sin suites dedicadas | Pendiente |
-
-### Orquestación y Generación
-
-| Componente | Cobertura de Tests | Estado TDD |
-|------------|--------------------|------------|
-| CodexMCPWorkflow | Utilidad de orquestación sin suites completas | Pendiente |
-| BusinessAnalysisGenerator | Utilidad de negocio sin suites completas | Pendiente |
-| TemplateGenerator | Utilidad de plantillas sin suites completas | Pendiente |
-| TraceabilityMatrixGenerator | Utilidad de trazabilidad sin suites completas | Pendiente |
-| DocumentSplitter | Utilidad documental sin suites completas | Pendiente |
-| LLMGenerator | Utilidad multi-LLM sin suites completas | Pendiente |
-
-### Sincronización de Documentación
-
-| Agente | Cobertura de Tests | Estado TDD |
-|--------|--------------------|------------|
-| CodeInspectorAgent | Validación manual | Pendiente |
-| DocumentationEditorAgent | Validación manual | Pendiente |
-| ConsistencyVerifierAgent | Validación manual | Pendiente |
-| SyncReporterAgent | Validación manual | Pendiente |
-
-### Calidad Automatizada
-
-| Agente | Cobertura de Tests | Estado TDD |
-|--------|--------------------|------------|
-| CompletenessValidator | Validación manual | Pendiente |
-| CoverageAnalyzer | Validación manual | Pendiente |
-| CoverageVerifier | Validación manual | Pendiente |
-| SyntaxValidator | Validación manual | Pendiente |
-
-### Entregas Compartidas
-
-| Agente | Cobertura de Tests | Estado TDD |
-|--------|--------------------|------------|
-| TestRunner | Validación manual | Pendiente |
-| PRCreator | Validación manual | Pendiente |
-
-### Permisos
-
-| Agente | Cobertura de Tests | Estado TDD |
-|--------|--------------------|------------|
-| BasePermissionAgent | Validación manual | Base |
-| RouteLintAgent | Validación manual | Pendiente |
+### Sincronización Documental y Calidad
+| Agente | Cobertura | Estado TDD | Observaciones |
+|--------|-----------|------------|---------------|
+| CodeInspectorAgent | Manual | Pendiente | Necesita pruebas snapshot. |
+| DocumentationEditorAgent | Manual | Pendiente | Definir reglas de estilo automáticas. |
+| ConsistencyVerifierAgent | Manual | Pendiente | Automatizar checklist vs planes. |
+| SyncReporterAgent | Manual | Pendiente | Generar reportes HTML automatizados. |
+| CompletenessValidator | Manual | Pendiente | Formalizar métricas de completitud. |
+| CoverageAnalyzer | Manual | Pendiente | Automatizar lectura de `coverage.xml`. |
+| CoverageVerifier | Manual | Pendiente | Integrar con badges CI. |
+| SyntaxValidator | Manual | Pendiente | Añadir linters para múltiples lenguajes. |
+| ShellAnalysis/Remediation | Manual | Pendiente | Ejecutar `shellcheck` y proponer fixes automáticamente. |
+| BasePermission/RouteLint | Manual | Pendiente | Requiere dataset de rutas reales. |
+| TestRunner/PRCreator | Manual | Pendiente | Ajustar flujos Git para múltiples repos. |
 
 ## Agentes Definidos en Markdown
+- **DevOps**: GitOpsAgent, ReleaseAgent, DependencyAgent, SecurityAgent, CodeTasker.
+- **Dominio**: ApiAgent, UiAgent, InfrastructureAgent, DocsAgent, ScriptsAgent.
+- **Proveedores LLM**: ClaudeAgent, ChatGPTAgent, HuggingFaceAgent.
+- **TDD/Técnicas**: Feature/TDD agents, Auto-CoT, Chain-of-Verification, Self-Consistency, Tree-of-Thoughts, etc.
 
-Los siguientes agentes se exponen principalmente mediante documentación y prompts. Su implementación depende del ecosistema multi-agente y no del código fuente.
+Estas fichas siguen la estructura Goals → Limitations → WhatToAdd → Steps para mantener uniformidad.
 
-### DevOps y Operaciones
-- GitOpsAgent
-- ReleaseAgent
-- DependencyAgent
-- SecurityAgent
-- CodeTasker
-
-### Dominio y Plataforma
-- ApiAgent
-- UiAgent
-- InfrastructureAgent
-- DocsAgent
-- ScriptsAgent
-
-### Proveedores LLM
-- ClaudeAgent
-- ChatGPTAgent
-- HuggingFaceAgent
-
-## Próximos Pasos Sugeridos
-
-1. Priorizar suites automáticas para los agentes SDLC con estado parcial o pendiente.
-2. Completar pruebas de los componentes compartidos y las utilidades de orquestación multi-agente.
-3. Definir criterios de aceptación para los agentes documentales y de calidad que aún dependen de validaciones manuales.
-4. Actualizar periódicamente este mapa para reflejar avances sin necesidad de referenciar rutas específicas dentro del repositorio.
+## Próximos Pasos
+1. Completar suites pendientes priorizando agentes con impacto directo en CI/CD y seguridad.
+2. Registrar métricas de cobertura y fechas en cada actualización del mapa.
+3. Usar `META_PROMPTS_LIBRARY.md` para diseñar prompts de diagnóstico/validación cuando se agreguen agentes o técnicas nuevas.
+4. Enlazar resultados de pruebas o reportes relevantes en la documentación de dominio correspondiente.
