@@ -1,0 +1,412 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "IACT Constitution Configuration Schema",
+  "description": "Schema for .constitucion.yaml - governance rules for IACT project",
+  "type": "object",
+  "required": ["version", "metadata", "principles", "rules", "metrics"],
+  "properties": {
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+$",
+      "description": "Configuration version (semver format)"
+    },
+    "metadata": {
+      "type": "object",
+      "required": ["project", "created", "last_updated"],
+      "properties": {
+        "project": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Project name"
+        },
+        "created": {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "description": "Creation date (YYYY-MM-DD)"
+        },
+        "last_updated": {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "description": "Last update date (YYYY-MM-DD)"
+        },
+        "maintained_by": {
+          "type": "string",
+          "description": "Maintainer role/name"
+        },
+        "contact": {
+          "type": "string",
+          "description": "Contact email"
+        },
+        "documentation": {
+          "type": "string",
+          "description": "Path to documentation"
+        }
+      }
+    },
+    "principles": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "title", "description", "rationale", "applies_to"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^P\\d+_[a-z_]+$",
+            "description": "Principle ID (format: P1_name)"
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Principle title"
+          },
+          "description": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Detailed description"
+          },
+          "rationale": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Why this principle exists"
+          },
+          "applies_to": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": ["ui", "api", "docs", "infrastructure", "scripts", "all"]
+            },
+            "minItems": 1,
+            "description": "Scope where principle applies"
+          },
+          "established": {
+            "type": "string",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+            "description": "Date principle was established"
+          },
+          "reviewed": {
+            "type": "string",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+            "description": "Last review date"
+          },
+          "review_frequency": {
+            "type": "string",
+            "enum": ["never", "quarterly", "monthly", "yearly"],
+            "description": "How often to review"
+          },
+          "validation_script": {
+            "type": "string",
+            "description": "Optional validation script path"
+          },
+          "auto_fix": {
+            "type": "string",
+            "description": "Optional auto-fix script path"
+          },
+          "enforcement": {
+            "type": "string",
+            "enum": ["error", "warning"],
+            "description": "Enforcement level"
+          }
+        }
+      }
+    },
+    "rules": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "principle", "title", "severity", "scope", "enabled", "condition", "action", "message"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^R\\d+_[a-z_]+$",
+            "description": "Rule ID (format: R1_name)"
+          },
+          "principle": {
+            "type": "string",
+            "pattern": "^P\\d+_[a-z_]+$",
+            "description": "Reference to principle ID"
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Rule title"
+          },
+          "severity": {
+            "type": "string",
+            "enum": ["error", "warning"],
+            "description": "Severity level"
+          },
+          "scope": {
+            "type": "string",
+            "enum": ["pre-commit", "pre-push", "devcontainer-init", "manual", "ci-local"],
+            "description": "When rule is evaluated"
+          },
+          "enabled": {
+            "type": "boolean",
+            "description": "Whether rule is active"
+          },
+          "condition": {
+            "type": "object",
+            "required": ["type"],
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": ["branch_check", "file_content_check", "files_analysis", "files_trigger_validation", "command_execution", "environment_check"],
+                "description": "Type of condition check"
+              },
+              "script": {
+                "type": "string",
+                "description": "Script to execute or inline script"
+              },
+              "files_pattern": {
+                "type": "string",
+                "description": "File pattern for matching"
+              },
+              "regex": {
+                "type": "string",
+                "description": "Regex pattern for content matching"
+              },
+              "trigger_files": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Files that trigger validation"
+              },
+              "validation_script": {
+                "type": "string",
+                "description": "Validation script path"
+              },
+              "command": {
+                "type": "string",
+                "description": "Command to execute"
+              },
+              "success_exit_code": {
+                "type": "integer",
+                "description": "Expected exit code for success"
+              },
+              "checks": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                },
+                "description": "List of checks to perform"
+              },
+              "logic": {
+                "type": "string",
+                "description": "Inline logic description"
+              }
+            }
+          },
+          "action": {
+            "type": "string",
+            "enum": ["block", "warn", "block_if_validation_fails"],
+            "description": "Action to take on violation"
+          },
+          "message": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Message to display on violation"
+          },
+          "metrics": {
+            "type": "object",
+            "properties": {
+              "violations_last_30_days": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "violations_all_time": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "target": {
+                "type": "integer",
+                "minimum": 0
+              }
+            }
+          },
+          "exemptions": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "role": {
+                  "type": "string"
+                },
+                "reason": {
+                  "type": "string"
+                },
+                "requires_justification": {
+                  "type": "boolean"
+                }
+              }
+            }
+          },
+          "automation": {
+            "type": "object",
+            "properties": {
+              "detection_script": {
+                "type": "string"
+              },
+              "auto_fix_script": {
+                "type": "string"
+              },
+              "script": {
+                "type": "string"
+              },
+              "timeout": {
+                "type": "integer",
+                "minimum": 1
+              }
+            }
+          },
+          "evolution": {
+            "type": "object",
+            "properties": {
+              "candidate_for_error": {
+                "type": "boolean"
+              },
+              "reason": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "evolution": {
+      "type": "object",
+      "properties": {
+        "process": {
+          "type": "string",
+          "description": "Process for evolving rules"
+        },
+        "guidelines": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Guidelines for rule evolution"
+        },
+        "changelog": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["date", "change", "author"],
+            "properties": {
+              "date": {
+                "type": "string",
+                "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+              },
+              "change": {
+                "type": "string"
+              },
+              "rules_added": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "rules_modified": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              },
+              "rules_removed": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "author": {
+                "type": "string"
+              },
+              "approved_by": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "metrics": {
+      "type": "object",
+      "required": ["collection", "kpis", "reports"],
+      "properties": {
+        "collection": {
+          "type": "object",
+          "required": ["frequency", "time", "retention_days", "storage"],
+          "properties": {
+            "frequency": {
+              "type": "string",
+              "enum": ["daily", "weekly", "monthly"]
+            },
+            "time": {
+              "type": "string",
+              "pattern": "^\\d{2}:\\d{2}$"
+            },
+            "retention_days": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "storage": {
+              "type": "string"
+            }
+          }
+        },
+        "kpis": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name", "description", "calculation", "target"],
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
+              "calculation": {
+                "type": "string"
+              },
+              "target": {
+                "type": ["integer", "number"]
+              },
+              "current": {
+                "type": ["integer", "number", "null"]
+              },
+              "alert_threshold": {
+                "type": ["integer", "number"]
+              }
+            }
+          }
+        },
+        "reports": {
+          "type": "object",
+          "properties": {
+            "daily": {
+              "type": "array",
+              "items": {
+                "type": "object"
+              }
+            },
+            "weekly": {
+              "type": "array",
+              "items": {
+                "type": "object"
+              }
+            },
+            "monthly": {
+              "type": "array",
+              "items": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
