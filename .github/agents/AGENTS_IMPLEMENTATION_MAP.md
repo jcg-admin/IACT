@@ -1,213 +1,126 @@
 # Mapeo de Implementación de Agentes
 
-Este documento mapea todos los agentes del proyecto a su implementación en código.
+Este resumen agrupa los agentes definidos en el repositorio y describe su estado de implementación. No se hace referencia a archivos específicos para evitar inconsistencias cuando la estructura del proyecto cambie.
 
-## Agentes Implementados (Python)
+## Agentes Implementados en Código
 
-### SDLC Agents
+### Ciclo SDLC
 
-| Agente | Implementación | Tests | Estado TDD |
-|--------|---------------|-------|------------|
-| SDLCPlannerAgent | `scripts/coding/ai/sdlc/planner_agent.py` | `scripts/coding/ai/tests/test_sdlc_planner_agent.py` | Parcial |
-| SDLCFeasibilityAgent | `scripts/coding/ai/sdlc/feasibility_agent.py` | `scripts/coding/ai/tests/test_sdlc_feasibility_agent.py` | Parcial |
-| SDLCDesignAgent | `scripts/coding/ai/sdlc/design_agent.py` | `scripts/coding/ai/tests/test_sdlc_design_agent.py` | Parcial |
-| SDLCTestingAgent | `scripts/coding/ai/sdlc/testing_agent.py` | `scripts/coding/ai/tests/test_sdlc_testing_agent.py` | Completo |
-| SDLCDeploymentAgent | `scripts/coding/ai/sdlc/deployment_agent.py` | `scripts/coding/ai/tests/test_sdlc_deployment_agent.py` | Parcial |
-| SDLCAgent (Base) | `scripts/coding/ai/sdlc/base_agent.py` | - | - |
+| Agente | Cobertura de Tests | Estado TDD |
+|--------|--------------------|------------|
+| SDLCPlannerAgent | Escenarios críticos cubiertos parcialmente | Parcial |
+| SDLCFeasibilityAgent | Escenarios críticos cubiertos parcialmente | Parcial |
+| SDLCDesignAgent | Escenarios críticos cubiertos parcialmente | Parcial |
+| SDLCTestingAgent | Suites funcionales completas | Completo |
+| SDLCDeploymentAgent | Suites funcionales parciales | Parcial |
+| SDLCOrchestratorAgent | Sin suites dedicadas | Pendiente |
+| DORATrackedSDLCAgent | Sin suites dedicadas | Pendiente |
+| SDLCAgent (Base) | Reutilizado por agentes derivados | Base |
 
-### Automation Agents
+### Automatización
 
-| Agente | Implementación | Tests | Estado TDD |
-|--------|---------------|-------|------------|
-| CoherenceAnalyzerAgent | `scripts/coding/ai/automation/coherence_analyzer_agent.py` | `scripts/coding/ai/tests/test_coherence_analyzer_agent.py` | Completo |
-| PDCAAutomationAgent | `scripts/coding/ai/automation/pdca_agent.py` | `scripts/coding/ai/tests/test_pdca_agent.py` | Completo |
-| ConstitutionValidatorAgent | `scripts/coding/ai/automation/constitution_validator_agent.py` | `scripts/coding/ai/tests/test_constitution_validator_agent.py` | Completo |
-| DevContainerValidatorAgent | `scripts/coding/ai/automation/devcontainer_validator_agent.py` | `scripts/coding/ai/tests/test_devcontainer_validator_agent.py` | Completo |
-| MetricsCollectorAgent | `scripts/coding/ai/automation/metrics_collector_agent.py` | `scripts/coding/ai/tests/test_metrics_collector_agent.py` | Completo |
-| SchemaValidatorAgent | `scripts/coding/ai/automation/schema_validator_agent.py` | `scripts/coding/ai/tests/test_schema_validator_agent.py` | Completo |
-| CIPipelineOrchestratorAgent | `scripts/coding/ai/automation/ci_pipeline_orchestrator_agent.py` | `scripts/coding/ai/tests/test_ci_pipeline_orchestrator_agent.py` | Completo |
+| Agente | Cobertura de Tests | Estado TDD |
+|--------|--------------------|------------|
+| CoherenceAnalyzerAgent | Suites unitarias completas | Completo |
+| PDCAAutomationAgent | Suites unitarias completas | Completo |
+| ConstitutionValidatorAgent | Suites unitarias completas | Completo |
+| DevContainerValidatorAgent | Suites unitarias completas | Completo |
+| MetricsCollectorAgent | Suites unitarias completas | Completo |
+| SchemaValidatorAgent | Suites unitarias completas | Completo |
+| CIPipelineOrchestratorAgent | Suites unitarias completas | Completo |
 
-### Prompting Techniques
+### Técnicas de Prompting
 
-| Técnica | Implementación | Tests | Estado TDD |
-|---------|---------------|-------|------------|
-| Auto-CoT | `scripts/coding/ai/agents/base/auto_cot_agent.py` | - | Pendiente |
-| Chain of Verification | `scripts/coding/ai/agents/base/chain_of_verification.py` | - | Pendiente |
-| Self-Consistency | `scripts/coding/ai/agents/base/self_consistency.py` | - | Pendiente |
-| Tree of Thoughts | `scripts/coding/ai/agents/base/tree_of_thoughts.py` | - | Pendiente |
-| Fundamental Techniques | `scripts/coding/ai/agents/base/fundamental_techniques.py` | - | Pendiente |
-| Structuring Techniques | `scripts/coding/ai/agents/base/structuring_techniques.py` | - | Pendiente |
-| Knowledge Techniques | `scripts/coding/ai/agents/base/knowledge_techniques.py` | - | Pendiente |
-| Optimization Techniques | `scripts/coding/ai/agents/base/optimization_techniques.py` | - | Pendiente |
-| Specialized Techniques | `scripts/coding/ai/agents/base/specialized_techniques.py` | - | Pendiente |
-| Search Optimization | `scripts/coding/ai/agents/base/search_optimization_techniques.py` | - | Pendiente |
-| Prompt Templates | `scripts/coding/ai/agents/base/prompt_templates.py` | - | Pendiente |
+| Técnica | Implementación | Estado TDD |
+|---------|----------------|------------|
+| Auto-CoT | Utilidades base disponibles | Pendiente |
+| Chain of Verification | Utilidades base disponibles | Pendiente |
+| Self-Consistency | Utilidades base disponibles | Pendiente |
+| Tree of Thoughts | Utilidades base disponibles | Pendiente |
+| Fundamental Techniques | Utilidades base disponibles | Pendiente |
+| Structuring Techniques | Utilidades base disponibles | Pendiente |
+| Knowledge Techniques | Utilidades base disponibles | Pendiente |
+| Optimization Techniques | Utilidades base disponibles | Pendiente |
+| Specialized Techniques | Utilidades base disponibles | Pendiente |
+| Search Optimization | Utilidades base disponibles | Pendiente |
+| Prompt Templates | Utilidades base disponibles | Pendiente |
 
-### Shared Components
+### Componentes Compartidos
 
-| Componente | Implementación | Tests | Estado TDD |
-|------------|---------------|-------|------------|
-| Agent (Base Class) | `scripts/coding/ai/shared/agent_base.py` | - | Parcial |
-| ContextSession | `scripts/coding/ai/shared/context_sessions.py` | - | Pendiente |
+| Componente | Cobertura de Tests | Estado TDD |
+|------------|--------------------|------------|
+| Agent (Base Class) | Validado en escenarios clave | Parcial |
+| ContextSession | Sin suites dedicadas | Pendiente |
 
-### Orchestration & Generation
+### Orquestación y Generación
 
-| Componente | Implementación | Tests | Estado TDD |
-|------------|---------------|-------|------------|
-| CodexMCPWorkflow | `scripts/coding/ai/orchestrators/codex_mcp_workflow.py` | - | Pendiente |
-| LLMGenerator | `scripts/coding/ai/generators/llm_generator.py` | - | Pendiente |
+| Componente | Cobertura de Tests | Estado TDD |
+|------------|--------------------|------------|
+| CodexMCPWorkflow | Utilidad de orquestación sin suites completas | Pendiente |
+| BusinessAnalysisGenerator | Utilidad de negocio sin suites completas | Pendiente |
+| TemplateGenerator | Utilidad de plantillas sin suites completas | Pendiente |
+| TraceabilityMatrixGenerator | Utilidad de trazabilidad sin suites completas | Pendiente |
+| DocumentSplitter | Utilidad documental sin suites completas | Pendiente |
+| LLMGenerator | Utilidad multi-LLM sin suites completas | Pendiente |
 
-## Agentes Definidos (Markdown - No implementados en Python)
+### Sincronización de Documentación
 
-Estos agentes están definidos en markdown para uso con prompts, pero NO tienen implementación Python:
+| Agente | Cobertura de Tests | Estado TDD |
+|--------|--------------------|------------|
+| CodeInspectorAgent | Validación manual | Pendiente |
+| DocumentationEditorAgent | Validación manual | Pendiente |
+| ConsistencyVerifierAgent | Validación manual | Pendiente |
+| SyncReporterAgent | Validación manual | Pendiente |
 
-### DevOps Agents
+### Calidad Automatizada
 
-| Agente | Definición | Implementación Python | Estado |
-|--------|------------|----------------------|--------|
-| GitOpsAgent | `.agent/agents/gitops_agent.md` | NO | Prompt-based |
-| ReleaseAgent | `.agent/agents/release_agent.md` | NO | Prompt-based |
-| DependencyAgent | `.agent/agents/dependency_agent.md` | NO | Prompt-based |
-| SecurityAgent | `.agent/agents/security_agent.md` | NO | Prompt-based |
-| CodeTasker | `.agent/agents/my_agent.md` | NO | Prompt-based |
+| Agente | Cobertura de Tests | Estado TDD |
+|--------|--------------------|------------|
+| CompletenessValidator | Validación manual | Pendiente |
+| CoverageAnalyzer | Validación manual | Pendiente |
+| CoverageVerifier | Validación manual | Pendiente |
+| SyntaxValidator | Validación manual | Pendiente |
 
-### Domain Agents
+### Entregas Compartidas
 
-| Agente | Definición | Implementación Python | Estado |
-|--------|------------|----------------------|--------|
-| ApiAgent | `.agent/agents/api_agent.md` | NO | Prompt-based |
-| UiAgent | `.agent/agents/ui_agent.md` | NO | Prompt-based |
-| InfrastructureAgent | `.agent/agents/infrastructure_agent.md` | NO | Prompt-based |
-| DocsAgent | `.agent/agents/docs_agent.md` | NO | Prompt-based |
-| ScriptsAgent | `.agent/agents/scripts_agent.md` | NO | Prompt-based |
+| Agente | Cobertura de Tests | Estado TDD |
+|--------|--------------------|------------|
+| TestRunner | Validación manual | Pendiente |
+| PRCreator | Validación manual | Pendiente |
 
-### LLM Provider Agents
+### Permisos
 
-| Agente | Definición | Implementación Python | Estado |
-|--------|------------|----------------------|--------|
-| ClaudeAgent | `.agent/agents/claude_agent.md` | NO (usa LLMGenerator) | Prompt-based |
-| ChatGPTAgent | `.agent/agents/chatgpt_agent.md` | NO (usa LLMGenerator) | Prompt-based |
-| HuggingFaceAgent | `.agent/agents/huggingface_agent.md` | NO (usa LLMGenerator) | Prompt-based |
+| Agente | Cobertura de Tests | Estado TDD |
+|--------|--------------------|------------|
+| BasePermissionAgent | Validación manual | Base |
+| RouteLintAgent | Validación manual | Pendiente |
 
-## Próximos Pasos para Implementación
+## Agentes Definidos en Markdown
 
-### Prioridad Alta - TDD Pendiente
+Los siguientes agentes se exponen principalmente mediante documentación y prompts. Su implementación depende del ecosistema multi-agente y no del código fuente.
 
-1. **Técnicas de Prompting Base**
-   - Implementar tests para `auto_cot_agent.py`
-   - Implementar tests para `self_consistency.py`
-   - Implementar tests para `chain_of_verification.py`
-   - Implementar tests para `tree_of_thoughts.py`
+### DevOps y Operaciones
+- GitOpsAgent
+- ReleaseAgent
+- DependencyAgent
+- SecurityAgent
+- CodeTasker
 
-2. **Agentes de Dominio (si se requiere implementación Python)**
-   - Decidir si ApiAgent/UiAgent necesitan implementación Python
-   - Si SÍ: Crear `scripts/coding/ai/domain/api_agent.py` con TDD
-   - Si SÍ: Crear `scripts/coding/ai/domain/ui_agent.py` con TDD
+### Dominio y Plataforma
+- ApiAgent
+- UiAgent
+- InfrastructureAgent
+- DocsAgent
+- ScriptsAgent
 
-3. **Componentes Shared**
-   - Implementar tests para `context_sessions.py`
-   - Implementar tests para `agent_base.py` (completar)
+### Proveedores LLM
+- ClaudeAgent
+- ChatGPTAgent
+- HuggingFaceAgent
 
-4. **Orchestration**
-   - Implementar tests para `codex_mcp_workflow.py`
-   - Implementar tests para `llm_generator.py`
+## Próximos Pasos Sugeridos
 
-### Prioridad Media - Mejoras TDD
-
-1. **SDLC Agents** - Completar TDD:
-   - SDLCPlannerAgent (de Parcial a Completo)
-   - SDLCFeasibilityAgent (de Parcial a Completo)
-   - SDLCDesignAgent (de Parcial a Completo)
-   - SDLCDeploymentAgent (de Parcial a Completo)
-
-### Prioridad Baja - Opcionales
-
-1. **DevOps Agents** - Implementar en Python (opcional):
-   - Si se requiere automatización: Implementar GitOpsAgent.py
-   - Si se requiere automatización: Implementar ReleaseAgent.py
-   - Si se requiere automatización: Implementar DependencyAgent.py
-   - Si se requiere automatización: Implementar SecurityAgent.py
-
-## Comandos para Generar TDD
-
-### Usar SDLCTestingAgent para generar tests
-
-```bash
-# Para técnicas de prompting
-python scripts/coding/ai/sdlc/testing_agent.py \
-  --project-root . \
-  --target-module "scripts/coding/ai/agents/base/auto_cot_agent.py" \
-  --output-dir "scripts/coding/ai/tests" \
-  --coverage-target 80 \
-  --use-technique auto-cot
-
-# Para agentes de dominio (si se implementan)
-python scripts/coding/ai/sdlc/testing_agent.py \
-  --project-root . \
-  --target-module "scripts/coding/ai/domain/api_agent.py" \
-  --output-dir "scripts/coding/ai/tests" \
-  --coverage-target 80 \
-  --use-technique self-consistency
-```
-
-### Ejecutar en Paralelo
-
-```bash
-# Generar tests para múltiples agentes en paralelo
-python -c "
-from scripts.coding.ai.orchestrators.codex_mcp_workflow import CodexMCPWorkflowBuilder
-
-workflow = CodexMCPWorkflowBuilder()
-
-# Test generation para Auto-CoT
-workflow.add_agent(
-    name='AutoCoTTestGen',
-    agent_class='SDLCTestingAgent',
-    inputs={'module': 'scripts/coding/ai/agents/base/auto_cot_agent.py'},
-    technique='auto-cot',
-    parallel=True
-)
-
-# Test generation para Self-Consistency
-workflow.add_agent(
-    name='SelfConsistencyTestGen',
-    agent_class='SDLCTestingAgent',
-    inputs={'module': 'scripts/coding/ai/agents/base/self_consistency.py'},
-    technique='self-consistency',
-    parallel=True
-)
-
-# Test generation para ApiAgent (si existe)
-workflow.add_agent(
-    name='ApiAgentTestGen',
-    agent_class='SDLCTestingAgent',
-    inputs={'module': 'scripts/coding/ai/domain/api_agent.py'},
-    technique='auto-cot',
-    parallel=True
-)
-
-# Test generation para UiAgent (si existe)
-workflow.add_agent(
-    name='UiAgentTestGen',
-    agent_class='SDLCTestingAgent',
-    inputs={'module': 'scripts/coding/ai/domain/ui_agent.py'},
-    technique='self-consistency',
-    parallel=True
-)
-
-results = workflow.execute_parallel()
-print(results)
-"
-```
-
-## Resumen de Estado
-
-- **Agentes con TDD Completo**: 8/20 (40%)
-- **Agentes con TDD Parcial**: 5/20 (25%)
-- **Agentes sin TDD**: 7/20 (35%)
-- **Agentes prompt-based (no requieren TDD Python)**: 13
-
----
-
-**Última actualización**: 2025-11-14
-**Prioridad**: Completar TDD para técnicas de prompting y componentes shared
+1. Priorizar suites automáticas para los agentes SDLC con estado parcial o pendiente.
+2. Completar pruebas de los componentes compartidos y las utilidades de orquestación multi-agente.
+3. Definir criterios de aceptación para los agentes documentales y de calidad que aún dependen de validaciones manuales.
+4. Actualizar periódicamente este mapa para reflejar avances sin necesidad de referenciar rutas específicas dentro del repositorio.
