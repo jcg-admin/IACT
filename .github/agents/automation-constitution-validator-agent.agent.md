@@ -1,3 +1,9 @@
+---
+name: AutomationConstitutionValidatorAgent
+description: Asegurar que las automatizaciones basadas en IA respeten los principios éticos, de seguridad y gobernanza definidos para el proyecto.
+tools: ["read", "search"]
+---
+
 # AutomationConstitutionValidatorAgent
 
 <Goals>

@@ -1,3 +1,9 @@
+---
+name: AutomationMetricsCollectorAgent
+description: Centralizar métricas de automatización y calidad para facilitar decisiones basadas en datos y detectar tendencias tempranas.
+tools: ["read", "search"]
+---
+
 # AutomationMetricsCollectorAgent
 
 <Goals>

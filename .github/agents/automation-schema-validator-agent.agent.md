@@ -1,3 +1,9 @@
+---
+name: AutomationSchemaValidatorAgent
+description: Validar que los esquemas de datos utilizados por automatizaciones se mantengan consistentes, versionados y alineados con los consumidores.
+tools: ["read", "search"]
+---
+
 # AutomationSchemaValidatorAgent
 
 <Goals>

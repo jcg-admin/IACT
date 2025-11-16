@@ -1,3 +1,9 @@
+---
+name: TraceabilityMatrixGeneratorAgent
+description: Generar matrices de trazabilidad que conecten requisitos, pruebas y entregables del proyecto.
+tools: ["read", "search", "edit"]
+---
+
 # TraceabilityMatrixGeneratorAgent
 
 <Goals>

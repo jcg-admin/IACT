@@ -1,3 +1,9 @@
+---
+name: DORATrackedSDLCAgent
+description: Integrar métricas DORA en el ciclo SDLC para monitorear la salud del proceso de entrega.
+tools: ["read", "search", "edit"]
+---
+
 # DORATrackedSDLCAgent
 
 <Goals>

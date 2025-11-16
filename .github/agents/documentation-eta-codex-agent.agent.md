@@ -1,3 +1,9 @@
+---
+name: DocumentationETACodexAgent
+description: Gestionar experimentos de documentación asistida por IA siguiendo los lineamientos de la iniciativa ETA Codex del proyecto.
+tools: ["read", "search"]
+---
+
 # DocumentationETACodexAgent
 
 <Goals>

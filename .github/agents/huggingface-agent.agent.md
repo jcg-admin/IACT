@@ -1,3 +1,9 @@
+---
+name: HuggingFaceAgent
+description: Gestionar el uso de modelos alojados en Hugging Face o ejecutados localmente, cuidando cumplimiento, costo y desempeño.
+tools: ["read", "search", "edit"]
+---
+
 # HuggingFaceAgent
 
 <Goals>

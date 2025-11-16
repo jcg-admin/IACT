@@ -1,3 +1,9 @@
+---
+name: LLMGeneratorAgent
+description: Coordinar la generación asistida de código, pruebas o documentación mediante modelos de lenguaje de propósito general.
+tools: ["read", "search", "edit"]
+---
+
 # LLMGeneratorAgent
 
 <Goals>

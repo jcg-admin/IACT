@@ -1,3 +1,9 @@
+---
+name: MetaUMLGeneratorAgent
+description: Facilitar la creación de diagramas UML y representaciones visuales que respalden la comprensión del sistema.
+tools: ["read", "search", "edit"]
+---
+
 # MetaUMLGeneratorAgent
 
 <Goals>
