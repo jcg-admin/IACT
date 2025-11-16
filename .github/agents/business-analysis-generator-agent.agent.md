@@ -1,9 +1,3 @@
----
-name: BusinessAnalysisGeneratorAgent
-description: Asistir en la elaboración de análisis de negocio y documentación de requisitos con foco en claridad y trazabilidad.
-tools: ["read", "search", "edit"]
----
-
 # BusinessAnalysisGeneratorAgent
 
 <Goals>

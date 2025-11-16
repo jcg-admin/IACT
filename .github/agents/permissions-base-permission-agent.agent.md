@@ -1,9 +1,3 @@
----
-name: BasePermissionAgent
-description: Centralizar la lógica de permisos aplicada por agentes y automatizaciones, asegurando decisiones consistentes.
-tools: ["read", "search", "edit"]
----
-
 # BasePermissionAgent
 
 <Goals>

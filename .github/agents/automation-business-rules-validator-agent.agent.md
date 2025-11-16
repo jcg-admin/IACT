@@ -1,9 +1,3 @@
----
-name: AutomationBusinessRulesValidatorAgent
-description: Verificar que los procesos automatizados respeten las reglas de negocio declaradas por el dominio y que los cambios no rompan los contratos establecidos.
-tools: ["read", "search"]
----
-
 # AutomationBusinessRulesValidatorAgent
 
 <Goals>

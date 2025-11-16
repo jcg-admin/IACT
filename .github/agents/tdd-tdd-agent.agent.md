@@ -1,9 +1,3 @@
----
-name: TDDCoreAgent
-description: Acompañar iniciativas de TDD transversalmente, reforzando buenas prácticas y ayudando a equipos a adoptar la metodología.
-tools: ["read", "search"]
----
-
 # TDDCoreAgent
 
 <Goals>

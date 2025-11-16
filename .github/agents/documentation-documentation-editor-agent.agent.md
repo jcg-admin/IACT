@@ -1,9 +1,3 @@
----
-name: DocumentationEditorAgent
-description: Editar y consolidar documentación existente, enfocándose en claridad, narrativa y cumplimiento de estándares editoriales.
-tools: ["read", "search", "edit"]
----
-
 # DocumentationEditorAgent
 
 <Goals>

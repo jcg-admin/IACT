@@ -1,9 +1,3 @@
----
-name: QualityCoverageVerifierAgent
-description: Confirmar que la cobertura reportada sea confiable y esté alineada con los objetivos de calidad.
-tools: ["read", "search"]
----
-
 # QualityCoverageVerifierAgent
 
 <Goals>

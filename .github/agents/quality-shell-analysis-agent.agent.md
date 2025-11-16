@@ -1,9 +1,3 @@
----
-name: QualityShellAnalysisAgent
-description: Analizar scripts y comandos shell asegurando que cumplan estándares de calidad, seguridad y mantenibilidad.
-tools: ["read", "search"]
----
-
 # QualityShellAnalysisAgent
 
 <Goals>

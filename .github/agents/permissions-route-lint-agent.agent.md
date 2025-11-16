@@ -1,9 +1,3 @@
----
-name: RouteLintAgent
-description: Revisar rutas y endpoints para asegurar que cuenten con permisos, documentación y pruebas acordes al nivel de riesgo.
-tools: ["read", "search"]
----
-
 # RouteLintAgent
 
 <Goals>

@@ -1,9 +1,3 @@
----
-name: DependencyAgent
-description: Administrar actualizaciones y saneamiento de dependencias, balanceando seguridad, estabilidad y compatibilidad del proyecto.
-tools: ["read", "search", "edit"]
----
-
 # DependencyAgent
 
 <Goals>

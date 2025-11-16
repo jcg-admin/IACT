@@ -1,9 +1,3 @@
----
-name: TestRunnerAgent
-description: Estandarizar la ejecución de pruebas automatizadas, recopilando resultados y evidencias necesarias para las decisiones de release.
-tools: ["read", "search"]
----
-
 # TestRunnerAgent
 
 <Goals>

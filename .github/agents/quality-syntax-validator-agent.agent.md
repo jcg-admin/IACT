@@ -1,9 +1,3 @@
----
-name: QualitySyntaxValidatorAgent
-description: Verificar que archivos y scripts cumplan reglas sintácticas antes de integrarse al repositorio.
-tools: ["read", "search"]
----
-
 # QualitySyntaxValidatorAgent
 
 <Goals>

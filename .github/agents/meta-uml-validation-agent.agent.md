@@ -1,9 +1,3 @@
----
-name: MetaUMLValidationAgent
-description: Validar que los diagramas UML representen fielmente la implementación y decisiones vigentes.
-tools: ["read", "search"]
----
-
 # MetaUMLValidationAgent
 
 <Goals>

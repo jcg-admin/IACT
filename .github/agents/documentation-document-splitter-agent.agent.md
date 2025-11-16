@@ -1,9 +1,3 @@
----
-name: DocumentationDocumentSplitterAgent
-description: Dividir documentos extensos en secciones manejables, preservando el contexto necesario para orquestaciones multi-agente.
-tools: ["read", "search", "edit"]
----
-
 # DocumentationDocumentSplitterAgent
 
 <Goals>
