@@ -14,7 +14,7 @@ relacionados:
 
 El roadmap del frontend exige habilitar colaboración entre equipos independientes mientras se mantiene una experiencia de usuario fluida para herramientas internas y dashboards que combinan datos de múltiples dominios. La documentación "Arquitectura que encaja con mi proyecto — Guía y Canvas de Decisión" describe múltiples opciones (Linked Pages, Server Routing, Unified SPA, etc.) y criterios como frecuencia de navegación inter-equipos, necesidad de SSR y requerimientos de aislamiento. Actualmente coexistirán módulos con mocks y futuros endpoints reales, por lo que debemos definir cómo orquestarlos sin duplicar esfuerzos por equipo.
 
-> **Nota de estado (2025-11-09):** la evaluación se realizó, pero tras contrastar con [ADR-015-frontend-modular-monolith](../../adr/ADR-015-frontend-modular-monolith.md) y [ADR-009-frontend-postponement](../../adr/ADR-009-frontend-postponement.md) se determinó que la propuesta no se adoptará en esta etapa. El documento se conserva como análisis de opciones para un futuro posible.
+> **Nota de estado (2025-11-09):** la evaluación se realizó, pero tras contrastar con [ADR-015-frontend-modular-monolith](./ADR-015-frontend-modular-monolith.md) y [ADR-009-frontend-postponement](./ADR-009-frontend-postponement.md) se determinó que la propuesta no se adoptará en esta etapa. El documento se conserva como análisis de opciones para un futuro posible.
 
 ## Decisión evaluada (no adoptada)
 

@@ -5,7 +5,7 @@ propietario: devops-team
 ultima_actualizacion: 2025-11-09
 relacionados:
   [
-    "adr_2025_002_suite_calidad_codigo",
+    "ADR-002-suite-calidad-codigo",
     "ESTRATEGIA_GIT_HOOKS.md",
     "RESUMEN_MIGRACION_SHELL_SCRIPTS.md",
   ]
@@ -314,7 +314,7 @@ fi
 
 - [Documentación Git Hooks Strategy](../../ESTRATEGIA_GIT_HOOKS.md)
 - [Resumen Migración Shell Scripts](../../RESUMEN_MIGRACION_SHELL_SCRIPTS.md)
-- [ADR-2025-002: Suite Calidad Código](adr_2025_002_suite_calidad_codigo.md)
+- [ADR-002: Suite Calidad Código](ADR-002-suite-calidad-codigo.md)
 - [Git Hooks Official Documentation](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks)
 - [Conventional Commits Specification](https://www.conventionalcommits.org/)
 

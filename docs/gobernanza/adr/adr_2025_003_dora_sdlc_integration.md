@@ -8,7 +8,7 @@ relacionados:
     "FASES_IMPLEMENTACION_IA.md",
     "ESTRATEGIA_IA.md",
     "AGENTES_SDLC.md",
-    "ADR-2025-002",
+    "ADR-002",
   ]
 ---
 
@@ -511,7 +511,7 @@ LIMIT 10;
 - ESTRATEGIA_IA.md (Practica 3: AI-accessible Internal Data)
 - DORA_SDLC_INTEGRATION_GUIDE.md (guia tecnica completa)
 - WORKFLOW_AGENTES_DORA.md (workflow operacional)
-- ADR-2025-002: Suite Calidad Codigo (contexto agentes SDLC)
+- ADR-002: Suite Calidad Codigo (contexto agentes SDLC)
 
 ## Notas Adicionales
 

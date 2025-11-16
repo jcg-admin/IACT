@@ -378,9 +378,9 @@ usuarios_grupos (N:M - múltiples grupos por usuario)
   - POC con django-guardian (rechazado por complejidad object-level)
   - Benchmark de performance: 3 niveles de evaluación < 10ms
 - **Decisiones relacionadas:**
-  - ADR-2025-002: Suite de Calidad de Código
-  - ADR-2025-003: DORA Metrics Integration
-  - ADR-2025-004: Centralized Log Storage (para auditoría)
+  - ADR-002: Suite de Calidad de Código
+  - ADR-003: DORA Metrics Integration
+  - ADR-004: Centralized Log Storage (para auditoría)
 
 ---
 

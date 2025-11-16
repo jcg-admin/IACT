@@ -5,7 +5,7 @@ propietario: backend-team
 ultima_actualizacion: 2025-11-09
 relacionados:
   [
-    "adr_2025_005_grupos_funcionales_sin_jerarquia",
+    "ADR-005-grupos-funcionales-sin-jerarquia",
     "docs/backend/arquitectura/configuration.md",
   ]
 ---
@@ -34,7 +34,7 @@ El sistema IACT requiere la capacidad de modificar parámetros técnicos y de ne
 
 **Restricciones actuales:**
 
-- Sistema de permisos granulares ya implementado (ADR-2025-005)
+- Sistema de permisos granulares ya implementado (ADR-005)
 - Requisitos de auditoría (ISO 27001)
 - NO usar variables de entorno para configuración dinámica (solo para infraestructura)
 - Necesidad de historial inmutable de cambios
@@ -279,7 +279,7 @@ config = ConfiguracionService.editar_configuracion(
 
 - [Documentación app configuration](../../backend/arquitectura/configuration.md)
 - [PLAN_MAESTRO_PRIORIDAD_02.md](../../PLAN_MAESTRO_PRIORIDAD_02.md) (Tareas 33-41)
-- [ADR-2025-005: Grupos Funcionales Sin Jerarquía](adr_2025_005_grupos_funcionales_sin_jerarquia.md)
+- [ADR-005: Grupos Funcionales Sin Jerarquía](ADR-005-grupos-funcionales-sin-jerarquia.md)
 - [ISO 27001 Audit Trail Requirements](https://www.iso.org/standard/27001)
 - [Django Best Practices for Configuration](https://docs.djangoproject.com/en/stable/topics/settings/)
 

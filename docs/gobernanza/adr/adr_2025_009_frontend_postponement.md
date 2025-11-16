@@ -5,10 +5,10 @@ propietario: architecture-team
 ultima_actualizacion: 2025-11-09
 relacionados:
   [
-    "ADR_011_frontend_modular_monolith",
-    "ADR_012_redux_toolkit_state_management",
-    "ADR_013_webpack_bundler",
-    "ADR_014_testing_strategy_jest_testing_library",
+    "ADR-015-frontend-modular-monolith",
+    "ADR-016-redux-toolkit-state-management",
+    "ADR-018-webpack-bundler",
+    "ADR-019-testing-strategy-jest-testing-library",
   ]
 ---
 
@@ -24,12 +24,12 @@ relacionados:
 
 ## Contexto y Problema
 
-El proyecto IACT tiene **4 ADRs de frontend** (ADR-011 a ADR-014) creados el 2025-11-06 que definen la arquitectura completa de un frontend React:
+El proyecto IACT tiene **4 ADRs de frontend** (ADR-015 a ADR-019, excluyendo ADR-017) creados el 2025-11-06 que definen la arquitectura completa de un frontend React:
 
-1. **ADR-011**: Modular Monolith (no microfrontends)
-2. **ADR-012**: Redux Toolkit para state management
-3. **ADR-013**: Webpack como bundler
-4. **ADR-014**: Jest + Testing Library para testing
+1. **ADR-015**: Modular Monolith (no microfrontends)
+2. **ADR-016**: Redux Toolkit para state management
+3. **ADR-018**: Webpack como bundler
+4. **ADR-019**: Jest + Testing Library para testing
 
 Adicionalmente, existen:
 
@@ -351,25 +351,25 @@ Postergar implementacion frontend hasta Q2 2026 (6 meses), enfocarse en backend 
 
 ## Estado de ADRs Existentes
 
-### ADR-011: Modular Monolith
+### ADR-015: Modular Monolith
 
 **Estado actual**: SUSPENDIDO
 **Accion**: Preservar documento, NO eliminar
 **Razon**: Arquitectura valida si GO en Q2 2026
 
-### ADR-012: Redux Toolkit
+### ADR-016: Redux Toolkit
 
 **Estado actual**: SUSPENDIDO
 **Accion**: Preservar documento
 **Razon**: State management definido para futura implementacion
 
-### ADR-013: Webpack
+### ADR-018: Webpack
 
 **Estado actual**: SUSPENDIDO
 **Accion**: Preservar documento
 **Razon**: Bundler definido para futura implementacion
 
-### ADR-014: Jest + Testing Library
+### ADR-019: Jest + Testing Library
 
 **Estado actual**: SUSPENDIDO
 **Accion**: Preservar documento
@@ -421,10 +421,10 @@ Postergar implementacion frontend hasta Q2 2026 (6 meses), enfocarse en backend 
 
 ### ADRs Relacionados
 
-- [ADR-011: Frontend Modular Monolith](ADR_011_frontend_modular_monolith.md)
-- [ADR-012: Redux Toolkit](ADR_012_redux_toolkit_state_management.md)
-- [ADR-013: Webpack Bundler](ADR_013_webpack_bundler.md)
-- [ADR-014: Testing Strategy](ADR_014_testing_strategy_jest_testing_library.md)
+- [ADR-015: Frontend Modular Monolith](ADR-015-frontend-modular-monolith.md)
+- [ADR-016: Redux Toolkit](ADR-016-redux-toolkit-state-management.md)
+- [ADR-018: Webpack Bundler](ADR-018-webpack-bundler.md)
+- [ADR-019: Testing Strategy](ADR-019-testing-strategy-jest-testing-library.md)
 
 ### Requisitos Funcionales
 

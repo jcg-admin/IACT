@@ -3,7 +3,7 @@
 **Estado:** Propuesto
 **Fecha:** 2025-11-06
 **Decisor:** Equipo Infraestructura
-**Relacionado:** SPEC_INFRA_001, ADR_009
+**Relacionado:** SPEC_INFRA_001, ADR-013
 **Actualizado:** 2025-11-06
 
 ---
@@ -232,7 +232,7 @@ Se recomienda revisitar esta decisión en 6 meses basado en:
 - [Dev Containers Features Specification](https://containers.dev/implementors/features/)
 - [Dev Containers Features Reference](https://containers.dev/features)
 - [SPEC_INFRA_001](../specs/SPEC_INFRA_001-cpython_precompilado.md)
-- [ADR_009: Distribución de Artefactos](./ADR_009-distribucion-artefactos-strategy.md)
+- [ADR-013: Distribución de Artefactos](./ADR-013-distribucion-artefactos-strategy.md)
 - [Guía de desarrollo IACT](../gobernanza/procesos/guia_completa_desarrollo_features.md)
 
 ---
