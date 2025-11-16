@@ -1,12 +1,12 @@
 ---
-id: ADR_2025_010
+id: ADR-010
 estado: aceptada
 propietario: backend-team
 ultima_actualizacion: 2025-11-09
 relacionados: ["prioridad_01_estructura_base_datos.md", "permisos-granular.md"]
 date: 2025-11-13
 ---
-# ADR_2025_010: Estrategia Híbrida ORM + SQL Nativo para Permisos
+# ADR-010: Estrategia Híbrida ORM + SQL Nativo para Permisos
 
 **Estado:** aceptada
 

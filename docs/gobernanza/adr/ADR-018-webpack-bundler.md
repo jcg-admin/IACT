@@ -1,5 +1,5 @@
 ---
-id: ADR_013
+id: ADR-018
 titulo: Webpack como Bundler (no Vite)
 fecha: 2025-11-06
 estado: Aceptado
@@ -9,7 +9,7 @@ contexto: Sistema IACT Frontend - Build Tool
 tags: [frontend, webpack, vite, build-tools]
 ---
 
-# ADR_2025_018: Webpack como Bundler (no Vite)
+# ADR-018: Webpack como Bundler (no Vite)
 
 ## Estado
 
@@ -280,8 +280,8 @@ Rechazado por:
 
 ## Decisiones Relacionadas
 
-- **ADR_011**: Modular Monolith (code splitting por módulo)
-- **ADR_012**: Redux Toolkit (bundle size considerado)
+- **ADR-015**: Modular Monolith (code splitting por módulo)
+- **ADR-016**: Redux Toolkit (bundle size considerado)
 
 ## Plan de Migración a Vite (Si futuro)
 

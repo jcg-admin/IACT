@@ -1,11 +1,11 @@
 ---
-title: ADR_009: Estrategia de Distribución de Artefactos CPython Precompilados
+title: ADR-013: Estrategia de Distribución de Artefactos CPython Precompilados
 date: 2025-11-13
 domain: general
 status: active
 ---
 
-# ADR_2025_013: Estrategia de Distribución de Artefactos CPython Precompilados
+# ADR-013: Estrategia de Distribución de Artefactos CPython Precompilados
 
 **Estado:** Propuesto
 **Fecha:** 2025-11-06
@@ -447,7 +447,7 @@ Indicadores para validar decisión:
 - [GitHub Release Limits](https://docs.github.com/en/repositories/releasing-projects-on-github/about-releases#storage-and-bandwidth-quotas)
 - [Git LFS Pricing](https://docs.github.com/en/billing/managing-billing-for-git-large-file-storage/about-billing-for-git-large-file-storage)
 - [SPEC_INFRA_001](../specs/SPEC_INFRA_001-cpython_precompilado.md)
-- [ADR_008: Features vs Imagen Base](./ADR_008-cpython-features-vs-imagen-base.md)
+- [ADR-059: Features vs Imagen Base](./ADR-059-cpython-features-vs-imagen-base.md)
 
 ---
 

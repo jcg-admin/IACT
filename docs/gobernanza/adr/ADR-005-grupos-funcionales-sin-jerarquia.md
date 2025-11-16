@@ -1,5 +1,5 @@
 ---
-id: ADR_2025_005
+id: ADR-005
 estado: aceptada
 propietario: equipo-backend
 ultima_actualizacion: 2025-11-07
@@ -7,7 +7,7 @@ relacionados: ["DOC-REQ-INDICE-MAESTRO-PERMISOS", "RF-001", "RF-002", "RF-003", 
 date: 2025-11-13
 ---
 
-# ADR_2025_005: Sistema de Permisos con Grupos Funcionales Sin Jerarquía
+# ADR-005: Sistema de Permisos con Grupos Funcionales Sin Jerarquía
 
 **Estado:** aceptada
 
@@ -357,13 +357,13 @@ usuarios_grupos (N:M - múltiples grupos por usuario)
   - POC con django-guardian (rechazado por complejidad object-level)
   - Benchmark de performance: 3 niveles de evaluación < 10ms
 - **Decisiones relacionadas:**
-  - ADR_2025_002: Suite de Calidad de Código
-  - ADR_2025_003: DORA Metrics Integration
-  - ADR_2025_004: Centralized Log Storage (para auditoría)
+  - ADR-002: Suite de Calidad de Código
+  - ADR-003: DORA Metrics Integration
+  - ADR-004: Centralized Log Storage (para auditoría)
 
 ---
 
-**Documento:** ADR_2025_005
+**Documento:** ADR-005
 **Fecha:** 07 de Noviembre, 2025
 **Estado:** Aceptada
 **Próxima revisión:** 2026-02-07

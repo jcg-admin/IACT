@@ -1,12 +1,12 @@
 ---
-id: ADR_2025_001
+id: ADR-001
 estado: aceptada
 propietario: equipo-arquitectura
 ultima_actualizacion: 2025-11-02
 relacionados: ["DOC-ARQ-INDEX", "DOC-INFRA-INDEX"]
 date: 2025-11-13
 ---
-# ADR_2025_001: Entorno de Desarrollo con Vagrant y Aprovisionamiento de Bases de Datos
+# ADR-001: Entorno de Desarrollo con Vagrant y Aprovisionamiento de Bases de Datos
 
 **Estado:** aceptada
 

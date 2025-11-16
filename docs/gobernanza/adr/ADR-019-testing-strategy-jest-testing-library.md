@@ -1,5 +1,5 @@
 ---
-id: ADR_014
+id: ADR-019
 titulo: Jest + Testing Library para Testing Frontend
 fecha: 2025-11-06
 estado: Aceptado
@@ -10,7 +10,7 @@ contexto: Sistema IACT Frontend - Testing Strategy
 tags: [frontend, testing, jest, react-testing-library]
 ---
 
-# ADR_2025_019: Jest + Testing Library para Testing Frontend
+# ADR-019: Jest + Testing Library para Testing Frontend
 
 ## Estado
 
@@ -45,7 +45,7 @@ El frontend IACT requiere una estrategia de testing completa que cubra:
 
 **Contras**:
 - Ecosystem menor (menos plugins)
-- Requiere Vite (nosotros usamos Webpack - ADR_013)
+- Requiere Vite (nosotros usamos Webpack - ADR-018)
 - Documentación menor
 - Menos adopción enterprise
 
@@ -344,7 +344,7 @@ open coverage/lcov-report/index.html
 ### Vitest
 
 Rechazado por:
-- Requiere Vite (usamos Webpack - ADR_013)
+- Requiere Vite (usamos Webpack - ADR-018)
 - Ecosystem menor
 - Menos adopción enterprise
 
@@ -374,8 +374,8 @@ Rechazado por:
 
 ## Decisiones Relacionadas
 
-- **ADR_012**: Redux Toolkit (slices fáciles de testear)
-- **ADR_013**: Webpack (Babel transform para tests)
+- **ADR-016**: Redux Toolkit (slices fáciles de testear)
+- **ADR-018**: Webpack (Babel transform para tests)
 
 ## Roadmap Testing
 

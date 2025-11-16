@@ -1,11 +1,11 @@
 ---
-title: ADR_2025_017: Sistema de Permisos Granular SIN Roles Jerarquicos
+title: ADR-017: Sistema de Permisos Granular SIN Roles Jerarquicos
 date: 2025-11-13
 domain: general
 status: active
 ---
 
-# ADR_2025_017: Sistema de Permisos Granular SIN Roles Jerarquicos
+# ADR-017: Sistema de Permisos Granular SIN Roles Jerarquicos
 
 **Estado:** Aceptado
 **Fecha:** 2025-11-07

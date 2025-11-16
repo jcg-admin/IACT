@@ -1,13 +1,13 @@
 ---
-id: ADR_2025_003
+id: ADR-003
 estado: aceptada
 propietario: arquitecto-senior
 ultima_actualizacion: 2025-11-06
-relacionados: ["FASES_IMPLEMENTACION_IA.md", "ESTRATEGIA_IA.md", "AGENTES_SDLC.md", "ADR_2025_002"]
+relacionados: ["FASES_IMPLEMENTACION_IA.md", "ESTRATEGIA_IA.md", "AGENTES_SDLC.md", "ADR-002"]
 date: 2025-11-13
 ---
 
-# ADR_2025_003: Integracion DORA Metrics con SDLC Agents
+# ADR-003: Integracion DORA Metrics con SDLC Agents
 
 **Estado:** aceptada
 
@@ -253,7 +253,7 @@ python scripts/analyze_logs.py --days 7
 - [x] Storage persistente (.dora_sdlc_metrics.json)
 - [x] Crear PDCA automation agent
 - [x] Documentar workflow (WORKFLOW_AGENTES_DORA.md)
-- [x] Crear ADR_2025_003 (este documento)
+- [x] Crear ADR-003 (este documento)
 
 **Timeframe:** 1 dia (COMPLETADO)
 
@@ -468,7 +468,7 @@ LIMIT 10;
 - ESTRATEGIA_IA.md (Practica 3: AI-accessible Internal Data)
 - DORA_SDLC_INTEGRATION_GUIDE.md (guia tecnica completa)
 - WORKFLOW_AGENTES_DORA.md (workflow operacional)
-- ADR_2025_002: Suite Calidad Codigo (contexto agentes SDLC)
+- ADR-002: Suite Calidad Codigo (contexto agentes SDLC)
 
 ## Notas Adicionales
 

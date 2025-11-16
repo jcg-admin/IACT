@@ -1,5 +1,5 @@
 ---
-id: ADR_011
+id: ADR-015
 titulo: Frontend como Modular Monolith (no Microfrontends)
 fecha: 2025-11-06
 estado: Aceptado
@@ -10,7 +10,7 @@ contexto: Sistema IACT Frontend
 tags: [frontend, arquitectura, react]
 ---
 
-# ADR_2025_015: Frontend como Modular Monolith (no Microfrontends)
+# ADR-015: Frontend como Modular Monolith (no Microfrontends)
 
 ## Estado
 
@@ -219,8 +219,8 @@ Rechazado por:
 
 ## Decisión Relacionadas
 
-- **ADR_012**: Redux Toolkit para state management
-- **ADR_013**: Webpack para bundling (code splitting)
+- **ADR-016**: Redux Toolkit para state management
+- **ADR-018**: Webpack para bundling (code splitting)
 
 ## Notas
 

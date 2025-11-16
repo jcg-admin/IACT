@@ -1,5 +1,5 @@
 ---
-id: ADR_012
+id: ADR-016
 titulo: Redux Toolkit para State Management (no Context API)
 fecha: 2025-11-06
 estado: Aceptado
@@ -10,7 +10,7 @@ contexto: Sistema IACT Frontend - State Management
 tags: [frontend, state-management, redux, react]
 ---
 
-# ADR_2025_016: Redux Toolkit para State Management (no Context API)
+# ADR-016: Redux Toolkit para State Management (no Context API)
 
 ## Estado
 
@@ -280,8 +280,8 @@ Rechazado por:
 
 ## Decisiones Relacionadas
 
-- **ADR_011**: Modular Monolith (estructura permite slices por módulo)
-- **ADR_013**: Webpack (code splitting para reducir bundle size)
+- **ADR-015**: Modular Monolith (estructura permite slices por módulo)
+- **ADR-018**: Webpack (code splitting para reducir bundle size)
 
 ## Plan de Capacitación
 

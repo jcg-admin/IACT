@@ -1,5 +1,5 @@
 ---
-id: ADR-FRONTEND-001
+id: ADR-020
 titulo: Capa de servicios resilientes con contratos y telemetria
 autor: equipo-frontend
 fecha: 2025-11-09
