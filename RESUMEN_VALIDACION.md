@@ -45,9 +45,24 @@ He completado una validación exhaustiva de `api/callcentersite` y confirmo que:
    - Swagger UI disponible en `/api/docs/`
    - Health check en `/health/`
 
-### ⚠️ Observaciones Menores (No Bloquean)
+### 🔴 Observación Crítica
 
-Encontré 2 observaciones menores que **NO bloquean el desarrollo**:
+**6 apps tienen urls.py implementado pero NO están incluidas en urlpatterns**:
+
+1. **`alertas`** - Sistema de alertas tiene urls.py pero NO está expuesto
+2. **`clientes`** - Gestión de clientes tiene urls.py pero NO está expuesto
+3. **`equipos`** - Gestión de equipos tiene urls.py pero NO está expuesto
+4. **`horarios`** - Gestión de horarios tiene urls.py pero NO está expuesto
+5. **`metricas`** - Sistema de métricas tiene urls.py pero NO está expuesto
+6. **`tickets`** - Sistema de tickets tiene urls.py pero NO está expuesto
+
+**Impacto**: Funcionalidad desarrollada pero **NO accesible** vía API.
+
+**Recomendación**: Revisar si estas URLs deben agregarse a `urlpatterns` o si hay razón para mantenerlas inactivas. Ver `ANALISIS_URLS_COMPLETO.md` para análisis detallado.
+
+### ⚠️ Observaciones Menores
+
+2 observaciones menores que **NO bloquean el desarrollo**:
 
 1. **Apps duplicadas**: `configuration` y `configuracion` están ambas instaladas
    - Puede generar confusión semántica
@@ -63,9 +78,17 @@ Encontré 2 observaciones menores que **NO bloquean el desarrollo**:
 
 ## 📁 Documentos Generados
 
-He creado 3 documentos para ti:
+He creado 4 documentos para ti:
 
-### 1. `VALIDACION_API_CALLCENTERSITE.md` (19KB)
+### 1. `ANALISIS_URLS_COMPLETO.md` (13KB) ⭐ **NUEVO**
+Análisis completo y corregido de URLs:
+- Inventario exacto de 18 apps con urls.py
+- Identificación de 6 URLs faltantes
+- Comparación URLs configuradas vs implementadas
+- Propuesta de corrección con 2 opciones
+- Plan de acción detallado
+
+### 2. `VALIDACION_API_CALLCENTERSITE.md` (19KB)
 Reporte completo y detallado con:
 - Análisis exhaustivo de arquitectura
 - Validación de seguridad
@@ -74,14 +97,14 @@ Reporte completo y detallado con:
 - Evaluación de testing
 - Recomendaciones detalladas
 
-### 2. `VALIDACION_RAPIDA.md` (4KB)
+### 3. `VALIDACION_RAPIDA.md` (4KB)
 Guía rápida con:
 - Resumen en 30 segundos
 - Comandos de validación
 - Checklist pre-deployment
 - Referencias rápidas
 
-### 3. `CORRECCIONES_MENORES.md` (7KB)
+### 4. `CORRECCIONES_MENORES.md` (7KB)
 Documentación de las 2 observaciones menores con:
 - Descripción del problema
 - Impacto y severidad
