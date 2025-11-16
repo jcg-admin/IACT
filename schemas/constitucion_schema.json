@@ -1,327 +1,412 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://github.com/2-Coatl/IACT---project/schemas/constitucion_schema.json",
-  "title": "Automation System Configuration Schema",
-  "description": "JSON Schema for validating .constitucion.yaml",
+  "title": "IACT Constitution Configuration Schema",
+  "description": "Schema for .constitucion.yaml - governance rules for IACT project",
   "type": "object",
-  "required": ["version", "last_updated", "principles", "rules", "agent_configuration"],
+  "required": ["version", "metadata", "principles", "rules", "metrics"],
   "properties": {
     "version": {
       "type": "string",
-      "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$",
-      "description": "Semantic version of the configuration file"
+      "pattern": "^\\d+\\.\\d+$",
+      "description": "Configuration version (semver format)"
     },
-    "last_updated": {
-      "type": "string",
-      "pattern": "^\\d{4}-\\d{2}-\\d{2}(T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|[+-]\\d{2}:\\d{2})?)?$",
-      "description": "ISO 8601 date of last update"
+    "metadata": {
+      "type": "object",
+      "required": ["project", "created", "last_updated"],
+      "properties": {
+        "project": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Project name"
+        },
+        "created": {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "description": "Creation date (YYYY-MM-DD)"
+        },
+        "last_updated": {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "description": "Last update date (YYYY-MM-DD)"
+        },
+        "maintained_by": {
+          "type": "string",
+          "description": "Maintainer role/name"
+        },
+        "contact": {
+          "type": "string",
+          "description": "Contact email"
+        },
+        "documentation": {
+          "type": "string",
+          "description": "Path to documentation"
+        }
+      }
     },
     "principles": {
-      "type": "object",
-      "required": ["R1", "R2", "R3", "R4", "R5"],
-      "properties": {
-        "R1": {
-          "type": "object",
-          "required": ["name", "description"],
-          "properties": {
-            "name": {
-              "type": "string",
-              "description": "Name of principle R1"
-            },
-            "description": {
-              "type": "string",
-              "description": "Description of principle R1"
-            }
-          },
-          "additionalProperties": false
-        },
-        "R2": {
-          "type": "object",
-          "required": ["name", "description"],
-          "properties": {
-            "name": {
-              "type": "string",
-              "description": "Name of principle R2"
-            },
-            "description": {
-              "type": "string",
-              "description": "Description of principle R2"
-            }
-          },
-          "additionalProperties": false
-        },
-        "R3": {
-          "type": "object",
-          "required": ["name", "description"],
-          "properties": {
-            "name": {
-              "type": "string",
-              "description": "Name of principle R3"
-            },
-            "description": {
-              "type": "string",
-              "description": "Description of principle R3"
-            }
-          },
-          "additionalProperties": false
-        },
-        "R4": {
-          "type": "object",
-          "required": ["name", "description"],
-          "properties": {
-            "name": {
-              "type": "string",
-              "description": "Name of principle R4"
-            },
-            "description": {
-              "type": "string",
-              "description": "Description of principle R4"
-            }
-          },
-          "additionalProperties": false
-        },
-        "R5": {
-          "type": "object",
-          "required": ["name", "description"],
-          "properties": {
-            "name": {
-              "type": "string",
-              "description": "Name of principle R5"
-            },
-            "description": {
-              "type": "string",
-              "description": "Description of principle R5"
-            }
-          },
-          "additionalProperties": false
-        }
-      },
-      "additionalProperties": false,
-      "description": "Core principles of the automation system (R1-R5)"
-    },
-    "rules": {
       "type": "array",
-      "minItems": 6,
-      "maxItems": 6,
+      "minItems": 1,
       "items": {
         "type": "object",
-        "required": ["rule_number", "name", "description", "enforcement"],
+        "required": ["id", "title", "description", "rationale", "applies_to"],
         "properties": {
-          "rule_number": {
-            "type": "integer",
-            "minimum": 1,
-            "maximum": 6,
-            "description": "Rule number identifier (1-6)"
-          },
-          "name": {
+          "id": {
             "type": "string",
-            "description": "Rule name"
+            "pattern": "^P\\d+_[a-z_]+$",
+            "description": "Principle ID (format: P1_name)"
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Principle title"
           },
           "description": {
             "type": "string",
-            "description": "Rule description"
+            "minLength": 1,
+            "description": "Detailed description"
+          },
+          "rationale": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Why this principle exists"
+          },
+          "applies_to": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": ["ui", "api", "docs", "infrastructure", "scripts", "all"]
+            },
+            "minItems": 1,
+            "description": "Scope where principle applies"
+          },
+          "established": {
+            "type": "string",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+            "description": "Date principle was established"
+          },
+          "reviewed": {
+            "type": "string",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+            "description": "Last review date"
+          },
+          "review_frequency": {
+            "type": "string",
+            "enum": ["never", "quarterly", "monthly", "yearly"],
+            "description": "How often to review"
+          },
+          "validation_script": {
+            "type": "string",
+            "description": "Optional validation script path"
+          },
+          "auto_fix": {
+            "type": "string",
+            "description": "Optional auto-fix script path"
           },
           "enforcement": {
             "type": "string",
-            "enum": ["strict", "warning", "optional"],
-            "description": "Enforcement level for the rule"
+            "enum": ["error", "warning"],
+            "description": "Enforcement level"
+          }
+        }
+      }
+    },
+    "rules": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "principle", "title", "severity", "scope", "enabled", "condition", "action", "message"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^R\\d+_[a-z_]+$",
+            "description": "Rule ID (format: R1_name)"
+          },
+          "principle": {
+            "type": "string",
+            "pattern": "^P\\d+_[a-z_]+$",
+            "description": "Reference to principle ID"
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Rule title"
+          },
+          "severity": {
+            "type": "string",
+            "enum": ["error", "warning"],
+            "description": "Severity level"
+          },
+          "scope": {
+            "type": "string",
+            "enum": ["pre-commit", "pre-push", "devcontainer-init", "manual", "ci-local"],
+            "description": "When rule is evaluated"
+          },
+          "enabled": {
+            "type": "boolean",
+            "description": "Whether rule is active"
+          },
+          "condition": {
+            "type": "object",
+            "required": ["type"],
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": ["branch_check", "file_content_check", "files_analysis", "files_trigger_validation", "command_execution", "environment_check"],
+                "description": "Type of condition check"
+              },
+              "script": {
+                "type": "string",
+                "description": "Script to execute or inline script"
+              },
+              "files_pattern": {
+                "type": "string",
+                "description": "File pattern for matching"
+              },
+              "regex": {
+                "type": "string",
+                "description": "Regex pattern for content matching"
+              },
+              "trigger_files": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Files that trigger validation"
+              },
+              "validation_script": {
+                "type": "string",
+                "description": "Validation script path"
+              },
+              "command": {
+                "type": "string",
+                "description": "Command to execute"
+              },
+              "success_exit_code": {
+                "type": "integer",
+                "description": "Expected exit code for success"
+              },
+              "checks": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                },
+                "description": "List of checks to perform"
+              },
+              "logic": {
+                "type": "string",
+                "description": "Inline logic description"
+              }
+            }
+          },
+          "action": {
+            "type": "string",
+            "enum": ["block", "warn", "block_if_validation_fails"],
+            "description": "Action to take on violation"
+          },
+          "message": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Message to display on violation"
+          },
+          "metrics": {
+            "type": "object",
+            "properties": {
+              "violations_last_30_days": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "violations_all_time": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "target": {
+                "type": "integer",
+                "minimum": 0
+              }
+            }
+          },
+          "exemptions": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "role": {
+                  "type": "string"
+                },
+                "reason": {
+                  "type": "string"
+                },
+                "requires_justification": {
+                  "type": "boolean"
+                }
+              }
+            }
+          },
+          "automation": {
+            "type": "object",
+            "properties": {
+              "detection_script": {
+                "type": "string"
+              },
+              "auto_fix_script": {
+                "type": "string"
+              },
+              "script": {
+                "type": "string"
+              },
+              "timeout": {
+                "type": "integer",
+                "minimum": 1
+              }
+            }
+          },
+          "evolution": {
+            "type": "object",
+            "properties": {
+              "candidate_for_error": {
+                "type": "boolean"
+              },
+              "reason": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "evolution": {
+      "type": "object",
+      "properties": {
+        "process": {
+          "type": "string",
+          "description": "Process for evolving rules"
+        },
+        "guidelines": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Guidelines for rule evolution"
+        },
+        "changelog": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["date", "change", "author"],
+            "properties": {
+              "date": {
+                "type": "string",
+                "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+              },
+              "change": {
+                "type": "string"
+              },
+              "rules_added": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "rules_modified": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              },
+              "rules_removed": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "author": {
+                "type": "string"
+              },
+              "approved_by": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "metrics": {
+      "type": "object",
+      "required": ["collection", "kpis", "reports"],
+      "properties": {
+        "collection": {
+          "type": "object",
+          "required": ["frequency", "time", "retention_days", "storage"],
+          "properties": {
+            "frequency": {
+              "type": "string",
+              "enum": ["daily", "weekly", "monthly"]
+            },
+            "time": {
+              "type": "string",
+              "pattern": "^\\d{2}:\\d{2}$"
+            },
+            "retention_days": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "storage": {
+              "type": "string"
+            }
           }
         },
-        "additionalProperties": false
-      },
-      "description": "System rules configuration (exactly 6 rules)"
-    },
-    "agent_configuration": {
-      "type": "object",
-      "required": [
-        "semantic_git_history_agent",
-        "unified_system_context_agent",
-        "agent_discovery_agent",
-        "ci_pipeline_orchestrator_agent",
-        "git_hook_manager_agent",
-        "test_results_analyzer_agent"
-      ],
-      "properties": {
-        "semantic_git_history_agent": {
-          "type": "object",
-          "required": ["max_commits", "output_format", "include_diffs"],
-          "properties": {
-            "max_commits": {
-              "type": "integer",
-              "minimum": 1,
-              "maximum": 1000,
-              "description": "Maximum number of commits to analyze"
-            },
-            "output_format": {
-              "type": "string",
-              "enum": ["json", "text"],
-              "description": "Output format for git history"
-            },
-            "include_diffs": {
-              "type": "boolean",
-              "description": "Whether to include diffs in output"
-            }
-          },
-          "additionalProperties": false,
-          "description": "Configuration for semantic git history agent"
-        },
-        "unified_system_context_agent": {
-          "type": "object",
-          "required": ["max_files", "ignore_patterns", "output_format"],
-          "properties": {
-            "max_files": {
-              "type": "integer",
-              "minimum": 1,
-              "description": "Maximum number of files to process"
-            },
-            "ignore_patterns": {
-              "type": "array",
-              "items": {
+        "kpis": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name", "description", "calculation", "target"],
+            "properties": {
+              "name": {
                 "type": "string"
               },
-              "description": "Patterns to ignore when scanning"
-            },
-            "output_format": {
-              "type": "string",
-              "enum": ["json", "text"],
-              "description": "Output format for system context"
-            }
-          },
-          "additionalProperties": false,
-          "description": "Configuration for unified system context agent"
-        },
-        "agent_discovery_agent": {
-          "type": "object",
-          "required": ["search_paths", "output_format"],
-          "properties": {
-            "search_paths": {
-              "type": "array",
-              "items": {
+              "description": {
                 "type": "string"
               },
-              "description": "Paths to search for agents"
-            },
-            "output_format": {
-              "type": "string",
-              "enum": ["json", "text"],
-              "description": "Output format for discovered agents"
-            }
-          },
-          "additionalProperties": false,
-          "description": "Configuration for agent discovery agent"
-        },
-        "ci_pipeline_orchestrator_agent": {
-          "type": "object",
-          "required": ["config_file", "max_concurrent_jobs", "fail_fast", "smart_detection"],
-          "properties": {
-            "config_file": {
-              "type": "string",
-              "description": "Path to CI configuration file"
-            },
-            "max_concurrent_jobs": {
-              "type": "integer",
-              "minimum": 1,
-              "maximum": 50,
-              "description": "Maximum number of concurrent jobs"
-            },
-            "fail_fast": {
-              "type": "boolean",
-              "description": "Whether to stop on first failure"
-            },
-            "smart_detection": {
-              "type": "boolean",
-              "description": "Whether to enable smart change detection"
-            }
-          },
-          "additionalProperties": false,
-          "description": "Configuration for CI pipeline orchestrator agent"
-        },
-        "git_hook_manager_agent": {
-          "type": "object",
-          "required": ["hooks_dir", "validation_mode"],
-          "properties": {
-            "hooks_dir": {
-              "type": "string",
-              "description": "Directory containing git hooks"
-            },
-            "validation_mode": {
-              "type": "string",
-              "enum": ["strict", "permissive"],
-              "description": "Validation mode for git hooks"
-            }
-          },
-          "additionalProperties": false,
-          "description": "Configuration for git hook manager agent"
-        },
-        "test_results_analyzer_agent": {
-          "type": "object",
-          "required": ["test_dirs", "report_format"],
-          "properties": {
-            "test_dirs": {
-              "type": "array",
-              "items": {
+              "calculation": {
                 "type": "string"
               },
-              "description": "Directories containing test results"
-            },
-            "report_format": {
-              "type": "string",
-              "enum": ["json", "text", "html"],
-              "description": "Format for test result reports"
+              "target": {
+                "type": ["integer", "number"]
+              },
+              "current": {
+                "type": ["integer", "number", "null"]
+              },
+              "alert_threshold": {
+                "type": ["integer", "number"]
+              }
             }
-          },
-          "additionalProperties": false,
-          "description": "Configuration for test results analyzer agent"
+          }
+        },
+        "reports": {
+          "type": "object",
+          "properties": {
+            "daily": {
+              "type": "array",
+              "items": {
+                "type": "object"
+              }
+            },
+            "weekly": {
+              "type": "array",
+              "items": {
+                "type": "object"
+              }
+            },
+            "monthly": {
+              "type": "array",
+              "items": {
+                "type": "object"
+              }
+            }
+          }
         }
-      },
-      "additionalProperties": false,
-      "description": "Agent-specific configurations"
-    },
-    "metrics_configuration": {
-      "type": "object",
-      "required": ["enable_metrics", "metrics_output", "track_execution_time", "track_success_rate"],
-      "properties": {
-        "enable_metrics": {
-          "type": "boolean",
-          "description": "Whether to enable metrics collection"
-        },
-        "metrics_output": {
-          "type": "string",
-          "description": "Path to metrics output file"
-        },
-        "track_execution_time": {
-          "type": "boolean",
-          "description": "Whether to track execution time"
-        },
-        "track_success_rate": {
-          "type": "boolean",
-          "description": "Whether to track success rate"
-        }
-      },
-      "additionalProperties": false,
-      "description": "Metrics collection configuration"
-    },
-    "evolution_guidelines": {
-      "type": "object",
-      "required": ["schema_version", "backward_compatibility", "migration_required"],
-      "properties": {
-        "schema_version": {
-          "type": "string",
-          "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$",
-          "description": "Schema version in semver format"
-        },
-        "backward_compatibility": {
-          "type": "boolean",
-          "description": "Whether this version is backward compatible"
-        },
-        "migration_required": {
-          "type": "boolean",
-          "description": "Whether migration is required for this version"
-        }
-      },
-      "additionalProperties": false,
-      "description": "Evolution and versioning guidelines"
+      }
     }
-  },
-  "additionalProperties": false
+  }
 }

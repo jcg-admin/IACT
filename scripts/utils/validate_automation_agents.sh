@@ -1,508 +1,351 @@
 #!/bin/bash
-################################################################################
-# validate_automation_agents.sh
+# Validation utility for automation agents
+# Tests that all 6 agents function correctly with real data
+# NO EMOJIS - R2 compliant
 #
-# PURPOSE: Validation utility for testing all 6 automation agents with real data
-#
-# DESCRIPTION:
-#   This script validates that all automation agents are properly installed,
-#   have correct permissions, accept expected inputs, and produce valid outputs.
-#   No emojis are used in compliance with project rule R2.
-#
-# USAGE:
-#   ./validate_automation_agents.sh [OPTIONS]
-#
-# OPTIONS:
-#   -v, --verbose    Enable verbose output
-#   -h, --help       Display this help message
-#
-# EXIT CODES:
-#   0 - All tests passed
-#   1 - One or more tests failed
-#
-# TESTED AGENTS (9 Real Automation Agents):
-#   1. schema_validator_agent.py
-#   2. devcontainer_validator_agent.py
-#   3. metrics_collector_agent.py
-#   4. coherence_analyzer_agent.py
-#   5. constitution_validator_agent.py
-#   6. ci_pipeline_orchestrator_agent.py
-#   7. pdca_agent.py
-#   8. business_rules_validator_agent.py
-#   9. compliance_validator_agent.py
-#
-################################################################################
+# Exit codes:
+#   0 - All agents passed
+#   1 - Any agent failed
 
 set -euo pipefail
 
-# Global variables
+# Get script directory
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-PROJECT_ROOT="$(cd "${SCRIPT_DIR}/../.." && pwd)"
-AGENTS_DIR="${PROJECT_ROOT}/scripts/coding/ai/automation"
-TEMP_DIR="${PROJECT_ROOT}/tmp/agent_validation_$$"
-VERBOSE=false
-TESTS_PASSED=0
-TESTS_FAILED=0
-TOTAL_TESTS=0
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 
-# Color codes for output (no emojis - R2 compliant)
-RESET='\033[0m'
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-BLUE='\033[0;34m'
+# Set PYTHONPATH to include project root
+export PYTHONPATH="$PROJECT_ROOT:${PYTHONPATH:-}"
 
-################################################################################
+# Source common utilities
+# shellcheck source=../lib/common.sh
+source "$SCRIPT_DIR/../lib/common.sh"
+
+# Create temporary directory for outputs
+TEMP_DIR=$(mktemp -d)
+trap 'rm -rf "$TEMP_DIR"' EXIT
+
+# Results tracking
+PASSED_AGENTS=()
+FAILED_AGENTS=()
+
+# ============================================================================
 # Helper Functions
-################################################################################
+# ============================================================================
 
-# Display usage information
-usage() {
-    head -n 32 "$0" | grep "^#" | sed 's/^# \?//'
-    exit 0
-}
+validate_json_output() {
+    local file="$1"
+    local agent_name="$2"
 
-# Print message with color
-print_color() {
-    local color=$1
-    shift
-    echo -e "${color}$*${RESET}"
-}
-
-# Log info message
-log_info() {
-    print_color "$BLUE" "[INFO] $*"
-}
-
-# Log success message
-log_success() {
-    print_color "$GREEN" "[PASS] $*"
-}
-
-# Log error message
-log_error() {
-    print_color "$RED" "[FAIL] $*"
-}
-
-# Log warning message
-log_warning() {
-    print_color "$YELLOW" "[WARN] $*"
-}
-
-# Verbose logging
-log_verbose() {
-    if [[ "$VERBOSE" == "true" ]]; then
-        echo "[VERBOSE] $*"
-    fi
-}
-
-# Setup test environment
-setup_test_env() {
-    log_info "Setting up test environment..."
-    mkdir -p "$TEMP_DIR"
-    log_verbose "Created temporary directory: $TEMP_DIR"
-}
-
-# Cleanup test environment
-cleanup_test_env() {
-    log_info "Cleaning up test environment..."
-    if [[ -d "$TEMP_DIR" ]]; then
-        rm -rf "$TEMP_DIR"
-        log_verbose "Removed temporary directory: $TEMP_DIR"
-    fi
-}
-
-# Validate JSON output
-validate_json() {
-    local json_file=$1
-    if ! python3 -m json.tool "$json_file" >/dev/null 2>&1; then
+    if [ ! -f "$file" ]; then
+        log_error "$agent_name: Output file not created: $file"
         return 1
     fi
+
+    if ! python3 -m json.tool "$file" >/dev/null 2>&1; then
+        log_error "$agent_name: Invalid JSON output"
+        return 1
+    fi
+
+    log_success "$agent_name: Valid JSON output"
     return 0
 }
 
-# Record test result
-record_test() {
-    local test_name=$1
-    local status=$2
+check_exit_code() {
+    local exit_code=$1
+    local agent_name="$2"
+    local expected="${3:-0}"
 
-    TOTAL_TESTS=$((TOTAL_TESTS + 1))
-
-    if [[ "$status" == "PASS" ]]; then
-        TESTS_PASSED=$((TESTS_PASSED + 1))
-        log_success "$test_name"
+    if [ "$exit_code" -eq "$expected" ]; then
+        log_success "$agent_name: Correct exit code ($exit_code)"
+        return 0
     else
-        TESTS_FAILED=$((TESTS_FAILED + 1))
-        log_error "$test_name"
+        log_error "$agent_name: Unexpected exit code (got $exit_code, expected $expected)"
+        return 1
     fi
 }
 
-# Check if agent file exists and is executable
-check_agent_exists() {
-    local agent_name=$1
-    local agent_path="${AGENTS_DIR}/${agent_name}"
+# ============================================================================
+# Agent Validation Functions
+# ============================================================================
 
-    if [[ ! -f "$agent_path" ]]; then
-        record_test "${agent_name}: File exists" "FAIL"
-        return 1
-    fi
-    record_test "${agent_name}: File exists" "PASS"
+validate_schema_validator() {
+    local agent_name="SchemaValidatorAgent"
+    log_info "Validating $agent_name..."
 
-    if [[ ! -x "$agent_path" ]]; then
-        record_test "${agent_name}: Executable permissions" "FAIL"
-        return 1
-    fi
-    record_test "${agent_name}: Executable permissions" "PASS"
+    local output_file="$TEMP_DIR/schema_validation.json"
 
-    return 0
+    # Create a minimal valid YAML file for testing
+    local test_yaml="$TEMP_DIR/test.yaml"
+    cat > "$test_yaml" <<EOF
+version: "1.0"
+principles:
+  - principle_id: "P1"
+    name: "Test Principle"
+rules:
+  - rule_id: "R1"
+    principle_id: "P1"
+    severity: "error"
+EOF
+
+    # Create a minimal schema
+    local test_schema="$TEMP_DIR/schema.json"
+    cat > "$test_schema" <<EOF
+{
+  "\$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "version": {"type": "string"},
+    "principles": {"type": "array"},
+    "rules": {"type": "array"}
+  }
 }
+EOF
 
-################################################################################
-# Agent Test Functions
-################################################################################
+    # Run the agent
+    if python3 "$PROJECT_ROOT/scripts/coding/ai/automation/schema_validator_agent.py" \
+        --file "$test_yaml" \
+        --schema "$test_schema" \
+        --output "$output_file" \
+        --type constitucion; then
 
-# Test schema_validator_agent.py
-test_schema_validator_agent() {
-    local agent_name="schema_validator_agent.py"
-    log_info "Testing ${agent_name}..."
-
-    check_agent_exists "$agent_name" || return 1
-
-    local agent_path="${AGENTS_DIR}/${agent_name}"
-    local output_file="${TEMP_DIR}/schema_validation_output.json"
-
-    # Test with constitution schema
-    log_verbose "Running ${agent_name} on .constitucion.yaml..."
-    if python3 "$agent_path" --config "${PROJECT_ROOT}/.constitucion.yaml" --mode syntax >/dev/null 2>&1; then
-        record_test "${agent_name}: Execution" "PASS"
-    else
-        record_test "${agent_name}: Execution" "PASS"  # May not exist yet
-    fi
-
-    # Check agent structure
-    if python3 -c "import ast; ast.parse(open('${agent_path}').read())" 2>/dev/null; then
-        record_test "${agent_name}: Valid Python syntax" "PASS"
-    else
-        record_test "${agent_name}: Valid Python syntax" "FAIL"
-        return 1
-    fi
-
-    return 0
-}
-
-# Test devcontainer_validator_agent.py
-test_devcontainer_validator_agent() {
-    local agent_name="devcontainer_validator_agent.py"
-    log_info "Testing ${agent_name}..."
-
-    check_agent_exists "$agent_name" || return 1
-
-    local agent_path="${AGENTS_DIR}/${agent_name}"
-
-    # Test with devcontainer config
-    log_verbose "Running ${agent_name}..."
-    if python3 "$agent_path" --config "${PROJECT_ROOT}/.devcontainer/devcontainer.json" >/dev/null 2>&1; then
-        record_test "${agent_name}: Execution" "PASS"
-    else
-        record_test "${agent_name}: Execution" "PASS"  # May fail if not in devcontainer
-    fi
-
-    # Check agent structure
-    if python3 -c "import ast; ast.parse(open('${agent_path}').read())" 2>/dev/null; then
-        record_test "${agent_name}: Valid Python syntax" "PASS"
-    else
-        record_test "${agent_name}: Valid Python syntax" "FAIL"
-        return 1
-    fi
-
-    return 0
-}
-
-# Test metrics_collector_agent.py
-test_metrics_collector_agent() {
-    local agent_name="metrics_collector_agent.py"
-    log_info "Testing ${agent_name}..."
-
-    check_agent_exists "$agent_name" || return 1
-
-    local agent_path="${AGENTS_DIR}/${agent_name}"
-
-    # Test metrics collection
-    log_verbose "Running ${agent_name}..."
-    if python3 "$agent_path" --collect >/dev/null 2>&1; then
-        record_test "${agent_name}: Execution" "PASS"
-    else
-        record_test "${agent_name}: Execution" "PASS"  # May fail without data
-    fi
-
-    # Check agent structure
-    if python3 -c "import ast; ast.parse(open('${agent_path}').read())" 2>/dev/null; then
-        record_test "${agent_name}: Valid Python syntax" "PASS"
-    else
-        record_test "${agent_name}: Valid Python syntax" "FAIL"
-        return 1
-    fi
-
-    return 0
-}
-
-# Test ci_pipeline_orchestrator_agent.py
-test_ci_pipeline_orchestrator_agent() {
-    local agent_name="ci_pipeline_orchestrator_agent.py"
-    log_info "Testing ${agent_name}..."
-
-    check_agent_exists "$agent_name" || return 1
-
-    local agent_path="${AGENTS_DIR}/${agent_name}"
-
-    # Test with real .ci-local.yaml if exists, otherwise use minimal YAML
-    if [[ -f "${PROJECT_ROOT}/.ci-local.yaml" ]]; then
-        log_verbose "Running ${agent_name} with .ci-local.yaml..."
-        if python3 "$agent_path" --config "${PROJECT_ROOT}/.ci-local.yaml" --dry-run >/dev/null 2>&1; then
-            record_test "${agent_name}: Execution" "PASS"
-        else
-            record_test "${agent_name}: Execution" "PASS"  # May fail without full config
+        if validate_json_output "$output_file" "$agent_name"; then
+            PASSED_AGENTS+=("$agent_name")
+            return 0
         fi
-    else
-        log_verbose "${agent_name} requires .ci-local.yaml (not found, marking PASS)"
-        record_test "${agent_name}: Execution" "PASS"
     fi
 
-    # Check agent structure
-    if python3 -c "import ast; ast.parse(open('${agent_path}').read())" 2>/dev/null; then
-        record_test "${agent_name}: Valid Python syntax" "PASS"
-    else
-        record_test "${agent_name}: Valid Python syntax" "FAIL"
-        return 1
-    fi
-
-    # Check exit code was successful
-    record_test "${agent_name}: Exit code" "PASS"
-
-    return 0
+    FAILED_AGENTS+=("$agent_name")
+    return 1
 }
 
-# Test coherence_analyzer_agent.py
-test_coherence_analyzer_agent() {
-    local agent_name="coherence_analyzer_agent.py"
-    log_info "Testing ${agent_name}..."
+validate_devcontainer_validator() {
+    local agent_name="DevContainerValidatorAgent"
+    log_info "Validating $agent_name..."
 
-    check_agent_exists "$agent_name" || return 1
+    local output_file="$TEMP_DIR/devcontainer_validation.json"
 
-    local agent_path="${AGENTS_DIR}/${agent_name}"
+    # Always create a test devcontainer.json without comments for validation
+    # (Real devcontainer.json may have JSONC comments which json.load() can't parse)
+    local devcontainer_json="$TEMP_DIR/devcontainer.json"
+    cat > "$devcontainer_json" <<'EOF'
+{
+  "name": "test-devcontainer",
+  "build": {
+    "args": {
+      "PYTHON_VERSION": "3.12",
+      "NODE_VERSION": "18"
+    }
+  },
+  "forwardPorts": [8000, 3000],
+  "containerEnv": {
+    "DEBUG": "1",
+    "ENVIRONMENT": "test"
+  }
+}
+EOF
 
-    # Test coherence analysis
-    log_verbose "Running ${agent_name}..."
-    if python3 "$agent_path" --ui-path "frontend/src/components" --api-path "api/callcentersite" >/dev/null 2>&1; then
-        record_test "${agent_name}: Execution" "PASS"
-    else
-        record_test "${agent_name}: Execution" "PASS"  # May fail without UI/API
+    # Run the agent (exit code 1 is OK if some checks fail)
+    set +e
+    python3 "$PROJECT_ROOT/scripts/coding/ai/automation/devcontainer_validator_agent.py" \
+        --devcontainer-json "$devcontainer_json" \
+        --output "$output_file"
+    local exit_code=$?
+    set -e
+
+    # We accept exit codes 0 or 1 (0=all passed, 1=some failed)
+    if [ "$exit_code" -le 1 ]; then
+        if validate_json_output "$output_file" "$agent_name"; then
+            PASSED_AGENTS+=("$agent_name")
+            return 0
+        fi
     fi
 
-    # Check agent structure
-    if python3 -c "import ast; ast.parse(open('${agent_path}').read())" 2>/dev/null; then
-        record_test "${agent_name}: Valid Python syntax" "PASS"
-    else
-        record_test "${agent_name}: Valid Python syntax" "FAIL"
-        return 1
-    fi
-
-    return 0
+    FAILED_AGENTS+=("$agent_name")
+    return 1
 }
 
-# Test constitution_validator_agent.py
-test_constitution_validator_agent() {
-    local agent_name="constitution_validator_agent.py"
-    log_info "Testing ${agent_name}..."
+validate_metrics_collector() {
+    local agent_name="MetricsCollectorAgent"
+    log_info "Validating $agent_name..."
 
-    check_agent_exists "$agent_name" || return 1
+    local output_file="$TEMP_DIR/metrics_report.json"
 
-    local agent_path="${AGENTS_DIR}/${agent_name}"
+    # Create a sample violations log
+    local violations_log="$TEMP_DIR/violations.log"
+    cat > "$violations_log" <<EOF
+[2025-11-13 12:00:00] VIOLATION - Rule: R2 - Severity: error - File: test.py - Line: 10 - Author: test - Message: Test violation
+[2025-11-13 12:05:00] VIOLATION - Rule: R2 - Severity: warning - File: test.py - Line: 20 - Author: test - Message: Another test
+EOF
 
-    # Test constitution validation
-    log_verbose "Running ${agent_name}..."
-    if python3 "$agent_path" --rules R1,R2,R3,R4,R5,R6 >/dev/null 2>&1; then
-        record_test "${agent_name}: Execution" "PASS"
-    else
-        record_test "${agent_name}: Execution" "PASS"  # May fail on validation errors
+    # Run the agent
+    if python3 "$PROJECT_ROOT/scripts/coding/ai/automation/metrics_collector_agent.py" \
+        --log-file "$violations_log" \
+        --metrics-type violations \
+        --period 30 \
+        --output "$output_file" \
+        --format json; then
+
+        if validate_json_output "$output_file" "$agent_name"; then
+            PASSED_AGENTS+=("$agent_name")
+            return 0
+        fi
     fi
 
-    # Check agent structure
-    if python3 -c "import ast; ast.parse(open('${agent_path}').read())" 2>/dev/null; then
-        record_test "${agent_name}: Valid Python syntax" "PASS"
-    else
-        record_test "${agent_name}: Valid Python syntax" "FAIL"
-        return 1
-    fi
-
-    return 0
+    FAILED_AGENTS+=("$agent_name")
+    return 1
 }
 
-# Test pdca_agent.py
-test_pdca_agent() {
-    local agent_name="pdca_agent.py"
-    log_info "Testing ${agent_name}..."
+validate_coherence_analyzer() {
+    local agent_name="CoherenceAnalyzerAgent"
+    log_info "Validating $agent_name..."
 
-    check_agent_exists "$agent_name" || return 1
+    local output_file="$TEMP_DIR/coherence_report.json"
 
-    local agent_path="${AGENTS_DIR}/${agent_name}"
+    # Run the agent with current git state (if any changes)
+    set +e
+    python3 "$PROJECT_ROOT/scripts/coding/ai/automation/coherence_analyzer_agent.py" \
+        --output "$output_file" \
+        --threshold 0
+    local exit_code=$?
+    set -e
 
-    # Test PDCA agent
-    log_verbose "Running ${agent_name}..."
-    if python3 "$agent_path" --cycle plan >/dev/null 2>&1; then
-        record_test "${agent_name}: Execution" "PASS"
-    else
-        record_test "${agent_name}: Execution" "PASS"  # May fail without DORA metrics
+    # We accept exit codes 0 or 1
+    if [ "$exit_code" -le 1 ]; then
+        if validate_json_output "$output_file" "$agent_name"; then
+            PASSED_AGENTS+=("$agent_name")
+            return 0
+        fi
     fi
 
-    # Check agent structure
-    if python3 -c "import ast; ast.parse(open('${agent_path}').read())" 2>/dev/null; then
-        record_test "${agent_name}: Valid Python syntax" "PASS"
-    else
-        record_test "${agent_name}: Valid Python syntax" "FAIL"
-        return 1
-    fi
-
-    return 0
+    FAILED_AGENTS+=("$agent_name")
+    return 1
 }
 
-# Test business_rules_validator_agent.py
-test_business_rules_validator_agent() {
-    local agent_name="business_rules_validator_agent.py"
-    log_info "Testing ${agent_name}..."
+validate_constitution_validator() {
+    local agent_name="ConstitutionValidatorAgent"
+    log_info "Validating $agent_name..."
 
-    check_agent_exists "$agent_name" || return 1
+    local output_file="$TEMP_DIR/constitution_validation.json"
 
-    local agent_path="${AGENTS_DIR}/${agent_name}"
+    # Create a test file for R2 validation
+    local test_file="$TEMP_DIR/test_file.txt"
+    echo "This is a clean test file without any emojis" > "$test_file"
 
-    # Test business rules validation
-    log_verbose "Running ${agent_name}..."
-    if python3 "$agent_path" --docs-dir docs/gobernanza/requisitos/REGLAS_NEGOCIO >/dev/null 2>&1; then
-        record_test "${agent_name}: Execution" "PASS"
-    else
-        record_test "${agent_name}: Execution" "PASS"  # May fail if docs not complete
+    # Run the agent in manual mode with R2 only (fast validation)
+    set +e
+    python3 "$PROJECT_ROOT/scripts/coding/ai/automation/constitution_validator_agent.py" \
+        --mode manual \
+        --rules R2 \
+        --changed-files "$test_file" \
+        --output "$output_file"
+    local exit_code=$?
+    set -e
+
+    # We accept exit codes 0, 1, or 2 (0=pass, 1=errors, 2=warnings)
+    if [ "$exit_code" -le 2 ]; then
+        if validate_json_output "$output_file" "$agent_name"; then
+            PASSED_AGENTS+=("$agent_name")
+            return 0
+        fi
     fi
 
-    # Check agent structure
-    if python3 -c "import ast; ast.parse(open('${agent_path}').read())" 2>/dev/null; then
-        record_test "${agent_name}: Valid Python syntax" "PASS"
-    else
-        record_test "${agent_name}: Valid Python syntax" "FAIL"
-        return 1
-    fi
-
-    return 0
+    FAILED_AGENTS+=("$agent_name")
+    return 1
 }
 
-# Test compliance_validator_agent.py
-test_compliance_validator_agent() {
-    local agent_name="compliance_validator_agent.py"
-    log_info "Testing ${agent_name}..."
+validate_ci_pipeline_orchestrator() {
+    local agent_name="CIPipelineOrchestratorAgent"
+    log_info "Validating $agent_name..."
 
-    check_agent_exists "$agent_name" || return 1
+    local output_file="$TEMP_DIR/pipeline_report.json"
+    local ci_config="$PROJECT_ROOT/.ci-local.yaml"
 
-    local agent_path="${AGENTS_DIR}/${agent_name}"
-
-    # Test compliance validation
-    log_verbose "Running ${agent_name}..."
-    if python3 "$agent_path" --spec-file docs/gobernanza/requisitos/REGLAS_NEGOCIO/ESPECIFICACION_TESTS_COMPLIANCE.md >/dev/null 2>&1; then
-        record_test "${agent_name}: Execution" "PASS"
-    else
-        record_test "${agent_name}: Execution" "PASS"  # May fail if spec incomplete
+    # Check if .ci-local.yaml exists
+    if [ ! -f "$ci_config" ]; then
+        log_warning "$agent_name: .ci-local.yaml not found, creating minimal test config"
+        ci_config="$TEMP_DIR/.ci-local.yaml"
+        cat > "$ci_config" <<EOF
+version: "1.0"
+pipeline:
+  name: "Test Pipeline"
+  fail_fast: false
+stages:
+  - name: "test"
+    jobs:
+      - name: "echo-test"
+        command: "echo 'test passed'"
+        timeout: 10
+EOF
     fi
 
-    # Check agent structure
-    if python3 -c "import ast; ast.parse(open('${agent_path}').read())" 2>/dev/null; then
-        record_test "${agent_name}: Valid Python syntax" "PASS"
-    else
-        record_test "${agent_name}: Valid Python syntax" "FAIL"
-        return 1
+    # Run the agent in dry-run mode
+    if python3 "$PROJECT_ROOT/scripts/coding/ai/automation/ci_pipeline_orchestrator_agent.py" \
+        --config "$ci_config" \
+        --dry-run \
+        --output "$output_file"; then
+
+        if validate_json_output "$output_file" "$agent_name"; then
+            PASSED_AGENTS+=("$agent_name")
+            return 0
+        fi
     fi
 
-    return 0
+    FAILED_AGENTS+=("$agent_name")
+    return 1
 }
 
-################################################################################
+# ============================================================================
 # Main Execution
-################################################################################
+# ============================================================================
 
 main() {
-    # Parse command line arguments
-    while [[ $# -gt 0 ]]; do
-        case $1 in
-            -v|--verbose)
-                VERBOSE=true
-                shift
-                ;;
-            -h|--help)
-                usage
-                ;;
-            *)
-                log_error "Unknown option: $1"
-                usage
-                ;;
-        esac
+    log_info "=========================================="
+    log_info "Automation Agents Validation Utility"
+    log_info "=========================================="
+    log_info ""
+    log_info "Project Root: $PROJECT_ROOT"
+    log_info "Temp Directory: $TEMP_DIR"
+    log_info ""
+
+    # Run validations
+    validate_schema_validator || true
+    validate_devcontainer_validator || true
+    validate_metrics_collector || true
+    validate_coherence_analyzer || true
+    validate_constitution_validator || true
+    validate_ci_pipeline_orchestrator || true
+
+    # Report results
+    log_info ""
+    log_info "=========================================="
+    log_info "Validation Results"
+    log_info "=========================================="
+    log_info ""
+
+    log_info "Passed Agents (${#PASSED_AGENTS[@]}/6):"
+    for agent in "${PASSED_AGENTS[@]}"; do
+        log_success "  - $agent"
     done
 
-    # Print header
-    echo "========================================================================"
-    echo "Automation Agents Validation Script"
-    echo "========================================================================"
-    echo ""
-
-    # Setup
-    setup_test_env
-
-    # Register cleanup on exit
-    trap cleanup_test_env EXIT
-
-    # Run all agent tests (9 Real Automation Agents)
-    # Use || true to continue even if individual tests fail
-    test_schema_validator_agent || true
-    echo ""
-
-    test_devcontainer_validator_agent || true
-    echo ""
-
-    test_metrics_collector_agent || true
-    echo ""
-
-    test_coherence_analyzer_agent || true
-    echo ""
-
-    test_constitution_validator_agent || true
-    echo ""
-
-    test_ci_pipeline_orchestrator_agent || true
-    echo ""
-
-    test_pdca_agent || true
-    echo ""
-
-    test_business_rules_validator_agent || true
-    echo ""
-
-    test_compliance_validator_agent || true
-    echo ""
-
-    # Print summary
-    echo "========================================================================"
-    echo "Validation Summary"
-    echo "========================================================================"
-    echo "Total Tests:  $TOTAL_TESTS"
-    echo "Passed:       $TESTS_PASSED"
-    echo "Failed:       $TESTS_FAILED"
-    echo "========================================================================"
-
-    # Determine exit code
-    if [[ $TESTS_FAILED -eq 0 ]]; then
-        log_success "All validation tests passed"
-        exit 0
+    if [ ${#FAILED_AGENTS[@]} -gt 0 ]; then
+        log_info ""
+        log_info "Failed Agents (${#FAILED_AGENTS[@]}/6):"
+        for agent in "${FAILED_AGENTS[@]}"; do
+            log_error "  - $agent"
+        done
+        log_info ""
+        log_error "Validation failed: ${#FAILED_AGENTS[@]} agent(s) failed"
+        return 1
     else
-        log_error "Some validation tests failed"
-        exit 1
+        log_info ""
+        log_success "All agents validated successfully!"
+        return 0
     fi
 }
 
 # Run main function
-main "$@"
+if main; then
+    exit 0
+else
+    exit 1
+fi
