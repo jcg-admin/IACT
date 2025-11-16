@@ -45,8 +45,10 @@ def detectar_tipo(nombre: str, contenido: str) -> str:
         return "documentacion_agente"
     elif "## Descripción" in contenido and "## Contexto" in contenido:
         return "analisis"
-    elif "## Status" in contenido and "## Decisión" in contenido:
+    elif ("## Status" in contenido or "## Estado" in contenido) and ("## Decision" in contenido or "## Decisión" in contenido):
         return "adr"
+    elif ("## Casos de Prueba" in contenido or "## Test Cases" in contenido) and ("## Cobertura" in contenido or "## Coverage" in contenido):
+        return "plan_testing"
 
     # Default
     return "documento_general"
@@ -62,12 +64,22 @@ def detectar_dominios_en_contenido(contenido: str) -> List[str]:
     Returns:
         Lista de dominios mencionados
     """
-    DOMINIOS = ["backend", "frontend", "infraestructura", "ai"]
-    mencionados = []
+    # Palabras clave por dominio
+    KEYWORDS_POR_DOMINIO = {
+        "backend": ["django", "rest api", "postgresql", "python", "flask", "fastapi", "sql", "database"],
+        "frontend": ["react", "redux", "typescript", "javascript", "vue", "angular", "component", "jsx"],
+        "infraestructura": ["docker", "kubernetes", "devops", "ci/cd", "deployment", "infrastructure"],
+        "ai": ["machine learning", "llm", "model", "agent", "training", "neural"]
+    }
 
+    mencionados = []
     contenido_lower = contenido.lower()
-    for dominio in DOMINIOS:
-        if dominio in contenido_lower:
-            mencionados.append(dominio)
+
+    for dominio, keywords in KEYWORDS_POR_DOMINIO.items():
+        for keyword in keywords:
+            if keyword in contenido_lower:
+                if dominio not in mencionados:
+                    mencionados.append(dominio)
+                break
 
     return mencionados
