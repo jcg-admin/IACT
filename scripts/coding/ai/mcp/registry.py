@@ -13,6 +13,10 @@ from .memory import (
     MemoryType,
 )
 
+# Playwright MCP version pinned to match Copilot CLI reference log (2025-01-16)
+# This version has been verified to work with the current integration
+PLAYWRIGHT_MCP_VERSION = "0.0.40"
+
 
 @dataclass(frozen=True)
 class RemoteMCPServer:
@@ -103,7 +107,7 @@ def build_default_registry() -> MCPRegistry:
             name="playwright",
             command="npx",
             args=(
-                "@playwright/mcp@0.0.40",
+                f"@playwright/mcp@{PLAYWRIGHT_MCP_VERSION}",
                 "--viewport-size",
                 f"{viewport_size[0]},{viewport_size[1]}",
                 "--output-dir",
