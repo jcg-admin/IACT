@@ -1,3 +1,9 @@
+---
+name: SDLCDeploymentAgent
+description: Dirigir la fase de despliegue dentro del ciclo SDLC, garantizando que los artefactos listos lleguen a los entornos objetivo.
+tools: ["read", "search", "edit"]
+---
+
 # SDLCDeploymentAgent
 
 <Goals>

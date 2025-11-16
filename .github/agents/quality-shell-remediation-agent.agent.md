@@ -1,3 +1,9 @@
+---
+name: QualityShellRemediationAgent
+description: Aplicar correcciones en scripts shell priorizando estabilidad, seguridad y trazabilidad de cambios.
+tools: ["read", "search", "edit"]
+---
+
 # QualityShellRemediationAgent
 
 <Goals>

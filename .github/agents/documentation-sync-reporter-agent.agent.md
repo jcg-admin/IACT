@@ -1,3 +1,9 @@
+---
+name: DocumentationSyncReporterAgent
+description: Emitir reportes ejecutivos sobre esfuerzos de sincronización documental, resaltando avances, pendientes y métricas clave.
+tools: ["read", "search"]
+---
+
 # DocumentationSyncReporterAgent
 
 <Goals>

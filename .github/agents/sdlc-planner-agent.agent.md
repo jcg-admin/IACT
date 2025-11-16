@@ -1,3 +1,9 @@
+---
+name: SDLCPlannerAgent
+description: Elaborar planes iterativos para iniciativas SDLC asegurando coherencia entre alcance, recursos y prioridades.
+tools: ["read", "search", "edit"]
+---
+
 # SDLCPlannerAgent
 
 <Goals>

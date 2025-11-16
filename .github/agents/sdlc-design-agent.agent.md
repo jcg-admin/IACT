@@ -1,3 +1,9 @@
+---
+name: SDLCDesignAgent
+description: Conducir la fase de diseño dentro del ciclo de desarrollo, integrando requisitos, arquitectura y estándares vigentes.
+tools: ["read", "search", "edit"]
+---
+
 # SDLCDesignAgent
 
 <Goals>

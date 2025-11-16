@@ -1,3 +1,9 @@
+---
+name: ScriptsAgent
+description: Gestionar scripts utilitarios del repositorio para que sean consistentes, reutilizables y fáciles de operar.
+tools: ["read", "search", "edit"]
+---
+
 # ScriptsAgent
 
 <Goals>

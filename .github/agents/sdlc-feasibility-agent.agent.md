@@ -1,3 +1,9 @@
+---
+name: SDLCFeasibilityAgent
+description: Evaluar la factibilidad de iniciativas antes de su desarrollo, considerando viabilidad técnica, de negocio y operativa.
+tools: ["read", "search", "edit"]
+---
+
 # SDLCFeasibilityAgent
 
 <Goals>

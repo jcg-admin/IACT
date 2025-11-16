@@ -1,3 +1,9 @@
+---
+name: AutomationPDAAgent
+description: Aplicar el ciclo Plan-Do-Check-Act sobre automatizaciones, asegurando mejora continua y documentación de resultados.
+tools: ["read", "search", "edit"]
+---
+
 # AutomationPDAAgent
 
 <Goals>

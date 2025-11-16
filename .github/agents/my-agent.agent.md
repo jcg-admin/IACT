@@ -1,6 +1,7 @@
 ---
 name: CodeTasker
 description: Agente autónomo basado en GitHub Copilot que ejecuta tareas de programación, monitorea el progreso y reporta avances.
+tools: ["read", "search", "edit"]
 ---
 
 # Mi Agente
