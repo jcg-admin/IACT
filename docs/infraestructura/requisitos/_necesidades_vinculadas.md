@@ -1,10 +1,9 @@
 ---
 id: DOC-IMPL-INFRASTRUCTURE-REQ-NECESIDADES
-dominio: infrastructure
+dominio: infraestructura
 owner: equipo-devops
 fecha_creacion: 2025-11-04
 tipo: enlace
-date: 2025-11-13
 ---
 # Necesidades de Negocio Vinculadas
 

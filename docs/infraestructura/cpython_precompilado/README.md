@@ -1,10 +1,3 @@
----
-title: CPython Precompilado - Guía de Usuario
-date: 2025-11-13
-domain: infraestructura
-status: active
----
-
 # CPython Precompilado - Guía de Usuario
 
 **Versión**: 1.0.0
@@ -138,7 +131,7 @@ Para desarrollo completamente offline o para testing de artefactos compilados lo
   "features": {
     "./infrastructure/cpython/installer": {
       "version": "3.12.6",
-      "artifactUrl": "${localWorkspaceFolder}/infrastructure/cpython/artifacts/cpython-3.12.6-ubuntu20.04-build1.tgz"
+      "artifactUrl": "${localWorkspaceFolder}/infraestructura/cpython/artifacts/cpython-3.12.6-ubuntu20.04-build1.tgz"
     }
   }
 }
@@ -147,11 +140,11 @@ Para desarrollo completamente offline o para testing de artefactos compilados lo
 **Opción 1: Descargar artefacto manualmente**
 
 ```bash
-mkdir -p infrastructure/cpython/artifacts/
+mkdir -p infraestructura/cpython/artifacts/
 curl -L https://github.com/2-Coatl/IACT---project/releases/download/cpython-3.12.6-build1/cpython-3.12.6-ubuntu20.04-build1.tgz \
-  -o infrastructure/cpython/artifacts/cpython-3.12.6-ubuntu20.04-build1.tgz
+  -o infraestructura/cpython/artifacts/cpython-3.12.6-ubuntu20.04-build1.tgz
 curl -L https://github.com/2-Coatl/IACT---project/releases/download/cpython-3.12.6-build1/cpython-3.12.6-ubuntu20.04-build1.tgz.sha256 \
-  -o infrastructure/cpython/artifacts/cpython-3.12.6-ubuntu20.04-build1.tgz.sha256
+  -o infraestructura/cpython/artifacts/cpython-3.12.6-ubuntu20.04-build1.tgz.sha256
 ```
 
 **Opción 2: Compilar artefacto localmente (Fase 2)**
@@ -165,7 +158,7 @@ make build_cpython VERSION=3.12.6
 # Validar artefacto
 make validate-cpython ARTIFACT=cpython-3.12.6-ubuntu20.04-build1.tgz
 
-# El artefacto estará en infrastructure/cpython/artifacts/ listo para usar
+# El artefacto estará en infraestructura/cpython/artifacts/ listo para usar
 ```
 
 Ver: `infrastructure/cpython/README.md` para más detalles sobre compilación local.

@@ -217,3 +217,80 @@ class SuspenderUsuarioSerializer(serializers.Serializer):
         max_length=500,
         help_text='Motivo de la suspension',
     )
+
+
+class UserRegistrationSerializer(serializers.ModelSerializer):
+    """
+    Serializer para registro publico de usuarios.
+
+    Campos:
+        - username: str (requerido, unico)
+        - email: str (requerido, unico, formato email)
+        - password: str (requerido, minimo 8 caracteres)
+        - password_confirm: str (requerido, debe coincidir con password)
+    """
+
+    password = serializers.CharField(
+        write_only=True,
+        required=True,
+        min_length=8,
+        style={'input_type': 'password'},
+        help_text='Password del usuario (minimo 8 caracteres)',
+    )
+    password_confirm = serializers.CharField(
+        write_only=True,
+        required=True,
+        style={'input_type': 'password'},
+        help_text='Confirmacion del password',
+    )
+
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'password', 'password_confirm']
+        extra_kwargs = {
+            'username': {
+                'required': True,
+                'allow_blank': False,
+            },
+            'email': {
+                'required': True,
+                'allow_blank': False,
+            },
+        }
+
+    def validate_username(self, value: str) -> str:
+        """Valida que el username sea unico."""
+        if User.objects.filter(username=value).exists():
+            raise serializers.ValidationError(
+                f'Ya existe un usuario con el username: {value}'
+            )
+        return value
+
+    def validate_email(self, value: str) -> str:
+        """Valida que el email sea unico."""
+        if User.objects.filter(email=value).exists():
+            raise serializers.ValidationError(
+                f'Ya existe un usuario con el email: {value}'
+            )
+        return value
+
+    def validate(self, data: Dict[str, Any]) -> Dict[str, Any]:
+        """Valida que los passwords coincidan."""
+        if data['password'] != data['password_confirm']:
+            raise serializers.ValidationError({
+                'password_confirm': 'Los passwords no coinciden'
+            })
+        return data
+
+    def create(self, validated_data: Dict[str, Any]) -> User:
+        """Crea usuario nuevo con password hasheado."""
+        # Remove password_confirm as it's not needed for creation
+        validated_data.pop('password_confirm')
+        
+        # Create user with hashed password
+        user = User.objects.create_user(
+            username=validated_data['username'],
+            email=validated_data['email'],
+            password=validated_data['password'],
+        )
+        return user

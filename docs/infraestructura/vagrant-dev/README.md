@@ -1,10 +1,3 @@
----
-title: Vagrant Development Environment
-date: 2025-11-13
-domain: infraestructura
-status: active
----
-
 # Vagrant Development Environment
 
 **Autor**: Infrastructure Team
@@ -150,7 +143,7 @@ VBoxManage --version  # Esperado: 6.x o 7.x
 #### 1. Navegar al directorio
 
 ```bash
-cd infrastructure/vagrant
+cd infraestructura/vagrant
 ```
 
 #### 2. Levantar VM (Primera vez)
@@ -788,7 +781,7 @@ vagrant ssh -c "mysql -u root -p'rootpass123' ivr_legacy"
 
 ```bash
 # Ver logs de aprovisionamiento
-cat infrastructure/vagrant/logs/bootstrap-*.log
+cat infraestructura/vagrant/logs/bootstrap-*.log
 
 # Ver logs de PostgreSQL
 vagrant ssh -c "sudo tail -f /var/log/postgresql/postgresql-16-main.log"

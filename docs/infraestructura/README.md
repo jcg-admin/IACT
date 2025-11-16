@@ -4,7 +4,6 @@ estado: borrador
 propietario: equipo-infraestructura
 ultima_actualizacion: 2025-02-20
 relacionados: ["DOC-INDEX-GENERAL", "DOC-DEVOPS-INDEX"]
-date: 2025-11-13
 ---
 # Espacio de documentación - Infraestructura
 
@@ -22,5 +21,6 @@ Este espacio centraliza la documentación operativa y de diseño de la infraestr
 Cada carpeta ofrece un README inicial listo para documentar los artefactos correspondientes.
 
 ## Recursos destacados recientes
-- **CPython precompilado**: consulta el [pipeline y guía de DevContainer](cpython_precompilado/pipeline_devcontainer.md) para entender cómo se construye, publica y consume el intérprete optimizado.【F:docs/infraestructura/cpython_precompilado/pipeline_devcontainer.md†L1-L99】
+- **CPython precompilado**: consulta el [pipeline y guía de DevContainer](cpython_precompilado/pipeline_devcontainer.md) para entender cómo se construye, publica y consume el intérprete optimizado.【F:docs/infrastructure/cpython_precompilado/pipeline_devcontainer.md†L1-L99】
 - **Scripts oficiales**: `build_cpython.sh`, `validate_build.sh` e `install_prebuilt_cpython.sh` viven en `infrastructure/cpython/scripts/` y cuentan con pruebas en `infrastructure/cpython/tests/`.
+- **Workspaces Hamilton**: la carpeta [`workspace`](workspace/README.md) concentra tanto el ejemplo `Data → Prompt → LLM → $` (`infrastructure/workspace/hamilton_llm/`) como el lenguaje de servidores (`infrastructure/workspace/dev_tools/language_server/hamilton_lsp/`), cada uno con sus pruebas (`infrastructure/workspace/tests/...`).

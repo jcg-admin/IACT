@@ -5,7 +5,6 @@ estado: activo
 propietario: equipo-infraestructura
 ultima_actualizacion: 2025-11-06
 relacionados: ["SPEC_INFRA_001", "FASE_3_PROCEDIMIENTO"]
-date: 2025-11-13
 ---
 
 # Métricas y Criterios de Éxito - Fase 3
@@ -144,13 +143,13 @@ Ejemplo:
 **Cómo ejecutar**:
 ```bash
 # Todos los tests
-pytest infrastructure/cpython/tests/ -v
+pytest infraestructura/cpython/tests/ -v
 
 # Solo tests críticos
-pytest infrastructure/cpython/tests/ -v -m critical
+pytest infraestructura/cpython/tests/ -v -m critical
 
 # Con coverage
-pytest infrastructure/cpython/tests/ --cov=infrastructure/cpython --cov-report=term
+pytest infraestructura/cpython/tests/ --cov=infraestructura/cpython --cov-report=term
 ```
 
 **Criterio de éxito**: `25 passed, 0 failed`
@@ -228,7 +227,7 @@ sha256sum -c cpython-3.12.6-ubuntu20.04-build1.tgz.sha256
 grep -r "infrastructure/cpython/installer" .devcontainer/devcontainer.json
 
 # O buscar en GitHub org
-gh search code --owner 2-Coatl 'infrastructure/cpython/installer'
+gh search code --owner 2-Coatl 'infraestructura/cpython/installer'
 ```
 
 ### Descargas de GitHub Release
@@ -380,7 +379,7 @@ Una vez completada Fase 3, mantener estas métricas:
 
 ### Reporte Final (Post-Fase 3)
 
-Crear archivo: `docs/infraestructura/cpython_precompilado/fase-3-resultados.md`
+Crear archivo: `docs/infrastructure/cpython_precompilado/fase-3-resultados.md`
 
 Template en FASE_3_PROCEDIMIENTO.md sección 5.1
 

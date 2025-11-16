@@ -1,12 +1,11 @@
 ---
 id: DOC-INFRA-CPYTHON-DEV-GUIDE
 tipo: documentacion-tecnica
-categoria: infrastructure
+categoria: infraestructura
 version: 1.0.0
 fecha_creacion: 2025-11-07
 propietario: devops-lead
 relacionados: ["DOC-INFRA-CPYTHON-BUILDER", "SPEC_INFRA_001"]
-date: 2025-11-13
 ---
 
 # CPython Builder - Guia de Desarrollo
@@ -202,7 +201,7 @@ log_progress() {
 
 **Paso 3**: Actualizar documentacion
 
-Agregar entrada en `/home/user/IACT---project/docs/infraestructura/cpython-builder.md` seccion "Utilidades Compartidas".
+Agregar entrada en `/home/user/IACT---project/docs/infrastructure/cpython-builder.md` seccion "Utilidades Compartidas".
 
 ### Ejemplo: Agregar Funcion de Validacion
 
@@ -787,7 +786,7 @@ fi
 
 ```bash
 # Tests individuales
-cd infrastructure/cpython/tests
+cd infraestructura/cpython/tests
 ./test_utils.sh
 
 # Todos los tests

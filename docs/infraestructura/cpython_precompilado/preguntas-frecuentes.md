@@ -1,10 +1,3 @@
----
-title: Preguntas Frecuentes - CPython Precompilado
-date: 2025-11-13
-domain: infraestructura
-status: active
----
-
 # Preguntas Frecuentes - CPython Precompilado
 
 **Versión**: 1.0.0
@@ -78,9 +71,9 @@ Tres pasos:
 
 1. Descargar artefacto manualmente:
    ```bash
-   mkdir -p infrastructure/cpython/artifacts/
+   mkdir -p infraestructura/cpython/artifacts/
    curl -L https://github.com/.../releases/download/.../cpython-3.12.6-ubuntu20.04-build1.tgz \
-     -o infrastructure/cpython/artifacts/cpython-3.12.6-ubuntu20.04-build1.tgz
+     -o infraestructura/cpython/artifacts/cpython-3.12.6-ubuntu20.04-build1.tgz
    ```
 
 2. Usar path local en Feature:
@@ -89,7 +82,7 @@ Tres pasos:
      "features": {
        "./infrastructure/cpython/installer": {
          "version": "3.12.6",
-         "artifactUrl": "${localWorkspaceFolder}/infrastructure/cpython/artifacts/cpython-3.12.6-ubuntu20.04-build1.tgz"
+         "artifactUrl": "${localWorkspaceFolder}/infraestructura/cpython/artifacts/cpython-3.12.6-ubuntu20.04-build1.tgz"
        }
      }
    }

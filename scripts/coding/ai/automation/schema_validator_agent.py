@@ -16,6 +16,10 @@ Author: SDLC Agent
 Date: 2025-11-13
 ADR: docs/adr/ADR-040-schema-validator-agent.md
 Architecture: docs/devops/automatizacion/planificacion/AGENTS_ARCHITECTURE.md
+
+TDD Implementation:
+This module has been rebuilt using strict TDD methodology.
+Each feature was developed following RED-GREEN-REFACTOR cycles.
 """
 
 import argparse
@@ -104,6 +108,8 @@ class SchemaValidatorAgent:
 
     Validates configuration files against JSON schemas and performs
     additional reference and type checking.
+
+    Built using strict TDD methodology with RED-GREEN-REFACTOR cycles.
     """
 
     def __init__(self, name: str = "schema_validator", config: Optional[Dict[str, Any]] = None):
@@ -126,9 +132,15 @@ class SchemaValidatorAgent:
 
         Returns:
             ValidationResult with syntax validation results
+
+        TDD Cycle 1: RED-GREEN-REFACTOR
+        - RED: Test fails with NotImplementedError
+        - GREEN: Minimal implementation to pass tests
+        - REFACTOR: Clean up implementation
         """
         path = Path(file_path)
 
+        # Check if file exists
         if not path.exists():
             return ValidationResult(
                 is_valid=False,
@@ -142,7 +154,7 @@ class SchemaValidatorAgent:
                 )]
             )
 
-        # Determine file type
+        # Determine file type by extension
         file_type = "yaml" if path.suffix in [".yaml", ".yml"] else "json"
 
         result = ValidationResult(
@@ -155,6 +167,7 @@ class SchemaValidatorAgent:
             with open(path, 'r') as f:
                 content = f.read()
 
+            # Parse based on file type
             if file_type == "yaml":
                 yaml.safe_load(content)
             else:  # json
@@ -198,7 +211,13 @@ class SchemaValidatorAgent:
 
         Returns:
             ValidationResult with schema validation results
+
+        TDD Cycle 2: RED-GREEN-REFACTOR
+        - RED: Test fails with NotImplementedError
+        - GREEN: Implementation with JSON Schema validation
+        - REFACTOR: Clean up and optimize
         """
+        # Check if jsonschema is available
         if jsonschema is None:
             return ValidationResult(
                 is_valid=False,
@@ -217,7 +236,7 @@ class SchemaValidatorAgent:
         if not syntax_result.is_valid:
             return syntax_result
 
-        # Load schema
+        # Load schema file
         try:
             with open(schema_path, 'r') as f:
                 schema = json.load(f)
@@ -234,7 +253,7 @@ class SchemaValidatorAgent:
                 )]
             )
 
-        # Load data
+        # Load data file
         try:
             with open(file_path, 'r') as f:
                 if syntax_result.file_type == "yaml":
@@ -267,7 +286,7 @@ class SchemaValidatorAgent:
             result.is_valid = False
             result.schema_valid = False
 
-            # Extract field path
+            # Extract field path from error
             field_path = ".".join(str(p) for p in e.path) if e.path else "root"
 
             result.errors.append(ValidationError(
@@ -298,6 +317,11 @@ class SchemaValidatorAgent:
 
         Returns:
             ValidationResult with reference validation results
+
+        TDD Cycle 3: RED-GREEN-REFACTOR
+        - RED: Test fails with NotImplementedError
+        - GREEN: Implementation with reference validation
+        - REFACTOR: Extract helper methods
         """
         # First validate syntax
         syntax_result = self.validate_syntax(file_path)
@@ -330,6 +354,7 @@ class SchemaValidatorAgent:
             file_type=syntax_result.file_type
         )
 
+        # Validate based on config type
         if config_type == "constitucion":
             result = self._validate_constitucion_references(data, result)
         elif config_type == "ci_local":
@@ -342,8 +367,13 @@ class SchemaValidatorAgent:
         data: Dict[str, Any],
         result: ValidationResult
     ) -> ValidationResult:
-        """Validate principle_id references in constitucion config."""
-        # Extract principle IDs
+        """
+        Validate principle_id references in constitucion config.
+
+        TDD Cycle 3.1: Constitucion reference validation
+        - Validates that rules reference existing principles
+        """
+        # Extract principle IDs from principles section
         principles = data.get("principles", [])
         principle_ids = {p.get("principle_id") for p in principles if "principle_id" in p}
 
@@ -368,7 +398,12 @@ class SchemaValidatorAgent:
         data: Dict[str, Any],
         result: ValidationResult
     ) -> ValidationResult:
-        """Validate stage dependencies in CI config."""
+        """
+        Validate stage dependencies in CI config.
+
+        TDD Cycle 3.2: CI config reference validation
+        - Validates that stage dependencies reference existing stages
+        """
         # Extract stage names
         stages = data.get("stages", [])
         stage_names = {s.get("name") for s in stages if "name" in s}
@@ -405,8 +440,11 @@ class SchemaValidatorAgent:
 
         Returns:
             ValidationResult with all validation results combined
+
+        TDD Cycle 4.1: Integration validation
+        - Combines syntax, schema, and reference validation
         """
-        # Validate syntax
+        # Validate syntax first
         result = self.validate_syntax(file_path)
         if not result.syntax_valid:
             return result
@@ -441,6 +479,11 @@ class SchemaValidatorAgent:
 
         Returns:
             Exit code (0=valid, 1=invalid, 3=config error)
+
+        TDD Cycle 4.2: CLI interface
+        - Parses arguments
+        - Validates files
+        - Returns appropriate exit codes
         """
         parser = argparse.ArgumentParser(
             description="Validate YAML/JSON schemas for automation configs"

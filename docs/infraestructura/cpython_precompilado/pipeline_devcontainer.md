@@ -1,10 +1,3 @@
----
-title: Pipeline CPython Precompilado y uso en DevContainer
-date: 2025-11-13
-domain: infraestructura
-status: active
----
-
 # Pipeline CPython Precompilado y uso en DevContainer
 
 ## Resumen ejecutivo
@@ -25,21 +18,21 @@ El flujo completo se divide en tres etapas secuenciales. Cada una depende de scr
 4. Ejecutar la validación del paquete (`make validate-cpython ARTIFACT=cpython-3.12.6-ubuntu20.04-build1.tgz`). Este paso corre `scripts/validate_artifact.sh` para revisar hash y módulos críticos.
 5. Resultado: `infrastructure/cpython/artifacts/cpython-3.12.6-ubuntu20.04-build1.tgz` más su `*.sha256`. Con ambos archivos se garantiza que el binario está listo para distribución.
 
-> Fuente: Procedimiento fase 3, secciones 1.1 a 1.4.【F:docs/infraestructura/cpython_precompilado/FASE-3-PROCEDIMIENTO.md†L17-L107】
+> Fuente: Procedimiento fase 3, secciones 1.1 a 1.4.【F:docs/infrastructure/cpython_precompilado/FASE-3-PROCEDIMIENTO.md†L17-L107】
 
 ### 1.2 Publicación en GitHub Releases
 1. Crear y pushear el tag `cpython-3.12.6-build1`.
 2. Crear la release usando el template provisto (título, changelog, tabla de artefactos).
 3. Adjuntar el tarball y el checksum y marcar como pre-release en la primera publicación.
 
-> Fuente: Procedimiento fase 3, sección 2.【F:docs/infraestructura/cpython_precompilado/FASE-3-PROCEDIMIENTO.md†L109-L188】
+> Fuente: Procedimiento fase 3, sección 2.【F:docs/infrastructure/cpython_precompilado/FASE-3-PROCEDIMIENTO.md†L109-L188】
 
 ### 1.3 Consumo en proyectos
 1. Añadir la Feature personalizada en `.devcontainer/devcontainer.json`.
 2. Elegir si se usa `artifactUrl` local (desarrollo) o desde la release pública (producción).
 3. Reconstruir el contenedor y validar `python3 --version` y módulos nativos. No se requiere ejecutar scripts Python; el instalador descomprime el tarball y expone `/opt/python-<versión>` automáticamente.
 
-> Fuente: Guía de usuario CPython precompilado, secciones "Inicio Rápido" y "Configuración avanzada".【F:docs/infraestructura/cpython_precompilado/README.md†L33-L130】
+> Fuente: Guía de usuario CPython precompilado, secciones "Inicio Rápido" y "Configuración avanzada".【F:docs/infrastructure/cpython_precompilado/README.md†L33-L130】
 
 ---
 
@@ -89,7 +82,7 @@ python3 -c "import ssl, sqlite3, uuid, lzma, bz2; print('Módulos nativos OK')"
 ```
 Si se usa la versión publicada, reemplazar el `artifactUrl` por la URL del release correspondiente antes del rebuild.
 
-> Fuente: Guía de usuario CPython precompilado, validación post-rebuild.【F:docs/infraestructura/cpython_precompilado/README.md†L72-L123】
+> Fuente: Guía de usuario CPython precompilado, validación post-rebuild.【F:docs/infrastructure/cpython_precompilado/README.md†L72-L123】
 
 ---
 

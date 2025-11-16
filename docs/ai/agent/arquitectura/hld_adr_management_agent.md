@@ -25,8 +25,11 @@ version: 1.0.0
 
 ### 1.1 Purpose
 
-The ADR Management Agent is an SDLC agent responsible for managing the complete lifecycle of Architecture Decision Records (ADRs) in the IACT project. It provides automated operations for creating, validating, standardizing, and maintaining ADRs and their index.
+The ADR Management Agent is an SDLC agent responsible for managing the complete lifecycle of Architecture Decision Records (ADRs) in the IACT project. 
 
+> **Note:** "IACT project" refers to [clarify: either a specific project within the organization, or is intended as a placeholder for any project name. If this document is reused, replace "IACT project" with the relevant project name.]
+
+It provides automated operations for creating, validating, standardizing, and maintaining ADRs and their index.
 ### 1.2 Scope
 
 **In Scope**:

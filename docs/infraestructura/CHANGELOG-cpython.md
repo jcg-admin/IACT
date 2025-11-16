@@ -1,12 +1,11 @@
 ---
 id: DOC-INFRA-CPYTHON-CHANGELOG
 tipo: changelog
-categoria: infrastructure
+categoria: infraestructura
 version: 1.0.0
 fecha_creacion: 2025-11-07
 propietario: devops-lead
 relacionados: ["DOC-INFRA-CPYTHON-BUILDER", "SPEC_INFRA_001"]
-date: 2025-11-13
 ---
 
 # CHANGELOG - CPython Builder
@@ -81,7 +80,7 @@ Esta release introduce mejoras significativas de mantenibilidad y modularidad si
 
 #### Documentacion
 
-- **`docs/infraestructura/cpython-builder.md`**: Documentacion completa del sistema
+- **`docs/infrastructure/cpython-builder.md`**: Documentacion completa del sistema
   - Resumen ejecutivo
   - Arquitectura del sistema con diagramas
   - Descripcion detallada de componentes
@@ -91,7 +90,7 @@ Esta release introduce mejoras significativas de mantenibilidad y modularidad si
   - Seccion de troubleshooting expandida
   - Referencias cruzadas
 
-- **`docs/infraestructura/cpython-development-guide.md`**: Guia de desarrollo
+- **`docs/infrastructure/cpython-development-guide.md`**: Guia de desarrollo
   - Instrucciones para agregar funciones a utilidades
   - Como crear nuevas validaciones
   - Como modificar scripts existentes
@@ -99,7 +98,7 @@ Esta release introduce mejoras significativas de mantenibilidad y modularidad si
   - Templates de funciones y tests
   - Ejemplos de extension del sistema
 
-- **`docs/infraestructura/CHANGELOG-cpython.md`**: Este archivo
+- **`docs/infrastructure/CHANGELOG-cpython.md`**: Este archivo
 
 ### Changed
 
@@ -186,7 +185,7 @@ infrastructure/cpython/
 └── config/                      (NUEVO)
     └── versions.conf            (NUEVO)
 
-docs/infraestructura/
+docs/infrastructure/
 ├── cpython-builder.md           (NUEVO)
 ├── cpython-development-guide.md (NUEVO)
 └── CHANGELOG-cpython.md         (NUEVO - este archivo)
