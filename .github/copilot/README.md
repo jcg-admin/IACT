@@ -213,6 +213,44 @@ Para agregar un nuevo agente personalizado:
 
 4. **Actualizar este README** con documentación del nuevo agente
 
+## Guía práctica para trabajar con Copilot
+
+### 1. Define issues y tareas bien acotadas
+- Describe claramente el problema y el trabajo esperado; piensa en cada issue como un prompt.
+- Incluye criterios de aceptación completos (tests requeridos, cobertura, cambios de docs, etc.).
+- Señala archivos o rutas que deben tocarse para que Copilot pueda contextualizar el alcance.
+
+### 2. Elige el tipo de tarea adecuado
+- **Delegar a Copilot**: arreglos de bugs puntuales, ajustes de UI, mejoras de cobertura, deuda técnica acotada, accesibilidad y actualizaciones de documentación.
+- **Mantener manualmente**: refactors transversales, problemas complejos con dependencias legacy, lógica de negocio crítica, incidencias de seguridad/PII, tareas ambiguas o mal definidas y actividades de aprendizaje personal.
+
+### 3. Itera mediante comentarios en los PRs
+- Trátalo como un colaborador humano: es normal que requiera iteraciones antes del merge.
+- Usa comentarios agrupados (Start a review) cuando planees varias observaciones; Copilot procesa todas juntas.
+- Solo responde a personas con permisos de escritura. Menciona `@copilot` explicando qué está mal y deja que ajuste el PR.
+
+### 4. Aprovecha instrucciones personalizadas del repositorio
+- Usa `.github/copilot-instructions.md` para lineamientos globales (build/test/convenciones) y `.github/instructions/**/*.instructions.md` para reglas específicas por patrón de archivo.
+- Añade instrucciones adicionales en `**/AGENTS.md`, `CLAUDE.md`, `GEMINI.md` u otras guías para dirigir a Copilot Chat y code review.
+- Mantén este README sincronizado con cualquier cambio para que las automatizaciones reflejen la realidad del proyecto.
+
+### 5. Considera instrucciones organizacionales y MCP
+- Copilot prioriza instrucciones de repositorio y luego las de la organización; alinear ambos niveles evita contradicciones.
+- Puedes ampliar capacidades con Model Context Protocol (MCP) conectando servidores locales/remotos (GitHub MCP, Playwright MCP, etc.). Configura solo las herramientas necesarias para cada agente.
+
+### 6. Diseña agentes personalizados cuando sea útil
+- Crea agentes especializados (p.ej., especialistas en testing, documentación o Python) con herramientas limitadas según el flujo.
+- Define perfiles con experiencia enfocada y declara las herramientas permitidas para proteger áreas sensibles.
+- Aprovecha que los agentes se pueden invocar en issues, tareas y PRs igual que Copilot estándar.
+
+### 7. Preinstala dependencias para el entorno efímero
+- Configura `copilot-setup-steps.yml` para instalar dependencias antes de que Copilot ejecute builds/tests en GitHub Actions.
+- Esto reduce la exploración repetitiva del agente y acelera las iteraciones de CI/CD.
+
+### 8. Ayuda y soporte
+- Copilot actualizará título y descripción del PR a medida que itera; monitorea cambios hasta que cumplan los criterios.
+- Consulta la documentación oficial de "Adding repository custom instructions for GitHub Copilot" cuando necesites más detalles.
+
 ## Referencias
 
 - **Documentación de agentes**: [.agent/agents/README.md](../../.agent/agents/README.md)
