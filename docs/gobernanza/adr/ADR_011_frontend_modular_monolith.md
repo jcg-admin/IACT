@@ -30,12 +30,14 @@ El frontend de IACT (IVR Analytics & Customer Tracking) necesita una arquitectur
 #### Opción 1: Microfrontends (Module Federation)
 
 **Pros**:
+
 - Despliegue independiente de módulos
 - Tecnologías diferentes por módulo (React, Vue, etc)
 - Equipos completamente autónomos
 - Escalabilidad organizacional
 
 **Contras**:
+
 - Complejidad significativa (orquestación, comunicación inter-apps)
 - Overhead de performance (múltiples bundles, inicializaciones)
 - Duplicación de dependencias (React cargado múltiples veces)
@@ -46,11 +48,13 @@ El frontend de IACT (IVR Analytics & Customer Tracking) necesita una arquitectur
 #### Opción 2: Monolito Tradicional
 
 **Pros**:
+
 - Simplicidad máxima
 - Build único y rápido
 - Testing integrado natural
 
 **Contras**:
+
 - Acoplamiento alto
 - Escalabilidad limitada (todo en un directorio)
 - Refactorings globales riesgosos
@@ -58,6 +62,7 @@ El frontend de IACT (IVR Analytics & Customer Tracking) necesita una arquitectur
 #### Opción 3: Modular Monolith (SELECCIONADA)
 
 **Pros**:
+
 - Balance entre autonomía y simplicidad
 - Build único y deploy único (simple CI/CD)
 - Performance óptimo (sin overhead microfrontends)
@@ -68,6 +73,7 @@ El frontend de IACT (IVR Analytics & Customer Tracking) necesita una arquitectur
 - Migración futura a microfrontends si necesario
 
 **Contras**:
+
 - Requiere disciplina de equipo (no acoplar módulos)
 - Una tecnología para todos (React)
 - Deploy atómico (no por módulo)
@@ -200,6 +206,7 @@ Paso 4: Migrar módulo por módulo (gradual)
 ### Microfrontends (Module Federation)
 
 Rechazado por:
+
 - Complejidad innecesaria para equipo pequeño
 - Overhead de performance (dashboard <3s crítico)
 - Sistema IACT no requiere despliegue independiente por módulo
@@ -207,6 +214,7 @@ Rechazado por:
 ### Monolito Tradicional (sin estructura modular)
 
 Rechazado por:
+
 - Falta de escalabilidad (todo mezclado en un directorio)
 - Acoplamiento alto (difícil mantener)
 
@@ -225,6 +233,7 @@ Rechazado por:
 ## Notas
 
 Esta decisión es reversible si:
+
 - Equipo crece >10 desarrolladores frontend
 - Se requiere despliegue independiente por módulo
 - Performance no se puede lograr (<3s)

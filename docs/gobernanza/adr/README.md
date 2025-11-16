@@ -32,6 +32,7 @@ Este directorio contiene todas las decisiones arquitectonicas (Architecture Deci
 ## Indice de ADRs
 
 ### ADR-008: CPython Features vs Imagen Base
+
 **Archivo:** `ADR_008_cpython_features_vs_imagen_base.md`
 **Estado:** Aceptada
 **Dominio:** Infraestructura
@@ -42,6 +43,7 @@ Este directorio contiene todas las decisiones arquitectonicas (Architecture Deci
 ---
 
 ### ADR-009: Distribucion Artefactos Strategy
+
 **Archivo:** `ADR_009_distribucion_artefactos_strategy.md`
 **Estado:** Aceptada
 **Dominio:** Infraestructura
@@ -52,6 +54,7 @@ Este directorio contiene todas las decisiones arquitectonicas (Architecture Deci
 ---
 
 ### ADR-010: Organizacion Proyecto por Dominio
+
 **Archivo:** `ADR_010_organizacion_proyecto_por_dominio.md`
 **Estado:** Aceptada
 **Dominio:** General
@@ -62,6 +65,7 @@ Este directorio contiene todas las decisiones arquitectonicas (Architecture Deci
 ---
 
 ### ADR-011: Frontend Modular Monolith
+
 **Archivo:** `ADR_011_frontend_modular_monolith.md`
 **Estado:** Aceptada
 **Dominio:** Frontend
@@ -72,6 +76,7 @@ Este directorio contiene todas las decisiones arquitectonicas (Architecture Deci
 ---
 
 ### ADR-012: Sistema Permisos Sin Roles Jerarquicos
+
 **Archivo:** `ADR-012-sistema_permisos_sin_roles_jerarquicos.md`
 **Estado:** Aceptada
 **Dominio:** Backend
@@ -82,6 +87,7 @@ Este directorio contiene todas las decisiones arquitectonicas (Architecture Deci
 ---
 
 ### ADR-012 (Redux): Redux Toolkit State Management
+
 **Archivo:** `ADR_012_redux_toolkit_state_management.md`
 **Estado:** Aceptada
 **Dominio:** Frontend
@@ -92,6 +98,7 @@ Este directorio contiene todas las decisiones arquitectonicas (Architecture Deci
 ---
 
 ### ADR-013: Webpack Bundler
+
 **Archivo:** `ADR_013_webpack_bundler.md`
 **Estado:** Aceptada
 **Dominio:** Frontend
@@ -102,6 +109,7 @@ Este directorio contiene todas las decisiones arquitectonicas (Architecture Deci
 ---
 
 ### ADR-040: Schema Validator Agent
+
 **Archivo:** `ADR-040-schema_validator_agent.md`
 **Estado:** Aceptada
 **Fecha:** 2025-11-XX
@@ -115,6 +123,7 @@ Este directorio contiene todas las decisiones arquitectonicas (Architecture Deci
 ---
 
 ### ADR-041: DevContainer Validator Agent
+
 **Archivo:** `ADR-041-devcontainer_validator_agent.md`
 **Estado:** Aceptada
 **Fecha:** 2025-11-XX
@@ -128,6 +137,7 @@ Este directorio contiene todas las decisiones arquitectonicas (Architecture Deci
 ---
 
 ### ADR-042: Metrics Collector Agent
+
 **Archivo:** `ADR-042-metrics_collector_agent.md`
 **Estado:** Aceptada
 **Fecha:** 2025-11-XX
@@ -141,6 +151,7 @@ Este directorio contiene todas las decisiones arquitectonicas (Architecture Deci
 ---
 
 ### ADR-043: Coherence Analyzer Agent
+
 **Archivo:** `ADR-043-coherence_analyzer_agent.md`
 **Estado:** Aceptada
 **Fecha:** 2025-11-XX
@@ -154,6 +165,7 @@ Este directorio contiene todas las decisiones arquitectonicas (Architecture Deci
 ---
 
 ### ADR-044: Constitution Validator Agent
+
 **Archivo:** `ADR-044-constitution_validator_agent.md`
 **Estado:** Aceptada
 **Fecha:** 2025-11-XX
@@ -167,6 +179,7 @@ Este directorio contiene todas las decisiones arquitectonicas (Architecture Deci
 ---
 
 ### ADR-045: CI Pipeline Orchestrator Agent
+
 **Archivo:** `ADR-045-ci_pipeline_orchestrator_agent.md`
 **Estado:** Aceptada
 **Fecha:** 2025-11-XX
@@ -192,6 +205,7 @@ Todos los ADRs del proyecto se encuentran en este directorio: `docs/gobernanza/a
 ### Cuando Crear un ADR
 
 Crear un ADR cuando:
+
 - Se toma una decision arquitectonica significativa
 - La decision tiene impacto en multiples dominios
 - La decision establece un patron o estandar

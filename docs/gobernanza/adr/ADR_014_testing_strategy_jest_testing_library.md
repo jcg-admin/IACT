@@ -38,12 +38,14 @@ El frontend IACT requiere una estrategia de testing completa que cubra:
 #### Opción 1: Vitest
 
 **Pros**:
+
 - Ultra rápido (ESM nativo, multithreading)
 - API compatible con Jest
 - Integración nativa con Vite
 - UI moderna para ver resultados
 
 **Contras**:
+
 - Ecosystem menor (menos plugins)
 - Requiere Vite (nosotros usamos Webpack - ADR_013)
 - Documentación menor
@@ -52,11 +54,13 @@ El frontend IACT requiere una estrategia de testing completa que cubra:
 #### Opción 2: Mocha + Chai + Enzyme
 
 **Pros**:
+
 - Flexible
 - Maduro
 - Enzyme para React
 
 **Contras**:
+
 - **Enzyme desactualizado**: No soporta React 18 bien
 - Configuración compleja (múltiples librerías)
 - Assertions verbosas (Chai)
@@ -65,6 +69,7 @@ El frontend IACT requiere una estrategia de testing completa que cubra:
 #### Opción 3: Jest + React Testing Library (SELECCIONADA)
 
 **Pros**:
+
 - **Ecosystem maduro**: Jest estándar de industria
 - **Testing Library filosofía**: "Test como usuario" (no implementación)
 - **Zero config**: Con Babel funciona out-of-the-box
@@ -75,6 +80,7 @@ El frontend IACT requiere una estrategia de testing completa que cubra:
 - **CI/CD standard**: GitHub Actions, GitLab CI, etc. tienen ejemplos
 
 **Contras**:
+
 - Más lento que Vitest (~10-20% más)
 - jsdom no es browser real (faltan algunas APIs)
 
@@ -141,10 +147,10 @@ Usar **Jest + React Testing Library** como estrategia de testing.
 
 ```javascript
 // jest.setup.js
-import '@testing-library/jest-dom';
+import "@testing-library/jest-dom";
 
 // Mock window.matchMedia
-Object.defineProperty(window, 'matchMedia', {
+Object.defineProperty(window, "matchMedia", {
   writable: true,
   value: jest.fn().mockImplementation((query) => ({
     matches: false,
@@ -161,14 +167,14 @@ Object.defineProperty(window, 'matchMedia', {
 
 ```javascript
 // src/modules/home/state/homeSlice.test.js
-import homeReducer, { setAnnouncement } from './homeSlice';
+import homeReducer, { setAnnouncement } from "./homeSlice";
 
-describe('homeSlice', () => {
+describe("homeSlice", () => {
   const initialState = { announcement: null };
 
-  it('should handle setAnnouncement', () => {
-    const actual = homeReducer(initialState, setAnnouncement('Test'));
-    expect(actual.announcement).toEqual('Test');
+  it("should handle setAnnouncement", () => {
+    const actual = homeReducer(initialState, setAnnouncement("Test"));
+    expect(actual.announcement).toEqual("Test");
   });
 });
 ```
@@ -179,18 +185,20 @@ describe('homeSlice', () => {
 
 ```javascript
 // src/app/App.test.jsx
-import { render, screen } from '@testing-library/react';
-import { Provider } from 'react-redux';
-import { configureStore } from '@reduxjs/toolkit';
-import App from './App';
+import { render, screen } from "@testing-library/react";
+import { Provider } from "react-redux";
+import { configureStore } from "@reduxjs/toolkit";
+import App from "./App";
 
-describe('App Component', () => {
-  it('renders without crashing', () => {
-    const store = configureStore({ /* ... */ });
+describe("App Component", () => {
+  it("renders without crashing", () => {
+    const store = configureStore({
+      /* ... */
+    });
     render(
       <Provider store={store}>
         <App />
-      </Provider>
+      </Provider>,
     );
     expect(screen.getByText(/IACT Dashboard/i)).toBeInTheDocument();
   });
@@ -203,12 +211,12 @@ describe('App Component', () => {
 
 ```javascript
 // src/hooks/useAppConfig.test.js
-import { renderHook } from '@testing-library/react';
-import { Provider } from 'react-redux';
-import { useAppConfig } from './useAppConfig';
+import { renderHook } from "@testing-library/react";
+import { Provider } from "react-redux";
+import { useAppConfig } from "./useAppConfig";
 
-describe('useAppConfig', () => {
-  it('returns config', () => {
+describe("useAppConfig", () => {
+  it("returns config", () => {
     const wrapper = ({ children }) => (
       <Provider store={store}>{children}</Provider>
     );
@@ -225,10 +233,10 @@ describe('useAppConfig', () => {
 
 ```javascript
 // tests/e2e/dashboard.spec.js
-test('dashboard loads and displays widgets', async ({ page }) => {
-  await page.goto('http://localhost:3000');
-  await expect(page.locator('text=IACT Dashboard')).toBeVisible();
-  await expect(page.locator('.widget')).toHaveCount(10);
+test("dashboard loads and displays widgets", async ({ page }) => {
+  await page.goto("http://localhost:3000");
+  await expect(page.locator("text=IACT Dashboard")).toBeVisible();
+  await expect(page.locator(".widget")).toHaveCount(10);
 });
 ```
 
@@ -242,20 +250,25 @@ test('dashboard loads and displays widgets', async ({ page }) => {
    - `sliceName.test.js` para Redux slices
 
 2. **Estructura de tests**:
-```javascript
-describe('ComponentName', () => {
-  // Setup común
-  beforeEach(() => { /* ... */ });
 
-  it('does something specific', () => {
+```javascript
+describe("ComponentName", () => {
+  // Setup común
+  beforeEach(() => {
+    /* ... */
+  });
+
+  it("does something specific", () => {
     // Arrange
-    const props = { /* ... */ };
+    const props = {
+      /* ... */
+    };
 
     // Act
     render(<Component {...props} />);
 
     // Assert
-    expect(screen.getByText('...')).toBeInTheDocument();
+    expect(screen.getByText("...")).toBeInTheDocument();
   });
 });
 ```
@@ -267,12 +280,13 @@ describe('ComponentName', () => {
    - `getByTestId` (ÚLTIMO RECURSO)
 
 4. **Mocking APIs**:
+
 ```javascript
 // Mock fetch global
 global.fetch = jest.fn(() =>
   Promise.resolve({
-    json: () => Promise.resolve({ data: 'test' }),
-  })
+    json: () => Promise.resolve({ data: "test" }),
+  }),
 );
 ```
 
@@ -303,6 +317,7 @@ open coverage/lcov-report/index.html
 ```
 
 **Targets de coverage**:
+
 - **Statements**: 80%
 - **Branches**: 75%
 - **Functions**: 80%
@@ -332,18 +347,19 @@ open coverage/lcov-report/index.html
 
 ### Métricas
 
-| Métrica | Target | Actual (v0.1.0) |
-|---------|--------|-----------------|
-| Test suite duration | <30s | ~5s (sin tests aún) |
-| Coverage statements | 80% | TBD (después de más código) |
-| Tests flaky | 0% | 0% |
-| CI/CD integration | Sí | Pendiente configurar |
+| Métrica             | Target | Actual (v0.1.0)             |
+| ------------------- | ------ | --------------------------- |
+| Test suite duration | <30s   | ~5s (sin tests aún)         |
+| Coverage statements | 80%    | TBD (después de más código) |
+| Tests flaky         | 0%     | 0%                          |
+| CI/CD integration   | Sí     | Pendiente configurar        |
 
 ## Alternativas Rechazadas
 
 ### Vitest
 
 Rechazado por:
+
 - Requiere Vite (usamos Webpack - ADR_013)
 - Ecosystem menor
 - Menos adopción enterprise
@@ -353,6 +369,7 @@ Rechazado por:
 ### Mocha + Chai + Enzyme
 
 Rechazado por:
+
 - Enzyme no soporta React 18 bien
 - Configuración compleja (múltiples librerías)
 - Ecosystem fragmentado
@@ -360,6 +377,7 @@ Rechazado por:
 ### Cypress (Component Testing)
 
 Rechazado por:
+
 - Más lento (browser real)
 - Mejor para E2E que component tests
 - Playwright es mejor alternativa para E2E
@@ -380,16 +398,19 @@ Rechazado por:
 ## Roadmap Testing
 
 ### v0.1.0 (Actual)
+
 - Jest + Testing Library configurado
 - Tests básicos (App.test.jsx, homeSlice.test.js)
 - Coverage CI/CD pendiente
 
 ### v0.2.0 (Q1 2026)
+
 - Tests para todos los módulos (dashboard, reports)
 - Coverage >80%
 - CI/CD bloquea merge si coverage baja
 
 ### v0.3.0 (Q2 2026)
+
 - E2E tests con Playwright
 - Visual regression tests (opcional)
 - Performance tests (Lighthouse CI)

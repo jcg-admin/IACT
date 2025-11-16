@@ -14,6 +14,7 @@ El sistema IACT requiere un sistema de permisos que controle el acceso a recurso
 ### Problema con Roles Tradicionales Jerarquicos
 
 **Sistema tradicional:**
+
 ```
 Admin (nivel 1)
   |-- Puede hacer TODO
@@ -63,6 +64,7 @@ USUARIO
    - `visualizacion_metricas`: Capacidades para ver metricas
 
 3. **Multiples Grupos:** Un usuario puede tener VARIOS grupos simultaneamente:
+
    ```
    Usuario: Maria
    - atencion_cliente
@@ -77,13 +79,17 @@ USUARIO
 ### Componentes del Sistema
 
 #### 1. Funcion (Recurso)
+
 Representa un recurso del sistema.
+
 ```
 Ejemplo: dashboards, usuarios, metricas, llamadas, tickets
 ```
 
 #### 2. Capacidad (Accion sobre Recurso)
+
 Accion atomica sobre un recurso.
+
 ```
 Formato: sistema.dominio.recurso.accion
 Ejemplo: sistema.vistas.dashboards.ver
@@ -92,7 +98,9 @@ Ejemplo: sistema.vistas.dashboards.ver
 ```
 
 #### 3. Grupo de Permisos (Agrupacion Funcional)
+
 Conjunto de capacidades que forman una funcion logica.
+
 ```
 Ejemplo:
   Grupo: atencion_cliente
@@ -103,7 +111,9 @@ Ejemplo:
 ```
 
 #### 4. Usuario-Grupo (Asignacion)
+
 Usuario asignado a uno o mas grupos.
+
 ```
 Usuario: Carlos
   - atencion_cliente
@@ -116,6 +126,7 @@ Usuario: Carlos
 ### 1. Flexibilidad Total
 
 **Antes (jerarquico):**
+
 ```
 Usuario: Maria (rol: Agent)
   Problema: Necesita ver metricas, pero Agents no tienen ese permiso.
@@ -123,6 +134,7 @@ Usuario: Maria (rol: Agent)
 ```
 
 **Ahora (grupos funcionales):**
+
 ```
 Usuario: Maria
   - atencion_cliente
@@ -133,12 +145,14 @@ Usuario: Maria
 ### 2. Descripcion Clara de Responsabilidades
 
 **Antes:**
+
 ```
 Rol: Supervisor
   Que puede hacer? No esta claro sin ver codigo.
 ```
 
 **Ahora:**
+
 ```
 Grupos:
   - gestion_equipos: Gestiona equipos de trabajo
@@ -150,12 +164,14 @@ Grupos:
 ### 3. Sin Estigma Jerarquico
 
 **Antes:**
+
 ```
 Pedro (Agent) solicita algo a Maria (Supervisor)
   Percepcion: Maria tiene "autoridad" sobre Pedro
 ```
 
 **Ahora:**
+
 ```
 Pedro (atencion_cliente) solicita a Maria (aprobacion_excepciones)
   Percepcion: Maria tiene FUNCION de aprobar, no "autoridad" jerarquica
@@ -164,6 +180,7 @@ Pedro (atencion_cliente) solicita a Maria (aprobacion_excepciones)
 ### 4. Facil Escalabilidad
 
 Agregar nuevas funcionalidades:
+
 ```
 Nueva funcion: sistema.calidad.evaluaciones
 
@@ -181,6 +198,7 @@ Nueva funcion: sistema.calidad.evaluaciones
 ### 5. Permisos Excepcionales
 
 Sistema permite otorgar/revocar capacidades especificas:
+
 ```
 Usuario: Juan (atencion_cliente)
   Problema: Necesita aprobar pagos por 1 mes (proyecto especial)
@@ -200,6 +218,7 @@ Usuario: Juan (atencion_cliente)
 **RECHAZADO**
 
 Razones:
+
 - Rigidez (un usuario = un rol)
 - Explosion de roles para combinaciones
 - Jerarquia artificial
@@ -210,6 +229,7 @@ Razones:
 **RECHAZADO**
 
 Razones:
+
 - Demasiado granular (permisos por usuario por recurso)
 - Dificil de mantener
 - No reusable (cada usuario tiene su propia ACL)
@@ -219,6 +239,7 @@ Razones:
 **ACEPTADO**
 
 Razones:
+
 - Balance entre flexibilidad y mantenibilidad
 - Reusable (grupos se asignan a multiples usuarios)
 - Sin jerarquia
@@ -250,16 +271,19 @@ Razones:
 ## Mitigaciones
 
 ### Para Complejidad Inicial
+
 - Documentacion exhaustiva del modelo
 - Diagramas ER claros
 - Ejemplos practicos de casos de uso
 
 ### Para Curva de Aprendizaje
+
 - Training session para equipo
 - Guias de como asignar grupos
 - Presets de grupos comunes
 
 ### Para UI Compleja
+
 - Interfaz intuitiva con checkboxes de grupos
 - Preview de capacidades al seleccionar grupo
 - Busqueda y filtrado de grupos
@@ -284,6 +308,7 @@ Razones:
 ### Fase 2: Datos Semilla
 
 Crear grupos predefinidos:
+
 - atencion_cliente
 - gestion_equipos
 - visualizacion_metricas
@@ -295,6 +320,7 @@ Crear grupos predefinidos:
 ### Fase 3: Servicio de Permisos
 
 Implementar `PermisoService` para:
+
 - Verificar si usuario tiene capacidad
 - Obtener capacidades de usuario
 - Obtener funciones accesibles
@@ -303,6 +329,7 @@ Implementar `PermisoService` para:
 ### Fase 4: Middleware
 
 Middleware `verificarPermiso(capacidad_requerida)` en endpoints:
+
 ```python
 @verificarPermiso('sistema.finanzas.pagos.aprobar')
 def aprobar_pago(request, pago_id):

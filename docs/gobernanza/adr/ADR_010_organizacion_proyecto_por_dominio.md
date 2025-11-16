@@ -86,21 +86,25 @@ Cada dominio principal tendrá su propio directorio que contendrá TODO lo relac
 ### Por qué Organización por Dominio
 
 **Cohesión:**
+
 - Todo lo relacionado con infraestructura está en `infrastructure/`
 - Fácil encontrar: scripts → `infrastructure/scripts/`, tests → `infrastructure/tests/`
 - Boundaries claros entre dominios
 
 **Escalabilidad:**
+
 - Cuando se agregue `ui/`, tendrá su propia estructura completa
 - No satura la raíz con directorios genéricos (scripts/, tests/, artifacts/)
 - Cada dominio puede evolucionar independientemente
 
 **Navegación:**
+
 - "Trabajar en infraestructura" = entrar a `infrastructure/`
 - "Trabajar en API" = entrar a `api/`
 - No saltar entre 5 directorios raíz diferentes
 
 **Consistencia con arquitectura:**
+
 - Refleja la arquitectura del sistema (dominios separados)
 - Facilita modularización futura
 - Permite equipos especializados por dominio
@@ -108,12 +112,14 @@ Cada dominio principal tendrá su propio directorio que contendrá TODO lo relac
 ### Por qué NO Organización por Tipo de Archivo
 
 **Contra:**
+
 - Dispersión: infraestructura necesitaría tocar scripts/, tests/, artifacts/ en raíz
 - Raíz saturada: artifacts/, tests/, scripts/, features/, docs/, api/, ui/, etc.
 - Boundaries difusos: ¿un test de infraestructura va en tests/ o infrastructure/?
 - No escala: agregar nuevos dominios satura aún más la raíz
 
 **Ejemplos problemáticos con tipo de archivo:**
+
 ```
 /
 ├── scripts/
@@ -175,6 +181,7 @@ scripts/infra/       → infraestructura/scripts/
 ```
 
 **Archivos actualizados:** 16
+
 - Vagrantfile (synced folders)
 - Makefile (paths de targets)
 - Scripts wrapper (paths internos)
@@ -223,6 +230,7 @@ infraestructura/cpython/builder/*    → infraestructura/cpython/
 **Resultado**: Path más simple y directo - `infrastructure/cpython/` contiene TODO directamente.
 
 **Archivos actualizados:** 30+
+
 - Makefile (todos los targets CPython)
 - Vagrantfile (synced folders, documentación)
 - Scripts wrapper (PROJECT_ROOT, VAGRANT_DIR, ARTIFACT_PATH)
@@ -292,6 +300,7 @@ scripts/
 
 **Decisión**: `features/` permanece en raíz
 **Razón**: Convención de DevContainers Specification
+
 - DevContainers espera features en `./features/` o `.devcontainer/features/`
 - Mantener convención facilita adopción e integración
 
@@ -299,6 +308,7 @@ scripts/
 
 **Decisión**: `scripts/` raíz para herramientas cross-domain
 **Razón**:
+
 - Algunos scripts sirven a TODO el proyecto (check_all, validate_spec)
 - Evita duplicación innecesaria
 - Herramientas de desarrollo no pertenecen a un dominio específico
@@ -306,6 +316,7 @@ scripts/
 ### Excepciones de Convenciones Externas
 
 **Mantener en raíz**:
+
 - `.devcontainer/` - Convención VS Code
 - `.github/` - Convención GitHub Actions
 - `.git/` - Obvio
@@ -320,6 +331,7 @@ scripts/
 Cuando un dominio (como infrastructure) contiene subsistemas complejos con múltiples componentes (builder, feature, artifacts, scripts, tests), es mejor organizarlos como subdominios.
 
 **Estructura de infrastructure/cpython/** (Fase 4 - Simplificación Final):
+
 ```
 infrastructure/
 └── cpython/                    # Subdomain: Todo CPython (sin nivel extra)
@@ -348,6 +360,7 @@ infrastructure/
 ```
 
 **Ventajas del subdomain simplificado (Fase 4)**:
+
 1. **Máxima simplicidad**: TODO CPython directamente en `cpython/` - sin niveles extra
 2. **YAGNI aplicado**: Eliminado `builder/` innecesario (no había otros componentes fuera)
 3. **Escalabilidad**: Permite agregar infrastructure/go/, infrastructure/node/ en el futuro
@@ -360,6 +373,7 @@ infrastructure/
 10. **Pragmatismo**: CPython ES el builder, no hay distinción práctica
 
 **Aplicación**:
+
 - COMPLETADO Fase 2: Migración de CPython a subdomain (2025-11-06)
 - COMPLETADO Fase 3: Consolidación completa en builder/ (2025-11-06)
 - COMPLETADO Fase 4: Simplificación - eliminación de builder/ innecesario (2025-11-06)
@@ -370,7 +384,7 @@ infrastructure/
   - Vagrantfile (comentarios, paths)
   - Scripts wrapper (PROJECT_ROOT: 4→3 niveles, VAGRANT_DIR)
   - Tests (VAGRANT_DIR, INSTALLER_DIR paths)
-  - 15+ archivos de documentación (*.md)
+  - 15+ archivos de documentación (\*.md)
 
 ---
 
@@ -379,16 +393,19 @@ infrastructure/
 ### Patrones Similares en la Industria
 
 **Monorepos modernos:**
+
 - Nx (Angular/React): Organiza por `apps/` y `libs/`
 - Turborepo: Organiza por `packages/` (dominios)
 - Lerna: Múltiples `packages/` independientes
 
 **Arquitectura de software:**
+
 - DDD (Domain-Driven Design): Organiza por dominios de negocio
 - Clean Architecture: Separación por layers/dominios
 - Microservicios: Cada servicio es un dominio separado
 
 **Proyectos referencia:**
+
 - Kubernetes: Organizado por dominios (api/, cmd/, pkg/)
 - Terraform: Organizado por providers (dominios)
 
@@ -409,6 +426,7 @@ Esa convención funciona bien para proyectos pequeños con un solo dominio. IACT
 ### ¿Qué pasa con scripts que afectan múltiples dominios?
 
 Van en `scripts/` raíz. Ejemplos:
+
 - `scripts/dev/check_all.sh` - Valida todo el proyecto
 - `scripts/ai/` - Herramientas de IA cross-cutting
 
@@ -421,6 +439,7 @@ Decisión pendiente según caso de uso real.
 ### ¿Esto complica el proyecto?
 
 Inicialmente puede parecer más complejo, pero:
+
 - Facilita navegación a largo plazo
 - Reduce búsqueda: "trabajar en X" = "cd X/"
 - Escala mejor que saturar la raíz

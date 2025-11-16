@@ -96,6 +96,7 @@ python3 scripts/coding/ai/automation/devcontainer_validator_agent.py \
 ```
 
 **Exit Codes**:
+
 - 0: All validations passed
 - 1: Validation failures detected
 - 3: Configuration error (invalid JSON, file not found)
@@ -126,21 +127,25 @@ python3 scripts/coding/ai/automation/devcontainer_validator_agent.py \
 ## Alternatives Considered
 
 ### 1. Shell Script Only
+
 **Pros**: Simpler, no Python dependency
 **Cons**: Harder to test, less structured error handling, no JSON output
 **Verdict**: Rejected - Python provides better testability
 
 ### 2. Docker Healthchecks
+
 **Pros**: Native Docker integration
 **Cons**: Limited to container health, no version/dependency checks
 **Verdict**: Rejected - Insufficient validation coverage
 
 ### 3. External Tool (e.g., container-structure-test)
+
 **Pros**: Battle-tested, maintained externally
 **Cons**: Additional dependency, limited customization
 **Verdict**: Rejected - Need project-specific validation logic
 
 ### 4. Pre-commit Hook
+
 **Pros**: Automatic validation
 **Cons**: Wrong lifecycle stage (need validation before dev work)
 **Verdict**: Rejected - Should run at container startup
@@ -181,6 +186,7 @@ python3 scripts/coding/ai/automation/devcontainer_validator_agent.py \
 ### Key Components
 
 **1. ValidationResult Dataclass**
+
 ```python
 @dataclass
 class ValidationResult:
@@ -193,6 +199,7 @@ class ValidationResult:
 ```
 
 **2. CheckStatus Enum**
+
 ```python
 class CheckStatus(Enum):
     PASS = "pass"
@@ -202,21 +209,25 @@ class CheckStatus(Enum):
 ```
 
 **3. Service Checks**
+
 - PostgreSQL: `pg_isready -p 5432`
 - MariaDB: `mysqladmin -P 3306 ping`
 - Timeout: 5 seconds (configurable)
 
 **4. Version Checks**
+
 - Python: `python3 --version` -> parse major.minor
 - Node: `node --version` -> parse major version
 
 **5. Port Checks**
+
 - Socket connection attempt with 2-second timeout
 - Port range validation (0-65535)
 
 ### Configuration
 
 **Agent Config**:
+
 ```python
 config = {
     "project_root": "/workspace",
@@ -226,6 +237,7 @@ config = {
 ```
 
 **Input Data**:
+
 ```python
 input_data = {
     "devcontainer_json": {...},
@@ -245,6 +257,7 @@ input_data = {
 
 **Total Tests**: 51
 **Test Categories**:
+
 - Initialization: 2 tests
 - PostgreSQL validation: 3 tests
 - MariaDB validation: 3 tests
@@ -263,16 +276,19 @@ input_data = {
 ### Test Approach
 
 **TDD Workflow**:
+
 1. RED: Write failing tests first
 2. GREEN: Implement agent to pass tests
 3. REFACTOR: Optimize and clean up
 
 **Mocking Strategy**:
+
 - `subprocess.run` for command execution
 - `socket.socket` for port checks
 - `os.environ` for environment variables
 
 **Test Execution**:
+
 ```bash
 pytest tests/ai/automation/test_devcontainer_validator_agent.py -v
 ```

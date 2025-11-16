@@ -15,6 +15,7 @@ Necesitamos distribuir CPython precompilado a múltiples proyectos del ecosistem
 ### Problema
 
 Cada proyecto Django actualmente compila CPython desde código fuente durante la construcción del Dev Container, lo que genera:
+
 - Tiempo excesivo de onboarding (20+ minutos por proyecto)
 - Inconsistencias entre entornos (diferentes versiones de libs del sistema)
 - Desperdicio de recursos en CI/CD
@@ -36,6 +37,7 @@ Se consideraron 4 enfoques principales para distribuir CPython precompilado:
 **Usaremos Features personalizadas de Dev Containers** para distribuir CPython precompilado.
 
 La Feature se implementará en `.devcontainer/infrastructure/cpython/installer/` con:
+
 - `devcontainer_feature.json`: Descriptor declarativo
 - `install.sh`: Script de instalación e integración
 - `README.md`: Documentación de uso
@@ -82,10 +84,12 @@ Los proyectos opt-in agregando la Feature a su `devcontainer.json`:
 ### Por qué NO Imagen Base Custom (Opción 2)
 
 **Ventajas consideradas:**
+
 - Simple: Todo incluido en una imagen
 - Rápido: Pull de imagen es instantáneo
 
 **Desventajas (críticas):**
+
 - **No composable**: Difícil combinar con otras bases (conflictos)
 - **Requiere registry**: Necesita Docker Hub o GHCR (infraestructura adicional)
 - **Actualización compleja**: Cambios requieren rebuild y push de imagen completa
@@ -97,10 +101,12 @@ Los proyectos opt-in agregando la Feature a su `devcontainer.json`:
 ### Por qué NO Script en Dockerfile (Opción 3)
 
 **Ventajas consideradas:**
+
 - Implementación trivial: `RUN ./install-python.sh`
 - No requiere Features: Familiar para todos
 
 **Desventajas (críticas):**
+
 - **Duplicación**: Script se repite en cada `Dockerfile` de cada proyecto
 - **No reutilizable**: Cambios requieren editar múltiples archivos
 - **Anti-patrón Dev Containers**: No sigue filosofía de composición
@@ -110,11 +116,13 @@ Los proyectos opt-in agregando la Feature a su `devcontainer.json`:
 ### Por qué NO Imagen Python Oficial (Opción 4)
 
 **Ventajas consideradas:**
+
 - Mantenida por comunidad
 - Múltiples versiones disponibles
 - Instalación instantánea
 
 **Desventajas (críticas):**
+
 - **Dependencia externa**: Requiere Docker Hub
 - **Sin control de compilación**: No podemos customizar flags de optimización
 - **No local-first**: Contradice filosofía IACT de infraestructura local
@@ -204,12 +212,14 @@ Esto es una ventaja de la decisión actual: permite evolución sin romper proyec
 ## Notas de Revisión
 
 Esta decisión se basa en:
+
 - Análisis de especificación oficial de Dev Containers
 - Experiencia con Features en otros proyectos
 - Principios IACT de infraestructura local-first
 - Requerimiento de opt-in por proyecto (no breaking changes)
 
 Se recomienda revisitar esta decisión en 6 meses basado en:
+
 - Número de proyectos adoptando la Feature
 - Feedback de desarrolladores
 - Complejidad de mantenimiento observada

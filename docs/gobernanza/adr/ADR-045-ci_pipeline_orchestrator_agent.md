@@ -27,6 +27,7 @@ The IACT project requires intelligent orchestration of CI/CD pipeline execution 
 ### Current State
 
 The project has:
+
 - A comprehensive `.ci-local.yaml` configuration with 4 stages (lint, test, build, validate)
 - Bash-based `ci-local.sh` orchestrator (945 lines)
 - Manual job execution logic
@@ -49,6 +50,7 @@ We will implement **CIPipelineOrchestratorAgent**, a Python-based intelligent CI
 ### Architecture Components
 
 #### 1. Data Models
+
 ```python
 - PipelineConfig: Pipeline configuration
 - Stage: CI stage definition
@@ -61,29 +63,34 @@ We will implement **CIPipelineOrchestratorAgent**, a Python-based intelligent CI
 #### 2. Core Components
 
 **SmartDetector**
+
 - Analyzes git diff to detect changed components (UI, API, docs)
 - Pattern matching for file extensions
 - Optimizes job execution by skipping irrelevant jobs
 
 **JobExecutor**
+
 - Async subprocess execution using `asyncio.create_subprocess_shell`
 - Parallel job execution with concurrency limits (semaphore)
 - Sequential execution for dependent jobs
 - Timeout handling with process cleanup
 
 **DependencyResolver**
+
 - Topological sort for stage ordering
 - Circular dependency detection
 - Parallel group identification
 - Validation of dependency references
 
 **ResultAggregator**
+
 - Job/stage result aggregation
 - Success rate calculation
 - Comprehensive statistics generation
 - JSON report formatting
 
 **CIPipelineOrchestratorAgent** (Main)
+
 - Configuration parsing (YAML)
 - Pipeline execution orchestration
 - Fail-fast logic
@@ -93,6 +100,7 @@ We will implement **CIPipelineOrchestratorAgent**, a Python-based intelligent CI
 ### Why Python + AsyncIO?
 
 **Rationale**:
+
 1. **Testability**: Python is easier to test than Bash (pytest, mocks, fixtures)
 2. **AsyncIO**: Native async/await for parallel execution without threading complexity
 3. **Type Safety**: Type hints improve code quality and IDE support
@@ -100,14 +108,17 @@ We will implement **CIPipelineOrchestratorAgent**, a Python-based intelligent CI
 5. **Ecosystem**: Rich ecosystem for YAML parsing, JSON handling, logging
 
 **vs Bash**:
+
 - Bash: Good for simple scripts, git operations, file manipulation
 - Python: Better for complex logic, async operations, data processing
 
 **vs Threading**:
+
 - Threading: GIL limitations, complex synchronization
 - AsyncIO: Single-threaded, efficient I/O multiplexing, simpler debugging
 
 **vs multiprocessing**:
+
 - Multiprocessing: Higher overhead, process spawn cost
 - AsyncIO: Lightweight coroutines, ideal for I/O-bound subprocess execution
 
@@ -116,6 +127,7 @@ We will implement **CIPipelineOrchestratorAgent**, a Python-based intelligent CI
 ### Key Implementation Details
 
 #### 1. Configuration Parsing
+
 ```python
 def parse_config(self) -> PipelineConfig:
     """Parse .ci-local.yaml with validation."""
@@ -127,6 +139,7 @@ def parse_config(self) -> PipelineConfig:
 ```
 
 #### 2. Smart Detection
+
 ```python
 class SmartDetector:
     def detect_changes(self, git_context) -> Dict:
@@ -137,6 +150,7 @@ class SmartDetector:
 ```
 
 #### 3. Parallel Execution
+
 ```python
 class JobExecutor:
     async def execute_parallel(self, jobs) -> List[JobResult]:
@@ -147,6 +161,7 @@ class JobExecutor:
 ```
 
 #### 4. Dependency Resolution
+
 ```python
 class DependencyResolver:
     def resolve(self, stages) -> List[str]:
@@ -157,6 +172,7 @@ class DependencyResolver:
 ```
 
 #### 5. Timeout Handling
+
 ```python
 async def execute_job(self, job) -> JobResult:
     """Execute with timeout."""
@@ -169,6 +185,7 @@ async def execute_job(self, job) -> JobResult:
 ```
 
 #### 6. Fail-Fast Logic
+
 ```python
 async def run_pipeline(self) -> PipelineResult:
     """Run pipeline with fail-fast."""
@@ -179,6 +196,7 @@ async def run_pipeline(self) -> PipelineResult:
 ```
 
 ### CLI Interface
+
 ```bash
 # Full pipeline
 python ci_pipeline_orchestrator_agent.py --config .ci-local.yaml
@@ -197,6 +215,7 @@ python ci_pipeline_orchestrator_agent.py --output pipeline_report.json
 ```
 
 ### Exit Codes
+
 - **0**: Success (all jobs passed)
 - **1**: Failure (job failed)
 - **2**: Warnings (jobs passed but warnings generated)
@@ -251,6 +270,7 @@ python ci_pipeline_orchestrator_agent.py --output pipeline_report.json
 ### Mitigation Strategies
 
 1. **Bash Integration**
+
    ```bash
    # ci-local.sh invokes Python agent
    python3 scripts/coding/ai/automation/ci_pipeline_orchestrator_agent.py \
@@ -276,6 +296,7 @@ python ci_pipeline_orchestrator_agent.py --output pipeline_report.json
 ### Test Coverage (30+ tests)
 
 **Configuration Parsing (7 tests)**
+
 - Valid YAML parsing
 - Invalid YAML handling
 - Missing required fields
@@ -285,6 +306,7 @@ python ci_pipeline_orchestrator_agent.py --output pipeline_report.json
 - Default values
 
 **Smart Detection (7 tests)**
+
 - UI changes detection
 - API changes detection
 - Docs changes detection
@@ -293,12 +315,14 @@ python ci_pipeline_orchestrator_agent.py --output pipeline_report.json
 - Git diff parsing
 
 **Parallel Execution (4 tests)**
+
 - Parallel job execution
 - Sequential execution
 - Asyncio subprocess management
 - Parallel execution with failures
 
 **Dependency Resolution (5 tests)**
+
 - Linear dependencies
 - Parallel stages
 - Circular dependency detection
@@ -306,47 +330,56 @@ python ci_pipeline_orchestrator_agent.py --output pipeline_report.json
 - Topological sort
 
 **Timeout Handling (4 tests)**
+
 - Job timeout
 - Pipeline timeout
 - Timeout cleanup
 - Per-job timeout
 
 **Fail-Fast Behavior (3 tests)**
+
 - Fail-fast enabled
 - Fail-fast disabled
 - Continue-on-error per job
 
 **Result Aggregation (4 tests)**
+
 - Job result aggregation
 - Stage result aggregation
 - Success rate calculation
 - Summary statistics
 
 **Dry-Run Mode (3 tests)**
+
 - No execution in dry-run
 - Show execution plan
 - Config validation
 
 **JSON Report (4 tests)**
+
 - Generate valid JSON
 - Include all results
 - Save to file
 - Schema validation
 
 **CLI Interface (2 tests)**
+
 - Argument parsing
 - Help message
 
 **Exit Codes (3 tests)**
+
 - Success (0)
 - Failure (1)
 - Warnings (2)
 
 **Integration (2 tests)**
+
 - Full pipeline execution
 - Error recovery
 
 **Edge Cases (4 tests)**
+
 - Empty stages
 - Missing command
 - Concurrent job limit
@@ -380,21 +413,25 @@ python ci_pipeline_orchestrator_agent.py --output pipeline_report.json
 ## Alternatives Considered
 
 ### 1. Pure Bash Implementation
+
 **Pros**: No Python dependency, simpler for small scripts
 **Cons**: Difficult to test, no async, complex for orchestration
 **Verdict**: Rejected - too complex for Bash
 
 ### 2. GitHub Actions / GitLab CI
+
 **Pros**: Cloud-native, feature-rich
 **Cons**: Requires internet, vendor lock-in, not local
 **Verdict**: Rejected - need offline local CI
 
 ### 3. Jenkins / CircleCI
+
 **Pros**: Mature, widely used
 **Cons**: Heavy, requires setup, overkill for local CI
 **Verdict**: Rejected - too heavy for local dev
 
 ### 4. Make / Taskfile
+
 **Pros**: Simple, declarative
 **Cons**: Limited dependency resolution, no smart detection
 **Verdict**: Rejected - insufficient capabilities
@@ -429,6 +466,7 @@ python ci_pipeline_orchestrator_agent.py --output pipeline_report.json
 The CIPipelineOrchestratorAgent provides a robust, testable, and maintainable solution for CI pipeline orchestration. The Python + AsyncIO approach offers significant advantages over pure Bash for complex orchestration logic while maintaining integration with existing Bash scripts via CLI interface.
 
 **Next Steps**:
+
 1. Run comprehensive test suite
 2. Integrate with `ci-local.sh`
 3. Document usage patterns

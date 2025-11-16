@@ -3,7 +3,13 @@ id: ADR-2025-003
 estado: aceptada
 propietario: arquitecto-senior
 ultima_actualizacion: 2025-11-06
-relacionados: ["FASES_IMPLEMENTACION_IA.md", "ESTRATEGIA_IA.md", "AGENTES_SDLC.md", "ADR-2025-002"]
+relacionados:
+  [
+    "FASES_IMPLEMENTACION_IA.md",
+    "ESTRATEGIA_IA.md",
+    "AGENTES_SDLC.md",
+    "ADR-2025-002",
+  ]
 ---
 
 # ADR-2025-003: Integracion DORA Metrics con SDLC Agents
@@ -24,18 +30,21 @@ Sin embargo, carecemos de visibilidad sobre el impacto real de estos agentes
 en las metricas clave de performance de entrega de software.
 
 **Preguntas clave:**
+
 - Como medimos si los agentes IA estan mejorando nuestro delivery performance?
 - Como validamos que cambios en agentes no degradan metricas criticas?
 - Como implementamos mejora continua basada en datos (no intuicion)?
 - Como escalamos practicas exitosas a toda la organizacion?
 
 **Restricciones actuales:**
+
 - RNF-002: NO Redis - Solo PostgreSQL, MySQL, SQLite
 - RNF-NO-EMOJIS: NO emojis en codigo/docs/commits
 - Sin herramientas de APM externas (Prometheus/Grafana bloqueadas)
 - Metricas DORA baseline no establecidas (GITHUB_TOKEN pendiente)
 
 **Impacto:**
+
 - Sin metricas objetivas, no podemos demostrar ROI de agentes IA
 - Ciclos PDCA manuales (lentos, inconsistentes, propensos a sesgo)
 - No hay deteccion temprana de regresiones
@@ -43,16 +52,16 @@ en las metricas clave de performance de entrega de software.
 
 ## Factores de Decision
 
-| Factor | Peso | Descripcion |
-|--------|------|-------------|
-| **Performance** | ALTA | Overhead minimo (<5% duracion pipeline) |
-| **Escalabilidad** | ALTA | Soportar 100+ ciclos SDLC concurrentes |
-| **Complejidad** | MEDIA | Integracion transparente (sin cambios a agentes existentes) |
-| **Costo** | BAJA | Usar solo recursos existentes (MySQL, filesystem) |
-| **Seguridad** | ALTA | No exponer datos sensibles en metricas |
-| **Compatibilidad** | CRITICA | Compatible con RNF-002 (NO Redis) |
-| **Madurez** | MEDIA | DORA framework validado (10+ years research) |
-| **Comunidad** | ALTA | DORA Report 2025 + Google DORA research |
+| Factor             | Peso    | Descripcion                                                 |
+| ------------------ | ------- | ----------------------------------------------------------- |
+| **Performance**    | ALTA    | Overhead minimo (<5% duracion pipeline)                     |
+| **Escalabilidad**  | ALTA    | Soportar 100+ ciclos SDLC concurrentes                      |
+| **Complejidad**    | MEDIA   | Integracion transparente (sin cambios a agentes existentes) |
+| **Costo**          | BAJA    | Usar solo recursos existentes (MySQL, filesystem)           |
+| **Seguridad**      | ALTA    | No exponer datos sensibles en metricas                      |
+| **Compatibilidad** | CRITICA | Compatible con RNF-002 (NO Redis)                           |
+| **Madurez**        | MEDIA   | DORA framework validado (10+ years research)                |
+| **Comunidad**      | ALTA    | DORA Report 2025 + Google DORA research                     |
 
 ## Opciones Consideradas
 
@@ -63,18 +72,21 @@ Usar unicamente GitHub API para calcular metricas DORA, ejecutando
 scripts manualmente segun necesidad.
 
 **Implementacion:**
+
 ```python
 # scripts/dora_metrics.py (existente)
 python scripts/dora_metrics.py --repo owner/repo --days 30
 ```
 
 **Pros:**
+
 - OK Simple de implementar (script ya existe)
 - OK No requiere almacenamiento adicional
 - OK Datos auditables (GitHub como fuente de verdad)
 - OK Sin overhead en pipeline SDLC
 
 **Contras:**
+
 - NO Requiere GITHUB_TOKEN (bloqueado actualmente)
 - NO Manual (no automatico)
 - NO No rastrea metricas por fase SDLC
@@ -90,6 +102,7 @@ Usar stack de observabilidad externa (Prometheus metrics + Grafana dashboards)
 para rastrear metricas DORA en tiempo real.
 
 **Implementacion:**
+
 ```python
 from prometheus_client import Counter, Histogram
 
@@ -98,12 +111,14 @@ lead_time_histogram = Histogram('lead_time_seconds', 'Lead time distribution')
 ```
 
 **Pros:**
+
 - OK Visualizacion rica (dashboards Grafana)
 - OK Alertas en tiempo real
 - OK Retention configurable
 - OK Amplia adopcion en industria
 
 **Contras:**
+
 - NO Viola RNF-002 (Prometheus requiere infraestructura adicional)
 - NO Complejidad operacional (setup, mantenimiento)
 - NO Costo de learning curve (nuevo stack)
@@ -119,6 +134,7 @@ durante cada fase del ciclo. Almacenar metricas localmente (JSON + MySQL futuro)
 Integrar con PDCA automation agent para mejora continua.
 
 **Implementacion:**
+
 ```python
 from agents.dora_sdlc_integration import DORATrackedSDLCAgent
 
@@ -134,6 +150,7 @@ MySQL metrics table      # Futuro (P0 - 8 SP)
 ```
 
 **Pros:**
+
 - OK Automatico (sin intervencion manual)
 - OK Granularidad fase-a-fase (planning -> deployment)
 - OK Compatible RNF-002 (solo MySQL + filesystem)
@@ -143,6 +160,7 @@ MySQL metrics table      # Futuro (P0 - 8 SP)
 - OK Sin emojis (RNF-NO-EMOJIS compliant)
 
 **Contras:**
+
 - NO Requiere refactor agentes existentes (minimo: heredar de nueva clase)
 - NO Storage local (hasta implementar MySQL metrics)
 - NO No reemplaza GitHub API (complementa)
@@ -156,6 +174,7 @@ Los agentes escriben logs estructurados (JSON), un script posterior
 analiza logs y calcula metricas DORA.
 
 **Implementacion:**
+
 ```python
 import logging
 logging.info(json.dumps({
@@ -169,11 +188,13 @@ python scripts/analyze_logs.py --days 7
 ```
 
 **Pros:**
+
 - OK No invasivo (solo logging)
 - OK Flexible (analisis offline)
 - OK Compatible con cualquier stack
 
 **Contras:**
+
 - NO Manual (requiere ejecutar script)
 - NO Parsing complejo (logs multi-linea)
 - NO No tiempo real
@@ -212,6 +233,7 @@ python scripts/analyze_logs.py --days 7
    - Fase 4: GitHub API sync (P1 - 3 SP) - Q1 2026
 
 **Trade-offs aceptados:**
+
 - Storage local inicial (hasta MySQL implementado)
 - Refactor minimo agentes existentes (heredar DORATrackedSDLCAgent)
 - No reemplaza GitHub API (la complementa)
@@ -246,6 +268,7 @@ python scripts/analyze_logs.py --days 7
 ### 1. Fase 1: Core Integration (COMPLETADO - 2025-11-06)
 
 **Acciones:**
+
 - [x] Crear DORAMetrics class (in-memory tracking)
 - [x] Crear DORATrackedSDLCAgent (base class)
 - [x] Implementar @dora_tracked decorator
@@ -257,6 +280,7 @@ python scripts/analyze_logs.py --days 7
 **Timeframe:** 1 dia (COMPLETADO)
 
 **Archivos creados:**
+
 - `scripts/ai/agents/dora_sdlc_integration.py` (536 lineas)
 - `scripts/ai/agents/pdca_automation_agent.py` (658 lineas)
 - `docs/gobernanza/ai/DORA_SDLC_INTEGRATION_GUIDE.md` (500 lineas)
@@ -265,6 +289,7 @@ python scripts/analyze_logs.py --days 7
 ### 2. Fase 2: Refactor Existing Agents (P1 - 5 SP)
 
 **Acciones:**
+
 - [ ] Refactor SDLCPlannerAgent -> DORATrackedSDLCAgent
 - [ ] Refactor SDLCDesignAgent -> DORATrackedSDLCAgent
 - [ ] Refactor TestRunner -> DORATrackedSDLCAgent
@@ -274,6 +299,7 @@ python scripts/analyze_logs.py --days 7
 **Timeframe:** 1 semana
 
 **Validacion:**
+
 - Tests unitarios pasan (>90% coverage)
 - Metricas registradas correctamente (.dora_sdlc_metrics.json)
 - No regresion en performance (<1% overhead)
@@ -281,6 +307,7 @@ python scripts/analyze_logs.py --days 7
 ### 3. Fase 3: MySQL Metrics Storage (P0 - 8 SP)
 
 **Acciones:**
+
 - [ ] Disenar schema MySQL (dora_metrics table)
 - [ ] Migration script (JSON -> MySQL)
 - [ ] Update DORAMetrics class (MySQL backend)
@@ -290,6 +317,7 @@ python scripts/analyze_logs.py --days 7
 **Timeframe:** 2 semanas
 
 **Schema:**
+
 ```sql
 CREATE TABLE dora_metrics (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
@@ -311,6 +339,7 @@ CREATE TABLE dora_metrics (
 ### 4. Fase 4: Django Admin Dashboards (P2 - 5 SP)
 
 **Acciones:**
+
 - [ ] ModelAdmin para DORACycle
 - [ ] Custom views (metrics summary)
 - [ ] Graficos (Chart.js): DF, LT, CFR, MTTR
@@ -324,6 +353,7 @@ CREATE TABLE dora_metrics (
 ### 5. Fase 5: GitHub API Sync (P1 - 3 SP)
 
 **Acciones:**
+
 - [ ] Obtener GITHUB_TOKEN (prerequisito)
 - [ ] Cron job diario: sync local + GitHub
 - [ ] Combined report generator
@@ -332,6 +362,7 @@ CREATE TABLE dora_metrics (
 **Timeframe:** 1 semana
 
 **Cron:**
+
 ```bash
 0 2 * * * python scripts/sync_dora_github.py --repo 2-Coatl/IACT---project
 ```
@@ -339,6 +370,7 @@ CREATE TABLE dora_metrics (
 ### 6. Fase 6: PDCA Automation Operational (P1 - 2 SP)
 
 **Acciones:**
+
 - [ ] Configurar ciclos PDCA semanales (viernes 17:00)
 - [ ] Thresholds production (auto_apply: 15%, auto_revert: -5%)
 - [ ] Alertas Slack/email en ESCALATE
@@ -347,6 +379,7 @@ CREATE TABLE dora_metrics (
 **Timeframe:** 3 dias
 
 **Cron:**
+
 ```bash
 0 17 * * 5 python scripts/ai/agents/pdca_automation_agent.py --auto-execute
 ```
@@ -356,26 +389,31 @@ CREATE TABLE dora_metrics (
 ### Criterios de Exito
 
 **Fase 2 (Refactor Agents):**
+
 - Metrica 1: 100% agentes SDLC con DORA tracking
 - Metrica 2: <1% overhead en pipeline duration
 - Metrica 3: >95% metricas registradas correctamente
 
 **Fase 3 (MySQL Storage):**
+
 - Metrica 1: <100ms query latency (p95)
 - Metrica 2: <5 MB storage per 1000 cycles
 - Metrica 3: 100% migracion datos JSON -> MySQL
 
 **Fase 4 (Dashboards):**
+
 - Metrica 1: <2s page load time
 - Metrica 2: >80% developer satisfaction (survey)
 - Metrica 3: 100% metricas visibles en UI
 
 **Fase 5 (GitHub Sync):**
+
 - Metrica 1: <5% discrepancia local vs GitHub
 - Metrica 2: 100% sync success rate
 - Metrica 3: <10 min sync duration
 
 **Fase 6 (PDCA Operational):**
+
 - Metrica 1: >=1 ciclo PDCA semanal ejecutado
 - Metrica 2: >=15% mejora promedio en metricas DORA
 - Metrica 3: <5% decisiones ESCALATE (mayoria APPLY/CONTINUE)
@@ -383,6 +421,7 @@ CREATE TABLE dora_metrics (
 ### Como medir
 
 **Metricas DORA:**
+
 ```bash
 # Local
 python scripts/ai/agents/dora_sdlc_integration.py
@@ -395,6 +434,7 @@ python scripts/ai/agents/pdca_automation_agent.py --show-history
 ```
 
 **Performance overhead:**
+
 ```bash
 # Medir duracion pipeline sin/con DORA tracking
 time python scripts/sdlc_agent.py --phase planning --input "..."
@@ -404,6 +444,7 @@ jq '.cycles[].phases[].duration_seconds' .dora_sdlc_metrics.json | awk '{s+=$1; 
 ```
 
 **Validacion MySQL:**
+
 ```sql
 -- Count cycles
 SELECT COUNT(*) FROM dora_metrics;
@@ -436,6 +477,7 @@ LIMIT 10;
 ### Herramientas SaaS (DataDog, New Relic, Honeycomb)
 
 **Por que se descarto:**
+
 - Costo alto ($$$ por agente/mes)
 - Vendor lock-in
 - Datos sensibles en cloud externo
@@ -445,6 +487,7 @@ LIMIT 10;
 ### Logs centralizados (ELK Stack)
 
 **Por que se descarto:**
+
 - Complejidad operacional (Elasticsearch cluster)
 - Overhead almacenamiento (logs crecen rapido)
 - Post-procesamiento manual
@@ -453,6 +496,7 @@ LIMIT 10;
 ### Metricas custom en PostgreSQL
 
 **Por que se descarto:**
+
 - PostgreSQL ya usado para datos de negocio
 - Separacion de concerns (metrics != business data)
 - MySQL mas eficiente para time-series (partitioning)

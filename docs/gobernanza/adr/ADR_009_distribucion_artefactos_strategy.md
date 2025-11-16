@@ -22,6 +22,7 @@ Los artefactos de CPython precompilado pesan aproximadamente 50-80 MB cada uno. 
 ### Problema
 
 Guardar binarios de 50-80 MB en Git directamente inflaría el repositorio rápidamente:
+
 - 1 versión de Python = 80 MB
 - 5 versiones mantenidas = 400 MB
 - 10 builds/updates = 4 GB en historial de Git
@@ -74,8 +75,8 @@ cd /tmp && sha256sum -c cpython.tgz.sha256
 Mantener `artifacts/ARTIFACTS.md` en Git (archivo pequeño de texto):
 
 ```markdown
-| Versión | Build | Distro | Fecha | SHA256 | Release URL | Estado |
-|---------|-------|--------|-------|--------|-------------|--------|
+| Versión | Build | Distro      | Fecha      | SHA256    | Release URL                                                    | Estado |
+| ------- | ----- | ----------- | ---------- | --------- | -------------------------------------------------------------- | ------ |
 | 3.12.6  | 1     | ubuntu20.04 | 2025-11-06 | abc123... | https://github.com/.../releases/download/cpython-3.12.6-build1 | Activo |
 ```
 
@@ -122,6 +123,7 @@ Mantener `artifacts/ARTIFACTS.md` en Git (archivo pequeño de texto):
 ### Por qué NO Git LFS (Opción 2)
 
 **Ventajas consideradas:**
+
 - Versionado con código (archivos en commits normales)
 - Transparente para usuarios (con Git LFS instalado)
 
@@ -142,6 +144,7 @@ Mantener `artifacts/ARTIFACTS.md` en Git (archivo pequeño de texto):
 5. **No funciona bien en CI/CD**: GitHub Actions cuenta contra cuota de ancho de banda
 
 **Cálculo de costos con Git LFS:**
+
 - 10 desarrolladores x 5 proyectos x 80 MB = 4 GB/mes de ancho de banda
 - Costo: $5/mes (límite excedido inmediatamente)
 
@@ -150,6 +153,7 @@ Mantener `artifacts/ARTIFACTS.md` en Git (archivo pequeño de texto):
 ### Por qué NO Storage Externo - S3/GCS (Opción 3)
 
 **Ventajas consideradas:**
+
 - Escalable infinitamente
 - Control total de ACLs
 
@@ -174,6 +178,7 @@ Mantener `artifacts/ARTIFACTS.md` en Git (archivo pequeño de texto):
 ### Por qué NO Servidor HTTP Interno (Opción 4)
 
 **Ventajas consideradas:**
+
 - Control total
 - 100% local si se desea
 
@@ -274,10 +279,10 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: 'Versión de CPython (ej: 3.12.6)'
+        description: "Versión de CPython (ej: 3.12.6)"
         required: true
       build_number:
-        description: 'Número de build (ej: 1)'
+        description: "Número de build (ej: 1)"
         required: true
 
 jobs:
@@ -343,6 +348,7 @@ ldconfig
 **Fallback manual:**
 
 1. Descargar artefacto manualmente antes de tiempo:
+
    ```bash
    mkdir -p infraestructura/cpython/artifacts/
    curl -L https://github.com/.../releases/download/.../cpython-3.12.6-ubuntu20.04-build1.tgz \
@@ -395,6 +401,7 @@ Pero para IACT (repo público actual), no es necesario.
 ### Mejoras potenciales (Fase 4+):
 
 1. **Firma GPG de artefactos**:
+
    ```bash
    gpg --armor --detach-sign cpython-3.12.6-ubuntu20.04-build1.tgz
    gh release upload ... cpython-3.12.6-ubuntu20.04-build1.tgz.asc
@@ -427,6 +434,7 @@ Indicadores para validar decisión:
 **Fecha de revisión**: 2025-05-06 (6 meses)
 
 **Criterios de revisión**:
+
 - Si GitHub cambia políticas de releases
 - Si el equipo crece >20 personas (considerar S3)
 - Si se requiere distribución offline (considerar servidor interno)

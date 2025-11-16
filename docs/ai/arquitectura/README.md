@@ -15,4 +15,3 @@ Este directorio contiene arquitectura especificos del dominio ai.
 
 - Estandares generales: ../../gobernanza/arquitectura/ (si aplica)
 - Otros dominios: Ver estructura similar en otros directorios de dominio
-

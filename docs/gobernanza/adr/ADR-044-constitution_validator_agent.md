@@ -183,12 +183,12 @@ JSON output follows specification:
 
 ### Risks & Mitigations
 
-| Risk | Probability | Impact | Mitigation |
-|------|------------|--------|------------|
-| Emoji regex false positives | Low | Medium | Comprehensive test suite with edge cases |
-| Integration agent failures | Medium | Medium | Graceful degradation (skip if agent unavailable) |
-| Performance degradation | Low | Low | Mode-based selection keeps pre-commit fast |
-| Python not available | Low | High | Bash wrapper checks for python3 |
+| Risk                        | Probability | Impact | Mitigation                                       |
+| --------------------------- | ----------- | ------ | ------------------------------------------------ |
+| Emoji regex false positives | Low         | Medium | Comprehensive test suite with edge cases         |
+| Integration agent failures  | Medium      | Medium | Graceful degradation (skip if agent unavailable) |
+| Performance degradation     | Low         | Low    | Mode-based selection keeps pre-commit fast       |
+| Python not available        | Low         | High   | Bash wrapper checks for python3                  |
 
 ---
 
@@ -207,21 +207,21 @@ JSON output follows specification:
 
 ### Test Coverage
 
-| Category | Tests | Coverage |
-|----------|-------|----------|
-| Initialization | 3 | 100% |
-| R1 (Branch Protection) | 5 | 100% |
-| R2 (Emoji Detection) | 8 | 100% |
-| R3 (UI/API Coherence) | 3 | 90% |
-| R4 (Database Router) | 3 | 90% |
-| R5 (Tests Pass) | 3 | 90% |
-| R6 (DevContainer) | 2 | 90% |
-| Validation Modes | 3 | 100% |
-| Exit Codes | 4 | 100% |
-| JSON Output | 3 | 100% |
-| CLI Arguments | 4 | 100% |
-| Edge Cases | 6 | 95% |
-| **Total** | **50+** | **95%** |
+| Category               | Tests   | Coverage |
+| ---------------------- | ------- | -------- |
+| Initialization         | 3       | 100%     |
+| R1 (Branch Protection) | 5       | 100%     |
+| R2 (Emoji Detection)   | 8       | 100%     |
+| R3 (UI/API Coherence)  | 3       | 90%      |
+| R4 (Database Router)   | 3       | 90%      |
+| R5 (Tests Pass)        | 3       | 90%      |
+| R6 (DevContainer)      | 2       | 90%      |
+| Validation Modes       | 3       | 100%     |
+| Exit Codes             | 4       | 100%     |
+| JSON Output            | 3       | 100%     |
+| CLI Arguments          | 4       | 100%     |
+| Edge Cases             | 6       | 95%      |
+| **Total**              | **50+** | **95%**  |
 
 ### Usage Examples
 
@@ -411,19 +411,19 @@ pytest tests/ai/automation/test_constitution_validator_agent.py --cov
 
 ## Approval & Sign-off
 
-| Role | Name | Date | Status |
-|------|------|------|--------|
-| Architect | SDLC Agent | 2025-11-13 | Approved |
-| DevOps Lead | TBD | 2025-11-13 | Pending |
-| Tech Lead | TBD | 2025-11-13 | Pending |
+| Role        | Name       | Date       | Status   |
+| ----------- | ---------- | ---------- | -------- |
+| Architect   | SDLC Agent | 2025-11-13 | Approved |
+| DevOps Lead | TBD        | 2025-11-13 | Pending  |
+| Tech Lead   | TBD        | 2025-11-13 | Pending  |
 
 ---
 
 ## Revision History
 
-| Version | Date | Author | Changes |
-|---------|------|--------|---------|
-| 1.0 | 2025-11-13 | SDLC Agent | Initial ADR with full implementation |
+| Version | Date       | Author     | Changes                              |
+| ------- | ---------- | ---------- | ------------------------------------ |
+| 1.0     | 2025-11-13 | SDLC Agent | Initial ADR with full implementation |
 
 ---
 

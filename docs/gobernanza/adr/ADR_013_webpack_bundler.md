@@ -39,6 +39,7 @@ El frontend IACT necesita un bundler para:
 #### Opción 1: Vite
 
 **Pros**:
+
 - **Dev server ultra rápido**: ESM nativo, sin bundling en dev
 - **HMR instantáneo**: <100ms rebuild
 - **Configuración mínima**: Out-of-the-box funciona
@@ -46,6 +47,7 @@ El frontend IACT necesita un bundler para:
 - **Build rápido**: Usa esbuild (Go) para pre-bundling
 
 **Contras**:
+
 - **Ecosystem menos maduro**: Menos plugins vs Webpack (ej: alias complejos)
 - **Configuración avanzada limitada**: Para casos edge, menos flexible
 - **Producción usa Rollup**: Dos bundlers diferentes (dev: esbuild, prod: rollup)
@@ -55,11 +57,13 @@ El frontend IACT necesita un bundler para:
 #### Opción 2: Parcel
 
 **Pros**:
+
 - Zero config
 - Rápido
 - Simple
 
 **Contras**:
+
 - Configuración custom limitada
 - Menor ecosystem
 - Menos adopción que Webpack/Vite
@@ -67,6 +71,7 @@ El frontend IACT necesita un bundler para:
 #### Opción 3: Webpack (SELECCIONADA)
 
 **Pros**:
+
 - **Ecosystem maduro**: Miles de loaders y plugins
 - **Configuración explícita**: Control total sobre build
 - **Code splitting avanzado**: SplitChunksPlugin robusto
@@ -76,6 +81,7 @@ El frontend IACT necesita un bundler para:
 - **Path aliases**: Configuración simple y predecible
 
 **Contras**:
+
 - **Dev server más lento**: ~2-3s rebuild vs <100ms de Vite
 - **Configuración verbosa**: Requiere webpack.config.cjs explícito
 - **Curva de aprendizaje**: Conceptos: loaders, plugins, chunks
@@ -115,20 +121,20 @@ Usar **Webpack 5** como bundler.
 
 ```javascript
 // webpack.config.cjs
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = (env) => {
   const isProduction = env.production === true;
 
   return {
-    mode: isProduction ? 'production' : 'development',
-    entry: './src/index.jsx',
+    mode: isProduction ? "production" : "development",
+    entry: "./src/index.jsx",
     output: {
-      path: path.resolve(__dirname, 'dist'),
-      filename: isProduction ? '[name].[contenthash].js' : '[name].js',
+      path: path.resolve(__dirname, "dist"),
+      filename: isProduction ? "[name].[contenthash].js" : "[name].js",
       clean: true,
-      publicPath: '/',
+      publicPath: "/",
     },
     devServer: {
       port: 3000,
@@ -140,39 +146,39 @@ module.exports = (env) => {
         {
           test: /\.jsx?$/,
           exclude: /node_modules/,
-          use: 'babel-loader',
+          use: "babel-loader",
         },
         {
           test: /\.css$/,
-          use: ['style-loader', 'css-loader'],
+          use: ["style-loader", "css-loader"],
         },
       ],
     },
     resolve: {
-      extensions: ['.js', '.jsx'],
+      extensions: [".js", ".jsx"],
       alias: {
-        '@app': path.resolve(__dirname, 'src/app'),
-        '@modules': path.resolve(__dirname, 'src/modules'),
-        '@components': path.resolve(__dirname, 'src/components'),
-        '@hooks': path.resolve(__dirname, 'src/hooks'),
-        '@styles': path.resolve(__dirname, 'src/styles'),
-        '@state': path.resolve(__dirname, 'src/state'),
+        "@app": path.resolve(__dirname, "src/app"),
+        "@modules": path.resolve(__dirname, "src/modules"),
+        "@components": path.resolve(__dirname, "src/components"),
+        "@hooks": path.resolve(__dirname, "src/hooks"),
+        "@styles": path.resolve(__dirname, "src/styles"),
+        "@state": path.resolve(__dirname, "src/state"),
       },
     },
     plugins: [
       new HtmlWebpackPlugin({
-        template: './public/index.html',
+        template: "./public/index.html",
       }),
     ],
-    devtool: isProduction ? 'source-map' : 'eval-source-map',
+    devtool: isProduction ? "source-map" : "eval-source-map",
     optimization: {
       splitChunks: isProduction
         ? {
-            chunks: 'all',
+            chunks: "all",
             cacheGroups: {
               vendor: {
                 test: /[\\/]node_modules[\\/]/,
-                name: 'vendors',
+                name: "vendors",
                 priority: 10,
               },
               common: {
@@ -193,12 +199,13 @@ module.exports = (env) => {
 Configurados en `webpack.config.cjs` > resolve.alias:
 
 ```javascript
-import App from '@app/App';                    // src/app/
-import HomeModule from '@modules/home';        // src/modules/
-import MainLayout from '@components/MainLayout'; // src/components/
+import App from "@app/App"; // src/app/
+import HomeModule from "@modules/home"; // src/modules/
+import MainLayout from "@components/MainLayout"; // src/components/
 ```
 
 Beneficios:
+
 - Imports limpios sin `../../../../`
 - Refactoring más fácil (cambiar ubicación sin romper imports)
 - Autocomplete en IDEs funciona
@@ -207,8 +214,8 @@ Beneficios:
 
 ```javascript
 // Lazy loading de módulos
-const DashboardModule = React.lazy(() => import('@modules/dashboard'));
-const ReportsModule = React.lazy(() => import('@modules/reports'));
+const DashboardModule = React.lazy(() => import("@modules/dashboard"));
+const ReportsModule = React.lazy(() => import("@modules/reports"));
 
 // Resultado: dashboard.chunk.js, reports.chunk.js
 // Solo se cargan cuando usuario navega a esa sección
@@ -246,17 +253,18 @@ const ReportsModule = React.lazy(() => import('@modules/reports'));
 
 ### Métricas
 
-| Métrica | Target | Actual (Medido en v0.1.0) |
-|---------|--------|---------------------------|
-| Dev rebuild | <3s | ~2s (aceptable) |
-| Bundle size (gzipped) | <500KB | TBD (medir después de módulos) |
-| Build time (producción) | <60s | ~15s (sin módulos aún) |
+| Métrica                 | Target | Actual (Medido en v0.1.0)      |
+| ----------------------- | ------ | ------------------------------ |
+| Dev rebuild             | <3s    | ~2s (aceptable)                |
+| Bundle size (gzipped)   | <500KB | TBD (medir después de módulos) |
+| Build time (producción) | <60s   | ~15s (sin módulos aún)         |
 
 ## Alternativas Rechazadas
 
 ### Vite
 
 Rechazado por:
+
 - Ecosystem menos maduro (menos plugins)
 - Configuración avanzada limitada (path aliases complejos)
 - Dos bundlers diferentes (dev: esbuild, prod: rollup)
@@ -267,6 +275,7 @@ Rechazado por:
 ### Parcel
 
 Rechazado por:
+
 - Configuración custom muy limitada
 - Menor ecosystem que Webpack
 - Menos control sobre optimizaciones

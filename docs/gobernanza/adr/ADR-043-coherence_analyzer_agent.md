@@ -97,6 +97,7 @@ def parse_api_views(code: str) -> List[APIEndpoint]:
 ```
 
 **Why AST vs Regex?**
+
 - AST is syntax-aware, handles nested classes, decorators correctly
 - Regex fails on complex Python syntax, comments, strings
 - AST provides line numbers for better error reporting
@@ -115,6 +116,7 @@ def correlate_full_chain(
 ```
 
 **Correlation Algorithm**:
+
 1. **Name similarity**: Compare endpoint names to service names
    - Exact match (normalized): 95% confidence
    - Contains match: 70-80% confidence (length ratio)
@@ -137,6 +139,7 @@ def detect_gaps(
 ```
 
 **Severity Levels**:
+
 - `error`: Blocks merge (service without tests)
 - `warning`: Review required (endpoint without service)
 - `info`: Informational (orphaned code)
@@ -156,6 +159,7 @@ def calculate_confidence_score(
 ```
 
 **Confidence Interpretation**:
+
 - 80-100%: Strong correlation, high confidence
 - 50-79%: Medium correlation, review recommended
 - 0-49%: Weak/no correlation, manual verification needed
@@ -470,10 +474,12 @@ fi
 **Approach**: Generate OpenAPI schemas from Django, compare to UI service contracts
 
 **Pros**:
+
 - Industry standard (OpenAPI 3.0)
 - Tool support (Swagger, Redoc)
 
 **Cons**:
+
 - Doesn't cover UI tests
 - Requires schema generation step
 - No confidence scoring
@@ -485,10 +491,12 @@ fi
 **Approach**: Instrument API and UI at runtime, detect mismatches via monitoring
 
 **Pros**:
+
 - Detects real-world usage patterns
 - No static analysis needed
 
 **Cons**:
+
 - Production risk
 - Delayed detection (post-deployment)
 - No pre-merge blocking
@@ -500,10 +508,12 @@ fi
 **Approach**: Rely on developers to verify coherence during PR review
 
 **Pros**:
+
 - No tooling required
 - Human judgment
 
 **Cons**:
+
 - Scales poorly
 - Error-prone
 - No metrics
@@ -515,10 +525,12 @@ fi
 **Approach**: Use TypeScript compiler API for UI parsing (vs regex)
 
 **Pros**:
+
 - Robust AST parsing for TypeScript
 - Better accuracy than regex
 
 **Cons**:
+
 - Requires Node.js runtime
 - Adds complexity (Python + Node)
 - Performance overhead
@@ -613,6 +625,6 @@ fi
 
 ## Changelog
 
-| Date | Version | Changes |
-|------|---------|---------|
-| 2025-11-13 | 1.0 | Initial implementation, 50 tests passing |
+| Date       | Version | Changes                                  |
+| ---------- | ------- | ---------------------------------------- |
+| 2025-11-13 | 1.0     | Initial implementation, 50 tests passing |

@@ -27,12 +27,14 @@ The IACT automation system (constitucion.sh, ci-local.sh, validation scripts) ge
 6. Generate actionable reports for stakeholders
 
 **Problem Statement**: Without metrics collection and trend analysis, the team cannot:
+
 - Measure automation system effectiveness
 - Identify areas needing improvement
 - Prove ROI of automation investments
 - Make data-driven decisions about process changes
 
 **Requirements** (from AGENTS_ARCHITECTURE.md section 2.2.1 #6):
+
 - Parse logs/constitucion_violations.log
 - Track violations by rule (R1-R6)
 - CI pipeline metrics (duration, success rate)
@@ -49,6 +51,7 @@ Implement MetricsCollectorAgent as a specialized SDLC agent for comprehensive me
 **Key Design Decisions**:
 
 ### 1. Agent Architecture
+
 - **Extends**: SDLCAgent (inherits base functionality, logging, validation)
 - **Phase**: "metrics" (SDLC maintenance/monitoring phase)
 - **Pattern**: Single Responsibility Principle - only metrics collection/analysis
@@ -56,29 +59,34 @@ Implement MetricsCollectorAgent as a specialized SDLC agent for comprehensive me
 ### 2. Core Capabilities
 
 **A. Violations Tracking**:
+
 - Parse structured violation logs using regex pattern matching
 - Count by rule (R1-R6), severity (error/warning), file
 - Support malformed entry handling (skip invalid entries)
 - Developer attribution (when available)
 
 **B. Trend Analysis**:
+
 - Time-based splitting (not count-based) for accurate trends
 - Calculate percentage change between periods
 - Classify: INCREASING, DECREASING, STABLE, UNKNOWN
 - Configurable sensitivity threshold (5% default)
 
 **C. CI Metrics**:
+
 - Aggregate from JSON history files
 - Success rate calculation
 - Duration statistics (average, min, max)
 - Jobs passed/failed tracking
 
 **D. Coverage Tracking**:
+
 - Load historical coverage snapshots
 - Track overall, backend, frontend separately
 - Trend analysis over time
 
 **E. Developer Compliance**:
+
 - Attribution by author (from violation logs)
 - Per-developer violation counts
 - Breakdown by rule and severity
@@ -86,6 +94,7 @@ Implement MetricsCollectorAgent as a specialized SDLC agent for comprehensive me
 ### 3. Output Formats
 
 **JSON Reports**:
+
 ```json
 {
   "generated_at": "2025-11-13T...",
@@ -102,6 +111,7 @@ Implement MetricsCollectorAgent as a specialized SDLC agent for comprehensive me
 ```
 
 **Markdown Summaries**:
+
 - Human-readable format
 - Sections for violations, CI, coverage
 - Trend descriptions
@@ -119,6 +129,7 @@ python metrics_collector_agent.py \
 ```
 
 **Arguments**:
+
 - `--log-file`: Path to violations log
 - `--metrics-type`: all|violations|ci|coverage
 - `--period`: Days to analyze (default: 30)
@@ -126,6 +137,7 @@ python metrics_collector_agent.py \
 - `--format`: json|markdown
 
 ### 5. Error Handling
+
 - FileNotFoundError: Missing log files
 - JSONDecodeError: Invalid metrics files
 - Malformed log entries: Skip with warning
@@ -135,11 +147,14 @@ python metrics_collector_agent.py \
 ## Alternatives Considered
 
 ### Alternative 1: Bash-Only Solution
+
 **Pros**:
+
 - Simple integration with existing Bash scripts
 - No Python dependency
 
 **Cons**:
+
 - Complex JSON parsing in Bash (jq)
 - Difficult trend analysis calculations
 - Poor testability
@@ -148,12 +163,15 @@ python metrics_collector_agent.py \
 **Decision**: Rejected - Python provides better structure and testability
 
 ### Alternative 2: External Monitoring Tools (Prometheus, Grafana)
+
 **Pros**:
+
 - Industry-standard tools
 - Rich visualization
 - Scalable
 
 **Cons**:
+
 - Infrastructure overhead
 - Learning curve
 - Overkill for current scale
@@ -162,12 +180,15 @@ python metrics_collector_agent.py \
 **Decision**: Rejected for now - May revisit at larger scale
 
 ### Alternative 3: Database Storage
+
 **Pros**:
+
 - Efficient querying
 - Long-term storage
 - Better for large datasets
 
 **Cons**:
+
 - Added complexity
 - Database setup/maintenance
 - Not needed for current volume
@@ -208,6 +229,7 @@ python metrics_collector_agent.py \
 ## Implementation Details
 
 ### Test Coverage
+
 **Total Tests**: 25 (100% pass rate)
 **Test Classes**: 13
 
@@ -227,6 +249,7 @@ python metrics_collector_agent.py \
 ### Key Implementation Choices
 
 **1. Time-Based Trend Analysis** (not count-based):
+
 ```python
 # Find time range
 first_timestamp = datetime.strptime(sorted_violations[0]["timestamp"], ...)
@@ -236,9 +259,11 @@ total_duration = last_timestamp - first_timestamp
 # Split by time, not count
 mid_timestamp = first_timestamp + (total_duration / 2)
 ```
+
 **Rationale**: Accurate trend detection even with uneven distribution
 
 **2. Regex Pattern for Log Parsing**:
+
 ```python
 self.violation_pattern = re.compile(
     r'\[(?P<timestamp>[\d\-: ]+)\] VIOLATION - '
@@ -247,12 +272,15 @@ self.violation_pattern = re.compile(
     ...
 )
 ```
+
 **Rationale**: Robust parsing, handles optional fields (author)
 
 **3. Validation in Constructor**:
+
 ```python
 self.period_days = max(1, config.get("period_days", 30))
 ```
+
 **Rationale**: Prevent negative or zero periods at initialization
 
 ### Files Created
@@ -275,17 +303,20 @@ self.period_days = max(1, config.get("period_days", 30))
 ### Integration Points
 
 **Invoked By**:
+
 - `constitucion.sh --mode=report` (planned)
 - `ci-local.sh` completion hooks (planned)
 - Cron jobs for periodic reporting (future)
 - PDCA Agent for baseline metrics (integration ready)
 
 **Invokes**:
+
 - Base SDLC Agent (inheritance)
 - File system (log/metrics reading)
 - JSON/Markdown writers
 
 **Data Dependencies**:
+
 - `logs/constitucion_violations.log` (violations)
 - `logs/ci_metrics_history.json` (CI data)
 - `logs/coverage_history.json` (coverage data)
@@ -293,23 +324,27 @@ self.period_days = max(1, config.get("period_days", 30))
 ## Testing Strategy
 
 ### Unit Tests
+
 - Individual method testing (parse, count, analyze)
 - Edge cases (empty files, malformed data)
 - Input validation
 - Error handling
 
 ### Integration Tests
+
 - End-to-end CLI workflows
 - Multiple data source combination
 - Report generation
 
 ### Test Data Strategy
+
 - Fixtures with realistic samples
 - Historical data spanning 60+ days
 - Malformed entries for robustness
 - Empty/missing files for error paths
 
 ### Continuous Testing
+
 ```bash
 # Run tests with coverage
 pytest tests/ai/automation/test_metrics_collector_agent.py -v --cov
@@ -320,12 +355,14 @@ pytest tests/ai/automation/test_metrics_collector_agent.py -v --cov
 ## Monitoring and Validation
 
 **Success Metrics**:
+
 1. All 25 tests pass continuously
 2. Reports generated successfully for real data
 3. Trend detection accuracy validated manually
 4. Performance: <5 seconds for 10K violations
 
 **Validation Checklist**:
+
 - [x] Unit tests pass (25/25)
 - [x] CLI arguments parsed correctly
 - [x] JSON reports valid schema
@@ -336,6 +373,7 @@ pytest tests/ai/automation/test_metrics_collector_agent.py -v --cov
 ## Future Enhancements
 
 ### Phase 2 Enhancements (Future)
+
 1. **Real-Time Monitoring**: WebSocket-based live metrics
 2. **Database Storage**: PostgreSQL for historical data
 3. **Visualization**: Integrate with Grafana dashboards
@@ -344,6 +382,7 @@ pytest tests/ai/automation/test_metrics_collector_agent.py -v --cov
 6. **Comparative Analysis**: Compare across branches/teams
 
 ### Phase 3 Integration (Future)
+
 1. **GitHub Actions**: Automatic metrics on PR
 2. **Slack Bot**: Query metrics via chat
 3. **API Endpoint**: REST API for metrics access
@@ -373,6 +412,7 @@ pytest tests/ai/automation/test_metrics_collector_agent.py -v --cov
 ## Appendix A: Usage Examples
 
 ### Example 1: Violations Report (Last 7 Days)
+
 ```bash
 python scripts/coding/ai/automation/metrics_collector_agent.py \
   --log-file logs/constitucion_violations.log \
@@ -383,6 +423,7 @@ python scripts/coding/ai/automation/metrics_collector_agent.py \
 ```
 
 ### Example 2: Markdown Summary (Last 30 Days)
+
 ```bash
 python scripts/coding/ai/automation/metrics_collector_agent.py \
   --log-file logs/constitucion_violations.log \
@@ -393,6 +434,7 @@ python scripts/coding/ai/automation/metrics_collector_agent.py \
 ```
 
 ### Example 3: Programmatic Usage
+
 ```python
 from scripts.coding.ai.automation.metrics_collector_agent import MetricsCollectorAgent
 
@@ -412,16 +454,19 @@ if result.is_success():
 ## Appendix B: Log Format Specification
 
 **Violation Log Format**:
+
 ```
 [YYYY-MM-DD HH:MM:SS] VIOLATION - Rule: RULE_ID - Severity: LEVEL - File: PATH - Line: NUM - Message: TEXT
 ```
 
 **Optional Author Field**:
+
 ```
 [YYYY-MM-DD HH:MM:SS] VIOLATION - Rule: RULE_ID - Severity: LEVEL - File: PATH - Line: NUM - Author: DEV_NAME - Message: TEXT
 ```
 
 **Example**:
+
 ```
 [2025-11-13 14:23:45] VIOLATION - Rule: R2_no_emojis_anywhere - Severity: error - File: docs/test.md - Line: 42 - Author: developer1 - Message: Emoji detected in markdown
 ```
