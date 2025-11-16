@@ -1,7 +1,7 @@
 ---
 name: SDLCPlanValidationAgent
 description: Revisar los planes de proyecto y verificar que cubran alcance, riesgos, recursos y métricas antes de su aprobación.
-tools: ["read", "search", "edit"]
+tools: ["read", "search"]
 ---
 
 # SDLCPlanValidationAgent
