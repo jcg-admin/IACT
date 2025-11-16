@@ -18,6 +18,7 @@ IACT---project/
 ├── docs/
 │   ├── index.md               ← Índice consolidado
 │   ├── README.md              ← Este archivo
+│   ├── agents/                ← AI Agents Framework (v1.0.0) - NUEVO
 │   ├── gobernanza/            ← Políticas, procesos y guías de estilo
 │   ├── infrastructure/        ← Manuales y cambios de infraestructura (ej. CPython)
 │   ├── operaciones/           ← Runbooks vigentes
@@ -35,6 +36,12 @@ IACT---project/
 
 ## Puntos de entrada recomendados
 - [Índice consolidado](index.md)
+- **[AI Agents Framework v1.0.0](agents/README.md)** ← Framework de agentes IA (NUEVO)
+  - [Ejemplos](agents/EXAMPLES.md) - 17 ejemplos ejecutables
+  - [Referencia API](agents/API_REFERENCE.md) - API completa
+  - [Guía de integración](agents/INTEGRATION.md) - Django, FastAPI, CLI, LLM
+  - [Arquitectura](agents/ARCHITECTURE.md) - Diagramas y patrones
+  - [Índice completo](agents/DOCUMENTATION_INDEX.md) - Navegación completa
 - [Plan de remediación actual](plans/REV_20251112_remediation_plan.md)
 - [Manual de infraestructura](infrastructure/README.md)
 - [Runbooks operativos](operaciones/)
