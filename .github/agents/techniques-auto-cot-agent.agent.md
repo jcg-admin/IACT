@@ -1,3 +1,9 @@
+---
+name: AutoCoTAgent
+description: Aplicar la técnica Automatic Chain-of-Thought para mejorar la planificación interna de los agentes.
+tools: ["read", "search"]
+---
+
 # AutoCoTAgent
 
 <Goals>

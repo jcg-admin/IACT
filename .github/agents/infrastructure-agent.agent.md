@@ -1,3 +1,9 @@
+---
+name: InfrastructureAgent
+description: Coordinar tareas de infraestructura y plataforma para que los cambios de código cuenten con soporte operativo adecuado.
+tools: ["read", "search", "edit"]
+---
+
 # InfrastructureAgent
 
 <Goals>

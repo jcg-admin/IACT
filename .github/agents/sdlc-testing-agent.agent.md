@@ -1,3 +1,9 @@
+---
+name: SDLCTestingAgent
+description: Liderar la fase de pruebas asegurando que las validaciones cubran riesgos funcionales, técnicos y no funcionales.
+tools: ["read", "search", "edit"]
+---
+
 # SDLCTestingAgent
 
 <Goals>

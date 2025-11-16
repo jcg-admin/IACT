@@ -1,3 +1,9 @@
+---
+name: ChatGPTAgent
+description: Coordinar el uso de modelos OpenAI dentro del ecosistema multi-agente, promoviendo prompts efectivos y resultados auditables.
+tools: ["read", "search", "edit"]
+---
+
 # ChatGPTAgent
 
 <Goals>

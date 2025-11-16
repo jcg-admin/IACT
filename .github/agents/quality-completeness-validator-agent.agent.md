@@ -1,3 +1,9 @@
+---
+name: QualityCompletenessValidatorAgent
+description: Evaluar la completitud de los entregables para confirmar que cubren todos los requisitos declarados.
+tools: ["read", "search"]
+---
+
 # QualityCompletenessValidatorAgent
 
 <Goals>
