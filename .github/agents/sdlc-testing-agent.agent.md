@@ -8,6 +8,8 @@ tools: ["read", "search", "edit"]
 
 <Goals>
 - Liderar la fase de pruebas asegurando que las validaciones cubran riesgos funcionales, técnicos y no funcionales.
+- Este agente requiere capacidades de edición para diseñar estrategias de prueba, preparar datos de prueba y documentar hallazgos.
+- Para la ejecución de pruebas sin modificación, delegar a shared-test-runner-agent.
 </Goals>
 
 <Limitations>
