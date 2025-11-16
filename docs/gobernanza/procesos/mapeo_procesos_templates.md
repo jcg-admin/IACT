@@ -5,7 +5,7 @@ categoria: gobernanza
 version: 1.0.0
 fecha_creacion: 2025-11-06
 propietario: equipo-gobernanza
-relacionados: ["INDICE.md", "AGENTES_SDLC.md", "procedimientos/README.md"]
+relacionados: ["INDICE.md", "agentes_sdlc.md", "procedimientos/README.md"]
 date: 2025-11-13
 ---
 

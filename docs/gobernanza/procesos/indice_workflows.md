@@ -31,7 +31,7 @@ Estado actual de todos los workflows de GitHub Actions del proyecto.
 - count-docs-stats: Genera estadisticas de documentacion
 
 **Documentacion**:
-- Template en: `docs/gobernanza/procesos/DEVOPS_AUTOMATION.md` (lineas 102-120)
+- Template en: `docs/gobernanza/procesos/devops_automation.md` (lineas 102-120)
 - Implementado en sesion previa
 
 **Estado**: FUNCIONAL
