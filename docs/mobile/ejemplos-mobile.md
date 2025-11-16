@@ -21,6 +21,7 @@ Esta guía reúne prompts especializados para acelerar el delivery mobile del ca
 3. **Validaciones anti-alucinación**: Exige listas de "hechos confirmados", "supuestos" y "datos que requieren verificación" en cada salida.
 4. **Cláusulas Claude**: Usa context windows amplios (hasta 200K) para adjuntar specs completas, pero limita temperatura ≤0.3 para entregables compilables. Invoca "Técnicas Avanzadas Específicas para Claude" cuando necesites razonar sobre artifacts largos o llamadas MCP.
 5. **Meta-prompts encadenados**: Antes de usar un prompt productivo, ejecuta `Generador Universal de Prompts` → `Evaluador Automático` → `Generador de Prompts Anti-Alucinación` del `META_PROMPTS_LIBRARY.md` para auditar calidad.
+6. **Implementation Planner Agent**: Orquesta planes mobile multicomponente asegurando TDD, cobertura ≥80 %, Conventional Commits y documentación de decisiones antes de ejecutar código; usa sus lineamientos cuando estructures prompts o secuencias.
 
 ## Plantilla base modular
 

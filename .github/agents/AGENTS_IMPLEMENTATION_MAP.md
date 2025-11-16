@@ -67,6 +67,7 @@ No dependemos de rutas exactas, pero sí de evidencias (tests, métricas, runboo
 ## Agentes Definidos en Markdown
 - **DevOps**: GitOpsAgent, ReleaseAgent, DependencyAgent, SecurityAgent, CodeTasker.
 - **Dominio**: ApiAgent, UiAgent, InfrastructureAgent, DocsAgent, ScriptsAgent.
+- **Planificación**: ImplementationPlannerAgent (coordina especificaciones, TDD y controles anti-alucinación antes de ejecutar cambios).
 - **Proveedores LLM**: ClaudeAgent, ChatGPTAgent, HuggingFaceAgent.
 - **TDD/Técnicas**: Feature/TDD agents, Auto-CoT, Chain-of-Verification, Self-Consistency, Tree-of-Thoughts, etc.
 

@@ -64,6 +64,7 @@ del repositorio mantenga consistencia.
 - **Automatización**: coherencia, PDCA, constitución, devcontainer, métricas, esquemas, pipelines, compliance.
 - **Calidad**: cobertura, sintaxis, shell analysis/remediation, completeness, permisos, route lint.
 - **Documentación**: business analysis generator, template/traceability generators, documentation sync agents.
+- **Planificación**: Implementation Planner Agent (traduce objetivos difusos en especificaciones accionables con TDD y controles anti-alucinación).
 - **DevOps/Operaciones**: GitOps, release, dependency, security, CodeTasker.
 - **TDD/Técnicas**: feature/tdd agents, Auto-CoT, Chain-of-Verification, Self-Consistency, Tree-of-Thoughts.
 
