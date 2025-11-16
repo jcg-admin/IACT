@@ -16,6 +16,12 @@ contributors.
    `requirements.txt`, and attempts to run `npm install` (the command emits a
    warning if the registry is unreachable in offline environments).
 
+   > **Nota**: Para facilitar los flujos completamente desconectados, `package.json`
+   > referencia stubs locales en `vendor/`. Los binarios instalados (por ejemplo,
+   > `codex`, `eslint`, `prettier`) imprimen mensajes informativos en lugar de
+   > ejecutar las herramientas reales. Esto mantiene la compatibilidad con los
+   > scripts de npm y permite que `npm ci` funcione sin acceso al registry.
+
 2. **Configure environment variables**
    ```bash
    cp .env.example .env
