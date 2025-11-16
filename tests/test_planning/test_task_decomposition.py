@@ -18,182 +18,13 @@ from iact_agents.planning.models import (
     SubTask,
     TaskStatus,
 )
-
-
-# Mock implementations for testing (simplified - no actual LLM calls)
-class MockGoalParser:
-    """Mock Goal Parser for testing without LLM calls."""
-
-    def __init__(self):
-        self.last_call_cost = 0.001
-
-    def parse(self, user_request: str) -> Goal:
-        """Parse user request into Goal object."""
-        # Simple parsing based on keywords
-        goal_type = GoalType.TRAVEL_PLANNING if "trip" in user_request.lower() else GoalType.DATA_ANALYSIS
-
-        constraints = []
-        metadata = {"extracted": {}}
-
-        # Extract duration
-        if "3-day" in user_request or "3 days" in user_request:
-            constraints.append(Constraint(type="duration", value="3 days", priority=9))
-            metadata["extracted"]["duration_days"] = 3
-        elif "5-day" in user_request:
-            constraints.append(Constraint(type="duration", value="5 days", priority=9))
-            metadata["extracted"]["duration_days"] = 5
-
-        # Extract time constraint
-        if "May" in user_request:
-            constraints.append(Constraint(type="time", value="May", priority=8))
-        elif "June" in user_request:
-            constraints.append(Constraint(type="time", value="June", priority=8))
-
-        # Extract budget
-        if "$3000" in user_request:
-            constraints.append(Constraint(type="budget", value="3000 USD", priority=10))
-        elif "$2500" in user_request:
-            constraints.append(Constraint(type="budget", value="2500 USD", priority=10))
-
-        # Extract preferences
-        preferences = []
-        if "boutique" in user_request.lower():
-            preferences.append("boutique hotels")
-        if preferences:
-            metadata["preferences"] = preferences
-
-        # Success criteria
-        success_criteria = ["Complete plan"]
-        if any(c.type == "budget" for c in constraints):
-            budget_constraint = next(c for c in constraints if c.type == "budget")
-            success_criteria.append(f"Total cost <= ${budget_constraint.value}")
-
-        # Check for ambiguity
-        requires_clarification = len(constraints) == 0 or (goal_type == GoalType.TRAVEL_PLANNING and not any(c.type == "budget" for c in constraints))
-        if requires_clarification and "Paris" in user_request and len(user_request.split()) < 6:
-            metadata["requires_clarification"] = True
-            metadata["ambiguities"] = ["duration not specified", "budget not specified"]
-            metadata["clarification_questions"] = ["How long would you like to stay?", "What's your budget?"]
-
-        return Goal(
-            goal_id=f"goal_{int(time.time() * 1000)}",
-            goal_type=goal_type,
-            description=user_request,
-            constraints=constraints,
-            success_criteria=success_criteria,
-            metadata=metadata
-        )
-
-
-class MockTaskDecomposer:
-    """Mock Task Decomposer for testing without LLM calls."""
-
-    def decompose(self, goal: Goal) -> Plan:
-        """Decompose goal into subtasks."""
-        subtasks = []
-
-        if goal.goal_type == GoalType.TRAVEL_PLANNING:
-            # Travel planning subtasks
-            subtasks = [
-                SubTask(
-                    task_id="task_001",
-                    description="Search for flights",
-                    agent_type="flight_agent",
-                    dependencies=[],
-                    expected_outputs=["flight_options", "flight_dates", "flight_price"],
-                    estimated_duration_seconds=30,
-                    priority=10
-                ),
-                SubTask(
-                    task_id="task_002",
-                    description="Find hotels",
-                    agent_type="hotel_agent",
-                    dependencies=["task_001"],
-                    inputs={"dates": "from flight_dates"},
-                    expected_outputs=["hotel_options"],
-                    estimated_duration_seconds=25,
-                    priority=9
-                ),
-                SubTask(
-                    task_id="task_003",
-                    description="Plan activities",
-                    agent_type="activity_agent",
-                    dependencies=["task_001"],
-                    expected_outputs=["activity_list"],
-                    estimated_duration_seconds=20,
-                    priority=7
-                ),
-                SubTask(
-                    task_id="task_004",
-                    description="Validate budget",
-                    agent_type="validator_agent",
-                    dependencies=["task_001", "task_002"],
-                    expected_outputs=["budget_report"],
-                    estimated_duration_seconds=10,
-                    priority=8
-                )
-            ]
-        elif goal.goal_type == GoalType.DATA_ANALYSIS:
-            # Data analysis subtasks
-            subtasks = [
-                SubTask(
-                    task_id="task_001",
-                    description="Load sales data",
-                    agent_type="data_loader",
-                    dependencies=[],
-                    expected_outputs=["raw_data"],
-                    estimated_duration_seconds=15,
-                    priority=10
-                ),
-                SubTask(
-                    task_id="task_002",
-                    description="Clean data",
-                    agent_type="data_cleaner",
-                    dependencies=["task_001"],
-                    expected_outputs=["clean_data"],
-                    estimated_duration_seconds=20,
-                    priority=9
-                ),
-                SubTask(
-                    task_id="task_003",
-                    description="Analyze trends",
-                    agent_type="analyzer",
-                    dependencies=["task_002"],
-                    expected_outputs=["trends"],
-                    estimated_duration_seconds=30,
-                    priority=8
-                ),
-                SubTask(
-                    task_id="task_004",
-                    description="Create visualizations",
-                    agent_type="visualizer",
-                    dependencies=["task_003"],
-                    expected_outputs=["charts"],
-                    estimated_duration_seconds=25,
-                    priority=7
-                ),
-                SubTask(
-                    task_id="task_005",
-                    description="Generate executive report",
-                    agent_type="reporter",
-                    dependencies=["task_003", "task_004"],
-                    expected_outputs=["report"],
-                    estimated_duration_seconds=20,
-                    priority=6
-                )
-            ]
-
-        # Calculate total duration (considering dependencies)
-        total_duration = sum(t.estimated_duration_seconds for t in subtasks)
-
-        return Plan(
-            plan_id=f"plan_{int(time.time() * 1000)}",
-            goal_id=goal.goal_id,
-            subtasks=subtasks,
-            execution_strategy="sequential",
-            estimated_total_duration=total_duration,
-            confidence_score=0.85
-        )
+from iact_agents.planning.parser import GoalParser
+from iact_agents.planning.decomposer import TaskDecomposer
+from iact_agents.planning.validators import (
+    DependencyValidator,
+    CompletenessValidator,
+    GOAL_TEMPLATES,
+)
 
 
 # =======================
@@ -203,7 +34,7 @@ class MockTaskDecomposer:
 
 def test_parse_simple_travel_goal():
     """RF-011: Escenario 1 - Parse Simple Travel Goal"""
-    parser = MockGoalParser()
+    parser = GoalParser()
 
     # Given
     user_request = "Plan a 3-day trip to Paris in May"
@@ -233,7 +64,7 @@ def test_parse_simple_travel_goal():
 
 def test_parse_goal_with_budget_constraint():
     """RF-011: Escenario 2 - Parse Goal with Budget Constraint"""
-    parser = MockGoalParser()
+    parser = GoalParser()
 
     # Given
     user_request = "Plan a trip to Tokyo with a $3000 budget"
@@ -253,7 +84,7 @@ def test_parse_goal_with_budget_constraint():
 
 def test_parse_goal_with_multiple_constraints():
     """RF-011: Escenario 3 - Parse Goal with Multiple Constraints"""
-    parser = MockGoalParser()
+    parser = GoalParser()
 
     # Given
     user_request = "Plan a 5-day trip to Barcelona in June, budget $2500, prefer boutique hotels"
@@ -280,7 +111,7 @@ def test_parse_goal_with_multiple_constraints():
 
 def test_handle_ambiguous_goal():
     """RF-011: Escenario 4 - Handle Ambiguous Goal"""
-    parser = MockGoalParser()
+    parser = GoalParser()
 
     # Given
     user_request = "Plan a trip to Paris"
@@ -328,7 +159,7 @@ def test_validate_pydantic_goal_object():
 
 def test_decompose_simple_travel_goal():
     """RF-011: Escenario 6 - Decompose Simple Travel Goal"""
-    decomposer = MockTaskDecomposer()
+    decomposer = TaskDecomposer()
 
     # Given
     goal = Goal(
@@ -364,7 +195,7 @@ def test_decompose_simple_travel_goal():
 
 def test_identify_task_dependencies():
     """RF-011: Escenario 7 - Identify Task Dependencies Automatically"""
-    decomposer = MockTaskDecomposer()
+    decomposer = TaskDecomposer()
 
     # Given
     goal = Goal(
@@ -427,7 +258,7 @@ def test_create_pydantic_subtask_objects():
 
 def test_estimate_task_durations():
     """RF-011: Escenario 9 - Estimate Task Durations"""
-    decomposer = MockTaskDecomposer()
+    decomposer = TaskDecomposer()
 
     # Given
     goal = Goal(
@@ -458,7 +289,7 @@ def test_estimate_task_durations():
 
 def test_handle_complex_multistep_goals():
     """RF-011: Escenario 10 - Handle Complex Multi-Step Goals"""
-    decomposer = MockTaskDecomposer()
+    decomposer = TaskDecomposer()
 
     # Given
     goal = Goal(
@@ -683,7 +514,7 @@ def test_complete_plan_passes_validation():
 
 def test_enforce_goal_parsing_latency():
     """RF-011: Escenario 17 - Enforce Goal Parsing Latency"""
-    parser = MockGoalParser()
+    parser = GoalParser()
 
     # Test that parsing completes quickly
     start = time.time()
@@ -696,7 +527,7 @@ def test_enforce_goal_parsing_latency():
 
 def test_enforce_task_decomposition_latency():
     """RF-011: Escenario 18 - Enforce Task Decomposition Latency"""
-    decomposer = MockTaskDecomposer()
+    decomposer = TaskDecomposer()
 
     goal = Goal(
         goal_id="goal_123",
@@ -717,7 +548,7 @@ def test_enforce_task_decomposition_latency():
 
 def test_track_goal_parsing_cost():
     """RF-011: Escenario 19 - Track Goal Parsing Cost"""
-    parser = MockGoalParser()
+    parser = GoalParser()
 
     # Parse a goal
     goal = parser.parse("Plan a trip")
