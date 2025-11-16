@@ -64,3 +64,5 @@ def test_registry_cli_config_serializes_servers(registry_module):
     assert cli_config["remote"]["github-mcp-server"]["url"].startswith("https://")
     assert cli_config["local"]["playwright"]["command"] == "npx"
     assert cli_config["local"]["playwright"]["args"][0] == "@playwright/mcp@0.0.40"
+    assert "memory_profiles" in cli_config
+    assert "github-mcp-server" in cli_config["memory_profiles"]
