@@ -25,10 +25,10 @@ Bienvenido al centro de guias operativas del proyecto IACT. Este directorio cont
 
 Empieza aqui para tu primer dia:
 
-1. [Configurar Entorno de Desarrollo Local](onboarding/onboarding_001.md) - 15 min
-2. [Ejecutar Proyecto Localmente](onboarding/onboarding_002.md) - 10 min
-3. [Estructura del Proyecto IACT](onboarding/onboarding_003.md) - 8 min
-4. [Configurar Variables de Entorno](onboarding/onboarding_004.md) - 7 min
+1. [Configurar Entorno de Desarrollo Local](onboarding/configurar_entorno_desarrollo.md) - 15 min
+2. [Ejecutar Proyecto Localmente](onboarding/ejecutar_proyecto_localmente.md) - 10 min
+3. [Estructura del Proyecto IACT](onboarding/estructura_proyecto_iact.md) - 8 min
+4. [Configurar Variables de Entorno](onboarding/configurar_variables_entorno.md) - 7 min
 5. [Problemas Comunes de Setup](troubleshooting/troubleshooting_001.md) - 15 min
 
 **Tiempo total onboarding: ~55 minutos**
@@ -66,13 +66,13 @@ Para deployment y operaciones:
 
 | ID | Titulo | Audiencia | Tiempo | Estado |
 |----|--------|-----------|--------|--------|
-| [GUIA-ONBOARDING-001](onboarding/onboarding_001.md) | Configurar Entorno de Desarrollo Local | Desarrollador Nuevo | 15 min | Completa |
-| [GUIA-ONBOARDING-002](onboarding/onboarding_002.md) | Ejecutar Proyecto Localmente | Desarrollador Nuevo | 10 min | Completa |
-| [GUIA-ONBOARDING-003](onboarding/onboarding_003.md) | Estructura del Proyecto IACT | Desarrollador Nuevo | 8 min | Completa |
-| [GUIA-ONBOARDING-004](onboarding/onboarding_004.md) | Configurar Variables de Entorno | Desarrollador Nuevo | 7 min | Completa |
-| [GUIA-ONBOARDING-005](onboarding/onboarding_005.md) | Usar Agentes SDLC - Planning | Desarrollador | 10 min | Completa |
-| [GUIA-ONBOARDING-006](onboarding/onboarding_006.md) | Validar Documentacion | Desarrollador | 6 min | Completa |
-| [GUIA-ONBOARDING-007](onboarding/onboarding_007.md) | Generar Indices de Requisitos | Desarrollador | 5 min | Completa |
+| [GUIA-ONBOARDING-001](onboarding/configurar_entorno_desarrollo.md) | Configurar Entorno de Desarrollo Local | Desarrollador Nuevo | 15 min | Completa |
+| [GUIA-ONBOARDING-002](onboarding/ejecutar_proyecto_localmente.md) | Ejecutar Proyecto Localmente | Desarrollador Nuevo | 10 min | Completa |
+| [GUIA-ONBOARDING-003](onboarding/estructura_proyecto_iact.md) | Estructura del Proyecto IACT | Desarrollador Nuevo | 8 min | Completa |
+| [GUIA-ONBOARDING-004](onboarding/configurar_variables_entorno.md) | Configurar Variables de Entorno | Desarrollador Nuevo | 7 min | Completa |
+| [GUIA-ONBOARDING-005](onboarding/usar_agentes_sdlc_planning.md) | Usar Agentes SDLC - Planning | Desarrollador | 10 min | Completa |
+| [GUIA-ONBOARDING-006](onboarding/validar_documentacion.md) | Validar Documentacion | Desarrollador | 6 min | Completa |
+| [GUIA-ONBOARDING-007](onboarding/generar_indices_requisitos.md) | Generar Indices de Requisitos | Desarrollador | 5 min | Completa |
 
 ### Workflows (4 guias)
 

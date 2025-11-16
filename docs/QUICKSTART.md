@@ -18,10 +18,10 @@ Esta guia te ayuda a empezar a usar el sistema de guias operativas del proyecto 
    - Abre: [docs/guias/README.md](README.md)
 
 2. **Sigue las guias de onboarding en orden:**
-   - [Configurar Entorno de Desarrollo Local](onboarding/onboarding_001.md) - 15 min
-   - [Ejecutar Proyecto Localmente](onboarding/onboarding_002.md) - 10 min
-   - [Estructura del Proyecto IACT](onboarding/onboarding_003.md) - 8 min
-   - [Configurar Variables de Entorno](onboarding/onboarding_004.md) - 7 min
+   - [Configurar Entorno de Desarrollo Local](gobernanza/onboarding/configurar_entorno_desarrollo.md) - 15 min
+   - [Ejecutar Proyecto Localmente](gobernanza/onboarding/ejecutar_proyecto_localmente.md) - 10 min
+   - [Estructura del Proyecto IACT](gobernanza/onboarding/estructura_proyecto_iact.md) - 8 min
+   - [Configurar Variables de Entorno](gobernanza/onboarding/configurar_variables_entorno.md) - 7 min
 
 3. **Si tienes problemas:**
    - [Problemas Comunes de Setup](troubleshooting/troubleshooting_001.md) - 15 min
@@ -44,7 +44,7 @@ Esta guia te ayuda a empezar a usar el sistema de guias operativas del proyecto 
 
 Si ya conoces el stack tecnologico, empieza aqui:
 
-1. [Estructura del Proyecto IACT](onboarding/onboarding_003.md)
+1. [Estructura del Proyecto IACT](gobernanza/onboarding/estructura_proyecto_iact.md)
 2. [Crear Feature Branch](workflows/workflows_001.md)
 3. [Validar Restricciones Criticas](deployment/deployment_002.md)
 4. [Workflow de Deployment](deployment/deployment_001.md)
@@ -242,7 +242,7 @@ Ver: `.github/CODEOWNERS`
 
 ---
 
-**Siguiente paso:** Empieza con [Configurar Entorno de Desarrollo Local](onboarding/onboarding_001.md)
+**Siguiente paso:** Empieza con [Configurar Entorno de Desarrollo Local](gobernanza/onboarding/configurar_entorno_desarrollo.md)
 
 **Necesitas ayuda?** Pregunta en Slack #dev-help o crea un issue
 
