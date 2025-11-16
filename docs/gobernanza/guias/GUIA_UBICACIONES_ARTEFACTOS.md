@@ -45,7 +45,7 @@ Eliminar ambigüedad al generar artefactos. Cuando un agente o desarrollador cre
 
 ## Mapa de Artefactos
 
-### 📊 Análisis y Reportes
+### Análisis y Reportes
 
 #### Análisis de Documentación
 
@@ -164,7 +164,7 @@ duracion_horas: 3
 - Sesiones de planning
 - Sesiones de arquitectura
 
-### 🤖 Agentes y Automatización
+### Agentes y Automatización
 
 #### Documentación de Agente
 
@@ -282,7 +282,7 @@ scripts/coding/ai/config/{agente}_config.json
 - Configuración parametrizable de agentes
 - Perfiles de ejecución (aggressive, conservative, dry-run)
 
-### 📋 TASKs y Solicitudes
+### TASKs y Solicitudes
 
 #### TASK (Tarea Técnica)
 
@@ -360,7 +360,7 @@ estado: aprobada
 1. Solicitudes de alto nivel → `docs/gobernanza/solicitudes/`
 2. Solicitudes específicas de dominio → `docs/{dominio}/solicitudes/`
 
-### 🏗️ Arquitectura y Diseño
+### Arquitectura y Diseño
 
 #### ADR (Architecture Decision Record)
 
@@ -451,7 +451,7 @@ docs/{dominio}/diseno_detallado/diagramas/{nombre_diagrama}.{puml|mmd}
 - `docs/backend/diseno_detallado/diagramas/database_schema.puml`
 - `docs/frontend/diseno_detallado/diagramas/component_hierarchy.mmd`
 
-### 📚 Guías y Procedimientos
+### Guías y Procedimientos
 
 #### Guía Transversal
 
@@ -518,7 +518,7 @@ docs/{dominio}/procedimientos/{nombre_procedimiento}.md
 - Procedimientos organizacionales → `gobernanza/procedimientos/`
 - Procedimientos técnicos de dominio → `{dominio}/procedimientos/`
 
-### 🧪 Testing y QA
+### Testing y QA
 
 #### Estrategia de Testing (Transversal)
 
@@ -559,7 +559,7 @@ docs/gobernanza/qa/registros/YYYY_MM_DD_ejecucion_{tipo_test}.md
 - Registros de ejecución transversal → `gobernanza/qa/registros/`
 - Registros de dominio específico → `{dominio}/qa/registros/`
 
-### 🔧 DevOps y CI/CD
+### DevOps y CI/CD
 
 #### Documentación de Pipeline CI/CD
 
@@ -601,7 +601,7 @@ docs/devops/{categoria}/{nombre_script}.sh
 docs/devops/git/pre-commit-hooks.md
 ```
 
-### 📦 Configuración y Metadatos
+### Configuración y Metadatos
 
 #### Configuración de Gobernanza
 
@@ -634,7 +634,7 @@ docs/gobernanza/plantillas/plantilla_{tipo}.md
 - SIEMPRE en `gobernanza/plantillas/`
 - NUNCA duplicar en dominios
 
-### 📂 Índices y Catálogos
+### Índices y Catálogos
 
 #### Índice de Dominio
 
