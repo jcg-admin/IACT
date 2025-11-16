@@ -50,25 +50,98 @@
 </BuildInstructions>
 
 <ProjectLayout>
-- **Arquitectura**:
-  - `api/callcentersite/`: apps Django (`apps/`), configuración (`callcentersite/settings/`), routers multi-DB, management commands, fixtures tests.
-  - `ui/`: src React/TypeScript (`src/`), configuraciones lint/build (`package.json`, `tsconfig.json`, `.eslintrc.cjs`).
-  - `scripts/coding/ai/`: agentes Python consumidos por automatizaciones; cada módulo tiene README y tests correspondientes.
-  - `scripts/ci/`, `scripts/security/`, `scripts/tests/`: orquestadores para pipelines, seguridad y coverage.
-  - `docs/`: gobernanza, AI, operaciones; índices dentro de cada subcarpeta (`docs/**/README.md`).
-  - `.github/`: workflows, agentes Copilot (`agents/`, `copilot/agents.json`), plantillas PR/Issue.
-  - `infrastructure/`: Terraform, Ansible, Vagrant, docker-compose.
-- **Configuraciones**: `.pre-commit-config.yaml`, `.constitucion.yaml` (principios), `pyproject.toml`, `.coveragerc`, `ui/.eslintrc.cjs`, `ui/package.json`, `scripts/coding/ai/requirements.txt`, `.github/workflows/*.yml`.
-- **Checks obligatorios antes de merge**:
-  1. `pre-commit run --all-files`.
-  2. Backend `pytest --cov` + cobertura ≥80% (`coverage.xml`).
-  3. Frontend `npm run lint && npm test`.
-  4. Seguridad: `run_bandit.sh`, `run_safety.sh`, `run_gitleaks.sh`.
-  5. Infra/Docs según impacto (`terraform validate`, `markdownlint`).
-- **Workflows CI**: `python.yml`, `frontend.yml`, `security.yml`, `docs.yml`, `architecture-check.yml`, `emoji-validation.yml` (nomenclatura de commits/emojis), `release.yml`.
-- **Dependencias implícitas**: PostgreSQL + Redis para backend, Node 18 + npm 9 para frontend, acceso opcional a servicios externos (LLM providers) configurados vía variables de entorno, `pre-commit` para hooks.
-- **Inventario raíz**: `api/`, `ui/`, `scripts/`, `docs/`, `.agent/`, `.github/`, `tests/`, `schemas/`, `infrastructure/`, `monitoring/`, `logs_data/`, `respaldo/`.
-- **Referencias rápidas**: `README.md` describe visión general; `CONSOLIDATION_STATUS.md` y `PLAN_CONSOLIDACION_PRS.md` rastrean esfuerzos coordinados; `META_PROMPTS_LIBRARY.md` recopila 10 meta-prompts obligatorios para agentes.
+## Project Architecture
+
+### Key Directories
+- `/api/callcentersite`: Código fuente Django/DRF
+  - `settings/` (incluye `local.py`, `ci.py`), `urls.py`, `wsgi.py`, `asgi.py`
+  - `apps/`: microservicios internos y APIs públicas
+  - `tests/`: suites pytest parametrizadas y fixtures compartidas
+- `/ui`: Código React+TypeScript
+  - `package.json`, `tsconfig.json`, `webpack.config.js` (o `vite.config.ts` según feature)
+  - `src/` (componentes, hooks, servicios), `public/` (assets estáticos)
+  - `tests/` para Jest/Vitest
+- `/scripts/coding/ai`: agentes Python que automatizan análisis/validaciones
+- `/scripts/ci`, `/scripts/security`, `/scripts/tests`: wrappers para pipelines locales
+- `/docs`: lineamientos, ADRs, catálogos AI, monitoreo
+- `/infrastructure`: Terraform, Ansible, docker-compose y Vagrant
+- `.github`: Workflows, agentes Copilot, plantillas, hooks
+
+### Configuration Files
+- `api/callcentersite/settings.py`: ajustes principales, incluye configuración multi-DB
+- `api/requirements*.txt`: dependencias (prod/dev/test)
+- `ui/package.json`, `ui/webpack.config.js`, `ui/.eslintrc.cjs`, `ui/tsconfig.json`
+- `.pre-commit-config.yaml`, `.coveragerc`, `pyproject.toml`, `.constitucion.yaml`
+- `.github/workflows/*.yml`: CI/CD y validaciones auxiliares
+
+### Webpack Configuration Example
+```javascript
+// ui/webpack.config.js
+module.exports = {
+  entry: './src/index.js',
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'bundle.js'
+  },
+  module: {
+    rules: [
+      { test: /\.(js|jsx)$/, exclude: /node_modules/, use: 'babel-loader' },
+      { test: /\.css$/, use: ['style-loader', 'css-loader'] }
+    ]
+  },
+  resolve: { extensions: ['.js', '.jsx'] }
+}
+```
+
+### Django Project Structure
+```
+backend/
+└── api/
+    └── callcentersite/
+        ├── __init__.py
+        ├── settings/
+        ├── urls.py
+        ├── wsgi.py
+        └── asgi.py
+```
+
+### React Project Structure
+```
+ui/
+├── package.json
+├── webpack.config.js
+├── public/
+│   ├── index.html
+│   └── favicon.ico
+└── src/
+    ├── index.js
+    ├── App.js
+    ├── components/
+    └── services/
+```
+
+### Continuous Integration
+- Workflows: `python.yml`, `frontend.yml`, `security.yml`, `docs.yml`, `architecture-check.yml`, `emoji-validation.yml`, `release.yml`
+- Checks por pipeline: lint (backend/frontend), pruebas unitarias, cobertura ≥80%, compilación Webpack/Vite, validaciones de tipos, escaneos Bandit/Safety/Gitleaks
+- Siempre replica `scripts/ci-local.sh` antes de subir cambios para detectar fallos
+
+### Dependency Management
+- Backend: `api/requirements.txt` + `api/requirements-dev.txt`
+- Frontend: `ui/package.json` (usa `npm install` o `npm ci`)
+- Infra/scripts: `scripts/**/requirements.txt`, `infrastructure/**/versions.tf`
+- Hooks: `pre-commit` controla formateo y escaneos rápidos
+
+### Merge Gates y Validaciones Explícitas
+1. `pre-commit run --all-files`
+2. `pytest --cov=. --cov-report=xml` desde `api/callcentersite`
+3. `npm run lint && npm test` desde `ui/`
+4. `scripts/security/run_bandit.sh`, `run_safety.sh`, `run_gitleaks.sh`
+5. Validaciones específicas del área impactada (`terraform validate`, `markdownlint`, `scripts/tests/enforce_coverage.sh 80`)
+
+### Inventario Rápido y Referencias
+- Raíz: `api/`, `ui/`, `scripts/`, `docs/`, `.agent/`, `.github/`, `tests/`, `schemas/`, `infrastructure/`, `monitoring/`, `logs_data/`, `respaldo/`
+- Documentación clave: `README.md`, `CONSOLIDATION_STATUS.md`, `PLAN_CONSOLIDACION_PRS.md`, `.github/agents/META_PROMPTS_LIBRARY.md`
+- Dependencias ocultas: PostgreSQL, Redis, credenciales LLM, Node 18 + npm 9, Python 3.11 + virtualenv, `pre-commit`
 </ProjectLayout>
 
 </WhatToAdd>
