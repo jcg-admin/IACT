@@ -34,20 +34,20 @@ Se detectaron **12 problemas críticos y de alta prioridad** en la organización
 ## PROBLEMAS CRÍTICOS
 
 ### 1. ADR-056 DUPLICADO - Mismo Número, Contenido Diferente
-**Severidad**: CRÍTICA
+**Severidad**: CRÍTICA ✅ **RESUELTO**
 **Impacto**: Conflicto de numeración, confusión documental
 
-**Archivos afectados**:
+**Archivos afectados** (CORREGIDOS):
 ```
-docs/gobernanza/adr/ADR-056-agentic-design-principles.md
-docs/gobernanza/adr/ADR-056-ai-agents-standalone-architecture.md
+docs/gobernanza/adr/ADR-056-agentic-design-principles.md (mantenido)
+docs/gobernanza/adr/ADR-058-ai-agents-standalone-architecture.md (renumerado)
 ```
 
-**Descripción**: Dos ADRs completamente diferentes comparten el número 056:
-1. **ADR-056 (original)**: Agentic Design Principles
-2. **ADR-056 (nuevo)**: AI Agents Standalone Architecture (creado 2025-11-16)
+**Descripción**: Dos ADRs completamente diferentes compartían el número 056:
+1. **ADR-056 (original)**: Agentic Design Principles (MANTENIDO)
+2. **ADR-058 (renumerado)**: AI Agents Standalone Architecture (creado 2025-11-16)
 
-**Acción requerida**: Renumerar el segundo ADR-056 a ADR-058 o siguiente disponible
+**Acción tomada**: ✅ Renumerado segundo ADR-056 → ADR-058 usando `git mv`
 
 ---
 
@@ -410,9 +410,9 @@ dominio: Infraestructura
 
 **Objetivo**: Resolver conflictos bloqueantes
 
-1. **Resolver duplicado ADR-056** (1 hora)
-   - Renumerar `ADR-056-ai-agents-standalone-architecture.md` → `ADR-058`
-   - Actualizar metadatos y referencias
+1. **Resolver duplicado ADR-056** ✅ **COMPLETADO** (1 hora)
+   - ✅ Renumerado `ADR-056-ai-agents-standalone-architecture.md` → `ADR-058`
+   - ✅ Actualizado metadatos (id: ADR-058) y referencias
 
 2. **Resolver conflictos de numeración** (2-3 horas)
    - Decidir convención: ADR-XXX vs ADR_2025_XXX

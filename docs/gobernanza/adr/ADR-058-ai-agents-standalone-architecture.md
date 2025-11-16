@@ -1,12 +1,12 @@
 ---
-id: ADR-056
+id: ADR-058
 estado: aceptada
 propietario: equipo-arquitectura
 ultima_actualizacion: 2025-11-16
-relacionados: ["ADR-048", "ADR-053", "ADR-054", "ADR-055"]
+relacionados: ["ADR-048", "ADR-053", "ADR-054", "ADR-055", "ADR-056"]
 date: 2025-11-16
 ---
-# ADR-056: AI Agents Framework como Proyecto Standalone
+# ADR-058: AI Agents Framework como Proyecto Standalone
 
 **Estado:** aceptada
 
