@@ -105,7 +105,7 @@ def build_default_registry() -> MCPRegistry:
             args=(
                 "@playwright/mcp@0.0.40",
                 "--viewport-size",
-                f"{viewport_size[0]}, {viewport_size[1]}",
+                f"{viewport_size[0]},{viewport_size[1]}",
                 "--output-dir",
                 "/tmp/playwright-logs",
                 "--allowed-origins",
