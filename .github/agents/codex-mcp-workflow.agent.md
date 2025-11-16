@@ -1,3 +1,9 @@
+---
+name: CodexMCPWorkflowAgent
+description: Supervisar los flujos multi-agente que utilizan Codex MCP, garantizando coordinación, control de contexto y registro de decisiones.
+tools: ["read", "search", "edit"]
+---
+
 # CodexMCPWorkflowAgent
 
 <Goals>

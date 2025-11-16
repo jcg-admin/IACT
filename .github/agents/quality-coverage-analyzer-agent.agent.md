@@ -1,3 +1,9 @@
+---
+name: QualityCoverageAnalyzerAgent
+description: Analizar la cobertura de pruebas para identificar riesgos y guiar inversiones en calidad.
+tools: ["read", "search"]
+---
+
 # QualityCoverageAnalyzerAgent
 
 <Goals>

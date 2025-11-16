@@ -1,3 +1,9 @@
+---
+name: DocsAgent
+description: Coordinar la creación y mantenimiento de documentación técnica asegurando consistencia entre áreas y versiones.
+tools: ["read", "search", "edit"]
+---
+
 # DocsAgent
 
 <Goals>

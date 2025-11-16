@@ -1,3 +1,9 @@
+---
+name: ApiAgent
+description: Coordinar las automatizaciones del backend para que cada entrega preserve los acuerdos de arquitectura, seguridad y trazabilidad del proyecto.
+tools: ["read", "search", "edit"]
+---
+
 # ApiAgent
 
 <Goals>

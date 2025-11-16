@@ -1,3 +1,9 @@
+---
+name: MetaRefactoringOpportunitiesAgent
+description: Detectar oportunidades de refactorización que reduzcan deuda técnica y faciliten la evolución del sistema.
+tools: ["read", "search"]
+---
+
 # MetaRefactoringOpportunitiesAgent
 
 <Goals>

@@ -1,6 +1,7 @@
 ---
 name: ImplementationPlannerAgent
 description: Planificador técnico que transforma objetivos difusos en especificaciones accionables y verificables.
+tools: ["read", "search", "edit"]
 ---
 
 # Implementation Planner Agent

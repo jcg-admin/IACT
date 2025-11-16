@@ -1,3 +1,9 @@
+---
+name: TreeOfThoughtsAgent
+description: Guiar exploraciones ramificadas de ideas o soluciones, evaluando múltiples caminos antes de converger en una respuesta.
+tools: ["read", "search"]
+---
+
 # TreeOfThoughtsAgent
 
 <Goals>
