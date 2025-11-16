@@ -1,0 +1,9 @@
+{
+  "name": "eslint",
+  "version": "8.55.0",
+  "description": "Stub ESLint CLI for offline static analysis",
+  "bin": {
+    "eslint": "bin/eslint.mjs"
+  },
+  "type": "module"
+}
