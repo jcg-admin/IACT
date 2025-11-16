@@ -213,6 +213,13 @@ Para agregar un nuevo agente personalizado:
 
 4. **Actualizar este README** con documentación del nuevo agente
 
+## Configuración de herramientas (`tools`) por agente
+
+- Declara solamente las herramientas imprescindibles para el rol del agente. Ejemplo: validadores y analistas que **no deben modificar código** pueden operar con `tools: ["read", "search"]`, mientras que agentes de remediación o generación de código sí requieren `edit`.
+- Si omites la propiedad `tools`, el agente tendrá acceso a **todas las herramientas disponibles** (incluidas las que expone cualquier servidor MCP configurado). Úsalo únicamente para agentes de confianza que realmente necesiten el set completo.
+- Puedes hacer referencia explícita a herramientas MCP usando el formato `"mcp-alias/tool"` (por ejemplo, `"playwright/browser"`). Mantén el listado sincronizado con los servidores registrados para evitar errores en tiempo de ejecución.
+- Documenta en cada perfil `.agent.md` por qué se escogió el alcance de herramientas; esto facilita auditorías y evita que agentes con permisos mínimos intenten ejecutar acciones bloqueadas.
+
 ## Guía práctica para trabajar con Copilot
 
 ### 1. Define issues y tareas bien acotadas
@@ -267,6 +274,15 @@ Para agregar un nuevo agente personalizado:
 - Define agentes especializados (frontend reviewer, generador de pruebas, auditor de seguridad, etc.) con prompts y herramientas propios.
 - Cada agente hereda servidores MCP habilitados en el repo, pero puedes restringirlo a los necesarios.
 - Invócalos igual que al agente estándar desde issues, comentarios o el panel de agentes.
+
+## Pruebas y liberación de agentes en la organización
+
+1. **Configura un entorno privado de pruebas**: crea o actualiza el repositorio `.github-private` de tu organización/empresa y añade la carpeta `.github/agents/`. Los perfiles almacenados ahí solo estarán disponibles para los miembros con acceso directo a ese repo.
+2. **Crea o duplica el perfil del agente** dentro de `.github-private/.github/agents/` y haz merge a la rama por defecto. Esto te permite iterar sobre nuevas capacidades sin exponerlas al resto de equipos.
+3. **Valida el agente desde el panel de Copilot** (`https://github.com/copilot/agents`): selecciona el repositorio privado en el desplegable, ejecuta prompts reales y revisa los resultados desde la sección **Recent sessions** para auditar logs, herramientas usadas y calidad de los cambios.
+4. **Itera hasta quedar conforme**: ajusta instrucciones, herramientas, límites MCP o flujos de trabajo en el perfil del agente y repite las pruebas privadas.
+5. **Promociona el agente** moviendo el archivo `.agent.md` desde `.github-private/.github/agents/` hacia el repositorio público (`agents/`). Al fusionar ese cambio a la rama principal, el agente queda disponible para toda la organización.
+6. **Monitorea el uso**: filtra el audit log de la organización por `actor:Copilot` o revisa los tableros de actividad del enterprise para asegurarte de que los nuevos agentes cumplen con los controles internos.
 
 ## Beneficios frente a asistentes locales
 - Copilot coding agent automatiza creación de ramas `copilot/*`, commits, push y PRs con historiales auditables.
