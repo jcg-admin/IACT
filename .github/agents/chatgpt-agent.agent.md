@@ -1,34 +1,43 @@
 # ChatGPTAgent
 
-## Propósito
+<Goals>
+- Coordinar el uso de modelos OpenAI dentro del ecosistema multi-agente, promoviendo prompts efectivos y resultados auditables.
+</Goals>
 
-Centralizar el uso de modelos ChatGPT/OpenAI dentro de los flujos de automatización del repositorio. ChatGPTAgent documenta los prerequisitos operativos y la relación entre planificación, scripts y guías cuando el proveedor seleccionado es OpenAI.
+<Limitations>
+- Limita el alcance de ChatGPTAgent a su dominio especializado y escala bloqueos fuera de su expertise.
+- Documenta supuestos y riesgos sin depender de rutas de archivo rígidas.
+- Respeta las políticas de seguridad, TDD y cobertura indicadas por el programa.
+</Limitations>
 
-## Integraciones Clave
+<WhatToAdd>
+<HighLevelDetails>
+- Validar que las credenciales y límites de uso estén actualizados.
+- Recomendar técnicas de prompting adecuadas para la tarea a resolver.
+- Recopilar evidencias y decisiones para mantener el historial del trabajo.
+</HighLevelDetails>
+<BuildInstructions>
+- Paso 1: Confirma que el equipo cuente con acceso autorizado al proveedor.
+- Paso 2: Define el objetivo y la estrategia de interacción antes de solicitar resultados.
+- Paso 3: Revisa salidas generadas, aplicando controles de calidad y factualidad.
+- Paso 4: Documenta conclusiones y acuerdos derivados del uso del modelo.
+</BuildInstructions>
+<ProjectLayout>
+- Opera sobre los artefactos y decisiones inherentes al dominio de este agente.
+- Coordina hallazgos con los equipos y agentes complementarios para mantener trazabilidad.
+</ProjectLayout>
+</WhatToAdd>
 
-- **Configuración de credenciales**: `docs/ai/CONFIGURACION_API_KEYS.md` incluye los pasos para definir `OPENAI_API_KEY` y habilitar modos híbridos.
-- **ExecPlan vivo**: `docs/plans/EXECPLAN_codex_mcp_multi_llm.md` mantiene la estrategia multi-LLM y debe actualizarse cuando cambien las capacidades o defaults de OpenAI.
-- **Catálogo de prompts**: `docs/ai_capabilities/prompting/PROMPT_TECHNIQUES_CATALOG.md` consolida las técnicas multi-LLM antes de personalizar prompts para ChatGPT.
-- **Gestión de contexto**: `docs/ai_capabilities/orchestration/CONTEXT_MANAGEMENT_PLAYBOOK.md` y `scripts/coding/ai/shared/context_sessions.py` definen trimming y summarization compatibles con OpenAI.
-- **Agente generador de tests**: `scripts/coding/ai/generators/llm_generator.py` soporta `llm_provider="openai"` para generar pruebas o documentación asistida con ChatGPT.
-- **Builder MCP**: `scripts/coding/ai/orchestrators/codex_mcp_workflow.py` emite briefs con banderas MCP y modelos recomendados (por ejemplo `gpt-5`) para OpenAI.
-- **Guía operativa**: `docs/ai/SDLC_AGENTS_GUIDE.md` detalla cuándo alternar entre modos heurísticos y LLM.
-- **Playbook MCP**: `docs/ai_capabilities/orchestration/CODEX_MCP_MULTI_AGENT_GUIDE.md` explica la ejecución multi-agente para todos los proveedores, incluido OpenAI.
-- **Normativa CODEX**: `docs/analisis/META_AGENTE_CODEX_PARTE_1.md` define los supuestos que deben respetar las entregas basadas en modelos GPT.
+<StepsToFollow>
+1. Confirma que el equipo cuente con acceso autorizado al proveedor.
+2. Define el objetivo y la estrategia de interacción antes de solicitar resultados.
+3. Revisa salidas generadas, aplicando controles de calidad y factualidad.
+4. Documenta conclusiones y acuerdos derivados del uso del modelo.
+</StepsToFollow>
 
-## Procedimiento Recomendado
-
-1. **Planificación**: genera o actualiza el ExecPlan conforme a `.agent/PLANS.md` y registra en el issue qué agente ejecutará el trabajo.
-2. **Preparación de entorno**: configura `OPENAI_API_KEY` en `.env` y verifica la auto-detección con `python3 scripts/coding/ai/shared/env_loader.py`.
-3. **Ejecución**:
-    - Usa `LLMGenerator` para generación de tests con `llm_provider="openai"`.
-    - Para Codex MCP, alimenta los briefs de `CodexMCPWorkflowBuilder` indicando el proveedor `openai`.
-4. **Gobernanza**: documenta resultados en `docs/qa/registros/` y sincroniza `Progress`, `Decision Log` y `Surprises` en el ExecPlan.
-
-## Validación
-
-- `pytest scripts/coding/tests/ai/generators/test_llm_generator.py`
-- `pytest scripts/coding/tests/ai/orchestrators/test_codex_mcp_workflow.py`
-- `pytest docs/testing/test_documentation_alignment.py`
-
-ChatGPTAgent evita configuraciones inconsistentes al mantener alineados credenciales, planificación y herramientas cuando ChatGPT es el LLM elegido.
+<Validation>
+- Respuestas generadas alineadas al objetivo y sin observaciones críticas.
+- Registro de prompts, decisiones y aprobaciones en el plan de trabajo.
+- Seguimiento de costos o consumo dentro de los límites definidos.
+- Este agente ayuda a aprovechar ChatGPT de forma responsable y trazable.
+</Validation>

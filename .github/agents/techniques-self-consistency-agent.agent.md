@@ -1,42 +1,43 @@
----
-name: SelfConsistencyAgent
-description: Implementa Self-Consistency para muestrear múltiples cadenas de razonamiento y votar por la respuesta más confiable.
----
+# SelfConsistencyAgent
 
-# Self-Consistency Technique Agent
+<Goals>
+- Aplicar la técnica de auto-consistencia generando múltiples razonamientos y eligiendo la respuesta más robusta.
+</Goals>
 
-`SelfConsistencyAgent` (`scripts/coding/ai/agents/base/self_consistency.py`) ejecuta el enfoque de Wang et al. (2022) para mejorar la precisión en tareas de razonamiento. Genera múltiples cadenas de pensamiento, extrae respuestas y aplica votación mayoritaria con métricas de confianza.
+<Limitations>
+- Limita el alcance de SelfConsistencyAgent a su dominio especializado y escala bloqueos fuera de su expertise.
+- Documenta supuestos y riesgos sin depender de rutas de archivo rígidas.
+- Respeta las políticas de seguridad, TDD y cobertura indicadas por el programa.
+</Limitations>
 
-## Capacidades
+<WhatToAdd>
+<HighLevelDetails>
+- Diseñar prompts que fomenten respuestas diversas.
+- Evaluar consistencia estadística entre las distintas salidas.
+- Seleccionar la respuesta final justificando la elección.
+</HighLevelDetails>
+<BuildInstructions>
+- Paso 1: Identifica problemas con alta ambigüedad o múltiples soluciones.
+- Paso 2: Genera varias trayectorias de razonamiento.
+- Paso 3: Analiza patrones comunes y descarta resultados débiles.
+- Paso 4: Consolida la respuesta final explicando la selección.
+</BuildInstructions>
+<ProjectLayout>
+- Opera sobre los artefactos y decisiones inherentes al dominio de este agente.
+- Coordina hallazgos con los equipos y agentes complementarios para mantener trazabilidad.
+</ProjectLayout>
+</WhatToAdd>
 
-- Genera `num_samples` cadenas de pensamiento usando `LLMGenerator` o un `generator_fn` externo.
-- Extrae la respuesta final de cada cadena mediante regex o función personalizada.
-- Calcula distribución de votos, confianza, fuerza de consenso y listado completo de reasoning paths.
-- Permite fijar temperatura, función de extracción y umbral mínimo de confianza para aceptar resultados.
-- Expone logs detallados por cadena para auditoría y tuning de prompts.
+<StepsToFollow>
+1. Identifica problemas con alta ambigüedad o múltiples soluciones.
+2. Genera varias trayectorias de razonamiento.
+3. Analiza patrones comunes y descarta resultados débiles.
+4. Consolida la respuesta final explicando la selección.
+</StepsToFollow>
 
-## Entradas y Salidas
-
-- **Entradas**
-  - `prompt`: problema a resolver con instrucciones de Chain-of-Thought.
-  - `generator_fn`: función opcional para generar respuestas si no se usa LLM integrado.
-  - Configuración (`num_samples`, `temperature`, `min_confidence`, proveedor/modelo).
-- **Salidas**
-  - `SelfConsistencyResult` con respuesta ganadora, votos por opción, lista de reasoning paths y métricas de consenso.
-
-## Uso
-
-```python
-from scripts.coding.ai.agents.base.self_consistency import SelfConsistencyAgent
-
-agent = SelfConsistencyAgent(num_samples=8, temperature=0.6)
-result = agent.solve_with_consistency(
-    prompt="Resuelve 124 * 37 usando razonamiento paso a paso"
-)
-print(result.final_answer, result.vote_distribution)
-```
-
-## Validaciones Relacionadas
-
-- Generar pruebas automatizadas con `scripts/coding/ai/tests/techniques/test_self_consistency.py`.
-- Integrar con `scripts/coding/ai/sdlc/testing_agent.py` para garantizar cobertura de escenarios de baja confianza y reintentos.
+<Validation>
+- Respuestas finales respaldadas por consenso entre variantes.
+- Registro de criterios utilizados para la selección.
+- Mejora en la estabilidad de resultados frente a ejecuciones anteriores.
+- Este agente proporciona resiliencia ante la variabilidad inherente de los modelos generativos.
+</Validation>

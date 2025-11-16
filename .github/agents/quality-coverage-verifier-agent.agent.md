@@ -1,47 +1,43 @@
----
-name: CoverageVerifier
-description: Comprueba que nuevos tests incrementen la cobertura mínima requerida y analiza mejoras por archivo.
----
+# QualityCoverageVerifierAgent
 
-# Coverage Verifier Agent
+<Goals>
+- Confirmar que la cobertura reportada sea confiable y esté alineada con los objetivos de calidad.
+</Goals>
 
-`CoverageVerifier` (`scripts/coding/ai/quality/coverage_validator.py`) garantiza que la cobertura aumente tras generar y ejecutar nuevos tests. Escribe temporalmente los tests validados, corre pytest con coverage y compara el porcentaje con el baseline.
+<Limitations>
+- Limita el alcance de QualityCoverageVerifierAgent a su dominio especializado y escala bloqueos fuera de su expertise.
+- Documenta supuestos y riesgos sin depender de rutas de archivo rígidas.
+- Respeta las políticas de seguridad, TDD y cobertura indicadas por el programa.
+</Limitations>
 
-## Capacidades
+<WhatToAdd>
+<HighLevelDetails>
+- Revisar configuraciones y exclusiones de herramientas de cobertura.
+- Validar que los reportes correspondan a versiones específicas del código.
+- Asegurar que los indicadores se interpreten de forma consistente.
+</HighLevelDetails>
+<BuildInstructions>
+- Paso 1: Recopila reportes y verifica su procedencia.
+- Paso 2: Contrasta configuraciones con las políticas aprobadas.
+- Paso 3: Detecta discrepancias y coordina ajustes con los responsables.
+- Paso 4: Comunica conclusiones y recomendaciones de seguimiento.
+</BuildInstructions>
+<ProjectLayout>
+- Opera sobre los artefactos y decisiones inherentes al dominio de este agente.
+- Coordina hallazgos con los equipos y agentes complementarios para mantener trazabilidad.
+</ProjectLayout>
+</WhatToAdd>
 
-- Valida entradas requeridas (`current_coverage`, `test_results`, `project_path`).
-- Persistente temporal de tests generados y limpieza automática al finalizar.
-- Ejecuta coverage y calcula incremento global, verificando que supera `min_coverage_increase` (5% por defecto).
-- Analiza mejoras por archivo usando `prioritized_targets` para medir impacto.
-- Informa cantidad de archivos mejorados y si se cumple el objetivo.
+<StepsToFollow>
+1. Recopila reportes y verifica su procedencia.
+2. Contrasta configuraciones con las políticas aprobadas.
+3. Detecta discrepancias y coordina ajustes con los responsables.
+4. Comunica conclusiones y recomendaciones de seguimiento.
+</StepsToFollow>
 
-## Entradas y Salidas
-
-- **Entradas**
-  - `current_coverage`: cobertura base antes de aplicar tests.
-  - `test_results`: resultados generados (pasan) y opcional `validated_tests` con código.
-  - `project_path`: ruta del repositorio.
-  - `prioritized_targets`: lista opcional para correlacionar mejoras.
-- **Salidas**
-  - `new_coverage`, `coverage_increase`, `meets_requirement`.
-  - `file_improvements`: detalle por archivo con diferencia de cobertura.
-
-## Uso
-
-```python
-from scripts.coding.ai.quality.coverage_validator import CoverageVerifier
-
-verifier = CoverageVerifier({"min_coverage_increase": 3.0})
-result = verifier.run({
-    "current_coverage": 78.5,
-    "test_results": generated_tests,
-    "validated_tests": validated,
-    "project_path": Path.cwd()
-})
-print(result["meets_requirement"], result["coverage_increase"])
-```
-
-## Validaciones Relacionadas
-
-- Ejecutar `verifier.validate_input(...)` para garantizar insumos completos.
-- Usar después de `CoverageAnalyzer` y `SyntaxValidator` dentro de pipelines TDD automatizados.
+<Validation>
+- Reportes auditados sin inconsistencias significativas.
+- Configuraciones alineadas con las políticas de medición.
+- Stakeholders confiando en los indicadores para tomar decisiones.
+- Este agente protege la calidad de los datos de cobertura que se utilizan para evaluar el proyecto.
+</Validation>

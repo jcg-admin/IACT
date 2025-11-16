@@ -1,44 +1,43 @@
----
-name: DORATrackedSDLCAgent
-description: Extiende SDLCAgent para registrar automáticamente métricas DORA en cada fase.
----
+# DORATrackedSDLCAgent
 
-# DORA Tracked SDLC Agent
+<Goals>
+- Integrar métricas DORA en el ciclo SDLC para monitorear la salud del proceso de entrega.
+</Goals>
 
-`DORATrackedSDLCAgent` (`scripts/coding/ai/sdlc/dora_integration.py`) combina la ejecución SDLC con rastreo continuo de métricas DORA (Deployment Frequency, Lead Time, Change Failure Rate, MTTR). Cada fase registra sus resultados y metadata para alimentar dashboards y retrospectivas.
+<Limitations>
+- Limita el alcance de DORATrackedSDLCAgent a su dominio especializado y escala bloqueos fuera de su expertise.
+- Documenta supuestos y riesgos sin depender de rutas de archivo rígidas.
+- Respeta las políticas de seguridad, TDD y cobertura indicadas por el programa.
+</Limitations>
 
-## Capacidades
+<WhatToAdd>
+<HighLevelDetails>
+- Recopilar métricas de frecuencia de despliegue, tiempo de entrega, tasa de fallos y recuperación.
+- Alertar cuando una métrica se desvíe de los objetivos acordados.
+- Facilitar retros con información accionable.
+</HighLevelDetails>
+<BuildInstructions>
+- Paso 1: Define metas y umbrales con los líderes del proyecto.
+- Paso 2: Instrumenta la captura de datos en cada fase del ciclo.
+- Paso 3: Analiza tendencias y correlaciones relevantes.
+- Paso 4: Presenta conclusiones y coordina acciones de mejora.
+</BuildInstructions>
+<ProjectLayout>
+- Opera sobre los artefactos y decisiones inherentes al dominio de este agente.
+- Coordina hallazgos con los equipos y agentes complementarios para mantener trazabilidad.
+</ProjectLayout>
+</WhatToAdd>
 
-- Inicializa `DORAMetrics` y comienza ciclos cuando la fase es `planning`.
-- Registra duración de fase, decisión (`go`, `no-go`, `review`), riesgos y metadata asociada.
-- Maneja excepciones registrando fallos con severidad y duración antes de propagarlos.
-- Expone decorador `dora_tracked` para instrumentar funciones arbitrarias.
-- Calcula métricas agregadas sobre ciclos recientes (deployment frequency, lead time, change failure rate, MTTR).
+<StepsToFollow>
+1. Define metas y umbrales con los líderes del proyecto.
+2. Instrumenta la captura de datos en cada fase del ciclo.
+3. Analiza tendencias y correlaciones relevantes.
+4. Presenta conclusiones y coordina acciones de mejora.
+</StepsToFollow>
 
-## Entradas y Salidas
-
-- **Entradas**
-  - `input_data` estándar del agente SDLC, incluyendo opcional `feature_id`.
-  - Configuración y objeto `DORAMetrics` reutilizable (opcional).
-- **Salidas**
-  - Resultado de la fase con metadata extendida.
-  - Registro en `DORAMetrics` para consultas posteriores.
-
-## Uso
-
-```python
-from scripts.coding.ai.sdlc.dora_integration import DORATrackedSDLCAgent
-
-class DORATestingAgent(DORATrackedSDLCAgent):
-    def __init__(self, config=None):
-        super().__init__(name="DORATestingAgent", phase="testing", config=config)
-
-    def run(self, input_data):
-        # lógica específica de testing
-        return {"decision": "go", "metadata": {"passed_tests": 120}}
-```
-
-## Validaciones Relacionadas
-
-- Garantizar que `feature_id` se propague en `input_data` para separar ciclos.
-- Consumir las métricas mediante `DORAMetrics.compute_scorings()` para reportes ejecutivos.
+<Validation>
+- Métricas DORA disponibles y actualizadas.
+- Planes de acción activos para indicadores fuera de rango.
+- Retroalimentación del equipo confirmando utilidad de los reportes.
+- Este agente convierte las métricas DORA en palancas de mejora continua.
+</Validation>

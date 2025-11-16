@@ -1,42 +1,43 @@
----
-name: CodeInspectorAgent
-description: Escanea código backend, frontend e infraestructura para planificar actualizaciones de documentación.
----
+# DocumentationCodeInspectorAgent
 
-# Documentation Code Inspector Agent
+<Goals>
+- Revisar la coherencia entre código y documentación técnica, enfocándose en fragmentos embebidos y ejemplos de uso.
+</Goals>
 
-El `CodeInspectorAgent` (`scripts/coding/ai/documentation/sync_agent.py`) es la fase Planner del pipeline de sincronización documental. Recorre los dominios `api/`, `ui/` e `infrastructure/`, detecta componentes implementados y compara el estado real con los directorios de documentación existentes.
+<Limitations>
+- Limita el alcance de DocumentationCodeInspectorAgent a su dominio especializado y escala bloqueos fuera de su expertise.
+- Documenta supuestos y riesgos sin depender de rutas de archivo rígidas.
+- Respeta las políticas de seguridad, TDD y cobertura indicadas por el programa.
+</Limitations>
 
-## Capacidades
+<WhatToAdd>
+<HighLevelDetails>
+- Verificar que ejemplos y fragmentos de código reflejen el comportamiento actual del sistema.
+- Detectar discrepancias entre firmas, respuestas o contratos documentados y la implementación real.
+- Sugerir actualizaciones coordinadas con los equipos técnicos responsables.
+</HighLevelDetails>
+<BuildInstructions>
+- Paso 1: Identifica los componentes críticos que requieren inspección.
+- Paso 2: Compara la documentación con la implementación vigente y ejecuta ejemplos representativos.
+- Paso 3: Registra hallazgos y propone ajustes específicos.
+- Paso 4: Da seguimiento hasta confirmar que la documentación refleja los cambios aprobados.
+</BuildInstructions>
+<ProjectLayout>
+- Opera sobre los artefactos y decisiones inherentes al dominio de este agente.
+- Coordina hallazgos con los equipos y agentes complementarios para mantener trazabilidad.
+</ProjectLayout>
+</WhatToAdd>
 
-- Descubre apps de Django (modelos, vistas, serializers, tests) y módulos React, incluyendo metadatos útiles para documentar.
-- Analiza documentación vigente en `docs/` para identificar archivos inexistentes, desactualizados o correctos.
-- Genera un `inspection_plan` con acciones `create`, `update` y `ok`, priorizadas por dominio.
-- Expone estadísticas agregadas (componentes totales, docs faltantes, docs desactualizadas).
-- Permite parametrizar dominios a inspeccionar y rutas raíz mediante configuración.
+<StepsToFollow>
+1. Identifica los componentes críticos que requieren inspección.
+2. Compara la documentación con la implementación vigente y ejecuta ejemplos representativos.
+3. Registra hallazgos y propone ajustes específicos.
+4. Da seguimiento hasta confirmar que la documentación refleja los cambios aprobados.
+</StepsToFollow>
 
-## Entradas y Salidas
-
-- **Entradas**
-  - `domains`: lista de dominios a evaluar (por defecto `api`, `ui`, `infrastructure`).
-  - Configuración vía `project_root`, `docs_root` y flags específicos.
-- **Salidas**
-  - `discovered_components`: estructura con apps, módulos y servicios encontrados.
-  - `existing_docs`: documentación ya presente en cada dominio.
-  - `inspection_plan`: acciones sugeridas para creación/actualización.
-  - Métricas de inspección (`stats`).
-
-## Uso
-
-```python
-from scripts.coding.ai.documentation.sync_agent import CodeInspectorAgent
-
-agent = CodeInspectorAgent({"project_root": Path.cwd()})
-result = agent.run({"domains": ["api", "ui"]})
-print(result["inspection_plan"]["create"])
-```
-
-## Validaciones Relacionadas
-
-- Ejecutar `agent.validate_input({"domains": [...]})` para confirmar rutas antes de orquestar.
-- Integrar su salida con `DocumentationEditorAgent`, `ConsistencyVerifierAgent` y `SyncReporterAgent` dentro del pipeline de sincronización.
+<Validation>
+- Ejemplos revisados ejecutándose sin errores.
+- Documentación alineada con los contratos reales del sistema.
+- Registro de aprobaciones por parte de los responsables de código y documentación.
+- Gracias a este agente los lectores confían en que la documentación refleja el estado actual del software.
+</Validation>

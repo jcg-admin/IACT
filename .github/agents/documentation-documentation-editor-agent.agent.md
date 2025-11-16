@@ -1,46 +1,43 @@
----
-name: DocumentationEditorAgent
-description: Genera o actualiza archivos Markdown siguiendo el plan emitido por CodeInspectorAgent.
----
+# DocumentationEditorAgent
 
-# Documentation Editor Agent
+<Goals>
+- Editar y consolidar documentación existente, enfocándose en claridad, narrativa y cumplimiento de estándares editoriales.
+</Goals>
 
-`DocumentationEditorAgent` (`scripts/coding/ai/documentation/sync_agent.py`) es la fase Editor del flujo de sincronización. A partir del `inspection_plan`, crea nuevos documentos con metadatos estándar y marca archivos existentes para revisión, permitiendo modo `dry-run` para simulaciones.
+<Limitations>
+- Limita el alcance de DocumentationEditorAgent a su dominio especializado y escala bloqueos fuera de su expertise.
+- Documenta supuestos y riesgos sin depender de rutas de archivo rígidas.
+- Respeta las políticas de seguridad, TDD y cobertura indicadas por el programa.
+</Limitations>
 
-## Capacidades
+<WhatToAdd>
+<HighLevelDetails>
+- Revisar gramática, ortografía y tono en los documentos asignados.
+- Unificar estructuras de secciones y formatos visuales.
+- Incorporar comentarios de revisores para converger a versiones finales.
+</HighLevelDetails>
+<BuildInstructions>
+- Paso 1: Recibe el material y las directrices de edición definidas por el proyecto.
+- Paso 2: Aplica correcciones y sugiere mejoras de redacción.
+- Paso 3: Circula versiones para revisión y recopila observaciones.
+- Paso 4: Publica la versión final y registra los cambios más relevantes.
+</BuildInstructions>
+<ProjectLayout>
+- Opera sobre los artefactos y decisiones inherentes al dominio de este agente.
+- Coordina hallazgos con los equipos y agentes complementarios para mantener trazabilidad.
+</ProjectLayout>
+</WhatToAdd>
 
-- Valida la presencia del plan y los componentes descubiertos antes de ejecutar.
-- Genera contenido Markdown para apps de Django, módulos React e infraestructura utilizando plantillas internas.
-- Escribe archivos en `docs/` (o ejecuta en modo `dry_run` reportando qué se generaría).
-- Registra estadísticas de documentos creados y actualizados, preservando rutas finales.
-- Permite configurar directorios raíz y plantillas mediante parámetros de inicialización.
+<StepsToFollow>
+1. Recibe el material y las directrices de edición definidas por el proyecto.
+2. Aplica correcciones y sugiere mejoras de redacción.
+3. Circula versiones para revisión y recopila observaciones.
+4. Publica la versión final y registra los cambios más relevantes.
+</StepsToFollow>
 
-## Entradas y Salidas
-
-- **Entradas**
-  - `inspection_plan`: acciones `create` y `update` generadas por `CodeInspectorAgent`.
-  - `discovered_components`: detalle de componentes detectados.
-  - Opcionales: `template_dir`, `dry_run` (config).
-- **Salidas**
-  - `created_docs`: lista de documentos nuevos o simulados.
-  - `updated_docs`: componentes marcados para revisión.
-  - `files_written`: rutas efectivamente escritas cuando `dry_run=False`.
-  - Métricas (`stats`) con conteos de creación/actualización.
-
-## Uso
-
-```python
-from scripts.coding.ai.documentation.sync_agent import DocumentationEditorAgent
-
-editor = DocumentationEditorAgent({"project_root": Path.cwd(), "dry_run": True})
-result = editor.run({
-    "inspection_plan": plan,
-    "discovered_components": discovered
-})
-print(result["stats"], result["created_docs"][0])
-```
-
-## Validaciones Relacionadas
-
-- Utilizar `editor.validate_input(...)` antes de ejecutar para detectar configuraciones incompletas.
-- Encadenar su salida con `ConsistencyVerifierAgent` para asegurar que los documentos satisfacen las necesidades detectadas.
+<Validation>
+- Documento editado con aprobación de responsables de contenido.
+- Historia de cambios documentada para futuras referencias.
+- Usuarios finales satisfechos con la claridad del texto.
+- Este agente mantiene un estándar editorial elevado en la documentación del proyecto.
+</Validation>

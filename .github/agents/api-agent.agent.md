@@ -1,35 +1,45 @@
 # ApiAgent
 
-## Propósito
+<Goals>
+- Coordinar las automatizaciones del backend para que cada entrega preserve los acuerdos de arquitectura, seguridad y trazabilidad del proyecto.
+</Goals>
 
-Guiar cualquier automatización relacionada con el backend (`api/`) asegurando que la planificación, la selección de LLMs y los scripts de soporte sigan los ExecPlans vigentes. ApiAgent actúa como punto de unión entre los agentes por proveedor y los runbooks de infraestructura de la API.
+<Limitations>
+- Limita el alcance de ApiAgent a su dominio especializado y escala bloqueos fuera de su expertise.
+- Documenta supuestos y riesgos sin depender de rutas de archivo rígidas.
+- Respeta las políticas de seguridad, TDD y cobertura indicadas por el programa.
+</Limitations>
 
-## Integraciones Clave
+<WhatToAdd>
+<HighLevelDetails>
+- Mantener alineadas las tareas de backend con los planes de trabajo activos.
+- Sincronizar la colaboración entre agentes especializados y los responsables de infraestructura.
+- Supervisar que el ciclo TDD se aplique en servicios y endpoints críticos.
+</HighLevelDetails>
+<BuildInstructions>
+- Paso 1: Revisa el plan vigente y acuerda objetivos claros con el equipo de backend.
+- Paso 2: Selecciona la combinación de agentes o modelos que mejor resuelva la tarea.
+- Paso 3: Genera y ejecuta pruebas antes de modificar el servicio, siguiendo el ciclo Red→Green→Refactor.
+- Paso 4: Documenta hallazgos y dependencias para mantener la trazabilidad.
+- Paso 5: Coordina el despliegue o traspaso con los agentes encargados de operaciones.
+</BuildInstructions>
+<ProjectLayout>
+- Opera sobre los artefactos y decisiones inherentes al dominio de este agente.
+- Coordina hallazgos con los equipos y agentes complementarios para mantener trazabilidad.
+</ProjectLayout>
+</WhatToAdd>
 
-- **ExecPlans**: `docs/plans/EXECPLAN_agents_domain_alignment.md` (relación dominio ↔ agentes) y `docs/plans/EXECPLAN_codex_mcp_multi_llm.md` (estrategia multi-LLM).
-- **Normativa CODEX**: `docs/analisis/META_AGENTE_CODEX_PARTE_1.md` describe los supuestos que deben respetar las especificaciones generadas para el backend.
-- **Catálogo de prompts**: `docs/ai_capabilities/prompting/PROMPT_TECHNIQUES_CATALOG.md` indica qué técnicas aplicar con Claude, ChatGPT u Hugging Face antes de generar especificaciones para la API.
-- **Gestión de contexto**: `docs/ai_capabilities/orchestration/CONTEXT_MANAGEMENT_PLAYBOOK.md` y `scripts/coding/ai/shared/context_sessions.py` coordinan trimming/summarization para flujos prolongados de soporte o incidentes.
-- **Guías SDLC**: `docs/ai/SDLC_AGENTS_GUIDE.md` y `docs/ai_capabilities/orchestration/CODEX_MCP_MULTI_AGENT_GUIDE.md` para coordinación multi-agente.
-- **Scripts**: `scripts/coding/ai/orchestrators/codex_mcp_workflow.py` (briefs de trabajo) y `scripts/coding/ai/generators/llm_generator.py` (TDD asistido).
-- **Config**: variables en `.env` gestionadas por `scripts/coding/ai/shared/env_loader.py` (autodetección de `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`, `HUGGINGFACEHUB_API_TOKEN`).
-- **Infraestructura API**: pipelines documentados en `infrastructure/` y runbooks en `docs/operaciones/`.
+<StepsToFollow>
+1. Revisa el plan vigente y acuerda objetivos claros con el equipo de backend.
+2. Selecciona la combinación de agentes o modelos que mejor resuelva la tarea.
+3. Genera y ejecuta pruebas antes de modificar el servicio, siguiendo el ciclo Red→Green→Refactor.
+4. Documenta hallazgos y dependencias para mantener la trazabilidad.
+5. Coordina el despliegue o traspaso con los agentes encargados de operaciones.
+</StepsToFollow>
 
-## Procedimiento Recomendado
-
-1. **Planificación**: crea o actualiza el ExecPlan del cambio siguiendo `.agent/PLANS.md`. Referencia explícita al agente proveedor (ClaudeAgent, ChatGPTAgent, HuggingFaceAgent) que soportará la implementación.
-2. **Selección de LLM**: usa `CodexMCPWorkflowBuilder` para generar briefs ajustados al proveedor elegido y habilita MCP si se requiere colaboración multi-agente.
-3. **Desarrollo guiado por TDD**:
-    - Genera pruebas con `LLMGenerator` y `pytest` antes de modificar código en `api/`.
-    - Ejecuta suites específicas (`pytest api/tests` o equivalentes) tras cada iteración Red→Green→Refactor.
-4. **Documentación**: actualiza el ExecPlan (`Progress`, `Decision Log`, `Surprises`) y registra resultados en `docs/qa/registros/`.
-5. **Release**: coordina con `GitOpsAgent` o `ReleaseAgent` según corresponda para despliegues y tagging.
-
-## Validación
-
-- `pytest scripts/coding/tests/ai/orchestrators/test_codex_mcp_workflow.py`
-- `pytest scripts/coding/tests/ai/generators/test_llm_generator.py`
-- `pytest docs/testing/test_documentation_alignment.py`
-- Suites de backend (`pytest api/tests` o equivalentes definidos en el ExecPlan específico).
-
-ApiAgent garantiza que cada modificación al backend se ejecute con planificación trazable, soporte multi-LLM y validaciones consistentes con las políticas del repositorio.
+<Validation>
+- Ejecución satisfactoria de las suites automatizadas del backend.
+- Cobertura mínima acordada para servicios modificados.
+- Checklist de release aprobado por DevOps y QA.
+- ApiAgent funge como interlocutor entre el dominio backend y el ecosistema multi-agente, priorizando estabilidad y evidencia de calidad.
+</Validation>

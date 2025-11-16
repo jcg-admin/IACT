@@ -1,36 +1,43 @@
----
-name: RouteLintAgent
-description: Analiza ViewSets de Django REST Framework para garantizar que declaren permisos obligatorios.
----
+# RouteLintAgent
 
-# Route Lint Agent
+<Goals>
+- Revisar rutas y endpoints para asegurar que cuenten con permisos, documentación y pruebas acordes al nivel de riesgo.
+</Goals>
 
-`RouteLintAgent` (`scripts/coding/ai/agents/permissions/route_linter.py`) revisa los `views.py` del backend para detectar ViewSets sin `required_permissions` o sin heredar de `PermisoMixin`. Genera un reporte JSON con violaciones, métricas y resumen ejecutivo.
+<Limitations>
+- Limita el alcance de RouteLintAgent a su dominio especializado y escala bloqueos fuera de su expertise.
+- Documenta supuestos y riesgos sin depender de rutas de archivo rígidas.
+- Respeta las políticas de seguridad, TDD y cobertura indicadas por el programa.
+</Limitations>
 
-## Capacidades
+<WhatToAdd>
+<HighLevelDetails>
+- Detectar rutas expuestas sin validaciones adecuadas.
+- Verificar que existan pruebas y monitoreo para los puntos críticos.
+- Sugerir ajustes o cierres temporales cuando se identifiquen brechas.
+</HighLevelDetails>
+<BuildInstructions>
+- Paso 1: Genera un inventario actualizado de rutas y sus protecciones.
+- Paso 2: Evalúa cada endpoint contra las políticas de seguridad y auditoría.
+- Paso 3: Escala hallazgos críticos al equipo correspondiente.
+- Paso 4: Confirma la aplicación de correcciones y actualiza el inventario.
+</BuildInstructions>
+<ProjectLayout>
+- Opera sobre los artefactos y decisiones inherentes al dominio de este agente.
+- Coordina hallazgos con los equipos y agentes complementarios para mantener trazabilidad.
+</ProjectLayout>
+</WhatToAdd>
 
-- Recorre el repositorio excluyendo migraciones, tests y clases base abstractas.
-- Analiza el AST de cada ViewSet para confirmar presencia de `required_permissions` o herencia de mixins válidos.
-- Registra métricas (`total_viewsets`, `viewsets_without_permissions`, `coverage_percent`) usando utilidades de `BasePermissionAgent`.
-- Retorna `LintResult` con violaciones detalladas (archivo, línea, severidad, sugerencia y ejemplo de fix).
-- Soporta modos `--verbose` y `--json` para diagnóstico o consumo automatizado.
+<StepsToFollow>
+1. Genera un inventario actualizado de rutas y sus protecciones.
+2. Evalúa cada endpoint contra las políticas de seguridad y auditoría.
+3. Escala hallazgos críticos al equipo correspondiente.
+4. Confirma la aplicación de correcciones y actualiza el inventario.
+</StepsToFollow>
 
-## Entradas y Salidas
-
-- **Entradas**
-  - Configuración opcional `verbose` al construir la instancia.
-  - Rutas y prompts se derivan automáticamente desde el proyecto (`docs/backend/permisos/...`).
-- **Salidas**
-  - Código de salida `0` (sin violaciones), `1` (violaciones), `2` (error).
-  - Reporte JSON con resumen y lista de violaciones.
-
-## Uso
-
-```bash
-python scripts/coding/ai/agents/permissions/route_linter.py --verbose
-```
-
-## Validaciones Relacionadas
-
-- Ejecutar dentro de pipelines de seguridad o CI para impedir despliegues con endpoints sin permisos.
-- Extender reglas personalizadas ajustando métodos de análisis en `RouteLintAgent`.
+<Validation>
+- Endpoints críticos protegidos conforme a la política.
+- Pruebas y monitoreo alineados con el nivel de exposición.
+- Registro de excepciones con fecha de revisión y responsables.
+- El agente mantiene el mapa de rutas bajo control y evita aperturas sin el resguardo adecuado.
+</Validation>

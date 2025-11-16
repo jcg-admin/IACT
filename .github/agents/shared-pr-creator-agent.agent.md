@@ -1,48 +1,43 @@
----
-name: PRCreator
-description: Automatiza la creación de branches y Pull Requests con los tests generados y métricas de cobertura.
----
+# PRCreatorAgent
 
-# Pull Request Creator Agent
+<Goals>
+- Automatizar la generación de pull requests con información clara, checklist completo y trazabilidad de decisiones.
+</Goals>
 
-`PRCreator` (`scripts/coding/ai/shared/pr_creator.py`) automatiza la última milla del pipeline TDD. Toma tests validados, escribe los archivos en el repositorio, crea una rama, realiza commit y abre un Pull Request usando la CLI de GitHub (`gh`).
+<Limitations>
+- Limita el alcance de PRCreatorAgent a su dominio especializado y escala bloqueos fuera de su expertise.
+- Documenta supuestos y riesgos sin depender de rutas de archivo rígidas.
+- Respeta las políticas de seguridad, TDD y cobertura indicadas por el programa.
+</Limitations>
 
-## Capacidades
+<WhatToAdd>
+<HighLevelDetails>
+- Preparar resúmenes comprensibles del cambio propuesto.
+- Verificar que se cumplan los criterios de calidad antes de abrir la PR.
+- Coordinar etiquetas, revisores y dependencias necesarias.
+</HighLevelDetails>
+<BuildInstructions>
+- Paso 1: Revisa los commits y notas del plan de trabajo.
+- Paso 2: Elabora un resumen conciso con impactos y riesgos.
+- Paso 3: Configura la PR con checklist, etiquetas y responsables.
+- Paso 4: Monitorea comentarios y actualiza la descripción según sea necesario.
+</BuildInstructions>
+<ProjectLayout>
+- Opera sobre los artefactos y decisiones inherentes al dominio de este agente.
+- Coordina hallazgos con los equipos y agentes complementarios para mantener trazabilidad.
+</ProjectLayout>
+</WhatToAdd>
 
-- Valida la presencia de tests aprobados, métricas de cobertura y ruta del proyecto.
-- Escribe los tests generados en disco utilizando el código validado (`validated_tests`).
-- Crea ramas con nomenclatura `bot/generated-tests-<timestamp>` y realiza commits con resúmenes de cobertura.
-- Construye cuerpo de PR incluyendo incremento de cobertura y archivos afectados; etiqueta con `bot-generated-tests`.
-- Invoca `gh pr create` para abrir el PR y devuelve URL del resultado.
+<StepsToFollow>
+1. Revisa los commits y notas del plan de trabajo.
+2. Elabora un resumen conciso con impactos y riesgos.
+3. Configura la PR con checklist, etiquetas y responsables.
+4. Monitorea comentarios y actualiza la descripción según sea necesario.
+</StepsToFollow>
 
-## Entradas y Salidas
-
-- **Entradas**
-  - `test_results`: lista de tests aprobados por `TestRunner`/`SyntaxValidator`.
-  - `validated_tests`: código listo para escribir.
-  - Métricas de cobertura (`previous_coverage`, `new_coverage`, `coverage_increase`).
-  - `project_path`: ruta del repositorio.
-- **Salidas**
-  - `pr_created`, `pr_url`, `branch_name`, `files_added`, `total_tests_added`.
-
-## Uso
-
-```python
-from scripts.coding.ai.shared.pr_creator import PRCreator
-
-creator = PRCreator()
-result = creator.run({
-    "test_results": passed_tests,
-    "validated_tests": validated,
-    "previous_coverage": 82.1,
-    "new_coverage": 87.4,
-    "coverage_increase": 5.3,
-    "project_path": Path.cwd()
-})
-print(result["pr_url"], result["branch_name"])
-```
-
-## Validaciones Relacionadas
-
-- Ejecutar `creator.validate_input(...)` antes de correr para asegurar insumos completos y evitar PRs vacíos.
-- Requiere tener configurado `gh` autenticado y permisos de escritura en el repositorio.
+<Validation>
+- Pull request creada con todos los campos requeridos.
+- Revisores asignados y notificados.
+- Retroalimentación integrada antes de la fusión.
+- Este agente acelera la apertura de PRs manteniendo estándares elevados de documentación.
+</Validation>

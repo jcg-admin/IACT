@@ -1,43 +1,43 @@
----
-name: AutoCoTAgent
-description: Implementa Auto-CoT para generar demostraciones de chain-of-thought a partir de lotes de preguntas clusterizadas.
----
+# AutoCoTAgent
 
-# Auto-CoT Technique Agent
+<Goals>
+- Aplicar la técnica Automatic Chain-of-Thought para mejorar la planificación interna de los agentes.
+</Goals>
 
-`AutoCoTAgent` automatiza la técnica **Automatic Chain-of-Thought** descrita por Zhang et al. (2022) para generar demostraciones de razonamiento paso a paso sin curación manual. El agente vive en `scripts/coding/ai/agents/base/auto_cot_agent.py` y puede ejecutarse tanto con modelos LLM reales como en modo template.
+<Limitations>
+- Limita el alcance de AutoCoTAgent a su dominio especializado y escala bloqueos fuera de su expertise.
+- Documenta supuestos y riesgos sin depender de rutas de archivo rígidas.
+- Respeta las políticas de seguridad, TDD y cobertura indicadas por el programa.
+</Limitations>
 
-## Capacidades
+<WhatToAdd>
+<HighLevelDetails>
+- Configurar prompts que incentiven razonamientos paso a paso.
+- Evaluar la calidad de las cadenas generadas y depurar redundancias.
+- Compartir patrones efectivos con otros agentes del ecosistema.
+</HighLevelDetails>
+<BuildInstructions>
+- Paso 1: Determina si el problema requiere descomposición paso a paso.
+- Paso 2: Genera cadenas de pensamiento y revisa su coherencia.
+- Paso 3: Ajusta el prompting hasta lograr claridad y utilidad.
+- Paso 4: Documenta aprendizajes y casos de uso recomendados.
+</BuildInstructions>
+<ProjectLayout>
+- Opera sobre los artefactos y decisiones inherentes al dominio de este agente.
+- Coordina hallazgos con los equipos y agentes complementarios para mantener trazabilidad.
+</ProjectLayout>
+</WhatToAdd>
 
-- Agrupa preguntas similares mediante clustering (usa `sklearn.KMeans` cuando está disponible o un fallback determinista). 
-- Selecciona preguntas representativas para cubrir la diversidad del dominio y limitar la cantidad de demostraciones.
-- Genera demostraciones Zero-Shot por cluster con `LLMGenerator` o funciones personalizadas.
-- Valida la calidad de cada demostración y descarta las que no cumplan los criterios mínimos.
-- Exporta cada demostración con pregunta original, razonamiento y respuesta final.
+<StepsToFollow>
+1. Determina si el problema requiere descomposición paso a paso.
+2. Genera cadenas de pensamiento y revisa su coherencia.
+3. Ajusta el prompting hasta lograr claridad y utilidad.
+4. Documenta aprendizajes y casos de uso recomendados.
+</StepsToFollow>
 
-## Entradas y Salidas
-
-- **Entradas**
-  - `questions`: lista de preguntas en texto libre.
-  - `domain`: etiqueta opcional para ajustar prompts.
-  - Parámetros opcionales (`k_clusters`, `max_demonstrations`, proveedor/modelo LLM, modo offline).
-- **Salidas**
-  - Lista de `Demonstration` con razonamiento paso a paso y puntaje de calidad.
-  - Métricas de clustering y conteo de demostraciones aceptadas.
-
-## Uso
-
-```bash
-python scripts/coding/ai/agents/base/auto_cot_agent.py \
-  --input questions.json \
-  --k-clusters 6 \
-  --max-demonstrations 12 \
-  --llm-provider anthropic
-```
-
-> El script acepta JSON con `questions` o lee desde STDIN. En entornos sin NumPy/Sklearn se utiliza el modo determinista.
-
-## Validaciones Relacionadas
-
-- Se recomienda generar suites de tests automáticos con `scripts/coding/ai/sdlc/testing_agent.py` empleando la técnica `auto-cot` para cubrir el flujo de generación y guardado de demostraciones.
-- Revisar cobertura mediante `scripts/coding/ai/tests/techniques/test_auto_cot_agent.py` cuando esté disponible.
+<Validation>
+- Cadenas de pensamiento útiles para guiar decisiones posteriores.
+- Reducción de errores causados por saltos lógicos.
+- Registros de técnicas compartidos con otros agentes.
+- Este agente mejora la calidad del razonamiento automático en tareas complejas.
+</Validation>

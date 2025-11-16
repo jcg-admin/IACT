@@ -1,47 +1,43 @@
----
-name: SyncReporterAgent
-description: Consolida la ejecución del pipeline de sincronización en un reporte Markdown con métricas y recomendaciones.
----
+# DocumentationSyncReporterAgent
 
-# Documentation Sync Reporter Agent
+<Goals>
+- Emitir reportes ejecutivos sobre esfuerzos de sincronización documental, resaltando avances, pendientes y métricas clave.
+</Goals>
 
-`SyncReporterAgent` (`scripts/coding/ai/documentation/sync_agent.py`) cierra el pipeline de sincronización generando un reporte ejecutivo con métricas, acciones realizadas e inconsistencias detectadas. Puede guardar el reporte automáticamente en `docs/anexos` o trabajar en modo in-memory.
+<Limitations>
+- Limita el alcance de DocumentationSyncReporterAgent a su dominio especializado y escala bloqueos fuera de su expertise.
+- Documenta supuestos y riesgos sin depender de rutas de archivo rígidas.
+- Respeta las políticas de seguridad, TDD y cobertura indicadas por el programa.
+</Limitations>
 
-## Capacidades
+<WhatToAdd>
+<HighLevelDetails>
+- Consolidar resultados de agentes de análisis, edición y verificación.
+- Presentar métricas relevantes para la toma de decisiones.
+- Registrar recomendaciones y próximos pasos para mantener el alineamiento.
+</HighLevelDetails>
+<BuildInstructions>
+- Paso 1: Recolecta información actualizada de los agentes participantes.
+- Paso 2: Resume avances, riesgos y acciones correctivas en un formato ejecutivo.
+- Paso 3: Difunde el reporte entre los stakeholders y recoge retroalimentación.
+- Paso 4: Da seguimiento a compromisos hasta cerrar los pendientes más relevantes.
+</BuildInstructions>
+<ProjectLayout>
+- Opera sobre los artefactos y decisiones inherentes al dominio de este agente.
+- Coordina hallazgos con los equipos y agentes complementarios para mantener trazabilidad.
+</ProjectLayout>
+</WhatToAdd>
 
-- Recibe resultados de Planner, Editor y Verifier y los integra en un resumen legible.
-- Genera encabezado YAML con metadatos (`id`, `tipo`, `fecha`) para facilitar versionado.
-- Incluye estadísticas clave: componentes analizados, documentación creada/actualizada, inconsistencias pendientes.
-- Detalla acciones ejecutadas (creaciones, actualizaciones) y recomendaciones futuras.
-- Permite habilitar/deshabilitar persistencia mediante `save_report`.
+<StepsToFollow>
+1. Recolecta información actualizada de los agentes participantes.
+2. Resume avances, riesgos y acciones correctivas en un formato ejecutivo.
+3. Difunde el reporte entre los stakeholders y recoge retroalimentación.
+4. Da seguimiento a compromisos hasta cerrar los pendientes más relevantes.
+</StepsToFollow>
 
-## Entradas y Salidas
-
-- **Entradas**
-  - Diccionario con resultados de agentes anteriores (`inspection_plan`, `stats`, `created_docs`, `updated_docs`, `verification_result`, etc.).
-  - Configuración (`project_root`, `save_report`).
-- **Salidas**
-  - `report_markdown`: reporte en texto Markdown.
-  - Opcional `report_path` cuando se guarda en disco.
-  - Marca temporal (`timestamp`).
-
-## Uso
-
-```python
-from scripts.coding.ai.documentation.sync_agent import SyncReporterAgent
-
-reporter = SyncReporterAgent({"project_root": Path.cwd(), "save_report": True})
-report = reporter.run({
-    "inspection_plan": plan,
-    "created_docs": created,
-    "updated_docs": updated,
-    "verification_passed": verifier_result["verification_passed"],
-    "inconsistencies": verifier_result["inconsistencies"]
-})
-print(report["report_markdown"][:200])
-```
-
-## Validaciones Relacionadas
-
-- Verificar permisos de escritura en `docs/anexos` cuando `save_report=True`.
-- Versionar el reporte dentro de la documentación o adjuntarlo a PRs de sincronización para auditoría.
+<Validation>
+- Reporte compartido con responsables y aprobado.
+- Métricas clave actualizadas respecto al periodo anterior.
+- Plan de seguimiento definido para los puntos críticos.
+- El agente mantiene informada a la organización sobre el estado de la documentación.
+</Validation>

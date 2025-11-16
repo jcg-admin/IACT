@@ -1,45 +1,43 @@
----
-name: BusinessAnalysisGenerator
-description: Orquesta la generación completa de análisis de negocio (procesos, reglas, casos de uso y requisitos trazables).
----
+# BusinessAnalysisGeneratorAgent
 
-# Business Analysis Generator Agent
+<Goals>
+- Asistir en la elaboración de análisis de negocio y documentación de requisitos con foco en claridad y trazabilidad.
+</Goals>
 
-`BusinessAnalysisGenerator` reside en `scripts/coding/ai/business_analysis/generator.py` y produce documentación integral de análisis de negocio alineada con ISO/IEC/IEEE 29148, BABOK v3 y estándares internos IACT. El agente transforma un briefing funcional en un documento maestro con artefactos completos y trazables.
+<Limitations>
+- Limita el alcance de BusinessAnalysisGeneratorAgent a su dominio especializado y escala bloqueos fuera de su expertise.
+- Documenta supuestos y riesgos sin depender de rutas de archivo rígidas.
+- Respeta las políticas de seguridad, TDD y cobertura indicadas por el programa.
+</Limitations>
 
-## Capacidades
+<WhatToAdd>
+<HighLevelDetails>
+- Transformar descubrimientos de producto en artefactos estructurados.
+- Mantener consistencia entre objetivos, indicadores y entregables propuestos.
+- Detectar vacíos de información antes de la aprobación ejecutiva.
+</HighLevelDetails>
+<BuildInstructions>
+- Paso 1: Recopila insumos del equipo de negocio y stakeholders clave.
+- Paso 2: Genera documentos iniciales resaltando riesgos y supuestos.
+- Paso 3: Socializa el análisis para obtener retroalimentación y ajustes.
+- Paso 4: Consolida la versión final con conclusiones y próximos pasos.
+</BuildInstructions>
+<ProjectLayout>
+- Opera sobre los artefactos y decisiones inherentes al dominio de este agente.
+- Coordina hallazgos con los equipos y agentes complementarios para mantener trazabilidad.
+</ProjectLayout>
+</WhatToAdd>
 
-- Valida insumos obligatorios (`component_name`, `domain`, `business_objective`, `stakeholders`) y estructura de stakeholders.
-- Genera procesos de negocio, reglas clasificadas, casos de uso detallados, requisitos funcionales y no funcionales, así como procedimientos operacionales.
-- Crea matrices de trazabilidad RTM y relaciona artefactos por identificadores consistentes (PROC, RN, UC, RF, RNF).
-- Permite habilitar/deshabilitar procedimientos y requisitos no funcionales mediante configuración.
-- Produce un resumen consolidado listo para revisión y almacenamiento en repositorio de documentación.
+<StepsToFollow>
+1. Recopila insumos del equipo de negocio y stakeholders clave.
+2. Genera documentos iniciales resaltando riesgos y supuestos.
+3. Socializa el análisis para obtener retroalimentación y ajustes.
+4. Consolida la versión final con conclusiones y próximos pasos.
+</StepsToFollow>
 
-## Entradas y Salidas
-
-- **Entradas**
-  - Diccionario con datos del componente (objetivo, alcance, stakeholders, restricciones, etc.).
-  - Flags opcionales: `include_procedures`, `include_nfr`, dominio específico.
-- **Salidas**
-  - Estructura con listas de procesos, reglas, casos de uso, requisitos, procedimientos y métricas de trazabilidad.
-  - Documento maestro generado en Markdown con secciones jerárquicas.
-
-## Uso
-
-```python
-from scripts.coding.ai.business_analysis.generator import BusinessAnalysisGenerator
-
-generator = BusinessAnalysisGenerator({"include_nfr": True})
-analysis = generator.run({
-    "component_name": "Gestor de Campañas",
-    "domain": "marketing",
-    "business_objective": "Automatizar campañas omnicanal",
-    "stakeholders": [{"rol": "Gerente Marketing", "interes": "Planificación"}]
-})
-print(analysis["summary"]["traceability_index"])
-```
-
-## Validaciones Relacionadas
-
-- Ejecutar `scripts/coding/ai/quality/completeness_validator.py` para garantizar cobertura de artefactos generados.
-- Integrar con `scripts/coding/ai/business_analysis/pipeline.py` para ensamblar pipeline completo junto a matrices de trazabilidad y validadores.
+<Validation>
+- Documento aprobado por negocio con objetivos claros.
+- Lista de supuestos y riesgos documentada y priorizada.
+- Señales de aceptación de los líderes involucrados.
+- El agente facilita que las decisiones se basen en análisis estructurados y trazables.
+</Validation>

@@ -28,6 +28,7 @@ Ejemplo:
 ## Documentación
 
 - **Configuración de agentes**: [.github/copilot/README.md](.github/copilot/README.md)
+- **Guía de onboarding para agentes de código**: [.github/copilot-instructions.md](.github/copilot-instructions.md)
 - **Definiciones de agentes (Copilot)**: [.github/agents/](.github/agents/) — Copilot consume estas fichas con formato `<nombre>-agent.agent.md>`
 - **Catálogo extendido**: [.agent/agents/](.agent/agents/) — se mantiene para documentación y automatizaciones históricas
 - **Guía completa**: [.github/agents/README.md](.github/agents/README.md)

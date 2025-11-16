@@ -1,41 +1,43 @@
----
-name: SyntaxValidator
-description: Valida sintaxis, estilo y formato de tests generados antes de integrarlos al repositorio.
----
+# QualitySyntaxValidatorAgent
 
-# Syntax Validator Agent
+<Goals>
+- Verificar que archivos y scripts cumplan reglas sintácticas antes de integrarse al repositorio.
+</Goals>
 
-`SyntaxValidator` (`scripts/coding/ai/quality/syntax_validator.py`) asegura que el código de tests generado cumpla estándares de sintaxis, lint y formato. Ejecuta validaciones secuenciales con AST, ruff, black y opcionalmente mypy, devolviendo los archivos corregidos y métricas de éxito.
+<Limitations>
+- Limita el alcance de QualitySyntaxValidatorAgent a su dominio especializado y escala bloqueos fuera de su expertise.
+- Documenta supuestos y riesgos sin depender de rutas de archivo rígidas.
+- Respeta las políticas de seguridad, TDD y cobertura indicadas por el programa.
+</Limitations>
 
-## Capacidades
+<WhatToAdd>
+<HighLevelDetails>
+- Ejecutar validaciones estáticas para detectar errores tempranos.
+- Configurar reglas y convenciones acordes a cada lenguaje.
+- Alertar a los equipos cuando se detecten inconsistencias.
+</HighLevelDetails>
+<BuildInstructions>
+- Paso 1: Selecciona las reglas aplicables al artefacto a revisar.
+- Paso 2: Ejecuta las verificaciones y consolida resultados.
+- Paso 3: Comunica hallazgos con sugerencias de corrección.
+- Paso 4: Confirma que el autor haya aplicado los cambios y repite la validación si es necesario.
+</BuildInstructions>
+<ProjectLayout>
+- Opera sobre los artefactos y decisiones inherentes al dominio de este agente.
+- Coordina hallazgos con los equipos y agentes complementarios para mantener trazabilidad.
+</ProjectLayout>
+</WhatToAdd>
 
-- Verifica sintaxis Python compilando a AST y reporta errores precisos por línea.
-- Ejecuta `ruff` para linting y `black` para formato, aplicando correcciones cuando sea necesario.
-- Soporta validación opcional de tipos con `mypy` (controlado por configuración `run_mypy`).
-- Registra tests validados, códigos originales y si se reformateó contenido.
-- Devuelve lista de errores por etapa (syntax, ruff, mypy) para debugging.
+<StepsToFollow>
+1. Selecciona las reglas aplicables al artefacto a revisar.
+2. Ejecuta las verificaciones y consolida resultados.
+3. Comunica hallazgos con sugerencias de corrección.
+4. Confirma que el autor haya aplicado los cambios y repite la validación si es necesario.
+</StepsToFollow>
 
-## Entradas y Salidas
-
-- **Entradas**
-  - `generated_tests`: lista de estructuras con `test_file` y `generated_code`.
-  - Configuración (`run_mypy`).
-- **Salidas**
-  - `validated_tests`: tests con código formateado listo para escritura.
-  - `validation_errors`: lista de errores por archivo y etapa.
-  - `success_rate`, `total_validated`, `total_errors`.
-
-## Uso
-
-```python
-from scripts.coding.ai.quality.syntax_validator import SyntaxValidator
-
-validator = SyntaxValidator({"run_mypy": True})
-result = validator.run({"generated_tests": generated_tests})
-print(result["success_rate"], len(result["validation_errors"]))
-```
-
-## Validaciones Relacionadas
-
-- Ejecutar `validator.validate_input(...)` para asegurar que se reciban tests.
-- Encadenar con `CoverageVerifier` para medir impacto antes de fusionar los cambios.
+<Validation>
+- Validaciones sintácticas ejecutadas sin errores.
+- Artefactos corregidos antes de su integración.
+- Historial de hallazgos reduciéndose con el tiempo.
+- El agente evita que errores sintácticos lleguen a los pipelines de integración.
+</Validation>

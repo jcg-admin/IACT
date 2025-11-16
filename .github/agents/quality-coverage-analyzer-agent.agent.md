@@ -1,40 +1,43 @@
----
-name: CoverageAnalyzer
-description: Ejecuta pytest con coverage y prioriza archivos con baja cobertura para acciones TDD.
----
+# QualityCoverageAnalyzerAgent
 
-# Coverage Analyzer Agent
+<Goals>
+- Analizar la cobertura de pruebas para identificar riesgos y guiar inversiones en calidad.
+</Goals>
 
-`CoverageAnalyzer` (`scripts/coding/ai/quality/coverage_analyzer.py`) analiza cobertura de código ejecutando pytest con reportes JSON. Identifica archivos con cobertura inferior al umbral, prioriza targets y calcula brecha frente al objetivo mínimo.
+<Limitations>
+- Limita el alcance de QualityCoverageAnalyzerAgent a su dominio especializado y escala bloqueos fuera de su expertise.
+- Documenta supuestos y riesgos sin depender de rutas de archivo rígidas.
+- Respeta las políticas de seguridad, TDD y cobertura indicadas por el programa.
+</Limitations>
 
-## Capacidades
+<WhatToAdd>
+<HighLevelDetails>
+- Medir cobertura en los módulos priorizados del proyecto.
+- Relacionar resultados de cobertura con incidentes reportados.
+- Priorizar acciones de mejora junto con QA y desarrollo.
+</HighLevelDetails>
+<BuildInstructions>
+- Paso 1: Ejecuta o recopila resultados de cobertura más recientes.
+- Paso 2: Analiza tendencias y correlación con defectos o regresiones.
+- Paso 3: Recomienda focos de inversión en pruebas adicionales.
+- Paso 4: Documenta avances tras cada iteración de mejora.
+</BuildInstructions>
+<ProjectLayout>
+- Opera sobre los artefactos y decisiones inherentes al dominio de este agente.
+- Coordina hallazgos con los equipos y agentes complementarios para mantener trazabilidad.
+</ProjectLayout>
+</WhatToAdd>
 
-- Valida rutas del proyecto antes de ejecutar.
-- Lanza pytest con `--cov` y `--cov-report=json` para obtener métricas detalladas.
-- Detecta archivos/funciones con baja cobertura y calcula líneas faltantes.
-- Prioriza objetivos según porcentaje actual y tamaño del archivo.
-- Calcula métricas globales (`current_coverage`, `coverage_gap`, `files_below_threshold`).
+<StepsToFollow>
+1. Ejecuta o recopila resultados de cobertura más recientes.
+2. Analiza tendencias y correlación con defectos o regresiones.
+3. Recomienda focos de inversión en pruebas adicionales.
+4. Documenta avances tras cada iteración de mejora.
+</StepsToFollow>
 
-## Entradas y Salidas
-
-- **Entradas**
-  - `project_path`: ruta del repositorio a analizar.
-  - Configuración (`min_coverage`, `threshold_low`).
-- **Salidas**
-  - `current_coverage`, `coverage_gap`, lista de `low_coverage_files` con detalles y `prioritized_targets`.
-  - Ruta del reporte JSON (`coverage_report_path`).
-
-## Uso
-
-```python
-from scripts.coding.ai.quality.coverage_analyzer import CoverageAnalyzer
-
-analyzer = CoverageAnalyzer({"min_coverage": 90})
-report = analyzer.run({"project_path": Path.cwd()})
-print(report["current_coverage"], report["low_coverage_files"][:2])
-```
-
-## Validaciones Relacionadas
-
-- Ejecutar `analyzer.validate_input(...)` para asegurar que la ruta exista y sea accesible.
-- Reutilizar los resultados en `CoverageVerifier` o pipelines de mejora continua PDCA.
+<Validation>
+- Indicadores de cobertura actualizados y disponibles para el equipo.
+- Plan de acción acordado para módulos con cobertura insuficiente.
+- Evolución positiva de la cobertura tras aplicar mejoras.
+- El agente ayuda a priorizar esfuerzos de prueba con base en datos.
+</Validation>

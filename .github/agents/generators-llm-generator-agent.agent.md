@@ -1,49 +1,43 @@
----
-name: LLMGenerator
-description: Genera código de tests desde planes estructurados usando proveedores LLM configurables.
----
+# LLMGeneratorAgent
 
-# LLM Test Generator Agent
+<Goals>
+- Coordinar la generación asistida de código, pruebas o documentación mediante modelos de lenguaje de propósito general.
+</Goals>
 
-`LLMGenerator` (`scripts/coding/ai/generators/llm_generator.py`) encapsula la generación de suites de tests basadas en LLM. Soporta proveedores Anthropic, OpenAI, Ollama y Hugging Face, cargando credenciales desde `.env` y produciendo código alineado con los estándares del proyecto.
+<Limitations>
+- Limita el alcance de LLMGeneratorAgent a su dominio especializado y escala bloqueos fuera de su expertise.
+- Documenta supuestos y riesgos sin depender de rutas de archivo rígidas.
+- Respeta las políticas de seguridad, TDD y cobertura indicadas por el programa.
+</Limitations>
 
-## Capacidades
+<WhatToAdd>
+<HighLevelDetails>
+- Seleccionar el modelo más adecuado según restricciones de costo, privacidad o latencia.
+- Diseñar prompts y plantillas que garanticen salidas útiles y auditables.
+- Validar resultados con criterios de calidad antes de integrarlos al repositorio.
+</HighLevelDetails>
+<BuildInstructions>
+- Paso 1: Define el objetivo y recopila el contexto mínimo indispensable.
+- Paso 2: Elabora prompts estructurados y ejecuta la generación requerida.
+- Paso 3: Revisa la salida con validaciones automáticas y evaluación humana.
+- Paso 4: Registra aprendizajes y limita la reutilización cuando sea necesario.
+</BuildInstructions>
+<ProjectLayout>
+- Opera sobre los artefactos y decisiones inherentes al dominio de este agente.
+- Coordina hallazgos con los equipos y agentes complementarios para mantener trazabilidad.
+</ProjectLayout>
+</WhatToAdd>
 
-- Valida insumos: lista de `test_plans`, ruta del proyecto y presencia de API keys cuando son necesarias.
-- Construye prompts ricos con contexto (código fuente, convenciones de testing, estrategias TDD).
-- Invoca el proveedor configurado y empaqueta la respuesta en estructuras listas para persistir.
-- Soporta ejecución local (Ollama) o remota (Anthropic/OpenAI/HF) con configuración flexible.
-- Devuelve métricas de generación, incluyendo cantidad de archivos creados y modelo utilizado.
+<StepsToFollow>
+1. Define el objetivo y recopila el contexto mínimo indispensable.
+2. Elabora prompts estructurados y ejecuta la generación requerida.
+3. Revisa la salida con validaciones automáticas y evaluación humana.
+4. Registra aprendizajes y limita la reutilización cuando sea necesario.
+</StepsToFollow>
 
-## Entradas y Salidas
-
-- **Entradas**
-  - `test_plans`: colección de planes con `source_file`, `test_file` y `test_cases`.
-  - `project_path`: ruta base del repositorio.
-  - Configuración con `llm_provider`, `model`, parámetros HF/Ollama.
-- **Salidas**
-  - `generated_tests`: lista con código generado y metadatos por archivo.
-  - `total_generated`: conteo de archivos exitosos.
-  - Datos de proveedor/modelo para trazabilidad.
-
-## Uso
-
-```python
-from scripts.coding.ai.generators.llm_generator import LLMGenerator
-
-generator = LLMGenerator({"llm_provider": "anthropic"})
-result = generator.run({
-    "test_plans": [{
-        "source_file": "scripts/coding/ai/shared/agent_base.py",
-        "test_file": "tests/test_agent_base.py",
-        "test_cases": ["should record status transitions", "should persist results"]
-    }],
-    "project_path": "."
-})
-print(result["total_generated"], result["generated_tests"][0]["test_file"])
-```
-
-## Validaciones Relacionadas
-
-- Ejecutar `generator.validate_input(...)` antes de correr para detectar credenciales faltantes.
-- Usar en conjunto con `scripts/coding/ai/test_generation_orchestrator.py` o `SDLCTestingAgent` para pipelines TDD automatizados.
+<Validation>
+- Resultados generados alineados con el objetivo inicial.
+- Pruebas asociadas en verde después de integrar los artefactos.
+- Registro de prompts y configuraciones para reproducibilidad futura.
+- El agente habilita iteraciones rápidas manteniendo control sobre la calidad de las salidas.
+</Validation>

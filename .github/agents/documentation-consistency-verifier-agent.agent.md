@@ -1,47 +1,43 @@
----
-name: ConsistencyVerifierAgent
-description: Evalúa la consistencia entre componentes descubiertos y documentación creada o existente.
----
+# DocumentationConsistencyVerifierAgent
 
-# Documentation Consistency Verifier Agent
+<Goals>
+- Verificar que la documentación mantenga estilo, términos y convenciones homogéneas a través de todas las áreas.
+</Goals>
 
-`ConsistencyVerifierAgent` (`scripts/coding/ai/documentation/sync_agent.py`) actúa como fase Verifier del pipeline de sincronización. Analiza los componentes detectados por `CodeInspectorAgent`, los documentos creados por `DocumentationEditorAgent` y la documentación histórica para detectar brechas y emitir recomendaciones.
+<Limitations>
+- Limita el alcance de DocumentationConsistencyVerifierAgent a su dominio especializado y escala bloqueos fuera de su expertise.
+- Documenta supuestos y riesgos sin depender de rutas de archivo rígidas.
+- Respeta las políticas de seguridad, TDD y cobertura indicadas por el programa.
+</Limitations>
 
-## Capacidades
+<WhatToAdd>
+<HighLevelDetails>
+- Comparar glosarios, formatos y criterios de redacción entre documentos.
+- Detectar incongruencias que puedan confundir a los lectores.
+- Proponer ajustes y plantillas para sostener la consistencia.
+</HighLevelDetails>
+<BuildInstructions>
+- Paso 1: Define el alcance de la revisión y recopila los materiales relevantes.
+- Paso 2: Evalúa el cumplimiento de guías editoriales y terminología aprobada.
+- Paso 3: Documenta hallazgos con ejemplos y recomendaciones claras.
+- Paso 4: Coordina con los dueños de contenido la aplicación de las correcciones.
+</BuildInstructions>
+<ProjectLayout>
+- Opera sobre los artefactos y decisiones inherentes al dominio de este agente.
+- Coordina hallazgos con los equipos y agentes complementarios para mantener trazabilidad.
+</ProjectLayout>
+</WhatToAdd>
 
-- Valida la presencia de `discovered_components` antes de iniciar el análisis.
-- Compara conteos de componentes por dominio con los documentos existentes y recién creados.
-- Clasifica inconsistencias por severidad (`high`, `medium`, `low`) y genera mensajes detallados.
-- Produce recomendaciones accionables para cerrar brechas de documentación.
-- Resumen de métricas en `stats` (totales y severidades).
+<StepsToFollow>
+1. Define el alcance de la revisión y recopila los materiales relevantes.
+2. Evalúa el cumplimiento de guías editoriales y terminología aprobada.
+3. Documenta hallazgos con ejemplos y recomendaciones claras.
+4. Coordina con los dueños de contenido la aplicación de las correcciones.
+</StepsToFollow>
 
-## Entradas y Salidas
-
-- **Entradas**
-  - `discovered_components`: estructura generada por `CodeInspectorAgent`.
-  - `created_docs`: resultado de `DocumentationEditorAgent` (opcional).
-  - `existing_docs`: snapshot de documentación previa.
-- **Salidas**
-  - `verification_passed`: bandera booleana.
-  - `inconsistencies`: lista de hallazgos con dominio, mensaje y severidad.
-  - `recommendations`: acciones sugeridas.
-  - `stats`: métricas de severidad y conteos.
-
-## Uso
-
-```python
-from scripts.coding.ai.documentation.sync_agent import ConsistencyVerifierAgent
-
-verifier = ConsistencyVerifierAgent()
-result = verifier.run({
-    "discovered_components": discovered,
-    "created_docs": created,
-    "existing_docs": existing_docs
-})
-print(result["verification_passed"], result["recommendations"])
-```
-
-## Validaciones Relacionadas
-
-- Consumir su salida antes de generar reportes finales con `SyncReporterAgent`.
-- Incorporar reglas adicionales según necesidades del dominio extendiendo el método `run` o agregando análisis por dominio.
+<Validation>
+- Guías de estilo aplicadas en los documentos revisados.
+- Glosarios y convenciones actualizadas y comunicadas.
+- Retroalimentación de usuarios confirmando mejor experiencia de lectura.
+- Este agente garantiza una voz única en toda la documentación técnica y funcional.
+</Validation>

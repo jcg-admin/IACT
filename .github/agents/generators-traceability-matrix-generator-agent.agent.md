@@ -1,45 +1,43 @@
----
-name: TraceabilityMatrixGenerator
-description: Construye matrices RTM y análisis de gaps a partir de artefactos de análisis y pruebas.
----
+# TraceabilityMatrixGeneratorAgent
 
-# Traceability Matrix Generator Agent
+<Goals>
+- Generar matrices de trazabilidad que conecten requisitos, pruebas y entregables del proyecto.
+</Goals>
 
-`TraceabilityMatrixGenerator` (`scripts/coding/ai/generators/traceability_matrix_generator.py`) automatiza la creación de matrices de trazabilidad conforme a ISO/IEC/IEEE 29148:2018. Recibe artefactos generados por Business Analysis y produce matrices, análisis de brechas y métricas de cobertura.
+<Limitations>
+- Limita el alcance de TraceabilityMatrixGeneratorAgent a su dominio especializado y escala bloqueos fuera de su expertise.
+- Documenta supuestos y riesgos sin depender de rutas de archivo rígidas.
+- Respeta las políticas de seguridad, TDD y cobertura indicadas por el programa.
+</Limitations>
 
-## Capacidades
+<WhatToAdd>
+<HighLevelDetails>
+- Compilar fuentes de información relevantes para trazar dependencias.
+- Detectar brechas entre requisitos y casos de prueba disponibles.
+- Mantener la matriz actualizada con cambios de alcance o nuevas versiones.
+</HighLevelDetails>
+<BuildInstructions>
+- Paso 1: Recopila requisitos, criterios de aceptación y pruebas existentes.
+- Paso 2: Construye la matriz vinculando elementos y destacando huecos.
+- Paso 3: Socializa el resultado con los responsables de cada área.
+- Paso 4: Actualiza la matriz tras la ejecución de pruebas o cambios de alcance.
+</BuildInstructions>
+<ProjectLayout>
+- Opera sobre los artefactos y decisiones inherentes al dominio de este agente.
+- Coordina hallazgos con los equipos y agentes complementarios para mantener trazabilidad.
+</ProjectLayout>
+</WhatToAdd>
 
-- Valida artefactos obligatorios (`use_cases`, `requirements_functional`) y la estructura de cada entrada.
-- Genera múltiples matrices: principal (Necesidad→Proceso→UC→Requisito→Prueba→Implementación), Proceso-UC-Requisito, UC-Requisito-Prueba y Reglas-Impacto.
-- Detecta gaps (requisitos huérfanos, UC sin requisitos, requisitos sin pruebas o implementación, reglas sin aplicación).
-- Calcula índices clave: trazabilidad, cobertura de pruebas e implementación.
-- Permite configurar umbrales mínimos y decidir si incluye estado de implementación.
+<StepsToFollow>
+1. Recopila requisitos, criterios de aceptación y pruebas existentes.
+2. Construye la matriz vinculando elementos y destacando huecos.
+3. Socializa el resultado con los responsables de cada área.
+4. Actualiza la matriz tras la ejecución de pruebas o cambios de alcance.
+</StepsToFollow>
 
-## Entradas y Salidas
-
-- **Entradas**
-  - Artefactos estructurados (`processes`, `business_rules`, `use_cases`, `requirements_functional`, `requirements_nonfunctional`, `test_cases`, `implementations`).
-  - Configuración (`min_traceability_index`, `min_coverage_index`, `include_implementation_status`).
-- **Salidas**
-  - Diccionario con matrices generadas, análisis de gaps, métricas globales e insights por dominio.
-  - Reporte de cumplimiento contra umbrales configurados.
-
-## Uso
-
-```python
-from scripts.coding.ai.generators.traceability_matrix_generator import TraceabilityMatrixGenerator
-
-generator = TraceabilityMatrixGenerator({"min_traceability_index": 0.9})
-result = generator.run({
-    "processes": processes,
-    "use_cases": use_cases,
-    "requirements_functional": requirements,
-    "test_cases": test_cases
-})
-print(result["metrics"]["traceability_index"], result["gaps"]["requirements_without_tests"])
-```
-
-## Validaciones Relacionadas
-
-- Ejecutar `generator.validate_input(...)` para garantizar integridad de artefactos antes de la generación.
-- Consumir su salida desde `BusinessAnalysisPipeline` y `CompletenessValidator` para verificar cumplimiento integral.
+<Validation>
+- Matriz aprobada por negocio, QA y líderes técnicos.
+- Cobertura adecuada de pruebas frente a requisitos críticos.
+- Registros de versiones que permitan auditorías y seguimientos.
+- El agente aporta transparencia sobre cómo se cumple cada requisito del proyecto.
+</Validation>

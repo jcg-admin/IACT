@@ -1,44 +1,43 @@
----
-name: TemplateGenerator
-description: Produce plantillas Markdown estandarizadas para análisis de negocio y requisitos.
----
+# TemplateGeneratorAgent
 
-# Template Generator Agent
+<Goals>
+- Crear plantillas reutilizables para documentos, código o tableros que aceleren el trabajo repetitivo del equipo.
+</Goals>
 
-`TemplateGenerator` (`scripts/coding/ai/generators/template_generator.py`) genera plantillas reutilizables para artefactos de análisis. Acepta diferentes tipos (`master_document`, `rtm_matrix`, `completeness_checklist`, `business_rule`, `use_case`, `requirement_spec`) y personaliza placeholders según parámetros.
+<Limitations>
+- Limita el alcance de TemplateGeneratorAgent a su dominio especializado y escala bloqueos fuera de su expertise.
+- Documenta supuestos y riesgos sin depender de rutas de archivo rígidas.
+- Respeta las políticas de seguridad, TDD y cobertura indicadas por el programa.
+</Limitations>
 
-## Capacidades
+<WhatToAdd>
+<HighLevelDetails>
+- Capturar patrones recurrentes y convertirlos en estructuras parametrizables.
+- Mantener las plantillas alineadas con los estándares vigentes.
+- Recoger retroalimentación de usuarios para mejorar su utilidad.
+</HighLevelDetails>
+<BuildInstructions>
+- Paso 1: Identifica el proceso o artefacto que se beneficiará de una plantilla.
+- Paso 2: Define la estructura base y los campos configurables.
+- Paso 3: Valida el borrador con usuarios clave y ajusta según comentarios.
+- Paso 4: Publica la plantilla aprobada y documenta su modo de uso.
+</BuildInstructions>
+<ProjectLayout>
+- Opera sobre los artefactos y decisiones inherentes al dominio de este agente.
+- Coordina hallazgos con los equipos y agentes complementarios para mantener trazabilidad.
+</ProjectLayout>
+</WhatToAdd>
 
-- Valida el tipo de plantilla solicitado y expone lista de opciones soportadas.
-- Inserta placeholders `[COMPLETAR]`, ejemplos y secciones obligatorias basadas en estándares ISO 29148, BABOK v3 y UML.
-- Calcula métricas de salida (líneas, tamaño, cantidad de placeholders).
-- Aplica guardrails para asegurar longitud mínima y ausencia de emojis.
-- Permite habilitar instrucciones y ejemplos mediante flags (`include_examples`, `include_instructions`).
+<StepsToFollow>
+1. Identifica el proceso o artefacto que se beneficiará de una plantilla.
+2. Define la estructura base y los campos configurables.
+3. Valida el borrador con usuarios clave y ajusta según comentarios.
+4. Publica la plantilla aprobada y documenta su modo de uso.
+</StepsToFollow>
 
-## Entradas y Salidas
-
-- **Entradas**
-  - `template_type`: tipo requerido.
-  - `parameters`: diccionario opcional con datos como `component_name`, `domain`, etc.
-- **Salidas**
-  - `template_content`: texto Markdown generado.
-  - Métricas (`line_count`, `placeholder_count`, `size_bytes`).
-  - `parameters_used`: parámetros efectivos.
-
-## Uso
-
-```python
-from scripts.coding.ai.generators.template_generator import TemplateGenerator
-
-generator = TemplateGenerator({"include_examples": False})
-result = generator.run({
-    "template_type": "use_case",
-    "parameters": {"component_name": "Portal de Pagos"}
-})
-print(result["template_content"].splitlines()[:10])
-```
-
-## Validaciones Relacionadas
-
-- Ejecutar `generator.validate_input(...)` previo a la generación.
-- Utilizar `generator.apply_guardrails(result)` para asegurar que la plantilla cumple estándares antes de publicarla.
+<Validation>
+- Plantillas probadas en escenarios reales.
+- Evidencia de adopción por parte del equipo objetivo.
+- Retroalimentación recopilada para futuras mejoras.
+- Este agente multiplica la productividad al estandarizar entregables frecuentes.
+</Validation>

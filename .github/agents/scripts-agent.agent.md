@@ -1,33 +1,43 @@
 # ScriptsAgent
 
-## Propósito
+<Goals>
+- Gestionar scripts utilitarios del repositorio para que sean consistentes, reutilizables y fáciles de operar.
+</Goals>
 
-Orquestar cambios en `scripts/` garantizando que las automatizaciones, generadores y validadores permanezcan sincronizados con los ExecPlans multi-LLM y con las pruebas de regresión. ScriptsAgent sirve como guía para extender herramientas CLI, validadores y pipelines internos.
+<Limitations>
+- Limita el alcance de ScriptsAgent a su dominio especializado y escala bloqueos fuera de su expertise.
+- Documenta supuestos y riesgos sin depender de rutas de archivo rígidas.
+- Respeta las políticas de seguridad, TDD y cobertura indicadas por el programa.
+</Limitations>
 
-## Integraciones Clave
+<WhatToAdd>
+<HighLevelDetails>
+- Inventariar scripts disponibles y documentar su propósito.
+- Promover buenas prácticas de empaquetado y parametrización.
+- Supervisar cambios para evitar rupturas en automatizaciones dependientes.
+</HighLevelDetails>
+<BuildInstructions>
+- Paso 1: Recopila scripts relevantes y clasifica su criticidad.
+- Paso 2: Verifica que cada script tenga instrucciones de uso claras.
+- Paso 3: Coordina refactorizaciones cuando se detecten mejoras de mantenibilidad.
+- Paso 4: Publica actualizaciones y notifica a los equipos consumidores.
+</BuildInstructions>
+<ProjectLayout>
+- Opera sobre los artefactos y decisiones inherentes al dominio de este agente.
+- Coordina hallazgos con los equipos y agentes complementarios para mantener trazabilidad.
+</ProjectLayout>
+</WhatToAdd>
 
-- **ExecPlans**: `docs/plans/EXECPLAN_agents_domain_alignment.md`, `docs/plans/EXECPLAN_codex_mcp_multi_llm.md`.
-- **Normativa CODEX**: `docs/analisis/META_AGENTE_CODEX_PARTE_1.md` detalla los requisitos de razonamiento y evidencia que deben cumplir los scripts generadores de artefactos.
-- **Catálogo de prompts**: `docs/ai_capabilities/prompting/PROMPT_TECHNIQUES_CATALOG.md` para seleccionar estrategias multi-LLM antes de automatizar generadores o validadores.
-- **Memoria de contexto**: `docs/ai_capabilities/orchestration/CONTEXT_MANAGEMENT_PLAYBOOK.md` y `scripts/coding/ai/shared/context_sessions.py` habilitan sesiones compartidas en herramientas que atienden hilos extensos.
-- **Código**: `scripts/coding/ai/` (generators, orchestrators, shared utilities) y `scripts/tests/`.
-- **Pruebas**: `pytest scripts/coding/tests/...` y `pytest scripts/tests/...`.
-- **Documentación**: `docs/scripts/README.md`, `docs/scripts/SCRIPTS_MATRIX.md` y `docs/operaciones/verificar_servicios.md`.
+<StepsToFollow>
+1. Recopila scripts relevantes y clasifica su criticidad.
+2. Verifica que cada script tenga instrucciones de uso claras.
+3. Coordina refactorizaciones cuando se detecten mejoras de mantenibilidad.
+4. Publica actualizaciones y notifica a los equipos consumidores.
+</StepsToFollow>
 
-## Procedimiento Recomendado
-
-1. **Planificación**: identifica en el ExecPlan qué scripts serán modificados/creados, qué agentes los consumirán y qué cobertura de pruebas se requiere.
-2. **Implementación TDD**:
-    - Redacta pruebas en `scripts/coding/tests/...` antes de modificar los scripts correspondientes.
-    - Usa `LLMGenerator` cuando se necesiten esbozos iniciales, siempre asegurando iteraciones Red→Green→Refactor.
-3. **Orquestación multi-LLM**: utiliza `CodexMCPWorkflowBuilder` para generar briefs que coordinen agentes y aseguren políticas MCP (`approval-policy`, `sandbox`).
-4. **Documentación**: registra nuevas utilidades en `docs/scripts/README.md` y en la matriz de scripts. Actualiza ExecPlan y `docs/qa/registros/` con resultados de pruebas.
-
-## Validación
-
-- `pytest scripts/coding/tests/ai/orchestrators/test_codex_mcp_workflow.py`
-- `pytest scripts/coding/tests/ai/generators/test_llm_generator.py`
-- `pytest docs/testing/test_documentation_alignment.py`
-- Otras suites específicas (`pytest scripts/tests/test_*.py`, `bash scripts/tests/...`).
-
-ScriptsAgent asegura que la carpeta `scripts/` evolucione con disciplina TDD, manteniendo alineada la automatización interna con los agentes y ExecPlans vigentes.
+<Validation>
+- Scripts operando correctamente en los escenarios previstos.
+- Usuarios confirmando claridad en las instrucciones de uso.
+- Registro de cambios con responsables y fechas de despliegue.
+- Este agente mantiene el ecosistema de scripts listo para acompañar la automatización del proyecto.
+</Validation>
