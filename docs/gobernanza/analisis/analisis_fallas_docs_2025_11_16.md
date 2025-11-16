@@ -591,6 +591,286 @@ backend/
 
 ---
 
+## PROBLEMA 8: Directorios Requeridos Faltantes (6 casos)
+
+### 🔴 Prioridad: CRÍTICA
+### 📊 Impacto: Completitud de documentación por dominio
+
+El análisis estructural revela que **5 dominios** no tienen directorios REQUERIDOS según ADR-020 y estándares de documentación.
+
+### Directorios Faltantes por Dominio
+
+#### 8.1 Backend - Falta casos_de_uso/
+
+```bash
+# ❌ FALTA
+docs/backend/casos_de_uso/
+
+# ❌ Impacto:
+- No hay documentación de casos de uso de APIs
+- No hay casos de uso de endpoints REST
+- No hay casos de uso de servicios backend
+```
+
+**Casos de uso esperados:**
+```
+backend/casos_de_uso/
+├── UC-API-001-crear-recurso.md
+├── UC-API-002-actualizar-recurso.md
+├── UC-API-003-eliminar-recurso.md
+├── UC-API-004-consultar-recurso.md
+├── UC-PERM-001-validar-permisos-endpoint.md
+├── UC-DATA-001-consultar-base-datos.md
+└── UC-LOG-001-registrar-evento-auditoria.md
+```
+
+#### 8.2 Frontend - Falta casos_de_uso/
+
+```bash
+# ❌ FALTA
+docs/frontend/casos_de_uso/
+
+# ❌ Impacto:
+- No hay documentación de casos de uso de UI/UX
+- No hay casos de uso de componentes
+- No hay casos de uso de interacciones de usuario
+```
+
+**Casos de uso esperados:**
+```
+frontend/casos_de_uso/
+├── UC-UI-001-login-usuario.md
+├── UC-UI-002-registro-usuario.md
+├── UC-UI-003-visualizar-dashboard.md
+├── UC-COMP-001-renderizar-tabla-datos.md
+├── UC-NAV-001-navegar-rutas-protegidas.md
+└── UC-FORM-001-validar-formulario.md
+```
+
+#### 8.3 AI - Faltan arquitectura/ y casos_de_uso/
+
+```bash
+# ❌ FALTAN
+docs/ai/arquitectura/
+docs/ai/casos_de_uso/
+
+# ❌ Impacto:
+- No hay documentación de arquitectura de agentes
+- No hay casos de uso de orquestación
+- No hay casos de uso de ejecución de pipelines
+```
+
+**Arquitectura esperada:**
+```
+ai/arquitectura/
+├── arquitectura_agentes.md
+├── arquitectura_orquestacion.md
+├── arquitectura_prompting.md
+└── diagramas/
+```
+
+**Casos de uso esperados:**
+```
+ai/casos_de_uso/
+├── UC-AGENT-001-ejecutar-sdlc-pipeline.md
+├── UC-AGENT-002-generar-documentacion.md
+├── UC-AGENT-003-validar-restricciones.md
+├── UC-ORCHESTRATION-001-coordinar-agentes.md
+└── UC-PROMPT-001-generar-respuesta-estructurada.md
+```
+
+#### 8.4 DevOps - Falta casos_de_uso/
+
+```bash
+# ❌ FALTA
+docs/devops/casos_de_uso/
+
+# ❌ Impacto:
+- No hay documentación de casos de uso de CI/CD
+- No hay casos de uso de deployment
+- No hay casos de uso de automatización
+```
+
+**Casos de uso esperados:**
+```
+devops/casos_de_uso/
+├── UC-CI-001-ejecutar-pipeline-integracion.md
+├── UC-CD-001-deployment-automatico-produccion.md
+├── UC-HOOKS-001-validar-commit-pre-push.md
+├── UC-BUILD-001-construir-imagen-docker.md
+└── UC-DEPLOY-001-rollback-version-anterior.md
+```
+
+#### 8.5 Operaciones - Falta runbooks/
+
+```bash
+# ❌ FALTA
+docs/operaciones/runbooks/
+
+# ❌ Impacto:
+- No hay runbooks operativos centralizados
+- Los runbooks están dispersos en devops/runbooks/
+```
+
+**Estructura esperada:**
+```
+operaciones/runbooks/
+├── runbook_incident_response.md
+├── runbook_database_failover.md
+├── runbook_service_restart.md
+└── runbook_backup_restore.md
+```
+
+**Nota:** Los runbooks operativos actualmente están en `devops/runbooks/`, lo cual es incorrecto. DevOps debería tener runbooks de CI/CD, no de operaciones de producción.
+
+### Resumen de Directorios Faltantes
+
+| Dominio | Directorios Faltantes | Prioridad | Impacto |
+|---------|----------------------|-----------|---------|
+| backend | casos_de_uso/ | CRÍTICA | Alto - Falta documentación de APIs |
+| frontend | casos_de_uso/ | CRÍTICA | Alto - Falta documentación de UI |
+| ai | arquitectura/, casos_de_uso/ | CRÍTICA | Muy Alto - Falta docs de agentes |
+| devops | casos_de_uso/ | ALTA | Medio - Falta docs de pipelines |
+| operaciones | runbooks/ | MEDIA | Medio - Runbooks mal ubicados |
+
+**Total:** 6 directorios requeridos faltantes en 5 dominios.
+
+### Recomendaciones
+
+**Acción 1:** Crear estructura faltante
+```bash
+mkdir -p docs/backend/casos_de_uso
+mkdir -p docs/frontend/casos_de_uso
+mkdir -p docs/ai/arquitectura
+mkdir -p docs/ai/casos_de_uso
+mkdir -p docs/devops/casos_de_uso
+mkdir -p docs/operaciones/runbooks
+```
+
+**Acción 2:** Mover runbooks operativos
+```bash
+# Identificar runbooks de producción en devops/runbooks/
+# Mover a operaciones/runbooks/
+# Dejar solo runbooks de CI/CD en devops/runbooks/
+```
+
+**Acción 3:** Generar plantillas de casos de uso
+```bash
+# Crear plantillas base para cada dominio
+docs/backend/casos_de_uso/TEMPLATE_UC_API.md
+docs/frontend/casos_de_uso/TEMPLATE_UC_UI.md
+docs/ai/casos_de_uso/TEMPLATE_UC_AGENT.md
+docs/devops/casos_de_uso/TEMPLATE_UC_CICD.md
+```
+
+---
+
+## PROBLEMA 9: Directorios Inesperados (31 casos)
+
+### 🟡 Prioridad: MEDIA
+### 📊 Impacto: Complejidad innecesaria en estructura
+
+Se detectaron **31 directorios inesperados** que no están en la especificación de estructura estándar.
+
+### Directorios Inesperados por Dominio
+
+#### 9.1 Backend (15 directorios inesperados)
+
+```bash
+# Directorios inesperados:
+backend/registros/              # Debería estar en sesiones/
+backend/gobernanza/             # Debería estar en gobernanza/
+backend/2025-11-11/             # Debería estar en sesiones/2025-11/
+backend/feasibility/            # OK - renombrar a analisis_viabilidad/
+backend/design/                 # Duplicado con diseno/
+backend/diseno_detallado/       # OK - pero debería ser diseno/detallado/
+backend/permisos/               # Específico de backend, puede quedar
+backend/devops/                 # Debería estar en devops/
+backend/analisis_negocio/       # Debería estar en gobernanza/analisis_negocio/
+backend/seguridad/              # Puede quedar si es específico de backend
+backend/rest_apis/              # Debería consolidarse en api/
+backend/diseno/                 # Duplicado con design/
+backend/checklists/             # Puede quedar
+backend/planning/               # Duplicado con planificacion_y_releases/
+backend/planificacion_y_releases/  # OK
+```
+
+**Recomendación:**
+- ❌ Eliminar: `registros/`, `gobernanza/`, `2025-11-11/`, `devops/`, `analisis_negocio/`
+- ⚠️ Consolidar: `design/` y `diseno/` → `diseno/`
+- ⚠️ Consolidar: `planning/` → `planificacion_y_releases/`
+- ⚠️ Consolidar: `rest_apis/` → `api/`
+- ✅ Renombrar: `feasibility/` → `analisis/viabilidad/`
+
+#### 9.2 Frontend (6 directorios inesperados)
+
+```bash
+# Directorios inesperados:
+frontend/gobernanza/            # Debería estar en gobernanza/
+frontend/diseno_detallado/      # OK - pero debería ser diseno/detallado/
+frontend/devops/                # Debería estar en devops/
+frontend/analisis_negocio/      # Debería estar en gobernanza/analisis_negocio/
+frontend/checklists/            # Puede quedar
+frontend/planificacion_y_releases/  # OK
+```
+
+**Recomendación:**
+- ❌ Eliminar: `gobernanza/`, `devops/`, `analisis_negocio/`
+- ✅ Mantener: `checklists/`, `planificacion_y_releases/`
+- ⚠️ Reorganizar: `diseno_detallado/` → `diseno/detallado/`
+
+#### 9.3 AI (1 directorio inesperado)
+
+```bash
+# Directorio inesperado:
+ai/ai_capabilities/             # Debería ser analisis/capabilities/ o agent/capabilities/
+```
+
+**Recomendación:**
+- ⚠️ Mover contenido a `ai/agent/capabilities/` o `ai/analisis/capabilities/`
+
+#### 9.4 Infraestructura (3 directorios "inesperados" pero válidos)
+
+```bash
+# Directorios específicos de infraestructura:
+infraestructura/devcontainer/   # ✅ OK - Específico de infraestructura
+infraestructura/cpython_precompilado/  # ✅ OK - Proyecto específico
+infraestructura/vagrant-dev/    # ✅ OK - Específico de infraestructura
+```
+
+**Nota:** Estos directorios NO son problemáticos, son específicos del dominio de infraestructura. Error en análisis automático.
+
+#### 9.5 Gobernanza (6 directorios inesperados)
+
+```bash
+# Directorios inesperados:
+gobernanza/agentes/             # Debería estar en ai/
+gobernanza/estilos/             # OK - estilos de código/documentación
+gobernanza/ci_cd/               # Debería estar en devops/
+gobernanza/analisis_negocio/    # OK - es transversal
+gobernanza/checklists/          # OK - checklists de gobernanza
+gobernanza/ai/                  # Debería estar en ai/
+```
+
+**Recomendación:**
+- ❌ Mover: `agentes/` → `ai/agentes/`
+- ❌ Mover: `ci_cd/` → `devops/ci_cd/`
+- ❌ Mover: `ai/` → `ai/` (contenido a fusionar)
+- ✅ Mantener: `estilos/`, `analisis_negocio/`, `checklists/`
+
+### Resumen de Acciones para Directorios Inesperados
+
+| Acción | Cantidad | Ejemplos |
+|--------|----------|----------|
+| Eliminar (mover a sesiones/) | 3 | `backend/registros/`, `backend/2025-11-11/` |
+| Mover a dominio correcto | 8 | `backend/gobernanza/` → `gobernanza/` |
+| Consolidar duplicados | 6 | `backend/design/` + `backend/diseno/` |
+| Mantener (son válidos) | 14 | `backend/checklists/`, `infraestructura/devcontainer/` |
+
+**Total a reorganizar:** ~17 directorios
+
+---
+
 ## Problemas Menores (Sin Análisis Detallado)
 
 ### 8. Convenciones de Nomenclatura
