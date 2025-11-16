@@ -2,29 +2,334 @@
   "version": "1.0.0",
   "agents": [
     {
-      "name": "my_agent",
-      "description": "Agente autónomo basado en GitHub Copilot que ejecuta tareas de programación, monitorea el progreso y reporta avances.",
-      "instructions": ".agent/agents/my_agent.md"
+      "name": "api_agent",
+      "description": "Agente de dominio para `api/` que coordina automatizaciones, ExecPlans y selección de LLM en el backend.",
+      "instructions": ".github/agents/api-agent.agent.md"
     },
     {
-      "name": "gitops_agent",
-      "description": "Agente especializado en operaciones Git y DevOps para sincronización de ramas, limpieza de repositorio y gestión de workflow Git.",
-      "instructions": ".agent/agents/gitops_agent.md"
+      "name": "automation_business_rules_validator_agent",
+      "description": "Comprueba reglas de negocio y consistencia lógica en automatizaciones y entregables generados.",
+      "instructions": ".github/agents/automation-business-rules-validator-agent.agent.md"
     },
     {
-      "name": "release_agent",
-      "description": "Agente especializado en gestión de releases, versionado semántico, generación de changelogs y creación de tags Git.",
-      "instructions": ".agent/agents/release_agent.md"
+      "name": "automation_ci_pipeline_orchestrator_agent",
+      "description": "Orquesta pipelines CI/CD integrando validaciones automáticas y despliegues condicionados.",
+      "instructions": ".github/agents/automation-ci-pipeline-orchestrator-agent.agent.md"
+    },
+    {
+      "name": "automation_coherence_analyzer_agent",
+      "description": "Analiza coherencia entre código, pruebas y documentación aplicando métricas automatizadas.",
+      "instructions": ".github/agents/automation-coherence-analyzer-agent.agent.md"
+    },
+    {
+      "name": "automation_compliance_validator_agent",
+      "description": "Evalúa cumplimiento normativo y regulatorio en artefactos y automatizaciones del repositorio.",
+      "instructions": ".github/agents/automation-compliance-validator-agent.agent.md"
+    },
+    {
+      "name": "automation_constitution_validator_agent",
+      "description": "Verifica cumplimiento de principios constitucionales y políticas CODEX en entregables automatizados.",
+      "instructions": ".github/agents/automation-constitution-validator-agent.agent.md"
+    },
+    {
+      "name": "automation_devcontainer_validator_agent",
+      "description": "Valida configuraciones de devcontainer y entornos locales contra los estándares del repositorio.",
+      "instructions": ".github/agents/automation-devcontainer-validator-agent.agent.md"
+    },
+    {
+      "name": "automation_metrics_collector_agent",
+      "description": "Recolecta métricas DORA y de flujo para alimentar reportes operativos automatizados.",
+      "instructions": ".github/agents/automation-metrics-collector-agent.agent.md"
+    },
+    {
+      "name": "automation_pdca_agent",
+      "description": "Automatiza ciclos Plan-Do-Check-Act con seguimiento de métricas y propuestas de mejora continua.",
+      "instructions": ".github/agents/automation-pdca-agent.agent.md"
+    },
+    {
+      "name": "automation_schema_validator_agent",
+      "description": "Valida esquemas JSON/YAML y contratos de datos generando reportes de conformidad.",
+      "instructions": ".github/agents/automation-schema-validator-agent.agent.md"
+    },
+    {
+      "name": "business_analysis_generator_agent",
+      "description": "Genera análisis de negocio integral con procesos, reglas, UC y requisitos trazables.",
+      "instructions": ".github/agents/business-analysis-generator-agent.agent.md"
+    },
+    {
+      "name": "chatgpt_agent",
+      "description": "Agente de proveedor que gestiona operaciones con modelos GPT de OpenAI, enlazando generadores, ExecPlans y catálogos de prompting.",
+      "instructions": ".github/agents/chatgpt-agent.agent.md"
+    },
+    {
+      "name": "claude_agent",
+      "description": "Agente de proveedor que orquesta trabajos con modelos Claude (Anthropic), credenciales y flujos Codex MCP.",
+      "instructions": ".github/agents/claude-agent.agent.md"
+    },
+    {
+      "name": "codex_mcp_workflow",
+      "description": "Orquestador que construye briefs Codex MCP single y multi-agente para coordinar proveedores LLM y trazas MCP.",
+      "instructions": ".github/agents/codex-mcp-workflow.agent.md"
+    },
+    {
+      "name": "implementation_planner_agent",
+      "description": "Planificador técnico que convierte objetivos difusos en especificaciones accionables con TDD, cobertura ≥80 % y controles anti-alucinación.",
+      "instructions": ".github/agents/implementation-planner-agent.agent.md"
     },
     {
       "name": "dependency_agent",
       "description": "Agente especializado en gestión de dependencias, actualización de paquetes, escaneo de vulnerabilidades y mantenimiento de lockfiles.",
-      "instructions": ".agent/agents/dependency_agent.md"
+      "instructions": ".github/agents/dependency-agent.agent.md"
+    },
+    {
+      "name": "docs_agent",
+      "description": "Agente de dominio que centraliza automatizaciones de documentación en `docs/` y garantiza cumplimiento de políticas CODEX.",
+      "instructions": ".github/agents/docs-agent.agent.md"
+    },
+    {
+      "name": "documentation_analysis_agent",
+      "description": "Audita documentación técnica para detectar brechas, inconsistencias y referencias faltantes.",
+      "instructions": ".github/agents/documentation-analysis-agent.agent.md"
+    },
+    {
+      "name": "documentation_code_inspector_agent",
+      "description": "Escanea api/ui/infrastructure para detectar componentes sin documentación y generar planes de acción.",
+      "instructions": ".github/agents/documentation-code-inspector-agent.agent.md"
+    },
+    {
+      "name": "documentation_consistency_verifier_agent",
+      "description": "Verifica consistencia entre componentes descubiertos y documentación creada o existente.",
+      "instructions": ".github/agents/documentation-consistency-verifier-agent.agent.md"
+    },
+    {
+      "name": "documentation_document_splitter_agent",
+      "description": "Divide documentos extensos en módulos coherentes con cross-references e índice maestro.",
+      "instructions": ".github/agents/documentation-document-splitter-agent.agent.md"
+    },
+    {
+      "name": "documentation_documentation_editor_agent",
+      "description": "Genera o actualiza archivos Markdown siguiendo el plan emitido por CodeInspectorAgent.",
+      "instructions": ".github/agents/documentation-documentation-editor-agent.agent.md"
+    },
+    {
+      "name": "documentation_eta_codex_agent",
+      "description": "Genera entregables ETA CODEX garantizando formato, cumplimiento normativo y trazabilidad.",
+      "instructions": ".github/agents/documentation-eta-codex-agent.agent.md"
+    },
+    {
+      "name": "documentation_sync_reporter_agent",
+      "description": "Consolida la sincronización código-documentación en un reporte Markdown con métricas y recomendaciones.",
+      "instructions": ".github/agents/documentation-sync-reporter-agent.agent.md"
+    },
+    {
+      "name": "generators_llm_generator_agent",
+      "description": "Genera código de tests desde planes estructurados usando proveedores LLM configurables.",
+      "instructions": ".github/agents/generators-llm-generator-agent.agent.md"
+    },
+    {
+      "name": "generators_template_generator_agent",
+      "description": "Produce plantillas Markdown estandarizadas para análisis de negocio y requisitos.",
+      "instructions": ".github/agents/generators-template-generator-agent.agent.md"
+    },
+    {
+      "name": "generators_traceability_matrix_generator_agent",
+      "description": "Construye matrices RTM y análisis de gaps a partir de artefactos de análisis y pruebas.",
+      "instructions": ".github/agents/generators-traceability-matrix-generator-agent.agent.md"
+    },
+    {
+      "name": "gitops_agent",
+      "description": "Agente especializado en operaciones Git y DevOps para sincronización de ramas, limpieza de repositorio y gestión de workflow Git.",
+      "instructions": ".github/agents/gitops-agent.agent.md"
+    },
+    {
+      "name": "huggingface_agent",
+      "description": "Agente de proveedor que coordina modelos hospedados en Hugging Face dentro de flujos Codex MCP y pipelines multi-LLM.",
+      "instructions": ".github/agents/huggingface-agent.agent.md"
+    },
+    {
+      "name": "infrastructure_agent",
+      "description": "Agente de dominio que orquesta IaC y DevOps en `infrastructure/`, alineando runbooks y planes de despliegue.",
+      "instructions": ".github/agents/infrastructure-agent.agent.md"
+    },
+    {
+      "name": "meta_architecture_analysis_agent",
+      "description": "Analiza la arquitectura global comparándola con lineamientos CODEX y decisiones registradas.",
+      "instructions": ".github/agents/meta-architecture-analysis-agent.agent.md"
+    },
+    {
+      "name": "meta_design_patterns_agent",
+      "description": "Identifica y recomienda patrones de diseño aplicables al código base para mejorar mantenibilidad.",
+      "instructions": ".github/agents/meta-design-patterns-agent.agent.md"
+    },
+    {
+      "name": "meta_drf_architecture_agent",
+      "description": "Evalúa la alineación del proyecto con las mejores prácticas de Django REST Framework.",
+      "instructions": ".github/agents/meta-drf-architecture-agent.agent.md"
+    },
+    {
+      "name": "meta_refactoring_opportunities_agent",
+      "description": "Detecta oportunidades de refactorización priorizando impacto, riesgos y alineación con los estándares.",
+      "instructions": ".github/agents/meta-refactoring-opportunities-agent.agent.md"
+    },
+    {
+      "name": "meta_test_generation_agent",
+      "description": "Recomienda estrategias avanzadas de generación de pruebas y cobertura automatizada.",
+      "instructions": ".github/agents/meta-test-generation-agent.agent.md"
+    },
+    {
+      "name": "meta_uml_generator_agent",
+      "description": "Genera diagramas UML consistentes con la arquitectura documentada y los ExecPlans vigentes.",
+      "instructions": ".github/agents/meta-uml-generator-agent.agent.md"
+    },
+    {
+      "name": "meta_uml_validation_agent",
+      "description": "Valida diagramas UML frente al código y especificaciones para asegurar trazabilidad.",
+      "instructions": ".github/agents/meta-uml-validation-agent.agent.md"
+    },
+    {
+      "name": "my_agent",
+      "description": "Agente autónomo basado en GitHub Copilot que ejecuta tareas de programación, monitorea el progreso y reporta avances.",
+      "instructions": ".github/agents/my-agent.agent.md"
+    },
+    {
+      "name": "permissions_base_permission_agent",
+      "description": "Clase base para agentes de permisos que gestiona prompts, métricas y logging estructurado.",
+      "instructions": ".github/agents/permissions-base-permission-agent.agent.md"
+    },
+    {
+      "name": "permissions_route_lint_agent",
+      "description": "Analiza ViewSets de Django REST Framework para garantizar que declaren permisos obligatorios.",
+      "instructions": ".github/agents/permissions-route-lint-agent.agent.md"
+    },
+    {
+      "name": "quality_completeness_validator_agent",
+      "description": "Evalúa la completitud de análisis de negocio verificando artefactos, trazabilidad y estándares.",
+      "instructions": ".github/agents/quality-completeness-validator-agent.agent.md"
+    },
+    {
+      "name": "quality_coverage_analyzer_agent",
+      "description": "Ejecuta pytest con coverage y prioriza archivos con baja cobertura para acciones TDD.",
+      "instructions": ".github/agents/quality-coverage-analyzer-agent.agent.md"
+    },
+    {
+      "name": "quality_coverage_verifier_agent",
+      "description": "Comprueba que nuevos tests incrementen la cobertura mínima requerida y analiza mejoras por archivo.",
+      "instructions": ".github/agents/quality-coverage-verifier-agent.agent.md"
+    },
+    {
+      "name": "quality_shell_analysis_agent",
+      "description": "Analiza scripts shell para detectar problemas de estilo, seguridad y portabilidad.",
+      "instructions": ".github/agents/quality-shell-analysis-agent.agent.md"
+    },
+    {
+      "name": "quality_shell_remediation_agent",
+      "description": "Propone remediaciones y mejoras en scripts shell basadas en hallazgos de calidad.",
+      "instructions": ".github/agents/quality-shell-remediation-agent.agent.md"
+    },
+    {
+      "name": "quality_syntax_validator_agent",
+      "description": "Valida sintaxis, estilo y formato de tests generados antes de integrarlos al repositorio.",
+      "instructions": ".github/agents/quality-syntax-validator-agent.agent.md"
+    },
+    {
+      "name": "release_agent",
+      "description": "Agente especializado en gestión de releases, versionado semántico, generación de changelogs y creación de tags Git.",
+      "instructions": ".github/agents/release-agent.agent.md"
+    },
+    {
+      "name": "scripts_agent",
+      "description": "Agente de dominio para `scripts/` que mantiene coherencia entre utilidades CLI, automatizaciones y ExecPlans vigentes.",
+      "instructions": ".github/agents/scripts-agent.agent.md"
+    },
+    {
+      "name": "sdlc_deployment_agent",
+      "description": "Planifica despliegues y coordinación release-to-prod manteniendo trazabilidad SDLC.",
+      "instructions": ".github/agents/sdlc-deployment-agent.agent.md"
+    },
+    {
+      "name": "sdlc_design_agent",
+      "description": "Produce diseños HLD/LLD alineados con ExecPlans, catálogos CODEX y guías multi-LLM.",
+      "instructions": ".github/agents/sdlc-design-agent.agent.md"
+    },
+    {
+      "name": "sdlc_dora_tracked_agent",
+      "description": "Extiende SDLCAgent para registrar automáticamente métricas DORA en cada fase.",
+      "instructions": ".github/agents/sdlc-dora-tracked-agent.agent.md"
+    },
+    {
+      "name": "sdlc_feasibility_agent",
+      "description": "Analiza viabilidad y riesgos técnicos u operativos antes de iniciar nuevas iniciativas.",
+      "instructions": ".github/agents/sdlc-feasibility-agent.agent.md"
+    },
+    {
+      "name": "sdlc_orchestrator_agent",
+      "description": "Coordina todas las fases del SDLC, aplica decisiones Go/No-Go y genera reportes integrales.",
+      "instructions": ".github/agents/sdlc-orchestrator-agent.agent.md"
+    },
+    {
+      "name": "sdlc_plan_validation_agent",
+      "description": "Valida planes SDLC existentes comprobando dependencias, riesgos y cobertura documental.",
+      "instructions": ".github/agents/sdlc-plan-validation-agent.agent.md"
+    },
+    {
+      "name": "sdlc_planner_agent",
+      "description": "Planifica iteraciones y desgloses de trabajo siguiendo las políticas SDLC del proyecto.",
+      "instructions": ".github/agents/sdlc-planner-agent.agent.md"
+    },
+    {
+      "name": "sdlc_testing_agent",
+      "description": "Genera estrategias y suites de pruebas automáticas aplicando principios TDD.",
+      "instructions": ".github/agents/sdlc-testing-agent.agent.md"
     },
     {
       "name": "security_agent",
       "description": "Agente especializado en auditorías de seguridad, escaneo de vulnerabilidades, detección de secrets y análisis de amenazas según STRIDE.",
-      "instructions": ".agent/agents/security_agent.md"
+      "instructions": ".github/agents/security-agent.agent.md"
+    },
+    {
+      "name": "shared_pr_creator_agent",
+      "description": "Automatiza la creación de branches y Pull Requests con los tests generados y métricas de cobertura.",
+      "instructions": ".github/agents/shared-pr-creator-agent.agent.md"
+    },
+    {
+      "name": "shared_test_runner_agent",
+      "description": "Ejecuta tests validados en sandbox temporal y reporta resultados detallados.",
+      "instructions": ".github/agents/shared-test-runner-agent.agent.md"
+    },
+    {
+      "name": "tdd_feature_agent",
+      "description": "Guía la implementación de features siguiendo el ciclo TDD extremo a extremo.",
+      "instructions": ".github/agents/tdd-feature-agent.agent.md"
+    },
+    {
+      "name": "tdd_tdd_agent",
+      "description": "Supervisa la disciplina TDD asegurando ciclos Red-Green-Refactor y métricas de cobertura.",
+      "instructions": ".github/agents/tdd-tdd-agent.agent.md"
+    },
+    {
+      "name": "techniques_auto_cot_agent",
+      "description": "Implementa Auto-CoT para generar demostraciones chain-of-thought a partir de preguntas clusterizadas.",
+      "instructions": ".github/agents/techniques-auto-cot-agent.agent.md"
+    },
+    {
+      "name": "techniques_chain_of_verification_agent",
+      "description": "Implementa Chain-of-Verification para validar respuestas de LLM con preguntas independientes.",
+      "instructions": ".github/agents/techniques-chain-of-verification-agent.agent.md"
+    },
+    {
+      "name": "techniques_self_consistency_agent",
+      "description": "Implementa Self-Consistency para muestrear múltiples cadenas de razonamiento y votar la respuesta.",
+      "instructions": ".github/agents/techniques-self-consistency-agent.agent.md"
+    },
+    {
+      "name": "techniques_tree_of_thoughts_agent",
+      "description": "Explora razonamientos en árbol usando BFS/DFS y evaluaciones heurísticas para elegir la mejor ruta.",
+      "instructions": ".github/agents/techniques-tree-of-thoughts-agent.agent.md"
+    },
+    {
+      "name": "ui_agent",
+      "description": "Agente de dominio para `ui/` que guía el frontend con lineamientos de diseño, orquestaciones multi-LLM y validaciones TDD.",
+      "instructions": ".github/agents/ui-agent.agent.md"
     }
   ]
 }
