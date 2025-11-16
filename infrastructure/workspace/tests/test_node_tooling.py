@@ -24,7 +24,10 @@ def test_package_json_contains_expected_scripts_and_dependencies() -> None:
     assert package_json["name"] == "mcp-workflows-infrastructure"
     assert package_json["type"] == "module"
     assert package_json["scripts"]["vpn:setup-dev"] == "codex mcp run setup-dev-environment"
-    assert package_json["dependencies"]["codex-mcp"].startswith("^")
+    codex_dep = package_json["dependencies"]["codex-mcp"]
+    assert codex_dep.startswith("^") or codex_dep.startswith(
+        "file:"
+    ), "codex-mcp must resolve from either npm or vendor/"
     assert "@modelcontextprotocol/sdk" in package_json["dependencies"]
     assert "lint:python" in package_json["scripts"]
     assert "typecheck:python" in package_json["scripts"]
