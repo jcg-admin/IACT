@@ -10,7 +10,7 @@ from datetime import datetime
 import pytest
 from pydantic import ValidationError
 
-from iact_agents.planning.models import (
+from scripts.coding.ai.agents.planning.models import (
     Constraint,
     Goal,
     GoalType,
@@ -18,9 +18,9 @@ from iact_agents.planning.models import (
     SubTask,
     TaskStatus,
 )
-from iact_agents.planning.parser import GoalParser
-from iact_agents.planning.decomposer import TaskDecomposer
-from iact_agents.planning.validators import (
+from scripts.coding.ai.agents.planning.parser import GoalParser
+from scripts.coding.ai.agents.planning.decomposer import TaskDecomposer
+from scripts.coding.ai.agents.planning.validators import (
     DependencyValidator,
     CompletenessValidator,
     GOAL_TEMPLATES,
