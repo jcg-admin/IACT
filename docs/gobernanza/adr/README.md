@@ -1,5 +1,5 @@
 ---
-title: Architecture Decision Records (ADRs) - Index
+title: Architecture Decision Records (ADRs) - Indice Maestro
 date: 2025-11-16
 tipo: indice
 categoria: arquitectura
@@ -10,9 +10,9 @@ status: active
 
 ## Proposito
 
-Este directorio contiene las decisiones arquitectonicas (Architecture Decision Records - ADRs) del proyecto IACT relacionadas con agentes de automatizacion y validacion.
+Este directorio contiene todas las decisiones arquitectonicas (Architecture Decision Records - ADRs) del proyecto IACT.
 
-**Total ADRs en este directorio:** 6
+**Total ADRs en este directorio:** 13
 
 **Ultima actualizacion:** 2025-11-16
 
@@ -30,6 +30,76 @@ Este directorio contiene las decisiones arquitectonicas (Architecture Decision R
 ---
 
 ## Indice de ADRs
+
+### ADR-008: CPython Features vs Imagen Base
+**Archivo:** `ADR_008_cpython_features_vs_imagen_base.md`
+**Estado:** Aceptada
+**Dominio:** Infraestructura
+**Propietario:** @equipo-devops
+
+**Resumen:** Decision sobre features de CPython vs uso de imagen base Docker.
+
+---
+
+### ADR-009: Distribucion Artefactos Strategy
+**Archivo:** `ADR_009_distribucion_artefactos_strategy.md`
+**Estado:** Aceptada
+**Dominio:** Infraestructura
+**Propietario:** @equipo-devops
+
+**Resumen:** Estrategia de distribucion de artefactos.
+
+---
+
+### ADR-010: Organizacion Proyecto por Dominio
+**Archivo:** `ADR_010_organizacion_proyecto_por_dominio.md`
+**Estado:** Aceptada
+**Dominio:** General
+**Propietario:** @arquitecto-senior
+
+**Resumen:** Organizacion de documentacion y codigo por dominios.
+
+---
+
+### ADR-011: Frontend Modular Monolith
+**Archivo:** `ADR_011_frontend_modular_monolith.md`
+**Estado:** Aceptada
+**Dominio:** Frontend
+**Propietario:** @equipo-frontend
+
+**Resumen:** Arquitectura de monolito modular para frontend.
+
+---
+
+### ADR-012: Sistema Permisos Sin Roles Jerarquicos
+**Archivo:** `ADR-012-sistema_permisos_sin_roles_jerarquicos.md`
+**Estado:** Aceptada
+**Dominio:** Backend
+**Propietario:** @equipo-backend
+
+**Resumen:** Sistema de permisos granular sin roles jerarquicos.
+
+---
+
+### ADR-012 (Redux): Redux Toolkit State Management
+**Archivo:** `ADR_012_redux_toolkit_state_management.md`
+**Estado:** Aceptada
+**Dominio:** Frontend
+**Propietario:** @equipo-frontend
+
+**Resumen:** Uso de Redux Toolkit para manejo de estado.
+
+---
+
+### ADR-013: Webpack Bundler
+**Archivo:** `ADR_013_webpack_bundler.md`
+**Estado:** Aceptada
+**Dominio:** Frontend
+**Propietario:** @equipo-frontend
+
+**Resumen:** Uso de Webpack como bundler.
+
+---
 
 ### ADR-040: Schema Validator Agent
 **Archivo:** `ADR-040-schema_validator_agent.md`
@@ -109,16 +179,11 @@ Este directorio contiene las decisiones arquitectonicas (Architecture Decision R
 
 ---
 
-## ADRs Adicionales por Dominio
+## Organizacion de ADRs
 
-Para ADRs de otros dominios, consultar:
+Todos los ADRs del proyecto se encuentran en este directorio: `docs/gobernanza/adr/`
 
-- **Gobernanza:** `docs/gobernanza/adr/`
-- **Backend:** `docs/backend/arquitectura/adr/` (si existe)
-- **Frontend:** `docs/frontend/arquitectura/adr/` (si existe)
-- **Infraestructura:** `docs/infraestructura/arquitectura/adr/` (si existe)
-
-**Indice maestro de ADRs:** `docs/gobernanza/INDICE_ADRs.md`
+**Indice maestro detallado:** `docs/gobernanza/INDICE_ADRs.md`
 
 ---
 
