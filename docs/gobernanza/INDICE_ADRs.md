@@ -17,11 +17,12 @@ Este documento contiene el indice completo de todas las decisiones arquitectonic
 
 ## Sistema de Numeracion
 
-**Formato Estandar**: `ADR-YYYY-XXX-descripcion.md`
+**Formato Estandar**: `ADR-{NNN}-{descripcion_con_underscores}.md`
 
-- **YYYY**: Año de la decision (2025)
-- **XXX**: Numero secuencial (001-999)
-- **descripcion**: Descripcion corta en kebab-case
+- **NNN**: Numero secuencial (001-999)
+- **descripcion**: Descripcion corta en snake_case (underscores)
+- Prefijo ADR siempre en UPPERCASE
+- Ejemplo: `ADR-012-sistema_permisos_sin_roles_jerarquicos.md`
 
 ---
 

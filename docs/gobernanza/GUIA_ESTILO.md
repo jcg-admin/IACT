@@ -459,10 +459,23 @@ user_authentication.py
 generate_token.py
 test_user_auth.py
 
-# Documentación: snake_case o kebab-case
+# Documentación: snake_case
 guia_desarrollo.md
-procedimiento-qa.md
+procedimiento_qa.md
 README.md
+
+# Archivos especiales de proyecto: UPPERCASE
+README.md
+CHANGELOG.md
+CONTRIBUTING.md
+LICENSE.md
+QUICKSTART.md
+TODO.md
+
+# Archivos TASK/ADR/SPEC: UPPERCASE prefix + underscores
+TASK-017-layer3_infrastructure_logs.md
+ADR-012-sistema_permisos_sin_roles_jerarquicos.md
+SPEC-001-api_authentication.md
 
 # Configuración: lowercase con guiones
 .pre-commit-config.yaml
