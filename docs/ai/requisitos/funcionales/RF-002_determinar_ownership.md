@@ -110,22 +110,41 @@ def determinar_ownership(tipo: str, contexto: dict, contenido: str) -> str:
 
 ## Deteccion de Dominios
 
+**IMPORTANTE**: Implementación GENÉRICA usando auto-discovery.
+- No hardcodea keywords (lee config o extrae dinámicamente)
+- No asume nombres de dominios específicos
+- Portable a cualquier proyecto
+
 ```python
 def detectar_dominios_en_contenido(contenido: str) -> List[str]:
-    KEYWORDS = {
-        "backend": ["django", "rest api", "postgresql", "python"],
-        "frontend": ["react", "redux", "typescript", "javascript"],
-        "infraestructura": ["docker", "kubernetes", "devops"],
-        "ai": ["llm", "model", "agent", "machine learning"],
-    }
+    """
+    Detecta dominios mencionados usando auto-discovery.
+    Keywords extraídas dinámicamente o desde config.
+    """
+    # Obtener keyword map (auto-discovery o config)
+    keyword_map = _get_keyword_map()
+    # {
+    #   "backend": ["django", "rest api", "postgresql"],
+    #   "frontend": ["react", "redux", "typescript"],
+    #   ... (extraído del proyecto real)
+    # }
 
-    mencionados = []
-    for dominio, keywords in KEYWORDS.items():
-        if any(kw in contenido.lower() for kw in keywords):
-            mencionados.append(dominio)
+    # Usar analyzer para detectar
+    analyzer = DomainContentAnalyzer()
+    detected = analyzer.detect_domains_in_content(
+        contenido,
+        keyword_map,
+        min_matches=config.get_min_keywords_for_detection()  # Default: 1
+    )
 
-    return mencionados
+    return detected
 ```
+
+### Fuentes de Keywords (en orden de prioridad)
+
+1. **Config file** (`placement_config.json`): Si existe y `auto_discover: false`
+2. **Auto-discovery**: Escanea archivos del proyecto y extrae keywords por frecuencia
+3. **Fallback**: Lista vacía si no hay archivos
 
 ## Tests
 

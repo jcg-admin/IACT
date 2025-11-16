@@ -73,25 +73,54 @@ Then tipo_detectado == "task"
 
 Archivo: `scripts/coding/ai/agents/placement/detector.py`
 
+**IMPORTANTE**: Implementación GENÉRICA y PORTABLE.
+- No hardcodea nombres de dominios
+- No hardcodea keywords específicas del proyecto
+- Funciona en cualquier proyecto con convenciones similares
+- Usa auto-discovery dinámico desde filesystem
+
 ```python
-def detectar_tipo(nombre: str, contenido: str, tipo_declarado: str = None) -> str:
-    # 1. Tipo declarado (mayor prioridad)
-    if tipo_declarado:
-        return normalizar_tipo(tipo_declarado)
+def detectar_tipo(nombre: str, contenido: str) -> str:
+    """
+    Detecta tipo mediante patrones universales.
+    No asume estructura específica del proyecto.
+    """
+    # Patrones de nombre (universales)
+    if nombre.startswith("TASK-"):
+        return "task"
+    elif nombre.startswith("ADR-"):
+        return "adr"
+    # ... otros patrones universales
 
-    # 2. Patrones de nombre
-    for patron, tipo in PATRONES_NOMBRE.items():
-        if re.match(patron, nombre):
-            return tipo
+    # Patrones de contenido (universales)
+    if ("## Status" in contenido or "## Estado" in contenido) and \
+       ("## Decision" in contenido or "## Decisión" in contenido):
+        return "adr"
+    # ... otros patrones universales
 
-    # 3. Patrones de contenido
-    for (h1, h2), tipo in PATRONES_CONTENIDO.items():
-        if h1 in contenido and h2 in contenido:
-            return tipo
-
-    # 4. Fallback
+    # Fallback
     return "documento_general"
 ```
+
+### Módulos de Auto-Discovery
+
+**structure_discovery.py**: Descubre estructura del proyecto dinámicamente
+- Escanea `docs/` para detectar dominios automáticamente
+- No asume nombres específicos (backend, frontend, etc.)
+- Detecta subdirectorios estándar por dominio
+- Portable a cualquier proyecto
+
+**content_analyzer.py**: Extrae keywords por dominio automáticamente
+- Analiza archivos reales del proyecto (no hardcoding)
+- Extrae términos técnicos mediante análisis de frecuencia
+- Construye mapa {dominio: [keywords]} dinámicamente
+- Portable: funciona sin conocer el proyecto
+
+**config_loader.py**: Configuración opcional del proyecto
+- Permite customización sin modificar código
+- Lee `placement_config.json` si existe
+- Fallback a auto-discovery si no existe config
+- Portable: funciona con o sin config
 
 ## Tests
 
