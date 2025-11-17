@@ -76,6 +76,22 @@ docs/gobernanza/qa/ @equipo-qa @tech-lead
 # Agentes
 docs/gobernanza/agentes/ @arquitecto-ai @tech-lead
 
+# Procesos Globales (PROC-*)
+docs/gobernanza/procesos/PROC-*.md @tech-lead @scrum-master @equipo-qa
+
+# Procedimientos (PROCED-*)
+docs/gobernanza/procedimientos/PROCED-*.md @tech-lead @equipo-qa
+
+# Guias (GUIA-*)
+docs/gobernanza/guias/GUIA-*.md @tech-lead @equipo-ba
+
+# Procesos Criticos Especificos
+docs/gobernanza/procesos/PROC-DEV-001-pipeline_trabajo_iact.md @arquitecto-senior @tech-lead @scrum-master
+
+# Guias Fundamentales
+docs/gobernanza/guias/GUIA-GOB-001-procesos_vs_procedimientos.md @arquitecto-senior @tech-lead @equipo-ba
+docs/gobernanza/guias/GUIA-GOB-002-convenciones_nomenclatura.md @arquitecto-senior @tech-lead @equipo-ba
+
 # ============================================================================
 # Reportes y Validaciones
 # ============================================================================

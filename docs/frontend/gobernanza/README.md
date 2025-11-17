@@ -2,18 +2,46 @@
 id: DOC-GOB-FRONTEND
 estado: activo
 propietario: equipo-frontend
-ultima_actualizacion: 2025-11-02
-relacionados: ["DOC-FRONTEND-INDEX", "DOC-GOB-INDEX"]
+ultima_actualizacion: 2025-01-17
+relacionados: ["DOC-FRONTEND-INDEX", "DOC-GOB-INDEX", "ADR-GOB-010"]
 date: 2025-11-13
 ---
-# Gobernanza del frontend
+# Gobernanza del Frontend
 
 Políticas, estándares y lineamientos que rigen el desarrollo, mantenimiento y evolución del frontend.
+
+## ⚠️ Gobernanza Multi-nivel
+
+El proyecto IACT utiliza una arquitectura de gobernanza en dos niveles:
+
+1. **Gobernanza Global** ([`/docs/gobernanza/`](../gobernanza/)): Decisiones que afectan a TODO el proyecto
+2. **Gobernanza Frontend** (este directorio): Decisiones específicas del frontend
+
+### Enlaces Rápidos a Gobernanza Global
+
+**ANTES de crear un ADR aquí, consulta la gobernanza global:**
+
+| Recurso | Ubicación |
+|---------|-----------|
+| **ADRs Globales** | [`/docs/gobernanza/adr/`](../gobernanza/adr/) |
+| **Guías Compartidas** | [`/docs/gobernanza/guias/`](../gobernanza/guias/) |
+| **Procedimientos** | [`/docs/gobernanza/procedimientos/`](../gobernanza/procedimientos/) |
+| **Templates** | [`/docs/gobernanza/templates/`](../gobernanza/templates/) |
+| **Diseño Global** | [`/docs/gobernanza/diseno/`](../gobernanza/diseno/) |
+
+**Documento clave**: [`ADR-GOB-010: Gobernanza Multi-nivel`](../gobernanza/adr/ADR-GOB-010-gobernanza-multinivel.md)
+
+### ¿Cuándo crear ADR aquí vs. Global?
+
+**✅ ADR de Frontend (aquí)**: Solo afecta frontend, stack-specific (React/TypeScript), no rompe interoperabilidad
+
+**❌ ADR Global**: Afecta múltiples dominios, define estándares del proyecto, cross-cutting concerns
 
 ## Página padre
 - [`../README.md`](../README.md)
 
 ## Páginas hijas
+- [`adr/`](adr/) - ADRs específicos del frontend
 - [`lineamientos_gobernanza.md`](lineamientos_gobernanza.md) - Lineamientos específicos
 - [`registro_decisiones.md`](registro_decisiones.md) - Bitácora de decisiones de gobernanza
 
