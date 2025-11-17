@@ -1,5 +1,5 @@
 ---
-id: PROC-PIPELINE-TRABAJO-001
+id: PROC-001
 tipo: proceso
 categoria: desarrollo
 subcategoria: sdlc
@@ -8,7 +8,7 @@ fecha_creacion: 2025-11-17
 autor: Claude Code (Sonnet 4.5)
 estado: activo
 aprobado_por: pendiente
-relacionados: ["PROC-SDLC-001", "GUIA-PROC-VS-PROCED-001"]
+relacionados: ["PROC-SDLC-001", "GUIA-001"]
 ---
 
 # PROCESO: Pipeline de Trabajo IACT

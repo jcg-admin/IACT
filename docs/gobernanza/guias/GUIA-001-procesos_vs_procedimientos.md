@@ -1,5 +1,5 @@
 ---
-id: GUIA-PROC-VS-PROCED-001
+id: GUIA-001
 tipo: guia
 categoria: gobernanza
 subcategoria: conceptos-fundamentales
@@ -7,7 +7,7 @@ version: 1.0.0
 fecha_creacion: 2025-11-17
 autor: Claude Code (Sonnet 4.5)
 estado: activo
-relacionados: ["PIPELINE-TRABAJO-001"]
+relacionados: ["PROC-001"]
 ---
 
 # PROCESOS vs PROCEDIMIENTOS: Diferencias Fundamentales
@@ -232,7 +232,7 @@ docs/gobernanza/
 - Visión de alto nivel (QUE se hace)
 - Transformación de entrada a salida
 
-**Ubicación recomendada**: `docs/gobernanza/procesos/PIPELINE_TRABAJO.md`
+**Ubicación recomendada**: `docs/gobernanza/procesos/PROC-001-pipeline_trabajo_iact.md`
 
 ---
 
@@ -405,11 +405,11 @@ Este procedimiento es parte del [Proceso SDLC](../procesos/PROC-SDLC-001.md)
 
 ---
 
-## PRÓXIMO PASO
+## DOCUMENTOS RELACIONADOS
 
-**Crear**: `docs/gobernanza/procesos/PIPELINE_TRABAJO_IACT.md`
+**Ver**: `docs/gobernanza/procesos/PROC-001-pipeline_trabajo_iact.md`
 
-Este documento definirá el PROCESO completo de trabajo, desde que se identifica un requerimiento hasta que se deploya a producción.
+Este documento define el PROCESO completo de trabajo, desde que se identifica un requerimiento hasta que se deploya a producción.
 
 ---
 
