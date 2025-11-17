@@ -22,7 +22,9 @@ dependencias: []
 
 ## Objetivo
 
-Crear un tag de backup de seguridad de la rama actual antes de realizar cualquier operacion de integracion, permitiendo rollback completo en caso de problemas.
+Crear una rama de backup de seguridad de la rama actual antes de realizar cualquier operacion de integracion, permitiendo rollback completo en caso de problemas.
+
+NOTA: Se usa branch en lugar de tag debido a restricciones del proxy local (HTTP 403 en push de tags).
 
 ---
 
@@ -36,63 +38,63 @@ Crear un tag de backup de seguridad de la rama actual antes de realizar cualquie
 
 ## Pasos de Ejecucion
 
-### Paso 1: Crear Tag Local
+### Paso 1: Crear Branch de Backup Local
 ```bash
-git tag -a backup-pre-consolidacion-2025-11-17 -m "Backup antes de consolidacion de ramas"
+git branch backup-pre-consolidacion-2025-11-17
 ```
 
-**Resultado Esperado:** Tag creado localmente
+**Resultado Esperado:** Branch creada localmente
 
-### Paso 2: Push Tag al Remoto
+### Paso 2: Push Branch al Remoto
 ```bash
 git push origin backup-pre-consolidacion-2025-11-17
 ```
 
-**Resultado Esperado:** Tag visible en repositorio remoto
+**Resultado Esperado:** Branch visible en repositorio remoto
 
-### Paso 3: Verificar Tag Creado
+### Paso 3: Verificar Branch Creada
 ```bash
-git tag -l "backup-*"
+git branch -a | grep "backup-"
 ```
 
-**Resultado Esperado:** Listado muestra backup-pre-consolidacion-2025-11-17
+**Resultado Esperado:** Listado muestra backup-pre-consolidacion-2025-11-17 (local y remoto)
 
 ---
 
 ## Criterios de Exito
 
-- [ ] Tag creado localmente
-- [ ] Tag pusheado al remoto exitosamente
-- [ ] Tag visible con git tag -l
-- [ ] Nombre del tag sigue convencion: backup-pre-consolidacion-YYYY-MM-DD
+- [ ] Branch creada localmente
+- [ ] Branch pusheada al remoto exitosamente
+- [ ] Branch visible con git branch -a
+- [ ] Nombre de la branch sigue convencion: backup-pre-consolidacion-YYYY-MM-DD
 
 ---
 
 ## Validacion
 
 ```bash
-# Validar existencia de tag local
-git tag -l | grep "backup-pre-consolidacion-2025-11-17"
+# Validar existencia de branch local
+git branch | grep "backup-pre-consolidacion-2025-11-17"
 
-# Validar tag en remoto
-git ls-remote --tags origin | grep "backup-pre-consolidacion-2025-11-17"
+# Validar branch en remoto
+git branch -r | grep "backup-pre-consolidacion-2025-11-17"
 
-# Ver commit al que apunta el tag
+# Ver commit al que apunta la branch
 git show backup-pre-consolidacion-2025-11-17 --stat
 ```
 
-**Salida Esperada:** Tag existe tanto local como remotamente y apunta al commit actual
+**Salida Esperada:** Branch existe tanto local como remotamente y apunta al commit actual
 
 ---
 
 ## Rollback
 
-Si falla la creacion del tag:
+Si falla la creacion de la branch:
 ```bash
-# Eliminar tag local si existe
-git tag -d backup-pre-consolidacion-2025-11-17
+# Eliminar branch local si existe
+git branch -d backup-pre-consolidacion-2025-11-17
 
-# Eliminar tag remoto si se pusheo parcialmente
+# Eliminar branch remota si se pusheo parcialmente
 git push origin --delete backup-pre-consolidacion-2025-11-17
 
 # Reintentar desde Paso 1
