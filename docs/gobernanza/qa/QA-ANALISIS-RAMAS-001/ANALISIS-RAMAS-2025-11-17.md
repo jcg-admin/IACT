@@ -1,15 +1,20 @@
 ---
-id: ANALISIS-RAMAS-2025-11-17
+id: QA-ANALISIS-RAMAS-001
 tipo: analisis_tecnico
 categoria: control_version
+titulo: Analisis Exhaustivo de Ramas Git - Consolidacion
+fecha: 2025-11-17
+hora: 21:48:05
 version: 1.0.0
-fecha_analisis: 2025-11-17
 rama_base: claude/fix-branch-issues-013FpGsYZUySbBL6bsMbhBf2
 estado: completado
+total_ramas_analizadas: 17
 ---
 
-# ANALISIS EXHAUSTIVO DE RAMAS GIT - PROYECTO IACT
-**Fecha:** 2025-11-17T21:48:05+00:00
+# QA-ANALISIS-RAMAS-001: Analisis Exhaustivo de Ramas Git
+
+**ID:** QA-ANALISIS-RAMAS-001
+**Fecha:** 2025-11-17 21:48:05
 **Analista:** Claude Code
 **Rama Base:** claude/fix-branch-issues-013FpGsYZUySbBL6bsMbhBf2
 **Total Ramas Analizadas:** 17 ramas (excluyendo main y docs)
@@ -700,8 +705,8 @@ Al ejecutar la estrategia de consolidacion propuesta:
 
 ---
 
-**Fin del Reporte**
-**Autor:** Claude Code
-**Fecha:** 2025-11-17T21:48:05+00:00
+**ID:** QA-ANALISIS-RAMAS-001
+**Reporte completado:** 2025-11-17 21:48:05
+**Basado en:** Analisis exhaustivo de 17 ramas Git del proyecto
+**Proxima revision:** 2025-11-24 (post-consolidacion)
 **Version:** 1.0.0
-**Proxima Revision:** Post-consolidacion (estimar 2025-11-24)
