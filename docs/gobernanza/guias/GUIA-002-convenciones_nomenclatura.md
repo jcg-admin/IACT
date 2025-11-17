@@ -187,22 +187,34 @@ plantilla_caso_de_uso.md
 
 ---
 
-### Reportes y Analisis con Fecha
+### Reportes y Analisis con Fecha y Hora
 
-**Patron**: `TIPO_DESCRIPCION_YYYY_MM_DD.md`
+**Patron**: `TIPO_DESCRIPCION_YYYYMMDD_HHMMSS.md`
 
 **Ubicacion**: `docs/gobernanza/qa/`, `docs/gobernanza/planificacion/`
 
-**Descripcion**: Reportes temporales o analisis puntuales con fecha de generacion.
+**Descripcion**: Reportes temporales o analisis puntuales con fecha y hora de generacion.
+
+**Formato timestamp**:
+- `YYYYMMDD`: Fecha compacta (20251117 = 2025-11-17)
+- `HHMMSS`: Hora en formato 24h (143022 = 14:30:22)
 
 **Ejemplos validos**:
 ```
-REPORTE_EMOJIS_DOCS_GOBERNANZA_2025_11_17.md
-ANALISIS_COMPLETO_PROYECTO_IACT_2025_11_17.md
-FASE1_INVESTIGACION_APPS_DUPLICADAS_2025_11_17.md
+REPORTE_EMOJIS_DOCS_GOBERNANZA_20251117_140530.md
+ANALISIS_COMPLETO_PROYECTO_IACT_20251117_153045.md
+VERIFICACION_REAL_ESTADO_ARCHIVOS_20251117_154530.md
 ```
 
-**Justificacion**: Estos archivos son snapshots temporales, no documentacion permanente versionada.
+**Justificacion**:
+- Estos archivos son snapshots temporales, no documentacion permanente versionada
+- El timestamp con hora evita colisiones si se generan multiples reportes el mismo dia
+- Permite trazabilidad granular y ordenamiento cronologico preciso
+
+**Patron legacy aceptado** (archivos existentes, no crear nuevos):
+```
+TIPO_DESCRIPCION_2025_11_17.md  # Solo fecha (pre-actualizacion)
+```
 
 ---
 
