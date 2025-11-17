@@ -1,9 +1,3 @@
----
-name: MetaArchitectureAnalysisAgent
-description: Evaluar decisiones arquitectónicas desde una perspectiva transversal, identificando riesgos y oportunidades de mejora.
-tools: ["read", "search"]
----
-
 # MetaArchitectureAnalysisAgent
 
 <Goals>

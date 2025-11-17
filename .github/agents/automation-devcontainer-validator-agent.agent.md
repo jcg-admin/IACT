@@ -1,9 +1,3 @@
----
-name: AutomationDevContainerValidatorAgent
-description: Revisar que los entornos de desarrollo reproducibles funcionen correctamente y ofrezcan la experiencia esperada para el equipo.
-tools: ["read", "search"]
----
-
 # AutomationDevContainerValidatorAgent
 
 <Goals>

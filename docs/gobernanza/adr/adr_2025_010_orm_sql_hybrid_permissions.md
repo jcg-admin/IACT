@@ -5,6 +5,7 @@ propietario: backend-team
 ultima_actualizacion: 2025-11-09
 relacionados: ["prioridad_01_estructura_base_datos.md", "permisos-granular.md"]
 ---
+
 # ADR-2025-010: Estrategia Híbrida ORM + SQL Nativo para Permisos
 
 **Estado:** aceptada
@@ -18,12 +19,14 @@ relacionados: ["prioridad_01_estructura_base_datos.md", "permisos-granular.md"]
 ## Contexto y Problema
 
 El sistema de permisos granular es **crítico** para toda la aplicación:
+
 - Cada request HTTP verifica permisos (100-1000 req/s esperados)
 - Generación de menú dinámico en cada login
 - Consultas frecuentes: "¿Usuario X tiene permiso Y?"
 - Auditoría de TODOS los accesos (write-heavy)
 
 **Trade-offs a considerar**:
+
 1. **Performance** vs **Mantenibilidad**
 2. **Portabilidad** vs **Optimización**
 3. **DRY** vs **Especialización**
@@ -47,6 +50,7 @@ El sistema de permisos granular es **crítico** para toda la aplicación:
 Usar SOLO Django ORM para todas las operaciones de permisos.
 
 **Pros:**
+
 - OK Portabilidad (funciona en SQLite, PostgreSQL, MySQL)
 - OK Testing fácil (fixtures, factories)
 - OK Código Python unificado
@@ -54,12 +58,14 @@ Usar SOLO Django ORM para todas las operaciones de permisos.
 - OK Menos código SQL para mantener
 
 **Contras:**
+
 - NO Performance subóptimo (30-50ms por verificación)
 - NO Queries N+1 potenciales
 - NO Difícil de optimizar casos extremos
 - NO Memoria overhead (carga objetos Python)
 
 **Ejemplo**:
+
 ```python
 # ORM puro
 capacidades = Capacidad.objects.filter(
@@ -79,12 +85,14 @@ capacidades = Capacidad.objects.filter(
 Usar SOLO funciones SQL nativas (PostgreSQL stored procedures).
 
 **Pros:**
+
 - OK Performance óptimo (5-10ms por verificación)
 - OK Control total de optimización
 - OK Índices especializados
 - OK Menos overhead de memoria
 
 **Contras:**
+
 - NO Lock-in a PostgreSQL
 - NO Testing complejo (requiere DB real)
 - NO Código duplicado (SQL + Python para tests)
@@ -93,6 +101,7 @@ Usar SOLO funciones SQL nativas (PostgreSQL stored procedures).
 - NO Debugging más difícil
 
 **Ejemplo**:
+
 ```sql
 -- SQL puro
 CREATE FUNCTION usuario_tiene_permiso(
@@ -117,11 +126,13 @@ $$ LANGUAGE plpgsql;
 
 **Descripcion:**
 Implementar AMBAS estrategias y elegir según caso de uso:
+
 - **ORM Django**: Para desarrollo, testing, operaciones CRUD
 - **Vistas SQL**: Para queries frecuentes de lectura
 - **Funciones SQL**: Para verificaciones ultra-rápidas
 
 **Pros:**
+
 - OK Performance óptimo donde importa
 - OK Mantenibilidad con ORM
 - OK Testing fácil (mocking SQL en tests)
@@ -129,11 +140,13 @@ Implementar AMBAS estrategias y elegir según caso de uso:
 - OK Gradual optimization (empezar ORM, optimizar después)
 
 **Contras:**
+
 - NO Más código para mantener (2 implementaciones)
 - NO Debe mantener paridad ORM ↔ SQL
 - NO Complejidad conceptual inicial
 
 **Arquitectura**:
+
 ```
 ┌─────────────────────────────────────────────────┐
 │           DEVELOPMENT / TESTING                 │
@@ -172,6 +185,7 @@ Implementar AMBAS estrategias y elegir según caso de uso:
 ## Consecuencias
 
 ### Positivas
+
 - OK Performance óptimo en endpoints críticos (< 10ms)
 - OK Mantenibilidad con ORM para operaciones estándar
 - OK Testing simple (ORM por defecto, SQL opcional)
@@ -179,11 +193,13 @@ Implementar AMBAS estrategias y elegir según caso de uso:
 - OK Documentación clara de cuándo usar cada estrategia
 
 ### Negativas
+
 - WARNING Debe mantener paridad entre ORM y SQL
 - WARNING Más complejidad inicial (2 implementaciones)
 - WARNING Curva aprendizaje para SQL avanzado
 
 ### Neutrales
+
 - INFO Lock-in a PostgreSQL (aceptable, no hay planes de cambio)
 - INFO Migraciones más complejas (maneja Django Migrations)
 
@@ -192,6 +208,7 @@ Implementar AMBAS estrategias y elegir según caso de uso:
 ### Fase 1: Core ORM (Completado [OK])
 
 **Implementado**:
+
 - 8 modelos Django (`models_permisos_granular.py`)
 - Service layer (`services_permisos_granular.py`)
 - Tests unitarios e integración
@@ -203,6 +220,7 @@ Implementar AMBAS estrategias y elegir según caso de uso:
 ### Fase 2: Vistas SQL (Completado [OK])
 
 **Implementado**:
+
 - `vista_capacidades_usuario` - Consolidar capacidades
 - `vista_grupos_usuario` - Grupos con vigencia
 - Índices optimizados
@@ -216,6 +234,7 @@ Implementar AMBAS estrategias y elegir según caso de uso:
 ### Fase 3: Funciones SQL (Completado [OK])
 
 **Implementado**:
+
 - `usuario_tiene_permiso()` - Verificación rápida
 - `obtener_capacidades_usuario()` - Array de capacidades
 - `obtener_grupos_usuario()` - JSONB de grupos
@@ -231,6 +250,7 @@ Implementar AMBAS estrategias y elegir según caso de uso:
 ### Fase 4: Benchmarks y Optimización (En curso)
 
 **Tareas**:
+
 - Crear script de benchmarks
 - Comparar ORM vs SQL en casos reales
 - Documentar cuándo usar cada estrategia
@@ -245,12 +265,14 @@ Implementar AMBAS estrategias y elegir según caso de uso:
 ### Usar ORM Django cuando:
 
 [OK] **Desarrollo y prototipado**
+
 ```python
 # Rápido de escribir, fácil de debuggear
 capacidades = usuario.grupos.all().prefetch_related('capacidades')
 ```
 
 [OK] **Testing**
+
 ```python
 # Fixtures, factories, mocking fácil
 @pytest.fixture
@@ -262,6 +284,7 @@ def usuario_con_permisos():
 ```
 
 [OK] **Admin / CRUD operations**
+
 ```python
 # Django Admin integración
 class GrupoPermisoAdmin(admin.ModelAdmin):
@@ -269,6 +292,7 @@ class GrupoPermisoAdmin(admin.ModelAdmin):
 ```
 
 [OK] **Queries < 50ms son aceptables**
+
 ```python
 # Endpoints de baja frecuencia
 def listar_usuarios_view(request):
@@ -280,6 +304,7 @@ def listar_usuarios_view(request):
 ### Usar Vistas SQL cuando:
 
 [OK] **Queries de lectura frecuentes**
+
 ```python
 # Obtener capacidades (50-100ms → 10-20ms)
 with connection.cursor() as cursor:
@@ -290,6 +315,7 @@ with connection.cursor() as cursor:
 ```
 
 [OK] **Agregaciones complejas**
+
 ```sql
 -- Dashboard stats
 SELECT
@@ -301,6 +327,7 @@ GROUP BY dominio;
 ```
 
 [OK] **Reportes y analítica**
+
 ```sql
 -- Usuarios por grupo
 SELECT
@@ -316,6 +343,7 @@ GROUP BY grupo_codigo;
 ### Usar Funciones SQL cuando:
 
 [OK] **Verificación de permisos (hot path)**
+
 ```python
 # Endpoint de alta frecuencia (30-50ms → 5-10ms)
 with connection.cursor() as cursor:
@@ -327,6 +355,7 @@ with connection.cursor() as cursor:
 ```
 
 [OK] **Generación de menú**
+
 ```python
 # Login (100-200ms → 20-40ms)
 with connection.cursor() as cursor:
@@ -335,6 +364,7 @@ with connection.cursor() as cursor:
 ```
 
 [OK] **Operaciones atómicas**
+
 ```sql
 -- Verificar + auditar en una transacción
 SELECT verificar_permiso_y_auditar(
@@ -350,12 +380,14 @@ SELECT verificar_permiso_y_auditar(
 ## Validacion y Metricas
 
 **Criterios de Exito**:
+
 - Verificación permisos: < 10ms (p95)
 - Generación menú: < 50ms (p95)
 - Auditoría: < 5ms (async write)
 - Tests coverage: > 90%
 
 **Como medir**:
+
 ```python
 # Benchmark script
 import time
@@ -383,6 +415,7 @@ def benchmark_sql():
 | SQL Functions | 5ms | 10ms | 15ms |
 
 **Revisión**:
+
 - Fecha: Mensual
 - Responsable: Backend Team Lead
 - Acción: Identificar nuevos candidatos para optimización SQL
@@ -394,6 +427,7 @@ def benchmark_sql():
 ### Redis Cache Layer
 
 **Por qué se descartó:**
+
 - Complejidad adicional (cache invalidation)
 - Requisito RNF-002: NO Redis (session en DB)
 - SQL nativo ya suficientemente rápido (< 10ms)
@@ -401,6 +435,7 @@ def benchmark_sql():
 ### GraphQL con DataLoader
 
 **Por qué se descartó:**
+
 - Overhead de GraphQL NO justificado
 - REST API suficiente para necesidades actuales
 - Complejidad adicional de implementación
@@ -408,6 +443,7 @@ def benchmark_sql():
 ### CQRS (Command Query Responsibility Segregation)
 
 **Por qué se descartó:**
+
 - Over-engineering para escala actual
 - Vistas SQL ya separan reads de writes
 - Complejidad NO justificada
@@ -440,6 +476,7 @@ def benchmark_sql():
 ## Changelog
 
 ### v1.0.0 (2025-11-09)
+
 - Decisión inicial: Estrategia híbrida ORM + SQL
 - Implementación completa de 3 fases
 - Reglas de decisión documentadas

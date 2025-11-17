@@ -1,9 +1,3 @@
----
-name: SelfConsistencyAgent
-description: Aplicar la técnica de auto-consistencia generando múltiples razonamientos y eligiendo la respuesta más robusta.
-tools: ["read", "search"]
----
-
 # SelfConsistencyAgent
 
 <Goals>

@@ -1,9 +1,3 @@
----
-name: DocumentationCodeInspectorAgent
-description: Revisar la coherencia entre código y documentación técnica, enfocándose en fragmentos embebidos y ejemplos de uso.
-tools: ["read", "search"]
----
-
 # DocumentationCodeInspectorAgent
 
 <Goals>

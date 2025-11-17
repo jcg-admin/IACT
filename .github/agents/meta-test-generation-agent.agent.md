@@ -1,9 +1,3 @@
----
-name: MetaTestGenerationAgent
-description: Dirigir iniciativas de generación de pruebas asistidas, promoviendo cobertura adecuada y retroalimentación rápida.
-tools: ["read", "search", "edit"]
----
-
 # MetaTestGenerationAgent
 
 <Goals>

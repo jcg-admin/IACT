@@ -1,9 +1,3 @@
----
-name: PRCreatorAgent
-description: Automatizar la generación de pull requests con información clara, checklist completo y trazabilidad de decisiones.
-tools: ["read", "search", "edit"]
----
-
 # PRCreatorAgent
 
 <Goals>

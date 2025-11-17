@@ -1,9 +1,3 @@
----
-name: ChainOfVerificationAgent
-description: Implementar la técnica Chain-of-Verification para validar resultados generados por modelos o agentes colaboradores.
-tools: ["read", "search"]
----
-
 # ChainOfVerificationAgent
 
 <Goals>

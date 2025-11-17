@@ -5,6 +5,7 @@ propietario: equipo-arquitectura
 ultima_actualizacion: 2025-11-02
 relacionados: ["DOC-ARQ-INDEX", "DOC-INFRA-INDEX"]
 ---
+
 # ADR-2025-001: Entorno de Desarrollo con Vagrant y Aprovisionamiento de Bases de Datos
 
 **Estado:** aceptada
@@ -18,10 +19,12 @@ relacionados: ["DOC-ARQ-INDEX", "DOC-INFRA-INDEX"]
 ## Contexto y Problema
 
 El proyecto IACT requiere un entorno de desarrollo local que replique la infraestructura de datos en producción:
+
 - PostgreSQL para almacenamiento de datos analíticos
 - MariaDB para acceso de solo lectura a datos del sistema IVR
 
 **Problemas identificados:**
+
 - Inconsistencia entre entornos de desarrollo de diferentes desarrolladores
 - Dificultad para nuevos miembros del equipo al configurar el entorno
 - Tiempo prolongado de onboarding (2-3 días)
@@ -29,6 +32,7 @@ El proyecto IACT requiere un entorno de desarrollo local que replique la infraes
 - Falta de aislamiento entre proyecto y máquina host
 
 **Restricciones:**
+
 - Debe funcionar en Windows, macOS y Linux
 - Debe ser reproducible y versionable
 - No debe requerir instalación de servicios en máquina host
@@ -51,6 +55,7 @@ El proyecto IACT requiere un entorno de desarrollo local que replique la infraes
 Usar Vagrant para gestionar una VM Ubuntu con VirtualBox como provider. Aprovisionar PostgreSQL y MariaDB mediante script shell (`provisioning/bootstrap.sh`).
 
 **Pros:**
+
 - OK: Aislamiento completo de servicios
 - OK: Funciona en Windows, macOS, Linux
 - OK: Fácil de versionar (Vagrantfile + scripts)
@@ -59,12 +64,14 @@ Usar Vagrant para gestionar una VM Ubuntu con VirtualBox como provider. Aprovisi
 - OK: Configuración explícita y auditable
 
 **Contras:**
+
 - NO: Requiere VirtualBox (software adicional)
 - NO: Mayor consumo de recursos vs Docker
 - NO: Boot time más lento que contenedores
 - NO: Gestión de snapshots menos elegante
 
 **Implementación:**
+
 ```ruby
 # Vagrantfile
 Vagrant.configure("2") do |config|
@@ -92,12 +99,14 @@ end
 Usar Docker Compose para levantar contenedores de PostgreSQL y MariaDB con configuración mediante docker_compose.yml.
 
 **Pros:**
+
 - OK: Menor consumo de recursos
 - OK: Boot time rápido (segundos)
 - OK: Ecosistema amplio de imágenes oficiales
 - OK: Fácil gestión de volúmenes y redes
 
 **Contras:**
+
 - NO: Docker Desktop requiere licencia en empresas grandes
 - NO: Problemas de performance en Windows con WSL2
 - NO: Equipo tiene menos experiencia con Docker
@@ -111,10 +120,12 @@ Usar Docker Compose para levantar contenedores de PostgreSQL y MariaDB con confi
 Cada desarrollador instala PostgreSQL y MariaDB directamente en su máquina host.
 
 **Pros:**
+
 - OK: Máximo rendimiento (sin virtualización)
 - OK: Sin overhead de memoria/CPU
 
 **Contras:**
+
 - NO: Inconsistencia entre entornos
 - NO: Contamina máquina host
 - NO: Difícil de versionar
@@ -129,11 +140,13 @@ Cada desarrollador instala PostgreSQL y MariaDB directamente en su máquina host
 Usar DevContainers (basado en Docker) con configuración en `.devcontainer/`.
 
 **Pros:**
+
 - OK: Integración nativa con VS Code
 - OK: Entorno completo (IDE + servicios)
 - OK: Reproducible
 
 **Contras:**
+
 - NO: Requiere VS Code (limita elección de editor)
 - NO: Requiere Docker
 - NO: Mayor curva de aprendizaje inicial
@@ -151,6 +164,7 @@ Usar DevContainers (basado en Docker) con configuración en `.devcontainer/`.
 5. **Compatibilidad probada**: Funciona en todos los SOs del equipo
 
 **Trade-offs aceptados:**
+
 - Aceptamos mayor consumo de recursos por mayor aislamiento
 - Aceptamos boot time más lento por mayor consistencia
 - Priorizamos reproducibilidad sobre performance
@@ -158,17 +172,20 @@ Usar DevContainers (basado en Docker) con configuración en `.devcontainer/`.
 ## Consecuencias
 
 ### Positivas
+
 - OK: Onboarding reducido de 2-3 días a 1 hora
 - OK: Cero instalaciones en máquina host
 - OK: Configuración versionada en Git
 - OK: Puertos customizados (15432, 13306) evitan conflictos
 
 ### Negativas
+
 - WARNING: Requiere ~2GB RAM adicionales cuando VM está corriendo
 - WARNING: Boot time de ~2 minutos en primera ejecución
 - WARNING: Necesita VirtualBox 7+ instalado
 
 ### Neutrales
+
 - INFO: Desarrolladores necesitan aprender comandos básicos de Vagrant
 - INFO: Scripts de aprovisionamiento deben mantenerse actualizados
 
@@ -195,36 +212,42 @@ Usar DevContainers (basado en Docker) con configuración en `.devcontainer/`.
 ## Validación y Métricas
 
 **Criterios de Éxito:**
+
 - OK: Tiempo de onboarding: < 2 horas (vs 2-3 días anterior)
 - OK: Tasa de éxito en primera ejecución: > 90%
 - OK: Tiempo de `vagrant up` primera vez: < 5 minutos
 - OK: Tiempo de `vagrant up` subsecuente: < 2 minutos
 
 **Resultados Obtenidos:**
+
 - OK: Onboarding promedio: 1 hora
 - OK: Primera ejecución exitosa: 95%
 - OK: Vagrant up inicial: ~3 minutos
 - OK: Vagrant up subsecuente: ~1.5 minutos
 
 **Revisión:**
+
 - Fecha de revisión: 2025-06-01
 - Responsable: Equipo DevOps
 
 ## Configuración Implementada
 
 ### Puertos Expuestos
+
 ```
 PostgreSQL: 127.0.0.1:15432
 MariaDB:    127.0.0.1:13306
 ```
 
 ### Credenciales Creadas
+
 ```
 Usuario: django_user
 Password: django_pass
 ```
 
 ### Bases de Datos
+
 ```
 PostgreSQL: iact_analytics
 MariaDB:    iact_ivr (read-only)
@@ -243,11 +266,13 @@ MariaDB:    iact_ivr (read-only)
 **Fecha de discusión inicial:** 2025-01-10
 
 **Participantes:**
+
 - Equipo de Arquitectura
 - Equipo de DevOps
 - Lead Backend Developer
 
 **Experimentos realizados:**
+
 - POC con Docker Compose (descartado por licenciamiento)
 - POC con DevContainers (descartado por dependencia de VS Code)
 

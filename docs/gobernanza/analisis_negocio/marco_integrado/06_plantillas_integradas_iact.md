@@ -15,6 +15,18 @@ status: active
 
 Este documento proporciona plantillas reutilizables para aplicar el marco integrado de análisis de negocio en el proyecto IACT. Cada plantilla está diseñada para facilitar la creación sistemática de documentación trazable y completa.
 
+**Plantillas Individuales Disponibles:**
+
+Las plantillas han sido separadas en archivos individuales listos para usar:
+
+- **Plantilla 1:** [Documento Maestro de Análisis Integrado](./plantillas/plantilla-01-documento-maestro-analisis.md) - Integración completa de todos los artefactos
+- **Plantilla 2:** [Matriz de Trazabilidad Extendida (RTM)](./plantillas/plantilla-02-matriz-trazabilidad-rtm.md) - Trazabilidad y validación de completitud
+- **Plantilla 3:** [Checklist de Completitud del Análisis](./plantillas/plantilla-03-checklist-completitud.md) - Validación de calidad antes de revisión
+- **Plantilla 4:** [Especificación Rápida de Regla de Negocio](./plantillas/plantilla-04-regla-negocio.md) - Documentación rápida de reglas
+- **Guía de Uso:** [Guía de Uso de las Plantillas](./plantillas/guia-uso-plantillas.md) - Workflow, ejemplos y mejores prácticas
+
+Este documento maestro se mantiene como referencia completa e histórica.
+
 ## Referencias
 
 - **01_marco_conceptual_iact.md** - Fundamentos del marco

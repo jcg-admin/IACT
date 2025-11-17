@@ -3,7 +3,8 @@ id: ADR-2025-005
 estado: aceptada
 propietario: equipo-backend
 ultima_actualizacion: 2025-11-07
-relacionados: ["DOC-REQ-INDICE-MAESTRO-PERMISOS", "RF-001", "RF-002", "RF-003", "RF-004"]
+relacionados:
+  ["DOC-REQ-INDICE-MAESTRO-PERMISOS", "RF-001", "RF-002", "RF-003", "RF-004"]
 ---
 
 # ADR-2025-005: Sistema de Permisos con Grupos Funcionales Sin Jerarquía
@@ -28,18 +29,21 @@ El sistema actual utiliza un modelo de permisos granulares (RF-001 a RF-004) con
 4. **Sin jerarquías rígidas:** Evitar etiquetas como "Admin", "Supervisor", "Agente" que crean barreras
 
 **Preguntas clave:**
+
 - ¿Cómo organizamos 130+ capacidades de forma manejable?
 - ¿Cómo evitamos la explosión combinatoria de "roles"?
 - ¿Cómo permitimos flexibilidad sin complejidad excesiva?
 - ¿Cómo mantenemos la claridad sobre "quién puede hacer qué"?
 
 **Restricciones actuales:**
+
 - Sistema de permisos granulares ya implementado (3 niveles)
 - Base de datos PostgreSQL
 - Django backend con modelos in-memory para performance
 - Necesidad de auditoría completa (ISO 27001)
 
 **Impacto del problema:**
+
 - Sin organización clara, 130+ capacidades son inmanejables
 - Roles tradicionales son rígidos y no se adaptan a la realidad operativa
 - Jerarquías crean barreras artificiales entre equipos
@@ -68,12 +72,14 @@ El sistema actual utiliza un modelo de permisos granulares (RF-001 a RF-004) con
 Sistema clásico de roles jerárquicos: Admin > Manager > Supervisor > Agent. Cada rol tiene permisos fijos.
 
 **Pros:**
+
 - Estándar de industria, bien entendido
 - Frameworks existentes (Django Groups, etc.)
 - Fácil de implementar inicialmente
 - Menos tablas en base de datos
 
 **Contras:**
+
 - Jerarquías rígidas no se adaptan a la realidad
 - Explosión de roles cuando crecen los permisos
 - Un usuario = un rol (inflexible)
@@ -81,6 +87,7 @@ Sistema clásico de roles jerárquicos: Admin > Manager > Supervisor > Agent. Ca
 - Dificulta cambios organizacionales
 
 **Ejemplo/Implementación:**
+
 ```python
 # Usuario tiene UN rol
 usuario.rol = "SUPERVISOR"
@@ -101,12 +108,14 @@ No permite la flexibilidad necesaria. En la práctica, necesitamos usuarios con 
 Sistema basado en atributos y reglas dinámicas. Permisos se evalúan en runtime basándose en contexto (hora, ubicación, atributos del usuario, etc.).
 
 **Pros:**
+
 - Máxima flexibilidad
 - Permisos contextuales (ej: "solo entre 9am-5pm")
 - Se adapta a cualquier escenario
 - Muy granular
 
 **Contras:**
+
 - Complejidad extrema de implementación
 - Performance impact (evaluación en runtime)
 - Difícil de debuggear
@@ -115,6 +124,7 @@ Sistema basado en atributos y reglas dinámicas. Permisos se evalúan en runtime
 - Difícil auditar "quién tiene qué permiso"
 
 **Ejemplo/Implementación:**
+
 ```python
 # Regla dinámica
 def puede_aprobar_pago(usuario, pago, contexto):
@@ -138,12 +148,14 @@ Demasiado complejo para nuestras necesidades actuales. La mayoría de nuestros p
 Sistema de "grupos de permisos" descriptivos que se pueden combinar libremente. No hay jerarquía entre grupos. Un usuario puede tener múltiples grupos simultáneamente.
 
 **Conceptos clave:**
+
 - **Funciones:** Recursos del sistema (dashboards, usuarios, tickets, etc.)
 - **Capacidades:** Acciones sobre recursos (ver, crear, editar, eliminar)
 - **Grupos:** Colecciones de capacidades con nombres descriptivos
 - **Usuarios:** Pueden tener N grupos simultáneos
 
 **Pros:**
+
 - Flexibilidad total: N grupos por usuario
 - Nomenclatura descriptiva: "Atención al Cliente", "Gestión de Equipos"
 - Sin jerarquías: todos los grupos son iguales
@@ -153,12 +165,14 @@ Sistema de "grupos de permisos" descriptivos que se pueden combinar libremente. 
 - Performance: evaluación simple con vistas SQL
 
 **Contras:**
+
 - Más tablas en base de datos (8 tablas)
 - Requiere UI para gestión de grupos
 - Posible confusión inicial (no es RBAC tradicional)
 - Requiere definir bien los grupos iniciales
 
 **Ejemplo/Implementación:**
+
 ```python
 # Usuario tiene MÚLTIPLES grupos
 usuario.grupos = [
@@ -178,6 +192,7 @@ if "sistema.operaciones.tickets.crear" in permisos:
 ```
 
 **Estructura de Base de Datos:**
+
 ```
 funciones (19 recursos)
     ↓
@@ -189,6 +204,7 @@ usuarios_grupos (N:M - múltiples grupos por usuario)
 ```
 
 **Ejemplos de Grupos:**
+
 - `atencion_cliente` - Operaciones básicas de call center
 - `gestion_equipos` - Administración de equipos
 - `analisis_operativo` - Métricas y reportes
@@ -216,6 +232,7 @@ usuarios_grupos (N:M - múltiples grupos por usuario)
 6. **Compatible con sistema actual:** Extiende el sistema de permisos granulares (RF-001 a RF-004) sin romper lo existente.
 
 **Trade-offs aceptados:**
+
 - Más tablas en BD (8 en lugar de 3-4 de RBAC tradicional)
 - Requiere UI de gestión de grupos (pero necesitaríamos UI de todas formas)
 - No hay jerarquía (pero esto es el objetivo, no un contra)
@@ -298,6 +315,7 @@ usuarios_grupos (N:M - múltiples grupos por usuario)
 ## Validación y Métricas
 
 **Criterios de Éxito:**
+
 - Performance: Evaluación de permisos < 50ms (p95)
 - Cobertura: 100% de funcionalidades cubiertas con permisos
 - Flexibilidad: 80%+ de usuarios tienen combinaciones únicas de grupos
@@ -305,12 +323,14 @@ usuarios_grupos (N:M - múltiples grupos por usuario)
 - Escalabilidad: Agregar nuevo módulo < 2 días de trabajo
 
 **Cómo medir:**
+
 - `SELECT AVG(query_time) FROM pg_stat_statements WHERE query LIKE '%usuario_tiene_permiso%'`
 - Análisis de combinaciones de grupos en producción
 - Encuesta de usuario post-capacitación
 - Tiempo de implementación de nuevos módulos
 
 **Revisión:**
+
 - Fecha de revisión programada: 2026-02-07 (3 meses post-implementación)
 - Responsable de seguimiento: equipo-backend
 
@@ -321,6 +341,7 @@ usuarios_grupos (N:M - múltiples grupos por usuario)
 ### ACL (Access Control Lists)
 
 **Por qué se descartó:**
+
 - Demasiado granular a nivel individual
 - No escala bien con 100+ usuarios
 - Difícil mantener consistencia
@@ -329,6 +350,7 @@ usuarios_grupos (N:M - múltiples grupos por usuario)
 ### Hybrid RBAC + ACL
 
 **Por qué se descartó:**
+
 - Complejidad de tener dos sistemas simultáneos
 - Confusión sobre cuál usar cuando
 - Mantenimiento de dos modelos
@@ -356,9 +378,9 @@ usuarios_grupos (N:M - múltiples grupos por usuario)
   - POC con django-guardian (rechazado por complejidad object-level)
   - Benchmark de performance: 3 niveles de evaluación < 10ms
 - **Decisiones relacionadas:**
-  - ADR-2025-002: Suite de Calidad de Código
-  - ADR-2025-003: DORA Metrics Integration
-  - ADR-2025-004: Centralized Log Storage (para auditoría)
+  - ADR-002: Suite de Calidad de Código
+  - ADR-003: DORA Metrics Integration
+  - ADR-004: Centralized Log Storage (para auditoría)
 
 ---
 

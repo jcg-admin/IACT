@@ -3,8 +3,9 @@ id: ADR-2025-002
 estado: aceptada
 propietario: equipo-arquitectura
 ultima_actualizacion: 2025-11-04
-relacionados: ["DOC-ARQ-INDEX", "DOC-BACKEND-INDEX", "ADR-2025-001"]
+relacionados: ["DOC-ARQ-INDEX", "DOC-BACKEND-INDEX", "ADR-001"]
 ---
+
 # ADR-2025-002: Suite Completa de Calidad de Código y Automatización
 
 **Estado:** aceptada
@@ -20,6 +21,7 @@ relacionados: ["DOC-ARQ-INDEX", "DOC-BACKEND-INDEX", "ADR-2025-001"]
 El proyecto IACT Django API necesita garantizar la calidad del código, seguridad y mantenibilidad a medida que el equipo crece y el código base se expande. Los problemas identificados incluyen:
 
 **Problemas actuales:**
+
 - Falta de validación automática antes de commit
 - Código sin type hints que dificulta el mantenimiento
 - Potenciales vulnerabilidades de seguridad sin detectar
@@ -29,6 +31,7 @@ El proyecto IACT Django API necesita garantizar la calidad del código, segurida
 - Tareas repetitivas sin automatizar
 
 **Restricciones del proyecto:**
+
 - NO **NO Sentry**: Prohibido usar servicios externos de monitoreo
 - NO **NO Redis**: Sesiones deben estar en base de datos
 - NO **NO Email**: Solo notificaciones por buzón interno
@@ -52,6 +55,7 @@ El proyecto IACT Django API necesita garantizar la calidad del código, segurida
 
 **Descripción:**
 Implementar una suite integrada de herramientas modernas para calidad de código:
+
 - **Ruff**: Linter y formateador ultra-rápido (reemplaza flake8, isort, black)
 - **MyPy**: Validación estática de tipos con plugins Django
 - **Pre-commit**: Hooks automáticos antes de cada commit
@@ -62,6 +66,7 @@ Implementar una suite integrada de herramientas modernas para calidad de código
 - **Logging profesional**: Sistema robusto sin servicios externos
 
 **Pros:**
+
 - OK Ruff es 10-100x más rápido que flake8+black+isort combinados
 - OK MyPy detecta errores de tipos antes de runtime
 - OK Pre-commit evita commits con código problemático
@@ -77,6 +82,7 @@ Implementar una suite integrada de herramientas modernas para calidad de código
 - OK Todo open source, sin costos
 
 **Contras:**
+
 - NO Curva de aprendizaje para el equipo (1-2 semanas)
 - NO Configuración inicial toma tiempo (ya completado)
 - NO Puede rechazar commits si hay errores (positivo a largo plazo)
@@ -84,6 +90,7 @@ Implementar una suite integrada de herramientas modernas para calidad de código
 - NO Requiere disciplina en type hints
 
 **Implementación:**
+
 - `.pre_commit_config.yaml`: Configuración de hooks
 - `pyproject.toml`: Configuración de Ruff, MyPy, Coverage
 - `.github/workflows/python_ci.yml`: Pipeline CI/CD
@@ -92,6 +99,7 @@ Implementar una suite integrada de herramientas modernas para calidad de código
 - Utilidades: `performance.py`, `async_http.py`, `async_helpers.py`
 
 **Herramientas específicas:**
+
 ```yaml
 Pre-commit hooks:
   - Ruff (lint + format)
@@ -122,11 +130,13 @@ Makefile comandos (40+):
 Mantener setup básico con black para formateo, flake8 para linting, y tests manuales sin automatización.
 
 **Pros:**
+
 - OK Simple y conocido por el equipo
 - OK Sin curva de aprendizaje
 - OK Herramientas maduras
 
 **Contras:**
+
 - NO Más lento que Ruff (10-100x)
 - NO Sin validación de tipos
 - NO Sin análisis de seguridad automatizado
@@ -143,11 +153,13 @@ Mantener setup básico con black para formateo, flake8 para linting, y tests man
 Usar herramientas comerciales para calidad de código y monitoreo.
 
 **Pros:**
+
 - OK Dashboards avanzados
 - OK Métricas en tiempo real
 - OK Soporte comercial
 
 **Contras:**
+
 - NO **Viola restricción crítica**: NO Sentry permitido
 - NO Costo significativo (SonarQube ~$150/dev/año)
 - NO Requiere infraestructura adicional
@@ -161,6 +173,7 @@ Usar herramientas comerciales para calidad de código y monitoreo.
 Implementar la suite completa de herramientas de calidad de código y automatización, **sin Sentry** para cumplir con restricciones del proyecto.
 
 **Justificación:**
+
 1. **Performance**: Ruff es significativamente más rápido que alternativas
 2. **Seguridad**: Bandit + Safety + pip-audit detectan vulnerabilidades
 3. **Calidad**: MyPy + Ruff garantizan código limpio y tipado
@@ -171,6 +184,7 @@ Implementar la suite completa de herramientas de calidad de código y automatiza
 8. **CI/CD**: GitHub Actions incluido, sin costo adicional
 
 **Decisión sobre Sentry:**
+
 - NO **NO implementar Sentry** por restricción explícita del proyecto
 - OK **SÍ implementar logging robusto** con:
   - Handlers: console, file (rotativo), error_file, mail_admins
@@ -270,14 +284,14 @@ ESPERANDO Tareas pendientes:
 
 ### Métricas de Éxito
 
-| Métrica | Baseline | Target | Actual |
-|---------|----------|--------|--------|
-| Cobertura de tests | 0% | 80% | TBD |
-| Vulnerabilidades High/Critical | ? | 0 | 0 (post-install) |
-| Tiempo de tests | ~5min | <2min | TBD (-n auto) |
-| Pre-commit adoption | 0% | 100% | 100% |
-| Type hints coverage | <10% | 60% | Gradual |
-| CI/CD pipeline | No | Sí | OK Implementado |
+| Métrica                        | Baseline | Target | Actual           |
+| ------------------------------ | -------- | ------ | ---------------- |
+| Cobertura de tests             | 0%       | 80%    | TBD              |
+| Vulnerabilidades High/Critical | ?        | 0      | 0 (post-install) |
+| Tiempo de tests                | ~5min    | <2min  | TBD (-n auto)    |
+| Pre-commit adoption            | 0%       | 100%   | 100%             |
+| Type hints coverage            | <10%     | 60%    | Gradual          |
+| CI/CD pipeline                 | No       | Sí     | OK Implementado  |
 
 ### KPIs de Calidad
 
@@ -305,21 +319,25 @@ Performance:
 ## Alternativas Descartadas
 
 ### 1. Pylint en lugar de Ruff
+
 - NO Más lento (10x)
 - NO Configuración más compleja
 - NO No formatea código
 
 ### 2. Docker Compose para CI
+
 - NO Más complejo que GitHub Actions
 - NO Requiere mantenimiento de imágenes
 - NO GitHub Actions es gratuito y integrado
 
 ### 3. Tox para testing multi-env
+
 - NO Overhead innecesario (solo Python 3.12)
 - NO Más lento que pytest directo
 - NO Mayor complejidad
 
 ### 4. Sentry para monitoreo
+
 - NO **Prohibido por restricciones del proyecto**
 - NO Servicio externo
 - OK Reemplazado por logging robusto local
@@ -327,6 +345,7 @@ Performance:
 ## Referencias
 
 ### Documentación Oficial
+
 - [Ruff Documentation](https://docs.astral.sh/ruff/)
 - [MyPy Documentation](https://mypy.readthedocs.io/)
 - [Pytest Documentation](https://docs.pytest.org/)
@@ -336,11 +355,13 @@ Performance:
 - [GitHub Actions](https://docs.github.com/en/actions)
 
 ### Benchmarks y Estudios
+
 - Ruff vs Flake8: https://github.com/astral-sh/ruff#benchmarks
 - MyPy Benefits: https://dropbox.tech/application/our-journey-to-type-checking-4-million-lines-of-python
 - AsyncIO Performance: https://www.python.org/dev/peps/pep-0492/
 
 ### Documentos del Proyecto
+
 - [QUALITY_SETUP.md](../../backend/calidad_codigo_automatizacion.md) - Guía completa
 - [Restricciones Completas](../../requisitos/restricciones_completas.md) - Documento maestro
 - [Procedimiento QA](../../gobernanza/procesos/procedimiento_qa.md)
@@ -353,6 +374,7 @@ Performance:
 El proyecto originalmente consideró Sentry para monitoreo de errores en producción, pero las restricciones del cliente prohiben servicios externos de monitoreo.
 
 **Solución:**
+
 - Sistema de logging robusto con handlers locales
 - Archivos rotativos con retención según política
 - Email alerts a administradores para errores críticos
@@ -360,6 +382,7 @@ El proyecto originalmente consideró Sentry para monitoreo de errores en producc
 - Sin dependencias externas ni servicios cloud
 
 **Trade-offs:**
+
 - OK Cumple restricciones del cliente
 - OK Sin costos recurrentes
 - OK Control total de datos
@@ -369,6 +392,7 @@ El proyecto originalmente consideró Sentry para monitoreo de errores en producc
 ### Comunicación con Equipo
 
 **Sesión de Capacitación (2 horas):**
+
 1. Introducción a Ruff (30 min)
 2. MyPy y type hints (30 min)
 3. Pre-commit hooks (20 min)
@@ -376,6 +400,7 @@ El proyecto originalmente consideró Sentry para monitoreo de errores en producc
 5. Makefile y CI/CD (20 min)
 
 **Materiales:**
+
 - QUALITY_SETUP.md completo
 - Ejemplos de código
 - Cheatsheet de comandos
@@ -383,11 +408,13 @@ El proyecto originalmente consideró Sentry para monitoreo de errores en producc
 ### Mantenimiento Continuo
 
 **Responsabilidades:**
+
 - **Equipo Arquitectura**: Mantener ADR, aprobar excepciones
 - **Equipo DevOps**: Mantener CI/CD, monitorear pipeline
 - **Equipo Desarrollo**: Adoptar herramientas, reportar problemas
 
 **Revisiones:**
+
 - Mensual: Revisar métricas de calidad
 - Trimestral: Actualizar herramientas
 - Anual: Reevaluar stack completo
@@ -396,7 +423,7 @@ El proyecto originalmente consideró Sentry para monitoreo de errores en producc
 
 ## Changelog
 
-| Versión | Fecha | Cambios |
-|---------|-------|---------|
-| 1.0 | 2025-11-04 | Decisión inicial aceptada |
-| 1.1 | 2025-11-04 | Removido Sentry por restricciones |
+| Versión | Fecha      | Cambios                           |
+| ------- | ---------- | --------------------------------- |
+| 1.0     | 2025-11-04 | Decisión inicial aceptada         |
+| 1.1     | 2025-11-04 | Removido Sentry por restricciones |

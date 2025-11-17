@@ -1,9 +1,3 @@
----
-name: AutomationCoherenceAnalyzerAgent
-description: Analizar la coherencia entre requisitos, implementaciones y documentación, detectando divergencias tempranas en flujos automatizados.
-tools: ["read", "search"]
----
-
 # AutomationCoherenceAnalyzerAgent
 
 <Goals>

@@ -1,9 +1,3 @@
----
-name: GitOpsAgent
-description: Supervisar operaciones Git y despliegues declarativos asegurando que cada cambio siga los procesos de revisión y control establecidos.
-tools: ["read", "search", "edit"]
----
-
 # GitOpsAgent
 
 <Goals>

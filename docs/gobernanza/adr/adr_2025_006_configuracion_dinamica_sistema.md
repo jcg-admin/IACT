@@ -3,8 +3,13 @@ id: ADR-2025-006
 estado: aceptada
 propietario: backend-team
 ultima_actualizacion: 2025-11-09
-relacionados: ["adr_2025_005_grupos_funcionales_sin_jerarquia", "docs/backend/arquitectura/configuration.md"]
+relacionados:
+  [
+    "ADR-005-grupos-funcionales-sin-jerarquia",
+    "docs/backend/arquitectura/configuration.md",
+  ]
 ---
+
 # ADR-2025-006: Sistema de Configuración Dinámica del Sistema
 
 **Estado:** aceptada
@@ -20,6 +25,7 @@ relacionados: ["adr_2025_005_grupos_funcionales_sin_jerarquia", "docs/backend/ar
 El sistema IACT requiere la capacidad de modificar parámetros técnicos y de negocio en tiempo de ejecución sin necesidad de redesplegar la aplicación. Estos parámetros incluyen timeouts de sesión, límites de intentos de login, configuraciones de integración con sistemas externos, y parámetros operativos del sistema.
 
 **Preguntas clave:**
+
 - ¿Cómo permitir modificación de configuraciones sin redespliegue?
 - ¿Cómo mantener trazabilidad completa de cambios en configuraciones críticas?
 - ¿Cómo garantizar que solo usuarios autorizados modifiquen configuraciones?
@@ -27,12 +33,14 @@ El sistema IACT requiere la capacidad de modificar parámetros técnicos y de ne
 - ¿Cómo integrar con el sistema de permisos granulares existente?
 
 **Restricciones actuales:**
-- Sistema de permisos granulares ya implementado (ADR-2025-005)
+
+- Sistema de permisos granulares ya implementado (ADR-005)
 - Requisitos de auditoría (ISO 27001)
 - NO usar variables de entorno para configuración dinámica (solo para infraestructura)
 - Necesidad de historial inmutable de cambios
 
 **Impacto:**
+
 - **Operaciones**: Reduce time-to-fix para ajustes operativos
 - **Seguridad**: Permite ajustar parámetros de seguridad sin downtime
 - **Compliance**: Trazabilidad completa para auditorías
@@ -56,12 +64,14 @@ El sistema IACT requiere la capacidad de modificar parámetros técnicos y de ne
 Usar django-constance, una librería popular para configuración dinámica en Django con backend de BD o Redis.
 
 **Pros:**
+
 - OK Librería madura y bien documentada
 - OK Integración con Django Admin out-of-the-box
 - OK Soporta tipos de datos tipados
 - OK Cache automático en Redis (opcional)
 
 **Contras:**
+
 - NO Dependencia externa adicional
 - NO Historial de cambios básico (no inmutable)
 - NO Integración compleja con permisos granulares
@@ -69,6 +79,7 @@ Usar django-constance, una librería popular para configuración dinámica en Dj
 - NO Limitado control sobre modelo de datos
 
 **Ejemplo:**
+
 ```python
 # settings.py
 CONSTANCE_CONFIG = {
@@ -88,11 +99,13 @@ timeout = config.TIMEOUT_SESSION
 Usar variables de entorno editables desde Django Admin custom con actualización en archivo .env y reload de configuración.
 
 **Pros:**
+
 - OK No requiere tabla en BD
 - OK Integración natural con Django settings
 - OK Familiar para devops
 
 **Contras:**
+
 - NO Requiere reload/restart de aplicación
 - NO NO hay historial de cambios
 - NO Difícil de auditar cambios
@@ -106,10 +119,12 @@ Usar variables de entorno editables desde Django Admin custom con actualización
 
 **Descripción:**
 Implementar app Django propia `configuration` con dos modelos:
+
 - `Configuracion`: Almacena configuraciones con tipos de datos tipados
 - `ConfiguracionHistorial`: Historial inmutable de cambios con metadata de auditoría
 
 **Pros:**
+
 - OK Control total sobre modelo de datos
 - OK Historial inmutable de cambios
 - OK Integración nativa con permisos granulares
@@ -121,11 +136,13 @@ Implementar app Django propia `configuration` con dos modelos:
 - OK Transacciones atómicas garantizadas
 
 **Contras:**
+
 - NO Requiere desarrollo custom
 - NO Mantenimiento propio del código
 - NO Más código en el proyecto
 
 **Ejemplo/Implementación:**
+
 ```python
 # Modelo
 class Configuracion(models.Model):
@@ -169,6 +186,7 @@ config = ConfiguracionService.editar_configuracion(
 ## Consecuencias
 
 ### Positivas
+
 - OK Trazabilidad completa de cambios para auditorías
 - OK Modificación de configuraciones sin redespliegue
 - OK Rollback simple a valores anteriores
@@ -177,11 +195,13 @@ config = ConfiguracionService.editar_configuracion(
 - OK Sin dependencias externas
 
 ### Negativas
+
 - WARNING Código custom a mantener (mitigado con tests comprehensivos)
 - WARNING Curva de aprendizaje para nuevos desarrolladores
 - WARNING Tabla adicional en BD (ConfiguracionHistorial crece con tiempo)
 
 ### Neutrales
+
 - INFO Requiere management command para seed de configuraciones iniciales
 - INFO Django Admin debe extenderse para mostrar historial
 
@@ -219,18 +239,21 @@ config = ConfiguracionService.editar_configuracion(
 ## Validación y Métricas
 
 **Criterios de Éxito:**
+
 - Historial 100% inmutable: No deletes en ConfiguracionHistorial
 - Auditoría 100% completa: Cada cambio genera entrada en historial
 - Performance: Consulta de configuración < 50ms (p95)
 - Cobertura de tests: > 90%
 
 **Cómo medir:**
+
 - Query analysis para verificar índices funcionan
 - Coverage report de pytest
 - Audit log review mensual
 - Performance monitoring en producción
 
 **Revisión:**
+
 - Fecha de revisión programada: 2025-12-09 (1 mes post-implementación)
 - Responsable de seguimiento: Backend Lead
 
@@ -239,6 +262,7 @@ config = ConfiguracionService.editar_configuracion(
 ### Django Settings Database
 
 **Por qué se descartó:**
+
 - No proporciona historial inmutable
 - Difícil integración con permisos granulares
 - NO captura metadata de auditoría
@@ -246,6 +270,7 @@ config = ConfiguracionService.editar_configuracion(
 ### Almacenamiento en PostgreSQL JSONB
 
 **Por qué se descartó:**
+
 - Dificulta queries y validaciones
 - NO hay schema enforcement
 - Historial complejo de implementar
@@ -254,7 +279,7 @@ config = ConfiguracionService.editar_configuracion(
 
 - [Documentación app configuration](../../backend/arquitectura/configuration.md)
 - [PLAN_MAESTRO_PRIORIDAD_02.md](../../PLAN_MAESTRO_PRIORIDAD_02.md) (Tareas 33-41)
-- [ADR-2025-005: Grupos Funcionales Sin Jerarquía](adr_2025_005_grupos_funcionales_sin_jerarquia.md)
+- [ADR-005: Grupos Funcionales Sin Jerarquía](ADR-005-grupos-funcionales-sin-jerarquia.md)
 - [ISO 27001 Audit Trail Requirements](https://www.iso.org/standard/27001)
 - [Django Best Practices for Configuration](https://docs.djangoproject.com/en/stable/topics/settings/)
 
@@ -263,11 +288,13 @@ config = ConfiguracionService.editar_configuracion(
 **Decisión tomada en**: Sprint de implementación de permisos granulares (Prioridad 02)
 **Implementación completada**: 2025-11-09
 **Configuraciones iniciales**:
+
 - 8 categorías predefinidas
 - ~20 configuraciones seed (sistema, seguridad, notificaciones)
 - Valores por defecto seguros (timeouts conservadores, max attempts restrictivos)
 
 **Capacidades requeridas para uso**:
+
 - `sistema.tecnico.configuracion.ver`: Ver configuraciones
 - `sistema.tecnico.configuracion.editar`: Modificar valores
 - `sistema.tecnico.configuracion.exportar`: Exportar configuraciones

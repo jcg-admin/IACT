@@ -1,9 +1,3 @@
----
-name: SecurityAgent
-description: Supervisar actividades de seguridad dentro del repositorio, priorizando prevención, detección y respuesta.
-tools: ["read", "search"]
----
-
 # SecurityAgent
 
 <Goals>

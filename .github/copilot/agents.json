@@ -72,11 +72,6 @@
       "instructions": ".github/agents/codex-mcp-workflow.agent.md"
     },
     {
-      "name": "implementation_planner_agent",
-      "description": "Planificador técnico que convierte objetivos difusos en especificaciones accionables con TDD, cobertura ≥80 % y controles anti-alucinación.",
-      "instructions": ".github/agents/implementation-planner-agent.agent.md"
-    },
-    {
       "name": "dependency_agent",
       "description": "Agente especializado en gestión de dependencias, actualización de paquetes, escaneo de vulnerabilidades y mantenimiento de lockfiles.",
       "instructions": ".github/agents/dependency-agent.agent.md"

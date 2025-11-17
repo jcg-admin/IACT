@@ -1,9 +1,3 @@
----
-name: TemplateGeneratorAgent
-description: Crear plantillas reutilizables para documentos, código o tableros que aceleren el trabajo repetitivo del equipo.
-tools: ["read", "search", "edit"]
----
-
 # TemplateGeneratorAgent
 
 <Goals>

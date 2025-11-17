@@ -1,0 +1,80 @@
+{
+  "version": "1.0.0",
+  "description": "Configuración del PlacementAgent (opcional - usa auto-discovery si no existe)",
+
+  "project": {
+    "name": "IACT",
+    "docs_root": "docs"
+  },
+
+  "domains": {
+    "auto_discover": false,
+    "custom_keywords": {
+      "backend": [
+        "django",
+        "rest api",
+        "postgresql",
+        "python",
+        "celery",
+        "redis"
+      ],
+      "frontend": [
+        "react",
+        "redux",
+        "typescript",
+        "javascript",
+        "webpack",
+        "microfrontend"
+      ],
+      "infraestructura": [
+        "docker",
+        "kubernetes",
+        "devops",
+        "ci/cd",
+        "terraform",
+        "ansible"
+      ],
+      "ai": [
+        "machine learning",
+        "llm",
+        "model",
+        "agent",
+        "neural network",
+        "claude"
+      ]
+    }
+  },
+
+  "artifact_types": {
+    "auto_discover_from_templates": true,
+    "custom_patterns": {
+      "task": {
+        "name_pattern": "^TASK-\\d+",
+        "content_markers": ["## Descripción", "## Criterios de Aceptación"]
+      },
+      "adr": {
+        "name_pattern": "^ADR-\\d+",
+        "content_markers": ["## Status", "## Decision"]
+      }
+    }
+  },
+
+  "ownership_rules": {
+    "always_transversal": [
+      "adr",
+      "plantilla_generica"
+    ],
+    "always_agent": [
+      "documentacion_agente",
+      "configuracion_agente"
+    ],
+    "min_domain_keywords_for_detection": 1
+  },
+
+  "locations": {
+    "transversal_base": "docs/gobernanza",
+    "domain_base": "docs/{domain}",
+    "agent_base": "scripts/coding/ai/agents",
+    "temp_base": "/tmp"
+  }
+}

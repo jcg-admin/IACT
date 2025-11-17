@@ -1,9 +1,3 @@
----
-name: MetaDesignPatternsAgent
-description: Promover el uso adecuado de patrones de diseño y estilos arquitectónicos que mejoren la calidad del software.
-tools: ["read", "search"]
----
-
 # MetaDesignPatternsAgent
 
 <Goals>

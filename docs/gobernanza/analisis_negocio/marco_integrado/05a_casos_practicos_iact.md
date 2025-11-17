@@ -17,6 +17,17 @@ Este documento presenta casos prácticos reales del proyecto IACT que demuestran
 
 **Nota:** Para un caso didáctico genérico con propósitos pedagógicos, consultar el documento complementario `05b_caso_didactico_generico.md`.
 
+**Casos Individuales Disponibles:**
+
+Los casos prácticos han sido separados en archivos individuales para facilitar su uso y referencia:
+
+- **Caso 1:** [Sistema de Autenticación y Gestión de Sesiones](./casos_practicos/caso-practico-01-autenticacion-sesiones.md)
+- **Caso 2:** [Sistema de Evaluación de Permisos en Tres Niveles](./casos_practicos/caso-practico-02-evaluacion-permisos.md)
+- **Caso 3:** [Sistema de Auditoría de Seguridad](./casos_practicos/caso-practico-03-auditoria-seguridad.md)
+- **Resumen:** [Resumen de Casos Prácticos IACT](./casos_practicos/resumen-casos-practicos.md)
+
+Este documento maestro se mantiene como referencia completa e histórica.
+
 ## Referencias
 
 - **01_marco_conceptual_iact.md** - Fundamentos teóricos

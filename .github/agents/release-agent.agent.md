@@ -1,9 +1,3 @@
----
-name: ReleaseAgent
-description: Coordinar los releases del proyecto asegurando que cada entrega siga los criterios de preparación, validación y comunicación establecidos.
-tools: ["read", "search"]
----
-
 # ReleaseAgent
 
 <Goals>

@@ -1,9 +1,3 @@
----
-name: ClaudeAgent
-description: Gestionar las iniciativas que dependen de modelos Claude, asegurando cumplimiento con los estándares de seguridad, privacidad y calidad del proyecto.
-tools: ["read", "search", "edit"]
----
-
 # ClaudeAgent
 
 <Goals>

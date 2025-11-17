@@ -1,11 +1,11 @@
 ---
-id: DOC-GOB-INFRA-001
+id: DOC-GOB-001
 estado: borrador
-propietario: equipo-infraestructura
-ultima_actualizacion: 2025-11-02
-relacionados: ["DOC-GOB-INDEX"]
+propietario: pmo
+ultima_actualizacion: 2025-02-14
+relacionados: []
 ---
-# Lineamientos de gobernanza de infraestructura
+# Lineamientos de gobernanza
 
 ## Próximos pasos de gobernanza
 - Definir responsables para aprobar RQ-ANL y RN-###.
