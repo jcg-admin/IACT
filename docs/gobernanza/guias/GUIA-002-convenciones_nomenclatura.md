@@ -199,6 +199,13 @@ plantilla_caso_de_uso.md
 - `YYYYMMDD`: Fecha compacta (20251117 = 2025-11-17)
 - `HHMMSS`: Hora en formato 24h (143022 = 14:30:22)
 
+**IMPORTANTE**: El timestamp debe reflejar la **hora de INICIO** del analisis/reporte, NO la hora de finalizacion.
+
+Ejemplo: Si un analisis comienza a las 14:30 y termina a las 15:45, el archivo debe ser:
+```
+ANALISIS_PROYECTO_20251117_143000.md  # Hora de inicio: 14:30
+```
+
 **Ejemplos validos**:
 ```
 REPORTE_EMOJIS_DOCS_GOBERNANZA_20251117_140530.md
