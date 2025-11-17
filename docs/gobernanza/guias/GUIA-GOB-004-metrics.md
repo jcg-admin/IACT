@@ -1,5 +1,5 @@
 ---
-id: GUIA-004
+id: GUIA-GOB-004
 tipo: guia
 categoria: gobernanza
 subcategoria: metricas

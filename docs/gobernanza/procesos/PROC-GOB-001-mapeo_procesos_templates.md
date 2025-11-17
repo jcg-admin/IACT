@@ -1,5 +1,5 @@
 ---
-id: PROC-005
+id: PROC-GOB-001
 tipo: proceso
 categoria: gobernanza
 subcategoria: mapeo-plantillas

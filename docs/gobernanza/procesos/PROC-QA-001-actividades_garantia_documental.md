@@ -1,5 +1,5 @@
 ---
-id: PROC-006
+id: PROC-QA-001
 tipo: proceso
 categoria: qa
 subcategoria: garantia-documental

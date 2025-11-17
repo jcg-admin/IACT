@@ -1,5 +1,5 @@
 ---
-id: GUIA-003
+id: GUIA-GOB-003
 tipo: guia
 categoria: gobernanza
 version: 1.0.0

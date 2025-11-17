@@ -1,5 +1,5 @@
 ---
-id: GUIA-001
+id: GUIA-GOB-001
 tipo: guia
 categoria: gobernanza
 subcategoria: conceptos-fundamentales

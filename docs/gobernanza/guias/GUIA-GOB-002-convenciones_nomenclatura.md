@@ -1,5 +1,5 @@
 ---
-id: GUIA-002
+id: GUIA-GOB-002
 tipo: guia
 categoria: gobernanza
 subcategoria: estandares
@@ -28,7 +28,7 @@ Establecer convenciones consistentes para nombrar archivos de documentacion en e
 Todos los archivos de documentacion (excepto README.md y plantillas) DEBEN seguir el patron:
 
 ```
-PREFIX-###-snake_case_title.md
+PREFIX-DOMINIO-###-snake_case_title.md
 ```
 
 ### Componentes del Patron
@@ -36,15 +36,37 @@ PREFIX-###-snake_case_title.md
 | Componente | Descripcion | Formato | Ejemplo |
 |------------|-------------|---------|---------|
 | PREFIX | Tipo de documento | MAYUSCULAS con guion | `ADR-`, `PROC-`, `GUIA-` |
+| DOMINIO | Area o dominio | MAYUSCULAS abreviadas | `BACK`, `FRONT`, `QA`, `GOB` |
 | ### | Numero secuencial | 3 digitos (001-999) | `001`, `012`, `123` |
 | snake_case_title | Titulo descriptivo | Minusculas con guiones bajos | `pipeline_trabajo_iact` |
 | .md | Extension Markdown | Siempre `.md` | `.md` |
 
 ### Separadores
 
-- Entre PREFIX y numero: **Guion** `-`
+- Entre PREFIX y DOMINIO: **Guion** `-`
+- Entre DOMINIO y numero: **Guion** `-`
 - Entre numero y titulo: **Guion** `-`
 - Entre palabras del titulo: **Guion bajo** `_`
+
+### Dominios Establecidos
+
+| Codigo | Dominio | Descripcion |
+|--------|---------|-------------|
+| `BACK` | Backend | Django, APIs REST, Base de datos, Modelos |
+| `FRONT` | Frontend | React, UI/UX, Componentes visuales |
+| `DEVOPS` | DevOps | CI/CD, Infrastructure, Deployment, Containers |
+| `QA` | Quality Assurance | Testing, Cobertura, Estrategias de calidad |
+| `AI` | Inteligencia Artificial | Agentes, ML, Automatizacion inteligente |
+| `GOB` | Gobernanza | Procesos generales, Metodologias, Estandares |
+| `DEV` | Desarrollo | SDLC, Metodologias de desarrollo, Workflows |
+
+### Ventajas del Patron con Dominio
+
+1. **Organizacion clara**: El ID indica inmediatamente el area responsable
+2. **Evita colisiones**: Cada dominio tiene su propio rango numerico secuencial
+3. **Escalable**: Multiples equipos pueden trabajar en paralelo sin conflictos
+4. **Mas descriptivo**: `PROC-QA-015` vs `PROC-015` (se entiende que es de QA)
+5. **Busqueda facil**: `ls PROC-BACK-*.md` lista todos los procesos de backend
 
 ---
 
@@ -54,18 +76,20 @@ PREFIX-###-snake_case_title.md
 
 #### ADR (Architecture Decision Record)
 
-**Patron**: `ADR-###-snake_case_title.md`
+**Patron**: `ADR-DOMINIO-###-snake_case_title.md`
 
 **Ejemplos**:
 ```
-ADR-001-vagrant_mod_wsgi.md
-ADR-012-sistema_permisos_sin_roles_jerarquicos.md
-ADR-054-planning_architecture.md
+ADR-BACK-001-vagrant_mod_wsgi.md
+ADR-BACK-012-sistema_permisos_sin_roles_jerarquicos.md
+ADR-DEVOPS-001-ci_cd_pipeline.md
+ADR-FRONT-001-redux_state_management.md
+ADR-AI-001-planning_architecture.md
 ```
 
 **Ubicacion**: `docs/gobernanza/adr/`
 
-**Descripcion**: Documentos que registran decisiones arquitectonicas significativas del proyecto.
+**Descripcion**: Documentos que registran decisiones arquitectonicas significativas del proyecto. El dominio indica el area afectada por la decision.
 
 ---
 
@@ -73,18 +97,18 @@ ADR-054-planning_architecture.md
 
 #### TASK (Tareas de IA)
 
-**Patron**: `TASK-###-snake_case_title.md`
+**Patron**: `TASK-AI-###-snake_case_title.md`
 
 **Ejemplos**:
 ```
-TASK-009-comunicacion_ai_stance.md
-TASK-012-ai_guidelines_onboarding.md
-TASK-024-ai_telemetry_system.md
+TASK-AI-009-comunicacion_ai_stance.md
+TASK-AI-012-ai_guidelines_onboarding.md
+TASK-AI-024-ai_telemetry_system.md
 ```
 
 **Ubicacion**: `docs/gobernanza/ai/`
 
-**Descripcion**: Tareas, proyectos y documentacion relacionada con sistemas de IA y agentes.
+**Descripcion**: Tareas, proyectos y documentacion relacionada con sistemas de IA y agentes. Todas las TASK son del dominio AI.
 
 ---
 
@@ -92,20 +116,22 @@ TASK-024-ai_telemetry_system.md
 
 #### PROC (Proceso)
 
-**Patron**: `PROC-###-snake_case_title.md`
+**Patron**: `PROC-DOMINIO-###-snake_case_title.md`
 
 **Ejemplos**:
 ```
-PROC-001-pipeline_trabajo_iact.md
-PROC-002-sdlc_process.md
-PROC-003-devops_automation.md
+PROC-DEV-001-pipeline_trabajo_iact.md
+PROC-DEV-002-sdlc_process.md
+PROC-DEVOPS-001-devops_automation.md
+PROC-QA-001-estrategia_qa.md
+PROC-GOB-001-mapeo_procesos_templates.md
 ```
 
 **Ubicacion**: `docs/gobernanza/procesos/`
 
-**Descripcion**: Procesos de alto nivel que definen QUE se hace (flujos completos de trabajo).
+**Descripcion**: Procesos de alto nivel que definen QUE se hace (flujos completos de trabajo). El dominio indica el area principal del proceso.
 
-**Ver**: [GUIA-001: Procesos vs Procedimientos](GUIA-001-procesos_vs_procedimientos.md)
+**Ver**: [GUIA-GOB-001: Procesos vs Procedimientos](GUIA-GOB-001-procesos_vs_procedimientos.md)
 
 ---
 
@@ -113,21 +139,21 @@ PROC-003-devops_automation.md
 
 #### PROCED (Procedimiento)
 
-**Patron**: `PROCED-###-snake_case_title.md`
+**Patron**: `PROCED-DOMINIO-###-snake_case_title.md`
 
 **Ejemplos**:
 ```
-PROCED-001-code_review.md
-PROCED-002-ejecutar_tests.md
-PROCED-003-deploy_staging.md
-PROCED-004-rollback.md
+PROCED-DEV-001-code_review.md
+PROCED-QA-001-ejecutar_tests.md
+PROCED-DEVOPS-001-deploy_staging.md
+PROCED-DEVOPS-002-rollback.md
 ```
 
 **Ubicacion**: `docs/gobernanza/procedimientos/`
 
-**Descripcion**: Procedimientos detallados que describen COMO se ejecutan tareas especificas (paso a paso).
+**Descripcion**: Procedimientos detallados que describen COMO se ejecutan tareas especificas (paso a paso). El dominio indica el area del procedimiento.
 
-**Ver**: [GUIA-001: Procesos vs Procedimientos](GUIA-001-procesos_vs_procedimientos.md)
+**Ver**: [GUIA-GOB-001: Procesos vs Procedimientos](GUIA-GOB-001-procesos_vs_procedimientos.md)
 
 ---
 
@@ -135,19 +161,20 @@ PROCED-004-rollback.md
 
 #### GUIA (Guia)
 
-**Patron**: `GUIA-###-snake_case_title.md`
+**Patron**: `GUIA-DOMINIO-###-snake_case_title.md`
 
 **Ejemplos**:
 ```
-GUIA-001-procesos_vs_procedimientos.md
-GUIA-002-convenciones_nomenclatura.md
-GUIA-003-quickstart.md
-GUIA-004-estilo.md
+GUIA-GOB-001-procesos_vs_procedimientos.md
+GUIA-GOB-002-convenciones_nomenclatura.md
+GUIA-GOB-003-ubicaciones_artefactos.md
+GUIA-DEV-001-quickstart.md
+GUIA-QA-001-testing_strategy.md
 ```
 
 **Ubicacion**: `docs/gobernanza/guias/`
 
-**Descripcion**: Guias, tutoriales y documentacion que no es ni proceso ni procedimiento.
+**Descripcion**: Guias, tutoriales y documentacion que no es ni proceso ni procedimiento. El dominio indica el area de la guia.
 
 ---
 
