@@ -1,5 +1,5 @@
 ---
-id: ADR-053
+id: ADR-AI-013-multi-agent-design-patterns
 tipo: adr
 estado: propuesto
 fecha: 2025-11-16

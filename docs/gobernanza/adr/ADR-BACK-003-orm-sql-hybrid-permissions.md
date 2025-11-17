@@ -1,5 +1,5 @@
 ---
-id: ADR-010
+id: ADR-BACK-003-orm-sql-hybrid-permissions
 estado: aceptada
 propietario: backend-team
 ultima_actualizacion: 2025-11-09

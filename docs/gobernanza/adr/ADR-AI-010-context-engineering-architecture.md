@@ -1,5 +1,5 @@
 ---
-id: ADR-050
+id: ADR-AI-010-context-engineering-architecture
 tipo: adr
 estado: propuesto
 fecha: 2025-11-16

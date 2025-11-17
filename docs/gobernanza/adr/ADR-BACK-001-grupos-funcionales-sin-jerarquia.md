@@ -1,5 +1,5 @@
 ---
-id: ADR-005
+id: ADR-BACK-001-grupos-funcionales-sin-jerarquia
 estado: aceptada
 propietario: equipo-backend
 ultima_actualizacion: 2025-11-07

@@ -1,5 +1,5 @@
 ---
-id: ADR-002
+id: ADR-QA-001-suite-calidad-codigo
 estado: aceptada
 propietario: equipo-arquitectura
 ultima_actualizacion: 2025-11-04

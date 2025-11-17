@@ -1,5 +1,5 @@
 ---
-id: ADR-020
+id: ADR-BACK-005-servicios-resilientes
 titulo: Capa de servicios resilientes con contratos y telemetria
 autor: equipo-frontend
 fecha: 2025-11-09

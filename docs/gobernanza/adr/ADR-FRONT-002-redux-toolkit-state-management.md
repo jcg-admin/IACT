@@ -1,5 +1,5 @@
 ---
-id: ADR_012
+id: ADR-FRONT-002-redux-toolkit-state-management
 titulo: Redux Toolkit para State Management (no Context API)
 fecha: 2025-11-06
 estado: Aceptado
@@ -10,7 +10,7 @@ contexto: Sistema IACT Frontend - State Management
 tags: [frontend, state-management, redux, react]
 ---
 
-# ADR_012: Redux Toolkit para State Management (no Context API)
+# ADR-016: Redux Toolkit para State Management (no Context API)
 
 ## Estado
 
@@ -39,14 +39,12 @@ El frontend de IACT necesita gestionar estado complejo:
 #### Opción 1: Context API (React built-in)
 
 **Pros**:
-
 - Sin dependencias externas
 - Simple para casos básicos
 - Integrado en React
 - Curva de aprendizaje baja
 
 **Contras**:
-
 - **Performance**: Re-renders innecesarios con Context grande
 - **No dev tools**: Sin Redux DevTools (crítico para debugging)
 - **No middleware**: Sin side effects management (thunks, sagas)
@@ -54,7 +52,6 @@ El frontend de IACT necesita gestionar estado complejo:
 - **Testing complejo**: Requiere mocks de Context providers
 
 **Ejemplo problema performance**:
-
 ```javascript
 // Con Context API: TODOS los consumidores re-renderizan
 const AppContext = createContext({ user, widgets, alerts, ... });
@@ -65,14 +62,12 @@ const AppContext = createContext({ user, widgets, alerts, ... });
 #### Opción 2: Zustand (State management ligero)
 
 **Pros**:
-
 - Muy ligero (1KB)
 - API simple similar a hooks
 - Performance bueno
 - Dev tools disponible
 
 **Contras**:
-
 - Ecosistema menor vs Redux
 - Middleware limitado
 - Menos tooling (persist, dev tools menos maduro)
@@ -81,7 +76,6 @@ const AppContext = createContext({ user, widgets, alerts, ... });
 #### Opción 3: Redux Toolkit (SELECCIONADA)
 
 **Pros**:
-
 - **Redux DevTools**: Time-travel debugging, inspección de estado
 - **Performance óptimo**: Selector memoization, re-renders precisos
 - **Middleware robusto**: RTK Query para caching, thunks para async
@@ -91,7 +85,6 @@ const AppContext = createContext({ user, widgets, alerts, ... });
 - **Ecosistema maduro**: Amplia documentación, librerías, comunidad
 
 **Contras**:
-
 - Dependencia externa (62KB gzipped)
 - Curva de aprendizaje (conceptos: actions, reducers, selectors)
 - Overhead para casos simples (overkill para app trivial)
@@ -113,12 +106,9 @@ Usar **Redux Toolkit** (RTK) como solución de state management.
    - Export/import de estado para reproducir bugs
 
 3. **Testing SIMPLE**: Reducers funciones puras
-
    ```javascript
    // Test simple y predecible
-   expect(dashboardReducer(state, setWidgets(newWidgets))).toEqual(
-     expectedState,
-   );
+   expect(dashboardReducer(state, setWidgets(newWidgets))).toEqual(expectedState);
    ```
 
 4. **Middleware NECESARIO**: RTK Query para futuro
@@ -142,9 +132,9 @@ Usar **Redux Toolkit** (RTK) como solución de state management.
 
 ```javascript
 // src/state/store.js
-import { configureStore } from "@reduxjs/toolkit";
-import appConfigReducer from "./slices/appConfigSlice";
-import dashboardReducer from "@modules/dashboard/state/dashboardSlice";
+import { configureStore } from '@reduxjs/toolkit';
+import appConfigReducer from './slices/appConfigSlice';
+import dashboardReducer from '@modules/dashboard/state/dashboardSlice';
 
 export const store = configureStore({
   reducer: {
@@ -154,11 +144,9 @@ export const store = configureStore({
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
-      serializableCheck: {
-        /* ... */
-      },
+      serializableCheck: { /* ... */ },
     }),
-  devTools: process.env.NODE_ENV !== "production",
+  devTools: process.env.NODE_ENV !== 'production',
 });
 ```
 
@@ -166,10 +154,10 @@ export const store = configureStore({
 
 ```javascript
 // src/modules/dashboard/state/dashboardSlice.js
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const dashboardSlice = createSlice({
-  name: "dashboard",
+  name: 'dashboard',
   initialState: {
     widgets: [],
     isLoading: false,
@@ -194,19 +182,19 @@ export default dashboardSlice.reducer;
 
 ```javascript
 // src/modules/dashboard/hooks/useDashboardData.js
-import { useSelector, useDispatch } from "react-redux";
-import { setWidgets, setLoading } from "../state/dashboardSlice";
+import { useSelector, useDispatch } from 'react-redux';
+import { setWidgets, setLoading } from '../state/dashboardSlice';
 
 export function useDashboardData() {
   const dispatch = useDispatch();
   const { widgets, isLoading, lastUpdate } = useSelector(
-    (state) => state.dashboard,
+    (state) => state.dashboard
   );
 
   const loadWidgets = async () => {
     dispatch(setLoading(true));
     try {
-      const response = await fetch("/api/dashboard/widgets");
+      const response = await fetch('/api/dashboard/widgets');
       const data = await response.json();
       dispatch(setWidgets(data));
     } finally {
@@ -251,19 +239,18 @@ export function useDashboardData() {
 
 ### Métricas de Éxito
 
-| Métrica                 | Baseline (Context API) | Target (Redux)         |
-| ----------------------- | ---------------------- | ---------------------- |
-| Dashboard carga         | ~5s (estimado)         | <3s (RF-012)           |
-| Re-renders innecesarios | Alto (Context)         | Bajo (Selectors)       |
-| Time to debug bug       | 2-4 horas              | 30-60 min (DevTools)   |
-| Test coverage reducers  | N/A                    | >90% (funciones puras) |
+| Métrica | Baseline (Context API) | Target (Redux) |
+|---------|------------------------|----------------|
+| Dashboard carga | ~5s (estimado) | <3s (RF-012) |
+| Re-renders innecesarios | Alto (Context) | Bajo (Selectors) |
+| Time to debug bug | 2-4 horas | 30-60 min (DevTools) |
+| Test coverage reducers | N/A | >90% (funciones puras) |
 
 ## Alternativas Rechazadas
 
 ### Context API
 
 Rechazado por:
-
 - Performance insuficiente para 10 widgets compartiendo contexto
 - Sin Redux DevTools (crítico para debugging)
 - Re-renders innecesarios
@@ -272,7 +259,6 @@ Rechazado por:
 ### Zustand
 
 Rechazado por:
-
 - Ecosistema menor vs Redux
 - Middleware menos maduro
 - Equipo familiarizado con Redux (experiencia previa)
@@ -280,7 +266,6 @@ Rechazado por:
 ### MobX
 
 Rechazado por:
-
 - Paradigma observable más complejo
 - Menor adopción en comunidad React
 - Debugging menos transparente
@@ -295,8 +280,8 @@ Rechazado por:
 
 ## Decisiones Relacionadas
 
-- **ADR_011**: Modular Monolith (estructura permite slices por módulo)
-- **ADR_013**: Webpack (code splitting para reducir bundle size)
+- **ADR-015**: Modular Monolith (estructura permite slices por módulo)
+- **ADR-018**: Webpack (code splitting para reducir bundle size)
 
 ## Plan de Capacitación
 

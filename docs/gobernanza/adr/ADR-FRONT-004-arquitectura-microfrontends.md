@@ -1,5 +1,5 @@
 ---
-id: ADR-021
+id: ADR-FRONT-004-arquitectura-microfrontends
 titulo: Arquitectura de microfrontends basada en App Shell unificado
 autor: equipo-frontend
 fecha: 2025-11-09

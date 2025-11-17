@@ -1,5 +1,5 @@
 ---
-id: ADR-051
+id: ADR-AI-011-context-management-strategies
 tipo: adr
 estado: propuesto
 fecha: 2025-11-16

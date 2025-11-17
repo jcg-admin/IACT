@@ -1,5 +1,5 @@
 ---
-id: ADR-048
+id: ADR-AI-008-ai-agent-memory-architecture
 tipo: adr
 estado: propuesto
 fecha: 2025-11-16

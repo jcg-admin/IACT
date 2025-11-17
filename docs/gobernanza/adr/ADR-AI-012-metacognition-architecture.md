@@ -1,5 +1,5 @@
 ---
-id: ADR-052
+id: ADR-AI-012-metacognition-architecture
 tipo: adr
 estado: propuesto
 fecha: 2025-11-16

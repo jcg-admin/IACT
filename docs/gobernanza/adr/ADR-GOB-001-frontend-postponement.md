@@ -1,5 +1,5 @@
 ---
-id: ADR-009
+id: ADR-GOB-001-frontend-postponement
 estado: aceptada
 propietario: architecture-team
 ultima_actualizacion: 2025-11-09

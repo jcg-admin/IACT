@@ -1,5 +1,5 @@
 ---
-id: ADR-049
+id: ADR-AI-009-memory-types-storage-strategy
 tipo: adr
 estado: propuesto
 fecha: 2025-11-16

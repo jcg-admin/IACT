@@ -1,5 +1,5 @@
 ---
-id: ADR-006
+id: ADR-BACK-002-configuracion-dinamica-sistema
 estado: aceptada
 propietario: backend-team
 ultima_actualizacion: 2025-11-09

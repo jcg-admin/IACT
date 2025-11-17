@@ -1,5 +1,5 @@
 ---
-id: ADR-019
+id: ADR-QA-002-testing-strategy-jest-testing-library
 titulo: Jest + Testing Library para Testing Frontend
 fecha: 2025-11-06
 estado: Aceptado
