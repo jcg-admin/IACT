@@ -1,11 +1,13 @@
 ---
-id: PROC-DEVOPS-001
-tipo: proceso_devops
+id: PROC-003
+tipo: proceso
+categoria: devops
+subcategoria: automation
 estado: activo
-version: 2.0
-fecha: 2025-11-06
-owner: devops-lead
-relacionado:
+version: 2.0.0
+fecha_creacion: 2025-11-06
+autor: devops-lead
+relacionados:
   - PROC-SDLC-001
   - RNF-002 (NO Redis)
   - restricciones_y_lineamientos.md

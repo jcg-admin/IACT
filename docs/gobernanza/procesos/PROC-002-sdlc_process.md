@@ -1,11 +1,13 @@
 ---
-id: PROC-SDLC-001
-tipo: proceso_desarrollo
+id: PROC-002
+tipo: proceso
+categoria: desarrollo
+subcategoria: sdlc
 estado: activo
-version: 1.0
-fecha: 2025-11-06
-owner: arquitecto-senior
-relacionados: [PROC-AGILE-001, ADR-SDLC-MODEL]
+version: 1.0.0
+fecha_creacion: 2025-11-06
+autor: arquitecto-senior
+relacionados: ["PROC-001", "ADR-003"]
 ---
 
 # Proceso SDLC del Proyecto IACT

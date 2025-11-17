@@ -1,12 +1,13 @@
 ---
-id: DOC-GOB-MAPEO-PROC-TEMP
-tipo: guia
+id: PROC-005
+tipo: proceso
 categoria: gobernanza
+subcategoria: mapeo-plantillas
+estado: activo
 version: 1.0.0
 fecha_creacion: 2025-11-06
-propietario: equipo-gobernanza
-relacionados: ["INDICE.md", "AGENTES_SDLC.md", "procedimientos/README.md"]
-date: 2025-11-13
+autor: equipo-gobernanza
+relacionados: ["PROC-001", "PROC-004", "GUIA-002"]
 ---
 
 # MAPEO: Procedimientos <-> Workflows <-> Templates

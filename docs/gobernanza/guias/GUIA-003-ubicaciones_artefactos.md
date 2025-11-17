@@ -1,11 +1,11 @@
 ---
-id: GUIA-UBICACIONES-ARTEFACTOS
+id: GUIA-003
 tipo: guia
 categoria: gobernanza
 version: 1.0.0
 fecha_creacion: 2025-11-16
 autor: equipo-arquitectura
-status: activo
+estado: activo
 ---
 
 # Guía de Ubicaciones Canónicas de Artefactos

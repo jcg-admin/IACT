@@ -1,8 +1,13 @@
 ---
-title: Agentes SDLC - Documentacion Completa
-date: 2025-11-13
-domain: gobernanza
-status: active
+id: PROC-004
+tipo: proceso
+categoria: desarrollo
+subcategoria: agentes-sdlc
+estado: activo
+version: 1.0.0
+fecha_creacion: 2025-11-13
+autor: equipo-ai
+relacionados: ["PROC-001", "PROC-002"]
 ---
 
 # Agentes SDLC - Documentacion Completa

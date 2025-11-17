@@ -1,9 +1,12 @@
 ---
-id: QUICKSTART-GUIAS
-tipo: quickstart
-categoria: guias
+id: GUIA-005
+tipo: guia
+categoria: gobernanza
+subcategoria: quickstart
 version: 1.0.0
-fecha: 2025-11-07
+fecha_creacion: 2025-11-07
+autor: equipo-documentacion
+estado: activo
 ---
 
 # Quick Start - Sistema de Guias Operativas

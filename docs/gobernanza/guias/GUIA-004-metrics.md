@@ -1,9 +1,12 @@
 ---
-id: METRICS-GUIAS-ADOPTION
-tipo: metricas
-categoria: documentacion
+id: GUIA-004
+tipo: guia
+categoria: gobernanza
+subcategoria: metricas
 version: 1.0.0
-fecha: 2025-11-07
+fecha_creacion: 2025-11-07
+autor: equipo-qa
+estado: activo
 ---
 
 # Metricas de Adoption de Guias

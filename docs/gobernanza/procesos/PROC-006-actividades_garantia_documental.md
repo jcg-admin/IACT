@@ -1,10 +1,13 @@
 ---
-id: DOC-QA-DOC-CONTROL
-estado: vigente
-propietario: lider-qa
-ultima_actualizacion: 2025-02-19
-relacionados: ["DOC-QA-001", "DOC-REQ-INDEX", "DOC-RQ-TRACE"]
-date: 2025-11-13
+id: PROC-006
+tipo: proceso
+categoria: qa
+subcategoria: garantia-documental
+estado: activo
+version: 1.0.0
+fecha_creacion: 2025-02-19
+autor: lider-qa
+relacionados: ["PROC-007", "GUIA-002"]
 ---
 # Actividades de control documental
 
