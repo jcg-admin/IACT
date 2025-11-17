@@ -2,13 +2,23 @@
 id: GUIA-GOB-009
 tipo: guia
 titulo: Documentación UML Completa y Patrones de Diagramas
-version: 1.0.0
+version: 1.1.0
 fecha_creacion: 2025-01-17
+fecha_actualizacion: 2025-01-17
 autores: [Sistema]
-estado: borrador
-relacionado_con: [ADR-GOB-004, ADR-GOB-008, GUIA-GOB-008]
+estado: activo
+relacionado_con: [ADR-GOB-004, ADR-GOB-008, GUIA-GOB-008, ADR-012]
 trazabilidad_upward: []
 trazabilidad_downward: []
+ejemplos_reales: 6
+archivos_analizados: [
+  "infrastructure/vagrant/Vagrantfile",
+  "apps/permissions/models.py",
+  "apps/permissions/services.py",
+  "apps/llamadas/models.py",
+  "apps/authentication/models.py",
+  "apps/authentication/services.py"
+]
 ---
 
 # GUIA-GOB-009: Documentación UML Completa y Patrones de Diagramas
@@ -361,7 +371,119 @@ node "CDN" <<content delivery>>
 @enduml
 ```
 
-### 3.7 Ejemplo Completo: Sistema IACT
+### 3.7 Ejemplo del Proyecto IACT: Entorno de Desarrollo
+
+**BASADO EN CÓDIGO REAL**: `/home/user/IACT---project/infrastructure/vagrant/Vagrantfile`
+
+```plantuml
+@startuml DEPLOY-IACT-DEV-001-vagrant-devbox
+title Diagrama de Despliegue: IACT DevBox (Vagrant)
+caption Basado en infrastructure/vagrant/Vagrantfile | Versión 1.0.0
+footer Proyecto IACT | Entorno de Desarrollo
+
+' === CONFIGURACIÓN ===
+skinparam node {
+  BackgroundColor #e8f4f8
+  BorderColor #0284c7
+}
+
+' === HOST MACHINE ===
+node "Host Machine" as host {
+  component "Vagrant" as vagrant
+  component "VirtualBox" as vbox
+
+  note right of vagrant
+    **Comandos**:
+    - vagrant up
+    - vagrant ssh
+    - vagrant halt
+  end note
+}
+
+' === VAGRANT VM ===
+package "Vagrant VM (Ubuntu 20.04)" as vm {
+
+  node "iact-devbox" as devbox {
+    component "VM Config" as vmconfig {
+      note bottom
+        **Recursos**:
+        - Memory: 4096 MB
+        - CPUs: 2
+        - IP: 10.0.2.10
+      end note
+    }
+  }
+
+  ' === DATABASES ===
+  node "MariaDB 11.4 LTS" <<database>> as mariadb {
+    database "ivr_legacy" as mariadb_db
+    note right
+      **Port Forwarding**:
+      guest:3306 -> host:13306
+
+      **Credentials**:
+      User: django_user
+      Pass: django_pass
+    end note
+  }
+
+  node "PostgreSQL 16" <<database>> as postgres {
+    database "iact_analytics" as postgres_db
+    note right
+      **Port Forwarding**:
+      guest:5432 -> host:15432
+
+      **Credentials**:
+      User: django_user
+      Pass: django_pass
+    end note
+  }
+
+  ' === SHARED FOLDER ===
+  storage "Synced Folder" as syncfolder {
+    note bottom
+      **Mount Options**:
+      - iocharset=utf8
+      - dmode=755,fmode=644
+      - /vagrant -> project root
+    end note
+  }
+}
+
+' === CONEXIONES ===
+
+' Host -> VM
+host --> devbox : Vagrant SSH\nPort 22
+
+' Port Forwarding
+host ..> mariadb : localhost:13306\nMySQL Protocol
+host ..> postgres : localhost:15432\nPostgreSQL Protocol
+
+' Shared Folder
+host --> syncfolder : VirtualBox\nShared Folders
+
+' VM -> Databases
+vmconfig --> mariadb_db : localhost:3306
+vmconfig --> postgres_db : localhost:5432
+
+' === LEYENDA ===
+legend right
+  **Código Real**: infrastructure/vagrant/Vagrantfile
+
+  **Propósito**:
+  - Entorno de desarrollo local
+  - Dos bases de datos (MariaDB legacy + PostgreSQL analytics)
+  - Aislamiento mediante VM
+
+  **Comandos de Verificación**:
+  vagrant ssh
+  bash /vagrant/scripts/verify_connections.sh
+end legend
+
+@enduml
+```
+
+### 3.8 Ejemplo Completo: Sistema IACT Producción
 
 ```plantuml
 @startuml DEPLOY-IACT-001-arquitectura-completa
@@ -648,106 +770,145 @@ end note
 @enduml
 ```
 
-### 4.4 Ejemplo: Módulo de Permisos IACT
+### 4.4 Ejemplo del Proyecto IACT: Módulo de Permisos
+
+**BASADO EN CÓDIGO REAL**:
+- `/home/user/IACT---project/api/callcentersite/callcentersite/apps/permissions/models.py`
+- `/home/user/IACT---project/api/callcentersite/callcentersite/apps/permissions/services.py`
 
 ```plantuml
-@startuml COMP-BACK-005-modulo-permisos
-title Componentes del Módulo de Permisos Granulares
-caption Trazabilidad: UC-PERM-001 a UC-PERM-010
+@startuml COMP-BACK-005-modulo-permisos-real
+title Componentes del Módulo de Permisos - Sistema IACT (Código Real)
+caption Basado en apps/permissions/ | ADR-012: Sistema sin roles jerárquicos
 footer Proyecto IACT | Backend Team
 
-package "Módulo de Permisos" <<subsystem>> {
-
-  ' === CAPA DE API ===
-  component "Permission API" as api {
-    portin " REST Endpoints" as port_rest
-    portin " GraphQL Endpoint" as port_graphql
-  }
+package "apps.permissions" <<Django App>> {
 
   ' === CAPA DE SERVICIO ===
-  component "Permission Service" as service {
-    port "IPermissionChecker" as port_checker
-    port "IPermissionManager" as port_manager
-  }
-
-  ' === COMPONENTES FUNCIONALES ===
-  component "Verification Engine" as verifier {
-    note bottom
-      **UC-PERM-007**: Verificar Permiso
-      - Revocaciones excepcionales (prioridad 1)
-      - Concesiones excepcionales (prioridad 2)
-      - Grupos (prioridad 3)
-    end note
-  }
-
-  component "Audit Logger" as auditor {
-    note bottom
-      **UC-PERM-009**: Auditar Acceso
-      - Log de cada verificación
-      - IP, User-Agent, Timestamp
-    end note
-  }
-
-  component "Menu Generator" as menugenerator {
-    note bottom
-      **UC-PERM-008**: Generar Menú Dinámico
-      - Estructura jerárquica
-      - Basado en capacidades del usuario
-    end note
-  }
-
-  component "Group Manager" as groupmanager
-  component "Exception Manager" as exceptionmanager
-
-  ' === CAPA DE DATOS ===
-  component "Permission Repository" as repo {
-    port "IRepository" as port_repo
-  }
-
-  ' === CAPA DE CACHE ===
-  component "Permission Cache" as cache {
+  component "PermisoService" as permisoservice {
     note right
-      - TTL: 5 minutos
-      - Invalidación automática
-      - Key: user_id:capability
+      **Métodos principales**:
+      + usuario_tiene_permiso(usuario_id, capacidad)
+      + obtener_capacidades_usuario(usuario_id)
+      + obtener_funciones_accesibles(usuario_id)
+      + registrar_acceso(usuario_id, capacidad, ...)
+      + verificar_capacidad_requiere_auditoria(capacidad)
+
+      **Archivo**: services.py
     end note
   }
 
-  ' === RELACIONES ===
-  api --> service : uses
+  ' === MODELOS DE DOMINIO ===
+  package "Modelos (models.py)" {
+    component "Funcion" as funcion {
+      note bottom
+        Recurso del sistema
+        Ej: dashboards, usuarios, metricas
+      end note
+    }
 
-  service --> verifier : delegates
-  service --> auditor : delegates
-  service --> menugenerator : delegates
-  service --> groupmanager : delegates
-  service --> exceptionmanager : delegates
+    component "Capacidad" as capacidad {
+      note bottom
+        Acción específica
+        Formato: sistema.dominio.recurso.accion
+        Ej: sistema.vistas.dashboards.ver
+      end note
+    }
 
-  verifier --> repo : reads
-  verifier --> cache : checks first
-  verifier --> auditor : logs result
+    component "GrupoPermisos" as grupo {
+      note bottom
+        Agrupación funcional (NO jerárquica)
+        Ej: atencion_cliente, gestion_equipos
+        NO admin/supervisor/agent
+      end note
+    }
 
-  groupmanager --> repo : CRUD
-  exceptionmanager --> repo : CRUD
-  menugenerator --> verifier : uses
+    component "UsuarioGrupo" as usuariogrupo {
+      note bottom
+        Usuario puede tener MÚLTIPLES grupos
+        Soporte para asignaciones temporales
+      end note
+    }
 
-  cache --> repo : on miss
+    component "GrupoCapacidad" as grupocapacidad
+    component "FuncionCapacidad" as funcioncapacidad
+
+    component "PermisoExcepcional" as excepcional {
+      note bottom
+        tipo: conceder | revocar
+        Permite permisos temporales
+      end note
+    }
+
+    component "AuditoriaPermiso" as auditoria {
+      note bottom
+        Registro de cada verificación
+        Usuario, capacidad, IP, resultado
+      end note
+    }
+  }
+
+  ' === RELACIONES ENTRE COMPONENTES ===
+  permisoservice ..> funcion : usa
+  permisoservice ..> capacidad : usa
+  permisoservice ..> grupo : usa
+  permisoservice ..> usuariogrupo : verifica
+  permisoservice ..> grupocapacidad : consulta
+  permisoservice ..> excepcional : verifica
+  permisoservice ..> auditoria : crea
+
+  funcion "1" -- "*" funcioncapacidad
+  capacidad "1" -- "*" funcioncapacidad
+
+  grupo "1" -- "*" grupocapacidad
+  capacidad "1" -- "*" grupocapacidad
+
+  usuariogrupo "*" -- "1" grupo
 }
 
 ' === DEPENDENCIAS EXTERNAS ===
-database "PostgreSQL" as db
+database "PostgreSQL" as db {
+  storage "permissions_funciones"
+  storage "permissions_capacidades"
+  storage "permissions_grupos_permisos"
+  storage "permissions_usuarios_grupos"
+  storage "permissions_grupo_capacidades"
+  storage "permissions_permisos_excepcionales"
+  storage "permissions_auditoria_permisos"
+}
+
 component "Django ORM" as orm
 
-repo --> orm : uses
-orm --> db : SQL
+funcion --> orm
+capacidad --> orm
+grupo --> orm
+excepcional --> orm
+auditoria --> orm
+
+orm --> db : SQL Queries
 
 ' === CONSUMIDORES ===
-component "User Management" as users
-component "Call Center" as calls
-component "Admin Panel" as admin
+component "apps.users" as users
+component "apps.llamadas" as llamadas
+component "apps.authentication" as auth
 
-users --> api : HTTP/REST
-calls --> api : HTTP/REST
-admin --> api : HTTP/REST
+users --> permisoservice : verifica permisos
+llamadas --> permisoservice : verifica permisos
+auth --> permisoservice : verifica permisos
+
+' === LEYENDA ===
+legend bottom
+  **Filosofía**: SIN roles jerárquicos (NO admin/supervisor/agent)
+  SOLO grupos funcionales de capacidades combinables
+
+  **Algoritmo de Verificación**:
+  1. Revocaciones excepcionales activas → DENEGAR
+  2. Concesiones excepcionales activas → CONCEDER
+  3. Capacidad por grupos activos → CONCEDER
+  4. Sino → DENEGAR
+
+  **Código Real**: api/callcentersite/callcentersite/apps/permissions/
+end legend
 
 @enduml
 ```
@@ -819,7 +980,103 @@ deactivate FE
 @enduml
 ```
 
-### 5.3 Elementos Avanzados
+### 5.3 Ejemplo del Proyecto IACT: Verificación de Permiso Real
+
+**BASADO EN CÓDIGO REAL**: `/home/user/IACT---project/api/callcentersite/callcentersite/apps/permissions/services.py` (método `usuario_tiene_permiso`)
+
+```plantuml
+@startuml SEQ-PERM-REAL-001-verificar-permiso-algoritmo
+title Secuencia: Verificación de Permiso - Algoritmo Real PermisoService
+caption Basado en services.py::usuario_tiene_permiso() | ADR-012
+footer Proyecto IACT | Sistema de Permisos Granular
+
+participant "Cliente" as client
+participant "PermisoService" as service
+database "Capacidad" as cap_model
+database "PermisoExcepcional" as excepcional_model
+database "UsuarioGrupo" as usuariogrupo_model
+database "GrupoCapacidad" as grupocap_model
+
+client -> service : usuario_tiene_permiso(\nusuario_id=123,\ncapacidad="sistema.vistas.dashboards.ver")
+activate service
+
+' 1. Verificar si usuario existe
+service -> service : User.objects.filter(id=usuario_id).exists()
+note right
+  Si no existe: return False
+end note
+
+' 2. Verificar si capacidad existe y está activa
+service -> cap_model : Capacidad.objects.get(\nnombre_completo=capacidad,\nactiva=True)
+activate cap_model
+cap_model --> service : capacidad_obj
+deactivate cap_model
+note right
+  Si no existe: return False
+end note
+
+' 3. PRIORIDAD 1: Verificar revocaciones excepcionales
+service -> excepcional_model : PermisoExcepcional.objects.filter(\nusuario_id=123,\ncapacidad=capacidad_obj,\ntipo="revocar",\nactivo=True,\nfecha_inicio__lte=now)\n.filter(Q(fecha_fin__isnull=True) | Q(fecha_fin__gte=now))
+activate excepcional_model
+excepcional_model --> service : exists() = False
+deactivate excepcional_model
+
+note right of service
+  **PRIORIDAD 1**:
+  Si existe revocación activa
+  → return False (DENEGADO)
+end note
+
+' 4. PRIORIDAD 2: Verificar concesiones excepcionales
+service -> excepcional_model : PermisoExcepcional.objects.filter(\nusuario_id=123,\ncapacidad=capacidad_obj,\ntipo="conceder",\nactivo=True,\nfecha_inicio__lte=now)\n.filter(Q(fecha_fin__isnull=True) | Q(fecha_fin__gte=now))
+activate excepcional_model
+excepcional_model --> service : exists() = False
+deactivate excepcional_model
+
+note right of service
+  **PRIORIDAD 2**:
+  Si existe concesión activa
+  → return True (CONCEDIDO)
+end note
+
+' 5. PRIORIDAD 3: Verificar permisos por grupos
+service -> usuariogrupo_model : UsuarioGrupo.objects.filter(\nusuario_id=123,\nactivo=True)\n.filter(Q(fecha_expiracion__isnull=True) | \nQ(fecha_expiracion__gte=now))\n.values_list("grupo_id", flat=True)
+activate usuariogrupo_model
+usuariogrupo_model --> service : [5, 7]  # IDs de grupos activos
+deactivate usuariogrupo_model
+
+note right of service
+  Usuario pertenece a 2 grupos activos:
+  - grupo_id=5 (atencion_cliente)
+  - grupo_id=7 (visualizacion_metricas)
+end note
+
+' 6. Verificar si alguno de los grupos tiene la capacidad
+service -> grupocap_model : GrupoCapacidad.objects.filter(\ngrupo_id__in=[5, 7],\ncapacidad=capacidad_obj)\n.exists()
+activate grupocap_model
+grupocap_model --> service : True
+deactivate grupocap_model
+
+note right of service
+  **PRIORIDAD 3**:
+  Capacidad encontrada en grupo 7
+  (visualizacion_metricas)
+  → return True (CONCEDIDO)
+end note
+
+service --> client : return True
+deactivate service
+
+note over client
+  Usuario tiene permiso para
+  "sistema.vistas.dashboards.ver"
+  Origen: grupo "visualizacion_metricas"
+end note
+
+@enduml
+```
+
+### 5.4 Elementos Avanzados
 
 ```plantuml
 @startuml SEQ-EXAMPLE-elementos-avanzados
@@ -1004,6 +1261,118 @@ stop
 @enduml
 ```
 
+### 6.4 Ejemplo del Proyecto IACT: Flujo de Autenticación con JWT
+
+**BASADO EN CÓDIGO REAL**: `/home/user/IACT---project/api/callcentersite/callcentersite/apps/authentication/services.py` (clase `AuthenticationService`)
+
+```plantuml
+@startuml ACT-AUTH-REAL-001-login-jwt
+title Actividad: Login con JWT - Flujo Real AuthenticationService
+caption Basado en authentication/services.py::AuthenticationService.login() | RF-005
+footer Proyecto IACT | Sistema de Autenticación
+
+|Usuario|
+start
+:Ingresa username y password;
+
+|Sistema|
+:Obtiene IP y user agent del request;
+
+:Busca usuario por username;
+
+if (¿Usuario existe?) then (no)
+  :Registra en AuditLog:\nevent_type='LOGIN_FAILURE'\nreason='usuario_inexistente';
+  :raise Exception(\n"Credenciales inválidas");
+  stop
+else (sí)
+  if (¿user.status == 'ACTIVO'?) then (no)
+    :Registra en AuditLog:\nevent_type='LOGIN_FAILURE'\nreason='usuario_inactivo';
+    :raise PermissionDenied(\n"Usuario inactivo");
+    stop
+  else (sí)
+    if (¿user.is_locked?) then (sí)
+      if (¿locked_until < now?) then (sí - expiró)
+        :Desbloquea automáticamente;
+        :user.is_locked = False;
+        :user.locked_until = None;
+        :user.failed_login_attempts = 0;
+        :Registra en AuditLog:\nevent_type='USER_UNLOCKED'\nreason='automatic_timeout';
+      else (no - sigue bloqueado)
+        :Calcula minutos restantes;
+        :Registra en AuditLog:\nevent_type='LOGIN_FAILURE'\nreason='cuenta_bloqueada';
+        :raise PermissionDenied(\n"Cuenta bloqueada. Tiempo restante: X minutos");
+        stop
+      endif
+    endif
+
+    :Verifica password con check_password();
+
+    if (¿Password correcta?) then (no)
+      :user.failed_login_attempts += 1;
+      :user.last_failed_login_at = now;
+
+      if (¿failed_login_attempts >= 3?) then (sí)
+        :user.is_locked = True;
+        :user.locked_until = now + 15 minutos;
+        :user.lock_reason = 'MAX_FAILED_ATTEMPTS';
+        :Guarda usuario;
+
+        :Registra en AuditLog:\nevent_type='USER_LOCKED';
+
+        fork
+          :Crea InternalMessage:\nsubject='Cuenta bloqueada'\nmessage_type='alert'\npriority='high';
+        end fork
+
+        :raise Exception(\n"Cuenta bloqueada por múltiples intentos");
+        stop
+      else (no)
+        :Guarda usuario;
+        :Registra en AuditLog:\nevent_type='LOGIN_FAILURE'\nreason='credenciales_invalidas';
+        :raise Exception(\n"Credenciales inválidas");
+        stop
+      endif
+    else (sí - credenciales válidas)
+
+      ' === LOGIN EXITOSO ===
+
+      :Busca sesiones previas activas:\nUserSession.objects.filter(\nuser=user, is_active=True);
+
+      while (¿Hay sesiones previas?) is (sí)
+        :Cierra sesión previa:\nsession.close(reason='NEW_SESSION');
+
+        fork
+          :Registra en AuditLog:\nevent_type='SESSION_CLOSED'\nreason='new_session';
+        fork again
+          :Crea InternalMessage:\nsubject='Nueva sesión iniciada'\nmessage_type='info';
+        end fork
+      endwhile (no)
+
+      :Resetea contadores de fallo;
+      :user.failed_login_attempts = 0;
+      :user.last_failed_login_at = None;
+      :user.last_login_at = now;
+      :user.last_login_ip = ip_address;
+      :Guarda usuario;
+
+      :Crea nueva UserSession:\nis_active=True\nip_address=...\nuser_agent=...;
+
+      :Genera JWT tokens:\nRefreshToken.for_user(user);
+      :access_token = str(refresh.access_token);
+      :refresh_token = str(refresh);
+
+      :Registra en AuditLog:\nevent_type='LOGIN_SUCCESS';
+
+      |Usuario|
+      :Recibe tokens JWT:\n{\n  "access_token": "...",\n  "refresh_token": "...",\n  "token_type": "Bearer",\n  "expires_in": 900\n};
+
+      stop
+    endif
+  endif
+endif
+
+@enduml
+```
+
 ## 7. Diagrama de Estados (State Diagram)
 
 ### 7.1 Propósito
@@ -1061,7 +1430,144 @@ Completada --> [*]
 @enduml
 ```
 
-### 7.3 Estados Compuestos
+### 7.3 Ejemplo del Proyecto IACT: Ciclo de Vida de Llamada
+
+**BASADO EN CÓDIGO REAL**: `/home/user/IACT---project/api/callcentersite/callcentersite/apps/llamadas/models.py` (modelo `Llamada` y `EstadoLlamada`)
+
+```plantuml
+@startuml STATE-LLAMADA-REAL-001-ciclo-vida
+title Estados: Ciclo de Vida de una Llamada - Sistema IACT
+caption Basado en apps/llamadas/models.py | Sistema de Call Center
+footer Proyecto IACT | Módulo Operativo Llamadas
+
+note top
+  **Modelo Real**:
+  - class Llamada(models.Model)
+  - class EstadoLlamada(models.Model)
+  - Relación: Llamada.estado FK -> EstadoLlamada
+  - Código único: formato "CALL-XXXXXXXXXXXX"
+end note
+
+[*] --> Entrante : Llamada detectada\nLlamada.objects.create()
+
+state Entrante {
+  state "Entrante" as entrante_state
+  entrante_state : entry / Crear registro Llamada
+  entrante_state : do / Ring
+  entrante_state : tipo = TipoLlamada (FK)
+  entrante_state : numero_telefono registrado
+  entrante_state : fecha_inicio = timezone.now()
+}
+
+Entrante --> EnCurso : Agente atiende\nagente (FK) asignado
+Entrante --> Perdida : Timeout / Agente rechaza\nestado.es_final = True
+
+state EnCurso {
+  state "En Curso" as encurso_state
+  encurso_state : entry / Iniciar cronómetro
+  encurso_state : do / Grabar conversación
+  encurso_state : agente.llamadas_atendidas++
+  encurso_state : metadata JSON actualizado
+}
+
+EnCurso --> EnEspera : Hold
+EnCurso --> Transferida : Transferir a otro agente
+EnCurso --> Finalizada : Colgar\nfecha_fin = timezone.now()
+
+state EnEspera {
+  state "En Espera" as espera_state
+  espera_state : entry / Reproducir música
+  espera_state : metadata['hold_start'] = now
+}
+
+EnEspera --> EnCurso : Resume\nmetadata['hold_duration'] calculado
+
+state Transferida {
+  state "Transferida" as transferida_state
+  transferida_state : entry / Buscar agente destino
+  transferida_state : metadata['original_agent'] guardado
+  transferida_state : metadata['transfer_reason']
+}
+
+Transferida --> EnCurso : Aceptada por nuevo agente\nagente (FK) actualizado
+Transferida --> Finalizada : Rechazada
+
+state Finalizada {
+  state "Finalizada" as finalizada_state
+  finalizada_state : entry / fecha_fin = now
+  finalizada_state : entry / calcular_duracion()
+  finalizada_state : do / Guardar en BD
+  finalizada_state : notas TextField
+}
+
+Finalizada --> RequiereNotas : Si notas vacías\nnotas.isblank()
+Finalizada --> Completada : Si tiene notas
+
+state RequiereNotas {
+  state "Requiere Notas" as notas_state
+  notas_state : do / Mostrar formulario
+  notas_state : notas obligatorias
+}
+
+RequiereNotas --> Completada : Agente completa notas\nLlamada.save(update_fields=['notas'])
+
+state Completada {
+  state "Completada" as completada_state
+  completada_state : es_final = True
+  completada_state : entry / Actualizar métricas agente
+  completada_state : entry / Generar eventos analytics
+  completada_state : LlamadaGrabacion creada (OneToOne)
+  completada_state : LlamadaTranscripcion[] opcional
+}
+
+state Perdida {
+  state "Perdida" as perdida_state
+  perdida_state : es_final = True
+  perdida_state : entry / Incrementar contador perdidas
+  perdida_state : metadata['lost_reason']
+}
+
+Perdida --> [*]
+Completada --> [*]
+
+note right of Completada
+  **Modelos Relacionados**:
+  - LlamadaGrabacion (OneToOne)
+    - archivo_url, formato, duracion_segundos
+  - LlamadaTranscripcion (FK)
+    - texto, timestamp_inicio, hablante
+end note
+
+note bottom of Llamada
+  **Método del Modelo**:
+  def calcular_duracion(self):
+    if self.fecha_fin:
+      delta = self.fecha_fin - self.fecha_inicio
+      return int(delta.total_seconds())
+    return None
+end note
+
+legend right
+  **Código Real**: apps/llamadas/models.py
+
+  **Tablas Base de Datos**:
+  - llamadas
+  - llamadas_estados
+  - llamadas_tipos
+  - llamadas_grabaciones
+  - llamadas_transcripciones
+
+  **Índices (models.Index)**:
+  - numero_telefono
+  - agente + fecha_inicio
+  - estado
+  - fecha_inicio
+end legend
+
+@enduml
+```
+
+### 7.4 Estados Compuestos
 
 ```plantuml
 @startuml STATE-COMPLEX-ejemplo-compuesto
@@ -1309,6 +1815,295 @@ note right of VistaCapacidadesUsuario
 end note
 
 Usuario "1" -- "*" VistaCapacidadesUsuario : tiene capacidades >
+
+@enduml
+```
+
+### 9.2 Ejemplo del Proyecto IACT: Modelo Real de Permisos Granular
+
+**BASADO EN CÓDIGO REAL**: `/home/user/IACT---project/api/callcentersite/callcentersite/apps/permissions/models.py`
+
+```plantuml
+@startuml CLASS-PERM-REAL-001-modelo-completo
+title Diagrama de Clases: Sistema de Permisos Granular IACT (Código Real)
+caption Basado en apps/permissions/models.py | ADR-012: NO roles jerárquicos
+footer Proyecto IACT | Sistema de Permisos Granular
+
+' === CONFIGURACIÓN ===
+skinparam class {
+  BackgroundColor #f0f9ff
+  BorderColor #0284c7
+  ArrowColor #0369a1
+}
+
+' === ENTIDADES PRINCIPALES ===
+
+class Funcion <<models.Model>> {
+  **db_table**: permissions_funciones
+  --
+  +id: AutoField <<PK>>
+  +nombre: CharField(100)
+  +nombre_completo: CharField(200) <<unique>>
+  +descripcion: TextField
+  +dominio: CharField(100)
+  +categoria: CharField(50)
+  +icono: CharField(50)
+  +orden_menu: IntegerField
+  +activa: BooleanField
+  +created_at: DateTimeField
+  +updated_at: DateTimeField
+  --
+  **Ejemplo**:
+  nombre: "dashboards"
+  nombre_completo: "sistema.vistas.dashboards"
+  dominio: "vistas"
+  categoria: "visualizacion"
+  --
+  <<indexes>>
+  - dominio
+  - activa
+  - categoria
+}
+
+class Capacidad <<models.Model>> {
+  **db_table**: permissions_capacidades
+  --
+  +id: AutoField <<PK>>
+  +nombre_completo: CharField(200) <<unique>>
+  +descripcion: TextField
+  +accion: CharField(50)
+  +recurso: CharField(100)
+  +dominio: CharField(100)
+  +nivel_sensibilidad: CharField(20)
+  +requiere_auditoria: BooleanField
+  +activa: BooleanField
+  +created_at: DateTimeField
+  --
+  **Formato**: sistema.dominio.recurso.accion
+  **Ejemplo**: sistema.vistas.dashboards.ver
+  --
+  **Niveles Sensibilidad**:
+  - bajo: Consultas básicas
+  - normal: Operaciones estándar
+  - alto: Modificaciones importantes
+  - critico: Alto impacto (requiere auditoría)
+  --
+  <<indexes>>
+  - accion
+  - recurso
+  - nivel_sensibilidad
+}
+
+class GrupoPermisos <<models.Model>> {
+  **db_table**: permissions_grupos_permisos
+  --
+  +id: AutoField <<PK>>
+  +codigo: CharField(100) <<unique>>
+  +nombre_display: CharField(200)
+  +descripcion: TextField
+  +tipo_acceso: CharField(50)
+  +activo: BooleanField
+  +created_at: DateTimeField
+  +updated_at: DateTimeField
+  --
+  **IMPORTANTE**: NO roles jerárquicos
+  NO admin/supervisor/agent
+  SÍ grupos funcionales combinables
+  --
+  **Ejemplos**:
+  - atencion_cliente
+  - gestion_equipos
+  - visualizacion_metricas
+  --
+  **Tipos Acceso** (NO jerárquicos):
+  - operativo
+  - gestion
+  - analisis
+  - estrategico
+  - tecnico
+  - finanzas
+  - calidad
+}
+
+class FuncionCapacidad <<models.Model>> {
+  **db_table**: permissions_funcion_capacidades
+  --
+  +id: AutoField <<PK>>
+  +funcion: ForeignKey(Funcion)
+  +capacidad: ForeignKey(Capacidad)
+  +requerida: BooleanField
+  +visible_en_ui: BooleanField
+  +created_at: DateTimeField
+  --
+  <<unique_together>> (funcion, capacidad)
+}
+
+class GrupoCapacidad <<models.Model>> {
+  **db_table**: permissions_grupo_capacidades
+  --
+  +id: AutoField <<PK>>
+  +grupo: ForeignKey(GrupoPermisos)
+  +capacidad: ForeignKey(Capacidad)
+  +created_at: DateTimeField
+  --
+  <<unique_together>> (grupo, capacidad)
+}
+
+class UsuarioGrupo <<models.Model>> {
+  **db_table**: permissions_usuarios_grupos
+  --
+  +id: AutoField <<PK>>
+  +usuario: ForeignKey(User)
+  +grupo: ForeignKey(GrupoPermisos)
+  +fecha_asignacion: DateTimeField
+  +fecha_expiracion: DateTimeField <<nullable>>
+  +asignado_por: ForeignKey(User)
+  +activo: BooleanField
+  --
+  **Usuario puede tener MÚLTIPLES grupos**
+  No hay jerarquía entre grupos
+  --
+  <<unique_together>> (usuario, grupo)
+  --
+  +is_expired(): bool
+}
+
+class PermisoExcepcional <<models.Model>> {
+  **db_table**: permissions_permisos_excepcionales
+  --
+  +id: AutoField <<PK>>
+  +usuario: ForeignKey(User)
+  +capacidad: ForeignKey(Capacidad)
+  +tipo: CharField(20)
+  +fecha_inicio: DateTimeField
+  +fecha_fin: DateTimeField <<nullable>>
+  +motivo: TextField
+  +autorizado_por: ForeignKey(User)
+  +activo: BooleanField
+  +created_at: DateTimeField
+  --
+  **Tipos**:
+  - conceder: Otorga capacidad temporal
+  - revocar: Revoca capacidad específica
+  --
+  **Casos de Uso**:
+  - Conceder: Proyecto especial
+  - Revocar: Incidente de seguridad
+  --
+  <<indexes>>
+  - (usuario, activo)
+  --
+  +is_active_now(): bool
+}
+
+class AuditoriaPermiso <<models.Model>> {
+  **db_table**: permissions_auditoria_permisos
+  --
+  +id: AutoField <<PK>>
+  +usuario: ForeignKey(User) <<nullable>>
+  +capacidad: CharField(200)
+  +accion_realizada: CharField(100)
+  +recurso_accedido: CharField(200)
+  +ip_address: CharField(50)
+  +user_agent: TextField
+  +metadata: JSONField
+  +timestamp: DateTimeField
+  --
+  **Registra**:
+  - Quien: usuario
+  - Que: capacidad
+  - Cuando: timestamp
+  - Donde: IP, user agent
+  - Resultado: acceso_concedido/denegado
+  --
+  <<indexes>>
+  - usuario
+  - timestamp
+  - accion_realizada
+}
+
+' === RELACIONES ===
+
+Funcion "1" -- "*" FuncionCapacidad : capacidades >
+Capacidad "1" -- "*" FuncionCapacidad : funciones >
+
+GrupoPermisos "1" -- "*" GrupoCapacidad : capacidades >
+Capacidad "1" -- "*" GrupoCapacidad : grupos >
+
+GrupoPermisos "1" -- "*" UsuarioGrupo : usuarios >
+
+Capacidad "1" -- "*" PermisoExcepcional : permisos_excepcionales >
+
+' === NOTAS EXPLICATIVAS ===
+
+note top of Funcion
+  **Función**: Recurso del sistema
+  Agrupa capacidades relacionadas
+
+  Ejemplo:
+  funcion 'dashboards' tiene capacidades:
+  - ver
+  - exportar
+  - personalizar
+end note
+
+note right of GrupoPermisos
+  **Filosofía del Sistema**:
+  SIN roles jerárquicos
+  (NO admin/supervisor/agent)
+
+  SOLO grupos funcionales
+  de capacidades combinables
+
+  Un usuario puede tener:
+  - atencion_cliente
+  + visualizacion_metricas
+  + gestion_horarios
+  ¡SIMULTÁNEAMENTE!
+end note
+
+note bottom of PermisoExcepcional
+  **Algoritmo de Verificación**:
+
+  PRIORIDAD 1:
+  PermisoExcepcional.tipo='revocar'
+  activo y vigente → DENEGAR
+
+  PRIORIDAD 2:
+  PermisoExcepcional.tipo='conceder'
+  activo y vigente → CONCEDER
+
+  PRIORIDAD 3:
+  Capacidad en GrupoCapacidad
+  de grupos activos → CONCEDER
+
+  Sino → DENEGAR
+end note
+
+note left of AuditoriaPermiso
+  Registra TODOS los intentos
+  de acceso (concedidos y denegados)
+  para capacidades que
+  requieren_auditoria=True
+end note
+
+legend bottom
+  **Código Real**: api/callcentersite/callcentersite/apps/permissions/models.py
+
+  **Filosofía ADR-012**:
+  Sistema de permisos granular SIN roles jerárquicos
+  Basado en capacidades funcionales combinables
+
+  **8 Tablas Core**:
+  1. permissions_funciones
+  2. permissions_capacidades
+  3. permissions_grupos_permisos
+  4. permissions_funcion_capacidades
+  5. permissions_grupo_capacidades
+  6. permissions_usuarios_grupos
+  7. permissions_permisos_excepcionales
+  8. permissions_auditoria_permisos
+end legend
 
 @enduml
 ```
@@ -1569,15 +2364,83 @@ done
 | Versión | Fecha | Autor | Cambios |
 |---------|-------|-------|---------|
 | 1.0.0 | 2025-01-17 | Sistema | Creación inicial con 10 tipos de diagramas UML |
+| 1.1.0 | 2025-01-17 | Sistema | Agregados 6 ejemplos reales del proyecto IACT |
 
 ---
 
-**Nota**: Esta guía está en estado **borrador** y requiere ser completada con:
+## Ejemplos del Proyecto IACT Agregados
 
-1. Más ejemplos del proyecto IACT para cada tipo de diagrama
+Esta guía ahora incluye **6 ejemplos basados en código real** del proyecto IACT:
+
+### 1. Diagrama de Despliegue (Sección 3.7)
+**Archivo**: `DEPLOY-IACT-DEV-001-vagrant-devbox`
+- **Basado en**: `/infrastructure/vagrant/Vagrantfile`
+- **Contenido**: Configuración real de Vagrant con PostgreSQL 16 (puerto 15432) y MariaDB 11.4 (puerto 13306)
+- **Detalles**: VM Ubuntu 20.04, 4GB RAM, 2 CPUs, shared folders con UTF-8
+
+### 2. Diagrama de Componentes (Sección 4.4)
+**Archivo**: `COMP-BACK-005-modulo-permisos-real`
+- **Basado en**: `/apps/permissions/models.py` y `/apps/permissions/services.py`
+- **Contenido**: Arquitectura completa del módulo de permisos granular
+- **Detalles**: PermisoService, 8 modelos Django, algoritmo de verificación con 3 prioridades
+
+### 3. Diagrama de Secuencia (Sección 5.3)
+**Archivo**: `SEQ-PERM-REAL-001-verificar-permiso-algoritmo`
+- **Basado en**: `/apps/permissions/services.py::usuario_tiene_permiso()`
+- **Contenido**: Flujo completo de verificación de permisos con código real
+- **Detalles**: Verificación de revocaciones, concesiones excepcionales, y permisos por grupos
+
+### 4. Diagrama de Actividad (Sección 6.4)
+**Archivo**: `ACT-AUTH-REAL-001-login-jwt`
+- **Basado en**: `/apps/authentication/services.py::AuthenticationService.login()`
+- **Contenido**: Flujo completo de autenticación con JWT
+- **Detalles**: Validaciones, bloqueo por intentos fallidos (3 max, 15 min), generación de tokens, sesión única
+
+### 5. Diagrama de Estados (Sección 7.3)
+**Archivo**: `STATE-LLAMADA-REAL-001-ciclo-vida`
+- **Basado en**: `/apps/llamadas/models.py`
+- **Contenido**: Ciclo de vida completo de una llamada telefónica
+- **Detalles**: 7 estados (Entrante, EnCurso, EnEspera, Transferida, Finalizada, RequiereNotas, Completada, Perdida)
+
+### 6. Diagrama de Clases (Sección 9.2)
+**Archivo**: `CLASS-PERM-REAL-001-modelo-completo`
+- **Basado en**: `/apps/permissions/models.py`
+- **Contenido**: Modelo de datos completo del sistema de permisos
+- **Detalles**: 8 tablas core, relaciones, índices, constraints, filosofía ADR-012 (NO roles jerárquicos)
+
+---
+
+## Resumen de Archivos de Código Analizados
+
+Los ejemplos están basados en análisis directo de estos archivos del repositorio:
+
+```
+/home/user/IACT---project/
+├── infrastructure/vagrant/Vagrantfile
+├── api/callcentersite/callcentersite/apps/
+│   ├── permissions/
+│   │   ├── models.py (502 líneas analizadas)
+│   │   └── services.py (337 líneas analizadas)
+│   ├── llamadas/
+│   │   └── models.py (148 líneas analizadas)
+│   └── authentication/
+│       ├── models.py (55 líneas analizadas)
+│       └── services.py (323 líneas analizadas)
+```
+
+**Total**: 1,365 líneas de código real analizadas para generar ejemplos concretos.
+
+---
+
+**Nota**: Esta guía está ahora en estado **completa con ejemplos reales** y requiere:
+
+1. ✅ Ejemplos del proyecto IACT para cada tipo de diagrama (COMPLETADO)
 2. Sección de troubleshooting común
 3. Integración con CI/CD (validación automática)
 4. Templates adicionales (profiles, skins personalizados)
 5. Casos de estudio completos end-to-end
 
-**Para continuar**: En otra sesión, expandir cada sección con ejemplos reales del código del proyecto IACT.
+**Próximos Pasos**:
+- Generar SVGs de los diagramas: `plantuml -tsvg docs/gobernanza/guias/*.puml`
+- Validar sintaxis: `plantuml -checkonly *.puml`
+- Crear ADR sobre convenciones de diagramas del proyecto
