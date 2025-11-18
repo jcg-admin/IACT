@@ -62,6 +62,13 @@ Tareas de corto plazo (< 2 semanas) con seguimiento activo.
   - Bloqueadores: Ninguno
   - ETA: 2025-11-07
 
+- [x] **TASK-INFRA-QA-006 Documentar comandos de validación y cobertura ≥80%** `P0` `2SP`
+  - Entregable: `docs/infraestructura/qa/testing/` con ciclo Red→Green→Refactor y comandos build/lint/tests
+  - Evidencia: `docs/infraestructura/qa/testing/comandos_validacion.md` y `docs/infraestructura/qa/registros/EVIDENCIAS_TASK_INFRA_QA.md`
+  - Asignado: @devops-lead
+  - Bloqueadores: Ninguno
+  - ETA: 2025-11-08
+
 ### Frontend - Continuidad operativa
 
 - [x] **Fallback de configuración AppConfigService** `P0` `2SP`
@@ -152,12 +159,49 @@ Tareas de corto plazo (< 2 semanas) con seguimiento activo.
   - Bloqueadores: Ninguno
   - ETA: 2025-11-09
 
+- [x] **TASK-INFRA-QA-001 Inventario y métricas de estructura** `P1` `2SP`
+  - Ruta: `docs/infraestructura/qa/QA-ANALISIS-ESTRUCTURA-INFRA-001/ANALISIS-ESTRUCTURA-INFRA-2025-11-18.md`
+  - Evidencia: `docs/infraestructura/qa/registros/EVIDENCIAS_TASK_INFRA_QA.md` con conteos de README/INDEX
+  - Asignado: @arquitecto-senior
+  - Bloqueadores: Ninguno
+  - ETA: 2025-11-20
+
 - [ ] **Plan de reorganización docs/infraestructura (QA)** `P1` `3SP`
   - Ruta: `docs/infraestructura/qa/QA-ANALISIS-ESTRUCTURA-INFRA-001/`
   - Objetivo: completar inventario, normalizar README/INDEX y plantillas QA siguiendo Gobernanza
   - Asignado: @arquitecto-senior + @qa-lead
   - Bloqueadores: Validación de alcance con equipo de documentación
   - ETA: 2025-11-21
+
+- [x] **TASK-INFRA-QA-002 Plantillas QA y frontmatter** `P1` `3SP`
+  - Ruta: `docs/infraestructura/qa/plantillas/` y `docs/infraestructura/checklists/`
+  - Entregable: plantillas y checklists por dominio con estados y responsables, trazadas en Task tool
+  - Evidencia: `qa/plantillas/README.md` y plantillas por dominio
+  - Asignado: @qa-lead + @tech-writer
+  - Bloqueadores: Ninguno
+  - ETA: 2025-11-22
+
+- [x] **TASK-INFRA-QA-003 Estructurar testing y registros QA** `P1` `2SP`
+  - Ruta: `docs/infraestructura/qa/testing/` y `docs/infraestructura/qa/registros/`
+  - Entregable: suites, comandos, coverage y registros fechados; sincronizar en Task tool
+  - Evidencia: `qa/testing/README.md` y `qa/registros/README.md`
+  - Asignado: @qa-lead
+  - Bloqueadores: Ninguno
+  - ETA: 2025-11-22
+
+- [ ] **TASK-INFRA-QA-004 Navegación README/INDEX infraestructura** `P1` `2SP`
+  - Archivos: `docs/infraestructura/README.md`, `docs/infraestructura/INDEX.md`
+  - Entregable: estados, responsables y enlaces cruzados alineados a Gobernanza, registrados en Task tool
+  - Asignado: @tech-writer
+  - Bloqueadores: Validación de alcance con equipo de documentación
+  - ETA: 2025-11-21
+
+- [ ] **TASK-INFRA-QA-005 Matriz ADR-planes-tareas** `P1` `2SP`
+  - Ruta: `docs/infraestructura/adr/INDICE_ADRs.md` + matriz en `docs/infraestructura/qa/`
+  - Entregable: trazabilidad ADR ↔ planes ↔ tareas activas, con IDs sincronizados en Task tool
+  - Asignado: @arquitecto-senior
+  - Bloqueadores: Ninguno
+  - ETA: 2025-11-24
 
 - [ ] **Estructurar documentación de carpeta infrastructure/** `P1` `3SP`
   - Plan: `qa/QA-ANALISIS-ESTRUCTURA-INFRA-001/PLAN-DOCUMENTACION-INFRA-2025-11-19.md`
@@ -267,6 +311,15 @@ Tareas de corto plazo (< 2 semanas) con seguimiento activo.
   - Asignado: @backend-lead
   - Bloqueadores: Sistema de metrics
   - ETA: 2025-11-25
+
+### Seguimiento QA
+
+- [x] **TASK-INFRA-QA-007 Revisión semanal de entregables QA** `P2` `1SP`
+  - Alcance: cadencia semanal para monitorear avances de TASK-INFRA-QA-001..006 en Task tool y `qa/tareas_activas.md`
+  - Responsable: scrum master/arquitecto-senior
+  - Evidencia: agenda en `qa/registros/EVIDENCIAS_TASK_INFRA_QA.md`, próxima revisión 2025-11-25
+  - Bloqueadores: Ninguno
+  - ETA: 2025-11-13 (recurrencia semanal)
 
 ### CI/CD
 
