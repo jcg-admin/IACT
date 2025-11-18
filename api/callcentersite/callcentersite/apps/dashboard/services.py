@@ -37,8 +37,7 @@ class DashboardService:
         widget_keys = configuracion.configuracion.get("widgets", []) if configuracion else list(WIDGET_REGISTRY.keys())
         widgets = [WIDGET_REGISTRY[widget].__dict__ for widget in widget_keys if widget in WIDGET_REGISTRY]
 
-        if not widgets:
-            widgets = [widget.__dict__ for widget in WIDGET_REGISTRY.values()]
+        # No fallback to defaults if user's config exists but is invalid; respect explicit selection.
 
         return {
             "widgets": widgets,
