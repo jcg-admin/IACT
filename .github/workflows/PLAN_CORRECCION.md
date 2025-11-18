@@ -10,6 +10,16 @@ Este plan resume las acciones necesarias para corregir y optimizar los workflows
 - **Seguridad**: fijar versiones de acciones (SHA/digest cuando aplique), evitar secretos inline y añadir `concurrency` para evitar solapes.
 - **Observabilidad**: añadir upload de artefactos y resultados (coverage, logs) cuando aporte valor al debug.
 
+## Estrategia por ambiente (producción, QA y desarrollo)
+- **Workflows por entorno**: definir tres pipelines alineados a ramas y entornos (`main` → producción, `release/*` o `qa/*` → QA, `develop` → desarrollo). Cada pipeline debe heredar los principios generales anteriores.
+- **Configuración diferenciada**:
+  - **Producción**: jobs protegidos con `environment: production`, `concurrency` por tag o ref, `required_reviewers`/`protection rules`, y despliegue mediante MCP/Codex; ejecución en `push` a `main` + `workflow_dispatch` con inputs para rollback.
+  - **QA**: `environment: qa` con despliegue a entornos de staging, tests extendidos (smoke + integración), matrices completas de versiones, y `concurrency` por rama de release; triggers en `push` a `qa/*` y `workflow_dispatch` para validaciones manuales.
+  - **Desarrollo**: `environment: development` orientado a feedback rápido (lint + unit + cobertura), caching agresivo y matrices mínimas; triggers en `push`/`pull_request` hacia `develop` y `workflow_dispatch` opcional.
+- **Notificaciones**: usar comentarios en PR/commit status en lugar de Slack; habilitar `actions/github-script` para anotar fallos por entorno.
+- **Variables y secretos**: centralizar variables comunes en `env` y secretos por entorno en `environment secrets`; validar su presencia con `if: env.SECRET != ''` antes de usarlos.
+- **Plantillas reutilizables**: crear un workflow reusable (p. ej., `.github/workflows/reusable-ci.yml`) con matrices, caching y permisos mínimos, que reciba como inputs el entorno (`environment`), la rama y el modo (`deploy`/`validate`).
+
 ## Acciones transversales
 1. Añadir plantilla base reutilizable para permisos mínimos y estrategia de caching (composite o reusable workflow).
 2. Incorporar `concurrency` para despliegue, incident-response y pipelines largos.
@@ -20,7 +30,7 @@ Este plan resume las acciones necesarias para corregir y optimizar los workflows
 ## Acciones por workflow
 - **actionlint.yml**: fijar digest del contenedor y añadir cache para dependencias de verificación si aplica.
 - **agents-ci.yml**: añadir `permissions` mínimos; declarar `CODECOV_TOKEN` como `env` opcional con guardas; revisar que `bandit` falle en hallazgos críticos y habilitar cache pip.
-- **backend-ci.yml**: agregar `workflow_dispatch`; definir permisos mínimos; usar secretos no triviales para MySQL y cerrar puerto con `ports: ["3306:3306"]` solo si es estrictamente necesario; cache pip y matiz de Python 3.10-3.12; añadir `concurrency` por ref.
+- **backend-ci.yml**: agregar `workflow_dispatch`; definir permisos mínimos; usar secretos no triviales para MySQL y cerrar puerto con `ports: ["3306:3306"]` solo si es estrictamente necesario; cache pip y matriz de Python 3.10-3.12; añadir `concurrency` por ref.
 - **code-quality.yml**: incluir `push` y `workflow_dispatch`; permisos mínimos; cache según herramienta (npm/pip); revisar matrices si hay múltiples linters.
 - **codeql.yml**: agregar `workflow_dispatch`; permisos mínimos (`security-events: write`, `contents: read`); cache de dependencias del lenguaje y fijar versiones de `actions/checkout`/`setup-*` por SHA.
 - **dependency-review.yml**: añadir `push` y `workflow_dispatch`; permisos mínimos (`contents: read`); documentar política de bloqueo.
