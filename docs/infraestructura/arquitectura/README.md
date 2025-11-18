@@ -14,6 +14,7 @@ Inventario de decisiones y topologías que sostienen la plataforma de infraestru
 
 ## Páginas hijas
 - [`adr/`](adr/)
+- [`devcontainer-host-vagrant.md`](devcontainer-host-vagrant.md) – canvas de arquitectura para operar DevContainers y runners CI/CD en una VM Vagrant cuando el workstation no puede instalar Docker.
 
 ## Información clave
 - Los ADR documentan lineamientos como el uso de Vagrant y Apache con mod_wsgi (`adr/adr_2025_001_vagrant_mod_wsgi.md`).
