@@ -1,3 +1,9 @@
+---
+name: DocumentationConsistencyVerifierAgent
+description: Verificar que la documentación mantenga estilo, términos y convenciones homogéneas a través de todas las áreas.
+tools: ["read", "search"]
+---
+
 # DocumentationConsistencyVerifierAgent
 
 <Goals>

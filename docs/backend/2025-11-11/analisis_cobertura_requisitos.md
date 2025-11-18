@@ -9,7 +9,7 @@ status: active
 
 **Fecha:** 2025-11-11
 **Analizador:** Requirements Coverage Analysis
-**Método:** Mapeo bidireccional requisitos ↔ código
+**Método:** Mapeo bidireccional requisitos <-> código
 
 ---
 
@@ -205,22 +205,22 @@ Las necesidades documentadas (N-001, N-002, N-003) se enfocan en:
 
 ```
 RF-001: Sistema de evaluación de permisos (backend)
-RF-001: Login con credenciales (backend)  # DUPLICADO
+RF-001: Login con credenciales (backend) # DUPLICADO
 
 RF-002: Generación de tokens JWT (backend)
-RF-002: Gestión de permisos granulares (backend)  # DUPLICADO
+RF-002: Gestión de permisos granulares (backend) # DUPLICADO
 
 RF-003: Bloqueo automático tras 5 intentos fallidos
-RF-003: Obtener permisos efectivos usuario  # DUPLICADO
+RF-003: Obtener permisos efectivos usuario # DUPLICADO
 
 RF-004: Sesión única con cierre sesiones previas
-RF-004: Segmentación de usuarios  # DUPLICADO
+RF-004: Segmentación de usuarios # DUPLICADO
 
 RF-005: Logout manual con invalidación tokens
-RF-005: Login con credenciales locales  # DUPLICADO
+RF-005: Login con credenciales locales # DUPLICADO
 
 RF-006: Recuperación de password sin email
-RF-006: Generación y validación tokens JWT  # DUPLICADO
+RF-006: Generación y validación tokens JWT # DUPLICADO
 ```
 
 **Causa:** Múltiples fuentes de requisitos sin consolidación (autenticación legacy vs nueva)
@@ -236,15 +236,15 @@ RF-006: Generación y validación tokens JWT  # DUPLICADO
 
 ```yaml
 # En docs/requisitos/srs_software_requirements.md línea 56
-deriva_de: [, N, -, 0, 0, 1, ,,  , R, N, -, 0, 0, 1, ,,  , R, S, -, 0, 0, 2, ]
+deriva_de: [, N, -, 0, 0, 1, ,, , R, N, -, 0, 0, 1, ,, , R, S, -, 0, 0, 2, ]
 ```
 
 **Esperado:**
 ```yaml
 deriva_de:
-  - N-001
-  - RN-001
-  - RS-002
+ - N-001
+ - RN-001
+ - RS-002
 ```
 
 **Causa:** Error en script de generación de índices (`generar_indices.py`)
@@ -281,50 +281,50 @@ RF-002: Generación tokens JWT - Estado: aprobado
 ### 6.1 URGENTE (Esta semana)
 
 1. **Documentar dora_metrics:**
-   - Crear N-004: Necesidad de métricas DORA
-   - Crear RN-004: Requisito de negocio para ingeniería de software
-   - Crear RF-020 a RF-030: Requisitos funcionales DORA (10-15 RF)
-   - Crear UC-DM-001 a UC-DM-006: Casos de uso DORA
+ - Crear N-004: Necesidad de métricas DORA
+ - Crear RN-004: Requisito de negocio para ingeniería de software
+ - Crear RF-020 a RF-030: Requisitos funcionales DORA (10-15 RF)
+ - Crear UC-DM-001 a UC-DM-006: Casos de uso DORA
 
 2. **Completar especificaciones UC existentes:**
-   - UC-001: Generar Reporte de Métricas (agregar especificación textual)
-   - UC-002: Registrar Llamada Entrante (agregar especificación textual)
-   - UC-003: Consultar Estado de Pedido (agregar especificación textual)
+ - UC-001: Generar Reporte de Métricas (agregar especificación textual)
+ - UC-002: Registrar Llamada Entrante (agregar especificación textual)
+ - UC-003: Consultar Estado de Pedido (agregar especificación textual)
 
 3. **Corregir IDs duplicados:**
-   - Renumerar requisitos conflictivos
-   - Consolidar autenticación legacy + nueva
-   - Regenerar índices con IDs únicos
+ - Renumerar requisitos conflictivos
+ - Consolidar autenticación legacy + nueva
+ - Regenerar índices con IDs únicos
 
 ### 6.2 ALTA PRIORIDAD (Próximas 2 semanas)
 
 4. **Documentar módulos críticos:**
-   - data_centralization (RF-031 a RF-040)
-   - dashboard (RF-041 a RF-050)
-   - reportes (RF-051 a RF-055)
-   - etl (RF-056 a RF-065)
+ - data_centralization (RF-031 a RF-040)
+ - dashboard (RF-041 a RF-050)
+ - reportes (RF-051 a RF-055)
+ - etl (RF-056 a RF-065)
 
 5. **Crear casos de uso faltantes:**
-   - UC-ETL-001 a UC-ETL-002 (ETL)
-   - UC-DASH-001 (Dashboard)
-   - UC-REP-001 (Reportes)
-   - UC-ALERT-001 a UC-ALERT-002 (Alertas)
+ - UC-ETL-001 a UC-ETL-002 (ETL)
+ - UC-DASH-001 (Dashboard)
+ - UC-REP-001 (Reportes)
+ - UC-ALERT-001 a UC-ALERT-002 (Alertas)
 
 6. **Corregir trazabilidad:**
-   - Fix script `generar_indices.py`
-   - Regenerar StRS, BRS, SRS con trazabilidad correcta
-   - Validar RTM completo
+ - Fix script `generar_indices.py`
+ - Regenerar StRS, BRS, SRS con trazabilidad correcta
+ - Validar RTM completo
 
 ### 6.3 MEDIA PRIORIDAD (Próximo mes)
 
 7. **Documentar módulos restantes:**
-   - analytics, notifications, alertas, metricas (RF-066 a RF-080)
-   - Módulos auxiliares (llamadas, tickets, clientes, etc.) (RF-081+)
+ - analytics, notifications, alertas, metricas (RF-066 a RF-080)
+ - Módulos auxiliares (llamadas, tickets, clientes, etc.) (RF-081+)
 
 8. **Crear matriz de cobertura:**
-   - Mapeo Código → Requisitos
-   - Mapeo Requisitos → Tests
-   - Identificar código huérfano (sin requisitos)
+ - Mapeo Código → Requisitos
+ - Mapeo Requisitos → Tests
+ - Identificar código huérfano (sin requisitos)
 
 ---
 

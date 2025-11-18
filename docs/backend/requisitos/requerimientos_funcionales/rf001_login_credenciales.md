@@ -13,25 +13,25 @@ estimacion_esfuerzo: 8 story-points
 
 # Trazabilidad Upward
 trazabilidad_upward:
-  - N-001   # Prevenir accesos fraudulentos mediante autenticacion robusta
-  - RN-001  # Sistema de autenticacion seguro con prevencion de fraude
-  - RS-001  # Auditoria requiere trazabilidad completa
-  - RS-002  # Usuarios requieren acceso rapido
+ - N-001 # Prevenir accesos fraudulentos mediante autenticacion robusta
+ - RN-001 # Sistema de autenticacion seguro con prevencion de fraude
+ - RS-001 # Auditoria requiere trazabilidad completa
+ - RS-002 # Usuarios requieren acceso rapido
 
 # Trazabilidad Downward
 trazabilidad_downward:
-  - TEST-RF-001  # Suite de tests para RF-001
-  - CODE-authentication-services  # apps/authentication/services.py
-  - CODE-authentication-views  # apps/authentication/views.py
+ - TEST-RF-001 # Suite de tests para RF-001
+ - CODE-authentication-services # apps/authentication/services.py
+ - CODE-authentication-views # apps/authentication/views.py
 
 # Stakeholders interesados
 stakeholders:
-  - usuarios-finales-agentes
-  - auditoria-interna
-  - gerente-seguridad
+ - usuarios-finales-agentes
+ - auditoria-interna
+ - gerente-seguridad
 
 # Conformidad ISO 29148
-iso29148_clause: "9.6.4"  # Software Requirements Specification
+iso29148_clause: "9.6.4" # Software Requirements Specification
 verificacion_metodo: test
 
 # Categorizacion adicional
@@ -41,8 +41,8 @@ subsistema: auth
 
 # Dependencias
 dependencias:
-  - User model existente
-  - djangorestframework-simplejwt
+ - User model existente
+ - djangorestframework-simplejwt
 
 # Impacto
 impacto_usuarios: alto
@@ -85,15 +85,15 @@ Usuarios (agentes de call center, supervisores, gerentes) necesitan iniciar sesi
 
 ```gherkin
 Given un usuario registrado "juan.perez" con password correcta
-  And el usuario tiene status='ACTIVO'
-  And el usuario NO esta bloqueado (is_locked=False)
+ And el usuario tiene status='ACTIVO'
+ And el usuario NO esta bloqueado (is_locked=False)
 When el usuario envia POST /api/v1/auth/login con credenciales validas
 Then el sistema retorna HTTP 200 OK
-  And el sistema retorna access_token (valido 15 minutos)
-  And el sistema retorna refresh_token (valido 7 dias)
-  And el sistema resetea failed_login_attempts a 0
-  And el sistema actualiza last_login_at
-  And el sistema audita evento LOGIN_SUCCESS
+ And el sistema retorna access_token (valido 15 minutos)
+ And el sistema retorna refresh_token (valido 7 dias)
+ And el sistema resetea failed_login_attempts a 0
+ And el sistema actualiza last_login_at
+ And el sistema audita evento LOGIN_SUCCESS
 ```
 
 #### Escenario 2: Login fallido - credenciales invalidas
@@ -102,21 +102,21 @@ Then el sistema retorna HTTP 200 OK
 Given un usuario registrado "juan.perez"
 When el usuario envia POST /api/v1/auth/login con password incorrecta
 Then el sistema retorna HTTP 401 Unauthorized
-  And el sistema retorna mensaje: "Credenciales invalidas"
-  And el sistema incrementa failed_login_attempts
-  And el sistema NO revela si el username existe
-  And el sistema audita evento LOGIN_FAILURE
+ And el sistema retorna mensaje: "Credenciales invalidas"
+ And el sistema incrementa failed_login_attempts
+ And el sistema NO revela si el username existe
+ And el sistema audita evento LOGIN_FAILURE
 ```
 
 #### Escenario 3: Login fallido - cuenta bloqueada
 
 ```gherkin
 Given un usuario con is_locked=True
-  And el usuario tiene locked_until=<timestamp futuro>
+ And el usuario tiene locked_until=<timestamp futuro>
 When el usuario envia POST /api/v1/auth/login con credenciales validas
 Then el sistema retorna HTTP 403 Forbidden
-  And el sistema retorna mensaje: "Cuenta bloqueada hasta <timestamp>"
-  And el sistema NO permite login hasta que pase locked_until
+ And el sistema retorna mensaje: "Cuenta bloqueada hasta <timestamp>"
+ And el sistema NO permite login hasta que pase locked_until
 ```
 
 ### 2.2 Criterios No Funcionales Asociados
@@ -148,26 +148,26 @@ Then el sistema retorna HTTP 403 Forbidden
 **Request:**
 ```json
 {
-  "username": "juan.perez",
-  "password": "SecureP@ss123"
+ "username": "juan.perez",
+ "password": "SecureP@ss123"
 }
 ```
 
 **Response (Exito - HTTP 200):**
 ```json
 {
-  "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-  "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-  "token_type": "Bearer",
-  "expires_in": 900
+ "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+ "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+ "token_type": "Bearer",
+ "expires_in": 900
 }
 ```
 
 **Response (Error - HTTP 401):**
 ```json
 {
-  "error": "Credenciales invalidas",
-  "attempts_remaining": 4
+ "error": "Credenciales invalidas",
+ "attempts_remaining": 4
 }
 ```
 

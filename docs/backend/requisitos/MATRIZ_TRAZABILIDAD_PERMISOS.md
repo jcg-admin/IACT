@@ -493,18 +493,18 @@ Este documento establece la trazabilidad completa entre:
 ### Distribución de Capacidades por Grupo
 
 ```
-administracion_usuarios:     7 capacidades (9.0%)
-visualizacion_basica:        2 capacidades (2.6%)
-configuracion_sistema:       5 capacidades (6.4%)
-atencion_cliente:            9 capacidades (11.5%)
-atencion_cliente_avanzada:  16 capacidades (20.5%)
-analisis_operativo:          9 capacidades (11.5%)
-gestion_equipos:             6 capacidades (7.7%)
-gestion_horarios:            6 capacidades (7.7%)
-auditoria_llamadas:          6 capacidades (7.7%)
-evaluacion_desempeno:        6 capacidades (7.7%)
-────────────────────────────────────────────
-TOTAL:                      72 asignaciones
+administracion_usuarios: 7 capacidades (9.0%)
+visualizacion_basica: 2 capacidades (2.6%)
+configuracion_sistema: 5 capacidades (6.4%)
+atencion_cliente: 9 capacidades (11.5%)
+atencion_cliente_avanzada: 16 capacidades (20.5%)
+analisis_operativo: 9 capacidades (11.5%)
+gestion_equipos: 6 capacidades (7.7%)
+gestion_horarios: 6 capacidades (7.7%)
+auditoria_llamadas: 6 capacidades (7.7%)
+evaluacion_desempeno: 6 capacidades (7.7%)
+
+TOTAL: 72 asignaciones
 ```
 
 **Nota:** Algunas capacidades están en múltiples grupos (ej: CAP-020, CAP-021), por eso 72 asignaciones para 78 capacidades únicas.
@@ -529,8 +529,8 @@ TOTAL:                      72 asignaciones
 SELECT c.nombre_completo
 FROM capacidades c
 WHERE NOT EXISTS (
-    SELECT 1 FROM grupo_capacidades gc
-    WHERE gc.capacidad_id = c.id
+ SELECT 1 FROM grupo_capacidades gc
+ WHERE gc.capacidad_id = c.id
 );
 ```
 
@@ -556,8 +556,8 @@ WHERE NOT EXISTS (
 SELECT f.nombre_completo
 FROM funciones f
 WHERE NOT EXISTS (
-    SELECT 1 FROM funcion_capacidades fc
-    WHERE fc.funcion_id = f.id
+ SELECT 1 FROM funcion_capacidades fc
+ WHERE fc.funcion_id = f.id
 );
 ```
 
@@ -572,8 +572,8 @@ WHERE NOT EXISTS (
 SELECT gp.codigo, gp.nombre_display
 FROM grupos_permisos gp
 WHERE NOT EXISTS (
-    SELECT 1 FROM grupo_capacidades gc
-    WHERE gc.grupo_id = gp.id
+ SELECT 1 FROM grupo_capacidades gc
+ WHERE gc.grupo_id = gp.id
 );
 ```
 
@@ -691,29 +691,29 @@ WHERE NOT EXISTS (
 ### Cobertura General
 
 ```
-Total Funciones:               13
-Funciones con Capacidades:     13 (100%)
-Capacidades Totales:           78
-Capacidades en Grupos:         72 (92.3%)
-Capacidades Huérfanas:          6 (7.7%)
-Grupos Funcionales:            10
-Grupos con Capacidades:        10 (100%)
+Total Funciones: 13
+Funciones con Capacidades: 13 (100%)
+Capacidades Totales: 78
+Capacidades en Grupos: 72 (92.3%)
+Capacidades Huérfanas: 6 (7.7%)
+Grupos Funcionales: 10
+Grupos con Capacidades: 10 (100%)
 ```
 
 ### Distribución de Niveles de Sensibilidad
 
 ```
-Bajo (lectura):       26 capacidades (33.3%)
-Normal (operativo):   31 capacidades (39.7%)
-Alto (supervisión):   15 capacidades (19.2%)
-Crítico (admin):       6 capacidades (7.7%)
+Bajo (lectura): 26 capacidades (33.3%)
+Normal (operativo): 31 capacidades (39.7%)
+Alto (supervisión): 15 capacidades (19.2%)
+Crítico (admin): 6 capacidades (7.7%)
 ```
 
 ### Capacidades que Requieren Auditoría
 
 ```
-Con Auditoría:    48 capacidades (61.5%)
-Sin Auditoría:    30 capacidades (38.5%)
+Con Auditoría: 48 capacidades (61.5%)
+Sin Auditoría: 30 capacidades (38.5%)
 ```
 
 **Análisis:** El 61.5% de capacidades requiere auditoría, lo cual es apropiado para un sistema de call center con requisitos de compliance.
@@ -757,38 +757,38 @@ Sin Auditoría:    30 capacidades (38.5%)
 ```sql
 -- 1. Capacidades huérfanas (sin grupo)
 SELECT
-    c.id,
-    c.nombre_completo,
-    c.nivel_sensibilidad,
-    'SIN_GRUPO' as estado
+ c.id,
+ c.nombre_completo,
+ c.nivel_sensibilidad,
+ 'SIN_GRUPO' as estado
 FROM capacidades c
 WHERE NOT EXISTS (
-    SELECT 1 FROM grupo_capacidades gc
-    WHERE gc.capacidad_id = c.id
+ SELECT 1 FROM grupo_capacidades gc
+ WHERE gc.capacidad_id = c.id
 )
 ORDER BY c.nivel_sensibilidad DESC;
 
 -- 2. Funciones sin capacidades
 SELECT
-    f.id,
-    f.nombre_completo,
-    'SIN_CAPACIDADES' as estado
+ f.id,
+ f.nombre_completo,
+ 'SIN_CAPACIDADES' as estado
 FROM funciones f
 WHERE NOT EXISTS (
-    SELECT 1 FROM funcion_capacidades fc
-    WHERE fc.funcion_id = f.id
+ SELECT 1 FROM funcion_capacidades fc
+ WHERE fc.funcion_id = f.id
 );
 
 -- 3. Grupos sin capacidades
 SELECT
-    gp.id,
-    gp.codigo,
-    gp.nombre_display,
-    'SIN_CAPACIDADES' as estado
+ gp.id,
+ gp.codigo,
+ gp.nombre_display,
+ 'SIN_CAPACIDADES' as estado
 FROM grupos_permisos gp
 WHERE NOT EXISTS (
-    SELECT 1 FROM grupo_capacidades gc
-    WHERE gc.grupo_id = gp.id
+ SELECT 1 FROM grupo_capacidades gc
+ WHERE gc.grupo_id = gp.id
 );
 ```
 
@@ -797,14 +797,14 @@ WHERE NOT EXISTS (
 ```sql
 -- Reporte de cobertura por función
 SELECT
-    f.nombre_completo as funcion,
-    COUNT(DISTINCT fc.capacidad_id) as total_capacidades,
-    COUNT(DISTINCT gc.grupo_id) as grupos_que_usan,
-    ROUND(
-        COUNT(DISTINCT gc.grupo_id)::numeric /
-        NULLIF(COUNT(DISTINCT fc.capacidad_id), 0) * 100,
-        2
-    ) as porcentaje_cobertura
+ f.nombre_completo as funcion,
+ COUNT(DISTINCT fc.capacidad_id) as total_capacidades,
+ COUNT(DISTINCT gc.grupo_id) as grupos_que_usan,
+ ROUND(
+ COUNT(DISTINCT gc.grupo_id)::numeric /
+ NULLIF(COUNT(DISTINCT fc.capacidad_id), 0) * 100,
+ 2
+ ) as porcentaje_cobertura
 FROM funciones f
 LEFT JOIN funcion_capacidades fc ON f.id = fc.funcion_id
 LEFT JOIN grupo_capacidades gc ON fc.capacidad_id = gc.capacidad_id
@@ -817,34 +817,34 @@ ORDER BY porcentaje_cobertura DESC;
 ```sql
 -- Validar que un usuario tenga acceso a una capacidad específica
 CREATE OR REPLACE FUNCTION validar_acceso_usuario(
-    p_usuario_id INTEGER,
-    p_capacidad_nombre VARCHAR
+ p_usuario_id INTEGER,
+ p_capacidad_nombre VARCHAR
 ) RETURNS TABLE (
-    tiene_acceso BOOLEAN,
-    via_grupo VARCHAR,
-    via_excepcion BOOLEAN
+ tiene_acceso BOOLEAN,
+ via_grupo VARCHAR,
+ via_excepcion BOOLEAN
 ) AS $$
 BEGIN
-    RETURN QUERY
-    SELECT
-        CASE
-            WHEN COUNT(*) > 0 THEN TRUE
-            ELSE FALSE
-        END as tiene_acceso,
-        STRING_AGG(DISTINCT gp.nombre_display, ', ') as via_grupo,
-        EXISTS(
-            SELECT 1 FROM permisos_excepcionales pe
-            JOIN capacidades c2 ON pe.capacidad_id = c2.id
-            WHERE pe.usuario_id = p_usuario_id
-              AND c2.nombre_completo = p_capacidad_nombre
-              AND pe.tipo = 'conceder'
-              AND pe.activo = TRUE
-        ) as via_excepcion
-    FROM vista_capacidades_usuario vcu
-    LEFT JOIN usuarios_grupos ug ON vcu.usuario_id = ug.usuario_id AND ug.activo = TRUE
-    LEFT JOIN grupos_permisos gp ON ug.grupo_id = gp.id
-    WHERE vcu.usuario_id = p_usuario_id
-      AND vcu.capacidad = p_capacidad_nombre;
+ RETURN QUERY
+ SELECT
+ CASE
+ WHEN COUNT(*) > 0 THEN TRUE
+ ELSE FALSE
+ END as tiene_acceso,
+ STRING_AGG(DISTINCT gp.nombre_display, ', ') as via_grupo,
+ EXISTS(
+ SELECT 1 FROM permisos_excepcionales pe
+ JOIN capacidades c2 ON pe.capacidad_id = c2.id
+ WHERE pe.usuario_id = p_usuario_id
+ AND c2.nombre_completo = p_capacidad_nombre
+ AND pe.tipo = 'conceder'
+ AND pe.activo = TRUE
+ ) as via_excepcion
+ FROM vista_capacidades_usuario vcu
+ LEFT JOIN usuarios_grupos ug ON vcu.usuario_id = ug.usuario_id AND ug.activo = TRUE
+ LEFT JOIN grupos_permisos gp ON ug.grupo_id = gp.id
+ WHERE vcu.usuario_id = p_usuario_id
+ AND vcu.capacidad = p_capacidad_nombre;
 END;
 $$ LANGUAGE plpgsql;
 ```
@@ -855,86 +855,86 @@ $$ LANGUAGE plpgsql;
 
 ```mermaid
 graph TB
-    subgraph Funciones[13 Funciones]
-        F1[usuarios<br>7 cap]
-        F2[dashboards<br>4 cap]
-        F3[configuracion<br>5 cap]
-        F4[llamadas<br>7 cap]
-        F5[tickets<br>7 cap]
-        F6[clientes<br>6 cap]
-        F7[metricas<br>5 cap]
-        F8[reportes<br>6 cap]
-        F9[alertas<br>7 cap]
-        F10[equipos<br>6 cap]
-        F11[horarios<br>6 cap]
-        F12[evaluaciones<br>6 cap]
-        F13[auditoria<br>6 cap]
-    end
+ subgraph Funciones[13 Funciones]
+ F1[usuarios<br>7 cap]
+ F2[dashboards<br>4 cap]
+ F3[configuracion<br>5 cap]
+ F4[llamadas<br>7 cap]
+ F5[tickets<br>7 cap]
+ F6[clientes<br>6 cap]
+ F7[metricas<br>5 cap]
+ F8[reportes<br>6 cap]
+ F9[alertas<br>7 cap]
+ F10[equipos<br>6 cap]
+ F11[horarios<br>6 cap]
+ F12[evaluaciones<br>6 cap]
+ F13[auditoria<br>6 cap]
+ end
 
-    subgraph Grupos[10 Grupos Funcionales]
-        G1[administracion_usuarios<br>7 cap]
-        G2[visualizacion_basica<br>2 cap]
-        G3[configuracion_sistema<br>5 cap]
-        G4[atencion_cliente<br>9 cap]
-        G5[atencion_cliente_avanzada<br>16 cap]
-        G6[analisis_operativo<br>9 cap]
-        G7[gestion_equipos<br>6 cap]
-        G8[gestion_horarios<br>6 cap]
-        G9[auditoria_llamadas<br>6 cap]
-        G10[evaluacion_desempeno<br>6 cap]
-    end
+ subgraph Grupos[10 Grupos Funcionales]
+ G1[administracion_usuarios<br>7 cap]
+ G2[visualizacion_basica<br>2 cap]
+ G3[configuracion_sistema<br>5 cap]
+ G4[atencion_cliente<br>9 cap]
+ G5[atencion_cliente_avanzada<br>16 cap]
+ G6[analisis_operativo<br>9 cap]
+ G7[gestion_equipos<br>6 cap]
+ G8[gestion_horarios<br>6 cap]
+ G9[auditoria_llamadas<br>6 cap]
+ G10[evaluacion_desempeno<br>6 cap]
+ end
 
-    subgraph Usuarios[5 Casos de Uso]
-        U1[Ana López<br>11 cap]
-        U2[Carlos Ruiz<br>37 cap]
-        U3[María Fernández<br>21 cap]
-        U5[Laura Martínez<br>14 cap]
-    end
+ subgraph Usuarios[5 Casos de Uso]
+ U1[Ana López<br>11 cap]
+ U2[Carlos Ruiz<br>37 cap]
+ U3[María Fernández<br>21 cap]
+ U5[Laura Martínez<br>14 cap]
+ end
 
-    F1 --> G1
-    F2 --> G2
-    F3 --> G3
-    F4 --> G4
-    F4 --> G5
-    F4 --> G9
-    F5 --> G4
-    F5 --> G5
-    F6 --> G4
-    F6 --> G5
-    F7 --> G6
-    F8 --> G6
-    F9 --> G6
-    F10 --> G7
-    F11 --> G8
-    F12 --> G10
-    F13 --> G9
+ F1 --> G1
+ F2 --> G2
+ F3 --> G3
+ F4 --> G4
+ F4 --> G5
+ F4 --> G9
+ F5 --> G4
+ F5 --> G5
+ F6 --> G4
+ F6 --> G5
+ F7 --> G6
+ F8 --> G6
+ F9 --> G6
+ F10 --> G7
+ F11 --> G8
+ F12 --> G10
+ F13 --> G9
 
-    G2 --> U1
-    G4 --> U1
-    G5 --> U2
-    G6 --> U2
-    G6 --> U3
-    G7 --> U2
-    G8 --> U2
-    G9 --> U3
-    G10 --> U3
-    G1 --> U5
-    G3 --> U5
-    G2 --> U5
+ G2 --> U1
+ G4 --> U1
+ G5 --> U2
+ G6 --> U2
+ G6 --> U3
+ G7 --> U2
+ G8 --> U2
+ G9 --> U3
+ G10 --> U3
+ G1 --> U5
+ G3 --> U5
+ G2 --> U5
 
-    style F1 fill:#8B5CF6
-    style F2 fill:#10B981
-    style F3 fill:#EF4444
-    style F4 fill:#3B82F6
-    style F5 fill:#3B82F6
-    style F6 fill:#3B82F6
-    style F7 fill:#F59E0B
-    style F8 fill:#F59E0B
-    style F9 fill:#F59E0B
-    style F10 fill:#EC4899
-    style F11 fill:#EC4899
-    style F12 fill:#14B8A6
-    style F13 fill:#14B8A6
+ style F1 fill:#8B5CF6
+ style F2 fill:#10B981
+ style F3 fill:#EF4444
+ style F4 fill:#3B82F6
+ style F5 fill:#3B82F6
+ style F6 fill:#3B82F6
+ style F7 fill:#F59E0B
+ style F8 fill:#F59E0B
+ style F9 fill:#F59E0B
+ style F10 fill:#EC4899
+ style F11 fill:#EC4899
+ style F12 fill:#14B8A6
+ style F13 fill:#14B8A6
 ```
 
 ---

@@ -31,22 +31,22 @@ python manage.py seed_permisos_base --reset
 
 **Qué crea**:
 - **10 Funciones** agrupadas por dominio:
-  - `vistas.dashboards`
-  - `vistas.reportes`
-  - `vistas.calidad`
-  - `vistas.equipos`
-  - `vistas.analisis`
-  - `administracion.usuarios`
-  - `administracion.grupos`
-  - `administracion.permisos`
-  - `administracion.auditoria`
-  - `administracion.configuracion`
+ - `vistas.dashboards`
+ - `vistas.reportes`
+ - `vistas.calidad`
+ - `vistas.equipos`
+ - `vistas.analisis`
+ - `administracion.usuarios`
+ - `administracion.grupos`
+ - `administracion.permisos`
+ - `administracion.auditoria`
+ - `administracion.configuracion`
 
 - **~32 Capacidades** con formato `sistema.dominio.funcion.accion`:
-  - `sistema.vistas.dashboards.ver`
-  - `sistema.vistas.reportes.crear`
-  - `sistema.administracion.usuarios.editar`
-  - etc.
+ - `sistema.vistas.dashboards.ver`
+ - `sistema.vistas.reportes.crear`
+ - `sistema.administracion.usuarios.editar`
+ - etc.
 
 **Características**:
 - Idempotente: Se puede ejecutar múltiples veces sin duplicar
@@ -149,7 +149,7 @@ python manage.py seed_usuarios_demo --reset
 
 ---
 
-### 4. `seed_permisos_completo`  **RECOMENDADO**
+### 4. `seed_permisos_completo` **RECOMENDADO**
 
 **Propósito**: Ejecuta todos los seeders anteriores en orden correcto.
 
@@ -171,48 +171,48 @@ python manage.py seed_permisos_completo --reset
 **Flujo de ejecución**:
 ```
 1. seed_permisos_base
-   ↓
+ ↓
 2. seed_grupos_default
-   ↓
+ ↓
 3. seed_usuarios_demo (opcional)
-   ↓
+ ↓
 4. Resumen y próximos pasos
 ```
 
 **Output esperado**:
 ```
 ================================================================
-  SEEDING COMPLETO - SISTEMA DE PERMISOS GRANULARES
+ SEEDING COMPLETO - SISTEMA DE PERMISOS GRANULARES
 ================================================================
 
 [1/3] Creando funciones y capacidades base...
-  + Función creada: vistas.dashboards
-  + Función creada: vistas.reportes
-  ...
-  + Capacidad creada: sistema.vistas.dashboards.ver
-  ...
+ + Función creada: vistas.dashboards
+ + Función creada: vistas.reportes
+ ...
+ + Capacidad creada: sistema.vistas.dashboards.ver
+ ...
 
 [OK] Seeding completado:
-  - Funciones: 10
-  - Capacidades: 32
+ - Funciones: 10
+ - Capacidades: 32
 
 [2/3] Creando grupos de permisos por defecto...
-  + Grupo creado: Agentes Nivel 1 (2 capacidades)
-  + Grupo creado: Agentes Nivel 2 (5 capacidades)
-  + Grupo creado: Coordinadores (14 capacidades)
-  + Grupo creado: Administradores (32 capacidades - TODAS)
+ + Grupo creado: Agentes Nivel 1 (2 capacidades)
+ + Grupo creado: Agentes Nivel 2 (5 capacidades)
+ + Grupo creado: Coordinadores (14 capacidades)
+ + Grupo creado: Administradores (32 capacidades - TODAS)
 
 [OK] Grupos creados: 4
 
 [3/3] Creando usuarios de demostración...
-  + Usuario creado: admin_demo
-    → Asignado al grupo: Administradores
-  ...
+ + Usuario creado: admin_demo
+ → Asignado al grupo: Administradores
+ ...
 
 [OK] Usuarios demo creados: 5
 
 ================================================================
-  [OK] SEEDING COMPLETADO EXITOSAMENTE
+ [OK] SEEDING COMPLETADO EXITOSAMENTE
 ================================================================
 ```
 
@@ -242,12 +242,12 @@ python manage.py shell
 
 # 4. Probar login
 curl -X POST http://localhost:8000/api/auth/login/ \
-  -H "Content-Type: application/json" \
-  -d '{"username":"admin_demo","password":"demo123456"}'
+ -H "Content-Type: application/json" \
+ -d '{"username":"admin_demo","password":"demo123456"}'
 
 # 5. Probar verificación de permisos
 curl -H "Authorization: Bearer <token>" \
-  http://localhost:8000/api/permisos/verificar/1/capacidades/
+ http://localhost:8000/api/permisos/verificar/1/capacidades/
 ```
 
 ---
@@ -294,10 +294,10 @@ from callcentersite.apps.users.models_permisos_granular import Capacidad, Funcio
 # Crear capacidad custom
 funcion = Funcion.objects.get(codigo='vistas.reportes')
 capacidad = Capacidad.objects.create(
-    codigo='sistema.vistas.reportes.aprobar',
-    nombre='Aprobar Reportes',
-    descripcion='Capacidad para aprobar reportes antes de publicar',
-    activa=True,
+ codigo='sistema.vistas.reportes.aprobar',
+ nombre='Aprobar Reportes',
+ descripcion='Capacidad para aprobar reportes antes de publicar',
+ activa=True,
 )
 funcion.capacidades.add(capacidad)
 ```
@@ -309,19 +309,19 @@ from callcentersite.apps.users.models_permisos_granular import GrupoPermiso, Cap
 
 # Crear grupo custom
 grupo = GrupoPermiso.objects.create(
-    codigo='supervisores_financieros',
-    nombre='Supervisores Financieros',
-    descripcion='Supervisores del área financiera',
-    activo=True,
+ codigo='supervisores_financieros',
+ nombre='Supervisores Financieros',
+ descripcion='Supervisores del área financiera',
+ activo=True,
 )
 
 # Asignar capacidades
 capacidades = Capacidad.objects.filter(
-    codigo__in=[
-        'sistema.vistas.reportes.ver',
-        'sistema.vistas.reportes.exportar',
-        'sistema.vistas.analisis.avanzados',
-    ]
+ codigo__in=[
+ 'sistema.vistas.reportes.ver',
+ 'sistema.vistas.reportes.exportar',
+ 'sistema.vistas.analisis.avanzados',
+ ]
 )
 grupo.capacidades.set(capacidades)
 ```
@@ -386,30 +386,30 @@ from django.contrib.auth import get_user_model
 from callcentersite.apps.users.services_permisos_granular import UserManagementService
 
 class Command(BaseCommand):
-    def add_arguments(self, parser):
-        parser.add_argument('username', type=str)
+ def add_arguments(self, parser):
+ parser.add_argument('username', type=str)
 
-    def handle(self, *args, **options):
-        User = get_user_model()
-        user = User.objects.get(username=options['username'])
+ def handle(self, *args, **options):
+ User = get_user_model()
+ user = User.objects.get(username=options['username'])
 
-        grupos = UserManagementService.obtener_grupos_usuario(user.id)
-        self.stdout.write(f"\nGrupos de {user.username}:")
-        for grupo in grupos:
-            self.stdout.write(f"  - {grupo['codigo']}: {grupo['nombre']}")
+ grupos = UserManagementService.obtener_grupos_usuario(user.id)
+ self.stdout.write(f"\nGrupos de {user.username}:")
+ for grupo in grupos:
+ self.stdout.write(f" - {grupo['codigo']}: {grupo['nombre']}")
 
-        # Verificar algunas capacidades
-        capacidades_test = [
-            'sistema.vistas.dashboards.ver',
-            'sistema.vistas.reportes.crear',
-            'sistema.administracion.usuarios.editar',
-        ]
+ # Verificar algunas capacidades
+ capacidades_test = [
+ 'sistema.vistas.dashboards.ver',
+ 'sistema.vistas.reportes.crear',
+ 'sistema.administracion.usuarios.editar',
+ ]
 
-        self.stdout.write(f"\nCapacidades:")
-        for cap in capacidades_test:
-            tiene = UserManagementService.verificar_permiso(user.id, cap)
-            symbol = "[OK]" if tiene else "[FAIL]"
-            self.stdout.write(f"  {symbol} {cap}")
+ self.stdout.write(f"\nCapacidades:")
+ for cap in capacidades_test:
+ tiene = UserManagementService.verificar_permiso(user.id, cap)
+ symbol = "[OK]" if tiene else "[FAIL]"
+ self.stdout.write(f" {symbol} {cap}")
 
 # Uso:
 # python manage.py verificar_permisos_usuario admin_demo

@@ -39,7 +39,7 @@ status: active
 - Documentacion OpenAPI/Swagger
 - Validaciones y manejo de errores
 
-### 🔄 PENDIENTE (Requiere entorno Django)
+### PENDIENTE (Requiere entorno Django)
 
 #### FASE 4: Tests de Integracion
 - Tests E2E creados (5 archivos)
@@ -111,12 +111,12 @@ Todas las peticiones requieren JWT token:
 ```bash
 # Obtener token
 curl -X POST http://localhost:8000/api/auth/token/ \
-  -H "Content-Type: application/json" \
-  -d '{"email":"admin@test.com","password":"admin123"}'
+ -H "Content-Type: application/json" \
+ -d '{"email":"admin@test.com","password":"admin123"}'
 
 # Usar token en peticiones
 curl -X GET http://localhost:8000/api/v1/usuarios/ \
-  -H "Authorization: Bearer <TOKEN>"
+ -H "Authorization: Bearer <TOKEN>"
 ```
 
 ### Usuarios API
@@ -127,36 +127,36 @@ curl -X GET http://localhost:8000/api/v1/usuarios/ \
 # Permiso: sistema.administracion.usuarios.ver
 
 curl -X GET http://localhost:8000/api/v1/usuarios/ \
-  -H "Authorization: Bearer <TOKEN>"
+ -H "Authorization: Bearer <TOKEN>"
 
 # Con filtros
 curl -X GET "http://localhost:8000/api/v1/usuarios/?activo=true&page=1&page_size=20" \
-  -H "Authorization: Bearer <TOKEN>"
+ -H "Authorization: Bearer <TOKEN>"
 ```
 
 **Respuesta:**
 ```json
 {
-  "resultados": [
-    {
-      "id": 1,
-      "email": "usuario@test.com",
-      "first_name": "Usuario",
-      "last_name": "Test",
-      "is_active": true,
-      "is_staff": false,
-      "grupos": [
-        {
-          "codigo": "visualizacion_basica",
-          "nombre": "Visualización Básica",
-          "asignado_en": "2025-11-08T10:00:00Z"
-        }
-      ]
-    }
-  ],
-  "total": 1,
-  "pagina": 1,
-  "paginas_totales": 1
+ "resultados": [
+ {
+ "id": 1,
+ "email": "usuario@test.com",
+ "first_name": "Usuario",
+ "last_name": "Test",
+ "is_active": true,
+ "is_staff": false,
+ "grupos": [
+ {
+ "codigo": "visualizacion_basica",
+ "nombre": "Visualización Básica",
+ "asignado_en": "2025-11-08T10:00:00Z"
+ }
+ ]
+ }
+ ],
+ "total": 1,
+ "pagina": 1,
+ "paginas_totales": 1
 }
 ```
 
@@ -166,14 +166,14 @@ curl -X GET "http://localhost:8000/api/v1/usuarios/?activo=true&page=1&page_size
 # Permiso: sistema.administracion.usuarios.crear
 
 curl -X POST http://localhost:8000/api/v1/usuarios/ \
-  -H "Authorization: Bearer <TOKEN>" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "email": "nuevo@test.com",
-    "first_name": "Nuevo",
-    "last_name": "Usuario",
-    "password": "password123"
-  }'
+ -H "Authorization: Bearer <TOKEN>" \
+ -H "Content-Type: application/json" \
+ -d '{
+ "email": "nuevo@test.com",
+ "first_name": "Nuevo",
+ "last_name": "Usuario",
+ "password": "password123"
+ }'
 ```
 
 #### 3. Asignar Grupos
@@ -182,11 +182,11 @@ curl -X POST http://localhost:8000/api/v1/usuarios/ \
 # Permiso: sistema.administracion.usuarios.asignar_grupos
 
 curl -X POST http://localhost:8000/api/v1/usuarios/1/asignar_grupos/ \
-  -H "Authorization: Bearer <TOKEN>" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "grupos_codigos": ["visualizacion_basica", "reportes_analitica"]
-  }'
+ -H "Authorization: Bearer <TOKEN>" \
+ -H "Content-Type: application/json" \
+ -d '{
+ "grupos_codigos": ["visualizacion_basica", "reportes_analitica"]
+ }'
 ```
 
 #### 4. Suspender Usuario
@@ -195,11 +195,11 @@ curl -X POST http://localhost:8000/api/v1/usuarios/1/asignar_grupos/ \
 # Permiso: sistema.administracion.usuarios.suspender
 
 curl -X POST http://localhost:8000/api/v1/usuarios/1/suspender/ \
-  -H "Authorization: Bearer <TOKEN>" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "motivo": "Violación de políticas"
-  }'
+ -H "Authorization: Bearer <TOKEN>" \
+ -H "Content-Type: application/json" \
+ -d '{
+ "motivo": "Violación de políticas"
+ }'
 ```
 
 #### 5. Reactivar Usuario
@@ -208,7 +208,7 @@ curl -X POST http://localhost:8000/api/v1/usuarios/1/suspender/ \
 # Permiso: sistema.administracion.usuarios.reactivar
 
 curl -X POST http://localhost:8000/api/v1/usuarios/1/reactivar/ \
-  -H "Authorization: Bearer <TOKEN>"
+ -H "Authorization: Bearer <TOKEN>"
 ```
 
 ### Dashboard API
@@ -219,7 +219,7 @@ curl -X POST http://localhost:8000/api/v1/usuarios/1/reactivar/ \
 # Permiso: sistema.vistas.dashboards.ver
 
 curl -X GET http://localhost:8000/api/v1/dashboard/overview/ \
-  -H "Authorization: Bearer <TOKEN>"
+ -H "Authorization: Bearer <TOKEN>"
 ```
 
 #### 2. Exportar Dashboard
@@ -228,11 +228,11 @@ curl -X GET http://localhost:8000/api/v1/dashboard/overview/ \
 # Permiso: sistema.vistas.dashboards.exportar
 
 curl -X POST http://localhost:8000/api/v1/dashboard/exportar/ \
-  -H "Authorization: Bearer <TOKEN>" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "formato": "pdf"
-  }'
+ -H "Authorization: Bearer <TOKEN>" \
+ -H "Content-Type: application/json" \
+ -d '{
+ "formato": "pdf"
+ }'
 ```
 
 #### 3. Personalizar Dashboard
@@ -241,17 +241,17 @@ curl -X POST http://localhost:8000/api/v1/dashboard/exportar/ \
 # Permiso: sistema.vistas.dashboards.personalizar
 
 curl -X PUT http://localhost:8000/api/v1/dashboard/personalizar/ \
-  -H "Authorization: Bearer <TOKEN>" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "configuracion": {
-      "widgets": [
-        {"tipo": "llamadas", "posicion": {"x": 0, "y": 0}},
-        {"tipo": "tickets", "posicion": {"x": 1, "y": 0}}
-      ],
-      "tema": "oscuro"
-    }
-  }'
+ -H "Authorization: Bearer <TOKEN>" \
+ -H "Content-Type: application/json" \
+ -d '{
+ "configuracion": {
+ "widgets": [
+ {"tipo": "llamadas", "posicion": {"x": 0, "y": 0}},
+ {"tipo": "tickets", "posicion": {"x": 1, "y": 0}}
+ ],
+ "tema": "oscuro"
+ }
+ }'
 ```
 
 #### 4. Compartir Dashboard
@@ -260,11 +260,11 @@ curl -X PUT http://localhost:8000/api/v1/dashboard/personalizar/ \
 # Permiso: sistema.vistas.dashboards.compartir
 
 curl -X POST http://localhost:8000/api/v1/dashboard/compartir/ \
-  -H "Authorization: Bearer <TOKEN>" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "compartir_con_usuario_id": 2
-  }'
+ -H "Authorization: Bearer <TOKEN>" \
+ -H "Content-Type: application/json" \
+ -d '{
+ "compartir_con_usuario_id": 2
+ }'
 ```
 
 ### Configuracion API
@@ -275,11 +275,11 @@ curl -X POST http://localhost:8000/api/v1/dashboard/compartir/ \
 # Permiso: sistema.tecnico.configuracion.ver
 
 curl -X GET http://localhost:8000/api/v1/configuracion/ \
-  -H "Authorization: Bearer <TOKEN>"
+ -H "Authorization: Bearer <TOKEN>"
 
 # Filtrar por categoria
 curl -X GET "http://localhost:8000/api/v1/configuracion/?categoria=seguridad" \
-  -H "Authorization: Bearer <TOKEN>"
+ -H "Authorization: Bearer <TOKEN>"
 ```
 
 #### 2. Editar Configuracion
@@ -288,11 +288,11 @@ curl -X GET "http://localhost:8000/api/v1/configuracion/?categoria=seguridad" \
 # Permiso: sistema.tecnico.configuracion.editar
 
 curl -X PUT http://localhost:8000/api/v1/configuracion/seguridad.session_timeout/ \
-  -H "Authorization: Bearer <TOKEN>" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "nuevo_valor": "1800"
-  }'
+ -H "Authorization: Bearer <TOKEN>" \
+ -H "Content-Type: application/json" \
+ -d '{
+ "nuevo_valor": "1800"
+ }'
 ```
 
 #### 3. Exportar Configuraciones
@@ -301,8 +301,8 @@ curl -X PUT http://localhost:8000/api/v1/configuracion/seguridad.session_timeout
 # Permiso: sistema.tecnico.configuracion.exportar
 
 curl -X GET http://localhost:8000/api/v1/configuracion/exportar/ \
-  -H "Authorization: Bearer <TOKEN>" \
-  > backup_config.json
+ -H "Authorization: Bearer <TOKEN>" \
+ > backup_config.json
 ```
 
 #### 4. Importar Configuraciones
@@ -311,9 +311,9 @@ curl -X GET http://localhost:8000/api/v1/configuracion/exportar/ \
 # Permiso: sistema.tecnico.configuracion.importar
 
 curl -X POST http://localhost:8000/api/v1/configuracion/importar/ \
-  -H "Authorization: Bearer <TOKEN>" \
-  -H "Content-Type: application/json" \
-  -d @backup_config.json
+ -H "Authorization: Bearer <TOKEN>" \
+ -H "Content-Type: application/json" \
+ -d @backup_config.json
 ```
 
 #### 5. Restaurar Configuracion
@@ -322,7 +322,7 @@ curl -X POST http://localhost:8000/api/v1/configuracion/importar/ \
 # Permiso: sistema.tecnico.configuracion.restaurar
 
 curl -X POST http://localhost:8000/api/v1/configuracion/seguridad.session_timeout/restaurar/ \
-  -H "Authorization: Bearer <TOKEN>"
+ -H "Authorization: Bearer <TOKEN>"
 ```
 
 ---
@@ -373,9 +373,9 @@ psql -d iact_analytics -f validar_funciones.sql
 ```
 
 **Salida esperada:**
-- usuarios: 7 capacidades ✓
-- dashboards: 4 capacidades ✓
-- configuracion: 5 capacidades ✓
+- usuarios: 7 capacidades OK
+- dashboards: 4 capacidades OK
+- configuracion: 5 capacidades OK
 
 ### 2. Validar Grupos
 
@@ -384,9 +384,9 @@ psql -d iact_analytics -f validar_grupos.sql
 ```
 
 **Salida esperada:**
-- administracion_usuarios: 7 capacidades ✓
-- visualizacion_basica: 4 capacidades ✓
-- configuracion_sistema: 5 capacidades ✓
+- administracion_usuarios: 7 capacidades OK
+- visualizacion_basica: 4 capacidades OK
+- configuracion_sistema: 5 capacidades OK
 
 ### 3. Validar Permisos
 
@@ -397,9 +397,9 @@ python manage.py shell < ../../scripts/validacion/test_permisos.py
 
 **Salida esperada:**
 ```
-Test 1: Usuario con visualizacion_basica PUEDE ver dashboards: OK ✓
-Test 2: Usuario con visualizacion_basica NO PUEDE crear usuarios: OK ✓
-Test 3: Usuario con admin_usuarios PUEDE crear usuarios: OK ✓
+Test 1: Usuario con visualizacion_basica PUEDE ver dashboards: OK OK
+Test 2: Usuario con visualizacion_basica NO PUEDE crear usuarios: OK OK
+Test 3: Usuario con admin_usuarios PUEDE crear usuarios: OK OK
 ```
 
 ### 4. Validar Auditoria
@@ -475,12 +475,12 @@ docs/api/openapi_prioridad_02.yaml
 ```sql
 -- Ultimas 20 acciones
 SELECT
-    timestamp,
-    usuario_id,
-    capacidad_codigo,
-    accion,
-    resultado,
-    detalles
+ timestamp,
+ usuario_id,
+ capacidad_codigo,
+ accion,
+ resultado,
+ detalles
 FROM auditoria_permisos
 ORDER BY timestamp DESC
 LIMIT 20;
@@ -501,10 +501,10 @@ ORDER BY timestamp DESC;
 ```sql
 -- Historial de cambios de una configuracion
 SELECT
-    timestamp,
-    valor_anterior,
-    valor_nuevo,
-    modificado_por
+ timestamp,
+ valor_anterior,
+ valor_nuevo,
+ modificado_por
 FROM configuracion_historial
 WHERE clave = 'seguridad.session_timeout'
 ORDER BY timestamp DESC;
@@ -521,9 +521,9 @@ ORDER BY timestamp DESC;
 ```python
 # settings/base.py
 INSTALLED_APPS = [
-    ...
-    "callcentersite.apps.configuration",
-    ...
+ ...
+ "callcentersite.apps.configuration",
+ ...
 ]
 ```
 
@@ -544,9 +544,9 @@ print(capacidades)
 
 # Asignar grupo si es necesario
 UserManagementService.asignar_grupo_a_usuario(
-    usuario_id=1,
-    grupo_codigo='administracion_usuarios',
-    asignado_por_id=1
+ usuario_id=1,
+ grupo_codigo='administracion_usuarios',
+ asignado_por_id=1
 )
 ```
 

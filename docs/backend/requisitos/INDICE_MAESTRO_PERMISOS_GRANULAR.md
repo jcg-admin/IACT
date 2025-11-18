@@ -81,16 +81,16 @@ Sistema de permisos granular que **elimina roles jerárquicos tradicionales** y 
 
 #### Funciones Implementadas:
 1. **Usuarios** (`sistema.administracion.usuarios`)
-   - 7 capacidades
-   - CRUD completo + suspensión/reactivación
+ - 7 capacidades
+ - CRUD completo + suspensión/reactivación
 
 2. **Dashboards** (`sistema.vistas.dashboards`)
-   - 4 capacidades
-   - Visualización + personalización
+ - 4 capacidades
+ - Visualización + personalización
 
 3. **Configuración** (`sistema.tecnico.configuracion`)
-   - 5 capacidades
-   - Gestión de parámetros del sistema
+ - 5 capacidades
+ - Gestión de parámetros del sistema
 
 #### Grupos Creados:
 - `administracion_usuarios`
@@ -270,49 +270,49 @@ Sistema de permisos granular que **elimina roles jerárquicos tradicionales** y 
 ### Fase 1: Fundamentos (Semanas 1-2)
 ```
 Semana 1: Prioridad 1 - Estructura Base
-└── Base de datos completa + vistas + funciones
+ Base de datos completa + vistas + funciones
 
 Semana 2: Prioridad 2 - Funciones Core
-└── Usuarios + Dashboards + Configuración
+ Usuarios + Dashboards + Configuración
 ```
 
 ### Fase 2: Operaciones (Semanas 3-4)
 ```
 Semana 3: Prioridad 3 - Módulos Operativos
-└── Llamadas + Tickets + Clientes + Métricas + Reportes + Alertas
+ Llamadas + Tickets + Clientes + Métricas + Reportes + Alertas
 
 Semana 4: Prioridad 4 - Módulos de Gestión (Parte 1)
-└── Equipos + Horarios
+ Equipos + Horarios
 ```
 
 ### Fase 3: Gestión y Finanzas (Semanas 5-6)
 ```
 Semana 5: Prioridad 4 - Módulos de Gestión (Parte 2)
-└── Evaluaciones + Auditoría
+ Evaluaciones + Auditoría
 
 Semana 6: Prioridad 5 - Módulos Financieros
-└── Pagos + Facturas + Cobranza
+ Pagos + Facturas + Cobranza
 ```
 
 ### Fase 4: Estrategia (Semana 7)
 ```
 Semana 7: Prioridad 6 - Módulos Estratégicos
-└── Presupuestos + Políticas + Excepciones
+ Presupuestos + Políticas + Excepciones
 ```
 
 ### Fase 5: Finalización (Semanas 8-11)
 ```
 Semana 8: Estabilización
-└── Testing + Performance + Security
+ Testing + Performance + Security
 
 Semana 9: Documentación
-└── Manuales + Guías + Videos
+ Manuales + Guías + Videos
 
 Semana 10: Capacitación
-└── Training de usuarios
+ Training de usuarios
 
 Semana 11: Go Live
-└── Deploy + Monitoreo + Soporte
+ Deploy + Monitoreo + Soporte
 ```
 
 **Duración Total:** 11 semanas (~2.5 meses)
@@ -359,8 +359,8 @@ Semana 11: Go Live
 ```
 Nombre: Ana López
 Grupos:
-├── atencion_cliente
-└── visualizacion_basica
+ atencion_cliente
+ visualizacion_basica
 
 Puede:
 - Realizar y recibir llamadas
@@ -379,10 +379,10 @@ No puede:
 ```
 Nombre: Carlos Ruiz
 Grupos:
-├── atencion_cliente_avanzada
-├── gestion_equipos
-├── gestion_horarios
-└── analisis_operativo
+ atencion_cliente_avanzada
+ gestion_equipos
+ gestion_horarios
+ analisis_operativo
 
 Puede:
 - Todo de atención al cliente avanzada
@@ -401,9 +401,9 @@ No puede:
 ```
 Nombre: María Fernández
 Grupos:
-├── auditoria_llamadas
-├── evaluacion_desempeno
-└── analisis_operativo
+ auditoria_llamadas
+ evaluacion_desempeno
+ analisis_operativo
 
 Puede:
 - Auditar llamadas
@@ -422,11 +422,11 @@ No puede:
 ```
 Nombre: Roberto Díaz
 Grupos:
-├── gestion_pagos
-├── aprobacion_pagos
-├── gestion_facturacion
-├── gestion_cobranza
-└── gestion_presupuestos
+ gestion_pagos
+ aprobacion_pagos
+ gestion_facturacion
+ gestion_cobranza
+ gestion_presupuestos
 
 Puede:
 - Procesar y aprobar pagos
@@ -445,9 +445,9 @@ No puede:
 ```
 Nombre: Laura Martínez
 Grupos:
-├── administracion_usuarios
-├── configuracion_sistema
-└── visualizacion_basica
+ administracion_usuarios
+ configuracion_sistema
+ visualizacion_basica
 
 Puede:
 - Crear y gestionar usuarios
@@ -485,18 +485,18 @@ No puede:
 ### Para Implementar el Sistema:
 
 1. **Semana 1:** Ejecutar `prioridad_01_estructura_base_datos.md`
-   ```bash
-   # Crear todas las tablas
-   # Crear vistas y funciones
-   # Insertar datos de prueba
-   ```
+ ```bash
+ # Crear todas las tablas
+ # Crear vistas y funciones
+ # Insertar datos de prueba
+ ```
 
 2. **Semana 2:** Ejecutar `prioridad_02_funciones_core.md`
-   ```bash
-   # Insertar funciones: usuarios, dashboards, configuracion
-   # Crear grupos: administracion_usuarios, visualizacion_basica
-   # Implementar servicios backend
-   ```
+ ```bash
+ # Insertar funciones: usuarios, dashboards, configuracion
+ # Crear grupos: administracion_usuarios, visualizacion_basica
+ # Implementar servicios backend
+ ```
 
 3. **Semanas 3-7:** Seguir prioridades 3-6 en orden
 
@@ -543,7 +543,7 @@ VALUES (123, 456, 'conceder', 'Proyecto temporal', '2025-12-31', 1);
 **Backend (pseudocódigo):**
 ```python
 if not PermissionService.usuario_tiene_permiso(usuario_id, 'sistema.operaciones.tickets.crear'):
-    raise PermissionDenied('No autorizado')
+ raise PermissionDenied('No autorizado')
 ```
 
 **API (middleware):**
@@ -551,8 +551,8 @@ if not PermissionService.usuario_tiene_permiso(usuario_id, 'sistema.operaciones.
 @api_view(['POST'])
 @permission_required('sistema.operaciones.tickets.crear')
 def crear_ticket(request):
-    # handler
-    pass
+ # handler
+ pass
 ```
 
 ---
@@ -575,7 +575,7 @@ WHERE usuario_id = 123 AND vigente = TRUE;
 ```sql
 SELECT * FROM auditoria_permisos
 WHERE accion_realizada = 'acceso_denegado'
-  AND timestamp > NOW() - INTERVAL '24 hours'
+ AND timestamp > NOW() - INTERVAL '24 hours'
 ORDER BY timestamp DESC;
 ```
 

@@ -9,11 +9,11 @@ estado: identificado
 fecha_creacion: 2025-11-11
 sponsor: cto
 stakeholders:
-  - cto
-  - tech-lead
-  - engineering-manager
-  - devops-team
-  - qa-lead
+ - cto
+ - tech-lead
+ - engineering-manager
+ - devops-team
+ - qa-lead
 babok_knowledge_area: "Business Analysis Planning and Monitoring"
 iso29148_clause: "6.2"
 valor_negocio: alto
@@ -258,37 +258,37 @@ Cualitativos:
 #### Opción 1: Sistema DORA Custom (Recomendada - IMPLEMENTADA)
 - **Descripción**: Sistema Django custom con métricas DORA, AI telemetry, ML predictions
 - **Pros**:
-  - Control total sobre funcionalidad
-  - Integración nativa con backend IACT
-  - AI telemetry específico para agentes IACT
-  - Auto-remediation customizado
+ - Control total sobre funcionalidad
+ - Integración nativa con backend IACT
+ - AI telemetry específico para agentes IACT
+ - Auto-remediation customizado
 - **Contras**:
-  - Desarrollo custom (ya realizado)
-  - Mantenimiento interno
+ - Desarrollo custom (ya realizado)
+ - Mantenimiento interno
 - **Estado**: IMPLEMENTADO (código existente en dora_metrics/)
 
 #### Opción 2: Herramienta DORA Comercial (Datadog, New Relic)
 - **Descripción**: SaaS de monitoreo con métricas DORA
 - **Pros**:
-  - Producto maduro
-  - Menos desarrollo
+ - Producto maduro
+ - Menos desarrollo
 - **Contras**:
-  - Costo perpetuo (~$100-200/usuario/mes)
-  - No incluye AI telemetry
-  - No incluye auto-remediation
-  - Menor control
+ - Costo perpetuo (~$100-200/usuario/mes)
+ - No incluye AI telemetry
+ - No incluye auto-remediation
+ - Menor control
 - **Decisión**: NO seleccionada
 
 #### Opción 3: Herramienta Open Source (Backstage, Sleuth)
 - **Descripción**: Plataforma open source para developer portal con DORA
 - **Pros**:
-  - Gratuito
-  - Comunidad activa
+ - Gratuito
+ - Comunidad activa
 - **Contras**:
-  - Requiere hosting
-  - No incluye AI telemetry
-  - No incluye auto-remediation customizado
-  - Menor flexibilidad
+ - Requiere hosting
+ - No incluye AI telemetry
+ - No incluye auto-remediation customizado
+ - Menor flexibilidad
 - **Decisión**: NO seleccionada
 
 ### 6.2 Recomendación
@@ -432,7 +432,7 @@ Esta necesidad genera:
 
 Esta necesidad documenta requisitos para un módulo YA IMPLEMENTADO (`dora_metrics/` con ~4,000 líneas de código). El propósito es:
 1. Documentar el "QUÉ" (requisitos) para código existente
-2. Establecer trazabilidad requisitos ↔ código
+2. Establecer trazabilidad requisitos <-> código
 3. Proveer criterios de aceptación para validación
 4. Facilitar mantenimiento y evolución futura
 

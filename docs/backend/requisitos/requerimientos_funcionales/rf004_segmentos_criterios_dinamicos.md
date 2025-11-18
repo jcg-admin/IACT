@@ -11,13 +11,13 @@ modulo: users
 categoria: security
 
 trazabilidad_upward:
-  - N-001  # Necesidad de control de acceso granular
+ - N-001 # Necesidad de control de acceso granular
 
 trazabilidad_downward:
-  - TEST-004  # Tests de Segment matching
+ - TEST-004 # Tests de Segment matching
 
 stakeholders:
-  - administradores-sistema
+ - administradores-sistema
 
 iso29148_clause: "9.6.4"
 verificacion_metodo: test
@@ -53,8 +53,8 @@ Ejemplo: "Todos los usuarios activos pueden ver el dashboard" sin tener que asig
 
 ```gherkin
 Given un segmento "Activos" con criterios {"is_active": True}
-  And el segmento está activo (is_active=True)
-  And un usuario "alice" con is_active=True
+ And el segmento está activo (is_active=True)
+ And un usuario "alice" con is_active=True
 When el sistema evalúa segment.matches(alice)
 Then retorna True
 ```
@@ -63,7 +63,7 @@ Then retorna True
 
 ```gherkin
 Given un segmento "Activos" con criterios {"is_active": True}
-  And un usuario "bob" con is_active=False
+ And un usuario "bob" con is_active=False
 When el sistema evalúa segment.matches(bob)
 Then retorna False
 ```
@@ -72,9 +72,9 @@ Then retorna False
 
 ```gherkin
 Given un segmento "Gerentes Activos" con criterios:
-  | is_active | True    |
-  | role_name | manager |
-  And un usuario "carol" con is_active=True y role_name="manager"
+ | is_active | True |
+ | role_name | manager |
+ And un usuario "carol" con is_active=True y role_name="manager"
 When el sistema evalúa segment.matches(carol)
 Then retorna True
 ```
@@ -83,12 +83,12 @@ Then retorna True
 
 ```gherkin
 Given un segmento "Gerentes Activos" con criterios:
-  | is_active | True    |
-  | role_name | manager |
-  And un usuario "dave" con is_active=True y role_name="analyst"
+ | is_active | True |
+ | role_name | manager |
+ And un usuario "dave" con is_active=True y role_name="analyst"
 When el sistema evalúa segment.matches(dave)
 Then retorna False
-  And falla porque role_name no coincide
+ And falla porque role_name no coincide
 ```
 
 #### Escenario 5: Segmento inactivo no se evalúa
@@ -97,17 +97,17 @@ Then retorna False
 Given un segmento "Activos" con is_active=False
 When SegmentManager.active_segments() es llamado
 Then el segmento NO aparece en la lista
-  And no será considerado para evaluación de permisos
+ And no será considerado para evaluación de permisos
 ```
 
 #### Escenario 6: Campo no existe en usuario
 
 ```gherkin
 Given un segmento con criterios {"campo_inexistente": "valor"}
-  And un usuario "eve" que no tiene atributo "campo_inexistente"
+ And un usuario "eve" que no tiene atributo "campo_inexistente"
 When el sistema evalúa segment.matches(eve)
 Then retorna False
-  And getattr(user, campo, None) retorna None
+ And getattr(user, campo, None) retorna None
 ```
 
 ### 2.2 Criterios No Funcionales Asociados
@@ -131,22 +131,22 @@ Then retorna False
 ```python
 @dataclass
 class Segment:
-    name: str
-    description: str
-    criteria: dict[str, Any]  # {"campo": valor}
-    is_active: bool = True
-    permissions: PermissionCollection
+ name: str
+ description: str
+ criteria: dict[str, Any] # {"campo": valor}
+ is_active: bool = True
+ permissions: PermissionCollection
 ```
 
 ### 3.3 Algoritmo de Matching
 
 ```python
 def matches(self, user: User) -> bool:
-    """Verifica si usuario cumple TODOS los criterios (AND)."""
-    for field, expected in self.criteria.items():
-        if getattr(user, field, None) != expected:
-            return False  # Un criterio falló
-    return True  # Todos los criterios pasaron
+ """Verifica si usuario cumple TODOS los criterios (AND)."""
+ for field, expected in self.criteria.items():
+ if getattr(user, field, None) != expected:
+ return False # Un criterio falló
+ return True # Todos los criterios pasaron
 ```
 
 ### 3.4 Reglas de Negocio
@@ -162,22 +162,22 @@ def matches(self, user: User) -> bool:
 ### 4.1 Tests Unitarios
 
 - [ ] **TEST-004-001**: test_segment_matches_con_criterio_simple
-  - Estado: pendiente
+ - Estado: pendiente
 
 - [ ] **TEST-004-002**: test_segment_no_matches_cuando_criterio_difiere
-  - Estado: pendiente
+ - Estado: pendiente
 
 - [ ] **TEST-004-003**: test_segment_matches_criterios_multiples_and
-  - Estado: pendiente
+ - Estado: pendiente
 
 - [ ] **TEST-004-004**: test_segment_matches_campo_inexistente_retorna_false
-  - Estado: pendiente
+ - Estado: pendiente
 
 - [ ] **TEST-004-005**: test_active_segments_filtra_inactivos
-  - Estado: pendiente
+ - Estado: pendiente
 
 - [ ] **TEST-004-006**: test_with_permission_retorna_solo_segmentos_con_codename
-  - Estado: pendiente
+ - Estado: pendiente
 
 ## 5. Referencias
 

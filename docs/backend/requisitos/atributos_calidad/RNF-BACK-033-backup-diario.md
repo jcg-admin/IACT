@@ -62,9 +62,9 @@ El sistema backend debe ejecutar backups completos automáticos diarios de todas
 3. **Verificación**: Backup verificado automáticamente (pg_restore --list)
 4. **Storage**: Almacenado en S3 o almacenamiento off-site
 5. **Retención**:
-   - Diarios: 30 días
-   - Semanales: 90 días
-   - Mensuales: 1 año
+ - Diarios: 30 días
+ - Semanales: 90 días
+ - Mensuales: 1 año
 6. **Alerting**: Notificación inmediata si backup falla
 
 **Umbrales**:

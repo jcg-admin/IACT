@@ -6,8 +6,8 @@ fecha: 2025-11-07
 version: 1.0.0
 propietario: qa-lead
 relacionados:
-  - VERIFICATION_REPORT.md
-  - PLAN_EJECUCION_COMPLETO.md
+ - VERIFICATION_REPORT.md
+ - PLAN_EJECUCION_COMPLETO.md
 ---
 
 # PYTEST Environment Fix - Resolucion Bloqueador Sprint 1
@@ -46,9 +46,9 @@ El archivo `api/callcentersite/tests/conftest.py` contenia:
 
 ```python
 def pytest_addoption(parser: pytest.Parser) -> None:
-    """Registra opciones stub para compatibilidad con pytest.ini."""
-    parser.addoption("--cov", ...)      # CONFLICTO
-    parser.addoption("--nomigrations", ...)  # CONFLICTO
+ """Registra opciones stub para compatibilidad con pytest.ini."""
+ parser.addoption("--cov", ...) # CONFLICTO
+ parser.addoption("--nomigrations", ...) # CONFLICTO
 ```
 
 **Problema:**
@@ -74,32 +74,32 @@ def pytest_addoption(parser: pytest.Parser) -> None:
 **Antes:**
 ```python
 def pytest_addoption(parser: pytest.Parser) -> None:
-    """Registra opciones stub para compatibilidad con pytest.ini."""
-    parser.addoption("--cov", ...)
-    parser.addoption("--cov-report", ...)
-    parser.addoption("--cov-branch", ...)
-    parser.addoption("--nomigrations", ...)
+ """Registra opciones stub para compatibilidad con pytest.ini."""
+ parser.addoption("--cov", ...)
+ parser.addoption("--cov-report", ...)
+ parser.addoption("--cov-branch", ...)
+ parser.addoption("--nomigrations", ...)
 ```
 
 **Despues:**
 ```python
 def pytest_addoption(parser: pytest.Parser) -> None:
-    """Registra opciones stub para compatibilidad con pytest.ini."""
-    # Solo registrar stubs si pytest-cov y pytest-django NO estan instalados
-    # Si estan instalados, ellos registran sus propias opciones
-    try:
-        import pytest_cov  # noqa: F401
-        import pytest_django  # noqa: F401
-        # Plugins reales instalados, no registrar stubs
-        return
-    except ImportError:
-        pass
+ """Registra opciones stub para compatibilidad con pytest.ini."""
+ # Solo registrar stubs si pytest-cov y pytest-django NO estan instalados
+ # Si estan instalados, ellos registran sus propias opciones
+ try:
+ import pytest_cov # noqa: F401
+ import pytest_django # noqa: F401
+ # Plugins reales instalados, no registrar stubs
+ return
+ except ImportError:
+ pass
 
-    # Fallback: Registrar stubs solo si plugins no estan disponibles
-    parser.addoption("--cov", ...)
-    parser.addoption("--cov-report", ...)
-    parser.addoption("--cov-branch", ...)
-    parser.addoption("--nomigrations", ...)
+ # Fallback: Registrar stubs solo si plugins no estan disponibles
+ parser.addoption("--cov", ...)
+ parser.addoption("--cov-report", ...)
+ parser.addoption("--cov-branch", ...)
+ parser.addoption("--nomigrations", ...)
 ```
 
 **Razon:** Early return si plugins reales instalados, evitando conflictos.
@@ -161,7 +161,7 @@ print(f'Model fields: {[f.name for f in DORAMetric._meta.fields]}')
 
 # Output:
 # Model fields: ['id', 'cycle_id', 'feature_id', 'phase_name',
-#                'decision', 'duration_seconds', 'metadata', 'created_at']
+# 'decision', 'duration_seconds', 'metadata', 'created_at']
 ```
 
 ---
@@ -175,13 +175,13 @@ print(f'Model fields: {[f.name for f in DORAMetric._meta.fields]}')
 **Best Practice:**
 ```python
 def pytest_addoption(parser):
-    try:
-        import plugin_real
-        return  # Plugin real ya registra opciones
-    except ImportError:
-        pass
-    # Solo registrar stubs si plugin NO disponible
-    parser.addoption(...)
+ try:
+ import plugin_real
+ return # Plugin real ya registra opciones
+ except ImportError:
+ pass
+ # Solo registrar stubs si plugin NO disponible
+ parser.addoption(...)
 ```
 
 ### 2. AUTH_USER_MODEL en Settings
@@ -209,7 +209,7 @@ python3 -c "import pytest; print(pytest.__file__)"
 python3 -m pip list | grep pytest
 
 # Deshabilitar plugin especifico
-python3 -m pytest -p no:cov  # Deshabilita pytest-cov
+python3 -m pytest -p no:cov # Deshabilita pytest-cov
 ```
 
 ### 4. Multiple Python Environments
@@ -248,12 +248,12 @@ python3 -m pip install pytest pytest-django pytest-cov
 
 - Sprint 1 Objetivo: 14 SP
 - Completado con fix: 12 SP (85.7%)
-  - TASK-001: 2 SP
-  - TASK-002: 1 SP
-  - TASK-003: 1 SP
-  - TASK-004: 2 SP
-  - TASK-005: 8 SP (parcialmente desbloqueado por fix)
-  - TASK-006: 1 SP (no requeria fix)
+ - TASK-001: 2 SP
+ - TASK-002: 1 SP
+ - TASK-003: 1 SP
+ - TASK-004: 2 SP
+ - TASK-005: 8 SP (parcialmente desbloqueado por fix)
+ - TASK-006: 1 SP (no requeria fix)
 
 ---
 

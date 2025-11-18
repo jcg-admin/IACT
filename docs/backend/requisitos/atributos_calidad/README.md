@@ -16,37 +16,37 @@ Los atributos de calidad (Nivel 5) representan los requerimientos no funcionales
 
 ### 1. Performance
 
-**ID**: AC-BACKEND-PERF-001  
-**Descripción**: Pendiente de documentar requisitos de performance  
-**Métrica**: TBD  
+**ID**: AC-BACKEND-PERF-001 
+**Descripción**: Pendiente de documentar requisitos de performance 
+**Métrica**: TBD 
 **Criterio de Aceptación**: TBD
 
 ### 2. Seguridad
 
-**ID**: AC-BACKEND-SEC-001  
-**Descripción**: Pendiente de documentar requisitos de seguridad  
-**Métrica**: TBD  
+**ID**: AC-BACKEND-SEC-001 
+**Descripción**: Pendiente de documentar requisitos de seguridad 
+**Métrica**: TBD 
 **Criterio de Aceptación**: TBD
 
 ### 3. Usabilidad
 
-**ID**: AC-BACKEND-USA-001  
-**Descripción**: Pendiente de documentar requisitos de usabilidad  
-**Métrica**: TBD  
+**ID**: AC-BACKEND-USA-001 
+**Descripción**: Pendiente de documentar requisitos de usabilidad 
+**Métrica**: TBD 
 **Criterio de Aceptación**: TBD
 
 ### 4. Reliability
 
-**ID**: AC-BACKEND-REL-001  
-**Descripción**: Pendiente de documentar requisitos de confiabilidad  
-**Métrica**: TBD  
+**ID**: AC-BACKEND-REL-001 
+**Descripción**: Pendiente de documentar requisitos de confiabilidad 
+**Métrica**: TBD 
 **Criterio de Aceptación**: TBD
 
 ### 5. Maintainability
 
-**ID**: AC-BACKEND-MNT-001  
-**Descripción**: Pendiente de documentar requisitos de mantenibilidad  
-**Métrica**: TBD  
+**ID**: AC-BACKEND-MNT-001 
+**Descripción**: Pendiente de documentar requisitos de mantenibilidad 
+**Métrica**: TBD 
 **Criterio de Aceptación**: TBD
 
 ## Trazabilidad

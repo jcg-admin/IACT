@@ -10,11 +10,11 @@ fecha_creacion: 2025-11-06
 fecha_aprobacion: 2025-11-06
 sponsor: director-operaciones
 stakeholders:
-  - gerente-call-center
-  - coordinadores-operaciones
-  - analistas-negocio
-  - director-operaciones
-  - supervisores-atencion
+ - gerente-call-center
+ - coordinadores-operaciones
+ - analistas-negocio
+ - director-operaciones
+ - supervisores-atencion
 babok_knowledge_area: "Business Analysis Planning and Monitoring"
 iso29148_clause: "6.2"
 valor_negocio: alto
@@ -246,41 +246,41 @@ Cualitativos:
 #### Opcion 1: Dashboard IACT (Recomendada)
 - **Descripcion**: Sistema custom con Django + DRF, ETL batch, dashboard widgets
 - **Pros**:
-  - Control total sobre funcionalidad
-  - Cumple TODAS las restricciones (no email, readonly IVR, sesiones BD)
-  - Integracion nativa con BD IVR legacy
-  - ETL configurable (6-12h) sin real-time complejo
+ - Control total sobre funcionalidad
+ - Cumple TODAS las restricciones (no email, readonly IVR, sesiones BD)
+ - Integracion nativa con BD IVR legacy
+ - ETL configurable (6-12h) sin real-time complejo
 - **Contras**:
-  - Desarrollo custom (tiempo inicial)
-  - Mantenimiento interno
+ - Desarrollo custom (tiempo inicial)
+ - Mantenimiento interno
 - **Costo estimado**: $80,000 desarrollo + $15,000/ano mantenimiento
 - **Tiempo estimado**: 6 meses
 
 #### Opcion 2: BI Comercial (Tableau, Power BI)
 - **Descripcion**: Licencias BI comercial con conectores a MySQL
 - **Pros**:
-  - Herramienta madura
-  - Menos desarrollo custom
-  - Visualizaciones avanzadas
+ - Herramienta madura
+ - Menos desarrollo custom
+ - Visualizaciones avanzadas
 - **Contras**:
-  - Costo licencias perpetuo (~$70/usuario/mes = $50,400/ano para 60 usuarios)
-  - NO cumple restricciones (requiere real-time, email notifications)
-  - Menor control sobre permisos granulares
-  - Complejidad segmentacion de datos
+ - Costo licencias perpetuo (~$70/usuario/mes = $50,400/ano para 60 usuarios)
+ - NO cumple restricciones (requiere real-time, email notifications)
+ - Menor control sobre permisos granulares
+ - Complejidad segmentacion de datos
 - **Costo estimado**: $50,400/ano licencias + $30,000 configuracion inicial
 - **Tiempo estimado**: 4 meses
 
 #### Opcion 3: Reportes Excel Mejorados (Status Quo+)
 - **Descripcion**: Macros VBA, conexiones ODBC, templates mejorados
 - **Pros**:
-  - Bajo costo inicial
-  - Analistas familiarizados con Excel
+ - Bajo costo inicial
+ - Analistas familiarizados con Excel
 - **Contras**:
-  - Sigue siendo manual
-  - No resuelve problema de rezago
-  - No dashboard centralizado
-  - Propenso a errores
-  - No escalable
+ - Sigue siendo manual
+ - No resuelve problema de rezago
+ - No dashboard centralizado
+ - Propenso a errores
+ - No escalable
 - **Costo estimado**: $5,000
 - **Tiempo estimado**: 2 meses
 

@@ -66,16 +66,16 @@ This session successfully addressed the critical documentation gap identified fo
 **Content:**
 - Comprehensive REST API design guide with Auto-CoT examples
 - 10 major sections covering:
-  1. REST Fundamentals (Fielding 2000 verification)
-  2. URL Design (anti-patterns included)
-  3. HTTP Methods & Status Codes
-  4. JWT Authentication (security checklist)
-  5. Granular Permissions (based on ADR_2025_017)
-  6. API Versioning (4 strategies compared)
-  7. Pagination (Offset vs Cursor with Self-Consistency)
-  8. Secure Filtering (SQL injection validation with 3 scenarios)
-  9. Error Handling (RFC 7807 compatible)
-  10. Testing & Documentation
+ 1. REST Fundamentals (Fielding 2000 verification)
+ 2. URL Design (anti-patterns included)
+ 3. HTTP Methods & Status Codes
+ 4. JWT Authentication (security checklist)
+ 5. Granular Permissions (based on ADR_2025_017)
+ 6. API Versioning (4 strategies compared)
+ 7. Pagination (Offset vs Cursor with Self-Consistency)
+ 8. Secure Filtering (SQL injection validation with 3 scenarios)
+ 9. Error Handling (RFC 7807 compatible)
+ 10. Testing & Documentation
 
 **Advanced Techniques:**
 - Auto-CoT (Automatic Chain-of-Thought) with `<thinking>` blocks
@@ -269,19 +269,19 @@ DORA Research Benchmarks (Verified):
 
 ```
 N-004 (Business Need)
-  └─> RN-004 (Business Requirement)
-        ├─> RF-020 (Register DORA Cycles)
-        │     ├─> RF-021 (Deployment Frequency)
-        │     ├─> RF-022 (Lead Time)
-        │     ├─> RF-023 (Change Failure Rate)
-        │     └─> RF-024 (Mean Time to Recovery)
-        │           └─> RF-025 (Overall Classification)
-        │                 ├─> RF-026 (Dashboard)
-        │                 └─> RF-027 (Export Reports - not implemented)
-        └─> RF-028 (Data Catalog Index)
-              ├─> RF-029 (Query DORA Metrics)
-              ├─> RF-030 (Query Deployment Cycles)
-              └─> RF-031 (Aggregated Statistics)
+ > RN-004 (Business Requirement)
+ > RF-020 (Register DORA Cycles)
+ > RF-021 (Deployment Frequency)
+ > RF-022 (Lead Time)
+ > RF-023 (Change Failure Rate)
+ > RF-024 (Mean Time to Recovery)
+ > RF-025 (Overall Classification)
+ > RF-026 (Dashboard)
+ > RF-027 (Export Reports - not implemented)
+ > RF-028 (Data Catalog Index)
+ > RF-029 (Query DORA Metrics)
+ > RF-030 (Query Deployment Cycles)
+ > RF-031 (Aggregated Statistics)
 ```
 
 **Implementation Mapping:**
@@ -332,18 +332,18 @@ N-004 (Business Need)
 **Problem:**
 ```python
 # Current (INCORRECT)
-if cfr < 5:      # Elite
-elif cfr < 10:   # High
-elif cfr < 15:   # Medium
+if cfr < 5: # Elite
+elif cfr < 10: # High
+elif cfr < 15: # Medium
 ```
 
 **Should be (CORRECT per DORA Research):**
 ```python
 # Corrected
-if cfr <= 15:    # Elite: 0-15%
-elif cfr <= 30:  # High: 16-30%
-elif cfr <= 45:  # Medium: 31-45%
-else:            # Low: >45%
+if cfr <= 15: # Elite: 0-15%
+elif cfr <= 30: # High: 16-30%
+elif cfr <= 45: # Medium: 31-45%
+else: # Low: >45%
 ```
 
 **Impact:** Teams with CFR 15-30% classified as "Low" when should be "High"
@@ -404,38 +404,38 @@ Implements DORA 2025 AI Capability 6: AI-accessible Internal Data
 ### Immediate (High Priority)
 
 1. **Fix CFR Thresholds Bug**
-   - Update calculate_dora_classification in views.py
-   - Add regression tests
-   - Verify all dependent code
+ - Update calculate_dora_classification in views.py
+ - Add regression tests
+ - Verify all dependent code
 
 2. **Complete Use Case Specifications**
-   - UC-001: Register DORA Metric (create/read/update)
-   - UC-002: View DORA Dashboard (visualization/export)
-   - UC-003: Query Data Catalog (AI agent integration)
+ - UC-001: Register DORA Metric (create/read/update)
+ - UC-002: View DORA Dashboard (visualization/export)
+ - UC-003: Query Data Catalog (AI agent integration)
 
 3. **Fix Requirements Data Quality Issues**
-   - Resolve duplicate IDs (RF-001 to RF-006 have duplicates in legacy docs)
-   - Fix corrupted trazabilidad fields (malformed YAML arrays)
-   - Validate all frontmatter YAML
+ - Resolve duplicate IDs (RF-001 to RF-006 have duplicates in legacy docs)
+ - Fix corrupted trazabilidad fields (malformed YAML arrays)
+ - Validate all frontmatter YAML
 
 ### Medium Priority
 
 4. **Implement Export Functionality**
-   - Follow RF-027 specification
-   - CSV, Excel, PDF export endpoints
-   - Add UI controls in dashboard
+ - Follow RF-027 specification
+ - CSV, Excel, PDF export endpoints
+ - Add UI controls in dashboard
 
 5. **Generate Requirements Indices**
-   - Update requirements index by domain
-   - Update requirements index by priority
-   - Update traceability matrix
+ - Update requirements index by domain
+ - Update requirements index by priority
+ - Update traceability matrix
 
 ### Lower Priority
 
 6. **Document Remaining Modules**
-   - data_centralization (2nd largest undocumented module)
-   - 18+ other modules without requirements
-   - Follow same methodology as dora_metrics
+ - data_centralization (2nd largest undocumented module)
+ - 18+ other modules without requirements
+ - Follow same methodology as dora_metrics
 
 ## DORA 2025 AI Capabilities Coverage
 
@@ -446,7 +446,7 @@ This session addressed the following DORA 2025 AI capabilities:
 - Structured query APIs
 - AI-optimized response formats
 
-🔄 **Capability 7: Healthy Data Ecosystems** (Partial)
+ **Capability 7: Healthy Data Ecosystems** (Partial)
 - Data quality assessment endpoint exists
 - Requirements documentation pending
 

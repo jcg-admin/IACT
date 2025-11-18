@@ -63,15 +63,15 @@ El sistema backend debe registrar (loguear) todas las acciones críticas de segu
 **Formato de Log**:
 ```json
 {
-  "timestamp": "2025-01-17T10:30:45Z",
-  "user_id": 123,
-  "username": "jperez",
-  "action": "LOGIN_SUCCESS",
-  "resource": "User",
-  "ip_address": "192.168.1.100",
-  "user_agent": "Mozilla/5.0...",
-  "result": "success",
-  "details": {...}
+ "timestamp": "2025-01-17T10:30:45Z",
+ "user_id": 123,
+ "username": "jperez",
+ "action": "LOGIN_SUCCESS",
+ "resource": "User",
+ "ip_address": "192.168.1.100",
+ "user_agent": "Mozilla/5.0...",
+ "result": "success",
+ "details": {...}
 }
 ```
 

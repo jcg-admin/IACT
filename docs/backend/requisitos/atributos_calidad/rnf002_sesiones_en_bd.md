@@ -29,8 +29,8 @@ date: 2025-11-13
 Given la configuracion de Django settings.py
 When se verifica SESSION_ENGINE
 Then SESSION_ENGINE='django.contrib.sessions.backends.db'
-  And sesiones se almacenan en tabla django_session en MySQL
-  And NO se usa Redis, Memcached u otros backends de cache
+ And sesiones se almacenan en tabla django_session en MySQL
+ And NO se usa Redis, Memcached u otros backends de cache
 ```
 
 ## 3. Restriccion CRITICA

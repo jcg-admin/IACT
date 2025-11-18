@@ -15,4 +15,3 @@ Este directorio contiene solicitudes especificos del dominio backend.
 
 - Estandares generales: ../../gobernanza/solicitudes/ (si aplica)
 - Otros dominios: Ver estructura similar en otros directorios de dominio
-

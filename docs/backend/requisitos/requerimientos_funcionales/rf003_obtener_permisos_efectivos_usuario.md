@@ -11,17 +11,17 @@ modulo: users
 categoria: security
 
 trazabilidad_upward:
-  - N-001  # Necesidad de control de acceso granular
+ - N-001 # Necesidad de control de acceso granular
 
 trazabilidad_downward:
-  - TEST-003  # Tests de permissions_for_user
+ - TEST-003 # Tests de permissions_for_user
 
 dependencias:
-  - RF-001  # Depende del sistema de evaluación de permisos
+ - RF-001 # Depende del sistema de evaluación de permisos
 
 stakeholders:
-  - administradores-sistema
-  - desarrolladores-ui
+ - administradores-sistema
+ - desarrolladores-ui
 
 iso29148_clause: "9.6.4"
 verificacion_metodo: test
@@ -57,21 +57,21 @@ Mostrar en UI administrativa qué puede hacer un usuario, generar reportes de ac
 
 ```gherkin
 Given un usuario "alice"
-  And tiene permiso directo "analytics.view"
-  And tiene rol "Analista" con permisos ["reports.view", "analytics.view"]
-  And pertenece a segmento "Activos" con permisos ["dashboard.view", "reports.view"]
+ And tiene permiso directo "analytics.view"
+ And tiene rol "Analista" con permisos ["reports.view", "analytics.view"]
+ And pertenece a segmento "Activos" con permisos ["dashboard.view", "reports.view"]
 When el sistema ejecuta permissions_for_user(alice)
 Then retorna ["analytics.view", "reports.view", "dashboard.view"]
-  And NO incluye duplicados
+ And NO incluye duplicados
 ```
 
 #### Escenario 2: Usuario sin permisos
 
 ```gherkin
 Given un usuario "bob"
-  And NO tiene permisos directos
-  And NO tiene roles asignados
-  And NO pertenece a ningún segmento activo
+ And NO tiene permisos directos
+ And NO tiene roles asignados
+ And NO pertenece a ningún segmento activo
 When el sistema ejecuta permissions_for_user(bob)
 Then retorna lista vacía []
 ```
@@ -80,10 +80,10 @@ Then retorna lista vacía []
 
 ```gherkin
 Given un usuario "carol" con is_active=True
-  And NO tiene permisos directos
-  And NO tiene roles
-  And pertenece a segmento "Activos" (criterio is_active=True)
-  And el segmento tiene permisos ["dashboard.view", "reports.view"]
+ And NO tiene permisos directos
+ And NO tiene roles
+ And pertenece a segmento "Activos" (criterio is_active=True)
+ And el segmento tiene permisos ["dashboard.view", "reports.view"]
 When el sistema ejecuta permissions_for_user(carol)
 Then retorna ["dashboard.view", "reports.view"]
 ```
@@ -107,22 +107,22 @@ Then retorna ["dashboard.view", "reports.view"]
 
 ```python
 def permissions_for_user(user: User) -> Iterable[str]:
-    # 1. Recolectar permisos directos
-    direct = {perm.codename for perm in UserPermission.objects.permissions_for_user(user)}
+ # 1. Recolectar permisos directos
+ direct = {perm.codename for perm in UserPermission.objects.permissions_for_user(user)}
 
-    # 2. Recolectar permisos por roles
-    role_based = set()
-    for role in RoleAssignment.objects.roles_for_user(user):
-        role_based.update(role.permissions.values_list("codename", flat=True))
+ # 2. Recolectar permisos por roles
+ role_based = set()
+ for role in RoleAssignment.objects.roles_for_user(user):
+ role_based.update(role.permissions.values_list("codename", flat=True))
 
-    # 3. Recolectar permisos por segmentos
-    segment_permissions = set()
-    for segment in Segment.objects.active_segments():
-        if segment.matches(user):
-            segment_permissions.update(segment.permissions.values_list("codename", flat=True))
+ # 3. Recolectar permisos por segmentos
+ segment_permissions = set()
+ for segment in Segment.objects.active_segments():
+ if segment.matches(user):
+ segment_permissions.update(segment.permissions.values_list("codename", flat=True))
 
-    # 4. Unir sin duplicados
-    return direct.union(role_based).union(segment_permissions)
+ # 4. Unir sin duplicados
+ return direct.union(role_based).union(segment_permissions)
 ```
 
 ## 4. Casos de Prueba
@@ -130,16 +130,16 @@ def permissions_for_user(user: User) -> Iterable[str]:
 ### 4.1 Tests Unitarios
 
 - [ ] **TEST-003-001**: test_permissions_for_user_con_tres_niveles
-  - Estado: pendiente
+ - Estado: pendiente
 
 - [ ] **TEST-003-002**: test_permissions_for_user_sin_permisos
-  - Estado: pendiente
+ - Estado: pendiente
 
 - [ ] **TEST-003-003**: test_permissions_for_user_elimina_duplicados
-  - Estado: pendiente
+ - Estado: pendiente
 
 - [ ] **TEST-003-004**: test_permissions_for_user_solo_segmentos_activos
-  - Estado: pendiente
+ - Estado: pendiente
 
 ## 5. Referencias
 

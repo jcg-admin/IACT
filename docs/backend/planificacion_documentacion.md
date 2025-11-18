@@ -10,7 +10,7 @@ date: 2025-11-13
 
 # Planificación de Documentación de Apps Django
 
-##  Índice
+## Índice
 
 1. [Visión General](#visión-general)
 2. [Desglose por App](#desglose-por-app)
@@ -57,7 +57,7 @@ Documentar exhaustivamente las **10 aplicaciones Django** del backend siguiendo 
 
 #### 1. ETL (Extract-Transform-Load)
 
-**Prioridad**:  CRÍTICA | **Complejidad**: Alta | **Estimación**: 2-3 días
+**Prioridad**: CRÍTICA | **Complejidad**: Alta | **Estimación**: 2-3 días
 
 ##### Información General
 - **Propósito**: Pipeline de datos desde IVR legacy a Analytics
@@ -83,48 +83,48 @@ Documentar exhaustivamente las **10 aplicaciones Django** del backend siguiendo 
 ##### Diagramas a Crear
 
 1. **Diagrama de flujo general** (PlantUML Activity)
-   ```plantuml
-   Scheduler → Job Orquestador → Extractor → Transformer → Loader
-   ```
-   - **Tipo**: Activity Diagram
-   - **Elementos**: 5 componentes principales
-   - **Complejidad**: Media
-   - **Tiempo**: 1h
+ ```plantuml
+ Scheduler → Job Orquestador → Extractor → Transformer → Loader
+ ```
+ - **Tipo**: Activity Diagram
+ - **Elementos**: 5 componentes principales
+ - **Complejidad**: Media
+ - **Tiempo**: 1h
 
 2. **Diagrama de secuencia E-T-L** (PlantUML Sequence)
-   ```plantuml
-   Job → IVRDataExtractor → IVRDataAdapter → MariaDB
-   Job → CallDataTransformer → validación/limpieza
-   Job → AnalyticsDataLoader → PostgreSQL
-   ```
-   - **Tipo**: Sequence Diagram
-   - **Elementos**: 7 participantes, 15+ mensajes
-   - **Complejidad**: Alta
-   - **Tiempo**: 2h
+ ```plantuml
+ Job → IVRDataExtractor → IVRDataAdapter → MariaDB
+ Job → CallDataTransformer → validación/limpieza
+ Job → AnalyticsDataLoader → PostgreSQL
+ ```
+ - **Tipo**: Sequence Diagram
+ - **Elementos**: 7 participantes, 15+ mensajes
+ - **Complejidad**: Alta
+ - **Tiempo**: 2h
 
 3. **Diagrama de flujo de datos** (PlantUML Component)
-   ```plantuml
-   [IVR MariaDB] --> [Extractor] : raw_calls
-   [Extractor] --> [Transformer] : List[IVRCall]
-   [Transformer] --> [Loader] : List[dict]
-   [Loader] --> [Analytics PostgreSQL] : CallAnalytics
-   ```
-   - **Tipo**: Component Diagram
-   - **Elementos**: 4 componentes, 3 flujos
-   - **Complejidad**: Baja
-   - **Tiempo**: 1h
+ ```plantuml
+ [IVR MariaDB] --> [Extractor] : raw_calls
+ [Extractor] --> [Transformer] : List[IVRCall]
+ [Transformer] --> [Loader] : List[dict]
+ [Loader] --> [Analytics PostgreSQL] : CallAnalytics
+ ```
+ - **Tipo**: Component Diagram
+ - **Elementos**: 4 componentes, 3 flujos
+ - **Complejidad**: Baja
+ - **Tiempo**: 1h
 
 4. **Diagrama de componentes** (PlantUML Component)
-   - **Tipo**: Component Diagram
-   - **Elementos**: Estructura de archivos ETL
-   - **Complejidad**: Media
-   - **Tiempo**: 1h
+ - **Tipo**: Component Diagram
+ - **Elementos**: Estructura de archivos ETL
+ - **Complejidad**: Media
+ - **Tiempo**: 1h
 
 5. **Diagrama de manejo de errores** (PlantUML Activity)
-   - **Tipo**: Activity Diagram
-   - **Elementos**: Try/catch, retry logic
-   - **Complejidad**: Media
-   - **Tiempo**: 1h
+ - **Tipo**: Activity Diagram
+ - **Elementos**: Try/catch, retry logic
+ - **Complejidad**: Media
+ - **Tiempo**: 1h
 
 **Total diagramas**: 5 | **Tiempo total**: 6 horas
 
@@ -146,7 +146,7 @@ Documentar exhaustivamente las **10 aplicaciones Django** del backend siguiendo 
 
 #### 2. Analytics
 
-**Prioridad**:  CRÍTICA | **Complejidad**: Media | **Estimación**: 1-2 días
+**Prioridad**: CRÍTICA | **Complejidad**: Media | **Estimación**: 1-2 días
 
 ##### Información General
 - **Propósito**: Almacenamiento de métricas y KPIs
@@ -172,53 +172,53 @@ Documentar exhaustivamente las **10 aplicaciones Django** del backend siguiendo 
 ##### Diagramas a Crear
 
 1. **Diagrama de clases** (PlantUML Class)
-   ```plantuml
-   class CallAnalytics {
-     +call_id: CharField
-     +duration: IntegerField
-     +queue_time: IntegerField
-     +call_date: DateTimeField
-   }
-   class DailyMetrics {
-     +date: DateField
-     +total_calls: IntegerField
-     +avg_duration: FloatField
-   }
-   TimeStampedModel <|-- CallAnalytics
-   TimeStampedModel <|-- DailyMetrics
-   ```
-   - **Tipo**: Class Diagram
-   - **Elementos**: 3 clases, herencia
-   - **Complejidad**: Baja
-   - **Tiempo**: 1h
+ ```plantuml
+ class CallAnalytics {
+ +call_id: CharField
+ +duration: IntegerField
+ +queue_time: IntegerField
+ +call_date: DateTimeField
+ }
+ class DailyMetrics {
+ +date: DateField
+ +total_calls: IntegerField
+ +avg_duration: FloatField
+ }
+ TimeStampedModel <|-- CallAnalytics
+ TimeStampedModel <|-- DailyMetrics
+ ```
+ - **Tipo**: Class Diagram
+ - **Elementos**: 3 clases, herencia
+ - **Complejidad**: Baja
+ - **Tiempo**: 1h
 
 2. **Diagrama ER** (PlantUML Entity-Relationship)
-   - **Tipo**: ER Diagram
-   - **Elementos**: 2 tablas, campos
-   - **Complejidad**: Baja
-   - **Tiempo**: 1h
+ - **Tipo**: ER Diagram
+ - **Elementos**: 2 tablas, campos
+ - **Complejidad**: Baja
+ - **Tiempo**: 1h
 
 3. **Diagrama de componentes** (PlantUML Component)
-   ```plantuml
-   [ETL Loader] --> [CallAnalytics]
-   [ETL Loader] --> [DailyMetrics]
-   [Dashboard] --> [CallAnalytics] : reads
-   [Dashboard] --> [DailyMetrics] : reads
-   ```
-   - **Tipo**: Component Diagram
-   - **Elementos**: 4 componentes
-   - **Complejidad**: Baja
-   - **Tiempo**: 1h
+ ```plantuml
+ [ETL Loader] --> [CallAnalytics]
+ [ETL Loader] --> [DailyMetrics]
+ [Dashboard] --> [CallAnalytics] : reads
+ [Dashboard] --> [DailyMetrics] : reads
+ ```
+ - **Tipo**: Component Diagram
+ - **Elementos**: 4 componentes
+ - **Complejidad**: Baja
+ - **Tiempo**: 1h
 
 4. **Flujo de datos** (PlantUML Sequence)
-   ```plantuml
-   ETL -> CallAnalytics : save()
-   Dashboard -> CallAnalytics : filter(date=today)
-   ```
-   - **Tipo**: Sequence Diagram
-   - **Elementos**: 3 participantes
-   - **Complejidad**: Baja
-   - **Tiempo**: 1h
+ ```plantuml
+ ETL -> CallAnalytics : save()
+ Dashboard -> CallAnalytics : filter(date=today)
+ ```
+ - **Tipo**: Sequence Diagram
+ - **Elementos**: 3 participantes
+ - **Complejidad**: Baja
+ - **Tiempo**: 1h
 
 **Total diagramas**: 4 | **Tiempo total**: 4 horas
 
@@ -232,7 +232,7 @@ Documentar exhaustivamente las **10 aplicaciones Django** del backend siguiendo 
 
 #### 3. Reports
 
-**Prioridad**:  CRÍTICA | **Complejidad**: Media-Alta | **Estimación**: 2 días
+**Prioridad**: CRÍTICA | **Complejidad**: Media-Alta | **Estimación**: 2 días
 
 ##### Información General
 - **Propósito**: Generación de reportes en múltiples formatos
@@ -258,42 +258,42 @@ Documentar exhaustivamente las **10 aplicaciones Django** del backend siguiendo 
 ##### Diagramas a Crear
 
 1. **Diagrama de clases (modelos)** (PlantUML Class)
-   - **Elementos**: ReportTemplate, GeneratedReport
-   - **Complejidad**: Media
-   - **Tiempo**: 1h
+ - **Elementos**: ReportTemplate, GeneratedReport
+ - **Complejidad**: Media
+ - **Tiempo**: 1h
 
 2. **Diagrama ER** (PlantUML ER)
-   - **Elementos**: 2 tablas con relaciones
-   - **Complejidad**: Baja
-   - **Tiempo**: 1h
+ - **Elementos**: 2 tablas con relaciones
+ - **Complejidad**: Baja
+ - **Tiempo**: 1h
 
 3. **Diagrama de Strategy Pattern** (PlantUML Class)
-   ```plantuml
-   abstract class BaseReportGenerator {
-     +generate(queryset, params)
-   }
-   class CSVGenerator
-   class ExcelGenerator
-   class PDFGenerator
-   BaseReportGenerator <|-- CSVGenerator
-   BaseReportGenerator <|-- ExcelGenerator
-   BaseReportGenerator <|-- PDFGenerator
-   ```
-   - **Tipo**: Class Diagram
-   - **Elementos**: 4 clases, patrón Strategy
-   - **Complejidad**: Media
-   - **Tiempo**: 1.5h
+ ```plantuml
+ abstract class BaseReportGenerator {
+ +generate(queryset, params)
+ }
+ class CSVGenerator
+ class ExcelGenerator
+ class PDFGenerator
+ BaseReportGenerator <|-- CSVGenerator
+ BaseReportGenerator <|-- ExcelGenerator
+ BaseReportGenerator <|-- PDFGenerator
+ ```
+ - **Tipo**: Class Diagram
+ - **Elementos**: 4 clases, patrón Strategy
+ - **Complejidad**: Media
+ - **Tiempo**: 1.5h
 
 4. **Flujo de generación de reportes** (PlantUML Sequence)
-   - **Tipo**: Sequence Diagram
-   - **Elementos**: Usuario, View, Service, Generator, FileSystem
-   - **Complejidad**: Alta
-   - **Tiempo**: 2h
+ - **Tipo**: Sequence Diagram
+ - **Elementos**: Usuario, View, Service, Generator, FileSystem
+ - **Complejidad**: Alta
+ - **Tiempo**: 2h
 
 5. **Diagrama de componentes** (PlantUML Component)
-   - **Elementos**: models, generators, views
-   - **Complejidad**: Media
-   - **Tiempo**: 1h
+ - **Elementos**: models, generators, views
+ - **Complejidad**: Media
+ - **Tiempo**: 1h
 
 **Total diagramas**: 5 | **Tiempo total**: 6.5 horas
 
@@ -313,7 +313,7 @@ Documentar exhaustivamente las **10 aplicaciones Django** del backend siguiendo 
 
 #### 4. Audit
 
-**Prioridad**:  MEDIA | **Complejidad**: Media | **Estimación**: 1 día
+**Prioridad**: MEDIA | **Complejidad**: Media | **Estimación**: 1 día
 
 ##### Información General
 - **Propósito**: Sistema de auditoría inmutable
@@ -337,37 +337,37 @@ Documentar exhaustivamente las **10 aplicaciones Django** del backend siguiendo 
 ##### Diagramas a Crear
 
 1. **Diagrama de clases** (PlantUML Class)
-   ```plantuml
-   class AuditLog {
-     +user: ForeignKey
-     +action: CharField
-     +resource: CharField
-     +details: JSONField
-     +save()
-   }
-   class AuditService {
-     +{static} log(action, user, resource)
-   }
-   ```
-   - **Complejidad**: Baja
-   - **Tiempo**: 1h
+ ```plantuml
+ class AuditLog {
+ +user: ForeignKey
+ +action: CharField
+ +resource: CharField
+ +details: JSONField
+ +save()
+ }
+ class AuditService {
+ +{static} log(action, user, resource)
+ }
+ ```
+ - **Complejidad**: Baja
+ - **Tiempo**: 1h
 
 2. **Diagrama ER** (PlantUML ER)
-   - **Elementos**: 1 tabla con FK a User
-   - **Tiempo**: 0.5h
+ - **Elementos**: 1 tabla con FK a User
+ - **Tiempo**: 0.5h
 
 3. **Flujo de auditoría** (PlantUML Sequence)
-   ```plantuml
-   App -> AuditService : log(action, user, resource)
-   AuditService -> AuditLog : create()
-   AuditLog -> DB : INSERT (no UPDATE allowed)
-   ```
-   - **Complejidad**: Media
-   - **Tiempo**: 1.5h
+ ```plantuml
+ App -> AuditService : log(action, user, resource)
+ AuditService -> AuditLog : create()
+ AuditLog -> DB : INSERT (no UPDATE allowed)
+ ```
+ - **Complejidad**: Media
+ - **Tiempo**: 1.5h
 
 4. **Integración con otras apps** (PlantUML Component)
-   - **Elementos**: Muestra cómo todas las apps usan AuditService
-   - **Tiempo**: 1h
+ - **Elementos**: Muestra cómo todas las apps usan AuditService
+ - **Tiempo**: 1h
 
 **Total diagramas**: 4 | **Tiempo total**: 4 horas
 
@@ -381,7 +381,7 @@ Documentar exhaustivamente las **10 aplicaciones Django** del backend siguiendo 
 
 #### 5. Dashboard
 
-**Prioridad**:  MEDIA | **Complejidad**: Media-Alta | **Estimación**: 2 días
+**Prioridad**: MEDIA | **Complejidad**: Media-Alta | **Estimación**: 2 días
 
 ##### Información General
 - **Propósito**: Orquestación de widgets, API REST
@@ -407,47 +407,47 @@ Documentar exhaustivamente las **10 aplicaciones Django** del backend siguiendo 
 ##### Diagramas a Crear
 
 1. **Diagrama de clases** (PlantUML Class)
-   - **Elementos**: DashboardService, Widget base, widgets concretos
-   - **Complejidad**: Alta
-   - **Tiempo**: 2h
+ - **Elementos**: DashboardService, Widget base, widgets concretos
+ - **Complejidad**: Alta
+ - **Tiempo**: 2h
 
 2. **Diagrama de Registry Pattern** (PlantUML Class)
-   ```plantuml
-   class Widget {
-     +widget_id: str
-     +get_data()
-     +is_available()
-   }
-   class CallMetricsWidget
-   class UnreadMessagesWidget
-   class PendingReportsWidget
+ ```plantuml
+ class Widget {
+ +widget_id: str
+ +get_data()
+ +is_available()
+ }
+ class CallMetricsWidget
+ class UnreadMessagesWidget
+ class PendingReportsWidget
 
-   Widget <|-- CallMetricsWidget
-   Widget <|-- UnreadMessagesWidget
-   Widget <|-- PendingReportsWidget
+ Widget <|-- CallMetricsWidget
+ Widget <|-- UnreadMessagesWidget
+ Widget <|-- PendingReportsWidget
 
-   WIDGET_REGISTRY --> Widget : contains
-   ```
-   - **Complejidad**: Media
-   - **Tiempo**: 1.5h
+ WIDGET_REGISTRY --> Widget : contains
+ ```
+ - **Complejidad**: Media
+ - **Tiempo**: 1.5h
 
 3. **Flujo de construcción de dashboard** (PlantUML Sequence)
-   ```plantuml
-   Client -> DashboardOverviewView : GET /api/dashboard
-   DashboardOverviewView -> DashboardService : overview()
-   DashboardService -> WIDGET_REGISTRY : get all widgets
-   loop for each widget
-     DashboardService -> Widget : get_data()
-   end
-   DashboardService --> DashboardOverviewView : data
-   DashboardOverviewView --> Client : JSON response
-   ```
-   - **Complejidad**: Alta
-   - **Tiempo**: 2h
+ ```plantuml
+ Client -> DashboardOverviewView : GET /api/dashboard
+ DashboardOverviewView -> DashboardService : overview()
+ DashboardService -> WIDGET_REGISTRY : get all widgets
+ loop for each widget
+ DashboardService -> Widget : get_data()
+ end
+ DashboardService --> DashboardOverviewView : data
+ DashboardOverviewView --> Client : JSON response
+ ```
+ - **Complejidad**: Alta
+ - **Tiempo**: 2h
 
 4. **Diagrama de componentes** (PlantUML Component)
-   - **Elementos**: Services, Widgets, Views, APIs externas
-   - **Tiempo**: 1h
+ - **Elementos**: Services, Widgets, Views, APIs externas
+ - **Tiempo**: 1h
 
 **Total diagramas**: 4 | **Tiempo total**: 6.5 horas
 
@@ -462,7 +462,7 @@ Documentar exhaustivamente las **10 aplicaciones Django** del backend siguiendo 
 
 #### 6. Authentication
 
-**Prioridad**:  MEDIA | **Complejidad**: Media | **Estimación**: 1-2 días
+**Prioridad**: MEDIA | **Complejidad**: Media | **Estimación**: 1-2 días
 
 ##### Información General
 - **Propósito**: Autenticación y seguridad
@@ -487,20 +487,20 @@ Documentar exhaustivamente las **10 aplicaciones Django** del backend siguiendo 
 ##### Diagramas a Crear
 
 1. **Diagrama de clases** (PlantUML Class)
-   - **Elementos**: SecurityQuestion, LoginAttempt, LoginAttemptService
-   - **Tiempo**: 1h
+ - **Elementos**: SecurityQuestion, LoginAttempt, LoginAttemptService
+ - **Tiempo**: 1h
 
 2. **Diagrama ER** (PlantUML ER)
-   - **Elementos**: 2 tablas con FK a User
-   - **Tiempo**: 1h
+ - **Elementos**: 2 tablas con FK a User
+ - **Tiempo**: 1h
 
 3. **Flujo de login y rate limiting** (PlantUML Sequence)
-   - **Elementos**: Usuario, View, LoginAttemptService, LoginAttempt
-   - **Tiempo**: 1.5h
+ - **Elementos**: Usuario, View, LoginAttemptService, LoginAttempt
+ - **Tiempo**: 1.5h
 
 4. **Flujo de recuperación de cuenta** (PlantUML Sequence)
-   - **Elementos**: Usuario, View, SecurityQuestion
-   - **Tiempo**: 1h
+ - **Elementos**: Usuario, View, SecurityQuestion
+ - **Tiempo**: 1h
 
 **Total diagramas**: 4 | **Tiempo total**: 4.5 horas
 
@@ -515,7 +515,7 @@ Documentar exhaustivamente las **10 aplicaciones Django** del backend siguiendo 
 
 #### 7. Users
 
-**Prioridad**:  MEDIA | **Complejidad**: Alta | **Estimación**: 2 días
+**Prioridad**: MEDIA | **Complejidad**: Alta | **Estimación**: 2 días
 
 ##### Información General
 - **Propósito**: Sistema custom de permisos
@@ -539,55 +539,55 @@ Documentar exhaustivamente las **10 aplicaciones Django** del backend siguiendo 
 ##### Diagramas a Crear
 
 1. **Diagrama de clases (modelos)** (PlantUML Class)
-   ```plantuml
-   class User {
-     +username: str
-     +password: str
-     +objects: UserManager
-   }
-   class Permission
-   class Role
-   class Segment
-   class InMemoryManager
+ ```plantuml
+ class User {
+ +username: str
+ +password: str
+ +objects: UserManager
+ }
+ class Permission
+ class Role
+ class Segment
+ class InMemoryManager
 
-   User --> InMemoryManager
-   Role --> Permission : many-to-many
-   Segment --> Permission : many-to-many
-   ```
-   - **Complejidad**: Alta
-   - **Tiempo**: 2h
+ User --> InMemoryManager
+ Role --> Permission : many-to-many
+ Segment --> Permission : many-to-many
+ ```
+ - **Complejidad**: Alta
+ - **Tiempo**: 2h
 
 2. **Diagrama de precedencia de permisos** (PlantUML Activity)
-   ```plantuml
-   start
-   :Check direct permissions;
-   if (has direct?) then (yes)
-     :return true;
-     stop
-   endif
-   :Check role permissions;
-   if (has role?) then (yes)
-     :return true;
-     stop
-   endif
-   :Check segment permissions;
-   if (has segment?) then (yes)
-     :return true;
-   endif
-   :return false;
-   stop
-   ```
-   - **Complejidad**: Media
-   - **Tiempo**: 1.5h
+ ```plantuml
+ start
+ :Check direct permissions;
+ if (has direct?) then (yes)
+ :return true;
+ stop
+ endif
+ :Check role permissions;
+ if (has role?) then (yes)
+ :return true;
+ stop
+ endif
+ :Check segment permissions;
+ if (has segment?) then (yes)
+ :return true;
+ endif
+ :return false;
+ stop
+ ```
+ - **Complejidad**: Media
+ - **Tiempo**: 1.5h
 
 3. **Flujo de evaluación de permisos** (PlantUML Sequence)
-   - **Elementos**: View, PermissionService, UserPermission, RoleAssignment, Segment
-   - **Complejidad**: Alta
-   - **Tiempo**: 2h
+ - **Elementos**: View, PermissionService, UserPermission, RoleAssignment, Segment
+ - **Complejidad**: Alta
+ - **Tiempo**: 2h
 
 4. **Arquitectura in-memory** (PlantUML Component)
-   - **Elementos**: Muestra cómo funciona InMemoryManager
-   - **Tiempo**: 1h
+ - **Elementos**: Muestra cómo funciona InMemoryManager
+ - **Tiempo**: 1h
 
 **Total diagramas**: 4 | **Tiempo total**: 6.5 horas
 
@@ -606,7 +606,7 @@ Documentar exhaustivamente las **10 aplicaciones Django** del backend siguiendo 
 
 #### 8. IVR Legacy
 
-**Prioridad**:  BAJA | **Complejidad**: Media | **Estimación**: 1 día
+**Prioridad**: BAJA | **Complejidad**: Media | **Estimación**: 1 día
 
 ##### Información General
 - **Propósito**: Integración read-only con BD legacy
@@ -631,47 +631,47 @@ Documentar exhaustivamente las **10 aplicaciones Django** del backend siguiendo 
 ##### Diagramas a Crear
 
 1. **Diagrama de Adapter Pattern** (PlantUML Class)
-   ```plantuml
-   class IVRDataAdapter {
-     +get_calls(start, end)
-     +get_client(client_id)
-   }
-   class IVRCall {
-     managed = False
-   }
-   class IVRClient {
-     managed = False
-   }
-   IVRDataAdapter --> IVRCall
-   IVRDataAdapter --> IVRClient
-   ```
-   - **Tiempo**: 1.5h
+ ```plantuml
+ class IVRDataAdapter {
+ +get_calls(start, end)
+ +get_client(client_id)
+ }
+ class IVRCall {
+ managed = False
+ }
+ class IVRClient {
+ managed = False
+ }
+ IVRDataAdapter --> IVRCall
+ IVRDataAdapter --> IVRClient
+ ```
+ - **Tiempo**: 1.5h
 
 2. **Diagrama de integración con BD externa** (PlantUML Deployment)
-   ```plantuml
-   node "Django App" {
-     [ETL]
-     [IVRDataAdapter]
-   }
-   database "PostgreSQL" {
-     [Analytics]
-   }
-   database "MariaDB Legacy" {
-     [IVR Tables]
-   }
-   [ETL] --> [IVRDataAdapter]
-   [IVRDataAdapter] --> [IVR Tables] : read-only
-   [ETL] --> [Analytics] : write
-   ```
-   - **Tiempo**: 1.5h
+ ```plantuml
+ node "Django App" {
+ [ETL]
+ [IVRDataAdapter]
+ }
+ database "PostgreSQL" {
+ [Analytics]
+ }
+ database "MariaDB Legacy" {
+ [IVR Tables]
+ }
+ [ETL] --> [IVRDataAdapter]
+ [IVRDataAdapter] --> [IVR Tables] : read-only
+ [ETL] --> [Analytics] : write
+ ```
+ - **Tiempo**: 1.5h
 
 3. **Flujo de lectura de datos** (PlantUML Sequence)
-   - **Elementos**: ETL, IVRDataAdapter, IVRCall, MariaDB
-   - **Tiempo**: 1.5h
+ - **Elementos**: ETL, IVRDataAdapter, IVRCall, MariaDB
+ - **Tiempo**: 1.5h
 
 4. **Protección read-only** (PlantUML Activity)
-   - **Elementos**: Router que bloquea escrituras
-   - **Tiempo**: 1h
+ - **Elementos**: Router que bloquea escrituras
+ - **Tiempo**: 1h
 
 **Total diagramas**: 4 | **Tiempo total**: 5.5 horas
 
@@ -685,7 +685,7 @@ Documentar exhaustivamente las **10 aplicaciones Django** del backend siguiendo 
 
 #### 9. Notifications
 
-**Prioridad**:  BAJA | **Complejidad**: Baja | **Estimación**: 1 día
+**Prioridad**: BAJA | **Complejidad**: Baja | **Estimación**: 1 día
 
 ##### Información General
 - **Propósito**: Mensajería interna del sistema
@@ -709,26 +709,26 @@ Documentar exhaustivamente las **10 aplicaciones Django** del backend siguiendo 
 ##### Diagramas a Crear
 
 1. **Diagrama de clases** (PlantUML Class)
-   ```plantuml
-   class InternalMessage {
-     +recipient: ForeignKey
-     +sender: ForeignKey
-     +subject: CharField
-     +message_type: CharField
-     +priority: CharField
-     +is_read: BooleanField
-     +mark_as_read()
-   }
-   ```
-   - **Tiempo**: 1h
+ ```plantuml
+ class InternalMessage {
+ +recipient: ForeignKey
+ +sender: ForeignKey
+ +subject: CharField
+ +message_type: CharField
+ +priority: CharField
+ +is_read: BooleanField
+ +mark_as_read()
+ }
+ ```
+ - **Tiempo**: 1h
 
 2. **Diagrama ER** (PlantUML ER)
-   - **Elementos**: 1 tabla con 2 FK a User
-   - **Tiempo**: 0.5h
+ - **Elementos**: 1 tabla con 2 FK a User
+ - **Tiempo**: 0.5h
 
 3. **Flujo de envío/lectura** (PlantUML Sequence)
-   - **Elementos**: Sender, System, InternalMessage, Recipient
-   - **Tiempo**: 1h
+ - **Elementos**: Sender, System, InternalMessage, Recipient
+ - **Tiempo**: 1h
 
 **Total diagramas**: 3 | **Tiempo total**: 2.5 horas
 
@@ -742,7 +742,7 @@ Documentar exhaustivamente las **10 aplicaciones Django** del backend siguiendo 
 
 #### 10. Common
 
-**Prioridad**:  BAJA | **Complejidad**: Baja | **Estimación**: 1 día
+**Prioridad**: BAJA | **Complejidad**: Baja | **Estimación**: 1 día
 
 ##### Información General
 - **Propósito**: Utilidades compartidas (abstract models)
@@ -765,29 +765,29 @@ Documentar exhaustivamente las **10 aplicaciones Django** del backend siguiendo 
 ##### Diagramas a Crear
 
 1. **Diagrama de herencia** (PlantUML Class)
-   ```plantuml
-   abstract class TimeStampedModel {
-     +created_at: DateTimeField
-     +updated_at: DateTimeField
-   }
-   abstract class SoftDeleteModel {
-     +is_deleted: BooleanField
-     +soft_delete()
-   }
-   abstract class BaseModel
+ ```plantuml
+ abstract class TimeStampedModel {
+ +created_at: DateTimeField
+ +updated_at: DateTimeField
+ }
+ abstract class SoftDeleteModel {
+ +is_deleted: BooleanField
+ +soft_delete()
+ }
+ abstract class BaseModel
 
-   BaseModel <|-- TimeStampedModel
-   BaseModel <|-- SoftDeleteModel
+ BaseModel <|-- TimeStampedModel
+ BaseModel <|-- SoftDeleteModel
 
-   ' Ejemplos de uso
-   TimeStampedModel <|-- CallAnalytics
-   SoftDeleteModel <|-- Report
-   ```
-   - **Tiempo**: 1.5h
+ ' Ejemplos de uso
+ TimeStampedModel <|-- CallAnalytics
+ SoftDeleteModel <|-- Report
+ ```
+ - **Tiempo**: 1.5h
 
 2. **Ejemplos de uso en otras apps** (PlantUML Component)
-   - **Elementos**: Muestra herencia en analytics, reports, etc.
-   - **Tiempo**: 1h
+ - **Elementos**: Muestra herencia en analytics, reports, etc.
+ - **Tiempo**: 1h
 
 **Total diagramas**: 2 | **Tiempo total**: 2.5 horas
 
@@ -886,21 +886,21 @@ Documentar exhaustivamente las **10 aplicaciones Django** del backend siguiendo 
 
 | Herramienta | Propósito | Estado |
 |-------------|-----------|--------|
-| **MkDocs** | Generar sitio estático |  Instalado |
-| **PlantUML** | Crear diagramas |  Disponible vía Kroki |
-| **Kroki plugin** | Renderizar PlantUML en MkDocs |  Configurado |
-| **VS Code** | Editor de markdown |  Disponible |
-| **Git** | Control de versiones |  Configurado |
-| **GitHub** | Repositorio y PRs |  Acceso |
+| **MkDocs** | Generar sitio estático | Instalado |
+| **PlantUML** | Crear diagramas | Disponible vía Kroki |
+| **Kroki plugin** | Renderizar PlantUML en MkDocs | Configurado |
+| **VS Code** | Editor de markdown | Disponible |
+| **Git** | Control de versiones | Configurado |
+| **GitHub** | Repositorio y PRs | Acceso |
 
 ### Acceso Requerido
 
--  Código fuente en `api/callcentersite/`
--  Tests en `api/callcentersite/tests/`
--  Settings en `api/callcentersite/callcentersite/settings/`
--  Base de datos de desarrollo (para validar queries)
--  Logs de aplicación (para troubleshooting)
--  Acceso a desarrolladores originales (para consultas)
+- Código fuente en `api/callcentersite/`
+- Tests en `api/callcentersite/tests/`
+- Settings en `api/callcentersite/callcentersite/settings/`
+- Base de datos de desarrollo (para validar queries)
+- Logs de aplicación (para troubleshooting)
+- Acceso a desarrolladores originales (para consultas)
 
 ---
 
@@ -1066,24 +1066,24 @@ Documentar exhaustivamente las **10 aplicaciones Django** del backend siguiendo 
 
 ### Dependencias Internas
 
--  SC02 completado (patrones, plantillas)
--  MkDocs configurado
--  Kroki plugin funcionando
--  Plantillas creadas
+- SC02 completado (patrones, plantillas)
+- MkDocs configurado
+- Kroki plugin funcionando
+- Plantillas creadas
 
 ### Dependencias Externas
 
--  Acceso a desarrolladores originales (para consultas)
--  Tiempo del arquitecto (para revisiones)
--  Tiempo del revisor técnico
--  Ambiente de desarrollo funcional
+- Acceso a desarrolladores originales (para consultas)
+- Tiempo del arquitecto (para revisiones)
+- Tiempo del revisor técnico
+- Ambiente de desarrollo funcional
 
 ### Bloqueadores Potenciales
 
--  Código en refactorización activa
--  Cambios mayores en arquitectura
--  Prioridades del equipo cambian
--  Recursos reasignados
+- Código en refactorización activa
+- Cambios mayores en arquitectura
+- Prioridades del equipo cambian
+- Recursos reasignados
 
 ---
 
@@ -1091,25 +1091,25 @@ Documentar exhaustivamente las **10 aplicaciones Django** del backend siguiendo 
 
 ### Por App
 
--  Documento completo siguiendo plantilla
--  Todas las secciones documentadas
--  Mínimo 3 ejemplos de código
--  Todos los diagramas creados y renderizando
--  Sección de troubleshooting completa
--  Referencias cruzadas funcionando
--  En navegación de MkDocs
+- Documento completo siguiendo plantilla
+- Todas las secciones documentadas
+- Mínimo 3 ejemplos de código
+- Todos los diagramas creados y renderizando
+- Sección de troubleshooting completa
+- Referencias cruzadas funcionando
+- En navegación de MkDocs
 
 ### Global
 
--  10 apps documentadas
--  40 diagramas funcionando
--  Guía de APIs REST creada
--  Mapa de dependencias creado
--  Troubleshooting general creado
--  Índices actualizados
--  `mkdocs build` exitoso (0 errores)
--  Revisión por equipo completada
--  PR aprobado y mergeado
+- 10 apps documentadas
+- 40 diagramas funcionando
+- Guía de APIs REST creada
+- Mapa de dependencias creado
+- Troubleshooting general creado
+- Índices actualizados
+- `mkdocs build` exitoso (0 errores)
+- Revisión por equipo completada
+- PR aprobado y mergeado
 
 ---
 

@@ -11,11 +11,11 @@ Repositorio monolítico para la plataforma de analítica de centros de contacto 
 ## Estado actual del repositorio
 
 ### [IMPLEMENTADO] Implementado
-- **Documentación activa**: centralizada en [`docs/index.md`](docs/index.md)
+- **Documentación activa**: centralizada en [`docs/INDEX.md`](docs/INDEX.md)
 - **Scripts utilitarios**: en [`scripts/`](scripts/README.md) - validaciones, gates de CI y herramientas de soporte
 - **Infraestructura CPython**: builder completo en [`infrastructure/cpython/`](infrastructure/cpython/README.md)
 - **Registros temporales**: almacenados manualmente en [`logs_data/`](logs_data/README.md)
-- **Histórico**: contenido legado preservado en [`respaldo/docs_legacy/`](respaldo/docs_legacy/README.md)
+- **Histórico**: contenido legado preservado en [`respaldo/`](respaldo/)
 
 ### [PLANIFICADO] Planificado
 - Sistema automatizado de métricas DORA
@@ -80,18 +80,8 @@ DB_IVR_PASSWORD=django_pass
 
 > **LLMs soportados**: Los agentes SDLC detectan automáticamente el mejor proveedor
 > disponible entre Claude (Anthropic), ChatGPT (OpenAI) y modelos fine-tuned vía
-> Hugging Face (TinyLlama, Phi-3, etc.). Consulta
-> [`docs/ai/CONFIGURACION_API_KEYS.md`](docs/ai/CONFIGURACION_API_KEYS.md)
-> para declarar `ANTHROPIC_API_KEY`, `OPENAI_API_KEY` o las variables
-> `HF_LOCAL_MODEL_PATH`/`HF_MODEL_ID` cuando ejecutes el flujo de fine-tuning
-> documentado en [`docs/ai/FINE_TUNING_TINYLLAMA.md`](docs/ai/FINE_TUNING_TINYLLAMA.md), y
-> revisa el playbook de prompting con Phi-3 en
-> [`docs/ai_capabilities/prompting/PHI3_PROMPT_ENGINEERING_PLAYBOOK.md`](docs/ai_capabilities/prompting/PHI3_PROMPT_ENGINEERING_PLAYBOOK.md).
-> Para técnicas de prompting transversales a todos los proveedores revisa el catálogo
-> multi-LLM en [`docs/ai_capabilities/prompting/PROMPT_TECHNIQUES_CATALOG.md`](docs/ai_capabilities/prompting/PROMPT_TECHNIQUES_CATALOG.md).
-> Para memoria de contexto y manejo de sesiones largas (trimming/summarization), consulta
-> [`docs/ai_capabilities/orchestration/CONTEXT_MANAGEMENT_PLAYBOOK.md`](docs/ai_capabilities/orchestration/CONTEXT_MANAGEMENT_PLAYBOOK.md)
-> y reutiliza las clases disponibles en [`scripts/coding/ai/shared/context_sessions.py`](scripts/coding/ai/shared/context_sessions.py).
+> Hugging Face (TinyLlama, Phi-3, etc.). Consulta la documentación de AI en
+> [`docs/ai/`](docs/ai/) para más detalles sobre configuración de agentes y técnicas de prompting.
 
 ### 2. Ejecutar migraciones
 
@@ -181,11 +171,9 @@ pytest -c docs/pytest.ini docs/testing
 ### Guías y estándares ([IMPLEMENTADO] Documentadas)
 
 - **[Guía de Estilo](docs/gobernanza/GUIA_ESTILO.md)** - Convenciones obligatorias (NO emojis, Conventional Commits)
-- **[Procedimiento de Desarrollo Local](docs/gobernanza/procesos/procedimientos/procedimiento_desarrollo_local.md)** - Setup detallado
-- **[Guía Completa de Desarrollo de Features](docs/gobernanza/procesos/procedimientos/guia_completa_desarrollo_features.md)** - Proceso end-to-end
-- **[Estrategia de QA](docs/gobernanza/procesos/qa/ESTRATEGIA_QA.md)** - Testing strategy
-- **[Codex MCP Multi-Agent Guide](docs/ai_capabilities/orchestration/CODEX_MCP_MULTI_AGENT_GUIDE.md)** - Configura el `CodexMCPWorkflowBuilder` para flujos single/multi-agent en Claude, ChatGPT y Hugging Face.
-- **[META-AGENTE CODEX](docs/analisis/META_AGENTE_CODEX_PARTE_1.md)** - Supuestos, restricciones y pipeline formal para generar artefactos CODEX multi-LLM (Parte 1 de 3).
+- **[Procedimiento de Desarrollo Local](docs/operaciones/procedimiento_desarrollo_local.md)** - Setup detallado
+- **[Estrategia de QA](docs/gobernanza/qa/)** - Testing strategy
+- **[Documentación de AI/Agentes](docs/ai/)** - Sistema de agentes y técnicas de prompting
 
 ## Arquitectura y Stack
 
@@ -218,51 +206,53 @@ Otras restricciones:
 Ver: [`docs/gobernanza/estilos/GUIA_ESTILO.md`](docs/gobernanza/estilos/GUIA_ESTILO.md)
 
 ### Documentación de arquitectura ([IMPLEMENTADO] Disponible)
-- ADRs: [`docs/adr/`](docs/adr/)
-- Lineamientos: [`docs/arquitectura/`](docs/arquitectura/)
-- Patrones: [`docs/backend/arquitectura/`](docs/backend/arquitectura/)
+- ADRs: [`docs/gobernanza/adr/`](docs/gobernanza/adr/)
+- Lineamientos: [`docs/gobernanza/`](docs/gobernanza/)
+- Patrones Backend: [`docs/backend/arquitectura/`](docs/backend/arquitectura/)
+- Patrones Frontend: [`docs/frontend/arquitectura/`](docs/frontend/arquitectura/)
 
 ## Navegación por rol
 
 ### Desarrollador Backend
-- [`docs/backend/`](docs/backend/) - Arquitectura y diseño
-- [`docs/backend/requisitos/`](docs/backend/requisitos/) - Requisitos de negocio
-- [Guía de desarrollo](docs/gobernanza/procesos/procedimientos/guia_completa_desarrollo_features.md)
+- [`docs/backend/`](docs/backend/) - Arquitectura, diseño y requisitos
+- [`docs/backend/arquitectura/`](docs/backend/arquitectura/) - Patrones de diseño
+- [Guía de Backend](docs/backend/README.md)
 
-### Desarrollador Frontend  
+### Desarrollador Frontend
 - [`docs/frontend/`](docs/frontend/) - Arquitectura y componentes
 - [PLANIFICADO] UI en `ui/` (React) - En construcción
 
 ### QA / Testing
-- [`docs/qa/`](docs/qa/) - Estrategia y checklists
+- [`docs/gobernanza/qa/`](docs/gobernanza/qa/) - Estrategia y checklists
 - [`scripts/run_all_tests.sh`](scripts/run_all_tests.sh) - Test runner
-- [`docs/testing/`](docs/testing/) - Casos de prueba
+- [`docs/backend/testing/`](docs/backend/testing/) - Tests de backend
+- [`docs/frontend/testing/`](docs/frontend/testing/) - Tests de frontend
 
 ### DevOps / SRE
 - [`docs/operaciones/`](docs/operaciones/) - Runbooks operacionales
 - [`infrastructure/cpython/`](infrastructure/cpython/) - Builder CPython
 - [`scripts/`](scripts/) - Scripts de automatización
-- [PLANIFICADO] [`docs/dora/`](docs/dora/) - DORA metrics (planificado)
+- [`docs/devops/`](docs/devops/) - CI/CD y automatización
+- [`docs/dora/`](docs/dora/) - DORA metrics
 
 ### Arquitecto
-- [`docs/adr/`](docs/adr/) - Architecture Decision Records
-- [`docs/arquitectura/`](docs/arquitectura/) - Lineamientos generales
+- [`docs/gobernanza/adr/`](docs/gobernanza/adr/) - Architecture Decision Records
 - [`docs/gobernanza/`](docs/gobernanza/) - Procesos y estándares
+- [`docs/infraestructura/`](docs/infraestructura/) - Arquitectura de infraestructura
 
 ### Product Owner / BA
-- [`docs/requisitos/`](docs/requisitos/) - Análisis de negocio
 - [`docs/backend/requisitos/`](docs/backend/requisitos/) - Requirements tracking
-- [PLANIFICADO] Matriz de trazabilidad (planificada)
+- [`docs/gobernanza/`](docs/gobernanza/) - Visión y alcance
 
 ## Proyecto y planificación
 
-### Tracking activo ([PLANIFICADO] En consolidación)
-- **Roadmap**: [`docs/proyecto/ROADMAP.md`](docs/proyecto/ROADMAP.md) - Visión Q4 2025 - Q2 2026
-- **Tareas activas**: [`docs/proyecto/TAREAS_ACTIVAS.md`](docs/proyecto/TAREAS_ACTIVAS.md) - Sprint actual
-- **Changelog**: [`docs/proyecto/CHANGELOG.md`](docs/proyecto/CHANGELOG.md) - Historial completo
+### Tracking activo ([IMPLEMENTADO] Disponible)
+- **Roadmap**: [`docs/gobernanza/ROADMAP.md`](docs/gobernanza/ROADMAP.md) - Visión del proyecto
+- **Tareas activas**: [`docs/gobernanza/TAREAS_ACTIVAS.md`](docs/gobernanza/TAREAS_ACTIVAS.md) - Estado actual
+- **Changelog**: [`docs/gobernanza/CHANGELOG.md`](docs/gobernanza/CHANGELOG.md) - Historial de cambios
 
 ### Revisión actual
-- Plan de remediación: [`docs/plans/REV_20251112_remediation_plan.md`](docs/plans/REV_20251112_remediation_plan.md)
+- Análisis de integración: [`INTEGRATION_ANALYSIS_REPORT.md`](INTEGRATION_ANALYSIS_REPORT.md)
 
 ## Estructura de carpetas relevante
 | Carpeta | Propósito |
@@ -274,10 +264,10 @@ Ver: [`docs/gobernanza/estilos/GUIA_ESTILO.md`](docs/gobernanza/estilos/GUIA_EST
 | `respaldo/` | Documentación histórica etiquetada como legado. |
 
 ## Recursos adicionales
-- [Índice general de documentación](docs/index.md)
-- [Guía de planes y seguimiento](docs/plans/)
-- [Estrategia de git hooks](docs/ESTRATEGIA_GIT_HOOKS.md)
-- [Análisis de reorganización de scripts](docs/ANALISIS_REORGANIZACION_SCRIPTS.md)
+- [Índice general de documentación](docs/INDEX.md)
+- [Guía de contribución](docs/CONTRIBUTING.md)
+- [Setup inicial](docs/SETUP.md)
+- [Onboarding](docs/ONBOARDING.md)
 - [Guía de estilo](docs/gobernanza/GUIA_ESTILO.md)
 
 Para dudas específicas consulta el directorio correspondiente en `docs/` o registra la pregunta en el backlog del proyecto.

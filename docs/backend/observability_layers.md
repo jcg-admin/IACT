@@ -46,46 +46,46 @@ Medir performance del EQUIPO y PIPELINE de desarrollo, no del sistema en producc
 **NO son logs de runtime** - son eventos del CICLO DE DESARROLLO:
 
 1. **Git events:**
-   - Commits: `git log --since="30 days"`
-   - PRs: GitHub API `/repos/owner/repo/pulls`
-   - Merges: `git log --merges`
+ - Commits: `git log --since="30 days"`
+ - PRs: GitHub API `/repos/owner/repo/pulls`
+ - Merges: `git log --merges`
 
 2. **CI/CD pipeline events:**
-   - GitHub Actions workflows: `/.github/workflows/*.yml`
-   - Workflow runs: GitHub API `/repos/owner/repo/actions/runs`
-   - Deploy success/failure
+ - GitHub Actions workflows: `/.github/workflows/*.yml`
+ - Workflow runs: GitHub API `/repos/owner/repo/actions/runs`
+ - Deploy success/failure
 
 3. **SDLC Agents:**
-   - Planning: `DORAMetrics.start_cycle()`
-   - Testing: `DORAMetrics.record_phase('testing', ...)`
-   - Deployment: `DORAMetrics.record_phase('deployment', ...)`
-   - Maintenance: `DORAMetrics.record_phase('maintenance', ...)`
+ - Planning: `DORAMetrics.start_cycle()`
+ - Testing: `DORAMetrics.record_phase('testing', ...)`
+ - Deployment: `DORAMetrics.record_phase('deployment', ...)`
+ - Maintenance: `DORAMetrics.record_phase('maintenance', ...)`
 
 4. **Issues con label "incident":**
-   - Created: Incidente inicia
-   - Closed: Incidente resuelto
-   - Duration: `closed_at - created_at` = MTTR
+ - Created: Incidente inicia
+ - Closed: Incidente resuelto
+ - Duration: `closed_at - created_at` = MTTR
 
 ### Storage
 
 ```
 # Capa 1: DORA Metrics Storage
-.dora_sdlc_metrics.json           # Local (v1)
-MySQL: dora_metrics table         # Futuro (P0 - 8 SP)
-Django Admin: /admin/dora/        # Futuro (P2 - 5 SP)
+.dora_sdlc_metrics.json # Local (v1)
+MySQL: dora_metrics table # Futuro (P0 - 8 SP)
+Django Admin: /admin/dora/ # Futuro (P2 - 5 SP)
 ```
 
 **Schema MySQL (futuro):**
 ```sql
 CREATE TABLE dora_metrics (
-    id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    cycle_id VARCHAR(50) UNIQUE NOT NULL,
-    feature_id VARCHAR(50) NOT NULL,
-    phase_name VARCHAR(50) NOT NULL,
-    decision VARCHAR(20),
-    duration_seconds DECIMAL(10,2),
-    metadata JSON,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+ id BIGINT PRIMARY KEY AUTO_INCREMENT,
+ cycle_id VARCHAR(50) UNIQUE NOT NULL,
+ feature_id VARCHAR(50) NOT NULL,
+ phase_name VARCHAR(50) NOT NULL,
+ decision VARCHAR(20),
+ duration_seconds DECIMAL(10,2),
+ metadata JSON,
+ created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 ```
 
@@ -93,32 +93,32 @@ CREATE TABLE dora_metrics (
 
 ```json
 {
-  "cycle_id": "cycle-20251106-143000",
-  "feature_id": "FEAT-001",
-  "start_time": "2025-11-06T14:30:00Z",
-  "phases": [
-    {
-      "phase": "planning",
-      "decision": "go",
-      "duration_seconds": 300.0,
-      "timestamp": "2025-11-06T14:35:00Z"
-    },
-    {
-      "phase": "testing",
-      "decision": "go",
-      "duration_seconds": 7200.0,
-      "metadata": {
-        "tests_passed": 95,
-        "tests_failed": 5
-      }
-    }
-  ],
-  "metrics": {
-    "lead_time": 1.25,
-    "deployment_frequency": 0.50,
-    "change_failure_rate": 5.0,
-    "mttr": null
-  }
+ "cycle_id": "cycle-20251106-143000",
+ "feature_id": "FEAT-001",
+ "start_time": "2025-11-06T14:30:00Z",
+ "phases": [
+ {
+ "phase": "planning",
+ "decision": "go",
+ "duration_seconds": 300.0,
+ "timestamp": "2025-11-06T14:35:00Z"
+ },
+ {
+ "phase": "testing",
+ "decision": "go",
+ "duration_seconds": 7200.0,
+ "metadata": {
+ "tests_passed": 95,
+ "tests_failed": 5
+ }
+ }
+ ],
+ "metrics": {
+ "lead_time": 1.25,
+ "deployment_frequency": 0.50,
+ "change_failure_rate": 5.0,
+ "mttr": null
+ }
 }
 ```
 
@@ -167,59 +167,59 @@ Registrar comportamiento de la APLICACION Django en runtime (produccion, staging
 **Son logs de la aplicacion Django:**
 
 1. **Django logging:**
-   ```python
-   import logging
-   logger = logging.getLogger(__name__)
+ ```python
+ import logging
+ logger = logging.getLogger(__name__)
 
-   logger.info("Usuario login exitoso", extra={'user_id': 123})
-   logger.error("Pago fallido", extra={'order_id': 456, 'error': str(e)})
-   ```
+ logger.info("Usuario login exitoso", extra={'user_id': 123})
+ logger.error("Pago fallido", extra={'order_id': 456, 'error': str(e)})
+ ```
 
 2. **Middleware logs:**
-   - Request processing time
-   - Response status codes
-   - Authentication failures
+ - Request processing time
+ - Response status codes
+ - Authentication failures
 
 3. **ORM query logs:**
-   ```python
-   # settings.py
-   LOGGING = {
-       'loggers': {
-           'django.db.backends': {
-               'level': 'DEBUG',  # Log SQL queries
-           }
-       }
-   }
-   ```
+ ```python
+ # settings.py
+ LOGGING = {
+ 'loggers': {
+ 'django.db.backends': {
+ 'level': 'DEBUG', # Log SQL queries
+ }
+ }
+ }
+ ```
 
 4. **Celery task logs:**
-   ```python
-   @app.task
-   def send_email(user_id):
-       logger.info(f"Sending email to user {user_id}")
-   ```
+ ```python
+ @app.task
+ def send_email(user_id):
+ logger.info(f"Sending email to user {user_id}")
+ ```
 
 ### Storage
 
 ```
 # Capa 2: Application Logs Storage
-logs/django.log                   # Django application
-logs/celery.log                   # Celery tasks
-logs/api.log                      # API requests/responses
+logs/django.log # Django application
+logs/celery.log # Celery tasks
+logs/api.log # API requests/responses
 
 # Futuro (si necesario):
-MySQL: application_logs table     # Structured logging
+MySQL: application_logs table # Structured logging
 ```
 
 **Filesystem structure:**
 ```
 logs/
-├── django.log          # Rotated daily
-├── django.log.1
-├── django.log.2.gz
-├── celery.log
-├── celery.log.1
-└── api.log
+ django.log # Rotated daily
+ django.log.1
+ django.log.2.gz
+ celery.log
+ celery.log.1
+ api.log
 ```
 
 ### Formato de Datos
@@ -233,12 +233,12 @@ logs/
 **Opcion 2: JSON estructurado (recomendado futuro)**
 ```json
 {
-  "timestamp": "2025-11-06T15:05:23Z",
-  "level": "INFO",
-  "logger": "views.user",
-  "message": "Usuario login exitoso",
-  "user_id": 123,
-  "request_id": "req-abc123"
+ "timestamp": "2025-11-06T15:05:23Z",
+ "level": "INFO",
+ "logger": "views.user",
+ "message": "Usuario login exitoso",
+ "user_id": 123,
+ "request_id": "req-abc123"
 }
 ```
 
@@ -290,24 +290,24 @@ Registrar comportamiento del SISTEMA OPERATIVO y SERVICIOS (nginx, postgresql, m
 **Son logs del sistema operativo:**
 
 1. **Sistema operativo:**
-   - `/var/log/syslog` - General system logs
-   - `/var/log/kern.log` - Kernel logs
-   - `/var/log/auth.log` - Authentication logs
+ - `/var/log/syslog` - General system logs
+ - `/var/log/kern.log` - Kernel logs
+ - `/var/log/auth.log` - Authentication logs
 
 2. **Nginx:**
-   - `/var/log/nginx/access.log` - HTTP requests
-   - `/var/log/nginx/error.log` - Nginx errors
+ - `/var/log/nginx/access.log` - HTTP requests
+ - `/var/log/nginx/error.log` - Nginx errors
 
 3. **PostgreSQL:**
-   - `/var/log/postgresql/postgresql-14-main.log`
-   - Slow queries, connection errors, crashes
+ - `/var/log/postgresql/postgresql-14-main.log`
+ - Slow queries, connection errors, crashes
 
 4. **MySQL:**
-   - `/var/log/mysql/error.log`
-   - `/var/log/mysql/slow-query.log`
+ - `/var/log/mysql/error.log`
+ - `/var/log/mysql/slow-query.log`
 
 5. **Cron jobs:**
-   - `/var/log/cron.log`
+ - `/var/log/cron.log`
 
 ### Storage
 
@@ -325,8 +325,8 @@ Registrar comportamiento del SISTEMA OPERATIVO y SERVICIOS (nginx, postgresql, m
 
 **Syslog format (RFC 3164):**
 ```
-Nov  6 15:05:23 iact-server nginx[1234]: [error] upstream prematurely closed
-Nov  6 15:05:23 iact-server postgres[5678]: ERROR: null value in column "user_id"
+Nov 6 15:05:23 iact-server nginx[1234]: [error] upstream prematurely closed
+Nov 6 15:05:23 iact-server postgres[5678]: ERROR: null value in column "user_id"
 ```
 
 ### Acceso
@@ -347,7 +347,7 @@ sudo tail -100 /var/log/nginx/access.log
 
 # PostgreSQL slow queries
 sudo grep "duration:" /var/log/postgresql/postgresql-14-main.log | \
-  awk '{if ($10 > 1000) print}'
+ awk '{if ($10 > 1000) print}'
 
 # Errores MySQL
 sudo tail -f /var/log/mysql/error.log
@@ -371,15 +371,15 @@ Cuando deployment falla, cada capa captura informacion diferente:
 
 ```json
 {
-  "cycle_id": "cycle-20251106-150000",
-  "feature_id": "FEAT-001",
-  "phase": "deployment",
-  "decision": "failed",
-  "duration_seconds": 45.0,
-  "metrics": {
-    "change_failure_rate": 15.0,  // Deploy aumento CFR
-    "mttr": 0.25  // 15 minutos para rollback
-  }
+ "cycle_id": "cycle-20251106-150000",
+ "feature_id": "FEAT-001",
+ "phase": "deployment",
+ "decision": "failed",
+ "duration_seconds": 45.0,
+ "metrics": {
+ "change_failure_rate": 15.0, // Deploy aumento CFR
+ "mttr": 0.25 // 15 minutos para rollback
+ }
 }
 ```
 
@@ -442,17 +442,17 @@ Aunque independientes, las 3 capas se complementan:
 
 ```
 1. DORA Metrics (Capa 1):
-   - Alerta: CFR subio de 5% a 15%
-   - Ciclo: cycle-20251106-150000
-   - Feature: FEAT-001
+ - Alerta: CFR subio de 5% a 15%
+ - Ciclo: cycle-20251106-150000
+ - Feature: FEAT-001
 
 2. Application Logs (Capa 2):
-   - Buscar: grep "cycle-20251106-150000" logs/django.log
-   - Encontrar: Migration 0042 failed - IntegrityError user_id
+ - Buscar: grep "cycle-20251106-150000" logs/django.log
+ - Encontrar: Migration 0042 failed - IntegrityError user_id
 
 3. Infrastructure Logs (Capa 3):
-   - Buscar: grep "user_id" /var/log/postgresql/*.log
-   - Encontrar: null value violates not-null constraint
+ - Buscar: grep "user_id" /var/log/postgresql/*.log
+ - Encontrar: null value violates not-null constraint
 
 4. Root Cause: Migration 0042 intento insertar user_id=NULL
 5. Fix: Agregar default value en migration
@@ -470,7 +470,7 @@ logger.info("Processing request", extra={'request_id': request_id})
 
 # Capa 1: DORA incluye request_id en metadata
 dora_metrics.record_phase('deployment', 'go', 45.0, {
-    'request_id': request_id
+ 'request_id': request_id
 })
 
 # Capa 3: Nginx incluye request_id en access.log
@@ -488,7 +488,7 @@ dora_metrics.record_phase('deployment', 'go', 45.0, {
 dora_metrics.record_phase('deployment', 'go', 45.0)
 
 # MAL - No mezclar con logs de runtime
-dora_metrics.record_phase('http_request', 'success', 0.5)  # Esto es Capa 2
+dora_metrics.record_phase('http_request', 'success', 0.5) # Esto es Capa 2
 ```
 
 ### Para Application Logs (Capa 2)
@@ -496,9 +496,9 @@ dora_metrics.record_phase('http_request', 'success', 0.5)  # Esto es Capa 2
 ```python
 # BIEN - Logging estructurado
 logger.info("Payment processed", extra={
-    'order_id': 123,
-    'amount': 99.99,
-    'user_id': 456
+ 'order_id': 123,
+ 'amount': 99.99,
+ 'user_id': 456
 })
 
 # MAL - Logging sin estructura
@@ -512,7 +512,7 @@ logger.info(f"Payment processed: {order_id}, {amount}, {user_id}")
 sudo tail -f /var/log/nginx/access.log
 
 # MAL - Duplicar logs en aplicacion
-logger.info("Nginx received request")  # Ya esta en nginx access.log
+logger.info("Nginx received request") # Ya esta en nginx access.log
 ```
 
 ---

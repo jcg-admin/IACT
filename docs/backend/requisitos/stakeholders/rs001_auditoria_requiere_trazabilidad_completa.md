@@ -15,20 +15,20 @@ stakeholder_tipo: auditor
 
 # Trazabilidad Upward
 trazabilidad_upward:
-  - N-001  # Prevenir accesos fraudulentos mediante autenticacion robusta
-  - RN-001 # Sistema de autenticacion seguro con prevencion de fraude
+ - N-001 # Prevenir accesos fraudulentos mediante autenticacion robusta
+ - RN-001 # Sistema de autenticacion seguro con prevencion de fraude
 
 # Trazabilidad Downward
 trazabilidad_downward:
-  - RF-001  # Login con credenciales
-  - RF-003  # Bloqueo intentos fallidos
-  - RF-004  # Sesion unica
-  - RF-005  # Logout manual
+ - RF-001 # Login con credenciales
+ - RF-003 # Bloqueo intentos fallidos
+ - RF-004 # Sesion unica
+ - RF-005 # Logout manual
 
 # Stakeholders secundarios
 stakeholders_secundarios:
-  - gerente-seguridad
-  - compliance-officer
+ - gerente-seguridad
+ - compliance-officer
 
 # Contexto de uso
 contexto_uso: Auditoria interna trimestral y respuesta a incidentes de seguridad
@@ -36,7 +36,7 @@ frecuencia_uso: mensual
 criticidad_operacional: alta
 
 # Conformidad ISO 29148
-iso29148_clause: "9.4"  # Stakeholder Requirements Specification
+iso29148_clause: "9.4" # Stakeholder Requirements Specification
 babok_knowledge_area: "Requirements Analysis and Design Definition"
 verificacion_metodo: inspection
 
@@ -138,40 +138,40 @@ Oficina corporativa con acceso a herramientas de auditoria (Excel, Power BI, SQL
 
 ```gherkin
 Given soy un auditor interno autenticado en sistema IACT
-  And tengo permisos de lectura en modulo de auditoria
-  And necesito auditar periodo Q4 2025 (Oct-Nov-Dic)
+ And tengo permisos de lectura en modulo de auditoria
+ And necesito auditar periodo Q4 2025 (Oct-Nov-Dic)
 When accedo al modulo de auditoria y exporto logs de autenticacion
-  And especifico rango de fechas: 2025-10-01 a 2025-12-31
+ And especifico rango de fechas: 2025-10-01 a 2025-12-31
 Then el sistema genera archivo CSV con todos los eventos de autenticacion del periodo
-  And el archivo incluye columnas: timestamp, username, evento, resultado, ip_origen, user_agent, razon
-  And el archivo incluye minimo: login_success, login_failure, account_locked, account_unlocked, logout, password_changed
-  And el archivo se genera en menos de 2 minutos
-  And puedo abrir el archivo en Excel sin errores de formato
+ And el archivo incluye columnas: timestamp, username, evento, resultado, ip_origen, user_agent, razon
+ And el archivo incluye minimo: login_success, login_failure, account_locked, account_unlocked, logout, password_changed
+ And el archivo se genera en menos de 2 minutos
+ And puedo abrir el archivo en Excel sin errores de formato
 ```
 
 #### Escenario 2: Identificar cuentas con intentos fallidos anomalos
 
 ```gherkin
 Given tengo exportacion de logs de autenticacion Q4 2025
-  And cargo los logs en Excel
+ And cargo los logs en Excel
 When filtro eventos por tipo: "login_failure"
-  And cuento intentos fallidos por usuario
+ And cuento intentos fallidos por usuario
 Then puedo identificar usuarios con mas de 10 intentos fallidos en el trimestre
-  And puedo ver para cada intento: timestamp, IP origen, razon del fallo
-  And puedo correlacionar intentos fallidos con eventos de bloqueo de cuenta
-  And puedo identificar patrones (ej: multiples IPs para mismo usuario = cuenta comprometida)
+ And puedo ver para cada intento: timestamp, IP origen, razon del fallo
+ And puedo correlacionar intentos fallidos con eventos de bloqueo de cuenta
+ And puedo identificar patrones (ej: multiples IPs para mismo usuario = cuenta comprometida)
 ```
 
 #### Escenario 3: Verificar inmutabilidad de logs ante auditoria externa
 
 ```gherkin
 Given soy auditor externo validando compliance ISO 27001
-  And solicito al auditor interno demostrar que logs no han sido modificados
+ And solicito al auditor interno demostrar que logs no han sido modificados
 When el auditor interno muestra estructura de logs de auditoria
 Then cada log incluye hash criptografico que previene modificaciones
-  And logs se almacenan en tabla append-only (sin UPDATE ni DELETE)
-  And cualquier intento de modificar logs es detectable
-  And auditor externo valida que controles de inmutabilidad cumplen estandar
+ And logs se almacenan en tabla append-only (sin UPDATE ni DELETE)
+ And cualquier intento de modificar logs es detectable
+ And auditor externo valida que controles de inmutabilidad cumplen estandar
 ```
 
 ### 3.2 Criterios de Satisfaccion del Stakeholder
@@ -283,20 +283,20 @@ El stakeholder considerara este requisito satisfactorio cuando:
 Este requisito de stakeholder se implementa mediante:
 
 - **RF-001**: Login con credenciales username/password
-  - Dominio: backend
-  - Relacion: Cada login exitoso genera evento auditado con username, timestamp, IP, user agent
+ - Dominio: backend
+ - Relacion: Cada login exitoso genera evento auditado con username, timestamp, IP, user agent
 
 - **RF-003**: Bloqueo automatico tras 5 intentos fallidos
-  - Dominio: backend
-  - Relacion: Cada intento fallido y bloqueo genera evento auditado con razon
+ - Dominio: backend
+ - Relacion: Cada intento fallido y bloqueo genera evento auditado con razon
 
 - **RF-004**: Sesion unica con cierre de sesiones previas
-  - Dominio: backend
-  - Relacion: Cierre de sesion previa genera evento auditado con razon "nueva_sesion"
+ - Dominio: backend
+ - Relacion: Cierre de sesion previa genera evento auditado con razon "nueva_sesion"
 
 - **RF-005**: Logout manual con invalidacion de tokens
-  - Dominio: backend
-  - Relacion: Logout manual genera evento auditado
+ - Dominio: backend
+ - Relacion: Logout manual genera evento auditado
 
 ### 6.2 Requisitos No Funcionales Derivados
 

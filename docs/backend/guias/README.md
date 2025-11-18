@@ -15,4 +15,3 @@ Este directorio contiene guias especificos del dominio backend.
 
 - Estandares generales: ../../gobernanza/guias/ (si aplica)
 - Otros dominios: Ver estructura similar en otros directorios de dominio
-

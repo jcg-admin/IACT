@@ -131,12 +131,12 @@ El Administrador de Sistema concede una capacidad específica a un usuario de ma
 
 ```json
 {
-  "usuario_id": 456,
-  "capacidad_codigo": "sistema.vistas.reportes.exportar",
-  "tipo": "conceder",
-  "motivo": "Necesita exportar reportes urgentes para auditoría externa del próximo lunes",
-  "fecha_fin": "2025-01-15T23:59:59Z",  // Opcional
-  "asignado_por_id": 1
+ "usuario_id": 456,
+ "capacidad_codigo": "sistema.vistas.reportes.exportar",
+ "tipo": "conceder",
+ "motivo": "Necesita exportar reportes urgentes para auditoría externa del próximo lunes",
+ "fecha_fin": "2025-01-15T23:59:59Z", // Opcional
+ "asignado_por_id": 1
 }
 ```
 
@@ -146,21 +146,21 @@ El Administrador de Sistema concede una capacidad específica a un usuario de ma
 
 ```json
 {
-  "success": true,
-  "message": "Permiso excepcional concedido exitosamente",
-  "data": {
-    "id": 789,
-    "usuario_id": 456,
-    "usuario_username": "maria.fernandez",
-    "capacidad_codigo": "sistema.vistas.reportes.exportar",
-    "capacidad_nombre": "Exportar Reportes",
-    "tipo": "conceder",
-    "motivo": "Necesita exportar reportes urgentes para auditoría...",
-    "fecha_inicio": "2025-01-09T10:45:00Z",
-    "fecha_fin": "2025-01-15T23:59:59Z",
-    "activo": true,
-    "asignado_por": "admin_user"
-  }
+ "success": true,
+ "message": "Permiso excepcional concedido exitosamente",
+ "data": {
+ "id": 789,
+ "usuario_id": 456,
+ "usuario_username": "maria.fernandez",
+ "capacidad_codigo": "sistema.vistas.reportes.exportar",
+ "capacidad_nombre": "Exportar Reportes",
+ "tipo": "conceder",
+ "motivo": "Necesita exportar reportes urgentes para auditoría...",
+ "fecha_inicio": "2025-01-09T10:45:00Z",
+ "fecha_fin": "2025-01-15T23:59:59Z",
+ "activo": true,
+ "asignado_por": "admin_user"
+ }
 }
 ```
 
@@ -175,11 +175,11 @@ Content-Type: application/json
 
 Body:
 {
-  "usuario_id": 456,
-  "capacidad_codigo": "sistema.vistas.reportes.exportar",
-  "tipo": "conceder",
-  "motivo": "Necesita exportar reportes urgentes...",
-  "fecha_fin": "2025-01-15T23:59:59Z"
+ "usuario_id": 456,
+ "capacidad_codigo": "sistema.vistas.reportes.exportar",
+ "tipo": "conceder",
+ "motivo": "Necesita exportar reportes urgentes...",
+ "fecha_fin": "2025-01-15T23:59:59Z"
 }
 ```
 
@@ -188,40 +188,40 @@ Body:
 ```sql
 -- Conceder permiso excepcional
 INSERT INTO permisos_excepcionales (
-  usuario_id,
-  capacidad_id,
-  tipo,
-  motivo,
-  fecha_inicio,
-  fecha_fin,
-  asignado_por_id,
-  activo
+ usuario_id,
+ capacidad_id,
+ tipo,
+ motivo,
+ fecha_inicio,
+ fecha_fin,
+ asignado_por_id,
+ activo
 ) VALUES (
-  456,
-  (SELECT id FROM capacidades WHERE codigo = 'sistema.vistas.reportes.exportar'),
-  'conceder',
-  'Necesita exportar reportes urgentes...',
-  NOW(),
-  '2025-01-15 23:59:59',
-  1,
-  TRUE
+ 456,
+ (SELECT id FROM capacidades WHERE codigo = 'sistema.vistas.reportes.exportar'),
+ 'conceder',
+ 'Necesita exportar reportes urgentes...',
+ NOW(),
+ '2025-01-15 23:59:59',
+ 1,
+ TRUE
 );
 
 -- Registrar auditoría
 INSERT INTO auditoria_permisos (
-  usuario_id,
-  accion,
-  capacidad_codigo,
-  detalle,
-  realizado_por_id,
-  timestamp
+ usuario_id,
+ accion,
+ capacidad_codigo,
+ detalle,
+ realizado_por_id,
+ timestamp
 ) VALUES (
-  456,
-  'CONCEDER_EXCEPCIONAL',
-  'sistema.vistas.reportes.exportar',
-  '{"motivo": "...", "fecha_fin": "2025-01-15T23:59:59Z"}',
-  1,
-  NOW()
+ 456,
+ 'CONCEDER_EXCEPCIONAL',
+ 'sistema.vistas.reportes.exportar',
+ '{"motivo": "...", "fecha_fin": "2025-01-15T23:59:59Z"}',
+ 1,
+ NOW()
 );
 ```
 
@@ -238,43 +238,43 @@ INSERT INTO auditoria_permisos (
 
 ```yaml
 Given:
-  - Usuario 456 existe
-  - Capacidad "sistema.vistas.reportes.exportar" existe
-  - Usuario NO tiene esta capacidad
-  - Admin tiene permiso de conceder
+ - Usuario 456 existe
+ - Capacidad "sistema.vistas.reportes.exportar" existe
+ - Usuario NO tiene esta capacidad
+ - Admin tiene permiso de conceder
 When:
-  - Admin concede capacidad con fecha_fin = "2025-01-15T23:59:59Z"
+ - Admin concede capacidad con fecha_fin = "2025-01-15T23:59:59Z"
 Then:
-  - Se crea registro en permisos_excepcionales
-  - activo=True, tipo='conceder'
-  - Usuario puede usar capacidad inmediatamente
-  - HTTP 201 Created
+ - Se crea registro en permisos_excepcionales
+ - activo=True, tipo='conceder'
+ - Usuario puede usar capacidad inmediatamente
+ - HTTP 201 Created
 ```
 
 ### Caso de Prueba 2: Usuario ya tiene la capacidad
 
 ```yaml
 Given:
-  - Usuario 456 tiene "sistema.vistas.reportes.exportar" por grupo
+ - Usuario 456 tiene "sistema.vistas.reportes.exportar" por grupo
 When:
-  - Admin intenta conceder la misma capacidad
+ - Admin intenta conceder la misma capacidad
 Then:
-  - HTTP 400 Bad Request
-  - Mensaje: "Usuario ya tiene esta capacidad (origen: grupo 'Coordinadores')"
-  - No se crea registro
+ - HTTP 400 Bad Request
+ - Mensaje: "Usuario ya tiene esta capacidad (origen: grupo 'Coordinadores')"
+ - No se crea registro
 ```
 
 ### Caso de Prueba 3: Motivo muy corto
 
 ```yaml
 Given:
-  - Datos válidos pero motivo = "urgente" (< 20 chars)
+ - Datos válidos pero motivo = "urgente" (< 20 chars)
 When:
-  - Admin intenta conceder
+ - Admin intenta conceder
 Then:
-  - HTTP 400 Bad Request
-  - Mensaje: "El motivo debe tener al menos 20 caracteres"
-  - No se crea registro
+ - HTTP 400 Bad Request
+ - Mensaje: "El motivo debe tener al menos 20 caracteres"
+ - No se crea registro
 ```
 
 ## 14. Trazabilidad

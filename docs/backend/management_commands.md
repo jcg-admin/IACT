@@ -103,9 +103,9 @@ python manage.py seed_permisos_granular
 # Verificar resultados
 python manage.py shell
 >>> from callcentersite.apps.users.models_permisos_granular import Funcion, Capacidad, GrupoPermiso
->>> Funcion.objects.count()  # Esperado: 13
->>> Capacidad.objects.count()  # Esperado: 78
->>> GrupoPermiso.objects.count()  # Esperado: 10
+>>> Funcion.objects.count() # Esperado: 13
+>>> Capacidad.objects.count() # Esperado: 78
+>>> GrupoPermiso.objects.count() # Esperado: 10
 ```
 
 **Troubleshooting**:
@@ -126,58 +126,58 @@ SOLUCION: Eliminar datos existentes o usar fresh database
 
 **Categorias creadas**:
 1. **Seguridad** (8 configuraciones)
-   - session_timeout: 900 segundos
-   - password_min_length: 8 caracteres
-   - password_require_uppercase: true
-   - password_require_numbers: true
-   - password_require_special: true
-   - max_login_attempts: 3
-   - lockout_duration: 900 segundos
-   - password_expiry_days: 90 dias
+ - session_timeout: 900 segundos
+ - password_min_length: 8 caracteres
+ - password_require_uppercase: true
+ - password_require_numbers: true
+ - password_require_special: true
+ - max_login_attempts: 3
+ - lockout_duration: 900 segundos
+ - password_expiry_days: 90 dias
 
 2. **Notificaciones** (5 configuraciones)
-   - email_enabled: false
-   - sms_enabled: false
-   - push_enabled: true
-   - notification_retention_days: 30
-   - max_notifications_per_user: 100
+ - email_enabled: false
+ - sms_enabled: false
+ - push_enabled: true
+ - notification_retention_days: 30
+ - max_notifications_per_user: 100
 
 3. **Llamadas** (6 configuraciones)
-   - max_call_duration: 3600 segundos
-   - enable_call_recording: true
-   - recording_retention_days: 90
-   - auto_pause_threshold: 300 segundos
-   - enable_call_transfer: true
-   - max_concurrent_calls: 50
+ - max_call_duration: 3600 segundos
+ - enable_call_recording: true
+ - recording_retention_days: 90
+ - auto_pause_threshold: 300 segundos
+ - enable_call_transfer: true
+ - max_concurrent_calls: 50
 
 4. **Tickets** (7 configuraciones)
-   - auto_assignment_enabled: true
-   - default_priority: medium
-   - sla_critical: 1 hora
-   - sla_high: 4 horas
-   - sla_medium: 24 horas
-   - sla_low: 72 horas
-   - ticket_retention_days: 365
+ - auto_assignment_enabled: true
+ - default_priority: medium
+ - sla_critical: 1 hora
+ - sla_high: 4 horas
+ - sla_medium: 24 horas
+ - sla_low: 72 horas
+ - ticket_retention_days: 365
 
 5. **Reportes** (5 configuraciones)
-   - default_format: pdf
-   - max_report_rows: 10000
-   - report_generation_timeout: 300 segundos
-   - enable_scheduled_reports: true
-   - report_retention_days: 90
+ - default_format: pdf
+ - max_report_rows: 10000
+ - report_generation_timeout: 300 segundos
+ - enable_scheduled_reports: true
+ - report_retention_days: 90
 
 6. **Sistema** (6 configuraciones)
-   - maintenance_mode: false
-   - debug_mode: false
-   - log_level: INFO
-   - max_log_file_size: 100 MB
-   - log_retention_days: 30
-   - enable_profiling: false
+ - maintenance_mode: false
+ - debug_mode: false
+ - log_level: INFO
+ - max_log_file_size: 100 MB
+ - log_retention_days: 30
+ - enable_profiling: false
 
 7. **Integraciones** (3 configuraciones)
-   - api_rate_limit: 100 req/min
-   - api_timeout: 30 segundos
-   - enable_webhooks: false
+ - api_rate_limit: 100 req/min
+ - api_timeout: 30 segundos
+ - enable_webhooks: false
 
 **Total**: ~40 configuraciones
 
@@ -224,9 +224,9 @@ python manage.py seed_configuraciones_default
 # Verificar configuraciones creadas
 python manage.py shell
 >>> from callcentersite.apps.configuration.models import Configuracion
->>> Configuracion.objects.filter(categoria='seguridad').count()  # Esperado: 8
+>>> Configuracion.objects.filter(categoria='seguridad').count() # Esperado: 8
 >>> config = Configuracion.objects.get(clave='seguridad.session_timeout')
->>> config.get_valor_typed()  # Esperado: 900 (int)
+>>> config.get_valor_typed() # Esperado: 900 (int)
 ```
 
 **Modificar configuracion post-seed**:
@@ -234,7 +234,7 @@ python manage.py shell
 python manage.py shell
 >>> from callcentersite.apps.configuration.models import Configuracion
 >>> config = Configuracion.objects.get(clave='seguridad.session_timeout')
->>> config.valor = '1800'  # 30 minutos
+>>> config.valor = '1800' # 30 minutos
 >>> config.save()
 ```
 
@@ -421,12 +421,12 @@ python manage.py profile_code --endpoint=/api/reports/ --params='{"start_date":"
 
 **Opciones**:
 ```bash
---endpoint        URL del endpoint a profilear
---method          HTTP method (GET, POST, etc.)
---function        Function Python a profilear
---params          Parametros JSON
---iterations      Numero de ejecuciones (default: 10)
---output          Archivo de salida (default: stdout)
+--endpoint URL del endpoint a profilear
+--method HTTP method (GET, POST, etc.)
+--function Function Python a profilear
+--params Parametros JSON
+--iterations Numero de ejecuciones (default: 10)
+--output Archivo de salida (default: stdout)
 ```
 
 **Salida esperada**:
@@ -434,10 +434,10 @@ python manage.py profile_code --endpoint=/api/reports/ --params='{"start_date":"
 Profiling endpoint: /api/dashboard/ (GET)
 Iterations: 10
 ==========================================
-Function                    Calls  Time (ms)  % Total
-callcentersite.services.calculate_stats    1    350.2   45.2%
-django.db.backends.execute                120   280.5   36.2%
-django.core.serializers                    1    120.3   15.5%
+Function Calls Time (ms) % Total
+callcentersite.services.calculate_stats 1 350.2 45.2%
+django.db.backends.execute 120 280.5 36.2%
+django.core.serializers 1 120.3 15.5%
 ...
 ==========================================
 Total time: 775.2 ms
@@ -470,11 +470,11 @@ Recommendations:
 ```bash
 # Profiling de endpoint lento
 python manage.py profile_code \
-  --endpoint=/api/reports/call-analytics/ \
-  --method=POST \
-  --params='{"date_from":"2025-01-01","date_to":"2025-01-31"}' \
-  --iterations=5 \
-  --output=profiling_report.txt
+ --endpoint=/api/reports/call-analytics/ \
+ --method=POST \
+ --params='{"date_from":"2025-01-01","date_to":"2025-01-31"}' \
+ --iterations=5 \
+ --output=profiling_report.txt
 
 # Ver reporte
 cat profiling_report.txt
@@ -506,9 +506,9 @@ python manage.py createsuperuser
 # 5. Verificar
 python manage.py shell
 >>> from callcentersite.apps.users.models_permisos_granular import Funcion
->>> Funcion.objects.count()  # Esperado: 13
+>>> Funcion.objects.count() # Esperado: 13
 >>> from callcentersite.apps.configuration.models import Configuracion
->>> Configuracion.objects.count()  # Esperado: ~40
+>>> Configuracion.objects.count() # Esperado: ~40
 ```
 
 ---
@@ -589,7 +589,7 @@ Unknown command: 'seed_permisos_granular'
 # Verificar apps instaladas
 python manage.py shell
 >>> from django.conf import settings
->>> 'callcentersite.apps.users' in settings.INSTALLED_APPS  # True?
+>>> 'callcentersite.apps.users' in settings.INSTALLED_APPS # True?
 
 # Listar comandos disponibles
 python manage.py help
@@ -609,9 +609,9 @@ ImportError: No module named 'callcentersite.apps.users'
 **Solucion**:
 ```bash
 # Activar virtualenv
-source /opt/python-3.12.6/bin/activate  # DevContainer
+source /opt/python-3.12.6/bin/activate # DevContainer
 # O
-source venv/bin/activate  # Local
+source venv/bin/activate # Local
 
 # Verificar instalacion
 pip list | grep Django

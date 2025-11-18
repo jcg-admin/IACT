@@ -29,9 +29,9 @@ date: 2025-11-13
 Given el sistema bajo carga normal (50 usuarios concurrentes)
 When se ejecutan 1000 requests de login en 1 hora
 Then el percentil 95 (P95) de tiempo de respuesta es menor a 2000ms
-  And el percentil 50 (P50 - mediana) es menor a 1000ms
-  And el percentil 99 (P99) es menor a 3000ms
-  And la tasa de exito es mayor a 99.5%
+ And el percentil 50 (P50 - mediana) es menor a 1000ms
+ And el percentil 99 (P99) es menor a 3000ms
+ And la tasa de exito es mayor a 99.5%
 ```
 
 ## 3. Medicion

@@ -12,11 +12,11 @@
 ### Pyramid de Testing
 
 ```
-           /\
-          /E2E\         10% - Integration tests
-         /------\
-        /Unit   \      90% - Unit tests
-       /----------\
+ /\
+ /E2E\ 10% - Integration tests
+ /------\
+ /Unit \ 90% - Unit tests
+ /----------\
 ```
 
 ### Test Plan por Módulo
@@ -164,31 +164,31 @@ name: Tests TDD - Técnicas Prompting
 on: [push, pull_request]
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
+ test:
+ runs-on: ubuntu-latest
+ steps:
+ - uses: actions/checkout@v3
 
-      - name: Setup Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.9'
+ - name: Setup Python
+ uses: actions/setup-python@v4
+ with:
+ python-version: '3.9'
 
-      - name: Install dependencies
-        run: |
-          pip install pytest pytest-cov pytest-mock
-          pip install -r requirements.txt
+ - name: Install dependencies
+ run: |
+ pip install pytest pytest-cov pytest-mock
+ pip install -r requirements.txt
 
-      - name: Run tests
-        run: |
-          pytest scripts/coding/ai/tests/techniques/ \
-            --cov=scripts/coding/ai/agents/base \
-            --cov-report=html \
-            --cov-report=term \
-            --cov-fail-under=80
+ - name: Run tests
+ run: |
+ pytest scripts/coding/ai/tests/techniques/ \
+ --cov=scripts/coding/ai/agents/base \
+ --cov-report=html \
+ --cov-report=term \
+ --cov-fail-under=80
 
-      - name: Upload coverage
-        uses: codecov/codecov-action@v3
+ - name: Upload coverage
+ uses: codecov/codecov-action@v3
 ```
 
 ---
@@ -223,12 +223,12 @@ jobs:
 
 ## Success Criteria
 
-✅ All tests pass
-✅ Coverage >= 80% per module
-✅ CI/CD pipeline green
-✅ Documentation complete
-✅ No critical bugs
-✅ Performance acceptable (< 5 min total test time)
+[OK] All tests pass
+[OK] Coverage >= 80% per module
+[OK] CI/CD pipeline green
+[OK] Documentation complete
+[OK] No critical bugs
+[OK] Performance acceptable (< 5 min total test time)
 
 ---
 
@@ -237,4 +237,4 @@ jobs:
 **Fase 5: Deployment**
 Planificar deployment de tests al repositorio y activación de CI/CD.
 
-**Decisión**: GO ✅
+**Decisión**: GO [OK]

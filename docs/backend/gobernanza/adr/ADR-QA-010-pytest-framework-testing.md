@@ -24,28 +24,28 @@ date: 2025-01-17
 El proyecto IACT Django API necesita un framework de testing robusto para garantizar calidad del código:
 
 1. **Cobertura de Tests Requerida:**
-   - RNF-BACK-060: Cobertura >= 80%
-   - Tests unitarios, integración, E2E
-   - Tests de performance y seguridad
+ - RNF-BACK-060: Cobertura >= 80%
+ - Tests unitarios, integración, E2E
+ - Tests de performance y seguridad
 
 2. **Complejidad de Testing:**
-   - Django ORM con 2 databases (PostgreSQL + MariaDB)
-   - Sistema de permisos con 130+ capacidades
-   - Autenticación JWT, sesiones, middleware
-   - Database router read-only para IVR
-   - API REST con DRF ViewSets
+ - Django ORM con 2 databases (PostgreSQL + MariaDB)
+ - Sistema de permisos con 130+ capacidades
+ - Autenticación JWT, sesiones, middleware
+ - Database router read-only para IVR
+ - API REST con DRF ViewSets
 
 3. **Requisitos de Testing:**
-   - Tests rápidos (CI/CD pipeline < 10 minutos)
-   - Fixtures reutilizables
-   - Mocking de APIs externas
-   - Coverage reporting con HTML
-   - Markers para categorizar tests (unit, integration, slow)
+ - Tests rápidos (CI/CD pipeline < 10 minutos)
+ - Fixtures reutilizables
+ - Mocking de APIs externas
+ - Coverage reporting con HTML
+ - Markers para categorizar tests (unit, integration, slow)
 
 4. **Equipo:**
-   - Familiarizado con Django TestCase
-   - Necesita aprender framework de testing moderno
-   - Requiere documentación clara y ejemplos
+ - Familiarizado con Django TestCase
+ - Necesita aprender framework de testing moderno
+ - Requiere documentación clara y ejemplos
 
 **Preguntas clave:**
 - ¿Django unittest o pytest?
@@ -122,21 +122,21 @@ python_files = tests.py test_*.py *_tests.py
 python_classes = Test*
 python_functions = test_*
 addopts =
-    -v
-    --strict-markers
-    --tb=short
-    --cov=.
-    --cov-report=term-missing
-    --cov-report=html
-    --cov-branch
-    --nomigrations
-    -p no:warnings
+ -v
+ --strict-markers
+ --tb=short
+ --cov=.
+ --cov-report=term-missing
+ --cov-report=html
+ --cov-branch
+ --nomigrations
+ -p no:warnings
 testpaths = .
 markers =
-    unit: Unit tests
-    integration: Integration tests
-    slow: Slow running tests
-    django_db: Tests that require database access
+ unit: Unit tests
+ integration: Integration tests
+ slow: Slow running tests
+ django_db: Tests that require database access
 
 # conftest.py
 import pytest
@@ -146,21 +146,21 @@ User = get_user_model()
 
 @pytest.fixture
 def user_factory(db):
-    def create_user(**kwargs):
-        defaults = {
-            "username": "testuser",
-            "email": "test@example.com",
-            "password": "testpass123",
-        }
-        defaults.update(kwargs)
-        return User.objects.create_user(**defaults)
-    return create_user
+ def create_user(**kwargs):
+ defaults = {
+ "username": "testuser",
+ "email": "test@example.com",
+ "password": "testpass123",
+ }
+ defaults.update(kwargs)
+ return User.objects.create_user(**defaults)
+ return create_user
 
 @pytest.fixture
 def authenticated_client(client, user_factory):
-    user = user_factory()
-    client.force_login(user)
-    return client
+ user = user_factory()
+ client.force_login(user)
+ return client
 
 # tests/users/test_permission_service.py
 import pytest
@@ -168,29 +168,29 @@ from callcentersite.apps.users.services import PermissionService
 
 @pytest.mark.django_db
 class TestPermissionService:
-    def test_has_permission_authenticated_user(self, user_factory):
-        """Test que usuario autenticado con permiso retorna True."""
-        user = user_factory(username="alice")
-        user.grant_permission("sistema.usuarios.ver")
+ def test_has_permission_authenticated_user(self, user_factory):
+ """Test que usuario autenticado con permiso retorna True."""
+ user = user_factory(username="alice")
+ user.grant_permission("sistema.usuarios.ver")
 
-        result = PermissionService.has_permission(user, "sistema.usuarios.ver")
+ result = PermissionService.has_permission(user, "sistema.usuarios.ver")
 
-        assert result is True
+ assert result is True
 
-    def test_has_permission_unauthenticated_user(self, user_factory):
-        """Test que usuario no autenticado retorna False."""
-        user = user_factory(is_active=False)
+ def test_has_permission_unauthenticated_user(self, user_factory):
+ """Test que usuario no autenticado retorna False."""
+ user = user_factory(is_active=False)
 
-        result = PermissionService.has_permission(user, "cualquier.permiso")
+ result = PermissionService.has_permission(user, "cualquier.permiso")
 
-        assert result is False
+ assert result is False
 
 # Ejecutar tests
-pytest                           # Todos los tests
-pytest -n auto                   # Paralelo (pytest-xdist)
-pytest -m unit                   # Solo unit tests
-pytest -m "not slow"             # Excluir tests lentos
-pytest --cov --cov-report=html   # Coverage con HTML report
+pytest # Todos los tests
+pytest -n auto # Paralelo (pytest-xdist)
+pytest -m unit # Solo unit tests
+pytest -m "not slow" # Excluir tests lentos
+pytest --cov --cov-report=html # Coverage con HTML report
 ```
 
 ---
@@ -350,24 +350,24 @@ python_files = tests.py test_*.py *_tests.py
 python_classes = Test*
 python_functions = test_*
 addopts =
-    -v
-    --strict-markers
-    --tb=short
-    --cov=.
-    --cov-report=term-missing
-    --cov-report=html
-    --cov-branch
-    --nomigrations
-    -p no:warnings
+ -v
+ --strict-markers
+ --tb=short
+ --cov=.
+ --cov-report=term-missing
+ --cov-report=html
+ --cov-branch
+ --nomigrations
+ -p no:warnings
 testpaths = .
 markers =
-    unit: Unit tests
-    integration: Integration tests
-    slow: Slow running tests
-    django_db: Tests that require database access
+ unit: Unit tests
+ integration: Integration tests
+ slow: Slow running tests
+ django_db: Tests that require database access
 filterwarnings =
-    ignore::DeprecationWarning
-    ignore::PendingDeprecationWarning
+ ignore::DeprecationWarning
+ ignore::PendingDeprecationWarning
 ```
 
 ### Fase 2: Fixtures Globales - COMPLETADO
@@ -377,57 +377,57 @@ filterwarnings =
 import pytest
 from django.contrib.auth import get_user_model
 from callcentersite.apps.users.models import (
-    Funcion,
-    Capacidad,
-    GrupoPermisos,
+ Funcion,
+ Capacidad,
+ GrupoPermisos,
 )
 
 User = get_user_model()
 
 @pytest.fixture(scope="session")
 def django_db_setup(django_db_setup, django_db_blocker):
-    """Setup multi-database para tests."""
-    with django_db_blocker.unblock():
-        from django.core.management import call_command
-        # PostgreSQL migrations
-        call_command("migrate", "--database=default")
-        # MariaDB no se migra (read-only)
+ """Setup multi-database para tests."""
+ with django_db_blocker.unblock():
+ from django.core.management import call_command
+ # PostgreSQL migrations
+ call_command("migrate", "--database=default")
+ # MariaDB no se migra (read-only)
 
 @pytest.fixture
 def user_factory(db):
-    """Factory para crear usuarios."""
-    def create_user(**kwargs):
-        defaults = {
-            "username": "testuser",
-            "email": "test@example.com",
-            "password": "testpass123",
-        }
-        defaults.update(kwargs)
-        return User.objects.create_user(**defaults)
-    return create_user
+ """Factory para crear usuarios."""
+ def create_user(**kwargs):
+ defaults = {
+ "username": "testuser",
+ "email": "test@example.com",
+ "password": "testpass123",
+ }
+ defaults.update(kwargs)
+ return User.objects.create_user(**defaults)
+ return create_user
 
 @pytest.fixture
 def authenticated_client(client, user_factory):
-    """API client autenticado."""
-    user = user_factory()
-    client.force_login(user)
-    return client
+ """API client autenticado."""
+ user = user_factory()
+ client.force_login(user)
+ return client
 
 @pytest.fixture
 def permiso_factory(db):
-    """Factory para crear permisos."""
-    def create_permiso(codigo, **kwargs):
-        funcion, _ = Funcion.objects.get_or_create(
-            codigo="sistema.usuarios",
-            defaults={"nombre": "Usuarios"},
-        )
-        capacidad, _ = Capacidad.objects.get_or_create(
-            codigo=codigo,
-            funcion=funcion,
-            defaults={"nombre": codigo.split(".")[-1]},
-        )
-        return capacidad
-    return create_permiso
+ """Factory para crear permisos."""
+ def create_permiso(codigo, **kwargs):
+ funcion, _ = Funcion.objects.get_or_create(
+ codigo="sistema.usuarios",
+ defaults={"nombre": "Usuarios"},
+ )
+ capacidad, _ = Capacidad.objects.get_or_create(
+ codigo=codigo,
+ funcion=funcion,
+ defaults={"nombre": codigo.split(".")[-1]},
+ )
+ return capacidad
+ return create_permiso
 ```
 
 ### Fase 3: Tests Existentes - COMPLETADO
@@ -436,60 +436,60 @@ def permiso_factory(db):
 # tests/users/test_permission_service.py
 @pytest.mark.django_db
 class TestRF001EvaluacionPermisosTresNiveles:
-    """Tests para RF-001: Sistema de evaluación de permisos."""
+ """Tests para RF-001: Sistema de evaluación de permisos."""
 
-    def test_usuario_no_autenticado_siempre_retorna_false(self, user_factory):
-        """RF-001 Escenario 4: Usuario no autenticado."""
-        user = user_factory(is_active=False)
-        user.set_authenticated(False)
+ def test_usuario_no_autenticado_siempre_retorna_false(self, user_factory):
+ """RF-001 Escenario 4: Usuario no autenticado."""
+ user = user_factory(is_active=False)
+ user.set_authenticated(False)
 
-        result = PermissionService.has_permission(user, "cualquier.permiso")
+ result = PermissionService.has_permission(user, "cualquier.permiso")
 
-        assert result is False
+ assert result is False
 
 # tests/authentication/test_login.py
 @pytest.mark.django_db
 class TestLogin:
-    """Tests para autenticación JWT."""
+ """Tests para autenticación JWT."""
 
-    def test_login_successful(self, client, user_factory):
-        """Test login exitoso retorna tokens."""
-        user = user_factory(username="alice", password="testpass123")
+ def test_login_successful(self, client, user_factory):
+ """Test login exitoso retorna tokens."""
+ user = user_factory(username="alice", password="testpass123")
 
-        response = client.post("/api/auth/login/", {
-            "username": "alice",
-            "password": "testpass123",
-        })
+ response = client.post("/api/auth/login/", {
+ "username": "alice",
+ "password": "testpass123",
+ })
 
-        assert response.status_code == 200
-        assert "access" in response.json()
-        assert "refresh" in response.json()
+ assert response.status_code == 200
+ assert "access" in response.json()
+ assert "refresh" in response.json()
 
 # tests/routers/test_database_router.py
 @pytest.mark.django_db
 class TestIVRReadOnlyRouter:
-    """Tests para database router multi-DB."""
+ """Tests para database router multi-DB."""
 
-    def test_write_to_ivr_raises_valueerror(self):
-        """Test que escribir a IVR levanta ValueError."""
-        from callcentersite.apps.ivr_legacy.models import IVRLlamada
+ def test_write_to_ivr_raises_valueerror(self):
+ """Test que escribir a IVR levanta ValueError."""
+ from callcentersite.apps.ivr_legacy.models import IVRLlamada
 
-        with pytest.raises(ValueError, match="CRITICAL RESTRICTION VIOLATED"):
-            IVRLlamada.objects.create(
-                telefono="123456789",
-                duracion=60,
-            )
+ with pytest.raises(ValueError, match="CRITICAL RESTRICTION VIOLATED"):
+ IVRLlamada.objects.create(
+ telefono="123456789",
+ duracion=60,
+ )
 ```
 
 ### Fase 4: Paralelización - COMPLETADO
 
 ```bash
 # Ejecutar tests en paralelo
-pytest -n auto                    # Auto-detect CPUs
-pytest -n 4                       # 4 workers
+pytest -n auto # Auto-detect CPUs
+pytest -n 4 # 4 workers
 
 # CI/CD
-pytest -n auto --maxfail=5        # Stop after 5 failures
+pytest -n auto --maxfail=5 # Stop after 5 failures
 ```
 
 ### Fase 5: Coverage Reporting - COMPLETADO
@@ -512,38 +512,38 @@ pytest --cov --cov-report=term-missing --cov-report=xml
 
 | Métrica | Target | Actual | Estado |
 |---------|--------|--------|--------|
-| Test files | 30+ | 50+ | ✓ OK |
+| Test files | 30+ | 50+ | OK OK |
 | Test functions | 200+ | 150+ | → EN PROGRESO |
 | Coverage | >=80% | ~65% | → EN PROGRESO |
-| Test execution time | <5 min | ~3 min (paralelo) | ✓ OK |
-| Markers defined | 4+ | 4 | ✓ OK |
-| Fixtures globales | 10+ | 15+ | ✓ OK |
-| CI integration | Sí | Sí | ✓ OK |
+| Test execution time | <5 min | ~3 min (paralelo) | OK OK |
+| Markers defined | 4+ | 4 | OK OK |
+| Fixtures globales | 10+ | 15+ | OK OK |
+| CI integration | Sí | Sí | OK OK |
 
 ### KPIs de Testing
 
 ```yaml
 Performance:
-  - Test execution (serial): ~10 minutos
-  - Test execution (parallel -n auto): ~3 minutos
-  - Speedup: 70%
-  - Overhead pytest: <5%
+ - Test execution (serial): ~10 minutos
+ - Test execution (parallel -n auto): ~3 minutos
+ - Speedup: 70%
+ - Overhead pytest: <5%
 
 Coverage:
-  - Line coverage: ~65% (target: 80%)
-  - Branch coverage: ~60% (target: 75%)
-  - Gaps principales: edge cases, error handling
+ - Line coverage: ~65% (target: 80%)
+ - Branch coverage: ~60% (target: 75%)
+ - Gaps principales: edge cases, error handling
 
 Quality:
-  - Test pass rate: >98%
-  - Flaky tests: <1%
-  - False positives: 0
+ - Test pass rate: >98%
+ - Flaky tests: <1%
+ - False positives: 0
 
 Organization:
-  - Unit tests: ~100 tests
-  - Integration tests: ~40 tests
-  - Slow tests (<1 min): ~10 tests
-  - Tests con @pytest.mark.django_db: ~120 tests
+ - Unit tests: ~100 tests
+ - Integration tests: ~40 tests
+ - Slow tests (<1 min): ~10 tests
+ - Tests con @pytest.mark.django_db: ~120 tests
 ```
 
 ### Categorización con Markers
@@ -552,23 +552,23 @@ Organization:
 # Unit tests (rápidos, sin DB)
 @pytest.mark.unit
 def test_utility_function():
-    result = my_utility(input)
-    assert result == expected
+ result = my_utility(input)
+ assert result == expected
 
 # Integration tests (con DB)
 @pytest.mark.integration
 @pytest.mark.django_db
 def test_api_endpoint(authenticated_client):
-    response = authenticated_client.get("/api/users/")
-    assert response.status_code == 200
+ response = authenticated_client.get("/api/users/")
+ assert response.status_code == 200
 
 # Slow tests (> 1 segundo)
 @pytest.mark.slow
 @pytest.mark.django_db
 def test_etl_full_sync():
-    # ETL completo toma tiempo
-    result = IVRETLService.sync_all()
-    assert result["processed"] > 1000
+ # ETL completo toma tiempo
+ result = IVRETLService.sync_all()
+ assert result["processed"] > 1000
 ```
 
 ---
@@ -640,18 +640,18 @@ def test_etl_full_sync():
 **Test Organization:**
 ```
 tests/
-├── unit/                    # Unit tests (sin DB)
-│   ├── permissions/
-│   ├── dashboard/
-│   └── configuration/
-├── integration/             # Integration tests (con DB)
-│   ├── test_usuario_completo.py
-│   ├── test_dashboard_personalizado.py
-│   └── test_dora_metrics_integration.py
-├── authentication/          # Tests de autenticación
-├── users/                   # Tests de usuarios
-├── routers/                 # Tests de database router
-└── conftest.py              # Fixtures globales
+ unit/ # Unit tests (sin DB)
+ permissions/
+ dashboard/
+ configuration/
+ integration/ # Integration tests (con DB)
+ test_usuario_completo.py
+ test_dashboard_personalizado.py
+ test_dora_metrics_integration.py
+ authentication/ # Tests de autenticación
+ users/ # Tests de usuarios
+ routers/ # Tests de database router
+ conftest.py # Fixtures globales
 ```
 
 **Naming Conventions:**
@@ -669,37 +669,37 @@ tests/
 **Coverage Goals:**
 ```yaml
 Prioridad 1 (>90% coverage):
-  - apps/users/ (permisos críticos)
-  - apps/authentication/ (seguridad crítica)
-  - database_router.py (protección IVR)
+ - apps/users/ (permisos críticos)
+ - apps/authentication/ (seguridad crítica)
+ - database_router.py (protección IVR)
 
 Prioridad 2 (>80% coverage):
-  - apps/dashboard/
-  - apps/notifications/
-  - apps/configuration/
+ - apps/dashboard/
+ - apps/notifications/
+ - apps/configuration/
 
 Prioridad 3 (>70% coverage):
-  - apps/ivr_legacy/ (read-only, menos crítico)
-  - apps/reportes/
-  - apps/analytics/
+ - apps/ivr_legacy/ (read-only, menos crítico)
+ - apps/reportes/
+ - apps/analytics/
 ```
 
 ### Mejores Prácticas
 
 **Do's:**
-- ✓ Usar fixtures para setup compartido
-- ✓ Un assert por test (idealmente)
-- ✓ Nombres de tests descriptivos
-- ✓ Usar markers para categorizar
-- ✓ Parametrizar tests con múltiples inputs
-- ✓ Fixtures con scope apropiado para performance
+- OK Usar fixtures para setup compartido
+- OK Un assert por test (idealmente)
+- OK Nombres de tests descriptivos
+- OK Usar markers para categorizar
+- OK Parametrizar tests con múltiples inputs
+- OK Fixtures con scope apropiado para performance
 
 **Don'ts:**
-- ✗ No usar sleep() en tests (usar mocking)
-- ✗ No depender de orden de ejecución de tests
-- ✗ No testear detalles de implementación
-- ✗ No tests sin assertions
-- ✗ No fixtures con side effects
+- No usar sleep() en tests (usar mocking)
+- No depender de orden de ejecución de tests
+- No testear detalles de implementación
+- No tests sin assertions
+- No fixtures con side effects
 
 ### Roadmap Futuro
 

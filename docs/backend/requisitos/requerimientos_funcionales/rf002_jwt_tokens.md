@@ -29,9 +29,9 @@ date: 2025-11-13
 Given un usuario autenticado exitosamente
 When el sistema genera tokens JWT
 Then el access_token tiene expiracion de 15 minutos
-  And el refresh_token tiene expiracion de 7 dias
-  And ambos tokens estan firmados con HS256
-  And ambos tokens incluyen claims: user_id, username, roles
+ And el refresh_token tiene expiracion de 7 dias
+ And ambos tokens estan firmados con HS256
+ And ambos tokens incluyen claims: user_id, username, roles
 ```
 
 ## 3. Trazabilidad

@@ -1,3 +1,9 @@
+---
+name: DocumentationAnalysisAgent
+description: Diagnosticar el estado de la documentación comparando lo planificado con lo realmente publicado en el repositorio.
+tools: ["read", "search"]
+---
+
 # DocumentationAnalysisAgent
 
 <Goals>

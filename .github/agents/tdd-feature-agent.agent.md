@@ -1,3 +1,9 @@
+---
+name: TDDFeatureAgent
+description: Guiar el desarrollo de nuevas funcionalidades bajo el ciclo TDD, manteniendo foco en la experiencia de usuario y la calidad técnica.
+tools: ["read", "search", "edit"]
+---
+
 # TDDFeatureAgent
 
 <Goals>

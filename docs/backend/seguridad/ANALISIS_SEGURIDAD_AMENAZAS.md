@@ -41,24 +41,24 @@ status: active
 **Componentes de Seguridad:**
 
 1. **Autenticación Local**
-   - Solo credenciales locales (NO LDAP/OAuth/SAML)
-   - Hash bcrypt cost factor 12
-   - JWT con tiempos estrictos (15min/7días)
-   - Límite de 3 intentos fallidos
-   - Bloqueo temporal de 15 minutos
+ - Solo credenciales locales (NO LDAP/OAuth/SAML)
+ - Hash bcrypt cost factor 12
+ - JWT con tiempos estrictos (15min/7días)
+ - Límite de 3 intentos fallidos
+ - Bloqueo temporal de 15 minutos
 
 2. **Sistema RBAC de 3 Niveles**
-   - Nivel 1: Permisos directos (mayor precedencia)
-   - Nivel 2: Permisos por rol
-   - Nivel 3: Permisos por segmento (menor precedencia)
-   - Short-circuit obligatorio
-   - Permisos granulares (recurso.acción)
+ - Nivel 1: Permisos directos (mayor precedencia)
+ - Nivel 2: Permisos por rol
+ - Nivel 3: Permisos por segmento (menor precedencia)
+ - Short-circuit obligatorio
+ - Permisos granulares (recurso.acción)
 
 3. **Gestión de Sesiones**
-   - Sesión única por usuario (máximo 1 activa)
-   - Almacenamiento en PostgreSQL (NO Redis)
-   - Cierre automático por inactividad (30 min)
-   - Tokens JWT stateless
+ - Sesión única por usuario (máximo 1 activa)
+ - Almacenamiento en PostgreSQL (NO Redis)
+ - Cierre automático por inactividad (30 min)
+ - Tokens JWT stateless
 
 ### 1.2 Restricciones Críticas de Seguridad
 
@@ -79,31 +79,31 @@ Del documento `restricciones_y_lineamientos.md`:
 
 ```mermaid
 graph TB
-    subgraph "Activos de Datos"
-        A1[Credenciales de usuarios<br/>password_hash bcrypt]
-        A2[Tokens JWT<br/>SECRET_KEY]
-        A3[Datos de IVR<br/>READ-ONLY]
-        A4[Configuración RBAC<br/>permisos + roles]
-        A5[Logs de auditoría<br/>inmutables]
-    end
+ subgraph "Activos de Datos"
+ A1[Credenciales de usuarios<br/>password_hash bcrypt]
+ A2[Tokens JWT<br/>SECRET_KEY]
+ A3[Datos de IVR<br/>READ-ONLY]
+ A4[Configuración RBAC<br/>permisos + roles]
+ A5[Logs de auditoría<br/>inmutables]
+ end
 
-    subgraph "Activos de Sistema"
-        S1[RBAC Engine<br/>motor de decisión]
-        S2[Auth Service<br/>bcrypt + JWT]
-        S3[Base de datos<br/>PostgreSQL]
-        S4[SECRET_KEY<br/>>= 256 bits]
-    end
+ subgraph "Activos de Sistema"
+ S1[RBAC Engine<br/>motor de decisión]
+ S2[Auth Service<br/>bcrypt + JWT]
+ S3[Base de datos<br/>PostgreSQL]
+ S4[SECRET_KEY<br/>>= 256 bits]
+ end
 
-    subgraph "Activos de Negocio"
-        B1[Disponibilidad del sistema<br/>99.9%]
-        B2[Integridad de decisiones<br/>RBAC correctas]
-        B3[Confidencialidad<br/>segmentación de datos]
-    end
+ subgraph "Activos de Negocio"
+ B1[Disponibilidad del sistema<br/>99.9%]
+ B2[Integridad de decisiones<br/>RBAC correctas]
+ B3[Confidencialidad<br/>segmentación de datos]
+ end
 
-    style A1 fill:#FFB6C1
-    style A2 fill:#FFB6C1
-    style S4 fill:#FFB6C1
-    style A5 fill:#90EE90
+ style A1 fill:#FFB6C1
+ style A2 fill:#FFB6C1
+ style S4 fill:#FFB6C1
+ style A5 fill:#90EE90
 ```
 
 ---
@@ -114,78 +114,78 @@ graph TB
 
 ```mermaid
 graph LR
-    subgraph "Superficie Expuesta"
-        E1[POST /api/v1/auth/login]
-        E2[POST /api/v1/auth/logout]
-        E3[POST /api/v1/auth/refresh]
-        E4[Cualquier endpoint protegido]
-    end
+ subgraph "Superficie Expuesta"
+ E1[POST /api/v1/auth/login]
+ E2[POST /api/v1/auth/logout]
+ E3[POST /api/v1/auth/refresh]
+ E4[Cualquier endpoint protegido]
+ end
 
-    subgraph "Superficie Interna"
-        I1[RBAC.has_permission]
-        I2[TokenService.validate]
-        I3[PasswordService.verify]
-        I4[Job: close_inactive_sessions]
-    end
+ subgraph "Superficie Interna"
+ I1[RBAC.has_permission]
+ I2[TokenService.validate]
+ I3[PasswordService.verify]
+ I4[Job: close_inactive_sessions]
+ end
 
-    E1 -->|Intentos de fuerza bruta| A1[Amenaza]
-    E2 -->|Token replay| A2[Amenaza]
-    E3 -->|Token forgery| A3[Amenaza]
-    E4 -->|Elevation of privilege| A4[Amenaza]
-    I1 -->|Logic bypass| A5[Amenaza]
-    I2 -->|Token validation bypass| A6[Amenaza]
-    I3 -->|Timing attack| A7[Amenaza]
-    I4 -->|DoS por saturación| A8[Amenaza]
+ E1 -->|Intentos de fuerza bruta| A1[Amenaza]
+ E2 -->|Token replay| A2[Amenaza]
+ E3 -->|Token forgery| A3[Amenaza]
+ E4 -->|Elevation of privilege| A4[Amenaza]
+ I1 -->|Logic bypass| A5[Amenaza]
+ I2 -->|Token validation bypass| A6[Amenaza]
+ I3 -->|Timing attack| A7[Amenaza]
+ I4 -->|DoS por saturación| A8[Amenaza]
 
-    style A1 fill:#FF6B6B
-    style A2 fill:#FF6B6B
-    style A3 fill:#FF6B6B
-    style A4 fill:#FF6B6B
-    style A5 fill:#FFA500
-    style A6 fill:#FFA500
-    style A7 fill:#FFA500
-    style A8 fill:#FFA500
+ style A1 fill:#FF6B6B
+ style A2 fill:#FF6B6B
+ style A3 fill:#FF6B6B
+ style A4 fill:#FF6B6B
+ style A5 fill:#FFA500
+ style A6 fill:#FFA500
+ style A7 fill:#FFA500
+ style A8 fill:#FFA500
 ```
 
 ### 2.2 Límites de Confianza
 
 ```mermaid
 flowchart TB
-    subgraph Internet["INTERNET (Untrusted)"]
-        U[Usuario/Cliente]
-    end
+ subgraph Internet["INTERNET (Untrusted)"]
+ U[Usuario/Cliente]
+ end
 
-    subgraph DMZ["DMZ"]
-        LB[Load Balancer]
-        NGINX[NGINX]
-    end
+ subgraph DMZ["DMZ"]
+ LB[Load Balancer]
+ NGINX[NGINX]
+ end
 
-    subgraph AppZone["Application Zone (Trusted)"]
-        API[Django/DRF API]
-        Auth[Auth Service]
-        RBAC[RBAC Engine]
-        Jobs[Background Jobs]
-    end
+ subgraph AppZone["Application Zone (Trusted)"]
+ API[Django/DRF API]
+ Auth[Auth Service]
+ RBAC[RBAC Engine]
+ Jobs[Background Jobs]
+ end
 
-    subgraph DataZone["Data Zone (Highly Trusted)"]
-        DB[(PostgreSQL)]
-        Audit[(Audit Logs)]
-    end
+ subgraph DataZone["Data Zone (Highly Trusted)"]
+ DB[(PostgreSQL)]
+ Audit[(Audit Logs)]
+ end
 
-    U -->|HTTPS| LB
-    LB -->|TLS| NGINX
-    NGINX -->|Internal| API
-    API --> Auth
-    API --> RBAC
-    Jobs --> DB
-    Auth --> DB
-    RBAC --> DB
-    RBAC --> Audit
+ U -->|HTTPS| LB
+ LB -->|TLS| NGINX
+ NGINX -->|Internal| API
+ API --> Auth
+ API --> RBAC
+ Jobs --> DB
+ Auth --> DB
+ RBAC --> DB
+ RBAC --> Audit
 
-    style Internet fill:#FFE6E6
-    style DMZ fill:#FFF9E6
-    style AppZone fill:#E6FFE6
-    style DataZone fill:#E6F3FF
+ style Internet fill:#FFE6E6
+ style DMZ fill:#FFF9E6
+ style AppZone fill:#E6FFE6
+ style DataZone fill:#E6F3FF
 ```
 
 ---
@@ -196,72 +196,72 @@ flowchart TB
 
 ```mermaid
 flowchart LR
-    U[Usuario] -->|1. Login| SYS[Sistema IACT]
-    SYS -->|2. Tokens| U
-    U -->|3. Request + Token| SYS
-    SYS -->|4. Decisión RBAC| U
-    SYS -->|5. Audit| LOG[(Logs)]
+ U[Usuario] -->|1. Login| SYS[Sistema IACT]
+ SYS -->|2. Tokens| U
+ U -->|3. Request + Token| SYS
+ SYS -->|4. Decisión RBAC| U
+ SYS -->|5. Audit| LOG[(Logs)]
 
-    style U fill:#90EE90
-    style SYS fill:#4682B4
-    style LOG fill:#FFD700
+ style U fill:#90EE90
+ style SYS fill:#4682B4
+ style LOG fill:#FFD700
 ```
 
 ### 3.2 DFD Nivel 1 - Flujo de Autenticación
 
 ```mermaid
 flowchart TB
-    U[Usuario] -->|username+password| API[API Gateway]
-    API -->|Validar| AUTH[Auth Service]
-    AUTH -->|Verificar hash| PWD[PasswordService]
-    PWD -->|bcrypt.checkpw| DB1[(users table)]
+ U[Usuario] -->|username+password| API[API Gateway]
+ API -->|Validar| AUTH[Auth Service]
+ AUTH -->|Verificar hash| PWD[PasswordService]
+ PWD -->|bcrypt.checkpw| DB1[(users table)]
 
-    AUTH -->|Incrementar contador| DB1
-    AUTH -->|Cerrar sesión previa| SESS[SessionManager]
-    SESS -->|UPDATE| DB2[(user_sessions)]
+ AUTH -->|Incrementar contador| DB1
+ AUTH -->|Cerrar sesión previa| SESS[SessionManager]
+ SESS -->|UPDATE| DB2[(user_sessions)]
 
-    AUTH -->|Generar| TOK[TokenService]
-    TOK -->|JWT| DB3[(token_blacklist)]
+ AUTH -->|Generar| TOK[TokenService]
+ TOK -->|JWT| DB3[(token_blacklist)]
 
-    AUTH -->|Log| AUD[(audit_logs)]
+ AUTH -->|Log| AUD[(audit_logs)]
 
-    API -->|Tokens| U
+ API -->|Tokens| U
 
-    style U fill:#90EE90
-    style DB1 fill:#4682B4
-    style DB2 fill:#4682B4
-    style DB3 fill:#4682B4
-    style AUD fill:#FFD700
+ style U fill:#90EE90
+ style DB1 fill:#4682B4
+ style DB2 fill:#4682B4
+ style DB3 fill:#4682B4
+ style AUD fill:#FFD700
 ```
 
 ### 3.3 DFD Nivel 1 - Flujo de Decisión RBAC
 
 ```mermaid
 flowchart TB
-    REQ[Request + Token] --> VAL[Token Validation]
-    VAL -->|user_id| RBAC[RBAC Engine]
+ REQ[Request + Token] --> VAL[Token Validation]
+ VAL -->|user_id| RBAC[RBAC Engine]
 
-    RBAC -->|1. Check| DIR[Permisos Directos]
-    DIR -->|Query| DB1[(user_permissions)]
+ RBAC -->|1. Check| DIR[Permisos Directos]
+ DIR -->|Query| DB1[(user_permissions)]
 
-    DIR -->|Si no encontrado| ROL[Permisos por Rol]
-    ROL -->|Query| DB2[(user_roles -> role_permissions)]
+ DIR -->|Si no encontrado| ROL[Permisos por Rol]
+ ROL -->|Query| DB2[(user_roles -> role_permissions)]
 
-    ROL -->|Si no encontrado| SEG[Permisos por Segmento]
-    SEG -->|Query| DB3[(segments -> segment_permissions)]
+ ROL -->|Si no encontrado| SEG[Permisos por Segmento]
+ SEG -->|Query| DB3[(segments -> segment_permissions)]
 
-    DIR -->|ALLOW/DENY| DEC[Decisión]
-    ROL -->|ALLOW/DENY| DEC
-    SEG -->|ALLOW/DENY| DEC
+ DIR -->|ALLOW/DENY| DEC[Decisión]
+ ROL -->|ALLOW/DENY| DEC
+ SEG -->|ALLOW/DENY| DEC
 
-    DEC -->|Log| AUD[(audit_access)]
-    DEC --> RES[Response 200/403]
+ DEC -->|Log| AUD[(audit_access)]
+ DEC --> RES[Response 200/403]
 
-    style RBAC fill:#FFE6E6
-    style DIR fill:#90EE90
-    style ROL fill:#E6FFE6
-    style SEG fill:#E6F3FF
-    style AUD fill:#FFD700
+ style RBAC fill:#FFE6E6
+ style DIR fill:#90EE90
+ style ROL fill:#E6FFE6
+ style SEG fill:#E6F3FF
+ style AUD fill:#FFD700
 ```
 
 ---
@@ -355,12 +355,12 @@ flowchart TB
 ### 6.1 Matriz Visual
 
 ```
-     IMPACTO ->
-P    │  1-Bajo  │  2-Medio  │  3-Alto  │
-R  3 │    3ALTO   │    6MEDIO    │   9CRITICO    │ THR-001, THR-005
-O  2 │    2BAJO   │    4ALTO    │   6MEDIO    │ THR-002, THR-003, THR-004
-B  1 │    1BAJO   │    2BAJO    │   3ALTO    │ THR-006
-   ↓
+ IMPACTO ->
+P 1-Bajo 2-Medio 3-Alto 
+R 3 3ALTO 6MEDIO 9CRITICO THR-001, THR-005
+O 2 2BAJO 4ALTO 6MEDIO THR-002, THR-003, THR-004
+B 1 1BAJO 2BAJO 3ALTO THR-006
+ ↓
 ```
 
 ### 6.2 Matriz Detallada con Controles
@@ -378,17 +378,17 @@ B  1 │    1BAJO   │    2BAJO    │   3ALTO    │ THR-006
 
 ```mermaid
 gantt
-    title Roadmap de Mitigaciones de Seguridad
-    dateFormat YYYY-MM-DD
-    section Críticas
-    THR-001 MFA opcional           :crit, 2025-11-15, 45d
-    THR-002 SECRET_KEY rotation    :crit, 2025-11-20, 25d
-    section Altas
-    THR-003 Tests precedencia      :active, 2025-11-10, 20d
-    THR-005 Circuit breaker        :2025-11-15, 15d
-    section Medias
-    THR-004 Hash encadenado        :2025-12-01, 45d
-    THR-006 Tests bloqueo          :2025-11-12, 8d
+ title Roadmap de Mitigaciones de Seguridad
+ dateFormat YYYY-MM-DD
+ section Críticas
+ THR-001 MFA opcional :crit, 2025-11-15, 45d
+ THR-002 SECRET_KEY rotation :crit, 2025-11-20, 25d
+ section Altas
+ THR-003 Tests precedencia :active, 2025-11-10, 20d
+ THR-005 Circuit breaker :2025-11-15, 15d
+ section Medias
+ THR-004 Hash encadenado :2025-12-01, 45d
+ THR-006 Tests bloqueo :2025-11-12, 8d
 ```
 
 ---
@@ -399,29 +399,29 @@ gantt
 
 ```mermaid
 erDiagram
-    AUDIT_ACCESS ||--o| AUDIT_ACCESS : "prev_hash references"
+ AUDIT_ACCESS ||--o| AUDIT_ACCESS : "prev_hash references"
 
-    AUDIT_ACCESS {
-        bigint id PK
-        timestamptz ts
-        bigint user_id FK
-        bigint permission_id FK
-        text decision
-        text source
-        uuid request_id
-        inet ip
-        text user_agent
-        text prev_hash "SHA256 del registro anterior"
-        text curr_hash "SHA256 de este registro"
-        boolean verified "Verificación de integridad"
-    }
+ AUDIT_ACCESS {
+ bigint id PK
+ timestamptz ts
+ bigint user_id FK
+ bigint permission_id FK
+ text decision
+ text source
+ uuid request_id
+ inet ip
+ text user_agent
+ text prev_hash "SHA256 del registro anterior"
+ text curr_hash "SHA256 de este registro"
+ boolean verified "Verificación de integridad"
+ }
 ```
 
 **Algoritmo de Hash:**
 ```
 curr_hash = SHA256(
-    id || ts || user_id || permission_id ||
-    decision || source || request_id || prev_hash
+ id || ts || user_id || permission_id ||
+ decision || source || request_id || prev_hash
 )
 ```
 
@@ -429,24 +429,24 @@ curr_hash = SHA256(
 
 ```sql
 CREATE TABLE user_permission_overrides (
-    id BIGSERIAL PRIMARY KEY,
-    user_id BIGINT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-    permission_id BIGINT NOT NULL REFERENCES permissions(id) ON DELETE CASCADE,
-    decision BOOLEAN NOT NULL,  -- TRUE=allow, FALSE=deny
-    valid_from TIMESTAMPTZ NOT NULL DEFAULT now(),
-    valid_to TIMESTAMPTZ NOT NULL,  -- Obligatorio
-    motivo TEXT NOT NULL,
-    granted_by BIGINT NOT NULL REFERENCES users(id),
-    approved_by BIGINT REFERENCES users(id),  -- 4-eyes principle
-    created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
-    revoked_at TIMESTAMPTZ,
-    CONSTRAINT valid_period CHECK (valid_to > valid_from),
-    CONSTRAINT max_duration CHECK (valid_to <= valid_from + interval '30 days'),
-    CONSTRAINT no_self_grant CHECK (granted_by != user_id)
+ id BIGSERIAL PRIMARY KEY,
+ user_id BIGINT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+ permission_id BIGINT NOT NULL REFERENCES permissions(id) ON DELETE CASCADE,
+ decision BOOLEAN NOT NULL, -- TRUE=allow, FALSE=deny
+ valid_from TIMESTAMPTZ NOT NULL DEFAULT now(),
+ valid_to TIMESTAMPTZ NOT NULL, -- Obligatorio
+ motivo TEXT NOT NULL,
+ granted_by BIGINT NOT NULL REFERENCES users(id),
+ approved_by BIGINT REFERENCES users(id), -- 4-eyes principle
+ created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+ revoked_at TIMESTAMPTZ,
+ CONSTRAINT valid_period CHECK (valid_to > valid_from),
+ CONSTRAINT max_duration CHECK (valid_to <= valid_from + interval '30 days'),
+ CONSTRAINT no_self_grant CHECK (granted_by != user_id)
 );
 
 CREATE INDEX idx_overrides_active ON user_permission_overrides(user_id, permission_id)
-    WHERE revoked_at IS NULL AND now() BETWEEN valid_from AND valid_to;
+ WHERE revoked_at IS NULL AND now() BETWEEN valid_from AND valid_to;
 ```
 
 **Reglas de Negocio:**
@@ -459,27 +459,27 @@ CREATE INDEX idx_overrides_active ON user_permission_overrides(user_id, permissi
 ### 7.3 Modelo de Precedencia con Overrides
 
 ```
-┌─────────────────────────────────────────┐
-│  NIVEL 0: Overrides DENY (precedencia máxima) │
-└─────────────────────────────────────────┘
-           ↓ Si no hay deny override
-┌─────────────────────────────────────────┐
-│  NIVEL 1: Permisos Directos             │
-└─────────────────────────────────────────┘
-           ↓ Si no encontrado
-┌─────────────────────────────────────────┐
-│  NIVEL 2: Permisos por Rol              │
-└─────────────────────────────────────────┘
-           ↓ Si no encontrado
-┌─────────────────────────────────────────┐
-│  NIVEL 3: Permisos por Segmento         │
-└─────────────────────────────────────────┘
-           ↓ Si no encontrado
-┌─────────────────────────────────────────┐
-│  NIVEL 4: Overrides ALLOW (menor precedencia) │
-└─────────────────────────────────────────┘
-           ↓ Si no hay allow override
-         DENY por defecto
+
+ NIVEL 0: Overrides DENY (precedencia máxima) 
+
+ ↓ Si no hay deny override
+
+ NIVEL 1: Permisos Directos 
+
+ ↓ Si no encontrado
+
+ NIVEL 2: Permisos por Rol 
+
+ ↓ Si no encontrado
+
+ NIVEL 3: Permisos por Segmento 
+
+ ↓ Si no encontrado
+
+ NIVEL 4: Overrides ALLOW (menor precedencia) 
+
+ ↓ Si no hay allow override
+ DENY por defecto
 ```
 
 ---
@@ -548,7 +548,7 @@ CREATE INDEX idx_overrides_active ON user_permission_overrides(user_id, permissi
 SELECT user_id, COUNT(*) as failed_attempts, MAX(ts) as last_attempt
 FROM audit_logs
 WHERE event_type = 'LOGIN_FAILURE'
-  AND ts >= now() - interval '1 hour'
+ AND ts >= now() - interval '1 hour'
 GROUP BY user_id
 HAVING COUNT(*) >= 5
 ORDER BY failed_attempts DESC;
@@ -557,24 +557,24 @@ ORDER BY failed_attempts DESC;
 SELECT user_id, permission_id, COUNT(*) as denials
 FROM audit_access
 WHERE decision = 'deny'
-  AND ts >= now() - interval '24 hours'
+ AND ts >= now() - interval '24 hours'
 GROUP BY user_id, permission_id
 ORDER BY denials DESC;
 
 -- 3. Verificación de integridad de logs (hash encadenado)
 WITH RECURSIVE chain AS (
-    SELECT id, prev_hash, curr_hash,
-           SHA256(id || ts || user_id || ... || prev_hash) AS computed_hash
-    FROM audit_access
-    WHERE id = 1
-  UNION ALL
-    SELECT a.id, a.prev_hash, a.curr_hash,
-           SHA256(a.id || a.ts || ... || a.prev_hash) AS computed_hash
-    FROM audit_access a
-    JOIN chain c ON a.prev_hash = c.curr_hash
+ SELECT id, prev_hash, curr_hash,
+ SHA256(id || ts || user_id || ... || prev_hash) AS computed_hash
+ FROM audit_access
+ WHERE id = 1
+ UNION ALL
+ SELECT a.id, a.prev_hash, a.curr_hash,
+ SHA256(a.id || a.ts || ... || a.prev_hash) AS computed_hash
+ FROM audit_access a
+ JOIN chain c ON a.prev_hash = c.curr_hash
 )
 SELECT id, curr_hash, computed_hash,
-       (curr_hash = computed_hash) AS verified
+ (curr_hash = computed_hash) AS verified
 FROM chain
 WHERE NOT verified;
 
@@ -583,7 +583,7 @@ SELECT al.user_id, al.event_type, al.ts, u.is_locked
 FROM audit_logs al
 JOIN users u ON u.id = al.user_id
 WHERE u.is_locked = TRUE
-  AND al.ts >= now() - interval '7 days'
+ AND al.ts >= now() - interval '7 days'
 ORDER BY al.ts DESC;
 ```
 
@@ -615,29 +615,29 @@ ORDER BY al.ts DESC;
 
 ```mermaid
 graph TB
-    subgraph "Métricas de Autenticación"
-        M1[Login Success Rate: 97.2%]
-        M2[Failed Attempts: 342/day]
-        M3[Locked Accounts: 12]
-    end
+ subgraph "Métricas de Autenticación"
+ M1[Login Success Rate: 97.2%]
+ M2[Failed Attempts: 342/day]
+ M3[Locked Accounts: 12]
+ end
 
-    subgraph "Métricas de Sesiones"
-        S1[Active Sessions: 1,234]
-        S2[Avg Session Duration: 45min]
-        S3[Timeout Rate: 15%]
-    end
+ subgraph "Métricas de Sesiones"
+ S1[Active Sessions: 1,234]
+ S2[Avg Session Duration: 45min]
+ S3[Timeout Rate: 15%]
+ end
 
-    subgraph "Métricas RBAC"
-        R1[Permission Checks: 45K/day]
-        R2[Denial Rate: 2.3%]
-        R3[p95 Latency: 23ms]
-    end
+ subgraph "Métricas RBAC"
+ R1[Permission Checks: 45K/day]
+ R2[Denial Rate: 2.3%]
+ R3[p95 Latency: 23ms]
+ end
 
-    subgraph "Métricas de Amenazas"
-        T1[Open Threats: 3CRITICO 2MEDIO]
-        T2[MTTR: 3.2 hrs]
-        T3[Coverage: 94%]
-    end
+ subgraph "Métricas de Amenazas"
+ T1[Open Threats: 3CRITICO 2MEDIO]
+ T2[MTTR: 3.2 hrs]
+ T3[Coverage: 94%]
+ end
 ```
 
 ### 10.3 Alertas Críticas
@@ -686,38 +686,38 @@ graph TB
 ```python
 # TEST-SEC-001: Brute force de login
 def test_brute_force_protection():
-    for i in range(6):
-        response = client.post('/api/v1/auth/login', {
-            'username': 'testuser',
-            'password': f'wrong{i}'
-        })
-    assert response.status_code == 429  # Too Many Requests
+ for i in range(6):
+ response = client.post('/api/v1/auth/login', {
+ 'username': 'testuser',
+ 'password': f'wrong{i}'
+ })
+ assert response.status_code == 429 # Too Many Requests
 
 # TEST-SEC-002: JWT forgery con algoritmo None
 def test_jwt_none_algorithm_rejected():
-    fake_token = jwt.encode({'user_id': 1}, None, algorithm='none')
-    response = client.get('/api/v1/protected',
-                         headers={'Authorization': f'Bearer {fake_token}'})
-    assert response.status_code == 401
+ fake_token = jwt.encode({'user_id': 1}, None, algorithm='none')
+ response = client.get('/api/v1/protected',
+ headers={'Authorization': f'Bearer {fake_token}'})
+ assert response.status_code == 401
 
 # TEST-SEC-003: Bypass de precedencia RBAC
 def test_rbac_precedence_cannot_be_bypassed():
-    # Dar permiso directo DENY y permiso por rol ALLOW
-    # Verificar que DENY gana
-    user = create_user()
-    permission = create_permission('analytics.view')
-    assign_direct_permission(user, permission, allow=False)
-    assign_role_permission(user, permission, allow=True)
+ # Dar permiso directo DENY y permiso por rol ALLOW
+ # Verificar que DENY gana
+ user = create_user()
+ permission = create_permission('analytics.view')
+ assign_direct_permission(user, permission, allow=False)
+ assign_role_permission(user, permission, allow=True)
 
-    result = rbac.has_permission(user, 'analytics.view')
-    assert result is False  # Direct DENY debe ganar
+ result = rbac.has_permission(user, 'analytics.view')
+ assert result is False # Direct DENY debe ganar
 
 # TEST-SEC-004: SQL injection en RBAC queries
 def test_sql_injection_prevention():
-    malicious_input = "'; DROP TABLE users; --"
-    result = rbac.has_permission(user, malicious_input)
-    # No debe lanzar excepción, debe retornar False
-    assert result is False
+ malicious_input = "'; DROP TABLE users; --"
+ result = rbac.has_permission(user, malicious_input)
+ # No debe lanzar excepción, debe retornar False
+ assert result is False
 ```
 
 ---
@@ -727,46 +727,46 @@ def test_sql_injection_prevention():
 ### 12.1 Q4 2025
 
 - OK **Noviembre:**
-  - Completar tests de seguridad (THR-006, THR-003)
-  - Implementar circuit breaker para bcrypt (THR-005)
-  - Auditar grants de PostgreSQL (CNT-010)
+ - Completar tests de seguridad (THR-006, THR-003)
+ - Implementar circuit breaker para bcrypt (THR-005)
+ - Auditar grants de PostgreSQL (CNT-010)
 
 - ESPERANDO **Diciembre:**
-  - Implementar hash encadenado en logs (THR-004)
-  - Rotación de SECRET_KEY (THR-002)
-  - MFA opcional para admins (THR-001)
+ - Implementar hash encadenado en logs (THR-004)
+ - Rotación de SECRET_KEY (THR-002)
+ - MFA opcional para admins (THR-001)
 
 ### 12.2 Q1 2026
 
 - **Enero:**
-  - SIEM integración para detección de anomalías (CNT-013)
-  - Implementar overrides temporales con 4-eyes (Feature)
-  - Threat modeling session trimestral
+ - SIEM integración para detección de anomalías (CNT-013)
+ - Implementar overrides temporales con 4-eyes (Feature)
+ - Threat modeling session trimestral
 
 - **Febrero-Marzo:**
-  - Penetration testing externo
-  - WORM storage para auditoría crítica
-  - Certificación ISO 27001 (inicio)
+ - Penetration testing externo
+ - WORM storage para auditoría crítica
+ - Certificación ISO 27001 (inicio)
 
 ### 12.3 Roadmap Visual
 
 ```mermaid
 timeline
-    title Roadmap de Seguridad 2025-2026
-    section Q4 2025
-        Nov : Tests seguridad
-            : Circuit breaker
-            : Audit DB grants
-        Dec : Hash encadenado
-            : SECRET_KEY rotation
-            : MFA opcional
-    section Q1 2026
-        Jan : SIEM integration
-            : Overrides 4-eyes
-            : Threat modeling
-        Feb : Pentest externo
-        Mar : WORM storage
-            : ISO 27001 inicio
+ title Roadmap de Seguridad 2025-2026
+ section Q4 2025
+ Nov : Tests seguridad
+ : Circuit breaker
+ : Audit DB grants
+ Dec : Hash encadenado
+ : SECRET_KEY rotation
+ : MFA opcional
+ section Q1 2026
+ Jan : SIEM integration
+ : Overrides 4-eyes
+ : Threat modeling
+ Feb : Pentest externo
+ Mar : WORM storage
+ : ISO 27001 inicio
 ```
 
 ---
@@ -785,41 +785,41 @@ metodologia: <STRIDE|PASTA|LINDDUN>
 categoria_stride: <S|T|R|I|D|E>
 
 amenaza:
-  titulo: <título breve>
-  descripcion: |
-    <descripción detallada>
-  actor: <externo|interno|privilegiado>
-  vector_ataque: <endpoint|db|config|...>
+ titulo: <título breve>
+ descripcion: |
+ <descripción detallada>
+ actor: <externo|interno|privilegiado>
+ vector_ataque: <endpoint|db|config|...>
 
 evaluacion:
-  probabilidad: <1-Baja|2-Media|3-Alta>
-  impacto: <1-Bajo|2-Medio|3-Alto>
-  riesgo_calculado: <1-9>
-  clasificacion: <BAJO|ALTO|MEDIO|CRITICO>
+ probabilidad: <1-Baja|2-Media|3-Alta>
+ impacto: <1-Bajo|2-Medio|3-Alto>
+ riesgo_calculado: <1-9>
+ clasificacion: <BAJO|ALTO|MEDIO|CRITICO>
 
 controles:
-  preventivos:
-    - <control 1>
-    - <control 2>
-  detectivos:
-    - <control 3>
-  correctivos:
-    - <control 4>
+ preventivos:
+ - <control 1>
+ - <control 2>
+ detectivos:
+ - <control 3>
+ correctivos:
+ - <control 4>
 
 prueba_validacion: |
-  <cómo se validará que el control funciona>
+ <cómo se validará que el control funciona>
 
 asignacion:
-  owner: <equipo/persona>
-  due_date: 2025-12-31
-  prioridad: <P0|P1|P2|P3>
+ owner: <equipo/persona>
+ due_date: 2025-12-31
+ prioridad: <P0|P1|P2|P3>
 
 estado: <abierta|en_progreso|mitigada|aceptada|cerrada>
 
 referencias:
-  - RF-XXX
-  - TEST-XXX
-  - DOC-XXX
+ - RF-XXX
+ - TEST-XXX
+ - DOC-XXX
 ```
 
 ### 13.2 Checklist: Pre-Deploy de Seguridad

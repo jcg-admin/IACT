@@ -8,12 +8,12 @@ prioridad: alta
 estado: implementado
 fecha_creacion: 2025-11-11
 trazabilidad_upward:
-  - N-004  # Metricas DORA para performance del ciclo de desarrollo
+ - N-004 # Metricas DORA para performance del ciclo de desarrollo
 stakeholders:
-  - cto
-  - tech-lead
-  - engineering-manager
-  - devops-team
+ - cto
+ - tech-lead
+ - engineering-manager
+ - devops-team
 babok_knowledge_area: "Business Analysis Planning and Monitoring"
 iso29148_clause: "9.3"
 date: 2025-11-13
@@ -255,7 +255,7 @@ Según **ADR_2025_003**:
 
 Este requisito de negocio documenta funcionalidad YA IMPLEMENTADA en el módulo `dora_metrics/` (~4,000 líneas de código). El propósito es:
 
-1. **Establecer trazabilidad**: Requisito ↔ Código ↔ ADR
+1. **Establecer trazabilidad**: Requisito <-> Código <-> ADR
 2. **Documentar QUÉ**: El negocio necesita métricas DORA
 3. **Justificar implementación**: Por qué existe este módulo
 4. **Criterios de validación**: Cómo validar que cumple necesidad

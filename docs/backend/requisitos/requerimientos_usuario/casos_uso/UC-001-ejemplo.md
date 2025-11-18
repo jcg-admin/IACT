@@ -14,11 +14,11 @@ Ver: `docs/gobernanza/marco_integrado/marco_casos_uso.md`
 
 ## Información Básica
 
-**ID**: UC-BACKEND-001  
-**Nombre**: [Pendiente - usar nomenclatura VERBO+OBJETO]  
-**Actor Primario**: TBD  
-**Stakeholders**: TBD  
-**Precondiciones**: TBD  
+**ID**: UC-BACKEND-001 
+**Nombre**: [Pendiente - usar nomenclatura VERBO+OBJETO] 
+**Actor Primario**: TBD 
+**Stakeholders**: TBD 
+**Precondiciones**: TBD 
 **Postcondiciones**: TBD
 
 ## Especificación (Formato Dos Columnas)
@@ -39,8 +39,8 @@ Ver: `docs/gobernanza/marco_integrado/marco_casos_uso.md`
 
 ## Trazabilidad
 
-**RN asociadas**: TBD  
-**RNE asociadas**: TBD  
+**RN asociadas**: TBD 
+**RNE asociadas**: TBD 
 **RF asociados**: TBD
 
 ---

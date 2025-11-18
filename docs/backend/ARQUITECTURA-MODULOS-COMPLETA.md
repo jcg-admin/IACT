@@ -77,40 +77,40 @@ Sistema modular de call center con permisos granulares sin jerarquias. Implement
 **Modelos**:
 ```
 EstadoLlamada
-├── codigo (unique)
-├── nombre
-├── es_final
-└── activo
+ codigo (unique)
+ nombre
+ es_final
+ activo
 
 TipoLlamada
-├── codigo (unique)
-├── nombre
-└── activo
+ codigo (unique)
+ nombre
+ activo
 
 Llamada
-├── codigo (unique, auto-generado CALL-XXXX)
-├── numero_telefono
-├── tipo (FK)
-├── estado (FK)
-├── agente (FK User)
-├── cliente_nombre, cliente_email, cliente_id
-├── fecha_inicio, fecha_fin
-├── metadata (JSON)
-└── notas
+ codigo (unique, auto-generado CALL-XXXX)
+ numero_telefono
+ tipo (FK)
+ estado (FK)
+ agente (FK User)
+ cliente_nombre, cliente_email, cliente_id
+ fecha_inicio, fecha_fin
+ metadata (JSON)
+ notas
 
 LlamadaTranscripcion
-├── llamada (FK)
-├── texto
-├── timestamp_inicio, timestamp_fin
-├── hablante (agente/cliente)
-└── confianza (float)
+ llamada (FK)
+ texto
+ timestamp_inicio, timestamp_fin
+ hablante (agente/cliente)
+ confianza (float)
 
 LlamadaGrabacion
-├── llamada (OneToOne)
-├── archivo_url
-├── formato (mp3, wav)
-├── duracion_segundos
-└── tamano_bytes
+ llamada (OneToOne)
+ archivo_url
+ formato (mp3, wav)
+ duracion_segundos
+ tamano_bytes
 ```
 
 **Capacidades Requeridas**:
@@ -139,19 +139,19 @@ LlamadaGrabacion
 EstadoTicket, PrioridadTicket, CategoriaTicket
 
 Ticket
-├── codigo (TKT-XXXX)
-├── titulo, descripcion
-├── estado, prioridad, categoria
-├── creado_por, asignado_a
-├── cliente_id, cliente_nombre, cliente_email
-├── fecha_creacion, fecha_cierre, fecha_limite
-└── metadata
+ codigo (TKT-XXXX)
+ titulo, descripcion
+ estado, prioridad, categoria
+ creado_por, asignado_a
+ cliente_id, cliente_nombre, cliente_email
+ fecha_creacion, fecha_cierre, fecha_limite
+ metadata
 
 ComentarioTicket
-├── ticket (FK)
-├── usuario (FK)
-├── contenido
-└── es_interno (boolean)
+ ticket (FK)
+ usuario (FK)
+ contenido
+ es_interno (boolean)
 ```
 
 **Capacidades Requeridas**:
@@ -168,25 +168,25 @@ ComentarioTicket
 **Modelos Planificados**:
 ```
 Cliente
-├── codigo (CLI-XXXX)
-├── nombre, apellido
-├── email, telefono
-├── fecha_nacimiento
-├── metadata
-└── activo
+ codigo (CLI-XXXX)
+ nombre, apellido
+ email, telefono
+ fecha_nacimiento
+ metadata
+ activo
 
 ClienteContacto
-├── cliente (FK)
-├── tipo (telefono, email, direccion)
-├── valor
-└── principal (boolean)
+ cliente (FK)
+ tipo (telefono, email, direccion)
+ valor
+ principal (boolean)
 
 ClienteHistorial
-├── cliente (FK)
-├── usuario (FK)
-├── tipo_evento
-├── descripcion
-└── metadata
+ cliente (FK)
+ usuario (FK)
+ tipo_evento
+ descripcion
+ metadata
 ```
 
 **Capacidades Requeridas**:
@@ -201,23 +201,23 @@ ClienteHistorial
 **Modelos Planificados**:
 ```
 Metrica
-├── codigo (MET-XXXX)
-├── nombre
-├── descripcion
-├── tipo (contador, gauge, histograma)
-└── unidad
+ codigo (MET-XXXX)
+ nombre
+ descripcion
+ tipo (contador, gauge, histograma)
+ unidad
 
 MetricaValor
-├── metrica (FK)
-├── valor (float)
-├── timestamp
-└── metadata
+ metrica (FK)
+ valor (float)
+ timestamp
+ metadata
 
 MetricaAgregacion
-├── metrica (FK)
-├── periodo (hora, dia, semana, mes)
-├── valor_min, valor_max, valor_promedio
-└── fecha_inicio, fecha_fin
+ metrica (FK)
+ periodo (hora, dia, semana, mes)
+ valor_min, valor_max, valor_promedio
+ fecha_inicio, fecha_fin
 ```
 
 **Capacidades Requeridas**:
@@ -231,25 +231,25 @@ MetricaAgregacion
 **Modelos Planificados**:
 ```
 Reporte
-├── codigo (REP-XXXX)
-├── nombre
-├── descripcion
-├── query_template
-└── parametros_schema (JSON)
+ codigo (REP-XXXX)
+ nombre
+ descripcion
+ query_template
+ parametros_schema (JSON)
 
 ReporteEjecucion
-├── reporte (FK)
-├── usuario (FK)
-├── parametros (JSON)
-├── estado (pendiente, procesando, completado, error)
-├── resultado_url
-└── fecha_ejecucion
+ reporte (FK)
+ usuario (FK)
+ parametros (JSON)
+ estado (pendiente, procesando, completado, error)
+ resultado_url
+ fecha_ejecucion
 
 ReporteParametro
-├── reporte (FK)
-├── nombre
-├── tipo_dato
-└── requerido
+ reporte (FK)
+ nombre
+ tipo_dato
+ requerido
 ```
 
 **Capacidades Requeridas**:
@@ -264,24 +264,24 @@ ReporteParametro
 **Modelos Planificados**:
 ```
 AlertaRegla
-├── codigo (ALT-XXXX)
-├── nombre
-├── condicion (expresion)
-├── severidad (baja, media, alta, critica)
-└── activa
+ codigo (ALT-XXXX)
+ nombre
+ condicion (expresion)
+ severidad (baja, media, alta, critica)
+ activa
 
 Alerta
-├── regla (FK)
-├── estado (nueva, reconocida, resuelta)
-├── valores_trigger (JSON)
-└── fecha_disparo, fecha_resolucion
+ regla (FK)
+ estado (nueva, reconocida, resuelta)
+ valores_trigger (JSON)
+ fecha_disparo, fecha_resolucion
 
 AlertaNotificacion
-├── alerta (FK)
-├── usuario (FK)
-├── canal (email, sms, push)
-├── enviada
-└── fecha_envio
+ alerta (FK)
+ usuario (FK)
+ canal (email, sms, push)
+ enviada
+ fecha_envio
 ```
 
 **Capacidades Requeridas**:
@@ -300,22 +300,22 @@ AlertaNotificacion
 **Modelos Planificados**:
 ```
 Equipo
-├── codigo (EQP-XXXX)
-├── nombre
-├── supervisor (FK User)
-└── activo
+ codigo (EQP-XXXX)
+ nombre
+ supervisor (FK User)
+ activo
 
 EquipoMiembro
-├── equipo (FK)
-├── usuario (FK)
-├── fecha_inicio, fecha_fin
-└── rol_en_equipo
+ equipo (FK)
+ usuario (FK)
+ fecha_inicio, fecha_fin
+ rol_en_equipo
 
 EquipoMetrica
-├── equipo (FK)
-├── metrica (FK)
-├── objetivo
-└── periodo
+ equipo (FK)
+ metrica (FK)
+ objetivo
+ periodo
 ```
 
 **Capacidades Requeridas**:
@@ -332,23 +332,23 @@ EquipoMetrica
 **Modelos Planificados**:
 ```
 Horario
-├── codigo (HOR-XXXX)
-├── nombre
-├── fecha_inicio, fecha_fin
-└── estado (borrador, publicado, archivado)
+ codigo (HOR-XXXX)
+ nombre
+ fecha_inicio, fecha_fin
+ estado (borrador, publicado, archivado)
 
 HorarioTurno
-├── horario (FK)
-├── usuario (FK)
-├── dia_semana
-├── hora_inicio, hora_fin
-└── tipo_turno
+ horario (FK)
+ usuario (FK)
+ dia_semana
+ hora_inicio, hora_fin
+ tipo_turno
 
 HorarioExcepcion
-├── horario (FK)
-├── fecha
-├── motivo
-└── aplicar_a (todos, equipo, usuario)
+ horario (FK)
+ fecha
+ motivo
+ aplicar_a (todos, equipo, usuario)
 ```
 
 **Capacidades Requeridas**:
@@ -365,23 +365,23 @@ HorarioExcepcion
 **Modelos Planificados**:
 ```
 EvaluacionCriterio
-├── codigo (EVL-XXXX)
-├── nombre
-├── peso (porcentaje)
-└── activo
+ codigo (EVL-XXXX)
+ nombre
+ peso (porcentaje)
+ activo
 
 Evaluacion
-├── evaluado (FK User)
-├── evaluador (FK User)
-├── periodo_inicio, periodo_fin
-├── puntaje_total
-└── estado (borrador, enviada, aprobada)
+ evaluado (FK User)
+ evaluador (FK User)
+ periodo_inicio, periodo_fin
+ puntaje_total
+ estado (borrador, enviada, aprobada)
 
 EvaluacionResultado
-├── evaluacion (FK)
-├── criterio (FK)
-├── puntaje
-└── comentarios
+ evaluacion (FK)
+ criterio (FK)
+ puntaje
+ comentarios
 ```
 
 **Capacidades Requeridas**:
@@ -401,26 +401,26 @@ EvaluacionResultado
 **Modelos Planificados**:
 ```
 Pago
-├── codigo (PAY-XXXX)
-├── monto
-├── moneda
-├── estado (pendiente, aprobado, rechazado, pagado)
-├── beneficiario
-└── metadata
+ codigo (PAY-XXXX)
+ monto
+ moneda
+ estado (pendiente, aprobado, rechazado, pagado)
+ beneficiario
+ metadata
 
 PagoDetalle
-├── pago (FK)
-├── concepto
-├── monto
-└── porcentaje
+ pago (FK)
+ concepto
+ monto
+ porcentaje
 
 PagoAprobacion
-├── pago (FK)
-├── aprobador (FK User)
-├── nivel_aprobacion
-├── decision (aprobar/rechazar)
-├── comentarios
-└── fecha_decision
+ pago (FK)
+ aprobador (FK User)
+ nivel_aprobacion
+ decision (aprobar/rechazar)
+ comentarios
+ fecha_decision
 ```
 
 **Capacidades Requeridas** (CRITICAS):
@@ -435,24 +435,24 @@ PagoAprobacion
 **Modelos Planificados**:
 ```
 Factura
-├── codigo (FAC-XXXX)
-├── cliente (FK)
-├── fecha_emision, fecha_vencimiento
-├── subtotal, impuestos, total
-└── estado (borrador, emitida, pagada, cancelada)
+ codigo (FAC-XXXX)
+ cliente (FK)
+ fecha_emision, fecha_vencimiento
+ subtotal, impuestos, total
+ estado (borrador, emitida, pagada, cancelada)
 
 FacturaLinea
-├── factura (FK)
-├── descripcion
-├── cantidad
-├── precio_unitario
-└── subtotal
+ factura (FK)
+ descripcion
+ cantidad
+ precio_unitario
+ subtotal
 
 FacturaPago
-├── factura (FK)
-├── pago (FK)
-├── monto_aplicado
-└── fecha_aplicacion
+ factura (FK)
+ pago (FK)
+ monto_aplicado
+ fecha_aplicacion
 ```
 
 **Capacidades Requeridas**:
@@ -468,24 +468,24 @@ FacturaPago
 **Modelos Planificados**:
 ```
 Cobranza
-├── codigo (COB-XXXX)
-├── cliente (FK)
-├── monto_total, monto_pendiente
-├── dias_vencido
-└── prioridad
+ codigo (COB-XXXX)
+ cliente (FK)
+ monto_total, monto_pendiente
+ dias_vencido
+ prioridad
 
 CobranzaAccion
-├── cobranza (FK)
-├── usuario (FK)
-├── tipo_accion (llamada, email, visita)
-├── resultado
-└── fecha_accion
+ cobranza (FK)
+ usuario (FK)
+ tipo_accion (llamada, email, visita)
+ resultado
+ fecha_accion
 
 CobranzaHistorial
-├── cobranza (FK)
-├── estado_anterior, estado_nuevo
-├── usuario (FK)
-└── fecha_cambio
+ cobranza (FK)
+ estado_anterior, estado_nuevo
+ usuario (FK)
+ fecha_cambio
 ```
 
 **Capacidades Requeridas**:
@@ -504,24 +504,24 @@ CobranzaHistorial
 **Modelos Planificados**:
 ```
 Presupuesto
-├── codigo (PRE-XXXX)
-├── periodo_fiscal
-├── monto_total
-├── estado (borrador, aprobado, activo, cerrado)
-└── aprobado_por (FK User)
+ codigo (PRE-XXXX)
+ periodo_fiscal
+ monto_total
+ estado (borrador, aprobado, activo, cerrado)
+ aprobado_por (FK User)
 
 PresupuestoCategoria
-├── presupuesto (FK)
-├── categoria
-├── monto_asignado, monto_ejecutado
-└── porcentaje_ejecucion
+ presupuesto (FK)
+ categoria
+ monto_asignado, monto_ejecutado
+ porcentaje_ejecucion
 
 PresupuestoEjecucion
-├── presupuesto (FK)
-├── categoria (FK)
-├── monto
-├── concepto
-└── fecha_ejecucion
+ presupuesto (FK)
+ categoria (FK)
+ monto
+ concepto
+ fecha_ejecucion
 ```
 
 **Capacidades Requeridas** (SOLO DIRECTORES):
@@ -537,24 +537,24 @@ PresupuestoEjecucion
 **Modelos Planificados**:
 ```
 Politica
-├── codigo (POL-XXXX)
-├── titulo
-├── categoria
-├── vigente
-└── fecha_vigencia
+ codigo (POL-XXXX)
+ titulo
+ categoria
+ vigente
+ fecha_vigencia
 
 PoliticaVersion
-├── politica (FK)
-├── version
-├── contenido
-├── cambios
-└── autor (FK User)
+ politica (FK)
+ version
+ contenido
+ cambios
+ autor (FK User)
 
 PoliticaAceptacion
-├── politica_version (FK)
-├── usuario (FK)
-├── fecha_aceptacion
-└── ip_address
+ politica_version (FK)
+ usuario (FK)
+ fecha_aceptacion
+ ip_address
 ```
 
 **Capacidades Requeridas**:
@@ -567,80 +567,70 @@ PoliticaAceptacion
 ## Diagrama de Arquitectura General
 
 ```
-┌──────────────────────────────────────────────────────────────┐
-│                        FRONTEND (React)                       │
-│                                                               │
-│  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐    │
-│  │Permissions│  │ Llamadas │  │ Tickets  │  │ Clientes │    │
-│  └─────┬────┘  └─────┬────┘  └─────┬────┘  └─────┬────┘    │
-│        │             │              │              │          │
-│        └─────────────┴──────────────┴──────────────┘          │
-│                          │                                    │
-│                          v                                    │
-│                  Redux Store + RTK Query                      │
-│                                                               │
-└───────────────────────────────┬───────────────────────────────┘
-                                │ HTTP/REST
-                                v
-┌──────────────────────────────────────────────────────────────┐
-│                   BACKEND API (Django REST)                   │
-│                                                               │
-│  /api/v1/permissions/    Sistema de permisos granular        │
-│  /api/v1/llamadas/       Gestion de llamadas                 │
-│  /api/v1/tickets/        Sistema de tickets                  │
-│  /api/v1/clientes/       Gestion de clientes                 │
-│  /api/v1/metricas/       Metricas y KPIs                     │
-│  /api/v1/reportes/       Generacion de reportes              │
-│  /api/v1/alertas/        Sistema de alertas                  │
-│  /api/v1/equipos/        Gestion de equipos                  │
-│  /api/v1/horarios/       Planificacion horarios              │
-│  /api/v1/evaluaciones/   Evaluaciones de desempeno           │
-│  /api/v1/pagos/          Aprobacion de pagos                 │
-│  /api/v1/facturas/       Gestion de facturas                 │
-│  /api/v1/cobranza/       Gestion de cobranza                 │
-│  /api/v1/presupuestos/   Gestion presupuestaria              │
-│  /api/v1/politicas/      Politicas corporativas              │
-│                                                               │
-└───────────────────────────────┬───────────────────────────────┘
-                                │
-                                v
-┌──────────────────────────────────────────────────────────────┐
-│                   CAPA DE SERVICIOS                           │
-│                                                               │
-│  PermisoService              Verificacion de permisos         │
-│  LlamadaService              Logica de llamadas              │
-│  TicketService               Logica de tickets               │
-│  ClienteService              Logica de clientes              │
-│  MetricaService              Calculo de metricas             │
-│  ReporteService              Generacion de reportes          │
-│  AlertaService               Procesamiento de alertas        │
-│  ...                                                          │
-│                                                               │
-└───────────────────────────────┬───────────────────────────────┘
-                                │
-                                v
-┌──────────────────────────────────────────────────────────────┐
-│                   BASE DE DATOS (PostgreSQL)                  │
-│                                                               │
-│  permissions_*               8 tablas permisos               │
-│  llamadas_*                  5 tablas llamadas               │
-│  tickets_*                   5 tablas tickets                │
-│  clientes_*                  3 tablas clientes               │
-│  metricas_*                  3 tablas metricas               │
-│  reportes_*                  3 tablas reportes               │
-│  alertas_*                   3 tablas alertas                │
-│  equipos_*                   3 tablas equipos                │
-│  horarios_*                  3 tablas horarios               │
-│  evaluaciones_*              3 tablas evaluaciones           │
-│  pagos_*                     3 tablas pagos                  │
-│  facturas_*                  3 tablas facturas               │
-│  cobranza_*                  3 tablas cobranza               │
-│  presupuestos_*              3 tablas presupuestos           │
-│  politicas_*                 3 tablas politicas              │
-│                                                               │
-│  Total estimado: ~55 tablas                                  │
-│                                                               │
-└──────────────────────────────────────────────────────────────┘
+
+ FRONTEND (React) 
+
+ Permissions Llamadas Tickets Clientes 
+
+ v 
+ Redux Store + RTK Query 
+
+ HTTP/REST
+ v
+
+ BACKEND API (Django REST) 
+
+ /api/v1/permissions/ Sistema de permisos granular 
+ /api/v1/llamadas/ Gestion de llamadas 
+ /api/v1/tickets/ Sistema de tickets 
+ /api/v1/clientes/ Gestion de clientes 
+ /api/v1/metricas/ Metricas y KPIs 
+ /api/v1/reportes/ Generacion de reportes 
+ /api/v1/alertas/ Sistema de alertas 
+ /api/v1/equipos/ Gestion de equipos 
+ /api/v1/horarios/ Planificacion horarios 
+ /api/v1/evaluaciones/ Evaluaciones de desempeno 
+ /api/v1/pagos/ Aprobacion de pagos 
+ /api/v1/facturas/ Gestion de facturas 
+ /api/v1/cobranza/ Gestion de cobranza 
+ /api/v1/presupuestos/ Gestion presupuestaria 
+ /api/v1/politicas/ Politicas corporativas 
+
+ v
+
+ CAPA DE SERVICIOS 
+
+ PermisoService Verificacion de permisos 
+ LlamadaService Logica de llamadas 
+ TicketService Logica de tickets 
+ ClienteService Logica de clientes 
+ MetricaService Calculo de metricas 
+ ReporteService Generacion de reportes 
+ AlertaService Procesamiento de alertas 
+ ... 
+
+ v
+
+ BASE DE DATOS (PostgreSQL) 
+
+ permissions_* 8 tablas permisos 
+ llamadas_* 5 tablas llamadas 
+ tickets_* 5 tablas tickets 
+ clientes_* 3 tablas clientes 
+ metricas_* 3 tablas metricas 
+ reportes_* 3 tablas reportes 
+ alertas_* 3 tablas alertas 
+ equipos_* 3 tablas equipos 
+ horarios_* 3 tablas horarios 
+ evaluaciones_* 3 tablas evaluaciones 
+ pagos_* 3 tablas pagos 
+ facturas_* 3 tablas facturas 
+ cobranza_* 3 tablas cobranza 
+ presupuestos_* 3 tablas presupuestos 
+ politicas_* 3 tablas politicas 
+
+ Total estimado: ~55 tablas 
+
 ```
 
 ---

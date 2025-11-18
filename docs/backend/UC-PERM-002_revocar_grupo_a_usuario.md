@@ -130,10 +130,10 @@ El Administrador de Sistema revoca un grupo de permisos previamente asignado a u
 
 ```json
 {
-  "usuario_id": 123,
-  "grupo_id": 5,
-  "motivo": "Cambio de rol en la organización",
-  "revocado_por_id": 1
+ "usuario_id": 123,
+ "grupo_id": 5,
+ "motivo": "Cambio de rol en la organización",
+ "revocado_por_id": 1
 }
 ```
 
@@ -143,18 +143,18 @@ El Administrador de Sistema revoca un grupo de permisos previamente asignado a u
 
 ```json
 {
-  "success": true,
-  "message": "Grupo revocado exitosamente",
-  "data": {
-    "usuario_id": 123,
-    "usuario_username": "carlos.ruiz",
-    "grupo_id": 5,
-    "grupo_nombre": "Coordinadores",
-    "fecha_revocacion": "2025-01-09T10:30:00Z",
-    "motivo": "Cambio de rol en la organización",
-    "revocado_por": "admin_user",
-    "capacidades_removidas": 15
-  }
+ "success": true,
+ "message": "Grupo revocado exitosamente",
+ "data": {
+ "usuario_id": 123,
+ "usuario_username": "carlos.ruiz",
+ "grupo_id": 5,
+ "grupo_nombre": "Coordinadores",
+ "fecha_revocacion": "2025-01-09T10:30:00Z",
+ "motivo": "Cambio de rol en la organización",
+ "revocado_por": "admin_user",
+ "capacidades_removidas": 15
+ }
 }
 ```
 
@@ -162,9 +162,9 @@ El Administrador de Sistema revoca un grupo de permisos previamente asignado a u
 
 ```json
 {
-  "error": "No tiene permisos para revocar grupos",
-  "required_permission": "sistema.administracion.usuarios.editar",
-  "code": "PERMISSION_DENIED"
+ "error": "No tiene permisos para revocar grupos",
+ "required_permission": "sistema.administracion.usuarios.editar",
+ "code": "PERMISSION_DENIED"
 }
 ```
 
@@ -179,7 +179,7 @@ Content-Type: application/json
 
 Body:
 {
-  "motivo": "Cambio de rol en la organización"
+ "motivo": "Cambio de rol en la organización"
 }
 ```
 
@@ -189,26 +189,26 @@ Body:
 -- Revocar grupo (marcar como inactivo)
 UPDATE usuarios_grupos
 SET activo = FALSE,
-    motivo_revocacion = 'Cambio de rol en la organización',
-    revocado_por_id = 1,
-    updated_at = NOW()
+ motivo_revocacion = 'Cambio de rol en la organización',
+ revocado_por_id = 1,
+ updated_at = NOW()
 WHERE usuario_id = 123
-  AND grupo_id = 5
-  AND activo = TRUE;
+ AND grupo_id = 5
+ AND activo = TRUE;
 
 -- Registrar en auditoría
 INSERT INTO auditoria_permisos (
-  usuario_id,
-  accion,
-  detalle,
-  realizado_por_id,
-  timestamp
+ usuario_id,
+ accion,
+ detalle,
+ realizado_por_id,
+ timestamp
 ) VALUES (
-  123,
-  'REVOCAR_GRUPO',
-  '{"grupo_id": 5, "grupo_nombre": "Coordinadores", "motivo": "Cambio de rol"}',
-  1,
-  NOW()
+ 123,
+ 'REVOCAR_GRUPO',
+ '{"grupo_id": 5, "grupo_nombre": "Coordinadores", "motivo": "Cambio de rol"}',
+ 1,
+ NOW()
 );
 
 -- Invalidar cache
@@ -227,57 +227,57 @@ DELETE FROM cache_permisos WHERE usuario_id = 123;
 
 ```yaml
 Given:
-  - Usuario 123 existe
-  - Usuario 123 tiene grupo "Coordinadores" activo
-  - Admin tiene permiso "sistema.administracion.usuarios.editar"
+ - Usuario 123 existe
+ - Usuario 123 tiene grupo "Coordinadores" activo
+ - Admin tiene permiso "sistema.administracion.usuarios.editar"
 When:
-  - Admin revoca grupo "Coordinadores" con motivo "Cambio de rol"
+ - Admin revoca grupo "Coordinadores" con motivo "Cambio de rol"
 Then:
-  - Asignación se marca como activo=False
-  - Se registra en auditoría
-  - Cache se invalida
-  - Usuario recibe notificación
-  - HTTP 200 con mensaje de éxito
+ - Asignación se marca como activo=False
+ - Se registra en auditoría
+ - Cache se invalida
+ - Usuario recibe notificación
+ - HTTP 200 con mensaje de éxito
 ```
 
 ### Caso de Prueba 2: Usuario no tiene el grupo
 
 ```yaml
 Given:
-  - Usuario 123 existe
-  - Usuario 123 NO tiene grupo "Coordinadores" activo
+ - Usuario 123 existe
+ - Usuario 123 NO tiene grupo "Coordinadores" activo
 When:
-  - Admin intenta revocar grupo "Coordinadores"
+ - Admin intenta revocar grupo "Coordinadores"
 Then:
-  - HTTP 400 Bad Request
-  - Mensaje: "El usuario no tiene este grupo asignado"
-  - No se modifica base de datos
+ - HTTP 400 Bad Request
+ - Mensaje: "El usuario no tiene este grupo asignado"
+ - No se modifica base de datos
 ```
 
 ### Caso de Prueba 3: Último administrador
 
 ```yaml
 Given:
-  - Usuario 123 es el único con grupo "Administradores"
+ - Usuario 123 es el único con grupo "Administradores"
 When:
-  - Admin intenta revocar grupo "Administradores"
+ - Admin intenta revocar grupo "Administradores"
 Then:
-  - HTTP 400 Bad Request
-  - Mensaje: "No se puede revocar. Usuario es el último administrador"
-  - No se modifica base de datos
+ - HTTP 400 Bad Request
+ - Mensaje: "No se puede revocar. Usuario es el último administrador"
+ - No se modifica base de datos
 ```
 
 ### Caso de Prueba 4: Sin permisos
 
 ```yaml
 Given:
-  - Admin NO tiene permiso "sistema.administracion.usuarios.editar"
+ - Admin NO tiene permiso "sistema.administracion.usuarios.editar"
 When:
-  - Admin intenta revocar grupo
+ - Admin intenta revocar grupo
 Then:
-  - HTTP 403 Forbidden
-  - Mensaje: "No tiene permisos para revocar grupos"
-  - No se modifica base de datos
+ - HTTP 403 Forbidden
+ - Mensaje: "No tiene permisos para revocar grupos"
+ - No se modifica base de datos
 ```
 
 ## 14. Trazabilidad

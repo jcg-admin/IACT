@@ -1,6 +1,6 @@
 # Indice - Dominio BACKEND
 
-**Dominio:** backend  
+**Dominio:** backend 
 **Proposito:** Documentacion completa del dominio backend del proyecto IACT
 
 ---

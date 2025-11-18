@@ -449,8 +449,8 @@ icono: clipboard-check
 ```
 Usuario: Ana López
 Grupos Asignados:
-├── visualizacion_basica
-└── atencion_cliente
+ visualizacion_basica
+ atencion_cliente
 
 Puede:
 - Ver su dashboard personal
@@ -470,8 +470,8 @@ No puede:
 ```
 Usuario: Carlos Ruiz
 Grupos Asignados:
-├── visualizacion_basica
-└── atencion_cliente_avanzada
+ visualizacion_basica
+ atencion_cliente_avanzada
 
 Puede:
 - Todo lo de agente nuevo
@@ -491,11 +491,11 @@ No puede:
 ```
 Usuario: María Fernández
 Grupos Asignados:
-├── visualizacion_basica
-├── atencion_cliente_avanzada
-├── gestion_equipos
-├── gestion_horarios
-└── analisis_operativo
+ visualizacion_basica
+ atencion_cliente_avanzada
+ gestion_equipos
+ gestion_horarios
+ analisis_operativo
 
 Puede:
 - Todo lo de agente senior
@@ -515,9 +515,9 @@ No puede:
 ```
 Usuario: Roberto Díaz
 Grupos Asignados:
-├── visualizacion_basica
-├── auditoria_llamadas
-└── evaluacion_desempeno
+ visualizacion_basica
+ auditoria_llamadas
+ evaluacion_desempeno
 
 Puede:
 - Ver dashboards
@@ -538,9 +538,9 @@ No puede:
 ```
 Usuario: Laura Martínez
 Grupos Asignados:
-├── administracion_usuarios
-├── configuracion_sistema
-└── visualizacion_basica
+ administracion_usuarios
+ configuracion_sistema
+ visualizacion_basica
 
 Puede:
 - Crear y gestionar usuarios
@@ -606,10 +606,10 @@ No puede:
 
 ```sql
 SELECT
-    codigo,
-    nombre_display,
-    tipo_acceso,
-    COUNT(gc.id) AS capacidades_count
+ codigo,
+ nombre_display,
+ tipo_acceso,
+ COUNT(gc.id) AS capacidades_count
 FROM grupos_permisos gp
 LEFT JOIN grupo_capacidades gc ON gp.id = gc.grupo_id
 WHERE activo = TRUE
@@ -621,9 +621,9 @@ ORDER BY tipo_acceso, codigo;
 
 ```sql
 SELECT
-    gp.codigo AS grupo,
-    c.nombre_completo AS capacidad,
-    c.nivel_sensibilidad
+ gp.codigo AS grupo,
+ c.nombre_completo AS capacidad,
+ c.nivel_sensibilidad
 FROM grupos_permisos gp
 JOIN grupo_capacidades gc ON gp.id = gc.grupo_id
 JOIN capacidades c ON gc.capacidad_id = c.id
@@ -635,8 +635,8 @@ ORDER BY c.nombre_completo;
 
 ```sql
 SELECT
-    gp.codigo AS grupo,
-    COUNT(DISTINCT ug.usuario_id) AS usuarios_count
+ gp.codigo AS grupo,
+ COUNT(DISTINCT ug.usuario_id) AS usuarios_count
 FROM grupos_permisos gp
 LEFT JOIN usuarios_grupos ug ON gp.id = ug.grupo_id AND ug.activo = TRUE
 GROUP BY gp.codigo

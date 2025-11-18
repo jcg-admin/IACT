@@ -17,23 +17,23 @@ status: active
 
 ```
 docs/backend/requisitos/
-├── INDICE_REQUISITOS.md                           # Este archivo - índice maestro
-├── README.md                                       # Guía de navegación
-├── restricciones_y_lineamientos.md                # Restricciones críticas del proyecto
-├── INDICE_MAESTRO_PERMISOS_GRANULAR.md            # [NUEVO] Índice maestro del sistema de permisos granular
-├── CATALOGO_GRUPOS_FUNCIONALES.md                 # [NUEVO] Catálogo de 10 grupos funcionales
-├── CASOS_DE_USO_SISTEMA_PERMISOS.md               # [NUEVO] 5 casos de uso reales
-├── MAPEO_FUNCIONES_MODULOS_DJANGO.md              # [NUEVO] Mapeo a módulos Django
-├── MATRIZ_TRAZABILIDAD_PERMISOS.md                # [NUEVO] Trazabilidad completa
-├── prioridad_01_estructura_base_datos.md          # [NUEVO] Estructura de 8 tablas
-├── prioridad_02_funciones_core.md                 # [NUEVO] 3 funciones core
-├── prioridad_03_modulos_operativos.md             # [NUEVO] 6 módulos operativos
-├── prioridad_04_modulos_gestion.md                # [NUEVO] 4 módulos de gestión
-├── negocio/                                        # Reglas de negocio por componente
-│   └── rn_c01_autenticacion_sesiones.md
-└── funcionales/                                    # Requisitos funcionales
-    ├── RF-001 a RF-004 (users)
-    └── RF-005 a RF-010 (authentication)
+ INDICE_REQUISITOS.md # Este archivo - índice maestro
+ README.md # Guía de navegación
+ restricciones_y_lineamientos.md # Restricciones críticas del proyecto
+ INDICE_MAESTRO_PERMISOS_GRANULAR.md # [NUEVO] Índice maestro del sistema de permisos granular
+ CATALOGO_GRUPOS_FUNCIONALES.md # [NUEVO] Catálogo de 10 grupos funcionales
+ CASOS_DE_USO_SISTEMA_PERMISOS.md # [NUEVO] 5 casos de uso reales
+ MAPEO_FUNCIONES_MODULOS_DJANGO.md # [NUEVO] Mapeo a módulos Django
+ MATRIZ_TRAZABILIDAD_PERMISOS.md # [NUEVO] Trazabilidad completa
+ prioridad_01_estructura_base_datos.md # [NUEVO] Estructura de 8 tablas
+ prioridad_02_funciones_core.md # [NUEVO] 3 funciones core
+ prioridad_03_modulos_operativos.md # [NUEVO] 6 módulos operativos
+ prioridad_04_modulos_gestion.md # [NUEVO] 4 módulos de gestión
+ negocio/ # Reglas de negocio por componente
+ rn_c01_autenticacion_sesiones.md
+ funcionales/ # Requisitos funcionales
+ RF-001 a RF-004 (users)
+ RF-005 a RF-010 (authentication)
 ```
 
 ---
@@ -140,62 +140,62 @@ Sistema de permisos basado en **Grupos Funcionales** que reemplaza el enfoque tr
 
 ```mermaid
 graph TB
-    subgraph DB[8 Tablas Base de Datos]
-        T1[funciones]
-        T2[capacidades]
-        T3[funcion_capacidades]
-        T4[grupos_permisos]
-        T5[grupo_capacidades]
-        T6[usuarios_grupos]
-        T7[permisos_excepcionales]
-        T8[auditoria_permisos]
-    end
+ subgraph DB[8 Tablas Base de Datos]
+ T1[funciones]
+ T2[capacidades]
+ T3[funcion_capacidades]
+ T4[grupos_permisos]
+ T5[grupo_capacidades]
+ T6[usuarios_grupos]
+ T7[permisos_excepcionales]
+ T8[auditoria_permisos]
+ end
 
-    subgraph FN[13 Funciones]
-        F1[usuarios]
-        F2[dashboards]
-        F3[configuracion]
-        F4[llamadas]
-        F5[tickets]
-        F6[clientes]
-        F7[metricas]
-        F8[reportes]
-        F9[alertas]
-        F10[equipos]
-        F11[horarios]
-        F12[evaluaciones]
-        F13[auditoria]
-    end
+ subgraph FN[13 Funciones]
+ F1[usuarios]
+ F2[dashboards]
+ F3[configuracion]
+ F4[llamadas]
+ F5[tickets]
+ F6[clientes]
+ F7[metricas]
+ F8[reportes]
+ F9[alertas]
+ F10[equipos]
+ F11[horarios]
+ F12[evaluaciones]
+ F13[auditoria]
+ end
 
-    subgraph GP[10 Grupos]
-        G1[administracion_usuarios]
-        G2[visualizacion_basica]
-        G3[configuracion_sistema]
-        G4[atencion_cliente]
-        G5[atencion_cliente_avanzada]
-        G6[analisis_operativo]
-        G7[gestion_equipos]
-        G8[gestion_horarios]
-        G9[auditoria_llamadas]
-        G10[evaluacion_desempeno]
-    end
+ subgraph GP[10 Grupos]
+ G1[administracion_usuarios]
+ G2[visualizacion_basica]
+ G3[configuracion_sistema]
+ G4[atencion_cliente]
+ G5[atencion_cliente_avanzada]
+ G6[analisis_operativo]
+ G7[gestion_equipos]
+ G8[gestion_horarios]
+ G9[auditoria_llamadas]
+ G10[evaluacion_desempeno]
+ end
 
-    T1 --> F1
-    T2 --> F1
-    F1 --> G1
-    F2 --> G2
-    F3 --> G3
-    F4 --> G4
-    F4 --> G5
-    F5 --> G4
-    F6 --> G4
-    F7 --> G6
-    F8 --> G6
-    F9 --> G6
-    F10 --> G7
-    F11 --> G8
-    F12 --> G10
-    F13 --> G9
+ T1 --> F1
+ T2 --> F1
+ F1 --> G1
+ F2 --> G2
+ F3 --> G3
+ F4 --> G4
+ F4 --> G5
+ F5 --> G4
+ F6 --> G4
+ F7 --> G6
+ F8 --> G6
+ F9 --> G6
+ F10 --> G7
+ F11 --> G8
+ F12 --> G10
+ F13 --> G9
 ```
 
 ---
@@ -240,40 +240,40 @@ graph TB
 
 ```mermaid
 graph TD
-    RN[RN-C01: Autenticación y Sesiones]
-    RN --> RN01[RN-C01-01: Login Credenciales]
-    RN --> RN02[RN-C01-02: Validación Credenciales]
-    RN --> RN03[RN-C01-03: Generación JWT]
-    RN --> RN04[RN-C01-04: Validación JWT]
-    RN --> RN05[RN-C01-05: Logout Manual]
-    RN --> RN06[RN-C01-06: Cierre Inactividad]
-    RN --> RN07[RN-C01-07: Complejidad Passwords]
-    RN --> RN08[RN-C01-08: Intentos Fallidos]
-    RN --> RN09[RN-C01-09: Bloqueo Temporal]
-    RN --> RN10[RN-C01-10: Hash bcrypt]
-    RN --> RN11[RN-C01-11: Refresh Token]
-    RN --> RN12[RN-C01-12: Auditoría Login]
-    RN --> RN13[RN-C01-13: Sesiones PostgreSQL]
-    RN --> RN14[RN-C01-14: Sesión Única]
+ RN[RN-C01: Autenticación y Sesiones]
+ RN --> RN01[RN-C01-01: Login Credenciales]
+ RN --> RN02[RN-C01-02: Validación Credenciales]
+ RN --> RN03[RN-C01-03: Generación JWT]
+ RN --> RN04[RN-C01-04: Validación JWT]
+ RN --> RN05[RN-C01-05: Logout Manual]
+ RN --> RN06[RN-C01-06: Cierre Inactividad]
+ RN --> RN07[RN-C01-07: Complejidad Passwords]
+ RN --> RN08[RN-C01-08: Intentos Fallidos]
+ RN --> RN09[RN-C01-09: Bloqueo Temporal]
+ RN --> RN10[RN-C01-10: Hash bcrypt]
+ RN --> RN11[RN-C01-11: Refresh Token]
+ RN --> RN12[RN-C01-12: Auditoría Login]
+ RN --> RN13[RN-C01-13: Sesiones PostgreSQL]
+ RN --> RN14[RN-C01-14: Sesión Única]
 
-    RN01 --> RF005[RF-005: Login]
-    RN02 --> RF005
+ RN01 --> RF005[RF-005: Login]
+ RN02 --> RF005
 
-    RN03 --> RF006[RF-006: Tokens JWT]
-    RN04 --> RF006
-    RN11 --> RF006
+ RN03 --> RF006[RF-006: Tokens JWT]
+ RN04 --> RF006
+ RN11 --> RF006
 
-    RN05 --> RF007[RF-007: Logout]
+ RN05 --> RF007[RF-007: Logout]
 
-    RN06 --> RF008[RF-008: Cierre Inactividad]
+ RN06 --> RF008[RF-008: Cierre Inactividad]
 
-    RN07 --> RF009[RF-009: Passwords]
-    RN08 --> RF009
-    RN09 --> RF009
-    RN10 --> RF009
+ RN07 --> RF009[RF-009: Passwords]
+ RN08 --> RF009
+ RN09 --> RF009
+ RN10 --> RF009
 
-    RN13 --> RF010[RF-010: Sesión Única]
-    RN14 --> RF010
+ RN13 --> RF010[RF-010: Sesión Única]
+ RN14 --> RF010
 ```
 
 ### Requisitos Funcionales -> Tests
@@ -315,9 +315,9 @@ Documento: [restricciones_y_lineamientos.md](restricciones_y_lineamientos.md)
 ### Por Fase de Desarrollo
 
 ```
-Documentación: ████████████████████ 100% (20/20 documentos)
-Tests:         ███░░░░░░░░░░░░░░░░░  15% (37/244 implementados, 0 pasando)
-Implementación: ░░░░░░░░░░░░░░░░░░░░   0% (0/13 módulos)
+Documentación: 100% (20/20 documentos)
+Tests: 15% (37/244 implementados, 0 pasando)
+Implementación: 0% (0/13 módulos)
 ```
 
 ### Por Componente
@@ -334,13 +334,13 @@ Implementación: ░░░░░░░░░░░░░░░░░░░░   
 
 **Componente 3: Sistema de Permisos Granular**
 - Documentación: OK 100% (10/10 documentos nuevos)
-  - Índice maestro
-  - ADR de decisión arquitectónica
-  - 4 documentos de prioridades
-  - Catálogo de grupos
-  - Casos de uso
-  - Mapeo a Django
-  - Matriz de trazabilidad
+ - Índice maestro
+ - ADR de decisión arquitectónica
+ - 4 documentos de prioridades
+ - Catálogo de grupos
+ - Casos de uso
+ - Mapeo a Django
+ - Matriz de trazabilidad
 - Tests: ESPERANDO 0%
 - Código: ESPERANDO 0%
 - Base de Datos: ESPERANDO 0% (8 tablas pendientes de creación)
@@ -400,17 +400,17 @@ Implementación: ░░░░░░░░░░░░░░░░░░░░   
 ### Códigos de Requisitos
 
 ```
-RN-C##-##  -> Regla de Negocio - Componente ## - Número ##
-            Ejemplo: RN-C01-03 (Componente 1, Regla 3)
+RN-C##-## -> Regla de Negocio - Componente ## - Número ##
+ Ejemplo: RN-C01-03 (Componente 1, Regla 3)
 
-RF-###     -> Requisito Funcional - Número ###
-            Ejemplo: RF-005
+RF-### -> Requisito Funcional - Número ###
+ Ejemplo: RF-005
 
 TEST-###-### -> Test del Requisito ### - Número ###
-               Ejemplo: TEST-005-001
+ Ejemplo: TEST-005-001
 
-IMPL-###   -> Implementación del Requisito ###
-            Ejemplo: IMPL-005
+IMPL-### -> Implementación del Requisito ###
+ Ejemplo: IMPL-005
 ```
 
 ### Estados

@@ -59,12 +59,12 @@ Define 8 modelos Django ORM:
 **Importar en models.py:**
 ```python
 from .models_permisos_granular import (
-    Funcion,
-    Capacidad,
-    GrupoPermiso,
-    UsuarioGrupo,
-    PermisoExcepcional,
-    AuditoriaPermiso,
+ Funcion,
+ Capacidad,
+ GrupoPermiso,
+ UsuarioGrupo,
+ PermisoExcepcional,
+ AuditoriaPermiso,
 )
 ```
 
@@ -86,15 +86,15 @@ from callcentersite.apps.users.services_permisos_granular import UserManagementS
 
 # Asignar grupo a usuario
 UserManagementService.asignar_grupo_a_usuario(
-    usuario_id=123,
-    grupo_codigo='atencion_cliente',
-    asignado_por_id=1,
+ usuario_id=123,
+ grupo_codigo='atencion_cliente',
+ asignado_por_id=1,
 )
 
 # Verificar permiso
 tiene = UserManagementService.usuario_tiene_permiso(
-    usuario_id=123,
-    capacidad_codigo='sistema.operaciones.llamadas.realizar',
+ usuario_id=123,
+ capacidad_codigo='sistema.operaciones.llamadas.realizar',
 )
 ```
 
@@ -146,15 +146,15 @@ Siguiendo `deployment_004_tdd_backend_permisos_granular.md`:
 
 1. Crear fixtures de tests en `tests/permissions/conftest.py`
 2. Crear tests de modelos:
-   - test_models_funciones.py
-   - test_models_capacidades.py
-   - test_models_grupos_permisos.py
+ - test_models_funciones.py
+ - test_models_capacidades.py
+ - test_models_grupos_permisos.py
 3. Crear tests de servicios:
-   - test_services_user_management.py
+ - test_services_user_management.py
 4. Ejecutar tests:
-   ```bash
-   pytest -m permissions
-   ```
+ ```bash
+ pytest -m permissions
+ ```
 
 ### Fase 2: Implementar API REST (Semana 2-3)
 
@@ -162,8 +162,8 @@ Siguiendo `deployment_004_tdd_backend_permisos_granular.md`:
 2. Crear viewsets en `views_permisos_granular.py`
 3. Crear URLs en `urls_permisos_granular.py`
 4. Crear tests de API:
-   - test_views_funciones.py
-   - test_views_grupos.py
+ - test_views_funciones.py
+ - test_views_grupos.py
 
 ### Fase 3: Frontend React (Semana 3-4)
 
@@ -173,9 +173,9 @@ Siguiendo `deployment_005_tdd_frontend_permisos_granular.md`:
 2. Crear hooks en `ui/src/hooks/usePermissions.js`
 3. Crear Redux slice en `ui/src/store/permissions/permissionsSlice.js`
 4. Crear componentes:
-   - PermissionChecker
-   - UserGroupsManager
-   - CapabilitiesViewer
+ - PermissionChecker
+ - UserGroupsManager
+ - CapabilitiesViewer
 
 ### Fase 4: Tests End-to-End (Semana 4)
 

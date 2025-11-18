@@ -11,22 +11,22 @@ fecha_aprobacion: 2025-11-06
 sponsor: ciso
 
 trazabilidad_upward:
-  - N-001
+ - N-001
 
 trazabilidad_downward:
-  - RS-001
-  - RS-002
-  - RF-001
-  - RF-002
-  - RF-003
-  - RNF-001
-  - RNF-002
+ - RS-001
+ - RS-002
+ - RF-001
+ - RF-002
+ - RF-003
+ - RNF-001
+ - RNF-002
 
 stakeholders:
-  - ciso
-  - compliance-officer
-  - auditor-interno
-  - legal
+ - ciso
+ - compliance-officer
+ - auditor-interno
+ - legal
 
 objetivo_estrategico: OE-2025-SEC
 kpi_negocio: Tiempo preparación auditoría
@@ -88,12 +88,12 @@ Alcanzar y mantener conformidad con ISO/IEC 27001:2013 Anexo A.12.4 (Logging and
 ### 2.2 Objetivos Secundarios
 
 1. **Objetivo secundario 1**: Reducir tiempo de preparación para auditorías
-   - Métrica: Horas invertidas en preparación de auditorías trimestrales
-   - Target: Reducción de 40 horas a 8 horas (80%)
+ - Métrica: Horas invertidas en preparación de auditorías trimestrales
+ - Target: Reducción de 40 horas a 8 horas (80%)
 
 2. **Objetivo secundario 2**: Habilitar detección proactiva de incidentes
-   - Métrica: Tiempo desde intento malicioso hasta detección
-   - Target: <5 minutos (vs. No detectado actualmente)
+ - Métrica: Tiempo desde intento malicioso hasta detección
+ - Target: <5 minutos (vs. No detectado actualmente)
 
 ---
 
@@ -112,14 +112,14 @@ Alcanzar y mantener conformidad con ISO/IEC 27001:2013 Anexo A.12.4 (Logging and
 ### 3.2 Procesos de Negocio Afectados
 
 - **Proceso 1**: Auditorías de compliance
-  - Cambio: Automatización de generación de evidencias
-  - Documentación actual: docs/procesos/auditoria_compliance.md
+ - Cambio: Automatización de generación de evidencias
+ - Documentación actual: docs/procesos/auditoria_compliance.md
 
 - **Proceso 2**: Gestión de incidentes de seguridad
-  - Cambio: Detección proactiva mediante monitoreo de logs
+ - Cambio: Detección proactiva mediante monitoreo de logs
 
 - **Proceso 3**: Onboarding de clientes enterprise
-  - Cambio: Capacidad de demostrar compliance en due diligence
+ - Cambio: Capacidad de demostrar compliance en due diligence
 
 ### 3.3 Limitaciones de Alcance
 
@@ -184,16 +184,16 @@ Alcanzar y mantener conformidad con ISO/IEC 27001:2013 Anexo A.12.4 (Logging and
 El requisito se considerará exitoso cuando:
 
 1. **Certificación obtenida**: Auditoría externa ISO 27001 aprobada con 0 non-conformidades críticas
-   - Método de verificación: Reporte de auditoría externa
-   - Responsable de verificación: CISO
+ - Método de verificación: Reporte de auditoría externa
+ - Responsable de verificación: CISO
 
 2. **Reducción tiempo auditoría**: Tiempo de preparación para auditoría trimestral ≤8 horas
-   - Método de verificación: Timesheet análisis
-   - Responsable de verificación: Compliance Officer
+ - Método de verificación: Timesheet análisis
+ - Responsable de verificación: Compliance Officer
 
 3. **Trazabilidad completa**: 100% de acciones críticas registradas en audit log inmutable
-   - Método de verificación: Análisis de logs vs acciones sistema
-   - Responsable de verificación: Auditor Interno
+ - Método de verificación: Análisis de logs vs acciones sistema
+ - Responsable de verificación: Auditor Interno
 
 ### 6.2 Umbrales Críticos
 
@@ -256,12 +256,12 @@ El requisito se considerará exitoso cuando:
 Este requisito de negocio se descompone en los siguientes requisitos de stakeholders:
 
 - **RS-001**: Dashboard de seguridad para monitoreo continuo
-  - Stakeholder afectado: CISO
-  - Link: ../stakeholders/rs001_dashboard_seguridad_monitoreo_continuo.md
+ - Stakeholder afectado: CISO
+ - Link: ../stakeholders/rs001_dashboard_seguridad_monitoreo_continuo.md
 
 - **RS-002**: Reportes automatizados de compliance
-  - Stakeholder afectado: Compliance Officer
-  - Link: ../stakeholders/rs002_reportes_automatizados_compliance.md
+ - Stakeholder afectado: Compliance Officer
+ - Link: ../stakeholders/rs002_reportes_automatizados_compliance.md
 
 ### 9.2 Requisitos Funcionales Derivados
 
@@ -327,19 +327,19 @@ Este requisito de negocio se descompone en los siguientes requisitos de stakehol
 ### 11.2 Plan de Capacitación
 
 - **Grupo 1**: CISO + Security Team
-  - Capacitación requerida: Uso de dashboard de seguridad, interpretación de alertas
-  - Duración: 8 horas
-  - Fecha objetivo: 2026-01-08
+ - Capacitación requerida: Uso de dashboard de seguridad, interpretación de alertas
+ - Duración: 8 horas
+ - Fecha objetivo: 2026-01-08
 
 - **Grupo 2**: Compliance + Auditoría
-  - Capacitación requerida: Generación de reportes, consulta de logs históricos
-  - Duración: 4 horas
-  - Fecha objetivo: 2026-01-10
+ - Capacitación requerida: Generación de reportes, consulta de logs históricos
+ - Duración: 4 horas
+ - Fecha objetivo: 2026-01-10
 
 - **Grupo 3**: Agentes Call Center
-  - Capacitación requerida: Nuevos procedimientos de login, awareness de auditoría
-  - Duración: 1 hora
-  - Fecha objetivo: 2026-01-15
+ - Capacitación requerida: Nuevos procedimientos de login, awareness de auditoría
+ - Duración: 1 hora
+ - Fecha objetivo: 2026-01-15
 
 ---
 

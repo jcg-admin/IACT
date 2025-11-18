@@ -42,16 +42,16 @@ UBICACION: api/callcentersite/callcentersite/apps/users/migrations/
 PARCIALMENTE IMPLEMENTADO:
 - Script de seed incluye funcion 'usuarios'
 - Script incluye 6 capacidades de usuarios:
-  * sistema.administracion.usuarios.ver
-  * sistema.administracion.usuarios.crear
-  * sistema.administracion.usuarios.editar
-  * sistema.administracion.usuarios.suspender
-  * sistema.administracion.usuarios.reactivar
-  * sistema.administracion.usuarios.asignar_grupos
+ * sistema.administracion.usuarios.ver
+ * sistema.administracion.usuarios.crear
+ * sistema.administracion.usuarios.editar
+ * sistema.administracion.usuarios.suspender
+ * sistema.administracion.usuarios.reactivar
+ * sistema.administracion.usuarios.asignar_grupos
 
 FALTA:
-  * sistema.administracion.usuarios.eliminar
-  * sistema.administracion.usuarios.exportar
+ * sistema.administracion.usuarios.eliminar
+ * sistema.administracion.usuarios.exportar
 
 UBICACION: api/callcentersite/callcentersite/apps/users/management/commands/seed_permisos_granular.py
 ```
@@ -60,12 +60,12 @@ UBICACION: api/callcentersite/callcentersite/apps/users/management/commands/seed
 ```
 IMPLEMENTADO (pero NO para CRUD de usuarios):
 - UserManagementService: Gestion de PERMISOS y GRUPOS
-  * asignar_grupo_a_usuario()
-  * revocar_grupo_de_usuario()
-  * obtener_grupos_de_usuario()
-  * obtener_capacidades_de_usuario()
-  * usuario_tiene_permiso()
-  * otorgar_permiso_excepcional()
+ * asignar_grupo_a_usuario()
+ * revocar_grupo_de_usuario()
+ * obtener_grupos_de_usuario()
+ * obtener_capacidades_de_usuario()
+ * usuario_tiene_permiso()
+ * otorgar_permiso_excepcional()
 
 UBICACION: api/callcentersite/callcentersite/apps/users/services_permisos_granular.py
 
@@ -78,13 +78,13 @@ NOTA CRITICA: Este servicio es para PERMISOS, NO para operaciones CRUD de usuari
 ```
 FALTA COMPLETAMENTE:
 - UsuarioService con metodos:
-  * listarUsuarios(filtros, paginacion)
-  * crearUsuario(datos)
-  * editarUsuario(usuario_id, datos)
-  * eliminarUsuario(usuario_id)
-  * suspenderUsuario(usuario_id, motivo)
-  * reactivarUsuario(usuario_id)
-  * exportarUsuarios(filtros, formato)
+ * listarUsuarios(filtros, paginacion)
+ * crearUsuario(datos)
+ * editarUsuario(usuario_id, datos)
+ * eliminarUsuario(usuario_id)
+ * suspenderUsuario(usuario_id, motivo)
+ * reactivarUsuario(usuario_id)
+ * exportarUsuarios(filtros, formato)
 
 DEBE CREARSE EN: api/callcentersite/callcentersite/apps/users/services_usuarios.py
 ```
@@ -92,14 +92,14 @@ DEBE CREARSE EN: api/callcentersite/callcentersite/apps/users/services_usuarios.
 **B. API REST Endpoints:**
 ```
 FALTA COMPLETAMENTE:
-- GET    /api/usuarios                  (listar con filtros)
-- POST   /api/usuarios                  (crear)
-- GET    /api/usuarios/:id              (detalle)
-- PUT    /api/usuarios/:id              (editar)
-- DELETE /api/usuarios/:id              (eliminar)
-- POST   /api/usuarios/:id/suspender    (suspender)
-- POST   /api/usuarios/:id/reactivar    (reactivar)
-- GET    /api/usuarios/exportar         (exportar)
+- GET /api/usuarios (listar con filtros)
+- POST /api/usuarios (crear)
+- GET /api/usuarios/:id (detalle)
+- PUT /api/usuarios/:id (editar)
+- DELETE /api/usuarios/:id (eliminar)
+- POST /api/usuarios/:id/suspender (suspender)
+- POST /api/usuarios/:id/reactivar (reactivar)
+- GET /api/usuarios/exportar (exportar)
 
 ARCHIVOS A CREAR:
 - api/callcentersite/callcentersite/apps/users/serializers_usuarios.py
@@ -128,19 +128,19 @@ FALTA COMPLETAMENTE:
 COMPLETADO:
 - App dashboard existe: api/callcentersite/callcentersite/apps/dashboard/
 - Archivos existentes:
-  * views.py (con DashboardOverviewView)
-  * services.py (con DashboardService.overview())
-  * urls.py (con ruta /overview/)
-  * widgets.py (registro de widgets)
+ * views.py (con DashboardOverviewView)
+ * services.py (con DashboardService.overview())
+ * urls.py (con ruta /overview/)
+ * widgets.py (registro de widgets)
 ```
 
 **B. Endpoint Basico:**
 ```
 IMPLEMENTADO:
 - GET /api/dashboard/overview/
-  * Retorna widgets disponibles
-  * Usa DashboardService.overview()
-  * Sin verificacion de permisos
+ * Retorna widgets disponibles
+ * Usa DashboardService.overview()
+ * Sin verificacion de permisos
 
 UBICACION: api/callcentersite/callcentersite/apps/dashboard/views.py:11
 ```
@@ -150,12 +150,12 @@ UBICACION: api/callcentersite/callcentersite/apps/dashboard/views.py:11
 PARCIALMENTE IMPLEMENTADO:
 - Funcion 'dashboards' en seed data
 - Capacidades basicas:
-  * sistema.vistas.dashboards.ver
-  * sistema.vistas.dashboards.personalizar
+ * sistema.vistas.dashboards.ver
+ * sistema.vistas.dashboards.personalizar
 
 FALTA:
-  * sistema.vistas.dashboards.exportar
-  * sistema.vistas.dashboards.solicitar
+ * sistema.vistas.dashboards.exportar
+ * sistema.vistas.dashboards.solicitar
 ```
 
 #### QUE FALTA IMPLEMENTAR:
@@ -171,16 +171,16 @@ FALTA:
 ```
 FALTA COMPLETAMENTE:
 - POST /api/dashboards/exportar
-  * Exportar dashboard a PDF/Excel
-  * Permiso: sistema.vistas.dashboards.exportar
+ * Exportar dashboard a PDF/Excel
+ * Permiso: sistema.vistas.dashboards.exportar
 
-- PUT  /api/dashboards/personalizar
-  * Guardar configuracion de widgets
-  * Permiso: sistema.vistas.dashboards.personalizar
+- PUT /api/dashboards/personalizar
+ * Guardar configuracion de widgets
+ * Permiso: sistema.vistas.dashboards.personalizar
 
 - POST /api/dashboards/solicitar-acceso
-  * Solicitar acceso a dashboards adicionales
-  * Permiso: sistema.vistas.dashboards.solicitar
+ * Solicitar acceso a dashboards adicionales
+ * Permiso: sistema.vistas.dashboards.solicitar
 ```
 
 **C. Personalizacion de Usuario:**
@@ -222,9 +222,9 @@ UBICACION: api/callcentersite/callcentersite/apps/users/management/commands/seed
 ```
 FALTA COMPLETAMENTE:
 - Tabla: configuracion
-  * id, categoria, clave, valor, tipo_dato, valor_default, descripcion, activa
+ * id, categoria, clave, valor, tipo_dato, valor_default, descripcion, activa
 - Tabla: configuracion_historial
-  * id, clave, valor_anterior, valor_nuevo, modificado_por, timestamp
+ * id, clave, valor_anterior, valor_nuevo, modificado_por, timestamp
 ```
 
 **B. Capacidades en Seed:**
@@ -241,11 +241,11 @@ FALTA:
 ```
 FALTA COMPLETAMENTE:
 - ConfiguracionService con metodos:
-  * obtenerConfiguracion(categoria)
-  * editarConfiguracion(clave, nuevo_valor)
-  * exportarConfiguracion()
-  * importarConfiguracion(archivo)
-  * resetearConfiguracion()
+ * obtenerConfiguracion(categoria)
+ * editarConfiguracion(clave, nuevo_valor)
+ * exportarConfiguracion()
+ * importarConfiguracion(archivo)
+ * resetearConfiguracion()
 
 DEBE CREARSE EN: api/callcentersite/callcentersite/apps/*/services_configuracion.py
 ```
@@ -253,9 +253,9 @@ DEBE CREARSE EN: api/callcentersite/callcentersite/apps/*/services_configuracion
 **D. API REST:**
 ```
 FALTA COMPLETAMENTE:
-- GET  /api/configuracion
-- PUT  /api/configuracion/:clave
-- GET  /api/configuracion/exportar
+- GET /api/configuracion
+- PUT /api/configuracion/:clave
+- GET /api/configuracion/exportar
 - POST /api/configuracion/importar
 - POST /api/configuracion/resetear
 ```
@@ -369,19 +369,19 @@ PENDIENTE:
 ### Orden de Implementacion Sugerido:
 
 1. **USUARIOS** (Prioridad 1)
-   - Es la base para todo el sistema
-   - Necesario para gestionar quienes usan el sistema
-   - 16-20 horas
+ - Es la base para todo el sistema
+ - Necesario para gestionar quienes usan el sistema
+ - 16-20 horas
 
 2. **DASHBOARDS** (Prioridad 2)
-   - Ya tiene base implementada
-   - Necesario para navegacion de usuarios
-   - 12-16 horas
+ - Ya tiene base implementada
+ - Necesario para navegacion de usuarios
+ - 12-16 horas
 
 3. **CONFIGURACION** (Prioridad 3)
-   - Menos critico para MVP
-   - Puede usar valores hardcoded inicialmente
-   - 16-20 horas
+ - Menos critico para MVP
+ - Puede usar valores hardcoded inicialmente
+ - 16-20 horas
 
 ### Acciones Inmediatas:
 
@@ -397,47 +397,47 @@ PENDIENTE:
 ### Existentes:
 ```
 api/callcentersite/callcentersite/apps/users/
-├── migrations/
-│   └── 0001_initial_permisos_granular.py          [CREADO]
-├── management/commands/
-│   └── seed_permisos_granular.py                  [CREADO - PARCIAL]
-├── models_permisos_granular.py                    [CREADO]
-├── services_permisos_granular.py                  [CREADO]
-└── services.py                                    [EXISTENTE]
+ migrations/
+ 0001_initial_permisos_granular.py [CREADO]
+ management/commands/
+ seed_permisos_granular.py [CREADO - PARCIAL]
+ models_permisos_granular.py [CREADO]
+ services_permisos_granular.py [CREADO]
+ services.py [EXISTENTE]
 
 api/callcentersite/callcentersite/apps/dashboard/
-├── views.py                                       [EXISTENTE - BASICO]
-├── services.py                                    [EXISTENTE - BASICO]
-├── urls.py                                        [EXISTENTE]
-└── widgets.py                                     [EXISTENTE]
+ views.py [EXISTENTE - BASICO]
+ services.py [EXISTENTE - BASICO]
+ urls.py [EXISTENTE]
+ widgets.py [EXISTENTE]
 ```
 
 ### Faltantes (a crear):
 ```
 api/callcentersite/callcentersite/apps/users/
-├── services_usuarios.py                           [FALTA]
-├── serializers_usuarios.py                        [FALTA]
-├── views_usuarios.py                              [FALTA]
-└── urls.py                                        [FALTA]
+ services_usuarios.py [FALTA]
+ serializers_usuarios.py [FALTA]
+ views_usuarios.py [FALTA]
+ urls.py [FALTA]
 
 api/callcentersite/callcentersite/apps/dashboard/
-├── serializers.py                                 [FALTA]
-└── migrations/
-    └── 0001_dashboard_configuracion.py            [FALTA]
+ serializers.py [FALTA]
+ migrations/
+ 0001_dashboard_configuracion.py [FALTA]
 
-api/callcentersite/callcentersite/apps/configuration/  [APP COMPLETA FALTA]
-├── models.py                                      [FALTA]
-├── services.py                                    [FALTA]
-├── serializers.py                                 [FALTA]
-├── views.py                                       [FALTA]
-├── urls.py                                        [FALTA]
-└── migrations/
-    └── 0001_initial.py                            [FALTA]
+api/callcentersite/callcentersite/apps/configuration/ [APP COMPLETA FALTA]
+ models.py [FALTA]
+ services.py [FALTA]
+ serializers.py [FALTA]
+ views.py [FALTA]
+ urls.py [FALTA]
+ migrations/
+ 0001_initial.py [FALTA]
 
 api/callcentersite/tests/
-├── permissions/                                   [FALTA]
-├── dashboard/                                     [FALTA]
-└── configuration/                                 [FALTA]
+ permissions/ [FALTA]
+ dashboard/ [FALTA]
+ configuration/ [FALTA]
 ```
 
 ---

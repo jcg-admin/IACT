@@ -59,29 +59,29 @@ Authorization: Bearer <token>
 
 Response:
 {
-  "count": 45,
-  "next": "/api/permisos/auditoria/?page=2",
-  "previous": null,
-  "results": [
-    {
-      "id": 99999,
-      "usuario": {
-        "id": 123,
-        "username": "carlos.ruiz"
-      },
-      "capacidad_codigo": "sistema.administracion.usuarios.eliminar",
-      "resultado": false,
-      "ip_address": "192.168.1.100",
-      "user_agent": "Mozilla/5.0...",
-      "timestamp": "2025-01-09T14:30:15Z",
-      "metadatos": {
-        "path": "/admin/usuarios/456/delete/",
-        "method": "DELETE",
-        "latency_ms": 25
-      }
-    },
-    // ... más registros
-  ]
+ "count": 45,
+ "next": "/api/permisos/auditoria/?page=2",
+ "previous": null,
+ "results": [
+ {
+ "id": 99999,
+ "usuario": {
+ "id": 123,
+ "username": "carlos.ruiz"
+ },
+ "capacidad_codigo": "sistema.administracion.usuarios.eliminar",
+ "resultado": false,
+ "ip_address": "192.168.1.100",
+ "user_agent": "Mozilla/5.0...",
+ "timestamp": "2025-01-09T14:30:15Z",
+ "metadatos": {
+ "path": "/admin/usuarios/456/delete/",
+ "method": "DELETE",
+ "latency_ms": 25
+ }
+ },
+ // ... más registros
+ ]
 }
 ```
 
@@ -94,10 +94,10 @@ Response:
 **Consulta**:
 ```
 GET /api/permisos/auditoria/
-  ?usuario_id=123
-  &resultado=false
-  &fecha_desde=2025-01-09T00:00:00Z
-  &limit=50
+ ?usuario_id=123
+ &resultado=false
+ &fecha_desde=2025-01-09T00:00:00Z
+ &limit=50
 ```
 
 **Análisis**:
@@ -112,9 +112,9 @@ GET /api/permisos/auditoria/
 **Consulta**:
 ```
 GET /api/permisos/auditoria/
-  ?capacidad_codigo__contains=administracion
-  &resultado=false
-  &fecha_desde=2025-01-01T00:00:00Z
+ ?capacidad_codigo__contains=administracion
+ &resultado=false
+ &fecha_desde=2025-01-01T00:00:00Z
 ```
 
 **Análisis**:
@@ -129,10 +129,10 @@ GET /api/permisos/auditoria/
 **Consulta**:
 ```
 GET /api/permisos/auditoria/
-  ?capacidad_codigo=sistema.datos.sensibles.ver
-  &fecha_desde=2025-01-01
-  &fecha_hasta=2025-01-31
-  &export=excel
+ ?capacidad_codigo=sistema.datos.sensibles.ver
+ &fecha_desde=2025-01-01
+ &fecha_hasta=2025-01-31
+ &export=excel
 ```
 
 **Output**: Excel con todos los accesos a datos sensibles en enero
@@ -151,17 +151,17 @@ GET /api/permisos/auditoria/
 
 ```sql
 CREATE INDEX idx_auditoria_usuario_timestamp
-    ON auditoria_permisos(usuario_id, timestamp DESC);
+ ON auditoria_permisos(usuario_id, timestamp DESC);
 
 CREATE INDEX idx_auditoria_capacidad_timestamp
-    ON auditoria_permisos(capacidad_codigo, timestamp DESC);
+ ON auditoria_permisos(capacidad_codigo, timestamp DESC);
 
 CREATE INDEX idx_auditoria_resultado_timestamp
-    ON auditoria_permisos(resultado, timestamp DESC)
-    WHERE resultado = FALSE;  -- Partial index para denegados
+ ON auditoria_permisos(resultado, timestamp DESC)
+ WHERE resultado = FALSE; -- Partial index para denegados
 
 CREATE INDEX idx_auditoria_timestamp
-    ON auditoria_permisos(timestamp DESC);
+ ON auditoria_permisos(timestamp DESC);
 ```
 
 ## 10. Reglas de Negocio
@@ -230,15 +230,15 @@ La tabla de auditoría puede integrarse con sistemas SIEM externos (Splunk, ELK,
 # Ejemplo: Enviar logs a Splunk
 @receiver(post_save, sender=AuditoriaPermiso)
 def send_to_splunk(sender, instance, created, **kwargs):
-    if created:
-        splunk_client.send({
-            'event': 'permission_check',
-            'user_id': instance.usuario_id,
-            'permission': instance.capacidad_codigo,
-            'result': instance.resultado,
-            'ip': instance.ip_address,
-            'timestamp': instance.timestamp.isoformat(),
-        })
+ if created:
+ splunk_client.send({
+ 'event': 'permission_check',
+ 'user_id': instance.usuario_id,
+ 'permission': instance.capacidad_codigo,
+ 'result': instance.resultado,
+ 'ip': instance.ip_address,
+ 'timestamp': instance.timestamp.isoformat(),
+ })
 ```
 
 ## Changelog
