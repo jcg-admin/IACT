@@ -12,7 +12,7 @@ alcance: Refactorizaciones de calidad en codebase Python/JavaScript
 
 # PROCED-GOB-009: Procedimiento para Refactorizaciones de Código con TDD
 
-## 1. Proposito
+## 1. Propósito
 
 Establecer un proceso estandarizado para ejecutar refactorizaciones de codigo usando metodologia Test-Driven Development (TDD), garantizando zero regresiones funcionales y manteniendo calidad del codigo.
 
@@ -46,7 +46,7 @@ Establecer un proceso estandarizado para ejecutar refactorizaciones de codigo us
 
 ## 4. Prerequisitos
 
-Antes de iniciar refactorizacion:
+Antes de iniciar refactorización:
 - [ ] Tests automatizados existen (o crear smoke tests basicos)
 - [ ] Rama de desarrollo limpia y actualizada
 - [ ] Version de runtime compatible (Python 3.9+, Node 16+, etc.)
@@ -63,7 +63,7 @@ Antes de iniciar refactorizacion:
 1. Identificar commits con refactorizaciones deseadas
 2. Analizar impacto:
    - Archivos afectados
-   - Lineas modificadas
+   - Líneas modificadas
    - Tipo de cambios (imports, tipos, valores)
    - Riesgos potenciales
 3. Crear documento ANALISIS-REFACTORIZACIONES-YYYY-MM-DD.md con:
@@ -71,7 +71,7 @@ Antes de iniciar refactorizacion:
    - Refactorizaciones pendientes (detalle por commit)
    - Analisis de compatibilidad
    - Matriz de riesgos
-   - Metricas (lineas, archivos, tiempo estimado)
+   - Métricas (lineas, archivos, tiempo estimado)
 4. Ubicar en: docs/ai/refactorizaciones/QA-REFACTOR-XXX-NNN/
 
 **Salidas:**
@@ -129,7 +129,7 @@ Antes de iniciar refactorizacion:
 
 **Objetivo:** Aplicar refactorizaciones usando ciclo TDD estricto
 
-Para CADA refactorizacion:
+Para CADA refactorización:
 
 **TASK-NNN: [TDD-RED] Ejecutar Tests Pre-Refactorizacion**
 ```bash
@@ -241,7 +241,7 @@ diff evidencias/baseline-pre-refactor.log evidencias/tests-post-refactor.log
 ### Principios TDD Aplicados:
 
 1. **Tests primero:** Siempre verificar baseline antes de cambiar
-2. **Cambios incrementales:** Una refactorizacion a la vez
+2. **Cambios incrementales:** Una refactorización a la vez
 3. **Validacion continua:** Tests despues de cada cambio
 4. **Rollback rapido:** No continuar si tests fallan
 5. **Evidencias obligatorias:** Cada paso documentado
@@ -343,7 +343,7 @@ git clean -fd
 
 ## 10. Criterios de Exito
 
-Una refactorizacion es exitosa cuando:
+Una refactorización es exitosa cuando:
 
 **Tecnicos:**
 - [ ] Todas las refactorizaciones aplicadas sin conflictos
@@ -363,13 +363,13 @@ Una refactorizacion es exitosa cuando:
 - [ ] Commit pusheado a rama remota
 - [ ] Documentacion actualizada si necesario
 
-## 11. Metricas y Reporting
+## 11. Métricas y Reporting
 
-### Metricas a Capturar:
+### Métricas a Capturar:
 
 **Código:**
 - Archivos afectados
-- Lineas modificadas
+- Líneas modificadas
 - Commits aplicados
 - Tipo de cambios
 
@@ -396,7 +396,7 @@ Al finalizar, crear CONSOLIDADO-EVIDENCIAS.md con:
 - Refactorizaciones aplicadas
 - Estado final de tests
 - Problemas encontrados y resoluciones
-- Metricas completas
+- Métricas completas
 - Lecciones aprendidas
 
 ## 12. Frecuencia de Uso
