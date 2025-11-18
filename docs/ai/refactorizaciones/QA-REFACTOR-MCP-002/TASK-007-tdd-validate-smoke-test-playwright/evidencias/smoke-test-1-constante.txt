@@ -1,0 +1,4 @@
+PASS: Constante importada correctamente
+Valor: 0.0.40
+PASS: Valor correcto (0.0.40)
+Exit code: 0

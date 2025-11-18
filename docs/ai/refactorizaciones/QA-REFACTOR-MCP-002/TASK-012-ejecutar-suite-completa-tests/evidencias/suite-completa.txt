@@ -1,0 +1,22 @@
+============================= test session starts ==============================
+platform linux -- Python 3.11.14, pytest-9.0.1, pluggy-1.6.0 -- /root/.local/share/uv/tools/pytest/bin/python
+cachedir: .pytest_cache
+rootdir: /home/user/IACT---project
+collecting ... collected 13 items
+
+scripts/coding/tests/ai/mcp/test_memory.py::test_memory_store_groups_entries_by_type PASSED [  7%]
+scripts/coding/tests/ai/mcp/test_memory.py::test_memory_store_prunes_entries_with_retention_policy PASSED [ 15%]
+scripts/coding/tests/ai/mcp/test_memory.py::test_registry_exposes_memory_profiles PASSED [ 23%]
+scripts/coding/tests/ai/mcp/test_registry.py::test_default_registry_declares_remote_servers PASSED [ 30%]
+scripts/coding/tests/ai/mcp/test_registry.py::test_playwright_server_configuration_matches_reference_log PASSED [ 38%]
+scripts/coding/tests/ai/mcp/test_registry.py::test_registry_cli_config_serializes_servers PASSED [ 46%]
+scripts/coding/tests/ai/mcp/test_registry.py::test_empty_registry_serializes_correctly PASSED [ 53%]
+scripts/coding/tests/ai/mcp/test_registry.py::test_remote_server_with_custom_headers PASSED [ 61%]
+scripts/coding/tests/ai/mcp/test_registry.py::test_remote_server_without_custom_headers PASSED [ 69%]
+scripts/coding/tests/ai/mcp/test_registry.py::test_local_server_with_custom_env_variables PASSED [ 76%]
+scripts/coding/tests/ai/mcp/test_registry.py::test_local_server_without_custom_env_variables PASSED [ 84%]
+scripts/coding/tests/ai/mcp/test_registry.py::test_registry_with_mixed_empty_collections PASSED [ 92%]
+scripts/coding/tests/ai/mcp/test_registry.py::test_registry_with_only_local_servers PASSED [100%]
+
+============================== 13 passed in 0.11s ==============================
+Exit code: 0

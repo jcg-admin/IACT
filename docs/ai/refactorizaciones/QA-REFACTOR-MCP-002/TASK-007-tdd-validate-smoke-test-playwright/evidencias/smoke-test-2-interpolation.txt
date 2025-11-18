@@ -1,0 +1,5 @@
+PASS: String interpolation correcta
+Resultado: @playwright/mcp@0.0.40
+Esperado:  @playwright/mcp@0.0.40
+Match: True
+Exit code: 0
