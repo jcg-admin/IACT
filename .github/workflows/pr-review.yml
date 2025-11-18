@@ -1,34 +1,32 @@
 name: PR Review with MCP
 
 on:
-  pull_request:
-    types: [opened, synchronize, reopened]
+  issue_comment:
+    types: [created]
 
 permissions:
   contents: read
-  pull-requests: write   # necesario para comentar en el PR
+  pull-requests: write
 
 jobs:
   pr-validation:
+    if: github.event.issue.pull_request != '' && contains(github.event.comment.body, '@copilot review')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
-      # Validación de código con Copilot MCP
       - name: Copilot Code Review
         run: |
           copilot-mcp review . \
             --agent copilot-code-reviewer \
             --output-format github-pr-comment
 
-      # Validación de infraestructura con Codex MCP
       - name: Codex Infra Review
         run: |
           codex-mcp validate infrastructure/ \
             --agent infrastructure-configuration-validator \
             --output-format github-pr-comment
 
-      # Validación de seguridad con MCP
       - name: Security Review
         run: |
           copilot-mcp analyze security/ \
