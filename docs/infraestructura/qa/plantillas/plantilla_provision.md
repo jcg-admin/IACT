@@ -20,7 +20,7 @@ Validar que la provisión de infraestructura aplica controles de consistencia, s
 - [ ] Plan de aprovisionamiento revisado con TDD (tests de módulos IaC antes de aplicar).
 - [ ] Backups iniciales configurados y verificados.
 - [ ] Variables sensibles referenciadas desde vault o secret manager.
-- [ ] Validación automática de sintaxis y políticas (vagrant validate, ansible-lint, shellcheck para scripts).
+- [ ] Validación automática de sintaxis y políticas (vagrant validate, shellcheck para scripts).
 
 ## Evidencias esperadas
 - Salidas de `vagrant validate` y logs de provisioning con fecha.
