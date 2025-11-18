@@ -10,7 +10,8 @@
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
     "lint": "eslint src/",
-    "mocks:refresh": "node scripts/refresh-mocks.js"
+    "mocks:refresh": "node scripts/refresh-mocks.js",
+    "services:setup": "node scripts/setup-services.js"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.5",
