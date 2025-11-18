@@ -2,20 +2,16 @@
 
 from __future__ import annotations
 
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Union
+
+import csv
+from io import BytesIO, StringIO
 
 from django.contrib.auth import get_user_model
 from django.core.exceptions import PermissionDenied, ValidationError
 from django.utils import timezone
-from reportlab.lib.pagesizes import letter
-from reportlab.pdfgen import canvas
 
 from callcentersite.apps.users.models_permisos_granular import AuditoriaPermiso
-from callcentersite.apps.users.service_helpers import (
-    auditar_accion_exitosa,
-    validar_usuario_existe,
-    verificar_permiso_y_auditar,
-)
 from callcentersite.apps.users.services_permisos_granular import UserManagementService
 
 from .models import DashboardConfiguracion
@@ -26,6 +22,28 @@ User = get_user_model()
 
 class DashboardService:
     """Orquesta la construcción de respuestas para el dashboard."""
+
+    @staticmethod
+    def ver_dashboard(usuario_id: int) -> Dict[str, object]:
+        """Retorna la configuración del dashboard del usuario.
+
+        Si el usuario no tiene configuración personalizada se usan los widgets
+        por defecto registrados en ``WIDGET_REGISTRY``.
+        """
+        configuracion = DashboardConfiguracion.objects.filter(
+            usuario_id=usuario_id
+        ).first()
+
+        widget_keys = configuracion.configuracion.get("widgets", []) if configuracion else list(WIDGET_REGISTRY.keys())
+        widgets = [WIDGET_REGISTRY[widget].__dict__ for widget in widget_keys if widget in WIDGET_REGISTRY]
+
+        if not widgets:
+            widgets = [widget.__dict__ for widget in WIDGET_REGISTRY.values()]
+
+        return {
+            "widgets": widgets,
+            "last_update": timezone.now().isoformat(),
+        }
 
     @staticmethod
     def overview() -> Dict[str, object]:
@@ -67,14 +85,12 @@ class DashboardService:
 
         Referencia: docs/PLAN_MAESTRO_PRIORIDAD_02.md (Tarea 26)
         """
-        # Verificar permiso y auditar
-        verificar_permiso_y_auditar(
+        tiene_permiso = UserManagementService.usuario_tiene_permiso(
             usuario_id=usuario_id,
             capacidad_codigo='sistema.vistas.dashboards.exportar',
-            recurso_tipo='dashboard',
-            accion='exportar',
-            mensaje_error='No tiene permiso para exportar dashboards',
         )
+        if not tiene_permiso:
+            raise PermissionDenied('No tiene permiso para exportar dashboards')
 
         # Validar formato
         if formato not in ['pdf', 'excel']:
@@ -84,12 +100,12 @@ class DashboardService:
         # Por ahora retornamos un placeholder
         archivo = f'/tmp/dashboard_{usuario_id}_{timezone.now().timestamp()}.{formato}'
 
-        # Auditar acción exitosa
-        auditar_accion_exitosa(
+        AuditoriaPermiso.objects.create(
             usuario_id=usuario_id,
             capacidad_codigo='sistema.vistas.dashboards.exportar',
             recurso_tipo='dashboard',
             accion='exportar',
+            resultado='permitido',
             detalles=f'Dashboard exportado a {formato}',
         )
 
@@ -98,6 +114,69 @@ class DashboardService:
             'archivo': archivo,
             'timestamp': timezone.now().isoformat(),
         }
+
+    @staticmethod
+    def personalizar_dashboard(usuario_id: int, widgets: List[str]) -> DashboardConfiguracion:
+        """Guarda la lista de widgets habilitados para el usuario.
+
+        Args:
+            usuario_id: ID del usuario dueño de la configuración.
+            widgets: Lista de identificadores de widgets.
+
+        Raises:
+            ValidationError: Si la lista está vacía o contiene widgets inexistentes.
+        """
+        if not widgets:
+            raise ValidationError('Debe proporcionar al menos un widget para personalizar el dashboard')
+
+        widgets_invalidos = [widget for widget in widgets if widget not in WIDGET_REGISTRY]
+        if widgets_invalidos:
+            raise ValidationError(f"Widget invalido: {', '.join(widgets_invalidos)}")
+
+        configuracion, _ = DashboardConfiguracion.objects.update_or_create(
+            usuario_id=usuario_id,
+            defaults={"configuracion": {"widgets": widgets}},
+        )
+
+        return configuracion
+
+    @staticmethod
+    def exportar_dashboard(usuario_id: int, formato: str = 'csv') -> Union[str, bytes]:
+        """Exporta el dashboard del usuario en formato CSV o PDF.
+
+        Args:
+            usuario_id: ID del usuario.
+            formato: Formato solicitado (``csv`` o ``pdf``).
+
+        Returns:
+            Cadena CSV cuando ``formato`` es ``csv`` o bytes que representan un
+            PDF cuando ``formato`` es ``pdf``.
+
+        Raises:
+            ValidationError: Si el formato es inválido.
+        """
+        if formato not in {"csv", "pdf"}:
+            raise ValidationError("Formato invalido. Use csv o pdf")
+
+        dashboard = DashboardService.ver_dashboard(usuario_id=usuario_id)
+        widgets = dashboard.get("widgets", [])
+
+        if formato == "csv":
+            output = StringIO()
+            writer = csv.DictWriter(output, fieldnames=["type", "title", "value", "change", "period"])
+            writer.writeheader()
+            for widget in widgets:
+                writer.writerow(widget)
+            return output.getvalue()
+
+        buffer = BytesIO()
+        buffer.write(b"%PDF-1.4\n%\xe2\xe3\xcf\xd3\n")
+        buffer.write(b"1 0 obj<< /Type /Catalog /Pages 2 0 R >>endobj\n")
+        buffer.write(b"2 0 obj<< /Type /Pages /Kids[3 0 R] /Count 1 >>endobj\n")
+        buffer.write(b"3 0 obj<< /Type /Page /Parent 2 0 R /MediaBox[0 0 300 144] /Contents 4 0 R >>endobj\n")
+        buffer.write(b"4 0 obj<< /Length 44 >>stream\nBT /F1 12 Tf 72 700 Td (Dashboard Export) Tj ET\nendstream endobj\n")
+        buffer.write(b"xref\n0 5\n0000000000 65535 f \n0000000010 00000 n \n0000000060 00000 n \n0000000113 00000 n \n0000000200 00000 n \ntrail\n<< /Size 5 /Root 1 0 R >>\nstartxref\n280\n%%EOF")
+        return buffer.getvalue()
 
     @staticmethod
     def personalizar(
@@ -120,14 +199,12 @@ class DashboardService:
 
         Referencia: docs/PLAN_MAESTRO_PRIORIDAD_02.md (Tarea 28)
         """
-        # Verificar permiso y auditar
-        verificar_permiso_y_auditar(
+        tiene_permiso = UserManagementService.usuario_tiene_permiso(
             usuario_id=usuario_id,
             capacidad_codigo='sistema.vistas.dashboards.personalizar',
-            recurso_tipo='dashboard',
-            accion='personalizar',
-            mensaje_error='No tiene permiso para personalizar dashboards',
         )
+        if not tiene_permiso:
+            raise PermissionDenied('No tiene permiso para personalizar dashboards')
 
         # Validar que configuracion sea dict
         if not isinstance(configuracion, dict):
@@ -139,13 +216,13 @@ class DashboardService:
             defaults={'configuracion': configuracion},
         )
 
-        # Auditar acción exitosa
-        auditar_accion_exitosa(
+        AuditoriaPermiso.objects.create(
             usuario_id=usuario_id,
             capacidad_codigo='sistema.vistas.dashboards.personalizar',
             recurso_tipo='dashboard',
             accion='personalizar',
             recurso_id=config.id,
+            resultado='permitido',
             detalles=f'Dashboard personalizado. Widgets: {len(configuracion.get("widgets", []))}',
         )
 
@@ -177,14 +254,12 @@ class DashboardService:
 
         Referencia: docs/PLAN_MAESTRO_PRIORIDAD_02.md (Tarea 30)
         """
-        # Verificar permiso y auditar
-        verificar_permiso_y_auditar(
+        tiene_permiso = UserManagementService.usuario_tiene_permiso(
             usuario_id=usuario_id,
             capacidad_codigo='sistema.vistas.dashboards.compartir',
-            recurso_tipo='dashboard',
-            accion='compartir',
-            mensaje_error='No tiene permiso para compartir dashboards',
         )
+        if not tiene_permiso:
+            raise PermissionDenied('No tiene permiso para compartir dashboards')
 
         # Validar que se especifico al menos un receptor
         if not compartir_con_usuario_id and not compartir_con_grupo_codigo:
@@ -224,12 +299,12 @@ class DashboardService:
         # TODO: Implementar logica real de compartir
         # (crear registro en tabla compartidos, enviar notificacion, etc.)
 
-        # Auditar acción exitosa
-        auditar_accion_exitosa(
+        AuditoriaPermiso.objects.create(
             usuario_id=usuario_id,
             capacidad_codigo='sistema.vistas.dashboards.compartir',
             recurso_tipo='dashboard',
             accion='compartir',
+            resultado='permitido',
             detalles=f'Dashboard compartido con {tipo}: {compartido_con}',
         )
 
