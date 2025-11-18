@@ -104,7 +104,7 @@ class DataCatalog:
                     }
                 ]
             },
-            "api_endpoint": "/api/dora/data-catalog/dora-metrics/",
+            "api_endpoint": "/api/v1/dora/data-catalog/dora-metrics/",
             "query_parameters": [
                 {
                     "name": "days",
@@ -130,11 +130,11 @@ class DataCatalog:
             "example_queries": [
                 {
                     "description": "Get last 7 days of deployment metrics",
-                    "url": "/api/dora/data-catalog/dora-metrics/?days=7&phase_name=deployment"
+                    "url": "/api/v1/dora/data-catalog/dora-metrics/?days=7&phase_name=deployment"
                 },
                 {
                     "description": "Get all metrics for specific feature",
-                    "url": "/api/dora/data-catalog/dora-metrics/?feature_id=FEAT-123"
+                    "url": "/api/v1/dora/data-catalog/dora-metrics/?feature_id=FEAT-123"
                 }
             ]
         }
@@ -187,7 +187,7 @@ class DataCatalog:
                     }
                 ]
             },
-            "api_endpoint": "/api/dora/data-catalog/deployment-cycles/",
+            "api_endpoint": "/api/v1/dora/data-catalog/deployment-cycles/",
             "query_parameters": [
                 {
                     "name": "days",
@@ -238,7 +238,7 @@ class DataCatalog:
                     }
                 ]
             },
-            "api_endpoint": "/api/dora/data-catalog/performance-metrics/",
+            "api_endpoint": "/api/v1/dora/data-catalog/performance-metrics/",
             "query_parameters": [
                 {
                     "name": "metric_name",
@@ -298,7 +298,7 @@ class DataCatalog:
                     }
                 ]
             },
-            "api_endpoint": "/api/dora/data-catalog/quality-metrics/",
+            "api_endpoint": "/api/v1/dora/data-catalog/quality-metrics/",
             "query_parameters": [
                 {
                     "name": "dataset_name",

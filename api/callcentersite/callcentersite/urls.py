@@ -32,7 +32,6 @@ urlpatterns = [
     path("api/v1/etl/", include("callcentersite.apps.etl.urls")),
     path("api/v1/permissions/", include("callcentersite.apps.permissions.urls")),
     path("api/v1/llamadas/", include("callcentersite.apps.llamadas.urls")),
-    path("api/v1/", include("callcentersite.apps.users.urls")),
-    path("api/dora/", include("dora_metrics.urls")),
+    path("api/v1/dora/", include("dora_metrics.urls")),
     path("health/", health_check, name="health"),
 ]
