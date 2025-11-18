@@ -325,7 +325,7 @@
         };
 
         // Deployment Frequency Chart
-        fetch(`/api/dora/charts/deployment-frequency/?days=${days}`)
+        fetch(`/api/v1/dora/charts/deployment-frequency/?days=${days}`)
             .then(response => response.json())
             .then(data => {
                 new Chart(document.getElementById('deploymentFrequencyChart'), {
@@ -345,7 +345,7 @@
             });
 
         // Lead Time Trends Chart
-        fetch(`/api/dora/charts/lead-time-trends/?days=${days}`)
+        fetch(`/api/v1/dora/charts/lead-time-trends/?days=${days}`)
             .then(response => response.json())
             .then(data => {
                 new Chart(document.getElementById('leadTimeTrendsChart'), {
@@ -366,7 +366,7 @@
             });
 
         // Change Failure Rate Chart
-        fetch(`/api/dora/charts/change-failure-rate/?days=${days}`)
+        fetch(`/api/v1/dora/charts/change-failure-rate/?days=${days}`)
             .then(response => response.json())
             .then(data => {
                 new Chart(document.getElementById('changeFailureRateChart'), {
@@ -400,7 +400,7 @@
             });
 
         // MTTR Chart
-        fetch(`/api/dora/charts/mttr/?days=${days}`)
+        fetch(`/api/v1/dora/charts/mttr/?days=${days}`)
             .then(response => response.json())
             .then(data => {
                 new Chart(document.getElementById('mttrChart'), {
