@@ -266,6 +266,8 @@ setup_env_file() {
 
     local env_example="${PROJECT_ROOT}/api/callcentersite/env.example"
     local env_file="${PROJECT_ROOT}/api/callcentersite/env"
+    local devcontainer_env_example="${PROJECT_ROOT}/.devcontainer/.env.example"
+    local devcontainer_env_file="${PROJECT_ROOT}/.devcontainer/.env"
 
     # Si ya existe env, no hacer nada
     if [[ -f "$env_file" ]]; then
@@ -295,6 +297,15 @@ setup_env_file() {
 # ENABLE_SILK=True
 EOF
         log_ok "Created basic env file"
+    fi
+
+    if [[ -f "$devcontainer_env_file" ]]; then
+        log_ok "DevContainer env file already exists: .devcontainer/.env"
+    elif [[ -f "$devcontainer_env_example" ]]; then
+        cp "$devcontainer_env_example" "$devcontainer_env_file"
+        log_ok "Created .devcontainer/.env from .env.example"
+    else
+        log_warn "DevContainer .env.example not found; skipping .devcontainer/.env creation"
     fi
 }
 
