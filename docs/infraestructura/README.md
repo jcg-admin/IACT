@@ -24,6 +24,7 @@ Cada carpeta ofrece un README inicial listo para documentar los artefactos corre
 - **CPython precompilado**: consulta el [pipeline y guía de DevContainer](cpython_precompilado/pipeline_devcontainer.md) para entender cómo se construye, publica y consume el intérprete optimizado.【F:docs/infrastructure/cpython_precompilado/pipeline_devcontainer.md†L1-L99】
 - **Scripts oficiales**: `build_cpython.sh`, `validate_build.sh` e `install_prebuilt_cpython.sh` viven en `infrastructure/cpython/scripts/` y cuentan con pruebas en `infrastructure/cpython/tests/`.
 - **Workspaces Hamilton**: la carpeta [`workspace`](workspace/README.md) concentra tanto el ejemplo `Data → Prompt → LLM → $` (`infrastructure/workspace/hamilton_llm/`) como el lenguaje de servidores (`infrastructure/workspace/dev_tools/language_server/hamilton_lsp/`), cada uno con sus pruebas (`infrastructure/workspace/tests/...`).
+- **DevContainer host y pipeline**: los canvas de arquitectura [`devcontainer-host-vagrant.md`](arquitectura/devcontainer-host-vagrant.md) y [`devcontainer-host-vagrant-pipeline.md`](arquitectura/devcontainer-host-vagrant-pipeline.md) documentan el modelo sin Docker en el workstation y el pipeline CI/CD que reutiliza la misma imagen de DevContainer.
 
 ## Pipeline activo de infraestructura
 
