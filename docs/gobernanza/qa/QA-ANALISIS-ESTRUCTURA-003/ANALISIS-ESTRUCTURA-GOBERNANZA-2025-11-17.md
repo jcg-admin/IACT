@@ -1,18 +1,18 @@
 ---
 id: QA-ANALISIS-ESTRUCTURA-003
-tipo: analisis
+tipo: análisis
 categoria: estructura-documentacion
-titulo: Analisis de Estructura docs/gobernanza
+titulo: Análisis de Estructura docs/gobernanza
 fecha: 2025-11-17
 autor: Claude Code Agent
 rama: claude/fix-branch-issues-013FpGsYZUySbBL6bsMbhBf2
 ---
 
-# ANALISIS DE ESTRUCTURA docs/gobernanza
+# ANÁLISIS DE ESTRUCTURA docs/gobernanza
 
 ## 1. Resumen Ejecutivo
 
-Este analisis exhaustivo examina la estructura completa del directorio `/home/user/IACT---project/docs/gobernanza/`, identificando patrones organizacionales, metricas de contenido, y areas de mejora. La estructura analizada contiene **102 directorios**, **415 archivos Markdown**, y alcanza una profundidad maxima de **4 niveles**, organizados en 25 categorias principales.
+Este análisis exhaustivo examina la estructura completa del directorio `/home/user/IACT---project/docs/gobernanza/`, identificando patrones organizacionales, métricas de contenido, y áreas de mejora. La estructura analizada contiene **102 directorios**, **415 archivos Markdown**, y alcanza una profundidad máxima de **4 niveles**, organizados en 25 categorías principales.
 
 ### Hallazgos Principales:
 - Estructura bien organizada con categorias claras
