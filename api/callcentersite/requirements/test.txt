@@ -64,3 +64,5 @@ pyyaml>=6.0.0
 mysql-connector-python
 psycopg2-binary
 psutil
+bcrypt
+scikit-learn
