@@ -245,6 +245,10 @@ class UserSession(models.Model):
         unique=True,
         help_text='Clave única de sesión'
     )
+    last_activity_at = models.DateTimeField(
+        default=timezone.now,
+        help_text='Último timestamp de actividad en la sesión',
+    )
     is_active = models.BooleanField(
         default=True,
         help_text='Si la sesión está activa'
@@ -295,6 +299,22 @@ class UserSession(models.Model):
         self.logged_out_at = timezone.now()
         self.logout_reason = reason
         self.save(update_fields=['is_active', 'logged_out_at', 'logout_reason'])
+
+
+class PasswordHistory(models.Model):
+    """Histórico de contraseñas usadas por un usuario."""
+
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='password_history',
+    )
+    password_hash = models.CharField(max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = 'users_password_history'
+        ordering = ['-created_at']
 
 
 # =============================================================================

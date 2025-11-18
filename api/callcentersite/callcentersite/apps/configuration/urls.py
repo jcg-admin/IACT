@@ -13,9 +13,9 @@ from .views import (
 app_name = "configuration"
 
 urlpatterns = [
-    path("configuracion/", ConfiguracionListView.as_view(), name="list"),
-    path("configuracion/<str:clave>/", ConfiguracionEditarView.as_view(), name="editar"),
-    path("configuracion/exportar/", ConfiguracionExportarView.as_view(), name="exportar"),
-    path("configuracion/importar/", ConfiguracionImportarView.as_view(), name="importar"),
-    path("configuracion/<str:clave>/restaurar/", ConfiguracionRestaurarView.as_view(), name="restaurar"),
+    path("", ConfiguracionListView.as_view(), name="list"),
+    path("<str:clave>/", ConfiguracionEditarView.as_view(), name="editar"),
+    path("exportar/", ConfiguracionExportarView.as_view(), name="exportar"),
+    path("importar/", ConfiguracionImportarView.as_view(), name="importar"),
+    path("<str:clave>/restaurar/", ConfiguracionRestaurarView.as_view(), name="restaurar"),
 ]
