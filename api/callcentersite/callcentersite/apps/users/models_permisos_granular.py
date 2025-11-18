@@ -292,7 +292,7 @@ class PermisoExcepcional(models.Model):
     usuario = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
-        related_name='permisos_excepcionales',
+        related_name='permisos_excepcionales_granular',
     )
     capacidad = models.ForeignKey(
         Capacidad,

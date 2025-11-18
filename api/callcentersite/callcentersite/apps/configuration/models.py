@@ -75,7 +75,7 @@ class Configuracion(models.Model):
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
-        related_name='configuraciones_modificadas',
+        related_name='configuraciones_actualizadas',
         help_text='Usuario que realizo la ultima modificacion'
     )
     created_at = models.DateTimeField(
