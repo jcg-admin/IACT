@@ -7,12 +7,14 @@
       {
         "id": 1,
         "codigo": "atencion_cliente",
-        "nombre_display": "Atencion al Cliente"
+        "nombre_display": "Atencion al Cliente",
+        "descripcion": "Atiende consultas y gestiona interacciones con clientes"
       },
       {
         "id": 2,
         "codigo": "visualizacion_metricas",
-        "nombre_display": "Visualizacion de Metricas"
+        "nombre_display": "Visualizacion de Metricas",
+        "descripcion": "Accede a reportes y analisis de desempeno"
       }
     ]
   },
@@ -32,7 +34,6 @@
       "nombre": "dashboards",
       "nombre_completo": "sistema.vistas.dashboards",
       "dominio": "vistas",
-      "icono": "dashboard",
       "orden_menu": 10
     },
     {
@@ -40,7 +41,6 @@
       "nombre": "llamadas",
       "nombre_completo": "sistema.operaciones.llamadas",
       "dominio": "operaciones",
-      "icono": "phone",
       "orden_menu": 20
     },
     {
@@ -48,7 +48,6 @@
       "nombre": "tickets",
       "nombre_completo": "sistema.operaciones.tickets",
       "dominio": "operaciones",
-      "icono": "ticket",
       "orden_menu": 30
     },
     {
@@ -56,7 +55,6 @@
       "nombre": "clientes",
       "nombre_completo": "sistema.operaciones.clientes",
       "dominio": "operaciones",
-      "icono": "people",
       "orden_menu": 40
     },
     {
@@ -64,8 +62,13 @@
       "nombre": "metricas",
       "nombre_completo": "sistema.analisis.metricas",
       "dominio": "analisis",
-      "icono": "chart",
       "orden_menu": 60
     }
-  ]
+  ],
+  "permisos_excepcionales": [],
+  "auditoria_ultimo_acceso": {
+    "timestamp": "2025-11-18T12:30:00Z",
+    "capacidad": "sistema.vistas.dashboards.ver",
+    "resultado": "permitido"
+  }
 }
