@@ -21,6 +21,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Install validation dependencies
+        run: pip install pyyaml
+
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
@@ -32,7 +35,18 @@ jobs:
           import os
           import re
           import sys
-          from collections import defaultdict
+          from typing import Iterable, List
+
+          import yaml
+
+          FRONT_MATTER_PATTERN = re.compile(r"^---\s*\n(.*?)\n---\s*", re.DOTALL)
+
+          def ensure_list(value: Iterable | str | None) -> List[str]:
+              if value is None:
+                  return []
+              if isinstance(value, str):
+                  return [value.strip()] if value.strip() else []
+              return [str(item).strip() for item in value if str(item).strip()]
 
           print("Validating requirements traceability...")
           print("=" * 80)
@@ -41,9 +55,10 @@ jobs:
           requirements = {}
           broken_links = []
           orphaned_requirements = []
+          invalid_front_matter = []
 
           # First pass: collect all requirement IDs
-          for root, dirs, files in os.walk('implementacion'):
+          for root, _, files in os.walk('implementacion'):
               if 'requisitos' not in root:
                   continue
 
@@ -56,84 +71,62 @@ jobs:
                   with open(filepath, 'r', encoding='utf-8') as f:
                       content = f.read()
 
-                  match = re.match(r'^---\s*
-(.*?)
----\s*
-', content, re.DOTALL)
+                  match = FRONT_MATTER_PATTERN.match(content)
                   if not match:
                       continue
 
-                  yaml_content = match.group(1)
-                  fields = {}
-                  current_list = None
+                  try:
+                      metadata = yaml.safe_load(match.group(1)) or {}
+                  except yaml.YAMLError as exc:
+                      invalid_front_matter.append({'path': filepath, 'error': str(exc)})
+                      continue
 
-                  for line in yaml_content.split('
-'):
-                      line = line.rstrip()
+                  req_id = metadata.get('id')
+                  if not req_id:
+                      continue
 
-                      if current_list and line.startswith('  - '):
-                          value = line[4:].strip()
-                          fields[current_list].append(value)
-                      else:
-                          current_list = None
-
-                      if ':' in line and not line.startswith(' '):
-                          key, value = line.split(':', 1)
-                          key = key.strip()
-                          value = value.strip()
-
-                          if value == '[]' or not value:
-                              fields[key] = []
-                              current_list = key
-                          else:
-                              fields[key] = value
-
-                  if 'id' in fields:
-                      req_id = fields['id']
-                      all_req_ids.add(req_id)
-                      requirements[req_id] = {
-                          'path': filepath,
-                          'tipo': fields.get('tipo', ''),
-                          'upward': fields.get('trazabilidad_upward', []),
-                          'downward': fields.get('trazabilidad_downward', [])
-                      }
+                  all_req_ids.add(req_id)
+                  requirements[req_id] = {
+                      'path': filepath,
+                      'tipo': metadata.get('tipo', ''),
+                      'upward': ensure_list(metadata.get('trazabilidad_upward')),
+                      'downward': ensure_list(metadata.get('trazabilidad_downward')),
+                  }
 
           print(f"Found {len(all_req_ids)} requirements")
 
           # Second pass: validate traceability links
           for req_id, data in requirements.items():
-              # Check upward references
               for parent_id in data['upward']:
                   if parent_id not in all_req_ids:
                       broken_links.append({
                           'req_id': req_id,
                           'path': data['path'],
                           'missing': parent_id,
-                          'direction': 'upward'
+                          'direction': 'upward',
                       })
 
-              # Check downward references
               for child_id in data['downward']:
                   if child_id not in all_req_ids:
                       broken_links.append({
                           'req_id': req_id,
                           'path': data['path'],
                           'missing': child_id,
-                          'direction': 'downward'
+                          'direction': 'downward',
                       })
 
-              # Check for orphaned requirements (no upward traceability)
               if data['tipo'] not in ['necesidad'] and not data['upward']:
                   orphaned_requirements.append({
                       'req_id': req_id,
-                          'path': data['path'],
-                      'tipo': data['tipo']
+                      'path': data['path'],
+                      'tipo': data['tipo'],
                   })
 
           print("")
           print("Results:")
           print(f"  Broken links: {len(broken_links)}")
           print(f"  Orphaned requirements: {len(orphaned_requirements)}")
+          print(f"  Invalid front matter: {len(invalid_front_matter)}")
 
           if broken_links:
               print("")
@@ -148,15 +141,22 @@ jobs:
               for req in orphaned_requirements:
                   print(f"  {req['req_id']} ({req['tipo']}) - {req['path']}")
 
+          if invalid_front_matter:
+              print("")
+              print("INVALID FRONT MATTER:")
+              for item in invalid_front_matter:
+                  print(f"  {item['path']}")
+                  print(f"    -> {item['error']}")
+
           print("")
-          if broken_links:
-              print("VALIDATION FAILED: Broken traceability links found")
+          if broken_links or invalid_front_matter:
+              print("VALIDATION FAILED: Broken traceability links or invalid front matter found")
               sys.exit(1)
-          else:
-              print("VALIDATION PASSED: All traceability links are valid")
-              if orphaned_requirements:
-                  print(f"WARNING: {len(orphaned_requirements)} orphaned requirements (informational)")
-              sys.exit(0)
+
+          print("VALIDATION PASSED: All traceability links are valid")
+          if orphaned_requirements:
+              print(f"WARNING: {len(orphaned_requirements)} orphaned requirements (informational)")
+          sys.exit(0)
           EOF
 
       - name: Generate traceability report
