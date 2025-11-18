@@ -59,6 +59,7 @@ pytest-html>=4.1.1
 # ENVIRONMENT
 # ============================================
 python-dotenv>=1.0.0
+pyyaml>=6.0.0
 
 mysql-connector-python
 psycopg2-binary
