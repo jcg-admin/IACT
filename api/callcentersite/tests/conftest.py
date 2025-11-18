@@ -101,6 +101,15 @@ def safe_reset_in_memory_registry() -> None:
         if missing.split(".")[0] != "callcentersite":
             raise
         return
+    except Exception as exc:  # pragma: no cover - defensive guard
+        try:
+            from django.core.exceptions import ImproperlyConfigured
+        except Exception:  # pragma: no cover - fallback when Django is absent
+            ImproperlyConfigured = None  # type: ignore[misc,assignment]
+
+        if ImproperlyConfigured and isinstance(exc, ImproperlyConfigured):
+            return
+        raise
 
     reset_registry = getattr(models, "reset_registry", None)
     if callable(reset_registry):
