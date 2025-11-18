@@ -36,11 +36,11 @@ Consolidado de avances y artefactos creados para las tareas de QA de infraestruc
 
 ### TASK-INFRA-QA-006: Documentar comandos de validación y cobertura
 - Documentación centralizada en `qa/testing/README.md` y `qa/testing/comandos_validacion.md`.
-- Política de evidencia definida para capturar resultados con cobertura mínima de 80 %.
+- Política de evidencia definida para capturar resultados con cobertura mínima de 80%.
 
 ### TASK-INFRA-QA-007: Revisión semanal de entregables QA
 - Agenda registrada en esta evidencia con cadencia semanal.
-- Próxima revisión sugerida: 2025-11-25, responsable scrum master/arquitecto-senior.
+- Próxima revisión sugerida: 2025-11-20, responsable scrum master/arquitecto-senior.
 
 ## Sincronización con Task tool
 Los IDs de tareas se mantienen alineados con `qa/tareas_activas.md`. Cada entrega debe replicarse en Task tool con el mismo identificador y ruta de evidencia.

@@ -13,10 +13,10 @@ Lista consolidada de comandos de validación para infraestructura. Cada ejecuci�
 
 | Comando | Propósito | Responsable | Evidencia requerida |
 |---------|-----------|-------------|---------------------|
-| `./scripts/run_all_tests.sh` | Ejecutar suites backend, frontend y validaciones de seguridad con cobertura objetivo ≥80 % | @devops-lead | Cobertura reportada y logs de ejecución adjuntos en `qa/registros/` |
+| `./scripts/run_all_tests.sh` | Ejecutar suites backend, frontend y validaciones de seguridad con cobertura objetivo ≥80% | @devops-lead | Cobertura reportada y logs de ejecución adjuntos en `qa/registros/` |
 | `./scripts/validate_critical_restrictions.sh` | Validar restricciones críticas (sin Redis, sin correo) en configuraciones | @backend-lead | Resultado del comando con timestamp y hallazgos documentados |
 | `./scripts/validar_estructura_docs.sh` | Revisar estructura de documentación y enlaces | @tech-writer | Log de validación y tickets abiertos si hay incidencias |
-| `npm test -- --coverage` (en `ui/`) | Validar UI con cobertura mínima de 80 % | @equipo-frontend | Reporte de cobertura y resumen de suites ejecutadas |
+| `npm test -- --coverage` (en `ui/`) | Validar UI con cobertura mínima de 80% | @equipo-frontend | Reporte de cobertura y resumen de suites ejecutadas |
 | `pytest` (en `api/`) | Ejecutar pruebas unitarias y de integración del backend | @backend-lead | Resultado en formato JUnit o log con cobertura indicada |
 
 ## Política de evidencia

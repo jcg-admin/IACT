@@ -62,9 +62,9 @@ Tareas de corto plazo (< 2 semanas) con seguimiento activo.
   - Bloqueadores: Ninguno
   - ETA: 2025-11-07
 
-- [x] **TASK-INFRA-QA-006 Documentar comandos de validación y cobertura ≥80 %** `P0` `2SP`
+- [x] **TASK-INFRA-QA-006 Documentar comandos de validación y cobertura ≥80%** `P0` `2SP`
   - Entregable: `docs/infraestructura/qa/testing/` con ciclo Red→Green→Refactor y comandos build/lint/tests
-  - Evidencia: `qa/testing/comandos_validacion.md` y `qa/registros/EVIDENCIAS_TASK_INFRA_QA.md`
+  - Evidencia: `docs/infraestructura/qa/testing/comandos_validacion.md` y `docs/infraestructura/qa/registros/EVIDENCIAS_TASK_INFRA_QA.md`
   - Asignado: @devops-lead
   - Bloqueadores: Ninguno
   - ETA: 2025-11-08
@@ -160,8 +160,8 @@ Tareas de corto plazo (< 2 semanas) con seguimiento activo.
   - ETA: 2025-11-09
 
 - [x] **TASK-INFRA-QA-001 Inventario y métricas de estructura** `P1` `2SP`
-  - Ruta: `qa/QA-ANALISIS-ESTRUCTURA-INFRA-001/ANALISIS-ESTRUCTURA-INFRA-2025-11-18.md`
-  - Evidencia: `qa/registros/EVIDENCIAS_TASK_INFRA_QA.md` con conteos de README/INDEX
+  - Ruta: `docs/infraestructura/qa/QA-ANALISIS-ESTRUCTURA-INFRA-001/ANALISIS-ESTRUCTURA-INFRA-2025-11-18.md`
+  - Evidencia: `docs/infraestructura/qa/registros/EVIDENCIAS_TASK_INFRA_QA.md` con conteos de README/INDEX
   - Asignado: @arquitecto-senior
   - Bloqueadores: Ninguno
   - ETA: 2025-11-20
