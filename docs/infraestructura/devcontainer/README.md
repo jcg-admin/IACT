@@ -34,7 +34,7 @@ El DevContainer del proyecto IACT es un entorno de desarrollo completamente cont
 
 ### Compatibilidad con Linux y entornos basados en Vagrant
 
-- **Linux host**: El DevContainer funciona sin cambios en distribuciones Linux siempre que tengas Docker y la extensión Dev Containers instalados; no requiere Docker Desktop.
+- **Linux host**: El DevContainer funciona sin cambios en las distribuciones Linux siempre que tengas Docker y la extensión Dev Containers instalados; no requiere Docker Desktop.
 - **Coexistencia con Vagrant**: Puedes mantener tu stack de bases de datos en Vagrant y usar el DevContainer solo para el workspace de código. Ajusta los hosts/puertos en `.env` (o `.devcontainer/.env`) para apuntar al PostgreSQL/MariaDB expuestos por Vagrant (p. ej., `15432` y `13306`).
 - **CI/CD y producción sin Docker**: Que producción no use contenedores no invalida el DevContainer. Úsalo para reproducibilidad en desarrollo/CI y mantén paridad declarando las mismas variables y scripts de provisión que usarás en máquinas bare metal.
 
