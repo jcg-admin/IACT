@@ -3,7 +3,7 @@
 ## 1. Contexto y objetivos
 - Alinear `docs/infraestructura/` con la estructura, navegación y convenciones usadas en `docs/gobernanza/` (READMEs/INDEX, plantillas, QA, trazabilidad y registros de decisiones).
 - Resolver las brechas identificadas: falta de plan QA visible, escasez de análisis específicos por dominio de infraestructura y ausencia de rutas/plantillas equivalentes a las de Gobernanza.
-- Garantizar que toda automatización o runbook nuevo siga TDD (tests antes del código) con cobertura mínima de 80 % y commits convencionales.
+- Garantizar que toda automatización o runbook nuevo siga TDD (tests antes del código) con cobertura mínima de 80% y commits convencionales.
 
 ## 2. Observaciones actuales
 ### 2.1 Inventario resumido (profundidad ≤2)
@@ -40,7 +40,7 @@ Las tareas deben reflejarse explícitamente en `qa/tareas_activas.md` y usar IDs
 - Integrar `tareas_activas.md` con IDs, responsables, story points (SP) y fechas objetivo; enlazar cada tarea con entregables y ADRs correspondientes, asegurando que el checklist de arranque quede cubierto por tareas activas y sincronizado con Task tool.
 
 ### 3.5 Automatización y validaciones
-- Definir comandos de validación en `qa/testing/` (build de docs, lint, pruebas de scripts) y dejar documentado el ciclo Red → Green → Refactor con cobertura mínima del 80 % (TASK-INFRA-QA-005 en Task tool y `tareas_activas.md`).
+- Definir comandos de validación en `qa/testing/` (build de docs, lint, pruebas de scripts) y dejar documentado el ciclo Red → Green → Refactor con cobertura mínima del 80% (TASK-INFRA-QA-006 en Task tool y `tareas_activas.md`).
 - Asociar los comandos de validación a pipelines existentes (`scripts/`, `infrastructure/` o CI) y documentar entradas/salidas esperadas.
 
 ## 4. Entregables y responsables sugeridos
@@ -57,7 +57,7 @@ Las tareas deben reflejarse explícitamente en `qa/tareas_activas.md` y usar IDs
 ## 5. Riesgos y supuestos
 - **Riesgo:** Falta de responsables asignados retrasa la normalización de QA. **Mitigación:** asignar owners en `tareas_activas.md` y revisar semanalmente.
 - **Riesgo:** Nombres inconsistentes entre carpetas nuevas y existentes. **Mitigación:** usar snake_case y validar enlaces relativos mediante builds de documentación.
-- **Riesgo:** Sin pipeline de validación, los cambios podrían romper automatizaciones. **Mitigación:** definir comandos de build/lint/test y exigir evidencia de cobertura ≥80 %.
+- **Riesgo:** Sin pipeline de validación, los cambios podrían romper automatizaciones. **Mitigación:** definir comandos de build/lint/test y exigir evidencia de cobertura ≥80%.
 - **Supuesto:** `docs/gobernanza/` es la referencia obligatoria para navegación, plantillas y trazabilidad.
 
 ## 6. Checklist de arranque

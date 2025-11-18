@@ -4,9 +4,6 @@ estado: pendiente
 responsable: definir
 fecha: 2025-11-18
 version: 1.0.0
-metricas_objetivo:
-  cobertura: 
-  evidencia: 
 trazabilidad:
   tareas: ["TASK-INFRA-QA-002"]
   adrs: []

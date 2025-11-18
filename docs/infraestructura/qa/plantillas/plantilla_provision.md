@@ -4,7 +4,6 @@ estado: pendiente
 responsable: definir
 fecha: 2025-11-18
 version: 1.0.0
-metricas_objetivo:
 trazabilidad:
   tareas: ["TASK-INFRA-QA-002"]
   adrs: []
@@ -25,7 +24,7 @@ Validar que la provisión de infraestructura aplica controles de consistencia, s
 ## Evidencias esperadas
 - Salidas de `vagrant validate` y logs de provisioning con fecha.
 - Registro de aprobaciones y revisiones en `qa/registros/`.
-- Cobertura mínima de pruebas de módulos ≥80 %.
+- Cobertura mínima de pruebas de módulos ≥80%.
 
 ## Validaciones automáticas
 - Comando sugerido: `./scripts/run_all_tests.sh` y validaciones de Vagrant/Ansible.

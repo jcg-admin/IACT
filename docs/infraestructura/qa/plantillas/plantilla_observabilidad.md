@@ -4,9 +4,6 @@ estado: pendiente
 responsable: definir
 fecha: 2025-11-18
 version: 1.0.0
-metricas_objetivo:
-  cobertura: 
-  evidencia: 
 trazabilidad:
   tareas: ["TASK-INFRA-QA-002"]
   adrs: []
@@ -31,7 +28,7 @@ Establecer métricas, logs y trazas mínimos para operar servicios de infraestru
 
 ## Validaciones automáticas
 - Scripts de chequeo de endpoints de métricas y disponibilidad de colectores.
-- Asegurar pruebas automatizadas con cobertura mínima de 80 % para componentes instrumentados.
+- Asegurar pruebas automatizadas con cobertura mínima de 80% para componentes instrumentados.
 
 ## Trazabilidad
 - Vincular SLOs y requisitos en `qa/tareas_activas.md` y ADRs relevantes.
