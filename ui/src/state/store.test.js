@@ -7,6 +7,7 @@ describe('store', () => {
 
     expect(state.appConfig).toBeDefined();
     expect(state.home).toBeDefined();
+    expect(state.observability).toBeDefined();
   });
 
   it('dispatches actions without crashing', () => {

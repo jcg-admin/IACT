@@ -36,7 +36,7 @@ from .advanced_analytics import (
 @require_http_methods(["GET"])
 @throttle_classes([BurstRateThrottle, SustainedRateThrottle])
 def dora_metrics_summary(request):
-    """GET /api/dora/metrics - Summary ultimos 30 dias."""
+    """GET /api/v1/dora/metrics - Summary ultimos 30 dias."""
     days = int(request.GET.get("days", 30))
     cutoff = timezone.now() - timedelta(days=days)
 
@@ -71,7 +71,7 @@ def dora_metrics_summary(request):
 
 @require_http_methods(["POST"])
 def dora_metrics_create(request):
-    """POST /api/dora/metrics - Crear metrica."""
+    """POST /api/v1/dora/metrics - Crear metrica."""
     data = json.loads(request.body)
 
     metric = DORAMetric.objects.create(
@@ -339,7 +339,7 @@ def calculate_dora_classification(deployment_count, days, lead_time_hours, cfr, 
 @require_http_methods(["GET"])
 def data_catalog_index(request):
     """
-    GET /api/dora/data-catalog/ - Complete data catalog.
+    GET /api/v1/dora/data-catalog/ - Complete data catalog.
 
     Returns structured metadata about all available datasets for AI access.
     Implements DORA 2025 AI Capability 6: AI-accessible Internal Data.
@@ -352,7 +352,7 @@ def data_catalog_index(request):
 @throttle_classes([BurstRateThrottle, SustainedRateThrottle])
 def data_catalog_dora_metrics(request):
     """
-    GET /api/dora/data-catalog/dora-metrics/ - Query DORA metrics data.
+    GET /api/v1/dora/data-catalog/dora-metrics/ - Query DORA metrics data.
 
     Query parameters:
         - days: Number of days to query (default: 30)
@@ -378,7 +378,7 @@ def data_catalog_dora_metrics(request):
 @throttle_classes([BurstRateThrottle, SustainedRateThrottle])
 def data_catalog_deployment_cycles(request):
     """
-    GET /api/dora/data-catalog/deployment-cycles/ - Query deployment cycles.
+    GET /api/v1/dora/data-catalog/deployment-cycles/ - Query deployment cycles.
 
     Query parameters:
         - days: Number of days to query (default: 30)
@@ -401,7 +401,7 @@ def data_catalog_deployment_cycles(request):
 @throttle_classes([BurstRateThrottle, SustainedRateThrottle])
 def data_catalog_aggregated_stats(request):
     """
-    GET /api/dora/data-catalog/aggregated-stats/ - Get aggregated statistics.
+    GET /api/v1/dora/data-catalog/aggregated-stats/ - Get aggregated statistics.
 
     Query parameters:
         - days: Number of days to analyze (default: 30)
@@ -423,7 +423,7 @@ def data_catalog_aggregated_stats(request):
 @require_http_methods(["GET"])
 def data_quality_assessment(request):
     """
-    GET /api/dora/ecosystem/quality/ - Data quality assessment.
+    GET /api/v1/dora/ecosystem/quality/ - Data quality assessment.
 
     Query parameters:
         - days: Number of days to assess (default: 30)
@@ -441,7 +441,7 @@ def data_quality_assessment(request):
 @require_http_methods(["GET"])
 def data_governance_status(request):
     """
-    GET /api/dora/ecosystem/governance/ - Data governance status.
+    GET /api/v1/dora/ecosystem/governance/ - Data governance status.
 
     Returns current data governance policies and compliance status.
     """
@@ -453,7 +453,7 @@ def data_governance_status(request):
 @require_http_methods(["GET"])
 def data_lineage_map(request):
     """
-    GET /api/dora/ecosystem/lineage/ - Data lineage map.
+    GET /api/v1/dora/ecosystem/lineage/ - Data lineage map.
 
     Returns complete data lineage and flow information.
     """
@@ -465,7 +465,7 @@ def data_lineage_map(request):
 @require_http_methods(["GET"])
 def ecosystem_health_status(request):
     """
-    GET /api/dora/ecosystem/health/ - Overall ecosystem health.
+    GET /api/v1/dora/ecosystem/health/ - Overall ecosystem health.
 
     Returns comprehensive ecosystem health status including:
     - Overall health score
@@ -481,7 +481,7 @@ def ecosystem_health_status(request):
 @require_http_methods(["GET"])
 def metadata_registry(request):
     """
-    GET /api/dora/ecosystem/metadata/ - Metadata registry.
+    GET /api/v1/dora/ecosystem/metadata/ - Metadata registry.
 
     Returns complete metadata registry for all datasets.
     """
@@ -499,7 +499,7 @@ def metadata_registry(request):
 @throttle_classes([BurstRateThrottle, SustainedRateThrottle])
 def trend_analysis_deployment_frequency(request):
     """
-    GET /api/dora/analytics/trends/deployment-frequency/ - Deployment frequency trend.
+    GET /api/v1/dora/analytics/trends/deployment-frequency/ - Deployment frequency trend.
 
     Query parameters:
         - days: Number of days to analyze (default: 90)
@@ -517,7 +517,7 @@ def trend_analysis_deployment_frequency(request):
 @throttle_classes([BurstRateThrottle, SustainedRateThrottle])
 def trend_analysis_lead_time(request):
     """
-    GET /api/dora/analytics/trends/lead-time/ - Lead time trend analysis.
+    GET /api/v1/dora/analytics/trends/lead-time/ - Lead time trend analysis.
 
     Query parameters:
         - days: Number of days to analyze (default: 90)
@@ -535,7 +535,7 @@ def trend_analysis_lead_time(request):
 @throttle_classes([BurstRateThrottle, SustainedRateThrottle])
 def comparative_period_over_period(request):
     """
-    GET /api/dora/analytics/comparative/period-over-period/ - Period comparison.
+    GET /api/v1/dora/analytics/comparative/period-over-period/ - Period comparison.
 
     Query parameters:
         - current_days: Current period days (default: 30)
@@ -558,7 +558,7 @@ def comparative_period_over_period(request):
 @throttle_classes([BurstRateThrottle, SustainedRateThrottle])
 def historical_monthly_report(request):
     """
-    GET /api/dora/analytics/historical/monthly/ - Monthly historical report.
+    GET /api/v1/dora/analytics/historical/monthly/ - Monthly historical report.
 
     Query parameters:
         - months: Number of months to include (default: 6)
@@ -576,7 +576,7 @@ def historical_monthly_report(request):
 @throttle_classes([BurstRateThrottle, SustainedRateThrottle])
 def anomaly_detection(request):
     """
-    GET /api/dora/analytics/anomalies/ - Detect anomalies.
+    GET /api/v1/dora/analytics/anomalies/ - Detect anomalies.
 
     Query parameters:
         - days: Number of days to analyze (default: 30)
@@ -594,7 +594,7 @@ def anomaly_detection(request):
 @throttle_classes([BurstRateThrottle, SustainedRateThrottle])
 def performance_forecast(request):
     """
-    GET /api/dora/analytics/forecast/ - Performance forecast.
+    GET /api/v1/dora/analytics/forecast/ - Performance forecast.
 
     Query parameters:
         - historical_months: Months of historical data to use (default: 6)
@@ -619,7 +619,7 @@ from .ai_telemetry import AITelemetryCollector
 @throttle_classes([BurstRateThrottle, SustainedRateThrottle])
 def ai_telemetry_record(request):
     """
-    POST /api/dora/ai-telemetry/record/ - Registrar decision IA.
+    POST /api/v1/dora/ai-telemetry/record/ - Registrar decision IA.
 
     Body:
         {
@@ -658,7 +658,7 @@ def ai_telemetry_record(request):
 @throttle_classes([BurstRateThrottle, SustainedRateThrottle])
 def ai_telemetry_feedback(request, telemetry_id):
     """
-    POST /api/dora/ai-telemetry/<id>/feedback/ - Registrar feedback humano.
+    POST /api/v1/dora/ai-telemetry/<id>/feedback/ - Registrar feedback humano.
 
     Body:
         {
@@ -685,7 +685,7 @@ def ai_telemetry_feedback(request, telemetry_id):
 @throttle_classes([BurstRateThrottle, SustainedRateThrottle])
 def ai_telemetry_stats(request):
     """
-    GET /api/dora/ai-telemetry/stats/ - Estadisticas generales.
+    GET /api/v1/dora/ai-telemetry/stats/ - Estadisticas generales.
 
     Query parameters:
         - days: Number of days to analyze (default: 30)
@@ -710,7 +710,7 @@ def ai_telemetry_stats(request):
 @throttle_classes([BurstRateThrottle, SustainedRateThrottle])
 def ai_telemetry_agent_stats(request, agent_id):
     """
-    GET /api/dora/ai-telemetry/agent/<agent_id>/ - Stats por agente.
+    GET /api/v1/dora/ai-telemetry/agent/<agent_id>/ - Stats por agente.
 
     Query parameters:
         - days: Number of days to analyze (default: 30)
@@ -726,7 +726,7 @@ def ai_telemetry_agent_stats(request, agent_id):
 @throttle_classes([BurstRateThrottle, SustainedRateThrottle])
 def ai_telemetry_accuracy(request):
     """
-    GET /api/dora/ai-telemetry/accuracy/ - Metricas accuracy.
+    GET /api/v1/dora/ai-telemetry/accuracy/ - Metricas accuracy.
 
     Query parameters:
         - agent_id: Filter by agent (optional)
@@ -774,7 +774,7 @@ from .ml_models import DeploymentRiskPredictor
 @throttle_classes([BurstRateThrottle, SustainedRateThrottle])
 def predict_deployment_risk(request):
     """
-    POST /api/dora/predict/deployment-risk/ - Predecir riesgo de deployment.
+    POST /api/v1/dora/predict/deployment-risk/ - Predecir riesgo de deployment.
 
     Body:
         {
@@ -828,7 +828,7 @@ def predict_deployment_risk(request):
 @throttle_classes([BurstRateThrottle, SustainedRateThrottle])
 def predict_model_stats(request):
     """
-    GET /api/dora/predict/model-stats/ - Estadisticas del modelo ML.
+    GET /api/v1/dora/predict/model-stats/ - Estadisticas del modelo ML.
     """
     predictor = DeploymentRiskPredictor()
 
@@ -853,7 +853,7 @@ def predict_model_stats(request):
 @throttle_classes([BurstRateThrottle, SustainedRateThrottle])
 def predict_retrain_model(request):
     """
-    POST /api/dora/predict/retrain/ - Re-entrenar modelo ML.
+    POST /api/v1/dora/predict/retrain/ - Re-entrenar modelo ML.
 
     Body:
         {
@@ -898,7 +898,7 @@ def predict_retrain_model(request):
 @throttle_classes([BurstRateThrottle, SustainedRateThrottle])
 def predict_feature_importance(request):
     """
-    GET /api/dora/predict/feature-importance/ - Feature importance del modelo.
+    GET /api/v1/dora/predict/feature-importance/ - Feature importance del modelo.
     """
     predictor = DeploymentRiskPredictor()
 
@@ -940,7 +940,7 @@ from .auto_remediation import ProblemDetector, RemediationEngine
 @require_http_methods(["GET"])
 @throttle_classes([BurstRateThrottle, SustainedRateThrottle])
 def remediation_problems(request):
-    """GET /api/dora/remediation/problems/ - Lista problemas detectados."""
+    """GET /api/v1/dora/remediation/problems/ - Lista problemas detectados."""
     problems = ProblemDetector.detect_all_problems()
     return JsonResponse({"total_problems": len(problems), "problems": [p.to_dict() for p in problems]})
 
@@ -948,7 +948,7 @@ def remediation_problems(request):
 @require_http_methods(["POST"])
 @throttle_classes([BurstRateThrottle, SustainedRateThrottle])
 def remediation_propose_fix(request):
-    """POST /api/dora/remediation/propose-fix/ - Proponer fix para problema."""
+    """POST /api/v1/dora/remediation/propose-fix/ - Proponer fix para problema."""
     data = json.loads(request.body)
     problems = ProblemDetector.detect_all_problems()
     problem = next((p for p in problems if p.problem_type == data.get("problem_type")), None)
@@ -961,7 +961,7 @@ def remediation_propose_fix(request):
 @require_http_methods(["POST"])
 @throttle_classes([BurstRateThrottle, SustainedRateThrottle])
 def remediation_execute(request):
-    """POST /api/dora/remediation/execute/ - Ejecutar fix."""
+    """POST /api/v1/dora/remediation/execute/ - Ejecutar fix."""
     data = json.loads(request.body)
     problems = ProblemDetector.detect_all_problems()
     problem = next((p for p in problems if p.problem_type == data.get("problem_type")), None)
@@ -976,6 +976,6 @@ def remediation_execute(request):
 @require_http_methods(["POST"])
 @throttle_classes([BurstRateThrottle, SustainedRateThrottle])
 def remediation_rollback(request, execution_id):
-    """POST /api/dora/remediation/rollback/<id>/ - Rollback fix."""
+    """POST /api/v1/dora/remediation/rollback/<id>/ - Rollback fix."""
     result = RemediationEngine.rollback_fix(execution_id)
     return JsonResponse(result)

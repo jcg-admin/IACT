@@ -8,7 +8,8 @@ import csv
 from io import BytesIO, StringIO
 
 from django.contrib.auth import get_user_model
-from django.core.exceptions import PermissionDenied, ValidationError
+from django.core.exceptions import ObjectDoesNotExist, PermissionDenied, ValidationError
+from django.db import connection
 from django.utils import timezone
 
 from callcentersite.apps.users.models_permisos_granular import AuditoriaPermiso
@@ -51,7 +52,7 @@ class DashboardService:
         return {
             "last_update": now.isoformat(),
             "widgets": [
-                widget.__dict__ for widget in DashboardService.available_widgets()
+                asdict(widget) for widget in DashboardService.available_widgets()
             ],
         }
 
@@ -59,6 +60,12 @@ class DashboardService:
     def available_widgets() -> List[Widget]:
         """Retorna todos los widgets disponibles en el sistema."""
         return list(WIDGET_REGISTRY.values())
+
+    @staticmethod
+    def _serialize_widgets(widget_keys: List[str]) -> List[Dict[str, str]]:
+        """Convierte identificadores de widgets a diccionarios serializables."""
+
+        return [asdict(WIDGET_REGISTRY[widget]) for widget in widget_keys if widget in WIDGET_REGISTRY]
 
     @staticmethod
     def exportar(
