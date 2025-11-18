@@ -2,7 +2,7 @@
 id: PROCED-GOB-009
 tipo: procedimiento
 categoria: calidad-codigo
-titulo: Procedimiento para Refactorizaciones de Codigo con TDD
+titulo: Procedimiento para Refactorizaciones de Código con TDD
 version: 1.0.0
 fecha_creacion: 2025-11-17
 autor: Claude Code Agent
@@ -10,7 +10,7 @@ frecuencia_uso: ad-hoc (cuando se requiera refactorización)
 alcance: Refactorizaciones de calidad en codebase Python/JavaScript
 ---
 
-# PROCED-GOB-009: Procedimiento para Refactorizaciones de Codigo con TDD
+# PROCED-GOB-009: Procedimiento para Refactorizaciones de Código con TDD
 
 ## 1. Proposito
 
@@ -367,7 +367,7 @@ Una refactorizacion es exitosa cuando:
 
 ### Metricas a Capturar:
 
-**Codigo:**
+**Código:**
 - Archivos afectados
 - Lineas modificadas
 - Commits aplicados
