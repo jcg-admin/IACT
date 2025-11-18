@@ -1,0 +1,6 @@
+PASS: Imports exitosos
+PASS: Registry construido: MCPRegistry
+PASS: Registry no es None
+Valor de constante Playwright: 0.0.40
+SMOKE TEST COMPLETO: PASS
+Exit code: 0

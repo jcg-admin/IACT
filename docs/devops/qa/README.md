@@ -15,7 +15,6 @@ Centraliza lineamientos, hallazgos y evidencias de QA para los flujos CI/CD y au
 ## Páginas hijas
 - [`INDICE.md`](INDICE.md) – estructura y ubicación de artefactos
 - [`QA-ANALISIS-DEVCONTAINER-CODESPACES-SIN-DOCKER-001/`](QA-ANALISIS-DEVCONTAINER-CODESPACES-SIN-DOCKER-001/) – análisis de paridad DevContainer sin Docker en el host
-- [`analisis/QA-ANALISIS-PIPELINE-CI-CD-001/`](analisis/QA-ANALISIS-PIPELINE-CI-CD-001/) – verificación integral del pipeline CI/CD
 - [`analisis/`](analisis/) – nuevos análisis con prefijo `QA-ANALISIS-*`
 - [`registros/`](registros/) – métricas y bitácoras de pipelines
 - [`estrategia/`](estrategia/) – criterios y umbrales de QA DevOps

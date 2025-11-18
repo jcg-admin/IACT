@@ -1,0 +1,24 @@
+=== TASK-006: TDD GREEN - Resumen Ejecutivo ===
+Fecha: 2025-11-18
+Fase: FASE 2 - Refactorizacion Playwright
+Tipo: Validacion post-refactorizacion
+
+BASELINE (TASK-004):
+  - Tests passing: 10
+  - Framework: pytest
+
+POST-REFACTOR (TASK-006):
+  - Tests passing: 10
+  - Tests failed: 0
+  - Tests errors: 0
+  - Framework: pytest
+
+RESULTADO:
+  - Regresiones detectadas: NO
+  - Estado TDD: GREEN - PASS
+  - Accion: Continuar a TASK-007
+
+EVIDENCIAS GENERADAS:
+  - evidencias/tests-post-playwright.txt
+  - evidencias/comparacion-tests.txt
+  - evidencias/resumen-tdd-green.txt

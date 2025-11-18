@@ -1,0 +1,14 @@
+=== METRICAS BASELINE RED ===
+Fecha: $(date +"%Y-%m-%d %H:%M:%S")
+Commit: $(git rev-parse --short HEAD)
+Branch: $(git branch --show-current)
+
+ESTADO TESTS PRE-REFACTORIZACION:
+$(tail -20 /home/user/IACT---project/docs/ai/refactorizaciones/QA-REFACTOR-MCP-002/TASK-004-tdd-red-tests-pre-playwright/evidencias/tests-baseline-red.log)
+
+ARCHIVO REGISTRY.PY:
+$(md5sum /home/user/IACT---project/scripts/coding/ai/mcp/registry.py)
+
+LINEA A MODIFICAR (aprox 106):
+$(grep -n "@playwright/mcp" /home/user/IACT---project/scripts/coding/ai/mcp/registry.py | head -1)
+
