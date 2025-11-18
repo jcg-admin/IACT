@@ -485,6 +485,6 @@ Una vez completado este procedimiento:
 
 **Procedimiento creado:** 2025-11-17
 **Ultima revision:** 2025-11-17
-**Proxima revision:** Post-aplicacion
+**Próxima revisión:** Post-aplicación
 **Estado:** ACTIVO
 **Version:** 1.0.0
