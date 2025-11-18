@@ -3,7 +3,7 @@
 ## 1. Contexto y objetivos
 - Alinear `docs/infraestructura/` con la estructura, navegación y convenciones usadas en `docs/gobernanza/` (READMEs/INDEX, plantillas, QA, trazabilidad y registros de decisiones).
 - Resolver las brechas identificadas: falta de plan QA visible, escasez de análisis específicos por dominio de infraestructura y ausencia de rutas/plantillas equivalentes a las de Gobernanza.
-- Garantizar que toda automatización o runbook nuevo siga TDD (tests antes del código) con cobertura mínima de 80 % y commits convencionales.
+- Garantizar que toda automatización o runbook nuevo siga TDD (tests antes del código) con cobertura mínima de 80% y commits convencionales.
 
 ## 2. Observaciones actuales
 ### 2.1 Inventario resumido (profundidad ≤2)
