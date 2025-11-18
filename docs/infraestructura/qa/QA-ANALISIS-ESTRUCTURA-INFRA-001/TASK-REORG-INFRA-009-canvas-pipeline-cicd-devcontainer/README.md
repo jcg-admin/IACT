@@ -377,7 +377,7 @@ jobs:
           flake8 src/ --max-line-length=120 --ignore=E203,W503
           pylint src/ --fail-under=8.0 || true
           black --check src/ || true
-          echo "✓ Linting completed"
+          echo "[OK] Linting completed"
 
       # STAGE 3: Tests
       - name: "STAGE 3: Run unit tests"
@@ -385,13 +385,13 @@ jobs:
           echo "=== Running Unit Tests ==="
           pip install pytest pytest-cov pytest-xdist
           pytest tests/unit -v --cov=src --cov-report=xml --cov-report=term
-          echo "✓ Unit tests passed"
+          echo "[OK] Unit tests passed"
 
       - name: "STAGE 3B: Run integration tests"
         run: |
           echo "=== Running Integration Tests ==="
           pytest tests/integration -v -n auto
-          echo "✓ Integration tests passed"
+          echo "[OK] Integration tests passed"
 
       # STAGE 4: Build
       - name: "STAGE 4: Build artifacts"
@@ -399,7 +399,7 @@ jobs:
           echo "=== Building application ==="
           pip install wheel setuptools build
           python -m build
-          echo "✓ Build completed"
+          echo "[OK] Build completed"
           ls -lah dist/
 
       - name: "STAGE 4B: Build Docker image"
@@ -410,7 +410,7 @@ jobs:
           docker build -t ${REGISTRY}/iact-app:${IMAGE_TAG} .
           docker tag ${REGISTRY}/iact-app:${IMAGE_TAG} ${REGISTRY}/iact-app:latest
           docker images | grep iact-app
-          echo "✓ Docker image built"
+          echo "[OK] Docker image built"
 
       # STAGE 5: Security Scan
       - name: "STAGE 5: Run security scan (SAST)"
@@ -419,7 +419,7 @@ jobs:
           pip install bandit
           bandit -r src/ -f json -o bandit-report.json || true
           cat bandit-report.json | python -m json.tool | head -50
-          echo "✓ SAST scan completed"
+          echo "[OK] SAST scan completed"
 
       - name: "STAGE 5B: Check dependencies vulnerabilities"
         run: |
@@ -427,7 +427,7 @@ jobs:
           pip install safety
           safety check --json > safety-report.json || true
           cat safety-report.json | python -m json.tool | head -50
-          echo "✓ Dependency check completed"
+          echo "[OK] Dependency check completed"
 
       - name: "STAGE 5C: Scan Docker image"
         run: |
@@ -436,7 +436,7 @@ jobs:
           docker run --rm -v /var/run/docker.sock:/var/run/docker.sock \
             aquasec/trivy image --severity HIGH,CRITICAL \
             localhost/iact-app:latest || true
-          echo "✓ Image scan completed"
+          echo "[OK] Image scan completed"
 
       # Upload artifacts and reports
       - name: "Upload test coverage reports"
@@ -502,7 +502,7 @@ checkout:code:
     - git clone --recursive ${CI_REPOSITORY_URL} .
     - git checkout ${CI_COMMIT_SHA}
     - git log -1 --oneline
-    - echo "✓ Checkout completed"
+    - echo "[OK] Checkout completed"
   artifacts:
     paths:
       - .
@@ -518,7 +518,7 @@ lint:python:
     - flake8 src/ --max-line-length=120 --ignore=E203,W503
     - pylint src/ --fail-under=8.0 || true
     - black --check src/ || true
-    - echo "✓ Linting completed"
+    - echo "[OK] Linting completed"
   allow_failure: false
 
 lint:formatting:
@@ -529,7 +529,7 @@ lint:formatting:
     - pip install black isort
     - black --check . || true
     - isort --check . || true
-    - echo "✓ Formatting check completed"
+    - echo "[OK] Formatting check completed"
   allow_failure: true
 
 # STAGE 3: Tests
@@ -540,7 +540,7 @@ test:unit:
     - echo "=== Unit Tests ==="
     - pip install pytest pytest-cov pytest-xdist
     - pytest tests/unit -v --cov=src --cov-report=xml --cov-report=term
-    - echo "✓ Unit tests passed"
+    - echo "[OK] Unit tests passed"
   coverage: '/TOTAL.*\s+(\d+%)$/'
   artifacts:
     reports:
@@ -559,7 +559,7 @@ test:integration:
     - echo "=== Integration Tests ==="
     - pip install pytest pytest-xdist
     - pytest tests/integration -v -n auto
-    - echo "✓ Integration tests passed"
+    - echo "[OK] Integration tests passed"
   allow_failure: false
 
 # STAGE 4: Build
@@ -570,7 +570,7 @@ build:artifacts:
     - echo "=== Building Python Package ==="
     - pip install wheel setuptools build
     - python -m build
-    - echo "✓ Build completed"
+    - echo "[OK] Build completed"
     - ls -lah dist/
   artifacts:
     paths:
@@ -586,7 +586,7 @@ build:docker:
     - docker build -t ${DOCKER_REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG} .
     - docker tag ${DOCKER_REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG} ${DOCKER_REGISTRY}/${IMAGE_NAME}:latest
     - docker images | grep ${IMAGE_NAME}
-    - echo "✓ Docker image built"
+    - echo "[OK] Docker image built"
   allow_failure: false
 
 # STAGE 5: Security
@@ -598,7 +598,7 @@ security:sast:
     - pip install bandit
     - bandit -r src/ -f json -o bandit-report.json || true
     - cat bandit-report.json | python -m json.tool | head -50
-    - echo "✓ SAST scan completed"
+    - echo "[OK] SAST scan completed"
   artifacts:
     reports:
       sast: bandit-report.json
@@ -615,7 +615,7 @@ security:dependencies:
     - pip install safety
     - safety check --json > safety-report.json || true
     - cat safety-report.json | python -m json.tool | head -50
-    - echo "✓ Dependency check completed"
+    - echo "[OK] Dependency check completed"
   artifacts:
     paths:
       - safety-report.json
@@ -628,7 +628,7 @@ security:image:
   script:
     - echo "=== Docker Image Vulnerability Scan ==="
     - docker run --rm -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image --severity HIGH,CRITICAL ${DOCKER_REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG} || true
-    - echo "✓ Image scan completed"
+    - echo "[OK] Image scan completed"
   allow_failure: true
 ```
 
@@ -705,17 +705,17 @@ security:image:
 1. **Analizar estructura Canvas:** Validar que el archivo `docs/infraestructura/diseno/arquitectura/canvas-pipeline-cicd-devcontainer.md` contendrá las 11 secciones completas.
 
 2. **Validar secciones Canvas con Self-Consistency:**
-   - Sección 1: Identificación ✓
-   - Sección 2: Objetivo del pipeline ✓
-   - Sección 3: Alcance ✓
-   - Sección 4: Vista general flujo ✓
-   - Sección 5: UML Activity Diagram ✓
-   - Sección 6: UML Use Case Diagram ✓
-   - Sección 7: UML Component Diagram ✓
-   - Sección 8: UML Deployment Diagram ✓
-   - Sección 9: UML Sequence Diagram ✓
-   - Sección 10: Definición YAML (GitHub Actions + GitLab CI) ✓
-   - Sección 11: Calidad y criterios de aceptación ✓
+   - Sección 1: Identificación [OK]
+   - Sección 2: Objetivo del pipeline [OK]
+   - Sección 3: Alcance [OK]
+   - Sección 4: Vista general flujo [OK]
+   - Sección 5: UML Activity Diagram [OK]
+   - Sección 6: UML Use Case Diagram [OK]
+   - Sección 7: UML Component Diagram [OK]
+   - Sección 8: UML Deployment Diagram [OK]
+   - Sección 9: UML Sequence Diagram [OK]
+   - Sección 10: Definición YAML (GitHub Actions + GitLab CI) [OK]
+   - Sección 11: Calidad y criterios de aceptación [OK]
 
 3. **Documentar artefacto:** Generar evidencia de que el Canvas cumple con todas las secciones requeridas.
 
@@ -743,17 +743,17 @@ security:image:
 Verificar que el Canvas tiene las 11 secciones completas:
 
 ```
-✓ Sección 1: Identificación del artefacto (nombre, propósito, versión, estado)
-✓ Sección 2: Objetivo del pipeline (validación, calidad, build, seguridad)
-✓ Sección 3: Alcance (stages incluidos, exclusiones, supuestos, restricciones)
-✓ Sección 4: Vista general flujo (diagrama ASCII de stages)
-✓ Sección 5: UML Activity Diagram (flujo de decisiones y acciones)
-✓ Sección 6: UML Use Case Diagram (actores y casos de uso)
-✓ Sección 7: UML Component Diagram (componentes y dependencias)
-✓ Sección 8: UML Deployment Diagram (nodos y distribución)
-✓ Sección 9: UML Sequence Diagram (interacción temporal entre componentes)
-✓ Sección 10: Definición YAML (GitHub Actions + GitLab CI con 5 stages)
-✓ Sección 11: Calidad y criterios (objetivos, DoD, riesgos, métricas)
+[OK] Sección 1: Identificación del artefacto (nombre, propósito, versión, estado)
+[OK] Sección 2: Objetivo del pipeline (validación, calidad, build, seguridad)
+[OK] Sección 3: Alcance (stages incluidos, exclusiones, supuestos, restricciones)
+[OK] Sección 4: Vista general flujo (diagrama ASCII de stages)
+[OK] Sección 5: UML Activity Diagram (flujo de decisiones y acciones)
+[OK] Sección 6: UML Use Case Diagram (actores y casos de uso)
+[OK] Sección 7: UML Component Diagram (componentes y dependencias)
+[OK] Sección 8: UML Deployment Diagram (nodos y distribución)
+[OK] Sección 9: UML Sequence Diagram (interacción temporal entre componentes)
+[OK] Sección 10: Definición YAML (GitHub Actions + GitLab CI con 5 stages)
+[OK] Sección 11: Calidad y criterios (objetivos, DoD, riesgos, métricas)
 ```
 
 ---

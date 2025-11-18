@@ -247,10 +247,10 @@ CARPETAS=(catalogos ci_cd ejemplos estilos glosarios gobernanza guias metodologi
 CONTADOR=0
 for dir in "${CARPETAS[@]}"; do
   if [ -d "docs/infraestructura/$dir" ]; then
-    echo "✓ $dir"
+    echo "[OK] $dir"
     ((CONTADOR++))
   else
-    echo "✗ FALTA: $dir"
+    echo "[ERROR] FALTA: $dir"
   fi
 done
 echo ""
@@ -259,7 +259,7 @@ echo "Resultado: $CONTADOR/13 carpetas creadas"
 
 **Salida Esperada:**
 - EXITO: 13 carpetas creadas
-- Todas las carpetas muestran check (✓)
+- Todas las carpetas muestran check ([OK])
 - Resultado: 13/13 carpetas creadas
 
 ---

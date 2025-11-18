@@ -197,12 +197,12 @@ python3 scripts/qa/validate_frontmatter.py /home/user/IACT/docs/infraestructura
 - Reportar cambios realizados
 
 **Emojis Soportados:**
-- ✅ -> [x]
-- ❌ -> [ ]
-- ✓ -> [OK]
-- ✗ -> [FAIL]
-- ⚠️ -> [WARNING]
-- Remover: 🚀 📝 🔧 💡 🔒 🔐 🚨 📊 📈 📉 🎯 ✨ 🔥 👍 👎 ⭐ 🌟
+- [COMPLETADO] -> [x]
+- [ERROR] -> [ ]
+- [OK] -> [OK]
+- [ERROR] -> [FAIL]
+- [WARNING] -> [WARNING]
+- Remover:     🔒 🔐 🚨  📈 📉   🔥 👍 👎 ⭐ 🌟
 
 **Uso:**
 ```bash
@@ -293,10 +293,10 @@ touch evidencias/test_data/BadFileName.md
 ```bash
 # Test 1: Crear archivo con emojis
 cat > evidencias/test_data/emojis.md << 'EOF'
-# Test 🚀 ✅
-- Tarea ✓
-- Error ❌
-- Warning ⚠️
+# Test  [COMPLETADO]
+- Tarea [OK]
+- Error [ERROR]
+- Warning [WARNING]
 EOF
 
 # Test 2: Ejecutar limpieza

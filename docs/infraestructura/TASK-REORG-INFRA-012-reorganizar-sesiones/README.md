@@ -37,8 +37,8 @@ Crear una estructura de sesiones organizada por **año/mes** con:
 | Dominio | Sesiones | Organización | Estado |
 |---------|----------|--------------|--------|
 | **infraestructura** | 0 | N/A | Vacío (solo README.md) |
-| **backend** | 3+ | Por fecha (2025-11-11/) | ✓ Parcial |
-| **gobernanza** | 40+ | Mixta (raíz + análisis_nov_2025/) | ✗ Desorganizada |
+| **backend** | 3+ | Por fecha (2025-11-11/) | [OK] Parcial |
+| **gobernanza** | 40+ | Mixta (raíz + análisis_nov_2025/) | [ERROR] Desorganizada |
 | **frontend** | ? | TBD | Verificar |
 | **ai** | ? | TBD | Verificar |
 
@@ -105,10 +105,10 @@ sesiones/
 - Máximo 80 caracteres de nombre de archivo
 
 **Ejemplos:**
-- `2025-11-18-reorganizacion-sesiones-infra.md` ✓
-- `2025-11-18-sync-report-consolidacion.md` ✓
-- `2025-11-12-validacion-conformidad-gobernanza.md` ✓
-- `2025-11-18 Reorganización Sesiones.md` ✗ (espacios, mayúsculas)
+- `2025-11-18-reorganizacion-sesiones-infra.md` [OK]
+- `2025-11-18-sync-report-consolidacion.md` [OK]
+- `2025-11-12-validacion-conformidad-gobernanza.md` [OK]
+- `2025-11-18 Reorganización Sesiones.md` [ERROR] (espacios, mayúsculas)
 
 ### 5. Metadatos de Sesión (Frontmatter)
 
@@ -133,10 +133,10 @@ proxima_sesion: 2025-11-19-fecha-proxima-sesion
 ## Plan de Reorganización
 
 ### Fase 1: Infraestructura (Esta Tarea)
-1. ✓ Crear estructura de directorios (2025/2025-11/)
-2. ✓ Crear README.md con índice maestro
-3. ✓ Crear plantilla de sesiones
-4. ✓ Crear índice temático
+1. [OK] Crear estructura de directorios (2025/2025-11/)
+2. [OK] Crear README.md con índice maestro
+3. [OK] Crear plantilla de sesiones
+4. [OK] Crear índice temático
 5. Documentar convenciones en README
 
 ### Fase 2: Migración de Gobernanza (Dependent)

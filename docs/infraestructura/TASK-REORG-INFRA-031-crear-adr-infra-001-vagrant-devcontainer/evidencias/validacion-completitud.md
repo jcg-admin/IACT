@@ -21,14 +21,14 @@ tipo: validacion
 
 | # | Sección | Razón | Status |
 |---|---------|-------|--------|
-| 1 | **Contexto y Problema** | Define el problema que se resuelve | ✓ |
-| 2 | **Factores de Decisión** | Criterios usados para evaluar opciones | ✓ |
-| 3 | **Opciones Consideradas** | Alternativas evaluadas (3+ opciones) | ✓ |
-| 4 | **Decisión** | Opción elegida y ratificación | ✓ |
-| 5 | **Justificación** | Por qué se eligió esa opción | ✓ |
-| 6 | **Consecuencias** | Impacto (positivo/negativo/neutral) | ✓ |
-| 7 | **Plan de Implementación** | Cómo se implementará con fases | ✓ |
-| 8 | **Validación y Métricas** | Cómo se valida y métricas de éxito | ✓ |
+| 1 | **Contexto y Problema** | Define el problema que se resuelve | [OK] |
+| 2 | **Factores de Decisión** | Criterios usados para evaluar opciones | [OK] |
+| 3 | **Opciones Consideradas** | Alternativas evaluadas (3+ opciones) | [OK] |
+| 4 | **Decisión** | Opción elegida y ratificación | [OK] |
+| 5 | **Justificación** | Por qué se eligió esa opción | [OK] |
+| 6 | **Consecuencias** | Impacto (positivo/negativo/neutral) | [OK] |
+| 7 | **Plan de Implementación** | Cómo se implementará con fases | [OK] |
+| 8 | **Validación y Métricas** | Cómo se valida y métricas de éxito | [OK] |
 
 ### 3. Contenido de Secciones
 
@@ -42,11 +42,11 @@ tipo: validacion
 
 **Detalle de contenido:**
 ```
-✓ Por qué necesitamos DevContainer Host sin Docker en host físico
-✓ Restricciones iniciales listadas
-✓ Problema en formato de preguntas
-✓ Impacto cuantificado (2-3 días de onboarding)
-✓ Preguntas clave: consistency, reproducibilidad, limpieza, auditabilidad
+[OK] Por qué necesitamos DevContainer Host sin Docker en host físico
+[OK] Restricciones iniciales listadas
+[OK] Problema en formato de preguntas
+[OK] Impacto cuantificado (2-3 días de onboarding)
+[OK] Preguntas clave: consistency, reproducibilidad, limpieza, auditabilidad
 ```
 
 #### 2. Factores de Decisión
@@ -205,16 +205,16 @@ tipo: validacion
 
 | Concepto | Canvas | ADR | Alineación |
 |----------|--------|-----|-----------|
-| DevContainer Host = VM Vagrant | ✓ | ✓ | ALINEADO |
-| No Docker en host físico | ✓ | ✓ | ALINEADO |
-| Environmental consistency | ✓ | ✓ | ALINEADO |
-| Operational equivalence | ✓ | ✓ | ALINEADO |
-| Deterministic execution | ✓ | ✓ | ALINEADO |
-| Podman/Docker en VM | ✓ | ✓ | ALINEADO |
-| VS Code Remote SSH | ✓ | ✓ | ALINEADO |
-| Reproducibilidad | ✓ | ✓ | ALINEADO |
-| Multi-plataforma | ✓ | ✓ | ALINEADO |
-| Ubuntu Server LTS | ✓ | ✓ | ALINEADO |
+| DevContainer Host = VM Vagrant | [OK] | [OK] | ALINEADO |
+| No Docker en host físico | [OK] | [OK] | ALINEADO |
+| Environmental consistency | [OK] | [OK] | ALINEADO |
+| Operational equivalence | [OK] | [OK] | ALINEADO |
+| Deterministic execution | [OK] | [OK] | ALINEADO |
+| Podman/Docker en VM | [OK] | [OK] | ALINEADO |
+| VS Code Remote SSH | [OK] | [OK] | ALINEADO |
+| Reproducibilidad | [OK] | [OK] | ALINEADO |
+| Multi-plataforma | [OK] | [OK] | ALINEADO |
+| Ubuntu Server LTS | [OK] | [OK] | ALINEADO |
 
 **Conclusión:** ADR-INFRA-001 está **100% alineado** con Canvas DevContainer Host Vagrant
 
@@ -252,32 +252,32 @@ tipo: validacion
 
 ## Resumen de Validación
 
-### Estado General: ✓ VALIDADO
+### Estado General: [OK] VALIDADO
 
 | Aspecto | Status |
 |--------|--------|
-| 8 Secciones presentes | ✓ PASS |
-| Contenido sustancial en cada sección | ✓ PASS |
-| Alineación con Canvas | ✓ PASS |
-| Coherencia interna | ✓ PASS |
-| Referencias completas | ✓ PASS |
-| Criterios de éxito medibles | ✓ PASS |
-| Plan de implementación | ✓ PASS |
-| Auto-CoT completado | ✓ PASS |
-| Self-Consistency validado | ✓ PASS |
+| 8 Secciones presentes | [OK] PASS |
+| Contenido sustancial en cada sección | [OK] PASS |
+| Alineación con Canvas | [OK] PASS |
+| Coherencia interna | [OK] PASS |
+| Referencias completas | [OK] PASS |
+| Criterios de éxito medibles | [OK] PASS |
+| Plan de implementación | [OK] PASS |
+| Auto-CoT completado | [OK] PASS |
+| Self-Consistency validado | [OK] PASS |
 
 ### Conteo de Elementos Clave
 
-- **Secciones:** 8/8 ✓
-- **Opciones consideradas:** 4 (3 principales + 1 rechazada) ✓
-- **Factores de decisión:** 10 ✓
-- **Consecuencias positivas:** 6 ✓
-- **Consecuencias negativas:** 5 ✓
-- **Consecuencias neutrales:** 3 ✓
-- **Fases de implementación:** 3 (Prep, DevContainer, CI/CD) ✓
-- **Criterios de éxito:** 8 ✓
-- **Referencias internas:** 4+ ✓
-- **Referencias externas:** 5+ ✓
+- **Secciones:** 8/8 [OK]
+- **Opciones consideradas:** 4 (3 principales + 1 rechazada) [OK]
+- **Factores de decisión:** 10 [OK]
+- **Consecuencias positivas:** 6 [OK]
+- **Consecuencias negativas:** 5 [OK]
+- **Consecuencias neutrales:** 3 [OK]
+- **Fases de implementación:** 3 (Prep, DevContainer, CI/CD) [OK]
+- **Criterios de éxito:** 8 [OK]
+- **Referencias internas:** 4+ [OK]
+- **Referencias externas:** 5+ [OK]
 
 ### Próximos Pasos
 
@@ -297,5 +297,5 @@ tipo: validacion
 ---
 
 **Validación completada:** 2025-11-18
-**Estado:** ✓ READY FOR REVIEW
+**Estado:** [OK] READY FOR REVIEW
 **Responsable:** Equipo de Arquitectura

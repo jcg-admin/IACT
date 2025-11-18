@@ -76,9 +76,9 @@ cd scripts/infraestructura
 
 # Salida:
 # Ambientes virtualizados disponibles:
-#   ✓ postgres-dev (running)
-#   ✗ mysql-test (stopped)
-#   ✓ redis-staging (running)
+#   [OK] postgres-dev (running)
+#   [ERROR] mysql-test (stopped)
+#   [OK] redis-staging (running)
 ```
 
 ### 5. Activar Ambiente (cargar variables)
@@ -163,9 +163,9 @@ pytest tests/
 
 # Todos corriendo simultáneamente sin conflictos
 ./virtualize.sh list
-# ✓ postgres-dev (running)
-# ✓ postgres-test (running)
-# ✓ mysql-staging (running)
+# [OK] postgres-dev (running)
+# [OK] postgres-test (running)
+# [OK] mysql-staging (running)
 ```
 
 ### Caso 4: Cambiar entre Ambientes

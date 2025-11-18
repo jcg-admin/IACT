@@ -77,12 +77,12 @@ Crear un Architecture Decision Record (ADR) que:
 
 | Concepto | Canvas | ADR | Status |
 |----------|--------|-----|--------|
-| DevContainer Host = VM con Vagrant | ✓ | ✓ | OK |
-| No Docker en host físico | ✓ | ✓ | OK |
-| Environmental consistency | ✓ | ✓ | OK |
-| Operational equivalence | ✓ | ✓ | OK |
-| Podman/Docker en VM | ✓ | ✓ | OK |
-| VS Code Remote SSH | ✓ | ✓ | OK |
+| DevContainer Host = VM con Vagrant | [OK] | [OK] | OK |
+| No Docker en host físico | [OK] | [OK] | OK |
+| Environmental consistency | [OK] | [OK] | OK |
+| Operational equivalence | [OK] | [OK] | OK |
+| Podman/Docker en VM | [OK] | [OK] | OK |
+| VS Code Remote SSH | [OK] | [OK] | OK |
 
 ## Decisión Capturada
 

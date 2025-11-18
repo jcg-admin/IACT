@@ -194,7 +194,7 @@ chmod 755 /srv/projects /srv/devcontainers
 # Instalar DevContainer CLI (opcional, pero recomendado)
 npm install -g @devcontainers/cli || true
 
-echo "✓ Provisioning completado exitosamente"
+echo "[OK] Provisioning completado exitosamente"
 ```
 
 #### 7.3 Estructura base de DevContainer (devcontainer.json)
@@ -236,7 +236,7 @@ pip install -r requirements.txt
 # Instalar herramientas de desarrollo
 pip install pytest pytest-cov black flake8 mypy
 
-echo "✓ Bootstrap completado"
+echo "[OK] Bootstrap completado"
 ```
 
 ### 8. Objetivos de calidad
@@ -312,16 +312,16 @@ echo "✓ Bootstrap completado"
 1. **Analizar estructura Canvas existente:** Validar que el archivo `docs/infraestructura/diseno/arquitectura/devcontainer-host-vagrant.md` contiene las 10 secciones completas.
 
 2. **Validar secciones Canvas con Self-Consistency:**
-   - Sección 1: Identificación ✓
-   - Sección 2: Descripción general ✓
-   - Sección 3: Objetivo técnico ✓
-   - Sección 4: Componentes ✓
-   - Sección 5: Flujo de trabajo ✓
-   - Sección 6: Diagrama ASCII ✓
-   - Sección 7: Especificación de código ✓
-   - Sección 8: Objetivos de calidad ✓
-   - Sección 9: Riesgos y mitigaciones ✓
-   - Sección 10: Checklist de implementación ✓
+   - Sección 1: Identificación [OK]
+   - Sección 2: Descripción general [OK]
+   - Sección 3: Objetivo técnico [OK]
+   - Sección 4: Componentes [OK]
+   - Sección 5: Flujo de trabajo [OK]
+   - Sección 6: Diagrama ASCII [OK]
+   - Sección 7: Especificación de código [OK]
+   - Sección 8: Objetivos de calidad [OK]
+   - Sección 9: Riesgos y mitigaciones [OK]
+   - Sección 10: Checklist de implementación [OK]
 
 3. **Documentar artefacto:** Generar evidencia de que el Canvas cumple con todas las secciones requeridas.
 
@@ -349,16 +349,16 @@ echo "✓ Bootstrap completado"
 Verificar que el Canvas tiene las 10 secciones completas:
 
 ```
-✓ Sección 1: Identificación del artefacto (nombre, propósito, proyecto, versión)
-✓ Sección 2: Descripción general (modelo, componentes principales, flujo alto nivel)
-✓ Sección 3: Objetivo técnico (environmental consistency, deterministic execution)
-✓ Sección 4: Componentes de la arquitectura (workstation, VM, runtime, DevContainer, CI/CD)
-✓ Sección 5: Flujo de trabajo (desarrollo local, CI/CD)
-✓ Sección 6: Diagrama de arquitectura (ASCII visual)
-✓ Sección 7: Especificación de código (Vagrantfile, provision.sh, devcontainer.json, bootstrap.sh)
-✓ Sección 8: Objetivos de calidad (reproducibilidad, aislamiento, portabilidad, extensibilidad, mantenibilidad)
-✓ Sección 9: Riesgos y mitigaciones (tabla con probabilidad, impacto, mitigación)
-✓ Sección 10: Checklist de implementación (5 fases: preparación, infraestructura, contenedor, SSH, CI/CD, docs)
+[OK] Sección 1: Identificación del artefacto (nombre, propósito, proyecto, versión)
+[OK] Sección 2: Descripción general (modelo, componentes principales, flujo alto nivel)
+[OK] Sección 3: Objetivo técnico (environmental consistency, deterministic execution)
+[OK] Sección 4: Componentes de la arquitectura (workstation, VM, runtime, DevContainer, CI/CD)
+[OK] Sección 5: Flujo de trabajo (desarrollo local, CI/CD)
+[OK] Sección 6: Diagrama de arquitectura (ASCII visual)
+[OK] Sección 7: Especificación de código (Vagrantfile, provision.sh, devcontainer.json, bootstrap.sh)
+[OK] Sección 8: Objetivos de calidad (reproducibilidad, aislamiento, portabilidad, extensibilidad, mantenibilidad)
+[OK] Sección 9: Riesgos y mitigaciones (tabla con probabilidad, impacto, mitigación)
+[OK] Sección 10: Checklist de implementación (5 fases: preparación, infraestructura, contenedor, SSH, CI/CD, docs)
 ```
 
 ---

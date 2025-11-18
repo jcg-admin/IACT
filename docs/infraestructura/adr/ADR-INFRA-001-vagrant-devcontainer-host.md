@@ -250,10 +250,10 @@ Cada desarrollador instala Podman/Docker localmente en su SO.
 ### 5.3 Alineación Estratégica
 
 Esta decisión **alinea** con:
-- Canvas de Arquitectura: `devcontainer-host-vagrant.md` ✓
-- Principio DevOps: Infrastructure as Code ✓
-- Principio de Automatización: Scripts versionados ✓
-- Principio de Reproducibilidad: Deterministic execution ✓
+- Canvas de Arquitectura: `devcontainer-host-vagrant.md` [OK]
+- Principio DevOps: Infrastructure as Code [OK]
+- Principio de Automatización: Scripts versionados [OK]
+- Principio de Reproducibilidad: Deterministic execution [OK]
 
 ---
 
@@ -524,13 +524,13 @@ time vagrant up      # Cached execution
 
 Para considerar implementación **exitosa**:
 
-- ✓ Vagrantfile pasa validación en Windows/macOS/Linux
-- ✓ provision.sh ejecuta sin errores
-- ✓ DevContainer inicia en <30s
-- ✓ Onboarding <1 hora
-- ✓ >95% primera ejecución exitosa
-- ✓ Documentación 100% completa
-- ✓ CI/CD ejecuta con parity
+- [OK] Vagrantfile pasa validación en Windows/macOS/Linux
+- [OK] provision.sh ejecuta sin errores
+- [OK] DevContainer inicia en <30s
+- [OK] Onboarding <1 hora
+- [OK] >95% primera ejecución exitosa
+- [OK] Documentación 100% completa
+- [OK] CI/CD ejecuta con parity
 
 ---
 

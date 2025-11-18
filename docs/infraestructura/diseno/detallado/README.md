@@ -122,7 +122,7 @@ detallado/
 
 ## Contenido Esperado
 
-### ✅ Pertenece a `diseno/detallado/`
+### [COMPLETADO] Pertenece a `diseno/detallado/`
 
 - Especificaciones de features con requisitos técnicos específicos
 - Guías operacionales paso a paso
@@ -134,7 +134,7 @@ detallado/
 - Validación y testing procedures
 - Plantillas y templates operacionales
 
-### ❌ NO Pertenece a `diseno/detallado/`
+### [ERROR] NO Pertenece a `diseno/detallado/`
 
 - Decisiones arquitectónicas → `../arquitectura/`
 - Diagramas conceptuales → `../diagramas/`

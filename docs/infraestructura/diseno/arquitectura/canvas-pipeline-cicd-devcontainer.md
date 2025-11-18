@@ -918,7 +918,7 @@ jobs:
             --junitxml=junit-unit.xml \
             -n auto \
             --timeout=300 || exit_code=$? && echo "EXIT_CODE=$exit_code" >> $GITHUB_ENV
-          echo "✓ Unit tests completed"
+          echo "[OK] Unit tests completed"
 
       - name: "[STAGE 3] Run integration tests"
         id: integration-tests
@@ -934,7 +934,7 @@ jobs:
             --junitxml=junit-integration.xml \
             -n auto \
             --timeout=600 || true
-          echo "✓ Integration tests completed"
+          echo "[OK] Integration tests completed"
 
       - name: "[STAGE 3] Check coverage threshold"
         run: |
@@ -967,7 +967,7 @@ jobs:
         run: |
           echo "=== Building Python Package ==="
           python -m build --wheel
-          echo "✓ Wheel built"
+          echo "[OK] Wheel built"
           ls -lah dist/
 
       - name: "[STAGE 4] Build Docker image"
@@ -986,7 +986,7 @@ jobs:
             -f Dockerfile .
 
           docker images | grep "${{ env.IMAGE_NAME }}"
-          echo "✓ Docker image built"
+          echo "[OK] Docker image built"
 
       - name: "[STAGE 4] Upload build artifacts"
         if: always()
@@ -1017,7 +1017,7 @@ jobs:
           bandit -r src/ \
             -f txt \
             -o bandit-report.txt || true
-          echo "✓ SAST scan completed"
+          echo "[OK] SAST scan completed"
           cat bandit-report.txt || true
 
       - name: "[STAGE 5] Check dependencies for vulnerabilities"
@@ -1027,7 +1027,7 @@ jobs:
           safety check \
             --json > safety-report.json || true
           safety check || true
-          echo "✓ Dependency check completed"
+          echo "[OK] Dependency check completed"
 
       - name: "[STAGE 5] Scan Docker image for vulnerabilities"
         continue-on-error: true
@@ -1042,9 +1042,9 @@ jobs:
               --format json \
               --output trivy-report.json \
               "$IMAGE" || true
-            echo "✓ Image scan completed"
+            echo "[OK] Image scan completed"
           else
-            echo "⚠ trivy not available, skipping image scan"
+            echo "[WARNING] trivy not available, skipping image scan"
           fi
 
       - name: "[STAGE 5] Upload security reports"
@@ -1072,7 +1072,7 @@ jobs:
       - name: "Pipeline SUCCESS notification"
         if: success()
         run: |
-          echo "=== PIPELINE PASSED ✓ ==="
+          echo "=== PIPELINE PASSED [OK] ==="
           echo "Commit: ${{ github.sha }}"
           echo "Branch: ${{ github.ref_name }}"
           echo "Author: ${{ github.actor }}"
@@ -1081,7 +1081,7 @@ jobs:
       - name: "Pipeline FAILURE notification"
         if: failure()
         run: |
-          echo "=== PIPELINE FAILED ✗ ==="
+          echo "=== PIPELINE FAILED [ERROR] ==="
           echo "Commit: ${{ github.sha }}"
           echo "Branch: ${{ github.ref_name }}"
           echo "Please review the logs above"
@@ -1176,7 +1176,7 @@ checkout:code:
       git log -1 --oneline
       git branch -a
       git submodule update --init --recursive
-    - echo "✓ Checkout completed"
+    - echo "[OK] Checkout completed"
   artifacts:
     paths:
       - .
@@ -1196,7 +1196,7 @@ lint:install:
   script:
     - echo "=== Installing linting tools ==="
     - pip install flake8 pylint black isort mypy
-    - echo "✓ Tools installed"
+    - echo "[OK] Tools installed"
 
 lint:flake8:
   <<: *devcontainer_template
@@ -1211,7 +1211,7 @@ lint:flake8:
         --ignore=E203,W503,E501 \
         --format='%(path)s:%(row)d:%(col)d: %(code)s %(text)s' \
         | tee flake8-report.txt || true
-    - echo "✓ flake8 completed"
+    - echo "[OK] flake8 completed"
   artifacts:
     paths:
       - flake8-report.txt
@@ -1230,7 +1230,7 @@ lint:pylint:
         --fail-under=8.0 \
         --output-format=json \
         > pylint-report.json 2>&1 || true
-    - echo "✓ pylint completed"
+    - echo "[OK] pylint completed"
   artifacts:
     paths:
       - pylint-report.json
@@ -1245,7 +1245,7 @@ lint:black:
     - echo "=== black: Code Formatting Check ==="
     - pip install black
     - black --check --diff src/ 2>&1 | tee black-report.txt || true
-    - echo "✓ black completed"
+    - echo "[OK] black completed"
   artifacts:
     paths:
       - black-report.txt
@@ -1260,7 +1260,7 @@ lint:isort:
     - echo "=== isort: Import Ordering Check ==="
     - pip install isort
     - isort --check-only --diff src/ 2>&1 | tee isort-report.txt || true
-    - echo "✓ isort completed"
+    - echo "[OK] isort completed"
   artifacts:
     paths:
       - isort-report.txt
@@ -1291,7 +1291,7 @@ test:unit:
         --junitxml=junit-unit.xml \
         -n auto \
         --timeout=300
-    - echo "✓ Unit tests completed"
+    - echo "[OK] Unit tests completed"
   coverage: '/TOTAL.*\s+(\d+%)$/'
   artifacts:
     reports:
@@ -1320,7 +1320,7 @@ test:integration:
         --junitxml=junit-integration.xml \
         -n auto \
         --timeout=600
-    - echo "✓ Integration tests completed"
+    - echo "[OK] Integration tests completed"
   artifacts:
     reports:
       junit: junit-integration.xml
@@ -1340,7 +1340,7 @@ build:wheel:
   script:
     - echo "=== Building Python Wheel ==="
     - python -m build --wheel
-    - echo "✓ Wheel built"
+    - echo "[OK] Wheel built"
     - ls -lah dist/
   artifacts:
     paths:
@@ -1363,7 +1363,7 @@ build:docker:
         -t "${DOCKER_REGISTRY}/${IMAGE_NAME}:latest" \
         -f Dockerfile .
     - docker images | grep "${IMAGE_NAME}"
-    - echo "✓ Docker image built"
+    - echo "[OK] Docker image built"
   allow_failure: false
 
 # ─────────────────────────────────────────────────
@@ -1383,7 +1383,7 @@ security:sast:bandit:
         -f json \
         -o bandit-report.json || true
     - bandit -r src/ -f txt || true
-    - echo "✓ SAST scan completed"
+    - echo "[OK] SAST scan completed"
   artifacts:
     reports:
       sast: bandit-report.json
@@ -1402,7 +1402,7 @@ security:deps:safety:
     - echo "=== Dependency Vulnerability Check (safety) ==="
     - safety check --json > safety-report.json || true
     - safety check || true
-    - echo "✓ Dependency check completed"
+    - echo "[OK] Dependency check completed"
   artifacts:
     paths:
       - safety-report.json
@@ -1422,9 +1422,9 @@ security:image:trivy:
           --format json \
           --output trivy-report.json \
           "${DOCKER_REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}" || true
-        echo "✓ Image scan completed"
+        echo "[OK] Image scan completed"
       else
-        echo "⚠ trivy not available, skipping image scan"
+        echo "[WARNING] trivy not available, skipping image scan"
       fi
   artifacts:
     paths:
@@ -1444,7 +1444,7 @@ cleanup:containers:
     - echo "=== Cleanup: Dangling containers ==="
     - docker container prune -f --filter "until=1h" || true
     - docker image prune -f --filter "until=1h" || true
-    - echo "✓ Cleanup completed"
+    - echo "[OK] Cleanup completed"
   allow_failure: true
 ```
 
@@ -1456,16 +1456,16 @@ cleanup:containers:
 
 | # | Objetivo | Descripción | Métrica / KPI | Target | Status |
 |---|----------|-------------|----------------|--------|--------|
-| 1 | **Reproducibilidad** | Pipeline ejecuta idénticamente en desarrollo y CI/CD | YAML versionado, base image pinned | 100% | ✓ |
-| 2 | **Determinismo** | Resultados predecibles sin variabilidad aleatoria | Versiones pinned en deps | 100% | ✓ |
-| 3 | **Cobertura de pruebas** | Tests cubren código crítico | Cobertura >= 80% | >= 80% | ✓ |
-| 4 | **Tiempo de ejecución** | Pipeline completo en tiempo aceptable | Duración total stages | < 15 min | ✓ |
-| 5 | **Tasa de falsos positivos** | Linting no bloquea sin razón | P(FalsePositive) | < 5% | ✓ |
-| 6 | **Confiabilidad de artefactos** | Build genera artefactos consistentes | Checksum validation | 100% | ✓ |
-| 7 | **Seguridad de imagen** | Imagen base sin vulns críticas | Container scan CRITICAL count | 0 | ✓ |
-| 8 | **Disponibilidad de runner** | Runner disponible cuando se necesita | Uptime | >= 99% | ✓ |
-| 9 | **Observabilidad** | Logs y reportes accesibles | Log retention | >= 30 days | ✓ |
-| 10 | **Performance** | Pipeline performance monitoreado | Duración por stage | Trend report | ✓ |
+| 1 | **Reproducibilidad** | Pipeline ejecuta idénticamente en desarrollo y CI/CD | YAML versionado, base image pinned | 100% | [OK] |
+| 2 | **Determinismo** | Resultados predecibles sin variabilidad aleatoria | Versiones pinned en deps | 100% | [OK] |
+| 3 | **Cobertura de pruebas** | Tests cubren código crítico | Cobertura >= 80% | >= 80% | [OK] |
+| 4 | **Tiempo de ejecución** | Pipeline completo en tiempo aceptable | Duración total stages | < 15 min | [OK] |
+| 5 | **Tasa de falsos positivos** | Linting no bloquea sin razón | P(FalsePositive) | < 5% | [OK] |
+| 6 | **Confiabilidad de artefactos** | Build genera artefactos consistentes | Checksum validation | 100% | [OK] |
+| 7 | **Seguridad de imagen** | Imagen base sin vulns críticas | Container scan CRITICAL count | 0 | [OK] |
+| 8 | **Disponibilidad de runner** | Runner disponible cuando se necesita | Uptime | >= 99% | [OK] |
+| 9 | **Observabilidad** | Logs y reportes accesibles | Log retention | >= 30 days | [OK] |
+| 10 | **Performance** | Pipeline performance monitoreado | Duración por stage | Trend report | [OK] |
 
 ### 11.2 Definition of Done (DoD)
 
@@ -1581,15 +1581,15 @@ cleanup:containers:
 **Este Canvas está ACCEPTED cuando:**
 
 ```
-✓ Todas 11 secciones completadas y documentadas
-✓ 5 diagramas UML PlantUML validados
-✓ 2 YAML pipelines (GitHub Actions + GitLab CI) funcionales
-✓ Tabla de calidad con 10 objetivos
-✓ Definition of Done: 6 criterios completos
-✓ KPIs establecidos y monitoreados
-✓ Riesgos identificados con mitigaciones
-✓ Team sign-off (DevOps, Platform, Security)
-✓ Deployed en staging y 5 ejecuciones exitosas
+[OK] Todas 11 secciones completadas y documentadas
+[OK] 5 diagramas UML PlantUML validados
+[OK] 2 YAML pipelines (GitHub Actions + GitLab CI) funcionales
+[OK] Tabla de calidad con 10 objetivos
+[OK] Definition of Done: 6 criterios completos
+[OK] KPIs establecidos y monitoreados
+[OK] Riesgos identificados con mitigaciones
+[OK] Team sign-off (DevOps, Platform, Security)
+[OK] Deployed en staging y 5 ejecuciones exitosas
 ```
 
 ---

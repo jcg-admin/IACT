@@ -23,7 +23,7 @@
 - Evaluación de calidad
 - Conclusión y recomendación
 
-**Status:** ✓ COMPLETO
+**Status:** [OK] COMPLETO
 
 ---
 
@@ -112,11 +112,11 @@ GitLab CI:
 
 ### Cobertura de Stages
 ```
-Stage 1 (Checkout): ✓ Completo
-Stage 2 (Lint): ✓ Completo (flake8, pylint, black, isort)
-Stage 3 (Tests): ✓ Completo (unit + integration + coverage)
-Stage 4 (Build): ✓ Completo (wheel + docker image)
-Stage 5 (Security): ✓ Completo (bandit + safety + trivy)
+Stage 1 (Checkout): [OK] Completo
+Stage 2 (Lint): [OK] Completo (flake8, pylint, black, isort)
+Stage 3 (Tests): [OK] Completo (unit + integration + coverage)
+Stage 4 (Build): [OK] Completo (wheel + docker image)
+Stage 5 (Security): [OK] Completo (bandit + safety + trivy)
 ```
 
 ---
@@ -129,10 +129,10 @@ Stage 5 (Security): ✓ Completo (bandit + safety + trivy)
 - Conclusiones: Consistentes
 
 ### Self-Consistency Check
-- Nombres consistentes: ✓
-- Técnica consistente: ✓
-- Métricas consistentes: ✓
-- Referencias cruzadas: ✓
+- Nombres consistentes: [OK]
+- Técnica consistente: [OK]
+- Métricas consistentes: [OK]
+- Referencias cruzadas: [OK]
 
 ### Completitud
 - Secciones requeridas: 11/11 (100%)

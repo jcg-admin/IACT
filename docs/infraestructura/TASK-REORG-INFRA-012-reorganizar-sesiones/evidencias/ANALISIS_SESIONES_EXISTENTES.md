@@ -377,11 +377,11 @@ revision: 2025-11-18 (fecha última revisión)
 3. **Implementar validación automática**
 
 ### Criterios de Éxito
-- ✓ 100% de sesiones en estructura YYYY/YYYY-MM/
-- ✓ 100% de sesiones con metadatos YAML válidos
-- ✓ 0 archivos con nomenclatura inconsistente
-- ✓ 0 broken links a sesiones movidas
-- ✓ Índices automáticos y actualizados
+- [OK] 100% de sesiones en estructura YYYY/YYYY-MM/
+- [OK] 100% de sesiones con metadatos YAML válidos
+- [OK] 0 archivos con nomenclatura inconsistente
+- [OK] 0 broken links a sesiones movidas
+- [OK] Índices automáticos y actualizados
 
 ---
 

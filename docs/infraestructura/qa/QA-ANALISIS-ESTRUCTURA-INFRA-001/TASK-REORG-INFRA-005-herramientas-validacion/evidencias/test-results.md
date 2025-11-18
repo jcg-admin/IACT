@@ -180,14 +180,14 @@ Detalle de cambios sugeridos:
 
 **Archivo de Prueba - ANTES:**
 ```markdown
-# Test with Emojis 🚀 ✅
+# Test with Emojis  [COMPLETADO]
 
-- Task 1 ✓
-- Task 2 ❌
-- Warning ⚠️
+- Task 1 [OK]
+- Task 2 [ERROR]
+- Warning [WARNING]
 - Success [x]
 
-## Features 📝🔧💡
+## Features 
 
 🚨 Important: This is critical 🔒
 ```
@@ -207,14 +207,14 @@ Detalle de cambios sugeridos:
 ```
 
 **Conversiones Realizadas:**
-- 🚀 (Rocket) -> Removido
-- ✅ (Check Mark Green) -> [x]
-- ✓ (Check) -> [OK]
-- ❌ (Cross Mark Red) -> [ ]
-- ⚠️ (Warning) -> [WARNING]
-- 📝 (Memo) -> Removido
-- 🔧 (Wrench) -> Removido
-- 💡 (Lightbulb) -> Removido
+-  (Rocket) -> Removido
+- [COMPLETADO] (Check Mark Green) -> [x]
+- [OK] (Check) -> [OK]
+- [ERROR] (Cross Mark Red) -> [ ]
+- [WARNING] (Warning) -> [WARNING]
+-  (Memo) -> Removido
+-  (Wrench) -> Removido
+-  (Lightbulb) -> Removido
 - 🚨 (Police Light) -> Removido
 - 🔒 (Lock) -> Removido
 
