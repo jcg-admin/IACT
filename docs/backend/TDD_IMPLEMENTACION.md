@@ -25,8 +25,8 @@ Este documento describe la implementación de **tests unitarios** siguiendo la m
 - [OK] Cobertura de casos edge
 
 **Pendiente:**
-- 🔄 FASE GREEN: Refactorizar código para pasar tests
-- 🔄 FASE REFACTOR: Optimizar manteniendo tests verdes
+- FASE GREEN: Refactorizar código para pasar tests
+- FASE REFACTOR: Optimizar manteniendo tests verdes
 
 ---
 
@@ -35,30 +35,23 @@ Este documento describe la implementación de **tests unitarios** siguiendo la m
 ### Ciclo Red-Green-Refactor
 
 ```
-┌─────────────────────────────────────┐
-│  1. RED: Escribir test que falle   │
-│     - Test describe el comportamiento│
-│     - Test falla porque código no   │
-│       implementa la funcionalidad   │
-└──────────────┬──────────────────────┘
-               │
-┌──────────────▼──────────────────────┐
-│  2. GREEN: Código mínimo que pase   │
-│     - Implementar solo lo necesario │
-│     - No optimizar todavía          │
-│     - Test debe pasar               │
-└──────────────┬──────────────────────┘
-               │
-┌──────────────▼──────────────────────┐
-│  3. REFACTOR: Mejorar el código     │
-│     - Eliminar duplicación          │
-│     - Mejorar legibilidad           │
-│     - Tests siguen pasando          │
-└──────────────┬──────────────────────┘
-               │
-               └──────────────┐
-                              │
-               Repetir ←──────┘
+
+ 1. RED: Escribir test que falle 
+ - Test describe el comportamiento
+ - Test falla porque código no 
+ implementa la funcionalidad 
+
+ 2. GREEN: Código mínimo que pase 
+ - Implementar solo lo necesario 
+ - No optimizar todavía 
+ - Test debe pasar 
+
+ 3. REFACTOR: Mejorar el código 
+ - Eliminar duplicación 
+ - Mejorar legibilidad 
+ - Tests siguen pasando 
+
+ Repetir ←
 ```
 
 ---
@@ -170,18 +163,18 @@ Todos los tests usan `unittest.mock` para:
 @patch('callcentersite.apps.users.services_usuarios.UserManagementService')
 @patch('callcentersite.apps.users.services_usuarios.User')
 def test_sin_permiso_lanza_permission_denied(self, mock_user, mock_ums):
-    """RED: Usuario sin permiso debe lanzar PermissionDenied."""
-    # Arrange
-    mock_ums.usuario_tiene_permiso.return_value = False
+ """RED: Usuario sin permiso debe lanzar PermissionDenied."""
+ # Arrange
+ mock_ums.usuario_tiene_permiso.return_value = False
 
-    # Act & Assert
-    with pytest.raises(PermissionDenied):
-        UsuarioService.listar_usuarios(
-            usuario_solicitante_id=999,
-            filtros={},
-            page=1,
-            page_size=50
-        )
+ # Act & Assert
+ with pytest.raises(PermissionDenied):
+ UsuarioService.listar_usuarios(
+ usuario_solicitante_id=999,
+ filtros={},
+ page=1,
+ page_size=50
+ )
 ```
 
 ### Patrón AAA (Arrange-Act-Assert)
@@ -212,8 +205,8 @@ Los tests definen **qué debe hacer** el código antes de implementarlo:
 
 ```python
 def test_sin_email_lanza_validation_error(self, mock_ums):
-    """RED: Datos sin email deben lanzar ValidationError."""
-    # Este test DEFINE que el servicio debe validar email
+ """RED: Datos sin email deben lanzar ValidationError."""
+ # Este test DEFINE que el servicio debe validar email
 ```
 
 ### 2. Documentación Viva
@@ -222,8 +215,8 @@ Cada test es un ejemplo de uso:
 
 ```python
 def test_suspension_marca_is_active_false(self, mock_ums, mock_user):
-    """RED: Suspensión debe marcar is_active=False."""
-    # Este test DOCUMENTA el comportamiento esperado
+ """RED: Suspensión debe marcar is_active=False."""
+ # Este test DOCUMENTA el comportamiento esperado
 ```
 
 ### 3. Refactoring Seguro
@@ -233,14 +226,14 @@ Con tests pasando, podemos refactorizar sin miedo:
 ```python
 # ANTES
 def crear_usuario(datos):
-    if not datos.get('email'):
-        raise ValidationError()
-    # ... código complejo
+ if not datos.get('email'):
+ raise ValidationError()
+ # ... código complejo
 
 # DESPUÉS (refactorizado)
 def crear_usuario(datos):
-    _validar_datos_requeridos(datos)  # Extraído a función
-    # ... código más limpio
+ _validar_datos_requeridos(datos) # Extraído a función
+ # ... código más limpio
 ```
 
 Los tests garantizan que el comportamiento no cambió.
@@ -253,8 +246,8 @@ Tests unitarios ejecutan en **milisegundos**:
 pytest tests/unit/ -v
 
 # Resultado:
-tests/unit/permissions/test_services_usuarios.py::... PASSED [  4%] (0.02s)
-tests/unit/permissions/test_services_usuarios.py::... PASSED [  8%] (0.01s)
+tests/unit/permissions/test_services_usuarios.py::... PASSED [ 4%] (0.02s)
+tests/unit/permissions/test_services_usuarios.py::... PASSED [ 8%] (0.01s)
 ...
 ================ 48 passed in 0.85s ================
 ```
@@ -333,21 +326,21 @@ El código fuente ya implementa toda la funcionalidad que los tests unitarios va
 # [OK] Verifica permiso
 tiene_permiso = UserManagementService.usuario_tiene_permiso(...)
 if not tiene_permiso:
-    # [OK] Audita denegación
-    AuditoriaPermiso.objects.create(resultado='denegado', ...)
-    # [OK] Lanza PermissionDenied
-    raise PermissionDenied('No tiene permiso para crear usuarios')
+ # [OK] Audita denegación
+ AuditoriaPermiso.objects.create(resultado='denegado', ...)
+ # [OK] Lanza PermissionDenied
+ raise PermissionDenied('No tiene permiso para crear usuarios')
 
 # [OK] Valida datos requeridos
 campos_requeridos = ['email', 'first_name', 'last_name', 'password']
 for campo in campos_requeridos:
-    if campo not in datos or not datos[campo]:
-        # [OK] Lanza ValidationError
-        raise ValidationError(f'Campo requerido: {campo}')
+ if campo not in datos or not datos[campo]:
+ # [OK] Lanza ValidationError
+ raise ValidationError(f'Campo requerido: {campo}')
 
 # [OK] Valida email único
 if User.objects.filter(email=datos['email']).exists():
-    raise ValidationError(f'Email ya existe: {datos["email"]}')
+ raise ValidationError(f'Email ya existe: {datos["email"]}')
 
 # [OK] Crea usuario
 usuario = User.objects.create_user(...)
@@ -362,7 +355,7 @@ Todos los métodos siguen este mismo patrón robusto.
 
 ### Trabajo Completado
 
-**Estado:** 🔄 **50% COMPLETADO**
+**Estado:** **50% COMPLETADO**
 
 #### 1. Módulo Helper Creado [OK]
 
@@ -411,17 +404,17 @@ Documenta:
 ### Principios Aplicados
 
 1. **DRY (Don't Repeat Yourself)** [OK]
-   - Código duplicado extraído a helpers
-   - Un solo lugar para cambiar lógica
+ - Código duplicado extraído a helpers
+ - Un solo lugar para cambiar lógica
 
 2. **Single Responsibility** [OK]
-   - Helpers hacen una cosa
-   - Services se enfocan en business logic
+ - Helpers hacen una cosa
+ - Services se enfocan en business logic
 
 3. **Refactoring Seguro** [OK]
-   - Tests escritos primero (RED)
-   - Código funcional (GREEN)
-   - Refactoring no cambia comportamiento
+ - Tests escritos primero (RED)
+ - Código funcional (GREEN)
+ - Refactoring no cambia comportamiento
 
 **Referencia:** Ver `docs/TDD_REFACTOR_RESUMEN.md` para detalles completos
 
@@ -472,20 +465,20 @@ pytest -m integration -v
 
 ```
 api/callcentersite/
-├── tests/
-│   ├── unit/                           # Tests unitarios (TDD)
-│   │   ├── permissions/
-│   │   │   └── test_services_usuarios.py  (25 tests)
-│   │   ├── dashboard/
-│   │   │   └── test_services.py           (13 tests)
-│   │   └── configuration/
-│   │       └── test_services.py           (20 tests)
-│   └── integration/                    # Tests de integración (E2E)
-│       ├── test_usuario_completo.py
-│       ├── test_usuario_suspension.py
-│       ├── test_dashboard_personalizado.py
-│       ├── test_configuracion_backup.py
-│       └── test_administrador_completo.py
+ tests/
+ unit/ # Tests unitarios (TDD)
+ permissions/
+ test_services_usuarios.py (25 tests)
+ dashboard/
+ test_services.py (13 tests)
+ configuration/
+ test_services.py (20 tests)
+ integration/ # Tests de integración (E2E)
+ test_usuario_completo.py
+ test_usuario_suspension.py
+ test_dashboard_personalizado.py
+ test_configuracion_backup.py
+ test_administrador_completo.py
 ```
 
 ---
@@ -516,7 +509,7 @@ Con estos tests unitarios esperamos:
 
 ```python
 def test_sin_permiso_lanza_permission_denied(self):
-    """RED: Usuario sin permiso debe lanzar PermissionDenied."""
+ """RED: Usuario sin permiso debe lanzar PermissionDenied."""
 ```
 
 El nombre del test describe **exactamente** qué valida.
@@ -528,17 +521,17 @@ Cada test valida **una cosa**:
 ```python
 # BIEN
 def test_elimina marca_is_deleted_true(self):
-    assert usuario.is_deleted is True
+ assert usuario.is_deleted is True
 
 def test_eliminacion_marca_is_active_false(self):
-    assert usuario.is_active is False
+ assert usuario.is_active is False
 
 # MAL
 def test_eliminacion(self):
-    assert usuario.is_deleted is True
-    assert usuario.is_active is False
-    assert usuario.deleted_at is not None
-    # Demasiadas validaciones
+ assert usuario.is_deleted is True
+ assert usuario.is_active is False
+ assert usuario.deleted_at is not None
+ # Demasiadas validaciones
 ```
 
 ### 3. Tests Independientes
@@ -570,7 +563,7 @@ Mock solo lo necesario:
 3. **Pytest fixtures:** Reutilización de setup
 4. **Nombres descriptivos:** Auto-documentación
 
-### 🔄 Lo que mejorar
+### Lo que mejorar
 
 1. **Agregar tests parametrizados:** Para validar múltiples casos
 2. **Property-based testing:** Con hypothesis

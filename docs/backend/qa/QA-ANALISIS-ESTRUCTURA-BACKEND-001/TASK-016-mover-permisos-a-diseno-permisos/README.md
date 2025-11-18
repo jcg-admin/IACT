@@ -75,11 +75,11 @@ DEST=$(find docs/backend/diseno/permisos/ -type f ! -name ".gitkeep" 2>/dev/null
 ### Paso 3: Mover Contenido
 ```bash
 if [ -d "docs/backend/permisos" ] && [ "$(ls -A docs/backend/permisos)" ]; then
-  git mv docs/backend/permisos/* docs/backend/diseno/permisos/ 2>&1 | tee \
-    docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/log-movimiento-permisos.txt
+ git mv docs/backend/permisos/* docs/backend/diseno/permisos/ 2>&1 | tee \
+ docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/log-movimiento-permisos.txt
 else
-  echo "ERROR: permisos/ no existe o vacia"
-  exit 1
+ echo "ERROR: permisos/ no existe o vacia"
+ exit 1
 fi
 ```
 

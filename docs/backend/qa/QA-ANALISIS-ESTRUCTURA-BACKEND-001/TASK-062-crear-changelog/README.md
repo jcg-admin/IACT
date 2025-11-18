@@ -3,7 +3,7 @@
 ## Metadatos
 - **ID**: TASK-062
 - **Fase**: FASE 4 - Validación y Limpieza
-- **Prioridad**: ALTA 🟡
+- **Prioridad**: ALTA 
 - **Estimación**: 15 minutos
 - **Estado**: PENDIENTE
 - **Metodología**: Auto-CoT + Self-Consistency
@@ -212,14 +212,14 @@ docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/
 
 ## Entregables
 1. **docs/backend/CHANGELOG.md**
-   - Formato Keep a Changelog
-   - Cambios de reorganización documentados
-   - Referencias claras
+ - Formato Keep a Changelog
+ - Cambios de reorganización documentados
+ - Referencias claras
 
 2. **CHANGELOG-DETALLADO.md** (Opcional)
-   - Versión extendida con más detalles
-   - Mapeo completo de migraciones
-   - Decisiones y justificaciones
+ - Versión extendida con más detalles
+ - Mapeo completo de migraciones
+ - Decisiones y justificaciones
 
 ## Template CHANGELOG.md
 
@@ -338,23 +338,23 @@ Proyectos migrados desde estructura antigua a nueva:
 Para desarrolladores trabajando en código legacy:
 
 1. **Encontrar código movido**:
-   - Consultar `GUIA_NAVEGACION_BACKEND.md`
-   - Buscar en `legacy/` si aún no migrado
-   - Revisar plan en `qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/`
+ - Consultar `GUIA_NAVEGACION_BACKEND.md`
+ - Buscar en `legacy/` si aún no migrado
+ - Revisar plan en `qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/`
 
 2. **Actualizar referencias**:
-   - Actualizar imports/requires a nuevas rutas
-   - Actualizar configuraciones que referencien paths
-   - Validar que enlaces en documentación funcionan
+ - Actualizar imports/requires a nuevas rutas
+ - Actualizar configuraciones que referencien paths
+ - Validar que enlaces en documentación funcionan
 
 3. **Adaptar a nueva estructura**:
-   - Seguir convenciones de nomenclatura (TASK-058)
-   - Agregar READMEs según template
-   - Incluir metadatos YAML en documentos
+ - Seguir convenciones de nomenclatura (TASK-058)
+ - Agregar READMEs según template
+ - Incluir metadatos YAML en documentos
 
 ### Breaking Changes
 
-⚠️ **IMPORTANTE**: Esta es una versión mayor (2.0.0) con cambios incompatibles:
+[WARNING] **IMPORTANTE**: Esta es una versión mayor (2.0.0) con cambios incompatibles:
 
 - Rutas de archivos han cambiado
 - Referencias a carpetas antiguas no funcionarán

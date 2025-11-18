@@ -63,17 +63,17 @@ echo "Total archivos en planificacion_y_releases/: $(find docs/backend/planifica
 ```bash
 # Crear analisis de contenido
 echo "=== ANALISIS DE CONTENIDO ===" > \
-  docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/analisis-planning-releases.txt
+ docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/analisis-planning-releases.txt
 
 echo "Archivos en planning/:" >> \
-  docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/analisis-planning-releases.txt
+ docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/analisis-planning-releases.txt
 find docs/backend/planning/ -type f >> \
-  docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/analisis-planning-releases.txt
+ docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/analisis-planning-releases.txt
 
 echo -e "\nArchivos en planificacion_y_releases/:" >> \
-  docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/analisis-planning-releases.txt
+ docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/analisis-planning-releases.txt
 find docs/backend/planificacion_y_releases/ -type f >> \
-  docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/analisis-planning-releases.txt
+ docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/analisis-planning-releases.txt
 ```
 
 **Resultado Esperado:** Archivo analisis-planning-releases.txt creado
@@ -94,15 +94,15 @@ echo "Archivos movidos de planning/: $(find docs/backend/planificacion/planning/
 # Identificar archivos relacionados con releases
 # (asumiendo que tienen "release" en el nombre o path)
 find docs/backend/planificacion_y_releases/ -type f -iname "*release*" | \
-  while read file; do
-    mv "$file" docs/backend/planificacion/releases/
-  done
+ while read file; do
+ mv "$file" docs/backend/planificacion/releases/
+ done
 
 # Mover el resto a planning/
 find docs/backend/planificacion_y_releases/ -type f | \
-  while read file; do
-    mv "$file" docs/backend/planificacion/planning/
-  done
+ while read file; do
+ mv "$file" docs/backend/planificacion/planning/
+ done
 ```
 
 **Resultado Esperado:** Contenido clasificado y movido segun tipo
@@ -117,7 +117,7 @@ rm -rf docs/backend/planificacion_y_releases/
 
 # Verificar eliminacion
 ls -d docs/backend/planning/ docs/backend/planificacion_y_releases/ 2>/dev/null || \
-  echo "Carpetas origen eliminadas OK"
+ echo "Carpetas origen eliminadas OK"
 ```
 
 **Resultado Esperado:** Ambas carpetas origen eliminadas
@@ -142,17 +142,17 @@ echo "Total destino (despues): $total_destino"
 ```bash
 # Crear reporte final
 echo "=== CONSOLIDACION COMPLETADA ===" > \
-  docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/consolidacion-planning-releases.txt
+ docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/consolidacion-planning-releases.txt
 
 echo "Archivos en planificacion/planning/:" >> \
-  docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/consolidacion-planning-releases.txt
+ docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/consolidacion-planning-releases.txt
 find docs/backend/planificacion/planning/ -type f >> \
-  docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/consolidacion-planning-releases.txt
+ docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/consolidacion-planning-releases.txt
 
 echo -e "\nArchivos en planificacion/releases/:" >> \
-  docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/consolidacion-planning-releases.txt
+ docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/consolidacion-planning-releases.txt
 find docs/backend/planificacion/releases/ -type f >> \
-  docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/consolidacion-planning-releases.txt
+ docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/consolidacion-planning-releases.txt
 ```
 
 **Resultado Esperado:** Archivo consolidacion-planning-releases.txt creado
@@ -176,21 +176,21 @@ find docs/backend/planificacion/releases/ -type f >> \
 ```bash
 # Verificar que origenes no existen
 for dir in planning planificacion_y_releases; do
-  if [ -d "docs/backend/$dir" ]; then
-    echo "ERROR: docs/backend/$dir todavia existe"
-  else
-    echo "OK: docs/backend/$dir eliminado"
-  fi
+ if [ -d "docs/backend/$dir" ]; then
+ echo "ERROR: docs/backend/$dir todavia existe"
+ else
+ echo "OK: docs/backend/$dir eliminado"
+ fi
 done
 
 # Verificar que destinos tienen contenido
 for subdir in planning releases; do
-  count=$(find docs/backend/planificacion/$subdir/ -type f ! -name '.gitkeep' | wc -l)
-  if [ $count -gt 0 ]; then
-    echo "OK: planificacion/$subdir tiene $count archivos"
-  else
-    echo "WARN: planificacion/$subdir esta vacio"
-  fi
+ count=$(find docs/backend/planificacion/$subdir/ -type f ! -name '.gitkeep' | wc -l)
+ if [ $count -gt 0 ]; then
+ echo "OK: planificacion/$subdir tiene $count archivos"
+ else
+ echo "WARN: planificacion/$subdir esta vacio"
+ fi
 done
 
 # Verificar estructura completa

@@ -228,25 +228,25 @@ grep -n '\[.*\](.*)' TASK-037-indice-procesos/README.md
 ## Criterios de Aceptación
 
 ### Criterios Obligatorios (MUST)
-1. ✅ Metadata completo en ambos procesos
-2. ✅ Estructura paso a paso clara
-3. ✅ Al menos 1 diagrama por proceso
-4. ✅ Troubleshooting incluido
-5. ✅ Índice lista ambos procesos correctamente
-6. ✅ Links funcionan
+1. [OK] Metadata completo en ambos procesos
+2. [OK] Estructura paso a paso clara
+3. [OK] Al menos 1 diagrama por proceso
+4. [OK] Troubleshooting incluido
+5. [OK] Índice lista ambos procesos correctamente
+6. [OK] Links funcionan
 
 ### Criterios Deseables (SHOULD)
-1. ✅ Ejemplos de código ejecutables
-2. ✅ Automatización sugerida
-3. ✅ Métricas de calidad definidas
-4. ✅ Best practices documentadas
-5. ✅ Referencias externas incluidas
+1. [OK] Ejemplos de código ejecutables
+2. [OK] Automatización sugerida
+3. [OK] Métricas de calidad definidas
+4. [OK] Best practices documentadas
+5. [OK] Referencias externas incluidas
 
 ### Criterios Opcionales (COULD)
-1. ✅ Comparación con alternativas
-2. ✅ FAQs incluidas
-3. ✅ Casos de estudio reales
-4. ✅ Videos/screenshots
+1. [OK] Comparación con alternativas
+2. [OK] FAQs incluidas
+3. [OK] Casos de estudio reales
+4. [OK] Videos/screenshots
 
 ## Reporte de Validación
 
@@ -260,44 +260,44 @@ grep -n '\[.*\](.*)' TASK-037-indice-procesos/README.md
 ## Resumen Ejecutivo
 - Procesos Validados: 2
 - Índice Validado: 1
-- Status General: [✅ APROBADO | ⚠️ APROBADO CON OBSERVACIONES | ❌ RECHAZADO]
+- Status General: [[OK] APROBADO | [WARNING] APROBADO CON OBSERVACIONES | [ERROR] RECHAZADO]
 
 ## Detalle por Proceso
 
 ### PROC-BACK-001: Desarrollo de Features
-- **Status**: [✅ | ⚠️ | ❌]
+- **Status**: [[OK] | [WARNING] | [ERROR]]
 - **Completitud**: [%]
-- **Consistencia**: [✅ | ⚠️ | ❌]
-- **Aplicabilidad**: [✅ | ⚠️ | ❌]
+- **Consistencia**: [[OK] | [WARNING] | [ERROR]]
+- **Aplicabilidad**: [[OK] | [WARNING] | [ERROR]]
 - **Observaciones**:
-  - [Listado de observaciones]
+ - [Listado de observaciones]
 - **Acciones Requeridas**:
-  - [Listado de acciones]
+ - [Listado de acciones]
 
 ### PROC-BACK-002: Gestión de Dependencias
-- **Status**: [✅ | ⚠️ | ❌]
+- **Status**: [[OK] | [WARNING] | [ERROR]]
 - **Completitud**: [%]
-- **Consistencia**: [✅ | ⚠️ | ❌]
-- **Aplicabilidad**: [✅ | ⚠️ | ❌]
+- **Consistencia**: [[OK] | [WARNING] | [ERROR]]
+- **Aplicabilidad**: [[OK] | [WARNING] | [ERROR]]
 - **Observaciones**:
-  - [Listado de observaciones]
+ - [Listado de observaciones]
 - **Acciones Requeridas**:
-  - [Listado de acciones]
+ - [Listado de acciones]
 
 ### INDICE_PROCESOS
-- **Status**: [✅ | ⚠️ | ❌]
+- **Status**: [[OK] | [WARNING] | [ERROR]]
 - **Completitud**: [%]
-- **Consistencia**: [✅ | ⚠️ | ❌]
-- **Usabilidad**: [✅ | ⚠️ | ❌]
+- **Consistencia**: [[OK] | [WARNING] | [ERROR]]
+- **Usabilidad**: [[OK] | [WARNING] | [ERROR]]
 - **Observaciones**:
-  - [Listado de observaciones]
+ - [Listado de observaciones]
 - **Acciones Requeridas**:
-  - [Listado de acciones]
+ - [Listado de acciones]
 
 ## Validación Cruzada
-- **Referencias**: [✅ | ⚠️ | ❌]
-- **Consistencia de Nomenclatura**: [✅ | ⚠️ | ❌]
-- **Alineación con Índice**: [✅ | ⚠️ | ❌]
+- **Referencias**: [[OK] | [WARNING] | [ERROR]]
+- **Consistencia de Nomenclatura**: [[OK] | [WARNING] | [ERROR]]
+- **Alineación con Índice**: [[OK] | [WARNING] | [ERROR]]
 
 ## Métricas
 
@@ -319,7 +319,7 @@ grep -n '\[.*\](.*)' TASK-037-indice-procesos/README.md
 ## Firma
 - Validador: [Nombre]
 - Fecha: [YYYY-MM-DD]
-- Aprobación: [✅ | ⚠️ | ❌]
+- Aprobación: [[OK] | [WARNING] | [ERROR]]
 ```
 
 ## Entregables
@@ -331,11 +331,11 @@ grep -n '\[.*\](.*)' TASK-037-indice-procesos/README.md
 - [ ] Acciones correctivas documentadas (si aplica)
 
 ## Criterios de Éxito
-1. ✅ Todos los checks obligatorios pasados
-2. ✅ ≥ 80% de checks deseables pasados
-3. ✅ Links funcionan correctamente
-4. ✅ Ningún error crítico encontrado
-5. ✅ Reporte de validación generado
+1. [OK] Todos los checks obligatorios pasados
+2. [OK] ≥ 80% de checks deseables pasados
+3. [OK] Links funcionan correctamente
+4. [OK] Ningún error crítico encontrado
+5. [OK] Reporte de validación generado
 
 ## Notas
 - Documentar cualquier inconsistencia encontrada

@@ -204,7 +204,7 @@ find docs/backend/diseno/ -maxdepth 2 -name "README.md"
 **Metodo 2 - existencia directa:**
 ```bash
 for readme in diseno/README.md diseno/api/README.md diseno/arquitectura/README.md diseno/permisos/README.md diseno/detallado/README.md diseno/database/README.md; do
-  [ -f "docs/backend/$readme" ] && echo "OK: $readme" || echo "FAIL: $readme"
+ [ -f "docs/backend/$readme" ] && echo "OK: $readme" || echo "FAIL: $readme"
 done
 ```
 
@@ -222,18 +222,18 @@ find docs/backend/diseno/ -maxdepth 2 -name "README.md" -exec wc -l {} \;
 **Metodo 1 - verificar origenes vacios:**
 ```bash
 for dir in api rest_apis arquitectura permisos diseno_detallado; do
-  [ -d "docs/backend/$dir" ] && {
-    COUNT=$(find docs/backend/$dir -type f ! -name ".gitkeep" 2>/dev/null | wc -l)
-    echo "$dir: $COUNT archivos restantes"
-  }
+ [ -d "docs/backend/$dir" ] && {
+ COUNT=$(find docs/backend/$dir -type f ! -name ".gitkeep" 2>/dev/null | wc -l)
+ echo "$dir: $COUNT archivos restantes"
+ }
 done
 ```
 
 **Metodo 2 - verificar destinos poblados:**
 ```bash
 for dir in api arquitectura permisos detallado database; do
-  COUNT=$(find docs/backend/diseno/$dir -type f ! -name ".gitkeep" ! -name "README.md" 2>/dev/null | wc -l)
-  echo "diseno/$dir: $COUNT archivos"
+ COUNT=$(find docs/backend/diseno/$dir -type f ! -name ".gitkeep" ! -name "README.md" 2>/dev/null | wc -l)
+ echo "diseno/$dir: $COUNT archivos"
 done
 ```
 
@@ -360,9 +360,9 @@ echo "\`\`\`" >> $REPORT_FILE
 SUBDIR_COUNT=$(find docs/backend/diseno/ -mindepth 1 -maxdepth 1 -type d | wc -l)
 echo "" >> $REPORT_FILE
 if [ "$SUBDIR_COUNT" -eq 5 ]; then
-  echo "**Resultado:** ✓ PASS - 5 subcarpetas encontradas" >> $REPORT_FILE
+ echo "**Resultado:** OK PASS - 5 subcarpetas encontradas" >> $REPORT_FILE
 else
-  echo "**Resultado:** ✗ FAIL - Se esperaban 5 subcarpetas, encontradas: $SUBDIR_COUNT" >> $REPORT_FILE
+ echo "**Resultado:** FAIL - Se esperaban 5 subcarpetas, encontradas: $SUBDIR_COUNT" >> $REPORT_FILE
 fi
 echo "" >> $REPORT_FILE
 
@@ -378,9 +378,9 @@ echo "\`\`\`" >> $REPORT_FILE
 README_COUNT=$(find docs/backend/diseno/ -maxdepth 2 -name "README.md" | wc -l)
 echo "" >> $REPORT_FILE
 if [ "$README_COUNT" -eq 6 ]; then
-  echo "**Resultado:** ✓ PASS - 6 READMEs encontrados" >> $REPORT_FILE
+ echo "**Resultado:** OK PASS - 6 READMEs encontrados" >> $REPORT_FILE
 else
-  echo "**Resultado:** ✗ FAIL - Se esperaban 6 READMEs, encontrados: $README_COUNT" >> $REPORT_FILE
+ echo "**Resultado:** FAIL - Se esperaban 6 READMEs, encontrados: $README_COUNT" >> $REPORT_FILE
 fi
 echo "" >> $REPORT_FILE
 
@@ -391,20 +391,20 @@ echo "" >> $REPORT_FILE
 echo "### Carpetas Origen (deben estar vacias)" >> $REPORT_FILE
 echo "\`\`\`" >> $REPORT_FILE
 for dir in api rest_apis arquitectura permisos diseno_detallado; do
-  if [ -d "docs/backend/$dir" ]; then
-    COUNT=$(find docs/backend/$dir -type f ! -name ".gitkeep" 2>/dev/null | wc -l)
-    echo "$dir: $COUNT archivos restantes" | tee -a $REPORT_FILE
-  else
-    echo "$dir: NO EXISTE (OK si se elimino)" | tee -a $REPORT_FILE
-  fi
+ if [ -d "docs/backend/$dir" ]; then
+ COUNT=$(find docs/backend/$dir -type f ! -name ".gitkeep" 2>/dev/null | wc -l)
+ echo "$dir: $COUNT archivos restantes" | tee -a $REPORT_FILE
+ else
+ echo "$dir: NO EXISTE (OK si se elimino)" | tee -a $REPORT_FILE
+ fi
 done
 echo "\`\`\`" >> $REPORT_FILE
 
 echo "### Carpetas Destino (deben estar pobladas)" >> $REPORT_FILE
 echo "\`\`\`" >> $REPORT_FILE
 for dir in api arquitectura permisos detallado database; do
-  COUNT=$(find docs/backend/diseno/$dir -type f ! -name ".gitkeep" ! -name "README.md" 2>/dev/null | wc -l)
-  echo "diseno/$dir: $COUNT archivos" | tee -a $REPORT_FILE
+ COUNT=$(find docs/backend/diseno/$dir -type f ! -name ".gitkeep" ! -name "README.md" 2>/dev/null | wc -l)
+ echo "diseno/$dir: $COUNT archivos" | tee -a $REPORT_FILE
 done
 echo "\`\`\`" >> $REPORT_FILE
 echo "" >> $REPORT_FILE
@@ -434,9 +434,9 @@ echo "**Total archivos en diseno/:** $TOTAL_FILES" >> $REPORT_FILE
 
 ERRORS=$(find docs/backend/diseno/ -type f -exec file {} \; 2>&1 | grep -i "cannot open" | wc -l)
 if [ "$ERRORS" -eq 0 ]; then
-  echo "**Resultado:** ✓ PASS - Todos los archivos accesibles" >> $REPORT_FILE
+ echo "**Resultado:** OK PASS - Todos los archivos accesibles" >> $REPORT_FILE
 else
-  echo "**Resultado:** ✗ FAIL - $ERRORS archivos inaccesibles" >> $REPORT_FILE
+ echo "**Resultado:** FAIL - $ERRORS archivos inaccesibles" >> $REPORT_FILE
 fi
 echo "" >> $REPORT_FILE
 
@@ -456,12 +456,12 @@ echo "## Resumen de Verificacion" >> $REPORT_FILE
 echo "" >> $REPORT_FILE
 echo "| Verificacion | Estado |" >> $REPORT_FILE
 echo "|--------------|--------|" >> $REPORT_FILE
-echo "| V1: Estructura | $([ "$SUBDIR_COUNT" -eq 5 ] && echo '✓ PASS' || echo '✗ FAIL') |" >> $REPORT_FILE
-echo "| V2: READMEs | $([ "$README_COUNT" -eq 6 ] && echo '✓ PASS' || echo '✗ FAIL') |" >> $REPORT_FILE
+echo "| V1: Estructura | $([ "$SUBDIR_COUNT" -eq 5 ] && echo 'OK PASS' || echo ' FAIL') |" >> $REPORT_FILE
+echo "| V2: READMEs | $([ "$README_COUNT" -eq 6 ] && echo 'OK PASS' || echo ' FAIL') |" >> $REPORT_FILE
 echo "| V3: Movimientos | Revisar detalles |" >> $REPORT_FILE
 echo "| V4: Git Staging | Revisar detalles |" >> $REPORT_FILE
-echo "| V5: Integridad | $([ "$ERRORS" -eq 0 ] && echo '✓ PASS' || echo '✗ FAIL') |" >> $REPORT_FILE
-echo "| V6: Documentacion | ✓ PASS ($EVIDENCIAS archivos) |" >> $REPORT_FILE
+echo "| V5: Integridad | $([ "$ERRORS" -eq 0 ] && echo 'OK PASS' || echo ' FAIL') |" >> $REPORT_FILE
+echo "| V6: Documentacion | OK PASS ($EVIDENCIAS archivos) |" >> $REPORT_FILE
 echo "" >> $REPORT_FILE
 
 echo "---" >> $REPORT_FILE
@@ -523,16 +523,16 @@ Si hay discrepancias → Investigar antes de aprobar
 1. Revisar reporte-verificacion-TASK-024.md
 2. Para cada fila, verificar que los 3 metodos coinciden
 3. Marcar consenso como:
-   - ✓ OK si todos coinciden
-   - ? REVISAR si hay discrepancias
-   - ✗ FAIL si claramente incorrecto
+ - OK OK si todos coinciden
+ - ? REVISAR si hay discrepancias
+ - FAIL si claramente incorrecto
 4. Investigar cualquier discrepancia antes de aprobar tarea
 
 ## Umbrales de Aprobacion
 
-- **PASS COMPLETO:** Todos los consensos ✓ OK
+- **PASS COMPLETO:** Todos los consensos OK OK
 - **PASS CON OBSERVACIONES:** Max 1 ? REVISAR (no critico)
-- **FAIL:** Cualquier ✗ FAIL o >1 ? REVISAR
+- **FAIL:** Cualquier FAIL o >1 ? REVISAR
 
 EOF
 
@@ -566,12 +566,12 @@ estado: COMPLETO
 
 ## Afirmaciones Verificadas
 
-1. ✓ A1: Estructura de 5 subcarpetas creada
-2. ✓ A2: 6 READMEs completos
-3. ✓ A3: Archivos movidos correctamente
-4. ✓ A4: Git staging correcto
-5. ✓ A5: Integridad de archivos preservada
-6. ✓ A6: Documentacion completa
+1. OK A1: Estructura de 5 subcarpetas creada
+2. OK A2: 6 READMEs completos
+3. OK A3: Archivos movidos correctamente
+4. OK A4: Git staging correcto
+5. OK A5: Integridad de archivos preservada
+6. OK A6: Documentacion completa
 
 ## Verificaciones Ejecutadas
 
@@ -588,12 +588,12 @@ estado: COMPLETO
 
 | Categoria | Metodos | Consenso | Estado |
 |-----------|---------|----------|--------|
-| Estructura | 3/3 | ✓ | PASS |
-| READMEs | 3/3 | ✓ | PASS |
-| Movimientos | 3/3 | ✓ | PASS |
-| Git | 3/3 | ✓ | PASS |
-| Integridad | 3/3 | ✓ | PASS |
-| Docs | 3/3 | ✓ | PASS |
+| Estructura | 3/3 | OK | PASS |
+| READMEs | 3/3 | OK | PASS |
+| Movimientos | 3/3 | OK | PASS |
+| Git | 3/3 | OK | PASS |
+| Integridad | 3/3 | OK | PASS |
+| Docs | 3/3 | OK | PASS |
 
 ## Metricas
 
@@ -692,21 +692,21 @@ echo "=== VALIDACION FINAL TASK-024 ==="
 
 # 1. Verificar que archivos de CoVe existen
 COVE_FILES=(
-  "afirmaciones-consolidacion-diseno.md"
-  "plan-verificaciones-diseno.md"
-  "ejecutar-verificaciones-TASK-024.sh"
-  "reporte-verificacion-TASK-024.md"
-  "validacion-cruzada-TASK-024.md"
-  "reporte-final-consolidacion-diseno.md"
+ "afirmaciones-consolidacion-diseno.md"
+ "plan-verificaciones-diseno.md"
+ "ejecutar-verificaciones-TASK-024.sh"
+ "reporte-verificacion-TASK-024.md"
+ "validacion-cruzada-TASK-024.md"
+ "reporte-final-consolidacion-diseno.md"
 )
 
 echo "1. Verificando archivos de Chain-of-Verification:"
 for file in "${COVE_FILES[@]}"; do
-  if [ -f "docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/$file" ]; then
-    echo "  ✓ $file"
-  else
-    echo "  ✗ FALTA: $file"
-  fi
+ if [ -f "docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/$file" ]; then
+ echo " OK $file"
+ else
+ echo " FALTA: $file"
+ fi
 done
 
 # 2. Verificar estructura final
@@ -717,10 +717,10 @@ tree -L 2 docs/backend/diseno/ 2>/dev/null || find docs/backend/diseno/ -maxdept
 # 3. Contar archivos
 echo ""
 echo "3. Estadisticas:"
-echo "  Subcarpetas: $(find docs/backend/diseno/ -mindepth 1 -maxdepth 1 -type d | wc -l)"
-echo "  READMEs: $(find docs/backend/diseno/ -maxdepth 2 -name 'README.md' | wc -l)"
-echo "  Total archivos: $(find docs/backend/diseno/ -type f | wc -l)"
-echo "  Archivos de evidencia: $(find docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/ -type f | wc -l)"
+echo " Subcarpetas: $(find docs/backend/diseno/ -mindepth 1 -maxdepth 1 -type d | wc -l)"
+echo " READMEs: $(find docs/backend/diseno/ -maxdepth 2 -name 'README.md' | wc -l)"
+echo " Total archivos: $(find docs/backend/diseno/ -type f | wc -l)"
+echo " Archivos de evidencia: $(find docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/ -type f | wc -l)"
 
 echo ""
 echo "=== FIN VALIDACION TASK-024 ==="
@@ -781,7 +781,7 @@ echo "=== FIN VALIDACION TASK-024 ==="
 - [ ] Evidencias completas
 - [ ] Chain-of-Verification exitoso
 - [ ] Tarea marcada como COMPLETADA en INDICE.md
-- [ ] CONSOLIDACION APROBADA ✓
+- [ ] CONSOLIDACION APROBADA OK
 
 ---
 

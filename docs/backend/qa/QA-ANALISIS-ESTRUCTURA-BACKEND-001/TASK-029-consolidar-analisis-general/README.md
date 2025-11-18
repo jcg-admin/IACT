@@ -61,21 +61,21 @@ find docs/backend/analisis/ -type f -name "*tecnico*" -o -name "*arquitectura*"
 ```bash
 # Crear archivo de clasificacion para revision manual
 echo "=== CLASIFICACION CONTENIDO analisis/ ===" > \
-  docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/clasificacion-analisis.txt
+ docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/clasificacion-analisis.txt
 
 echo -e "\n[A_REVISAR] Archivos encontrados:" >> \
-  docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/clasificacion-analisis.txt
+ docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/clasificacion-analisis.txt
 find docs/backend/analisis/ -type f >> \
-  docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/clasificacion-analisis.txt
+ docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/clasificacion-analisis.txt
 
 echo -e "\n[INSTRUCCIONES]" >> \
-  docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/clasificacion-analisis.txt
+ docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/clasificacion-analisis.txt
 echo "- Archivos de requisitos/negocio -> planificacion/analisis_negocio/" >> \
-  docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/clasificacion-analisis.txt
+ docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/clasificacion-analisis.txt
 echo "- Archivos de viabilidad/feasibility -> planificacion/feasibility/" >> \
-  docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/clasificacion-analisis.txt
+ docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/clasificacion-analisis.txt
 echo "- Archivos tecnicos/arquitectura -> mantener en analisis/ o mover a arquitectura/" >> \
-  docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/clasificacion-analisis.txt
+ docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/clasificacion-analisis.txt
 ```
 
 **Resultado Esperado:** Archivo de clasificacion creado para revision
@@ -87,9 +87,9 @@ find docs/backend/analisis/ -mindepth 1 -type d
 
 # Analizar contenido de cada subcarpeta
 for dir in $(find docs/backend/analisis/ -mindepth 1 -type d); do
-  echo "=== $dir ==="
-  ls -la "$dir"
-  echo ""
+ echo "=== $dir ==="
+ ls -la "$dir"
+ echo ""
 done
 ```
 
@@ -102,19 +102,19 @@ mkdir -p /tmp/clasificacion-analisis/{negocio,feasibility,tecnico}
 
 # Auto-clasificar por patrones de nombre
 find docs/backend/analisis/ -type f -iname "*negocio*" -o -iname "*requisito*" -o -iname "*requirement*" | \
-  while read file; do
-    echo "NEGOCIO: $file" >> docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/clasificacion-auto.txt
-  done
+ while read file; do
+ echo "NEGOCIO: $file" >> docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/clasificacion-auto.txt
+ done
 
 find docs/backend/analisis/ -type f -iname "*feasibility*" -o -iname "*viabilidad*" -o -iname "*factibilidad*" | \
-  while read file; do
-    echo "FEASIBILITY: $file" >> docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/clasificacion-auto.txt
-  done
+ while read file; do
+ echo "FEASIBILITY: $file" >> docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/clasificacion-auto.txt
+ done
 
 find docs/backend/analisis/ -type f -iname "*tecnico*" -o -iname "*arquitectura*" -o -iname "*technical*" | \
-  while read file; do
-    echo "TECNICO: $file" >> docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/clasificacion-auto.txt
-  done
+ while read file; do
+ echo "TECNICO: $file" >> docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/clasificacion-auto.txt
+ done
 ```
 
 **Resultado Esperado:** Archivos clasificados automaticamente por patrones
@@ -123,15 +123,15 @@ find docs/backend/analisis/ -type f -iname "*tecnico*" -o -iname "*arquitectura*
 ```bash
 # Mover archivos de negocio
 find docs/backend/analisis/ -type f -iname "*negocio*" -o -iname "*requisito*" | \
-  while read file; do
-    mv "$file" docs/backend/planificacion/analisis_negocio/
-  done
+ while read file; do
+ mv "$file" docs/backend/planificacion/analisis_negocio/
+ done
 
 # Mover archivos de feasibility
 find docs/backend/analisis/ -type f -iname "*feasibility*" -o -iname "*viabilidad*" | \
-  while read file; do
-    mv "$file" docs/backend/planificacion/feasibility/
-  done
+ while read file; do
+ mv "$file" docs/backend/planificacion/feasibility/
+ done
 
 # Contar archivos restantes
 remaining=$(find docs/backend/analisis/ -type f | wc -l)
@@ -146,14 +146,14 @@ echo "Archivos restantes en analisis/: $remaining"
 remaining=$(find docs/backend/analisis/ -type f ! -name '.gitkeep' | wc -l)
 
 if [ $remaining -eq 0 ]; then
-  echo "analisis/ vacio, se eliminara"
-  rm -rf docs/backend/analisis/
+ echo "analisis/ vacio, se eliminara"
+ rm -rf docs/backend/analisis/
 else
-  echo "analisis/ tiene $remaining archivos restantes, se mantiene"
-  echo "DECISION: Mantener analisis/ para contenido tecnico/arquitectura" >> \
-    docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/decision-analisis.txt
-  find docs/backend/analisis/ -type f >> \
-    docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/decision-analisis.txt
+ echo "analisis/ tiene $remaining archivos restantes, se mantiene"
+ echo "DECISION: Mantener analisis/ para contenido tecnico/arquitectura" >> \
+ docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/decision-analisis.txt
+ find docs/backend/analisis/ -type f >> \
+ docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/decision-analisis.txt
 fi
 ```
 
@@ -163,23 +163,23 @@ fi
 ```bash
 # Contar archivos en destinos
 echo "=== RESUMEN CONSOLIDACION ===" > \
-  docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/resumen-consolidacion-analisis.txt
+ docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/resumen-consolidacion-analisis.txt
 
 echo "Archivos en planificacion/analisis_negocio/:" >> \
-  docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/resumen-consolidacion-analisis.txt
+ docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/resumen-consolidacion-analisis.txt
 find docs/backend/planificacion/analisis_negocio/ -type f ! -name '.gitkeep' | wc -l >> \
-  docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/resumen-consolidacion-analisis.txt
+ docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/resumen-consolidacion-analisis.txt
 
 echo -e "\nArchivos en planificacion/feasibility/:" >> \
-  docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/resumen-consolidacion-analisis.txt
+ docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/resumen-consolidacion-analisis.txt
 find docs/backend/planificacion/feasibility/ -type f ! -name '.gitkeep' | wc -l >> \
-  docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/resumen-consolidacion-analisis.txt
+ docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/resumen-consolidacion-analisis.txt
 
 echo -e "\nArchivos restantes en analisis/ (si existe):" >> \
-  docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/resumen-consolidacion-analisis.txt
+ docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/resumen-consolidacion-analisis.txt
 find docs/backend/analisis/ -type f ! -name '.gitkeep' 2>/dev/null | wc -l >> \
-  docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/resumen-consolidacion-analisis.txt || echo "0" >> \
-  docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/resumen-consolidacion-analisis.txt
+ docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/resumen-consolidacion-analisis.txt || echo "0" >> \
+ docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/resumen-consolidacion-analisis.txt
 ```
 
 **Resultado Esperado:** Resumen completo de consolidacion
@@ -188,19 +188,19 @@ find docs/backend/analisis/ -type f ! -name '.gitkeep' 2>/dev/null | wc -l >> \
 ```bash
 # Crear reporte final completo
 echo "=== CONSOLIDACION analisis/ COMPLETADA ===" > \
-  docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/consolidacion-analisis-final.txt
+ docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/consolidacion-analisis-final.txt
 
 echo -e "\nArchivos movidos a planificacion/analisis_negocio/:" >> \
-  docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/consolidacion-analisis-final.txt
+ docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/consolidacion-analisis-final.txt
 find docs/backend/planificacion/analisis_negocio/ -type f -newer docs/backend/qa/ >> \
-  docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/consolidacion-analisis-final.txt 2>/dev/null || echo "Ver inventario completo" >> \
-  docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/consolidacion-analisis-final.txt
+ docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/consolidacion-analisis-final.txt 2>/dev/null || echo "Ver inventario completo" >> \
+ docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/consolidacion-analisis-final.txt
 
 echo -e "\nArchivos movidos a planificacion/feasibility/:" >> \
-  docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/consolidacion-analisis-final.txt
+ docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/consolidacion-analisis-final.txt
 find docs/backend/planificacion/feasibility/ -type f -newer docs/backend/qa/ >> \
-  docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/consolidacion-analisis-final.txt 2>/dev/null || echo "Ver inventario completo" >> \
-  docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/consolidacion-analisis-final.txt
+ docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/consolidacion-analisis-final.txt 2>/dev/null || echo "Ver inventario completo" >> \
+ docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/consolidacion-analisis-final.txt
 
 cat docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/resumen-consolidacion-analisis.txt
 ```
@@ -242,7 +242,7 @@ echo "Total contabilizado: $((movidos_negocio + movidos_feasibility + restantes)
 # Verificar estructura final
 tree -L 2 docs/backend/planificacion/
 if [ -d "docs/backend/analisis" ]; then
-  tree docs/backend/analisis/
+ tree docs/backend/analisis/
 fi
 ```
 

@@ -104,14 +104,14 @@ open htmlcov/index.html
 **Actions**:
 1. Identify failing test
 2. Disable in pytest.ini:
-   ```ini
-   [pytest]
-   python_files = test_*.py
-   python_functions = test_*
-   markers =
-       slow: marks tests as slow
-       skip_on_ci: skip in CI
-   ```
+ ```ini
+ [pytest]
+ python_files = test_*.py
+ python_functions = test_*
+ markers =
+ slow: marks tests as slow
+ skip_on_ci: skip in CI
+ ```
 3. Create hotfix
 4. Re-deploy
 
@@ -141,11 +141,11 @@ gh run list --workflow=test-prompting-techniques.yml
 
 ### Success Criteria
 
-✅ All tests pass locally
-✅ All tests pass in CI
-✅ Coverage >= 80%
-✅ No performance degradation
-✅ Documentation accessible
+[OK] All tests pass locally
+[OK] All tests pass in CI
+[OK] Coverage >= 80%
+[OK] No performance degradation
+[OK] Documentation accessible
 
 ---
 
@@ -180,12 +180,12 @@ gh run list --workflow=test-prompting-techniques.yml
 
 ## Próximos Pasos
 
-1. ✅ **APROBADO**: Proceder con implementación
+1. [OK] **APROBADO**: Proceder con implementación
 2. Ejecutar deployment según plan
 3. Monitorear métricas
 4. Iterar basándose en feedback
 
-**Decisión**: GO ✅
+**Decisión**: GO [OK]
 
 ---
 

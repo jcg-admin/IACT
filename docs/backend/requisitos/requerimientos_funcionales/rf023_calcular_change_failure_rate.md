@@ -8,9 +8,9 @@ prioridad: critica
 estado: implementado
 fecha_creacion: 2025-11-11
 trazabilidad_upward:
-  - N-004
-  - RN-004
-  - RF-020
+ - N-004
+ - RN-004
+ - RF-020
 verificacion: test
 date: 2025-11-13
 ---
@@ -57,35 +57,35 @@ Validación Self-Consistency:
 ```
 GET /api/dora-metrics/change-failure-rate
 Query params:
-  ?start_date=2025-10-01
-  &end_date=2025-10-31
+ ?start_date=2025-10-01
+ &end_date=2025-10-31
 
 Response 200:
 {
-  "metric": "change_failure_rate",
-  "period": {
-    "start": "2025-10-01",
-    "end": "2025-10-31"
-  },
-  "deployments": {
-    "total": 45,
-    "successful": 42,
-    "failed": 3
-  },
-  "cfr": {
-    "percentage": 6.67,
-    "classification": "Elite"
-  },
-  "failure_reasons": {
-    "test_failures": 1,
-    "integration_errors": 1,
-    "rollback_required": 1
-  },
-  "trend": {
-    "last_7_days": 5.0,
-    "last_30_days": 6.67,
-    "direction": "stable"
-  }
+ "metric": "change_failure_rate",
+ "period": {
+ "start": "2025-10-01",
+ "end": "2025-10-31"
+ },
+ "deployments": {
+ "total": 45,
+ "successful": 42,
+ "failed": 3
+ },
+ "cfr": {
+ "percentage": 6.67,
+ "classification": "Elite"
+ },
+ "failure_reasons": {
+ "test_failures": 1,
+ "integration_errors": 1,
+ "rollback_required": 1
+ },
+ "trend": {
+ "last_7_days": 5.0,
+ "last_30_days": 6.67,
+ "direction": "stable"
+ }
 }
 ```
 
@@ -93,112 +93,112 @@ Response 200:
 
 ```python
 def calculate_change_failure_rate(start_date, end_date):
-    # Path 1: Count failed deployments
-    failed_deployments = DORAMetric.objects.filter(
-        phase_name='deployment',
-        decision='no-go',
-        created_at__gte=start_date,
-        created_at__lte=end_date
-    ).count()
+ # Path 1: Count failed deployments
+ failed_deployments = DORAMetric.objects.filter(
+ phase_name='deployment',
+ decision='no-go',
+ created_at__gte=start_date,
+ created_at__lte=end_date
+ ).count()
 
-    # Path 2: Count successful deployments
-    successful_deployments = DORAMetric.objects.filter(
-        phase_name='deployment',
-        decision='go',
-        created_at__gte=start_date,
-        created_at__lte=end_date
-    ).count()
+ # Path 2: Count successful deployments
+ successful_deployments = DORAMetric.objects.filter(
+ phase_name='deployment',
+ decision='go',
+ created_at__gte=start_date,
+ created_at__lte=end_date
+ ).count()
 
-    # Path 3: Calculate total and CFR
-    total_deployments = failed_deployments + successful_deployments
+ # Path 3: Calculate total and CFR
+ total_deployments = failed_deployments + successful_deployments
 
-    # Self-Consistency validation
-    assert failed_deployments <= total_deployments, "Failed cannot exceed total"
-    assert failed_deployments >= 0, "Failed must be non-negative"
-    assert total_deployments >= 0, "Total must be non-negative"
+ # Self-Consistency validation
+ assert failed_deployments <= total_deployments, "Failed cannot exceed total"
+ assert failed_deployments >= 0, "Failed must be non-negative"
+ assert total_deployments >= 0, "Total must be non-negative"
 
-    if total_deployments == 0:
-        cfr_percentage = 0.0
-        classification = "N/A"
-    else:
-        cfr_percentage = (failed_deployments / total_deployments) * 100
+ if total_deployments == 0:
+ cfr_percentage = 0.0
+ classification = "N/A"
+ else:
+ cfr_percentage = (failed_deployments / total_deployments) * 100
 
-        # Classify according to DORA
-        if cfr_percentage <= 15:
-            classification = "Elite"
-        elif cfr_percentage <= 30:
-            classification = "High"
-        elif cfr_percentage <= 45:
-            classification = "Medium"
-        else:
-            classification = "Low"
+ # Classify according to DORA
+ if cfr_percentage <= 15:
+ classification = "Elite"
+ elif cfr_percentage <= 30:
+ classification = "High"
+ elif cfr_percentage <= 45:
+ classification = "Medium"
+ else:
+ classification = "Low"
 
-    # Final validation
-    assert 0 <= cfr_percentage <= 100, "CFR must be between 0 and 100"
+ # Final validation
+ assert 0 <= cfr_percentage <= 100, "CFR must be between 0 and 100"
 
-    return {
-        'total_deployments': total_deployments,
-        'successful_deployments': successful_deployments,
-        'failed_deployments': failed_deployments,
-        'cfr_percentage': cfr_percentage,
-        'classification': classification
-    }
+ return {
+ 'total_deployments': total_deployments,
+ 'successful_deployments': successful_deployments,
+ 'failed_deployments': failed_deployments,
+ 'cfr_percentage': cfr_percentage,
+ 'classification': classification
+ }
 ```
 
 ## 5. Tests con Edge Cases
 
 ```python
 def test_cfr_elite_classification():
-    """Test Elite classification (0-15% failure rate)."""
-    # Create 100 deployments, 10 failed (10% CFR)
-    for i in range(90):
-        DORAMetric.objects.create(
-            cycle_id=f'C-{i}',
-            phase_name='deployment',
-            decision='go',
-            duration_seconds=600
-        )
+ """Test Elite classification (0-15% failure rate)."""
+ # Create 100 deployments, 10 failed (10% CFR)
+ for i in range(90):
+ DORAMetric.objects.create(
+ cycle_id=f'C-{i}',
+ phase_name='deployment',
+ decision='go',
+ duration_seconds=600
+ )
 
-    for i in range(10):
-        DORAMetric.objects.create(
-            cycle_id=f'C-FAIL-{i}',
-            phase_name='deployment',
-            decision='no-go',
-            duration_seconds=300
-        )
+ for i in range(10):
+ DORAMetric.objects.create(
+ cycle_id=f'C-FAIL-{i}',
+ phase_name='deployment',
+ decision='no-go',
+ duration_seconds=300
+ )
 
-    result = calculate_change_failure_rate(date.today(), date.today())
+ result = calculate_change_failure_rate(date.today(), date.today())
 
-    assert result['total_deployments'] == 100
-    assert result['failed_deployments'] == 10
-    assert result['cfr_percentage'] == 10.0
-    assert result['classification'] == 'Elite'
+ assert result['total_deployments'] == 100
+ assert result['failed_deployments'] == 10
+ assert result['cfr_percentage'] == 10.0
+ assert result['classification'] == 'Elite'
 
 def test_cfr_no_deployments():
-    """Test CFR when no deployments exist (edge case)."""
-    result = calculate_change_failure_rate(
-        date(2025, 1, 1),
-        date(2025, 1, 1)
-    )
+ """Test CFR when no deployments exist (edge case)."""
+ result = calculate_change_failure_rate(
+ date(2025, 1, 1),
+ date(2025, 1, 1)
+ )
 
-    assert result['total_deployments'] == 0
-    assert result['cfr_percentage'] == 0.0
-    assert result['classification'] == 'N/A'
+ assert result['total_deployments'] == 0
+ assert result['cfr_percentage'] == 0.0
+ assert result['classification'] == 'N/A'
 
 def test_cfr_all_failed():
-    """Test CFR when all deployments failed (worst case)."""
-    for i in range(10):
-        DORAMetric.objects.create(
-            cycle_id=f'C-FAIL-{i}',
-            phase_name='deployment',
-            decision='no-go',
-            duration_seconds=300
-        )
+ """Test CFR when all deployments failed (worst case)."""
+ for i in range(10):
+ DORAMetric.objects.create(
+ cycle_id=f'C-FAIL-{i}',
+ phase_name='deployment',
+ decision='no-go',
+ duration_seconds=300
+ )
 
-    result = calculate_change_failure_rate(date.today(), date.today())
+ result = calculate_change_failure_rate(date.today(), date.today())
 
-    assert result['cfr_percentage'] == 100.0
-    assert result['classification'] == 'Low'
+ assert result['cfr_percentage'] == 100.0
+ assert result['classification'] == 'Low'
 ```
 
 ## 6. Anti-Alucinación

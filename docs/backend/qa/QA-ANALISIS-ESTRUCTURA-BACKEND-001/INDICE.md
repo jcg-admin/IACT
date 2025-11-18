@@ -35,50 +35,50 @@ Este analisis toma como referencia:
 - **Tipo:** Plan ejecutable
 - **Estado:** Propuesta
 - **Contenido:**
-  - Analisis de situacion actual
-  - Estructura objetivo propuesta
-  - Fases de ejecucion (4 fases, 65 tareas)
-  - Nomenclatura y convenciones
-  - Matriz de riesgos
-  - Criterios de exito
+ - Analisis de situacion actual
+ - Estructura objetivo propuesta
+ - Fases de ejecucion (4 fases, 65 tareas)
+ - Nomenclatura y convenciones
+ - Matriz de riesgos
+ - Criterios de exito
 
 ### 2. Listado Completo de Tareas
 - **Archivo:** `LISTADO-COMPLETO-TAREAS.md`
 - **Tipo:** Indice de tareas
 - **Estado:** Completado
 - **Contenido:**
-  - Resumen de 65 tareas en 4 fases
-  - Duracion estimada por tarea
-  - Tecnicas de prompting aplicadas
-  - Estructura de evidencias
+ - Resumen de 65 tareas en 4 fases
+ - Duracion estimada por tarea
+ - Tecnicas de prompting aplicadas
+ - Estructura de evidencias
 
 ### 3. Mapeo de Migracion (A crear)
 - **Archivo:** `MAPEO-MIGRACION-BACKEND-2025-11-18.md`
 - **Tipo:** Matriz de trazabilidad
 - **Estado:** Pendiente (TASK-005)
 - **Contenido esperado:**
-  - Tabla archivo-origen → archivo-destino
-  - Justificacion de cada movimiento
-  - Dependencias entre archivos
+ - Tabla archivo-origen → archivo-destino
+ - Justificacion de cada movimiento
+ - Dependencias entre archivos
 
 ### 4. Analisis de Gaps (A crear)
 - **Archivo:** `ANALISIS-GAPS-BACKEND-2025-11-18.md`
 - **Tipo:** Analisis tecnico
 - **Estado:** Pendiente
 - **Contenido esperado:**
-  - Carpetas faltantes vs gobernanza
-  - Contenido critico sin documentar
-  - Prioridades de creacion
+ - Carpetas faltantes vs gobernanza
+ - Contenido critico sin documentar
+ - Prioridades de creacion
 
 ### 5. Reporte de Ejecucion (A crear post-ejecucion)
 - **Archivo:** `REPORTE-EJECUCION-2025-MM-DD.md`
 - **Tipo:** Reporte
 - **Estado:** No iniciado
 - **Contenido esperado:**
-  - Tareas completadas vs planificadas
-  - Problemas encontrados y soluciones
-  - Tiempo real vs estimado
-  - Lecciones aprendidas
+ - Tareas completadas vs planificadas
+ - Problemas encontrados y soluciones
+ - Tiempo real vs estimado
+ - Lecciones aprendidas
 
 ## Estructura Propuesta (Resumen)
 

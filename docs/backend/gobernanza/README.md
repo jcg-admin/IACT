@@ -9,7 +9,7 @@ status: active
 
 **Propósito**: Políticas y procesos de gobernanza de desarrollo específicos del dominio Backend.
 
-## ⚠️ Gobernanza Multi-nivel
+## [WARNING] Gobernanza Multi-nivel
 
 El proyecto IACT utiliza una arquitectura de gobernanza en dos niveles:
 
@@ -32,9 +32,9 @@ El proyecto IACT utiliza una arquitectura de gobernanza en dos niveles:
 
 ### ¿Cuándo crear ADR aquí vs. Global?
 
-**✅ ADR de Backend (aquí)**: Solo afecta backend, stack-specific (Python/Django), no rompe interoperabilidad
+**[OK] ADR de Backend (aquí)**: Solo afecta backend, stack-specific (Python/Django), no rompe interoperabilidad
 
-**❌ ADR Global**: Afecta múltiples dominios, define estándares del proyecto, cross-cutting concerns
+**[ERROR] ADR Global**: Afecta múltiples dominios, define estándares del proyecto, cross-cutting concerns
 
 ## Contenido
 

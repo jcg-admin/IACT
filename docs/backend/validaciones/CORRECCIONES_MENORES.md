@@ -10,10 +10,10 @@ Este documento lista las 2 observaciones menores identificadas durante la valida
 En `callcentersite/settings/base.py`, líneas 46-47:
 ```python
 INSTALLED_APPS = [
-    # ...
-    "callcentersite.apps.configuration",   # línea 46
-    "callcentersite.apps.configuracion",   # línea 47
-    # ...
+ # ...
+ "callcentersite.apps.configuration", # línea 46
+ "callcentersite.apps.configuracion", # línea 47
+ # ...
 ]
 ```
 
@@ -27,14 +27,14 @@ Evaluar el propósito de cada app y consolidar en una sola:
 
 **Opción A**: Si tienen funcionalidades diferentes, renombrar para claridad:
 ```python
-"callcentersite.apps.configuration",      # Configuración de sistema
-"callcentersite.apps.configuracion_usuario",  # Configuración de usuario
+"callcentersite.apps.configuration", # Configuración de sistema
+"callcentersite.apps.configuracion_usuario", # Configuración de usuario
 ```
 
 **Opción B**: Si tienen funcionalidades similares, migrar todo a una:
 ```python
-"callcentersite.apps.configuration",  # Mantener esta
-# "callcentersite.apps.configuracion",  # Migrar funcionalidad y eliminar
+"callcentersite.apps.configuration", # Mantener esta
+# "callcentersite.apps.configuracion", # Migrar funcionalidad y eliminar
 ```
 
 ### Pasos para Consolidación (si se elige Opción B)
@@ -56,14 +56,14 @@ Evaluar el propósito de cada app y consolidar en una sola:
 En `callcentersite/urls.py`, líneas 23 y 35:
 ```python
 urlpatterns = [
-    # ...
-    path("api/v1/", include("callcentersite.apps.users.urls")),  # línea 23
-    path("api/v1/", include("callcentersite.apps.configuration.urls")),
-    path("api/v1/dashboard/", include("callcentersite.apps.dashboard.urls")),
-    # ... más rutas ...
-    path("api/v1/", include("callcentersite.apps.users.urls")),  # línea 35 - DUPLICADA
-    path("api/dora/", include("dora_metrics.urls")),
-    path("health/", health_check, name="health"),
+ # ...
+ path("api/v1/", include("callcentersite.apps.users.urls")), # línea 23
+ path("api/v1/", include("callcentersite.apps.configuration.urls")),
+ path("api/v1/dashboard/", include("callcentersite.apps.dashboard.urls")),
+ # ... más rutas ...
+ path("api/v1/", include("callcentersite.apps.users.urls")), # línea 35 - DUPLICADA
+ path("api/dora/", include("dora_metrics.urls")),
+ path("health/", health_check, name="health"),
 ]
 ```
 
@@ -79,47 +79,47 @@ Eliminar la línea 35:
 **Antes**:
 ```python
 urlpatterns = [
-    path("admin/", admin.site.urls),
-    path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
-    path("api/docs/", SpectacularSwaggerView.as_view(url_name="schema"), name="swagger-ui"),
-    path("api/v1/", include("callcentersite.apps.users.urls")),
-    path("api/v1/", include("callcentersite.apps.configuration.urls")),
-    path("api/v1/dashboard/", include("callcentersite.apps.dashboard.urls")),
-    path("api/v1/configuracion/", include("callcentersite.apps.configuracion.urls")),
-    path("api/v1/presupuestos/", include("callcentersite.apps.presupuestos.urls")),
-    path("api/v1/politicas/", include("callcentersite.apps.politicas.urls")),
-    path("api/v1/excepciones/", include("callcentersite.apps.excepciones.urls")),
-    path("api/v1/reportes/", include("callcentersite.apps.reportes.urls")),
-    path("api/v1/notifications/", include("callcentersite.apps.notifications.urls")),
-    path("api/v1/etl/", include("callcentersite.apps.etl.urls")),
-    path("api/v1/permissions/", include("callcentersite.apps.permissions.urls")),
-    path("api/v1/llamadas/", include("callcentersite.apps.llamadas.urls")),
-    path("api/v1/", include("callcentersite.apps.users.urls")),  # ← ELIMINAR ESTA LÍNEA
-    path("api/dora/", include("dora_metrics.urls")),
-    path("health/", health_check, name="health"),
+ path("admin/", admin.site.urls),
+ path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
+ path("api/docs/", SpectacularSwaggerView.as_view(url_name="schema"), name="swagger-ui"),
+ path("api/v1/", include("callcentersite.apps.users.urls")),
+ path("api/v1/", include("callcentersite.apps.configuration.urls")),
+ path("api/v1/dashboard/", include("callcentersite.apps.dashboard.urls")),
+ path("api/v1/configuracion/", include("callcentersite.apps.configuracion.urls")),
+ path("api/v1/presupuestos/", include("callcentersite.apps.presupuestos.urls")),
+ path("api/v1/politicas/", include("callcentersite.apps.politicas.urls")),
+ path("api/v1/excepciones/", include("callcentersite.apps.excepciones.urls")),
+ path("api/v1/reportes/", include("callcentersite.apps.reportes.urls")),
+ path("api/v1/notifications/", include("callcentersite.apps.notifications.urls")),
+ path("api/v1/etl/", include("callcentersite.apps.etl.urls")),
+ path("api/v1/permissions/", include("callcentersite.apps.permissions.urls")),
+ path("api/v1/llamadas/", include("callcentersite.apps.llamadas.urls")),
+ path("api/v1/", include("callcentersite.apps.users.urls")), # ← ELIMINAR ESTA LÍNEA
+ path("api/dora/", include("dora_metrics.urls")),
+ path("health/", health_check, name="health"),
 ]
 ```
 
 **Después**:
 ```python
 urlpatterns = [
-    path("admin/", admin.site.urls),
-    path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
-    path("api/docs/", SpectacularSwaggerView.as_view(url_name="schema"), name="swagger-ui"),
-    path("api/v1/", include("callcentersite.apps.users.urls")),
-    path("api/v1/", include("callcentersite.apps.configuration.urls")),
-    path("api/v1/dashboard/", include("callcentersite.apps.dashboard.urls")),
-    path("api/v1/configuracion/", include("callcentersite.apps.configuracion.urls")),
-    path("api/v1/presupuestos/", include("callcentersite.apps.presupuestos.urls")),
-    path("api/v1/politicas/", include("callcentersite.apps.politicas.urls")),
-    path("api/v1/excepciones/", include("callcentersite.apps.excepciones.urls")),
-    path("api/v1/reportes/", include("callcentersite.apps.reportes.urls")),
-    path("api/v1/notifications/", include("callcentersite.apps.notifications.urls")),
-    path("api/v1/etl/", include("callcentersite.apps.etl.urls")),
-    path("api/v1/permissions/", include("callcentersite.apps.permissions.urls")),
-    path("api/v1/llamadas/", include("callcentersite.apps.llamadas.urls")),
-    path("api/dora/", include("dora_metrics.urls")),
-    path("health/", health_check, name="health"),
+ path("admin/", admin.site.urls),
+ path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
+ path("api/docs/", SpectacularSwaggerView.as_view(url_name="schema"), name="swagger-ui"),
+ path("api/v1/", include("callcentersite.apps.users.urls")),
+ path("api/v1/", include("callcentersite.apps.configuration.urls")),
+ path("api/v1/dashboard/", include("callcentersite.apps.dashboard.urls")),
+ path("api/v1/configuracion/", include("callcentersite.apps.configuracion.urls")),
+ path("api/v1/presupuestos/", include("callcentersite.apps.presupuestos.urls")),
+ path("api/v1/politicas/", include("callcentersite.apps.politicas.urls")),
+ path("api/v1/excepciones/", include("callcentersite.apps.excepciones.urls")),
+ path("api/v1/reportes/", include("callcentersite.apps.reportes.urls")),
+ path("api/v1/notifications/", include("callcentersite.apps.notifications.urls")),
+ path("api/v1/etl/", include("callcentersite.apps.etl.urls")),
+ path("api/v1/permissions/", include("callcentersite.apps.permissions.urls")),
+ path("api/v1/llamadas/", include("callcentersite.apps.llamadas.urls")),
+ path("api/dora/", include("dora_metrics.urls")),
+ path("health/", health_check, name="health"),
 ]
 ```
 
@@ -141,8 +141,8 @@ urlpatterns = [
 | 1 | Apps duplicadas (configuration/configuracion) | Baja | Baja | No |
 | 2 | URL duplicada (users.urls) | Muy Baja | Muy Baja | No |
 
-**Total de observaciones**: 2  
-**Observaciones bloqueantes**: 0  
+**Total de observaciones**: 2 
+**Observaciones bloqueantes**: 0 
 **Recomendación**: Abordar en sprint de refactorización técnica o cuando haya ventana de tiempo disponible.
 
 ---
@@ -175,11 +175,11 @@ make test
 python manage.py check
 
 # Verificar URLs (si se corrige #2)
-python manage.py show_urls  # Requiere django-extensions
+python manage.py show_urls # Requiere django-extensions
 ```
 
 ---
 
-**Documento generado**: 2025-11-16  
-**Por**: ApiAgent  
+**Documento generado**: 2025-11-16 
+**Por**: ApiAgent 
 **Contexto**: Validación de api/callcentersite

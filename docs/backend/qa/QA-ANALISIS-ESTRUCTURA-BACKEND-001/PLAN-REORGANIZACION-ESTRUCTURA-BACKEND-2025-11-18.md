@@ -76,35 +76,35 @@ Alinear la estructura de documentacion de `docs/backend/` con la estructura cons
 
 ```
 docs/backend/
-├── README.md
-├── INDEX.md
-├── 2025-11-11/                    # Carpeta con fecha especifica
-├── analisis/
-├── analisis_negocio/
-├── api/
-├── arquitectura/
-├── checklists/
-├── deployment/
-├── diseno/
-├── diseno_detallado/
-├── feasibility/
-├── gobernanza/
-├── guias/
-├── permisos/
-├── planificacion_y_releases/
-├── planning/
-├── plans/
-├── procedimientos/
-├── qa/
-├── registros/
-├── requisitos/
-├── rest_apis/
-├── seguridad/
-├── sesiones/
-├── solicitudes/
-├── tareas/
-├── testing/
-└── validaciones/
+ README.md
+ INDEX.md
+ 2025-11-11/ # Carpeta con fecha especifica
+ analisis/
+ analisis_negocio/
+ api/
+ arquitectura/
+ checklists/
+ deployment/
+ diseno/
+ diseno_detallado/
+ feasibility/
+ gobernanza/
+ guias/
+ permisos/
+ planificacion_y_releases/
+ planning/
+ plans/
+ procedimientos/
+ qa/
+ registros/
+ requisitos/
+ rest_apis/
+ seguridad/
+ sesiones/
+ solicitudes/
+ tareas/
+ testing/
+ validaciones/
 ```
 
 **Total:** 27 carpetas
@@ -113,33 +113,33 @@ docs/backend/
 
 ```
 docs/gobernanza/
-├── README.md
-├── INDEX.md
-├── adr/                           # Architecture Decision Records
-├── catalogos/
-├── checklists/
-├── ci_cd/
-├── diseno/
-├── ejemplos/
-├── estilos/
-├── glosarios/
-├── guias/
-├── marco_integrado/
-├── metodologias/
-├── planificacion/
-├── plans/
-├── plantillas/
-├── procedimientos/
-├── procesos/
-├── qa/
-├── referencias/
-├── requisitos/
-├── seguridad/
-├── sesiones/
-├── solicitudes/
-├── templates/
-├── trazabilidad/
-└── vision_y_alcance/
+ README.md
+ INDEX.md
+ adr/ # Architecture Decision Records
+ catalogos/
+ checklists/
+ ci_cd/
+ diseno/
+ ejemplos/
+ estilos/
+ glosarios/
+ guias/
+ marco_integrado/
+ metodologias/
+ planificacion/
+ plans/
+ plantillas/
+ procedimientos/
+ procesos/
+ qa/
+ referencias/
+ requisitos/
+ seguridad/
+ sesiones/
+ solicitudes/
+ templates/
+ trazabilidad/
+ vision_y_alcance/
 ```
 
 **Total:** 26 carpetas + archivos raiz
@@ -208,195 +208,195 @@ docs/gobernanza/
 
 ```
 docs/backend/
-├── README.md                      # Indice principal actualizado
-├── INDEX.md                       # Indice de contenido
-├── CHANGELOG.md                   # Historial de cambios
-├── ROADMAP.md                     # Roadmap del backend
-├── GUIA_ESTILO.md                # Guia de estilo backend
-│
-├── adr/                          # ADRs especificos de backend
-│   ├── README.md
-│   ├── INDICE_ADRs.md
-│   ├── ADR-BACK-001-arquitectura-permisos.md
-│   ├── ADR-BACK-002-estrategia-testing.md
-│   └── ...
-│
-├── catalogos/                    # Catalogos de componentes
-│   ├── README.md
-│   ├── CATALOGO-APIs.md
-│   ├── CATALOGO-SERVICIOS.md
-│   ├── CATALOGO-MODELOS.md
-│   └── CATALOGO-ENDPOINTS.md
-│
-├── checklists/                   # Checklists operacionales
-│   ├── README.md
-│   ├── CHECKLIST-code-review.md
-│   ├── CHECKLIST-deployment.md
-│   └── CHECKLIST-testing.md
-│
-├── ci_cd/                        # Documentacion CI/CD backend
-│   ├── README.md
-│   ├── CI-CD-001-pipeline-tests.md
-│   ├── CI-CD-002-deployment-staging.md
-│   └── workflows/
-│
-├── diseno/                       # Diseños arquitectonicos
-│   ├── README.md
-│   ├── api/                      # Diseño de APIs
-│   │   ├── README.md
-│   │   ├── API-REST-design.md
-│   │   ├── API-endpoints-spec.md
-│   │   └── ejemplos_rest_apis.md
-│   ├── arquitectura/             # Arquitectura general
-│   │   ├── README.md
-│   │   ├── ARQUITECTURA-MODULOS-COMPLETA.md
-│   │   └── patrones-arquitectonicos.md
-│   ├── database/                 # Diseño de base de datos
-│   │   ├── README.md
-│   │   ├── database-schema.md
-│   │   └── migrations-strategy.md
-│   ├── permisos/                 # Sistema de permisos
-│   │   ├── README.md
-│   │   ├── arquitectura-permisos-granular.md
-│   │   └── ARQUITECTURA_PERMISOS_UML.md
-│   └── detallado/                # Diseños Low-Level
-│       ├── README.md
-│       └── diseno-tecnico-autenticacion.md
-│
-├── ejemplos/                     # Ejemplos de codigo
-│   ├── README.md
-│   ├── ejemplo-test-unitario.py
-│   ├── ejemplo-api-endpoint.py
-│   └── ejemplo-modelo-django.py
-│
-├── estilos/                      # Guias de estilo
-│   ├── README.md
-│   ├── python-style-guide.md
-│   └── django-best-practices.md
-│
-├── glosarios/                    # Glosario tecnico
-│   ├── README.md
-│   └── GLOSARIO-BACKEND.md
-│
-├── gobernanza/                   # Gobernanza del dominio
-│   ├── README.md
-│   ├── lineamientos-codigo.md
-│   └── politicas-backend.md
-│
-├── guias/                        # Guias operacionales
-│   ├── README.md
-│   ├── GUIA-desarrollo-tdd.md
-│   ├── GUIA-django-apps.md
-│   └── GUIA-testing-backend.md
-│
-├── metodologias/                 # Metodologias aplicadas
-│   ├── README.md
-│   ├── TDD-metodologia.md
-│   ├── DDD-domain-driven-design.md
-│   └── clean-architecture.md
-│
-├── planificacion/                # Planificacion y releases
-│   ├── README.md
-│   ├── feasibility/              # Analisis de viabilidad
-│   │   └── feasibility-analysis.md
-│   ├── planning/                 # Planificacion detallada
-│   │   └── planning-output.md
-│   ├── releases/                 # Gestion de releases
-│   │   ├── release-plan.md
-│   │   └── changelog-releases.md
-│   └── analisis_negocio/        # Analisis de negocio
-│       └── business-requirements.md
-│
-├── plantillas/                   # Plantillas de documentos
-│   ├── README.md
-│   ├── plantilla-adr-backend.md
-│   ├── plantilla-procedimiento-backend.md
-│   ├── plantilla-api-reference.md
-│   ├── plantilla-database-design.md
-│   ├── plantilla-spec.md
-│   ├── plantilla-plan.md
-│   └── plantilla-tdd.md
-│
-├── procedimientos/               # Procedimientos operacionales
-│   ├── README.md
-│   ├── PROCED-BACK-001-ejecutar-tests.md
-│   ├── PROCED-BACK-002-deployment-staging.md
-│   ├── PROCED-BACK-003-code-review.md
-│   └── deployment/               # Procedimientos de deploy
-│       └── deployment-procedures.md
-│
-├── procesos/                     # Procesos high-level
-│   ├── README.md
-│   ├── PROC-BACK-001-desarrollo-features.md
-│   ├── PROC-BACK-002-gestion-dependencias.md
-│   └── INDICE_PROCESOS.md
-│
-├── qa/                           # Quality Assurance
-│   ├── README.md
-│   ├── estrategia-qa-backend.md
-│   ├── validaciones/             # Validaciones especificas
-│   │   ├── README.md
-│   │   ├── VALIDACION-API-CALLCENTERSITE.md
-│   │   └── RESUMEN-VALIDACION.md
-│   └── reportes/                 # Reportes de QA
-│       └── reporte-qa-2025-11-18.md
-│
-├── referencias/                  # Referencias tecnicas
-│   ├── README.md
-│   ├── django-docs.md
-│   ├── drf-references.md
-│   └── python-libraries.md
-│
-├── requisitos/                   # Requisitos del backend
-│   ├── README.md
-│   ├── INDICE-REQUISITOS.md
-│   ├── MATRIZ-TRAZABILIDAD-PERMISOS.md
-│   ├── prioridad-01-estructura-base-datos.md
-│   ├── prioridad-02-funciones-core.md
-│   └── casos-uso/                # Casos de uso
-│       ├── README.md
-│       ├── UC-PERM-001-asignar-grupo-a-usuario.md
-│       └── ...
-│
-├── seguridad/                    # Documentacion de seguridad
-│   ├── README.md
-│   ├── ANALISIS-SEGURIDAD-AMENAZAS.md
-│   └── politicas-seguridad-backend.md
-│
-├── sesiones/                     # Registros de sesiones de trabajo
-│   ├── README.md
-│   ├── SESION-2025-11-11/
-│   │   └── trabajo-realizado.md
-│   ├── registros/                # Registros historicos
-│   │   ├── 2025-11-02-ejecucion-pytest.md
-│   │   └── 2025-02-16-ejecucion-pytest.md
-│   └── tareas/                   # Tareas puntuales
-│       ├── TASK-037-load-testing.md
-│       └── ...
-│
-├── solicitudes/                  # Solicitudes de cambio
-│   └── README.md
-│
-├── templates/                    # Templates adicionales
-│   ├── README.md
-│   └── (alias a plantillas/ o contenido especifico)
-│
-├── testing/                      # Estrategia de testing
-│   ├── README.md
-│   ├── testing-strategy.md
-│   ├── test-use-cases.md
-│   └── coverage-reports/
-│
-├── trazabilidad/                 # Trazabilidad backend
-│   ├── README.md
-│   ├── MATRIZ-requisitos-tests.md
-│   ├── MATRIZ-requisitos-codigo.md
-│   └── IMPLEMENTACION-SCRIPTS.md
-│
-└── vision_y_alcance/            # Vision del backend
-    ├── README.md
-    ├── vision-backend-2025.md
-    └── roadmap-backend.md
+ README.md # Indice principal actualizado
+ INDEX.md # Indice de contenido
+ CHANGELOG.md # Historial de cambios
+ ROADMAP.md # Roadmap del backend
+ GUIA_ESTILO.md # Guia de estilo backend
+
+ adr/ # ADRs especificos de backend
+ README.md
+ INDICE_ADRs.md
+ ADR-BACK-001-arquitectura-permisos.md
+ ADR-BACK-002-estrategia-testing.md
+ ...
+
+ catalogos/ # Catalogos de componentes
+ README.md
+ CATALOGO-APIs.md
+ CATALOGO-SERVICIOS.md
+ CATALOGO-MODELOS.md
+ CATALOGO-ENDPOINTS.md
+
+ checklists/ # Checklists operacionales
+ README.md
+ CHECKLIST-code-review.md
+ CHECKLIST-deployment.md
+ CHECKLIST-testing.md
+
+ ci_cd/ # Documentacion CI/CD backend
+ README.md
+ CI-CD-001-pipeline-tests.md
+ CI-CD-002-deployment-staging.md
+ workflows/
+
+ diseno/ # Diseños arquitectonicos
+ README.md
+ api/ # Diseño de APIs
+ README.md
+ API-REST-design.md
+ API-endpoints-spec.md
+ ejemplos_rest_apis.md
+ arquitectura/ # Arquitectura general
+ README.md
+ ARQUITECTURA-MODULOS-COMPLETA.md
+ patrones-arquitectonicos.md
+ database/ # Diseño de base de datos
+ README.md
+ database-schema.md
+ migrations-strategy.md
+ permisos/ # Sistema de permisos
+ README.md
+ arquitectura-permisos-granular.md
+ ARQUITECTURA_PERMISOS_UML.md
+ detallado/ # Diseños Low-Level
+ README.md
+ diseno-tecnico-autenticacion.md
+
+ ejemplos/ # Ejemplos de codigo
+ README.md
+ ejemplo-test-unitario.py
+ ejemplo-api-endpoint.py
+ ejemplo-modelo-django.py
+
+ estilos/ # Guias de estilo
+ README.md
+ python-style-guide.md
+ django-best-practices.md
+
+ glosarios/ # Glosario tecnico
+ README.md
+ GLOSARIO-BACKEND.md
+
+ gobernanza/ # Gobernanza del dominio
+ README.md
+ lineamientos-codigo.md
+ politicas-backend.md
+
+ guias/ # Guias operacionales
+ README.md
+ GUIA-desarrollo-tdd.md
+ GUIA-django-apps.md
+ GUIA-testing-backend.md
+
+ metodologias/ # Metodologias aplicadas
+ README.md
+ TDD-metodologia.md
+ DDD-domain-driven-design.md
+ clean-architecture.md
+
+ planificacion/ # Planificacion y releases
+ README.md
+ feasibility/ # Analisis de viabilidad
+ feasibility-analysis.md
+ planning/ # Planificacion detallada
+ planning-output.md
+ releases/ # Gestion de releases
+ release-plan.md
+ changelog-releases.md
+ analisis_negocio/ # Analisis de negocio
+ business-requirements.md
+
+ plantillas/ # Plantillas de documentos
+ README.md
+ plantilla-adr-backend.md
+ plantilla-procedimiento-backend.md
+ plantilla-api-reference.md
+ plantilla-database-design.md
+ plantilla-spec.md
+ plantilla-plan.md
+ plantilla-tdd.md
+
+ procedimientos/ # Procedimientos operacionales
+ README.md
+ PROCED-BACK-001-ejecutar-tests.md
+ PROCED-BACK-002-deployment-staging.md
+ PROCED-BACK-003-code-review.md
+ deployment/ # Procedimientos de deploy
+ deployment-procedures.md
+
+ procesos/ # Procesos high-level
+ README.md
+ PROC-BACK-001-desarrollo-features.md
+ PROC-BACK-002-gestion-dependencias.md
+ INDICE_PROCESOS.md
+
+ qa/ # Quality Assurance
+ README.md
+ estrategia-qa-backend.md
+ validaciones/ # Validaciones especificas
+ README.md
+ VALIDACION-API-CALLCENTERSITE.md
+ RESUMEN-VALIDACION.md
+ reportes/ # Reportes de QA
+ reporte-qa-2025-11-18.md
+
+ referencias/ # Referencias tecnicas
+ README.md
+ django-docs.md
+ drf-references.md
+ python-libraries.md
+
+ requisitos/ # Requisitos del backend
+ README.md
+ INDICE-REQUISITOS.md
+ MATRIZ-TRAZABILIDAD-PERMISOS.md
+ prioridad-01-estructura-base-datos.md
+ prioridad-02-funciones-core.md
+ casos-uso/ # Casos de uso
+ README.md
+ UC-PERM-001-asignar-grupo-a-usuario.md
+ ...
+
+ seguridad/ # Documentacion de seguridad
+ README.md
+ ANALISIS-SEGURIDAD-AMENAZAS.md
+ politicas-seguridad-backend.md
+
+ sesiones/ # Registros de sesiones de trabajo
+ README.md
+ SESION-2025-11-11/
+ trabajo-realizado.md
+ registros/ # Registros historicos
+ 2025-11-02-ejecucion-pytest.md
+ 2025-02-16-ejecucion-pytest.md
+ tareas/ # Tareas puntuales
+ TASK-037-load-testing.md
+ ...
+
+ solicitudes/ # Solicitudes de cambio
+ README.md
+
+ templates/ # Templates adicionales
+ README.md
+ (alias a plantillas/ o contenido especifico)
+
+ testing/ # Estrategia de testing
+ README.md
+ testing-strategy.md
+ test-use-cases.md
+ coverage-reports/
+
+ trazabilidad/ # Trazabilidad backend
+ README.md
+ MATRIZ-requisitos-tests.md
+ MATRIZ-requisitos-codigo.md
+ IMPLEMENTACION-SCRIPTS.md
+
+ vision_y_alcance/ # Vision del backend
+ README.md
+ vision-backend-2025.md
+ roadmap-backend.md
 ```
 
 ### 4.2 Resumen de Cambios
@@ -519,7 +519,7 @@ Preparar el terreno sin modificar archivos existentes
 **TASK-001: Crear backup completo**
 ```bash
 git tag -a backup-reorganizacion-backend-2025-11-18 \
-  -m "Backup pre-reorganizacion docs/backend"
+ -m "Backup pre-reorganizacion docs/backend"
 git push origin backup-reorganizacion-backend-2025-11-18
 ```
 
@@ -566,7 +566,7 @@ Mover y consolidar archivos criticos para operacion
 ```bash
 # Ejemplo
 cp docs/backend/permisos/arquitectura_permisos_granular.md \
-   docs/backend/adr/ADR-BACK-001-arquitectura-permisos-granular.md
+ docs/backend/adr/ADR-BACK-001-arquitectura-permisos-granular.md
 ```
 
 **TASK-008: Agregar metadatos YAML a ADRs**
@@ -1112,22 +1112,22 @@ Ver: `docs/backend/plantillas/`
 # Script para validar estructura docs/backend/
 
 EXPECTED_DIRS=(
-    "adr" "catalogos" "checklists" "ci_cd" "diseno"
-    "ejemplos" "estilos" "glosarios" "gobernanza" "guias"
-    "metodologias" "planificacion" "plantillas" "procedimientos"
-    "procesos" "qa" "referencias" "requisitos" "seguridad"
-    "sesiones" "solicitudes" "templates" "testing"
-    "trazabilidad" "vision_y_alcance"
+ "adr" "catalogos" "checklists" "ci_cd" "diseno"
+ "ejemplos" "estilos" "glosarios" "gobernanza" "guias"
+ "metodologias" "planificacion" "plantillas" "procedimientos"
+ "procesos" "qa" "referencias" "requisitos" "seguridad"
+ "sesiones" "solicitudes" "templates" "testing"
+ "trazabilidad" "vision_y_alcance"
 )
 
 for dir in "${EXPECTED_DIRS[@]}"; do
-    if [ ! -d "docs/backend/$dir" ]; then
-        echo "ERROR: Falta carpeta docs/backend/$dir"
-    else
-        if [ ! -f "docs/backend/$dir/README.md" ]; then
-            echo "WARNING: Falta README en docs/backend/$dir"
-        fi
-    fi
+ if [ ! -d "docs/backend/$dir" ]; then
+ echo "ERROR: Falta carpeta docs/backend/$dir"
+ else
+ if [ ! -f "docs/backend/$dir/README.md" ]; then
+ echo "WARNING: Falta README en docs/backend/$dir"
+ fi
+ fi
 done
 
 echo "Validacion completada"

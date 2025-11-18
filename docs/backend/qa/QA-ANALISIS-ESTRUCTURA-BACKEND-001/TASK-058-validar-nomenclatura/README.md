@@ -3,7 +3,7 @@
 ## Metadatos
 - **ID**: TASK-058
 - **Fase**: FASE 4 - Validación y Limpieza
-- **Prioridad**: MEDIA 🟢
+- **Prioridad**: MEDIA 
 - **Estimación**: 15 minutos
 - **Estado**: PENDIENTE
 - **Metodología**: Auto-CoT + Self-Consistency + Chain-of-Verification
@@ -25,20 +25,20 @@ Validar que todos los nombres de archivos y carpetas sigan las convenciones de n
 
 **Para Archivos**:
 - **Código**: camelCase o kebab-case según lenguaje
-  - JavaScript/TypeScript: camelCase (userService.js)
-  - Python: snake_case (user_service.py)
-  - Configuración: kebab-case (eslint-config.js)
+ - JavaScript/TypeScript: camelCase (userService.js)
+ - Python: snake_case (user_service.py)
+ - Configuración: kebab-case (eslint-config.js)
 
 - **Documentación**: SCREAMING_CASE o kebab-case
-  - README.md (estándar)
-  - INDEX.md (estándar)
-  - CHANGELOG.md (estándar)
-  - guia-rapida.md (contenido)
+ - README.md (estándar)
+ - INDEX.md (estándar)
+ - CHANGELOG.md (estándar)
+ - guia-rapida.md (contenido)
 
 - **Configuración**: Según convención del tool
-  - .eslintrc.json
-  - package.json
-  - docker-compose.yml
+ - .eslintrc.json
+ - package.json
+ - docker-compose.yml
 
 ### Paso 2: Identificar Patrones Problemáticos
 **Pensamiento**: ¿Qué nombres son incorrectos?
@@ -97,21 +97,21 @@ tree docs/backend -L 3
 ### Verificación 3: Answer Questions Independently
 ```
 Evaluación: docs/backend/User Management/
-❌ Tiene espacio
-❌ Usa mayúsculas
-✅ Es descriptivo
+[ERROR] Tiene espacio
+[ERROR] Usa mayúsculas
+[OK] Es descriptivo
 Propuesta: user-management
 
 Evaluación: docs/backend/temp/
-✅ Sin espacios
-✅ Minúsculas
-❌ Nombre genérico
-❌ No descriptivo
+[OK] Sin espacios
+[OK] Minúsculas
+[ERROR] Nombre genérico
+[ERROR] No descriptivo
 Propuesta: temporal-migrations (según contenido)
 
 Evaluación: docs/backend/api_gateway/
-⚠️ Usa snake_case en lugar de kebab-case
-✅ Descriptivo
+[WARNING] Usa snake_case en lugar de kebab-case
+[OK] Descriptivo
 Propuesta: api-gateway
 ```
 
@@ -149,18 +149,18 @@ KEBAB_CASE_PATTERN = re.compile(r'^[a-z0-9]+(-[a-z0-9]+)*$')
 GENERIC_NAMES = ['temp', 'old', 'backup', 'test', 'tmp', 'archive']
 
 def validate_folder_name(name):
-    issues = []
+ issues = []
 
-    if ' ' in name:
-        issues.append("Contiene espacios")
+ if ' ' in name:
+ issues.append("Contiene espacios")
 
-    if not KEBAB_CASE_PATTERN.match(name):
-        issues.append("No es kebab-case")
+ if not KEBAB_CASE_PATTERN.match(name):
+ issues.append("No es kebab-case")
 
-    if name.lower() in GENERIC_NAMES:
-        issues.append("Nombre genérico")
+ if name.lower() in GENERIC_NAMES:
+ issues.append("Nombre genérico")
 
-    return issues
+ return issues
 
 # Validar toda la estructura
 # ...
@@ -188,37 +188,37 @@ def validate_folder_name(name):
 
 ## Entregables
 1. **REPORTE-NOMENCLATURA.md**
-   - Árbol de estructura actual
-   - Lista de nombres no conformes
-   - Propuestas de renombrado
-   - Estadísticas de conformidad
+ - Árbol de estructura actual
+ - Lista de nombres no conformes
+ - Propuestas de renombrado
+ - Estadísticas de conformidad
 
 2. **PLAN-RENOMBRADO.md**
-   - Lista priorizada de renombrados
-   - Impacto de cada cambio
-   - Orden de ejecución
-   - Script de renombrado
+ - Lista priorizada de renombrados
+ - Impacto de cada cambio
+ - Orden de ejecución
+ - Script de renombrado
 
 3. **script-validar-nombres.sh/py**
-   - Validación automatizada
-   - Detección de patrones incorrectos
-   - Generación de reporte
+ - Validación automatizada
+ - Detección de patrones incorrectos
+ - Generación de reporte
 
 4. **CONVENCIONES-NOMENCLATURA.md**
-   - Guía de nomenclatura del proyecto
-   - Ejemplos buenos y malos
-   - Reglas por tipo de archivo
+ - Guía de nomenclatura del proyecto
+ - Ejemplos buenos y malos
+ - Reglas por tipo de archivo
 
 ## Reglas de Nomenclatura Detalladas
 
 ### Carpetas
-✅ **CORRECTO**:
+[OK] **CORRECTO**:
 - `user-management`
 - `api-gateway`
 - `common-utils`
 - `authentication-service`
 
-❌ **INCORRECTO**:
+[ERROR] **INCORRECTO**:
 - `User Management` (espacios, mayúsculas)
 - `user_management` (snake_case)
 - `userManagement` (camelCase)
@@ -226,36 +226,36 @@ def validate_folder_name(name):
 - `old-stuff` (poco específico)
 
 ### Archivos de Documentación
-✅ **CORRECTO**:
+[OK] **CORRECTO**:
 - `README.md`
 - `CHANGELOG.md`
 - `CONTRIBUTING.md`
 - `guia-rapida.md`
 - `arquitectura-backend.md`
 
-❌ **INCORRECTO**:
+[ERROR] **INCORRECTO**:
 - `readme.md` (debe ser README.md)
 - `Guia Rapida.md` (espacios)
 - `GUIA_RAPIDA.MD` (extensión en mayúsculas)
 
 ### Archivos de Código
-✅ **CORRECTO** (JavaScript/TypeScript):
+[OK] **CORRECTO** (JavaScript/TypeScript):
 - `userService.js`
 - `authController.ts`
 - `database-config.js`
 
-✅ **CORRECTO** (Python):
+[OK] **CORRECTO** (Python):
 - `user_service.py`
 - `auth_controller.py`
 - `database_config.py`
 
-❌ **INCORRECTO**:
+[ERROR] **INCORRECTO**:
 - `UserService.js` (PascalCase para clases, no archivos)
 - `user-service.py` (Python usa snake_case)
 - `auth controller.js` (espacios)
 
 ### Archivos de Configuración
-✅ **CORRECTO**:
+[OK] **CORRECTO**:
 - `package.json`
 - `.eslintrc.json`
 - `docker-compose.yml`

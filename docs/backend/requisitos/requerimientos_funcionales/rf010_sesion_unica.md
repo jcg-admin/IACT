@@ -11,16 +11,16 @@ modulo: authentication
 categoria: security
 
 trazabilidad_upward:
-  - RN-C01-13  # Sesiones en PostgreSQL
-  - RN-C01-14  # Sesión Única por Usuario
+ - RN-C01-13 # Sesiones en PostgreSQL
+ - RN-C01-14 # Sesión Única por Usuario
 
 trazabilidad_downward:
-  - TEST-010  # Tests de sesión única
+ - TEST-010 # Tests de sesión única
 
 stakeholders:
-  - usuarios-finales
-  - administradores-sistema
-  - gerentes-seguridad
+ - usuarios-finales
+ - administradores-sistema
+ - gerentes-seguridad
 
 iso29148_clause: "9.6.4"
 verificacion_metodo: test
@@ -65,54 +65,54 @@ Permitir múltiples sesiones simultáneas por usuario incrementa el riesgo de se
 Given un usuario "juan.perez" sin sesiones activas
 When el usuario hace login exitoso
 Then el sistema crea nueva sesión en django_session
-  And el sistema crea nueva sesión en user_sessions con:
-    | user_id          | <user_id>              |
-    | session_key      | <django_session_key>   |
-    | user_agent       | <request_user_agent>   |
-    | is_active        | True                   |
-    | created_at       | <now>                  |
-    | last_activity_at | <now>                  |
-    | logged_out_at    | NULL                   |
-    | logout_reason    | NULL                   |
-  And el sistema NO cierra ninguna sesión anterior (no existe)
-  And el sistema NO envía notificación de cierre
+ And el sistema crea nueva sesión en user_sessions con:
+ | user_id | <user_id> |
+ | session_key | <django_session_key> |
+ | user_agent | <request_user_agent> |
+ | is_active | True |
+ | created_at | <now> |
+ | last_activity_at | <now> |
+ | logged_out_at | NULL |
+ | logout_reason | NULL |
+ And el sistema NO cierra ninguna sesión anterior (no existe)
+ And el sistema NO envía notificación de cierre
 ```
 
 #### Escenario 2: Login con sesión activa previa - cierre automático
 
 ```gherkin
 Given un usuario "alice" con sesión activa en dispositivo A
-  And la sesión tiene session_key="session_abc123"
-  And la sesión tiene is_active=True
+ And la sesión tiene session_key="session_abc123"
+ And la sesión tiene is_active=True
 When el usuario hace login desde dispositivo B
 Then el sistema detecta sesión activa previa
-  And el sistema cierra sesión anterior:
-    | is_active     | False          |
-    | logged_out_at | <now>          |
-    | logout_reason | NEW_SESSION    |
-  And el sistema elimina django_session con session_key="session_abc123"
-  And el sistema audita evento SESSION_CLOSED con:
-    | event_type | SESSION_CLOSED               |
-    | user_id    | <user_id>                    |
-    | details    | {"reason": "new_session", "old_session_id": "..."} |
-  And el sistema envía notificación a buzón interno:
-    "Se ha iniciado una nueva sesión en tu cuenta.
-     Tu sesión anterior ha sido cerrada automáticamente.
-     Si no fuiste tú quien inició esta sesión, cambia tu contraseña inmediatamente."
-  And el sistema crea nueva sesión en ambas tablas para dispositivo B
-  And el usuario en dispositivo A pierde acceso (sesión cerrada)
+ And el sistema cierra sesión anterior:
+ | is_active | False |
+ | logged_out_at | <now> |
+ | logout_reason | NEW_SESSION |
+ And el sistema elimina django_session con session_key="session_abc123"
+ And el sistema audita evento SESSION_CLOSED con:
+ | event_type | SESSION_CLOSED |
+ | user_id | <user_id> |
+ | details | {"reason": "new_session", "old_session_id": "..."} |
+ And el sistema envía notificación a buzón interno:
+ "Se ha iniciado una nueva sesión en tu cuenta.
+ Tu sesión anterior ha sido cerrada automáticamente.
+ Si no fuiste tú quien inició esta sesión, cambia tu contraseña inmediatamente."
+ And el sistema crea nueva sesión en ambas tablas para dispositivo B
+ And el usuario en dispositivo A pierde acceso (sesión cerrada)
 ```
 
 #### Escenario 3: Múltiples sesiones activas (caso edge) - cerrar todas
 
 ```gherkin
 Given un usuario "bob" con 2 sesiones activas (caso anómalo)
-  And ambas sesiones tienen is_active=True
+ And ambas sesiones tienen is_active=True
 When el usuario hace login desde dispositivo C
 Then el sistema cierra TODAS las sesiones activas previas
-  And el sistema audita 2 eventos SESSION_CLOSED
-  And el sistema envía 1 notificación al usuario
-  And el sistema crea solo 1 nueva sesión activa
+ And el sistema audita 2 eventos SESSION_CLOSED
+ And el sistema envía 1 notificación al usuario
+ And el sistema crea solo 1 nueva sesión activa
 ```
 
 #### Escenario 4: Verificación de sesión única - solo 1 activa
@@ -121,7 +121,7 @@ Then el sistema cierra TODAS las sesiones activas previas
 Given un usuario "carol" después de hacer login
 When el sistema consulta sesiones activas del usuario
 Then el sistema encuentra exactamente 1 sesión con is_active=True
-  And NO existen múltiples sesiones activas simultáneas
+ And NO existen múltiples sesiones activas simultáneas
 ```
 
 #### Escenario 5: Sesiones almacenadas en PostgreSQL - NO Redis
@@ -129,11 +129,11 @@ Then el sistema encuentra exactamente 1 sesión con is_active=True
 ```gherkin
 Given la configuración de Django
 Then settings.SESSION_ENGINE es "django.contrib.sessions.backends.db"
-  And settings.SESSION_ENGINE NO es "django.contrib.sessions.backends.cache"
-  And settings.SESSION_ENGINE NO es "django.contrib.sessions.backends.cached_db"
-  And settings.SESSION_ENGINE NO es "django.contrib.sessions.backends.file"
-  And las sesiones se almacenan en tabla "django_session" en PostgreSQL
-  And NO se usa Redis como backend de sesiones
+ And settings.SESSION_ENGINE NO es "django.contrib.sessions.backends.cache"
+ And settings.SESSION_ENGINE NO es "django.contrib.sessions.backends.cached_db"
+ And settings.SESSION_ENGINE NO es "django.contrib.sessions.backends.file"
+ And las sesiones se almacenan en tabla "django_session" en PostgreSQL
+ And NO se usa Redis como backend de sesiones
 ```
 
 #### Escenario 6: Estructura de user_sessions - tracking adicional
@@ -141,16 +141,16 @@ Then settings.SESSION_ENGINE es "django.contrib.sessions.backends.db"
 ```gherkin
 Given una sesión activa en user_sessions
 Then la tabla contiene columnas:
-  | session_id       | SERIAL PRIMARY KEY               |
-  | user_id          | INTEGER REFERENCES users         |
-  | session_key      | VARCHAR(40) UNIQUE               |
-  | user_agent       | TEXT                             |
-  | is_active        | BOOLEAN DEFAULT TRUE             |
-  | created_at       | TIMESTAMP DEFAULT CURRENT_TS     |
-  | last_activity_at | TIMESTAMP DEFAULT CURRENT_TS     |
-  | logged_out_at    | TIMESTAMP                        |
-  | logout_reason    | VARCHAR(50)                      |
-  And la tabla permite tracking avanzado de sesiones
+ | session_id | SERIAL PRIMARY KEY |
+ | user_id | INTEGER REFERENCES users |
+ | session_key | VARCHAR(40) UNIQUE |
+ | user_agent | TEXT |
+ | is_active | BOOLEAN DEFAULT TRUE |
+ | created_at | TIMESTAMP DEFAULT CURRENT_TS |
+ | last_activity_at | TIMESTAMP DEFAULT CURRENT_TS |
+ | logged_out_at | TIMESTAMP |
+ | logout_reason | VARCHAR(50) |
+ And la tabla permite tracking avanzado de sesiones
 ```
 
 #### Escenario 7: Notificación NO incluye IP address
@@ -159,11 +159,11 @@ Then la tabla contiene columnas:
 Given un usuario cuya sesión anterior fue cerrada
 When el sistema envía notificación vía buzón interno
 Then el mensaje contiene:
-    "Se ha iniciado una nueva sesión en tu cuenta.
-     Tu sesión anterior ha sido cerrada automáticamente."
-  And el mensaje NO contiene IP address (prohibido por restricciones)
-  And el mensaje NO contiene ubicación geográfica
-  And el mensaje solo informa sobre el cierre de sesión
+ "Se ha iniciado una nueva sesión en tu cuenta.
+ Tu sesión anterior ha sido cerrada automáticamente."
+ And el mensaje NO contiene IP address (prohibido por restricciones)
+ And el mensaje NO contiene ubicación geográfica
+ And el mensaje solo informa sobre el cierre de sesión
 ```
 
 #### Escenario 8: User_agent almacenado pero NO validado
@@ -172,21 +172,21 @@ Then el mensaje contiene:
 Given un usuario haciendo login con user_agent="Chrome/100.0"
 When el sistema crea la sesión
 Then el sistema almacena user_agent en user_sessions
-  And el sistema NO valida el user_agent
-  And el sistema NO rechaza por cambio de user_agent
-  And el user_agent es solo para auditoría
+ And el sistema NO valida el user_agent
+ And el sistema NO rechaza por cambio de user_agent
+ And el user_agent es solo para auditoría
 ```
 
 #### Escenario 9: Sesión única por usuario - independiente por usuario
 
 ```gherkin
 Given usuario "dave" con sesión activa en dispositivo A
-  And usuario "eve" con sesión activa en dispositivo B
+ And usuario "eve" con sesión activa en dispositivo B
 When usuario "dave" hace login en dispositivo C
 Then el sistema cierra solo la sesión de "dave" en dispositivo A
-  And el sistema NO afecta la sesión de "eve" en dispositivo B
-  And cada usuario tiene máximo 1 sesión activa
-  And usuarios diferentes son independientes
+ And el sistema NO afecta la sesión de "eve" en dispositivo B
+ And cada usuario tiene máximo 1 sesión activa
+ And usuarios diferentes son independientes
 ```
 
 ### 2.2 Criterios No Funcionales Asociados
@@ -219,17 +219,17 @@ Then el sistema cierra solo la sesión de "dave" en dispositivo A
 
 ```python
 # Configuración de sesiones (OBLIGATORIO - PostgreSQL)
-SESSION_ENGINE = 'django.contrib.sessions.backends.db'  # PostgreSQL
-SESSION_COOKIE_AGE = 1800  # 30 minutos (para inactividad)
-SESSION_SAVE_EVERY_REQUEST = True  # Actualizar en cada request
+SESSION_ENGINE = 'django.contrib.sessions.backends.db' # PostgreSQL
+SESSION_COOKIE_AGE = 1800 # 30 minutos (para inactividad)
+SESSION_SAVE_EVERY_REQUEST = True # Actualizar en cada request
 SESSION_COOKIE_HTTPONLY = True
-SESSION_COOKIE_SECURE = True  # HTTPS only
+SESSION_COOKIE_SECURE = True # HTTPS only
 SESSION_COOKIE_SAMESITE = 'Lax'
 
 # PROHIBIDO usar estas configuraciones:
-# SESSION_ENGINE = 'django.contrib.sessions.backends.cache'  # NO NO Redis
-# SESSION_ENGINE = 'django.contrib.sessions.backends.cached_db'  # NO NO Redis
-# SESSION_ENGINE = 'django.contrib.sessions.backends.file'  # NO NO archivos
+# SESSION_ENGINE = 'django.contrib.sessions.backends.cache' # NO NO Redis
+# SESSION_ENGINE = 'django.contrib.sessions.backends.cached_db' # NO NO Redis
+# SESSION_ENGINE = 'django.contrib.sessions.backends.file' # NO NO archivos
 ```
 
 #### 3.2.2 Modelo UserSession
@@ -241,29 +241,29 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 class UserSession(models.Model):
-    """
-    Modelo custom para tracking avanzado de sesiones
-    Complementa django_session con metadatos adicionales
-    """
-    session_id = models.AutoField(primary_key=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sessions')
-    session_key = models.CharField(max_length=40, unique=True)
-    user_agent = models.TextField(null=True, blank=True)
-    is_active = models.BooleanField(default=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    last_activity_at = models.DateTimeField(auto_now_add=True)
-    logged_out_at = models.DateTimeField(null=True, blank=True)
-    logout_reason = models.CharField(max_length=50, null=True, blank=True)
+ """
+ Modelo custom para tracking avanzado de sesiones
+ Complementa django_session con metadatos adicionales
+ """
+ session_id = models.AutoField(primary_key=True)
+ user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sessions')
+ session_key = models.CharField(max_length=40, unique=True)
+ user_agent = models.TextField(null=True, blank=True)
+ is_active = models.BooleanField(default=True)
+ created_at = models.DateTimeField(auto_now_add=True)
+ last_activity_at = models.DateTimeField(auto_now_add=True)
+ logged_out_at = models.DateTimeField(null=True, blank=True)
+ logout_reason = models.CharField(max_length=50, null=True, blank=True)
 
-    class Meta:
-        db_table = 'user_sessions'
-        indexes = [
-            models.Index(fields=['user', 'is_active']),
-            models.Index(fields=['session_key']),
-        ]
+ class Meta:
+ db_table = 'user_sessions'
+ indexes = [
+ models.Index(fields=['user', 'is_active']),
+ models.Index(fields=['session_key']),
+ ]
 
-    def __str__(self):
-        return f"Session {self.session_key} for {self.user.username}"
+ def __str__(self):
+ return f"Session {self.session_key} for {self.user.username}"
 ```
 
 #### 3.2.3 API Python - close_previous_sessions
@@ -273,97 +273,97 @@ from django.utils.timezone import now
 from django.contrib.sessions.models import Session as DjangoSession
 
 def close_previous_sessions(user: User, request) -> int:
-    """
-    Cerrar sesiones activas previas del usuario (sesión única)
+ """
+ Cerrar sesiones activas previas del usuario (sesión única)
 
-    Args:
-        user: Usuario autenticado
-        request: Request HTTP (para auditoría)
+ Args:
+ user: Usuario autenticado
+ request: Request HTTP (para auditoría)
 
-    Returns:
-        int: Número de sesiones cerradas
-    """
-    # PASO 1: Buscar sesiones activas previas
-    active_sessions = UserSession.objects.filter(
-        user=user,
-        is_active=True
-    )
+ Returns:
+ int: Número de sesiones cerradas
+ """
+ # PASO 1: Buscar sesiones activas previas
+ active_sessions = UserSession.objects.filter(
+ user=user,
+ is_active=True
+ )
 
-    if not active_sessions.exists():
-        return 0  # No hay sesiones previas
+ if not active_sessions.exists():
+ return 0 # No hay sesiones previas
 
-    closed_count = 0
+ closed_count = 0
 
-    # PASO 2: Cerrar cada sesión activa
-    for session in active_sessions:
-        # Actualizar user_sessions
-        session.is_active = False
-        session.logged_out_at = now()
-        session.logout_reason = 'NEW_SESSION'
-        session.save()
+ # PASO 2: Cerrar cada sesión activa
+ for session in active_sessions:
+ # Actualizar user_sessions
+ session.is_active = False
+ session.logged_out_at = now()
+ session.logout_reason = 'NEW_SESSION'
+ session.save()
 
-        # Eliminar de django_session
-        try:
-            DjangoSession.objects.get(
-                session_key=session.session_key
-            ).delete()
-        except DjangoSession.DoesNotExist:
-            # Ya eliminada, continuar
-            pass
+ # Eliminar de django_session
+ try:
+ DjangoSession.objects.get(
+ session_key=session.session_key
+ ).delete()
+ except DjangoSession.DoesNotExist:
+ # Ya eliminada, continuar
+ pass
 
-        # Auditar cierre
-        AuditLog.create(
-            event_type='SESSION_CLOSED',
-            user_id=user.id,
-            user_agent=request.META.get('HTTP_USER_AGENT'),
-            details={
-                'reason': 'new_session',
-                'old_session_id': session.session_id
-            }
-        )
+ # Auditar cierre
+ AuditLog.create(
+ event_type='SESSION_CLOSED',
+ user_id=user.id,
+ user_agent=request.META.get('HTTP_USER_AGENT'),
+ details={
+ 'reason': 'new_session',
+ 'old_session_id': session.session_id
+ }
+ )
 
-        closed_count += 1
+ closed_count += 1
 
-    # PASO 3: Notificar al usuario (una sola notificación)
-    if closed_count > 0:
-        InternalMessage.create(
-            user_id=user.id,
-            subject='Nueva sesión iniciada',
-            body='Se ha iniciado una nueva sesión en tu cuenta.\n\n'
-                 'Tu sesión anterior ha sido cerrada automáticamente.\n\n'
-                 'Si no fuiste tú quien inició esta sesión, '
-                 'por favor cambia tu contraseña inmediatamente.',
-            severity='INFO',
-            created_by_system=True
-        )
+ # PASO 3: Notificar al usuario (una sola notificación)
+ if closed_count > 0:
+ InternalMessage.create(
+ user_id=user.id,
+ subject='Nueva sesión iniciada',
+ body='Se ha iniciado una nueva sesión en tu cuenta.\n\n'
+ 'Tu sesión anterior ha sido cerrada automáticamente.\n\n'
+ 'Si no fuiste tú quien inició esta sesión, '
+ 'por favor cambia tu contraseña inmediatamente.',
+ severity='INFO',
+ created_by_system=True
+ )
 
-    return closed_count
+ return closed_count
 ```
 
 #### 3.2.4 API Python - create_user_session
 
 ```python
 def create_user_session(user: User, request) -> UserSession:
-    """
-    Crear nueva sesión en user_sessions
+ """
+ Crear nueva sesión en user_sessions
 
-    Args:
-        user: Usuario autenticado
-        request: Request HTTP
+ Args:
+ user: Usuario autenticado
+ request: Request HTTP
 
-    Returns:
-        UserSession: Sesión creada
-    """
-    session = UserSession.objects.create(
-        user=user,
-        session_key=request.session.session_key,
-        user_agent=request.META.get('HTTP_USER_AGENT', 'Unknown'),
-        is_active=True,
-        created_at=now(),
-        last_activity_at=now()
-    )
+ Returns:
+ UserSession: Sesión creada
+ """
+ session = UserSession.objects.create(
+ user=user,
+ session_key=request.session.session_key,
+ user_agent=request.META.get('HTTP_USER_AGENT', 'Unknown'),
+ is_active=True,
+ created_at=now(),
+ last_activity_at=now()
+ )
 
-    return session
+ return session
 ```
 
 ### 3.3 Reglas de Negocio
@@ -395,15 +395,15 @@ def create_user_session(user: User, request) -> UserSession:
 
 ```python
 def login(username: str, password: str, request) -> dict:
-    # ... (PASO 1: Validar credenciales) ...
+ # ... (PASO 1: Validar credenciales) ...
 
-    # PASO 2: Cerrar sesión previa si existe (sesión única - RN-C01-14)
-    closed_sessions = close_previous_sessions(user, request)
+ # PASO 2: Cerrar sesión previa si existe (sesión única - RN-C01-14)
+ closed_sessions = close_previous_sessions(user, request)
 
-    # PASO 3: Crear nueva sesión en PostgreSQL (RN-C01-13)
-    session = create_user_session(user, request)
+ # PASO 3: Crear nueva sesión en PostgreSQL (RN-C01-13)
+ session = create_user_session(user, request)
 
-    # ... (PASO 4-7: Generar tokens, actualizar usuario, auditar, retornar) ...
+ # ... (PASO 4-7: Generar tokens, actualizar usuario, auditar, retornar) ...
 ```
 
 ## 4. Dependencias
@@ -435,38 +435,38 @@ Del documento `restricciones_y_lineamientos.md`:
 ### 5.1 Tests Unitarios
 
 - [ ] **TEST-010-001:** test_primer_login_sin_sesion_previa
-  - Ubicación: `tests/authentication/test_single_session.py`
-  - Estado: pendiente
+ - Ubicación: `tests/authentication/test_single_session.py`
+ - Estado: pendiente
 
 - [ ] **TEST-010-002:** test_login_con_sesion_activa_cierra_anterior
-  - Estado: pendiente
+ - Estado: pendiente
 
 - [ ] **TEST-010-003:** test_multiples_sesiones_activas_cierra_todas
-  - Estado: pendiente
+ - Estado: pendiente
 
 - [ ] **TEST-010-004:** test_usuario_tiene_maximo_1_sesion_activa
-  - Estado: pendiente
+ - Estado: pendiente
 
 - [ ] **TEST-010-005:** test_sesiones_almacenadas_en_postgresql
-  - Estado: pendiente
+ - Estado: pendiente
 
 - [ ] **TEST-010-006:** test_session_engine_es_db_no_redis
-  - Estado: pendiente
+ - Estado: pendiente
 
 - [ ] **TEST-010-007:** test_cierre_sesion_anterior_en_ambas_tablas
-  - Estado: pendiente
+ - Estado: pendiente
 
 - [ ] **TEST-010-008:** test_notificacion_buzon_interno_sin_ip
-  - Estado: pendiente
+ - Estado: pendiente
 
 - [ ] **TEST-010-009:** test_auditoria_session_closed
-  - Estado: pendiente
+ - Estado: pendiente
 
 - [ ] **TEST-010-010:** test_user_agent_almacenado_no_validado
-  - Estado: pendiente
+ - Estado: pendiente
 
 - [ ] **TEST-010-011:** test_sesion_unica_independiente_por_usuario
-  - Estado: pendiente
+ - Estado: pendiente
 
 ### 5.2 Tests de Integración
 

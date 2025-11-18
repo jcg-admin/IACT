@@ -15,19 +15,19 @@ stakeholder_tipo: usuario_final
 
 # Trazabilidad Upward
 trazabilidad_upward:
-  - N-001  # Prevenir accesos fraudulentos mediante autenticacion robusta
-  - RN-001 # Sistema de autenticacion seguro con prevencion de fraude
+ - N-001 # Prevenir accesos fraudulentos mediante autenticacion robusta
+ - RN-001 # Sistema de autenticacion seguro con prevencion de fraude
 
 # Trazabilidad Downward
 trazabilidad_downward:
-  - RF-001  # Login con credenciales
-  - RF-002  # Tokens JWT
-  - RNF-001 # Tiempo respuesta login menor 2 segundos
+ - RF-001 # Login con credenciales
+ - RF-002 # Tokens JWT
+ - RNF-001 # Tiempo respuesta login menor 2 segundos
 
 # Stakeholders secundarios
 stakeholders_secundarios:
-  - supervisores-callcenter
-  - gerentes-operaciones
+ - supervisores-callcenter
+ - gerentes-operaciones
 
 # Contexto de uso
 contexto_uso: Inicio de turno diario y reautenticacion tras sesion expirada
@@ -35,7 +35,7 @@ frecuencia_uso: diaria
 criticidad_operacional: alta
 
 # Conformidad ISO 29148
-iso29148_clause: "9.4"  # Stakeholder Requirements Specification
+iso29148_clause: "9.4" # Stakeholder Requirements Specification
 babok_knowledge_area: "Requirements Analysis and Design Definition"
 verificacion_metodo: test
 
@@ -139,41 +139,41 @@ Piso de call center con 50-100 estaciones de trabajo. Ambiente con ruido de fond
 
 ```gherkin
 Given soy un agente de call center con credenciales validas
-  And abro navegador Chrome y accedo a URL de IACT
-  And la pantalla de login se carga correctamente
+ And abro navegador Chrome y accedo a URL de IACT
+ And la pantalla de login se carga correctamente
 When ingreso mi username "carlos.rodriguez"
-  And ingreso mi password correcta
-  And hago clic en boton "Iniciar sesion"
+ And ingreso mi password correcta
+ And hago clic en boton "Iniciar sesion"
 Then el sistema valida mis credenciales
-  And el sistema me redirige al dashboard principal
-  And el tiempo total desde clic en "Iniciar sesion" hasta ver dashboard es menor a 2 segundos
-  And no veo pantallas de carga prolongadas ni spinners por mas de 1 segundo
-  And veo mi nombre y rol en header del dashboard
+ And el sistema me redirige al dashboard principal
+ And el tiempo total desde clic en "Iniciar sesion" hasta ver dashboard es menor a 2 segundos
+ And no veo pantallas de carga prolongadas ni spinners por mas de 1 segundo
+ And veo mi nombre y rol en header del dashboard
 ```
 
 #### Escenario 2: Reautenticacion tras sesion expirada
 
 ```gherkin
 Given estoy autenticado en IACT
-  And mi sesion expiro por inactividad (30 minutos sin uso)
+ And mi sesion expiro por inactividad (30 minutos sin uso)
 When intento acceder a cualquier pantalla del sistema
 Then el sistema detecta que mi sesion expiro
-  And el sistema me redirige a pantalla de login
-  And veo mensaje: "Tu sesion expiro. Por favor inicia sesion nuevamente."
+ And el sistema me redirige a pantalla de login
+ And veo mensaje: "Tu sesion expiro. Por favor inicia sesion nuevamente."
 When ingreso nuevamente mis credenciales validas
 Then el sistema me autentica en menos de 2 segundos
-  And me redirige a la pantalla que estaba intentando acceder (no a dashboard inicial)
+ And me redirige a la pantalla que estaba intentando acceder (no a dashboard inicial)
 ```
 
 #### Escenario 3: Login rapido incluso con alta concurrencia
 
 ```gherkin
 Given son las 8:00 AM (inicio de turno matutino)
-  And 50 agentes intentan iniciar sesion simultaneamente
+ And 50 agentes intentan iniciar sesion simultaneamente
 When ingreso mis credenciales validas durante este pico de uso
 Then el sistema me autentica en menos de 2 segundos
-  And la concurrencia no degrada el performance del login
-  And no experimento timeouts ni errores por sobrecarga
+ And la concurrencia no degrada el performance del login
+ And no experimento timeouts ni errores por sobrecarga
 ```
 
 ### 3.2 Criterios de Satisfaccion del Stakeholder
@@ -231,19 +231,19 @@ El stakeholder considerara este requisito satisfactorio cuando:
 Este requisito de stakeholder se implementa mediante:
 
 - **RF-001**: Login con credenciales username/password
-  - Dominio: backend
-  - Relacion: Proceso de validacion debe ser optimizado para menos de 2 seg
+ - Dominio: backend
+ - Relacion: Proceso de validacion debe ser optimizado para menos de 2 seg
 
 - **RF-002**: Generacion de tokens JWT
-  - Dominio: backend
-  - Relacion: Generacion de tokens debe ser rapida (menos de 100ms)
+ - Dominio: backend
+ - Relacion: Generacion de tokens debe ser rapida (menos de 100ms)
 
 ### 5.2 Requisitos No Funcionales Derivados
 
 - **RNF-001**: Tiempo de respuesta login menor 2 segundos (P95)
-  - Medicion: Desde POST /api/v1/auth/login hasta respuesta HTTP 200
-  - Target: 95% de requests en menos de 2000ms
-  - Incluye: Validacion credenciales + generacion JWT + respuesta
+ - Medicion: Desde POST /api/v1/auth/login hasta respuesta HTTP 200
+ - Target: 95% de requests en menos de 2000ms
+ - Incluye: Validacion credenciales + generacion JWT + respuesta
 
 ---
 

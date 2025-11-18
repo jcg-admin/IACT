@@ -3,7 +3,7 @@
 ## Metadatos
 - **ID**: TASK-057
 - **Fase**: FASE 4 - Validación y Limpieza
-- **Prioridad**: ALTA 🟡
+- **Prioridad**: ALTA 
 - **Estimación**: 20 minutos
 - **Estado**: PENDIENTE
 - **Metodología**: Auto-CoT + Self-Consistency + Chain-of-Verification
@@ -16,19 +16,19 @@ Validar que todos los archivos de metadatos YAML (frontmatter en .md, archivos .
 ### Paso 1: Identificar Archivos con Metadatos
 **Pensamiento**: ¿Dónde están los metadatos YAML?
 1. **Frontmatter en Markdown**:
-   - Archivos .md con sección `---` al inicio
-   - READMEs con metadatos
-   - Documentos con información estructurada
+ - Archivos .md con sección `---` al inicio
+ - READMEs con metadatos
+ - Documentos con información estructurada
 
 2. **Archivos YAML dedicados**:
-   - Archivos .yml en configuración
-   - Archivos .yaml en docs/
-   - Manifiestos de proyectos
+ - Archivos .yml en configuración
+ - Archivos .yaml en docs/
+ - Manifiestos de proyectos
 
 3. **Archivos de configuración**:
-   - package.json (JSON pero puede tener refs a YAML)
-   - docker-compose.yml
-   - CI/CD configs (.github/, .gitlab-ci.yml)
+ - package.json (JSON pero puede tener refs a YAML)
+ - docker-compose.yml
+ - CI/CD configs (.github/, .gitlab-ci.yml)
 
 ### Paso 2: Definir Esquema Esperado
 **Pensamiento**: ¿Qué campos son obligatorios/opcionales?
@@ -87,12 +87,12 @@ Para cada archivo YAML:
 ```
 Archivo: docs/backend/core/README.md
 ---
-✅ Sintaxis: VÁLIDA
-✅ Campo 'title': Presente, tipo string
-✅ Campo 'description': Presente, tipo string
-⚠️ Campo 'category': Ausente (recomendado)
-✅ Campo 'status': Valor 'published' (válido)
-❌ Campo 'date': Formato inválido '2024-1-5' -> debe ser '2024-01-05'
+[OK] Sintaxis: VÁLIDA
+[OK] Campo 'title': Presente, tipo string
+[OK] Campo 'description': Presente, tipo string
+[WARNING] Campo 'category': Ausente (recomendado)
+[OK] Campo 'status': Valor 'published' (válido)
+[ERROR] Campo 'date': Formato inválido '2024-1-5' -> debe ser '2024-01-05'
 ---
 Estado: NECESITA CORRECCIÓN
 ```
@@ -113,12 +113,12 @@ import yaml
 import sys
 
 def validate_yaml_file(filepath):
-    try:
-        with open(filepath, 'r') as f:
-            data = yaml.safe_load(f)
-        return True, data
-    except yaml.YAMLError as e:
-        return False, str(e)
+ try:
+ with open(filepath, 'r') as f:
+ data = yaml.safe_load(f)
+ return True, data
+ except yaml.YAMLError as e:
+ return False, str(e)
 
 # Validar todos los archivos
 # ...
@@ -130,13 +130,13 @@ const yaml = require('js-yaml');
 const fs = require('fs');
 
 function validateYAML(filepath) {
-    try {
-        const content = fs.readFileSync(filepath, 'utf8');
-        const data = yaml.load(content);
-        return { valid: true, data };
-    } catch (e) {
-        return { valid: false, error: e.message };
-    }
+ try {
+ const content = fs.readFileSync(filepath, 'utf8');
+ const data = yaml.load(content);
+ return { valid: true, data };
+ } catch (e) {
+ return { valid: false, error: e.message };
+ }
 }
 ```
 
@@ -154,9 +154,9 @@ yamllint docs/backend/**/*.yaml
 ```
 
 ### Convergencia de Resultados
-- Archivos que pasan en 3 parsers: ✅ VÁLIDO
-- Archivos que fallan en 2+: ❌ INVÁLIDO
-- Diferencias entre parsers: ⚠️ REVISAR (edge cases)
+- Archivos que pasan en 3 parsers: [OK] VÁLIDO
+- Archivos que fallan en 2+: [ERROR] INVÁLIDO
+- Diferencias entre parsers: [WARNING] REVISAR (edge cases)
 
 ## Criterios de Aceptación
 - [ ] Todos los archivos YAML identificados
@@ -170,26 +170,26 @@ yamllint docs/backend/**/*.yaml
 
 ## Entregables
 1. **REPORTE-VALIDACION-YAML.md**
-   - Lista de archivos YAML encontrados
-   - Errores de sintaxis por archivo
-   - Errores de esquema por archivo
-   - Estadísticas de validación
-   - Recomendaciones
+ - Lista de archivos YAML encontrados
+ - Errores de sintaxis por archivo
+ - Errores de esquema por archivo
+ - Estadísticas de validación
+ - Recomendaciones
 
 2. **YAML-SCHEMA.json**
-   - JSON Schema para frontmatter estándar
-   - Esquemas para tipos de documentos
-   - Validación automática
+ - JSON Schema para frontmatter estándar
+ - Esquemas para tipos de documentos
+ - Validación automática
 
 3. **script-validar-yaml.py** o **.js**
-   - Script de validación automatizada
-   - Soporte para múltiples esquemas
-   - Reporte en formato markdown
+ - Script de validación automatizada
+ - Soporte para múltiples esquemas
+ - Reporte en formato markdown
 
 4. **CORRECCIONES-YAML.md**
-   - Lista de correcciones aplicadas
-   - Archivos modificados
-   - Valores antes/después
+ - Lista de correcciones aplicadas
+ - Archivos modificados
+ - Valores antes/después
 
 ## Esquema de Frontmatter Estándar
 
@@ -205,15 +205,15 @@ status: "draft|review|published|deprecated"
 
 # OPCIONAL
 tags:
-  - tag1
-  - tag2
-date: "2025-11-18"  # ISO 8601: YYYY-MM-DD
+ - tag1
+ - tag2
+date: "2025-11-18" # ISO 8601: YYYY-MM-DD
 updated: "2025-11-18"
 author: "Nombre o ID"
 version: "1.0.0"
 related:
-  - path/to/related/doc.md
-  - path/to/another/doc.md
+ - path/to/related/doc.md
+ - path/to/another/doc.md
 ---
 ```
 

@@ -38,49 +38,39 @@ Crear el fundamento de datos del sistema de permisos granular basado en **Grupos
 ### Diagrama de Relaciones
 
 ```
-┌─────────────────┐
-│    FUNCIONES    │ (Recursos: dashboards, usuarios, etc)
-└────────┬────────┘
-         │ 1:N
-         ▼
-┌──────────────────────┐
-│  FUNCION_CAPACIDADES │ (Relación muchos a muchos)
-└────────┬─────────────┘
-         │ N:1
-         ▼
-┌─────────────────┐
-│  CAPACIDADES    │ (Acciones: ver, crear, editar, etc)
-└────────┬────────┘
-         │ N:M
-         ▼
-┌──────────────────────┐
-│ GRUPO_CAPACIDADES    │ (Relación muchos a muchos)
-└────────┬─────────────┘
-         │ N:1
-         ▼
-┌─────────────────┐
-│ GRUPOS_PERMISOS │ (Agrupaciones funcionales sin jerarquía)
-└────────┬────────┘
-         │ N:M
-         ▼
-┌──────────────────────┐
-│  USUARIOS_GRUPOS     │ (Usuario puede tener múltiples grupos)
-└────────┬─────────────┘
-         │ N:1
-         ▼
-┌─────────────────┐
-│    USUARIOS     │
-└─────────────────┘
 
-         ┌─────────────────────────┐
-         │ PERMISOS_EXCEPCIONALES  │ (Permisos temporales o permanentes)
-         └────────┬────────────────┘
-                  │
-                  └──→ USUARIOS + CAPACIDADES
+ FUNCIONES (Recursos: dashboards, usuarios, etc)
 
-         ┌─────────────────────────┐
-         │  AUDITORIA_PERMISOS     │ (Log de todos los accesos)
-         └─────────────────────────┘
+ 1:N
+
+ FUNCION_CAPACIDADES (Relación muchos a muchos)
+
+ N:1
+
+ CAPACIDADES (Acciones: ver, crear, editar, etc)
+
+ N:M
+
+ GRUPO_CAPACIDADES (Relación muchos a muchos)
+
+ N:1
+
+ GRUPOS_PERMISOS (Agrupaciones funcionales sin jerarquía)
+
+ N:M
+
+ USUARIOS_GRUPOS (Usuario puede tener múltiples grupos)
+
+ N:1
+
+ USUARIOS 
+
+ PERMISOS_EXCEPCIONALES (Permisos temporales o permanentes)
+
+ → USUARIOS + CAPACIDADES
+
+ AUDITORIA_PERMISOS (Log de todos los accesos)
+
 ```
 
 ---
@@ -92,24 +82,24 @@ Crear el fundamento de datos del sistema de permisos granular basado en **Grupos
 
 ```sql
 CREATE TABLE funciones (
-    -- Identificación
-    id                  SERIAL PRIMARY KEY,
-    nombre              VARCHAR(100) NOT NULL,              -- 'dashboards', 'usuarios', 'metricas'
-    nombre_completo     VARCHAR(200) UNIQUE NOT NULL,       -- 'sistema.vistas.dashboards'
+ -- Identificación
+ id SERIAL PRIMARY KEY,
+ nombre VARCHAR(100) NOT NULL, -- 'dashboards', 'usuarios', 'metricas'
+ nombre_completo VARCHAR(200) UNIQUE NOT NULL, -- 'sistema.vistas.dashboards'
 
-    -- Clasificación
-    dominio             VARCHAR(100) NOT NULL,              -- 'vistas', 'administracion', 'analisis'
-    categoria           VARCHAR(50),                        -- 'visualizacion', 'gestion', 'configuracion'
+ -- Clasificación
+ dominio VARCHAR(100) NOT NULL, -- 'vistas', 'administracion', 'analisis'
+ categoria VARCHAR(50), -- 'visualizacion', 'gestion', 'configuracion'
 
-    -- Metadata
-    descripcion         TEXT,
-    icono               VARCHAR(50),                        -- Para UI (ej: 'dashboard-icon')
-    orden_menu          INTEGER DEFAULT 999,                -- Para ordenar en menú
+ -- Metadata
+ descripcion TEXT,
+ icono VARCHAR(50), -- Para UI (ej: 'dashboard-icon')
+ orden_menu INTEGER DEFAULT 999, -- Para ordenar en menú
 
-    -- Control
-    activa              BOOLEAN DEFAULT TRUE,
-    created_at          TIMESTAMP DEFAULT NOW(),
-    updated_at          TIMESTAMP DEFAULT NOW()
+ -- Control
+ activa BOOLEAN DEFAULT TRUE,
+ created_at TIMESTAMP DEFAULT NOW(),
+ updated_at TIMESTAMP DEFAULT NOW()
 );
 
 -- Índices para performance
@@ -132,25 +122,25 @@ COMMENT ON COLUMN funciones.dominio IS 'Agrupación lógica: vistas, administrac
 
 ```sql
 CREATE TABLE capacidades (
-    -- Identificación
-    id                      SERIAL PRIMARY KEY,
-    nombre_completo         VARCHAR(200) UNIQUE NOT NULL,   -- 'sistema.vistas.dashboards.ver'
+ -- Identificación
+ id SERIAL PRIMARY KEY,
+ nombre_completo VARCHAR(200) UNIQUE NOT NULL, -- 'sistema.vistas.dashboards.ver'
 
-    -- Clasificación
-    accion                  VARCHAR(50) NOT NULL,           -- 'ver', 'crear', 'editar', 'eliminar'
-    recurso                 VARCHAR(100) NOT NULL,          -- 'dashboards', 'usuarios'
-    dominio                 VARCHAR(100) NOT NULL,          -- 'vistas', 'administracion'
+ -- Clasificación
+ accion VARCHAR(50) NOT NULL, -- 'ver', 'crear', 'editar', 'eliminar'
+ recurso VARCHAR(100) NOT NULL, -- 'dashboards', 'usuarios'
+ dominio VARCHAR(100) NOT NULL, -- 'vistas', 'administracion'
 
-    -- Metadata
-    descripcion             TEXT,
+ -- Metadata
+ descripcion TEXT,
 
-    -- Seguridad
-    nivel_sensibilidad      VARCHAR(20) DEFAULT 'normal',   -- 'bajo', 'normal', 'alto', 'critico'
-    requiere_auditoria      BOOLEAN DEFAULT FALSE,
+ -- Seguridad
+ nivel_sensibilidad VARCHAR(20) DEFAULT 'normal', -- 'bajo', 'normal', 'alto', 'critico'
+ requiere_auditoria BOOLEAN DEFAULT FALSE,
 
-    -- Control
-    activa                  BOOLEAN DEFAULT TRUE,
-    created_at              TIMESTAMP DEFAULT NOW()
+ -- Control
+ activa BOOLEAN DEFAULT TRUE,
+ created_at TIMESTAMP DEFAULT NOW()
 );
 
 -- Índices para performance
@@ -177,25 +167,25 @@ COMMENT ON COLUMN capacidades.requiere_auditoria IS 'Si TRUE, cada uso de esta c
 
 ```sql
 CREATE TABLE funcion_capacidades (
-    -- Identificación
-    id                  SERIAL PRIMARY KEY,
-    funcion_id          INTEGER NOT NULL,
-    capacidad_id        INTEGER NOT NULL,
+ -- Identificación
+ id SERIAL PRIMARY KEY,
+ funcion_id INTEGER NOT NULL,
+ capacidad_id INTEGER NOT NULL,
 
-    -- Configuración
-    requerida           BOOLEAN DEFAULT FALSE,              -- Si es obligatoria para usar la función
-    visible_en_ui       BOOLEAN DEFAULT TRUE,               -- Si se muestra en la interfaz
-    orden               INTEGER DEFAULT 999,                -- Orden de presentación
+ -- Configuración
+ requerida BOOLEAN DEFAULT FALSE, -- Si es obligatoria para usar la función
+ visible_en_ui BOOLEAN DEFAULT TRUE, -- Si se muestra en la interfaz
+ orden INTEGER DEFAULT 999, -- Orden de presentación
 
-    -- Control
-    created_at          TIMESTAMP DEFAULT NOW(),
+ -- Control
+ created_at TIMESTAMP DEFAULT NOW(),
 
-    -- Relaciones
-    FOREIGN KEY (funcion_id) REFERENCES funciones(id) ON DELETE CASCADE,
-    FOREIGN KEY (capacidad_id) REFERENCES capacidades(id) ON DELETE CASCADE,
+ -- Relaciones
+ FOREIGN KEY (funcion_id) REFERENCES funciones(id) ON DELETE CASCADE,
+ FOREIGN KEY (capacidad_id) REFERENCES capacidades(id) ON DELETE CASCADE,
 
-    -- Constraint único
-    UNIQUE (funcion_id, capacidad_id)
+ -- Constraint único
+ UNIQUE (funcion_id, capacidad_id)
 );
 
 -- Índices
@@ -215,21 +205,21 @@ COMMENT ON COLUMN funcion_capacidades.requerida IS 'Si TRUE, esta capacidad es o
 
 ```sql
 CREATE TABLE grupos_permisos (
-    -- Identificación
-    id                  SERIAL PRIMARY KEY,
-    codigo              VARCHAR(100) UNIQUE NOT NULL,       -- 'atencion_cliente', 'gestion_equipos'
-    nombre_display      VARCHAR(200) NOT NULL,              -- 'Atención al Cliente', 'Gestión de Equipos'
+ -- Identificación
+ id SERIAL PRIMARY KEY,
+ codigo VARCHAR(100) UNIQUE NOT NULL, -- 'atencion_cliente', 'gestion_equipos'
+ nombre_display VARCHAR(200) NOT NULL, -- 'Atención al Cliente', 'Gestión de Equipos'
 
-    -- Metadata
-    descripcion         TEXT,
-    tipo_acceso         VARCHAR(50),                        -- 'operativo', 'gestion', 'estrategico', 'tecnico'
-    color_hex           VARCHAR(7),                         -- '#3B82F6' para UI
-    icono               VARCHAR(50),                        -- Para UI
+ -- Metadata
+ descripcion TEXT,
+ tipo_acceso VARCHAR(50), -- 'operativo', 'gestion', 'estrategico', 'tecnico'
+ color_hex VARCHAR(7), -- '#3B82F6' para UI
+ icono VARCHAR(50), -- Para UI
 
-    -- Control
-    activo              BOOLEAN DEFAULT TRUE,
-    created_at          TIMESTAMP DEFAULT NOW(),
-    updated_at          TIMESTAMP DEFAULT NOW()
+ -- Control
+ activo BOOLEAN DEFAULT TRUE,
+ created_at TIMESTAMP DEFAULT NOW(),
+ updated_at TIMESTAMP DEFAULT NOW()
 );
 
 -- Índices
@@ -254,20 +244,20 @@ COMMENT ON COLUMN grupos_permisos.tipo_acceso IS 'Clasificación del tipo de gru
 
 ```sql
 CREATE TABLE grupo_capacidades (
-    -- Identificación
-    id                  SERIAL PRIMARY KEY,
-    grupo_id            INTEGER NOT NULL,
-    capacidad_id        INTEGER NOT NULL,
+ -- Identificación
+ id SERIAL PRIMARY KEY,
+ grupo_id INTEGER NOT NULL,
+ capacidad_id INTEGER NOT NULL,
 
-    -- Control
-    created_at          TIMESTAMP DEFAULT NOW(),
+ -- Control
+ created_at TIMESTAMP DEFAULT NOW(),
 
-    -- Relaciones
-    FOREIGN KEY (grupo_id) REFERENCES grupos_permisos(id) ON DELETE CASCADE,
-    FOREIGN KEY (capacidad_id) REFERENCES capacidades(id) ON DELETE CASCADE,
+ -- Relaciones
+ FOREIGN KEY (grupo_id) REFERENCES grupos_permisos(id) ON DELETE CASCADE,
+ FOREIGN KEY (capacidad_id) REFERENCES capacidades(id) ON DELETE CASCADE,
 
-    -- Constraint único
-    UNIQUE (grupo_id, capacidad_id)
+ -- Constraint único
+ UNIQUE (grupo_id, capacidad_id)
 );
 
 -- Índices
@@ -285,27 +275,27 @@ COMMENT ON TABLE grupo_capacidades IS 'Asocia capacidades específicas a grupos 
 
 ```sql
 CREATE TABLE usuarios_grupos (
-    -- Identificación
-    id                  SERIAL PRIMARY KEY,
-    usuario_id          INTEGER NOT NULL,
-    grupo_id            INTEGER NOT NULL,
+ -- Identificación
+ id SERIAL PRIMARY KEY,
+ usuario_id INTEGER NOT NULL,
+ grupo_id INTEGER NOT NULL,
 
-    -- Metadata de asignación
-    fecha_asignacion    TIMESTAMP DEFAULT NOW(),
-    fecha_expiracion    TIMESTAMP,                          -- NULL = permanente, fecha = temporal
-    asignado_por        INTEGER,                            -- Usuario que hizo la asignación
-    motivo              TEXT,                               -- Razón de la asignación
+ -- Metadata de asignación
+ fecha_asignacion TIMESTAMP DEFAULT NOW(),
+ fecha_expiracion TIMESTAMP, -- NULL = permanente, fecha = temporal
+ asignado_por INTEGER, -- Usuario que hizo la asignación
+ motivo TEXT, -- Razón de la asignación
 
-    -- Control
-    activo              BOOLEAN DEFAULT TRUE,
+ -- Control
+ activo BOOLEAN DEFAULT TRUE,
 
-    -- Relaciones
-    FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE,
-    FOREIGN KEY (grupo_id) REFERENCES grupos_permisos(id) ON DELETE CASCADE,
-    FOREIGN KEY (asignado_por) REFERENCES usuarios(id) ON DELETE SET NULL,
+ -- Relaciones
+ FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE,
+ FOREIGN KEY (grupo_id) REFERENCES grupos_permisos(id) ON DELETE CASCADE,
+ FOREIGN KEY (asignado_por) REFERENCES usuarios(id) ON DELETE SET NULL,
 
-    -- Constraint único
-    UNIQUE (usuario_id, grupo_id)
+ -- Constraint único
+ UNIQUE (usuario_id, grupo_id)
 );
 
 -- Índices
@@ -330,29 +320,29 @@ COMMENT ON COLUMN usuarios_grupos.activo IS 'Permite desactivar sin borrar el re
 
 ```sql
 CREATE TABLE permisos_excepcionales (
-    -- Identificación
-    id                  SERIAL PRIMARY KEY,
-    usuario_id          INTEGER NOT NULL,
-    capacidad_id        INTEGER NOT NULL,
+ -- Identificación
+ id SERIAL PRIMARY KEY,
+ usuario_id INTEGER NOT NULL,
+ capacidad_id INTEGER NOT NULL,
 
-    -- Configuración
-    tipo                VARCHAR(20) NOT NULL CHECK (tipo IN ('conceder', 'revocar')),
-    fecha_inicio        TIMESTAMP DEFAULT NOW(),
-    fecha_fin           TIMESTAMP,                          -- NULL = permanente
+ -- Configuración
+ tipo VARCHAR(20) NOT NULL CHECK (tipo IN ('conceder', 'revocar')),
+ fecha_inicio TIMESTAMP DEFAULT NOW(),
+ fecha_fin TIMESTAMP, -- NULL = permanente
 
-    -- Metadata
-    motivo              TEXT NOT NULL,
-    autorizado_por      INTEGER,
-    notas               TEXT,
+ -- Metadata
+ motivo TEXT NOT NULL,
+ autorizado_por INTEGER,
+ notas TEXT,
 
-    -- Control
-    activo              BOOLEAN DEFAULT TRUE,
-    created_at          TIMESTAMP DEFAULT NOW(),
+ -- Control
+ activo BOOLEAN DEFAULT TRUE,
+ created_at TIMESTAMP DEFAULT NOW(),
 
-    -- Relaciones
-    FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE,
-    FOREIGN KEY (capacidad_id) REFERENCES capacidades(id) ON DELETE CASCADE,
-    FOREIGN KEY (autorizado_por) REFERENCES usuarios(id) ON DELETE SET NULL
+ -- Relaciones
+ FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE,
+ FOREIGN KEY (capacidad_id) REFERENCES capacidades(id) ON DELETE CASCADE,
+ FOREIGN KEY (autorizado_por) REFERENCES usuarios(id) ON DELETE SET NULL
 );
 
 -- Índices
@@ -364,7 +354,7 @@ CREATE INDEX idx_permisos_excepcionales_fecha_fin ON permisos_excepcionales(fech
 
 -- Índice compuesto para verificación de permisos
 CREATE INDEX idx_permisos_excepcionales_usuario_activo
-    ON permisos_excepcionales(usuario_id, activo, fecha_fin);
+ ON permisos_excepcionales(usuario_id, activo, fecha_fin);
 
 -- Comentarios
 COMMENT ON TABLE permisos_excepcionales IS 'Permisos individuales que sobrescriben los permisos de grupo';
@@ -379,32 +369,32 @@ COMMENT ON COLUMN permisos_excepcionales.motivo IS 'Justificación obligatoria d
 
 ```sql
 CREATE TABLE auditoria_permisos (
-    -- Identificación
-    id                      BIGSERIAL PRIMARY KEY,
+ -- Identificación
+ id BIGSERIAL PRIMARY KEY,
 
-    -- Usuario y acción
-    usuario_id              INTEGER NOT NULL,
-    capacidad_solicitada    VARCHAR(200) NOT NULL,          -- La capacidad que intentó usar
-    accion_realizada        VARCHAR(100) NOT NULL,          -- 'acceso_concedido' o 'acceso_denegado'
+ -- Usuario y acción
+ usuario_id INTEGER NOT NULL,
+ capacidad_solicitada VARCHAR(200) NOT NULL, -- La capacidad que intentó usar
+ accion_realizada VARCHAR(100) NOT NULL, -- 'acceso_concedido' o 'acceso_denegado'
 
-    -- Contexto
-    recurso_accedido        VARCHAR(200),                   -- Recurso específico accedido
-    metodo_http             VARCHAR(10),                    -- GET, POST, PUT, DELETE, etc
-    endpoint                VARCHAR(500),                   -- URL del endpoint
+ -- Contexto
+ recurso_accedido VARCHAR(200), -- Recurso específico accedido
+ metodo_http VARCHAR(10), -- GET, POST, PUT, DELETE, etc
+ endpoint VARCHAR(500), -- URL del endpoint
 
-    -- Metadata técnica
-    ip_address              VARCHAR(50),
-    user_agent              TEXT,
-    session_id              VARCHAR(200),
+ -- Metadata técnica
+ ip_address VARCHAR(50),
+ user_agent TEXT,
+ session_id VARCHAR(200),
 
-    -- Datos adicionales
-    metadata                JSONB,                          -- Datos flexibles adicionales
+ -- Datos adicionales
+ metadata JSONB, -- Datos flexibles adicionales
 
-    -- Timestamp
-    timestamp               TIMESTAMP DEFAULT NOW(),
+ -- Timestamp
+ timestamp TIMESTAMP DEFAULT NOW(),
 
-    -- Relación
-    FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
+ -- Relación
+ FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
 );
 
 -- Índices para queries comunes
@@ -415,11 +405,11 @@ CREATE INDEX idx_auditoria_capacidad ON auditoria_permisos(capacidad_solicitada)
 
 -- Índice compuesto para análisis de seguridad
 CREATE INDEX idx_auditoria_usuario_timestamp
-    ON auditoria_permisos(usuario_id, timestamp DESC);
+ ON auditoria_permisos(usuario_id, timestamp DESC);
 
 -- Índice para búsquedas por fecha
 CREATE INDEX idx_auditoria_fecha
-    ON auditoria_permisos(CAST(timestamp AS DATE));
+ ON auditoria_permisos(CAST(timestamp AS DATE));
 
 -- Índice GIN para búsquedas en JSONB
 CREATE INDEX idx_auditoria_metadata ON auditoria_permisos USING GIN (metadata);
@@ -444,67 +434,67 @@ COMMENT ON COLUMN auditoria_permisos.metadata IS 'Campo JSONB para almacenar dat
 -- Vista que simplifica consulta de todas las capacidades de un usuario
 CREATE OR REPLACE VIEW vista_capacidades_usuario AS
 SELECT DISTINCT
-    u.id AS usuario_id,
-    u.nombre AS usuario_nombre,
-    u.email AS usuario_email,
-    c.id AS capacidad_id,
-    c.nombre_completo AS capacidad,
-    c.accion,
-    c.recurso,
-    c.dominio,
-    c.nivel_sensibilidad,
-    'grupo' AS origen
+ u.id AS usuario_id,
+ u.nombre AS usuario_nombre,
+ u.email AS usuario_email,
+ c.id AS capacidad_id,
+ c.nombre_completo AS capacidad,
+ c.accion,
+ c.recurso,
+ c.dominio,
+ c.nivel_sensibilidad,
+ 'grupo' AS origen
 FROM usuarios u
 JOIN usuarios_grupos ug ON u.id = ug.usuario_id
 JOIN grupo_capacidades gc ON ug.grupo_id = gc.grupo_id
 JOIN capacidades c ON gc.capacidad_id = c.id
 WHERE ug.activo = TRUE
-  AND (ug.fecha_expiracion IS NULL OR ug.fecha_expiracion > NOW())
-  AND c.activa = TRUE
+ AND (ug.fecha_expiracion IS NULL OR ug.fecha_expiracion > NOW())
+ AND c.activa = TRUE
 
 UNION
 
 -- Permisos excepcionales concedidos
 SELECT DISTINCT
-    u.id AS usuario_id,
-    u.nombre AS usuario_nombre,
-    u.email AS usuario_email,
-    c.id AS capacidad_id,
-    c.nombre_completo AS capacidad,
-    c.accion,
-    c.recurso,
-    c.dominio,
-    c.nivel_sensibilidad,
-    'excepcional_concedido' AS origen
+ u.id AS usuario_id,
+ u.nombre AS usuario_nombre,
+ u.email AS usuario_email,
+ c.id AS capacidad_id,
+ c.nombre_completo AS capacidad,
+ c.accion,
+ c.recurso,
+ c.dominio,
+ c.nivel_sensibilidad,
+ 'excepcional_concedido' AS origen
 FROM usuarios u
 JOIN permisos_excepcionales pe ON u.id = pe.usuario_id
 JOIN capacidades c ON pe.capacidad_id = c.id
 WHERE pe.tipo = 'conceder'
-  AND pe.activo = TRUE
-  AND (pe.fecha_fin IS NULL OR pe.fecha_fin > NOW())
-  AND c.activa = TRUE
+ AND pe.activo = TRUE
+ AND (pe.fecha_fin IS NULL OR pe.fecha_fin > NOW())
+ AND c.activa = TRUE
 
 EXCEPT
 
 -- Menos permisos excepcionales revocados
 SELECT DISTINCT
-    u.id AS usuario_id,
-    u.nombre AS usuario_nombre,
-    u.email AS usuario_email,
-    c.id AS capacidad_id,
-    c.nombre_completo AS capacidad,
-    c.accion,
-    c.recurso,
-    c.dominio,
-    c.nivel_sensibilidad,
-    'excepcional_revocado' AS origen
+ u.id AS usuario_id,
+ u.nombre AS usuario_nombre,
+ u.email AS usuario_email,
+ c.id AS capacidad_id,
+ c.nombre_completo AS capacidad,
+ c.accion,
+ c.recurso,
+ c.dominio,
+ c.nivel_sensibilidad,
+ 'excepcional_revocado' AS origen
 FROM usuarios u
 JOIN permisos_excepcionales pe ON u.id = pe.usuario_id
 JOIN capacidades c ON pe.capacidad_id = c.id
 WHERE pe.tipo = 'revocar'
-  AND pe.activo = TRUE
-  AND (pe.fecha_fin IS NULL OR pe.fecha_fin > NOW())
-  AND c.activa = TRUE;
+ AND pe.activo = TRUE
+ AND (pe.fecha_fin IS NULL OR pe.fecha_fin > NOW())
+ AND c.activa = TRUE;
 
 COMMENT ON VIEW vista_capacidades_usuario IS 'Vista consolidada de todas las capacidades efectivas de cada usuario';
 ```
@@ -516,21 +506,21 @@ COMMENT ON VIEW vista_capacidades_usuario IS 'Vista consolidada de todas las cap
 ```sql
 CREATE OR REPLACE VIEW vista_grupos_usuario AS
 SELECT
-    u.id AS usuario_id,
-    u.nombre AS usuario_nombre,
-    u.email AS usuario_email,
-    gp.id AS grupo_id,
-    gp.codigo AS grupo_codigo,
-    gp.nombre_display AS grupo_nombre,
-    gp.tipo_acceso,
-    ug.fecha_asignacion,
-    ug.fecha_expiracion,
-    ug.activo,
-    CASE
-        WHEN ug.fecha_expiracion IS NULL THEN TRUE
-        WHEN ug.fecha_expiracion > NOW() THEN TRUE
-        ELSE FALSE
-    END AS vigente
+ u.id AS usuario_id,
+ u.nombre AS usuario_nombre,
+ u.email AS usuario_email,
+ gp.id AS grupo_id,
+ gp.codigo AS grupo_codigo,
+ gp.nombre_display AS grupo_nombre,
+ gp.tipo_acceso,
+ ug.fecha_asignacion,
+ ug.fecha_expiracion,
+ ug.activo,
+ CASE
+ WHEN ug.fecha_expiracion IS NULL THEN TRUE
+ WHEN ug.fecha_expiracion > NOW() THEN TRUE
+ ELSE FALSE
+ END AS vigente
 FROM usuarios u
 JOIN usuarios_grupos ug ON u.id = ug.usuario_id
 JOIN grupos_permisos gp ON ug.grupo_id = gp.id
@@ -548,21 +538,21 @@ COMMENT ON VIEW vista_grupos_usuario IS 'Vista de grupos asignados a usuarios co
 ```sql
 -- Función para verificar si un usuario tiene una capacidad específica
 CREATE OR REPLACE FUNCTION usuario_tiene_permiso(
-    p_usuario_id INTEGER,
-    p_capacidad VARCHAR(200)
+ p_usuario_id INTEGER,
+ p_capacidad VARCHAR(200)
 ) RETURNS BOOLEAN AS $$
 DECLARE
-    v_tiene_permiso BOOLEAN;
+ v_tiene_permiso BOOLEAN;
 BEGIN
-    -- Verificar si existe en la vista de capacidades del usuario
-    SELECT EXISTS (
-        SELECT 1
-        FROM vista_capacidades_usuario
-        WHERE usuario_id = p_usuario_id
-          AND capacidad = p_capacidad
-    ) INTO v_tiene_permiso;
+ -- Verificar si existe en la vista de capacidades del usuario
+ SELECT EXISTS (
+ SELECT 1
+ FROM vista_capacidades_usuario
+ WHERE usuario_id = p_usuario_id
+ AND capacidad = p_capacidad
+ ) INTO v_tiene_permiso;
 
-    RETURN v_tiene_permiso;
+ RETURN v_tiene_permiso;
 END;
 $$ LANGUAGE plpgsql;
 
@@ -577,10 +567,10 @@ $$ LANGUAGE plpgsql;
 ```sql
 -- Obtener capacidades agrupadas por dominio
 SELECT
-    dominio,
-    recurso,
-    array_agg(DISTINCT accion ORDER BY accion) AS acciones,
-    array_agg(DISTINCT capacidad ORDER BY capacidad) AS capacidades
+ dominio,
+ recurso,
+ array_agg(DISTINCT accion ORDER BY accion) AS acciones,
+ array_agg(DISTINCT capacidad ORDER BY capacidad) AS capacidades
 FROM vista_capacidades_usuario
 WHERE usuario_id = :usuario_id
 GROUP BY dominio, recurso
@@ -594,16 +584,16 @@ ORDER BY dominio, recurso;
 ```sql
 -- Encontrar intentos de acceso denegados en las últimas 24 horas
 SELECT
-    u.nombre AS usuario,
-    u.email,
-    ap.capacidad_solicitada,
-    ap.recurso_accedido,
-    ap.timestamp,
-    ap.ip_address
+ u.nombre AS usuario,
+ u.email,
+ ap.capacidad_solicitada,
+ ap.recurso_accedido,
+ ap.timestamp,
+ ap.ip_address
 FROM auditoria_permisos ap
 JOIN usuarios u ON ap.usuario_id = u.id
 WHERE ap.accion_realizada = 'acceso_denegado'
-  AND ap.timestamp > NOW() - INTERVAL '24 hours'
+ AND ap.timestamp > NOW() - INTERVAL '24 hours'
 ORDER BY ap.timestamp DESC;
 ```
 
@@ -664,8 +654,8 @@ VALUES ('dashboards', 'sistema.vistas.dashboards', 'vistas', 'Acceso a dashboard
 -- Insertar capacidades de prueba
 INSERT INTO capacidades (nombre_completo, accion, recurso, dominio, nivel_sensibilidad, activa)
 VALUES
-    ('sistema.vistas.dashboards.ver', 'ver', 'dashboards', 'vistas', 'bajo', TRUE),
-    ('sistema.vistas.dashboards.exportar', 'exportar', 'dashboards', 'vistas', 'normal', TRUE);
+ ('sistema.vistas.dashboards.ver', 'ver', 'dashboards', 'vistas', 'bajo', TRUE),
+ ('sistema.vistas.dashboards.exportar', 'exportar', 'dashboards', 'vistas', 'normal', TRUE);
 
 -- Insertar grupo de prueba
 INSERT INTO grupos_permisos (codigo, nombre_display, descripcion, tipo_acceso, activo)
@@ -674,8 +664,8 @@ VALUES ('visualizacion_basica', 'Visualización Básica', 'Acceso de solo lectur
 -- Relacionar grupo con capacidades
 INSERT INTO grupo_capacidades (grupo_id, capacidad_id)
 SELECT
-    (SELECT id FROM grupos_permisos WHERE codigo = 'visualizacion_basica'),
-    id
+ (SELECT id FROM grupos_permisos WHERE codigo = 'visualizacion_basica'),
+ id
 FROM capacidades
 WHERE nombre_completo IN ('sistema.vistas.dashboards.ver');
 

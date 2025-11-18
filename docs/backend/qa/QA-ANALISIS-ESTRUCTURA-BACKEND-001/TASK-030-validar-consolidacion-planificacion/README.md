@@ -45,11 +45,11 @@ tree -L 3 docs/backend/planificacion/
 # Verificar subcarpetas esperadas
 expected_subdirs="analisis_negocio feasibility planning releases"
 for subdir in $expected_subdirs; do
-  if [ -d "docs/backend/planificacion/$subdir" ]; then
-    echo "OK: planificacion/$subdir existe"
-  else
-    echo "ERROR: planificacion/$subdir NO EXISTE"
-  fi
+ if [ -d "docs/backend/planificacion/$subdir" ]; then
+ echo "OK: planificacion/$subdir existe"
+ else
+ echo "ERROR: planificacion/$subdir NO EXISTE"
+ fi
 done
 ```
 
@@ -60,11 +60,11 @@ done
 # Verificar que carpetas origen fueron eliminadas
 origen_dirs="feasibility planning planificacion_y_releases analisis_negocio"
 for dir in $origen_dirs; do
-  if [ -d "docs/backend/$dir" ]; then
-    echo "ERROR: docs/backend/$dir todavia existe"
-  else
-    echo "OK: docs/backend/$dir eliminado correctamente"
-  fi
+ if [ -d "docs/backend/$dir" ]; then
+ echo "ERROR: docs/backend/$dir todavia existe"
+ else
+ echo "OK: docs/backend/$dir eliminado correctamente"
+ fi
 done
 ```
 
@@ -74,18 +74,18 @@ done
 ```bash
 # Contar archivos en cada subcarpeta
 echo "=== CONTEO DE ARCHIVOS ===" > \
-  docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/validacion-conteo-planificacion.txt
+ docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/validacion-conteo-planificacion.txt
 
 for subdir in analisis_negocio feasibility planning releases; do
-  count=$(find docs/backend/planificacion/$subdir/ -type f ! -name '.gitkeep' | wc -l)
-  echo "planificacion/$subdir: $count archivos" | tee -a \
-    docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/validacion-conteo-planificacion.txt
+ count=$(find docs/backend/planificacion/$subdir/ -type f ! -name '.gitkeep' | wc -l)
+ echo "planificacion/$subdir: $count archivos" | tee -a \
+ docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/validacion-conteo-planificacion.txt
 done
 
 # Conteo total
 total=$(find docs/backend/planificacion/ -type f ! -name '.gitkeep' ! -name 'README.md' | wc -l)
 echo "TOTAL en planificacion/: $total archivos" | tee -a \
-  docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/validacion-conteo-planificacion.txt
+ docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/validacion-conteo-planificacion.txt
 ```
 
 **Resultado Esperado:** Conteos documentados, total > 0
@@ -94,26 +94,26 @@ echo "TOTAL en planificacion/: $total archivos" | tee -a \
 ```bash
 # Buscar archivos corruptos o vacios sospechosos
 echo "=== VERIFICACION INTEGRIDAD ===" > \
-  docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/validacion-integridad-planificacion.txt
+ docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/validacion-integridad-planificacion.txt
 
 # Archivos vacios (posible error)
 empty_files=$(find docs/backend/planificacion/ -type f -empty ! -name '.gitkeep')
 if [ -n "$empty_files" ]; then
-  echo "WARN: Archivos vacios encontrados:" | tee -a \
-    docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/validacion-integridad-planificacion.txt
-  echo "$empty_files" | tee -a \
-    docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/validacion-integridad-planificacion.txt
+ echo "WARN: Archivos vacios encontrados:" | tee -a \
+ docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/validacion-integridad-planificacion.txt
+ echo "$empty_files" | tee -a \
+ docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/validacion-integridad-planificacion.txt
 else
-  echo "OK: No hay archivos vacios sospechosos" | tee -a \
-    docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/validacion-integridad-planificacion.txt
+ echo "OK: No hay archivos vacios sospechosos" | tee -a \
+ docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/validacion-integridad-planificacion.txt
 fi
 
 # Verificar permisos de lectura
 find docs/backend/planificacion/ -type f ! -readable | tee -a \
-  docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/validacion-integridad-planificacion.txt
+ docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/validacion-integridad-planificacion.txt
 if [ $? -eq 0 ]; then
-  echo "OK: Todos los archivos son legibles" | tee -a \
-    docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/validacion-integridad-planificacion.txt
+ echo "OK: Todos los archivos son legibles" | tee -a \
+ docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/validacion-integridad-planificacion.txt
 fi
 ```
 
@@ -123,26 +123,26 @@ fi
 ```bash
 # Verificar que todos los archivos de documentacion existen
 docs_esperados=(
-  "estructura-planificacion.txt"
-  "movimiento-feasibility.txt"
-  "analisis-planning-releases.txt"
-  "consolidacion-planning-releases.txt"
-  "movimiento-analisis-negocio.txt"
-  "clasificacion-analisis.txt"
-  "resumen-consolidacion-analisis.txt"
+ "estructura-planificacion.txt"
+ "movimiento-feasibility.txt"
+ "analisis-planning-releases.txt"
+ "consolidacion-planning-releases.txt"
+ "movimiento-analisis-negocio.txt"
+ "clasificacion-analisis.txt"
+ "resumen-consolidacion-analisis.txt"
 )
 
 echo "=== VALIDACION DOCUMENTACION ===" > \
-  docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/validacion-documentacion.txt
+ docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/validacion-documentacion.txt
 
 for doc in "${docs_esperados[@]}"; do
-  if [ -f "docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/$doc" ]; then
-    echo "OK: $doc existe" | tee -a \
-      docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/validacion-documentacion.txt
-  else
-    echo "WARN: $doc NO EXISTE" | tee -a \
-      docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/validacion-documentacion.txt
-  fi
+ if [ -f "docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/$doc" ]; then
+ echo "OK: $doc existe" | tee -a \
+ docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/validacion-documentacion.txt
+ else
+ echo "WARN: $doc NO EXISTE" | tee -a \
+ docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/validacion-documentacion.txt
+ fi
 done
 ```
 
@@ -171,11 +171,11 @@ $(tree -L 3 docs/backend/planificacion/)
 ## Verificacion de Carpetas Origen
 
 $(for dir in feasibility planning planificacion_y_releases analisis_negocio; do
-  if [ -d "docs/backend/$dir" ]; then
-    echo "- [X] ERROR: $dir AUN EXISTE"
-  else
-    echo "- [✓] OK: $dir eliminado"
-  fi
+ if [ -d "docs/backend/$dir" ]; then
+ echo "- [X] ERROR: $dir AUN EXISTE"
+ else
+ echo "- [OK] OK: $dir eliminado"
+ fi
 done)
 
 ---
@@ -230,11 +230,11 @@ bash -c "cat > docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/VALIDACION-CON
 ## Verificacion de Carpetas Origen
 
 \$(for dir in feasibility planning planificacion_y_releases analisis_negocio; do
-  if [ -d \"docs/backend/\$dir\" ]; then
-    echo \"ERROR: \$dir AUN EXISTE\"
-  else
-    echo \"OK: \$dir eliminado\"
-  fi
+ if [ -d \"docs/backend/\$dir\" ]; then
+ echo \"ERROR: \$dir AUN EXISTE\"
+ else
+ echo \"OK: \$dir eliminado\"
+ fi
 done)
 
 ---
@@ -278,28 +278,28 @@ EOFMARK
 ```bash
 # Comparar archivos esperados vs encontrados
 echo "=== VALIDACION CRUZADA ===" > \
-  docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/validacion-cruzada.txt
+ docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/validacion-cruzada.txt
 
 # Buscar duplicados (archivos con mismo nombre en diferentes subcarpetas)
 find docs/backend/planificacion/ -type f ! -name '.gitkeep' -exec basename {} \; | \
-  sort | uniq -d > /tmp/duplicados.txt
+ sort | uniq -d > /tmp/duplicados.txt
 
 if [ -s /tmp/duplicados.txt ]; then
-  echo "WARN: Archivos duplicados encontrados:" | tee -a \
-    docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/validacion-cruzada.txt
-  cat /tmp/duplicados.txt | tee -a \
-    docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/validacion-cruzada.txt
+ echo "WARN: Archivos duplicados encontrados:" | tee -a \
+ docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/validacion-cruzada.txt
+ cat /tmp/duplicados.txt | tee -a \
+ docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/validacion-cruzada.txt
 else
-  echo "OK: No hay archivos duplicados" | tee -a \
-    docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/validacion-cruzada.txt
+ echo "OK: No hay archivos duplicados" | tee -a \
+ docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/validacion-cruzada.txt
 fi
 
 # Buscar enlaces rotos (symlinks)
 find docs/backend/planificacion/ -type l ! -exec test -e {} \; -print | tee -a \
-  docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/validacion-cruzada.txt
+ docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/validacion-cruzada.txt
 if [ $? -eq 0 ]; then
-  echo "OK: No hay symlinks rotos" | tee -a \
-    docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/validacion-cruzada.txt
+ echo "OK: No hay symlinks rotos" | tee -a \
+ docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/validacion-cruzada.txt
 fi
 ```
 
@@ -411,37 +411,37 @@ echo "=== VALIDACION AUTOMATICA COMPLETA ==="
 # 1. Estructura
 echo "1. Verificando estructura..."
 for subdir in analisis_negocio feasibility planning releases; do
-  [ -d "docs/backend/planificacion/$subdir" ] && echo "  ✓ $subdir" || echo "  ✗ $subdir FALTA"
+ [ -d "docs/backend/planificacion/$subdir" ] && echo " OK $subdir" || echo " $subdir FALTA"
 done
 
 # 2. Carpetas origen
 echo "2. Verificando eliminacion de carpetas origen..."
 for dir in feasibility planning planificacion_y_releases analisis_negocio; do
-  [ ! -d "docs/backend/$dir" ] && echo "  ✓ $dir eliminado" || echo "  ✗ $dir AUN EXISTE"
+ [ ! -d "docs/backend/$dir" ] && echo " OK $dir eliminado" || echo " $dir AUN EXISTE"
 done
 
 # 3. Contenido
 echo "3. Verificando contenido..."
 total=$(find docs/backend/planificacion/ -type f ! -name '.gitkeep' ! -name 'README.md' | wc -l)
-echo "  Total archivos: $total"
-[ $total -gt 0 ] && echo "  ✓ Tiene contenido" || echo "  ✗ VACIO"
+echo " Total archivos: $total"
+[ $total -gt 0 ] && echo " OK Tiene contenido" || echo " VACIO"
 
 # 4. Documentacion
 echo "4. Verificando documentacion..."
 docs_count=$(ls -1 docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/*.txt 2>/dev/null | wc -l)
-echo "  Archivos de documentacion: $docs_count"
-[ $docs_count -ge 5 ] && echo "  ✓ Documentacion completa" || echo "  ✗ FALTA DOCUMENTACION"
+echo " Archivos de documentacion: $docs_count"
+[ $docs_count -ge 5 ] && echo " OK Documentacion completa" || echo " FALTA DOCUMENTACION"
 
 # 5. Integridad
 echo "5. Verificando integridad..."
 empty=$(find docs/backend/planificacion/ -type f -empty ! -name '.gitkeep' | wc -l)
-[ $empty -eq 0 ] && echo "  ✓ Sin archivos vacios" || echo "  ✗ HAY $empty ARCHIVOS VACIOS"
+[ $empty -eq 0 ] && echo " OK Sin archivos vacios" || echo " HAY $empty ARCHIVOS VACIOS"
 
 echo ""
 echo "=== FIN VALIDACION ==="
 ```
 
-**Salida Esperada:** Todos los checks con ✓
+**Salida Esperada:** Todos los checks con OK
 
 ---
 

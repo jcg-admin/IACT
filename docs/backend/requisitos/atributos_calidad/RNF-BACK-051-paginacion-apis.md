@@ -53,13 +53,13 @@ El sistema backend debe implementar paginación consistente en todas las APIs qu
 **Formato de respuesta paginada**:
 ```json
 {
-  "count": 245,
-  "next": "http://api.example.com/llamadas/?page=2",
-  "previous": null,
-  "results": [
-    { "id": 1, "...": "..." },
-    { "id": 2, "...": "..." }
-  ]
+ "count": 245,
+ "next": "http://api.example.com/llamadas/?page=2",
+ "previous": null,
+ "results": [
+ { "id": 1, "...": "..." },
+ { "id": 2, "...": "..." }
+ ]
 }
 ```
 

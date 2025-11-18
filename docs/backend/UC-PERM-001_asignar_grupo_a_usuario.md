@@ -7,12 +7,12 @@ nivel: usuario
 prioridad: alta
 estado: aprobado
 trazabilidad_upward:
-  - PRIORIDAD_01  # Sistema de Permisos Granular
-  - RNF-002       # Seguridad y autorizacion
+ - PRIORIDAD_01 # Sistema de Permisos Granular
+ - RNF-002 # Seguridad y autorizacion
 trazabilidad_downward:
-  - RF-PERM-001   # API asignar grupos
-  - RF-PERM-002   # Validacion permisos admin
-  - TEST-PERM-001 # Test asignacion grupos
+ - RF-PERM-001 # API asignar grupos
+ - RF-PERM-002 # Validacion permisos admin
+ - TEST-PERM-001 # Test asignacion grupos
 fecha_creacion: 2025-11-09
 owner: equipo-backend
 date: 2025-11-13

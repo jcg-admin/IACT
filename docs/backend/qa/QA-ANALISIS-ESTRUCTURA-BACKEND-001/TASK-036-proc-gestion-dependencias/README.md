@@ -81,13 +81,13 @@ Establecer un proceso estándar para la gestión de dependencias Python del back
 
 ```
 backend/
-├── requirements/
-│   ├── base.txt           # Dependencias comunes
-│   ├── development.txt    # Dependencias de desarrollo
-│   ├── production.txt     # Dependencias de producción
-│   └── testing.txt        # Dependencias de testing
-├── requirements.txt       # Apunta a production
-└── requirements-lock.txt  # Versiones exactas (pip freeze)
+ requirements/
+ base.txt # Dependencias comunes
+ development.txt # Dependencias de desarrollo
+ production.txt # Dependencias de producción
+ testing.txt # Dependencias de testing
+ requirements.txt # Apunta a production
+ requirements-lock.txt # Versiones exactas (pip freeze)
 ```
 
 ## Categorías de Dependencias
@@ -105,9 +105,9 @@ backend/
 - [ ] Verificar que la dependencia es necesaria
 - [ ] Evaluar alternativas
 - [ ] Revisar reputación y mantenimiento
-  - GitHub stars y actividad
-  - Última versión y fecha
-  - Issues abiertas vs cerradas
+ - GitHub stars y actividad
+ - Última versión y fecha
+ - Issues abiertas vs cerradas
 - [ ] Verificar compatibilidad con Python version
 - [ ] Verificar licencia (compatible con proyecto)
 
@@ -158,7 +158,7 @@ python -W all manage.py check
 # Agregar a archivo correspondiente con versión específica
 
 # requirements/base.txt
-package-name==1.2.3  # Descripción del uso
+package-name==1.2.3 # Descripción del uso
 
 # Regenerar lock file
 pip freeze > requirements-lock.txt
@@ -222,7 +222,7 @@ pytest
 
 # Si todo OK, actualizar requirements
 # requirements/base.txt
-package-name==1.2.4  # Updated for security fix CVE-XXXX
+package-name==1.2.4 # Updated for security fix CVE-XXXX
 
 # Actualizar lock file
 pip freeze > requirements-lock.txt
@@ -369,7 +369,7 @@ cat audit-report.json | jq '.vulnerabilities'
 pip index versions package-name
 
 # 2. Actualizar a versión segura
-pip install package-name==1.2.4  # versión sin CVE
+pip install package-name==1.2.4 # versión sin CVE
 
 # 3. Testing urgente
 pytest -v --cov
@@ -394,10 +394,10 @@ pytest -v --cov
 ```yaml
 # .pre-commit-config.yaml
 repos:
-  - repo: https://github.com/Lucas-C/pre-commit-hooks-safety
-    rev: v1.3.0
-    hooks:
-      - id: python-safety-dependencies-check
+ - repo: https://github.com/Lucas-C/pre-commit-hooks-safety
+ rev: v1.3.0
+ hooks:
+ - id: python-safety-dependencies-check
 ```
 
 ### GitHub Actions
@@ -406,21 +406,21 @@ repos:
 name: Dependency Security Check
 
 on:
-  schedule:
-    - cron: '0 0 * * 1'  # Weekly
-  pull_request:
-    paths:
-      - 'requirements/**'
+ schedule:
+ - cron: '0 0 * * 1' # Weekly
+ pull_request:
+ paths:
+ - 'requirements/**'
 
 jobs:
-  security:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Run pip-audit
-        run: |
-          pip install pip-audit
-          pip-audit --requirement requirements.txt
+ security:
+ runs-on: ubuntu-latest
+ steps:
+ - uses: actions/checkout@v3
+ - name: Run pip-audit
+ run: |
+ pip install pip-audit
+ pip-audit --requirement requirements.txt
 ```
 
 ## Troubleshooting Común
@@ -462,38 +462,38 @@ which python
 ## Best Practices
 
 1. **Siempre especificar versiones exactas** en producción
-   ```txt
-   # ❌ NO
-   django
+ ```txt
+ # [ERROR] NO
+ django
 
-   # ✅ SÍ
-   django==4.2.7
-   ```
+ # [OK] SÍ
+ django==4.2.7
+ ```
 
 2. **Separar dependencias por entorno**
-   ```txt
-   requirements/
-   ├── base.txt
-   ├── development.txt
-   ├── production.txt
-   └── testing.txt
-   ```
+ ```txt
+ requirements/
+ base.txt
+ development.txt
+ production.txt
+ testing.txt
+ ```
 
 3. **Usar virtual environments**
-   ```bash
-   python -m venv venv
-   source venv/bin/activate
-   ```
+ ```bash
+ python -m venv venv
+ source venv/bin/activate
+ ```
 
 4. **Documentar dependencias nuevas**
-   - Agregar comentario en requirements
-   - Actualizar DEPENDENCIES.md
-   - Incluir en commit message
+ - Agregar comentario en requirements
+ - Actualizar DEPENDENCIES.md
+ - Incluir en commit message
 
 5. **Auditorías regulares**
-   - Seguridad: Semanal
-   - Actualizaciones: Mensual
-   - Limpieza: Trimestral
+ - Seguridad: Semanal
+ - Actualizaciones: Mensual
+ - Limpieza: Trimestral
 
 ## Métricas
 
@@ -522,13 +522,13 @@ which python
 - [ ] Validación Self-Consistency completada
 
 ## Criterios de Aceptación
-1. ✅ Proceso completo de gestión documentado
-2. ✅ Todas las operaciones cubiertas (agregar, actualizar, remover)
-3. ✅ Auditoría de seguridad documentada
-4. ✅ Herramientas y comandos incluidos
-5. ✅ Troubleshooting común documentado
-6. ✅ Best practices especificadas
-7. ✅ Automatización sugerida
+1. [OK] Proceso completo de gestión documentado
+2. [OK] Todas las operaciones cubiertas (agregar, actualizar, remover)
+3. [OK] Auditoría de seguridad documentada
+4. [OK] Herramientas y comandos incluidos
+5. [OK] Troubleshooting común documentado
+6. [OK] Best practices especificadas
+7. [OK] Automatización sugerida
 
 ## Notas
 - Revisar requirements.txt actual del proyecto

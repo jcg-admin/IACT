@@ -53,16 +53,16 @@ El sistema backend debe retornar mensajes de error descriptivos y útiles que pe
 **Formato de error estándar**:
 ```json
 {
-  "error": {
-    "code": "ERR-VALIDATION-001",
-    "message": "El campo 'email' no tiene un formato válido",
-    "details": {
-      "field": "email",
-      "value": "usuario@invalid",
-      "expected": "Formato email válido (ej: usuario@example.com)"
-    },
-    "timestamp": "2025-01-17T10:30:45Z"
-  }
+ "error": {
+ "code": "ERR-VALIDATION-001",
+ "message": "El campo 'email' no tiene un formato válido",
+ "details": {
+ "field": "email",
+ "value": "usuario@invalid",
+ "expected": "Formato email válido (ej: usuario@example.com)"
+ },
+ "timestamp": "2025-01-17T10:30:45Z"
+ }
 }
 ```
 

@@ -93,25 +93,25 @@ Crear un catálogo completo de todos los servicios (services) del backend, docum
 
 ### Capas
 ```
-┌─────────────────────────────────┐
-│  Controllers/Views              │
-├─────────────────────────────────┤
-│  Domain Services                │
-├─────────────────────────────────┤
-│  Infrastructure Services        │
-├─────────────────────────────────┤
-│  Integration Services           │
-└─────────────────────────────────┘
+
+ Controllers/Views 
+
+ Domain Services 
+
+ Infrastructure Services 
+
+ Integration Services 
+
 ```
 
 ### Grafo de Dependencias
 ```mermaid
 graph TD
-    A[UserService] --> B[AuthService]
-    A --> C[EmailService]
-    D[OrderService] --> A
-    D --> E[PaymentService]
-    D --> C
+ A[UserService] --> B[AuthService]
+ A --> C[EmailService]
+ D[OrderService] --> A
+ D --> E[PaymentService]
+ D --> C
 ```
 
 ## Patrones Utilizados
@@ -135,8 +135,8 @@ graph TD
 
 | Servicio | Tests Unitarios | Tests Integración | Cobertura |
 |----------|-----------------|-------------------|-----------|
-| UserService | ✅ 15 tests | ✅ 5 tests | 85% |
-| ProductService | ✅ 12 tests | ✅ 4 tests | 78% |
+| UserService | [OK] 15 tests | [OK] 5 tests | 85% |
+| ProductService | [OK] 12 tests | [OK] 4 tests | 78% |
 
 ## Referencias
 - backend/services/
@@ -152,12 +152,12 @@ graph TD
 - [ ] Validación Self-Consistency completada
 
 ## Criterios de Aceptación
-1. ✅ Todos los servicios identificados y catalogados
-2. ✅ Clasificación en capas (Dominio, Infraestructura, Integración)
-3. ✅ Responsabilidades claramente definidas
-4. ✅ Dependencias mapeadas
-5. ✅ Formato tabular utilizado
-6. ✅ Patrones arquitectónicos documentados
+1. [OK] Todos los servicios identificados y catalogados
+2. [OK] Clasificación en capas (Dominio, Infraestructura, Integración)
+3. [OK] Responsabilidades claramente definidas
+4. [OK] Dependencias mapeadas
+5. [OK] Formato tabular utilizado
+6. [OK] Patrones arquitectónicos documentados
 
 ## Notas
 - Buscar en: backend/services/, backend/*/services.py

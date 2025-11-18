@@ -49,15 +49,15 @@ El Administrador crea un nuevo grupo de permisos que agrupa múltiples capacidad
 
 ```json
 {
-  "codigo": "analistas_calidad",
-  "nombre": "Analistas de Calidad",
-  "descripcion": "Grupo para analistas que revisan calidad de llamadas",
-  "activo": true,
-  "capacidades_codigos": [
-    "sistema.vistas.calidad.ver",
-    "sistema.vistas.calidad.evaluar",
-    "sistema.vistas.reportes.calidad.ver"
-  ]
+ "codigo": "analistas_calidad",
+ "nombre": "Analistas de Calidad",
+ "descripcion": "Grupo para analistas que revisan calidad de llamadas",
+ "activo": true,
+ "capacidades_codigos": [
+ "sistema.vistas.calidad.ver",
+ "sistema.vistas.calidad.evaluar",
+ "sistema.vistas.reportes.calidad.ver"
+ ]
 }
 ```
 
@@ -65,16 +65,16 @@ El Administrador crea un nuevo grupo de permisos que agrupa múltiples capacidad
 
 ```json
 {
-  "success": true,
-  "data": {
-    "id": 15,
-    "codigo": "analistas_calidad",
-    "nombre": "Analistas de Calidad",
-    "descripcion": "Grupo para analistas...",
-    "activo": true,
-    "total_capacidades": 3,
-    "created_at": "2025-01-09T11:30:00Z"
-  }
+ "success": true,
+ "data": {
+ "id": 15,
+ "codigo": "analistas_calidad",
+ "nombre": "Analistas de Calidad",
+ "descripcion": "Grupo para analistas...",
+ "activo": true,
+ "total_capacidades": 3,
+ "created_at": "2025-01-09T11:30:00Z"
+ }
 }
 ```
 

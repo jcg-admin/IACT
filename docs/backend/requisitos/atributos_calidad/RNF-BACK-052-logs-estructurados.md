@@ -53,16 +53,16 @@ El sistema backend debe generar logs estructurados en formato JSON que puedan se
 **Formato de log estructurado**:
 ```json
 {
-  "timestamp": "2025-01-17T10:30:45.123Z",
-  "level": "INFO",
-  "logger": "apps.llamadas.views",
-  "message": "Llamada registrada exitosamente",
-  "context": {
-    "user_id": 123,
-    "llamada_id": 456,
-    "ip_address": "192.168.1.100",
-    "duration_ms": 150
-  }
+ "timestamp": "2025-01-17T10:30:45.123Z",
+ "level": "INFO",
+ "logger": "apps.llamadas.views",
+ "message": "Llamada registrada exitosamente",
+ "context": {
+ "user_id": 123,
+ "llamada_id": 456,
+ "ip_address": "192.168.1.100",
+ "duration_ms": 150
+ }
 }
 ```
 

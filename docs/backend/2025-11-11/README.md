@@ -24,10 +24,10 @@ El backend tiene una calidad general **buena (93%)**, pero presenta áreas crít
 - **Issues Críticos:** 9
 - **Issues Alta Prioridad:** 174
 - **Oportunidades de Patrones:**
-  - Factory Pattern: 56 casos
-  - Strategy Pattern: 24 casos
-  - Decorator Pattern: 17 casos
-  - Observer Pattern: 8 casos
+ - Factory Pattern: 56 casos
+ - Strategy Pattern: 24 casos
+ - Decorator Pattern: 17 casos
+ - Observer Pattern: 8 casos
 
 ---
 
@@ -35,20 +35,20 @@ El backend tiene una calidad general **buena (93%)**, pero presenta áreas crít
 
 ```
 docs/backend_analisis/2025-11-11/
-├── README.md                           # Este archivo
-├── analisis_arquitectura_completo.puml # Todos los diagramas UML
-└── ../../../logs_data/analysis/backend_analysis_results.json # Resultados completos JSON
+ README.md # Este archivo
+ analisis_arquitectura_completo.puml # Todos los diagramas UML
+ ../../../logs_data/analysis/backend_analysis_results.json # Resultados completos JSON
 ```
 
 ### Estructura de Documentación
 
 ```
 docs/backend_analisis/
-├── 2025-11-11/                         # Análisis actual
-│   ├── README.md
-│   └── analisis_arquitectura_completo.puml
-├── 2025-11-XX/                         # Futuros análisis
-└── README.md                           # Índice general
+ 2025-11-11/ # Análisis actual
+ README.md
+ analisis_arquitectura_completo.puml
+ 2025-11-XX/ # Futuros análisis
+ README.md # Índice general
 ```
 
 **Estrategia de organización:**
@@ -162,21 +162,15 @@ docs/backend_analisis/
 ### Arquitectura Objetivo: Clean Architecture + DRF Best Practices
 
 ```
-┌─────────────────────────────────────┐
-│  Presentation (DRF ViewSets)       │ ← Thin Views
-└──────────────┬──────────────────────┘
-               │
-┌──────────────▼──────────────────────┐
-│  Application (Use Cases)            │ ← Business orchestration
-└──────────────┬──────────────────────┘
-               │
-┌──────────────▼──────────────────────┐
-│  Domain (Entities, Services)        │ ← Business logic
-└──────────────┬──────────────────────┘
-               │
-┌──────────────▼──────────────────────┐
-│  Infrastructure (Django Models)     │ ← Data access
-└─────────────────────────────────────┘
+
+ Presentation (DRF ViewSets) ← Thin Views
+
+ Application (Use Cases) ← Business orchestration
+
+ Domain (Entities, Services) ← Business logic
+
+ Infrastructure (Django Models) ← Data access
+
 ```
 
 ### Fases de Migración

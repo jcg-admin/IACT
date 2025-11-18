@@ -71,20 +71,20 @@ ls -d docs/backend/diseno/*/ 2>/dev/null
 
 # Verificar que existen los 5 READMEs de subcarpetas
 READMES=(
-  "docs/backend/diseno/api/README.md"
-  "docs/backend/diseno/arquitectura/README.md"
-  "docs/backend/diseno/permisos/README.md"
-  "docs/backend/diseno/detallado/README.md"
-  "docs/backend/diseno/database/README.md"
+ "docs/backend/diseno/api/README.md"
+ "docs/backend/diseno/arquitectura/README.md"
+ "docs/backend/diseno/permisos/README.md"
+ "docs/backend/diseno/detallado/README.md"
+ "docs/backend/diseno/database/README.md"
 )
 
 echo "=== Verificando READMEs de subcarpetas ==="
 for readme in "${READMES[@]}"; do
-  if [ -f "$readme" ]; then
-    echo "OK: $readme existe"
-  else
-    echo "WARNING: $readme faltante"
-  fi
+ if [ -f "$readme" ]; then
+ echo "OK: $readme existe"
+ else
+ echo "WARNING: $readme faltante"
+ fi
 done
 ```
 
@@ -98,9 +98,9 @@ find docs/backend/diseno/ -maxdepth 1 -type f
 
 # Verificar si ya existe README principal
 if [ -f "docs/backend/diseno/README.md" ]; then
-  echo "INFO: README.md ya existe, se actualizara"
+ echo "INFO: README.md ya existe, se actualizara"
 else
-  echo "INFO: README.md no existe, se creara"
+ echo "INFO: README.md no existe, se creara"
 fi
 ```
 
@@ -139,12 +139,12 @@ Proporcionar documentacion completa y accesible del diseno del sistema para:
 
 ```
 diseno/
-├── README.md (este archivo)
-├── api/              # Diseno de APIs REST
-├── arquitectura/     # Decisiones arquitectonicas y ADRs
-├── permisos/         # Sistema de permisos y autorizacion
-├── detallado/        # Especificaciones tecnicas detalladas
-└── database/         # Diseno de base de datos y esquemas
+ README.md (este archivo)
+ api/ # Diseno de APIs REST
+ arquitectura/ # Decisiones arquitectonicas y ADRs
+ permisos/ # Sistema de permisos y autorizacion
+ detallado/ # Especificaciones tecnicas detalladas
+ database/ # Diseno de base de datos y esquemas
 ```
 
 ## Subcarpetas
@@ -277,11 +277,11 @@ Review → Merge
 
 ```
 diseno/ (este directorio)
-  ↓
+ ↓
 implementacion/ (codigo fuente que implementa el diseno)
-  ↓
+ ↓
 pruebas/ (tests que validan el diseno)
-  ↓
+ ↓
 deployment/ (despliegue del sistema disenado)
 ```
 
@@ -394,19 +394,19 @@ echo "=== Validando enlaces a subcarpetas ==="
 
 # Verificar que enlaces internos existen
 LINKS=(
-  "docs/backend/diseno/api/README.md"
-  "docs/backend/diseno/arquitectura/README.md"
-  "docs/backend/diseno/permisos/README.md"
-  "docs/backend/diseno/detallado/README.md"
-  "docs/backend/diseno/database/README.md"
+ "docs/backend/diseno/api/README.md"
+ "docs/backend/diseno/arquitectura/README.md"
+ "docs/backend/diseno/permisos/README.md"
+ "docs/backend/diseno/detallado/README.md"
+ "docs/backend/diseno/database/README.md"
 )
 
 for link in "${LINKS[@]}"; do
-  if [ -f "$link" ]; then
-    echo "OK: Enlace valido - $link"
-  else
-    echo "ERROR: Enlace roto - $link"
-  fi
+ if [ -f "$link" ]; then
+ echo "OK: Enlace valido - $link"
+ else
+ echo "ERROR: Enlace roto - $link"
+ fi
 done
 ```
 
@@ -416,9 +416,9 @@ done
 ```bash
 # Validar markdown si herramienta disponible
 if command -v mdl &> /dev/null; then
-  mdl docs/backend/diseno/README.md
+ mdl docs/backend/diseno/README.md
 else
-  echo "INFO: markdownlint no disponible, skip validacion"
+ echo "INFO: markdownlint no disponible, skip validacion"
 fi
 
 # Verificar frontmatter
@@ -456,11 +456,11 @@ fecha: 2025-11-18
 
 ## Subcarpetas Integradas
 
-1. api/ - $([ -f "docs/backend/diseno/api/README.md" ] && echo "✓" || echo "✗")
-2. arquitectura/ - $([ -f "docs/backend/diseno/arquitectura/README.md" ] && echo "✓" || echo "✗")
-3. permisos/ - $([ -f "docs/backend/diseno/permisos/README.md" ] && echo "✓" || echo "✗")
-4. detallado/ - $([ -f "docs/backend/diseno/detallado/README.md" ] && echo "✓" || echo "✗")
-5. database/ - $([ -f "docs/backend/diseno/database/README.md" ] && echo "✓" || echo "✗")
+1. api/ - $([ -f "docs/backend/diseno/api/README.md" ] && echo "OK" || echo "")
+2. arquitectura/ - $([ -f "docs/backend/diseno/arquitectura/README.md" ] && echo "OK" || echo "")
+3. permisos/ - $([ -f "docs/backend/diseno/permisos/README.md" ] && echo "OK" || echo "")
+4. detallado/ - $([ -f "docs/backend/diseno/detallado/README.md" ] && echo "OK" || echo "")
+5. database/ - $([ -f "docs/backend/diseno/database/README.md" ] && echo "OK" || echo "")
 
 ## Validacion
 
@@ -499,42 +499,42 @@ cat docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/actualizacion-readme-prin
 ```bash
 # Validacion 1: README existe
 if [ -f "docs/backend/diseno/README.md" ]; then
-  echo "PASS: README principal existe"
+ echo "PASS: README principal existe"
 else
-  echo "FAIL: README principal no encontrado"
-  exit 1
+ echo "FAIL: README principal no encontrado"
+ exit 1
 fi
 
 # Validacion 2: Frontmatter presente
 if head -1 docs/backend/diseno/README.md | grep -q "^---$"; then
-  echo "PASS: Frontmatter presente"
+ echo "PASS: Frontmatter presente"
 else
-  echo "WARNING: Frontmatter faltante"
+ echo "WARNING: Frontmatter faltante"
 fi
 
 # Validacion 3: Referencias a subcarpetas
 SUBCARPETAS="api arquitectura permisos detallado database"
 for subdir in $SUBCARPETAS; do
-  if grep -q "$subdir/README.md" docs/backend/diseno/README.md; then
-    echo "PASS: Referencia a $subdir/ presente"
-  else
-    echo "WARNING: Falta referencia a $subdir/"
-  fi
+ if grep -q "$subdir/README.md" docs/backend/diseno/README.md; then
+ echo "PASS: Referencia a $subdir/ presente"
+ else
+ echo "WARNING: Falta referencia a $subdir/"
+ fi
 done
 
 # Validacion 4: Longitud sustancial
 LINES=$(wc -l < docs/backend/diseno/README.md)
 if [ "$LINES" -gt 100 ]; then
-  echo "PASS: README sustancial ($LINES lineas)"
+ echo "PASS: README sustancial ($LINES lineas)"
 else
-  echo "WARNING: README breve ($LINES lineas)"
+ echo "WARNING: README breve ($LINES lineas)"
 fi
 
 # Validacion 5: En staging
 if git diff --cached --name-only | grep -q "diseno/README.md"; then
-  echo "PASS: En git staging"
+ echo "PASS: En git staging"
 else
-  echo "WARNING: No en staging"
+ echo "WARNING: No en staging"
 fi
 ```
 

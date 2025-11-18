@@ -3,7 +3,7 @@
 ## Metadatos
 - **ID**: TASK-055
 - **Fase**: FASE 4 - Validación y Limpieza
-- **Prioridad**: CRÍTICA 🔴
+- **Prioridad**: CRÍTICA 
 - **Estimación**: 20 minutos
 - **Estado**: PENDIENTE
 - **Metodología**: Auto-CoT + Self-Consistency + Chain-of-Verification
@@ -107,16 +107,16 @@ npx markdown-link-check docs/backend/**/*.md
 
 ## Entregables
 1. **REPORTE-VALIDACION-ENLACES.md**
-   - Lista completa de enlaces analizados
-   - Enlaces rotos por archivo
-   - Estadísticas generales
+ - Lista completa de enlaces analizados
+ - Enlaces rotos por archivo
+ - Estadísticas generales
 
 2. **ENLACES-CORREGIDOS.md**
-   - Lista de correcciones aplicadas
-   - Enlaces antes/después
+ - Lista de correcciones aplicadas
+ - Enlaces antes/después
 
 3. **script-validar-enlaces.sh** o **.py**
-   - Script reutilizable para validaciones futuras
+ - Script reutilizable para validaciones futuras
 
 ## Comandos Útiles
 

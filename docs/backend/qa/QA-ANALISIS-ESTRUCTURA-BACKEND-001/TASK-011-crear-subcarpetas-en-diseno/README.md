@@ -93,11 +93,11 @@ ls -d docs/backend/diseno/*/ | wc -l
 ```bash
 # Verificar permisos de escritura
 for dir in api arquitectura permisos detallado database; do
-  if [ -w "docs/backend/diseno/$dir" ]; then
-    echo "OK: $dir - permisos correctos"
-  else
-    echo "ERROR: $dir - sin permisos de escritura"
-  fi
+ if [ -w "docs/backend/diseno/$dir" ]; then
+ echo "OK: $dir - permisos correctos"
+ else
+ echo "ERROR: $dir - sin permisos de escritura"
+ fi
 done
 ```
 
@@ -107,11 +107,11 @@ done
 ```bash
 # Crear listado de subcarpetas
 tree docs/backend/diseno/ -L 1 > \
-  docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/estructura-diseno-subcarpetas.txt
+ docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/estructura-diseno-subcarpetas.txt
 
 # Alternativa si tree no esta disponible
 ls -R docs/backend/diseno/ > \
-  docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/estructura-diseno-subcarpetas.txt
+ docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/estructura-diseno-subcarpetas.txt
 ```
 
 **Resultado Esperado:** Archivo estructura-diseno-subcarpetas.txt creado
@@ -134,25 +134,25 @@ ls -R docs/backend/diseno/ > \
 # Validacion 1: Contar subcarpetas
 COUNT=$(ls -d docs/backend/diseno/*/ 2>/dev/null | wc -l)
 if [ "$COUNT" -eq 5 ]; then
-  echo "OK: 5 subcarpetas creadas"
+ echo "OK: 5 subcarpetas creadas"
 else
-  echo "ERROR: Se esperaban 5 subcarpetas, se encontraron $COUNT"
+ echo "ERROR: Se esperaban 5 subcarpetas, se encontraron $COUNT"
 fi
 
 # Validacion 2: Verificar nombres exactos
 EXPECTED="api arquitectura permisos detallado database"
 for dir in $EXPECTED; do
-  if [ -d "docs/backend/diseno/$dir" ]; then
-    echo "OK: $dir existe"
-  else
-    echo "ERROR: $dir NO existe"
-  fi
+ if [ -d "docs/backend/diseno/$dir" ]; then
+ echo "OK: $dir existe"
+ else
+ echo "ERROR: $dir NO existe"
+ fi
 done
 
 # Validacion 3: Verificar que son directorios vacios
 for dir in api arquitectura permisos detallado database; do
-  COUNT=$(ls -A docs/backend/diseno/$dir | wc -l)
-  echo "Contenido de $dir: $COUNT archivos"
+ COUNT=$(ls -A docs/backend/diseno/$dir | wc -l)
+ echo "Contenido de $dir: $COUNT archivos"
 done
 ```
 
@@ -221,24 +221,24 @@ ls docs/backend/diseno/
 ## Listado de Subcarpetas a Crear
 
 1. **api/** - Documentacion de diseno de APIs REST
-   - Endpoints, contratos, swagger/openapi
-   - Migrara contenido de: api/, rest_apis/
+ - Endpoints, contratos, swagger/openapi
+ - Migrara contenido de: api/, rest_apis/
 
 2. **arquitectura/** - Decisiones arquitectonicas
-   - ADRs, diagramas C4, patrones
-   - Migrara contenido de: arquitectura/
+ - ADRs, diagramas C4, patrones
+ - Migrara contenido de: arquitectura/
 
 3. **permisos/** - Sistema de permisos y autorizacion
-   - Roles, politicas, reglas de acceso
-   - Migrara contenido de: permisos/
+ - Roles, politicas, reglas de acceso
+ - Migrara contenido de: permisos/
 
 4. **detallado/** - Diseno detallado de componentes
-   - Especificaciones tecnicas detalladas
-   - Migrara contenido de: diseno_detallado/
+ - Especificaciones tecnicas detalladas
+ - Migrara contenido de: diseno_detallado/
 
 5. **database/** - Diseno de base de datos
-   - Esquemas, migraciones, modelos
-   - Consolidara archivos dispersos relacionados con BD
+ - Esquemas, migraciones, modelos
+ - Consolidara archivos dispersos relacionados con BD
 
 ---
 

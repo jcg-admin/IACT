@@ -46,8 +46,8 @@ antiguedad: 3 meses
 departamento: Atención al Cliente
 
 grupos_asignados:
-  - atencion_cliente
-  - visualizacion_basica
+ - atencion_cliente
+ - visualizacion_basica
 
 capacidades_totales: 11
 ```
@@ -152,10 +152,10 @@ departamento: Atención al Cliente
 equipo_a_cargo: "Equipo Norte" (8 agentes)
 
 grupos_asignados:
-  - atencion_cliente_avanzada
-  - gestion_equipos
-  - gestion_horarios
-  - analisis_operativo
+ - atencion_cliente_avanzada
+ - gestion_equipos
+ - gestion_horarios
+ - analisis_operativo
 
 capacidades_totales: 37
 ```
@@ -294,9 +294,9 @@ antiguedad: 1.5 años
 departamento: Aseguramiento de Calidad
 
 grupos_asignados:
-  - auditoria_llamadas
-  - evaluacion_desempeno
-  - analisis_operativo
+ - auditoria_llamadas
+ - evaluacion_desempeno
+ - analisis_operativo
 
 capacidades_totales: 21
 ```
@@ -430,11 +430,11 @@ antiguedad: 3 años
 departamento: Finanzas
 
 grupos_asignados:
-  - gestion_pagos
-  - aprobacion_pagos
-  - gestion_facturacion
-  - gestion_cobranza
-  - gestion_presupuestos
+ - gestion_pagos
+ - aprobacion_pagos
+ - gestion_facturacion
+ - gestion_cobranza
+ - gestion_presupuestos
 
 capacidades_totales: 29
 ```
@@ -596,9 +596,9 @@ antiguedad: 4 años
 departamento: Tecnología
 
 grupos_asignados:
-  - administracion_usuarios
-  - configuracion_sistema
-  - visualizacion_basica
+ - administracion_usuarios
+ - configuracion_sistema
+ - visualizacion_basica
 
 capacidades_totales: 13
 ```
@@ -814,94 +814,94 @@ Laura gestiona el ciclo de vida de usuarios en el sistema, asigna grupos de perm
 
 ```mermaid
 sequenceDiagram
-    actor Ana as Ana López<br>(Agente)
-    participant UI as Interfaz Web
-    participant API as Backend API
-    participant PermSvc as PermissionService
-    participant IVR as Sistema IVR
-    participant DB as Base de Datos
+ actor Ana as Ana López<br>(Agente)
+ participant UI as Interfaz Web
+ participant API as Backend API
+ participant PermSvc as PermissionService
+ participant IVR as Sistema IVR
+ participant DB as Base de Datos
 
-    Ana->>UI: Recibe notificación de llamada
-    UI->>API: GET /api/llamadas/entrante/123
-    API->>PermSvc: verificar_permiso(Ana, 'sistema.operaciones.llamadas.recibir')
-    PermSvc->>DB: SELECT * FROM vista_capacidades_usuario WHERE usuario_id = Ana
-    DB-->>PermSvc: {capacidades: [..., 'recibir', ...]}
-    PermSvc-->>API: PERMITIDO
-    API->>IVR: get_call_info(123)
-    IVR-->>API: {cliente: "Juan Pérez", motivo: "Consulta"}
-    API-->>UI: {llamada: {id: 123, cliente: {...}}}
+ Ana->>UI: Recibe notificación de llamada
+ UI->>API: GET /api/llamadas/entrante/123
+ API->>PermSvc: verificar_permiso(Ana, 'sistema.operaciones.llamadas.recibir')
+ PermSvc->>DB: SELECT * FROM vista_capacidades_usuario WHERE usuario_id = Ana
+ DB-->>PermSvc: {capacidades: [..., 'recibir', ...]}
+ PermSvc-->>API: PERMITIDO
+ API->>IVR: get_call_info(123)
+ IVR-->>API: {cliente: "Juan Pérez", motivo: "Consulta"}
+ API-->>UI: {llamada: {id: 123, cliente: {...}}}
 
-    Ana->>UI: Acepta llamada
-    UI->>API: POST /api/llamadas/123/aceptar
-    API->>IVR: connect_call(123, Ana)
-    IVR-->>API: OK
-    API-->>UI: Llamada conectada
+ Ana->>UI: Acepta llamada
+ UI->>API: POST /api/llamadas/123/aceptar
+ API->>IVR: connect_call(123, Ana)
+ IVR-->>API: OK
+ API-->>UI: Llamada conectada
 
-    Ana->>UI: Consulta historial de cliente
-    UI->>API: GET /api/clientes/456/historial
-    API->>PermSvc: verificar_permiso(Ana, 'sistema.operaciones.clientes.ver')
-    PermSvc-->>API: PERMITIDO
-    API->>DB: SELECT * FROM clientes WHERE id = 456
-    DB-->>API: {historial: [...]}
-    API-->>UI: {historial_cliente: [...]}
+ Ana->>UI: Consulta historial de cliente
+ UI->>API: GET /api/clientes/456/historial
+ API->>PermSvc: verificar_permiso(Ana, 'sistema.operaciones.clientes.ver')
+ PermSvc-->>API: PERMITIDO
+ API->>DB: SELECT * FROM clientes WHERE id = 456
+ DB-->>API: {historial: [...]}
+ API-->>UI: {historial_cliente: [...]}
 
-    Ana->>UI: Crea ticket
-    UI->>API: POST /api/tickets/ {titulo: "Consulta...", cliente_id: 456}
-    API->>PermSvc: verificar_permiso(Ana, 'sistema.operaciones.tickets.crear')
-    PermSvc-->>API: PERMITIDO
-    API->>DB: INSERT INTO tickets (...)
-    DB-->>API: ticket_id: 789
-    API->>DB: INSERT INTO auditoria_permisos (usuario, accion, recurso)
-    API-->>UI: {ticket: {id: 789, estado: "abierto"}}
+ Ana->>UI: Crea ticket
+ UI->>API: POST /api/tickets/ {titulo: "Consulta...", cliente_id: 456}
+ API->>PermSvc: verificar_permiso(Ana, 'sistema.operaciones.tickets.crear')
+ PermSvc-->>API: PERMITIDO
+ API->>DB: INSERT INTO tickets (...)
+ DB-->>API: ticket_id: 789
+ API->>DB: INSERT INTO auditoria_permisos (usuario, accion, recurso)
+ API-->>UI: {ticket: {id: 789, estado: "abierto"}}
 
-    Ana->>UI: Intenta cerrar ticket
-    UI->>API: PATCH /api/tickets/789 {estado: "cerrado"}
-    API->>PermSvc: verificar_permiso(Ana, 'sistema.operaciones.tickets.cerrar')
-    PermSvc->>DB: SELECT * FROM vista_capacidades_usuario WHERE usuario_id = Ana
-    DB-->>PermSvc: {capacidades: [...]} (NO incluye 'cerrar')
-    PermSvc-->>API: DENEGADO
-    API->>DB: INSERT INTO auditoria_permisos (usuario, accion, resultado: 'denegado')
-    API-->>UI: 403 Forbidden: "No tiene permiso para cerrar tickets"
-    UI-->>Ana: Mensaje: "Debe ser asignado a un supervisor"
+ Ana->>UI: Intenta cerrar ticket
+ UI->>API: PATCH /api/tickets/789 {estado: "cerrado"}
+ API->>PermSvc: verificar_permiso(Ana, 'sistema.operaciones.tickets.cerrar')
+ PermSvc->>DB: SELECT * FROM vista_capacidades_usuario WHERE usuario_id = Ana
+ DB-->>PermSvc: {capacidades: [...]} (NO incluye 'cerrar')
+ PermSvc-->>API: DENEGADO
+ API->>DB: INSERT INTO auditoria_permisos (usuario, accion, resultado: 'denegado')
+ API-->>UI: 403 Forbidden: "No tiene permiso para cerrar tickets"
+ UI-->>Ana: Mensaje: "Debe ser asignado a un supervisor"
 ```
 
 ### Diagrama de Actividad: UC-005 - Crear Usuario
 
 ```mermaid
 flowchart TD
-    Start([Laura recibe solicitud]) --> Login[Laura accede a módulo de usuarios]
-    Login --> CheckPerm1{Sistema verifica<br>grupo administracion_usuarios}
-    CheckPerm1 -->|No tiene| Deny1[Acceso denegado]
-    CheckPerm1 -->|Tiene| ShowForm[Mostrar formulario de creación]
+ Start([Laura recibe solicitud]) --> Login[Laura accede a módulo de usuarios]
+ Login --> CheckPerm1{Sistema verifica<br>grupo administracion_usuarios}
+ CheckPerm1 -->|No tiene| Deny1[Acceso denegado]
+ CheckPerm1 -->|Tiene| ShowForm[Mostrar formulario de creación]
 
-    ShowForm --> FillForm[Laura completa datos del usuario]
-    FillForm --> ValidEmail{Email único?}
-    ValidEmail -->|No| ErrorEmail[Error: Email ya existe]
-    ErrorEmail --> CheckReactivate{Usuario existente<br>está suspendido?}
-    CheckReactivate -->|Sí| Reactivate[Laura reactiva cuenta existente]
-    CheckReactivate -->|No| FillForm
+ ShowForm --> FillForm[Laura completa datos del usuario]
+ FillForm --> ValidEmail{Email único?}
+ ValidEmail -->|No| ErrorEmail[Error: Email ya existe]
+ ErrorEmail --> CheckReactivate{Usuario existente<br>está suspendido?}
+ CheckReactivate -->|Sí| Reactivate[Laura reactiva cuenta existente]
+ CheckReactivate -->|No| FillForm
 
-    ValidEmail -->|Sí| SelectGroups[Laura selecciona grupos funcionales]
-    SelectGroups --> CheckSensitive{Algún grupo<br>es sensible?}
-    CheckSensitive -->|Sí| RequestApproval[Enviar solicitud de aprobación]
-    RequestApproval --> CreateUser[Crear usuario con grupos pendientes]
+ ValidEmail -->|Sí| SelectGroups[Laura selecciona grupos funcionales]
+ SelectGroups --> CheckSensitive{Algún grupo<br>es sensible?}
+ CheckSensitive -->|Sí| RequestApproval[Enviar solicitud de aprobación]
+ RequestApproval --> CreateUser[Crear usuario con grupos pendientes]
 
-    CheckSensitive -->|No| CreateUser2[Crear usuario con grupos asignados]
-    CreateUser2 --> GenPassword[Sistema genera contraseña temporal]
-    GenPassword --> SendEmail{Email enviado<br>correctamente?}
+ CheckSensitive -->|No| CreateUser2[Crear usuario con grupos asignados]
+ CreateUser2 --> GenPassword[Sistema genera contraseña temporal]
+ GenPassword --> SendEmail{Email enviado<br>correctamente?}
 
-    SendEmail -->|No| WarnLaura[Advertir a Laura sobre fallo de email]
-    WarnLaura --> ManualDeliver[Laura entrega credenciales manualmente]
+ SendEmail -->|No| WarnLaura[Advertir a Laura sobre fallo de email]
+ WarnLaura --> ManualDeliver[Laura entrega credenciales manualmente]
 
-    SendEmail -->|Sí| Audit[Registrar en auditoría]
-    ManualDeliver --> Audit
-    CreateUser --> Audit
-    Reactivate --> Audit
+ SendEmail -->|Sí| Audit[Registrar en auditoría]
+ ManualDeliver --> Audit
+ CreateUser --> Audit
+ Reactivate --> Audit
 
-    Audit --> Notify[Notificar a involucrados]
-    Notify --> End([Usuario creado/reactivado])
+ Audit --> Notify[Notificar a involucrados]
+ Notify --> End([Usuario creado/reactivado])
 
-    Deny1 --> End
+ Deny1 --> End
 ```
 
 ---
@@ -948,20 +948,20 @@ flowchart TD
 ### 1. Prioridad de Implementación
 
 1. **Fase 1 (Semana 1-2):** Casos UC-001 y UC-005
-   - Ana (operaciones básicas) y Laura (administración)
-   - Validar que permisos básicos funcionan correctamente
+ - Ana (operaciones básicas) y Laura (administración)
+ - Validar que permisos básicos funcionan correctamente
 
 2. **Fase 2 (Semana 3-4):** Caso UC-002
-   - Carlos (coordinación)
-   - Validar combinaciones de múltiples grupos
+ - Carlos (coordinación)
+ - Validar combinaciones de múltiples grupos
 
 3. **Fase 3 (Semana 5):** Caso UC-003
-   - María (calidad)
-   - Validar acceso a grabaciones y evaluaciones
+ - María (calidad)
+ - Validar acceso a grabaciones y evaluaciones
 
 4. **Fase 4 (Semana 6):** Caso UC-004
-   - Roberto (finanzas)
-   - Validar aprobaciones y workflows financieros
+ - Roberto (finanzas)
+ - Validar aprobaciones y workflows financieros
 
 ### 2. Tests de Aceptación
 

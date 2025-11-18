@@ -24,23 +24,23 @@ date: 2025-01-17
 El proyecto IACT necesita ejecutar tareas programadas periódicas para operaciones críticas:
 
 1. **ETL de Sincronización:**
-   - Sincronizar datos IVR → PostgreSQL cada 6 horas
-   - Batch size: 1000 registros por ejecución
-   - Ventana de ejecución: 24/7
+ - Sincronizar datos IVR → PostgreSQL cada 6 horas
+ - Batch size: 1000 registros por ejecución
+ - Ventana de ejecución: 24/7
 
 2. **Limpieza de Logs:**
-   - Rotación de logs de aplicación (30 días)
-   - Rotación de logs de acceso (90 días)
-   - Archivado de logs de auditoría (730 días)
+ - Rotación de logs de aplicación (30 días)
+ - Rotación de logs de acceso (90 días)
+ - Archivado de logs de auditoría (730 días)
 
 3. **Tareas de Mantenimiento:**
-   - Cleanup de sesiones expiradas
-   - Actualización de métricas agregadas
-   - Verificación de integridad de datos
+ - Cleanup de sesiones expiradas
+ - Actualización de métricas agregadas
+ - Verificación de integridad de datos
 
 4. **Generación de Reportes:**
-   - Reportes diarios automáticos
-   - Métricas de negocio consolidadas
+ - Reportes diarios automáticos
+ - Métricas de negocio consolidadas
 
 **RESTRICCIÓN CRÍTICA:**
 El cliente tiene una política estricta de infraestructura:
@@ -116,37 +116,37 @@ from apscheduler.executors.pool import ThreadPoolExecutor
 from django_apscheduler.jobstores import DjangoJobStore
 
 def start_scheduler():
-    scheduler = BackgroundScheduler({
-        "apscheduler.executors.default": {
-            "class": "apscheduler.executors.pool:ThreadPoolExecutor",
-            "max_workers": "5",
-        },
-        "apscheduler.jobstores.default": {
-            "type": "sqlalchemy",
-            "url": "postgresql://...",  # Usa nuestra PostgreSQL existente
-        },
-    })
+ scheduler = BackgroundScheduler({
+ "apscheduler.executors.default": {
+ "class": "apscheduler.executors.pool:ThreadPoolExecutor",
+ "max_workers": "5",
+ },
+ "apscheduler.jobstores.default": {
+ "type": "sqlalchemy",
+ "url": "postgresql://...", # Usa nuestra PostgreSQL existente
+ },
+ })
 
-    # ETL cada 6 horas
-    scheduler.add_job(
-        func=sync_ivr_data,
-        trigger="interval",
-        hours=6,
-        id="etl_ivr_sync",
-        replace_existing=True,
-    )
+ # ETL cada 6 horas
+ scheduler.add_job(
+ func=sync_ivr_data,
+ trigger="interval",
+ hours=6,
+ id="etl_ivr_sync",
+ replace_existing=True,
+ )
 
-    # Cleanup logs diario a las 2am
-    scheduler.add_job(
-        func=cleanup_logs,
-        trigger="cron",
-        hour=2,
-        minute=0,
-        id="cleanup_logs",
-        replace_existing=True,
-    )
+ # Cleanup logs diario a las 2am
+ scheduler.add_job(
+ func=cleanup_logs,
+ trigger="cron",
+ hour=2,
+ minute=0,
+ id="cleanup_logs",
+ replace_existing=True,
+ )
 
-    scheduler.start()
+ scheduler.start()
 ```
 
 ---
@@ -301,53 +301,53 @@ from apscheduler.executors.pool import ThreadPoolExecutor
 from django.conf import settings
 
 class AppScheduler:
-    scheduler = None
+ scheduler = None
 
-    @classmethod
-    def start(cls):
-        if cls.scheduler is None:
-            cls.scheduler = BackgroundScheduler({
-                "apscheduler.executors.default": {
-                    "class": "apscheduler.executors.pool:ThreadPoolExecutor",
-                    "max_workers": "5",
-                },
-                "apscheduler.job_defaults.coalesce": "true",
-                "apscheduler.job_defaults.max_instances": "1",
-                "apscheduler.timezone": settings.TIME_ZONE,
-            })
+ @classmethod
+ def start(cls):
+ if cls.scheduler is None:
+ cls.scheduler = BackgroundScheduler({
+ "apscheduler.executors.default": {
+ "class": "apscheduler.executors.pool:ThreadPoolExecutor",
+ "max_workers": "5",
+ },
+ "apscheduler.job_defaults.coalesce": "true",
+ "apscheduler.job_defaults.max_instances": "1",
+ "apscheduler.timezone": settings.TIME_ZONE,
+ })
 
-            # ETL cada 6 horas
-            from callcentersite.apps.etl.tasks import sync_ivr_data
-            cls.scheduler.add_job(
-                func=sync_ivr_data,
-                trigger="interval",
-                hours=settings.ETL_FREQUENCY_HOURS,
-                id="etl_ivr_sync",
-                replace_existing=True,
-            )
+ # ETL cada 6 horas
+ from callcentersite.apps.etl.tasks import sync_ivr_data
+ cls.scheduler.add_job(
+ func=sync_ivr_data,
+ trigger="interval",
+ hours=settings.ETL_FREQUENCY_HOURS,
+ id="etl_ivr_sync",
+ replace_existing=True,
+ )
 
-            # Cleanup logs diario a las 2am
-            from callcentersite.apps.common.tasks import cleanup_logs
-            cls.scheduler.add_job(
-                func=cleanup_logs,
-                trigger="cron",
-                hour=2,
-                minute=0,
-                id="cleanup_logs",
-                replace_existing=True,
-            )
+ # Cleanup logs diario a las 2am
+ from callcentersite.apps.common.tasks import cleanup_logs
+ cls.scheduler.add_job(
+ func=cleanup_logs,
+ trigger="cron",
+ hour=2,
+ minute=0,
+ id="cleanup_logs",
+ replace_existing=True,
+ )
 
-            # Cleanup sesiones expiradas cada hora
-            from callcentersite.apps.common.tasks import cleanup_sessions
-            cls.scheduler.add_job(
-                func=cleanup_sessions,
-                trigger="cron",
-                minute=0,
-                id="cleanup_sessions",
-                replace_existing=True,
-            )
+ # Cleanup sesiones expiradas cada hora
+ from callcentersite.apps.common.tasks import cleanup_sessions
+ cls.scheduler.add_job(
+ func=cleanup_sessions,
+ trigger="cron",
+ minute=0,
+ id="cleanup_sessions",
+ replace_existing=True,
+ )
 
-            cls.scheduler.start()
+ cls.scheduler.start()
 ```
 
 ### Fase 3: Django Integration - COMPLETADO
@@ -357,16 +357,16 @@ class AppScheduler:
 from django.apps import AppConfig
 
 class CommonConfig(AppConfig):
-    default_auto_field = "django.db.models.BigAutoField"
-    name = "callcentersite.apps.common"
+ default_auto_field = "django.db.models.BigAutoField"
+ name = "callcentersite.apps.common"
 
-    def ready(self):
-        # Solo iniciar scheduler en proceso principal
-        # No en migrations, tests, etc.
-        import os
-        if os.environ.get("RUN_MAIN") == "true":
-            from .scheduler import AppScheduler
-            AppScheduler.start()
+ def ready(self):
+ # Solo iniciar scheduler en proceso principal
+ # No en migrations, tests, etc.
+ import os
+ if os.environ.get("RUN_MAIN") == "true":
+ from .scheduler import AppScheduler
+ AppScheduler.start()
 ```
 
 ### Fase 4: Task Implementation - COMPLETADO
@@ -380,40 +380,40 @@ from datetime import timedelta
 logger = logging.getLogger(__name__)
 
 def sync_ivr_data():
-    """ETL: Sincroniza datos IVR → PostgreSQL."""
-    logger.info("ETL: Iniciando sincronización IVR")
-    start_time = timezone.now()
+ """ETL: Sincroniza datos IVR → PostgreSQL."""
+ logger.info("ETL: Iniciando sincronización IVR")
+ start_time = timezone.now()
 
-    try:
-        from .services import IVRETLService
+ try:
+ from .services import IVRETLService
 
-        # Sincronizar últimas 6 horas
-        since = timezone.now() - timedelta(hours=6)
-        result = IVRETLService.sync_llamadas(since=since)
+ # Sincronizar últimas 6 horas
+ since = timezone.now() - timedelta(hours=6)
+ result = IVRETLService.sync_llamadas(since=since)
 
-        duration = (timezone.now() - start_time).total_seconds()
-        logger.info(
-            f"ETL: Sincronización completada. "
-            f"Procesados: {result['processed']}, "
-            f"Errores: {result['errors']}, "
-            f"Duración: {duration:.2f}s"
-        )
+ duration = (timezone.now() - start_time).total_seconds()
+ logger.info(
+ f"ETL: Sincronización completada. "
+ f"Procesados: {result['processed']}, "
+ f"Errores: {result['errors']}, "
+ f"Duración: {duration:.2f}s"
+ )
 
-    except Exception as e:
-        logger.error(f"ETL: Error en sincronización: {e}", exc_info=True)
-        raise
+ except Exception as e:
+ logger.error(f"ETL: Error en sincronización: {e}", exc_info=True)
+ raise
 
 # apps/common/tasks.py
 def cleanup_logs():
-    """Limpia logs antiguos según política de retención."""
-    logger.info("Cleanup: Iniciando limpieza de logs")
-    # Implementación...
+ """Limpia logs antiguos según política de retención."""
+ logger.info("Cleanup: Iniciando limpieza de logs")
+ # Implementación...
 
 def cleanup_sessions():
-    """Elimina sesiones expiradas de la base de datos."""
-    from django.core.management import call_command
-    call_command("clearsessions")
-    logger.info("Cleanup: Sesiones expiradas eliminadas")
+ """Elimina sesiones expiradas de la base de datos."""
+ from django.core.management import call_command
+ call_command("clearsessions")
+ logger.info("Cleanup: Sesiones expiradas eliminadas")
 ```
 
 ---
@@ -424,34 +424,34 @@ def cleanup_sessions():
 
 | Métrica | Target | Actual | Estado |
 |---------|--------|--------|--------|
-| Jobs programados | 3+ | 3 | ✓ OK |
-| Ejecución ETL | Cada 6h | Cada 6h | ✓ OK |
-| Cleanup logs | Diario 2am | Diario 2am | ✓ OK |
-| Cleanup sessions | Cada hora | Cada hora | ✓ OK |
-| Fallos de scheduler | <1% | 0% | ✓ OK |
-| Overhead RAM | <20MB | ~10MB | ✓ OK |
-| Thread pool workers | 5 | 5 | ✓ OK |
+| Jobs programados | 3+ | 3 | OK OK |
+| Ejecución ETL | Cada 6h | Cada 6h | OK OK |
+| Cleanup logs | Diario 2am | Diario 2am | OK OK |
+| Cleanup sessions | Cada hora | Cada hora | OK OK |
+| Fallos de scheduler | <1% | 0% | OK OK |
+| Overhead RAM | <20MB | ~10MB | OK OK |
+| Thread pool workers | 5 | 5 | OK OK |
 
 ### KPIs de Confiabilidad
 
 ```yaml
 Ejecución:
-  - Jobs ejecutados on-time: >99%
-  - Fallos por crash: 0
-  - Reinicio automático: <5 segundos (systemd)
-  - Logs de ejecución: 100% capturados
+ - Jobs ejecutados on-time: >99%
+ - Fallos por crash: 0
+ - Reinicio automático: <5 segundos (systemd)
+ - Logs de ejecución: 100% capturados
 
 Performance:
-  - Overhead CPU: <1%
-  - Overhead RAM: ~10MB
-  - Thread pool saturation: 0%
-  - ETL duration: ~2 minutos (1000 registros)
+ - Overhead CPU: <1%
+ - Overhead RAM: ~10MB
+ - Thread pool saturation: 0%
+ - ETL duration: ~2 minutos (1000 registros)
 
 Compliance:
-  - Redis usado: NO
-  - RabbitMQ usado: NO
-  - Servicios externos: NO
-  - Logs audit trail: 100%
+ - Redis usado: NO
+ - RabbitMQ usado: NO
+ - Servicios externos: NO
+ - Logs audit trail: 100%
 ```
 
 ---

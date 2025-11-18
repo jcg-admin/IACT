@@ -3,7 +3,7 @@
 ## Metadatos
 - **ID**: TASK-060
 - **Fase**: FASE 4 - Validación y Limpieza
-- **Prioridad**: ALTA 🟡
+- **Prioridad**: ALTA 
 - **Estimación**: 20 minutos
 - **Estado**: PENDIENTE
 - **Metodología**: Auto-CoT + Self-Consistency
@@ -131,14 +131,14 @@ Actualizar el README.md principal de docs/backend/ para reflejar la nueva estruc
 
 ## Entregables
 1. **docs/backend/README.md** (Actualizado)
-   - Contenido completo y actualizado
-   - Enlaces válidos
-   - Estructura clara
+ - Contenido completo y actualizado
+ - Enlaces válidos
+ - Estructura clara
 
 2. **CAMBIOS-README.md**
-   - Diff de cambios principales
-   - Justificación de actualizaciones
-   - Secciones añadidas/removidas
+ - Diff de cambios principales
+ - Justificación de actualizaciones
+ - Secciones añadidas/removidas
 
 ## Estructura Propuesta del README
 
@@ -178,15 +178,15 @@ del lado del servidor del sistema IACT.
 ## Estructura de Carpetas
 
 docs/backend/
-├── core/              # Servicios core del sistema
-├── packages/          # Paquetes reutilizables
-├── components/        # Componentes de backend
-├── services/          # Microservicios
-├── utils/             # Utilidades y helpers
-├── config/            # Configuraciones
-├── docs/              # Documentación técnica
-├── tests/             # Tests integración
-└── legacy/            # Código legacy (deprecado)
+ core/ # Servicios core del sistema
+ packages/ # Paquetes reutilizables
+ components/ # Componentes de backend
+ services/ # Microservicios
+ utils/ # Utilidades y helpers
+ config/ # Configuraciones
+ docs/ # Documentación técnica
+ tests/ # Tests integración
+ legacy/ # Código legacy (deprecado)
 
 Para descripción detallada de cada carpeta, ver [Guía de Navegación](./docs/GUIA_NAVEGACION_BACKEND.md)
 ```

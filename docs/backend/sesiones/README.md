@@ -25,4 +25,3 @@ YYYY_MM_DD_descripcion_sesion.md
 
 - Sesiones transversales: ../../gobernanza/sesiones/
 - Otros dominios: Ver estructura similar en otros directorios de dominio
-

@@ -8,11 +8,11 @@ prioridad: ALTA
 duracion_estimada: 20min
 estado: pendiente
 dependencias:
-  - TASK-001
-  - TASK-002
-  - TASK-003
-  - TASK-004
-  - TASK-005
+ - TASK-001
+ - TASK-002
+ - TASK-003
+ - TASK-004
+ - TASK-005
 ---
 
 # TASK-REORG-BACK-006: Identificar Decisiones Arquitectonicas Existentes
@@ -53,8 +53,8 @@ Identificar y catalogar todos los documentos existentes en docs/backend que repr
 ```bash
 # Buscar documentos relacionados con arquitectura
 find /home/user/IACT/docs/backend -type f -name "*.md" | \
-  xargs grep -l -i "arquitectura\|architecture\|patron\|pattern" | \
-  tee /home/user/IACT/docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/TASK-006-identificar-decisiones-arquitectonicas/evidencias/arquitectura-general.txt
+ xargs grep -l -i "arquitectura\|architecture\|patron\|pattern" | \
+ tee /home/user/IACT/docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/TASK-006-identificar-decisiones-arquitectonicas/evidencias/arquitectura-general.txt
 
 # Revisar manualmente cada archivo encontrado
 cat /home/user/IACT/docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/TASK-006-identificar-decisiones-arquitectonicas/evidencias/arquitectura-general.txt
@@ -69,8 +69,8 @@ cat /home/user/IACT/docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/TASK-006-
 ```bash
 # Buscar decisiones tecnologicas
 find /home/user/IACT/docs/backend -type f -name "*.md" | \
-  xargs grep -l -i "django\|drf\|rest.*framework\|tecnologia\|technology\|eleccion\|choice" | \
-  tee /home/user/IACT/docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/TASK-006-identificar-decisiones-arquitectonicas/evidencias/tecnologias.txt
+ xargs grep -l -i "django\|drf\|rest.*framework\|tecnologia\|technology\|eleccion\|choice" | \
+ tee /home/user/IACT/docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/TASK-006-identificar-decisiones-arquitectonicas/evidencias/tecnologias.txt
 
 cat /home/user/IACT/docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/TASK-006-identificar-decisiones-arquitectonicas/evidencias/tecnologias.txt
 ```
@@ -84,8 +84,8 @@ cat /home/user/IACT/docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/TASK-006-
 ```bash
 # Buscar decisiones de base de datos
 find /home/user/IACT/docs/backend -type f -name "*.md" | \
-  xargs grep -l -i "base.*datos\|database\|migration\|schema\|modelo" | \
-  tee /home/user/IACT/docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/TASK-006-identificar-decisiones-arquitectonicas/evidencias/base-datos.txt
+ xargs grep -l -i "base.*datos\|database\|migration\|schema\|modelo" | \
+ tee /home/user/IACT/docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/TASK-006-identificar-decisiones-arquitectonicas/evidencias/base-datos.txt
 
 cat /home/user/IACT/docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/TASK-006-identificar-decisiones-arquitectonicas/evidencias/base-datos.txt
 ```
@@ -99,8 +99,8 @@ cat /home/user/IACT/docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/TASK-006-
 ```bash
 # Buscar decisiones de API
 find /home/user/IACT/docs/backend -type f -name "*.md" | \
-  xargs grep -l -i "api\|endpoint\|rest\|serializer" | \
-  tee /home/user/IACT/docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/TASK-006-identificar-decisiones-arquitectonicas/evidencias/apis.txt
+ xargs grep -l -i "api\|endpoint\|rest\|serializer" | \
+ tee /home/user/IACT/docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/TASK-006-identificar-decisiones-arquitectonicas/evidencias/apis.txt
 
 cat /home/user/IACT/docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/TASK-006-identificar-decisiones-arquitectonicas/evidencias/apis.txt
 ```
@@ -114,8 +114,8 @@ cat /home/user/IACT/docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/TASK-006-
 ```bash
 # Buscar decisiones de seguridad
 find /home/user/IACT/docs/backend -type f -name "*.md" | \
-  xargs grep -l -i "permiso\|permission\|autenticacion\|authentication\|seguridad\|security\|rbac" | \
-  tee /home/user/IACT/docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/TASK-006-identificar-decisiones-arquitectonicas/evidencias/seguridad-permisos.txt
+ xargs grep -l -i "permiso\|permission\|autenticacion\|authentication\|seguridad\|security\|rbac" | \
+ tee /home/user/IACT/docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/TASK-006-identificar-decisiones-arquitectonicas/evidencias/seguridad-permisos.txt
 
 cat /home/user/IACT/docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/TASK-006-identificar-decisiones-arquitectonicas/evidencias/seguridad-permisos.txt
 ```
@@ -135,7 +135,7 @@ ls -la /home/user/IACT/docs/backend/feasibility/ 2>/dev/null
 
 # Listar todos los .md en estas carpetas
 find /home/user/IACT/docs/backend/{arquitectura,diseno,analisis,feasibility} -type f -name "*.md" 2>/dev/null | \
-  tee /home/user/IACT/docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/TASK-006-identificar-decisiones-arquitectonicas/evidencias/carpetas-candidatas.txt
+ tee /home/user/IACT/docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/TASK-006-identificar-decisiones-arquitectonicas/evidencias/carpetas-candidatas.txt
 ```
 
 **Resultado Esperado:** Lista de archivos en carpetas de diseño/arquitectura

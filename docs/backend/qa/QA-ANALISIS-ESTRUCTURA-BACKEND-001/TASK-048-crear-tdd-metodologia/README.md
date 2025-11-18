@@ -119,66 +119,66 @@ autores: [Tech Lead, QA Lead]
 > - Kent Beck
 
 ### Beneficios
-- ✅ **Alta cobertura:** Tests escritos para cada feature
-- ✅ **Mejor diseño:** Codigo testeable por construccion
-- ✅ **Confianza:** Refactorizar sin miedo a romper funcionalidad
-- ✅ **Documentacion:** Tests describen comportamiento esperado
-- ✅ **Menos bugs:** Problemas detectados temprano
+- [OK] **Alta cobertura:** Tests escritos para cada feature
+- [OK] **Mejor diseño:** Codigo testeable por construccion
+- [OK] **Confianza:** Refactorizar sin miedo a romper funcionalidad
+- [OK] **Documentacion:** Tests describen comportamiento esperado
+- [OK] **Menos bugs:** Problemas detectados temprano
 
 ### Anti-Beneficios (Mitos)
-- ❌ "TDD es lento" → Falso a largo plazo (menos debugging)
-- ❌ "TDD no funciona para UI" → Falso (usar mocks/stubs)
-- ❌ "100% coverage = 0 bugs" → Falso (coverage no es calidad)
+- [ERROR] "TDD es lento" → Falso a largo plazo (menos debugging)
+- [ERROR] "TDD no funciona para UI" → Falso (usar mocks/stubs)
+- [ERROR] "100% coverage = 0 bugs" → Falso (coverage no es calidad)
 
 ---
 
 ## Ciclo Red-Green-Refactor
 
-### 1️⃣ RED: Escribir Test Fallido
+### 1⃣ RED: Escribir Test Fallido
 ```typescript
 // user.service.spec.ts
 describe('UserService', () => {
-  it('should create user with valid data', async () => {
-    const userData = { email: 'test@example.com', name: 'Test User' };
-    const user = await userService.create(userData);
+ it('should create user with valid data', async () => {
+ const userData = { email: 'test@example.com', name: 'Test User' };
+ const user = await userService.create(userData);
 
-    expect(user).toBeDefined();
-    expect(user.email).toBe('test@example.com');
-    expect(user.id).toBeDefined();
-  });
+ expect(user).toBeDefined();
+ expect(user.email).toBe('test@example.com');
+ expect(user.id).toBeDefined();
+ });
 });
 ```
-**Estado:** ❌ Test falla (UserService.create no existe)
+**Estado:** [ERROR] Test falla (UserService.create no existe)
 
-### 2️⃣ GREEN: Escribir Codigo Minimo para Pasar
+### 2⃣ GREEN: Escribir Codigo Minimo para Pasar
 ```typescript
 // user.service.ts
 class UserService {
-  async create(userData: { email: string; name: string }) {
-    return {
-      id: '123',  // Hardcoded (minimo para pasar)
-      ...userData
-    };
-  }
+ async create(userData: { email: string; name: string }) {
+ return {
+ id: '123', // Hardcoded (minimo para pasar)
+ ...userData
+ };
+ }
 }
 ```
-**Estado:** ✅ Test pasa
+**Estado:** [OK] Test pasa
 
-### 3️⃣ REFACTOR: Mejorar Diseño Sin Cambiar Comportamiento
+### 3⃣ REFACTOR: Mejorar Diseño Sin Cambiar Comportamiento
 ```typescript
 // user.service.ts (refactored)
 class UserService {
-  constructor(private userRepository: UserRepository) {}
+ constructor(private userRepository: UserRepository) {}
 
-  async create(userData: CreateUserDto): Promise<User> {
-    const user = new User(userData);
-    return await this.userRepository.save(user);
-  }
+ async create(userData: CreateUserDto): Promise<User> {
+ const user = new User(userData);
+ return await this.userRepository.save(user);
+ }
 }
 ```
-**Estado:** ✅ Tests siguen pasando, diseño mejorado
+**Estado:** [OK] Tests siguen pasando, diseño mejorado
 
-### 4️⃣ REPETIR
+### 4⃣ REPETIR
 Escribir siguiente test → Red → Green → Refactor → ...
 
 ---
@@ -209,47 +209,47 @@ Escribir siguiente test → Red → Green → Refactor → ...
 ```typescript
 // payment.service.spec.ts
 describe('PaymentService', () => {
-  let service: PaymentService;
-  let mockPaymentGateway: jest.Mocked<PaymentGateway>;
-  let mockOrderRepository: jest.Mocked<OrderRepository>;
+ let service: PaymentService;
+ let mockPaymentGateway: jest.Mocked<PaymentGateway>;
+ let mockOrderRepository: jest.Mocked<OrderRepository>;
 
-  beforeEach(() => {
-    mockPaymentGateway = createMock<PaymentGateway>();
-    mockOrderRepository = createMock<OrderRepository>();
-    service = new PaymentService(mockPaymentGateway, mockOrderRepository);
-  });
+ beforeEach(() => {
+ mockPaymentGateway = createMock<PaymentGateway>();
+ mockOrderRepository = createMock<OrderRepository>();
+ service = new PaymentService(mockPaymentGateway, mockOrderRepository);
+ });
 
-  describe('processPayment', () => {
-    it('should charge payment gateway and update order status', async () => {
-      // ARRANGE
-      const order = { id: '123', total: 100, status: 'pending' };
-      mockPaymentGateway.charge.mockResolvedValue({ success: true, transactionId: 'tx-456' });
-      mockOrderRepository.findById.mockResolvedValue(order);
+ describe('processPayment', () => {
+ it('should charge payment gateway and update order status', async () => {
+ // ARRANGE
+ const order = { id: '123', total: 100, status: 'pending' };
+ mockPaymentGateway.charge.mockResolvedValue({ success: true, transactionId: 'tx-456' });
+ mockOrderRepository.findById.mockResolvedValue(order);
 
-      // ACT
-      const result = await service.processPayment('123');
+ // ACT
+ const result = await service.processPayment('123');
 
-      // ASSERT
-      expect(mockPaymentGateway.charge).toHaveBeenCalledWith({ amount: 100, orderId: '123' });
-      expect(mockOrderRepository.updateStatus).toHaveBeenCalledWith('123', 'paid');
-      expect(result.success).toBe(true);
-    });
+ // ASSERT
+ expect(mockPaymentGateway.charge).toHaveBeenCalledWith({ amount: 100, orderId: '123' });
+ expect(mockOrderRepository.updateStatus).toHaveBeenCalledWith('123', 'paid');
+ expect(result.success).toBe(true);
+ });
 
-    it('should not update order if payment fails', async () => {
-      // ARRANGE
-      const order = { id: '123', total: 100, status: 'pending' };
-      mockPaymentGateway.charge.mockResolvedValue({ success: false, error: 'Insufficient funds' });
-      mockOrderRepository.findById.mockResolvedValue(order);
+ it('should not update order if payment fails', async () => {
+ // ARRANGE
+ const order = { id: '123', total: 100, status: 'pending' };
+ mockPaymentGateway.charge.mockResolvedValue({ success: false, error: 'Insufficient funds' });
+ mockOrderRepository.findById.mockResolvedValue(order);
 
-      // ACT
-      const result = await service.processPayment('123');
+ // ACT
+ const result = await service.processPayment('123');
 
-      // ASSERT
-      expect(mockOrderRepository.updateStatus).not.toHaveBeenCalled();
-      expect(result.success).toBe(false);
-      expect(result.error).toBe('Insufficient funds');
-    });
-  });
+ // ASSERT
+ expect(mockOrderRepository.updateStatus).not.toHaveBeenCalled();
+ expect(result.success).toBe(false);
+ expect(result.error).toBe('Insufficient funds');
+ });
+ });
 });
 ```
 
@@ -257,25 +257,25 @@ describe('PaymentService', () => {
 ```typescript
 // payment.service.ts
 class PaymentService {
-  constructor(
-    private paymentGateway: PaymentGateway,
-    private orderRepository: OrderRepository
-  ) {}
+ constructor(
+ private paymentGateway: PaymentGateway,
+ private orderRepository: OrderRepository
+ ) {}
 
-  async processPayment(orderId: string) {
-    const order = await this.orderRepository.findById(orderId);
-    const paymentResult = await this.paymentGateway.charge({
-      amount: order.total,
-      orderId: order.id
-    });
+ async processPayment(orderId: string) {
+ const order = await this.orderRepository.findById(orderId);
+ const paymentResult = await this.paymentGateway.charge({
+ amount: order.total,
+ orderId: order.id
+ });
 
-    if (paymentResult.success) {
-      await this.orderRepository.updateStatus(orderId, 'paid');
-      return { success: true, transactionId: paymentResult.transactionId };
-    }
+ if (paymentResult.success) {
+ await this.orderRepository.updateStatus(orderId, 'paid');
+ return { success: true, transactionId: paymentResult.transactionId };
+ }
 
-    return { success: false, error: paymentResult.error };
-  }
+ return { success: false, error: paymentResult.error };
+ }
 }
 ```
 
@@ -288,48 +288,48 @@ class PaymentService {
 ```typescript
 // user.controller.spec.ts
 describe('UserController', () => {
-  let controller: UserController;
-  let mockUserService: jest.Mocked<UserService>;
+ let controller: UserController;
+ let mockUserService: jest.Mocked<UserService>;
 
-  beforeEach(() => {
-    mockUserService = createMock<UserService>();
-    controller = new UserController(mockUserService);
-  });
+ beforeEach(() => {
+ mockUserService = createMock<UserService>();
+ controller = new UserController(mockUserService);
+ });
 
-  describe('POST /users', () => {
-    it('should return 201 and created user', async () => {
-      // ARRANGE
-      const createUserDto = { email: 'test@example.com', name: 'Test' };
-      const createdUser = { id: '123', ...createUserDto };
-      mockUserService.create.mockResolvedValue(createdUser);
+ describe('POST /users', () => {
+ it('should return 201 and created user', async () => {
+ // ARRANGE
+ const createUserDto = { email: 'test@example.com', name: 'Test' };
+ const createdUser = { id: '123', ...createUserDto };
+ mockUserService.create.mockResolvedValue(createdUser);
 
-      const req = { body: createUserDto };
-      const res = { status: jest.fn().mockReturnThis(), json: jest.fn() };
+ const req = { body: createUserDto };
+ const res = { status: jest.fn().mockReturnThis(), json: jest.fn() };
 
-      // ACT
-      await controller.createUser(req, res);
+ // ACT
+ await controller.createUser(req, res);
 
-      // ASSERT
-      expect(res.status).toHaveBeenCalledWith(201);
-      expect(res.json).toHaveBeenCalledWith(createdUser);
-      expect(mockUserService.create).toHaveBeenCalledWith(createUserDto);
-    });
+ // ASSERT
+ expect(res.status).toHaveBeenCalledWith(201);
+ expect(res.json).toHaveBeenCalledWith(createdUser);
+ expect(mockUserService.create).toHaveBeenCalledWith(createUserDto);
+ });
 
-    it('should return 400 if email is invalid', async () => {
-      // ARRANGE
-      const invalidDto = { email: 'invalid-email', name: 'Test' };
-      const req = { body: invalidDto };
-      const res = { status: jest.fn().mockReturnThis(), json: jest.fn() };
+ it('should return 400 if email is invalid', async () => {
+ // ARRANGE
+ const invalidDto = { email: 'invalid-email', name: 'Test' };
+ const req = { body: invalidDto };
+ const res = { status: jest.fn().mockReturnThis(), json: jest.fn() };
 
-      // ACT
-      await controller.createUser(req, res);
+ // ACT
+ await controller.createUser(req, res);
 
-      // ASSERT
-      expect(res.status).toHaveBeenCalledWith(400);
-      expect(res.json).toHaveBeenCalledWith({ error: 'Invalid email' });
-      expect(mockUserService.create).not.toHaveBeenCalled();
-    });
-  });
+ // ASSERT
+ expect(res.status).toHaveBeenCalledWith(400);
+ expect(res.json).toHaveBeenCalledWith({ error: 'Invalid email' });
+ expect(mockUserService.create).not.toHaveBeenCalled();
+ });
+ });
 });
 ```
 
@@ -342,41 +342,41 @@ describe('UserController', () => {
 ```typescript
 // user.repository.spec.ts (integration test)
 describe('UserRepository', () => {
-  let repository: UserRepository;
-  let testDb: Database;
+ let repository: UserRepository;
+ let testDb: Database;
 
-  beforeEach(async () => {
-    testDb = await setupTestDatabase();  // In-memory DB o test container
-    repository = new UserRepository(testDb);
-  });
+ beforeEach(async () => {
+ testDb = await setupTestDatabase(); // In-memory DB o test container
+ repository = new UserRepository(testDb);
+ });
 
-  afterEach(async () => {
-    await testDb.cleanup();
-  });
+ afterEach(async () => {
+ await testDb.cleanup();
+ });
 
-  it('should save user to database', async () => {
-    // ARRANGE
-    const userData = { email: 'test@example.com', name: 'Test User' };
+ it('should save user to database', async () => {
+ // ARRANGE
+ const userData = { email: 'test@example.com', name: 'Test User' };
 
-    // ACT
-    const savedUser = await repository.save(userData);
+ // ACT
+ const savedUser = await repository.save(userData);
 
-    // ASSERT
-    expect(savedUser.id).toBeDefined();
+ // ASSERT
+ expect(savedUser.id).toBeDefined();
 
-    const foundUser = await repository.findById(savedUser.id);
-    expect(foundUser.email).toBe('test@example.com');
-  });
+ const foundUser = await repository.findById(savedUser.id);
+ expect(foundUser.email).toBe('test@example.com');
+ });
 
-  it('should throw error if email already exists', async () => {
-    // ARRANGE
-    await repository.save({ email: 'test@example.com', name: 'User 1' });
+ it('should throw error if email already exists', async () => {
+ // ARRANGE
+ await repository.save({ email: 'test@example.com', name: 'User 1' });
 
-    // ACT & ASSERT
-    await expect(
-      repository.save({ email: 'test@example.com', name: 'User 2' })
-    ).rejects.toThrow('Email already exists');
-  });
+ // ACT & ASSERT
+ await expect(
+ repository.save({ email: 'test@example.com', name: 'User 2' })
+ ).rejects.toThrow('Email already exists');
+ });
 });
 ```
 
@@ -387,13 +387,13 @@ describe('UserRepository', () => {
 ### Piramide de Testing
 
 ```
-        /\
-       /E2E\       (Pocos, lentos, alto valor)
-      /------\
-     /  API  \     (Moderados, medios, integracion)
-    /--------\
-   /   UNIT   \    (Muchos, rapidos, bajo nivel)
-  /------------\
+ /\
+ /E2E\ (Pocos, lentos, alto valor)
+ /------\
+ / API \ (Moderados, medios, integracion)
+ /--------\
+ / UNIT \ (Muchos, rapidos, bajo nivel)
+ /------------\
 ```
 
 **Distribucion Recomendada:**
@@ -414,7 +414,7 @@ describe('UserRepository', () => {
 
 ## Mejores Practicas TDD Backend
 
-### ✅ DO
+### [OK] DO
 
 1. **Escribir test primero** (siempre, incluso si es dificil)
 2. **Tests pequeños y enfocados** (1 assert por test ideal)
@@ -425,7 +425,7 @@ describe('UserRepository', () => {
 7. **Tests independientes:** Cada test puede correr solo
 8. **Refactor con tests verdes:** Solo refactorear cuando tests pasan
 
-### ❌ DON'T
+### [ERROR] DON'T
 
 1. **Tests que dependen de orden de ejecucion**
 2. **Tests que comparten estado** (usar beforeEach/afterEach)
@@ -509,8 +509,8 @@ Codigo sin tests es dificil de testear (dependencies hardcoded, side effects, et
 1. **Characterization Tests:** Documentar comportamiento actual
 ```typescript
 it('should behave as it currently does (characterization)', () => {
-  const result = legacyFunction(input);
-  expect(result).toBe(currentBehavior);  // Capturar comportamiento actual
+ const result = legacyFunction(input);
+ expect(result).toBe(currentBehavior); // Capturar comportamiento actual
 });
 ```
 
@@ -518,19 +518,19 @@ it('should behave as it currently does (characterization)', () => {
 ```typescript
 // ANTES (no testeable)
 class LegacyService {
-  doSomething() {
-    const db = new Database();  // Dependency hardcoded
-    return db.query('SELECT * FROM users');
-  }
+ doSomething() {
+ const db = new Database(); // Dependency hardcoded
+ return db.query('SELECT * FROM users');
+ }
 }
 
 // DESPUES (testeable)
 class RefactoredService {
-  constructor(private db: Database) {}  // Dependency injection
+ constructor(private db: Database) {} // Dependency injection
 
-  doSomething() {
-    return this.db.query('SELECT * FROM users');
-  }
+ doSomething() {
+ return this.db.query('SELECT * FROM users');
+ }
 }
 ```
 
@@ -600,23 +600,23 @@ class RefactoredService {
 **RED: Test fallido**
 ```typescript
 it('should add item to cart and return updated cart', async () => {
-  const cart = await cartService.addItem('user-123', { productId: 'prod-456', quantity: 2 });
-  expect(cart.items).toHaveLength(1);
-  expect(cart.items[0].productId).toBe('prod-456');
-  expect(cart.total).toBe(39.98);  // 2 * $19.99
+ const cart = await cartService.addItem('user-123', { productId: 'prod-456', quantity: 2 });
+ expect(cart.items).toHaveLength(1);
+ expect(cart.items[0].productId).toBe('prod-456');
+ expect(cart.total).toBe(39.98); // 2 * $19.99
 });
 ```
 
 **GREEN: Implementacion minima**
 ```typescript
 class CartService {
-  async addItem(userId: string, item: { productId: string; quantity: number }) {
-    const product = await this.productService.getById(item.productId);
-    const cart = await this.cartRepository.findByUserId(userId);
-    cart.items.push({ ...item, price: product.price });
-    cart.total = this.calculateTotal(cart.items);
-    return await this.cartRepository.save(cart);
-  }
+ async addItem(userId: string, item: { productId: string; quantity: number }) {
+ const product = await this.productService.getById(item.productId);
+ const cart = await this.cartRepository.findByUserId(userId);
+ cart.items.push({ ...item, price: product.price });
+ cart.total = this.calculateTotal(cart.items);
+ return await this.cartRepository.save(cart);
+ }
 }
 ```
 
@@ -629,15 +629,15 @@ class CartService {
 **RED: Test fallido**
 ```typescript
 it('should process pending notifications and mark as sent', async () => {
-  const notifications = [
-    { id: '1', status: 'pending', userId: 'user-1' },
-    { id: '2', status: 'pending', userId: 'user-2' }
-  ];
-  await notificationProcessor.processBatch(notifications);
+ const notifications = [
+ { id: '1', status: 'pending', userId: 'user-1' },
+ { id: '2', status: 'pending', userId: 'user-2' }
+ ];
+ await notificationProcessor.processBatch(notifications);
 
-  expect(mockEmailService.send).toHaveBeenCalledTimes(2);
-  expect(mockNotificationRepo.updateStatus).toHaveBeenCalledWith('1', 'sent');
-  expect(mockNotificationRepo.updateStatus).toHaveBeenCalledWith('2', 'sent');
+ expect(mockEmailService.send).toHaveBeenCalledTimes(2);
+ expect(mockNotificationRepo.updateStatus).toHaveBeenCalledWith('1', 'sent');
+ expect(mockNotificationRepo.updateStatus).toHaveBeenCalledWith('2', 'sent');
 });
 ```
 

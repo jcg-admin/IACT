@@ -75,60 +75,60 @@ Crear un índice maestro de todos los procesos documentados del backend, facilit
 
 ## Por Categoría
 
-### 🛠️ Desarrollo
+### Desarrollo
 
 | ID | Proceso | Descripción | Prioridad | Owner | Status | Última Actualización |
 |----|---------|-------------|-----------|-------|--------|---------------------|
-| PROC-BACK-001 | [Desarrollo de Features](./PROC-BACK-001-desarrollo-features.md) | Workflow completo para implementar nuevas funcionalidades | ALTA | Tech Lead | ✅ Activo | 2025-11-18 |
-| PROC-BACK-003 | Refactoring de Código | Proceso para refactorizar código legacy | MEDIA | Tech Lead | 📝 Planificado | - |
-| PROC-BACK-004 | Code Review | Guía de code review y estándares | ALTA | Tech Lead | 📝 Planificado | - |
+| PROC-BACK-001 | [Desarrollo de Features](./PROC-BACK-001-desarrollo-features.md) | Workflow completo para implementar nuevas funcionalidades | ALTA | Tech Lead | [OK] Activo | 2025-11-18 |
+| PROC-BACK-003 | Refactoring de Código | Proceso para refactorizar código legacy | MEDIA | Tech Lead | Planificado | - |
+| PROC-BACK-004 | Code Review | Guía de code review y estándares | ALTA | Tech Lead | Planificado | - |
 
-### 📦 Gestión de Dependencias
-
-| ID | Proceso | Descripción | Prioridad | Owner | Status | Última Actualización |
-|----|---------|-------------|-----------|-------|--------|---------------------|
-| PROC-BACK-002 | [Gestión de Dependencias](./PROC-BACK-002-gestion-dependencias.md) | Instalación, actualización y auditoría de dependencias | MEDIA | DevOps | ✅ Activo | 2025-11-18 |
-| PROC-BACK-005 | Gestión de Vulnerabilidades | Respuesta a vulnerabilidades de seguridad | ALTA | Security | 📝 Planificado | - |
-
-### 🧪 Testing y Calidad
+### Gestión de Dependencias
 
 | ID | Proceso | Descripción | Prioridad | Owner | Status | Última Actualización |
 |----|---------|-------------|-----------|-------|--------|---------------------|
-| PROC-BACK-006 | Testing Estrategia | Estrategia de testing (unitario, integración, E2E) | ALTA | QA Lead | 📝 Planificado | - |
-| PROC-BACK-007 | Performance Testing | Testing de rendimiento y carga | MEDIA | QA Lead | 📝 Planificado | - |
+| PROC-BACK-002 | [Gestión de Dependencias](./PROC-BACK-002-gestion-dependencias.md) | Instalación, actualización y auditoría de dependencias | MEDIA | DevOps | [OK] Activo | 2025-11-18 |
+| PROC-BACK-005 | Gestión de Vulnerabilidades | Respuesta a vulnerabilidades de seguridad | ALTA | Security | Planificado | - |
 
-### 🗄️ Base de Datos
-
-| ID | Proceso | Descripción | Prioridad | Owner | Status | Última Actualización |
-|----|---------|-------------|-----------|-------|--------|---------------------|
-| PROC-BACK-008 | Migraciones de BD | Creación y aplicación de migraciones | ALTA | Tech Lead | 📝 Planificado | - |
-| PROC-BACK-009 | Backup y Recovery | Proceso de respaldo y recuperación | CRÍTICA | DevOps | 📝 Planificado | - |
-
-### 🚀 Deployment y Operaciones
+### Testing y Calidad
 
 | ID | Proceso | Descripción | Prioridad | Owner | Status | Última Actualización |
 |----|---------|-------------|-----------|-------|--------|---------------------|
-| PROC-BACK-010 | Deployment a Staging | Deploy de cambios a ambiente de staging | ALTA | DevOps | 📝 Planificado | - |
-| PROC-BACK-011 | Deployment a Producción | Deploy de cambios a producción | CRÍTICA | DevOps | 📝 Planificado | - |
-| PROC-BACK-012 | Rollback | Proceso de rollback ante fallas | CRÍTICA | DevOps | 📝 Planificado | - |
-| PROC-BACK-013 | Hotfix | Proceso de hotfix para bugs críticos | CRÍTICA | Tech Lead | 📝 Planificado | - |
+| PROC-BACK-006 | Testing Estrategia | Estrategia de testing (unitario, integración, E2E) | ALTA | QA Lead | Planificado | - |
+| PROC-BACK-007 | Performance Testing | Testing de rendimiento y carga | MEDIA | QA Lead | Planificado | - |
 
-### 📊 Monitoreo
+### Base de Datos
 
 | ID | Proceso | Descripción | Prioridad | Owner | Status | Última Actualización |
 |----|---------|-------------|-----------|-------|--------|---------------------|
-| PROC-BACK-014 | Monitoreo y Alertas | Configuración de monitoreo y alertas | ALTA | DevOps | 📝 Planificado | - |
-| PROC-BACK-015 | Incident Response | Respuesta a incidentes en producción | CRÍTICA | On-Call | 📝 Planificado | - |
+| PROC-BACK-008 | Migraciones de BD | Creación y aplicación de migraciones | ALTA | Tech Lead | Planificado | - |
+| PROC-BACK-009 | Backup y Recovery | Proceso de respaldo y recuperación | CRÍTICA | DevOps | Planificado | - |
+
+### Deployment y Operaciones
+
+| ID | Proceso | Descripción | Prioridad | Owner | Status | Última Actualización |
+|----|---------|-------------|-----------|-------|--------|---------------------|
+| PROC-BACK-010 | Deployment a Staging | Deploy de cambios a ambiente de staging | ALTA | DevOps | Planificado | - |
+| PROC-BACK-011 | Deployment a Producción | Deploy de cambios a producción | CRÍTICA | DevOps | Planificado | - |
+| PROC-BACK-012 | Rollback | Proceso de rollback ante fallas | CRÍTICA | DevOps | Planificado | - |
+| PROC-BACK-013 | Hotfix | Proceso de hotfix para bugs críticos | CRÍTICA | Tech Lead | Planificado | - |
+
+### Monitoreo
+
+| ID | Proceso | Descripción | Prioridad | Owner | Status | Última Actualización |
+|----|---------|-------------|-----------|-------|--------|---------------------|
+| PROC-BACK-014 | Monitoreo y Alertas | Configuración de monitoreo y alertas | ALTA | DevOps | Planificado | - |
+| PROC-BACK-015 | Incident Response | Respuesta a incidentes en producción | CRÍTICA | On-Call | Planificado | - |
 
 ## Por Rol
 
-### 👨‍💻 Developer
+### ‍ Developer
 - [PROC-BACK-001: Desarrollo de Features](./PROC-BACK-001-desarrollo-features.md)
 - PROC-BACK-003: Refactoring de Código
 - PROC-BACK-004: Code Review
 - PROC-BACK-008: Migraciones de BD
 
-### 🔧 DevOps
+### DevOps
 - [PROC-BACK-002: Gestión de Dependencias](./PROC-BACK-002-gestion-dependencias.md)
 - PROC-BACK-009: Backup y Recovery
 - PROC-BACK-010: Deployment a Staging
@@ -136,23 +136,23 @@ Crear un índice maestro de todos los procesos documentados del backend, facilit
 - PROC-BACK-012: Rollback
 - PROC-BACK-014: Monitoreo y Alertas
 
-### 🧪 QA Engineer
+### QA Engineer
 - PROC-BACK-006: Testing Estrategia
 - PROC-BACK-007: Performance Testing
 
-### 👔 Tech Lead
+### Tech Lead
 - [PROC-BACK-001: Desarrollo de Features](./PROC-BACK-001-desarrollo-features.md)
 - PROC-BACK-003: Refactoring de Código
 - PROC-BACK-004: Code Review
 - PROC-BACK-013: Hotfix
 
-### 🔒 Security Engineer
+### Security Engineer
 - PROC-BACK-005: Gestión de Vulnerabilidades
 - PROC-BACK-015: Incident Response
 
 ## Por Prioridad
 
-### 🔴 CRÍTICA
+### CRÍTICA
 | ID | Proceso | Categoría | Owner |
 |----|---------|-----------|-------|
 | PROC-BACK-009 | Backup y Recovery | Base de Datos | DevOps |
@@ -161,7 +161,7 @@ Crear un índice maestro de todos los procesos documentados del backend, facilit
 | PROC-BACK-013 | Hotfix | Deployment | Tech Lead |
 | PROC-BACK-015 | Incident Response | Monitoreo | On-Call |
 
-### 🟠 ALTA
+### ALTA
 | ID | Proceso | Categoría | Owner |
 |----|---------|-----------|-------|
 | PROC-BACK-001 | Desarrollo de Features | Desarrollo | Tech Lead |
@@ -172,7 +172,7 @@ Crear un índice maestro de todos los procesos documentados del backend, facilit
 | PROC-BACK-010 | Deployment a Staging | Deployment | DevOps |
 | PROC-BACK-014 | Monitoreo y Alertas | Monitoreo | DevOps |
 
-### 🟡 MEDIA
+### MEDIA
 | ID | Proceso | Categoría | Owner |
 |----|---------|-----------|-------|
 | PROC-BACK-002 | Gestión de Dependencias | Dependencias | DevOps |
@@ -206,45 +206,45 @@ Crear un índice maestro de todos los procesos documentados del backend, facilit
 
 ```
 Total Procesos: 15
-├── Documentados: 2 (13%)
-├── Planificados: 13 (87%)
-│
+ Documentados: 2 (13%)
+ Planificados: 13 (87%)
+
 Por Categoría:
-├── Desarrollo: 3
-├── Dependencias: 2
-├── Testing: 2
-├── Base de Datos: 2
-├── Deployment: 4
-└── Monitoreo: 2
+ Desarrollo: 3
+ Dependencias: 2
+ Testing: 2
+ Base de Datos: 2
+ Deployment: 4
+ Monitoreo: 2
 
 Por Prioridad:
-├── CRÍTICA: 5 (33%)
-├── ALTA: 7 (47%)
-└── MEDIA: 3 (20%)
+ CRÍTICA: 5 (33%)
+ ALTA: 7 (47%)
+ MEDIA: 3 (20%)
 ```
 
 ## Diagrama de Dependencias
 
 ```mermaid
 graph TD
-    A[PROC-BACK-001: Desarrollo Features] --> B[PROC-BACK-004: Code Review]
-    B --> C[PROC-BACK-010: Deploy Staging]
-    C --> D[PROC-BACK-011: Deploy Producción]
+ A[PROC-BACK-001: Desarrollo Features] --> B[PROC-BACK-004: Code Review]
+ B --> C[PROC-BACK-010: Deploy Staging]
+ C --> D[PROC-BACK-011: Deploy Producción]
 
-    E[PROC-BACK-002: Gestión Dependencias] --> A
-    E --> F[PROC-BACK-005: Gestión Vulnerabilidades]
+ E[PROC-BACK-002: Gestión Dependencias] --> A
+ E --> F[PROC-BACK-005: Gestión Vulnerabilidades]
 
-    G[PROC-BACK-006: Testing] --> A
-    G --> H[PROC-BACK-007: Performance Testing]
+ G[PROC-BACK-006: Testing] --> A
+ G --> H[PROC-BACK-007: Performance Testing]
 
-    I[PROC-BACK-008: Migraciones BD] --> C
+ I[PROC-BACK-008: Migraciones BD] --> C
 
-    D --> J[PROC-BACK-014: Monitoreo]
-    J --> K[PROC-BACK-015: Incident Response]
-    K --> L[PROC-BACK-012: Rollback]
+ D --> J[PROC-BACK-014: Monitoreo]
+ J --> K[PROC-BACK-015: Incident Response]
+ K --> L[PROC-BACK-012: Rollback]
 
-    M[PROC-BACK-013: Hotfix] --> D
-    M --> L
+ M[PROC-BACK-013: Hotfix] --> D
+ M --> L
 ```
 
 ## Convenciones
@@ -259,17 +259,17 @@ PROC-BACK-XXX-nombre-descriptivo.md
 - `nombre-descriptivo`: Slug del proceso
 
 ### Status de Procesos
-- ✅ **Activo**: Proceso documentado y en uso
-- 📝 **Planificado**: Proceso identificado, no documentado
-- 🔄 **En Revisión**: Proceso siendo actualizado
-- ⚠️ **Deprecado**: Proceso obsoleto, usar alternativa
-- ❌ **Archivado**: Proceso ya no aplicable
+- [OK] **Activo**: Proceso documentado y en uso
+- **Planificado**: Proceso identificado, no documentado
+- **En Revisión**: Proceso siendo actualizado
+- [WARNING] **Deprecado**: Proceso obsoleto, usar alternativa
+- [ERROR] **Archivado**: Proceso ya no aplicable
 
 ### Niveles de Prioridad
-- 🔴 **CRÍTICA**: Proceso esencial para operación
-- 🟠 **ALTA**: Proceso importante, uso frecuente
-- 🟡 **MEDIA**: Proceso útil, uso ocasional
-- 🟢 **BAJA**: Proceso opcional, uso raro
+- **CRÍTICA**: Proceso esencial para operación
+- **ALTA**: Proceso importante, uso frecuente
+- **MEDIA**: Proceso útil, uso ocasional
+- **BAJA**: Proceso opcional, uso raro
 
 ## Cómo Usar Este Índice
 
@@ -291,10 +291,10 @@ PROC-BACK-XXX-nombre-descriptivo.md
 - **Frecuencia de Revisión**: Mensual
 - **Responsable**: Tech Lead
 - **Criterio de Actualización**:
-  - Nuevo proceso documentado
-  - Cambio de prioridad
-  - Cambio de owner
-  - Proceso deprecado
+ - Nuevo proceso documentado
+ - Cambio de prioridad
+ - Cambio de owner
+ - Proceso deprecado
 
 ## Referencias
 - [PROC-BACK-001: Desarrollo de Features](./PROC-BACK-001-desarrollo-features.md)
@@ -315,13 +315,13 @@ PROC-BACK-XXX-nombre-descriptivo.md
 - [ ] Validación Self-Consistency completada
 
 ## Criterios de Aceptación
-1. ✅ Índice completo de procesos creado
-2. ✅ Clasificación múltiple (categoría, rol, prioridad)
-3. ✅ Links a procesos documentados funcionales
-4. ✅ Procesos planificados identificados
-5. ✅ Estadísticas y métricas incluidas
-6. ✅ Diagrama de dependencias incluido
-7. ✅ Instrucciones de uso y mantenimiento
+1. [OK] Índice completo de procesos creado
+2. [OK] Clasificación múltiple (categoría, rol, prioridad)
+3. [OK] Links a procesos documentados funcionales
+4. [OK] Procesos planificados identificados
+5. [OK] Estadísticas y métricas incluidas
+6. [OK] Diagrama de dependencias incluido
+7. [OK] Instrucciones de uso y mantenimiento
 
 ## Notas
 - Mantener actualizado con cada nuevo proceso

@@ -8,10 +8,10 @@ prioridad: MEDIA
 duracion_estimada: 15min
 estado: pendiente
 dependencias:
-  - TASK-006
-  - TASK-007
-  - TASK-008
-  - TASK-009
+ - TASK-006
+ - TASK-007
+ - TASK-008
+ - TASK-009
 ---
 
 # TASK-REORG-BACK-010: Validar ADRs Creados
@@ -125,42 +125,42 @@ adrs_con_yaml=0
 adrs_con_5_secciones=0
 
 for adr in /home/user/IACT/docs/backend/adr/ADR-BACK-*.md; do
-  [ -f "$adr" ] || continue
-  ((total_adrs++))
+ [ -f "$adr" ] || continue
+ ((total_adrs++))
 
-  filename=$(basename "$adr")
-  echo "Validando: $filename"
+ filename=$(basename "$adr")
+ echo "Validando: $filename"
 
-  # Verificar YAML
-  if head -n 1 "$adr" | grep -q "^---$"; then
-    echo "  ✓ Tiene frontmatter YAML"
-    ((adrs_con_yaml++))
-  else
-    echo "  ✗ NO tiene frontmatter YAML"
-  fi
+ # Verificar YAML
+ if head -n 1 "$adr" | grep -q "^---$"; then
+ echo " OK Tiene frontmatter YAML"
+ ((adrs_con_yaml++))
+ else
+ echo " NO tiene frontmatter YAML"
+ fi
 
-  # Verificar campos YAML
-  for field in id tipo categoria titulo estado fecha; do
-    if grep -q "^${field}:" "$adr"; then
-      echo "  ✓ Campo YAML '$field'"
-    else
-      echo "  ✗ Falta campo YAML '$field'"
-    fi
-  done
+ # Verificar campos YAML
+ for field in id tipo categoria titulo estado fecha; do
+ if grep -q "^${field}:" "$adr"; then
+ echo " OK Campo YAML '$field'"
+ else
+ echo " Falta campo YAML '$field'"
+ fi
+ done
 
-  # Verificar secciones obligatorias
-  secciones=0
-  grep -q "^## Estado" "$adr" && ((secciones++)) && echo "  ✓ Seccion 'Estado'" || echo "  ✗ Falta seccion 'Estado'"
-  grep -q "^## Contexto" "$adr" && ((secciones++)) && echo "  ✓ Seccion 'Contexto'" || echo "  ✗ Falta seccion 'Contexto'"
-  grep -q "^## Decision" "$adr" && ((secciones++)) && echo "  ✓ Seccion 'Decision'" || echo "  ✗ Falta seccion 'Decision'"
-  grep -q "^## Alternativas" "$adr" && ((secciones++)) && echo "  ✓ Seccion 'Alternativas'" || echo "  ✗ Falta seccion 'Alternativas'"
-  grep -q "^## Consecuencias" "$adr" && ((secciones++)) && echo "  ✓ Seccion 'Consecuencias'" || echo "  ✗ Falta seccion 'Consecuencias'"
+ # Verificar secciones obligatorias
+ secciones=0
+ grep -q "^## Estado" "$adr" && ((secciones++)) && echo " OK Seccion 'Estado'" || echo " Falta seccion 'Estado'"
+ grep -q "^## Contexto" "$adr" && ((secciones++)) && echo " OK Seccion 'Contexto'" || echo " Falta seccion 'Contexto'"
+ grep -q "^## Decision" "$adr" && ((secciones++)) && echo " OK Seccion 'Decision'" || echo " Falta seccion 'Decision'"
+ grep -q "^## Alternativas" "$adr" && ((secciones++)) && echo " OK Seccion 'Alternativas'" || echo " Falta seccion 'Alternativas'"
+ grep -q "^## Consecuencias" "$adr" && ((secciones++)) && echo " OK Seccion 'Consecuencias'" || echo " Falta seccion 'Consecuencias'"
 
-  if [ $secciones -eq 5 ]; then
-    ((adrs_con_5_secciones++))
-  fi
+ if [ $secciones -eq 5 ]; then
+ ((adrs_con_5_secciones++))
+ fi
 
-  echo ""
+ echo ""
 done
 
 echo "========================================="
@@ -171,13 +171,13 @@ echo "ADRs con YAML: $adrs_con_yaml/$total_adrs"
 echo "ADRs con 5 secciones: $adrs_con_5_secciones/$total_adrs"
 
 if [ $total_adrs -eq $adrs_con_yaml ] && [ $total_adrs -eq $adrs_con_5_secciones ]; then
-  echo ""
-  echo "✓✓✓ VALIDACION ESTRUCTURAL EXITOSA"
-  exit 0
+ echo ""
+ echo "OKOKOK VALIDACION ESTRUCTURAL EXITOSA"
+ exit 0
 else
-  echo ""
-  echo "✗✗✗ VALIDACION ESTRUCTURAL FALLIDA"
-  exit 1
+ echo ""
+ echo " VALIDACION ESTRUCTURAL FALLIDA"
+ exit 1
 fi
 SCRIPT
 
@@ -200,58 +200,58 @@ echo "========================================="
 echo ""
 
 for adr in /home/user/IACT/docs/backend/adr/ADR-BACK-*.md; do
-  [ -f "$adr" ] || continue
+ [ -f "$adr" ] || continue
 
-  filename=$(basename "$adr")
-  echo "Validando contenido: $filename"
+ filename=$(basename "$adr")
+ echo "Validando contenido: $filename"
 
-  # Extraer seccion Contexto
-  contexto=$(sed -n '/^## Contexto$/,/^## /p' "$adr" | sed '1d;$d')
-  palabras_contexto=$(echo "$contexto" | wc -w)
+ # Extraer seccion Contexto
+ contexto=$(sed -n '/^## Contexto$/,/^## /p' "$adr" | sed '1d;$d')
+ palabras_contexto=$(echo "$contexto" | wc -w)
 
-  if [ $palabras_contexto -ge 50 ]; then
-    echo "  ✓ Seccion 'Contexto' tiene $palabras_contexto palabras (>= 50)"
-  else
-    echo "  ✗ Seccion 'Contexto' tiene solo $palabras_contexto palabras (< 50)"
-  fi
+ if [ $palabras_contexto -ge 50 ]; then
+ echo " OK Seccion 'Contexto' tiene $palabras_contexto palabras (>= 50)"
+ else
+ echo " Seccion 'Contexto' tiene solo $palabras_contexto palabras (< 50)"
+ fi
 
-  # Verificar que Decision tiene contenido
-  decision=$(sed -n '/^## Decision$/,/^## /p' "$adr" | sed '1d;$d' | wc -w)
-  if [ $decision -ge 20 ]; then
-    echo "  ✓ Seccion 'Decision' tiene contenido ($decision palabras)"
-  else
-    echo "  ✗ Seccion 'Decision' tiene poco contenido ($decision palabras)"
-  fi
+ # Verificar que Decision tiene contenido
+ decision=$(sed -n '/^## Decision$/,/^## /p' "$adr" | sed '1d;$d' | wc -w)
+ if [ $decision -ge 20 ]; then
+ echo " OK Seccion 'Decision' tiene contenido ($decision palabras)"
+ else
+ echo " Seccion 'Decision' tiene poco contenido ($decision palabras)"
+ fi
 
-  # Verificar que hay al menos 1 alternativa
-  alternativas=$(grep -c "^### Alternativa" "$adr" || echo 0)
-  if [ $alternativas -ge 1 ]; then
-    echo "  ✓ Documenta $alternativas alternativa(s)"
-  else
-    echo "  ✗ No documenta alternativas consideradas"
-  fi
+ # Verificar que hay al menos 1 alternativa
+ alternativas=$(grep -c "^### Alternativa" "$adr" || echo 0)
+ if [ $alternativas -ge 1 ]; then
+ echo " OK Documenta $alternativas alternativa(s)"
+ else
+ echo " No documenta alternativas consideradas"
+ fi
 
-  # Verificar que hay consecuencias positivas y negativas
-  if grep -q "### Positivas" "$adr"; then
-    echo "  ✓ Documenta consecuencias positivas"
-  else
-    echo "  ✗ No documenta consecuencias positivas"
-  fi
+ # Verificar que hay consecuencias positivas y negativas
+ if grep -q "### Positivas" "$adr"; then
+ echo " OK Documenta consecuencias positivas"
+ else
+ echo " No documenta consecuencias positivas"
+ fi
 
-  if grep -q "### Negativas" "$adr"; then
-    echo "  ✓ Documenta consecuencias negativas"
-  else
-    echo "  ✗ No documenta consecuencias negativas"
-  fi
+ if grep -q "### Negativas" "$adr"; then
+ echo " OK Documenta consecuencias negativas"
+ else
+ echo " No documenta consecuencias negativas"
+ fi
 
-  # Verificar referencias
-  if grep -q "^## Referencias" "$adr"; then
-    echo "  ✓ Tiene seccion 'Referencias'"
-  else
-    echo "  ✗ No tiene seccion 'Referencias'"
-  fi
+ # Verificar referencias
+ if grep -q "^## Referencias" "$adr"; then
+ echo " OK Tiene seccion 'Referencias'"
+ else
+ echo " No tiene seccion 'Referencias'"
+ fi
 
-  echo ""
+ echo ""
 done
 
 echo "========================================="
@@ -280,14 +280,14 @@ echo ""
 # Verificar nomenclatura de archivos
 echo "Verificando nomenclatura de archivos..."
 for adr in /home/user/IACT/docs/backend/adr/ADR-BACK-*.md; do
-  [ -f "$adr" ] || continue
-  filename=$(basename "$adr")
+ [ -f "$adr" ] || continue
+ filename=$(basename "$adr")
 
-  if echo "$filename" | grep -qE '^ADR-BACK-[0-9]{3}-.*\.md$'; then
-    echo "  ✓ $filename - Nomenclatura correcta"
-  else
-    echo "  ✗ $filename - Nomenclatura incorrecta (debe ser ADR-BACK-XXX-descripcion.md)"
-  fi
+ if echo "$filename" | grep -qE '^ADR-BACK-[0-9]{3}-.*\.md$'; then
+ echo " OK $filename - Nomenclatura correcta"
+ else
+ echo " $filename - Nomenclatura incorrecta (debe ser ADR-BACK-XXX-descripcion.md)"
+ fi
 done
 
 echo ""
@@ -299,23 +299,23 @@ expected_id=1
 gap_found=false
 
 for id in $ids; do
-  num=$(echo "$id" | grep -oE '[0-9]+')
-  expected=$(printf "%03d" $expected_id)
+ num=$(echo "$id" | grep -oE '[0-9]+')
+ expected=$(printf "%03d" $expected_id)
 
-  if [ "$num" = "$expected" ]; then
-    echo "  ✓ $id - Secuencial"
-  else
-    echo "  ✗ $id - GAP detectado (esperado: ADR-BACK-$expected)"
-    gap_found=true
-  fi
+ if [ "$num" = "$expected" ]; then
+ echo " OK $id - Secuencial"
+ else
+ echo " $id - GAP detectado (esperado: ADR-BACK-$expected)"
+ gap_found=true
+ fi
 
-  ((expected_id++))
+ ((expected_id++))
 done
 
 if $gap_found; then
-  echo "  ✗ Hay gaps en la numeracion de IDs"
+ echo " Hay gaps en la numeracion de IDs"
 else
-  echo "  ✓ IDs secuenciales sin gaps"
+ echo " OK IDs secuenciales sin gaps"
 fi
 
 echo ""
@@ -325,13 +325,13 @@ echo "Verificando consistencia con INDICE_ADRs.md..."
 total_archivos=$(ls /home/user/IACT/docs/backend/adr/ADR-BACK-*.md 2>/dev/null | wc -l)
 total_indice=$(grep -c "ADR-BACK-[0-9]" /home/user/IACT/docs/backend/adr/INDICE_ADRs.md 2>/dev/null || echo 0)
 
-echo "  ADRs en carpeta: $total_archivos"
-echo "  ADRs en INDICE: $total_indice"
+echo " ADRs en carpeta: $total_archivos"
+echo " ADRs en INDICE: $total_indice"
 
 if [ $total_archivos -eq $total_indice ]; then
-  echo "  ✓ Totales coinciden"
+ echo " OK Totales coinciden"
 else
-  echo "  ✗ Totales NO coinciden"
+ echo " Totales NO coinciden"
 fi
 
 echo ""
@@ -426,45 +426,45 @@ estado: completado
 - **ADRs con Validacion Exitosa:** [X]
 - **ADRs con Problemas Menores:** [X]
 - **ADRs con Problemas Mayores:** [X]
-- **Estado General:** [✓ APROBADO / ⚠ APROBADO CON OBSERVACIONES / ✗ RECHAZADO]
+- **Estado General:** [OK APROBADO / [WARNING] APROBADO CON OBSERVACIONES / RECHAZADO]
 
 ---
 
 ## Validaciones Ejecutadas
 
 ### 1. Validacion Estructural
-- **Estado:** [✓ / ✗]
+- **Estado:** [OK / ]
 - **ADRs con YAML:** [X]/[X]
 - **ADRs con 5 secciones obligatorias:** [X]/[X]
 - **Problemas:** [ninguno / lista]
 
 ### 2. Validacion de Contenido
-- **Estado:** [✓ / ✗]
+- **Estado:** [OK / ]
 - **ADRs con contexto suficiente:** [X]/[X]
 - **ADRs con alternativas documentadas:** [X]/[X]
 - **ADRs con consecuencias completas:** [X]/[X]
 - **Problemas:** [ninguno / lista]
 
 ### 3. Validacion de Metadatos
-- **Estado:** [✓ / ✗]
+- **Estado:** [OK / ]
 - **ADRs con metadatos validos:** [X]/[X]
 - **Problemas:** [ninguno / lista]
 
 ### 4. Validacion de Consistencia
-- **Estado:** [✓ / ✗]
-- **IDs secuenciales:** [✓ / ✗]
-- **Nomenclatura consistente:** [✓ / ✗]
-- **Sincronizacion con INDICE:** [✓ / ✗]
+- **Estado:** [OK / ]
+- **IDs secuenciales:** [OK / ]
+- **Nomenclatura consistente:** [OK / ]
+- **Sincronizacion con INDICE:** [OK / ]
 - **Problemas:** [ninguno / lista]
 
 ### 5. Validacion de Calidad (Manual)
-- **Estado:** [✓ / ✗]
-- **Titulos descriptivos:** [✓ / ✗]
-- **Claridad de contenido:** [✓ / ✗]
+- **Estado:** [OK / ]
+- **Titulos descriptivos:** [OK / ]
+- **Claridad de contenido:** [OK / ]
 - **Observaciones:** [ninguna / lista]
 
 ### 6. Validacion de Enlaces
-- **Estado:** [✓ / ✗]
+- **Estado:** [OK / ]
 - **Enlaces funcionales:** [X]/[X]
 - **Problemas:** [ninguno / lista]
 
@@ -489,17 +489,17 @@ estado: completado
 ## Recomendaciones
 
 1. **Corto Plazo:**
-   - [Recomendacion 1]
-   - [Recomendacion 2]
+ - [Recomendacion 1]
+ - [Recomendacion 2]
 
 2. **Mediano Plazo:**
-   - [Recomendacion 1]
-   - [Recomendacion 2]
+ - [Recomendacion 1]
+ - [Recomendacion 2]
 
 3. **Mejora Continua:**
-   - Automatizar validaciones con pre-commit hooks
-   - Crear plantilla ADR mas detallada
-   - Establecer checklist de revision de ADRs
+ - Automatizar validaciones con pre-commit hooks
+ - Crear plantilla ADR mas detallada
+ - Establecer checklist de revision de ADRs
 
 ---
 
@@ -527,7 +527,7 @@ estado: completado
 **Version:** 1.0.0
 EOF
 
-echo "✓ REPORTE-VALIDACION-ADRs.md creado (template)"
+echo "OK REPORTE-VALIDACION-ADRs.md creado (template)"
 echo "Completar con datos reales de validaciones ejecutadas"
 ```
 
@@ -540,31 +540,31 @@ echo "Completar con datos reales de validaciones ejecutadas"
 echo "=== VERIFICACION DE COMPLETITUD ==="
 
 evidencias_requeridas=(
-  "plan-validacion.md"
-  "validacion-estructural.log"
-  "validacion-contenido.log"
-  "validacion-consistencia.log"
-  "inconsistencias-detectadas.md"
-  "REPORTE-VALIDACION-ADRs.md"
+ "plan-validacion.md"
+ "validacion-estructural.log"
+ "validacion-contenido.log"
+ "validacion-consistencia.log"
+ "inconsistencias-detectadas.md"
+ "REPORTE-VALIDACION-ADRs.md"
 )
 
 evidencias_path="/home/user/IACT/docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/TASK-010-validar-adrs-creados/evidencias"
 
 all_found=true
 for evidencia in "${evidencias_requeridas[@]}"; do
-  if [ -f "$evidencias_path/$evidencia" ]; then
-    echo "✓ $evidencia"
-  else
-    echo "✗ $evidencia - FALTA"
-    all_found=false
-  fi
+ if [ -f "$evidencias_path/$evidencia" ]; then
+ echo "OK $evidencia"
+ else
+ echo " $evidencia - FALTA"
+ all_found=false
+ fi
 done
 
 echo ""
 if $all_found; then
-  echo "✓✓✓ Todas las evidencias generadas"
+ echo "OKOKOK Todas las evidencias generadas"
 else
-  echo "✗✗✗ Faltan evidencias"
+ echo " Faltan evidencias"
 fi
 ```
 
@@ -601,18 +601,18 @@ echo "Evidencias generadas: $evidencias_count"
 
 # Verificar reporte final
 if [ -f "/home/user/IACT/docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/TASK-010-validar-adrs-creados/evidencias/REPORTE-VALIDACION-ADRs.md" ]; then
-  echo "✓ Reporte final existe"
+ echo "OK Reporte final existe"
 else
-  echo "✗ Falta reporte final"
+ echo " Falta reporte final"
 fi
 
 # Resultado
 if [ $total_adrs -ge 5 ] && [ $evidencias_count -ge 6 ]; then
-  echo ""
-  echo "✓✓✓ TASK-010 COMPLETADA EXITOSAMENTE"
+ echo ""
+ echo "OKOKOK TASK-010 COMPLETADA EXITOSAMENTE"
 else
-  echo ""
-  echo "✗✗✗ TASK-010 INCOMPLETA"
+ echo ""
+ echo " TASK-010 INCOMPLETA"
 fi
 ```
 

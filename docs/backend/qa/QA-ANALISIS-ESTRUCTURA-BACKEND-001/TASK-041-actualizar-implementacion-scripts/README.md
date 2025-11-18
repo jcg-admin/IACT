@@ -156,9 +156,9 @@ Actualizar el documento IMPLEMENTACION-SCRIPTS.md con los nuevos scripts y herra
 ./scripts/backend/generate-api-catalog.sh [options]
 
 Options:
-  --output FILE    Output file path (default: docs/backend/catalogos/CATALOGO-APIs.md)
-  --format FORMAT  Output format: markdown|json|html (default: markdown)
-  --verbose        Verbose output
+ --output FILE Output file path (default: docs/backend/catalogos/CATALOGO-APIs.md)
+ --format FORMAT Output format: markdown|json|html (default: markdown)
+ --verbose Verbose output
 ```
 
 **Dependencias:**
@@ -194,9 +194,9 @@ Options:
 ./scripts/backend/generate-services-catalog.sh [options]
 
 Options:
-  --output FILE    Output file path
-  --analyze-deps   Analizar dependencias entre servicios
-  --graph          Generar grafo de dependencias (requiere graphviz)
+ --output FILE Output file path
+ --analyze-deps Analizar dependencias entre servicios
+ --graph Generar grafo de dependencias (requiere graphviz)
 ```
 
 **Dependencias:**
@@ -221,9 +221,9 @@ Options:
 ./scripts/backend/generate-models-catalog.sh [options]
 
 Options:
-  --output FILE    Output file path
-  --erd            Generar diagrama ER (requiere graphviz)
-  --migrations     Validar contra migraciones
+ --output FILE Output file path
+ --erd Generar diagrama ER (requiere graphviz)
+ --migrations Validar contra migraciones
 ```
 
 **Dependencias:**
@@ -248,9 +248,9 @@ Options:
 ./scripts/backend/generate-endpoints-catalog.sh [options]
 
 Options:
-  --output FILE    Output file path
-  --openapi        Generar spec OpenAPI adicional
-  --test           Verificar endpoints activos
+ --output FILE Output file path
+ --openapi Generar spec OpenAPI adicional
+ --test Verificar endpoints activos
 ```
 
 **Dependencias:**
@@ -277,12 +277,12 @@ Options:
 ./scripts/backend/validate-processes.sh [proceso] [options]
 
 Arguments:
-  proceso          Proceso específico a validar (opcional, valida todos si se omite)
+ proceso Proceso específico a validar (opcional, valida todos si se omite)
 
 Options:
-  --checklist      Mostrar checklist de validación
-  --report FILE    Guardar reporte en archivo
-  --strict         Modo estricto (falla con warnings)
+ --checklist Mostrar checklist de validación
+ --report FILE Guardar reporte en archivo
+ --strict Modo estricto (falla con warnings)
 ```
 
 **Validaciones:**
@@ -321,9 +321,9 @@ Options:
 ./scripts/backend/check-process-links.sh [options]
 
 Options:
-  --external       Verificar también links externos (más lento)
-  --fix            Intentar corregir links rotos automáticamente
-  --report FILE    Guardar reporte de links rotos
+ --external Verificar también links externos (más lento)
+ --fix Intentar corregir links rotos automáticamente
+ --report FILE Guardar reporte de links rotos
 ```
 
 **Dependencias:**
@@ -349,10 +349,10 @@ Options:
 ./scripts/backend/generate-requirements-tests-matrix.sh [options]
 
 Options:
-  --requirements FILE  Archivo de requisitos (default: docs/requirements.md)
-  --tests-dir DIR      Directorio de tests (default: backend/tests)
-  --output FILE        Output file
-  --format FORMAT      markdown|json|csv
+ --requirements FILE Archivo de requisitos (default: docs/requirements.md)
+ --tests-dir DIR Directorio de tests (default: backend/tests)
+ --output FILE Output file
+ --format FORMAT markdown|json|csv
 ```
 
 **Dependencias:**
@@ -387,10 +387,10 @@ Options:
 ./scripts/backend/generate-requirements-code-matrix.sh [options]
 
 Options:
-  --requirements FILE  Archivo de requisitos
-  --code-dir DIR       Directorio de código fuente
-  --output FILE        Output file
-  --analyze-impact     Incluir análisis de impacto
+ --requirements FILE Archivo de requisitos
+ --code-dir DIR Directorio de código fuente
+ --output FILE Output file
+ --analyze-impact Incluir análisis de impacto
 ```
 
 **Dependencias:**
@@ -415,9 +415,9 @@ Options:
 ./scripts/backend/analyze-coverage-gaps.sh [options]
 
 Options:
-  --requirements FILE  Archivo de requisitos
-  --report FILE        Output report file
-  --prioritize         Priorizar gaps por criticidad
+ --requirements FILE Archivo de requisitos
+ --report FILE Output report file
+ --prioritize Priorizar gaps por criticidad
 ```
 
 **Output:**
@@ -447,8 +447,8 @@ Options:
 ./scripts/backend/update-process-index.sh [options]
 
 Options:
-  --dry-run        Mostrar cambios sin aplicar
-  --verify         Verificar integridad después de actualizar
+ --dry-run Mostrar cambios sin aplicar
+ --verify Verificar integridad después de actualizar
 ```
 
 **Funcionalidad:**
@@ -474,11 +474,11 @@ Options:
 ./scripts/backend/update-catalog-stats.sh [catalog] [options]
 
 Arguments:
-  catalog          Catálogo específico a actualizar (opcional)
+ catalog Catálogo específico a actualizar (opcional)
 
 Options:
-  --all            Actualizar todos los catálogos
-  --verify         Verificar estadísticas antes de actualizar
+ --all Actualizar todos los catálogos
+ --verify Verificar estadísticas antes de actualizar
 ```
 
 **Output:**
@@ -558,12 +558,12 @@ cat docs/backend/IMPLEMENTACION-SCRIPTS.md
 - [ ] Validación completada
 
 ## Criterios de Aceptación
-1. ✅ Todos los scripts de FASE 3 documentados
-2. ✅ Formato consistente con scripts existentes
-3. ✅ Ejemplos de uso incluidos
-4. ✅ Dependencias especificadas
-5. ✅ Estadísticas actualizadas
-6. ✅ Referencias correctas
+1. [OK] Todos los scripts de FASE 3 documentados
+2. [OK] Formato consistente con scripts existentes
+3. [OK] Ejemplos de uso incluidos
+4. [OK] Dependencias especificadas
+5. [OK] Estadísticas actualizadas
+6. [OK] Referencias correctas
 
 ## Notas
 - Si IMPLEMENTACION-SCRIPTS.md no existe, crearlo con estructura completa

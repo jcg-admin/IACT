@@ -62,14 +62,14 @@ El sistema backend debe implementar health checks exhaustivos y monitoreo contin
 **Formato de respuesta Health Check**:
 ```json
 {
-  "status": "healthy|degraded|unhealthy",
-  "timestamp": "2025-01-17T10:30:45Z",
-  "checks": {
-    "database": {"status": "healthy", "latency_ms": 5},
-    "redis": {"status": "healthy", "latency_ms": 2},
-    "disk": {"status": "healthy", "free_percent": 45},
-    "workers": {"status": "healthy", "count": 4}
-  }
+ "status": "healthy|degraded|unhealthy",
+ "timestamp": "2025-01-17T10:30:45Z",
+ "checks": {
+ "database": {"status": "healthy", "latency_ms": 5},
+ "redis": {"status": "healthy", "latency_ms": 2},
+ "disk": {"status": "healthy", "free_percent": 45},
+ "workers": {"status": "healthy", "count": 4}
+ }
 }
 ```
 

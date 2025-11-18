@@ -24,22 +24,22 @@ date: 2025-01-17
 El proyecto IACT necesita integrar datos de un sistema IVR legacy existente mientras construye una nueva aplicación de analytics. Se presentan las siguientes restricciones y requerimientos:
 
 1. **Sistema IVR Legacy Intocable:**
-   - Base de datos MariaDB existente
-   - Sistema crítico en producción
-   - NO se puede modificar: solo lectura permitida
-   - Esquema legacy sin foreign keys ni constraints modernos
-   - Datos históricos valiosos de llamadas
+ - Base de datos MariaDB existente
+ - Sistema crítico en producción
+ - NO se puede modificar: solo lectura permitida
+ - Esquema legacy sin foreign keys ni constraints modernos
+ - Datos históricos valiosos de llamadas
 
 2. **Nueva Aplicación Analytics:**
-   - Requiere almacenar datos propios (usuarios, permisos, configuración, dashboards)
-   - Necesita integridad referencial y constraints modernos
-   - Sistema de migraciones para evolucionar esquema
-   - Performance crítico para queries analíticos
+ - Requiere almacenar datos propios (usuarios, permisos, configuración, dashboards)
+ - Necesita integridad referencial y constraints modernos
+ - Sistema de migraciones para evolucionar esquema
+ - Performance crítico para queries analíticos
 
 3. **Requisitos de Integración:**
-   - ETL debe sincronizar datos IVR → Analytics cada 6 horas
-   - Reportes combinan datos de ambas fuentes
-   - Protección crítica: NUNCA escribir en IVR legacy
+ - ETL debe sincronizar datos IVR → Analytics cada 6 horas
+ - Reportes combinan datos de ambas fuentes
+ - Protección crítica: NUNCA escribir en IVR legacy
 
 **Preguntas clave:**
 - ¿Una sola base de datos o múltiples?
@@ -105,53 +105,53 @@ Django Database Router enruta automáticamente operaciones según el modelo:
 ```python
 # settings/base.py
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": "iact_analytics",
-        "USER": "django_user",
-        "PASSWORD": os.getenv("DJANGO_DB_PASSWORD"),
-        "HOST": "127.0.0.1",
-        "PORT": "15432",
-        "CONN_MAX_AGE": 300,  # Connection pooling
-    },
-    "ivr_readonly": {
-        "ENGINE": "mysql.connector.django",
-        "NAME": "ivr_legacy",
-        "USER": "django_user",
-        "PASSWORD": os.getenv("DJANGO_IVR_PASSWORD"),
-        "HOST": "127.0.0.1",
-        "PORT": "13306",
-        "CONN_MAX_AGE": 300,
-        "OPTIONS": {
-            "init_command": "SET sql_mode='STRICT_TRANS_TABLES'",
-            "charset": "utf8mb4",
-        },
-    },
+ "default": {
+ "ENGINE": "django.db.backends.postgresql",
+ "NAME": "iact_analytics",
+ "USER": "django_user",
+ "PASSWORD": os.getenv("DJANGO_DB_PASSWORD"),
+ "HOST": "127.0.0.1",
+ "PORT": "15432",
+ "CONN_MAX_AGE": 300, # Connection pooling
+ },
+ "ivr_readonly": {
+ "ENGINE": "mysql.connector.django",
+ "NAME": "ivr_legacy",
+ "USER": "django_user",
+ "PASSWORD": os.getenv("DJANGO_IVR_PASSWORD"),
+ "HOST": "127.0.0.1",
+ "PORT": "13306",
+ "CONN_MAX_AGE": 300,
+ "OPTIONS": {
+ "init_command": "SET sql_mode='STRICT_TRANS_TABLES'",
+ "charset": "utf8mb4",
+ },
+ },
 }
 
 DATABASE_ROUTERS = ["callcentersite.database_router.IVRReadOnlyRouter"]
 
 # database_router.py
 class IVRReadOnlyRouter:
-    def db_for_read(self, model, **hints):
-        if model._meta.app_label.startswith("ivr_legacy"):
-            return "ivr_readonly"
-        return "default"
+ def db_for_read(self, model, **hints):
+ if model._meta.app_label.startswith("ivr_legacy"):
+ return "ivr_readonly"
+ return "default"
 
-    def db_for_write(self, model, **hints):
-        if model._meta.app_label.startswith("ivr_legacy"):
-            raise ValueError(
-                "CRITICAL RESTRICTION VIOLATED: Attempted write operation on IVR database. "
-                "IVR database is READ-ONLY."
-            )
-        return "default"
+ def db_for_write(self, model, **hints):
+ if model._meta.app_label.startswith("ivr_legacy"):
+ raise ValueError(
+ "CRITICAL RESTRICTION VIOLATED: Attempted write operation on IVR database. "
+ "IVR database is READ-ONLY."
+ )
+ return "default"
 
-    def allow_migrate(self, db, app_label, model_name=None, **hints):
-        if db == "ivr_readonly":
-            return False  # NUNCA migrar IVR
-        if app_label.startswith("ivr_legacy"):
-            return False  # Modelos IVR no se migran
-        return True
+ def allow_migrate(self, db, app_label, model_name=None, **hints):
+ if db == "ivr_readonly":
+ return False # NUNCA migrar IVR
+ if app_label.startswith("ivr_legacy"):
+ return False # Modelos IVR no se migran
+ return True
 ```
 
 ---
@@ -211,10 +211,10 @@ FDW agrega complejidad sin beneficios claros. Performance es peor que conexión 
 1. **Protección Absoluta del IVR:** Database router bloquea TODA operación de escritura al IVR. Imposible escribir accidentalmente, levanta `ValueError` si se intenta.
 
 2. **PostgreSQL para Analytics:** Mejor elección para queries analíticos:
-   - JSON fields para dashboards personalizados
-   - Full-text search para búsquedas
-   - Window functions para reportes
-   - Mejor performance en aggregations complejas
+ - JSON fields para dashboards personalizados
+ - Full-text search para búsquedas
+ - Window functions para reportes
+ - Mejor performance en aggregations complejas
 
 3. **MariaDB Solo Lectura:** Mantenemos conexión nativa al IVR legacy sin tocarlo. Performance óptimo para lecturas.
 
@@ -269,32 +269,32 @@ FDW agrega complejidad sin beneficios claros. Performance es peor que conexión 
 ```python
 # settings/base.py
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.getenv("DJANGO_DB_NAME", "iact_analytics"),
-        "USER": os.getenv("DJANGO_DB_USER", "django_user"),
-        "PASSWORD": os.getenv("DJANGO_DB_PASSWORD", "django_pass"),
-        "HOST": os.getenv("DJANGO_DB_HOST", "127.0.0.1"),
-        "PORT": os.getenv("DJANGO_DB_PORT", "15432"),
-        "CONN_MAX_AGE": int(os.getenv("DJANGO_DB_CONN_MAX_AGE", "300")),
-        "OPTIONS": {
-            "connect_timeout": int(os.getenv("DJANGO_DB_CONNECT_TIMEOUT", "10")),
-        },
-    },
-    "ivr_readonly": {
-        "ENGINE": "mysql.connector.django",
-        "NAME": os.getenv("DJANGO_IVR_NAME", "ivr_legacy"),
-        "USER": os.getenv("DJANGO_IVR_USER", "django_user"),
-        "PASSWORD": os.getenv("DJANGO_IVR_PASSWORD", "django_pass"),
-        "HOST": os.getenv("DJANGO_IVR_HOST", "127.0.0.1"),
-        "PORT": os.getenv("DJANGO_IVR_PORT", "13306"),
-        "CONN_MAX_AGE": int(os.getenv("DJANGO_IVR_CONN_MAX_AGE", "300")),
-        "OPTIONS": {
-            "init_command": "SET sql_mode='STRICT_TRANS_TABLES'",
-            "charset": "utf8mb4",
-            "use_unicode": True,
-        },
-    },
+ "default": {
+ "ENGINE": "django.db.backends.postgresql",
+ "NAME": os.getenv("DJANGO_DB_NAME", "iact_analytics"),
+ "USER": os.getenv("DJANGO_DB_USER", "django_user"),
+ "PASSWORD": os.getenv("DJANGO_DB_PASSWORD", "django_pass"),
+ "HOST": os.getenv("DJANGO_DB_HOST", "127.0.0.1"),
+ "PORT": os.getenv("DJANGO_DB_PORT", "15432"),
+ "CONN_MAX_AGE": int(os.getenv("DJANGO_DB_CONN_MAX_AGE", "300")),
+ "OPTIONS": {
+ "connect_timeout": int(os.getenv("DJANGO_DB_CONNECT_TIMEOUT", "10")),
+ },
+ },
+ "ivr_readonly": {
+ "ENGINE": "mysql.connector.django",
+ "NAME": os.getenv("DJANGO_IVR_NAME", "ivr_legacy"),
+ "USER": os.getenv("DJANGO_IVR_USER", "django_user"),
+ "PASSWORD": os.getenv("DJANGO_IVR_PASSWORD", "django_pass"),
+ "HOST": os.getenv("DJANGO_IVR_HOST", "127.0.0.1"),
+ "PORT": os.getenv("DJANGO_IVR_PORT", "13306"),
+ "CONN_MAX_AGE": int(os.getenv("DJANGO_IVR_CONN_MAX_AGE", "300")),
+ "OPTIONS": {
+ "init_command": "SET sql_mode='STRICT_TRANS_TABLES'",
+ "charset": "utf8mb4",
+ "use_unicode": True,
+ },
+ },
 }
 
 DATABASE_ROUTERS = ["callcentersite.database_router.IVRReadOnlyRouter"]
@@ -305,39 +305,39 @@ DATABASE_ROUTERS = ["callcentersite.database_router.IVRReadOnlyRouter"]
 ```python
 # callcentersite/database_router.py
 class IVRReadOnlyRouter:
-    """Enruta operaciones de base de datos protegiendo el origen IVR."""
+ """Enruta operaciones de base de datos protegiendo el origen IVR."""
 
-    ivr_apps = {"ivr_legacy"}
+ ivr_apps = {"ivr_legacy"}
 
-    def db_for_read(self, model, **hints):
-        app_label = getattr(getattr(model, "_meta", None), "app_label", "")
-        if app_label.startswith("ivr_legacy"):
-            return "ivr_readonly"
-        return "default"
+ def db_for_read(self, model, **hints):
+ app_label = getattr(getattr(model, "_meta", None), "app_label", "")
+ if app_label.startswith("ivr_legacy"):
+ return "ivr_readonly"
+ return "default"
 
-    def db_for_write(self, model, **hints):
-        app_label = getattr(getattr(model, "_meta", None), "app_label", "")
-        if app_label.startswith("ivr_legacy"):
-            label = getattr(getattr(model, "_meta", None), "label", app_label)
-            raise ValueError(
-                f"CRITICAL RESTRICTION VIOLATED: Attempted write operation on IVR "
-                f"database. Model: {label}. IVR database is READ-ONLY. Only SELECT "
-                f"operations are allowed."
-            )
-        return "default"
+ def db_for_write(self, model, **hints):
+ app_label = getattr(getattr(model, "_meta", None), "app_label", "")
+ if app_label.startswith("ivr_legacy"):
+ label = getattr(getattr(model, "_meta", None), "label", app_label)
+ raise ValueError(
+ f"CRITICAL RESTRICTION VIOLATED: Attempted write operation on IVR "
+ f"database. Model: {label}. IVR database is READ-ONLY. Only SELECT "
+ f"operations are allowed."
+ )
+ return "default"
 
-    def allow_relation(self, obj1, obj2, **hints):
-        dbs = {getattr(obj1._state, "db", None), getattr(obj2._state, "db", None)}
-        if dbs <= {None, "default", "ivr_readonly"}:
-            return True
-        return None
+ def allow_relation(self, obj1, obj2, **hints):
+ dbs = {getattr(obj1._state, "db", None), getattr(obj2._state, "db", None)}
+ if dbs <= {None, "default", "ivr_readonly"}:
+ return True
+ return None
 
-    def allow_migrate(self, db, app_label, model_name=None, **hints):
-        if db == "ivr_readonly":
-            return False  # NUNCA migrar IVR
-        if app_label.startswith("ivr_legacy"):
-            return False  # Modelos IVR no se migran
-        return True
+ def allow_migrate(self, db, app_label, model_name=None, **hints):
+ if db == "ivr_readonly":
+ return False # NUNCA migrar IVR
+ if app_label.startswith("ivr_legacy"):
+ return False # Modelos IVR no se migran
+ return True
 ```
 
 ### Fase 3: ETL para Sincronización - COMPLETADO
@@ -345,25 +345,25 @@ class IVRReadOnlyRouter:
 ```python
 # apps/etl/services.py
 class IVRETLService:
-    """Sincroniza datos IVR → PostgreSQL cada 6 horas."""
+ """Sincroniza datos IVR → PostgreSQL cada 6 horas."""
 
-    @staticmethod
-    def sync_llamadas():
-        # Lee de ivr_readonly (MariaDB)
-        llamadas_ivr = IVRLlamada.objects.using("ivr_readonly").filter(
-            fecha__gte=timezone.now() - timedelta(hours=6)
-        )
+ @staticmethod
+ def sync_llamadas():
+ # Lee de ivr_readonly (MariaDB)
+ llamadas_ivr = IVRLlamada.objects.using("ivr_readonly").filter(
+ fecha__gte=timezone.now() - timedelta(hours=6)
+ )
 
-        # Escribe a default (PostgreSQL)
-        for llamada_ivr in llamadas_ivr:
-            LlamadaAnalytics.objects.update_or_create(
-                ivr_id=llamada_ivr.id,
-                defaults={
-                    "duracion": llamada_ivr.duracion,
-                    "estado": llamada_ivr.estado,
-                    # ... más campos
-                },
-            )
+ # Escribe a default (PostgreSQL)
+ for llamada_ivr in llamadas_ivr:
+ LlamadaAnalytics.objects.update_or_create(
+ ivr_id=llamada_ivr.id,
+ defaults={
+ "duracion": llamada_ivr.duracion,
+ "estado": llamada_ivr.estado,
+ # ... más campos
+ },
+ )
 ```
 
 ### Fase 4: Testing Multi-Database - COMPLETADO
@@ -376,13 +376,13 @@ DJANGO_SETTINGS_MODULE = callcentersite.settings.testing
 # conftest.py
 @pytest.fixture(scope="session")
 def django_db_setup(django_db_setup, django_db_blocker):
-    """Setup para ambas databases en tests."""
-    with django_db_blocker.unblock():
-        # PostgreSQL setup
-        call_command("migrate", "--database=default")
+ """Setup para ambas databases en tests."""
+ with django_db_blocker.unblock():
+ # PostgreSQL setup
+ call_command("migrate", "--database=default")
 
-        # MariaDB no se migra (read-only)
-        # Solo se usa con datos mock en tests
+ # MariaDB no se migra (read-only)
+ # Solo se usa con datos mock en tests
 ```
 
 ---
@@ -393,33 +393,33 @@ def django_db_setup(django_db_setup, django_db_blocker):
 
 | Métrica | Target | Actual | Estado |
 |---------|--------|--------|--------|
-| IVR writes bloqueados | 100% | 100% | ✓ OK |
-| Connection pooling activo | Sí | Sí (300s) | ✓ OK |
-| Migraciones solo PostgreSQL | 100% | 100% | ✓ OK |
-| ETL sync frequency | 6 horas | 6 horas | ✓ OK |
-| Read latency PostgreSQL | <50ms p95 | ~30ms | ✓ OK |
-| Read latency MariaDB | <50ms p95 | ~40ms | ✓ OK |
-| Database uptime | 99.9% | 99.95% | ✓ OK |
+| IVR writes bloqueados | 100% | 100% | OK OK |
+| Connection pooling activo | Sí | Sí (300s) | OK OK |
+| Migraciones solo PostgreSQL | 100% | 100% | OK OK |
+| ETL sync frequency | 6 horas | 6 horas | OK OK |
+| Read latency PostgreSQL | <50ms p95 | ~30ms | OK OK |
+| Read latency MariaDB | <50ms p95 | ~40ms | OK OK |
+| Database uptime | 99.9% | 99.95% | OK OK |
 
 ### KPIs de Seguridad
 
 ```yaml
 Protección IVR:
-  - Write attempts bloqueados: 100%
-  - ValueError levantado: Sí
-  - Migrations aplicadas a IVR: 0
-  - Tests de write protection: 100% passing
+ - Write attempts bloqueados: 100%
+ - ValueError levantado: Sí
+ - Migrations aplicadas a IVR: 0
+ - Tests de write protection: 100% passing
 
 Performance:
-  - Connection pooling: 300 segundos
-  - Queries analíticos (PostgreSQL): ~30ms p95
-  - Queries legacy (MariaDB): ~40ms p95
-  - ETL batch size: 1000 registros
+ - Connection pooling: 300 segundos
+ - Queries analíticos (PostgreSQL): ~30ms p95
+ - Queries legacy (MariaDB): ~40ms p95
+ - ETL batch size: 1000 registros
 
 Disponibilidad:
-  - PostgreSQL uptime: 99.95%
-  - MariaDB uptime: 99.97%
-  - Failover time: <5 segundos
+ - PostgreSQL uptime: 99.95%
+ - MariaDB uptime: 99.97%
+ - Failover time: <5 segundos
 ```
 
 ---

@@ -88,43 +88,43 @@ integracion: nueva (módulo a crear)
 -- Insertar función: equipos
 INSERT INTO funciones (nombre, nombre_completo, dominio, categoria, descripcion, icono, orden_menu, activa)
 VALUES (
-    'equipos',
-    'sistema.supervision.equipos',
-    'supervision',
-    'gestion',
-    'Gestión de equipos de trabajo y asignación de agentes',
-    'users-group',
-    500,
-    TRUE
+ 'equipos',
+ 'sistema.supervision.equipos',
+ 'supervision',
+ 'gestion',
+ 'Gestión de equipos de trabajo y asignación de agentes',
+ 'users-group',
+ 500,
+ TRUE
 );
 
 -- Insertar capacidades de equipos
 INSERT INTO capacidades (nombre_completo, accion, recurso, dominio, descripcion, nivel_sensibilidad, requiere_auditoria, activa)
 VALUES
-    ('sistema.supervision.equipos.ver', 'ver', 'equipos', 'supervision', 'Ver información de equipos', 'bajo', FALSE, TRUE),
-    ('sistema.supervision.equipos.crear', 'crear', 'equipos', 'supervision', 'Crear nuevos equipos', 'alto', TRUE, TRUE),
-    ('sistema.supervision.equipos.editar', 'editar', 'equipos', 'supervision', 'Modificar equipos existentes', 'alto', TRUE, TRUE),
-    ('sistema.supervision.equipos.asignar_miembros', 'asignar_miembros', 'equipos', 'supervision', 'Asignar agentes a equipos', 'alto', TRUE, TRUE),
-    ('sistema.supervision.equipos.ver_metricas', 'ver_metricas', 'equipos', 'supervision', 'Ver métricas de rendimiento de equipos', 'normal', FALSE, TRUE),
-    ('sistema.supervision.equipos.eliminar', 'eliminar', 'equipos', 'supervision', 'Eliminar equipos (lógico)', 'critico', TRUE, TRUE);
+ ('sistema.supervision.equipos.ver', 'ver', 'equipos', 'supervision', 'Ver información de equipos', 'bajo', FALSE, TRUE),
+ ('sistema.supervision.equipos.crear', 'crear', 'equipos', 'supervision', 'Crear nuevos equipos', 'alto', TRUE, TRUE),
+ ('sistema.supervision.equipos.editar', 'editar', 'equipos', 'supervision', 'Modificar equipos existentes', 'alto', TRUE, TRUE),
+ ('sistema.supervision.equipos.asignar_miembros', 'asignar_miembros', 'equipos', 'supervision', 'Asignar agentes a equipos', 'alto', TRUE, TRUE),
+ ('sistema.supervision.equipos.ver_metricas', 'ver_metricas', 'equipos', 'supervision', 'Ver métricas de rendimiento de equipos', 'normal', FALSE, TRUE),
+ ('sistema.supervision.equipos.eliminar', 'eliminar', 'equipos', 'supervision', 'Eliminar equipos (lógico)', 'critico', TRUE, TRUE);
 
 -- Relacionar función con capacidades
 INSERT INTO funcion_capacidades (funcion_id, capacidad_id, requerida, visible_en_ui, orden)
 SELECT f.id, c.id,
-    CASE WHEN c.accion = 'ver' THEN TRUE ELSE FALSE END,
-    TRUE,
-    CASE
-        WHEN c.accion = 'ver' THEN 1
-        WHEN c.accion = 'crear' THEN 2
-        WHEN c.accion = 'editar' THEN 3
-        WHEN c.accion = 'asignar_miembros' THEN 4
-        WHEN c.accion = 'ver_metricas' THEN 5
-        WHEN c.accion = 'eliminar' THEN 6
-    END
+ CASE WHEN c.accion = 'ver' THEN TRUE ELSE FALSE END,
+ TRUE,
+ CASE
+ WHEN c.accion = 'ver' THEN 1
+ WHEN c.accion = 'crear' THEN 2
+ WHEN c.accion = 'editar' THEN 3
+ WHEN c.accion = 'asignar_miembros' THEN 4
+ WHEN c.accion = 'ver_metricas' THEN 5
+ WHEN c.accion = 'eliminar' THEN 6
+ END
 FROM funciones f
 CROSS JOIN capacidades c
 WHERE f.nombre_completo = 'sistema.supervision.equipos'
-  AND c.nombre_completo LIKE 'sistema.supervision.equipos.%';
+ AND c.nombre_completo LIKE 'sistema.supervision.equipos.%';
 ```
 
 ### Servicio Backend: TeamManagementService
@@ -142,124 +142,124 @@ from ...audit.services import AuditService
 User = get_user_model()
 
 class TeamManagementService:
-    """
-    Servicio para gestión de equipos de trabajo.
-    """
+ """
+ Servicio para gestión de equipos de trabajo.
+ """
 
-    @staticmethod
-    def listar_equipos(
-        usuario_solicitante: User,
-        filtros: Optional[dict] = None
-    ) -> List[Team]:
-        """
-        Lista equipos del sistema.
+ @staticmethod
+ def listar_equipos(
+ usuario_solicitante: User,
+ filtros: Optional[dict] = None
+ ) -> List[Team]:
+ """
+ Lista equipos del sistema.
 
-        Requisitos:
-        - Usuario debe tener permiso 'sistema.supervision.equipos.ver'
-        """
-        if not PermissionService.usuario_tiene_permiso(
-            usuario_solicitante.id,
-            'sistema.supervision.equipos.ver'
-        ):
-            raise PermissionDenied('No autorizado para ver equipos')
+ Requisitos:
+ - Usuario debe tener permiso 'sistema.supervision.equipos.ver'
+ """
+ if not PermissionService.usuario_tiene_permiso(
+ usuario_solicitante.id,
+ 'sistema.supervision.equipos.ver'
+ ):
+ raise PermissionDenied('No autorizado para ver equipos')
 
-        queryset = Team.objects.filter(activo=True)
+ queryset = Team.objects.filter(activo=True)
 
-        if filtros and 'nombre_contains' in filtros:
-            queryset = queryset.filter(nombre__icontains=filtros['nombre_contains'])
+ if filtros and 'nombre_contains' in filtros:
+ queryset = queryset.filter(nombre__icontains=filtros['nombre_contains'])
 
-        return list(queryset)
+ return list(queryset)
 
-    @staticmethod
-    @transaction.atomic
-    def crear_equipo(
-        usuario_solicitante: User,
-        datos: dict
-    ) -> Team:
-        """
-        Crea nuevo equipo.
+ @staticmethod
+ @transaction.atomic
+ def crear_equipo(
+ usuario_solicitante: User,
+ datos: dict
+ ) -> Team:
+ """
+ Crea nuevo equipo.
 
-        Requisitos:
-        - Usuario debe tener permiso 'sistema.supervision.equipos.crear'
+ Requisitos:
+ - Usuario debe tener permiso 'sistema.supervision.equipos.crear'
 
-        Args:
-            datos: {
-                'nombre': str,
-                'descripcion': str,
-                'supervisor_id': int
-            }
-        """
-        if not PermissionService.usuario_tiene_permiso(
-            usuario_solicitante.id,
-            'sistema.supervision.equipos.crear'
-        ):
-            raise PermissionDenied('No autorizado para crear equipos')
+ Args:
+ datos: {
+ 'nombre': str,
+ 'descripcion': str,
+ 'supervisor_id': int
+ }
+ """
+ if not PermissionService.usuario_tiene_permiso(
+ usuario_solicitante.id,
+ 'sistema.supervision.equipos.crear'
+ ):
+ raise PermissionDenied('No autorizado para crear equipos')
 
-        # Validar campos requeridos
-        if 'nombre' not in datos:
-            raise ValidationError('Nombre de equipo es requerido')
+ # Validar campos requeridos
+ if 'nombre' not in datos:
+ raise ValidationError('Nombre de equipo es requerido')
 
-        # Crear equipo
-        equipo = Team.objects.create(
-            nombre=datos['nombre'],
-            descripcion=datos.get('descripcion', ''),
-            supervisor_id=datos.get('supervisor_id'),
-            activo=True
-        )
+ # Crear equipo
+ equipo = Team.objects.create(
+ nombre=datos['nombre'],
+ descripcion=datos.get('descripcion', ''),
+ supervisor_id=datos.get('supervisor_id'),
+ activo=True
+ )
 
-        # Auditar
-        AuditService.registrar_accion(
-            usuario=usuario_solicitante,
-            capacidad='sistema.supervision.equipos.crear',
-            accion='equipo_creado',
-            recurso=f'equipo:{equipo.id}',
-            metadata={'nombre': equipo.nombre}
-        )
+ # Auditar
+ AuditService.registrar_accion(
+ usuario=usuario_solicitante,
+ capacidad='sistema.supervision.equipos.crear',
+ accion='equipo_creado',
+ recurso=f'equipo:{equipo.id}',
+ metadata={'nombre': equipo.nombre}
+ )
 
-        return equipo
+ return equipo
 
-    @staticmethod
-    @transaction.atomic
-    def asignar_miembros(
-        usuario_solicitante: User,
-        equipo_id: int,
-        miembros_ids: List[int]
-    ) -> Team:
-        """
-        Asigna agentes a un equipo.
+ @staticmethod
+ @transaction.atomic
+ def asignar_miembros(
+ usuario_solicitante: User,
+ equipo_id: int,
+ miembros_ids: List[int]
+ ) -> Team:
+ """
+ Asigna agentes a un equipo.
 
-        Requisitos:
-        - Usuario debe tener permiso 'sistema.supervision.equipos.asignar_miembros'
-        """
-        if not PermissionService.usuario_tiene_permiso(
-            usuario_solicitante.id,
-            'sistema.supervision.equipos.asignar_miembros'
-        ):
-            raise PermissionDenied('No autorizado para asignar miembros')
+ Requisitos:
+ - Usuario debe tener permiso 'sistema.supervision.equipos.asignar_miembros'
+ """
+ if not PermissionService.usuario_tiene_permiso(
+ usuario_solicitante.id,
+ 'sistema.supervision.equipos.asignar_miembros'
+ ):
+ raise PermissionDenied('No autorizado para asignar miembros')
 
-        equipo = Team.objects.get(id=equipo_id)
+ equipo = Team.objects.get(id=equipo_id)
 
-        # Remover miembros actuales
-        TeamMember.objects.filter(equipo_id=equipo_id).update(activo=False)
+ # Remover miembros actuales
+ TeamMember.objects.filter(equipo_id=equipo_id).update(activo=False)
 
-        # Asignar nuevos miembros
-        for user_id in miembros_ids:
-            TeamMember.objects.create(
-                equipo_id=equipo_id,
-                usuario_id=user_id,
-                activo=True
-            )
+ # Asignar nuevos miembros
+ for user_id in miembros_ids:
+ TeamMember.objects.create(
+ equipo_id=equipo_id,
+ usuario_id=user_id,
+ activo=True
+ )
 
-        # Auditar
-        AuditService.registrar_accion(
-            usuario=usuario_solicitante,
-            capacidad='sistema.supervision.equipos.asignar_miembros',
-            accion='miembros_asignados',
-            recurso=f'equipo:{equipo.id}',
-            metadata={'miembros_count': len(miembros_ids)}
-        )
+ # Auditar
+ AuditService.registrar_accion(
+ usuario=usuario_solicitante,
+ capacidad='sistema.supervision.equipos.asignar_miembros',
+ accion='miembros_asignados',
+ recurso=f'equipo:{equipo.id}',
+ metadata={'miembros_count': len(miembros_ids)}
+ )
 
-        return equipo
+ return equipo
 ```
 
 ---
@@ -295,26 +295,26 @@ integracion: nueva (módulo a crear)
 ```sql
 INSERT INTO funciones (nombre, nombre_completo, dominio, categoria, descripcion, icono, orden_menu, activa)
 VALUES ('horarios', 'sistema.supervision.horarios', 'supervision', 'planificacion',
-        'Planificación de turnos y horarios de trabajo', 'calendar-clock', 510, TRUE);
+ 'Planificación de turnos y horarios de trabajo', 'calendar-clock', 510, TRUE);
 
 INSERT INTO capacidades (nombre_completo, accion, recurso, dominio, descripcion, nivel_sensibilidad, requiere_auditoria, activa)
 VALUES
-    ('sistema.supervision.horarios.ver', 'ver', 'horarios', 'supervision', 'Ver horarios y turnos', 'bajo', FALSE, TRUE),
-    ('sistema.supervision.horarios.crear', 'crear', 'horarios', 'supervision', 'Crear nuevos horarios', 'alto', TRUE, TRUE),
-    ('sistema.supervision.horarios.editar', 'editar', 'horarios', 'supervision', 'Modificar horarios existentes', 'alto', TRUE, TRUE),
-    ('sistema.supervision.horarios.aprobar', 'aprobar', 'horarios', 'supervision', 'Aprobar horarios propuestos', 'alto', TRUE, TRUE),
-    ('sistema.supervision.horarios.exportar', 'exportar', 'horarios', 'supervision', 'Exportar horarios a Excel', 'normal', FALSE, TRUE),
-    ('sistema.supervision.horarios.eliminar', 'eliminar', 'horarios', 'supervision', 'Eliminar horarios', 'alto', TRUE, TRUE);
+ ('sistema.supervision.horarios.ver', 'ver', 'horarios', 'supervision', 'Ver horarios y turnos', 'bajo', FALSE, TRUE),
+ ('sistema.supervision.horarios.crear', 'crear', 'horarios', 'supervision', 'Crear nuevos horarios', 'alto', TRUE, TRUE),
+ ('sistema.supervision.horarios.editar', 'editar', 'horarios', 'supervision', 'Modificar horarios existentes', 'alto', TRUE, TRUE),
+ ('sistema.supervision.horarios.aprobar', 'aprobar', 'horarios', 'supervision', 'Aprobar horarios propuestos', 'alto', TRUE, TRUE),
+ ('sistema.supervision.horarios.exportar', 'exportar', 'horarios', 'supervision', 'Exportar horarios a Excel', 'normal', FALSE, TRUE),
+ ('sistema.supervision.horarios.eliminar', 'eliminar', 'horarios', 'supervision', 'Eliminar horarios', 'alto', TRUE, TRUE);
 
 INSERT INTO funcion_capacidades (funcion_id, capacidad_id, requerida, visible_en_ui, orden)
 SELECT f.id, c.id, (c.accion = 'ver'), TRUE,
-    CASE c.accion
-        WHEN 'ver' THEN 1 WHEN 'crear' THEN 2 WHEN 'editar' THEN 3
-        WHEN 'aprobar' THEN 4 WHEN 'exportar' THEN 5 WHEN 'eliminar' THEN 6
-    END
+ CASE c.accion
+ WHEN 'ver' THEN 1 WHEN 'crear' THEN 2 WHEN 'editar' THEN 3
+ WHEN 'aprobar' THEN 4 WHEN 'exportar' THEN 5 WHEN 'eliminar' THEN 6
+ END
 FROM funciones f CROSS JOIN capacidades c
 WHERE f.nombre_completo = 'sistema.supervision.horarios'
-  AND c.nombre_completo LIKE 'sistema.supervision.horarios.%';
+ AND c.nombre_completo LIKE 'sistema.supervision.horarios.%';
 ```
 
 ---
@@ -350,26 +350,26 @@ integracion: nueva (módulo a crear)
 ```sql
 INSERT INTO funciones (nombre, nombre_completo, dominio, categoria, descripcion, icono, orden_menu, activa)
 VALUES ('evaluaciones', 'sistema.calidad.evaluaciones', 'calidad', 'gestion_desempeno',
-        'Evaluación de desempeño de agentes', 'clipboard-check', 600, TRUE);
+ 'Evaluación de desempeño de agentes', 'clipboard-check', 600, TRUE);
 
 INSERT INTO capacidades (nombre_completo, accion, recurso, dominio, descripcion, nivel_sensibilidad, requiere_auditoria, activa)
 VALUES
-    ('sistema.calidad.evaluaciones.ver', 'ver', 'evaluaciones', 'calidad', 'Ver evaluaciones de desempeño', 'bajo', FALSE, TRUE),
-    ('sistema.calidad.evaluaciones.crear', 'crear', 'evaluaciones', 'calidad', 'Crear nuevas evaluaciones', 'alto', TRUE, TRUE),
-    ('sistema.calidad.evaluaciones.editar', 'editar', 'evaluaciones', 'calidad', 'Modificar evaluaciones en borrador', 'alto', TRUE, TRUE),
-    ('sistema.calidad.evaluaciones.aprobar', 'aprobar', 'evaluaciones', 'calidad', 'Aprobar y publicar evaluaciones', 'alto', TRUE, TRUE),
-    ('sistema.calidad.evaluaciones.ver_historico', 'ver_historico', 'evaluaciones', 'calidad', 'Ver histórico de evaluaciones', 'normal', FALSE, TRUE),
-    ('sistema.calidad.evaluaciones.eliminar', 'eliminar', 'evaluaciones', 'calidad', 'Eliminar evaluaciones', 'critico', TRUE, TRUE);
+ ('sistema.calidad.evaluaciones.ver', 'ver', 'evaluaciones', 'calidad', 'Ver evaluaciones de desempeño', 'bajo', FALSE, TRUE),
+ ('sistema.calidad.evaluaciones.crear', 'crear', 'evaluaciones', 'calidad', 'Crear nuevas evaluaciones', 'alto', TRUE, TRUE),
+ ('sistema.calidad.evaluaciones.editar', 'editar', 'evaluaciones', 'calidad', 'Modificar evaluaciones en borrador', 'alto', TRUE, TRUE),
+ ('sistema.calidad.evaluaciones.aprobar', 'aprobar', 'evaluaciones', 'calidad', 'Aprobar y publicar evaluaciones', 'alto', TRUE, TRUE),
+ ('sistema.calidad.evaluaciones.ver_historico', 'ver_historico', 'evaluaciones', 'calidad', 'Ver histórico de evaluaciones', 'normal', FALSE, TRUE),
+ ('sistema.calidad.evaluaciones.eliminar', 'eliminar', 'evaluaciones', 'calidad', 'Eliminar evaluaciones', 'critico', TRUE, TRUE);
 
 INSERT INTO funcion_capacidades (funcion_id, capacidad_id, requerida, visible_en_ui, orden)
 SELECT f.id, c.id, (c.accion = 'ver'), TRUE,
-    CASE c.accion
-        WHEN 'ver' THEN 1 WHEN 'crear' THEN 2 WHEN 'editar' THEN 3
-        WHEN 'aprobar' THEN 4 WHEN 'ver_historico' THEN 5 WHEN 'eliminar' THEN 6
-    END
+ CASE c.accion
+ WHEN 'ver' THEN 1 WHEN 'crear' THEN 2 WHEN 'editar' THEN 3
+ WHEN 'aprobar' THEN 4 WHEN 'ver_historico' THEN 5 WHEN 'eliminar' THEN 6
+ END
 FROM funciones f CROSS JOIN capacidades c
 WHERE f.nombre_completo = 'sistema.calidad.evaluaciones'
-  AND c.nombre_completo LIKE 'sistema.calidad.evaluaciones.%';
+ AND c.nombre_completo LIKE 'sistema.calidad.evaluaciones.%';
 ```
 
 ---
@@ -405,26 +405,26 @@ integracion: audit (módulo Django existente)
 ```sql
 INSERT INTO funciones (nombre, nombre_completo, dominio, categoria, descripcion, icono, orden_menu, activa)
 VALUES ('auditoria', 'sistema.calidad.auditoria', 'calidad', 'control_calidad',
-        'Auditoría de calidad de llamadas y tickets', 'search-check', 610, TRUE);
+ 'Auditoría de calidad de llamadas y tickets', 'search-check', 610, TRUE);
 
 INSERT INTO capacidades (nombre_completo, accion, recurso, dominio, descripcion, nivel_sensibilidad, requiere_auditoria, activa)
 VALUES
-    ('sistema.calidad.auditoria.ver', 'ver', 'auditoria', 'calidad', 'Ver auditorías de calidad', 'bajo', FALSE, TRUE),
-    ('sistema.calidad.auditoria.auditar_llamadas', 'auditar_llamadas', 'auditoria', 'calidad', 'Realizar auditorías de llamadas', 'alto', TRUE, TRUE),
-    ('sistema.calidad.auditoria.auditar_tickets', 'auditar_tickets', 'auditoria', 'calidad', 'Realizar auditorías de tickets', 'alto', TRUE, TRUE),
-    ('sistema.calidad.auditoria.ver_reportes', 'ver_reportes', 'auditoria', 'calidad', 'Ver reportes de auditoría', 'normal', FALSE, TRUE),
-    ('sistema.calidad.auditoria.exportar', 'exportar', 'auditoria', 'calidad', 'Exportar datos de auditoría', 'normal', FALSE, TRUE),
-    ('sistema.calidad.auditoria.configurar', 'configurar', 'auditoria', 'calidad', 'Configurar criterios de auditoría', 'critico', TRUE, TRUE);
+ ('sistema.calidad.auditoria.ver', 'ver', 'auditoria', 'calidad', 'Ver auditorías de calidad', 'bajo', FALSE, TRUE),
+ ('sistema.calidad.auditoria.auditar_llamadas', 'auditar_llamadas', 'auditoria', 'calidad', 'Realizar auditorías de llamadas', 'alto', TRUE, TRUE),
+ ('sistema.calidad.auditoria.auditar_tickets', 'auditar_tickets', 'auditoria', 'calidad', 'Realizar auditorías de tickets', 'alto', TRUE, TRUE),
+ ('sistema.calidad.auditoria.ver_reportes', 'ver_reportes', 'auditoria', 'calidad', 'Ver reportes de auditoría', 'normal', FALSE, TRUE),
+ ('sistema.calidad.auditoria.exportar', 'exportar', 'auditoria', 'calidad', 'Exportar datos de auditoría', 'normal', FALSE, TRUE),
+ ('sistema.calidad.auditoria.configurar', 'configurar', 'auditoria', 'calidad', 'Configurar criterios de auditoría', 'critico', TRUE, TRUE);
 
 INSERT INTO funcion_capacidades (funcion_id, capacidad_id, requerida, visible_en_ui, orden)
 SELECT f.id, c.id, (c.accion = 'ver'), TRUE,
-    CASE c.accion
-        WHEN 'ver' THEN 1 WHEN 'auditar_llamadas' THEN 2 WHEN 'auditar_tickets' THEN 3
-        WHEN 'ver_reportes' THEN 4 WHEN 'exportar' THEN 5 WHEN 'configurar' THEN 6
-    END
+ CASE c.accion
+ WHEN 'ver' THEN 1 WHEN 'auditar_llamadas' THEN 2 WHEN 'auditar_tickets' THEN 3
+ WHEN 'ver_reportes' THEN 4 WHEN 'exportar' THEN 5 WHEN 'configurar' THEN 6
+ END
 FROM funciones f CROSS JOIN capacidades c
 WHERE f.nombre_completo = 'sistema.calidad.auditoria'
-  AND c.nombre_completo LIKE 'sistema.calidad.auditoria.%';
+ AND c.nombre_completo LIKE 'sistema.calidad.auditoria.%';
 ```
 
 ### Integración con Módulo Audit Existente
@@ -439,70 +439,70 @@ from ...users.models import PermissionService
 from ...ivr_legacy.models import IVRCall
 
 class QualityAuditService:
-    """
-    Servicio para auditoría de calidad.
-    Integra con módulo audit existente.
-    """
+ """
+ Servicio para auditoría de calidad.
+ Integra con módulo audit existente.
+ """
 
-    @staticmethod
-    def auditar_llamada(
-        usuario_solicitante,
-        llamada_id: int,
-        calificacion: int,
-        comentarios: str,
-        criterios: dict
-    ) -> QualityAudit:
-        """
-        Realiza auditoría de calidad de una llamada.
+ @staticmethod
+ def auditar_llamada(
+ usuario_solicitante,
+ llamada_id: int,
+ calificacion: int,
+ comentarios: str,
+ criterios: dict
+ ) -> QualityAudit:
+ """
+ Realiza auditoría de calidad de una llamada.
 
-        Requisitos:
-        - Usuario debe tener permiso 'sistema.calidad.auditoria.auditar_llamadas'
+ Requisitos:
+ - Usuario debe tener permiso 'sistema.calidad.auditoria.auditar_llamadas'
 
-        Args:
-            llamada_id: ID de la llamada a auditar
-            calificacion: Calificación general (1-10)
-            comentarios: Comentarios del auditor
-            criterios: Diccionario con criterios evaluados
-                {
-                    'saludo': int,
-                    'resolucion': int,
-                    'empatia': int,
-                    'cierre': int
-                }
-        """
-        if not PermissionService.usuario_tiene_permiso(
-            usuario_solicitante.id,
-            'sistema.calidad.auditoria.auditar_llamadas'
-        ):
-            raise PermissionDenied('No autorizado para auditar llamadas')
+ Args:
+ llamada_id: ID de la llamada a auditar
+ calificacion: Calificación general (1-10)
+ comentarios: Comentarios del auditor
+ criterios: Diccionario con criterios evaluados
+ {
+ 'saludo': int,
+ 'resolucion': int,
+ 'empatia': int,
+ 'cierre': int
+ }
+ """
+ if not PermissionService.usuario_tiene_permiso(
+ usuario_solicitante.id,
+ 'sistema.calidad.auditoria.auditar_llamadas'
+ ):
+ raise PermissionDenied('No autorizado para auditar llamadas')
 
-        # Obtener llamada
-        llamada = IVRCall.objects.get(id=llamada_id)
+ # Obtener llamada
+ llamada = IVRCall.objects.get(id=llamada_id)
 
-        # Crear auditoría
-        auditoria = QualityAudit.objects.create(
-            tipo='llamada',
-            referencia_id=llamada_id,
-            auditor_id=usuario_solicitante.id,
-            calificacion=calificacion,
-            comentarios=comentarios,
-            criterios=criterios,
-            estado='completada'
-        )
+ # Crear auditoría
+ auditoria = QualityAudit.objects.create(
+ tipo='llamada',
+ referencia_id=llamada_id,
+ auditor_id=usuario_solicitante.id,
+ calificacion=calificacion,
+ comentarios=comentarios,
+ criterios=criterios,
+ estado='completada'
+ )
 
-        # Log en sistema de auditoría general
-        AuditLog.objects.create(
-            usuario_id=usuario_solicitante.id,
-            capacidad='sistema.calidad.auditoria.auditar_llamadas',
-            accion='auditoria_completada',
-            recurso=f'llamada:{llamada_id}',
-            metadata={
-                'calificacion': calificacion,
-                'auditoria_id': auditoria.id
-            }
-        )
+ # Log en sistema de auditoría general
+ AuditLog.objects.create(
+ usuario_id=usuario_solicitante.id,
+ capacidad='sistema.calidad.auditoria.auditar_llamadas',
+ accion='auditoria_completada',
+ recurso=f'llamada:{llamada_id}',
+ metadata={
+ 'calificacion': calificacion,
+ 'auditoria_id': auditoria.id
+ }
+ )
 
-        return auditoria
+ return auditoria
 ```
 
 ---
@@ -516,26 +516,26 @@ class QualityAuditService:
 ```sql
 INSERT INTO grupos_permisos (codigo, nombre_display, descripcion, tipo_acceso, color_hex, icono, activo)
 VALUES (
-    'gestion_equipos',
-    'Gestión de Equipos',
-    'Administración completa de equipos: crear, editar, asignar miembros',
-    'gestion',
-    '#8B5CF6',
-    'users-cog',
-    TRUE
+ 'gestion_equipos',
+ 'Gestión de Equipos',
+ 'Administración completa de equipos: crear, editar, asignar miembros',
+ 'gestion',
+ '#8B5CF6',
+ 'users-cog',
+ TRUE
 );
 
 INSERT INTO grupo_capacidades (grupo_id, capacidad_id)
 SELECT gp.id, c.id
 FROM grupos_permisos gp CROSS JOIN capacidades c
 WHERE gp.codigo = 'gestion_equipos'
-  AND c.nombre_completo IN (
-      'sistema.supervision.equipos.ver',
-      'sistema.supervision.equipos.crear',
-      'sistema.supervision.equipos.editar',
-      'sistema.supervision.equipos.asignar_miembros',
-      'sistema.supervision.equipos.ver_metricas'
-  );
+ AND c.nombre_completo IN (
+ 'sistema.supervision.equipos.ver',
+ 'sistema.supervision.equipos.crear',
+ 'sistema.supervision.equipos.editar',
+ 'sistema.supervision.equipos.asignar_miembros',
+ 'sistema.supervision.equipos.ver_metricas'
+ );
 ```
 
 ### Grupo 2: gestion_horarios
@@ -545,26 +545,26 @@ WHERE gp.codigo = 'gestion_equipos'
 ```sql
 INSERT INTO grupos_permisos (codigo, nombre_display, descripcion, tipo_acceso, color_hex, icono, activo)
 VALUES (
-    'gestion_horarios',
-    'Gestión de Horarios',
-    'Planificación y aprobación de turnos de trabajo',
-    'gestion',
-    '#EC4899',
-    'calendar',
-    TRUE
+ 'gestion_horarios',
+ 'Gestión de Horarios',
+ 'Planificación y aprobación de turnos de trabajo',
+ 'gestion',
+ '#EC4899',
+ 'calendar',
+ TRUE
 );
 
 INSERT INTO grupo_capacidades (grupo_id, capacidad_id)
 SELECT gp.id, c.id
 FROM grupos_permisos gp CROSS JOIN capacidades c
 WHERE gp.codigo = 'gestion_horarios'
-  AND c.nombre_completo IN (
-      'sistema.supervision.horarios.ver',
-      'sistema.supervision.horarios.crear',
-      'sistema.supervision.horarios.editar',
-      'sistema.supervision.horarios.aprobar',
-      'sistema.supervision.horarios.exportar'
-  );
+ AND c.nombre_completo IN (
+ 'sistema.supervision.horarios.ver',
+ 'sistema.supervision.horarios.crear',
+ 'sistema.supervision.horarios.editar',
+ 'sistema.supervision.horarios.aprobar',
+ 'sistema.supervision.horarios.exportar'
+ );
 ```
 
 ### Grupo 3: auditoria_llamadas
@@ -574,29 +574,29 @@ WHERE gp.codigo = 'gestion_horarios'
 ```sql
 INSERT INTO grupos_permisos (codigo, nombre_display, descripcion, tipo_acceso, color_hex, icono, activo)
 VALUES (
-    'auditoria_llamadas',
-    'Auditoría de Llamadas',
-    'Auditoría de calidad de llamadas y tickets',
-    'gestion',
-    '#06B6D4',
-    'search-check',
-    TRUE
+ 'auditoria_llamadas',
+ 'Auditoría de Llamadas',
+ 'Auditoría de calidad de llamadas y tickets',
+ 'gestion',
+ '#06B6D4',
+ 'search-check',
+ TRUE
 );
 
 INSERT INTO grupo_capacidades (grupo_id, capacidad_id)
 SELECT gp.id, c.id
 FROM grupos_permisos gp CROSS JOIN capacidades c
 WHERE gp.codigo = 'auditoria_llamadas'
-  AND c.nombre_completo IN (
-      'sistema.calidad.auditoria.ver',
-      'sistema.calidad.auditoria.auditar_llamadas',
-      'sistema.calidad.auditoria.auditar_tickets',
-      'sistema.calidad.auditoria.ver_reportes',
-      'sistema.calidad.auditoria.exportar',
-      'sistema.operaciones.llamadas.ver',
-      'sistema.operaciones.llamadas.escuchar_grabaciones',
-      'sistema.operaciones.tickets.ver'
-  );
+ AND c.nombre_completo IN (
+ 'sistema.calidad.auditoria.ver',
+ 'sistema.calidad.auditoria.auditar_llamadas',
+ 'sistema.calidad.auditoria.auditar_tickets',
+ 'sistema.calidad.auditoria.ver_reportes',
+ 'sistema.calidad.auditoria.exportar',
+ 'sistema.operaciones.llamadas.ver',
+ 'sistema.operaciones.llamadas.escuchar_grabaciones',
+ 'sistema.operaciones.tickets.ver'
+ );
 ```
 
 ### Grupo 4: evaluacion_desempeno
@@ -606,28 +606,28 @@ WHERE gp.codigo = 'auditoria_llamadas'
 ```sql
 INSERT INTO grupos_permisos (codigo, nombre_display, descripcion, tipo_acceso, color_hex, icono, activo)
 VALUES (
-    'evaluacion_desempeno',
-    'Evaluación de Desempeño',
-    'Evaluación y seguimiento de desempeño de agentes',
-    'gestion',
-    '#F97316',
-    'clipboard-check',
-    TRUE
+ 'evaluacion_desempeno',
+ 'Evaluación de Desempeño',
+ 'Evaluación y seguimiento de desempeño de agentes',
+ 'gestion',
+ '#F97316',
+ 'clipboard-check',
+ TRUE
 );
 
 INSERT INTO grupo_capacidades (grupo_id, capacidad_id)
 SELECT gp.id, c.id
 FROM grupos_permisos gp CROSS JOIN capacidades c
 WHERE gp.codigo = 'evaluacion_desempeno'
-  AND c.nombre_completo IN (
-      'sistema.calidad.evaluaciones.ver',
-      'sistema.calidad.evaluaciones.crear',
-      'sistema.calidad.evaluaciones.editar',
-      'sistema.calidad.evaluaciones.aprobar',
-      'sistema.calidad.evaluaciones.ver_historico',
-      'sistema.analisis.metricas.ver',
-      'sistema.analisis.reportes.ver'
-  );
+ AND c.nombre_completo IN (
+ 'sistema.calidad.evaluaciones.ver',
+ 'sistema.calidad.evaluaciones.crear',
+ 'sistema.calidad.evaluaciones.editar',
+ 'sistema.calidad.evaluaciones.aprobar',
+ 'sistema.calidad.evaluaciones.ver_historico',
+ 'sistema.analisis.metricas.ver',
+ 'sistema.analisis.reportes.ver'
+ );
 ```
 
 ---
@@ -674,16 +674,16 @@ WHERE gp.codigo = 'evaluacion_desempeno'
 
 ```sql
 SELECT
-    f.nombre_completo,
-    f.dominio,
-    COUNT(fc.id) AS capacidades_count
+ f.nombre_completo,
+ f.dominio,
+ COUNT(fc.id) AS capacidades_count
 FROM funciones f
 LEFT JOIN funcion_capacidades fc ON f.id = fc.funcion_id
 WHERE f.nombre_completo IN (
-    'sistema.supervision.equipos',
-    'sistema.supervision.horarios',
-    'sistema.calidad.evaluaciones',
-    'sistema.calidad.auditoria'
+ 'sistema.supervision.equipos',
+ 'sistema.supervision.horarios',
+ 'sistema.calidad.evaluaciones',
+ 'sistema.calidad.auditoria'
 )
 GROUP BY f.nombre_completo, f.dominio;
 
@@ -694,16 +694,16 @@ GROUP BY f.nombre_completo, f.dominio;
 
 ```sql
 SELECT
-    gp.codigo,
-    gp.nombre_display,
-    COUNT(gc.id) AS capacidades_count
+ gp.codigo,
+ gp.nombre_display,
+ COUNT(gc.id) AS capacidades_count
 FROM grupos_permisos gp
 LEFT JOIN grupo_capacidades gc ON gp.id = gc.grupo_id
 WHERE gp.codigo IN (
-    'gestion_equipos',
-    'gestion_horarios',
-    'auditoria_llamadas',
-    'evaluacion_desempeno'
+ 'gestion_equipos',
+ 'gestion_horarios',
+ 'auditoria_llamadas',
+ 'evaluacion_desempeno'
 )
 GROUP BY gp.codigo, gp.nombre_display;
 ```

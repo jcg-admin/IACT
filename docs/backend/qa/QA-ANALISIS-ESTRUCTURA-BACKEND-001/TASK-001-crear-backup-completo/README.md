@@ -54,7 +54,7 @@ git status
 ### Paso 2: Crear Tag de Backup
 ```bash
 git tag -a backup-reorganizacion-backend-2025-11-18 \
-  -m "Backup pre-reorganizacion docs/backend - estructura 27 carpetas"
+ -m "Backup pre-reorganizacion docs/backend - estructura 27 carpetas"
 ```
 
 **Resultado Esperado:** Tag creado localmente
@@ -84,7 +84,7 @@ git show backup-reorganizacion-backend-2025-11-18 --oneline -s
 ```bash
 # Guardar hash del commit de backup
 git rev-parse backup-reorganizacion-backend-2025-11-18 > \
-  docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/backup-commit-hash.txt
+ docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/backup-commit-hash.txt
 
 # Mostrar hash
 cat docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/backup-commit-hash.txt

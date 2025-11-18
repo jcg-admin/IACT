@@ -30,19 +30,19 @@ Identificar y mover todos los archivos dispersos relacionados con diseno de base
 
 ### Pensamiento 1: Donde pueden estar archivos de BD
 - **Ubicaciones posibles:**
-  - Archivos sueltos en docs/backend/
-  - En carpetas de diseno/detallado/
-  - En docs/backend/modelos/ (si existe)
-  - Diagramas ERD dispersos
+ - Archivos sueltos en docs/backend/
+ - En carpetas de diseno/detallado/
+ - En docs/backend/modelos/ (si existe)
+ - Diagramas ERD dispersos
 
 ### Pensamiento 2: Que archivos buscar
 - **Patrones de archivo:**
-  - `*.sql` (esquemas, no codigo de migraciones)
-  - `*schema*`, `*esquema*`
-  - `*erd*`, `*ERD*`
-  - `*database*`, `*db*`, `*BD*`
-  - `*modelo*`, `*model*`
-  - Diagramas: `*.png`, `*.svg` con nombres relacionados a BD
+ - `*.sql` (esquemas, no codigo de migraciones)
+ - `*schema*`, `*esquema*`
+ - `*erd*`, `*ERD*`
+ - `*database*`, `*db*`, `*BD*`
+ - `*modelo*`, `*model*`
+ - Diagramas: `*.png`, `*.svg` con nombres relacionados a BD
 
 ### Pensamiento 3: Como identificar correctamente
 - No mover CODIGO (migrations/ del backend)
@@ -75,7 +75,7 @@ find docs/backend/ -name "*.sql" -type f 2>/dev/null | grep -v "diseno/database"
 
 # Guardar lista
 find docs/backend/ -name "*.sql" -type f 2>/dev/null | grep -v "diseno/database" > \
-  docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/archivos-sql-encontrados.txt
+ docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/archivos-sql-encontrados.txt
 
 SQL_COUNT=$(wc -l < docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/archivos-sql-encontrados.txt)
 echo "Archivos .sql encontrados: $SQL_COUNT"
@@ -89,14 +89,14 @@ echo "=== Buscando archivos con patrones de BD ==="
 
 # Buscar por nombre
 find docs/backend/ -type f \( \
-  -iname "*schema*" -o \
-  -iname "*esquema*" -o \
-  -iname "*erd*" -o \
-  -iname "*database*" -o \
-  -iname "*modelo*" -o \
-  -iname "*model*" \
+ -iname "*schema*" -o \
+ -iname "*esquema*" -o \
+ -iname "*erd*" -o \
+ -iname "*database*" -o \
+ -iname "*modelo*" -o \
+ -iname "*model*" \
 \) 2>/dev/null | grep -v "diseno/database" | sort > \
-  docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/archivos-bd-patron.txt
+ docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/archivos-bd-patron.txt
 
 BD_PATTERN_COUNT=$(wc -l < docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/archivos-bd-patron.txt)
 echo "Archivos con patron BD: $BD_PATTERN_COUNT"
@@ -112,9 +112,9 @@ echo "=== Buscando diagramas de BD ==="
 
 # Buscar imagenes con nombres relacionados a BD
 find docs/backend/ -type f \( -name "*.png" -o -name "*.svg" -o -name "*.jpg" \) 2>/dev/null | \
-  grep -iE "(schema|esquema|erd|database|modelo|db)" | \
-  grep -v "diseno/database" | sort > \
-  docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/diagramas-bd.txt
+ grep -iE "(schema|esquema|erd|database|modelo|db)" | \
+ grep -v "diseno/database" | sort > \
+ docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/diagramas-bd.txt
 
 DIAGRAM_COUNT=$(wc -l < docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/diagramas-bd.txt)
 echo "Diagramas de BD: $DIAGRAM_COUNT"
@@ -128,9 +128,9 @@ cat docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/diagramas-bd.txt
 ```bash
 # Combinar todas las listas (sin duplicados)
 cat docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/archivos-sql-encontrados.txt \
-    docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/archivos-bd-patron.txt \
-    docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/diagramas-bd.txt | \
-  sort -u > docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/archivos-bd-consolidado.txt
+ docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/archivos-bd-patron.txt \
+ docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/diagramas-bd.txt | \
+ sort -u > docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/archivos-bd-consolidado.txt
 
 TOTAL_BD=$(wc -l < docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/archivos-bd-consolidado.txt)
 echo "Total archivos BD a mover: $TOTAL_BD"
@@ -156,19 +156,19 @@ echo "Presione Enter para continuar con movimiento, o Ctrl+C para cancelar"
 ```bash
 # Mover cada archivo usando git mv
 if [ -f "docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/archivos-bd-consolidado.txt" ]; then
-  while IFS= read -r file; do
-    if [ -f "$file" ]; then
-      # Obtener nombre base del archivo
-      BASENAME=$(basename "$file")
+ while IFS= read -r file; do
+ if [ -f "$file" ]; then
+ # Obtener nombre base del archivo
+ BASENAME=$(basename "$file")
 
-      # Mover con git mv
-      echo "Moviendo: $file -> docs/backend/diseno/database/$BASENAME"
-      git mv "$file" "docs/backend/diseno/database/$BASENAME" 2>&1 | tee -a \
-        docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/log-movimiento-bd.txt
-    fi
-  done < docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/archivos-bd-consolidado.txt
+ # Mover con git mv
+ echo "Moviendo: $file -> docs/backend/diseno/database/$BASENAME"
+ git mv "$file" "docs/backend/diseno/database/$BASENAME" 2>&1 | tee -a \
+ docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/log-movimiento-bd.txt
+ fi
+ done < docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/archivos-bd-consolidado.txt
 else
-  echo "INFO: No hay archivos para mover"
+ echo "INFO: No hay archivos para mover"
 fi
 ```
 
@@ -277,9 +277,9 @@ cat docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/registro-movimiento-bd-TA
 # Validacion 1: Archivos en destino
 DEST=$(find docs/backend/diseno/database/ -type f ! -name ".gitkeep" ! -name "README.md" | wc -l)
 if [ "$DEST" -gt 0 ]; then
-  echo "OK: $DEST archivos en database/"
+ echo "OK: $DEST archivos en database/"
 else
-  echo "INFO: No se encontraron archivos para mover"
+ echo "INFO: No se encontraron archivos para mover"
 fi
 
 # Validacion 2: Git renames
@@ -292,10 +292,10 @@ find docs/backend/ -name "*.sql" -type f 2>/dev/null | grep -v "diseno/database"
 
 # Validacion 4: Estructura de subcarpetas
 if [ -d "docs/backend/diseno/database/esquemas" ]; then
-  echo "OK: Subcarpeta esquemas/ creada"
+ echo "OK: Subcarpeta esquemas/ creada"
 fi
 if [ -d "docs/backend/diseno/database/erd" ]; then
-  echo "OK: Subcarpeta erd/ creada"
+ echo "OK: Subcarpeta erd/ creada"
 fi
 ```
 
@@ -333,7 +333,7 @@ git diff --staged --name-status | grep "database"
 git reset HEAD docs/backend/diseno/database/
 # Resetear archivos origen
 git diff --staged --name-status | grep "^R.*database" | awk '{print $3}' | \
-  xargs -I {} dirname {} | xargs -I {} git reset HEAD {}
+ xargs -I {} dirname {} | xargs -I {} git reset HEAD {}
 
 # Restaurar
 git checkout HEAD -- docs/backend/diseno/database/

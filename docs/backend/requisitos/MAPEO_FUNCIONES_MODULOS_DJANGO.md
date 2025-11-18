@@ -166,15 +166,15 @@ Acción: CREAR NUEVO
 **Archivos a Crear:**
 ```
 tickets/
-├── __init__.py
-├── apps.py
-├── models.py
-├── services/
-│   └── ticket_service.py
-├── views.py
-├── serializers.py
-├── urls.py
-└── migrations/
+ __init__.py
+ apps.py
+ models.py
+ services/
+ ticket_service.py
+ views.py
+ serializers.py
+ urls.py
+ migrations/
 ```
 
 ---
@@ -200,14 +200,14 @@ Acción: CREAR NUEVO (integra con IVRClient)
 **Archivos a Crear:**
 ```
 clients/
-├── __init__.py
-├── apps.py
-├── models.py (o extender IVRClient)
-├── services/
-│   └── client_service.py
-├── views.py
-├── serializers.py
-└── urls.py
+ __init__.py
+ apps.py
+ models.py (o extender IVRClient)
+ services/
+ client_service.py
+ views.py
+ serializers.py
+ urls.py
 ```
 
 ---
@@ -305,14 +305,14 @@ Acción: CREAR NUEVO
 **Archivos a Crear:**
 ```
 teams/
-├── __init__.py
-├── apps.py
-├── models.py
-├── services/
-│   └── team_management_service.py
-├── views.py
-├── serializers.py
-└── urls.py
+ __init__.py
+ apps.py
+ models.py
+ services/
+ team_management_service.py
+ views.py
+ serializers.py
+ urls.py
 ```
 
 ---
@@ -336,14 +336,14 @@ Acción: CREAR NUEVO
 **Archivos a Crear:**
 ```
 schedules/
-├── __init__.py
-├── apps.py
-├── models.py
-├── services/
-│   └── schedule_service.py
-├── views.py
-├── serializers.py
-└── urls.py
+ __init__.py
+ apps.py
+ models.py
+ services/
+ schedule_service.py
+ views.py
+ serializers.py
+ urls.py
 ```
 
 ---
@@ -367,14 +367,14 @@ Acción: CREAR NUEVO
 **Archivos a Crear:**
 ```
 evaluations/
-├── __init__.py
-├── apps.py
-├── models.py
-├── services/
-│   └── evaluation_service.py
-├── views.py
-├── serializers.py
-└── urls.py
+ __init__.py
+ apps.py
+ models.py
+ services/
+ evaluation_service.py
+ views.py
+ serializers.py
+ urls.py
 ```
 
 ---
@@ -477,28 +477,28 @@ ls -d */ | sort
 # api/callcentersite/callcentersite/settings.py
 
 INSTALLED_APPS = [
-    # Django apps
-    'django.contrib.admin',
-    # ...
+ # Django apps
+ 'django.contrib.admin',
+ # ...
 
-    # Project apps
-    'callcentersite.apps.users',
-    'callcentersite.apps.authentication',
-    'callcentersite.apps.dashboard',
-    'callcentersite.apps.ivr_legacy',
-    'callcentersite.apps.reports',
-    'callcentersite.apps.analytics',
-    'callcentersite.apps.notifications',
-    'callcentersite.apps.audit',
-    'callcentersite.apps.common',
-    'callcentersite.apps.etl',
+ # Project apps
+ 'callcentersite.apps.users',
+ 'callcentersite.apps.authentication',
+ 'callcentersite.apps.dashboard',
+ 'callcentersite.apps.ivr_legacy',
+ 'callcentersite.apps.reports',
+ 'callcentersite.apps.analytics',
+ 'callcentersite.apps.notifications',
+ 'callcentersite.apps.audit',
+ 'callcentersite.apps.common',
+ 'callcentersite.apps.etl',
 
-    # Nuevos módulos
-    'callcentersite.apps.tickets',        # A crear
-    'callcentersite.apps.clients',        # A crear
-    'callcentersite.apps.teams',          # A crear
-    'callcentersite.apps.schedules',      # A crear
-    'callcentersite.apps.evaluations',    # A crear
+ # Nuevos módulos
+ 'callcentersite.apps.tickets', # A crear
+ 'callcentersite.apps.clients', # A crear
+ 'callcentersite.apps.teams', # A crear
+ 'callcentersite.apps.schedules', # A crear
+ 'callcentersite.apps.evaluations', # A crear
 ]
 ```
 

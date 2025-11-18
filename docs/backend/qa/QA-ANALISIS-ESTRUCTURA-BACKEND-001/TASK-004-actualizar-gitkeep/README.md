@@ -38,10 +38,10 @@ Asegurar que carpetas vacias tengan .gitkeep para ser tracked por Git.
 ```bash
 # Listar carpetas nuevas y su contenido
 for dir in adr catalogos ci_cd ejemplos estilos glosarios metodologias plantillas procesos referencias templates trazabilidad vision_y_alcance; do
-  count=$(ls -A docs/backend/$dir | wc -l)
-  if [ $count -eq 1 ]; then
-    echo "Solo README: $dir (considerar .gitkeep para subcarpetas futuras)"
-  fi
+ count=$(ls -A docs/backend/$dir | wc -l)
+ if [ $count -eq 1 ]; then
+ echo "Solo README: $dir (considerar .gitkeep para subcarpetas futuras)"
+ fi
 done
 ```
 

@@ -49,29 +49,29 @@ Agente recomendado: SDLCTestingAgent o TDDAgent
 
 ```
 Test Suite
-├─ API Integration Tests
-│ ├─ DORA metrics endpoints
-│ ├─ Dashboard rendering
-│ ├─ Chart data APIs
-│ └─ Rate limiting
-├─ Observability Tests
-│ ├─ Layer 1: MySQL metrics
-│ ├─ Layer 2: JSON logs
-│ └─ Layer 3: Cassandra logs
-├─ ETL Pipeline Tests
-│ ├─ Extract phase
-│ ├─ Transform + validation
-│ └─ Load to database
-├─ Data Quality Tests
-│ ├─ Schema validation
-│ ├─ Quality scoring
-│ └─ Anomaly detection
-├─ Alerting Tests
-│ ├─ Critical alerts
-│ └─ Warning alerts
-└─ Performance Tests
- ├─ Bulk operations
- └─ API response times
+ API Integration Tests
+ DORA metrics endpoints
+ Dashboard rendering
+ Chart data APIs
+ Rate limiting
+ Observability Tests
+ Layer 1: MySQL metrics
+ Layer 2: JSON logs
+ Layer 3: Cassandra logs
+ ETL Pipeline Tests
+ Extract phase
+ Transform + validation
+ Load to database
+ Data Quality Tests
+ Schema validation
+ Quality scoring
+ Anomaly detection
+ Alerting Tests
+ Critical alerts
+ Warning alerts
+ Performance Tests
+ Bulk operations
+ API response times
 ```
 
 ## Implementacion
@@ -82,11 +82,11 @@ Test Suite
 
 ```python
 tests/
-└── integration/
- ├── __init__.py
- ├── README.md
- ├── test_dora_metrics_integration.py
- └── conftest.py (future: fixtures)
+ integration/
+ __init__.py
+ README.md
+ test_dora_metrics_integration.py
+ conftest.py (future: fixtures)
 ```
 
 ### 2. Test Classes

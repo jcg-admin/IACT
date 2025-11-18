@@ -41,20 +41,20 @@ El sistema verifica si un usuario tiene una capacidad específica, evaluando en 
 
 ```sql
 CREATE OR REPLACE FUNCTION usuario_tiene_permiso(
-    p_usuario_id INTEGER,
-    p_capacidad_codigo VARCHAR(200)
+ p_usuario_id INTEGER,
+ p_capacidad_codigo VARCHAR(200)
 ) RETURNS BOOLEAN AS $$
 DECLARE
-    v_tiene_permiso BOOLEAN;
+ v_tiene_permiso BOOLEAN;
 BEGIN
-    -- Verificar usando vista optimizada
-    SELECT EXISTS (
-        SELECT 1 FROM vista_capacidades_usuario
-        WHERE usuario_id = p_usuario_id
-          AND capacidad_codigo = p_capacidad_codigo
-    ) INTO v_tiene_permiso;
+ -- Verificar usando vista optimizada
+ SELECT EXISTS (
+ SELECT 1 FROM vista_capacidades_usuario
+ WHERE usuario_id = p_usuario_id
+ AND capacidad_codigo = p_capacidad_codigo
+ ) INTO v_tiene_permiso;
 
-    RETURN v_tiene_permiso;
+ RETURN v_tiene_permiso;
 END;
 $$ LANGUAGE plpgsql STABLE PARALLEL SAFE;
 ```
@@ -67,11 +67,11 @@ Authorization: Bearer <token>
 
 Response:
 {
-  "usuario_id": 123,
-  "capacidad": "sistema.vistas.dashboards.ver",
-  "tiene_permiso": true,
-  "origen": "grupo",  // o "excepcional_conceder" o "excepcional_revocar"
-  "verificado_en": "2025-01-09T12:00:00Z"
+ "usuario_id": 123,
+ "capacidad": "sistema.vistas.dashboards.ver",
+ "tiene_permiso": true,
+ "origen": "grupo", // o "excepcional_conceder" o "excepcional_revocar"
+ "verificado_en": "2025-01-09T12:00:00Z"
 }
 ```
 

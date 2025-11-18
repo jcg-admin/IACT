@@ -217,8 +217,8 @@ tar -czf config_backup_$(date +%Y%m%d_%H%M%S).tar.gz /etc/backend/
 ```bash
 # Notificar en Slack/Teams
 curl -X POST https://hooks.slack.com/services/XXX \
-  -H 'Content-Type: application/json' \
-  -d '{"text":"[PROD] Iniciando PROC-BACKEND-XXX: [Titulo]"}'
+ -H 'Content-Type: application/json' \
+ -d '{"text":"[PROD] Iniciando PROC-BACKEND-XXX: [Titulo]"}'
 
 # Crear incident tracking (si aplica)
 # Ejemplo: abrir ticket en Jira/PagerDuty
@@ -367,8 +367,8 @@ curl http://backend.example.com/version
 ```bash
 # Notificar en Slack
 curl -X POST https://hooks.slack.com/services/XXX \
-  -H 'Content-Type: application/json' \
-  -d '{"text":"[PROD] ROLLBACK ejecutado para PROC-BACKEND-XXX"}'
+ -H 'Content-Type: application/json' \
+ -d '{"text":"[PROD] ROLLBACK ejecutado para PROC-BACKEND-XXX"}'
 ```
 
 ---
@@ -413,8 +413,8 @@ find /var/log/backend -name "*.log.*" -mtime +30 -delete
 ```bash
 # Notificar finalizacion exitosa
 curl -X POST https://hooks.slack.com/services/XXX \
-  -H 'Content-Type: application/json' \
-  -d '{"text":"[PROD] PROC-BACKEND-XXX completado exitosamente"}'
+ -H 'Content-Type: application/json' \
+ -d '{"text":"[PROD] PROC-BACKEND-XXX completado exitosamente"}'
 
 # Cerrar incident ticket (si aplica)
 ```

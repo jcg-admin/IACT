@@ -39,23 +39,23 @@ estimacion_esfuerzo: [story-points o horas]
 
 # Trazabilidad Upward (de dónde viene este requisito)
 trazabilidad_upward:
-  - N-[XXX]   # Necesidad de negocio
-  - RN-[XXX]  # Requisito de negocio
-  - RS-[XXX]  # Requisito de stakeholder
+ - N-[XXX] # Necesidad de negocio
+ - RN-[XXX] # Requisito de negocio
+ - RS-[XXX] # Requisito de stakeholder
 
 # Trazabilidad Downward (qué deriva de este requisito)
 trazabilidad_downward:
-  - TEST-[XXX]    # Casos de prueba
-  - DESIGN-[XXX]  # Documentos de diseño
-  - TASK-[XXX]    # Tareas de implementación
+ - TEST-[XXX] # Casos de prueba
+ - DESIGN-[XXX] # Documentos de diseño
+ - TASK-[XXX] # Tareas de implementación
 
 # Stakeholders interesados
 stakeholders:
-  - [rol-stakeholder-1]
-  - [rol-stakeholder-2]
+ - [rol-stakeholder-1]
+ - [rol-stakeholder-2]
 
 # Conformidad ISO 29148
-iso29148_clause: "9.6.4"  # Software Requirements Specification
+iso29148_clause: "9.6.4" # Software Requirements Specification
 verificacion_metodo: [test|inspection|analysis|demonstration]
 
 # Categorización adicional
@@ -65,8 +65,8 @@ subsistema: [nombre-subsistema]
 
 # Dependencias
 dependencias:
-  - RF-[YYY]  # Otros requisitos de los que depende
-  - API-[ZZZ] # APIs externas necesarias
+ - RF-[YYY] # Otros requisitos de los que depende
+ - API-[ZZZ] # APIs externas necesarias
 
 # Impacto
 impacto_usuarios: [alto|medio|bajo]
@@ -115,21 +115,21 @@ breaking_change: [si|no]
 
 ```gherkin
 Given [contexto o estado inicial]
-  And [contexto adicional si aplica]
+ And [contexto adicional si aplica]
 When [acción o evento que ocurre]
-  And [acción adicional si aplica]
+ And [acción adicional si aplica]
 Then [resultado esperado]
-  And [resultado adicional esperado]
+ And [resultado adicional esperado]
 ```
 
 **Ejemplo:**
 ```gherkin
 Given el usuario tiene permisos de "Gerente de Compras"
-  And existe al menos un producto con stock bajo el mínimo
+ And existe al menos un producto con stock bajo el mínimo
 When el usuario solicita el reporte de reabastecimiento
 Then el sistema muestra una lista de productos bajo stock mínimo
-  And cada producto incluye: código, nombre, stock actual, stock mínimo, cantidad sugerida
-  And la lista está ordenada por urgencia (menor stock primero)
+ And cada producto incluye: código, nombre, stock actual, stock mínimo, cantidad sugerida
+ And la lista está ordenada por urgencia (menor stock primero)
 ```
 
 #### Escenario 2: [Nombre del escenario - Caso alternativo]
@@ -146,7 +146,7 @@ Then [resultado esperado]
 Given [contexto]
 When [acción que causa error]
 Then [manejo de error esperado]
-  And [mensaje de error específico]
+ And [mensaje de error específico]
 ```
 
 ### 2.2 Criterios No Funcionales Asociados
@@ -195,28 +195,28 @@ Then [manejo de error esperado]
 **Request:**
 ```json
 {
-  "parametro1": "tipo y descripción",
-  "parametro2": "tipo y descripción"
+ "parametro1": "tipo y descripción",
+ "parametro2": "tipo y descripción"
 }
 ```
 
 **Response (Success):**
 ```json
 {
-  "status": "success",
-  "data": {
-    "campo1": "descripción",
-    "campo2": "descripción"
-  }
+ "status": "success",
+ "data": {
+ "campo1": "descripción",
+ "campo2": "descripción"
+ }
 }
 ```
 
 **Response (Error):**
 ```json
 {
-  "status": "error",
-  "code": "ERROR_CODE",
-  "message": "Descripción del error"
+ "status": "error",
+ "code": "ERROR_CODE",
+ "message": "Descripción del error"
 }
 ```
 
@@ -237,11 +237,11 @@ Then [manejo de error esperado]
 -- Descripción: [descripción del cambio]
 
 CREATE TABLE [nombre_tabla] (
-  id BIGSERIAL PRIMARY KEY,
-  campo1 VARCHAR(255) NOT NULL,
-  campo2 INTEGER,
-  created_at TIMESTAMP DEFAULT NOW(),
-  updated_at TIMESTAMP
+ id BIGSERIAL PRIMARY KEY,
+ campo1 VARCHAR(255) NOT NULL,
+ campo2 INTEGER,
+ created_at TIMESTAMP DEFAULT NOW(),
+ updated_at TIMESTAMP
 );
 ```
 
@@ -265,9 +265,9 @@ CREATE INDEX idx_[nombre] ON [tabla]([campo]);
 BR-01: Cálculo de Stock Mínimo
 Fórmula: stock_minimo = (demanda_promedio_diaria * lead_time_dias) + stock_seguridad
 Donde:
-  - demanda_promedio_diaria = SUM(ventas_90dias) / 90
-  - lead_time_dias = tiempo de reabastecimiento del proveedor
-  - stock_seguridad = demanda_promedio_diaria * factor_seguridad (default: 0.2)
+ - demanda_promedio_diaria = SUM(ventas_90dias) / 90
+ - lead_time_dias = tiempo de reabastecimiento del proveedor
+ - stock_seguridad = demanda_promedio_diaria * factor_seguridad (default: 0.2)
 ```
 
 ### 3.4 Validaciones
@@ -294,10 +294,10 @@ Este requisito **depende de** que los siguientes requisitos estén implementados
 ### 4.2 APIs/Servicios Externos
 
 - [ ] **[Nombre API/Servicio]**
-  - Endpoint: `[URL]`
-  - Documentación: [URL documentación]
-  - SLA: [disponibilidad esperada]
-  - Fallback: [estrategia si falla]
+ - Endpoint: `[URL]`
+ - Documentación: [URL documentación]
+ - SLA: [disponibilidad esperada]
+ - Fallback: [estrategia si falla]
 
 ### 4.3 Permisos/Roles Requeridos
 
@@ -313,23 +313,23 @@ Este requisito **depende de** que los siguientes requisitos estén implementados
 ### 5.1 Tests Unitarios
 
 - [ ] **TEST-[XXX]-001**: [Descripción test unitario 1]
-  - Ubicación: `tests/unit/test_[modulo].py::test_[funcion]`
-  - Estado: [pendiente|implementado|pasando]
+ - Ubicación: `tests/unit/test_[modulo].py::test_[funcion]`
+ - Estado: [pendiente|implementado|pasando]
 
 - [ ] **TEST-[XXX]-002**: [Descripción test unitario 2]
 
 ### 5.2 Tests de Integración
 
 - [ ] **TEST-[XXX]-101**: [Descripción test integración 1]
-  - Ubicación: `tests/integration/test_[modulo].py::test_[flujo]`
-  - Estado: [pendiente|implementado|pasando]
+ - Ubicación: `tests/integration/test_[modulo].py::test_[flujo]`
+ - Estado: [pendiente|implementado|pasando]
 
 ### 5.3 Tests End-to-End
 
 - [ ] **TEST-[XXX]-201**: [Descripción test E2E 1]
-  - Herramienta: [Selenium|Cypress|Playwright]
-  - Ubicación: `tests/e2e/test_[flujo].py`
-  - Estado: [pendiente|implementado|pasando]
+ - Herramienta: [Selenium|Cypress|Playwright]
+ - Ubicación: `tests/e2e/test_[flujo].py`
+ - Estado: [pendiente|implementado|pasando]
 
 ### 5.4 Tests Manuales
 

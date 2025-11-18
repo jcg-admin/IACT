@@ -3,7 +3,7 @@
 ## Metadatos
 - **ID**: TASK-063
 - **Fase**: FASE 4 - Validación y Limpieza
-- **Prioridad**: MEDIA 🟢
+- **Prioridad**: MEDIA 
 - **Estimación**: 25 minutos
 - **Estado**: PENDIENTE
 - **Metodología**: Auto-CoT + Self-Consistency
@@ -147,14 +147,14 @@ Ver mapeo completo en TASK-053/054
 
 ## Entregables
 1. **docs/backend/docs/GUIA_NAVEGACION_BACKEND.md**
-   - Guía completa de navegación
-   - Múltiples formas de búsqueda
-   - Ejemplos prácticos
+ - Guía completa de navegación
+ - Múltiples formas de búsqueda
+ - Ejemplos prácticos
 
 2. **RESUMEN-ESTRUCTURA-BACKEND.md** (Opcional)
-   - Versión condensada de 1 página
-   - Quick reference
-   - Para imprimir/compartir
+ - Versión condensada de 1 página
+ - Quick reference
+ - Para imprimir/compartir
 
 ## Template GUIA_NAVEGACION_BACKEND.md
 
@@ -182,11 +182,11 @@ Ver mapeo completo en TASK-053/054
 ### Propósito de Esta Guía
 
 Esta guía te ayudará a:
-- 🧭 **Orientarte** en la estructura del backend
-- 🔍 **Encontrar** código y documentación específica
-- ➕ **Agregar** nuevo código en el lugar correcto
-- 🗺️ **Mapear** código legacy a nueva ubicación
-- 📚 **Aprender** convenciones y mejores prácticas
+- **Orientarte** en la estructura del backend
+- **Encontrar** código y documentación específica
+- **Agregar** nuevo código en el lugar correcto
+- **Mapear** código legacy a nueva ubicación
+- **Aprender** convenciones y mejores prácticas
 
 ### Audiencia
 
@@ -203,51 +203,51 @@ Esta guía te ayudará a:
 
 ```
 docs/backend/
-│
-├── 🏗️ core/              Servicios fundamentales del sistema
-│   ├── auth/             Autenticación y autorización
-│   ├── database/         Gestión de base de datos
-│   ├── config/           Configuración del sistema
-│   └── logging/          Logging centralizado
-│
-├── 📦 packages/          Paquetes reutilizables (sin deps del sistema)
-│   ├── utils/            Utilidades generales
-│   ├── validators/       Validadores compartidos
-│   └── helpers/          Funciones helper
-│
-├── 🧩 components/        Componentes modulares del backend
-│   ├── email/            Gestión de emails
-│   ├── notifications/    Sistema de notificaciones
-│   └── file-storage/     Almacenamiento de archivos
-│
-├── 🚀 services/          Microservicios y APIs
-│   ├── api/              APIs REST
-│   ├── graphql/          API GraphQL
-│   └── jobs/             Background jobs
-│
-├── 🔧 utils/             Utilidades específicas del dominio
-│   ├── scripts/          Scripts de automatización
-│   └── helpers/          Helpers del sistema
-│
-├── ⚙️ config/            Configuraciones del proyecto
-│   ├── environments/     Configs por ambiente
-│   └── docker/           Docker configs
-│
-├── 📚 docs/              Documentación técnica
-│   ├── arquitectura/     Docs de arquitectura
-│   ├── guias/            Guías y tutoriales
-│   └── api/              Documentación de APIs
-│
-├── 🧪 tests/             Tests de integración
-│   ├── integration/      Tests de integración
-│   └── e2e/              Tests end-to-end
-│
-├── 📋 gobernanza/        Políticas y procesos
-│   ├── standards/        Estándares de código
-│   └── processes/        Procesos de desarrollo
-│
-└── 🗂️ legacy/            Código legacy (temporal)
-    └── [proyectos]       A migrar o deprecar
+
+ core/ Servicios fundamentales del sistema
+ auth/ Autenticación y autorización
+ database/ Gestión de base de datos
+ config/ Configuración del sistema
+ logging/ Logging centralizado
+
+ packages/ Paquetes reutilizables (sin deps del sistema)
+ utils/ Utilidades generales
+ validators/ Validadores compartidos
+ helpers/ Funciones helper
+
+ components/ Componentes modulares del backend
+ email/ Gestión de emails
+ notifications/ Sistema de notificaciones
+ file-storage/ Almacenamiento de archivos
+
+ services/ Microservicios y APIs
+ api/ APIs REST
+ graphql/ API GraphQL
+ jobs/ Background jobs
+
+ utils/ Utilidades específicas del dominio
+ scripts/ Scripts de automatización
+ helpers/ Helpers del sistema
+
+ config/ Configuraciones del proyecto
+ environments/ Configs por ambiente
+ docker/ Docker configs
+
+ docs/ Documentación técnica
+ arquitectura/ Docs de arquitectura
+ guias/ Guías y tutoriales
+ api/ Documentación de APIs
+
+ tests/ Tests de integración
+ integration/ Tests de integración
+ e2e/ Tests end-to-end
+
+ gobernanza/ Políticas y procesos
+ standards/ Estándares de código
+ processes/ Procesos de desarrollo
+
+ legacy/ Código legacy (temporal)
+ [proyectos] A migrar o deprecar
 ```
 
 ### Principios de Organización
@@ -265,62 +265,62 @@ docs/backend/
 
 #### ...implementar autenticación
 ```
-📁 core/auth/
-├── README.md          ← Empieza aquí
-├── strategies/        ← Estrategias de auth (JWT, OAuth, etc.)
-├── middleware/        ← Middlewares de autenticación
-└── examples/          ← Ejemplos de uso
+ core/auth/
+ README.md ← Empieza aquí
+ strategies/ ← Estrategias de auth (JWT, OAuth, etc.)
+ middleware/ ← Middlewares de autenticación
+ examples/ ← Ejemplos de uso
 ```
 
 #### ...crear una nueva API
 ```
-📁 services/api/
-├── README.md          ← Guía de APIs
-├── TEMPLATE.md        ← Template para nueva API
-├── v1/                ← APIs versión 1
-└── v2/                ← APIs versión 2
+ services/api/
+ README.md ← Guía de APIs
+ TEMPLATE.md ← Template para nueva API
+ v1/ ← APIs versión 1
+ v2/ ← APIs versión 2
 ```
 
 #### ...agregar una utilidad compartida
 ```
 ¿Es genérica (sin deps del sistema)?
-  → packages/utils/
+ → packages/utils/
 
 ¿Es específica del dominio?
-  → utils/
+ → utils/
 
 ¿Es parte de un componente?
-  → components/[nombre]/utils/
+ → components/[nombre]/utils/
 ```
 
 #### ...configurar un nuevo ambiente
 ```
-📁 config/
-├── environments/
-│   ├── development.yml
-│   ├── staging.yml
-│   └── production.yml
-└── README.md          ← Guía de configuración
+ config/
+ environments/
+ development.yml
+ staging.yml
+ production.yml
+ README.md ← Guía de configuración
 ```
 
 #### ...escribir tests de integración
 ```
-📁 tests/
-├── integration/
-│   └── [nombre-del-test]/
-├── e2e/
-│   └── [escenario]/
-└── README.md          ← Guía de testing
+ tests/
+ integration/
+ [nombre-del-test]/
+ e2e/
+ [escenario]/
+ README.md ← Guía de testing
 ```
 
 #### ...trabajar con base de datos
 ```
-📁 core/database/
-├── README.md          ← Overview
-├── schemas/           ← Definiciones de esquemas
-├── migrations/        ← Migraciones
-├── seeders/           ← Datos de prueba
-└── queries/           ← Queries comunes
+ core/database/
+ README.md ← Overview
+ schemas/ ← Definiciones de esquemas
+ migrations/ ← Migraciones
+ seeders/ ← Datos de prueba
+ queries/ ← Queries comunes
 ```
 
 ### Por Tipo de Archivo
@@ -351,7 +351,7 @@ docs/backend/
 
 ## Estructura Detallada
 
-### 🏗️ core/
+### core/
 
 **Propósito**: Servicios fundamentales que todo el sistema necesita.
 
@@ -389,7 +389,7 @@ docs/backend/
 
 ---
 
-### 📦 packages/
+### packages/
 
 **Propósito**: Código reutilizable sin dependencias del sistema.
 
@@ -400,12 +400,12 @@ docs/backend/
 - Bien testeado y documentado
 
 **Cuándo usar**:
-- ✅ Funciones puras o utilidades genéricas
-- ✅ Validadores sin lógica de negocio
-- ✅ Helpers matemáticos o de string
-- ❌ Código que depende de autenticación
-- ❌ Código que usa modelos del sistema
-- ❌ Lógica de negocio específica
+- [OK] Funciones puras o utilidades genéricas
+- [OK] Validadores sin lógica de negocio
+- [OK] Helpers matemáticos o de string
+- [ERROR] Código que depende de autenticación
+- [ERROR] Código que usa modelos del sistema
+- [ERROR] Lógica de negocio específica
 
 **Subcarpetas**:
 - `utils/` - Utilidades generales
@@ -415,7 +415,7 @@ docs/backend/
 
 ---
 
-### 🧩 components/
+### components/
 
 **Propósito**: Componentes modulares con funcionalidad específica.
 
@@ -435,17 +435,17 @@ docs/backend/
 **Estructura de un Componente**:
 ```
 components/email/
-├── README.md
-├── emailService.js       # Servicio principal
-├── templates/            # Templates de email
-├── providers/            # Providers (SendGrid, SES, etc.)
-├── utils/                # Utils específicos del componente
-└── tests/                # Tests del componente
+ README.md
+ emailService.js # Servicio principal
+ templates/ # Templates de email
+ providers/ # Providers (SendGrid, SES, etc.)
+ utils/ # Utils específicos del componente
+ tests/ # Tests del componente
 ```
 
 ---
 
-### 🚀 services/
+### services/
 
 **Propósito**: Microservicios y servicios independientes.
 
@@ -472,7 +472,7 @@ components/email/
 
 ---
 
-### 🔧 utils/
+### utils/
 
 **Propósito**: Utilidades específicas del sistema.
 
@@ -487,7 +487,7 @@ components/email/
 
 ---
 
-### ⚙️ config/
+### config/
 
 **Propósito**: Archivos de configuración del proyecto.
 
@@ -498,28 +498,28 @@ components/email/
 
 ---
 
-### 📚 docs/
+### docs/
 
 **Propósito**: Documentación técnica y arquitectónica.
 
 **Estructura**:
 ```
 docs/
-├── arquitectura/         # Docs de arquitectura
-│   ├── OVERVIEW.md       # Visión general
-│   ├── PATTERNS.md       # Patrones usados
-│   └── adr/              # Architecture Decision Records
-├── guias/                # Guías y tutoriales
-│   ├── DESARROLLO.md     # Guía de desarrollo
-│   ├── DEPLOYMENT.md     # Guía de deployment
-│   └── TESTING.md        # Guía de testing
-├── api/                  # Documentación de APIs
-└── GUIA_NAVEGACION_BACKEND.md  # Esta guía
+ arquitectura/ # Docs de arquitectura
+ OVERVIEW.md # Visión general
+ PATTERNS.md # Patrones usados
+ adr/ # Architecture Decision Records
+ guias/ # Guías y tutoriales
+ DESARROLLO.md # Guía de desarrollo
+ DEPLOYMENT.md # Guía de deployment
+ TESTING.md # Guía de testing
+ api/ # Documentación de APIs
+ GUIA_NAVEGACION_BACKEND.md # Esta guía
 ```
 
 ---
 
-### 🧪 tests/
+### tests/
 
 **Propósito**: Tests de integración y end-to-end.
 
@@ -532,7 +532,7 @@ docs/
 
 ---
 
-### 📋 gobernanza/
+### gobernanza/
 
 **Propósito**: Políticas, procesos y estándares.
 
@@ -544,7 +544,7 @@ docs/
 
 ---
 
-### 🗂️ legacy/
+### legacy/
 
 **Propósito**: Código legacy temporal durante migración.
 
@@ -561,7 +561,7 @@ docs/
 #### Carpetas
 - **Formato**: `kebab-case`
 - **Ejemplos**: `user-management`, `api-gateway`
-- ❌ **Evitar**: `UserManagement`, `user_management`, `user management`
+- [ERROR] **Evitar**: `UserManagement`, `user_management`, `user management`
 
 #### Archivos JavaScript/TypeScript
 - **Formato**: `camelCase.js` o `PascalCase.js` (para clases)
@@ -583,46 +583,46 @@ docs/
 ```
 ¿Qué estoy creando?
 
-├─ ¿Es funcionalidad CORE del sistema?
-│  └─ SÍ → core/[nombre]/
-│
-├─ ¿Es código GENÉRICO reutilizable?
-│  └─ SÍ → packages/[nombre]/
-│
-├─ ¿Es un COMPONENTE con responsabilidad única?
-│  └─ SÍ → components/[nombre]/
-│
-├─ ¿Es un SERVICIO/API independiente?
-│  └─ SÍ → services/[nombre]/
-│
-├─ ¿Es una UTILIDAD específica del dominio?
-│  └─ SÍ → utils/[nombre]/
-│
-└─ ¿No estás seguro?
-   └─ Pregunta al equipo de arquitectura
+ ¿Es funcionalidad CORE del sistema?
+ SÍ → core/[nombre]/
+
+ ¿Es código GENÉRICO reutilizable?
+ SÍ → packages/[nombre]/
+
+ ¿Es un COMPONENTE con responsabilidad única?
+ SÍ → components/[nombre]/
+
+ ¿Es un SERVICIO/API independiente?
+ SÍ → services/[nombre]/
+
+ ¿Es una UTILIDAD específica del dominio?
+ SÍ → utils/[nombre]/
+
+ ¿No estás seguro?
+ Pregunta al equipo de arquitectura
 ```
 
 ### Estructura de un Nuevo Módulo
 
 ```
 [carpeta-nombre]/
-├── README.md              # Documentación del módulo
-├── index.js               # Entry point (exports principales)
-├── [nombre]Service.js     # Servicio principal
-├── [nombre]Controller.js  # Controller (si aplica)
-├── [nombre]Model.js       # Modelo de datos (si aplica)
-├── middleware/            # Middlewares del módulo
-├── utils/                 # Utilidades específicas
-├── tests/                 # Tests unitarios
-│   ├── [nombre].test.js
-│   └── fixtures/
-└── docs/                  # Documentación adicional (opcional)
+ README.md # Documentación del módulo
+ index.js # Entry point (exports principales)
+ [nombre]Service.js # Servicio principal
+ [nombre]Controller.js # Controller (si aplica)
+ [nombre]Model.js # Modelo de datos (si aplica)
+ middleware/ # Middlewares del módulo
+ utils/ # Utilidades específicas
+ tests/ # Tests unitarios
+ [nombre].test.js
+ fixtures/
+ docs/ # Documentación adicional (opcional)
 ```
 
 ### Imports y Dependencias
 
 ```javascript
-// ✅ CORRECTO: Orden de imports
+// [OK] CORRECTO: Orden de imports
 // 1. Node.js built-ins
 const fs = require('fs');
 const path = require('path');
@@ -758,9 +758,9 @@ find docs/backend -name "*.js" | wc -l
 ### Contacto
 
 ¿Preguntas no respondidas?
-- 💬 Canal de Slack: #backend-architecture
-- 📧 Email: architecture@team.com
-- 📝 Issue Tracker: [GitHub Issues](#)
+- Canal de Slack: #backend-architecture
+- Email: architecture@team.com
+- Issue Tracker: [GitHub Issues](#)
 
 ---
 
@@ -784,7 +784,7 @@ find docs/backend -name "README.md" | sort
 ### Contar archivos por carpeta
 ```bash
 for dir in docs/backend/*/; do
-  echo "$(basename $dir): $(find $dir -type f | wc -l) archivos"
+ echo "$(basename $dir): $(find $dir -type f | wc -l) archivos"
 done
 ```
 

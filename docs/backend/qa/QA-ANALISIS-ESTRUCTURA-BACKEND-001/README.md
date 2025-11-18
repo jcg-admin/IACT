@@ -121,47 +121,47 @@ docs/backend/ reorganizado tendra 25 carpetas (optimizado desde 27):
 
 ```
 docs/backend/
-├── adr/                          [NUEVA] Architecture Decision Records
-├── catalogos/                    [NUEVA] Catalogos componentes
-├── checklists/                   [MANTENER] Checklists operacionales
-├── ci_cd/                        [NUEVA] Documentacion CI/CD
-├── diseno/                       [CONSOLIDADA] Diseños arquitectonicos
-│   ├── api/                      [← api/ + rest_apis/]
-│   ├── arquitectura/             [← arquitectura/]
-│   ├── database/                 [NUEVA subcarpeta]
-│   ├── permisos/                 [← permisos/]
-│   └── detallado/                [← diseno_detallado/]
-├── ejemplos/                     [NUEVA] Ejemplos codigo
-├── estilos/                      [NUEVA] Guias estilo
-├── glosarios/                    [NUEVA] Glosario tecnico
-├── gobernanza/                   [MANTENER] Gobernanza dominio
-├── guias/                        [MANTENER] Guias operacionales
-├── metodologias/                 [NUEVA] Metodologias aplicadas
-├── planificacion/                [CONSOLIDADA] Planificacion
-│   ├── feasibility/              [← feasibility/]
-│   ├── planning/                 [← planning/]
-│   ├── releases/                 [← planificacion_y_releases/]
-│   └── analisis_negocio/         [← analisis_negocio/]
-├── plantillas/                   [NUEVA] Plantillas documentos
-├── plans/                        [MANTENER] Planes especificos
-├── procedimientos/               [EXPANDIDA] Procedimientos
-│   └── deployment/               [← deployment/]
-├── procesos/                     [NUEVA] Procesos high-level
-├── qa/                           [EXPANDIDA] Quality Assurance
-│   ├── validaciones/             [← validaciones/]
-│   └── reportes/                 [NUEVA subcarpeta]
-├── referencias/                  [NUEVA] Referencias tecnicas
-├── requisitos/                   [MANTENER] Requisitos backend
-├── seguridad/                    [MANTENER] Documentacion seguridad
-├── sesiones/                     [CONSOLIDADA] Sesiones trabajo
-│   ├── registros/                [← registros/]
-│   ├── tareas/                   [← tareas/]
-│   └── SESION-2025-11-11/        [← 2025-11-11/]
-├── solicitudes/                  [MANTENER] Solicitudes cambio
-├── templates/                    [NUEVA] Templates adicionales
-├── testing/                      [MANTENER] Estrategia testing
-├── trazabilidad/                 [NUEVA] Matrices trazabilidad
-└── vision_y_alcance/            [NUEVA] Vision estrategica
+ adr/ [NUEVA] Architecture Decision Records
+ catalogos/ [NUEVA] Catalogos componentes
+ checklists/ [MANTENER] Checklists operacionales
+ ci_cd/ [NUEVA] Documentacion CI/CD
+ diseno/ [CONSOLIDADA] Diseños arquitectonicos
+ api/ [← api/ + rest_apis/]
+ arquitectura/ [← arquitectura/]
+ database/ [NUEVA subcarpeta]
+ permisos/ [← permisos/]
+ detallado/ [← diseno_detallado/]
+ ejemplos/ [NUEVA] Ejemplos codigo
+ estilos/ [NUEVA] Guias estilo
+ glosarios/ [NUEVA] Glosario tecnico
+ gobernanza/ [MANTENER] Gobernanza dominio
+ guias/ [MANTENER] Guias operacionales
+ metodologias/ [NUEVA] Metodologias aplicadas
+ planificacion/ [CONSOLIDADA] Planificacion
+ feasibility/ [← feasibility/]
+ planning/ [← planning/]
+ releases/ [← planificacion_y_releases/]
+ analisis_negocio/ [← analisis_negocio/]
+ plantillas/ [NUEVA] Plantillas documentos
+ plans/ [MANTENER] Planes especificos
+ procedimientos/ [EXPANDIDA] Procedimientos
+ deployment/ [← deployment/]
+ procesos/ [NUEVA] Procesos high-level
+ qa/ [EXPANDIDA] Quality Assurance
+ validaciones/ [← validaciones/]
+ reportes/ [NUEVA subcarpeta]
+ referencias/ [NUEVA] Referencias tecnicas
+ requisitos/ [MANTENER] Requisitos backend
+ seguridad/ [MANTENER] Documentacion seguridad
+ sesiones/ [CONSOLIDADA] Sesiones trabajo
+ registros/ [← registros/]
+ tareas/ [← tareas/]
+ SESION-2025-11-11/ [← 2025-11-11/]
+ solicitudes/ [MANTENER] Solicitudes cambio
+ templates/ [NUEVA] Templates adicionales
+ testing/ [MANTENER] Estrategia testing
+ trazabilidad/ [NUEVA] Matrices trazabilidad
+ vision_y_alcance/ [NUEVA] Vision estrategica
 ```
 
 ### 2.2 Metricas de Cambio

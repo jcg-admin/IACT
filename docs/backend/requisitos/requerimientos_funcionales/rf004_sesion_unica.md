@@ -29,10 +29,10 @@ date: 2025-11-13
 Given un usuario "eve" con sesion activa en dispositivo A
 When el usuario inicia login desde dispositivo B
 Then el sistema cierra sesion anterior (dispositivo A)
-  And el sistema establece session_A.is_active=False
-  And el sistema audita evento SESSION_CLOSED con razon='NEW_SESSION'
-  And el sistema crea nueva sesion para dispositivo B
-  And el usuario recibe notificacion en buzon interno
+ And el sistema establece session_A.is_active=False
+ And el sistema audita evento SESSION_CLOSED con razon='NEW_SESSION'
+ And el sistema crea nueva sesion para dispositivo B
+ And el usuario recibe notificacion en buzon interno
 ```
 
 ## 3. Trazabilidad

@@ -94,70 +94,70 @@ Crear una matriz de trazabilidad que vincule requisitos funcionales con casos de
 #### REQ-AUTH-001: Login de Usuario
 - **Descripción**: Usuario puede autenticarse con email y password
 - **Prioridad**: CRÍTICA
-- **Status**: ✅ Implementado
+- **Status**: [OK] Implementado
 
 **Tests que cubren este requisito:**
 | ID Test | Tipo | Archivo | Descripción | Status |
 |---------|------|---------|-------------|--------|
-| test_user_login_success | Unitario | tests/auth/test_login.py:15 | Login exitoso con credenciales válidas | ✅ PASS |
-| test_user_login_invalid_password | Unitario | tests/auth/test_login.py:28 | Login falla con password incorrecta | ✅ PASS |
-| test_user_login_invalid_email | Unitario | tests/auth/test_login.py:41 | Login falla con email no existente | ✅ PASS |
-| test_user_login_inactive_account | Unitario | tests/auth/test_login.py:54 | Login falla con cuenta inactiva | ✅ PASS |
-| test_login_api_endpoint | Integración | tests/api/test_auth_api.py:20 | Endpoint /api/v1/auth/login funciona | ✅ PASS |
-| test_login_flow_e2e | E2E | tests/e2e/test_auth_flow.py:10 | Flujo completo de login | ✅ PASS |
+| test_user_login_success | Unitario | tests/auth/test_login.py:15 | Login exitoso con credenciales válidas | [OK] PASS |
+| test_user_login_invalid_password | Unitario | tests/auth/test_login.py:28 | Login falla con password incorrecta | [OK] PASS |
+| test_user_login_invalid_email | Unitario | tests/auth/test_login.py:41 | Login falla con email no existente | [OK] PASS |
+| test_user_login_inactive_account | Unitario | tests/auth/test_login.py:54 | Login falla con cuenta inactiva | [OK] PASS |
+| test_login_api_endpoint | Integración | tests/api/test_auth_api.py:20 | Endpoint /api/v1/auth/login funciona | [OK] PASS |
+| test_login_flow_e2e | E2E | tests/e2e/test_auth_flow.py:10 | Flujo completo de login | [OK] PASS |
 
-**Cobertura**: 95% | **Casos de Prueba**: 6 | **Status**: ✅ Completo
+**Cobertura**: 95% | **Casos de Prueba**: 6 | **Status**: [OK] Completo
 
 ---
 
 #### REQ-AUTH-002: Logout de Usuario
 - **Descripción**: Usuario autenticado puede cerrar sesión
 - **Prioridad**: ALTA
-- **Status**: ✅ Implementado
+- **Status**: [OK] Implementado
 
 **Tests que cubren este requisito:**
 | ID Test | Tipo | Archivo | Descripción | Status |
 |---------|------|---------|-------------|--------|
-| test_user_logout_success | Unitario | tests/auth/test_logout.py:12 | Logout exitoso | ✅ PASS |
-| test_logout_invalidates_token | Unitario | tests/auth/test_logout.py:25 | Token se invalida tras logout | ✅ PASS |
-| test_logout_api_endpoint | Integración | tests/api/test_auth_api.py:45 | Endpoint /api/v1/auth/logout funciona | ✅ PASS |
+| test_user_logout_success | Unitario | tests/auth/test_logout.py:12 | Logout exitoso | [OK] PASS |
+| test_logout_invalidates_token | Unitario | tests/auth/test_logout.py:25 | Token se invalida tras logout | [OK] PASS |
+| test_logout_api_endpoint | Integración | tests/api/test_auth_api.py:45 | Endpoint /api/v1/auth/logout funciona | [OK] PASS |
 
-**Cobertura**: 88% | **Casos de Prueba**: 3 | **Status**: ✅ Completo
+**Cobertura**: 88% | **Casos de Prueba**: 3 | **Status**: [OK] Completo
 
 ---
 
 #### REQ-AUTH-003: Registro de Usuario
 - **Descripción**: Nuevo usuario puede registrarse con email y password
 - **Prioridad**: CRÍTICA
-- **Status**: ✅ Implementado
+- **Status**: [OK] Implementado
 
 **Tests que cubren este requisito:**
 | ID Test | Tipo | Archivo | Descripción | Status |
 |---------|------|---------|-------------|--------|
-| test_user_registration_success | Unitario | tests/auth/test_registration.py:18 | Registro exitoso | ✅ PASS |
-| test_registration_duplicate_email | Unitario | tests/auth/test_registration.py:32 | Falla con email duplicado | ✅ PASS |
-| test_registration_weak_password | Unitario | tests/auth/test_registration.py:45 | Falla con password débil | ✅ PASS |
-| test_registration_invalid_email | Unitario | tests/auth/test_registration.py:58 | Falla con email inválido | ✅ PASS |
-| test_registration_api_endpoint | Integración | tests/api/test_auth_api.py:65 | Endpoint /api/v1/auth/register funciona | ✅ PASS |
+| test_user_registration_success | Unitario | tests/auth/test_registration.py:18 | Registro exitoso | [OK] PASS |
+| test_registration_duplicate_email | Unitario | tests/auth/test_registration.py:32 | Falla con email duplicado | [OK] PASS |
+| test_registration_weak_password | Unitario | tests/auth/test_registration.py:45 | Falla con password débil | [OK] PASS |
+| test_registration_invalid_email | Unitario | tests/auth/test_registration.py:58 | Falla con email inválido | [OK] PASS |
+| test_registration_api_endpoint | Integración | tests/api/test_auth_api.py:65 | Endpoint /api/v1/auth/register funciona | [OK] PASS |
 
-**Cobertura**: 92% | **Casos de Prueba**: 5 | **Status**: ✅ Completo
+**Cobertura**: 92% | **Casos de Prueba**: 5 | **Status**: [OK] Completo
 
 ---
 
 #### REQ-AUTH-004: Recuperación de Password
 - **Descripción**: Usuario puede recuperar password olvidado vía email
 - **Prioridad**: ALTA
-- **Status**: ✅ Implementado
+- **Status**: [OK] Implementado
 
 **Tests que cubren este requisito:**
 | ID Test | Tipo | Archivo | Descripción | Status |
 |---------|------|---------|-------------|--------|
-| test_password_reset_request | Unitario | tests/auth/test_password_reset.py:15 | Solicitud de reset exitosa | ✅ PASS |
-| test_password_reset_email_sent | Unitario | tests/auth/test_password_reset.py:28 | Email de reset se envía | ✅ PASS |
-| test_password_reset_confirm | Unitario | tests/auth/test_password_reset.py:41 | Reset con token válido | ✅ PASS |
-| test_password_reset_invalid_token | Unitario | tests/auth/test_password_reset.py:54 | Falla con token inválido | ✅ PASS |
+| test_password_reset_request | Unitario | tests/auth/test_password_reset.py:15 | Solicitud de reset exitosa | [OK] PASS |
+| test_password_reset_email_sent | Unitario | tests/auth/test_password_reset.py:28 | Email de reset se envía | [OK] PASS |
+| test_password_reset_confirm | Unitario | tests/auth/test_password_reset.py:41 | Reset con token válido | [OK] PASS |
+| test_password_reset_invalid_token | Unitario | tests/auth/test_password_reset.py:54 | Falla con token inválido | [OK] PASS |
 
-**Cobertura**: 85% | **Casos de Prueba**: 4 | **Status**: ✅ Completo
+**Cobertura**: 85% | **Casos de Prueba**: 4 | **Status**: [OK] Completo
 
 ---
 
@@ -166,32 +166,32 @@ Crear una matriz de trazabilidad que vincule requisitos funcionales con casos de
 #### REQ-USER-001: Listar Usuarios
 - **Descripción**: Admin puede listar todos los usuarios con paginación
 - **Prioridad**: MEDIA
-- **Status**: ✅ Implementado
+- **Status**: [OK] Implementado
 
 **Tests que cubren este requisito:**
 | ID Test | Tipo | Archivo | Descripción | Status |
 |---------|------|---------|-------------|--------|
-| test_list_users_as_admin | Unitario | tests/users/test_list.py:12 | Admin puede listar usuarios | ✅ PASS |
-| test_list_users_pagination | Unitario | tests/users/test_list.py:25 | Paginación funciona correctamente | ✅ PASS |
-| test_list_users_forbidden | Unitario | tests/users/test_list.py:38 | Usuario normal no puede listar | ✅ PASS |
-| test_list_users_api | Integración | tests/api/test_users_api.py:15 | Endpoint GET /api/v1/users funciona | ✅ PASS |
+| test_list_users_as_admin | Unitario | tests/users/test_list.py:12 | Admin puede listar usuarios | [OK] PASS |
+| test_list_users_pagination | Unitario | tests/users/test_list.py:25 | Paginación funciona correctamente | [OK] PASS |
+| test_list_users_forbidden | Unitario | tests/users/test_list.py:38 | Usuario normal no puede listar | [OK] PASS |
+| test_list_users_api | Integración | tests/api/test_users_api.py:15 | Endpoint GET /api/v1/users funciona | [OK] PASS |
 
-**Cobertura**: 78% | **Casos de Prueba**: 4 | **Status**: ✅ Completo
+**Cobertura**: 78% | **Casos de Prueba**: 4 | **Status**: [OK] Completo
 
 ---
 
 #### REQ-USER-002: Actualizar Perfil
 - **Descripción**: Usuario puede actualizar su propio perfil
 - **Prioridad**: ALTA
-- **Status**: ⚠️ Implementado parcialmente
+- **Status**: [WARNING] Implementado parcialmente
 
 **Tests que cubren este requisito:**
 | ID Test | Tipo | Archivo | Descripción | Status |
 |---------|------|---------|-------------|--------|
-| test_update_own_profile | Unitario | tests/users/test_profile.py:20 | Usuario actualiza su perfil | ✅ PASS |
-| test_update_profile_api | Integración | tests/api/test_users_api.py:45 | Endpoint PUT /api/v1/users/me funciona | ✅ PASS |
+| test_update_own_profile | Unitario | tests/users/test_profile.py:20 | Usuario actualiza su perfil | [OK] PASS |
+| test_update_profile_api | Integración | tests/api/test_users_api.py:45 | Endpoint PUT /api/v1/users/me funciona | [OK] PASS |
 
-**Cobertura**: 65% | **Casos de Prueba**: 2 | **Status**: ⚠️ Incompleto
+**Cobertura**: 65% | **Casos de Prueba**: 2 | **Status**: [WARNING] Incompleto
 
 **Tests Faltantes:**
 - [ ] Test de validación de avatar (imagen)
@@ -205,31 +205,31 @@ Crear una matriz de trazabilidad que vincule requisitos funcionales con casos de
 #### REQ-PROD-001: Crear Producto
 - **Descripción**: Staff puede crear nuevos productos
 - **Prioridad**: CRÍTICA
-- **Status**: ✅ Implementado
+- **Status**: [OK] Implementado
 
 **Tests que cubren este requisito:**
 | ID Test | Tipo | Archivo | Descripción | Status |
 |---------|------|---------|-------------|--------|
-| test_create_product_as_staff | Unitario | tests/products/test_create.py:18 | Staff crea producto exitosamente | ✅ PASS |
-| test_create_product_validation | Unitario | tests/products/test_create.py:31 | Validación de campos | ✅ PASS |
-| test_create_product_forbidden | Unitario | tests/products/test_create.py:44 | Usuario normal no puede crear | ✅ PASS |
-| test_create_product_api | Integración | tests/api/test_products_api.py:20 | Endpoint POST /api/v1/products funciona | ✅ PASS |
+| test_create_product_as_staff | Unitario | tests/products/test_create.py:18 | Staff crea producto exitosamente | [OK] PASS |
+| test_create_product_validation | Unitario | tests/products/test_create.py:31 | Validación de campos | [OK] PASS |
+| test_create_product_forbidden | Unitario | tests/products/test_create.py:44 | Usuario normal no puede crear | [OK] PASS |
+| test_create_product_api | Integración | tests/api/test_products_api.py:20 | Endpoint POST /api/v1/products funciona | [OK] PASS |
 
-**Cobertura**: 89% | **Casos de Prueba**: 4 | **Status**: ✅ Completo
+**Cobertura**: 89% | **Casos de Prueba**: 4 | **Status**: [OK] Completo
 
 ---
 
 #### REQ-PROD-002: Buscar Productos
 - **Descripción**: Cualquier usuario puede buscar productos por nombre o categoría
 - **Prioridad**: ALTA
-- **Status**: ❌ No Implementado
+- **Status**: [ERROR] No Implementado
 
 **Tests que cubren este requisito:**
 | ID Test | Tipo | Archivo | Descripción | Status |
 |---------|------|---------|-------------|--------|
-| - | - | - | Sin tests | ❌ N/A |
+| - | - | - | Sin tests | [ERROR] N/A |
 
-**Cobertura**: 0% | **Casos de Prueba**: 0 | **Status**: ❌ Sin Implementar
+**Cobertura**: 0% | **Casos de Prueba**: 0 | **Status**: [ERROR] Sin Implementar
 
 **Tests Requeridos:**
 - [ ] Test de búsqueda por nombre
@@ -367,13 +367,13 @@ Crear una matriz de trazabilidad que vincule requisitos funcionales con casos de
 - [ ] Validación Self-Consistency completada
 
 ## Criterios de Aceptación
-1. ✅ Matriz completa requisitos → tests
-2. ✅ Matriz inversa tests → requisitos
-3. ✅ Formato tabular utilizado (Tabular CoT)
-4. ✅ Cobertura por módulo calculada
-5. ✅ Gaps identificados y priorizados
-6. ✅ Roadmap de testing incluido
-7. ✅ Métricas de calidad calculadas
+1. [OK] Matriz completa requisitos → tests
+2. [OK] Matriz inversa tests → requisitos
+3. [OK] Formato tabular utilizado (Tabular CoT)
+4. [OK] Cobertura por módulo calculada
+5. [OK] Gaps identificados y priorizados
+6. [OK] Roadmap de testing incluido
+7. [OK] Métricas de calidad calculadas
 
 ## Notas
 - Buscar requisitos en: docs/requirements/, user stories

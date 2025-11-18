@@ -135,31 +135,31 @@ El sistema backend debe mantener funciones y métodos con complejidad ciclomáti
 ```python
 # ANTES (complexity = 12)
 def process_llamada(llamada):
-    if llamada.estado == 'nueva':
-        if llamada.tipo == 'entrante':
-            if llamada.prioridad == 'alta':
-                # ... lógica compleja
-            else:
-                # ... más lógica
-        else:
-            # ... aún más lógica
-    else:
-        # ... mucha más lógica
+ if llamada.estado == 'nueva':
+ if llamada.tipo == 'entrante':
+ if llamada.prioridad == 'alta':
+ # ... lógica compleja
+ else:
+ # ... más lógica
+ else:
+ # ... aún más lógica
+ else:
+ # ... mucha más lógica
 
 # DESPUÉS (complexity = 3 por función)
 def process_llamada(llamada):
-    if llamada.estado != 'nueva':
-        return process_llamada_existente(llamada)
+ if llamada.estado != 'nueva':
+ return process_llamada_existente(llamada)
 
-    if llamada.tipo == 'entrante':
-        return process_llamada_entrante(llamada)
+ if llamada.tipo == 'entrante':
+ return process_llamada_entrante(llamada)
 
-    return process_llamada_saliente(llamada)
+ return process_llamada_saliente(llamada)
 
 def process_llamada_entrante(llamada):
-    if llamada.prioridad == 'alta':
-        return process_llamada_alta_prioridad(llamada)
-    return process_llamada_normal_prioridad(llamada)
+ if llamada.prioridad == 'alta':
+ return process_llamada_alta_prioridad(llamada)
+ return process_llamada_normal_prioridad(llamada)
 ```
 
 ## Historial de Cambios

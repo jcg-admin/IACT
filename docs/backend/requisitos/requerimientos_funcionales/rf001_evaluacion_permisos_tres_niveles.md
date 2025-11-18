@@ -11,14 +11,14 @@ modulo: users
 categoria: security
 
 trazabilidad_upward:
-  - N-001  # Necesidad de control de acceso granular
+ - N-001 # Necesidad de control de acceso granular
 
 trazabilidad_downward:
-  - TEST-001  # test_permission_precedence.py
+ - TEST-001 # test_permission_precedence.py
 
 stakeholders:
-  - administradores-sistema
-  - gerentes-seguridad
+ - administradores-sistema
+ - gerentes-seguridad
 
 iso29148_clause: "9.6.4"
 verificacion_metodo: test
@@ -56,21 +56,21 @@ El sistema evalúa permisos en orden estricto:
 
 ```gherkin
 Given un usuario autenticado "alice"
-  And el usuario tiene el permiso directo "analytics.view"
-  And el usuario también tiene un rol con ese permiso
-  And el usuario también pertenece a un segmento con ese permiso
+ And el usuario tiene el permiso directo "analytics.view"
+ And el usuario también tiene un rol con ese permiso
+ And el usuario también pertenece a un segmento con ese permiso
 When el sistema evalúa has_permission(alice, "analytics.view")
 Then el sistema retorna true
-  And el sistema NO consulta roles ni segmentos (short-circuit)
+ And el sistema NO consulta roles ni segmentos (short-circuit)
 ```
 
 #### Escenario 2: Permiso por rol cuando no hay permiso directo
 
 ```gherkin
 Given un usuario autenticado "carol"
-  And el usuario NO tiene permisos directos
-  And el usuario tiene asignado el rol "Auditor"
-  And el rol "Auditor" tiene el permiso "audit.view"
+ And el usuario NO tiene permisos directos
+ And el usuario tiene asignado el rol "Auditor"
+ And el rol "Auditor" tiene el permiso "audit.view"
 When el sistema evalúa has_permission(carol, "audit.view")
 Then el sistema retorna true
 ```
@@ -79,11 +79,11 @@ Then el sistema retorna true
 
 ```gherkin
 Given un usuario autenticado "dave"
-  And el usuario tiene is_active=True
-  And el usuario NO tiene permisos directos
-  And el usuario NO tiene roles asignados
-  And existe un segmento "Activos" con criterio is_active=True
-  And el segmento "Activos" tiene el permiso "reports.generate"
+ And el usuario tiene is_active=True
+ And el usuario NO tiene permisos directos
+ And el usuario NO tiene roles asignados
+ And existe un segmento "Activos" con criterio is_active=True
+ And el segmento "Activos" tiene el permiso "reports.generate"
 When el sistema evalúa has_permission(dave, "reports.generate")
 Then el sistema retorna true
 ```
@@ -94,19 +94,19 @@ Then el sistema retorna true
 Given un usuario NO autenticado
 When el sistema evalúa has_permission(usuario, "cualquier.permiso")
 Then el sistema retorna false
-  And NO evalúa permisos directos, roles ni segmentos
+ And NO evalúa permisos directos, roles ni segmentos
 ```
 
 #### Escenario 5: Segmento no coincide con criterios del usuario
 
 ```gherkin
 Given un usuario autenticado "bob"
-  And el usuario tiene is_active=False
-  And existe un segmento "Activos" con criterio is_active=True
-  And el segmento tiene el permiso "reports.generate"
+ And el usuario tiene is_active=False
+ And existe un segmento "Activos" con criterio is_active=True
+ And el segmento tiene el permiso "reports.generate"
 When el sistema evalúa has_permission(bob, "reports.generate")
 Then el sistema retorna false
-  And el segmento no aplica porque el usuario no coincide con criterios
+ And el segmento no aplica porque el usuario no coincide con criterios
 ```
 
 #### Escenario 6: Permiso no existe en ningún nivel
@@ -152,20 +152,20 @@ Then el sistema retorna false
 **Algoritmo de evaluación:**
 ```python
 def has_permission(user, permission_codename):
-    # Nivel 0: Verificar autenticación
-    if not user.is_authenticated:
-        return False
+ # Nivel 0: Verificar autenticación
+ if not user.is_authenticated:
+ return False
 
-    # Nivel 1: Permisos directos (máxima prioridad)
-    if _has_direct_permission(user, permission_codename):
-        return True  # Short-circuit
+ # Nivel 1: Permisos directos (máxima prioridad)
+ if _has_direct_permission(user, permission_codename):
+ return True # Short-circuit
 
-    # Nivel 2: Permisos por rol
-    if _has_role_permission(user, permission_codename):
-        return True  # Short-circuit
+ # Nivel 2: Permisos por rol
+ if _has_role_permission(user, permission_codename):
+ return True # Short-circuit
 
-    # Nivel 3: Permisos por segmento
-    return _has_segment_permission(user, permission_codename)
+ # Nivel 3: Permisos por segmento
+ return _has_segment_permission(user, permission_codename)
 ```
 
 ### 3.3 Reglas de Negocio
@@ -206,36 +206,36 @@ Este método NO requiere permisos para ejecutarse (es usado por el sistema de au
 ### 5.1 Tests Unitarios
 
 - [x] **TEST-001-001**: test_permiso_directo_tiene_maxima_prioridad
-  - Ubicación: `tests/users/test_permission_precedence.py::test_permiso_directo_tiene_maxima_prioridad`
-  - Estado: implementado, pasando
+ - Ubicación: `tests/users/test_permission_precedence.py::test_permiso_directo_tiene_maxima_prioridad`
+ - Estado: implementado, pasando
 
 - [x] **TEST-001-002**: test_permiso_por_rol_sin_permiso_directo
-  - Ubicación: `tests/users/test_permission_precedence.py::test_permiso_por_rol_sin_permiso_directo`
-  - Estado: implementado, pasando
+ - Ubicación: `tests/users/test_permission_precedence.py::test_permiso_por_rol_sin_permiso_directo`
+ - Estado: implementado, pasando
 
 - [x] **TEST-001-003**: test_permiso_por_segmento_sin_coincidencia_no_habilita
-  - Ubicación: `tests/users/test_permission_precedence.py::test_permiso_por_segmento_sin_coincidencia_no_habilita`
-  - Estado: implementado, pasando
+ - Ubicación: `tests/users/test_permission_precedence.py::test_permiso_por_segmento_sin_coincidencia_no_habilita`
+ - Estado: implementado, pasando
 
 - [ ] **TEST-001-004**: test_usuario_no_autenticado_siempre_retorna_false
-  - Ubicación: `tests/users/test_permission_service.py::test_usuario_no_autenticado_siempre_retorna_false`
-  - Estado: pendiente
+ - Ubicación: `tests/users/test_permission_service.py::test_usuario_no_autenticado_siempre_retorna_false`
+ - Estado: pendiente
 
 - [ ] **TEST-001-005**: test_permiso_por_segmento_cuando_coincide_criterio
-  - Ubicación: `tests/users/test_permission_service.py::test_permiso_por_segmento_cuando_coincide_criterio`
-  - Estado: pendiente
+ - Ubicación: `tests/users/test_permission_service.py::test_permiso_por_segmento_cuando_coincide_criterio`
+ - Estado: pendiente
 
 - [ ] **TEST-001-006**: test_permiso_inexistente_retorna_false
-  - Ubicación: `tests/users/test_permission_service.py::test_permiso_inexistente_retorna_false`
-  - Estado: pendiente
+ - Ubicación: `tests/users/test_permission_service.py::test_permiso_inexistente_retorna_false`
+ - Estado: pendiente
 
 - [ ] **TEST-001-007**: test_segmento_inactivo_es_ignorado
-  - Ubicación: `tests/users/test_permission_service.py::test_segmento_inactivo_es_ignorado`
-  - Estado: pendiente
+ - Ubicación: `tests/users/test_permission_service.py::test_segmento_inactivo_es_ignorado`
+ - Estado: pendiente
 
 - [ ] **TEST-001-008**: test_short_circuit_no_evalua_roles_si_tiene_directo
-  - Ubicación: `tests/users/test_permission_service.py::test_short_circuit_no_evalua_roles_si_tiene_directo`
-  - Estado: pendiente
+ - Ubicación: `tests/users/test_permission_service.py::test_short_circuit_no_evalua_roles_si_tiene_directo`
+ - Estado: pendiente
 
 ## 6. Definición de Hecho (Definition of Done)
 

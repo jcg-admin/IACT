@@ -29,10 +29,10 @@ date: 2025-11-13
 Given un usuario que olvido su password
 When el usuario solicita recuperacion y responde 3 preguntas de seguridad correctamente
 Then el sistema genera password temporal (valida 24 horas)
-  And el sistema envia password temporal via buzon interno (NO email)
-  And el sistema audita evento PASSWORD_RECOVERY
-  And el usuario puede iniciar sesion con password temporal
-  And el sistema obliga al usuario a cambiar password en primer login
+ And el sistema envia password temporal via buzon interno (NO email)
+ And el sistema audita evento PASSWORD_RECOVERY
+ And el usuario puede iniciar sesion con password temporal
+ And el sistema obliga al usuario a cambiar password en primer login
 ```
 
 ## 3. Restriccion CRITICA

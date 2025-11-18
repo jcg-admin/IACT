@@ -6,12 +6,12 @@ Requisitos específicos del dominio Backend del proyecto IACT.
 
 ```
 requisitos/
-├── requerimientos_negocio/      ← RNEG: Objetivos organizacionales backend
-├── reglas_negocio/              ← RN: Políticas, restricciones, cálculos
-├── requerimientos_usuario/      ← UC: Casos de uso backend
-│   └── casos_uso/
-├── requerimientos_funcionales/  ← RF: Funcionalidad del sistema backend
-└── atributos_calidad/           ← RNF: Performance, seguridad, escalabilidad
+ requerimientos_negocio/ ← RNEG: Objetivos organizacionales backend
+ reglas_negocio/ ← RN: Políticas, restricciones, cálculos
+ requerimientos_usuario/ ← UC: Casos de uso backend
+ casos_uso/
+ requerimientos_funcionales/ ← RF: Funcionalidad del sistema backend
+ atributos_calidad/ ← RNF: Performance, seguridad, escalabilidad
 ```
 
 ## Gobernanza Multi-nivel
@@ -23,12 +23,12 @@ Consulta **primero** la gobernanza global:
 
 ## ¿Cuándo documentar requisitos aquí vs. Global?
 
-### ✅ Requisito de Backend (aquí)
+### [OK] Requisito de Backend (aquí)
 - Solo afecta implementación backend
 - Stack-specific (Django, PostgreSQL, Python)
 - No impacta frontend u otros dominios
 
-### ❌ Requisito Global (en /docs/gobernanza/requisitos/)
+### [ERROR] Requisito Global (en /docs/gobernanza/requisitos/)
 - Afecta múltiples dominios
 - Define comportamiento del sistema completo
 - Contrato entre dominios (ej: APIs)

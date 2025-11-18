@@ -80,12 +80,12 @@ Documentacion del diseno de base de datos, esquemas, modelos de datos y estrateg
 
 ```
 diseno/database/
-├── README.md
-├── esquemas/        # Esquemas SQL, DDL
-├── erd/             # Diagramas ERD
-├── modelos/         # Documentacion de modelos
-├── migraciones/     # Docs de migraciones (no codigo)
-└── optimizacion/    # Indices, performance tuning
+ README.md
+ esquemas/ # Esquemas SQL, DDL
+ erd/ # Diagramas ERD
+ modelos/ # Documentacion de modelos
+ migraciones/ # Docs de migraciones (no codigo)
+ optimizacion/ # Indices, performance tuning
 ```
 
 ## Motor de Base de Datos
@@ -233,14 +233,14 @@ Tablas particionadas:
 Tabla `audit_logs`:
 ```sql
 CREATE TABLE audit_logs (
-  id BIGSERIAL PRIMARY KEY,
-  user_id INTEGER REFERENCES users(id),
-  action VARCHAR(50) NOT NULL,
-  table_name VARCHAR(100),
-  record_id INTEGER,
-  changes JSONB,
-  ip_address INET,
-  created_at TIMESTAMP DEFAULT NOW()
+ id BIGSERIAL PRIMARY KEY,
+ user_id INTEGER REFERENCES users(id),
+ action VARCHAR(50) NOT NULL,
+ table_name VARCHAR(100),
+ record_id INTEGER,
+ changes JSONB,
+ ip_address INET,
+ created_at TIMESTAMP DEFAULT NOW()
 );
 ```
 

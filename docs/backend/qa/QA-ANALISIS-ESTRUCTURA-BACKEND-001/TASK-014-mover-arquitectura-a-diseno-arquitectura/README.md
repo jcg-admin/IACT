@@ -80,10 +80,10 @@ echo "Total subdirectorios: $DIRS"
 # Verificar que diseno/arquitectura/ esta vacio
 DEST_FILES=$(find docs/backend/diseno/arquitectura/ -type f ! -name ".gitkeep" 2>/dev/null | wc -l)
 if [ "$DEST_FILES" -eq 0 ]; then
-  echo "OK: Destino vacio, listo para mover"
+ echo "OK: Destino vacio, listo para mover"
 else
-  echo "ERROR: Destino ya tiene $DEST_FILES archivos"
-  exit 1
+ echo "ERROR: Destino ya tiene $DEST_FILES archivos"
+ exit 1
 fi
 ```
 
@@ -93,11 +93,11 @@ fi
 ```bash
 # Mover todo el contenido de arquitectura/ a diseno/arquitectura/
 if [ -d "docs/backend/arquitectura" ] && [ "$(ls -A docs/backend/arquitectura)" ]; then
-  git mv docs/backend/arquitectura/* docs/backend/diseno/arquitectura/ 2>&1 | tee \
-    docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/log-movimiento-arquitectura.txt
+ git mv docs/backend/arquitectura/* docs/backend/diseno/arquitectura/ 2>&1 | tee \
+ docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/log-movimiento-arquitectura.txt
 else
-  echo "ERROR: arquitectura/ no existe o esta vacia"
-  exit 1
+ echo "ERROR: arquitectura/ no existe o esta vacia"
+ exit 1
 fi
 ```
 
@@ -113,9 +113,9 @@ echo "Esperado: $FILES"
 # Verificar que origen esta vacio
 ORIGEN_REMAINING=$(find docs/backend/arquitectura/ -type f ! -name ".gitkeep" 2>/dev/null | wc -l)
 if [ "$ORIGEN_REMAINING" -eq 0 ]; then
-  echo "OK: Origen vacio"
+ echo "OK: Origen vacio"
 else
-  echo "WARNING: Origen aun tiene $ORIGEN_REMAINING archivos"
+ echo "WARNING: Origen aun tiene $ORIGEN_REMAINING archivos"
 fi
 ```
 
@@ -190,17 +190,17 @@ EOF
 # Validacion 1: Origen vacio
 COUNT=$(find docs/backend/arquitectura/ -type f ! -name ".gitkeep" 2>/dev/null | wc -l)
 if [ "$COUNT" -eq 0 ]; then
-  echo "OK: arquitectura/ vacio"
+ echo "OK: arquitectura/ vacio"
 else
-  echo "ERROR: arquitectura/ aun tiene $COUNT archivos"
+ echo "ERROR: arquitectura/ aun tiene $COUNT archivos"
 fi
 
 # Validacion 2: Destino poblado
 DEST=$(find docs/backend/diseno/arquitectura/ -type f ! -name ".gitkeep" | wc -l)
 if [ "$DEST" -gt 0 ]; then
-  echo "OK: diseno/arquitectura/ tiene $DEST archivos"
+ echo "OK: diseno/arquitectura/ tiene $DEST archivos"
 else
-  echo "ERROR: diseno/arquitectura/ esta vacio"
+ echo "ERROR: diseno/arquitectura/ esta vacio"
 fi
 
 # Validacion 3: Git renames

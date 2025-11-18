@@ -93,7 +93,7 @@ Crear una matriz de trazabilidad que vincule requisitos funcionales con la imple
 #### REQ-AUTH-001: Login de Usuario
 - **Descripción**: Usuario puede autenticarse con email y password
 - **Prioridad**: CRÍTICA
-- **Status**: ✅ Implementado
+- **Status**: [OK] Implementado
 - **Fecha Implementación**: 2024-09-15
 
 **Implementación en Código:**
@@ -125,7 +125,7 @@ Crear una matriz de trazabilidad que vincule requisitos funcionales con la imple
 #### REQ-AUTH-002: Logout de Usuario
 - **Descripción**: Usuario autenticado puede cerrar sesión
 - **Prioridad**: ALTA
-- **Status**: ✅ Implementado
+- **Status**: [OK] Implementado
 - **Fecha Implementación**: 2024-09-15
 
 **Implementación en Código:**
@@ -148,7 +148,7 @@ Crear una matriz de trazabilidad que vincule requisitos funcionales con la imple
 #### REQ-AUTH-003: Registro de Usuario
 - **Descripción**: Nuevo usuario puede registrarse con email y password
 - **Prioridad**: CRÍTICA
-- **Status**: ✅ Implementado
+- **Status**: [OK] Implementado
 - **Fecha Implementación**: 2024-09-18
 
 **Implementación en Código:**
@@ -177,7 +177,7 @@ Crear una matriz de trazabilidad que vincule requisitos funcionales con la imple
 #### REQ-USER-001: Listar Usuarios
 - **Descripción**: Admin puede listar todos los usuarios con paginación
 - **Prioridad**: MEDIA
-- **Status**: ✅ Implementado
+- **Status**: [OK] Implementado
 - **Fecha Implementación**: 2024-10-02
 
 **Implementación en Código:**
@@ -202,7 +202,7 @@ Crear una matriz de trazabilidad que vincule requisitos funcionales con la imple
 #### REQ-USER-002: Actualizar Perfil
 - **Descripción**: Usuario puede actualizar su propio perfil
 - **Prioridad**: ALTA
-- **Status**: ⚠️ Implementado parcialmente
+- **Status**: [WARNING] Implementado parcialmente
 - **Fecha Implementación**: 2024-10-05
 
 **Implementación en Código:**
@@ -229,7 +229,7 @@ Crear una matriz de trazabilidad que vincule requisitos funcionales con la imple
 #### REQ-PROD-001: Crear Producto
 - **Descripción**: Staff puede crear nuevos productos
 - **Prioridad**: CRÍTICA
-- **Status**: ✅ Implementado
+- **Status**: [OK] Implementado
 - **Fecha Implementación**: 2024-10-10
 
 **Implementación en Código:**
@@ -259,7 +259,7 @@ Crear una matriz de trazabilidad que vincule requisitos funcionales con la imple
 #### REQ-PROD-002: Buscar Productos
 - **Descripción**: Cualquier usuario puede buscar productos por nombre o categoría
 - **Prioridad**: ALTA
-- **Status**: ❌ No Implementado
+- **Status**: [ERROR] No Implementado
 - **Fecha Implementación**: Pendiente
 
 **Implementación Planificada:**
@@ -314,21 +314,21 @@ Crear una matriz de trazabilidad que vincule requisitos funcionales con la imple
 
 ```mermaid
 graph TD
-    REQ_AUTH_001[REQ-AUTH-001: Login] --> USER_MODEL[users/models.py: User]
-    REQ_AUTH_001 --> AUTH_SERVICE[users/services.py: AuthService]
-    REQ_AUTH_001 --> LOGIN_VIEW[users/views.py: LoginView]
-    REQ_AUTH_001 --> JWT_LIB[djangorestframework-simplejwt]
+ REQ_AUTH_001[REQ-AUTH-001: Login] --> USER_MODEL[users/models.py: User]
+ REQ_AUTH_001 --> AUTH_SERVICE[users/services.py: AuthService]
+ REQ_AUTH_001 --> LOGIN_VIEW[users/views.py: LoginView]
+ REQ_AUTH_001 --> JWT_LIB[djangorestframework-simplejwt]
 
-    REQ_AUTH_003[REQ-AUTH-003: Registro] --> USER_MODEL
-    REQ_AUTH_003 --> USER_SERVICE[users/services.py: UserService]
-    REQ_AUTH_003 --> REG_VIEW[users/views.py: RegistrationView]
-    REQ_AUTH_003 --> EMAIL_TASK[users/tasks.py: send_welcome_email]
-    REQ_AUTH_003 --> CELERY[Celery]
+ REQ_AUTH_003[REQ-AUTH-003: Registro] --> USER_MODEL
+ REQ_AUTH_003 --> USER_SERVICE[users/services.py: UserService]
+ REQ_AUTH_003 --> REG_VIEW[users/views.py: RegistrationView]
+ REQ_AUTH_003 --> EMAIL_TASK[users/tasks.py: send_welcome_email]
+ REQ_AUTH_003 --> CELERY[Celery]
 
-    REQ_PROD_001[REQ-PROD-001: Crear Producto] --> PROD_MODEL[products/models.py: Product]
-    REQ_PROD_001 --> PROD_SERVICE[products/services.py: ProductService]
-    REQ_PROD_001 --> PROD_VIEW[products/views.py: ProductViewSet]
-    REQ_PROD_001 --> STORAGE[core/storage.py]
+ REQ_PROD_001[REQ-PROD-001: Crear Producto] --> PROD_MODEL[products/models.py: Product]
+ REQ_PROD_001 --> PROD_SERVICE[products/services.py: ProductService]
+ REQ_PROD_001 --> PROD_VIEW[products/views.py: ProductViewSet]
+ REQ_PROD_001 --> STORAGE[core/storage.py]
 ```
 
 ## Análisis de Impacto
@@ -428,14 +428,14 @@ graph TD
 - [ ] Validación Self-Consistency completada
 
 ## Criterios de Aceptación
-1. ✅ Matriz completa requisitos → código
-2. ✅ Matriz inversa código → requisitos
-3. ✅ Formato tabular utilizado (Tabular CoT)
-4. ✅ Nivel de detalle: archivo, clase, método, líneas
-5. ✅ Dependencias identificadas
-6. ✅ Análisis de impacto incluido
-7. ✅ Estadísticas y métricas calculadas
-8. ✅ Roadmap de implementación
+1. [OK] Matriz completa requisitos → código
+2. [OK] Matriz inversa código → requisitos
+3. [OK] Formato tabular utilizado (Tabular CoT)
+4. [OK] Nivel de detalle: archivo, clase, método, líneas
+5. [OK] Dependencias identificadas
+6. [OK] Análisis de impacto incluido
+7. [OK] Estadísticas y métricas calculadas
+8. [OK] Roadmap de implementación
 
 ## Notas
 - Reutilizar requisitos de TASK-039

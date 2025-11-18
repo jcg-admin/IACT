@@ -106,11 +106,11 @@ Esta carpeta centraliza toda la documentacion relacionada con el diseno de APIs 
 
 ```
 diseno/api/
-├── README.md (este archivo)
-├── especificaciones/    # Especificaciones detalladas de endpoints
-├── contratos/           # Archivos OpenAPI/Swagger
-├── ejemplos/            # Ejemplos de uso
-└── politicas/           # Politicas y convenciones
+ README.md (este archivo)
+ especificaciones/ # Especificaciones detalladas de endpoints
+ contratos/ # Archivos OpenAPI/Swagger
+ ejemplos/ # Ejemplos de uso
+ politicas/ # Politicas y convenciones
 ```
 
 ## Convenciones
@@ -172,8 +172,8 @@ SUBDIRS=$(find docs/backend/diseno/api/ -maxdepth 1 -type d ! -path "docs/backen
 
 # Agregar subdirectorios al README si existen
 if [ -n "$SUBDIRS" ]; then
-  echo "Subdirectorios encontrados: $SUBDIRS"
-  # Actualizar seccion de Estructura en README
+ echo "Subdirectorios encontrados: $SUBDIRS"
+ # Actualizar seccion de Estructura en README
 fi
 ```
 
@@ -183,9 +183,9 @@ fi
 ```bash
 # Verificar que README es markdown valido
 if command -v mdl &> /dev/null; then
-  mdl docs/backend/diseno/api/README.md
+ mdl docs/backend/diseno/api/README.md
 else
-  echo "SKIP: markdownlint no instalado"
+ echo "SKIP: markdownlint no instalado"
 fi
 
 # Verificar frontmatter YAML
@@ -198,14 +198,14 @@ head -20 docs/backend/diseno/api/README.md | grep -A 10 "^---$"
 ```bash
 # Verificar que enlaces internos existen
 grep -o '\[.*\](.*\.md)' docs/backend/diseno/api/README.md | \
-  sed 's/.*(\(.*\))/\1/' | \
-  while read link; do
-    if [ -f "docs/backend/diseno/api/$link" ]; then
-      echo "OK: $link existe"
-    else
-      echo "WARNING: $link no encontrado"
-    fi
-  done
+ sed 's/.*(\(.*\))/\1/' | \
+ while read link; do
+ if [ -f "docs/backend/diseno/api/$link" ]; then
+ echo "OK: $link existe"
+ else
+ echo "WARNING: $link no encontrado"
+ fi
+ done
 ```
 
 **Resultado Esperado:** Verificacion de enlaces (warnings si no existen aun)
@@ -240,42 +240,42 @@ git status docs/backend/diseno/api/README.md
 ```bash
 # Validacion 1: Verificar que README existe
 if [ -f "docs/backend/diseno/api/README.md" ]; then
-  echo "OK: README.md existe"
+ echo "OK: README.md existe"
 else
-  echo "ERROR: README.md no encontrado"
-  exit 1
+ echo "ERROR: README.md no encontrado"
+ exit 1
 fi
 
 # Validacion 2: Verificar frontmatter
 if head -1 docs/backend/diseno/api/README.md | grep -q "^---$"; then
-  echo "OK: Frontmatter presente"
+ echo "OK: Frontmatter presente"
 else
-  echo "WARNING: Frontmatter faltante o incorrecto"
+ echo "WARNING: Frontmatter faltante o incorrecto"
 fi
 
 # Validacion 3: Verificar secciones minimas
 REQUIRED_SECTIONS="Proposito Contenido Estructura Convenciones"
 for section in $REQUIRED_SECTIONS; do
-  if grep -q "## $section" docs/backend/diseno/api/README.md; then
-    echo "OK: Seccion '$section' presente"
-  else
-    echo "WARNING: Seccion '$section' faltante"
-  fi
+ if grep -q "## $section" docs/backend/diseno/api/README.md; then
+ echo "OK: Seccion '$section' presente"
+ else
+ echo "WARNING: Seccion '$section' faltante"
+ fi
 done
 
 # Validacion 4: Contar palabras (debe ser sustancial)
 WORD_COUNT=$(wc -w < docs/backend/diseno/api/README.md)
 if [ "$WORD_COUNT" -gt 100 ]; then
-  echo "OK: README sustancial ($WORD_COUNT palabras)"
+ echo "OK: README sustancial ($WORD_COUNT palabras)"
 else
-  echo "WARNING: README muy breve ($WORD_COUNT palabras)"
+ echo "WARNING: README muy breve ($WORD_COUNT palabras)"
 fi
 
 # Validacion 5: Verificar que esta en git staging
 if git diff --cached --name-only | grep -q "docs/backend/diseno/api/README.md"; then
-  echo "OK: README en staging"
+ echo "OK: README en staging"
 else
-  echo "WARNING: README no esta en staging"
+ echo "WARNING: README no esta en staging"
 fi
 ```
 

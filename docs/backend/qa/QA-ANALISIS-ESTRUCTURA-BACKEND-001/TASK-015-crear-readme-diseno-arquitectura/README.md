@@ -103,11 +103,11 @@ Esta carpeta contiene toda la documentacion relacionada con decisiones arquitect
 
 ```
 diseno/arquitectura/
-├── README.md (este archivo)
-├── adr/                 # Architecture Decision Records
-├── diagramas/           # Diagramas C4 y otros
-├── patrones/            # Documentacion de patrones
-└── especificaciones/    # Specs tecnicas
+ README.md (este archivo)
+ adr/ # Architecture Decision Records
+ diagramas/ # Diagramas C4 y otros
+ patrones/ # Documentacion de patrones
+ especificaciones/ # Specs tecnicas
 ```
 
 ## Architecture Decision Records (ADRs)
@@ -243,9 +243,9 @@ ADR_LIST=$(find docs/backend/diseno/arquitectura/ -name "*adr*" -o -name "*ADR*"
 
 # Si hay ADRs, agregarlos al README
 if [ -n "$ADR_LIST" ]; then
-  echo "ADRs encontrados:"
-  echo "$ADR_LIST"
-  # Nota: Actualizar manualmente la seccion "ADRs Principales"
+ echo "ADRs encontrados:"
+ echo "$ADR_LIST"
+ # Nota: Actualizar manualmente la seccion "ADRs Principales"
 fi
 ```
 
@@ -255,7 +255,7 @@ fi
 ```bash
 # Validar markdown
 if command -v mdl &> /dev/null; then
-  mdl docs/backend/diseno/arquitectura/README.md
+ mdl docs/backend/diseno/arquitectura/README.md
 fi
 
 # Agregar a git
@@ -287,7 +287,7 @@ git status docs/backend/diseno/arquitectura/README.md
 
 # Verificar secciones clave
 for section in "ADR" "C4" "Patrones" "Principios"; do
-  grep -q "$section" docs/backend/diseno/arquitectura/README.md && echo "OK: $section" || echo "WARN: $section faltante"
+ grep -q "$section" docs/backend/diseno/arquitectura/README.md && echo "OK: $section" || echo "WARN: $section faltante"
 done
 
 # Verificar en staging

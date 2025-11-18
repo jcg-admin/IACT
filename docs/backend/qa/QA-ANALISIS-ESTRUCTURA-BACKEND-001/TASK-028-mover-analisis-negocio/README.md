@@ -80,7 +80,7 @@ rm -rf docs/backend/analisis_negocio/
 
 # Verificar eliminacion
 ls -d docs/backend/analisis_negocio/ 2>/dev/null || \
-  echo "Carpeta analisis_negocio/ eliminada OK"
+ echo "Carpeta analisis_negocio/ eliminada OK"
 ```
 
 **Resultado Esperado:** Carpeta analisis_negocio/ eliminada
@@ -103,15 +103,15 @@ tree docs/backend/planificacion/analisis_negocio/
 ```bash
 # Crear registro de archivos movidos
 echo "=== MOVIMIENTO analisis_negocio/ ===" > \
-  docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/movimiento-analisis-negocio.txt
+ docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/movimiento-analisis-negocio.txt
 
 echo "Archivos movidos:" >> \
-  docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/movimiento-analisis-negocio.txt
+ docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/movimiento-analisis-negocio.txt
 find docs/backend/planificacion/analisis_negocio/ -type f >> \
-  docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/movimiento-analisis-negocio.txt
+ docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/movimiento-analisis-negocio.txt
 
 echo -e "\nTotal: $(find docs/backend/planificacion/analisis_negocio/ -type f ! -name '.gitkeep' | wc -l) archivos" >> \
-  docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/movimiento-analisis-negocio.txt
+ docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/movimiento-analisis-negocio.txt
 ```
 
 **Resultado Esperado:** Archivo movimiento-analisis-negocio.txt creado
@@ -133,17 +133,17 @@ echo -e "\nTotal: $(find docs/backend/planificacion/analisis_negocio/ -type f ! 
 ```bash
 # Verificar que origen no existe
 if [ -d "docs/backend/analisis_negocio" ]; then
-  echo "ERROR: Carpeta origen todavia existe"
+ echo "ERROR: Carpeta origen todavia existe"
 else
-  echo "OK: Carpeta origen eliminada"
+ echo "OK: Carpeta origen eliminada"
 fi
 
 # Verificar que destino tiene contenido
 count=$(find docs/backend/planificacion/analisis_negocio/ -type f ! -name '.gitkeep' | wc -l)
 if [ $count -gt 0 ]; then
-  echo "OK: Contenido presente en destino ($count archivos)"
+ echo "OK: Contenido presente en destino ($count archivos)"
 else
-  echo "WARN: Destino vacio o solo .gitkeep"
+ echo "WARN: Destino vacio o solo .gitkeep"
 fi
 
 # Verificar estructura

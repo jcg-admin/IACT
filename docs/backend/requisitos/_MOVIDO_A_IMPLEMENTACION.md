@@ -12,14 +12,14 @@ Los requisitos del backend ahora viven en:
 
 ```
 docs/backend/requisitos/
-├── necesidades/
-├── negocio/
-├── stakeholders/
-├── funcionales/
-└── no_funcionales/
+ necesidades/
+ negocio/
+ stakeholders/
+ funcionales/
+ no_funcionales/
 ```
 
-**👉 [IR A IMPLEMENTACION/BACKEND/REQUISITOS](../../backend/requisitos/README.md)**
+** [IR A IMPLEMENTACION/BACKEND/REQUISITOS](../../backend/requisitos/README.md)**
 
 ---
 
@@ -42,7 +42,7 @@ Se implementó **Opción B** de la propuesta de reestructuración:
 
 ---
 
-## 🔄 ¿Qué hacer con archivos legacy aquí?
+## ¿Qué hacer con archivos legacy aquí?
 
 Esta carpeta (`docs/backend/requisitos/`) contiene archivos legacy:
 - `rq_plantilla.md` (antigua plantilla)

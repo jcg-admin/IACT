@@ -80,14 +80,14 @@ target-version = "py312"
 
 [tool.ruff.lint]
 select = [
-    "E", "W",    # pycodestyle
-    "F",         # pyflakes
-    "I",         # isort
-    "B",         # flake8-bugbear
-    "DJ",        # flake8-django
-    "S",         # flake8-bandit (security)
-    "ASYNC",     # flake8-async
-    # ... y muchos más
+ "E", "W", # pycodestyle
+ "F", # pyflakes
+ "I", # isort
+ "B", # flake8-bugbear
+ "DJ", # flake8-django
+ "S", # flake8-bandit (security)
+ "ASYNC", # flake8-async
+ # ... y muchos más
 ]
 ```
 
@@ -144,15 +144,15 @@ make type-check
 from typing import Optional, List
 
 def get_user_by_id(user_id: int) -> Optional[User]:
-    """Obtiene un usuario por ID."""
-    try:
-        return User.objects.get(id=user_id)
-    except User.DoesNotExist:
-        return None
+ """Obtiene un usuario por ID."""
+ try:
+ return User.objects.get(id=user_id)
+ except User.DoesNotExist:
+ return None
 
 def get_active_users() -> List[User]:
-    """Retorna lista de usuarios activos."""
-    return list(User.objects.filter(is_active=True))
+ """Retorna lista de usuarios activos."""
+ return list(User.objects.filter(is_active=True))
 ```
 
 ---
@@ -191,9 +191,9 @@ En `pyproject.toml`:
 DJANGO_SETTINGS_MODULE = "callcentersite.settings"
 addopts = "-v --strict-markers --tb=short"
 markers = [
-    "unit: Unit tests",
-    "integration: Integration tests",
-    "slow: Slow tests",
+ "unit: Unit tests",
+ "integration: Integration tests",
+ "slow: Slow tests",
 ]
 ```
 
@@ -268,9 +268,9 @@ LOGGING = get_logging_config()
 #### Variables de Entorno:
 
 ```bash
-LOG_DIR=/var/log/callcentersite  # Directorio para archivos de log
-DJANGO_LOG_LEVEL=INFO            # Nivel de log de Django
-APP_LOG_LEVEL=INFO               # Nivel de log de la aplicación
+LOG_DIR=/var/log/callcentersite # Directorio para archivos de log
+DJANGO_LOG_LEVEL=INFO # Nivel de log de Django
+APP_LOG_LEVEL=INFO # Nivel de log de la aplicación
 ```
 
 ### Uso en Código
@@ -281,22 +281,22 @@ import logging
 logger = logging.getLogger(__name__)
 
 def my_function():
-    logger.info("Iniciando operación")
-    try:
-        # código
-        logger.debug("Detalles de debug")
-    except Exception as e:
-        logger.error(f"Error: {e}", exc_info=True)
-        # Los errores se registran en error_file y se envían por email
+ logger.info("Iniciando operación")
+ try:
+ # código
+ logger.debug("Detalles de debug")
+ except Exception as e:
+ logger.error(f"Error: {e}", exc_info=True)
+ # Los errores se registran en error_file y se envían por email
 
 # Logging estructurado con extra fields
 logger.info(
-    "Operación completada",
-    extra={
-        "user_id": user.id,
-        "operation": "export",
-        "duration": elapsed_time,
-    }
+ "Operación completada",
+ extra={
+ "user_id": user.id,
+ "operation": "export",
+ "duration": elapsed_time,
+ }
 )
 ```
 
@@ -332,8 +332,8 @@ from callcentersite.apps.common.utils.performance import timeit
 
 @timeit
 def expensive_operation():
-    # código
-    return result
+ # código
+ return result
 
 # Logs: "expensive_operation took 1.23 seconds"
 ```
@@ -345,7 +345,7 @@ from callcentersite.apps.common.utils.performance import timeit_verbose
 
 @timeit_verbose(iterations=100)
 def fast_operation():
-    return sum(range(1000))
+ return sum(range(1000))
 
 # Logs: Average, Min, Max over 100 iterations
 ```
@@ -357,8 +357,8 @@ from callcentersite.apps.common.utils.performance import profile_performance
 
 @profile_performance(output_file="profile.txt")
 def complex_operation():
-    # código complejo
-    pass
+ # código complejo
+ pass
 ```
 
 ### Context Managers
@@ -368,12 +368,12 @@ from callcentersite.apps.common.utils.performance import measure_time, profile_b
 
 # Medir tiempo
 with measure_time("Database query"):
-    User.objects.all()[:100]
+ User.objects.all()[:100]
 
 # Profiling de bloque
 with profile_block("complex_operation_profile.txt"):
-    for i in range(1000):
-        complex_calculation()
+ for i in range(1000):
+ complex_calculation()
 ```
 
 ### Performance Monitor
@@ -384,12 +384,12 @@ from callcentersite.apps.common.utils.performance import PerformanceMonitor
 monitor = PerformanceMonitor()
 
 with monitor.measure("operation1"):
-    # código
+ # código
 
 with monitor.measure("operation2"):
-    # código
+ # código
 
-monitor.report()  # Imprime reporte completo
+monitor.report() # Imprime reporte completo
 ```
 
 ### Comando de Profiling
@@ -421,8 +421,8 @@ from callcentersite.apps.common.utils.async_http import AsyncHTTPClient
 
 # Context manager
 async with AsyncHTTPClient(base_url="https://api.example.com") as client:
-    response = await client.get("/endpoint")
-    data = response.json()
+ response = await client.get("/endpoint")
+ data = response.json()
 
 # Múltiples peticiones en paralelo
 urls = ["https://api.example.com/1", "https://api.example.com/2"]
@@ -454,11 +454,11 @@ from callcentersite.apps.common.utils.async_helpers import sync_to_async
 
 @sync_to_async
 def blocking_io():
-    time.sleep(5)
-    return "done"
+ time.sleep(5)
+ return "done"
 
 # Ahora se puede usar con await
-result = await blocking_io()  # No bloquea el event loop
+result = await blocking_io() # No bloquea el event loop
 ```
 
 #### Retry con Backoff
@@ -468,11 +468,11 @@ from callcentersite.apps.common.utils.async_helpers import retry_async_decorator
 
 @retry_async_decorator(max_retries=5, delay=1.0, backoff=2.0)
 async def fetch_data():
-    async with httpx.AsyncClient() as client:
-        response = await client.get("https://api.example.com")
-        return response.json()
+ async with httpx.AsyncClient() as client:
+ response = await client.get("https://api.example.com")
+ return response.json()
 
-data = await fetch_data()  # Reintenta automáticamente
+data = await fetch_data() # Reintenta automáticamente
 ```
 
 #### Gather con Concurrencia Limitada
@@ -481,7 +481,7 @@ data = await fetch_data()  # Reintenta automáticamente
 from callcentersite.apps.common.utils.async_helpers import gather_with_concurrency
 
 tasks = [fetch_url(url) for url in urls]
-results = await gather_with_concurrency(5, *tasks)  # Max 5 concurrentes
+results = await gather_with_concurrency(5, *tasks) # Max 5 concurrentes
 ```
 
 ### Migración de Requests a HTTPX
@@ -491,15 +491,15 @@ results = await gather_with_concurrency(5, *tasks)  # Max 5 concurrentes
 import requests
 
 def fetch_data(url):
-    response = requests.get(url)
-    return response.json()
+ response = requests.get(url)
+ return response.json()
 
 # DESPUÉS (asíncrono con HTTPX)
 from callcentersite.apps.common.utils.async_http import fetch_url
 
 async def fetch_data(url):
-    response = await fetch_url(url)
-    return response.json()
+ response = await fetch_url(url)
+ return response.json()
 ```
 
 ---
@@ -513,44 +513,44 @@ async def fetch_data(url):
 make help
 
 # Instalación
-make install              # Dependencias de producción
-make dev-install          # Dependencias de desarrollo
-make setup                # Setup completo de desarrollo
+make install # Dependencias de producción
+make dev-install # Dependencias de desarrollo
+make setup # Setup completo de desarrollo
 
 # Calidad de código
-make lint                 # Ejecutar linter
-make lint-fix             # Linter con auto-fix
-make format               # Formatear código
-make type-check           # Validar tipos
-make security             # Análisis de seguridad
-make quality              # Todas las verificaciones
+make lint # Ejecutar linter
+make lint-fix # Linter con auto-fix
+make format # Formatear código
+make type-check # Validar tipos
+make security # Análisis de seguridad
+make quality # Todas las verificaciones
 
 # Testing
-make test                 # Todos los tests
-make test-fast            # Tests en paralelo
-make test-coverage        # Tests con coverage
-make test-unit            # Solo tests unitarios
-make test-integration     # Solo tests de integración
-make benchmark            # Benchmarks
+make test # Todos los tests
+make test-fast # Tests en paralelo
+make test-coverage # Tests con coverage
+make test-unit # Solo tests unitarios
+make test-integration # Solo tests de integración
+make benchmark # Benchmarks
 
 # Django
-make migrate              # Ejecutar migraciones
-make migrations           # Crear migraciones
-make run                  # Iniciar servidor
-make shell                # Django shell
-make superuser            # Crear superusuario
+make migrate # Ejecutar migraciones
+make migrations # Crear migraciones
+make run # Iniciar servidor
+make shell # Django shell
+make superuser # Crear superusuario
 
 # Performance
-make profile              # Profiling de código
-make profile-snakeviz     # Visualización con SnakeViz
+make profile # Profiling de código
+make profile-snakeviz # Visualización con SnakeViz
 
 # Limpieza
-make clean                # Limpiar archivos temporales
-make clean-cache          # Limpiar cache
-make clean-all            # Limpieza completa
+make clean # Limpiar archivos temporales
+make clean-cache # Limpiar cache
+make clean-all # Limpieza completa
 
 # CI
-make ci                   # Pipeline completo (quality + coverage)
+make ci # Pipeline completo (quality + coverage)
 ```
 
 ### Personalización
@@ -585,20 +585,20 @@ make ci
 
 ```python
 def process_data(data: dict[str, Any]) -> list[Result]:
-    """Procesa datos y retorna resultados."""
-    pass
+ """Procesa datos y retorna resultados."""
+ pass
 ```
 
 ### 4. Logging Estructurado
 
 ```python
 logger.info(
-    "Operación completada",
-    extra={
-        "user_id": user.id,
-        "operation": "export",
-        "duration": elapsed_time,
-    }
+ "Operación completada",
+ extra={
+ "user_id": user.id,
+ "operation": "export",
+ "duration": elapsed_time,
+ }
 )
 ```
 
@@ -607,9 +607,9 @@ logger.info(
 ```python
 # Usar async para llamadas HTTP, DB queries, etc.
 async def fetch_external_data():
-    async with AsyncHTTPClient() as client:
-        response = await client.get("/api/data")
-        return response.json()
+ async with AsyncHTTPClient() as client:
+ response = await client.get("/api/data")
+ return response.json()
 ```
 
 ---

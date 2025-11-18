@@ -15,4 +15,3 @@ Este directorio contiene plans especificos del dominio backend.
 
 - Estandares generales: ../../gobernanza/plans/ (si aplica)
 - Otros dominios: Ver estructura similar en otros directorios de dominio
-

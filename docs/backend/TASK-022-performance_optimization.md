@@ -23,11 +23,11 @@ Optimizaciones de performance para MySQL, Cassandra y Django.
 ```python
 # dora_metrics/models.py
 class Meta:
-    indexes = [
-        models.Index(fields=['phase_name']),      # Query por fase
-        models.Index(fields=['feature_id']),      # Query por feature
-        models.Index(fields=['created_at']),      # Query por fecha
-    ]
+ indexes = [
+ models.Index(fields=['phase_name']), # Query por fase
+ models.Index(fields=['feature_id']), # Query por feature
+ models.Index(fields=['created_at']), # Query por fecha
+ ]
 ```
 
 **Performance:**
@@ -51,34 +51,33 @@ avg_lead_time = deployment_metrics.aggregate(avg=Avg('duration_seconds'))['avg']
 ```python
 # settings.py
 DATABASES = {
-    'default': {
-        'CONN_MAX_AGE': 600,  # 10 minutos
-        'OPTIONS': {
-            'connect_timeout': 10,
-        }
-    }
+ 'default': {
+ 'CONN_MAX_AGE': 600, # 10 minutos
+ 'OPTIONS': {
+ 'connect_timeout': 10,
+ }
+ }
 }
 ```
-
 
 ## Técnicas de Prompt Engineering para Agente
 
 Las siguientes técnicas deben aplicarse al ejecutar esta tarea con un agente:
 
 1. **Task Decomposition** (structuring_techniques.py)
-   - Dividir el diseno arquitectonico en componentes manejables
+ - Dividir el diseno arquitectonico en componentes manejables
 
 2. **Code Generation** (fundamental_techniques.py)
-   - Generar implementaciones base para componentes arquitectonicos
+ - Generar implementaciones base para componentes arquitectonicos
 
 3. **Expert Prompting** (specialized_techniques.py)
-   - Aplicar conocimiento experto de arquitectura Django y patrones de diseno
+ - Aplicar conocimiento experto de arquitectura Django y patrones de diseno
 
 4. **Constitutional AI** (optimization_techniques.py)
-   - Validar que el diseno cumpla con restricciones y mejores practicas
+ - Validar que el diseno cumpla con restricciones y mejores practicas
 
 5. **Meta-prompting** (structuring_techniques.py)
-   - Generar prompts especializados para cada componente del sistema
+ - Generar prompts especializados para cada componente del sistema
 
 Agente recomendado: SDLCDesignAgent o FeatureAgent
 ## Cassandra Optimizations
@@ -105,9 +104,9 @@ batch = BatchStatement(consistency_level=ConsistencyLevel.ONE)
 ```cql
 -- TimeWindowCompactionStrategy para time-series
 WITH compaction = {
-    'class': 'TimeWindowCompactionStrategy',
-    'compaction_window_size': 1,
-    'compaction_window_unit': 'DAYS'
+ 'class': 'TimeWindowCompactionStrategy',
+ 'compaction_window_size': 1,
+ 'compaction_window_unit': 'DAYS'
 }
 ```
 
@@ -121,8 +120,8 @@ WITH compaction = {
 ```yaml
 # docker-compose.cassandra.yml
 environment:
-  - MAX_HEAP_SIZE=2G
-  - HEAP_NEWSIZE=400M
+ - MAX_HEAP_SIZE=2G
+ - HEAP_NEWSIZE=400M
 ```
 
 **Recomendaciones:**
@@ -139,17 +138,17 @@ environment:
 from django.core.cache import cache
 
 def get_dora_metrics(days):
-    cache_key = f'dora_metrics_{days}'
-    cached = cache.get(cache_key)
-    if cached:
-        return cached
+ cache_key = f'dora_metrics_{days}'
+ cached = cache.get(cache_key)
+ if cached:
+ return cached
 
-    # Calculate metrics
-    metrics = calculate_dora_metrics(days)
+ # Calculate metrics
+ metrics = calculate_dora_metrics(days)
 
-    # Cache for 5 minutes
-    cache.set(cache_key, metrics, 300)
-    return metrics
+ # Cache for 5 minutes
+ cache.set(cache_key, metrics, 300)
+ return metrics
 ```
 
 ### Query Profiling
@@ -160,11 +159,11 @@ INSTALLED_APPS += ['debug_toolbar']
 
 # Query logging
 LOGGING = {
-    'loggers': {
-        'django.db.backends': {
-            'level': 'DEBUG',  # Log all queries
-        }
-    }
+ 'loggers': {
+ 'django.db.backends': {
+ 'level': 'DEBUG', # Log all queries
+ }
+ }
 }
 ```
 
@@ -175,8 +174,8 @@ LOGGING = {
 from rest_framework.pagination import PageNumberPagination
 
 class LargeResultsSetPagination(PageNumberPagination):
-    page_size = 100
-    max_page_size = 1000
+ page_size = 100
+ max_page_size = 1000
 ```
 
 ## Benchmarks
@@ -234,40 +233,40 @@ metrics = DORAMetric.objects.select_related('feature').all()
 ### Corto Plazo
 
 1. **Agregar cache layer:**
-   - Django cache framework
-   - Cache de metricas agregadas
-   - Timeout: 5 minutos
+ - Django cache framework
+ - Cache de metricas agregadas
+ - Timeout: 5 minutos
 
 2. **Query optimization:**
-   - Agregar indices adicionales si needed
-   - Profile slow queries con debug toolbar
+ - Agregar indices adicionales si needed
+ - Profile slow queries con debug toolbar
 
 ### Medio Plazo
 
 1. **Read replicas:**
-   - MySQL read replica para analytics
-   - Cassandra read consistency QUORUM
+ - MySQL read replica para analytics
+ - Cassandra read consistency QUORUM
 
 2. **Connection pooling:**
-   - PgBouncer para PostgreSQL
-   - Configurar pool size optimo
+ - PgBouncer para PostgreSQL
+ - Configurar pool size optimo
 
 ### Largo Plazo
 
 1. **Sharding:**
-   - Si volume crece significativamente
-   - Partition por region/tenant
+ - Si volume crece significativamente
+ - Partition por region/tenant
 
 2. **CDN:**
-   - Static assets (Chart.js)
-   - Dashboard assets
+ - Static assets (Chart.js)
+ - Dashboard assets
 
 ## Monitoring de Performance
 
 ```bash
 # MySQL slow query log
 mysql> SET GLOBAL slow_query_log = 'ON';
-mysql> SET GLOBAL long_query_time = 1;  # >1 segundo
+mysql> SET GLOBAL long_query_time = 1; # >1 segundo
 
 # Cassandra stats
 nodetool tablestats logging.infrastructure_logs

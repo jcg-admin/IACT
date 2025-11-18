@@ -154,65 +154,65 @@ pytest
 
 #### 3.1 Orden de Implementación Recomendado
 1. **Modelos** (`models.py`)
-   ```python
-   class Notification(TimeStampedModel):
-       user = models.ForeignKey(User, on_delete=models.CASCADE)
-       message = models.TextField()
-       is_read = models.BooleanField(default=False)
+ ```python
+ class Notification(TimeStampedModel):
+ user = models.ForeignKey(User, on_delete=models.CASCADE)
+ message = models.TextField()
+ is_read = models.BooleanField(default=False)
 
-       class Meta:
-           ordering = ['-created_at']
-           indexes = [
-               models.Index(fields=['user', 'is_read']),
-           ]
-   ```
+ class Meta:
+ ordering = ['-created_at']
+ indexes = [
+ models.Index(fields=['user', 'is_read']),
+ ]
+ ```
 
 2. **Migraciones**
-   ```bash
-   python manage.py makemigrations
-   python manage.py migrate
-   ```
+ ```bash
+ python manage.py makemigrations
+ python manage.py migrate
+ ```
 
 3. **Serializers** (`serializers.py`)
-   ```python
-   class NotificationSerializer(serializers.ModelSerializer):
-       class Meta:
-           model = Notification
-           fields = ['id', 'message', 'is_read', 'created_at']
-   ```
+ ```python
+ class NotificationSerializer(serializers.ModelSerializer):
+ class Meta:
+ model = Notification
+ fields = ['id', 'message', 'is_read', 'created_at']
+ ```
 
 4. **Servicios** (`services.py`)
-   ```python
-   class NotificationService:
-       @staticmethod
-       def create_notification(user, message):
-           return Notification.objects.create(
-               user=user,
-               message=message
-           )
-   ```
+ ```python
+ class NotificationService:
+ @staticmethod
+ def create_notification(user, message):
+ return Notification.objects.create(
+ user=user,
+ message=message
+ )
+ ```
 
 5. **Views/ViewSets** (`views.py`)
-   ```python
-   class NotificationViewSet(viewsets.ModelViewSet):
-       serializer_class = NotificationSerializer
-       permission_classes = [IsAuthenticated]
+ ```python
+ class NotificationViewSet(viewsets.ModelViewSet):
+ serializer_class = NotificationSerializer
+ permission_classes = [IsAuthenticated]
 
-       def get_queryset(self):
-           return Notification.objects.filter(user=self.request.user)
-   ```
+ def get_queryset(self):
+ return Notification.objects.filter(user=self.request.user)
+ ```
 
 6. **URLs** (`urls.py`)
-   ```python
-   router.register(r'notifications', NotificationViewSet, basename='notification')
-   ```
+ ```python
+ router.register(r'notifications', NotificationViewSet, basename='notification')
+ ```
 
 #### 3.2 Estándares de Código
-- ✅ Seguir PEP 8
-- ✅ Usar type hints
-- ✅ Documentar con docstrings
-- ✅ Manejar excepciones apropiadamente
-- ✅ Logging en operaciones críticas
+- [OK] Seguir PEP 8
+- [OK] Usar type hints
+- [OK] Documentar con docstrings
+- [OK] Manejar excepciones apropiadamente
+- [OK] Logging en operaciones críticas
 
 ### 4. Testing (30-50% del tiempo de implementación)
 
@@ -220,24 +220,24 @@ pytest
 ```python
 # tests/test_services.py
 class TestNotificationService:
-    def test_create_notification(self):
-        user = UserFactory()
-        notification = NotificationService.create_notification(
-            user=user,
-            message="Test message"
-        )
-        assert notification.user == user
-        assert notification.message == "Test message"
-        assert not notification.is_read
+ def test_create_notification(self):
+ user = UserFactory()
+ notification = NotificationService.create_notification(
+ user=user,
+ message="Test message"
+ )
+ assert notification.user == user
+ assert notification.message == "Test message"
+ assert not notification.is_read
 ```
 
 #### 4.2 Tests de Integración
 ```python
 # tests/test_api.py
 class TestNotificationAPI:
-    def test_list_notifications(self, authenticated_client):
-        response = authenticated_client.get('/api/v1/notifications/')
-        assert response.status_code == 200
+ def test_list_notifications(self, authenticated_client):
+ response = authenticated_client.get('/api/v1/notifications/')
+ assert response.status_code == 200
 ```
 
 #### 4.3 Cobertura Mínima
@@ -292,9 +292,9 @@ pytest --cov=app --cov-report=html
 - Service para crear notificaciones
 
 ### Testing
-- ✅ Tests unitarios (15 tests)
-- ✅ Tests integración (8 tests)
-- ✅ Cobertura: 87%
+- [OK] Tests unitarios (15 tests)
+- [OK] Tests integración (8 tests)
+- [OK] Cobertura: 87%
 
 ### Checklist
 - [x] Tests pasan
@@ -307,10 +307,10 @@ pytest --cov=app --cov-report=html
 ```
 
 #### 6.3 Criterios de Aprobación
-- ✅ Al menos 1 aprobación de Tech Lead
-- ✅ Todos los comentarios resueltos
-- ✅ CI/CD pipeline verde
-- ✅ Cobertura de tests cumple mínimo
+- [OK] Al menos 1 aprobación de Tech Lead
+- [OK] Todos los comentarios resueltos
+- [OK] CI/CD pipeline verde
+- [OK] Cobertura de tests cumple mínimo
 
 ### 7. Merge y Deploy
 
@@ -340,26 +340,26 @@ pytest
 
 ```mermaid
 graph TD
-    A[Inicio: Nueva Feature] --> B[Análisis de Requerimientos]
-    B --> C[Diseño Técnico]
-    C --> D{Aprobado?}
-    D -->|No| B
-    D -->|Sí| E[Crear Branch]
-    E --> F[Implementar Modelos]
-    F --> G[Implementar Servicios]
-    G --> H[Implementar API]
-    H --> I[Escribir Tests]
-    I --> J{Tests Pasan?}
-    J -->|No| F
-    J -->|Sí| K[Documentar]
-    K --> L[Code Review]
-    L --> M{Aprobado?}
-    M -->|No| N[Corregir]
-    N --> L
-    M -->|Sí| O[Merge a Develop]
-    O --> P[Deploy Staging]
-    P --> Q[Validar]
-    Q --> R[Fin]
+ A[Inicio: Nueva Feature] --> B[Análisis de Requerimientos]
+ B --> C[Diseño Técnico]
+ C --> D{Aprobado?}
+ D -->|No| B
+ D -->|Sí| E[Crear Branch]
+ E --> F[Implementar Modelos]
+ F --> G[Implementar Servicios]
+ G --> H[Implementar API]
+ H --> I[Escribir Tests]
+ I --> J{Tests Pasan?}
+ J -->|No| F
+ J -->|Sí| K[Documentar]
+ K --> L[Code Review]
+ L --> M{Aprobado?}
+ M -->|No| N[Corregir]
+ N --> L
+ M -->|Sí| O[Merge a Develop]
+ O --> P[Deploy Staging]
+ P --> Q[Validar]
+ Q --> R[Fin]
 ```
 
 ## Herramientas
@@ -419,13 +419,13 @@ graph TD
 - [ ] Validación Self-Consistency completada
 
 ## Criterios de Aceptación
-1. ✅ Proceso completo de desarrollo documentado
-2. ✅ Todas las etapas claramente definidas
-3. ✅ Templates y ejemplos de código incluidos
-4. ✅ Criterios de calidad especificados
-5. ✅ Herramientas y comandos documentados
-6. ✅ Diagrama de flujo incluido
-7. ✅ Troubleshooting común documentado
+1. [OK] Proceso completo de desarrollo documentado
+2. [OK] Todas las etapas claramente definidas
+3. [OK] Templates y ejemplos de código incluidos
+4. [OK] Criterios de calidad especificados
+5. [OK] Herramientas y comandos documentados
+6. [OK] Diagrama de flujo incluido
+7. [OK] Troubleshooting común documentado
 
 ## Notas
 - Revisar procesos actuales en .github/workflows/

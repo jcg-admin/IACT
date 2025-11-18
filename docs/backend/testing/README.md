@@ -12,7 +12,7 @@ status: active
 ## Test Pyramid (60/30/10)
 
 - Unit Tests: 60%
-- Integration Tests: 30%  
+- Integration Tests: 30% 
 - E2E Tests: 10%
 
 ## Documentos

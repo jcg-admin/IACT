@@ -43,17 +43,17 @@ Guias de metodologias de desarrollo y arquitectura para el equipo backend.
 
 ### Desarrollo
 - **[TDD-metodologia.md](./TDD-metodologia.md)** - Test-Driven Development
-  - Ciclo Red-Green-Refactor
-  - Mejores practicas de testing
-  - Patrones comunes de testing backend
-  - Cuando usar: Siempre para nuevo codigo, especialmente logica critica
+ - Ciclo Red-Green-Refactor
+ - Mejores practicas de testing
+ - Patrones comunes de testing backend
+ - Cuando usar: Siempre para nuevo codigo, especialmente logica critica
 
 ### Arquitectura
 - **[clean-architecture.md](./clean-architecture.md)** - Clean Architecture
-  - Principios SOLID
-  - Separacion en capas
-  - Dependency Inversion
-  - Cuando usar: Proyectos grandes, alta complejidad
+ - Principios SOLID
+ - Separacion en capas
+ - Dependency Inversion
+ - Cuando usar: Proyectos grandes, alta complejidad
 
 ---
 

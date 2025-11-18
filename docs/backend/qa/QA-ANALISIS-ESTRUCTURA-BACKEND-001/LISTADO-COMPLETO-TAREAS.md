@@ -632,12 +632,12 @@ Cada tarea genera evidencias en su carpeta:
 
 ```
 TASK-###-nombre-tarea/
-├── README.md                    # Descripcion detallada tarea
-└── evidencias/                  # Carpeta de evidencias
-    ├── archivo-evidencia-1.txt
-    ├── logs-comando.log
-    ├── screenshot-*.png (opcional)
-    └── reporte-validacion.md
+ README.md # Descripcion detallada tarea
+ evidencias/ # Carpeta de evidencias
+ archivo-evidencia-1.txt
+ logs-comando.log
+ screenshot-*.png (opcional)
+ reporte-validacion.md
 ```
 
 ---

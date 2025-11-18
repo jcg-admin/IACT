@@ -90,11 +90,11 @@ Especificaciones tecnicas detalladas de componentes, modulos y subsistemas del b
 
 ```
 diseno/detallado/
-├── README.md
-├── componentes/         # Specs de componentes
-├── diagramas/           # Diagramas tecnicos
-├── algoritmos/          # Pseudocodigo y logica
-└── interfaces/          # Contratos entre modulos
+ README.md
+ componentes/ # Specs de componentes
+ diagramas/ # Diagramas tecnicos
+ algoritmos/ # Pseudocodigo y logica
+ interfaces/ # Contratos entre modulos
 ```
 
 ## Plantilla de Especificacion de Componente
@@ -133,8 +133,8 @@ Breve descripcion de que hace el componente.
 
 ```pseudocode
 funcion algoritmo(entrada):
-    // Logica
-    retornar salida
+ // Logica
+ retornar salida
 ```
 
 ## Estructuras de Datos
@@ -142,8 +142,8 @@ funcion algoritmo(entrada):
 ### Estructura 1
 ```
 {
-  campo1: tipo,
-  campo2: tipo
+ campo1: tipo,
+ campo2: tipo
 }
 ```
 

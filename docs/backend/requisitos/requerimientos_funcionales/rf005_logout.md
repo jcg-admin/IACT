@@ -29,10 +29,10 @@ date: 2025-11-13
 Given un usuario autenticado con sesion activa
 When el usuario envia POST /api/v1/auth/logout con access_token valido
 Then el sistema invalida el access_token
-  And el sistema invalida el refresh_token
-  And el sistema establece session.is_active=False
-  And el sistema audita evento LOGOUT_MANUAL
-  And el sistema retorna HTTP 200 "Logout exitoso"
+ And el sistema invalida el refresh_token
+ And el sistema establece session.is_active=False
+ And el sistema audita evento LOGOUT_MANUAL
+ And el sistema retorna HTTP 200 "Logout exitoso"
 ```
 
 ## 3. Trazabilidad

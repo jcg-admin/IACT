@@ -27,7 +27,7 @@ El sistema genera una estructura de menú jerárquica basada en todas las capaci
 ```
 1. Obtener todas las capacidades del usuario (grupos + excepcionales)
 2. Para cada capacidad con formato "dominio.subdominio.funcion.accion":
-   - Agrupar por dominio → subdominio → funcion → [acciones]
+ - Agrupar por dominio → subdominio → funcion → [acciones]
 3. Construir estructura jerárquica tipo árbol
 4. Retornar JSON con estructura navegable
 ```
@@ -36,28 +36,28 @@ El sistema genera una estructura de menú jerárquica basada en todas las capaci
 
 ```sql
 CREATE OR REPLACE FUNCTION obtener_menu_usuario(
-    p_usuario_id INTEGER
+ p_usuario_id INTEGER
 ) RETURNS JSONB AS $$
 DECLARE
-    v_menu JSONB;
+ v_menu JSONB;
 BEGIN
-    SELECT jsonb_object_agg(
-        dominio,
-        funciones
-    ) INTO v_menu
-    FROM (
-        SELECT
-            split_part(capacidad_codigo, '.', 2) AS dominio,
-            jsonb_object_agg(
-                split_part(capacidad_codigo, '.', 3),
-                array_agg(split_part(capacidad_codigo, '.', 4))
-            ) AS funciones
-        FROM vista_capacidades_usuario
-        WHERE usuario_id = p_usuario_id
-        GROUP BY dominio
-    ) AS menu_data;
+ SELECT jsonb_object_agg(
+ dominio,
+ funciones
+ ) INTO v_menu
+ FROM (
+ SELECT
+ split_part(capacidad_codigo, '.', 2) AS dominio,
+ jsonb_object_agg(
+ split_part(capacidad_codigo, '.', 3),
+ array_agg(split_part(capacidad_codigo, '.', 4))
+ ) AS funciones
+ FROM vista_capacidades_usuario
+ WHERE usuario_id = p_usuario_id
+ GROUP BY dominio
+ ) AS menu_data;
 
-    RETURN COALESCE(v_menu, '{}'::jsonb);
+ RETURN COALESCE(v_menu, '{}'::jsonb);
 END;
 $$ LANGUAGE plpgsql STABLE;
 ```
@@ -70,15 +70,15 @@ Authorization: Bearer <token>
 
 Response:
 {
-  "vistas": {
-    "dashboards": ["ver", "editar"],
-    "reportes": ["ver", "crear", "exportar"],
-    "calidad": ["ver", "evaluar"]
-  },
-  "administracion": {
-    "usuarios": ["ver", "crear", "editar"],
-    "grupos": ["ver", "crear"]
-  }
+ "vistas": {
+ "dashboards": ["ver", "editar"],
+ "reportes": ["ver", "crear", "exportar"],
+ "calidad": ["ver", "evaluar"]
+ },
+ "administracion": {
+ "usuarios": ["ver", "crear", "editar"],
+ "grupos": ["ver", "crear"]
+ }
 }
 ```
 
@@ -94,18 +94,18 @@ Response:
 const { menu, loading } = useMenu();
 
 return (
-  <nav>
-    {Object.entries(menu).map(([dominio, funciones]) => (
-      <MenuSection key={dominio} title={dominio}>
-        {Object.entries(funciones).map(([funcion, acciones]) => (
-          <MenuItem key={funcion}
-            to={`/${dominio}/${funcion}`}
-            actions={acciones}
-          />
-        ))}
-      </MenuSection>
-    ))}
-  </nav>
+ <nav>
+ {Object.entries(menu).map(([dominio, funciones]) => (
+ <MenuSection key={dominio} title={dominio}>
+ {Object.entries(funciones).map(([funcion, acciones]) => (
+ <MenuItem key={funcion}
+ to={`/${dominio}/${funcion}`}
+ actions={acciones}
+ />
+ ))}
+ </MenuSection>
+ ))}
+ </nav>
 );
 ```
 

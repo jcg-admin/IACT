@@ -29,10 +29,10 @@ date: 2025-11-13
 Given un usuario con 4 intentos fallidos en ultimos 5 minutos
 When el usuario intenta login con password incorrecta (5to intento)
 Then el sistema incrementa failed_login_attempts a 5
-  And el sistema establece is_locked=True
-  And el sistema establece locked_until=now+15min
-  And el sistema retorna HTTP 403 "Cuenta bloqueada"
-  And el sistema audita evento ACCOUNT_LOCKED
+ And el sistema establece is_locked=True
+ And el sistema establece locked_until=now+15min
+ And el sistema retorna HTTP 403 "Cuenta bloqueada"
+ And el sistema audita evento ACCOUNT_LOCKED
 ```
 
 ## 3. Trazabilidad

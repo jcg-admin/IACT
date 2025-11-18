@@ -8,7 +8,7 @@ prioridad: MEDIA
 duracion_estimada: 15min
 estado: pendiente
 dependencias:
-  - TASK-007
+ - TASK-007
 ---
 
 # TASK-REORG-BACK-008: Agregar Metadatos YAML a ADRs
@@ -45,14 +45,14 @@ Asegurar que todos los ADRs creados en TASK-007 tengan frontmatter YAML completo
 **Esquema YAML Estandar para ADRs:**
 ```yaml
 ---
-id: ADR-BACK-XXX                    # Formato: ADR-BACK-001, ADR-BACK-002, etc.
-tipo: adr                            # Siempre "adr"
-categoria: [valor]                   # arquitectura|tecnologia|bd|api|seguridad
-titulo: [Titulo Descriptivo]         # Titulo corto sin "ADR-BACK-XXX:"
-estado: [valor]                      # aceptada|propuesta|rechazada|deprecada|supersedida
-fecha: YYYY-MM-DD                    # Fecha de la decision
-autor: [Nombre o Equipo]             # Quien tomo la decision
-supersedida_por: ADR-BACK-XXX        # (opcional) Si estado=supersedida
+id: ADR-BACK-XXX # Formato: ADR-BACK-001, ADR-BACK-002, etc.
+tipo: adr # Siempre "adr"
+categoria: [valor] # arquitectura|tecnologia|bd|api|seguridad
+titulo: [Titulo Descriptivo] # Titulo corto sin "ADR-BACK-XXX:"
+estado: [valor] # aceptada|propuesta|rechazada|deprecada|supersedida
+fecha: YYYY-MM-DD # Fecha de la decision
+autor: [Nombre o Equipo] # Quien tomo la decision
+supersedida_por: ADR-BACK-XXX # (opcional) Si estado=supersedida
 relacionada_con: [ADR-BACK-XXX, ...] # (opcional) ADRs relacionados
 ---
 ```
@@ -62,7 +62,7 @@ relacionada_con: [ADR-BACK-XXX, ...] # (opcional) ADRs relacionados
 ```bash
 # Listar todos los ADRs
 ls -1 /home/user/IACT/docs/backend/adr/ADR-BACK-*.md | \
-  tee /home/user/IACT/docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/TASK-008-agregar-metadatos-yaml-adrs/evidencias/lista-adrs.txt
+ tee /home/user/IACT/docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/TASK-008-agregar-metadatos-yaml-adrs/evidencias/lista-adrs.txt
 
 # Contar ADRs
 adr_count=$(ls /home/user/IACT/docs/backend/adr/ADR-BACK-*.md 2>/dev/null | wc -l)
@@ -76,15 +76,15 @@ echo "Total ADRs a validar: $adr_count"
 ```bash
 # Validar que cada ADR tiene frontmatter YAML
 for adr in /home/user/IACT/docs/backend/adr/ADR-BACK-*.md; do
-  filename=$(basename "$adr")
+ filename=$(basename "$adr")
 
-  # Verificar que empieza con ---
-  first_line=$(head -n 1 "$adr")
-  if [ "$first_line" = "---" ]; then
-    echo "✓ $filename - Tiene frontmatter YAML"
-  else
-    echo "✗ $filename - NO tiene frontmatter YAML"
-  fi
+ # Verificar que empieza con ---
+ first_line=$(head -n 1 "$adr")
+ if [ "$first_line" = "---" ]; then
+ echo "OK $filename - Tiene frontmatter YAML"
+ else
+ echo " $filename - NO tiene frontmatter YAML"
+ fi
 done | tee /home/user/IACT/docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/TASK-008-agregar-metadatos-yaml-adrs/evidencias/validacion-yaml-existencia.log
 ```
 
@@ -112,61 +112,61 @@ fields=("id" "tipo" "categoria" "titulo" "estado" "fecha")
 all_ok=true
 
 for field in "${fields[@]}"; do
-  if echo "$yaml_content" | grep -q "^${field}:"; then
-    echo "  ✓ Campo '$field' presente"
-  else
-    echo "  ✗ Campo '$field' FALTA"
-    all_ok=false
-  fi
+ if echo "$yaml_content" | grep -q "^${field}:"; then
+ echo " OK Campo '$field' presente"
+ else
+ echo " Campo '$field' FALTA"
+ all_ok=false
+ fi
 done
 
 # Validar valores especificos
 # tipo debe ser "adr"
 tipo_value=$(echo "$yaml_content" | grep "^tipo:" | cut -d':' -f2 | xargs)
 if [ "$tipo_value" = "adr" ]; then
-  echo "  ✓ tipo='adr' correcto"
+ echo " OK tipo='adr' correcto"
 else
-  echo "  ✗ tipo='$tipo_value' incorrecto (debe ser 'adr')"
-  all_ok=false
+ echo " tipo='$tipo_value' incorrecto (debe ser 'adr')"
+ all_ok=false
 fi
 
 # categoria debe ser uno de los valores permitidos
 categoria_value=$(echo "$yaml_content" | grep "^categoria:" | cut -d':' -f2 | xargs)
 case "$categoria_value" in
-  arquitectura|tecnologia|bd|api|seguridad)
-    echo "  ✓ categoria='$categoria_value' valida"
-    ;;
-  *)
-    echo "  ✗ categoria='$categoria_value' invalida"
-    all_ok=false
-    ;;
+ arquitectura|tecnologia|bd|api|seguridad)
+ echo " OK categoria='$categoria_value' valida"
+ ;;
+ *)
+ echo " categoria='$categoria_value' invalida"
+ all_ok=false
+ ;;
 esac
 
 # estado debe ser uno de los valores permitidos
 estado_value=$(echo "$yaml_content" | grep "^estado:" | cut -d':' -f2 | xargs)
 case "$estado_value" in
-  aceptada|propuesta|rechazada|deprecada|supersedida)
-    echo "  ✓ estado='$estado_value' valido"
-    ;;
-  *)
-    echo "  ✗ estado='$estado_value' invalido"
-    all_ok=false
-    ;;
+ aceptada|propuesta|rechazada|deprecada|supersedida)
+ echo " OK estado='$estado_value' valido"
+ ;;
+ *)
+ echo " estado='$estado_value' invalido"
+ all_ok=false
+ ;;
 esac
 
 # fecha debe tener formato YYYY-MM-DD
 fecha_value=$(echo "$yaml_content" | grep "^fecha:" | cut -d':' -f2 | xargs)
 if echo "$fecha_value" | grep -qE '^[0-9]{4}-[0-9]{2}-[0-9]{2}$'; then
-  echo "  ✓ fecha='$fecha_value' formato correcto"
+ echo " OK fecha='$fecha_value' formato correcto"
 else
-  echo "  ✗ fecha='$fecha_value' formato incorrecto (debe ser YYYY-MM-DD)"
-  all_ok=false
+ echo " fecha='$fecha_value' formato incorrecto (debe ser YYYY-MM-DD)"
+ all_ok=false
 fi
 
 if $all_ok; then
-  echo "  ✓✓✓ $filename - YAML VALIDO"
+ echo " OKOKOK $filename - YAML VALIDO"
 else
-  echo "  ✗✗✗ $filename - YAML INVALIDO"
+ echo " $filename - YAML INVALIDO"
 fi
 
 echo ""
@@ -176,7 +176,7 @@ chmod +x /tmp/validate-adr-yaml.sh
 
 # Ejecutar validacion para cada ADR
 for adr in /home/user/IACT/docs/backend/adr/ADR-BACK-*.md; do
-  /tmp/validate-adr-yaml.sh "$adr"
+ /tmp/validate-adr-yaml.sh "$adr"
 done | tee /home/user/IACT/docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/TASK-008-agregar-metadatos-yaml-adrs/evidencias/validacion-yaml-campos.log
 ```
 
@@ -196,11 +196,11 @@ cat > /home/user/IACT/docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/TASK-00
 
 | Archivo | ID | Categoria | Estado | Fecha | YAML Valido |
 |---------|-----|-----------|--------|-------|-------------|
-| ADR-BACK-001-[nombre].md | ADR-BACK-001 | [cat] | [estado] | YYYY-MM-DD | ✓ / ✗ |
-| ADR-BACK-002-[nombre].md | ADR-BACK-002 | [cat] | [estado] | YYYY-MM-DD | ✓ / ✗ |
-| ADR-BACK-003-[nombre].md | ADR-BACK-003 | [cat] | [estado] | YYYY-MM-DD | ✓ / ✗ |
-| ADR-BACK-004-[nombre].md | ADR-BACK-004 | [cat] | [estado] | YYYY-MM-DD | ✓ / ✗ |
-| ADR-BACK-005-[nombre].md | ADR-BACK-005 | [cat] | [estado] | YYYY-MM-DD | ✓ / ✗ |
+| ADR-BACK-001-[nombre].md | ADR-BACK-001 | [cat] | [estado] | YYYY-MM-DD | OK / |
+| ADR-BACK-002-[nombre].md | ADR-BACK-002 | [cat] | [estado] | YYYY-MM-DD | OK / |
+| ADR-BACK-003-[nombre].md | ADR-BACK-003 | [cat] | [estado] | YYYY-MM-DD | OK / |
+| ADR-BACK-004-[nombre].md | ADR-BACK-004 | [cat] | [estado] | YYYY-MM-DD | OK / |
+| ADR-BACK-005-[nombre].md | ADR-BACK-005 | [cat] | [estado] | YYYY-MM-DD | OK / |
 
 ## Estadisticas
 
@@ -255,19 +255,19 @@ echo "Reporte de metadatos creado - Completar con datos reales"
 ```bash
 # Validar consistencia ID YAML vs nombre archivo
 for adr in /home/user/IACT/docs/backend/adr/ADR-BACK-*.md; do
-  filename=$(basename "$adr")
+ filename=$(basename "$adr")
 
-  # Extraer ID del filename (ADR-BACK-XXX)
-  id_from_file=$(echo "$filename" | grep -oE 'ADR-BACK-[0-9]+')
+ # Extraer ID del filename (ADR-BACK-XXX)
+ id_from_file=$(echo "$filename" | grep -oE 'ADR-BACK-[0-9]+')
 
-  # Extraer ID del YAML
-  id_from_yaml=$(grep "^id:" "$adr" | cut -d':' -f2 | xargs)
+ # Extraer ID del YAML
+ id_from_yaml=$(grep "^id:" "$adr" | cut -d':' -f2 | xargs)
 
-  if [ "$id_from_file" = "$id_from_yaml" ]; then
-    echo "✓ $filename - ID consistente: $id_from_yaml"
-  else
-    echo "✗ $filename - ID inconsistente: archivo=$id_from_file, YAML=$id_from_yaml"
-  fi
+ if [ "$id_from_file" = "$id_from_yaml" ]; then
+ echo "OK $filename - ID consistente: $id_from_yaml"
+ else
+ echo " $filename - ID inconsistente: archivo=$id_from_file, YAML=$id_from_yaml"
+ fi
 done | tee /home/user/IACT/docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/TASK-008-agregar-metadatos-yaml-adrs/evidencias/validacion-consistencia-ids.log
 ```
 
@@ -278,15 +278,15 @@ done | tee /home/user/IACT/docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/TA
 ```bash
 # Validar formato de fechas YYYY-MM-DD
 for adr in /home/user/IACT/docs/backend/adr/ADR-BACK-*.md; do
-  filename=$(basename "$adr")
+ filename=$(basename "$adr")
 
-  fecha=$(grep "^fecha:" "$adr" | cut -d':' -f2 | xargs)
+ fecha=$(grep "^fecha:" "$adr" | cut -d':' -f2 | xargs)
 
-  if echo "$fecha" | grep -qE '^[0-9]{4}-[0-9]{2}-[0-9]{2}$'; then
-    echo "✓ $filename - Fecha valida: $fecha"
-  else
-    echo "✗ $filename - Fecha invalida: $fecha (debe ser YYYY-MM-DD)"
-  fi
+ if echo "$fecha" | grep -qE '^[0-9]{4}-[0-9]{2}-[0-9]{2}$'; then
+ echo "OK $filename - Fecha valida: $fecha"
+ else
+ echo " $filename - Fecha invalida: $fecha (debe ser YYYY-MM-DD)"
+ fi
 done | tee /home/user/IACT/docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/TASK-008-agregar-metadatos-yaml-adrs/evidencias/validacion-fechas.log
 ```
 
@@ -314,7 +314,7 @@ RESULTADOS:
 - ADRs con YAML valido: [X]
 - ADRs con problemas: [X]
 
-ESTADO: [✓ TODOS VALIDOS / ✗ HAY PROBLEMAS]
+ESTADO: [OK TODOS VALIDOS / HAY PROBLEMAS]
 
 Ver archivos de evidencias para detalles:
 - validacion-yaml-existencia.log
@@ -364,27 +364,27 @@ echo "ADRs con YAML: $adrs_con_yaml"
 echo "Verificando campos obligatorios..."
 all_valid=true
 for adr in /home/user/IACT/docs/backend/adr/ADR-BACK-*.md; do
-  for field in id tipo categoria titulo estado fecha; do
-    if ! grep -q "^${field}:" "$adr"; then
-      echo "✗ $(basename $adr) - Falta campo $field"
-      all_valid=false
-    fi
-  done
+ for field in id tipo categoria titulo estado fecha; do
+ if ! grep -q "^${field}:" "$adr"; then
+ echo " $(basename $adr) - Falta campo $field"
+ all_valid=false
+ fi
+ done
 done
 
 if $all_valid; then
-  echo "✓ Todos los ADRs tienen campos obligatorios"
+ echo "OK Todos los ADRs tienen campos obligatorios"
 else
-  echo "✗ Algunos ADRs tienen campos faltantes"
+ echo " Algunos ADRs tienen campos faltantes"
 fi
 
 # 4. Resultado final
 if [ $total_adrs -eq $adrs_con_yaml ] && $all_valid; then
-  echo ""
-  echo "✓✓✓ VALIDACION EXITOSA - Todos los ADRs tienen metadatos YAML validos"
+ echo ""
+ echo "OKOKOK VALIDACION EXITOSA - Todos los ADRs tienen metadatos YAML validos"
 else
-  echo ""
-  echo "✗✗✗ VALIDACION FALLIDA - Revisar logs de evidencias"
+ echo ""
+ echo " VALIDACION FALLIDA - Revisar logs de evidencias"
 fi
 ```
 

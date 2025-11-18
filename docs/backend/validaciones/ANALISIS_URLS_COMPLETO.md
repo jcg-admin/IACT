@@ -12,24 +12,24 @@ Este documento corrige y complementa el análisis previo, proporcionando un inve
 
 ```python
 urlpatterns = [
-    path("admin/", admin.site.urls),                                         # ✅ Django Admin
-    path("api/schema/", SpectacularAPIView.as_view(), name="schema"),       # ✅ drf-spectacular
-    path("api/docs/", SpectacularSwaggerView.as_view(), name="swagger-ui"), # ✅ drf-spectacular
-    path("api/v1/", include("callcentersite.apps.users.urls")),            # ✅ IMPLEMENTADO
-    path("api/v1/", include("callcentersite.apps.configuration.urls")),    # ✅ IMPLEMENTADO
-    path("api/v1/dashboard/", include("callcentersite.apps.dashboard.urls")), # ✅ IMPLEMENTADO
-    path("api/v1/configuracion/", include("callcentersite.apps.configuracion.urls")), # ✅ IMPLEMENTADO
-    path("api/v1/presupuestos/", include("callcentersite.apps.presupuestos.urls")),   # ✅ IMPLEMENTADO
-    path("api/v1/politicas/", include("callcentersite.apps.politicas.urls")),         # ✅ IMPLEMENTADO
-    path("api/v1/excepciones/", include("callcentersite.apps.excepciones.urls")),     # ✅ IMPLEMENTADO
-    path("api/v1/reportes/", include("callcentersite.apps.reportes.urls")),           # ✅ IMPLEMENTADO
-    path("api/v1/notifications/", include("callcentersite.apps.notifications.urls")), # ✅ IMPLEMENTADO
-    path("api/v1/etl/", include("callcentersite.apps.etl.urls")),                     # ✅ IMPLEMENTADO
-    path("api/v1/permissions/", include("callcentersite.apps.permissions.urls")),     # ✅ IMPLEMENTADO
-    path("api/v1/llamadas/", include("callcentersite.apps.llamadas.urls")),           # ✅ IMPLEMENTADO
-    path("api/v1/", include("callcentersite.apps.users.urls")),            # ⚠️ DUPLICADO (línea 35)
-    path("api/dora/", include("dora_metrics.urls")),                        # ✅ IMPLEMENTADO
-    path("health/", health_check, name="health"),                           # ✅ IMPLEMENTADO
+ path("admin/", admin.site.urls), # [OK] Django Admin
+ path("api/schema/", SpectacularAPIView.as_view(), name="schema"), # [OK] drf-spectacular
+ path("api/docs/", SpectacularSwaggerView.as_view(), name="swagger-ui"), # [OK] drf-spectacular
+ path("api/v1/", include("callcentersite.apps.users.urls")), # [OK] IMPLEMENTADO
+ path("api/v1/", include("callcentersite.apps.configuration.urls")), # [OK] IMPLEMENTADO
+ path("api/v1/dashboard/", include("callcentersite.apps.dashboard.urls")), # [OK] IMPLEMENTADO
+ path("api/v1/configuracion/", include("callcentersite.apps.configuracion.urls")), # [OK] IMPLEMENTADO
+ path("api/v1/presupuestos/", include("callcentersite.apps.presupuestos.urls")), # [OK] IMPLEMENTADO
+ path("api/v1/politicas/", include("callcentersite.apps.politicas.urls")), # [OK] IMPLEMENTADO
+ path("api/v1/excepciones/", include("callcentersite.apps.excepciones.urls")), # [OK] IMPLEMENTADO
+ path("api/v1/reportes/", include("callcentersite.apps.reportes.urls")), # [OK] IMPLEMENTADO
+ path("api/v1/notifications/", include("callcentersite.apps.notifications.urls")), # [OK] IMPLEMENTADO
+ path("api/v1/etl/", include("callcentersite.apps.etl.urls")), # [OK] IMPLEMENTADO
+ path("api/v1/permissions/", include("callcentersite.apps.permissions.urls")), # [OK] IMPLEMENTADO
+ path("api/v1/llamadas/", include("callcentersite.apps.llamadas.urls")), # [OK] IMPLEMENTADO
+ path("api/v1/", include("callcentersite.apps.users.urls")), # [WARNING] DUPLICADO (línea 35)
+ path("api/dora/", include("dora_metrics.urls")), # [OK] IMPLEMENTADO
+ path("health/", health_check, name="health"), # [OK] IMPLEMENTADO
 ]
 ```
 
@@ -41,78 +41,78 @@ urlpatterns = [
 
 | # | App | Archivo urls.py | En urlpatterns | Estado |
 |---|-----|----------------|----------------|--------|
-| 1 | `users` | ✅ Existe | ✅ Incluido (2x duplicado) | IMPLEMENTADO |
-| 2 | `configuration` | ✅ Existe | ✅ Incluido | IMPLEMENTADO |
-| 3 | `dashboard` | ✅ Existe | ✅ Incluido | IMPLEMENTADO |
-| 4 | `configuracion` | ✅ Existe | ✅ Incluido | IMPLEMENTADO |
-| 5 | `presupuestos` | ✅ Existe | ✅ Incluido | IMPLEMENTADO |
-| 6 | `politicas` | ✅ Existe | ✅ Incluido | IMPLEMENTADO |
-| 7 | `excepciones` | ✅ Existe | ✅ Incluido | IMPLEMENTADO |
-| 8 | `reportes` | ✅ Existe | ✅ Incluido | IMPLEMENTADO |
-| 9 | `notifications` | ✅ Existe | ✅ Incluido | IMPLEMENTADO |
-| 10 | `etl` | ✅ Existe | ✅ Incluido | IMPLEMENTADO |
-| 11 | `permissions` | ✅ Existe | ✅ Incluido | IMPLEMENTADO |
-| 12 | `llamadas` | ✅ Existe | ✅ Incluido | IMPLEMENTADO |
-| 13 | `alertas` | ✅ Existe | ❌ NO incluido | **NO IMPLEMENTADO** |
-| 14 | `clientes` | ✅ Existe | ❌ NO incluido | **NO IMPLEMENTADO** |
-| 15 | `equipos` | ✅ Existe | ❌ NO incluido | **NO IMPLEMENTADO** |
-| 16 | `horarios` | ✅ Existe | ❌ NO incluido | **NO IMPLEMENTADO** |
-| 17 | `metricas` | ✅ Existe | ❌ NO incluido | **NO IMPLEMENTADO** |
-| 18 | `tickets` | ✅ Existe | ❌ NO incluido | **NO IMPLEMENTADO** |
+| 1 | `users` | [OK] Existe | [OK] Incluido (2x duplicado) | IMPLEMENTADO |
+| 2 | `configuration` | [OK] Existe | [OK] Incluido | IMPLEMENTADO |
+| 3 | `dashboard` | [OK] Existe | [OK] Incluido | IMPLEMENTADO |
+| 4 | `configuracion` | [OK] Existe | [OK] Incluido | IMPLEMENTADO |
+| 5 | `presupuestos` | [OK] Existe | [OK] Incluido | IMPLEMENTADO |
+| 6 | `politicas` | [OK] Existe | [OK] Incluido | IMPLEMENTADO |
+| 7 | `excepciones` | [OK] Existe | [OK] Incluido | IMPLEMENTADO |
+| 8 | `reportes` | [OK] Existe | [OK] Incluido | IMPLEMENTADO |
+| 9 | `notifications` | [OK] Existe | [OK] Incluido | IMPLEMENTADO |
+| 10 | `etl` | [OK] Existe | [OK] Incluido | IMPLEMENTADO |
+| 11 | `permissions` | [OK] Existe | [OK] Incluido | IMPLEMENTADO |
+| 12 | `llamadas` | [OK] Existe | [OK] Incluido | IMPLEMENTADO |
+| 13 | `alertas` | [OK] Existe | [ERROR] NO incluido | **NO IMPLEMENTADO** |
+| 14 | `clientes` | [OK] Existe | [ERROR] NO incluido | **NO IMPLEMENTADO** |
+| 15 | `equipos` | [OK] Existe | [ERROR] NO incluido | **NO IMPLEMENTADO** |
+| 16 | `horarios` | [OK] Existe | [ERROR] NO incluido | **NO IMPLEMENTADO** |
+| 17 | `metricas` | [OK] Existe | [ERROR] NO incluido | **NO IMPLEMENTADO** |
+| 18 | `tickets` | [OK] Existe | [ERROR] NO incluido | **NO IMPLEMENTADO** |
 
 ### Apps sin URLs Implementadas (5 de 23)
 
 | # | App | Archivo urls.py | Motivo |
 |---|-----|----------------|--------|
-| 19 | `common` | ❌ No existe | App de utilidades comunes sin endpoints |
-| 20 | `analytics` | ❌ No existe | Solo modelos de datos |
-| 21 | `audit` | ❌ No existe | Sistema de auditoría interno |
-| 22 | `authentication` | ❌ No existe | Integrado en `users` |
-| 23 | `ivr_legacy` | ❌ No existe | Solo adaptadores read-only |
+| 19 | `common` | [ERROR] No existe | App de utilidades comunes sin endpoints |
+| 20 | `analytics` | [ERROR] No existe | Solo modelos de datos |
+| 21 | `audit` | [ERROR] No existe | Sistema de auditoría interno |
+| 22 | `authentication` | [ERROR] No existe | Integrado en `users` |
+| 23 | `ivr_legacy` | [ERROR] No existe | Solo adaptadores read-only |
 
 ### App Externa
 
 | # | App | Archivo urls.py | En urlpatterns | Estado |
 |---|-----|----------------|----------------|--------|
-| 24 | `dora_metrics` | ✅ Existe | ✅ Incluido | IMPLEMENTADO |
+| 24 | `dora_metrics` | [OK] Existe | [OK] Incluido | IMPLEMENTADO |
 
 ---
 
 ## 3. Análisis de Discrepancias
 
-### 🔴 URLs NO Implementadas (6 apps con urls.py pero NO incluidas)
+### URLs NO Implementadas (6 apps con urls.py pero NO incluidas)
 
 Estas apps tienen archivos `urls.py` creados pero **NO están incluidas** en `urlpatterns`:
 
 1. **`alertas`** (`callcentersite.apps.alertas.urls`)
-   - Archivo existe: `/api/callcentersite/callcentersite/apps/alertas/urls.py`
-   - Estado: Tiene views.py y serializers.py
-   - **Acción requerida**: Agregar a urlpatterns
+ - Archivo existe: `/api/callcentersite/callcentersite/apps/alertas/urls.py`
+ - Estado: Tiene views.py y serializers.py
+ - **Acción requerida**: Agregar a urlpatterns
 
 2. **`clientes`** (`callcentersite.apps.clientes.urls`)
-   - Archivo existe: `/api/callcentersite/callcentersite/apps/clientes/urls.py`
-   - Estado: Tiene views.py y serializers.py
-   - **Acción requerida**: Agregar a urlpatterns
+ - Archivo existe: `/api/callcentersite/callcentersite/apps/clientes/urls.py`
+ - Estado: Tiene views.py y serializers.py
+ - **Acción requerida**: Agregar a urlpatterns
 
 3. **`equipos`** (`callcentersite.apps.equipos.urls`)
-   - Archivo existe: `/api/callcentersite/callcentersite/apps/equipos/urls.py`
-   - Estado: Tiene views.py y serializers.py
-   - **Acción requerida**: Agregar a urlpatterns
+ - Archivo existe: `/api/callcentersite/callcentersite/apps/equipos/urls.py`
+ - Estado: Tiene views.py y serializers.py
+ - **Acción requerida**: Agregar a urlpatterns
 
 4. **`horarios`** (`callcentersite.apps.horarios.urls`)
-   - Archivo existe: `/api/callcentersite/callcentersite/apps/horarios/urls.py`
-   - Estado: Tiene views.py y serializers.py
-   - **Acción requerida**: Agregar a urlpatterns
+ - Archivo existe: `/api/callcentersite/callcentersite/apps/horarios/urls.py`
+ - Estado: Tiene views.py y serializers.py
+ - **Acción requerida**: Agregar a urlpatterns
 
 5. **`metricas`** (`callcentersite.apps.metricas.urls`)
-   - Archivo existe: `/api/callcentersite/callcentersite/apps/metricas/urls.py`
-   - Estado: Tiene views.py y serializers.py
-   - **Acción requerida**: Agregar a urlpatterns
+ - Archivo existe: `/api/callcentersite/callcentersite/apps/metricas/urls.py`
+ - Estado: Tiene views.py y serializers.py
+ - **Acción requerida**: Agregar a urlpatterns
 
 6. **`tickets`** (`callcentersite.apps.tickets.urls`)
-   - Archivo existe: `/api/callcentersite/callcentersite/apps/tickets/urls.py`
-   - Estado: Tiene views.py y serializers.py
-   - **Acción requerida**: Agregar a urlpatterns
+ - Archivo existe: `/api/callcentersite/callcentersite/apps/tickets/urls.py`
+ - Estado: Tiene views.py y serializers.py
+ - **Acción requerida**: Agregar a urlpatterns
 
 ---
 
@@ -122,48 +122,48 @@ Estas apps tienen archivos `urls.py` creados pero **NO están incluidas** en `ur
 
 ```python
 urlpatterns = [
-    # Admin
-    path("admin/", admin.site.urls),
-    
-    # API Documentation
-    path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
-    path("api/docs/", SpectacularSwaggerView.as_view(url_name="schema"), name="swagger-ui"),
-    
-    # Core APIs
-    path("api/v1/", include("callcentersite.apps.users.urls")),
-    path("api/v1/", include("callcentersite.apps.configuration.urls")),
-    path("api/v1/permissions/", include("callcentersite.apps.permissions.urls")),
-    
-    # Business Domain APIs
-    path("api/v1/llamadas/", include("callcentersite.apps.llamadas.urls")),
-    path("api/v1/clientes/", include("callcentersite.apps.clientes.urls")),           # NUEVO
-    path("api/v1/equipos/", include("callcentersite.apps.equipos.urls")),             # NUEVO
-    path("api/v1/horarios/", include("callcentersite.apps.horarios.urls")),           # NUEVO
-    
-    # Operations APIs
-    path("api/v1/notifications/", include("callcentersite.apps.notifications.urls")),
-    path("api/v1/alertas/", include("callcentersite.apps.alertas.urls")),             # NUEVO
-    path("api/v1/tickets/", include("callcentersite.apps.tickets.urls")),             # NUEVO
-    
-    # Analytics & Reporting APIs
-    path("api/v1/dashboard/", include("callcentersite.apps.dashboard.urls")),
-    path("api/v1/metricas/", include("callcentersite.apps.metricas.urls")),           # NUEVO
-    path("api/v1/reportes/", include("callcentersite.apps.reportes.urls")),
-    
-    # Configuration APIs
-    path("api/v1/configuracion/", include("callcentersite.apps.configuracion.urls")),
-    path("api/v1/presupuestos/", include("callcentersite.apps.presupuestos.urls")),
-    path("api/v1/politicas/", include("callcentersite.apps.politicas.urls")),
-    path("api/v1/excepciones/", include("callcentersite.apps.excepciones.urls")),
-    
-    # Integration APIs
-    path("api/v1/etl/", include("callcentersite.apps.etl.urls")),
-    
-    # External Apps
-    path("api/dora/", include("dora_metrics.urls")),
-    
-    # Health Check
-    path("health/", health_check, name="health"),
+ # Admin
+ path("admin/", admin.site.urls),
+
+ # API Documentation
+ path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
+ path("api/docs/", SpectacularSwaggerView.as_view(url_name="schema"), name="swagger-ui"),
+
+ # Core APIs
+ path("api/v1/", include("callcentersite.apps.users.urls")),
+ path("api/v1/", include("callcentersite.apps.configuration.urls")),
+ path("api/v1/permissions/", include("callcentersite.apps.permissions.urls")),
+
+ # Business Domain APIs
+ path("api/v1/llamadas/", include("callcentersite.apps.llamadas.urls")),
+ path("api/v1/clientes/", include("callcentersite.apps.clientes.urls")), # NUEVO
+ path("api/v1/equipos/", include("callcentersite.apps.equipos.urls")), # NUEVO
+ path("api/v1/horarios/", include("callcentersite.apps.horarios.urls")), # NUEVO
+
+ # Operations APIs
+ path("api/v1/notifications/", include("callcentersite.apps.notifications.urls")),
+ path("api/v1/alertas/", include("callcentersite.apps.alertas.urls")), # NUEVO
+ path("api/v1/tickets/", include("callcentersite.apps.tickets.urls")), # NUEVO
+
+ # Analytics & Reporting APIs
+ path("api/v1/dashboard/", include("callcentersite.apps.dashboard.urls")),
+ path("api/v1/metricas/", include("callcentersite.apps.metricas.urls")), # NUEVO
+ path("api/v1/reportes/", include("callcentersite.apps.reportes.urls")),
+
+ # Configuration APIs
+ path("api/v1/configuracion/", include("callcentersite.apps.configuracion.urls")),
+ path("api/v1/presupuestos/", include("callcentersite.apps.presupuestos.urls")),
+ path("api/v1/politicas/", include("callcentersite.apps.politicas.urls")),
+ path("api/v1/excepciones/", include("callcentersite.apps.excepciones.urls")),
+
+ # Integration APIs
+ path("api/v1/etl/", include("callcentersite.apps.etl.urls")),
+
+ # External Apps
+ path("api/dora/", include("dora_metrics.urls")),
+
+ # Health Check
+ path("health/", health_check, name="health"),
 ]
 ```
 
@@ -173,29 +173,29 @@ Si las 6 URLs faltantes no están listas para producción:
 
 ```python
 urlpatterns = [
-    # Admin
-    path("admin/", admin.site.urls),
-    
-    # API Documentation
-    path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
-    path("api/docs/", SpectacularSwaggerView.as_view(url_name="schema"), name="swagger-ui"),
-    
-    # APIs (sin cambios, solo eliminar duplicado)
-    path("api/v1/", include("callcentersite.apps.users.urls")),
-    path("api/v1/", include("callcentersite.apps.configuration.urls")),
-    path("api/v1/dashboard/", include("callcentersite.apps.dashboard.urls")),
-    path("api/v1/configuracion/", include("callcentersite.apps.configuracion.urls")),
-    path("api/v1/presupuestos/", include("callcentersite.apps.presupuestos.urls")),
-    path("api/v1/politicas/", include("callcentersite.apps.politicas.urls")),
-    path("api/v1/excepciones/", include("callcentersite.apps.excepciones.urls")),
-    path("api/v1/reportes/", include("callcentersite.apps.reportes.urls")),
-    path("api/v1/notifications/", include("callcentersite.apps.notifications.urls")),
-    path("api/v1/etl/", include("callcentersite.apps.etl.urls")),
-    path("api/v1/permissions/", include("callcentersite.apps.permissions.urls")),
-    path("api/v1/llamadas/", include("callcentersite.apps.llamadas.urls")),
-    # path("api/v1/", include("callcentersite.apps.users.urls")),  # ELIMINADO - era duplicado
-    path("api/dora/", include("dora_metrics.urls")),
-    path("health/", health_check, name="health"),
+ # Admin
+ path("admin/", admin.site.urls),
+
+ # API Documentation
+ path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
+ path("api/docs/", SpectacularSwaggerView.as_view(url_name="schema"), name="swagger-ui"),
+
+ # APIs (sin cambios, solo eliminar duplicado)
+ path("api/v1/", include("callcentersite.apps.users.urls")),
+ path("api/v1/", include("callcentersite.apps.configuration.urls")),
+ path("api/v1/dashboard/", include("callcentersite.apps.dashboard.urls")),
+ path("api/v1/configuracion/", include("callcentersite.apps.configuracion.urls")),
+ path("api/v1/presupuestos/", include("callcentersite.apps.presupuestos.urls")),
+ path("api/v1/politicas/", include("callcentersite.apps.politicas.urls")),
+ path("api/v1/excepciones/", include("callcentersite.apps.excepciones.urls")),
+ path("api/v1/reportes/", include("callcentersite.apps.reportes.urls")),
+ path("api/v1/notifications/", include("callcentersite.apps.notifications.urls")),
+ path("api/v1/etl/", include("callcentersite.apps.etl.urls")),
+ path("api/v1/permissions/", include("callcentersite.apps.permissions.urls")),
+ path("api/v1/llamadas/", include("callcentersite.apps.llamadas.urls")),
+ # path("api/v1/", include("callcentersite.apps.users.urls")), # ELIMINADO - era duplicado
+ path("api/dora/", include("dora_metrics.urls")),
+ path("health/", health_check, name="health"),
 ]
 ```
 
@@ -205,15 +205,15 @@ urlpatterns = [
 
 ### Errores en el Análisis Original
 
-1. **❌ Error**: Reporté 23 apps con URLs implementadas
-   - **✅ Correcto**: Solo 12 apps tienen URLs implementadas en urlpatterns
-   - **Faltantes**: 6 apps con urls.py NO están incluidas
+1. **[ERROR] Error**: Reporté 23 apps con URLs implementadas
+ - **[OK] Correcto**: Solo 12 apps tienen URLs implementadas en urlpatterns
+ - **Faltantes**: 6 apps con urls.py NO están incluidas
 
-2. **❌ Error**: No identifiqué que 6 apps con urls.py NO están en urlpatterns
-   - **✅ Correcto**: alertas, clientes, equipos, horarios, metricas, tickets tienen urls.py pero NO están incluidas
+2. **[ERROR] Error**: No identifiqué que 6 apps con urls.py NO están en urlpatterns
+ - **[OK] Correcto**: alertas, clientes, equipos, horarios, metricas, tickets tienen urls.py pero NO están incluidas
 
-3. **✅ Correcto**: Identifiqué correctamente la URL duplicada de users
-4. **✅ Correcto**: Identifiqué correctamente la duplicación de apps configuration/configuracion
+3. **[OK] Correcto**: Identifiqué correctamente la URL duplicada de users
+4. **[OK] Correcto**: Identifiqué correctamente la duplicación de apps configuration/configuracion
 
 ### Estado Real
 
@@ -228,7 +228,7 @@ urlpatterns = [
 
 ## 6. Impacto y Priorización
 
-### 🔴 Crítico - Acción Inmediata
+### Crítico - Acción Inmediata
 
 **6 URLs faltantes** que tienen implementación pero NO están accesibles:
 - `alertas` - Sistema de alertas
@@ -240,7 +240,7 @@ urlpatterns = [
 
 **Impacto**: Funcionalidad completa desarrollada pero **NO accesible** vía API.
 
-### ⚠️ Menor - Corrección Cosmética
+### [WARNING] Menor - Corrección Cosmética
 
 - URL duplicada de `users` (línea 35)
 
@@ -286,10 +286,10 @@ Actualizar todos los documentos de validación con:
 ## 8. Recomendación Final
 
 Dado que las 6 apps tienen:
-- ✅ Archivos urls.py creados
-- ✅ Archivos views.py implementados
-- ✅ Archivos serializers.py implementados
-- ✅ Migraciones aplicadas
+- [OK] Archivos urls.py creados
+- [OK] Archivos views.py implementados
+- [OK] Archivos serializers.py implementados
+- [OK] Migraciones aplicadas
 
 **Recomendación**: Agregar las 6 URLs faltantes a `urlpatterns` para exponer toda la funcionalidad desarrollada.
 
@@ -316,18 +316,18 @@ Si se implementa **Opción A** (todas las URLs), los endpoints disponibles serí
 
 # Business Domain APIs
 /api/v1/llamadas/
-/api/v1/clientes/          ← NUEVO
-/api/v1/equipos/           ← NUEVO
-/api/v1/horarios/          ← NUEVO
+/api/v1/clientes/ ← NUEVO
+/api/v1/equipos/ ← NUEVO
+/api/v1/horarios/ ← NUEVO
 
 # Operations APIs
 /api/v1/notifications/
-/api/v1/alertas/           ← NUEVO
-/api/v1/tickets/           ← NUEVO
+/api/v1/alertas/ ← NUEVO
+/api/v1/tickets/ ← NUEVO
 
 # Analytics & Reporting APIs
 /api/v1/dashboard/
-/api/v1/metricas/          ← NUEVO
+/api/v1/metricas/ ← NUEVO
 /api/v1/reportes/
 
 # Configuration APIs
@@ -350,7 +350,7 @@ Si se implementa **Opción A** (todas las URLs), los endpoints disponibles serí
 
 ---
 
-**Documento generado**: 2025-11-16  
-**Por**: ApiAgent  
-**Tipo**: Corrección y análisis completo  
+**Documento generado**: 2025-11-16 
+**Por**: ApiAgent 
+**Tipo**: Corrección y análisis completo 
 **Estado**: URLs faltantes identificadas - Acción requerida

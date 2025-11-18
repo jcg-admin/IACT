@@ -57,37 +57,37 @@ Se requiere crear un documento complementario de análisis de amenazas que cubra
 Crear Data Flow Diagrams (DFDs) que muestren:
 
 - **DFD Nivel 0:** Vista general de la aplicación completa
-  - Usuario autenticado -> Sistema IACT -> BD IVR (readonly) + BD Analytics
+ - Usuario autenticado -> Sistema IACT -> BD IVR (readonly) + BD Analytics
 
 - **DFD Nivel 1 - Módulo de Reportes:**
-  - Actor: Analista
-  - Flujos: Request -> ReportService -> Query Engine -> BD Analytics/IVR
-  - Aplicación de filtros de segmento (RBAC)
-  - Generación de resultados con paginación
+ - Actor: Analista
+ - Flujos: Request -> ReportService -> Query Engine -> BD Analytics/IVR
+ - Aplicación de filtros de segmento (RBAC)
+ - Generación de resultados con paginación
 
 - **DFD Nivel 1 - Módulo de Dashboard:**
-  - Actor: Usuario con rol específico
-  - Flujos: Dashboard View -> Widget Service -> Cache -> BD Analytics
-  - Personalización según permisos
-  - Widgets configurables
+ - Actor: Usuario con rol específico
+ - Flujos: Dashboard View -> Widget Service -> Cache -> BD Analytics
+ - Personalización según permisos
+ - Widgets configurables
 
 - **DFD Nivel 1 - Módulo de Exportaciones:**
-  - Actor: Usuario autorizado
-  - Flujos: Export Request -> Export Service -> Limit Validation -> File Generation
-  - Límites por rol
-  - Validación de volumen de datos
+ - Actor: Usuario autorizado
+ - Flujos: Export Request -> Export Service -> Limit Validation -> File Generation
+ - Límites por rol
+ - Validación de volumen de datos
 
 - **DFD Nivel 1 - Módulo de Alertas:**
-  - Actor: Sistema (scheduler)
-  - Flujos: Alert Evaluator -> Threshold Check -> InternalMessage -> User Inbox
-  - NO email (restricción crítica)
-  - Gestión de severidades
+ - Actor: Sistema (scheduler)
+ - Flujos: Alert Evaluator -> Threshold Check -> InternalMessage -> User Inbox
+ - NO email (restricción crítica)
+ - Gestión de severidades
 
 - **DFD Nivel 1 - ETL:**
-  - Actor: Scheduler (APScheduler)
-  - Flujos: ETL Job -> BD IVR (readonly) -> Transform -> BD Analytics
-  - Transaccional (rollback completo)
-  - Actualización de DataAvailability
+ - Actor: Scheduler (APScheduler)
+ - Flujos: ETL Job -> BD IVR (readonly) -> Transform -> BD Analytics
+ - Transaccional (rollback completo)
+ - Actualización de DataAvailability
 
 **Formato:** Diagramas Mermaid embebidos en markdown
 
@@ -103,33 +103,33 @@ Analizar cada componente identificado usando la metodología STRIDE:
 **Componentes a analizar:**
 
 1. **ReportService**
-   - **S**poofing: ¿Puede un usuario suplantar identidad para acceder a reportes ajenos?
-   - **T**ampering: ¿Pueden modificarse datos antes de generar el reporte?
-   - **R**epudiation: ¿Puede un usuario negar que generó un reporte?
-   - **I**nformation Disclosure: ¿Puede filtrarse info de otros segmentos?
-   - **D**enial of Service: ¿Query muy grande puede tumbar el sistema?
-   - **E**levation of Privilege: ¿Puede bypassear filtros de segmento?
+ - **S**poofing: ¿Puede un usuario suplantar identidad para acceder a reportes ajenos?
+ - **T**ampering: ¿Pueden modificarse datos antes de generar el reporte?
+ - **R**epudiation: ¿Puede un usuario negar que generó un reporte?
+ - **I**nformation Disclosure: ¿Puede filtrarse info de otros segmentos?
+ - **D**enial of Service: ¿Query muy grande puede tumbar el sistema?
+ - **E**levation of Privilege: ¿Puede bypassear filtros de segmento?
 
 2. **DashboardService**
-   - Mismo análisis STRIDE
+ - Mismo análisis STRIDE
 
 3. **ExportService**
-   - Mismo análisis STRIDE
-   - Énfasis en DoS (archivos masivos)
-   - Information Disclosure (exportar datos prohibidos)
+ - Mismo análisis STRIDE
+ - Énfasis en DoS (archivos masivos)
+ - Information Disclosure (exportar datos prohibidos)
 
 4. **AlertService**
-   - Mismo análisis STRIDE
-   - Énfasis en integridad (alertas falsas)
+ - Mismo análisis STRIDE
+ - Énfasis en integridad (alertas falsas)
 
 5. **ETLService**
-   - Mismo análisis STRIDE
-   - Énfasis en integridad de datos (fuente IVR)
-   - DoS (ETL que no termina)
+ - Mismo análisis STRIDE
+ - Énfasis en integridad de datos (fuente IVR)
+ - DoS (ETL que no termina)
 
 6. **InternalMessageService**
-   - Mismo análisis STRIDE
-   - Énfasis en confidencialidad (mensajes de otros usuarios)
+ - Mismo análisis STRIDE
+ - Énfasis en confidencialidad (mensajes de otros usuarios)
 
 #### 3.2 Análisis STRIDE por Interacción
 
@@ -333,24 +333,24 @@ git push -u origin claude/add-api-tdd-tests-011CUnSQ9QwKuZXVsFgTJZcr
 ### Documentos de Referencia
 
 1. **ANALISIS_SEGURIDAD_AMENAZAS.md** (ya existe)
-   - Ubicación: `docs/backend/seguridad/ANALISIS_SEGURIDAD_AMENAZAS.md`
-   - Contiene: Análisis de Autenticación y RBAC
-   - Usar como plantilla de estructura y formato
+ - Ubicación: `docs/backend/seguridad/ANALISIS_SEGURIDAD_AMENAZAS.md`
+ - Contiene: Análisis de Autenticación y RBAC
+ - Usar como plantilla de estructura y formato
 
 2. **restricciones_y_lineamientos.md**
-   - Ubicación: `docs/backend/requisitos/restricciones_y_lineamientos.md`
-   - Contiene: Restricciones críticas del sistema
-   - **CRÍTICO:** Incorporar restricciones en el análisis:
-     - NO NO EMAIL (solo buzón interno)
-     - CRITICO BD IVR READONLY (solo SELECT)
-     - SAVE SESIONES EN BD (no Redis)
-     - SYNC NO REAL-TIME (actualización por ETL 6-12h)
-     - STATS LÍMITES DE EXPORTACIÓN (CSV: 100k, Excel: 100k, PDF: 10k)
-     - ⏱ TIMEOUTS (Reportes: 5s, Exports: 60-120s)
+ - Ubicación: `docs/backend/requisitos/restricciones_y_lineamientos.md`
+ - Contiene: Restricciones críticas del sistema
+ - **CRÍTICO:** Incorporar restricciones en el análisis:
+ - NO NO EMAIL (solo buzón interno)
+ - CRITICO BD IVR READONLY (solo SELECT)
+ - SAVE SESIONES EN BD (no Redis)
+ - SYNC NO REAL-TIME (actualización por ETL 6-12h)
+ - STATS LÍMITES DE EXPORTACIÓN (CSV: 100k, Excel: 100k, PDF: 10k)
+ - ⏱ TIMEOUTS (Reportes: 5s, Exports: 60-120s)
 
 3. **Requisitos Funcionales** (RF-001 a RF-010)
-   - Ubicación: `docs/backend/requisitos/funcionales/`
-   - Contexto de negocio para entender flujos
+ - Ubicación: `docs/backend/requisitos/funcionales/`
+ - Contexto de negocio para entender flujos
 
 ### Metodologías Aplicables
 
@@ -365,12 +365,12 @@ git push -u origin claude/add-api-tdd-tests-011CUnSQ9QwKuZXVsFgTJZcr
 - Formato de ejemplo:
 ```mermaid
 graph LR
-    User[Usuario Autenticado] -->|Request| API[Report API]
-    API -->|Validate| Auth[Auth Service]
-    API -->|Apply Segment Filter| Filter[Segment Filter]
-    Filter -->|Query| DB[(BD Analytics)]
-    DB -->|Results| API
-    API -->|Response| User
+ User[Usuario Autenticado] -->|Request| API[Report API]
+ API -->|Validate| Auth[Auth Service]
+ API -->|Apply Segment Filter| Filter[Segment Filter]
+ Filter -->|Query| DB[(BD Analytics)]
+ DB -->|Results| API
+ API -->|Response| User
 ```
 
 ### Componentes del Sistema

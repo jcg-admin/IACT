@@ -11,13 +11,13 @@ modulo: users
 categoria: security
 
 trazabilidad_upward:
-  - N-001  # Necesidad de control de acceso granular
+ - N-001 # Necesidad de control de acceso granular
 
 trazabilidad_downward:
-  - TEST-002  # Tests de Permission model
+ - TEST-002 # Tests de Permission model
 
 stakeholders:
-  - administradores-sistema
+ - administradores-sistema
 
 iso29148_clause: "9.6.4"
 verificacion_metodo: test
@@ -54,14 +54,14 @@ Administradores necesitan definir permisos específicos como "analytics.view", "
 ```gherkin
 Given un administrador del sistema
 When crea un permiso con:
-  | codename    | analytics.view |
-  | name        | Puede ver analítica |
-  | resource    | analytics |
-  | action      | view |
-  | description | Permite ver reportes de analítica |
+ | codename | analytics.view |
+ | name | Puede ver analítica |
+ | resource | analytics |
+ | action | view |
+ | description | Permite ver reportes de analítica |
 Then el sistema crea el permiso exitosamente
-  And el permiso recibe un ID único
-  And el codename es único en el sistema
+ And el permiso recibe un ID único
+ And el codename es único en el sistema
 ```
 
 #### Escenario 2: Codename debe seguir formato recurso.accion
@@ -70,7 +70,7 @@ Then el sistema crea el permiso exitosamente
 Given un administrador intenta crear un permiso
 When el codename no contiene punto (ej: "analytics")
 Then el sistema debería validar el formato
-  And mostrar error "Codename debe seguir formato recurso.accion"
+ And mostrar error "Codename debe seguir formato recurso.accion"
 ```
 
 ### 2.2 Criterios No Funcionales Asociados
@@ -94,12 +94,12 @@ Then el sistema debería validar el formato
 ```python
 @dataclass
 class Permission:
-    codename: str        # Formato: "recurso.accion"
-    name: str           # Nombre legible
-    resource: str       # Recurso protegido
-    action: str         # Acción permitida
-    description: str    # Descripción del permiso
-    id: int             # Generado automáticamente
+ codename: str # Formato: "recurso.accion"
+ name: str # Nombre legible
+ resource: str # Recurso protegido
+ action: str # Acción permitida
+ description: str # Descripción del permiso
+ id: int # Generado automáticamente
 ```
 
 **Ejemplos válidos:**
@@ -112,13 +112,13 @@ class Permission:
 ### 5.1 Tests Unitarios
 
 - [ ] **TEST-002-001**: test_crear_permiso_valido
-  - Estado: pendiente
+ - Estado: pendiente
 
 - [ ] **TEST-002-002**: test_codename_es_unico_en_hash
-  - Estado: pendiente
+ - Estado: pendiente
 
 - [ ] **TEST-002-003**: test_permission_manager_create
-  - Estado: pendiente
+ - Estado: pendiente
 
 ## 5. Referencias
 

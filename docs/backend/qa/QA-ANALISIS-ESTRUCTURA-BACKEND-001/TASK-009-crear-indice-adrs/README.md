@@ -8,8 +8,8 @@ prioridad: MEDIA
 duracion_estimada: 10min
 estado: pendiente
 dependencias:
-  - TASK-007
-  - TASK-008
+ - TASK-007
+ - TASK-008
 ---
 
 # TASK-REORG-BACK-009: Crear INDICE_ADRs.md
@@ -170,7 +170,7 @@ Un Architecture Decision Record (ADR) es un documento que captura una decision a
 **Version:** 1.0.0
 EOF
 
-echo "✓ INDICE_ADRs.md creado (estructura base)"
+echo "OK INDICE_ADRs.md creado (estructura base)"
 ```
 
 **Resultado Esperado:** Archivo INDICE_ADRs.md creado con estructura
@@ -186,22 +186,22 @@ cat > /tmp/extract-adr-metadata.sh << 'SCRIPT'
 > /tmp/adr-data.txt
 
 for adr in /home/user/IACT/docs/backend/adr/ADR-BACK-*.md; do
-  [ -f "$adr" ] || continue
+ [ -f "$adr" ] || continue
 
-  filename=$(basename "$adr")
+ filename=$(basename "$adr")
 
-  # Extraer YAML frontmatter
-  yaml_content=$(sed -n '/^---$/,/^---$/p' "$adr" | sed '1d;$d')
+ # Extraer YAML frontmatter
+ yaml_content=$(sed -n '/^---$/,/^---$/p' "$adr" | sed '1d;$d')
 
-  # Extraer campos
-  id=$(echo "$yaml_content" | grep "^id:" | cut -d':' -f2 | xargs)
-  titulo=$(echo "$yaml_content" | grep "^titulo:" | cut -d':' -f2- | xargs)
-  categoria=$(echo "$yaml_content" | grep "^categoria:" | cut -d':' -f2 | xargs)
-  estado=$(echo "$yaml_content" | grep "^estado:" | cut -d':' -f2 | xargs)
-  fecha=$(echo "$yaml_content" | grep "^fecha:" | cut -d':' -f2 | xargs)
+ # Extraer campos
+ id=$(echo "$yaml_content" | grep "^id:" | cut -d':' -f2 | xargs)
+ titulo=$(echo "$yaml_content" | grep "^titulo:" | cut -d':' -f2- | xargs)
+ categoria=$(echo "$yaml_content" | grep "^categoria:" | cut -d':' -f2 | xargs)
+ estado=$(echo "$yaml_content" | grep "^estado:" | cut -d':' -f2 | xargs)
+ fecha=$(echo "$yaml_content" | grep "^fecha:" | cut -d':' -f2 | xargs)
 
-  # Guardar en formato CSV
-  echo "$id|$titulo|$categoria|$estado|$fecha|$filename" >> /tmp/adr-data.txt
+ # Guardar en formato CSV
+ echo "$id|$titulo|$categoria|$estado|$fecha|$filename" >> /tmp/adr-data.txt
 done
 
 # Ordenar por ID
@@ -228,13 +228,13 @@ echo "| ID | Titulo | Categoria | Estado | Fecha | Archivo |"
 echo "|----|--------|-----------|--------|-------|---------|"
 
 while IFS='|' read -r id titulo categoria estado fecha filename; do
-  # Convertir categoria a capitalize
-  cat_display=$(echo "$categoria" | sed 's/bd/Base de Datos/; s/api/APIs/; s/\b\(.\)/\u\1/g')
+ # Convertir categoria a capitalize
+ cat_display=$(echo "$categoria" | sed 's/bd/Base de Datos/; s/api/APIs/; s/\b\(.\)/\u\1/g')
 
-  # Generar link relativo
-  link="./$filename"
+ # Generar link relativo
+ link="./$filename"
 
-  echo "| $id | $titulo | $cat_display | $estado | $fecha | [$filename]($link) |"
+ echo "| $id | $titulo | $cat_display | $estado | $fecha | [$filename]($link) |"
 done < /tmp/adr-data-sorted.txt
 SCRIPT
 
@@ -261,22 +261,22 @@ categorias[api]="APIs"
 categorias[seguridad]="Seguridad"
 
 for cat_key in arquitectura tecnologia bd api seguridad; do
-  cat_name="${categorias[$cat_key]}"
-  echo "### $cat_name"
+ cat_name="${categorias[$cat_key]}"
+ echo "### $cat_name"
 
-  found=false
-  while IFS='|' read -r id titulo categoria estado fecha filename; do
-    if [ "$categoria" = "$cat_key" ]; then
-      echo "- [$id: $titulo](./$filename) - Estado: $estado"
-      found=true
-    fi
-  done < /tmp/adr-data-sorted.txt
+ found=false
+ while IFS='|' read -r id titulo categoria estado fecha filename; do
+ if [ "$categoria" = "$cat_key" ]; then
+ echo "- [$id: $titulo](./$filename) - Estado: $estado"
+ found=true
+ fi
+ done < /tmp/adr-data-sorted.txt
 
-  if ! $found; then
-    echo "- (ninguna)"
-  fi
+ if ! $found; then
+ echo "- (ninguna)"
+ fi
 
-  echo ""
+ echo ""
 done
 SCRIPT
 
@@ -303,22 +303,22 @@ estados[supersedida]="Supersedidas"
 estados[rechazada]="Rechazadas"
 
 for estado_key in aceptada propuesta deprecada supersedida rechazada; do
-  estado_name="${estados[$estado_key]}"
-  echo "### $estado_name"
+ estado_name="${estados[$estado_key]}"
+ echo "### $estado_name"
 
-  found=false
-  while IFS='|' read -r id titulo categoria estado fecha filename; do
-    if [ "$estado" = "$estado_key" ]; then
-      echo "- [$id: $titulo](./$filename) - Categoria: $categoria"
-      found=true
-    fi
-  done < /tmp/adr-data-sorted.txt
+ found=false
+ while IFS='|' read -r id titulo categoria estado fecha filename; do
+ if [ "$estado" = "$estado_key" ]; then
+ echo "- [$id: $titulo](./$filename) - Categoria: $categoria"
+ found=true
+ fi
+ done < /tmp/adr-data-sorted.txt
 
-  if ! $found; then
-    echo "- (ninguna)"
-  fi
+ if ! $found; then
+ echo "- (ninguna)"
+ fi
 
-  echo ""
+ echo ""
 done
 SCRIPT
 
@@ -410,8 +410,8 @@ SCRIPT
 
 chmod +x /home/user/IACT/docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/TASK-009-crear-indice-adrs/evidencias/script-ensamblar-indice.sh
 
-echo "✓ Archivos de evidencias creados"
-echo "✓ Script de ensamblaje guardado en evidencias/"
+echo "OK Archivos de evidencias creados"
+echo "OK Script de ensamblaje guardado en evidencias/"
 ```
 
 **Resultado Esperado:** Secciones generadas listas para ensamblar
@@ -420,16 +420,16 @@ echo "✓ Script de ensamblaje guardado en evidencias/"
 
 ```bash
 # Validar que el indice existe y tiene contenido
-test -f /home/user/IACT/docs/backend/adr/INDICE_ADRs.md && echo "✓ INDICE_ADRs.md existe" || echo "✗ Falta INDICE_ADRs.md"
+test -f /home/user/IACT/docs/backend/adr/INDICE_ADRs.md && echo "OK INDICE_ADRs.md existe" || echo " Falta INDICE_ADRs.md"
 
 # Validar que tiene frontmatter YAML
-head -n 1 /home/user/IACT/docs/backend/adr/INDICE_ADRs.md | grep -q "^---$" && echo "✓ Tiene frontmatter YAML" || echo "✗ Falta YAML"
+head -n 1 /home/user/IACT/docs/backend/adr/INDICE_ADRs.md | grep -q "^---$" && echo "OK Tiene frontmatter YAML" || echo " Falta YAML"
 
 # Validar que tiene las secciones principales
-grep -q "## Indice por ID" /home/user/IACT/docs/backend/adr/INDICE_ADRs.md && echo "✓ Seccion Indice por ID" || echo "✗ Falta seccion"
-grep -q "## Indice por Categoria" /home/user/IACT/docs/backend/adr/INDICE_ADRs.md && echo "✓ Seccion Indice por Categoria" || echo "✗ Falta seccion"
-grep -q "## Indice por Estado" /home/user/IACT/docs/backend/adr/INDICE_ADRs.md && echo "✓ Seccion Indice por Estado" || echo "✗ Falta seccion"
-grep -q "## Estadisticas" /home/user/IACT/docs/backend/adr/INDICE_ADRs.md && echo "✓ Seccion Estadisticas" || echo "✗ Falta seccion"
+grep -q "## Indice por ID" /home/user/IACT/docs/backend/adr/INDICE_ADRs.md && echo "OK Seccion Indice por ID" || echo " Falta seccion"
+grep -q "## Indice por Categoria" /home/user/IACT/docs/backend/adr/INDICE_ADRs.md && echo "OK Seccion Indice por Categoria" || echo " Falta seccion"
+grep -q "## Indice por Estado" /home/user/IACT/docs/backend/adr/INDICE_ADRs.md && echo "OK Seccion Indice por Estado" || echo " Falta seccion"
+grep -q "## Estadisticas" /home/user/IACT/docs/backend/adr/INDICE_ADRs.md && echo "OK Seccion Estadisticas" || echo " Falta seccion"
 
 # Contar links a ADRs
 link_count=$(grep -c "ADR-BACK-" /home/user/IACT/docs/backend/adr/INDICE_ADRs.md || echo 0)
@@ -460,7 +460,7 @@ echo "Links a ADRs encontrados: $link_count"
 echo "=== VALIDACION INDICE_ADRs.md ==="
 
 # Archivo existe
-test -f /home/user/IACT/docs/backend/adr/INDICE_ADRs.md && echo "✓ Archivo existe" || echo "✗ Archivo no existe"
+test -f /home/user/IACT/docs/backend/adr/INDICE_ADRs.md && echo "OK Archivo existe" || echo " Archivo no existe"
 
 # Total ADRs en carpeta vs indice
 adrs_carpeta=$(ls /home/user/IACT/docs/backend/adr/ADR-BACK-*.md 2>/dev/null | wc -l)
@@ -470,9 +470,9 @@ echo "ADRs en carpeta: $adrs_carpeta"
 echo "ADRs en indice: $adrs_indice"
 
 if [ $adrs_carpeta -eq $adrs_indice ]; then
-  echo "✓ Totales coinciden"
+ echo "OK Totales coinciden"
 else
-  echo "✗ Totales NO coinciden"
+ echo " Totales NO coinciden"
 fi
 
 # Secciones principales
@@ -483,7 +483,7 @@ grep -q "## Indice por Estado" /home/user/IACT/docs/backend/adr/INDICE_ADRs.md &
 grep -q "## Estadisticas" /home/user/IACT/docs/backend/adr/INDICE_ADRs.md && ((sections_found++))
 
 echo "Secciones encontradas: $sections_found/4"
-test $sections_found -eq 4 && echo "✓ Todas las secciones presentes" || echo "✗ Faltan secciones"
+test $sections_found -eq 4 && echo "OK Todas las secciones presentes" || echo " Faltan secciones"
 ```
 
 **Salida Esperada:** Archivo existe, totales coinciden, 4/4 secciones presentes

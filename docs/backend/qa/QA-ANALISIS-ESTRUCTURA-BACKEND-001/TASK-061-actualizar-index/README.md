@@ -3,7 +3,7 @@
 ## Metadatos
 - **ID**: TASK-061
 - **Fase**: FASE 4 - Validación y Limpieza
-- **Prioridad**: ALTA 🟡
+- **Prioridad**: ALTA 
 - **Estimación**: 15 minutos
 - **Estado**: PENDIENTE
 - **Metodología**: Auto-CoT + Self-Consistency
@@ -31,24 +31,24 @@ Actualizar el archivo INDEX.md con un índice completo y organizado de toda la d
 
 **Opciones de Organización**:
 1. **Por Categoría de Carpeta**:
-   - Core
-   - Packages
-   - Components
-   - Services
-   - etc.
+ - Core
+ - Packages
+ - Components
+ - Services
+ - etc.
 
 2. **Por Tipo de Documento**:
-   - Arquitectura
-   - Guías
-   - Referencias
-   - API Docs
-   - etc.
+ - Arquitectura
+ - Guías
+ - Referencias
+ - API Docs
+ - etc.
 
 3. **Por Audiencia**:
-   - Desarrolladores
-   - Arquitectos
-   - DevOps
-   - etc.
+ - Desarrolladores
+ - Arquitectos
+ - DevOps
+ - etc.
 
 4. **Híbrido**: Combinar los anteriores
 
@@ -88,18 +88,18 @@ echo ""
 
 # Por carpeta principal
 for dir in docs/backend/*/; do
-  dirname=$(basename "$dir")
-  echo "### $dirname"
-  echo ""
+ dirname=$(basename "$dir")
+ echo "### $dirname"
+ echo ""
 
-  # Listar archivos .md
-  find "$dir" -name "*.md" -type f | sort | while read file; do
-    filename=$(basename "$file")
-    relpath=$(realpath --relative-to="docs/backend" "$file")
-    echo "- [$filename](./$relpath)"
-  done
+ # Listar archivos .md
+ find "$dir" -name "*.md" -type f | sort | while read file; do
+ filename=$(basename "$file")
+ relpath=$(realpath --relative-to="docs/backend" "$file")
+ echo "- [$filename](./$relpath)"
+ done
 
-  echo ""
+ echo ""
 done
 ```
 
@@ -107,7 +107,7 @@ done
 ```markdown
 # Índice de Documentación Backend
 
-## 📖 Documentación Principal
+## Documentación Principal
 
 ### Guías Fundamentales
 - [README Principal](./README.md) - Introducción al backend
@@ -119,7 +119,7 @@ done
 - [Patrones de Diseño](./docs/arquitectura/PATTERNS.md)
 - [Decisiones de Arquitectura](./docs/arquitectura/ADR/)
 
-## 🏗️ Core Services
+## Core Services
 
 ### Autenticación
 - [README Autenticación](./core/auth/README.md)
@@ -139,22 +139,22 @@ done
 
 ## Por Tipo de Documento
 
-### 📚 READMEs
+### READMEs
 Lista de todos los archivos README por carpeta
 
-### 📝 Guías
+### Guías
 Guías de uso y mejores prácticas
 
-### 🏛️ Arquitectura
+### Arquitectura
 Documentos de diseño y arquitectura
 
-### 📄 APIs
+### APIs
 Documentación de APIs y contratos
 
-### 🔧 Configuración
+### Configuración
 Guías de configuración y setup
 
-### 📊 Diagramas
+### Diagramas
 Diagramas visuales de arquitectura
 ```
 
@@ -176,19 +176,19 @@ Diagramas visuales de arquitectura
 
 ## Entregables
 1. **docs/backend/INDEX.md** (Actualizado)
-   - Índice completo y organizado
-   - Enlaces válidos
-   - Estructura navegable
+ - Índice completo y organizado
+ - Enlaces válidos
+ - Estructura navegable
 
 2. **script-generar-index.sh**
-   - Script para regenerar índice
-   - Actualizable automáticamente
-   - Mantiene curación manual
+ - Script para regenerar índice
+ - Actualizable automáticamente
+ - Mantiene curación manual
 
 3. **INDICE-ESTADISTICAS.md**
-   - Cantidad de documentos por categoría
-   - Cobertura de documentación
-   - Métricas de organización
+ - Cantidad de documentos por categoría
+ - Cobertura de documentación
+ - Métricas de organización
 
 ## Estructura Propuesta del INDEX.md
 
@@ -213,7 +213,7 @@ Diagramas visuales de arquitectura
 
 ---
 
-## 📖 Documentación Principal
+## Documentación Principal
 
 ### Inicio Rápido
 - [README Principal](./README.md) - Introducción y overview del backend
@@ -229,7 +229,7 @@ Diagramas visuales de arquitectura
 
 ---
 
-## 🏗️ Core Services
+## Core Services
 
 Servicios fundamentales del sistema.
 
@@ -251,7 +251,7 @@ Servicios fundamentales del sistema.
 
 ---
 
-## 📦 Packages
+## Packages
 
 Paquetes reutilizables y librerías compartidas.
 
@@ -263,7 +263,7 @@ Paquetes reutilizables y librerías compartidas.
 
 ---
 
-## 🧩 Components
+## Components
 
 Componentes modulares del backend.
 
@@ -272,7 +272,7 @@ Componentes modulares del backend.
 
 ---
 
-## 🚀 Services
+## Services
 
 Microservicios y servicios independientes.
 
@@ -285,7 +285,7 @@ Microservicios y servicios independientes.
 
 ---
 
-## 🔧 Utilidades
+## Utilidades
 
 Herramientas y utilidades de soporte.
 
@@ -295,7 +295,7 @@ Herramientas y utilidades de soporte.
 
 ---
 
-## ⚙️ Configuración
+## Configuración
 
 Archivos de configuración y setup.
 
@@ -305,7 +305,7 @@ Archivos de configuración y setup.
 
 ---
 
-## 📚 Documentación Técnica
+## Documentación Técnica
 
 Documentación detallada y técnica.
 
@@ -320,7 +320,7 @@ Documentación detallada y técnica.
 
 ---
 
-## 🧪 Testing
+## Testing
 
 Documentación de testing y QA.
 
@@ -331,7 +331,7 @@ Documentación de testing y QA.
 
 ---
 
-## 📋 Gobernanza y Procesos
+## Gobernanza y Procesos
 
 Procesos, estándares y gobernanza.
 
@@ -342,7 +342,7 @@ Procesos, estándares y gobernanza.
 
 ---
 
-## 📊 Estadísticas
+## Estadísticas
 
 - **Total de Documentos**: ~XX archivos .md
 - **Carpetas Principales**: 10
@@ -351,7 +351,7 @@ Procesos, estándares y gobernanza.
 
 ---
 
-## 🔍 Búsqueda Rápida
+## Búsqueda Rápida
 
 ### Por Tema
 - **Seguridad**: [Auth](./core/auth/), [Policies](./gobernanza/SECURITY.md)
@@ -365,7 +365,7 @@ Procesos, estándares y gobernanza.
 
 ---
 
-## 🆘 Ayuda
+## Ayuda
 
 ¿No encuentras lo que buscas?
 - Revisa la [Guía de Navegación](./docs/GUIA_NAVEGACION_BACKEND.md)
@@ -393,16 +393,16 @@ tree docs/backend -P "*.md" -I "node_modules"
 ### Contar documentos por carpeta
 ```bash
 for dir in docs/backend/*/; do
-  count=$(find "$dir" -name "*.md" | wc -l)
-  echo "$(basename $dir): $count documentos"
+ count=$(find "$dir" -name "*.md" | wc -l)
+ echo "$(basename $dir): $count documentos"
 done
 ```
 
 ### Extraer títulos de documentos
 ```bash
 find docs/backend -name "*.md" -exec sh -c '
-  title=$(head -1 "$1" | sed "s/^# //")
-  echo "[$title]($1)"
+ title=$(head -1 "$1" | sed "s/^# //")
+ echo "[$title]($1)"
 ' sh {} \;
 ```
 
@@ -449,9 +449,9 @@ find docs/backend -name "*.md" -exec sh -c '
 # Generar sección de READMEs automáticamente
 echo "## READMEs" > temp_readmes.md
 find docs/backend -name "README.md" | sort | while read file; do
-  relpath=$(realpath --relative-to="docs/backend" "$file")
-  dir=$(dirname "$relpath")
-  echo "- [$dir](./$relpath)" >> temp_readmes.md
+ relpath=$(realpath --relative-to="docs/backend" "$file")
+ dir=$(dirname "$relpath")
+ echo "- [$dir](./$relpath)" >> temp_readmes.md
 done
 
 # Insertar en INDEX.md manteniendo secciones curadas

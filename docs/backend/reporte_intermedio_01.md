@@ -68,10 +68,10 @@ Se han completado las primeras 5 tareas del proyecto IACT, finalizando el Sprint
 - Dashboard principal metricas DORA en tiempo real
 - 6 widgets de metricas (clasificacion DORA + 4 metricas + cycles)
 - 4 graficos interactivos con Chart.js:
-  - Deployment Frequency (bar chart)
-  - Lead Time Trends (line chart)
-  - Change Failure Rate (line chart)
-  - MTTR (line chart)
+ - Deployment Frequency (bar chart)
+ - Lead Time Trends (line chart)
+ - Change Failure Rate (line chart)
+ - MTTR (line chart)
 - 5 chart data API endpoints para graficos dinamicos
 - Calculo de clasificacion DORA (Elite, High, Medium, Low)
 - Filtrado por periodo (7, 30, 60, 90 dias)
@@ -191,22 +191,22 @@ Se han completado las primeras 5 tareas del proyecto IACT, finalizando el Sprint
 
 **Componentes implementados:**
 1. Schema Cassandra infrastructure_logs:
-   - Partition key: hostname + log_date
-   - Clustering: timestamp DESC
-   - TTL: 90 dias automatico
-   - Compaction: TimeWindowCompactionStrategy
-   - Indices: source, severity
+ - Partition key: hostname + log_date
+ - Clustering: timestamp DESC
+ - TTL: 90 dias automatico
+ - Compaction: TimeWindowCompactionStrategy
+ - Indices: source, severity
 
 2. Daemon Collector (Python):
-   - LogParser: parsea syslog/journalctl
-   - CassandraWriter: batch write 1000 logs
-   - InfrastructureLogCollector: daemon principal
-   - Graceful shutdown con signals
+ - LogParser: parsea syslog/journalctl
+ - CassandraWriter: batch write 1000 logs
+ - InfrastructureLogCollector: daemon principal
+ - Graceful shutdown con signals
 
 3. Systemd Service:
-   - Auto-start on boot
-   - Restart on failure
-   - Logs a /var/log/iact/
+ - Auto-start on boot
+ - Restart on failure
+ - Logs a /var/log/iact/
 
 **Fuentes de logs:**
 - /var/log/syslog (logs generales)
@@ -312,44 +312,44 @@ Se han completado las primeras 5 tareas del proyecto IACT, finalizando el Sprint
 
 ```
 Layer 1: Metrics (MySQL)
-  ├── DORA metrics (dora_metrics table)
-  ├── API: /api/dora/metrics
-  └── Dashboard: /api/dora/dashboard
-  Status: [OK] COMPLETADO (TASK-005, TASK-014)
+ DORA metrics (dora_metrics table)
+ API: /api/dora/metrics
+ Dashboard: /api/dora/dashboard
+ Status: [OK] COMPLETADO (TASK-005, TASK-014)
 
 Layer 2: Application Logs (JSON Files)
-  ├── JSONFormatter custom
-  ├── Output: /var/log/iact/app.json.log
-  └── Rotation: 100MB
-  Status: [OK] COMPLETADO (TASK-010)
+ JSONFormatter custom
+ Output: /var/log/iact/app.json.log
+ Rotation: 100MB
+ Status: [OK] COMPLETADO (TASK-010)
 
 Layer 3: Infrastructure Logs (Cassandra)
-  ├── Schema: infrastructure_logs (TTL 90d)
-  ├── Collector: infrastructure_log_collector.py
-  ├── Batch: 1000 logs
-  └── Sources: syslog, auth, kern, systemd
-  Status: [OK] COMPLETADO (TASK-017)
+ Schema: infrastructure_logs (TTL 90d)
+ Collector: infrastructure_log_collector.py
+ Batch: 1000 logs
+ Sources: syslog, auth, kern, systemd
+ Status: [OK] COMPLETADO (TASK-017)
 ```
 
 ### Storage Architecture
 
 ```
 MySQL (13306):
-  ├── DORA metrics (permanente)
-  ├── Sesiones (django_session)
-  └── Mensajeria interna
-  Status: [OK] OPERATIVO
+ DORA metrics (permanente)
+ Sesiones (django_session)
+ Mensajeria interna
+ Status: [OK] OPERATIVO
 
 Cassandra (9042):
-  ├── Application logs (Layer 2 - futuro)
-  ├── Infrastructure logs (Layer 3)
-  └── TTL: 90 dias automatico
-  Status: [OK] SCHEMA CREADO
+ Application logs (Layer 2 - futuro)
+ Infrastructure logs (Layer 3)
+ TTL: 90 dias automatico
+ Status: [OK] SCHEMA CREADO
 
 PostgreSQL (5432):
-  ├── IVR legacy (solo lectura)
-  └── Database router
-  Status: [OK] PROTEGIDO
+ IVR legacy (solo lectura)
+ Database router
+ Status: [OK] PROTEGIDO
 ```
 
 ---
@@ -480,36 +480,36 @@ PostgreSQL (5432):
 ### Exitos
 
 1. **Batching efectivo:**
-   - Implementacion de batch write (1000 logs) mejora performance
-   - Diseño escalable para alto throughput
+ - Implementacion de batch write (1000 logs) mejora performance
+ - Diseño escalable para alto throughput
 
 2. **Compliance proactivo:**
-   - Auditoria RNF-002 temprana evita problemas futuros
-   - Validacion automatica facilita mantenimiento
+ - Auditoria RNF-002 temprana evita problemas futuros
+ - Validacion automatica facilita mantenimiento
 
 3. **Documentacion completa:**
-   - Indice INDEX.md facilita navegacion
-   - Eliminacion de legacy mejora claridad
+ - Indice INDEX.md facilita navegacion
+ - Eliminacion de legacy mejora claridad
 
 ### Desafios
 
 1. **Complejidad de Layer 3:**
-   - Parsing de multiples formatos de logs (syslog, journalctl)
-   - Solucion: Parser flexible con fallbacks
+ - Parsing de multiples formatos de logs (syslog, journalctl)
+ - Solucion: Parser flexible con fallbacks
 
 2. **Tamaño de tareas:**
-   - TASK-017 (8 SP) es grande para una sola tarea
-   - Lección: Considerar split de tareas grandes
+ - TASK-017 (8 SP) es grande para una sola tarea
+ - Lección: Considerar split de tareas grandes
 
 ### Mejoras para Proximos Sprints
 
 1. **Testing automatizado:**
-   - Agregar tests unitarios para collector daemon
-   - CI/CD integration de validaciones
+ - Agregar tests unitarios para collector daemon
+ - CI/CD integration de validaciones
 
 2. **Monitoreo:**
-   - Implementar monitoreo del daemon collector
-   - Metricas de performance en tiempo real
+ - Implementar monitoreo del daemon collector
+ - Metricas de performance en tiempo real
 
 ---
 
@@ -518,27 +518,27 @@ PostgreSQL (5432):
 ### Corto Plazo (Sprint 4)
 
 1. **ALTA PRIORIDAD:** Configurar Cassandra cluster (TASK-018)
-   - Requerido para TASK-017 funcionar en produccion
-   - 5 SP de esfuerzo
+ - Requerido para TASK-017 funcionar en produccion
+ - 5 SP de esfuerzo
 
 2. **MEDIA PRIORIDAD:** Implementar monitoring dashboards (TASK-020)
-   - Visualizacion de salud del sistema
-   - Self-hosted (RNF-002 compliant)
+ - Visualizacion de salud del sistema
+ - Self-hosted (RNF-002 compliant)
 
 3. **BAJA PRIORIDAD:** Performance optimization (TASK-022)
-   - Optimizar queries existentes
-   - Tuning de Cassandra
+ - Optimizar queries existentes
+ - Tuning de Cassandra
 
 ### Medio Plazo (Q1 2026)
 
 1. **Completar DORA AI Capabilities:**
-   - TASK-025: Capability 6 (AI-accessible Internal Data)
-   - TASK-026: Capability 7 (Healthy Data Ecosystems)
-   - Objetivo: 7/7 (100%)
+ - TASK-025: Capability 6 (AI-accessible Internal Data)
+ - TASK-026: Capability 7 (Healthy Data Ecosystems)
+ - Objetivo: 7/7 (100%)
 
 2. **AI Telemetry:**
-   - TASK-024: Sistema de telemetria decisiones IA
-   - Rastrear accuracy y feedback loops
+ - TASK-024: Sistema de telemetria decisiones IA
+ - Rastrear accuracy y feedback loops
 
 ---
 
@@ -557,18 +557,18 @@ PostgreSQL (5432):
 ### Logros Destacados
 
 1. **Observabilidad completa:**
-   - 3 capas implementadas (Metrics, Application Logs, Infrastructure Logs)
-   - Stack self-hosted compliant con RNF-002
+ - 3 capas implementadas (Metrics, Application Logs, Infrastructure Logs)
+ - Stack self-hosted compliant con RNF-002
 
 2. **Compliance validado:**
-   - Auditoria RNF-002: 100% compliant
-   - 0 violaciones encontradas
-   - Validacion automatica implementada
+ - Auditoria RNF-002: 100% compliant
+ - 0 violaciones encontradas
+ - Validacion automatica implementada
 
 3. **Dashboard DORA:**
-   - Visualizacion en tiempo real
-   - 4 metricas clave + clasificacion
-   - Graficos interactivos con Chart.js
+ - Visualizacion en tiempo real
+ - 4 metricas clave + clasificacion
+ - Graficos interactivos con Chart.js
 
 ### Proximos Hitos
 

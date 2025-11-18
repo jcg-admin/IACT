@@ -40,13 +40,13 @@ El Administrador modifica las capacidades asociadas a un grupo existente, agrega
 
 ```json
 {
-  "grupo_id": 5,
-  "agregar_capacidades": [
-    "sistema.vistas.reportes.avanzados.ver"
-  ],
-  "remover_capacidades": [
-    "sistema.vistas.dashboards.editar"
-  ]
+ "grupo_id": 5,
+ "agregar_capacidades": [
+ "sistema.vistas.reportes.avanzados.ver"
+ ],
+ "remover_capacidades": [
+ "sistema.vistas.dashboards.editar"
+ ]
 }
 ```
 

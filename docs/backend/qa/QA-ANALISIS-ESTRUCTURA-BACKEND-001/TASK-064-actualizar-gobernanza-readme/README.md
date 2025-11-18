@@ -3,7 +3,7 @@
 ## Metadatos
 - **ID**: TASK-064
 - **Fase**: FASE 4 - Validación y Limpieza
-- **Prioridad**: BAJA 🔵
+- **Prioridad**: BAJA 
 - **Estimación**: 10 minutos
 - **Estado**: PENDIENTE
 - **Metodología**: Auto-CoT + Self-Consistency
@@ -137,17 +137,17 @@ del backend.
 
 ## Entregables
 1. **docs/backend/gobernanza/README.md** (Actualizado)
-   - Políticas y estándares actualizados
-   - Referencias a nueva estructura
-   - Procesos documentados
+ - Políticas y estándares actualizados
+ - Referencias a nueva estructura
+ - Procesos documentados
 
 2. **NAMING_CONVENTIONS.md** (Opcional, si no existe)
-   - Detalle de convenciones de nomenclatura
-   - Basado en TASK-058
+ - Detalle de convenciones de nomenclatura
+ - Basado en TASK-058
 
 3. **STRUCTURE_STANDARDS.md** (Opcional, si no existe)
-   - Estándares de estructura de carpetas
-   - Guía "dónde agregar código"
+ - Estándares de estructura de carpetas
+ - Guía "dónde agregar código"
 
 ## Template README Gobernanza
 
@@ -179,10 +179,10 @@ Este directorio contiene la gobernanza técnica del backend, incluyendo:
 ### Propósito
 
 Garantizar:
-- ✅ Consistencia en código y documentación
-- ✅ Calidad mantenible en el tiempo
-- ✅ Onboarding eficiente de nuevos desarrolladores
-- ✅ Escalabilidad de la base de código
+- [OK] Consistencia en código y documentación
+- [OK] Calidad mantenible en el tiempo
+- [OK] Onboarding eficiente de nuevos desarrolladores
+- [OK] Escalabilidad de la base de código
 
 ---
 
@@ -206,15 +206,15 @@ Ver: [Guía de Navegación](../docs/GUIA_NAVEGACION_BACKEND.md)
 
 #### READMEs Obligatorios
 - **DEBE** tener README.md en:
-  - Carpetas principales (core, packages, components, etc.)
-  - Cada módulo/servicio nuevo
-  - Carpetas con múltiples archivos
+ - Carpetas principales (core, packages, components, etc.)
+ - Cada módulo/servicio nuevo
+ - Carpetas con múltiples archivos
 
 #### Metadatos YAML
 - **DEBE** incluir frontmatter YAML en:
-  - Documentación técnica
-  - Guías y tutoriales
-  - Documentos de arquitectura
+ - Documentación técnica
+ - Guías y tutoriales
+ - Documentos de arquitectura
 
 **Campos obligatorios**:
 ```yaml
@@ -243,7 +243,7 @@ Ver: [CHANGELOG.md](../CHANGELOG.md)
 #### Carpetas
 - **Formato**: `kebab-case`
 - **Ejemplos**: `user-management`, `api-gateway`
-- ❌ **Evitar**: Espacios, mayúsculas, underscores, camelCase
+- [ERROR] **Evitar**: Espacios, mayúsculas, underscores, camelCase
 
 #### Archivos
 
@@ -397,10 +397,10 @@ Ver: [TASK-055 a TASK-058](../qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/)
 
 - **GitHub Actions** / **GitLab CI**
 - Ejecuta en cada PR:
-  - Linters
-  - Tests
-  - Validaciones personalizadas
-  - Build
+ - Linters
+ - Tests
+ - Validaciones personalizadas
+ - Build
 
 ---
 
@@ -442,16 +442,16 @@ Ver: [TASK-055 a TASK-058](../qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/)
 ### ¿Cómo nombro carpetas?
 ```
 kebab-case siempre
-user-management ✅
-UserManagement ❌
-user_management ❌
+user-management [OK]
+UserManagement [ERROR]
+user_management [ERROR]
 ```
 
 ### ¿Qué validar antes de PR?
 ```bash
-npm run lint        # Linters
-npm test            # Tests
-npm run validate    # Validaciones personalizadas
+npm run lint # Linters
+npm test # Tests
+npm run validate # Validaciones personalizadas
 ```
 
 ---
@@ -461,11 +461,11 @@ npm run validate    # Validaciones personalizadas
 ### Métricas de Calidad
 
 Monitoreamos:
-- 📊 Cobertura de tests (objetivo: >80%)
-- 📝 Cobertura de documentación (READMEs presentes)
-- 🔗 Enlaces rotos (objetivo: 0)
-- 📐 Conformidad de nomenclatura (objetivo: 100%)
-- ✅ Linters sin warnings
+- Cobertura de tests (objetivo: >80%)
+- Cobertura de documentación (READMEs presentes)
+- Enlaces rotos (objetivo: 0)
+- Conformidad de nomenclatura (objetivo: 100%)
+- [OK] Linters sin warnings
 
 ### Revisiones
 
@@ -478,9 +478,9 @@ Monitoreamos:
 ## Contacto
 
 ¿Preguntas sobre gobernanza?
-- 💬 Slack: #backend-governance
-- 📧 Email: governance@team.com
-- 📝 Issues: Etiquetar con `governance`
+- Slack: #backend-governance
+- Email: governance@team.com
+- Issues: Etiquetar con `governance`
 
 ---
 
@@ -509,12 +509,12 @@ npm run metrics:generate
 ### Encontrar violaciones
 ```bash
 # Carpetas que no siguen convenciones
-find docs/backend -type d -name "*_*"  # Tiene underscore
-find docs/backend -type d -name "* *"  # Tiene espacio
+find docs/backend -type d -name "*_*" # Tiene underscore
+find docs/backend -type d -name "* *" # Tiene espacio
 
 # READMEs faltantes
 for dir in docs/backend/*/; do
-  [ ! -f "$dir/README.md" ] && echo "Missing: $dir"
+ [ ! -f "$dir/README.md" ] && echo "Missing: $dir"
 done
 ```
 

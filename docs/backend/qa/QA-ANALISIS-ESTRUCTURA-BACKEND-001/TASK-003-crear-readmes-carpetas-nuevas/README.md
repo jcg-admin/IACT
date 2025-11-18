@@ -84,11 +84,11 @@ EOF
 ```bash
 # Verificar existencia de READMEs
 for dir in adr catalogos ci_cd ejemplos estilos glosarios metodologias plantillas procesos referencias templates trazabilidad vision_y_alcance; do
-  if [ -f "docs/backend/$dir/README.md" ]; then
-    echo "OK: $dir/README.md"
-  else
-    echo "FALTA: $dir/README.md"
-  fi
+ if [ -f "docs/backend/$dir/README.md" ]; then
+ echo "OK: $dir/README.md"
+ else
+ echo "FALTA: $dir/README.md"
+ fi
 done
 ```
 

@@ -150,28 +150,28 @@ mkdir -p /home/user/IACT/docs/backend/plantillas/{codigo,documentacion,cicd,infr
 
 # Estructura esperada:
 # docs/backend/plantillas/
-# ├── README.md (indice maestro)
-# ├── codigo/
-# │   ├── README.md
-# │   ├── template-service.ts
-# │   ├── template-controller.ts
-# │   └── template-test.spec.ts
-# ├── documentacion/
-# │   ├── README.md
-# │   ├── plantilla-adr-backend.md
-# │   ├── plantilla-procedimiento-backend.md
-# │   ├── template-README.md
-# │   └── template-guia-usuario.md
-# ├── cicd/
-# │   ├── README.md
-# │   └── template-workflow.yml
-# ├── infraestructura/
-# │   ├── README.md
-# │   ├── template-Dockerfile
-# │   └── template-k8s-deployment.yaml
-# └── colaboracion/
-#     ├── README.md
-#     └── (enlaces simbolicos a .github/ISSUE_TEMPLATE/)
+# README.md (indice maestro)
+# codigo/
+# README.md
+# template-service.ts
+# template-controller.ts
+# template-test.spec.ts
+# documentacion/
+# README.md
+# plantilla-adr-backend.md
+# plantilla-procedimiento-backend.md
+# template-README.md
+# template-guia-usuario.md
+# cicd/
+# README.md
+# template-workflow.yml
+# infraestructura/
+# README.md
+# template-Dockerfile
+# template-k8s-deployment.yaml
+# colaboracion/
+# README.md
+# (enlaces simbolicos a .github/ISSUE_TEMPLATE/)
 ```
 
 **Resultado Esperado:** Estructura de carpetas creada
@@ -183,17 +183,17 @@ mkdir -p /home/user/IACT/docs/backend/plantillas/{codigo,documentacion,cicd,infr
 
 # Ejemplo:
 cp /home/user/IACT/docs/backend/arquitectura/decisions/plantilla-adr-backend.md \
-   /home/user/IACT/docs/backend/plantillas/documentacion/
+ /home/user/IACT/docs/backend/plantillas/documentacion/
 
 cp /home/user/IACT/docs/backend/procedures/plantilla-procedimiento-backend.md \
-   /home/user/IACT/docs/backend/plantillas/documentacion/
+ /home/user/IACT/docs/backend/plantillas/documentacion/
 
 # Para plantillas de .github, crear enlaces simbolicos
 ln -s /home/user/IACT/.github/ISSUE_TEMPLATE \
-      /home/user/IACT/docs/backend/plantillas/colaboracion/issue-templates
+ /home/user/IACT/docs/backend/plantillas/colaboracion/issue-templates
 
 ln -s /home/user/IACT/.github/PULL_REQUEST_TEMPLATE.md \
-      /home/user/IACT/docs/backend/plantillas/colaboracion/pr-template.md
+ /home/user/IACT/docs/backend/plantillas/colaboracion/pr-template.md
 ```
 
 **Resultado Esperado:** Plantillas consolidadas en estructura centralizada
@@ -209,7 +209,7 @@ Repositorio centralizado de plantillas para desarrollo, documentacion, CI/CD e i
 
 ## Indice de Plantillas
 
-### 📝 Documentacion
+### Documentacion
 | Plantilla | Proposito | Ubicacion | Cuando Usar |
 |-----------|-----------|-----------|-------------|
 | `plantilla-adr-backend.md` | Architecture Decision Records | `documentacion/` | Al tomar decisiones arquitectonicas importantes |
@@ -217,7 +217,7 @@ Repositorio centralizado de plantillas para desarrollo, documentacion, CI/CD e i
 | `template-README.md` | READMEs estandarizados | `documentacion/` | Al crear nuevo modulo/servicio/carpeta |
 | `template-guia-usuario.md` | Guias de usuario | `documentacion/` | Al documentar features para usuarios finales |
 
-### 💻 Codigo
+### Codigo
 | Plantilla | Proposito | Ubicacion | Cuando Usar |
 |-----------|-----------|-----------|-------------|
 | `template-service.ts` | Servicios de negocio | `codigo/` | Al crear nuevo servicio en capa de aplicacion |
@@ -226,14 +226,14 @@ Repositorio centralizado de plantillas para desarrollo, documentacion, CI/CD e i
 | `template-test.spec.ts` | Tests unitarios | `codigo/` | Al crear tests para servicios/controladores |
 | `template-integration-test.spec.ts` | Tests de integracion | `codigo/` | Al crear tests end-to-end |
 
-### 🚀 CI/CD
+### CI/CD
 | Plantilla | Proposito | Ubicacion | Cuando Usar |
 |-----------|-----------|-----------|-------------|
 | `template-workflow.yml` | GitHub Actions workflow | `cicd/` | Al crear nuevo workflow de CI/CD |
 | `template-pipeline.jenkinsfile` | Jenkins pipeline | `cicd/` | Al crear pipeline de Jenkins |
 | `template-job.yml` | Job de CI especifico | `cicd/` | Al crear job reutilizable |
 
-### 🏗️ Infraestructura
+### Infraestructura
 | Plantilla | Proposito | Ubicacion | Cuando Usar |
 |-----------|-----------|-----------|-------------|
 | `template-Dockerfile` | Imagen Docker | `infraestructura/` | Al containerizar servicio backend |
@@ -241,7 +241,7 @@ Repositorio centralizado de plantillas para desarrollo, documentacion, CI/CD e i
 | `template-k8s-service.yaml` | Service de Kubernetes | `infraestructura/` | Al exponer servicio en K8s |
 | `template-terraform-module.tf` | Modulo Terraform | `infraestructura/` | Al crear infraestructura como codigo |
 
-### 🤝 Colaboracion
+### Colaboracion
 | Plantilla | Proposito | Ubicacion | Cuando Usar |
 |-----------|-----------|-----------|-------------|
 | `bug-report.md` | Reporte de bugs | `.github/ISSUE_TEMPLATE/` | Al reportar un bug |
@@ -260,7 +260,7 @@ Identifica en la tabla de arriba cual plantilla necesitas.
 ```bash
 # Ejemplo: crear nuevo ADR
 cp docs/backend/plantillas/documentacion/plantilla-adr-backend.md \
-   docs/backend/arquitectura/decisions/ADR-042-nueva-decision.md
+ docs/backend/arquitectura/decisions/ADR-042-nueva-decision.md
 ```
 
 ### Paso 3: Completar Plantilla
@@ -523,11 +523,11 @@ grep -c "^|" /home/user/IACT/docs/backend/plantillas/README.md
 
 # Verificar que cada subcarpeta tiene README
 for dir in codigo documentacion cicd infraestructura colaboracion; do
-  if [ -f "/home/user/IACT/docs/backend/plantillas/$dir/README.md" ]; then
-    echo "✓ $dir tiene README"
-  else
-    echo "✗ $dir NO tiene README"
-  fi
+ if [ -f "/home/user/IACT/docs/backend/plantillas/$dir/README.md" ]; then
+ echo "OK $dir tiene README"
+ else
+ echo " $dir NO tiene README"
+ fi
 done
 
 # Verificar enlaces simbolicos

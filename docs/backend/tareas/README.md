@@ -15,4 +15,3 @@ Este directorio contiene tareas especificos del dominio backend.
 
 - Estandares generales: ../../gobernanza/tareas/ (si aplica)
 - Otros dominios: Ver estructura similar en otros directorios de dominio
-

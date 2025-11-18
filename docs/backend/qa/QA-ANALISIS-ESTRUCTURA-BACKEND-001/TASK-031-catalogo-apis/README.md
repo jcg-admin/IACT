@@ -75,34 +75,34 @@ Crear un catálogo completo de todas las APIs utilizadas en el backend del proye
 
 | Nombre | Versión | Propósito | Endpoint Base | Autenticación | Config Requerida |
 |--------|---------|-----------|---------------|---------------|------------------|
-| API-1  | v1.0    | Desc.     | https://...   | API Key       | ENV_VAR          |
+| API-1 | v1.0 | Desc. | https://... | API Key | ENV_VAR |
 
 ## APIs REST Internas
 
 | Nombre | Versión | Propósito | Endpoint Base | Autenticación | Módulo |
 |--------|---------|-----------|---------------|---------------|--------|
-| API-2  | v1.0    | Desc.     | /api/v1/...   | JWT           | module |
+| API-2 | v1.0 | Desc. | /api/v1/... | JWT | module |
 
 ## APIs de Base de Datos
 
 | Nombre | Versión | Propósito | Connection String | Driver | Config |
 |--------|---------|-----------|-------------------|--------|--------|
-| DB-1   | v1.0    | Desc.     | postgresql://...  | psycopg2 | settings.py |
+| DB-1 | v1.0 | Desc. | postgresql://... | psycopg2 | settings.py |
 
 ## APIs de Autenticación
 
 | Nombre | Versión | Propósito | Tipo | Configuración |
 |--------|---------|-----------|------|---------------|
-| Auth-1 | v1.0    | Desc.     | JWT  | SECRET_KEY    |
+| Auth-1 | v1.0 | Desc. | JWT | SECRET_KEY |
 
 ## Dependencias y Relaciones
 
 ```mermaid
 graph TD
-    A[Backend] --> B[API Externa 1]
-    A --> C[API Externa 2]
-    A --> D[PostgreSQL]
-    A --> E[Redis]
+ A[Backend] --> B[API Externa 1]
+ A --> C[API Externa 2]
+ A --> D[PostgreSQL]
+ A --> E[Redis]
 ```
 
 ## Configuración Requerida
@@ -127,12 +127,12 @@ DATABASE_URL=...
 - [ ] Diagrama de dependencias incluido
 
 ## Criterios de Aceptación
-1. ✅ Todas las APIs del backend identificadas
-2. ✅ Clasificación coherente aplicada
-3. ✅ Formato tabular utilizado
-4. ✅ Información completa para cada API
-5. ✅ Validación cruzada realizada
-6. ✅ Diagrama de relaciones incluido
+1. [OK] Todas las APIs del backend identificadas
+2. [OK] Clasificación coherente aplicada
+3. [OK] Formato tabular utilizado
+4. [OK] Información completa para cada API
+5. [OK] Validación cruzada realizada
+6. [OK] Diagrama de relaciones incluido
 
 ## Notas
 - Buscar en: backend/, requirements.txt, docker-compose.yml, .env.example

@@ -3,7 +3,7 @@
 ## Metadatos
 - **ID**: TASK-056
 - **Fase**: FASE 4 - Validación y Limpieza
-- **Prioridad**: ALTA 🟡
+- **Prioridad**: ALTA 
 - **Estimación**: 15 minutos
 - **Estado**: PENDIENTE
 - **Metodología**: Auto-CoT + Self-Consistency + Chain-of-Verification
@@ -73,11 +73,11 @@ Validar que todos los archivos README.md cumplan con los estándares de calidad,
 
 ### Verificación 3: Answer Questions Independently
 Para cada README:
-- **Título**: ✅ Presente / ❌ Ausente / ⚠️ Genérico
-- **Descripción**: ✅ Completa / ⚠️ Breve / ❌ Ausente
-- **Contenido**: ✅ Detallado / ⚠️ Básico / ❌ Placeholder
-- **Markdown**: ✅ Válido / ❌ Errores
-- **Enlaces**: ✅ Válidos / ⚠️ Algunos rotos / ❌ Rotos
+- **Título**: [OK] Presente / [ERROR] Ausente / [WARNING] Genérico
+- **Descripción**: [OK] Completa / [WARNING] Breve / [ERROR] Ausente
+- **Contenido**: [OK] Detallado / [WARNING] Básico / [ERROR] Placeholder
+- **Markdown**: [OK] Válido / [ERROR] Errores
+- **Enlaces**: [OK] Válidos / [WARNING] Algunos rotos / [ERROR] Rotos
 
 ### Verificación 4: Generate Final Verified Response
 **Scorecard por README**:
@@ -104,17 +104,17 @@ Para cada README.md:
 # Validar estructura de READMEs
 
 for readme in $(find docs/backend -name "README.md"); do
-  echo "Validando: $readme"
+ echo "Validando: $readme"
 
-  # Verificar título nivel 1
-  grep -q "^# " "$readme" && echo "✅ Título" || echo "❌ Título"
+ # Verificar título nivel 1
+ grep -q "^# " "$readme" && echo "[OK] Título" || echo "[ERROR] Título"
 
-  # Verificar sección Descripción
-  grep -qi "## Descripción" "$readme" && echo "✅ Descripción" || echo "❌ Descripción"
+ # Verificar sección Descripción
+ grep -qi "## Descripción" "$readme" && echo "[OK] Descripción" || echo "[ERROR] Descripción"
 
-  # Verificar longitud mínima
-  lines=$(wc -l < "$readme")
-  [ $lines -gt 20 ] && echo "✅ Contenido suficiente" || echo "⚠️ Muy breve"
+ # Verificar longitud mínima
+ lines=$(wc -l < "$readme")
+ [ $lines -gt 20 ] && echo "[OK] Contenido suficiente" || echo "[WARNING] Muy breve"
 done
 ```
 
@@ -128,9 +128,9 @@ npx markdown-cli docs/backend/**/README.md
 ```
 
 ### Convergencia de Resultados
-- READMEs que pasan las 3 validaciones: ✅ APROBADO
-- READMEs que fallan en 2+: ⚠️ NECESITA REVISIÓN
-- READMEs que fallan en todas: ❌ REQUIERE REESCRITURA
+- READMEs que pasan las 3 validaciones: [OK] APROBADO
+- READMEs que fallan en 2+: [WARNING] NECESITA REVISIÓN
+- READMEs que fallan en todas: [ERROR] REQUIERE REESCRITURA
 
 ## Criterios de Aceptación
 - [ ] Todos los READMEs identificados y validados
@@ -142,19 +142,19 @@ npx markdown-cli docs/backend/**/README.md
 
 ## Entregables
 1. **REPORTE-VALIDACION-READMES.md**
-   - Matriz de validación por README
-   - Scorecard individual
-   - Estadísticas agregadas
-   - Recomendaciones de mejora
+ - Matriz de validación por README
+ - Scorecard individual
+ - Estadísticas agregadas
+ - Recomendaciones de mejora
 
 2. **README-TEMPLATE.md**
-   - Template estándar para READMEs
-   - Ejemplos de buenas prácticas
-   - Guía de escritura
+ - Template estándar para READMEs
+ - Ejemplos de buenas prácticas
+ - Guía de escritura
 
 3. **script-validar-readmes.sh**
-   - Script automatizado de validación
-   - Reporte en formato tabla
+ - Script automatizado de validación
+ - Reporte en formato tabla
 
 ## Checklist de Validación
 

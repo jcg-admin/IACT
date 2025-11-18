@@ -83,31 +83,31 @@ La logica de negocio no sabe nada de APIs, queues, etc.
 ## Capas de Clean Architecture
 
 ```
-┌─────────────────────────────────────────┐
-│         Entities (Core Domain)          │  ← Reglas de negocio
-│  • User, Product, Order                 │     mas estables
-│  • Business rules                       │
-└─────────────────────────────────────────┘
-           ↑ depends on
-┌─────────────────────────────────────────┐
-│      Use Cases (Application Logic)      │  ← Logica especifica
-│  • CreateUser, ProcessPayment           │     de la aplicacion
-│  • Orchestration                        │
-└─────────────────────────────────────────┘
-           ↑ depends on
-┌─────────────────────────────────────────┐
-│   Interface Adapters (Controllers,      │  ← Traduccion entre
-│   Presenters, Gateways)                 │     casos de uso y
-│  • REST Controllers, GraphQL Resolvers  │     mundo externo
-│  • Repository implementations           │
-└─────────────────────────────────────────┘
-           ↑ depends on
-┌─────────────────────────────────────────┐
-│   Frameworks & Drivers (External)       │  ← Detalles de
-│  • Express, Fastify, NestJS             │     implementacion
-│  • PostgreSQL, MongoDB, Redis           │
-│  • AWS SDK, SendGrid, Stripe            │
-└─────────────────────────────────────────┘
+
+ Entities (Core Domain) ← Reglas de negocio
+ • User, Product, Order mas estables
+ • Business rules 
+
+ ↑ depends on
+
+ Use Cases (Application Logic) ← Logica especifica
+ • CreateUser, ProcessPayment de la aplicacion
+ • Orchestration 
+
+ ↑ depends on
+
+ Interface Adapters (Controllers, ← Traduccion entre
+ Presenters, Gateways) casos de uso y
+ • REST Controllers, GraphQL Resolvers mundo externo
+ • Repository implementations 
+
+ ↑ depends on
+
+ Frameworks & Drivers (External) ← Detalles de
+ • Express, Fastify, NestJS implementacion
+ • PostgreSQL, MongoDB, Redis 
+ • AWS SDK, SendGrid, Stripe 
+
 ```
 
 **Regla de Dependencias:**
@@ -122,35 +122,35 @@ La logica de negocio no sabe nada de APIs, queues, etc.
 ### Opcion A: Por Capas
 ```
 src/
-├── domain/          # Entities + Business Rules
-│   ├── entities/
-│   ├── value-objects/
-│   └── interfaces/  # Port interfaces
-├── application/     # Use Cases
-│   ├── use-cases/
-│   └── dto/
-├── infrastructure/  # Adapters & External
-│   ├── database/    # Repository implementations
-│   ├── http/        # Controllers, routes
-│   ├── external/    # APIs, queues
-│   └── config/
-└── main/            # Dependency injection, server bootstrap
+ domain/ # Entities + Business Rules
+ entities/
+ value-objects/
+ interfaces/ # Port interfaces
+ application/ # Use Cases
+ use-cases/
+ dto/
+ infrastructure/ # Adapters & External
+ database/ # Repository implementations
+ http/ # Controllers, routes
+ external/ # APIs, queues
+ config/
+ main/ # Dependency injection, server bootstrap
 ```
 
 ### Opcion B: Por Features (Screaming Architecture)
 ```
 src/
-├── users/
-│   ├── domain/
-│   ├── application/
-│   ├── infrastructure/
-│   └── interfaces/
-├── orders/
-│   ├── domain/
-│   ├── application/
-│   ├── infrastructure/
-│   └── interfaces/
-└── shared/          # Shared kernel
+ users/
+ domain/
+ application/
+ infrastructure/
+ interfaces/
+ orders/
+ domain/
+ application/
+ infrastructure/
+ interfaces/
+ shared/ # Shared kernel
 ```
 
 ---
@@ -161,24 +161,24 @@ src/
 **Una clase debe tener una sola razon para cambiar.**
 
 ```typescript
-// ❌ WRONG: Multiple responsibilities
+// [ERROR] WRONG: Multiple responsibilities
 class UserService {
-  createUser(data) { /* ... */ }
-  sendEmail(user) { /* ... */ }
-  logActivity(activity) { /* ... */ }
+ createUser(data) { /* ... */ }
+ sendEmail(user) { /* ... */ }
+ logActivity(activity) { /* ... */ }
 }
 
-// ✅ CORRECT: Single responsibility per class
+// [OK] CORRECT: Single responsibility per class
 class UserService {
-  createUser(data) { /* ... */ }
+ createUser(data) { /* ... */ }
 }
 
 class EmailService {
-  sendEmail(user) { /* ... */ }
+ sendEmail(user) { /* ... */ }
 }
 
 class ActivityLogger {
-  logActivity(activity) { /* ... */ }
+ logActivity(activity) { /* ... */ }
 }
 ```
 
@@ -195,21 +195,21 @@ class ActivityLogger {
 **Depender de abstracciones, no de concreciones.**
 
 ```typescript
-// ❌ WRONG: Depende de concreción
+// [ERROR] WRONG: Depende de concreción
 class OrderService {
-  constructor() {
-    this.repository = new PostgresOrderRepository();  // Hardcoded!
-  }
+ constructor() {
+ this.repository = new PostgresOrderRepository(); // Hardcoded!
+ }
 }
 
-// ✅ CORRECT: Depende de abstracción
+// [OK] CORRECT: Depende de abstracción
 interface OrderRepository {
-  save(order: Order): Promise<Order>;
-  findById(id: string): Promise<Order>;
+ save(order: Order): Promise<Order>;
+ findById(id: string): Promise<Order>;
 }
 
 class OrderService {
-  constructor(private repository: OrderRepository) {}  // Injected!
+ constructor(private repository: OrderRepository) {} // Injected!
 }
 ```
 
@@ -221,19 +221,19 @@ class OrderService {
 ```typescript
 // src/domain/entities/user.entity.ts
 export class User {
-  constructor(
-    public readonly id: string,
-    public email: Email,  // Value Object
-    public name: string,
-    public status: UserStatus
-  ) {}
+ constructor(
+ public readonly id: string,
+ public email: Email, // Value Object
+ public name: string,
+ public status: UserStatus
+ ) {}
 
-  activate(): void {
-    if (this.status === UserStatus.Active) {
-      throw new Error('User already active');
-    }
-    this.status = UserStatus.Active;
-  }
+ activate(): void {
+ if (this.status === UserStatus.Active) {
+ throw new Error('User already active');
+ }
+ this.status = UserStatus.Active;
+ }
 }
 ```
 
@@ -241,24 +241,24 @@ export class User {
 ```typescript
 // src/application/use-cases/create-user.use-case.ts
 export class CreateUserUseCase {
-  constructor(
-    private userRepository: UserRepository,
-    private emailService: EmailService
-  ) {}
+ constructor(
+ private userRepository: UserRepository,
+ private emailService: EmailService
+ ) {}
 
-  async execute(dto: CreateUserDto): Promise<UserDto> {
-    const user = new User(
-      generateId(),
-      new Email(dto.email),
-      dto.name,
-      UserStatus.Pending
-    );
+ async execute(dto: CreateUserDto): Promise<UserDto> {
+ const user = new User(
+ generateId(),
+ new Email(dto.email),
+ dto.name,
+ UserStatus.Pending
+ );
 
-    await this.userRepository.save(user);
-    await this.emailService.sendWelcome(user.email);
+ await this.userRepository.save(user);
+ await this.emailService.sendWelcome(user.email);
 
-    return UserDto.fromEntity(user);
-  }
+ return UserDto.fromEntity(user);
+ }
 }
 ```
 
@@ -266,9 +266,9 @@ export class CreateUserUseCase {
 ```typescript
 // src/domain/interfaces/user.repository.ts
 export interface UserRepository {
-  save(user: User): Promise<User>;
-  findById(id: string): Promise<User | null>;
-  findByEmail(email: Email): Promise<User | null>;
+ save(user: User): Promise<User>;
+ findById(id: string): Promise<User | null>;
+ findByEmail(email: Email): Promise<User | null>;
 }
 ```
 
@@ -276,24 +276,24 @@ export interface UserRepository {
 ```typescript
 // src/infrastructure/database/postgres-user.repository.ts
 export class PostgresUserRepository implements UserRepository {
-  constructor(private db: Database) {}
+ constructor(private db: Database) {}
 
-  async save(user: User): Promise<User> {
-    const result = await this.db.query(
-      'INSERT INTO users (id, email, name, status) VALUES ($1, $2, $3, $4)',
-      [user.id, user.email.value, user.name, user.status]
-    );
-    return user;
-  }
+ async save(user: User): Promise<User> {
+ const result = await this.db.query(
+ 'INSERT INTO users (id, email, name, status) VALUES ($1, $2, $3, $4)',
+ [user.id, user.email.value, user.name, user.status]
+ );
+ return user;
+ }
 
-  async findById(id: string): Promise<User | null> {
-    const row = await this.db.queryOne('SELECT * FROM users WHERE id = $1', [id]);
-    return row ? this.toDomain(row) : null;
-  }
+ async findById(id: string): Promise<User | null> {
+ const row = await this.db.queryOne('SELECT * FROM users WHERE id = $1', [id]);
+ return row ? this.toDomain(row) : null;
+ }
 
-  private toDomain(row: any): User {
-    return new User(row.id, new Email(row.email), row.name, row.status);
-  }
+ private toDomain(row: any): User {
+ return new User(row.id, new Email(row.email), row.name, row.status);
+ }
 }
 ```
 
@@ -301,17 +301,17 @@ export class PostgresUserRepository implements UserRepository {
 ```typescript
 // src/infrastructure/http/controllers/user.controller.ts
 export class UserController {
-  constructor(private createUserUseCase: CreateUserUseCase) {}
+ constructor(private createUserUseCase: CreateUserUseCase) {}
 
-  async create(req: Request, res: Response): Promise<void> {
-    try {
-      const dto = CreateUserDto.fromRequest(req.body);
-      const user = await this.createUserUseCase.execute(dto);
-      res.status(201).json(user);
-    } catch (error) {
-      res.status(400).json({ error: error.message });
-    }
-  }
+ async create(req: Request, res: Response): Promise<void> {
+ try {
+ const dto = CreateUserDto.fromRequest(req.body);
+ const user = await this.createUserUseCase.execute(dto);
+ res.status(201).json(user);
+ } catch (error) {
+ res.status(400).json({ error: error.message });
+ }
+ }
 }
 ```
 
@@ -343,14 +343,14 @@ app.post('/users', (req, res) => userController.create(req, res));
 ## Trade-offs
 
 ### Ventajas
-- ✅ Codigo altamente testeable
-- ✅ Bajo acoplamiento
-- ✅ Facil de refactorizar
+- [OK] Codigo altamente testeable
+- [OK] Bajo acoplamiento
+- [OK] Facil de refactorizar
 
 ### Desventajas
-- ❌ Mas boilerplate inicial
-- ❌ Curva de aprendizaje
-- ❌ Puede ser overkill para apps simples
+- [ERROR] Mas boilerplate inicial
+- [ERROR] Curva de aprendizaje
+- [ERROR] Puede ser overkill para apps simples
 
 **Cuando usar Clean Architecture:**
 - Proyectos grandes (>10k LOC)

@@ -3,7 +3,7 @@
 ## Metadatos
 - **ID**: TASK-059
 - **Fase**: FASE 4 - Validación y Limpieza
-- **Prioridad**: MEDIA 🟢
+- **Prioridad**: MEDIA 
 - **Estimación**: 10 minutos
 - **Estado**: PENDIENTE
 - **Metodología**: Auto-CoT + Self-Consistency
@@ -37,7 +37,7 @@ find docs/backend -type d -empty
 
 # Carpetas con solo .gitkeep
 find docs/backend -type d -exec sh -c '
-  [ $(ls -A "$1" | wc -l) -eq 1 ] && [ -f "$1/.gitkeep" ]
+ [ $(ls -A "$1" | wc -l) -eq 1 ] && [ -f "$1/.gitkeep" ]
 ' sh {} \; -print
 
 # Carpetas legacy conocidas
@@ -75,18 +75,18 @@ find docs/backend -type d -empty -exec ls -ld {} \;
 import os
 
 def analyze_directory(path):
-    for root, dirs, files in os.walk(path):
-        # Solo .gitkeep
-        if len(files) == 1 and files[0] == '.gitkeep' and len(dirs) == 0:
-            print(f"GITKEEP_ONLY: {root}")
+ for root, dirs, files in os.walk(path):
+ # Solo .gitkeep
+ if len(files) == 1 and files[0] == '.gitkeep' and len(dirs) == 0:
+ print(f"GITKEEP_ONLY: {root}")
 
-        # Completamente vacía
-        if len(files) == 0 and len(dirs) == 0:
-            print(f"EMPTY: {root}")
+ # Completamente vacía
+ if len(files) == 0 and len(dirs) == 0:
+ print(f"EMPTY: {root}")
 
-        # Solo archivos ocultos
-        if all(f.startswith('.') for f in files) and len(dirs) == 0:
-            print(f"HIDDEN_ONLY: {root}")
+ # Solo archivos ocultos
+ if all(f.startswith('.') for f in files) and len(dirs) == 0:
+ print(f"HIDDEN_ONLY: {root}")
 
 analyze_directory('docs/backend')
 ```
@@ -116,20 +116,20 @@ tree docs/backend -a -L 4 > estructura-tree.txt
 
 ## Entregables
 1. **REPORTE-CARPETAS-ELIMINADAS.md**
-   - Lista de carpetas eliminadas
-   - Razón de eliminación
-   - Ubicación original
-   - Timestamp de eliminación
+ - Lista de carpetas eliminadas
+ - Razón de eliminación
+ - Ubicación original
+ - Timestamp de eliminación
 
 2. **script-encontrar-carpetas-vacias.sh/py**
-   - Script reutilizable
-   - Múltiples criterios de búsqueda
-   - Modo dry-run para seguridad
+ - Script reutilizable
+ - Múltiples criterios de búsqueda
+ - Modo dry-run para seguridad
 
 3. **Commit de Git**
-   - Mensaje descriptivo
-   - Lista de carpetas en descripción
-   - Tag opcional: cleanup-YYYY-MM-DD
+ - Mensaje descriptivo
+ - Lista de carpetas en descripción
+ - Tag opcional: cleanup-YYYY-MM-DD
 
 ## Proceso de Eliminación Segura
 
@@ -149,11 +149,11 @@ cat carpetas-a-eliminar.txt
 ```bash
 # Para cada carpeta en la lista
 while read folder; do
-  # Buscar referencias en documentación
-  grep -r "$(basename $folder)" docs/backend --include="*.md"
+ # Buscar referencias en documentación
+ grep -r "$(basename $folder)" docs/backend --include="*.md"
 
-  # Buscar en configuración
-  grep -r "$(basename $folder)" . --include="*.json" --include="*.yml"
+ # Buscar en configuración
+ grep -r "$(basename $folder)" . --include="*.json" --include="*.yml"
 done < carpetas-a-eliminar.txt
 ```
 
@@ -163,7 +163,7 @@ done < carpetas-a-eliminar.txt
 mkdir -p .backup/carpetas-eliminadas-$(date +%Y%m%d)
 
 while read folder; do
-  cp -r "$folder" .backup/carpetas-eliminadas-$(date +%Y%m%d)/
+ cp -r "$folder" .backup/carpetas-eliminadas-$(date +%Y%m%d)/
 done < carpetas-a-eliminar.txt
 ```
 
@@ -171,8 +171,8 @@ done < carpetas-a-eliminar.txt
 ```bash
 # Usar git rm para preservar historia
 while read folder; do
-  git rm -r "$folder"
-  echo "Eliminado: $folder"
+ git rm -r "$folder"
+ echo "Eliminado: $folder"
 done < carpetas-a-eliminar.txt
 
 # Commit
@@ -244,8 +244,8 @@ find docs/backend -type d -exec sh -c 'echo "$(ls -A "$1" | wc -l) $1"' sh {} \;
 
 # Solo .gitkeep
 find docs/backend -type d -exec sh -c '
-  files=$(ls -A "$1")
-  if [ "$files" = ".gitkeep" ]; then echo "$1"; fi
+ files=$(ls -A "$1")
+ if [ "$files" = ".gitkeep" ]; then echo "$1"; fi
 ' sh {} \;
 ```
 
@@ -344,7 +344,7 @@ Antes de eliminar cada carpeta, verificar:
 
 BACKEND_DIR="docs/backend"
 REPORT_FILE="REPORTE-CARPETAS-ELIMINADAS-$(date +%Y%m%d-%H%M%S).md"
-DRY_RUN=true  # Cambiar a false para eliminar realmente
+DRY_RUN=true # Cambiar a false para eliminar realmente
 
 echo "# Reporte de Limpieza de Carpetas" > $REPORT_FILE
 echo "Fecha: $(date)" >> $REPORT_FILE
@@ -355,13 +355,13 @@ echo "" >> $REPORT_FILE
 
 # Encontrar y procesar carpetas vacías
 find $BACKEND_DIR -type d -empty | while read folder; do
-  echo "- $folder" >> $REPORT_FILE
+ echo "- $folder" >> $REPORT_FILE
 
-  if [ "$DRY_RUN" = false ]; then
-    git rm -r "$folder" 2>/dev/null && echo "  ✅ Eliminada" >> $REPORT_FILE || echo "  ❌ Error" >> $REPORT_FILE
-  else
-    echo "  🔍 Modo dry-run (no eliminada)" >> $REPORT_FILE
-  fi
+ if [ "$DRY_RUN" = false ]; then
+ git rm -r "$folder" 2>/dev/null && echo " [OK] Eliminada" >> $REPORT_FILE || echo " [ERROR] Error" >> $REPORT_FILE
+ else
+ echo " Modo dry-run (no eliminada)" >> $REPORT_FILE
+ fi
 done
 
 echo "" >> $REPORT_FILE

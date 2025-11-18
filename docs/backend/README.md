@@ -18,52 +18,52 @@ Esta documentación proporciona:
 Documentación completa del ciclo SDLC para implementación de tests TDD de técnicas de prompting:
 
 - **[planning/](planning/)** - Fase de planificación
-  - Issue tracking
-  - Story points
-  - Acceptance criteria
+ - Issue tracking
+ - Story points
+ - Acceptance criteria
 
 - **[feasibility/](feasibility/)** - Análisis de viabilidad
-  - Risk analysis
-  - Dependency mapping
-  - Go/No-Go decision
+ - Risk analysis
+ - Dependency mapping
+ - Go/No-Go decision
 
 - **[design/](design/)** - Diseño HLD/LLD
-  - High-Level Design
-  - Low-Level Design
-  - Test architecture
+ - High-Level Design
+ - Low-Level Design
+ - Test architecture
 
 - **[testing/](testing/)** - Estrategia de testing
-  - Test strategy
-  - Test use cases
-  - Coverage reports
+ - Test strategy
+ - Test use cases
+ - Coverage reports
 
 - **[deployment/](deployment/)** - Plan de deployment
-  - Deployment strategy
-  - Rollback plan
-  - CI/CD integration
+ - Deployment strategy
+ - Rollback plan
+ - CI/CD integration
 
 Ver resumen completo: [SDLC_COMPLETE_RUN_TDD_PROMPTING_TECHNIQUES.md](SDLC_COMPLETE_RUN_TDD_PROMPTING_TECHNIQUES.md)
 
 ### Gobernanza del Dominio
 
 - **gobernanza/** - Estándares y políticas específicas de backend
-  - Coding standards Python
-  - Testing requirements (TDD estricto)
-  - Code review guidelines
+ - Coding standards Python
+ - Testing requirements (TDD estricto)
+ - Code review guidelines
 
 ### ADRs del Dominio
 
 - **adr/** - Architecture Decision Records específicos de backend
-  - Decisiones de diseño de agentes
-  - Patrones de testing
-  - Arquitectura de código
+ - Decisiones de diseño de agentes
+ - Patrones de testing
+ - Arquitectura de código
 
 ### Procedimientos
 
 - **procedimientos/** - Procedimientos específicos de desarrollo backend
-  - Workflow de desarrollo TDD
-  - Proceso de code review
-  - Deployment de código Python
+ - Workflow de desarrollo TDD
+ - Proceso de code review
+ - Deployment de código Python
 
 ## Relación con otras Secciones
 
@@ -78,17 +78,17 @@ Ver resumen completo: [SDLC_COMPLETE_RUN_TDD_PROMPTING_TECHNIQUES.md](SDLC_COMPL
 ### Scripts
 
 ```
-scripts/coding/ai/          # Código de agentes AI (Python)
-├── agents/                 # 30+ agentes
-├── sdlc/                   # Agentes SDLC
-├── automation/             # Agentes de automatización
-└── tests/                  # Tests TDD
+scripts/coding/ai/ # Código de agentes AI (Python)
+ agents/ # 30+ agentes
+ sdlc/ # Agentes SDLC
+ automation/ # Agentes de automatización
+ tests/ # Tests TDD
 ```
 
 ### API
 
 ```
-api/                        # Django REST API
+api/ # Django REST API
 ```
 
 ## Para Empezar
@@ -104,9 +104,9 @@ api/                        # Django REST API
 1. Ver [planning de features](planning/planning_output.md)
 2. Revisar [diseño arquitectónico](design/design_hld_lld.md)
 3. Ejecutar tests:
-   ```bash
-   pytest scripts/coding/ai/tests/
-   ```
+ ```bash
+ pytest scripts/coding/ai/tests/
+ ```
 
 ### Si estás implementando TDD
 
@@ -146,14 +146,14 @@ python scripts/run_sdlc_pipeline_for_tdd.py
 ```python
 # Patrón AAA (Arrange, Act, Assert)
 def test_feature():
-    # Arrange
-    agent = AutoCoTAgent()
+ # Arrange
+ agent = AutoCoTAgent()
 
-    # Act
-    result = agent.process(input_data)
+ # Act
+ result = agent.process(input_data)
 
-    # Assert
-    assert result.status == "success"
+ # Assert
+ assert result.status == "success"
 ```
 
 ### Coverage Target
@@ -164,11 +164,11 @@ def test_feature():
 
 ## Estado Actual
 
-- SDLC completo: ✅ Documentado
+- SDLC completo: [OK] Documentado
 - Tests implementados: 2/11 módulos (18%)
-  - ✅ `test_auto_cot_agent.py` (25 tests)
-  - ✅ `test_self_consistency.py` (20 tests)
-  - ⏳ 9 módulos pendientes
+ - [OK] `test_auto_cot_agent.py` (25 tests)
+ - [OK] `test_self_consistency.py` (20 tests)
+ - ⏳ 9 módulos pendientes
 
 Ver progreso completo en [testing/testing_strategy.md](testing/testing_strategy.md)
 

@@ -86,35 +86,29 @@ Documentacion completa del pipeline de Continuous Integration y Continuous Deplo
 ## Arquitectura del Pipeline
 
 ```
-┌──────────────┐
-│  Git Push    │
-└──────┬───────┘
-       │
-       ▼
-┌──────────────────────────────────────────────┐
-│           CI PIPELINE (Automated)            │
-├──────────────────────────────────────────────┤
-│  1. Checkout Code                            │
-│  2. Install Dependencies                     │
-│  3. Lint & Format Check                      │
-│  4. Run Unit Tests (coverage > 80%)          │
-│  5. Security Scan (SAST, Dependency Check)   │
-│  6. Build Docker Image                       │
-│  7. Push to Registry                         │
-└──────────────┬───────────────────────────────┘
-               │
-               ▼
-┌──────────────────────────────────────────────┐
-│         CD PIPELINE (Semi-Automated)         │
-├──────────────────────────────────────────────┤
-│  8. Deploy to Staging (auto)                 │
-│  9. Run Integration Tests                    │
-│ 10. Run E2E Tests                            │
-│ 11. Manual Approval Gate ⚠                  │
-│ 12. Deploy to Production                     │
-│ 13. Smoke Tests                              │
-│ 14. Notify Slack/Email                       │
-└──────────────────────────────────────────────┘
+
+ Git Push 
+
+ CI PIPELINE (Automated) 
+
+ 1. Checkout Code 
+ 2. Install Dependencies 
+ 3. Lint & Format Check 
+ 4. Run Unit Tests (coverage > 80%) 
+ 5. Security Scan (SAST, Dependency Check) 
+ 6. Build Docker Image 
+ 7. Push to Registry 
+
+ CD PIPELINE (Semi-Automated) 
+
+ 8. Deploy to Staging (auto) 
+ 9. Run Integration Tests 
+ 10. Run E2E Tests 
+ 11. Manual Approval Gate [WARNING] 
+ 12. Deploy to Production 
+ 13. Smoke Tests 
+ 14. Notify Slack/Email 
+
 ```
 
 ---
@@ -138,16 +132,16 @@ Documentacion completa del pipeline de Continuous Integration y Continuous Deplo
 ### Stage 1: Checkout & Setup
 ```yaml
 - name: Checkout code
-  uses: actions/checkout@v3
+ uses: actions/checkout@v3
 
 - name: Setup Node.js
-  uses: actions/setup-node@v3
-  with:
-    node-version: '20'
-    cache: 'npm'
+ uses: actions/setup-node@v3
+ with:
+ node-version: '20'
+ cache: 'npm'
 
 - name: Install dependencies
-  run: npm ci
+ run: npm ci
 ```
 
 **Duracion:** ~2 min
@@ -158,13 +152,13 @@ Documentacion completa del pipeline de Continuous Integration y Continuous Deplo
 ### Stage 2: Code Quality
 ```yaml
 - name: Lint
-  run: npm run lint
+ run: npm run lint
 
 - name: Format check
-  run: npm run format:check
+ run: npm run format:check
 
 - name: Type check
-  run: npm run type-check
+ run: npm run type-check
 ```
 
 **Duracion:** ~1 min
@@ -175,16 +169,16 @@ Documentacion completa del pipeline de Continuous Integration y Continuous Deplo
 ### Stage 3: Testing
 ```yaml
 - name: Unit tests
-  run: npm run test:unit
+ run: npm run test:unit
 
 - name: Coverage check
-  run: npm run test:coverage
-  # Falla si coverage < 80%
+ run: npm run test:coverage
+ # Falla si coverage < 80%
 
 - name: Integration tests
-  run: npm run test:integration
-  env:
-    DATABASE_URL: postgres://test:test@localhost:5432/testdb
+ run: npm run test:integration
+ env:
+ DATABASE_URL: postgres://test:test@localhost:5432/testdb
 ```
 
 **Duracion:** ~5 min
@@ -195,13 +189,13 @@ Documentacion completa del pipeline de Continuous Integration y Continuous Deplo
 ### Stage 4: Security Scanning
 ```yaml
 - name: SAST - SonarQube
-  run: sonar-scanner
+ run: sonar-scanner
 
 - name: Dependency vulnerability check
-  run: npm audit --audit-level=high
+ run: npm audit --audit-level=high
 
 - name: Secret scanning
-  uses: trufflesecurity/trufflehog@v3
+ uses: trufflesecurity/trufflehog@v3
 ```
 
 **Duracion:** ~3 min
@@ -212,15 +206,15 @@ Documentacion completa del pipeline de Continuous Integration y Continuous Deplo
 ### Stage 5: Build & Push
 ```yaml
 - name: Build Docker image
-  run: docker build -t backend:${{ github.sha }} .
+ run: docker build -t backend:${{ github.sha }} .
 
 - name: Tag image
-  run: |
-    docker tag backend:${{ github.sha }} backend:latest
-    docker tag backend:${{ github.sha }} backend:${{ github.ref_name }}
+ run: |
+ docker tag backend:${{ github.sha }} backend:latest
+ docker tag backend:${{ github.sha }} backend:${{ github.ref_name }}
 
 - name: Push to registry
-  run: docker push backend:${{ github.sha }}
+ run: docker push backend:${{ github.sha }}
 ```
 
 **Duracion:** ~10 min
@@ -231,9 +225,9 @@ Documentacion completa del pipeline de Continuous Integration y Continuous Deplo
 ### Stage 6: Deploy to Staging
 ```yaml
 - name: Deploy to Staging
-  run: |
-    kubectl set image deployment/backend backend=backend:${{ github.sha }} -n staging
-    kubectl rollout status deployment/backend -n staging --timeout=5m
+ run: |
+ kubectl set image deployment/backend backend=backend:${{ github.sha }} -n staging
+ kubectl rollout status deployment/backend -n staging --timeout=5m
 ```
 
 **Duracion:** ~3 min
@@ -244,9 +238,9 @@ Documentacion completa del pipeline de Continuous Integration y Continuous Deplo
 ### Stage 7: E2E Tests (Staging)
 ```yaml
 - name: Run E2E tests against staging
-  run: npm run test:e2e
-  env:
-    API_URL: https://staging.example.com
+ run: npm run test:e2e
+ env:
+ API_URL: https://staging.example.com
 ```
 
 **Duracion:** ~10 min
@@ -257,14 +251,14 @@ Documentacion completa del pipeline de Continuous Integration y Continuous Deplo
 ### Stage 8: Deploy to Production (Manual Approval)
 ```yaml
 - name: Wait for approval
-  uses: trstringer/manual-approval@v1
-  with:
-    approvers: tech-lead, devops-lead
+ uses: trstringer/manual-approval@v1
+ with:
+ approvers: tech-lead, devops-lead
 
 - name: Deploy to Production
-  run: |
-    kubectl set image deployment/backend backend=backend:${{ github.sha }} -n production
-    kubectl rollout status deployment/backend -n production --timeout=10m
+ run: |
+ kubectl set image deployment/backend backend=backend:${{ github.sha }} -n production
+ kubectl rollout status deployment/backend -n production --timeout=10m
 ```
 
 **Duracion:** ~5 min (+ approval wait time)
@@ -292,7 +286,7 @@ Documentacion completa del pipeline de Continuous Integration y Continuous Deplo
 ### Como Usar en Workflow
 ```yaml
 env:
-  DATABASE_URL: ${{ secrets.DATABASE_URL }}
+ DATABASE_URL: ${{ secrets.DATABASE_URL }}
 ```
 
 ---
@@ -376,14 +370,14 @@ npm audit fix
 
 ## Mejores Practicas
 
-### ✅ DO
+### [OK] DO
 1. **Cachear dependencias** para reducir tiempo de build
 2. **Paralelizar tests** cuando sea posible
 3. **Fail fast:** Lint/tests primero antes de build
 4. **Notificar fallos** inmediatamente a Slack
 5. **Mantener pipeline rapido** (<15 min CI, <30 min CD)
 
-### ❌ DON'T
+### [ERROR] DON'T
 1. **No commitear secrets** en codigo
 2. **No deployar sin tests** pasando
 3. **No deployar viernes tarde** (riesgo de weekend debugging)
@@ -469,20 +463,20 @@ EOF
 # Crear diagrama de pipeline en Mermaid
 cat > /home/user/IACT/docs/backend/cicd/pipeline-diagram.mmd << 'EOF'
 graph LR
-    A[Git Push] --> B[Checkout]
-    B --> C[Install Deps]
-    C --> D[Lint]
-    D --> E[Tests]
-    E --> F[Security Scan]
-    F --> G[Build Docker]
-    G --> H[Push Registry]
-    H --> I[Deploy Staging]
-    I --> J[E2E Tests]
-    J --> K{Approval}
-    K -->|Yes| L[Deploy Prod]
-    K -->|No| M[Cancel]
-    L --> N[Smoke Tests]
-    N --> O[Notify Success]
+ A[Git Push] --> B[Checkout]
+ B --> C[Install Deps]
+ C --> D[Lint]
+ D --> E[Tests]
+ E --> F[Security Scan]
+ F --> G[Build Docker]
+ G --> H[Push Registry]
+ H --> I[Deploy Staging]
+ I --> J[E2E Tests]
+ J --> K{Approval}
+ K -->|Yes| L[Deploy Prod]
+ K -->|No| M[Cancel]
+ L --> N[Smoke Tests]
+ N --> O[Notify Success]
 EOF
 ```
 

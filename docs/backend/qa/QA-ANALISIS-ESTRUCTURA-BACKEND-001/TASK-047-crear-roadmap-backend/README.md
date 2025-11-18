@@ -35,31 +35,31 @@ Crear roadmap detallado del backend para 2025 con epics, milestones, dependencia
 
 ```
 ROADMAP 2025
-├── Track A: Infraestructura & DevOps
-│   ├── A1: Kubernetes migration
-│   ├── A2: IaC con Terraform
-│   ├── A3: CI/CD automation
-│   └── A4: GitOps con ArgoCD
-├── Track B: Observability & Monitoring
-│   ├── B1: Structured logging
-│   ├── B2: Metrics (Prometheus)
-│   ├── B3: Distributed tracing
-│   └── B4: SLO/SLI implementation
-├── Track C: Code Quality & Testing
-│   ├── C1: TypeScript migration
-│   ├── C2: Test coverage 80%
-│   ├── C3: TDD practices
-│   └── C4: E2E testing
-├── Track D: Security & Compliance
-│   ├── D1: SAST/DAST integration
-│   ├── D2: Dependency scanning
-│   ├── D3: Secrets management
-│   └── D4: Security audit
-└── Track E: Platform Engineering
-    ├── E1: Developer portal (Backstage)
-    ├── E2: Golden paths
-    ├── E3: Self-service CI/CD
-    └── E4: Internal platform docs
+ Track A: Infraestructura & DevOps
+ A1: Kubernetes migration
+ A2: IaC con Terraform
+ A3: CI/CD automation
+ A4: GitOps con ArgoCD
+ Track B: Observability & Monitoring
+ B1: Structured logging
+ B2: Metrics (Prometheus)
+ B3: Distributed tracing
+ B4: SLO/SLI implementation
+ Track C: Code Quality & Testing
+ C1: TypeScript migration
+ C2: Test coverage 80%
+ C3: TDD practices
+ C4: E2E testing
+ Track D: Security & Compliance
+ D1: SAST/DAST integration
+ D2: Dependency scanning
+ D3: Secrets management
+ D4: Security audit
+ Track E: Platform Engineering
+ E1: Developer portal (Backstage)
+ E2: Golden paths
+ E3: Self-service CI/CD
+ E4: Internal platform docs
 ```
 
 ### Nivel 2: Analizar Dependencias y Secuenciacion
@@ -68,26 +68,26 @@ ROADMAP 2025
 Dependency Graph (Tree-of-Thought):
 
 Q1 (Fundamentos):
-  A2 (IaC) → A1 (K8s)  [IaC debe estar antes de K8s para deploy]
-  B1 (Logging) → B2 (Metrics) → B3 (Tracing)  [Secuencial: cada uno build sobre anterior]
-  C1 (TypeScript 30%) → C2 (Tests 60%)  [Tipos facilitan testing]
-  D1 (SAST/DAST) → A3 (CI/CD)  [Integrar security en pipeline]
+ A2 (IaC) → A1 (K8s) [IaC debe estar antes de K8s para deploy]
+ B1 (Logging) → B2 (Metrics) → B3 (Tracing) [Secuencial: cada uno build sobre anterior]
+ C1 (TypeScript 30%) → C2 (Tests 60%) [Tipos facilitan testing]
+ D1 (SAST/DAST) → A3 (CI/CD) [Integrar security en pipeline]
 
 Q2 (Cloud-Native):
-  A1 (K8s) + A2 (IaC) → A3 (CI/CD automation)  [Necesita infra lista]
-  B3 (Tracing) → B4 (SLO/SLI)  [Necesita observability completa]
-  C2 (Tests 60%) → C1 (TypeScript 70%)  [Continuar ambos]
+ A1 (K8s) + A2 (IaC) → A3 (CI/CD automation) [Necesita infra lista]
+ B3 (Tracing) → B4 (SLO/SLI) [Necesita observability completa]
+ C2 (Tests 60%) → C1 (TypeScript 70%) [Continuar ambos]
 
 Q3 (Platform):
-  A3 (CI/CD) + A2 (IaC) → A4 (GitOps)  [Necesita CI/CD automatizado]
-  A1 (K8s) + A4 (GitOps) → E1 (Developer Portal)  [Portal necesita infra estable]
-  E1 (Portal) → E2 (Golden Paths)  [Portal es fundacion]
-  B4 (SLO/SLI) → E4 (Platform Docs)  [Documentar SLOs en portal]
+ A3 (CI/CD) + A2 (IaC) → A4 (GitOps) [Necesita CI/CD automatizado]
+ A1 (K8s) + A4 (GitOps) → E1 (Developer Portal) [Portal necesita infra estable]
+ E1 (Portal) → E2 (Golden Paths) [Portal es fundacion]
+ B4 (SLO/SLI) → E4 (Platform Docs) [Documentar SLOs en portal]
 
 Q4 (Optimizacion):
-  E2 (Golden Paths) → E3 (Self-service)  [Paths necesarios para self-service]
-  C3 (TDD) + C4 (E2E) → C2 (Tests 80%)  [Alcanzar target de cobertura]
-  D3 (Secrets) + D4 (Audit) → Compliance certification
+ E2 (Golden Paths) → E3 (Self-service) [Paths necesarios para self-service]
+ C3 (TDD) + C4 (E2E) → C2 (Tests 80%) [Alcanzar target de cobertura]
+ D3 (Secrets) + D4 (Audit) → Compliance certification
 ```
 
 ### Nivel 3: Scoring de Secuencias Alternativas
@@ -117,7 +117,7 @@ Q4: Optimizacion (Advanced features + 80% tests + Security audit)
 ```
 - **Pros:** Balancea valor y fundacion, reduce riesgo, mantiene momentum
 - **Cons:** Requiere coordinacion entre tracks
-- **Score:** 9/10 ✓ **SELECCIONADO**
+- **Score:** 9/10 OK **SELECCIONADO**
 
 ### Nivel 4: Validacion con Self-Consistency
 
@@ -133,7 +133,7 @@ Q4: Optimizacion (Advanced features + 80% tests + Security audit)
 **Perspectiva 4 - CTO:**
 "¿ROI justifica inversion?" → SI, payback en ~18 meses
 
-**Consenso:** Roadmap validado ✓
+**Consenso:** Roadmap validado OK
 
 ---
 
@@ -232,7 +232,7 @@ Este roadmap fue creado usando **Tree-of-Thought** para evaluar secuencias alter
 
 1. **Infra-First:** Migrar K8s primero → Score: 7/10 (fundacion solida, valor tarde)
 2. **Value-First:** Features primero → Score: 6/10 (valor rapido, deuda tecnica)
-3. **Balanced:** Fundamentos → Cloud → Platform → Optimizacion → Score: 9/10 ✓ **SELECCIONADO**
+3. **Balanced:** Fundamentos → Cloud → Platform → Optimizacion → Score: 9/10 OK **SELECCIONADO**
 
 **Racional de Secuencia Balanced:**
 - Q1 establece fundamentos sin bloquear desarrollo
@@ -646,7 +646,7 @@ Este roadmap fue creado usando **Tree-of-Thought** para evaluar secuencias alter
 - [ ] Refactorizar codigo legacy para testabilidad
 - [ ] E2E tests completos con Playwright
 - [ ] Mutation testing (Stryker) para validar calidad de tests
-- [ ] Celebrar alcanzar 80%! 🎉
+- [ ] Celebrar alcanzar 80%! 
 
 **Dependencias:** EPIC-QUAL-Q2-001
 **Entregables:** 80%+ coverage, E2E suite completo
@@ -665,7 +665,7 @@ Este roadmap fue creado usando **Tree-of-Thought** para evaluar secuencias alter
 - [ ] Remover allowJs flag
 - [ ] Cleanup: eliminar archivos .js
 - [ ] Documentar coding standards TypeScript
-- [ ] Celebrar codebase 100% TypeScript! 🎉
+- [ ] Celebrar codebase 100% TypeScript! 
 
 **Dependencias:** EPIC-QUAL-Q2-001
 **Entregables:** 100% TypeScript, coding standards
@@ -772,14 +772,14 @@ Este roadmap fue creado usando **Tree-of-Thought** para evaluar secuencias alter
 
 | Metrica | Baseline (2024) | Target 2025 | Delta |
 |---------|-----------------|-------------|-------|
-| Latencia p95 | 500ms | 200ms | -60% ✓ |
-| Throughput | 1,000 req/s | 10,000 req/s | +900% ✓ |
-| Uptime | 99.5% | 99.9% | +0.4% ✓ |
-| Error rate | 2-3% | <0.5% | -80% ✓ |
-| Test coverage | 45% | 80% | +35% ✓ |
-| Deploy time | 2 hrs | 15 min | -92% ✓ |
-| Onboarding time | 2 weeks | 3 days | -79% ✓ |
-| MTTR | 1+ hr | 15 min | -75% ✓ |
+| Latencia p95 | 500ms | 200ms | -60% OK |
+| Throughput | 1,000 req/s | 10,000 req/s | +900% OK |
+| Uptime | 99.5% | 99.9% | +0.4% OK |
+| Error rate | 2-3% | <0.5% | -80% OK |
+| Test coverage | 45% | 80% | +35% OK |
+| Deploy time | 2 hrs | 15 min | -92% OK |
+| Onboarding time | 2 weeks | 3 days | -79% OK |
+| MTTR | 1+ hr | 15 min | -75% OK |
 
 ---
 
@@ -850,17 +850,17 @@ Este roadmap fue creado usando **Tree-of-Thought** para evaluar secuencias alter
 ## Anexo: Gantt Chart (Simplified)
 
 ```
-Q1: ████████████
-    - Logging, IaC, Tests 60%, TypeScript 30%, SAST/DAST
+Q1: 
+ - Logging, IaC, Tests 60%, TypeScript 30%, SAST/DAST
 
-Q2:             ████████████
-                - K8s, Tracing, CI/CD, Tests 70%, TypeScript 70%
+Q2: 
+ - K8s, Tracing, CI/CD, Tests 70%, TypeScript 70%
 
-Q3:                         ████████████
-                            - Backstage, GitOps, SLOs, Tests 80%, TypeScript 95%
+Q3: 
+ - Backstage, GitOps, SLOs, Tests 80%, TypeScript 95%
 
-Q4:                                     ████████████
-                                        - TypeScript 100%, Security Audit, Chaos, Self-service
+Q4: 
+ - TypeScript 100%, Security Audit, Chaos, Self-service
 ```
 
 (Ver herramienta de project management para Gantt detallado con dependencias)

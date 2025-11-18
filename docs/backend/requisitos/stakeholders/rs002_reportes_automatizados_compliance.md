@@ -13,17 +13,17 @@ stakeholder_primario: compliance-officer
 stakeholder_tipo: gerente
 
 trazabilidad_upward:
-  - N-001
-  - RN-001
+ - N-001
+ - RN-001
 
 trazabilidad_downward:
-  - RF-002
-  - RF-003
-  - RNF-001
+ - RF-002
+ - RF-003
+ - RNF-001
 
 stakeholders_secundarios:
-  - auditor-interno
-  - legal
+ - auditor-interno
+ - legal
 
 contexto_uso: Preparación de auditorías trimestrales
 frecuencia_uso: mensual
@@ -98,16 +98,16 @@ El Compliance Officer es responsable de preparar evidencias para auditorías ext
 
 ```gherkin
 Given soy Compliance Officer autenticado
-  And existen registros de auditoría de los últimos 90 días
+ And existen registros de auditoría de los últimos 90 días
 When selecciono "Generar Reporte GDPR"
-  And selecciono rango de fechas (último trimestre)
-  And hago click en "Generar"
+ And selecciono rango de fechas (último trimestre)
+ And hago click en "Generar"
 Then el sistema genera reporte en <60 segundos
-  And el reporte incluye:
-    - Total de accesos a datos personales
-    - Modificaciones en datos personales (con before/after)
-    - Eliminaciones de datos (GDPR Right to be Forgotten)
-    - Desglose por tipo de dato (nombre, email, teléfono, dirección)
+ And el reporte incluye:
+ - Total de accesos a datos personales
+ - Modificaciones en datos personales (con before/after)
+ - Eliminaciones de datos (GDPR Right to be Forgotten)
+ - Desglose por tipo de dato (nombre, email, teléfono, dirección)
 And puedo exportar en PDF y CSV
 ```
 
@@ -116,12 +116,12 @@ And puedo exportar en PDF y CSV
 ```gherkin
 Given soy Compliance Officer autenticado
 When selecciono "Generar Reporte SOC2"
-  And selecciono rango de fechas
+ And selecciono rango de fechas
 Then el sistema genera reporte que incluye:
-  - Total de intentos de login (exitosos y fallidos)
-  - Intentos de acceso no autorizado (con detalles)
-  - Cambios en permisos de usuarios
-  - Accesos a recursos críticos
+ - Total de intentos de login (exitosos y fallidos)
+ - Intentos de acceso no autorizado (con detalles)
+ - Cambios en permisos de usuarios
+ - Accesos a recursos críticos
 And cada evento muestra: timestamp, usuario, acción, resultado, IP
 ```
 
@@ -131,10 +131,10 @@ And cada evento muestra: timestamp, usuario, acción, resultado, IP
 Given he generado un reporte de compliance
 When reviso el reporte
 Then veo un resumen ejecutivo con:
-  - Rango de fechas cubierto
-  - Total de eventos auditados
-  - Porcentaje de cobertura (100% esperado)
-  - Fecha/hora de generación del reporte
+ - Rango de fechas cubierto
+ - Total de eventos auditados
+ - Porcentaje de cobertura (100% esperado)
+ - Fecha/hora de generación del reporte
 And el reporte incluye firma digital para verificar integridad
 ```
 
@@ -212,13 +212,13 @@ And el reporte incluye firma digital para verificar integridad
 ### 7.1 Requisitos Funcionales Derivados
 
 - **RF-002**: Auditoría inmutable de acciones críticas (backend)
-  - Proporciona datos fuente para reportes
+ - Proporciona datos fuente para reportes
 
 - **RF-003**: Trazabilidad de cambios en datos sensibles (backend)
-  - Captura old_values/new_values para reportes GDPR
+ - Captura old_values/new_values para reportes GDPR
 
 - **RF-011**: Interfaz generación reportes compliance (frontend)
-  - UI para seleccionar tipo reporte, rango fechas, exportar
+ - UI para seleccionar tipo reporte, rango fechas, exportar
 
 ### 7.2 Requisitos No Funcionales Derivados
 

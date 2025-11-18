@@ -74,33 +74,33 @@ Crear un catálogo completo de todos los endpoints REST del backend, documentand
 
 | Método | Ruta | Autenticación | Permisos | Descripción |
 |--------|------|---------------|----------|-------------|
-| POST | /api/v1/auth/login | ❌ Public | AllowAny | Login de usuario |
-| POST | /api/v1/auth/logout | ✅ Token | IsAuthenticated | Logout de usuario |
-| POST | /api/v1/auth/register | ❌ Public | AllowAny | Registro de usuario |
-| POST | /api/v1/auth/refresh | ✅ Refresh Token | AllowAny | Renovar token |
+| POST | /api/v1/auth/login | [ERROR] Public | AllowAny | Login de usuario |
+| POST | /api/v1/auth/logout | [OK] Token | IsAuthenticated | Logout de usuario |
+| POST | /api/v1/auth/register | [ERROR] Public | AllowAny | Registro de usuario |
+| POST | /api/v1/auth/refresh | [OK] Refresh Token | AllowAny | Renovar token |
 
 **Detalles: POST /api/v1/auth/login**
 ```json
 // Request
 {
-  "email": "user@example.com",
-  "password": "password123"
+ "email": "user@example.com",
+ "password": "password123"
 }
 
 // Response 200
 {
-  "access_token": "eyJ0eXAi...",
-  "refresh_token": "eyJ0eXAi...",
-  "user": {
-    "id": 1,
-    "username": "johndoe",
-    "email": "user@example.com"
-  }
+ "access_token": "eyJ0eXAi...",
+ "refresh_token": "eyJ0eXAi...",
+ "user": {
+ "id": 1,
+ "username": "johndoe",
+ "email": "user@example.com"
+ }
 }
 
 // Response 401
 {
-  "error": "Invalid credentials"
+ "error": "Invalid credentials"
 }
 ```
 
@@ -108,21 +108,21 @@ Crear un catálogo completo de todos los endpoints REST del backend, documentand
 
 | Método | Ruta | Autenticación | Permisos | Descripción |
 |--------|------|---------------|----------|-------------|
-| GET | /api/v1/users | ✅ Token | IsAdmin | Listar usuarios |
-| GET | /api/v1/users/:id | ✅ Token | IsAuthenticated | Obtener usuario |
-| POST | /api/v1/users | ✅ Token | IsAdmin | Crear usuario |
-| PUT | /api/v1/users/:id | ✅ Token | IsOwnerOrAdmin | Actualizar usuario |
-| DELETE | /api/v1/users/:id | ✅ Token | IsAdmin | Eliminar usuario |
-| GET | /api/v1/users/me | ✅ Token | IsAuthenticated | Perfil actual |
+| GET | /api/v1/users | [OK] Token | IsAdmin | Listar usuarios |
+| GET | /api/v1/users/:id | [OK] Token | IsAuthenticated | Obtener usuario |
+| POST | /api/v1/users | [OK] Token | IsAdmin | Crear usuario |
+| PUT | /api/v1/users/:id | [OK] Token | IsOwnerOrAdmin | Actualizar usuario |
+| DELETE | /api/v1/users/:id | [OK] Token | IsAdmin | Eliminar usuario |
+| GET | /api/v1/users/me | [OK] Token | IsAuthenticated | Perfil actual |
 
 **Parámetros de Query: GET /api/v1/users**
 | Parámetro | Tipo | Requerido | Default | Descripción |
 |-----------|------|-----------|---------|-------------|
-| page | int | ❌ | 1 | Número de página |
-| page_size | int | ❌ | 20 | Items por página |
-| search | string | ❌ | - | Buscar por username/email |
-| is_active | bool | ❌ | - | Filtrar por estado |
-| ordering | string | ❌ | -created_at | Ordenar por campo |
+| page | int | [ERROR] | 1 | Número de página |
+| page_size | int | [ERROR] | 20 | Items por página |
+| search | string | [ERROR] | - | Buscar por username/email |
+| is_active | bool | [ERROR] | - | Filtrar por estado |
+| ordering | string | [ERROR] | -created_at | Ordenar por campo |
 
 ## API v1 - Productos
 
@@ -130,33 +130,33 @@ Crear un catálogo completo de todos los endpoints REST del backend, documentand
 
 | Método | Ruta | Autenticación | Permisos | Descripción |
 |--------|------|---------------|----------|-------------|
-| GET | /api/v1/products | ❌ Public | AllowAny | Listar productos |
-| GET | /api/v1/products/:id | ❌ Public | AllowAny | Detalle de producto |
-| POST | /api/v1/products | ✅ Token | IsStaff | Crear producto |
-| PUT | /api/v1/products/:id | ✅ Token | IsStaff | Actualizar producto |
-| DELETE | /api/v1/products/:id | ✅ Token | IsAdmin | Eliminar producto |
-| GET | /api/v1/products/:id/reviews | ❌ Public | AllowAny | Reviews del producto |
+| GET | /api/v1/products | [ERROR] Public | AllowAny | Listar productos |
+| GET | /api/v1/products/:id | [ERROR] Public | AllowAny | Detalle de producto |
+| POST | /api/v1/products | [OK] Token | IsStaff | Crear producto |
+| PUT | /api/v1/products/:id | [OK] Token | IsStaff | Actualizar producto |
+| DELETE | /api/v1/products/:id | [OK] Token | IsAdmin | Eliminar producto |
+| GET | /api/v1/products/:id/reviews | [ERROR] Public | AllowAny | Reviews del producto |
 
 ### Categorías
 
 | Método | Ruta | Autenticación | Permisos | Descripción |
 |--------|------|---------------|----------|-------------|
-| GET | /api/v1/categories | ❌ Public | AllowAny | Listar categorías |
-| GET | /api/v1/categories/:id | ❌ Public | AllowAny | Detalle categoría |
-| POST | /api/v1/categories | ✅ Token | IsStaff | Crear categoría |
-| PUT | /api/v1/categories/:id | ✅ Token | IsStaff | Actualizar categoría |
-| DELETE | /api/v1/categories/:id | ✅ Token | IsAdmin | Eliminar categoría |
+| GET | /api/v1/categories | [ERROR] Public | AllowAny | Listar categorías |
+| GET | /api/v1/categories/:id | [ERROR] Public | AllowAny | Detalle categoría |
+| POST | /api/v1/categories | [OK] Token | IsStaff | Crear categoría |
+| PUT | /api/v1/categories/:id | [OK] Token | IsStaff | Actualizar categoría |
+| DELETE | /api/v1/categories/:id | [OK] Token | IsAdmin | Eliminar categoría |
 
 ## API v1 - Pedidos
 
 | Método | Ruta | Autenticación | Permisos | Descripción |
 |--------|------|---------------|----------|-------------|
-| GET | /api/v1/orders | ✅ Token | IsAuthenticated | Mis pedidos |
-| GET | /api/v1/orders/:id | ✅ Token | IsOwnerOrStaff | Detalle pedido |
-| POST | /api/v1/orders | ✅ Token | IsAuthenticated | Crear pedido |
-| PUT | /api/v1/orders/:id | ✅ Token | IsStaff | Actualizar pedido |
-| DELETE | /api/v1/orders/:id | ✅ Token | IsOwner | Cancelar pedido |
-| POST | /api/v1/orders/:id/pay | ✅ Token | IsOwner | Pagar pedido |
+| GET | /api/v1/orders | [OK] Token | IsAuthenticated | Mis pedidos |
+| GET | /api/v1/orders/:id | [OK] Token | IsOwnerOrStaff | Detalle pedido |
+| POST | /api/v1/orders | [OK] Token | IsAuthenticated | Crear pedido |
+| PUT | /api/v1/orders/:id | [OK] Token | IsStaff | Actualizar pedido |
+| DELETE | /api/v1/orders/:id | [OK] Token | IsOwner | Cancelar pedido |
+| POST | /api/v1/orders/:id/pay | [OK] Token | IsOwner | Pagar pedido |
 
 ## Códigos de Estado HTTP
 
@@ -176,44 +176,44 @@ Crear un catálogo completo de todos los endpoints REST del backend, documentand
 ### Éxito
 ```json
 {
-  "status": "success",
-  "data": { ... },
-  "meta": {
-    "timestamp": "2025-11-18T10:00:00Z"
-  }
+ "status": "success",
+ "data": { ... },
+ "meta": {
+ "timestamp": "2025-11-18T10:00:00Z"
+ }
 }
 ```
 
 ### Error
 ```json
 {
-  "status": "error",
-  "error": {
-    "code": "VALIDATION_ERROR",
-    "message": "Invalid input data",
-    "details": {
-      "field": ["Error message"]
-    }
-  },
-  "meta": {
-    "timestamp": "2025-11-18T10:00:00Z"
-  }
+ "status": "error",
+ "error": {
+ "code": "VALIDATION_ERROR",
+ "message": "Invalid input data",
+ "details": {
+ "field": ["Error message"]
+ }
+ },
+ "meta": {
+ "timestamp": "2025-11-18T10:00:00Z"
+ }
 }
 ```
 
 ### Paginación
 ```json
 {
-  "status": "success",
-  "data": [...],
-  "meta": {
-    "pagination": {
-      "page": 1,
-      "page_size": 20,
-      "total_pages": 5,
-      "total_items": 98
-    }
-  }
+ "status": "success",
+ "data": [...],
+ "meta": {
+ "pagination": {
+ "page": 1,
+ "page_size": 20,
+ "total_pages": 5,
+ "total_items": 98
+ }
+ }
 }
 ```
 
@@ -252,9 +252,9 @@ X-API-Key: your-api-key-here
 
 | Versión | Estado | Deprecación | Soporte |
 |---------|--------|-------------|---------|
-| v1 | ✅ Actual | - | Completo |
-| v2 | 🚧 Beta | - | Parcial |
-| v0 | ❌ Deprecada | 2024-12-31 | Ninguno |
+| v1 | [OK] Actual | - | Completo |
+| v2 | Beta | - | Parcial |
+| v0 | [ERROR] Deprecada | 2024-12-31 | Ninguno |
 
 ## Referencias
 - backend/*/urls.py
@@ -271,13 +271,13 @@ X-API-Key: your-api-key-here
 - [ ] Validación Self-Consistency completada
 
 ## Criterios de Aceptación
-1. ✅ Todos los endpoints identificados y catalogados
-2. ✅ Métodos HTTP documentados
-3. ✅ Autenticación y permisos especificados
-4. ✅ Formato tabular utilizado
-5. ✅ Ejemplos de request/response incluidos
-6. ✅ Códigos de estado HTTP documentados
-7. ✅ Estadísticas generales incluidas
+1. [OK] Todos los endpoints identificados y catalogados
+2. [OK] Métodos HTTP documentados
+3. [OK] Autenticación y permisos especificados
+4. [OK] Formato tabular utilizado
+5. [OK] Ejemplos de request/response incluidos
+6. [OK] Códigos de estado HTTP documentados
+7. [OK] Estadísticas generales incluidas
 
 ## Notas
 - Buscar en: backend/*/urls.py, backend/api/

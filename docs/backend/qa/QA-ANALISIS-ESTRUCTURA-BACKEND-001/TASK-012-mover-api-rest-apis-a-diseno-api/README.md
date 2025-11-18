@@ -90,7 +90,7 @@ comm -12 /tmp/api_files.txt /tmp/rest_apis_files.txt
 
 # Si hay duplicados, documentarlos
 comm -12 /tmp/api_files.txt /tmp/rest_apis_files.txt > \
-  docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/conflictos-nombres-api.txt
+ docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/conflictos-nombres-api.txt
 ```
 
 **Resultado Esperado:** Identificar conflictos si existen
@@ -99,10 +99,10 @@ comm -12 /tmp/api_files.txt /tmp/rest_apis_files.txt > \
 ```bash
 # Mover todo el contenido de api/ a diseno/api/
 if [ -d "docs/backend/api" ] && [ "$(ls -A docs/backend/api)" ]; then
-  git mv docs/backend/api/* docs/backend/diseno/api/ 2>&1 | tee -a \
-    docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/log-movimiento-api.txt
+ git mv docs/backend/api/* docs/backend/diseno/api/ 2>&1 | tee -a \
+ docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/log-movimiento-api.txt
 else
-  echo "SKIP: api/ no existe o esta vacia"
+ echo "SKIP: api/ no existe o esta vacia"
 fi
 ```
 
@@ -112,10 +112,10 @@ fi
 ```bash
 # Mover todo el contenido de rest_apis/ a diseno/api/
 if [ -d "docs/backend/rest_apis" ] && [ "$(ls -A docs/backend/rest_apis)" ]; then
-  git mv docs/backend/rest_apis/* docs/backend/diseno/api/ 2>&1 | tee -a \
-    docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/log-movimiento-rest-apis.txt
+ git mv docs/backend/rest_apis/* docs/backend/diseno/api/ 2>&1 | tee -a \
+ docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/log-movimiento-rest-apis.txt
 else
-  echo "SKIP: rest_apis/ no existe o esta vacia"
+ echo "SKIP: rest_apis/ no existe o esta vacia"
 fi
 ```
 
@@ -208,20 +208,20 @@ EOF
 ```bash
 # Validacion 1: Verificar que origenes estan vacios
 for dir in api rest_apis; do
-  COUNT=$(find docs/backend/$dir/ -type f ! -name ".gitkeep" 2>/dev/null | wc -l)
-  if [ "$COUNT" -eq 0 ]; then
-    echo "OK: $dir/ vacio"
-  else
-    echo "ERROR: $dir/ todavia tiene $COUNT archivos"
-  fi
+ COUNT=$(find docs/backend/$dir/ -type f ! -name ".gitkeep" 2>/dev/null | wc -l)
+ if [ "$COUNT" -eq 0 ]; then
+ echo "OK: $dir/ vacio"
+ else
+ echo "ERROR: $dir/ todavia tiene $COUNT archivos"
+ fi
 done
 
 # Validacion 2: Verificar que destino tiene archivos
 DEST_COUNT=$(find docs/backend/diseno/api/ -type f ! -name ".gitkeep" | wc -l)
 if [ "$DEST_COUNT" -gt 0 ]; then
-  echo "OK: diseno/api/ tiene $DEST_COUNT archivos"
+ echo "OK: diseno/api/ tiene $DEST_COUNT archivos"
 else
-  echo "ERROR: diseno/api/ esta vacio"
+ echo "ERROR: diseno/api/ esta vacio"
 fi
 
 # Validacion 3: Verificar renames en git
@@ -231,9 +231,9 @@ echo "Archivos registrados como rename: $RENAME_COUNT"
 # Validacion 4: Verificar que no hay archivos sin staging
 UNSTAGED=$(git ls-files --others --exclude-standard docs/backend/diseno/api/ | wc -l)
 if [ "$UNSTAGED" -eq 0 ]; then
-  echo "OK: Todos los archivos en staging"
+ echo "OK: Todos los archivos en staging"
 else
-  echo "WARNING: $UNSTAGED archivos sin staging"
+ echo "WARNING: $UNSTAGED archivos sin staging"
 fi
 ```
 

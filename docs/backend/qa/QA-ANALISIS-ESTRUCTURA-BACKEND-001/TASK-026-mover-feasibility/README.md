@@ -95,7 +95,7 @@ find docs/backend/planificacion/feasibility/ -type f | wc -l
 ```bash
 # Crear registro de archivos movidos
 find docs/backend/planificacion/feasibility/ -type f > \
-  docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/movimiento-feasibility.txt
+ docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/movimiento-feasibility.txt
 
 # Mostrar resumen
 echo "Total archivos movidos: $(wc -l < docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/movimiento-feasibility.txt)"
@@ -120,16 +120,16 @@ echo "Total archivos movidos: $(wc -l < docs/backend/qa/QA-ANALISIS-ESTRUCTURA-B
 ```bash
 # Verificar que origen no existe
 if [ -d "docs/backend/feasibility" ]; then
-  echo "ERROR: Carpeta origen todavia existe"
+ echo "ERROR: Carpeta origen todavia existe"
 else
-  echo "OK: Carpeta origen eliminada"
+ echo "OK: Carpeta origen eliminada"
 fi
 
 # Verificar que destino tiene contenido
 if [ "$(find docs/backend/planificacion/feasibility/ -type f | wc -l)" -gt 0 ]; then
-  echo "OK: Contenido presente en destino"
+ echo "OK: Contenido presente en destino"
 else
-  echo "ERROR: Destino vacio"
+ echo "ERROR: Destino vacio"
 fi
 
 # Comparar conteos

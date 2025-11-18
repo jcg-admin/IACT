@@ -105,9 +105,9 @@ Documentacion del diseno del sistema de permisos, roles y politicas de autorizac
 
 ```
 Admin
-  └─ Manager
-      └─ User
-          └─ Guest
+ Manager
+ User
+ Guest
 ```
 
 ## Permisos Granulares
@@ -132,11 +132,11 @@ Ejemplos:
 
 | Recurso | Admin | Manager | User | Guest |
 |---------|-------|---------|------|-------|
-| users:read | ✓ | ✓ | ✓ (propio) | ✗ |
-| users:write | ✓ | ✓ (limitado) | ✗ | ✗ |
-| users:delete | ✓ | ✗ | ✗ | ✗ |
-| reports:read | ✓ | ✓ | ✓ | ✓ |
-| reports:generate | ✓ | ✓ | ✗ | ✗ |
+| users:read | OK | OK | OK (propio) | |
+| users:write | OK | OK (limitado) | | |
+| users:delete | OK | | | |
+| reports:read | OK | OK | OK | OK |
+| reports:generate | OK | OK | | |
 
 ## Politicas de Acceso
 

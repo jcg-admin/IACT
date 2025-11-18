@@ -70,12 +70,12 @@ El Administrador de Sistema crea una excepción de tipo "revocar" que BLOQUEA un
 
 ```json
 {
-  "usuario_id": 456,
-  "capacidad_codigo": "sistema.administracion.usuarios.eliminar",
-  "tipo": "revocar",
-  "motivo": "Usuario no debe eliminar usuarios durante período de auditoría por política de seguridad corporativa",
-  "fecha_fin": "2025-02-01T00:00:00Z",
-  "asignado_por_id": 1
+ "usuario_id": 456,
+ "capacidad_codigo": "sistema.administracion.usuarios.eliminar",
+ "tipo": "revocar",
+ "motivo": "Usuario no debe eliminar usuarios durante período de auditoría por política de seguridad corporativa",
+ "fecha_fin": "2025-02-01T00:00:00Z",
+ "asignado_por_id": 1
 }
 ```
 
@@ -83,18 +83,18 @@ El Administrador de Sistema crea una excepción de tipo "revocar" que BLOQUEA un
 
 ```json
 {
-  "success": true,
-  "message": "Permiso excepcional revocado",
-  "data": {
-    "id": 999,
-    "usuario_id": 456,
-    "capacidad_codigo": "sistema.administracion.usuarios.eliminar",
-    "tipo": "revocar",
-    "motivo": "Usuario no debe eliminar...",
-    "fecha_inicio": "2025-01-09T11:00:00Z",
-    "fecha_fin": "2025-02-01T00:00:00Z",
-    "activo": true
-  }
+ "success": true,
+ "message": "Permiso excepcional revocado",
+ "data": {
+ "id": 999,
+ "usuario_id": 456,
+ "capacidad_codigo": "sistema.administracion.usuarios.eliminar",
+ "tipo": "revocar",
+ "motivo": "Usuario no debe eliminar...",
+ "fecha_inicio": "2025-01-09T11:00:00Z",
+ "fecha_fin": "2025-02-01T00:00:00Z",
+ "activo": true
+ }
 }
 ```
 
@@ -107,11 +107,11 @@ POST /api/permisos/excepcionales/
 Content-Type: application/json
 
 {
-  "usuario_id": 456,
-  "capacidad_codigo": "sistema.administracion.usuarios.eliminar",
-  "tipo": "revocar",
-  "motivo": "...",
-  "fecha_fin": "2025-02-01T00:00:00Z"
+ "usuario_id": 456,
+ "capacidad_codigo": "sistema.administracion.usuarios.eliminar",
+ "tipo": "revocar",
+ "motivo": "...",
+ "fecha_fin": "2025-02-01T00:00:00Z"
 }
 ```
 
@@ -120,12 +120,12 @@ Content-Type: application/json
 ```sql
 -- Al verificar permiso, primero verificar revocaciones
 SELECT EXISTS (
-  SELECT 1 FROM permisos_excepcionales
-  WHERE usuario_id = 456
-    AND capacidad_id = (SELECT id FROM capacidades WHERE codigo = '...')
-    AND tipo = 'revocar'
-    AND activo = TRUE
-    AND (fecha_fin IS NULL OR fecha_fin > NOW())
+ SELECT 1 FROM permisos_excepcionales
+ WHERE usuario_id = 456
+ AND capacidad_id = (SELECT id FROM capacidades WHERE codigo = '...')
+ AND tipo = 'revocar'
+ AND activo = TRUE
+ AND (fecha_fin IS NULL OR fecha_fin > NOW())
 ) AS esta_revocado;
 
 -- Si esta_revocado = TRUE, denegar acceso inmediatamente

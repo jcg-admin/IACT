@@ -60,11 +60,11 @@ Verificar que docs/backend/diseno/database/ existe (creada en TASK-011) y esta l
 ```bash
 # Verificar existencia de database/
 if [ -d "docs/backend/diseno/database" ]; then
-  echo "OK: diseno/database/ existe"
+ echo "OK: diseno/database/ existe"
 else
-  echo "ERROR: diseno/database/ NO existe"
-  echo "INFO: Creando carpeta..."
-  mkdir -p docs/backend/diseno/database
+ echo "ERROR: diseno/database/ NO existe"
+ echo "INFO: Creando carpeta..."
+ mkdir -p docs/backend/diseno/database
 fi
 ```
 
@@ -75,9 +75,9 @@ fi
 # Contar archivos (excluyendo .gitkeep)
 COUNT=$(find docs/backend/diseno/database/ -type f ! -name ".gitkeep" 2>/dev/null | wc -l)
 if [ "$COUNT" -eq 0 ]; then
-  echo "OK: database/ vacia, lista para recibir archivos"
+ echo "OK: database/ vacia, lista para recibir archivos"
 else
-  echo "INFO: database/ ya tiene $COUNT archivos"
+ echo "INFO: database/ ya tiene $COUNT archivos"
 fi
 
 # Listar contenido
@@ -90,10 +90,10 @@ ls -la docs/backend/diseno/database/
 ```bash
 # Test de escritura
 if [ -w "docs/backend/diseno/database" ]; then
-  echo "OK: Permisos de escritura correctos"
+ echo "OK: Permisos de escritura correctos"
 else
-  echo "ERROR: Sin permisos de escritura"
-  exit 1
+ echo "ERROR: Sin permisos de escritura"
+ exit 1
 fi
 ```
 
@@ -128,12 +128,12 @@ cat > docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/estructura-planeada-dat
 Estructura Planeada para diseno/database/
 
 diseno/database/
-├── README.md              # TASK-022
-├── esquemas/              # Esquemas de BD (SQL, diagrams)
-├── migraciones/           # Documentacion de migraciones
-├── modelos/               # Modelos de datos
-├── erd/                   # Diagramas ERD
-└── optimizacion/          # Indices, queries optimizadas
+ README.md # TASK-022
+ esquemas/ # Esquemas de BD (SQL, diagrams)
+ migraciones/ # Documentacion de migraciones
+ modelos/ # Modelos de datos
+ erd/ # Diagramas ERD
+ optimizacion/ # Indices, queries optimizadas
 
 Archivos a mover en TASK-021:
 - Archivos *.sql dispersos
@@ -164,34 +164,34 @@ cat docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/estructura-planeada-datab
 ```bash
 # Validacion 1: Existencia
 if [ -d "docs/backend/diseno/database" ]; then
-  echo "PASS: database/ existe"
+ echo "PASS: database/ existe"
 else
-  echo "FAIL: database/ NO existe"
-  exit 1
+ echo "FAIL: database/ NO existe"
+ exit 1
 fi
 
 # Validacion 2: Carpeta vacia o solo .gitkeep
 COUNT=$(find docs/backend/diseno/database/ -type f ! -name ".gitkeep" 2>/dev/null | wc -l)
 if [ "$COUNT" -eq 0 ]; then
-  echo "PASS: database/ vacia"
+ echo "PASS: database/ vacia"
 else
-  echo "INFO: database/ tiene $COUNT archivos (aceptable)"
+ echo "INFO: database/ tiene $COUNT archivos (aceptable)"
 fi
 
 # Validacion 3: Permisos
 if [ -w "docs/backend/diseno/database" ]; then
-  echo "PASS: Permisos OK"
+ echo "PASS: Permisos OK"
 else
-  echo "FAIL: Sin permisos de escritura"
-  exit 1
+ echo "FAIL: Sin permisos de escritura"
+ exit 1
 fi
 
 # Validacion 4: Es directorio
 if [ -d "docs/backend/diseno/database" ] && [ ! -L "docs/backend/diseno/database" ]; then
-  echo "PASS: Es directorio (no symlink)"
+ echo "PASS: Es directorio (no symlink)"
 else
-  echo "FAIL: No es directorio valido"
-  exit 1
+ echo "FAIL: No es directorio valido"
+ exit 1
 fi
 ```
 

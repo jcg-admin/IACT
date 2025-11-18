@@ -48,25 +48,25 @@ backend-lead
 Las siguientes técnicas deben aplicarse al ejecutar esta tarea con un agente:
 
 1. **Tool-use Prompting** (knowledge_techniques.py)
-   - Ejecutar grep para buscar SESSION_ENGINE en settings
-   - Usar find para localizar todos los archivos settings*.py
+ - Ejecutar grep para buscar SESSION_ENGINE en settings
+ - Usar find para localizar todos los archivos settings*.py
 
 2. **ReAct** (knowledge_techniques.py)
-   - Razonar sobre ubicación esperada de settings.py
-   - Actuar ejecutando búsqueda
-   - Reflexionar sobre resultados encontrados
+ - Razonar sobre ubicación esperada de settings.py
+ - Actuar ejecutando búsqueda
+ - Reflexionar sobre resultados encontrados
 
 3. **Retrieval Prompting** (specialized_techniques.py)
-   - Recuperar documentación de Django sobre SESSION_ENGINE
-   - Buscar ejemplos de configuración correcta
+ - Recuperar documentación de Django sobre SESSION_ENGINE
+ - Buscar ejemplos de configuración correcta
 
 4. **Self-Consistency** (self_consistency.py)
-   - Verificar que todos los archivos settings usan misma configuración
-   - Validar consistencia entre settings de desarrollo y producción
+ - Verificar que todos los archivos settings usan misma configuración
+ - Validar consistencia entre settings de desarrollo y producción
 
 5. **Delimiter-based Prompting** (optimization_techniques.py)
-   - Separar búsqueda por tipo de archivo (settings.py, settings_local.py, etc.)
-   - Delimitar scope de búsqueda por directorio
+ - Separar búsqueda por tipo de archivo (settings.py, settings_local.py, etc.)
+ - Delimitar scope de búsqueda por directorio
 
 Agente recomendado: SDLCTestingAgent
 

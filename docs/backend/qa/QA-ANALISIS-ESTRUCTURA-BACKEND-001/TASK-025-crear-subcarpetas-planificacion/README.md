@@ -72,7 +72,7 @@ ls -d docs/backend/planificacion/*/ | wc -l
 ```bash
 # Crear visualizacion de arbol
 tree -L 2 docs/backend/planificacion/ > \
-  docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/estructura-planificacion.txt
+ docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/estructura-planificacion.txt
 
 # Mostrar estructura
 cat docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/estructura-planificacion.txt
@@ -108,11 +108,11 @@ touch docs/backend/planificacion/releases/.gitkeep
 ```bash
 # Verificar existencia de subcarpetas
 for dir in analisis_negocio feasibility planning releases; do
-  if [ -d "docs/backend/planificacion/$dir" ]; then
-    echo "OK: $dir"
-  else
-    echo "FALTA: $dir"
-  fi
+ if [ -d "docs/backend/planificacion/$dir" ]; then
+ echo "OK: $dir"
+ else
+ echo "FALTA: $dir"
+ fi
 done
 
 # Verificar .gitkeep

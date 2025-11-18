@@ -65,32 +65,32 @@ cat > /home/user/IACT/docs/backend/code-examples/patterns/repository-pattern.ts 
 
 // Interface (Domain Layer)
 interface UserRepository {
-  findById(id: string): Promise<User | null>;
-  findByEmail(email: string): Promise<User | null>;
-  save(user: User): Promise<User>;
-  delete(id: string): Promise<void>;
+ findById(id: string): Promise<User | null>;
+ findByEmail(email: string): Promise<User | null>;
+ save(user: User): Promise<User>;
+ delete(id: string): Promise<void>;
 }
 
 // Implementation (Infrastructure Layer)
 class PostgresUserRepository implements UserRepository {
-  constructor(private db: Database) {}
+ constructor(private db: Database) {}
 
-  async findById(id: string): Promise<User | null> {
-    const row = await this.db.query('SELECT * FROM users WHERE id = $1', [id]);
-    return row ? this.mapToDomain(row) : null;
-  }
+ async findById(id: string): Promise<User | null> {
+ const row = await this.db.query('SELECT * FROM users WHERE id = $1', [id]);
+ return row ? this.mapToDomain(row) : null;
+ }
 
-  async save(user: User): Promise<User> {
-    await this.db.query(
-      'INSERT INTO users (id, email, name) VALUES ($1, $2, $3) ON CONFLICT (id) DO UPDATE SET email = $2, name = $3',
-      [user.id, user.email, user.name]
-    );
-    return user;
-  }
+ async save(user: User): Promise<User> {
+ await this.db.query(
+ 'INSERT INTO users (id, email, name) VALUES ($1, $2, $3) ON CONFLICT (id) DO UPDATE SET email = $2, name = $3',
+ [user.id, user.email, user.name]
+ );
+ return user;
+ }
 
-  private mapToDomain(row: any): User {
-    return new User(row.id, row.email, row.name);
-  }
+ private mapToDomain(row: any): User {
+ return new User(row.id, row.email, row.name);
+ }
 }
 
 // Usage
@@ -102,32 +102,32 @@ cat > /home/user/IACT/docs/backend/code-examples/patterns/factory-pattern.ts << 
 // Factory Pattern Example
 
 interface Notification {
-  send(message: string): Promise<void>;
+ send(message: string): Promise<void>;
 }
 
 class EmailNotification implements Notification {
-  async send(message: string): Promise<void> {
-    // Send email
-  }
+ async send(message: string): Promise<void> {
+ // Send email
+ }
 }
 
 class SMSNotification implements Notification {
-  async send(message: string): Promise<void> {
-    // Send SMS
-  }
+ async send(message: string): Promise<void> {
+ // Send SMS
+ }
 }
 
 class NotificationFactory {
-  static create(type: 'email' | 'sms'): Notification {
-    switch (type) {
-      case 'email':
-        return new EmailNotification();
-      case 'sms':
-        return new SMSNotification();
-      default:
-        throw new Error(`Unknown notification type: ${type}`);
-    }
-  }
+ static create(type: 'email' | 'sms'): Notification {
+ switch (type) {
+ case 'email':
+ return new EmailNotification();
+ case 'sms':
+ return new SMSNotification();
+ default:
+ throw new Error(`Unknown notification type: ${type}`);
+ }
+ }
 }
 
 // Usage
@@ -143,38 +143,38 @@ cat > /home/user/IACT/docs/backend/code-examples/testing/unit-test-example.spec.
 // Unit Test Example with Mocks
 
 describe('OrderService', () => {
-  let service: OrderService;
-  let mockPaymentGateway: jest.Mocked<PaymentGateway>;
-  let mockOrderRepo: jest.Mocked<OrderRepository>;
+ let service: OrderService;
+ let mockPaymentGateway: jest.Mocked<PaymentGateway>;
+ let mockOrderRepo: jest.Mocked<OrderRepository>;
 
-  beforeEach(() => {
-    mockPaymentGateway = {
-      charge: jest.fn(),
-      refund: jest.fn(),
-    } as any;
+ beforeEach(() => {
+ mockPaymentGateway = {
+ charge: jest.fn(),
+ refund: jest.fn(),
+ } as any;
 
-    mockOrderRepo = {
-      save: jest.fn(),
-      findById: jest.fn(),
-    } as any;
+ mockOrderRepo = {
+ save: jest.fn(),
+ findById: jest.fn(),
+ } as any;
 
-    service = new OrderService(mockPaymentGateway, mockOrderRepo);
-  });
+ service = new OrderService(mockPaymentGateway, mockOrderRepo);
+ });
 
-  it('should process order successfully', async () => {
-    // Arrange
-    const order = { id: '1', total: 100, status: 'pending' };
-    mockOrderRepo.findById.mockResolvedValue(order);
-    mockPaymentGateway.charge.mockResolvedValue({ success: true });
+ it('should process order successfully', async () => {
+ // Arrange
+ const order = { id: '1', total: 100, status: 'pending' };
+ mockOrderRepo.findById.mockResolvedValue(order);
+ mockPaymentGateway.charge.mockResolvedValue({ success: true });
 
-    // Act
-    const result = await service.processOrder('1');
+ // Act
+ const result = await service.processOrder('1');
 
-    // Assert
-    expect(result.success).toBe(true);
-    expect(mockPaymentGateway.charge).toHaveBeenCalledWith(100);
-    expect(mockOrderRepo.save).toHaveBeenCalled();
-  });
+ // Assert
+ expect(result.success).toBe(true);
+ expect(mockPaymentGateway.charge).toHaveBeenCalledWith(100);
+ expect(mockOrderRepo.save).toHaveBeenCalled();
+ });
 });
 EOF
 ```
@@ -191,25 +191,25 @@ const router = Router();
 
 // GET /users/:id
 router.get('/users/:id', async (req, res) => {
-  try {
-    const user = await userService.findById(req.params.id);
-    if (!user) {
-      return res.status(404).json({ error: 'User not found' });
-    }
-    res.json(user);
-  } catch (error) {
-    res.status(500).json({ error: 'Internal server error' });
-  }
+ try {
+ const user = await userService.findById(req.params.id);
+ if (!user) {
+ return res.status(404).json({ error: 'User not found' });
+ }
+ res.json(user);
+ } catch (error) {
+ res.status(500).json({ error: 'Internal server error' });
+ }
 });
 
 // POST /users
 router.post('/users', async (req, res) => {
-  try {
-    const user = await userService.create(req.body);
-    res.status(201).json(user);
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
+ try {
+ const user = await userService.create(req.body);
+ res.status(201).json(user);
+ } catch (error) {
+ res.status(400).json({ error: error.message });
+ }
 });
 
 export default router;

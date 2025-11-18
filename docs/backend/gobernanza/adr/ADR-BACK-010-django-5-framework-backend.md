@@ -97,8 +97,8 @@ drf-spectacular>=0.27.0
 
 # Multi-database con router personalizado
 DATABASES = {
-    "default": {"ENGINE": "django.db.backends.postgresql", ...},
-    "ivr_readonly": {"ENGINE": "mysql.connector.django", ...},
+ "default": {"ENGINE": "django.db.backends.postgresql", ...},
+ "ivr_readonly": {"ENGINE": "mysql.connector.django", ...},
 }
 
 # Admin automático para todos los modelos
@@ -240,16 +240,16 @@ djangorestframework-stubs>=3.15.0
 ```python
 # settings/base.py
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": "iact_analytics",
-        "CONN_MAX_AGE": 300,
-    },
-    "ivr_readonly": {
-        "ENGINE": "mysql.connector.django",
-        "NAME": "ivr_legacy",
-        "CONN_MAX_AGE": 300,
-    },
+ "default": {
+ "ENGINE": "django.db.backends.postgresql",
+ "NAME": "iact_analytics",
+ "CONN_MAX_AGE": 300,
+ },
+ "ivr_readonly": {
+ "ENGINE": "mysql.connector.django",
+ "NAME": "ivr_legacy",
+ "CONN_MAX_AGE": 300,
+ },
 }
 
 DATABASE_ROUTERS = ["callcentersite.database_router.IVRReadOnlyRouter"]
@@ -260,29 +260,29 @@ DATABASE_ROUTERS = ["callcentersite.database_router.IVRReadOnlyRouter"]
 ```python
 # settings/base.py
 REST_FRAMEWORK = {
-    "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.IsAuthenticated"],
-    "DEFAULT_AUTHENTICATION_CLASSES": ["rest_framework_simplejwt.authentication.JWTAuthentication"],
-    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
-    "PAGE_SIZE": 50,
-    "DEFAULT_FILTER_BACKENDS": ["django_filters.rest_framework.DjangoFilterBackend"],
-    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+ "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.IsAuthenticated"],
+ "DEFAULT_AUTHENTICATION_CLASSES": ["rest_framework_simplejwt.authentication.JWTAuthentication"],
+ "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+ "PAGE_SIZE": 50,
+ "DEFAULT_FILTER_BACKENDS": ["django_filters.rest_framework.DjangoFilterBackend"],
+ "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 ```
 
 ### Fase 4: Apps Desarrolladas - COMPLETADO
 
 ```
-✓ authentication - JWT tokens, login, logout
-✓ users - Gestión usuarios y permisos
-✓ permissions - Sistema de permisos granulares
-✓ ivr_legacy - Integración con IVR (read-only)
-✓ llamadas - Gestión de llamadas
-✓ dashboard - Dashboards personalizados
-✓ notifications - Buzón interno
-✓ analytics - Métricas y reportes
-✓ audit - Auditoría completa
-✓ etl - Sincronización de datos
-✓ 10+ apps adicionales (tickets, clientes, equipos, etc.)
+OK authentication - JWT tokens, login, logout
+OK users - Gestión usuarios y permisos
+OK permissions - Sistema de permisos granulares
+OK ivr_legacy - Integración con IVR (read-only)
+OK llamadas - Gestión de llamadas
+OK dashboard - Dashboards personalizados
+OK notifications - Buzón interno
+OK analytics - Métricas y reportes
+OK audit - Auditoría completa
+OK etl - Sincronización de datos
+OK 10+ apps adicionales (tickets, clientes, equipos, etc.)
 ```
 
 ---
@@ -293,28 +293,28 @@ REST_FRAMEWORK = {
 
 | Métrica | Target | Actual | Estado |
 |---------|--------|--------|--------|
-| Apps creadas | 15+ | 19 | ✓ OK |
-| Admin funcional | 100% modelos | 100% | ✓ OK |
-| API endpoints | 50+ | 80+ | ✓ OK |
-| Multi-database routing | Funcional | Funcional | ✓ OK |
+| Apps creadas | 15+ | 19 | OK OK |
+| Admin funcional | 100% modelos | 100% | OK OK |
+| API endpoints | 50+ | 80+ | OK OK |
+| Multi-database routing | Funcional | Funcional | OK OK |
 | Tests con Django TestCase | 80% coverage | En progreso | → |
 | Type hints con django-stubs | 60%+ | En progreso | → |
-| Tiempo respuesta API | <200ms p95 | ~150ms | ✓ OK |
+| Tiempo respuesta API | <200ms p95 | ~150ms | OK OK |
 
 ### KPIs de Productividad
 
 ```yaml
 Desarrollo:
-  - Admin panel: 0 horas desarrollo (automático)
-  - CRUD endpoints: ~2 horas por modelo (con ViewSets)
-  - Migraciones: Automáticas al cambiar modelos
-  - Validaciones: Automáticas con serializers
+ - Admin panel: 0 horas desarrollo (automático)
+ - CRUD endpoints: ~2 horas por modelo (con ViewSets)
+ - Migraciones: Automáticas al cambiar modelos
+ - Validaciones: Automáticas con serializers
 
 Seguridad:
-  - CSRF protection: Built-in
-  - SQL Injection: ORM protege automáticamente
-  - XSS protection: Template engine escapa HTML
-  - Clickjacking: X-Frame-Options middleware
+ - CSRF protection: Built-in
+ - SQL Injection: ORM protege automáticamente
+ - XSS protection: Template engine escapa HTML
+ - Clickjacking: X-Frame-Options middleware
 ```
 
 ---

@@ -76,11 +76,11 @@ DEST=$(find docs/backend/diseno/detallado/ -type f ! -name ".gitkeep" 2>/dev/nul
 ### Paso 3: Mover Contenido
 ```bash
 if [ -d "docs/backend/diseno_detallado" ] && [ "$(ls -A docs/backend/diseno_detallado)" ]; then
-  git mv docs/backend/diseno_detallado/* docs/backend/diseno/detallado/ 2>&1 | tee \
-    docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/log-movimiento-diseno-detallado.txt
+ git mv docs/backend/diseno_detallado/* docs/backend/diseno/detallado/ 2>&1 | tee \
+ docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/log-movimiento-diseno-detallado.txt
 else
-  echo "ERROR: diseno_detallado/ no existe o vacia"
-  exit 1
+ echo "ERROR: diseno_detallado/ no existe o vacia"
+ exit 1
 fi
 ```
 

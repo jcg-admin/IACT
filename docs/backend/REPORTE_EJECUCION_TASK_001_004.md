@@ -76,17 +76,17 @@ pytest --cov=callcentersite --cov-report=term --cov-fail-under=80
 ### Inmediatas (Bloquean Sprint 1)
 
 1. **Corregir violación email** en `api/callcentersite/dora_metrics/alerts.py`
-   - Remover: `from django.core.mail import send_mail`
-   - Usar: InternalMessage para notificaciones internas
+ - Remover: `from django.core.mail import send_mail`
+ - Usar: InternalMessage para notificaciones internas
 
 2. **Corregir violación pickle** en `api/callcentersite/dora_metrics/ml_models.py:291`
-   - Remover: `pickle.load(f)`
-   - Usar: JSON, joblib u otro formato seguro
+ - Remover: `pickle.load(f)`
+ - Usar: JSON, joblib u otro formato seguro
 
 3. **Instalar dependencias de testing**:
-   ```bash
-   pip install pytest pytest-cov pytest-django
-   ```
+ ```bash
+ pip install pytest pytest-cov pytest-django
+ ```
 
 ### Corto Plazo
 

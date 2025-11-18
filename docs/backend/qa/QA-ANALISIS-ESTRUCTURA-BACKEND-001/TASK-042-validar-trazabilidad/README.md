@@ -57,18 +57,18 @@ Validar que las matrices de trazabilidad (requisitos-tests y requisitos-código)
 #### Matriz Principal (Requisitos → Tests)
 - [ ] Todos los requisitos listados
 - [ ] Cada requisito tiene:
-  - [ ] Descripción clara
-  - [ ] Prioridad asignada
-  - [ ] Status de implementación
-  - [ ] Lista de tests que lo cubren
-  - [ ] Porcentaje de cobertura
-  - [ ] Status de completitud
+ - [ ] Descripción clara
+ - [ ] Prioridad asignada
+ - [ ] Status de implementación
+ - [ ] Lista de tests que lo cubren
+ - [ ] Porcentaje de cobertura
+ - [ ] Status de completitud
 - [ ] Tests especifican:
-  - [ ] ID de test
-  - [ ] Tipo (unitario, integración, E2E)
-  - [ ] Archivo y línea
-  - [ ] Descripción
-  - [ ] Status (PASS/FAIL)
+ - [ ] ID de test
+ - [ ] Tipo (unitario, integración, E2E)
+ - [ ] Archivo y línea
+ - [ ] Descripción
+ - [ ] Status (PASS/FAIL)
 
 #### Matriz Inversa (Tests → Requisitos)
 - [ ] Todos los archivos de test listados
@@ -99,16 +99,16 @@ Validar que las matrices de trazabilidad (requisitos-tests y requisitos-código)
 #### Matriz Principal (Requisitos → Código)
 - [ ] Todos los requisitos implementados listados
 - [ ] Cada requisito especifica:
-  - [ ] Descripción y prioridad
-  - [ ] Status de implementación
-  - [ ] Fecha de implementación
-  - [ ] Archivos involucrados
-  - [ ] Clases principales
-  - [ ] Métodos específicos
-  - [ ] Líneas de código aproximadas
-  - [ ] Dependencias
-  - [ ] Complejidad estimada
-  - [ ] Cobertura de tests
+ - [ ] Descripción y prioridad
+ - [ ] Status de implementación
+ - [ ] Fecha de implementación
+ - [ ] Archivos involucrados
+ - [ ] Clases principales
+ - [ ] Métodos específicos
+ - [ ] Líneas de código aproximadas
+ - [ ] Dependencias
+ - [ ] Complejidad estimada
+ - [ ] Cobertura de tests
 - [ ] Implementación por capas (modelo, servicio, vista, etc.)
 
 #### Matriz Inversa (Código → Requisitos)
@@ -142,10 +142,10 @@ Validar que las matrices de trazabilidad (requisitos-tests y requisitos-código)
 
 | Requisito | En MATRIZ-tests | En MATRIZ-codigo | Status Tests | Status Código | Coherente |
 |-----------|-----------------|------------------|--------------|---------------|-----------|
-| REQ-AUTH-001 | ✅ | ✅ | Implementado | Implementado | ✅ |
-| REQ-AUTH-002 | ✅ | ✅ | Implementado | Implementado | ✅ |
-| REQ-USER-002 | ✅ | ✅ | Parcial | Parcial | ✅ |
-| REQ-PROD-002 | ✅ | ✅ | No implementado | No implementado | ✅ |
+| REQ-AUTH-001 | [OK] | [OK] | Implementado | Implementado | [OK] |
+| REQ-AUTH-002 | [OK] | [OK] | Implementado | Implementado | [OK] |
+| REQ-USER-002 | [OK] | [OK] | Parcial | Parcial | [OK] |
+| REQ-PROD-002 | [OK] | [OK] | No implementado | No implementado | [OK] |
 
 #### Coherencia de Estadísticas
 ```markdown
@@ -160,11 +160,11 @@ Validar que las matrices de trazabilidad (requisitos-tests y requisitos-código)
 
 | Métrica | MATRIZ-tests | MATRIZ-codigo | Coincide |
 |---------|--------------|---------------|----------|
-| Total Requisitos | 45 | 45 | ✅ |
-| Implementados | 38 | 38 | ✅ |
-| Parciales | 5 | 5 | ✅ |
-| Pendientes | 2 | 2 | ✅ |
-| % Completitud | 84% | 84% | ✅ |
+| Total Requisitos | 45 | 45 | [OK] |
+| Implementados | 38 | 38 | [OK] |
+| Parciales | 5 | 5 | [OK] |
+| Pendientes | 2 | 2 | [OK] |
+| % Completitud | 84% | 84% | [OK] |
 
 #### Alineación de Prioridades
 ```markdown
@@ -252,24 +252,24 @@ grep "Total Requisitos" TASK-040-matriz-requisitos-codigo/README.md
 ## Criterios de Aceptación
 
 ### Criterios Obligatorios (MUST)
-1. ✅ Ambas matrices existen y son completas
-2. ✅ Total de requisitos coincide entre matrices
-3. ✅ Status de implementación consistente
-4. ✅ Bidireccionalidad verificada (muestras)
-5. ✅ Gaps identificados en ambas matrices
-6. ✅ Roadmap incluido en ambas
+1. [OK] Ambas matrices existen y son completas
+2. [OK] Total de requisitos coincide entre matrices
+3. [OK] Status de implementación consistente
+4. [OK] Bidireccionalidad verificada (muestras)
+5. [OK] Gaps identificados en ambas matrices
+6. [OK] Roadmap incluido en ambas
 
 ### Criterios Deseables (SHOULD)
-1. ✅ Cobertura > 80% (requisitos → tests)
-2. ✅ Implementación > 80% (requisitos → código)
-3. ✅ Requisitos CRÍTICA 100% cubiertos
-4. ✅ Diagramas incluidos
-5. ✅ Análisis de impacto en MATRIZ-codigo
+1. [OK] Cobertura > 80% (requisitos → tests)
+2. [OK] Implementación > 80% (requisitos → código)
+3. [OK] Requisitos CRÍTICA 100% cubiertos
+4. [OK] Diagramas incluidos
+5. [OK] Análisis de impacto en MATRIZ-codigo
 
 ### Criterios Opcionales (COULD)
-1. ✅ Automatización de generación sugerida
-2. ✅ Integración con CI/CD documentada
-3. ✅ Dashboard de métricas propuesto
+1. [OK] Automatización de generación sugerida
+2. [OK] Integración con CI/CD documentada
+3. [OK] Dashboard de métricas propuesto
 
 ## Reporte de Validación
 
@@ -282,25 +282,25 @@ grep "Total Requisitos" TASK-040-matriz-requisitos-codigo/README.md
 
 ## Resumen Ejecutivo
 - Matrices Validadas: 2
-- Status General: [✅ APROBADO | ⚠️ APROBADO CON OBSERVACIONES | ❌ RECHAZADO]
+- Status General: [[OK] APROBADO | [WARNING] APROBADO CON OBSERVACIONES | [ERROR] RECHAZADO]
 
 ## Validación: MATRIZ-requisitos-tests.md
 
 ### Completitud
-- **Status**: [✅ | ⚠️ | ❌]
+- **Status**: [[OK] | [WARNING] | [ERROR]]
 - Total Requisitos: [número]
 - Requisitos con Tests: [número] ([%])
-- Matriz Inversa: [✅ | ❌]
+- Matriz Inversa: [[OK] | [ERROR]]
 
 ### Bidireccionalidad
-- **Status**: [✅ | ⚠️ | ❌]
+- **Status**: [[OK] | [WARNING] | [ERROR]]
 - Muestras Validadas: [número]
 - Referencias Rotas: [número]
 
 ### Coherencia
-- **Status**: [✅ | ⚠️ | ❌]
-- Estadísticas Correctas: [✅ | ❌]
-- Porcentajes Suman: [✅ | ❌]
+- **Status**: [[OK] | [WARNING] | [ERROR]]
+- Estadísticas Correctas: [[OK] | [ERROR]]
+- Porcentajes Suman: [[OK] | [ERROR]]
 
 ### Observaciones:
 - [Lista de observaciones]
@@ -313,20 +313,20 @@ grep "Total Requisitos" TASK-040-matriz-requisitos-codigo/README.md
 ## Validación: MATRIZ-requisitos-codigo.md
 
 ### Completitud
-- **Status**: [✅ | ⚠️ | ❌]
+- **Status**: [[OK] | [WARNING] | [ERROR]]
 - Total Requisitos: [número]
 - Requisitos Implementados: [número] ([%])
-- Matriz Inversa: [✅ | ❌]
+- Matriz Inversa: [[OK] | [ERROR]]
 
 ### Bidireccionalidad
-- **Status**: [✅ | ⚠️ | ❌]
+- **Status**: [[OK] | [WARNING] | [ERROR]]
 - Muestras Validadas: [número]
 - Referencias Rotas: [número]
 
 ### Coherencia
-- **Status**: [✅ | ⚠️ | ❌]
-- Estadísticas Correctas: [✅ | ❌]
-- Análisis de Impacto: [✅ | ❌]
+- **Status**: [[OK] | [WARNING] | [ERROR]]
+- Estadísticas Correctas: [[OK] | [ERROR]]
+- Análisis de Impacto: [[OK] | [ERROR]]
 
 ### Observaciones:
 - [Lista de observaciones]
@@ -339,19 +339,19 @@ grep "Total Requisitos" TASK-040-matriz-requisitos-codigo/README.md
 ## Validación Cruzada
 
 ### Consistencia entre Matrices
-- **Status**: [✅ | ⚠️ | ❌]
-- Total Requisitos Coincide: [✅ | ❌]
-- Status Implementación Coincide: [✅ | ❌]
-- Prioridades Coinciden: [✅ | ❌]
-- Clasificaciones Coinciden: [✅ | ❌]
+- **Status**: [[OK] | [WARNING] | [ERROR]]
+- Total Requisitos Coincide: [[OK] | [ERROR]]
+- Status Implementación Coincide: [[OK] | [ERROR]]
+- Prioridades Coinciden: [[OK] | [ERROR]]
+- Clasificaciones Coinciden: [[OK] | [ERROR]]
 
 ### Tabla Comparativa:
 
 | Métrica | MATRIZ-tests | MATRIZ-codigo | Coincide |
 |---------|--------------|---------------|----------|
-| Total Requisitos | X | Y | [✅ | ❌] |
-| Implementados | X | Y | [✅ | ❌] |
-| % Completitud | X% | Y% | [✅ | ❌] |
+| Total Requisitos | X | Y | [[OK] | [ERROR]] |
+| Implementados | X | Y | [[OK] | [ERROR]] |
+| % Completitud | X% | Y% | [[OK] | [ERROR]] |
 
 ## Métricas de Calidad
 
@@ -378,7 +378,7 @@ grep "Total Requisitos" TASK-040-matriz-requisitos-codigo/README.md
 ## Aprobación
 - Validador: [Nombre]
 - Fecha: [YYYY-MM-DD]
-- Status: [✅ APROBADO | ⚠️ APROBADO CON OBSERVACIONES | ❌ RECHAZADO]
+- Status: [[OK] APROBADO | [WARNING] APROBADO CON OBSERVACIONES | [ERROR] RECHAZADO]
 
 ---
 
@@ -387,14 +387,14 @@ grep "Total Requisitos" TASK-040-matriz-requisitos-codigo/README.md
 ### Muestras de Bidireccionalidad Validadas
 
 #### MATRIZ-tests
-- REQ-AUTH-001 → tests → REQ-AUTH-001 ✅
-- REQ-USER-002 → tests → REQ-USER-002 ✅
-- REQ-PROD-001 → tests → REQ-PROD-001 ✅
+- REQ-AUTH-001 → tests → REQ-AUTH-001 [OK]
+- REQ-USER-002 → tests → REQ-USER-002 [OK]
+- REQ-PROD-001 → tests → REQ-PROD-001 [OK]
 
 #### MATRIZ-codigo
-- REQ-AUTH-001 → código → REQ-AUTH-001 ✅
-- REQ-USER-002 → código → REQ-USER-002 ✅
-- REQ-PROD-001 → código → REQ-PROD-001 ✅
+- REQ-AUTH-001 → código → REQ-AUTH-001 [OK]
+- REQ-USER-002 → código → REQ-USER-002 [OK]
+- REQ-PROD-001 → código → REQ-PROD-001 [OK]
 
 ### Referencias Rotas Encontradas
 - [Ninguna] o [Listado]
@@ -412,12 +412,12 @@ grep "Total Requisitos" TASK-040-matriz-requisitos-codigo/README.md
 - [ ] Aprobación final o rechazo justificado
 
 ## Criterios de Éxito
-1. ✅ Todas las validaciones obligatorias pasadas
-2. ✅ ≥ 90% de validaciones deseables pasadas
-3. ✅ Consistencia 100% entre matrices
-4. ✅ No hay referencias rotas
-5. ✅ Gaps claramente identificados y priorizados
-6. ✅ Roadmaps son accionables
+1. [OK] Todas las validaciones obligatorias pasadas
+2. [OK] ≥ 90% de validaciones deseables pasadas
+3. [OK] Consistencia 100% entre matrices
+4. [OK] No hay referencias rotas
+5. [OK] Gaps claramente identificados y priorizados
+6. [OK] Roadmaps son accionables
 
 ## Notas
 - Documentar todas las inconsistencias encontradas

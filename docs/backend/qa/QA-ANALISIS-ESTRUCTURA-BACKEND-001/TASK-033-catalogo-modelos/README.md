@@ -73,12 +73,12 @@ Crear un catálogo completo de todos los modelos de datos (ORM models) del backe
 ### User
 | Campo | Tipo | Requerido | Único | Default | Validación |
 |-------|------|-----------|-------|---------|------------|
-| id | AutoField | ✅ | ✅ | AUTO | PK |
-| username | CharField(50) | ✅ | ✅ | - | unique, min_length=3 |
-| email | EmailField | ✅ | ✅ | - | valid_email |
-| password | CharField(128) | ✅ | ❌ | - | hashed |
-| is_active | BooleanField | ✅ | ❌ | True | - |
-| created_at | DateTimeField | ✅ | ❌ | now() | - |
+| id | AutoField | [OK] | [OK] | AUTO | PK |
+| username | CharField(50) | [OK] | [OK] | - | unique, min_length=3 |
+| email | EmailField | [OK] | [OK] | - | valid_email |
+| password | CharField(128) | [OK] | [ERROR] | - | hashed |
+| is_active | BooleanField | [OK] | [ERROR] | True | - |
+| created_at | DateTimeField | [OK] | [ERROR] | now() | - |
 
 **Relaciones:**
 - Profile: OneToOne (reverse: user)
@@ -100,10 +100,10 @@ Crear un catálogo completo de todos los modelos de datos (ORM models) del backe
 ### Profile
 | Campo | Tipo | Requerido | Único | Default | Validación |
 |-------|------|-----------|-------|---------|------------|
-| user | OneToOneField | ✅ | ✅ | - | FK to User |
-| avatar | ImageField | ❌ | ❌ | None | max_size=5MB |
-| bio | TextField | ❌ | ❌ | '' | max_length=500 |
-| phone | CharField(20) | ❌ | ❌ | None | phone_format |
+| user | OneToOneField | [OK] | [OK] | - | FK to User |
+| avatar | ImageField | [ERROR] | [ERROR] | None | max_size=5MB |
+| bio | TextField | [ERROR] | [ERROR] | '' | max_length=500 |
+| phone | CharField(20) | [ERROR] | [ERROR] | None | phone_format |
 
 **Relaciones:**
 - User: OneToOne (reverse: profile)
@@ -113,12 +113,12 @@ Crear un catálogo completo de todos los modelos de datos (ORM models) del backe
 ### Product
 | Campo | Tipo | Requerido | Único | Default | Validación |
 |-------|------|-----------|-------|---------|------------|
-| id | UUIDField | ✅ | ✅ | uuid4() | PK |
-| name | CharField(200) | ✅ | ❌ | - | min_length=3 |
-| slug | SlugField | ✅ | ✅ | - | auto_from_name |
-| price | DecimalField | ✅ | ❌ | 0.00 | min_value=0 |
-| stock | IntegerField | ✅ | ❌ | 0 | min_value=0 |
-| category | ForeignKey | ✅ | ❌ | - | FK to Category |
+| id | UUIDField | [OK] | [OK] | uuid4() | PK |
+| name | CharField(200) | [OK] | [ERROR] | - | min_length=3 |
+| slug | SlugField | [OK] | [OK] | - | auto_from_name |
+| price | DecimalField | [OK] | [ERROR] | 0.00 | min_value=0 |
+| stock | IntegerField | [OK] | [ERROR] | 0 | min_value=0 |
+| category | ForeignKey | [OK] | [ERROR] | - | FK to Category |
 
 **Relaciones:**
 - Category: ManyToOne (reverse: products)
@@ -129,12 +129,12 @@ Crear un catálogo completo de todos los modelos de datos (ORM models) del backe
 
 ```mermaid
 erDiagram
-    User ||--o| Profile : has
-    User ||--o{ Order : places
-    Order ||--o{ OrderItem : contains
-    OrderItem }o--|| Product : references
-    Product }o--|| Category : belongs_to
-    Product }o--o{ Tag : has
+ User ||--o| Profile : has
+ User ||--o{ Order : places
+ Order ||--o{ OrderItem : contains
+ OrderItem }o--|| Product : references
+ Product }o--|| Category : belongs_to
+ Product }o--o{ Tag : has
 ```
 
 ## Modelos Abstractos
@@ -196,12 +196,12 @@ erDiagram
 - [ ] Validación Self-Consistency completada
 
 ## Criterios de Aceptación
-1. ✅ Todos los modelos identificados y catalogados
-2. ✅ Estructura de campos documentada en formato tabular
-3. ✅ Relaciones entre modelos mapeadas
-4. ✅ Diagrama ER incluido
-5. ✅ Validaciones y constraints documentados
-6. ✅ Estadísticas generales incluidas
+1. [OK] Todos los modelos identificados y catalogados
+2. [OK] Estructura de campos documentada en formato tabular
+3. [OK] Relaciones entre modelos mapeadas
+4. [OK] Diagrama ER incluido
+5. [OK] Validaciones y constraints documentados
+6. [OK] Estadísticas generales incluidas
 
 ## Notas
 - Buscar en: backend/*/models.py

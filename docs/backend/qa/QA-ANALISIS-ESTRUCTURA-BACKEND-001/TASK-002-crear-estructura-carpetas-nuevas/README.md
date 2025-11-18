@@ -63,7 +63,7 @@ ls -d docs/backend/{adr,catalogos,ci_cd,ejemplos,estilos,glosarios,metodologias,
 ```bash
 # Crear listado de carpetas nuevas
 ls -d docs/backend/{adr,catalogos,ci_cd,ejemplos,estilos,glosarios,metodologias,plantillas,procesos,referencias,templates,trazabilidad,vision_y_alcance} > \
-  docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/carpetas-nuevas.txt
+ docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/carpetas-nuevas.txt
 ```
 
 **Resultado Esperado:** Archivo carpetas-nuevas.txt creado
@@ -88,11 +88,11 @@ ls -d docs/backend/{adr,catalogos,ci_cd,ejemplos,estilos,glosarios,metodologias,
 
 # Verificar existencia individual
 for dir in adr catalogos ci_cd ejemplos estilos glosarios metodologias plantillas procesos referencias templates trazabilidad vision_y_alcance; do
-  if [ -d "docs/backend/$dir" ]; then
-    echo "OK: $dir"
-  else
-    echo "FALTA: $dir"
-  fi
+ if [ -d "docs/backend/$dir" ]; then
+ echo "OK: $dir"
+ else
+ echo "FALTA: $dir"
+ fi
 done
 ```
 

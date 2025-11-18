@@ -307,9 +307,9 @@ response = requests.get(
 trend = response.json()
 
 if trend['trend_analysis']['direction'] == 'improving':
-    print(f"[OK] Deployment frequency improving: {trend['trend_analysis']['average_weekly_change']} deployments/week")
+ print(f"[OK] Deployment frequency improving: {trend['trend_analysis']['average_weekly_change']} deployments/week")
 else:
-    print(f"[ATENCION] Deployment frequency {trend['trend_analysis']['direction']}")
+ print(f"[ATENCION] Deployment frequency {trend['trend_analysis']['direction']}")
 ```
 
 ### 2. Identificación de Regresiones
@@ -323,8 +323,8 @@ response = requests.get(
 comparison = response.json()
 
 for metric, data in comparison['metrics'].items():
-    if data['percent_change'] < -10:
-        print(f"[ATENCION] {metric} degraded {data['percent_change']}%")
+ if data['percent_change'] < -10:
+ print(f"[ATENCION] {metric} degraded {data['percent_change']}%")
 ```
 
 ### 3. Detección de Anomalías
@@ -338,8 +338,8 @@ response = requests.get(
 anomalies = response.json()
 
 if anomalies['anomaly_rate'] > 10:
-    print(f"[ATENCION] High anomaly rate: {anomalies['anomaly_rate']}%")
-    print(f"Detected {anomalies['anomalies_detected']} anomalies")
+ print(f"[ATENCION] High anomaly rate: {anomalies['anomaly_rate']}%")
+ print(f"Detected {anomalies['anomalies_detected']} anomalies")
 ```
 
 ### 4. Forecasting Capacity

@@ -9,9 +9,9 @@ estado: aprobado
 fecha_creacion: 2025-11-06
 sponsor: gerente-operaciones
 stakeholders:
-  - gerente-operaciones
-  - analistas-negocio
-  - gerentes-callcenter
+ - gerente-operaciones
+ - analistas-negocio
+ - gerentes-callcenter
 babok_knowledge_area: "Business Analysis Planning and Monitoring"
 iso29148_clause: "6.2"
 valor_negocio: alto
