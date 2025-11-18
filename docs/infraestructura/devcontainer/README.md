@@ -32,6 +32,12 @@ El DevContainer del proyecto IACT es un entorno de desarrollo completamente cont
 - VS Code Local + Docker Desktop
 - VS Code Remote SSH
 
+### Compatibilidad con Linux y entornos basados en Vagrant
+
+- **Linux host**: El DevContainer funciona sin cambios en distribuciones Linux siempre que tengas Docker y la extensión Dev Containers instalados; no requiere Docker Desktop.
+- **Coexistencia con Vagrant**: Puedes mantener tu stack de bases de datos en Vagrant y usar el DevContainer solo para el workspace de código. Ajusta los hosts/puertos en `.env` (o `.devcontainer/.env`) para apuntar al PostgreSQL/MariaDB expuestos por Vagrant (p. ej., `15432` y `13306`).
+- **CI/CD y producción sin Docker**: Que producción no use contenedores no invalida el DevContainer. Úsalo para reproducibilidad en desarrollo/CI y mantén paridad declarando las mismas variables y scripts de provisión que usarás en máquinas bare metal.
+
 ---
 
 ## Arquitectura del Sistema
@@ -746,7 +752,7 @@ fi
 ```
 
 **Features**:
-- CPython precompilado (3.12.6) con PGO/LTO
+- Imagen base devcontainers Python 3.12 (Debian Bookworm)
 - Git (latest)
 - Common utils (zsh, oh-my-zsh)
 
@@ -767,9 +773,10 @@ fi
 **Servicios**:
 
 1. **app** (DevContainer principal)
-   - Image: Ubuntu 22.04
-   - Python 3.12.6 precompilado
+   - Image: mcr.microsoft.com/devcontainers/python:3.12-bookworm
+   - Python 3.12 preinstalado en la imagen base
    - Workspace: /workspaces/IACT---project
+   - env_file: .devcontainer/.env
 
 2. **db_postgres**
    - Image: postgres:15
@@ -777,6 +784,7 @@ fi
    - Database: callcenter_db
    - User: postgres
    - Password: postgres
+   - env_file: .devcontainer/.env
 
 3. **db_mariadb**
    - Image: mariadb:10.11
@@ -784,6 +792,7 @@ fi
    - Database: callcenter_legacy
    - User: root
    - Password: root
+   - env_file: .devcontainer/.env
 
 **Volumes**:
 - postgres-data: PostgreSQL data
@@ -791,32 +800,37 @@ fi
 
 ### Variables de Entorno
 
-**PostgreSQL**:
+Todas las variables se cargan desde `.devcontainer/.env`, generado automáticamente a partir de `.devcontainer/.env.example` durante `initializeCommand`. Ajusta los valores según tu entorno (incluyendo hosts/puertos de Vagrant si aplican).
+
+**Plantilla `.devcontainer/.env.example` (valores por defecto)**:
 ```bash
+DJANGO_SETTINGS_MODULE=callcentersite.settings.development
+DEBUG=True
+
+POSTGRES_HOST=db_postgres
+POSTGRES_PORT=5432
+POSTGRES_DB=callcenter_db
 POSTGRES_USER=postgres
 POSTGRES_PASSWORD=postgres
-POSTGRES_HOST=db_postgres
-POSTGRES_DB=callcenter_db
-```
 
-**MariaDB**:
-```bash
+MARIADB_HOST=db_mariadb
+MARIADB_PORT=3306
+MARIADB_DATABASE=callcenter_legacy
 MARIADB_USER=root
 MARIADB_ROOT_PASSWORD=root
-MARIADB_HOST=db_mariadb
-MARIADB_DATABASE=callcenter_legacy
-```
 
-**Django Superuser**:
-```bash
 DJANGO_SUPERUSER_USERNAME=admin
 DJANGO_SUPERUSER_EMAIL=admin@example.com
 DJANGO_SUPERUSER_PASSWORD=admin
+
+PYTHONUNBUFFERED=1
+PYTHONDONTWRITEBYTECODE=1
+TZ=America/Mexico_City
 ```
 
 **Customizar**:
-- Crear archivo `.devcontainer/.env` (git-ignored)
-- Override valores en docker_compose.yml
+- Copia `.devcontainer/.env.example` a `.devcontainer/.env` y ajusta credenciales/hosts.
+- Si usas Vagrant, apunta `POSTGRES_HOST`/`MARIADB_HOST` a los puertos expuestos por tu VM.
 
 ---
 
