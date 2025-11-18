@@ -821,8 +821,8 @@ DJANGO_SUPERUSER_PASSWORD=admin
 ```
 
 **Customizar**:
-- Crear archivo `.devcontainer/.env` (git-ignored)
-- Override valores en docker_compose.yml
+- Para personalizar variables de entorno, edita directamente la sección `environment:` de cada servicio en `docker_compose.yml`.
+- Si necesitas valores secretos, usa variables de entorno locales o herramientas de gestión de secretos según la política del equipo.
 
 ---
 
