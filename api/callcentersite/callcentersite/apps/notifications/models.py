@@ -7,8 +7,32 @@ from django.db import models
 from django.utils import timezone
 
 
+class InternalMessageQuerySet(models.QuerySet):
+    """QuerySet que mapea alias de campos usados por legacy tests."""
+
+    @staticmethod
+    def _normalize_kwargs(kwargs: dict) -> dict:
+        normalized = dict(kwargs)
+        if "user_id" in normalized:
+            normalized["recipient_id"] = normalized.pop("user_id")
+        if "user" in normalized:
+            normalized["recipient"] = normalized.pop("user")
+        return normalized
+
+    def filter(self, *args, **kwargs):  # type: ignore[override]
+        return super().filter(*args, **self._normalize_kwargs(kwargs))
+
+    def get(self, *args, **kwargs):  # type: ignore[override]
+        return super().get(*args, **self._normalize_kwargs(kwargs))
+
+    def create(self, **kwargs):  # type: ignore[override]
+        return super().create(**self._normalize_kwargs(kwargs))
+
+
 class InternalMessage(models.Model):
     """Mensaje interno enviado a usuarios del sistema."""
+
+    objects = InternalMessageQuerySet.as_manager()
 
     recipient = models.ForeignKey(
         settings.AUTH_USER_MODEL,

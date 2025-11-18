@@ -11,6 +11,7 @@ from rest_framework import status
 from django.contrib.auth import get_user_model
 
 from callcentersite.apps.configuracion.models import ConfiguracionSistema
+from callcentersite.apps.configuration.models import Configuracion
 
 User = get_user_model()
 
@@ -63,6 +64,25 @@ class TestConfiguracionAPIREST:
         assert response.status_code == status.HTTP_200_OK
         assert isinstance(response.data, list)
         assert len(response.data) >= 2
+
+    def test_api_listar_configuraciones_ignora_modelo_legacy(self):
+        """El endpoint debe usar ConfiguracionSistema y no el modelo legacy."""
+
+        Configuracion.objects.create(
+            categoria='general',
+            clave='legacy_param',
+            valor='1',
+            tipo_dato='integer',
+            valor_default='1',
+            descripcion='Legacy config',
+        )
+
+        response = self.client.get('/api/v1/configuracion/')
+
+        claves = {item['clave'] for item in response.data}
+
+        assert {'max_intentos_login', 'timeout_session'} <= claves
+        assert 'legacy_param' not in claves
 
     def test_api_ver_configuracion_especifica(self):
         """

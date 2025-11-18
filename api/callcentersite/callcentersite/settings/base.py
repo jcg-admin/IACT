@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     "callcentersite.apps.horarios",
     "callcentersite.apps.metricas",
     "callcentersite.apps.tickets",
+    "data_centralization",
     "dora_metrics",
 ]
 

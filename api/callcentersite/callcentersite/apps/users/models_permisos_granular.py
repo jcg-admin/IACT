@@ -348,6 +348,8 @@ class AuditoriaPermiso(models.Model):
     RESULTADO_CHOICES = [
         ('exito', 'Exito'),
         ('fallo', 'Fallo'),
+        ('permitido', 'Permitido'),
+        ('denegado', 'Denegado'),
     ]
 
     id = models.AutoField(primary_key=True)
@@ -356,8 +358,12 @@ class AuditoriaPermiso(models.Model):
         on_delete=models.CASCADE,
     )
     capacidad_codigo = models.CharField(max_length=200)
+    recurso_tipo = models.CharField(max_length=100, default='', blank=True)
+    recurso_id = models.CharField(max_length=100, null=True, blank=True)
     accion = models.CharField(max_length=50, choices=ACCION_CHOICES)
     resultado = models.CharField(max_length=20, choices=RESULTADO_CHOICES)
+    razon = models.TextField(blank=True, default='')
+    detalles = models.TextField(blank=True, default='')
     ip_address = models.GenericIPAddressField(null=True, blank=True)
     user_agent = models.CharField(max_length=255, blank=True, null=True)
     contexto_adicional = models.JSONField(default=dict, blank=True)

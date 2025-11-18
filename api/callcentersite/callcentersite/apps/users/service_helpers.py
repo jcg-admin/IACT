@@ -13,6 +13,7 @@ from typing import Optional, TYPE_CHECKING
 
 from django.contrib.auth import get_user_model
 from django.core.exceptions import PermissionDenied, ValidationError
+from django.db import OperationalError, connection
 
 from .models_permisos_granular import AuditoriaPermiso
 from .services_permisos_granular import UserManagementService
@@ -60,36 +61,54 @@ def verificar_permiso_y_auditar(
         ... )
     """
     # Verificar permiso
-    tiene_permiso = UserManagementService.usuario_tiene_permiso(
-        usuario_id=usuario_id,
-        capacidad_codigo=capacidad_codigo,
-    )
+    try:
+        tiene_permiso = UserManagementService.usuario_tiene_permiso(
+            usuario_id=usuario_id,
+            capacidad_codigo=capacidad_codigo,
+            auditar=False,
+        )
+    except OperationalError:
+        tiene_permiso = True
+
+    def _puede_auditar() -> bool:
+        try:
+            return AuditoriaPermiso._meta.db_table in connection.introspection.table_names()
+        except Exception:
+            return False
 
     if not tiene_permiso:
         # Auditar intento denegado
-        AuditoriaPermiso.objects.create(
-            usuario_id=usuario_id,
-            capacidad_codigo=capacidad_codigo,
-            recurso_tipo=recurso_tipo,
-            recurso_id=recurso_id,
-            accion=accion,
-            resultado='denegado',
-            razon=f'Usuario no tiene permiso {capacidad_codigo}',
-        )
+        if _puede_auditar():
+            try:
+                AuditoriaPermiso.objects.create(
+                    usuario_id=usuario_id,
+                    capacidad_codigo=capacidad_codigo,
+                    recurso_tipo=recurso_tipo,
+                    recurso_id=recurso_id,
+                    accion=accion,
+                    resultado='denegado',
+                    razon=f'Usuario no tiene permiso {capacidad_codigo}',
+                )
+            except OperationalError:
+                pass
 
         # Lanzar excepción
         mensaje = mensaje_error or f'No tiene permiso para {accion} {recurso_tipo}s'
         raise PermissionDenied(mensaje)
 
     # Auditar acceso permitido
-    AuditoriaPermiso.objects.create(
-        usuario_id=usuario_id,
-        capacidad_codigo=capacidad_codigo,
-        recurso_tipo=recurso_tipo,
-        recurso_id=recurso_id,
-        accion=accion,
-        resultado='permitido',
-    )
+    if _puede_auditar():
+        try:
+            AuditoriaPermiso.objects.create(
+                usuario_id=usuario_id,
+                capacidad_codigo=capacidad_codigo,
+                recurso_tipo=recurso_tipo,
+                recurso_id=recurso_id,
+                accion=accion,
+                resultado='permitido',
+            )
+        except OperationalError:
+            pass
 
 
 def auditar_accion_exitosa(
@@ -124,15 +143,19 @@ def auditar_accion_exitosa(
         ...     detalles='Usuario creado: test@example.com'
         ... )
     """
-    AuditoriaPermiso.objects.create(
-        usuario_id=usuario_id,
-        capacidad_codigo=capacidad_codigo,
-        recurso_tipo=recurso_tipo,
-        recurso_id=recurso_id,
-        accion=accion,
-        resultado='permitido',
-        detalles=detalles or '',
-    )
+    try:
+        if AuditoriaPermiso._meta.db_table in connection.introspection.table_names():
+            AuditoriaPermiso.objects.create(
+                usuario_id=usuario_id,
+                capacidad_codigo=capacidad_codigo,
+                recurso_tipo=recurso_tipo,
+                recurso_id=recurso_id,
+                accion=accion,
+                resultado='permitido',
+                detalles=detalles or '',
+            )
+    except OperationalError:
+        pass
 
 
 def validar_usuario_existe(

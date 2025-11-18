@@ -21,7 +21,7 @@ urlpatterns = [
         name="swagger-ui",
     ),
     path("api/v1/", include("callcentersite.apps.users.urls")),
-    path("api/v1/", include("callcentersite.apps.configuration.urls")),
+    path("api/v1/configuration/", include("callcentersite.apps.configuration.urls")),
     path("api/v1/auth/", include("callcentersite.apps.authentication.urls")),
     path("api/v1/dashboard/", include("callcentersite.apps.dashboard.urls")),
     path("api/v1/configuracion/", include("callcentersite.apps.configuracion.urls")),
@@ -34,5 +34,6 @@ urlpatterns = [
     path("api/v1/permissions/", include("callcentersite.apps.permissions.urls")),
     path("api/v1/llamadas/", include("callcentersite.apps.llamadas.urls")),
     path("api/v1/dora/", include("dora_metrics.urls")),
+    path("api/v1/data/", include("data_centralization.urls")),
     path("health/", health_check, name="health"),
 ]
