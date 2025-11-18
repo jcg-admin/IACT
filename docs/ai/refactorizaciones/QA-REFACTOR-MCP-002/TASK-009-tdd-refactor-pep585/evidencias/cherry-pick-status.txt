@@ -1,0 +1,5 @@
+Auto-merging scripts/coding/ai/mcp/registry.py
+[claude/fix-branch-issues-013FpGsYZUySbBL6bsMbhBf2 ba316a1] refactor: modernize type annotations to PEP 585 style
+ Author: copilot-swe-agent[bot] <198982749+Copilot@users.noreply.github.com>
+ Date: Sun Nov 16 06:11:16 2025 +0000
+ 1 file changed, 11 insertions(+), 11 deletions(-)
