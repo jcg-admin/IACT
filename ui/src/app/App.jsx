@@ -2,13 +2,19 @@ import { useEffect } from 'react';
 import MainLayout from '@components/MainLayout';
 import HomePage from '../pages/HomePage';
 import { useAppConfig } from '@hooks/useAppConfig';
+import { useHealthStatus } from '@hooks/useHealthStatus';
+import { useMockMetrics } from '@hooks/useMockMetrics';
 
 function App() {
   const { isLoading, config, loadConfig, source, error } = useAppConfig();
+  const { status: healthStatus, source: healthSource, lastChecked, error: healthError, checkHealth } =
+    useHealthStatus();
+  const { summary: mockSummary } = useMockMetrics();
 
   useEffect(() => {
     loadConfig();
-  }, [loadConfig]);
+    checkHealth();
+  }, [loadConfig, checkHealth]);
 
   if (isLoading) {
     return (
@@ -25,8 +31,15 @@ function App() {
     details: error ?? undefined,
   };
 
+  const backendStatus = {
+    status: healthStatus,
+    source: healthSource,
+    lastChecked,
+    error: healthError,
+  };
+
   return (
-    <MainLayout mockNotice={mockNotice}>
+    <MainLayout mockNotice={mockNotice} backendStatus={backendStatus} mockSummary={mockSummary}>
       <HomePage />
     </MainLayout>
   );

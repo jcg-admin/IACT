@@ -18,6 +18,7 @@ Decisiones arquitectónicas, patrones de diseño y lineamientos técnicos espec�
 - [`lineamientos_codigo.md`](lineamientos_codigo.md) - Guías de desarrollo frontend
 - [`estrategia_integracion_backend.md`](estrategia_integracion_backend.md) - Plan de integración y fallback frente a brechas del backend
 - [`TODO.md`](TODO.md) - Backlog arquitectónico para absorber brechas del backend
+- [`validacion_callcentersite_api.md`](validacion_callcentersite_api.md) - Validación del backend real frente a los lineamientos y mocks del frontend
 - [`ejemplos-ui-design.md`](ejemplos-ui-design.md) - Prompt engineering avanzado para diseño de UI
 - [`shared_webpack_configs.md`](shared_webpack_configs.md) - Guía de configuraciones Webpack compartidas para microfrontends single-spa
 - [`microfrontends_canvas.md`](microfrontends_canvas.md) - Canvas de decisión para seleccionar arquitecturas de microfrontends

@@ -6,12 +6,36 @@ const {
   validateConfigMock,
   validatePermissionsMock,
   validateCallsMock,
+  validateHealthMock,
+  validateUsersMock,
+  validateDashboardMock,
+  validateConfiguracionMock,
+  validateConfigurationMock,
+  validatePresupuestosMock,
+  validatePoliticasMock,
+  validateExcepcionesMock,
+  validateReportesMock,
+  validateNotificationsMock,
+  validateETLMock,
+  validateDORAMock,
 } = require('../src/mocks/schemas');
 
 const MOCKS = [
   { key: 'config', file: 'config.json', validator: validateConfigMock },
   { key: 'permissions', file: 'permissions.json', validator: validatePermissionsMock },
   { key: 'calls', file: 'llamadas.json', validator: validateCallsMock },
+  { key: 'health', file: 'health.json', validator: validateHealthMock },
+  { key: 'users', file: 'usuarios.json', validator: validateUsersMock },
+  { key: 'dashboard', file: 'dashboard.json', validator: validateDashboardMock },
+  { key: 'configuracion', file: 'configuracion.json', validator: validateConfiguracionMock },
+  { key: 'configuration', file: 'configuration.json', validator: validateConfigurationMock },
+  { key: 'presupuestos', file: 'presupuestos.json', validator: validatePresupuestosMock },
+  { key: 'politicas', file: 'politicas.json', validator: validatePoliticasMock },
+  { key: 'excepciones', file: 'excepciones.json', validator: validateExcepcionesMock },
+  { key: 'reportes', file: 'reportes.json', validator: validateReportesMock },
+  { key: 'notifications', file: 'notifications.json', validator: validateNotificationsMock },
+  { key: 'etl', file: 'etl.json', validator: validateETLMock },
+  { key: 'dora', file: 'dora.json', validator: validateDORAMock },
 ];
 
 const mocksDir = path.resolve(__dirname, '../src/mocks');
@@ -37,3 +61,4 @@ const snapshotPath = path.join(outputDir, `snapshot-${Date.now()}.json`);
 fs.writeFileSync(snapshotPath, JSON.stringify(snapshot, null, 2));
 
 console.log(`Mock snapshot generated at ${snapshotPath}`);
+console.log(`Validated ${MOCKS.length} mocks successfully`);
