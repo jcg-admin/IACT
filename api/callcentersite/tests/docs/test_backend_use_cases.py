@@ -61,3 +61,51 @@ def test_parse_use_case_collects_alternate_and_exception_flows():
     assert "Sistema detecta duplicado" in alt_steps
     assert "Sistema valida grupos" in exc_steps
     assert "Sistema detecta error de BD" in exc_steps
+
+
+@pytest.mark.unit
+@pytest.mark.parametrize(
+    "filename, expected_phrases",
+    [
+        (
+            "UC-PERM-002_revocar_grupo_a_usuario.md",
+            [
+                "Accede al módulo de gestión de usuarios",
+                "Muestra confirmación de éxito",
+            ],
+        ),
+        (
+            "UC-PERM-003_conceder_permiso_excepcional.md",
+            [
+                "Accede a módulo de permisos excepcionales",
+                "Crea registro en permisos_excepcionales",
+            ],
+        ),
+    ],
+)
+def test_parse_use_case_supports_numbered_sections(filename, expected_phrases):
+    uc_file = BACKEND_DOCS / filename
+    use_case = parse_use_case(uc_file)
+
+    main_steps_text = " ".join(use_case.main_flow.steps)
+
+    for phrase in expected_phrases:
+        assert phrase in main_steps_text, f"Phrase '{phrase}' missing in main flow"
+
+
+@pytest.mark.unit
+def test_numbered_sections_keep_alternate_and_exception_flows():
+    uc_file = BACKEND_DOCS / "UC-PERM-002_revocar_grupo_a_usuario.md"
+    use_case = parse_use_case(uc_file)
+
+    alt_titles = {flow.title for flow in use_case.alternate_flows}
+    exc_titles = {flow.title for flow in use_case.exception_flows}
+
+    assert {"FA-002.1", "FA-002.2", "FA-002.3"}.issubset(alt_titles)
+    assert {"FE-002.1", "FE-002.2"}.issubset(exc_titles)
+
+    alt_steps = " ".join(step for flow in use_case.alternate_flows for step in flow.steps)
+    exc_steps = " ".join(step for flow in use_case.exception_flows for step in flow.steps)
+
+    assert "Sistema muestra error" in alt_steps
+    assert "HTTP 403 Forbidden" in exc_steps

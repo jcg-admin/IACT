@@ -47,7 +47,13 @@ def parse_use_case(path: Path) -> UseCase:
     name = _extract_metadata_field(lines, "nombre") or path.stem
 
     main_flow_lines = _slice_section(lines, "## Flujo principal")
-    alternate_flow_lines = _slice_section(lines, "## Flujos alternos")
+    alternate_flow_lines = _slice_section(
+        lines,
+        (
+            "## Flujos alternos",
+            "## Flujos alternativos",
+        ),
+    )
     exception_flow_lines = _slice_section(lines, "## Flujos de excepción")
 
     main_flow = Flow("Flujo principal", _extract_table_steps(main_flow_lines))
@@ -73,11 +79,13 @@ def _extract_metadata_field(lines: Sequence[str], field: str) -> str:
     return ""
 
 
-def _slice_section(lines: Sequence[str], header: str) -> List[str]:
-    header_lower = header.lower()
+def _slice_section(lines: Sequence[str], header: str | Sequence[str]) -> List[str]:
+    header_options = [header] if isinstance(header, str) else list(header)
+    normalized_targets = {_normalize_header_text(option) for option in header_options}
+
     start = None
     for idx, line in enumerate(lines):
-        if line.strip().lower() == header_lower:
+        if _normalize_header_text(line) in normalized_targets:
             start = idx + 1
             break
     if start is None:
@@ -85,7 +93,7 @@ def _slice_section(lines: Sequence[str], header: str) -> List[str]:
 
     section: List[str] = []
     for line in lines[start:]:
-        if line.startswith("## ") and line.strip().lower() != header_lower:
+        if line.startswith("## ") and _normalize_header_text(line) not in normalized_targets:
             break
         section.append(line)
     return section
@@ -98,16 +106,31 @@ def _extract_table_steps(lines: Iterable[str]) -> List[str]:
         if not line.startswith("|"):
             continue
         columns = [col.strip() for col in line.strip("|").split("|")]
-        if len(columns) < 2:
+        if _is_separator_row(columns):
             continue
+        if _is_header_row(columns):
+            continue
+
+        if len(columns) >= 4 and _looks_like_step_index(columns[0]):
+            actor = columns[1]
+            action = columns[2]
+            system = columns[3]
+            description_parts = [actor, action, system]
+            steps.append(" ".join(part for part in description_parts if part))
+            continue
+
+        if len(columns) == 2:
+            first, second = columns
+            if _looks_like_step_index(first) and second:
+                steps.append(second)
+                continue
+            if first and second:
+                steps.append(f"{first}: {second}")
+                continue
+            steps.append(first or second)
+            continue
+
         actor, system = columns[0], columns[1]
-        header_cells = {actor.lower(), system.lower()}
-        if header_cells == {"actor", "sistema"}:
-            continue
-        if columns[0] and set(columns[0]) <= {"-"}:
-            continue
-        if columns[1] and set(columns[1]) <= {"-"}:
-            continue
         if actor and system:
             steps.append(f"{actor}: {system}")
         else:
@@ -137,9 +160,32 @@ def _extract_named_flows(lines: Sequence[str]) -> List[Flow]:
     return flows
 
 
+def _normalize_header_text(raw_header: str) -> str:
+    header = raw_header.lstrip("#").strip()
+    header = re.sub(r"^\d+[\.:\-)\s]*", "", header)
+    return header.lower()
+
+
+def _is_header_row(columns: List[str]) -> bool:
+    if columns and _looks_like_step_index(columns[0]):
+        return False
+
+    normalized = [col.lower() for col in columns if col]
+    header_tokens = {"actor", "sistema", "paso", "acción", "accion", "descripción", "descripcion"}
+    return normalized and all(cell in header_tokens for cell in normalized)
+
+
+def _is_separator_row(columns: List[str]) -> bool:
+    return all(not col or set(col) <= {"-"} for col in columns)
+
+
+def _looks_like_step_index(cell: str) -> bool:
+    return bool(re.match(r"^[0-9]+[a-zA-Z]?\.?$", cell))
+
+
 def _normalize_flow_title(raw_title: str) -> str:
     title = raw_title.lstrip("# ").strip()
-    match = re.match(r"(?P<code>[A-Z]+-[0-9]+)", title)
+    match = re.match(r"(?P<code>[A-Z]+-[0-9]+(?:\.[0-9]+)?)", title)
     if match:
         return match.group("code")
     return title
