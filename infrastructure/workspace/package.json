@@ -1,0 +1,58 @@
+{
+  "name": "mcp-workflows-infrastructure",
+  "version": "1.0.0",
+  "description": "MCP Workflows Infrastructure with VPN/Proxy Agent integration",
+  "main": "index.js",
+  "type": "module",
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  },
+  "scripts": {
+    "test": "npm run test:python && npm run test:node",
+    "test:python": "pytest infrastructure/workspace/tests -v",
+    "test:node": "node --test",
+    "lint": "npm run lint:python && npm run lint:node",
+    "lint:python": "ruff check infrastructure/workspace/ && black --check infrastructure/workspace/",
+    "lint:node": "eslint .",
+    "format": "npm run format:python && npm run format:node",
+    "format:python": "black infrastructure/workspace/",
+    "format:node": "prettier --write .",
+    "typecheck": "npm run typecheck:python",
+    "typecheck:python": "mypy infrastructure/workspace/vpn_proxy_agent",
+    "vpn:setup-dev": "codex mcp run setup-dev-environment",
+    "vpn:setup-tunnel": "codex mcp run setup-tunnel",
+    "vpn:health": "codex mcp run health-check",
+    "vpn:stop": "codex mcp run stop-tunnel",
+    "mcp:list": "codex mcp list",
+    "mcp:validate": "codex mcp validate",
+    "mcp:run": "codex mcp run",
+    "hamilton:test": "python -m infrastructure.workspace.hamilton_llm.driver",
+    "hamilton:visualize": "hamilton-ui"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "file:vendor/modelcontextprotocol-sdk",
+    "@modelcontextprotocol/server-stdio": "file:vendor/modelcontextprotocol-server-stdio",
+    "codex-mcp": "file:vendor/codex-mcp"
+  },
+  "devDependencies": {
+    "@types/node": "file:vendor/types-node",
+    "typescript": "file:vendor/typescript",
+    "eslint": "file:vendor/eslint",
+    "prettier": "file:vendor/prettier",
+    "@typescript-eslint/eslint-plugin": "file:vendor/typescript-eslint-eslint-plugin",
+    "@typescript-eslint/parser": "file:vendor/typescript-eslint-parser"
+  },
+  "keywords": [
+    "mcp",
+    "workflows",
+    "vpn",
+    "proxy",
+    "ssh",
+    "tunnel",
+    "hamilton",
+    "codex"
+  ],
+  "author": "Your Team",
+  "license": "MIT"
+}

@@ -1,0 +1,215 @@
+# CODEOWNERS
+# Este archivo define quienes son los propietarios de codigo para diferentes partes del proyecto
+# Los propietarios seran solicitados automaticamente para revisiones de PRs
+# Documentacion: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# ============================================================================
+# ADRs (Architecture Decision Records)
+# ============================================================================
+
+# ADRs Globales
+docs/ai/ADR-*.md @equipo-arquitectura @arquitecto-senior
+docs/backend/ADR-*.md @equipo-arquitectura @equipo-backend
+docs/frontend/ADR-*.md @equipo-arquitectura @equipo-frontend
+docs/infraestructura/ADR-*.md @equipo-arquitectura @equipo-devops
+docs/gobernanza/ADR-*.md @equipo-arquitectura @equipo-gobernanza
+
+# ADRs Especificos Criticos
+docs/ai/ADR-2025-017-sistema-permisos-sin-roles-jerarquicos.md @arquitecto-senior @equipo-backend @equipo-ba
+docs/ai/ADR-2025-003-dora-sdlc-integration.md @arquitecto-senior @tech-lead @devops-lead
+docs/backend/ADR-2025-005-grupos-funcionales-sin-jerarquia.md @equipo-backend @equipo-ba @arquitecto-principal
+
+# ============================================================================
+# Documentacion de Requisitos
+# ============================================================================
+
+# Prioridades del Sistema de Permisos
+docs/backend/requisitos/prioridad_01_estructura_base_datos.md @equipo-backend @equipo-dba @arquitecto-senior
+docs/backend/requisitos/prioridad_02_funciones_core.md @equipo-backend @equipo-ba
+docs/backend/requisitos/prioridad_03_modulos_operativos.md @equipo-backend @product-owner
+docs/backend/requisitos/prioridad_04_modulos_gestion.md @equipo-backend @product-owner
+
+# Indice Maestro
+docs/backend/requisitos/INDICE_MAESTRO_PERMISOS_GRANULAR.md @equipo-backend @equipo-ba @arquitecto-senior
+
+# Casos de Uso del Sistema de Permisos
+docs/backend/UC-PERM-*.md @equipo-backend @equipo-ba @equipo-qa
+docs/frontend/UC-PERM-*.md @equipo-frontend @equipo-ba @equipo-qa
+
+# Reglas de Negocio por Dominio
+docs/ai/requisitos/reglas_negocio/ @equipo-ba @arquitecto-ai
+docs/backend/requisitos/reglas_negocio/ @equipo-ba @equipo-backend
+docs/frontend/requisitos/reglas_negocio/ @equipo-ba @equipo-frontend
+docs/infraestructura/requisitos/reglas_negocio/ @equipo-ba @equipo-devops
+
+# Requerimientos de Usuario (Casos de Uso)
+docs/ai/requisitos/requerimientos_usuario/ @equipo-ba @arquitecto-ai @equipo-qa
+docs/backend/requisitos/requerimientos_usuario/ @equipo-ba @equipo-backend @equipo-qa
+docs/frontend/requisitos/requerimientos_usuario/ @equipo-ba @equipo-frontend @equipo-qa
+docs/infraestructura/requisitos/requerimientos_usuario/ @equipo-ba @equipo-devops @equipo-qa
+
+# Atributos de Calidad
+docs/ai/requisitos/atributos_calidad/ @equipo-qa @arquitecto-ai
+docs/backend/requisitos/atributos_calidad/ @equipo-qa @equipo-backend
+docs/frontend/requisitos/atributos_calidad/ @equipo-qa @equipo-frontend
+docs/infraestructura/requisitos/atributos_calidad/ @equipo-qa @equipo-devops
+
+# ============================================================================
+# Gobernanza
+# ============================================================================
+
+# Marcos Conceptuales
+docs/gobernanza/marco_integrado/ @equipo-ba @arquitecto-senior @product-owner
+
+# Plantillas
+docs/gobernanza/plantillas/ @equipo-ba @tech-lead
+
+# Procesos
+docs/gobernanza/procesos/ @tech-lead @scrum-master @equipo-qa
+
+# Checklists
+docs/gobernanza/checklists/ @equipo-qa @tech-lead
+
+# QA
+docs/gobernanza/qa/ @equipo-qa @tech-lead
+
+# Agentes
+docs/gobernanza/agentes/ @arquitecto-ai @tech-lead
+
+# Procesos Globales (PROC-*)
+docs/gobernanza/procesos/PROC-*.md @tech-lead @scrum-master @equipo-qa
+
+# Procedimientos (PROCED-*)
+docs/gobernanza/procedimientos/PROCED-*.md @tech-lead @equipo-qa
+
+# Guias (GUIA-*)
+docs/gobernanza/guias/GUIA-*.md @tech-lead @equipo-ba
+
+# Procesos Criticos Especificos
+docs/gobernanza/procesos/PROC-DEV-001-pipeline_trabajo_iact.md @arquitecto-senior @tech-lead @scrum-master
+
+# Guias Fundamentales
+docs/gobernanza/guias/GUIA-GOB-001-procesos_vs_procedimientos.md @arquitecto-senior @tech-lead @equipo-ba
+docs/gobernanza/guias/GUIA-GOB-002-convenciones_nomenclatura.md @arquitecto-senior @tech-lead @equipo-ba
+
+# ============================================================================
+# Reportes y Validaciones
+# ============================================================================
+
+docs/REPORTE_VALIDACION_COMPLETA.md @arquitecto-senior @tech-lead
+docs/VALIDACION_CONFORMIDAD_GOBERNANZA.md @equipo-ba @arquitecto-senior
+docs/RESUMEN_EJECUTIVO_FASES_1_2_3.md @arquitecto-senior @product-owner
+docs/ANALISIS_COMPLETITUD_REORGANIZACION.md @equipo-ba @arquitecto-senior
+
+# ============================================================================
+# Backend
+# ============================================================================
+
+# Permisos (Implementacion)
+docs/backend/permisos/ @equipo-backend @equipo-ba
+docs/backend/IMPLEMENTACION_PERMISOS_GRANULAR.md @equipo-backend @arquitecto-senior
+docs/backend/RESUMEN_IMPLEMENTACION_COMPLETA.md @equipo-backend @tech-lead
+
+# API REST
+docs/backend/rest_apis/ @equipo-backend @equipo-qa
+
+# Arquitectura Backend
+docs/backend/arquitectura/ @equipo-backend @arquitecto-senior
+
+# ============================================================================
+# Frontend
+# ============================================================================
+
+# Arquitectura Frontend
+docs/frontend/arquitectura/ @equipo-frontend @arquitecto-frontend
+
+# Integracion de Permisos Frontend
+docs/frontend/integracion_permisos.md @equipo-frontend @equipo-backend
+
+# ============================================================================
+# Infraestructura
+# ============================================================================
+
+# DevOps
+docs/infraestructura/devops/ @equipo-devops @devops-lead
+
+# Arquitectura de Infraestructura
+docs/infraestructura/arquitectura/ @equipo-devops @arquitecto-senior
+
+# CPython Builder
+docs/infraestructura/cpython-builder.md @equipo-devops @equipo-backend
+
+# ============================================================================
+# AI/ML
+# ============================================================================
+
+# Agentes SDLC
+docs/ai/agent/ @arquitecto-ai @tech-lead
+
+# Estrategia de IA
+docs/ai/ESTRATEGIA_IA.md @arquitecto-ai @arquitecto-senior
+
+# Changelog AI
+docs/ai/CHANGELOG.md @arquitecto-ai
+
+# TDD Status
+docs/ai/TDD_STATUS.md @arquitecto-ai @equipo-qa
+
+# ============================================================================
+# Scripts
+# ============================================================================
+
+# Scripts de Agentes
+scripts/coding/ai/ @arquitecto-ai @tech-lead
+
+# Scripts de Validacion
+scripts/validacion/ @equipo-qa @equipo-backend
+
+# Scripts de Completitud
+scripts/completeness_analysis_agent.py @equipo-ba @arquitecto-senior
+scripts/estandarizar_adrs.py @arquitecto-senior @tech-lead
+scripts/actualizar_referencias_adrs.py @arquitecto-senior @tech-lead
+
+# Scripts CLI
+scripts/cli/ @equipo-devops @tech-lead
+
+# ============================================================================
+# Tests
+# ============================================================================
+
+# Tests Backend
+api/callcentersite/tests/ @equipo-backend @equipo-qa
+
+# Tests de Agentes
+scripts/coding/tests/ @arquitecto-ai @equipo-qa
+
+# ============================================================================
+# Configuracion de Proyecto
+# ============================================================================
+
+# Root Files
+README.md @arquitecto-senior @product-owner
+CODEOWNERS @arquitecto-senior @tech-lead
+.gitignore @equipo-devops
+requirements.txt @equipo-backend @equipo-devops
+
+# ============================================================================
+# Guias
+# ============================================================================
+
+# Guias de Despliegue
+docs/guias/deployment/ @equipo-devops @equipo-backend
+
+# Guias de Workflows
+docs/guias/workflows/ @tech-lead @scrum-master
+
+# Guias de Testing
+docs/guias/testing/ @equipo-qa @tech-lead
+
+# ============================================================================
+# Notas Finales
+# ============================================================================
+# - Los equipos mencionados (@equipo-*) deben ser creados en GitHub
+# - Los roles individuales (@arquitecto-senior, etc.) son placeholders
+# - Ajustar segun la estructura real del equipo en GitHub
+# - Para que funcione, los equipos deben tener acceso de escritura al repo

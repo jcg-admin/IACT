@@ -1,0 +1,39 @@
+{
+  "save_results": true,
+  "output_dir": "output/test_generation_dryrun",
+  "agents": {
+    "coverage_analyzer": {
+      "min_coverage": 85,
+      "threshold_low": 70,
+      "comment": "Análisis sin modificar código"
+    },
+    "test_planner": {
+      "max_tests_per_run": 5,
+      "comment": "Planifica pero no ejecuta"
+    },
+    "llm_generator": {
+      "llm_provider": "anthropic",
+      "model": "claude-3-5-sonnet-20241022",
+      "dry_run": true,
+      "comment": "NO genera código real, solo simula"
+    },
+    "syntax_validator": {
+      "run_mypy": false,
+      "skip_validation": true,
+      "comment": "Salta validación en dry run"
+    },
+    "test_runner": {
+      "skip_execution": true,
+      "comment": "NO ejecuta tests en dry run"
+    },
+    "coverage_verifier": {
+      "min_coverage_increase": 5.0,
+      "skip_verification": true,
+      "comment": "Solo reporta, no verifica"
+    },
+    "pr_creator": {
+      "enabled": false,
+      "comment": "NO crea PR en dry run"
+    }
+  }
+}

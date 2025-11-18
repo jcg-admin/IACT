@@ -1,0 +1,319 @@
+name: Test Pyramid Validation
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+  schedule:
+    # Run weekly to track test pyramid metrics over time
+    - cron: '0 0 * * 0'
+
+jobs:
+  analyze-test-pyramid:
+    name: Analyze Test Pyramid
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pytest pytest-django
+
+      - name: Install Node dependencies
+        run: |
+          cd frontend
+          npm ci
+
+      - name: Count Backend Tests
+        id: backend_tests
+        run: |
+          cd api/callcentersite
+
+          # Count unit tests (files with test_*.py in tests/ directories)
+          UNIT_TESTS=$(find . -path "*/tests/test_*.py" -type f | wc -l)
+
+          # Count integration tests (files with test_integration_*.py)
+          INTEGRATION_TESTS=$(find . -path "*/tests/test_integration_*.py" -type f | wc -l)
+
+          # Count E2E tests (files with test_e2e_*.py)
+          E2E_TESTS=$(find . -path "*/tests/test_e2e_*.py" -type f | wc -l)
+
+          echo "unit=$UNIT_TESTS" >> $GITHUB_OUTPUT
+          echo "integration=$INTEGRATION_TESTS" >> $GITHUB_OUTPUT
+          echo "e2e=$E2E_TESTS" >> $GITHUB_OUTPUT
+
+          echo "Backend Tests:"
+          echo "  Unit: $UNIT_TESTS"
+          echo "  Integration: $INTEGRATION_TESTS"
+          echo "  E2E: $E2E_TESTS"
+
+      - name: Count Frontend Tests
+        id: frontend_tests
+        run: |
+          cd frontend
+
+          # Count unit tests (*.test.tsx, *.test.ts in src/)
+          UNIT_TESTS=$(find src -name "*.test.tsx" -o -name "*.test.ts" | grep -v ".integration.test" | grep -v ".e2e.test" | wc -l)
+
+          # Count integration tests (*.integration.test.tsx)
+          INTEGRATION_TESTS=$(find src -name "*.integration.test.tsx" -o -name "*.integration.test.ts" | wc -l)
+
+          # Count E2E tests (e2e/ directory)
+          E2E_TESTS=$(find e2e -name "*.spec.ts" 2>/dev/null | wc -l || echo 0)
+
+          echo "unit=$UNIT_TESTS" >> $GITHUB_OUTPUT
+          echo "integration=$INTEGRATION_TESTS" >> $GITHUB_OUTPUT
+          echo "e2e=$E2E_TESTS" >> $GITHUB_OUTPUT
+
+          echo "Frontend Tests:"
+          echo "  Unit: $UNIT_TESTS"
+          echo "  Integration: $INTEGRATION_TESTS"
+          echo "  E2E: $E2E_TESTS"
+
+      - name: Calculate Test Pyramid Metrics
+        id: pyramid_metrics
+        run: |
+          # Backend
+          BE_UNIT=${{ steps.backend_tests.outputs.unit }}
+          BE_INT=${{ steps.backend_tests.outputs.integration }}
+          BE_E2E=${{ steps.backend_tests.outputs.e2e }}
+          BE_TOTAL=$((BE_UNIT + BE_INT + BE_E2E))
+
+          # Frontend
+          FE_UNIT=${{ steps.frontend_tests.outputs.unit }}
+          FE_INT=${{ steps.frontend_tests.outputs.integration }}
+          FE_E2E=${{ steps.frontend_tests.outputs.e2e }}
+          FE_TOTAL=$((FE_UNIT + FE_INT + FE_E2E))
+
+          # Overall
+          TOTAL_UNIT=$((BE_UNIT + FE_UNIT))
+          TOTAL_INT=$((BE_INT + FE_INT))
+          TOTAL_E2E=$((BE_E2E + FE_E2E))
+          TOTAL=$((TOTAL_UNIT + TOTAL_INT + TOTAL_E2E))
+
+          if [ $TOTAL -eq 0 ]; then
+            echo "ERROR: No tests found!"
+            exit 1
+          fi
+
+          # Calculate percentages
+          UNIT_PCT=$((TOTAL_UNIT * 100 / TOTAL))
+          INT_PCT=$((TOTAL_INT * 100 / TOTAL))
+          E2E_PCT=$((TOTAL_E2E * 100 / TOTAL))
+
+          echo "total=$TOTAL" >> $GITHUB_OUTPUT
+          echo "unit_pct=$UNIT_PCT" >> $GITHUB_OUTPUT
+          echo "int_pct=$INT_PCT" >> $GITHUB_OUTPUT
+          echo "e2e_pct=$E2E_PCT" >> $GITHUB_OUTPUT
+
+          echo ""
+          echo "============================================"
+          echo "TEST PYRAMID METRICS"
+          echo "============================================"
+          echo "Total Tests: $TOTAL"
+          echo ""
+          echo "Unit Tests: $TOTAL_UNIT ($UNIT_PCT%)"
+          echo "Integration Tests: $TOTAL_INT ($INT_PCT%)"
+          echo "E2E Tests: $TOTAL_E2E ($E2E_PCT%)"
+          echo "============================================"
+
+      - name: Validate Test Pyramid (60/30/10 Rule)
+        run: |
+          UNIT_PCT=${{ steps.pyramid_metrics.outputs.unit_pct }}
+          INT_PCT=${{ steps.pyramid_metrics.outputs.int_pct }}
+          E2E_PCT=${{ steps.pyramid_metrics.outputs.e2e_pct }}
+
+          VALID=true
+
+          echo ""
+          echo "Validating Test Pyramid (Target: 60% Unit, 30% Integration, 10% E2E)"
+          echo ""
+
+          # Unit tests should be >= 50% (allowing 10% tolerance)
+          if [ $UNIT_PCT -lt 50 ]; then
+            echo "[FAIL] FAIL: Unit tests are only $UNIT_PCT% (should be >= 50%)"
+            VALID=false
+          else
+            echo "[PASS] PASS: Unit tests are $UNIT_PCT% (>= 50%)"
+          fi
+
+          # Integration tests should be 20-40%
+          if [ $INT_PCT -lt 20 ] || [ $INT_PCT -gt 40 ]; then
+            echo "[WARNING]  WARNING: Integration tests are $INT_PCT% (should be 20-40%)"
+            # Warning only, not blocking
+          else
+            echo "[PASS] PASS: Integration tests are $INT_PCT% (20-40%)"
+          fi
+
+          # E2E tests should be <= 20%
+          if [ $E2E_PCT -gt 20 ]; then
+            echo "[WARNING]  WARNING: E2E tests are $E2E_PCT% (should be <= 20%)"
+            # Warning only, not blocking
+          else
+            echo "[PASS] PASS: E2E tests are $E2E_PCT% (<= 20%)"
+          fi
+
+          echo ""
+
+          if [ "$VALID" != "true" ]; then
+            echo "[FAIL] Test pyramid validation FAILED"
+            echo ""
+            echo "Recommendations:"
+            echo "  - Add more unit tests (target: 60%)"
+            echo "  - Unit tests should test individual functions/components in isolation"
+            echo "  - They should be fast and have no external dependencies"
+            exit 1
+          fi
+
+          echo "[PASS] Test pyramid validation PASSED"
+
+      - name: Generate Test Pyramid Visualization
+        run: |
+          cat << 'EOF' > test-pyramid-report.md
+          # Test Pyramid Report
+
+          **Date**: $(date +"%Y-%m-%d %H:%M:%S")
+          **Total Tests**: ${{ steps.pyramid_metrics.outputs.total }}
+
+          ## Test Distribution
+
+          ```
+                   /\
+                  /  \         E2E (${{ steps.pyramid_metrics.outputs.e2e_pct }}%)
+                 /----\
+                /      \       Integration (${{ steps.pyramid_metrics.outputs.int_pct }}%)
+               /--------\
+              /          \     Unit (${{ steps.pyramid_metrics.outputs.unit_pct }}%)
+             /------------\
+          ```
+
+          ## Targets vs Actual
+
+          | Type | Target | Actual | Status |
+          |------|--------|--------|--------|
+          | Unit | 60% | ${{ steps.pyramid_metrics.outputs.unit_pct }}% | $([ ${{ steps.pyramid_metrics.outputs.unit_pct }} -ge 50 ] && echo "[PASS]" || echo "[FAIL]") |
+          | Integration | 30% | ${{ steps.pyramid_metrics.outputs.int_pct }}% | $([ ${{ steps.pyramid_metrics.outputs.int_pct }} -ge 20 ] && [ ${{ steps.pyramid_metrics.outputs.int_pct }} -le 40 ] && echo "[PASS]" || echo "[WARNING] ") |
+          | E2E | 10% | ${{ steps.pyramid_metrics.outputs.e2e_pct }}% | $([ ${{ steps.pyramid_metrics.outputs.e2e_pct }} -le 20 ] && echo "[PASS]" || echo "[WARNING] ") |
+
+          ## Backend Breakdown
+
+          - Unit: ${{ steps.backend_tests.outputs.unit }}
+          - Integration: ${{ steps.backend_tests.outputs.integration }}
+          - E2E: ${{ steps.backend_tests.outputs.e2e }}
+
+          ## Frontend Breakdown
+
+          - Unit: ${{ steps.frontend_tests.outputs.unit }}
+          - Integration: ${{ steps.frontend_tests.outputs.integration }}
+          - E2E: ${{ steps.frontend_tests.outputs.e2e }}
+
+          ---
+
+          Generated by Test Pyramid Validation workflow
+          EOF
+
+          cat test-pyramid-report.md
+
+      - name: Upload Test Pyramid Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-pyramid-report
+          path: test-pyramid-report.md
+          retention-days: 30
+
+      - name: Comment on PR (if applicable)
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const report = fs.readFileSync('test-pyramid-report.md', 'utf8');
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: report
+            });
+
+  test-execution-time:
+    name: Validate Test Execution Time
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install -r api/requirements.txt
+          pip install pytest pytest-django pytest-benchmark
+
+      - name: Measure test execution time
+        run: |
+          cd api/callcentersite
+
+          echo "Measuring test execution time..."
+
+          # Unit tests should be fast (< 10s)
+          START=$(date +%s)
+          python manage.py test --tag=unit --parallel || true
+          END=$(date +%s)
+          UNIT_TIME=$((END - START))
+
+          echo "Unit tests execution time: ${UNIT_TIME}s"
+
+          if [ $UNIT_TIME -gt 30 ]; then
+            echo "[WARNING]  WARNING: Unit tests took ${UNIT_TIME}s (should be < 30s)"
+          else
+            echo "[PASS] Unit tests execution time is acceptable"
+          fi
+
+      - name: Check for slow tests
+        run: |
+          cd api/callcentersite
+
+          echo "Checking for slow tests..."
+
+          # Use pytest-benchmark to identify slow tests
+          pytest --durations=10 --tb=no || true
+
+          echo ""
+          echo "Review the slowest tests above and consider optimizing them"
+
+  summary:
+    name: Test Pyramid Summary
+    runs-on: ubuntu-latest
+    needs: [analyze-test-pyramid, test-execution-time]
+    if: always()
+
+    steps:
+      - name: Check Status
+        run: |
+          echo "Test Pyramid Validation Results:"
+          echo "  Analysis: ${{ needs.analyze-test-pyramid.result }}"
+          echo "  Execution Time: ${{ needs.test-execution-time.result }}"
+
+          if [ "${{ needs.analyze-test-pyramid.result }}" != "success" ]; then
+            echo "[FAIL] Test Pyramid validation FAILED"
+            exit 1
+          fi
+
+          echo "[PASS] Test Pyramid validation PASSED"

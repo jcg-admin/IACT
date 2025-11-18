@@ -1,0 +1,246 @@
+name: Release Management
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to release (e.g., v1.2.3)'
+        required: true
+        type: string
+      prerelease:
+        description: 'Mark as pre-release'
+        required: false
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+jobs:
+  validate-version:
+    name: Validate Version
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.get-version.outputs.version }}
+      version_number: ${{ steps.get-version.outputs.version_number }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Get version from tag or input
+        id: get-version
+        run: |
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            VERSION="${{ github.event.inputs.version }}"
+          else
+            VERSION="${GITHUB_REF#refs/tags/}"
+          fi
+
+          # Validate version format (vX.Y.Z)
+          if ! [[ $VERSION =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "[FAIL] Invalid version format: $VERSION"
+            echo "Expected format: vX.Y.Z (e.g., v1.2.3)"
+            exit 1
+          fi
+
+          VERSION_NUMBER="${VERSION#v}"
+
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "version_number=$VERSION_NUMBER" >> $GITHUB_OUTPUT
+          echo "[PASS] Version validated: $VERSION"
+
+      - name: Check if release exists
+        run: |
+          bash .github/workflows/scripts/check_release_exists.sh "${{ steps.get-version.outputs.version }}"
+
+  generate-changelog:
+    name: Generate Release Notes
+    runs-on: ubuntu-latest
+    needs: validate-version
+    outputs:
+      changelog: ${{ steps.generate-notes.outputs.changelog }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Generate release notes
+        id: generate-notes
+        run: |
+          bash .github/workflows/scripts/generate_release_notes.sh "${{ needs.validate-version.outputs.version }}"
+
+      - name: Upload changelog artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: changelog
+          path: CHANGELOG-${{ needs.validate-version.outputs.version }}.md
+          retention-days: 30
+
+  create-release-packages:
+    name: Create Release Packages
+    runs-on: ubuntu-latest
+    needs: validate-version
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Create release packages
+        run: |
+          bash .github/workflows/scripts/create_release_packages.sh "${{ needs.validate-version.outputs.version }}"
+
+      - name: Upload release artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-packages
+          path: |
+            dist/iact-docs-${{ needs.validate-version.outputs.version_number }}.zip
+            dist/iact-docs-${{ needs.validate-version.outputs.version_number }}.tar.gz
+          retention-days: 90
+
+  update-version-files:
+    name: Update Version in Files
+    runs-on: ubuntu-latest
+    needs: validate-version
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Update version in files
+        run: |
+          bash .github/workflows/scripts/update_version.sh "${{ needs.validate-version.outputs.version_number }}"
+
+      - name: Commit version updates
+        run: |
+          git config user.name "Release Bot"
+          git config user.email "bot@users.noreply.github.com"
+
+          if git diff --quiet; then
+            echo "No version files to update"
+          else
+            git add -A
+            git commit -m "chore(release): bump version to ${{ needs.validate-version.outputs.version }}"
+            git push origin HEAD:main || echo "Could not push to main (protected branch)"
+          fi
+
+  create-github-release:
+    name: Create GitHub Release
+    runs-on: ubuntu-latest
+    needs: [validate-version, generate-changelog, create-release-packages]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download changelog
+        uses: actions/download-artifact@v4
+        with:
+          name: changelog
+
+      - name: Download release packages
+        uses: actions/download-artifact@v4
+        with:
+          name: release-packages
+          path: dist/
+
+      - name: Create GitHub Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VERSION: ${{ needs.validate-version.outputs.version }}
+          PRERELEASE: ${{ github.event.inputs.prerelease || 'false' }}
+        run: |
+          bash .github/workflows/scripts/create_github_release.sh
+
+      - name: Update release with packages
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VERSION: ${{ needs.validate-version.outputs.version }}
+        run: |
+          # Upload release assets
+          for file in dist/*; do
+            if [ -f "$file" ]; then
+              echo "Uploading: $file"
+              gh release upload "$VERSION" "$file" --clobber
+            fi
+          done
+
+  notify-stakeholders:
+    name: Notify Stakeholders
+    runs-on: ubuntu-latest
+    needs: [validate-version, create-github-release]
+    if: success()
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Create release announcement issue
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VERSION: ${{ needs.validate-version.outputs.version }}
+        run: |
+          gh issue create \
+            --title "📦 Release $VERSION published" \
+            --body "$(cat <<EOF
+          # Release $VERSION Published
+
+          The new release **$VERSION** has been successfully published and is now available.
+
+          ## 📥 Download
+
+          [Download from Releases](${{ github.server_url }}/${{ github.repository }}/releases/tag/$VERSION)
+
+          ## 📚 Documentation
+
+          Updated documentation is available at: https://2-coatl.github.io/IACT---project
+
+          ## 📋 Next Steps
+
+          - [ ] Review release notes
+          - [ ] Update local documentation
+          - [ ] Notify team members
+          - [ ] Update related projects
+
+          ---
+          *This issue was created automatically by the release workflow*
+          EOF
+          )" \
+            --label "release" \
+            --assignee "@me" || echo "Could not create issue"
+
+  release-summary:
+    name: Release Summary
+    runs-on: ubuntu-latest
+    needs: [validate-version, generate-changelog, create-release-packages, create-github-release]
+    if: always()
+    steps:
+      - name: Summary
+        run: |
+          echo "## 📦 Release Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Version:** ${{ needs.validate-version.outputs.version }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Status:** ${{ job.status }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Job Results" >> $GITHUB_STEP_SUMMARY
+          echo "- Validate Version: ${{ needs.validate-version.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "- Generate Changelog: ${{ needs.generate-changelog.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "- Create Packages: ${{ needs.create-release-packages.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "- Create GitHub Release: ${{ needs.create-github-release.result }}" >> $GITHUB_STEP_SUMMARY
+
+      - name: Check overall status
+        run: |
+          if [ "${{ needs.create-github-release.result }}" != "success" ]; then
+            echo "[FAIL] Release creation failed"
+            exit 1
+          else
+            echo "[PASS] Release ${{ needs.validate-version.outputs.version }} created successfully"
+          fi

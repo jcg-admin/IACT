@@ -1,0 +1,9 @@
+{
+  "name": "@typescript-eslint/parser",
+  "version": "6.13.2",
+  "description": "Stub TypeScript ESLint parser",
+  "type": "module",
+  "exports": {
+    ".": "./index.mjs"
+  }
+}

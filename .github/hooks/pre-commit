@@ -1,0 +1,406 @@
+#!/bin/sh
+
+# Enhanced pre-commit hook with 3-level enforcement system for development
+# quality assurance and standards compliance.
+#
+# This hook validates staged changes before allowing commits to proceed,
+# providing configurable enforcement levels to balance development velocity
+# with code quality standards.
+#
+# The hook should exit with non-zero status after issuing appropriate
+# messages if it wants to prevent the commit from proceeding. Exit code 1
+# blocks commits for critical violations requiring immediate attention.
+#
+# ENFORCEMENT LEVELS:
+#
+#   IMMEDIATE: Blocks commits (exit 1) - Critical violations requiring fix
+#     - Task-based naming patterns (t003-, epic-, story-)
+#     - Framework coupling in names (rails, django, angular)
+#     - Hungarian notation (str_, val_, tst_)
+#     - Real secrets (passwords, API keys, private keys)
+#
+#   CORRECTIVE: Warns but allows commits (exit 0) - Issues requiring sprint attention
+#     - Ambiguous naming patterns (test-files.sh, validate-config.sh)
+#     - Technology coupling (mysql, postgresql, apache)
+#     - Potential secrets (database URLs with credentials)
+#     - Location violations for established components
+#
+#   ADVISORY: Suggests improvements (exit 0) - Optional best practices
+#     - Short names (less than 15 characters)
+#     - Capital letters in script names
+#     - Very long names (over 50 characters)
+#     - Minor convention improvements
+#
+# COMPONENT INTEGRATION:
+#
+# The hook integrates with scripts components that must be present:
+#   scripts/git-hooks/validate-naming-compliance.sh    - 3-level naming enforcement
+#   scripts/git-hooks/validate-secrets-enhanced.sh     - Enhanced secret detection
+#   scripts/git-hooks/validate-environment.sh          - Environment validation
+#   scripts/git-hooks/validate-vagrant-syntax.sh       - Vagrant validation
+#
+# If components are missing, validation is skipped with informational messages.
+#
+# CONFIGURATION VARIABLES:
+#
+# The following config variables can be set to customize hook behavior:
+#
+#   precommit.enableSecrets (default: true)
+#     Enable/disable secret detection validation
+#     Example: git config precommit.enableSecrets false
+#
+#   precommit.enableNaming (default: true)
+#     Enable/disable naming compliance validation
+#     Example: git config precommit.enableNaming false
+#
+#   precommit.enableEnvironment (default: true)
+#     Enable/disable environment configuration validation
+#     Example: git config precommit.enableEnvironment false
+#
+#   precommit.enableVagrant (default: true)
+#     Enable/disable Vagrant syntax validation
+#     Example: git config precommit.enableVagrant false
+#
+#   precommit.verboseOutput (default: false)
+#     Enable detailed validation output and configuration display
+#     Example: git config precommit.verboseOutput true
+#
+# COMPONENT-LEVEL CONFIGURATION:
+#
+# Individual components support additional fine-grained configuration:
+#
+#   compliance.enforceImmediate (default: true)
+#     Control IMMEDIATE level enforcement for naming violations
+#     Example: git config compliance.enforceImmediate false
+#
+#   compliance.trackCorrective (default: true)
+#     Control CORRECTIVE level warnings for naming issues
+#     Example: git config compliance.trackCorrective false
+#
+#   compliance.showAdvisory (default: true)
+#     Control ADVISORY level suggestions for naming improvements
+#     Example: git config compliance.showAdvisory false
+#
+#   secrets.enforceImmediate (default: true)
+#     Control IMMEDIATE level blocking for critical secrets
+#     Example: git config secrets.enforceImmediate false
+#
+#   secrets.trackCorrective (default: true)
+#     Control CORRECTIVE level warnings for potential secrets
+#     Example: git config secrets.trackCorrective false
+#
+# USAGE EXAMPLES:
+#
+# Basic usage (automatic on git commit):
+#   git add modified-files
+#   git commit -m "description"    # Hook runs automatically
+#
+# Manual hook execution for testing:
+#   ./.git/git-hooks/pre-commit        # Test current staged changes
+#
+# Configuration management:
+#   git config --list | grep -E "(precommit|compliance|secrets)"
+#   ./scripts/git-hooks/validate-naming-compliance.sh --config
+#   ./scripts/git-hooks/validate-secrets-enhanced.sh --config
+#
+# Disable all validations temporarily:
+#   git config precommit.enableSecrets false
+#   git config precommit.enableNaming false
+#   git config precommit.enableEnvironment false
+#   git config precommit.enableVagrant false
+#
+# Re-enable all validations:
+#   git config --unset precommit.enableSecrets
+#   git config --unset precommit.enableNaming
+#   git config --unset precommit.enableEnvironment
+#   git config --unset precommit.enableVagrant
+#
+# INSTALLATION AND MAINTENANCE:
+#
+# This hook can be installed through multiple approaches:
+#   1. Component approach: ./bin/setup/setup-enhanced-precommit.sh
+#   2. Template approach: .github/git-hooks/setup-git-hooks.sh
+#   3. git-hooks path approach: git config core.hooksPath .github/git-hooks
+#
+# For system validation and testing:
+#   ./test/system/execute-all-validation-tests.sh
+#
+# For component-specific testing:
+#   ./test/system/test-naming-enforcement-validation.sh
+#   ./test/system/test-secrets-enforcement-validation.sh
+#
+# TROUBLESHOOTING:
+#
+# Common issues and solutions:
+#   - "Component not available" messages: Ensure scripts/git-hooks/ components exist
+#   - "Permission denied" errors: chmod +x scripts/git-hooks/validate-*.sh
+#   - Configuration not applied: Verify with git config --list
+#   - Performance issues: Monitor execution time, adjust enforcement levels if needed
+#
+# For comprehensive troubleshooting documentation, see project documentation.
+
+execute_enforcement_validation() {
+    local component="$1"
+    local description="$2"
+    local exit_code=0
+
+    if test -x "$component"; then
+        echo "Running $description..."
+        "$component"
+        local result=$?
+
+        case $result in
+            0) echo "SUCCESS: $description passed" ;;
+            1)
+                echo "WARNING: $description found corrective issues"
+                [ $exit_code -lt 1 ] && exit_code=1
+                ;;
+            2)
+                echo "ERROR: $description found immediate violations"
+                exit_code=2
+                ;;
+            *)
+                echo "WARNING: $description encountered unexpected result"
+                [ $exit_code -lt 1 ] && exit_code=1
+                ;;
+        esac
+        echo ""
+    else
+        echo "INFO: $description component not available, skipping"
+        echo ""
+    fi
+
+    return $exit_code
+}
+
+validate_naming_compliance() {
+    if test "$(git config --bool --default true precommit.enableNaming)" = "true"; then
+        local staged_scripts=$(git diff --cached --name-only --diff-filter=ACM | grep '\.sh$')
+
+        if [ -n "$staged_scripts" ]; then
+            echo "NAMING COMPLIANCE VALIDATION"
+            echo "============================"
+
+            local naming_exit_code=0
+            local scripts_processed=0
+
+            for script in $staged_scripts; do
+                scripts_processed=$((scripts_processed + 1))
+                echo "Validating script $scripts_processed: $script"
+
+                if test -x "scripts/git-hooks/validate-naming-compliance.sh"; then
+                    scripts/git-hooks/validate-naming-compliance.sh "$script"
+                    local result=$?
+                    [ $result -gt $naming_exit_code ] && naming_exit_code=$result
+                else
+                    echo "WARNING: Naming compliance checker not available"
+                fi
+                echo ""
+            done
+
+            echo "Naming validation completed for $scripts_processed scripts"
+            echo ""
+            return $naming_exit_code
+        else
+            echo "INFO: No shell scripts staged for naming validation"
+            echo ""
+        fi
+    else
+        echo "INFO: Naming compliance validation disabled by configuration"
+        echo ""
+    fi
+    return 0
+}
+
+validate_secrets() {
+    if test "$(git config --bool --default true precommit.enableSecrets)" = "true"; then
+        execute_enforcement_validation "scripts/git-hooks/validate-secrets-enhanced.sh" "secret detection"
+        return $?
+    else
+        echo "INFO: Secret detection disabled by configuration"
+        echo ""
+        return 0
+    fi
+}
+
+validate_environment() {
+    if test "$(git config --bool --default true precommit.enableEnvironment)" = "true"; then
+        if test -x "scripts/git-hooks/validate-environment-orchestrator.sh"; then
+            execute_enforcement_validation "scripts/git-hooks/validate-environment-orchestrator.sh" "environment validation"
+            return $?
+        elif test -x "scripts/git-hooks/validate-environment.sh"; then
+            echo "Running environment validation..."
+            scripts/git-hooks/validate-environment.sh ||
+            echo "WARNING: Environment validation issues detected"
+            echo ""
+        else
+            echo "INFO: Environment validation component not available, skipping"
+            echo ""
+        fi
+    else
+        echo "INFO: Environment validation disabled by configuration"
+        echo ""
+    fi
+    return 0
+}
+
+validate_vagrant() {
+    if test "$(git config --bool --default true precommit.enableVagrant)" = "true"; then
+        if test -f "Vagrantfile"; then
+            if test -x "scripts/git-hooks/validate-vagrant-syntax.sh"; then
+                execute_enforcement_validation "scripts/git-hooks/validate-vagrant-syntax.sh" "Vagrant validation"
+                return $?
+            elif command -v vagrant >/dev/null 2>&1; then
+                echo "Running Vagrant validation..."
+                vagrant validate >/dev/null 2>&1 ||
+                echo "WARNING: Vagrantfile validation failed"
+                echo ""
+            else
+                echo "INFO: Vagrant not available, skipping Vagrantfile validation"
+                echo ""
+            fi
+        else
+            echo "INFO: No Vagrantfile found, skipping Vagrant validation"
+            echo ""
+        fi
+    else
+        echo "INFO: Vagrant validation disabled by configuration"
+        echo ""
+    fi
+    return 0
+}
+
+show_enforcement_summary() {
+    local overall_result="$1"
+    local verbose=$(git config --bool --default false precommit.verboseOutput)
+
+    echo "ENFORCEMENT SUMMARY"
+    echo "=================="
+
+    case $overall_result in
+        0)
+            echo "SUCCESS: All validations passed"
+            echo "Commit approved - no violations detected"
+            if test "$verbose" = "true"; then
+                echo ""
+                echo "VALIDATION DETAILS:"
+                echo "- All enforcement levels passed"
+                echo "- No immediate violations requiring blocking"
+                echo "- No corrective issues requiring attention"
+                echo "- Repository follows established standards"
+            fi
+            ;;
+        1)
+            echo "WARNING: Corrective issues detected"
+            echo "Commit allowed but improvements recommended"
+            echo ""
+            echo "FOLLOW-UP REQUIRED:"
+            echo "- Address corrective issues within current sprint"
+            echo "- Issues are tracked for completion"
+            echo "- Consider fixing before push to remote"
+            if test "$verbose" = "true"; then
+                echo ""
+                echo "GUIDANCE:"
+                echo "- Review all WARNING messages above"
+                echo "- Plan corrective actions in current development cycle"
+                echo "- Monitor for patterns requiring systematic fixes"
+            fi
+            ;;
+        2)
+            echo "ERROR: Immediate violations detected"
+            echo "Commit blocked - critical issues require immediate attention"
+            echo ""
+            echo "REQUIRED ACTIONS:"
+            echo "- Fix all immediate violations listed above"
+            echo "- Re-run commit after addressing critical issues"
+            echo "- Violations must be resolved before proceeding"
+            if test "$verbose" = "true"; then
+                echo ""
+                echo "BLOCKING RATIONALE:"
+                echo "- Critical violations threaten code quality or security"
+                echo "- Immediate attention prevents downstream problems"
+                echo "- Standards compliance required for team consistency"
+            fi
+            ;;
+    esac
+
+    if test "$verbose" = "true"; then
+        echo ""
+        echo "CONFIGURATION:"
+        echo "- Secrets: $(git config --bool --default true precommit.enableSecrets)"
+        echo "- Naming: $(git config --bool --default true precommit.enableNaming)"
+        echo "- Environment: $(git config --bool --default true precommit.enableEnvironment)"
+        echo "- Vagrant: $(git config --bool --default true precommit.enableVagrant)"
+    fi
+
+    echo ""
+}
+
+# main -------------------------------------------------------------------------
+
+# SIMPLIFIED APPROACH: Change to Git repository root at start
+GIT_ROOT=$(git rev-parse --show-toplevel 2>/dev/null)
+if [ -n "$GIT_ROOT" ]; then
+    cd "$GIT_ROOT" || {
+        echo "ERROR: Cannot change to Git repository root: $GIT_ROOT"
+        exit 0
+    }
+fi
+
+echo "ENHANCED PRE-COMMIT VALIDATION"
+echo "=============================="
+
+# Configuration check
+if test "$(git config --bool --default false precommit.verboseOutput)" = "true"; then
+    echo "Verbose mode enabled"
+    echo "Working directory: $(pwd)"
+    echo "Configuration check:"
+    echo "  Secrets validation: $(git config --bool --default true precommit.enableSecrets)"
+    echo "  Naming validation: $(git config --bool --default true precommit.enableNaming)"
+    echo "  Environment validation: $(git config --bool --default true precommit.enableEnvironment)"
+    echo "  Vagrant validation: $(git config --bool --default true precommit.enableVagrant)"
+    echo ""
+fi
+
+# Track overall enforcement result
+overall_exit_code=0
+
+# Execute validation sequence with enforcement tracking
+validate_naming_compliance
+naming_result=$?
+[ $naming_result -gt $overall_exit_code ] && overall_exit_code=$naming_result
+
+validate_secrets
+secrets_result=$?
+[ $secrets_result -gt $overall_exit_code ] && overall_exit_code=$secrets_result
+
+validate_environment
+environment_result=$?
+[ $environment_result -gt $overall_exit_code ] && overall_exit_code=$environment_result
+
+validate_vagrant
+vagrant_result=$?
+[ $vagrant_result -gt $overall_exit_code ] && overall_exit_code=$vagrant_result
+
+# Show enforcement summary and make final decision
+show_enforcement_summary $overall_exit_code
+
+# Enforcement decision based on highest severity level detected
+case $overall_exit_code in
+    0)
+        echo "Commit proceeding..."
+        exit 0
+        ;;
+    1)
+        echo "Commit proceeding with warnings..."
+        exit 0
+        ;;
+    2)
+        echo "Commit blocked due to immediate violations"
+        exit 1
+        ;;
+    *)
+        echo "Commit proceeding (unexpected validation result)"
+        exit 0
+        ;;
+esac

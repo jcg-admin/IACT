@@ -1,0 +1,515 @@
+#!/bin/bash
+#
+# bootstrap.sh - CPython Builder VM Provisioning
+#
+# Reference: SPEC_INFRA_001
+# Purpose: Provision VM with CPython build dependencies
+#
+# Usage:
+#   sudo ./bootstrap.sh
+#
+
+set -euo pipefail
+
+# =============================================================================
+# LOAD UTILITIES
+# =============================================================================
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="${PROJECT_ROOT:-/vagrant}"
+
+# Load environment system (pattern from generate)
+load_environment() {
+    local env_path="$SCRIPT_DIR/utils/environment.sh"
+
+    # Try script directory first
+    if [[ ! -f "$env_path" ]]; then
+        env_path="$PROJECT_ROOT/utils/environment.sh"
+    fi
+
+    # Validate file exists
+    if [[ ! -f "$env_path" ]]; then
+        echo "CRITICAL: Environment system not found" >&2
+        echo "Searched: $SCRIPT_DIR/utils/environment.sh" >&2
+        echo "Searched: $PROJECT_ROOT/utils/environment.sh" >&2
+        return 1
+    fi
+
+    # Source the environment system
+    source "$env_path"
+    return 0
+}
+
+# Load environment with error handling
+if ! load_environment; then
+    echo "ERROR: Failed to load environment system" >&2
+    exit 1
+fi
+
+# =============================================================================
+# FUNCTIONS
+# =============================================================================
+
+configure_old_releases_mirror() {
+    local sources=(/etc/apt/sources.list /etc/apt/sources.list.d/*.list)
+    local updated=0
+
+    log_info "Configuring Ubuntu old-releases mirror as fallback"
+
+    for source_file in "${sources[@]}"; do
+        if [[ ! -f "$source_file" ]]; then
+            continue
+        fi
+
+        if ! grep -Eq "archive.ubuntu.com|security.ubuntu.com" "$source_file"; then
+            continue
+        fi
+
+        log_info "Updating APT source: $source_file"
+        cp "$source_file" "${source_file}.bak" 2>/dev/null || true
+
+        sed -i \
+            -e 's|http://archive.ubuntu.com/ubuntu|http://old-releases.ubuntu.com/ubuntu|g' \
+            -e 's|https://archive.ubuntu.com/ubuntu|http://old-releases.ubuntu.com/ubuntu|g' \
+            -e 's|http://security.ubuntu.com/ubuntu|http://old-releases.ubuntu.com/ubuntu|g' \
+            -e 's|https://security.ubuntu.com/ubuntu|http://old-releases.ubuntu.com/ubuntu|g' \
+            "$source_file"
+
+        updated=1
+    done
+
+    if (( updated == 0 )); then
+        log_warning "No APT sources required migration to old-releases mirror"
+    fi
+
+    return 0
+}
+
+refresh_package_metadata() {
+    log_info "Refreshing package metadata"
+
+    if execute_with_retry 3 "apt-get update" apt-get update -qq; then
+        return 0
+    fi
+
+    log_warning "apt-get update failed, applying old-releases mirror fallback"
+
+    if ! configure_old_releases_mirror; then
+        log_error "Failed to configure old-releases mirror"
+        return 1
+    fi
+
+    if execute_with_retry 3 "apt-get update (old-releases fallback)" apt-get update -qq; then
+        log_info "Package metadata refreshed using old-releases mirror"
+        return 0
+    fi
+
+    log_error "Failed to refresh package metadata after applying old-releases mirror"
+    return 1
+}
+
+update_system() {
+    log_step 1 6 "Updating system"
+
+    # Skip if already completed
+    if is_operation_complete "bootstrap_update_system"; then
+        log_info "System update already completed, skipping"
+        return 0
+    fi
+
+    log_info "Updating package lists..."
+    if ! refresh_package_metadata; then
+        log_error "Failed to update package lists"
+        return 1
+    fi
+
+    log_info "Upgrading system packages..."
+    if ! execute_with_retry 3 "apt-get upgrade" env DEBIAN_FRONTEND=noninteractive apt-get upgrade -y -qq; then
+        log_error "Failed to upgrade system packages"
+        return 1
+    fi
+
+    mark_operation_complete "bootstrap_update_system"
+    log_info "System updated successfully"
+}
+
+install_build_dependencies() {
+    log_step 2 6 "Installing CPython build dependencies"
+
+    # Skip if already completed
+    if is_operation_complete "bootstrap_install_build_deps"; then
+        log_info "Build dependencies already installed, skipping"
+        return 0
+    fi
+
+    log_info "Installing build toolchain..."
+
+    if ! refresh_package_metadata; then
+        log_error "Failed to refresh package metadata before installing dependencies"
+        return 1
+    fi
+
+    # Dependencies from: https://devguide.python.org/getting-started/setup-building/
+    local packages=(
+        build-essential
+        gdb
+        lcov
+        pkg-config
+        libbz2-dev
+        libffi-dev
+        libgdbm-dev
+        libgdbm-compat-dev
+        liblzma-dev
+        libncurses-dev
+        libreadline-dev
+        libsqlite3-dev
+        libssl-dev
+        tk-dev
+        uuid-dev
+        zlib1g-dev
+        wget
+        curl
+        ca-certificates
+        xz-utils
+    )
+
+    # Install with retry logic
+    if ! execute_with_retry 3 "Install build dependencies" \
+        env DEBIAN_FRONTEND=noninteractive apt-get install -y -q "${packages[@]}"; then
+        log_error "Failed to install build dependencies"
+        log_error "Check network connectivity and APT repositories"
+        return 1
+    fi
+
+    log_info "Build dependencies installed successfully"
+
+    # Display critical library versions
+    log_info "Critical library versions:"
+    dpkg -l | grep -E "libssl-dev|libsqlite3-dev|liblzma-dev|libbz2-dev|libffi-dev" | \
+        awk '{print "  " $2 ": " $3}' || log_warning "Could not list library versions"
+
+    mark_operation_complete "bootstrap_install_build_deps"
+}
+
+install_additional_tools() {
+    log_step 3 6 "Installing additional tools"
+
+    # Skip if already completed
+    if is_operation_complete "bootstrap_install_tools"; then
+        log_info "Additional tools already installed, skipping"
+        return 0
+    fi
+
+    log_info "Installing git, vim, htop..."
+    if ! execute_with_retry 3 "Install additional tools" \
+        env DEBIAN_FRONTEND=noninteractive apt-get install -y -qq git vim htop; then
+        log_error "Failed to install additional tools"
+        return 1
+    fi
+
+    mark_operation_complete "bootstrap_install_tools"
+    log_info "Additional tools installed successfully"
+}
+
+verify_installation() {
+    log_step 4 6 "Verifying installation"
+
+    # Verify GCC
+    if ! validate_command_exists "gcc"; then
+        log_error "GCC not found"
+        return 1
+    fi
+    local gcc_version
+    gcc_version=$(gcc --version | head -1)
+    log_info "GCC available: $gcc_version"
+
+    # Verify make
+    if ! validate_command_exists "make"; then
+        log_error "Make not found"
+        return 1
+    fi
+    local make_version
+    make_version=$(make --version | head -1)
+    log_info "Make available: $make_version"
+
+    # Verify critical libraries
+    local critical_libs=(
+        "libssl-dev"
+        "libsqlite3-dev"
+        "liblzma-dev"
+        "libbz2-dev"
+        "libffi-dev"
+    )
+
+    log_info "Verifying critical libraries:"
+    for lib in "${critical_libs[@]}"; do
+        if dpkg -l "$lib" 2>/dev/null | grep -q "^ii"; then
+            log_info "  $lib: installed"
+        else
+            log_error "  $lib: NOT installed"
+            return 1
+        fi
+    done
+
+    log_info "Installation verification completed"
+}
+
+setup_directories() {
+    log_step 5 6 "Setting up directories"
+
+    # Create logs directory
+    if ! ensure_directory_exists "$PROJECT_ROOT/logs" "755"; then
+        log_error "Failed to create logs directory"
+        return 1
+    fi
+
+    # Create artifacts directory
+    if ! ensure_directory_exists "$PROJECT_ROOT/artifacts/cpython" "755"; then
+        log_error "Failed to create artifacts directory"
+        return 1
+    fi
+
+    # Verify directories are writable
+    if ! validate_directory_writable "$PROJECT_ROOT/logs"; then
+        log_error "Logs directory is not writable"
+        return 1
+    fi
+
+    if ! validate_directory_writable "$PROJECT_ROOT/artifacts/cpython"; then
+        log_error "Artifacts directory is not writable"
+        return 1
+    fi
+
+    log_info "Directories configured and verified"
+}
+
+setup_convenience_symlinks() {
+    log_step 6 6 "Setting up convenience symlinks"
+
+    # Symlink: install.sh → install_prebuilt_cpython.sh
+    if [[ -f "$PROJECT_ROOT/scripts/install_prebuilt_cpython.sh" ]]; then
+        ln -sf scripts/install_prebuilt_cpython.sh "$PROJECT_ROOT/install.sh"
+        log_info "Created symlink: install.sh → scripts/install_prebuilt_cpython.sh"
+    else
+        log_warning "install_prebuilt_cpython.sh not found, skipping symlink"
+    fi
+
+    # Symlink: build.sh → build_cpython.sh
+    if [[ -f "$PROJECT_ROOT/scripts/build_cpython.sh" ]]; then
+        ln -sf scripts/build_cpython.sh "$PROJECT_ROOT/build.sh"
+        log_info "Created symlink: build.sh → scripts/build_cpython.sh"
+    else
+        log_warning "build_cpython.sh not found, skipping symlink"
+    fi
+
+    # Symlink: validate.sh → validate_build.sh
+    if [[ -f "$PROJECT_ROOT/scripts/validate_build.sh" ]]; then
+        ln -sf scripts/validate_build.sh "$PROJECT_ROOT/validate.sh"
+        log_info "Created symlink: validate.sh → scripts/validate_build.sh"
+    else
+        log_warning "validate_build.sh not found, skipping symlink"
+    fi
+
+    # Symlink: clean.sh → cleanup.sh
+    if [[ -f "$PROJECT_ROOT/scripts/cleanup.sh" ]]; then
+        ln -sf scripts/cleanup.sh "$PROJECT_ROOT/clean.sh"
+        log_info "Created symlink: clean.sh → scripts/cleanup.sh"
+    else
+        log_warning "cleanup.sh not found, skipping symlink"
+    fi
+
+    log_info "Convenience symlinks configured"
+}
+
+auto_build_python() {
+    local auto_build="${AUTO_BUILD:-false}"
+    local python_version="${PYTHON_VERSION:-}"
+    local build_number="${BUILD_NUMBER:-1}"
+
+    if [[ "$auto_build" != "true" ]]; then
+        log_info "Auto-build disabled"
+        return 0
+    fi
+
+    if [[ -z "$python_version" ]]; then
+        log_warning "AUTO_BUILD enabled but PYTHON_VERSION not set"
+        return 0
+    fi
+
+    log_separator 73
+    log_info "Auto-build enabled: Python $python_version"
+    log_separator 73
+    echo ""
+
+    local artifact_name="cpython-${python_version}-ubuntu20.04-build${build_number}.tgz"
+
+    # Check if already built
+    if [[ -f "$PROJECT_ROOT/artifacts/cpython/$artifact_name" ]]; then
+        log_info "Artifact already exists: $artifact_name"
+        log_info "To rebuild, delete the artifact or use a different build number"
+        return 0
+    fi
+
+    log_info "Building Python $python_version (this will take 10-15 minutes)..."
+    echo ""
+
+    if bash "$PROJECT_ROOT/scripts/build_cpython.sh" "$python_version" "$build_number"; then
+        echo ""
+        log_separator 73
+        log_info "Python $python_version built successfully"
+        log_separator 73
+        echo ""
+
+        if [[ -f "$PROJECT_ROOT/artifacts/cpython/$artifact_name" ]]; then
+            log_info "Artifact: $artifact_name"
+
+            # Auto-validate
+            log_info "Validating artifact..."
+            if bash "$PROJECT_ROOT/scripts/validate_build.sh" "$artifact_name" >/dev/null 2>&1; then
+                log_info "Artifact validated successfully"
+            else
+                log_warning "Artifact validation failed"
+            fi
+        fi
+    else
+        echo ""
+        log_error "Auto-build failed"
+        log_info "You can build manually: ./scripts/build_cpython.sh $python_version"
+        # Don't exit - VM is still usable
+    fi
+
+    echo ""
+}
+
+ensure_toolchain_ready() {
+    log_info "Validating toolchain state"
+
+    if verify_installation; then
+        return 0
+    fi
+
+    log_warning "Toolchain verification failed, attempting automatic repair"
+
+    reset_operation_state "bootstrap_install_build_deps" || true
+    reset_operation_state "bootstrap_install_tools" || true
+
+    install_build_dependencies || return 1
+    install_additional_tools || return 1
+
+    verify_installation
+}
+
+display_summary() {
+    echo ""
+    log_separator 73
+    echo "  CPython Builder - Bootstrap Completed"
+    log_separator 73
+    echo ""
+    echo "Build environment ready:"
+    echo ""
+    echo "  Toolchain:"
+    local missing_tools=()
+
+    if command -v gcc >/dev/null 2>&1; then
+        gcc --version | head -1 | sed 's/^/    /'
+    else
+        missing_tools+=("gcc")
+    fi
+
+    if command -v make >/dev/null 2>&1; then
+        make --version | head -1 | sed 's/^/    /'
+    else
+        missing_tools+=("make")
+    fi
+
+    if (( ${#missing_tools[@]} > 0 )); then
+        echo "    Missing tools detected: ${missing_tools[*]}"
+        echo "    Re-run the bootstrap to reinstall build dependencies:"
+        echo "      source utils/state_manager.sh"
+        echo "      reset_operation_state bootstrap_complete"
+        echo "      sudo ./bootstrap.sh"
+    fi
+    echo ""
+    echo "  Available scripts:"
+    echo "    ./scripts/build_cpython.sh <version> [build-number]"
+    echo "    ./scripts/validate_build.sh <artifact-name>"
+    echo "    ./scripts/cleanup.sh [--all] [--state]"
+    echo ""
+
+    # Show convenience symlinks if they exist
+    local has_symlinks=false
+    if [[ -L "$PROJECT_ROOT/install.sh" ]] || [[ -L "$PROJECT_ROOT/build.sh" ]] || \
+       [[ -L "$PROJECT_ROOT/validate.sh" ]] || [[ -L "$PROJECT_ROOT/clean.sh" ]]; then
+        has_symlinks=true
+        echo "  Convenience symlinks (shorter commands):"
+        [[ -L "$PROJECT_ROOT/install.sh" ]] && echo "    ./install.sh  → $(readlink "$PROJECT_ROOT/install.sh")"
+        [[ -L "$PROJECT_ROOT/build.sh" ]] && echo "    ./build.sh    → $(readlink "$PROJECT_ROOT/build.sh")"
+        [[ -L "$PROJECT_ROOT/validate.sh" ]] && echo "    ./validate.sh → $(readlink "$PROJECT_ROOT/validate.sh")"
+        [[ -L "$PROJECT_ROOT/clean.sh" ]] && echo "    ./clean.sh    → $(readlink "$PROJECT_ROOT/clean.sh")"
+        echo ""
+    fi
+
+    echo "  Usage examples:"
+    if [[ "$has_symlinks" == "true" ]]; then
+        echo "    ./build.sh 3.12.6              # Build Python 3.12.6"
+        echo "    ./validate.sh <artifact>       # Validate artifact"
+        echo "    ./clean.sh --all               # Clean all build files"
+    else
+        echo "    ./scripts/build_cpython.sh 3.12.6"
+    fi
+    echo ""
+    echo "  Artifacts will be generated in:"
+    echo "    $PROJECT_ROOT/artifacts/cpython/"
+    echo ""
+    log_separator 73
+    echo ""
+}
+
+# =============================================================================
+# MAIN
+# =============================================================================
+
+main() {
+    log_header "CPython Builder - Starting Bootstrap" 73
+
+    # Check if bootstrap is already complete
+    if is_operation_complete "bootstrap_complete"; then
+        log_info "Bootstrap already completed"
+        log_info "To force re-bootstrap, run:"
+        log_info "  source utils/state_manager.sh"
+        log_info "  reset_operation_state bootstrap_complete"
+        log_info "  sudo ./bootstrap.sh"
+        ensure_toolchain_ready || return 1
+        echo ""
+        display_summary
+
+        # Check if should auto-build even if bootstrap already done
+        auto_build_python
+        return 0
+    fi
+
+    echo ""
+
+    # Execute bootstrap steps
+    update_system || return 1
+    install_build_dependencies || return 1
+    install_additional_tools || return 1
+    verify_installation || return 1
+    setup_directories || return 1
+    setup_convenience_symlinks || return 1
+
+    # Mark bootstrap as complete
+    mark_operation_complete "bootstrap_complete" "timestamp=$(date +%s)"
+
+    # Display summary
+    display_summary
+
+    log_info "Bootstrap completed successfully"
+    log_separator 73
+
+    # Auto-build if enabled
+    auto_build_python
+}
+
+# Execute main
+main "$@"

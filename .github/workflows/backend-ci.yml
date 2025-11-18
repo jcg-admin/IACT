@@ -1,0 +1,281 @@
+name: Backend CI
+
+on:
+  push:
+    branches: [ main, develop, 'feature/**' ]
+    paths:
+      - 'api/**'
+      - '.github/workflows/backend-ci.yml'
+  pull_request:
+    branches: [ main, develop ]
+    paths:
+      - 'api/**'
+
+jobs:
+  lint:
+    name: Lint Backend Code
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Cache pip dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('api/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install flake8 black isort
+          pip install -r api/requirements.txt
+
+      - name: Run flake8
+        run: |
+          cd api/callcentersite
+          flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+          flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+
+      - name: Check code formatting with black
+        run: |
+          cd api/callcentersite
+          black --check .
+
+      - name: Check imports with isort
+        run: |
+          cd api/callcentersite
+          isort --check-only .
+
+  test-mysql:
+    name: Test with MySQL
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: testpass
+          MYSQL_DATABASE: test_iact
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Cache pip dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('api/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r api/requirements.txt
+          pip install pytest pytest-django pytest-cov
+
+      - name: Wait for MySQL
+        run: |
+          until mysqladmin ping -h "127.0.0.1" --silent; do
+            echo 'waiting for mysql...'
+            sleep 2
+          done
+
+      - name: Run migrations
+        env:
+          DB_ENGINE: django.db.backends.mysql
+          DB_NAME: test_iact
+          DB_USER: root
+          DB_PASSWORD: testpass
+          DB_HOST: 127.0.0.1
+          DB_PORT: 3306
+        run: |
+          cd api/callcentersite
+          python manage.py migrate --run-syncdb
+
+      - name: Run tests with coverage
+        env:
+          DB_ENGINE: django.db.backends.mysql
+          DB_NAME: test_iact
+          DB_USER: root
+          DB_PASSWORD: testpass
+          DB_HOST: 127.0.0.1
+          DB_PORT: 3306
+        run: |
+          cd api/callcentersite
+          pytest --cov=callcentersite --cov-report=xml --cov-report=term --cov-fail-under=80
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          file: ./api/callcentersite/coverage.xml
+          flags: backend,mysql
+          name: backend-mysql
+
+  test-postgresql:
+    name: Test with PostgreSQL
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: testpass
+          POSTGRES_DB: test_iact
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Cache pip dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('api/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r api/requirements.txt
+          pip install pytest pytest-django pytest-cov
+
+      - name: Run migrations
+        env:
+          DB_ENGINE: django.db.backends.postgresql
+          DB_NAME: test_iact
+          DB_USER: postgres
+          DB_PASSWORD: testpass
+          DB_HOST: 127.0.0.1
+          DB_PORT: 5432
+        run: |
+          cd api/callcentersite
+          python manage.py migrate --run-syncdb
+
+      - name: Run tests
+        env:
+          DB_ENGINE: django.db.backends.postgresql
+          DB_NAME: test_iact
+          DB_USER: postgres
+          DB_PASSWORD: testpass
+          DB_HOST: 127.0.0.1
+          DB_PORT: 5432
+        run: |
+          cd api/callcentersite
+          python manage.py test --parallel --keepdb
+
+  validate-restrictions:
+    name: Validate IACT Restrictions
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run all compliance checks
+        run: bash scripts/validation/compliance/run_all_compliance_checks.sh
+
+  integration-tests:
+    name: Integration Tests
+    runs-on: ubuntu-latest
+    needs: [test-mysql, test-postgresql]
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: testpass
+          MYSQL_DATABASE: test_iact
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r api/requirements.txt
+          pip install pytest pytest-django
+
+      - name: Run integration tests
+        env:
+          DB_ENGINE: django.db.backends.mysql
+          DB_NAME: test_iact
+          DB_USER: root
+          DB_PASSWORD: testpass
+          DB_HOST: 127.0.0.1
+          DB_PORT: 3306
+        run: |
+          cd api/callcentersite
+          python manage.py migrate --run-syncdb
+          pytest -m integration --tb=short
+
+  summary:
+    name: CI Summary
+    runs-on: ubuntu-latest
+    needs: [lint, test-mysql, test-postgresql, validate-restrictions, integration-tests]
+    if: always()
+
+    steps:
+      - name: Check CI Status
+        run: |
+          echo "Backend CI Results:"
+          echo "  Lint: ${{ needs.lint.result }}"
+          echo "  MySQL Tests: ${{ needs.test-mysql.result }}"
+          echo "  PostgreSQL Tests: ${{ needs.test-postgresql.result }}"
+          echo "  IACT Restrictions: ${{ needs.validate-restrictions.result }}"
+          echo "  Integration Tests: ${{ needs.integration-tests.result }}"
+
+          if [ "${{ needs.lint.result }}" != "success" ] || \
+             [ "${{ needs.test-mysql.result }}" != "success" ] || \
+             [ "${{ needs.test-postgresql.result }}" != "success" ] || \
+             [ "${{ needs.validate-restrictions.result }}" != "success" ] || \
+             [ "${{ needs.integration-tests.result }}" != "success" ]; then
+            echo "[FAIL] Backend CI FAILED"
+            exit 1
+          fi
+
+          echo "[PASS] Backend CI PASSED"

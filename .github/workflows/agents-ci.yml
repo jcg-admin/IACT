@@ -1,0 +1,440 @@
+name: AI Agents CI/CD
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+      - 'feature/**'
+      - 'claude/**'
+    paths:
+      - 'scripts/coding/ai/agents/**'
+      - 'scripts/coding/tests/test_agents/**'
+      - '.github/workflows/agents-ci.yml'
+  pull_request:
+    branches:
+      - main
+      - develop
+    paths:
+      - 'scripts/coding/ai/agents/**'
+      - 'scripts/coding/tests/test_agents/**'
+  workflow_dispatch:
+
+env:
+  PYTHON_VERSION: '3.11'
+
+jobs:
+  code-quality:
+    name: Code Quality Checks
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pydantic pytest pytest-cov
+          pip install ruff mypy bandit
+
+      - name: Run Ruff linter
+        run: |
+          ruff check scripts/coding/ai/agents/ --output-format=github
+        continue-on-error: false
+
+      - name: Run Ruff formatter check
+        run: |
+          ruff format --check scripts/coding/ai/agents/
+        continue-on-error: false
+
+      - name: Run MyPy type checker
+        run: |
+          mypy scripts/coding/ai/agents/ --show-error-codes --pretty --ignore-missing-imports
+        continue-on-error: true  # Gradual typing
+
+      - name: Run Bandit security checks
+        run: |
+          bandit -r scripts/coding/ai/agents/ -f json -o bandit-report.json || true
+          bandit -r scripts/coding/ai/agents/
+
+      - name: Upload Bandit report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bandit-security-report
+          path: bandit-report.json
+          retention-days: 30
+
+  tests:
+    name: Tests (Python ${{ matrix.python-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ['3.11', '3.12']
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pydantic pytest pytest-cov
+
+      - name: Run tests with coverage
+        run: |
+          pytest scripts/coding/tests/test_agents/ \
+            --cov=scripts/coding/ai/agents \
+            --cov-report=xml \
+            --cov-report=html \
+            --cov-report=term-missing \
+            -v
+
+      - name: Verify test count
+        run: |
+          # Verify we have all 140 tests
+          TEST_COUNT=$(pytest scripts/coding/tests/test_agents/ --collect-only -q | grep -c "test_" || true)
+          echo "Found $TEST_COUNT tests"
+          if [ $TEST_COUNT -lt 140 ]; then
+            echo "Expected 140 tests, found $TEST_COUNT"
+            exit 1
+          fi
+
+      - name: Verify coverage threshold
+        run: |
+          # Ensure coverage is at least 90%
+          COVERAGE=$(pytest scripts/coding/tests/test_agents/ \
+            --cov=scripts/coding/ai/agents \
+            --cov-report=term \
+            -q | grep "TOTAL" | awk '{print $4}' | sed 's/%//')
+          echo "Coverage: $COVERAGE%"
+          if [ $(echo "$COVERAGE < 90" | bc) -eq 1 ]; then
+            echo "Coverage $COVERAGE% is below 90% threshold"
+            exit 1
+          fi
+
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          file: ./coverage.xml
+          flags: agents-tests
+          name: codecov-agents
+          fail_ci_if_error: false
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
+      - name: Upload coverage HTML report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report-agents-${{ matrix.python-version }}
+          path: htmlcov/
+          retention-days: 30
+
+  module-tests:
+    name: Module-specific Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pydantic pytest pytest-cov
+
+      - name: Test Planning Module (RF-011, RF-012)
+        run: |
+          pytest scripts/coding/tests/test_agents/test_planning/ -v
+          echo "Planning module: PASSED"
+
+      - name: Test Protocols Module (RF-013)
+        run: |
+          pytest scripts/coding/tests/test_agents/test_protocols/ -v
+          echo "Protocols module: PASSED"
+
+      - name: Test UX Module (RF-016)
+        run: |
+          pytest scripts/coding/tests/test_agents/test_ux/ -v
+          echo "UX module: PASSED"
+
+      - name: Test Security Module (RF-017)
+        run: |
+          pytest scripts/coding/tests/test_agents/test_security/ -v
+          echo "Security module: PASSED"
+
+      - name: Generate module coverage report
+        run: |
+          echo "# Module Coverage Report" > module-coverage.md
+          echo "" >> module-coverage.md
+
+          echo "## Planning Module" >> module-coverage.md
+          pytest scripts/coding/tests/test_agents/test_planning/ \
+            --cov=scripts/coding/ai/agents/planning \
+            --cov-report=term >> module-coverage.md || true
+
+          echo "" >> module-coverage.md
+          echo "## Protocols Module" >> module-coverage.md
+          pytest scripts/coding/tests/test_agents/test_protocols/ \
+            --cov=scripts/coding/ai/agents/protocols \
+            --cov-report=term >> module-coverage.md || true
+
+          echo "" >> module-coverage.md
+          echo "## UX Module" >> module-coverage.md
+          pytest scripts/coding/tests/test_agents/test_ux/ \
+            --cov=scripts/coding/ai/agents/ux \
+            --cov-report=term >> module-coverage.md || true
+
+          echo "" >> module-coverage.md
+          echo "## Security Module" >> module-coverage.md
+          pytest scripts/coding/tests/test_agents/test_security/ \
+            --cov=scripts/coding/ai/agents/security \
+            --cov-report=term >> module-coverage.md || true
+
+      - name: Upload module coverage report
+        uses: actions/upload-artifact@v4
+        with:
+          name: module-coverage-report
+          path: module-coverage.md
+          retention-days: 30
+
+  performance:
+    name: Performance Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pydantic pytest pytest-benchmark
+
+      - name: Run performance tests
+        run: |
+          # Test goal parsing performance (<10ms)
+          python -c "
+          import time
+          from scripts.coding.ai.agents.planning.parser import GoalParser
+
+          parser = GoalParser()
+          start = time.time()
+          for i in range(100):
+              goal = parser.parse('Book a flight to Paris')
+          duration = (time.time() - start) / 100 * 1000
+          print(f'Goal parsing: {duration:.2f}ms')
+          assert duration < 10, f'Goal parsing too slow: {duration}ms'
+          "
+
+      - name: Test plan decomposition performance
+        run: |
+          python -c "
+          import time
+          from scripts.coding.ai.agents.planning.parser import GoalParser
+          from scripts.coding.ai.agents.planning.decomposer import TaskDecomposer
+
+          parser = GoalParser()
+          decomposer = TaskDecomposer()
+
+          goal = parser.parse('Book a trip to Paris')
+          start = time.time()
+          for i in range(20):
+              plan = decomposer.decompose(goal)
+          duration = (time.time() - start) / 20 * 1000
+          print(f'Plan decomposition: {duration:.2f}ms')
+          assert duration < 50, f'Plan decomposition too slow: {duration}ms'
+          "
+
+      - name: Test tool discovery performance
+        run: |
+          pytest scripts/coding/tests/test_agents/test_protocols/test_mcp.py::test_tool_discovery_performance -v
+
+      - name: Test failure transparency performance
+        run: |
+          pytest scripts/coding/tests/test_agents/test_planning/test_iterative_planning.py::test_failure_transparency_under_500ms -v
+
+  security-tests:
+    name: Security-specific Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pydantic pytest
+
+      - name: Test threat detection
+        run: |
+          pytest scripts/coding/tests/test_agents/test_security/ -v -k "threat"
+
+      - name: Test HITL controls
+        run: |
+          pytest scripts/coding/tests/test_agents/test_security/ -v -k "hitl or approval"
+
+      - name: Test audit logging
+        run: |
+          pytest scripts/coding/tests/test_agents/test_security/ -v -k "audit or log"
+
+      - name: Security test summary
+        run: |
+          echo "# Security Test Summary" > security-summary.md
+          echo "" >> security-summary.md
+          pytest scripts/coding/tests/test_agents/test_security/ -v --tb=no >> security-summary.md || true
+
+      - name: Upload security test summary
+        uses: actions/upload-artifact@v4
+        with:
+          name: security-test-summary
+          path: security-summary.md
+          retention-days: 30
+
+  integration-tests:
+    name: Integration Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pydantic pytest
+
+      - name: Test complete workflow
+        run: |
+          python -c "
+          from scripts.coding.ai.agents.planning.parser import GoalParser
+          from scripts.coding.ai.agents.planning.decomposer import TaskDecomposer
+          from scripts.coding.ai.agents.security.threat_detector import ThreatDetector
+          from scripts.coding.ai.agents.security.hitl import HumanInTheLoop
+          from scripts.coding.ai.agents.security.audit import AuditLogger
+
+          # Complete workflow test
+          detector = ThreatDetector()
+          parser = GoalParser()
+          decomposer = TaskDecomposer()
+          hitl = HumanInTheLoop()
+          logger = AuditLogger()
+
+          user_input = 'Book a flight to Paris under \$500'
+
+          # Security check
+          assert not detector.detect_task_injection(user_input)
+
+          # Parse and plan
+          goal = parser.parse(user_input)
+          plan = decomposer.decompose(goal)
+
+          # Log
+          logger.log_action('plan_created', 'test_agent', 'user_001', {
+              'goal_id': goal.goal_id,
+              'plan_id': plan.plan_id
+          })
+
+          assert len(plan.subtasks) > 0
+          assert plan.confidence_score > 0
+          assert len(logger.get_logs()) == 1
+
+          print('✓ Integration test passed')
+          "
+
+      - name: Test multi-agent collaboration
+        run: |
+          python -c "
+          from scripts.coding.ai.agents.protocols.a2a import MessageBus, A2AAgent, AgentCapability
+
+          bus = MessageBus()
+
+          agent1 = A2AAgent('agent1', 'Agent 1', bus)
+          agent1.register_capability(AgentCapability(
+              name='test', description='Test', input_schema={}, output_schema={}
+          ))
+          agent1.publish()
+
+          agent2 = A2AAgent('agent2', 'Agent 2', bus)
+          agent2.publish()
+
+          # Test discovery
+          agents = bus.discover_agents()
+          assert len(agents) == 2
+
+          # Test messaging
+          msg_id = agent1.send_request('agent2', 'test', {})
+          messages = agent2.get_messages()
+          assert len(messages) == 1
+
+          print('✓ Multi-agent collaboration test passed')
+          "
+
+  build-status:
+    name: Build Status
+    runs-on: ubuntu-latest
+    needs: [code-quality, tests, module-tests, performance, security-tests, integration-tests]
+    if: always()
+
+    steps:
+      - name: Check build status
+        run: |
+          if [ "${{ needs.code-quality.result }}" = "failure" ] || \
+             [ "${{ needs.tests.result }}" = "failure" ] || \
+             [ "${{ needs.module-tests.result }}" = "failure" ] || \
+             [ "${{ needs.performance.result }}" = "failure" ] || \
+             [ "${{ needs.security-tests.result }}" = "failure" ] || \
+             [ "${{ needs.integration-tests.result }}" = "failure" ]; then
+            echo "❌ Build failed"
+            exit 1
+          fi
+          echo "✅ Build successful - All 140 tests passed!"
+
+      - name: Create success badge
+        if: success()
+        run: |
+          echo "[![AI Agents Tests](https://img.shields.io/badge/tests-140%20passed-brightgreen)](https://github.com/${{ github.repository }}/actions/workflows/agents-ci.yml)" > badge.md
+
+      - name: Upload badge
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: success-badge
+          path: badge.md
+          retention-days: 30
