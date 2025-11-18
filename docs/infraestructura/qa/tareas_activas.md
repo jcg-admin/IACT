@@ -152,6 +152,20 @@ Tareas de corto plazo (< 2 semanas) con seguimiento activo.
   - Bloqueadores: Ninguno
   - ETA: 2025-11-09
 
+- [ ] **Plan de reorganización docs/infraestructura (QA)** `P1` `3SP`
+  - Ruta: `docs/infraestructura/qa/QA-ANALISIS-ESTRUCTURA-INFRA-001/`
+  - Objetivo: completar inventario, normalizar README/INDEX y plantillas QA siguiendo Gobernanza
+  - Asignado: @arquitecto-senior + @qa-lead
+  - Bloqueadores: Validación de alcance con equipo de documentación
+  - ETA: 2025-11-21
+
+- [ ] **Estructurar documentación de carpeta infrastructure/** `P1` `3SP`
+  - Plan: `qa/QA-ANALISIS-ESTRUCTURA-INFRA-001/PLAN-DOCUMENTACION-INFRA-2025-11-19.md`
+  - Alcance: reflejar `infrastructure/{box,cpython,vagrant,workspace}` en `docs/infraestructura/` con navegación y QA
+  - Controles: TDD con cobertura ≥80 %, commits convencionales, sin Redis, sin correo en backend (`api/callcentersite`) y frontend (`ui`)
+  - Asignado: @tech-writer + @devops-lead
+  - ETA: 2025-11-22
+
 - [x] **Migrar contenido de docs_legacy/** `P1` `13SP`
   - Total: 118 archivos migrados
   - INDICE.md: v1.3.0

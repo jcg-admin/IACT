@@ -1,97 +1,65 @@
-# Indice - Dominio INFRAESTRUCTURA
+# Índice - Infraestructura
 
-**Dominio:** infraestructura  
-**Proposito:** Documentacion completa del dominio infraestructura del proyecto IACT
-
----
-
-## Estructura del Dominio
-
-Este dominio sigue la arquitectura estandar por dominios (ADR-010) con 12 subdirectorios:
-
-- **guias/** (1 archivos MD)
-- **procedimientos/** (1 archivos MD)
-- **qa/** (1 archivos MD)
-- **solicitudes/** (1 archivos MD)
-- **planificacion_y_releases/** (1 archivos MD)
-- **plans/** (1 archivos MD)
-- **sesiones/** (1 archivos MD)
-- **diseno_detallado/** (1 archivos MD)
-- **testing/** (1 archivos MD)
-- **tareas/** (1 archivos MD)
-- **arquitectura/** (1 archivos MD)
-- **requisitos/** (18 archivos MD)
+**Dominio:** Infraestructura
+**Propósito:** Documentación operativa y de diseño del dominio de infraestructura del proyecto IACT.
 
 ---
 
-## Archivos Principales
+## Estructura de Infraestructura
 
-- ADR_2025_001_vagrant_mod_wsgi.md
-- ADR_2025_002_suite_calidad_codigo.md
-- ADR_2025_007_git_hooks_validation_strategy.md
-- ADR_2025_011_wasi_style_virtualization.md
-- ADR_2025_012_cpython_features_vs_imagen_base.md
-- ADR_2025_013_distribucion_artefactos_strategy.md
-- CHANGELOG-cpython.md
-- README.md
-- TASK-017-layer3_infrastructure_logs.md
-- ambientes_virtualizados.md
-- cpython_builder.md
-- cpython_development_guide.md
-- estrategia_git_hooks.md
-- estrategia_migracion_shell_scripts.md
-- implementation_report.md
-- index.md
-- matriz_trazabilidad_rtm.md
-- shell_scripts_constitution.md
-- spec_infra_001_cpython_precompilado.md
-- srs_software_requirements.md
-- storage_architecture.md
-- tareas_activas.md
-- template_requisito_no_funcional.md
-- wasi_environment_integration.md
+**Subdirectorios principales:**
+
+- **adr/** - Architectural Decision Records específicos de infraestructura.
+- **diseno/** - Modelos de arquitectura, diagramas y diseño detallado.
+- **checklists/** - Listas de verificación de hardening, provisión y revisiones operativas.
+- **procedimientos/** - Procedimientos operativos y runbooks de soporte.
+- **qa/** - Estrategias de resiliencia, observabilidad y validaciones técnicas.
+- **plan/planificacion_y_releases/** - Planes de evolución, mantenimiento y bitácoras de cambios.
+- **devops/** - Automatizaciones, pipelines de infraestructura como código y runbooks.
+- **requisitos/** - Requisitos técnicos, SLAs y trazabilidad asociada.
+- **gobernanza/** - Políticas de seguridad, cumplimiento y estándares de operación.
+- **devcontainer/** - Plantillas de entornos de desarrollo y pipelines de devcontainers.
+- **workspace/** - Workspaces y herramientas de experimentación.
+- **solicitudes/** - Solicitudes de cambio y evaluaciones de impacto.
+- **specs/** - Especificaciones técnicas y planes asociados a artefactos de infraestructura.
 
 ---
 
-## Navegacion Rapida
+## Navegación Rápida
 
-### Documentacion Tecnica
-- [Arquitectura](arquitectura/) - Decisiones arquitectonicas del dominio
-- [Diseño Detallado](diseno_detallado/) - Especificaciones tecnicas
-- [Requisitos](requisitos/) - Requisitos del dominio
+### Decisiones y Arquitectura
+- [ADRs](adr/) - Architectural Decision Records
+- [Diseño detallado](diseno/) - Modelos y diagramas
 
-### Desarrollo
-- [Tareas](tareas/) - Tareas de desarrollo
-- [Testing](testing/) - Tests y validaciones
-- [Plans](plans/) - Planes de ejecucion
+### Estándares y Procesos
+- [Checklists](checklists/) - Hardening y revisiones operativas
+- [Procedimientos](procedimientos/) - Runbooks y guías operativas
+- [DevOps](devops/) - Pipelines y automatización de infraestructura
+- [Gobernanza](gobernanza/) - Lineamientos y políticas de infraestructura
 
-### Gestion
-- [Planificacion y Releases](planificacion_y_releases/) - Planning y releases
-- [Solicitudes](solicitudes/) - Solicitudes de cambio
-- [Sesiones](sesiones/) - Sesiones de trabajo
+### Requisitos y Especificaciones
+- [Requisitos](requisitos/) - SLAs y trazabilidad
+- [Specs técnicas](specs/) - Especificaciones y planes de artefactos
 
-### Operaciones
-- [QA](qa/) - Quality Assurance
-- [Guias](guias/) - Guias de uso
-- [Procedimientos](procedimientos/) - Procedimientos operativos
+### Operaciones y Releases
+- [Planificación y releases](plan/planificacion_y_releases/) - Ventanas, bitácoras y despliegues
+- [QA](qa/) - Validaciones de resiliencia y observabilidad
+- [Solicitudes](solicitudes/) - Gestión de cambios
+- [Sesiones](sesiones/) - Seguimiento de trabajos y acuerdos
+
+### Documentación y Herramientas
+- [Guías](guias/) - Guías de uso y configuración
+- [DevContainer](devcontainer/) - Entornos de desarrollo
+- [Workspace](workspace/) - Espacios de trabajo y laboratorios
 
 ---
 
 ## Recursos Transversales
 
-- [Gobernanza](../gobernanza/) - Estandares y politicas
-- [DevOps](../devops/) - CI/CD y automatizacion
-- [Documentacion Root](../) - Indice maestro
+- [Documentación Root](../) - Índice maestro
+- [Dominios](../) - Backend, Frontend, Infraestructura, AI
+- [DevOps](../devops/) - CI/CD y automatización
 
 ---
 
-## Tareas del Dominio
-
-**Total TASKs:** 2
-
-- [TASK-018-cassandra_cluster_setup.md](tareas/TASK-018-cassandra_cluster_setup.md)
-- [TASK-017-layer3_infrastructure_logs.md](TASK-017-layer3_infrastructure_logs.md)
-
----
-
-**Ultima actualizacion:** 2025-11-16
+**Última actualización:** 2025-11-18
