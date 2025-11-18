@@ -2,76 +2,156 @@
 
 from __future__ import annotations
 
+import csv
+import io
 import json
-from datetime import datetime, timedelta
+from datetime import date, datetime, timedelta
 
 from django.contrib.admin.views.decorators import staff_member_required
 from django.db.models import Avg, Count
 from django.db.models.functions import TruncDate
-from django.http import JsonResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 from django.utils import timezone
+from django.utils.dateparse import parse_date
 from django.views.decorators.http import require_http_methods
+from openpyxl import Workbook
+from reportlab.lib.pagesizes import letter
+from reportlab.pdfgen import canvas
 from rest_framework.decorators import throttle_classes
-from .throttling import BurstRateThrottle, SustainedRateThrottle
 
-from .models import DORAMetric
-from .data_catalog import DataCatalog, DataQueryEngine
-from .data_ecosystem import (
-    DataQualityMonitor,
-    DataGovernance,
-    DataLineage,
-    EcosystemHealth,
-    MetadataManagement
-)
 from .advanced_analytics import (
-    TrendAnalyzer,
+    AnomalyTrendDetector,
     ComparativeAnalytics,
     HistoricalReporting,
-    AnomalyTrendDetector,
-    PerformanceForecasting
+    PerformanceForecasting,
+    TrendAnalyzer,
 )
+from .data_catalog import DataCatalog, DataQueryEngine
+from .data_ecosystem import (
+    DataGovernance,
+    DataLineage,
+    DataQualityMonitor,
+    EcosystemHealth,
+    MetadataManagement,
+)
+from .models import DORAMetric
+from .throttling import BurstRateThrottle, SustainedRateThrottle
+
+
+def _parse_date_param(param: str | None, default: date) -> datetime:
+    parsed_date = parse_date(param) if param else None
+    selected_date = parsed_date or default
+    naive_datetime = datetime.combine(selected_date, datetime.min.time())
+    return timezone.make_aware(naive_datetime, timezone=timezone.get_current_timezone())
+
+
+def _date_range(request):
+    today = timezone.now().date()
+    start_param = request.GET.get("start_date")
+    end_param = request.GET.get("end_date")
+
+    start_date = _parse_date_param(start_param, today - timedelta(days=29))
+    end_date = _parse_date_param(end_param, today)
+    end_date = end_date + timedelta(days=1) - timedelta(seconds=1)
+    return start_date, end_date
+
+
+def _calculate_metrics(start_date: datetime, end_date: datetime) -> dict[str, float | int | str]:
+    metrics = DORAMetric.objects.filter(created_at__gte=start_date, created_at__lte=end_date)
+
+    deployment_metrics = metrics.filter(phase_name="deployment")
+    deployment_count = deployment_metrics.count()
+    successful_deployments = deployment_metrics.filter(decision__in=["go", "approved", "success"]).count()
+    failed_deployments = deployment_metrics.filter(decision__in=["no-go", "rollback", "failed"]).count()
+
+    total_deployments = successful_deployments + failed_deployments
+    cfr = (failed_deployments / total_deployments * 100) if total_deployments else 0.0
+
+    avg_lead_time_seconds = deployment_metrics.aggregate(avg=Avg("duration_seconds"))["avg"] or 0
+    lead_time_hours = avg_lead_time_seconds / 3600
+
+    recovery_metrics = metrics.filter(phase_name__in=["recovery", "maintenance"], decision__in=["resolved", "fixed"])
+    avg_mttr_seconds = recovery_metrics.aggregate(avg=Avg("duration_seconds"))["avg"] or 0
+    mttr_hours = avg_mttr_seconds / 3600
+
+    days = max(1, (end_date - start_date).days + 1)
+    classification = calculate_dora_classification(
+        deployment_count=deployment_count,
+        days=days,
+        lead_time_hours=lead_time_hours,
+        cfr=cfr,
+        mttr_hours=mttr_hours,
+    )
+
+    return {
+        "deployment_frequency": deployment_count,
+        "lead_time_hours": round(lead_time_hours, 2),
+        "change_failure_rate": round(cfr, 2),
+        "mttr_hours": round(mttr_hours, 2),
+        "dora_classification": classification,
+        "total_cycles": metrics.values("cycle_id").distinct().count(),
+    }
 
 
 @require_http_methods(["GET"])
 @throttle_classes([BurstRateThrottle, SustainedRateThrottle])
 def dora_metrics_summary(request):
-    """GET /api/dora/metrics - Summary ultimos 30 dias."""
+    """GET /api/v1/dora/metrics - Summary ultimos 30 dias."""
     days = int(request.GET.get("days", 30))
-    cutoff = timezone.now() - timedelta(days=days)
+    start_date = timezone.now() - timedelta(days=days)
+    end_date = timezone.now()
 
-    metrics = DORAMetric.objects.filter(created_at__gte=cutoff)
+    metrics_qs = DORAMetric.objects.filter(created_at__gte=start_date)
+    metrics_list = list(
+        metrics_qs.values(
+            "cycle_id",
+            "feature_id",
+            "phase_name",
+            "decision",
+            "duration_seconds",
+            "created_at",
+        )
+    )
 
-    # Calcular Lead Time promedio
-    deployment_metrics = metrics.filter(phase_name="deployment")
-    avg_lead_time = deployment_metrics.aggregate(avg=Avg("duration_seconds"))["avg"] or 0
-
-    # Calcular Deployment Frequency
-    deployment_count = deployment_metrics.count()
-
-    # Calcular Change Failure Rate
-    testing_metrics = metrics.filter(phase_name="testing")
-    failed_tests = testing_metrics.filter(decision="no-go").count()
-    total_tests = testing_metrics.count()
-    cfr = (failed_tests / total_tests * 100) if total_tests > 0 else 0
+    summary_metrics = _calculate_metrics(start_date, end_date)
 
     return JsonResponse(
         {
             "period_days": days,
-            "metrics": {
-                "lead_time_hours": avg_lead_time / 3600,
-                "deployment_frequency": deployment_count,
-                "change_failure_rate": cfr,
-                "mttr_hours": 0,  # TODO: implementar
+            "metrics": metrics_list,
+            "summary": summary_metrics,
+        }
+    )
+
+
+@require_http_methods(["GET"])
+@throttle_classes([BurstRateThrottle, SustainedRateThrottle])
+def dora_summary(request):
+    """GET /api/v1/dora/summary - Resumen agregando métricas y clasificación."""
+
+    start_date, end_date = _date_range(request)
+    metrics = _calculate_metrics(start_date, end_date)
+
+    return JsonResponse(
+        {
+            "deployment_frequency": metrics["deployment_frequency"],
+            "lead_time_hours": metrics["lead_time_hours"],
+            "change_failure_rate": metrics["change_failure_rate"],
+            "mttr_hours": metrics["mttr_hours"],
+            "dora_classification": metrics["dora_classification"],
+            "total_cycles": metrics["total_cycles"],
+            "period": {
+                "start": start_date.date().isoformat(),
+                "end": end_date.date().isoformat(),
             },
-            "total_cycles": metrics.values("cycle_id").distinct().count(),
         }
     )
 
 
 @require_http_methods(["POST"])
 def dora_metrics_create(request):
-    """POST /api/dora/metrics - Crear metrica."""
+    """POST /api/v1/dora/metrics - Crear metrica."""
     data = json.loads(request.body)
 
     metric = DORAMetric.objects.create(
@@ -140,6 +220,148 @@ def dora_dashboard(request):
     }
 
     return render(request, "dora_metrics/dashboard.html", context)
+
+
+def _daily_metrics(start_date: datetime, end_date: datetime):
+    current = start_date
+    metrics_list = []
+
+    while current <= end_date:
+        day_end = current + timedelta(days=1) - timedelta(seconds=1)
+        day_metrics = _calculate_metrics(current, day_end)
+        metrics_list.append({"date": current.date().isoformat(), **day_metrics})
+        current = current + timedelta(days=1)
+
+    return metrics_list
+
+
+@staff_member_required
+@require_http_methods(["GET"])
+def export_csv(request):
+    """Exportar métricas DORA en formato CSV."""
+
+    start_date, end_date = _date_range(request)
+    metrics_rows = _daily_metrics(start_date, end_date)
+
+    response = HttpResponse(content_type="text/csv")
+    response["Content-Disposition"] = (
+        f"attachment; filename=\"dora_metrics_{start_date.date()}_{end_date.date()}.csv\""
+    )
+
+    writer = csv.writer(response)
+    writer.writerow(["# DORA Metrics Report"])
+    writer.writerow(["# Period", f"{start_date.date()} to {end_date.date()}"])
+    writer.writerow(["# Generated", datetime.utcnow().isoformat()])
+    writer.writerow([])
+    writer.writerow(
+        [
+            "Date",
+            "Deployment Frequency",
+            "Lead Time (hours)",
+            "Change Failure Rate (%)",
+            "MTTR (hours)",
+            "Classification",
+        ]
+    )
+
+    for row in metrics_rows:
+        writer.writerow(
+            [
+                row["date"],
+                row["deployment_frequency"],
+                row["lead_time_hours"],
+                row["change_failure_rate"],
+                row["mttr_hours"],
+                row["dora_classification"],
+            ]
+        )
+
+    return response
+
+
+@staff_member_required
+@require_http_methods(["GET"])
+def export_excel(request):
+    """Exportar métricas DORA en formato Excel (.xlsx)."""
+
+    start_date, end_date = _date_range(request)
+    metrics_rows = _daily_metrics(start_date, end_date)
+    summary = _calculate_metrics(start_date, end_date)
+
+    workbook = Workbook()
+    summary_sheet = workbook.active
+    summary_sheet.title = "Summary"
+    summary_sheet.append(["Metric", "Value"])
+    summary_sheet.append(["Deployment Frequency", summary["deployment_frequency"]])
+    summary_sheet.append(["Lead Time (hours)", summary["lead_time_hours"]])
+    summary_sheet.append(["Change Failure Rate (%)", summary["change_failure_rate"]])
+    summary_sheet.append(["MTTR (hours)", summary["mttr_hours"]])
+    summary_sheet.append(["Classification", summary["dora_classification"]])
+
+    daily_sheet = workbook.create_sheet("Daily Metrics")
+    daily_sheet.append(
+        [
+            "Date",
+            "Deployment Frequency",
+            "Lead Time (hours)",
+            "Change Failure Rate (%)",
+            "MTTR (hours)",
+            "Classification",
+        ]
+    )
+
+    for row in metrics_rows:
+        daily_sheet.append(
+            [
+                row["date"],
+                row["deployment_frequency"],
+                row["lead_time_hours"],
+                row["change_failure_rate"],
+                row["mttr_hours"],
+                row["dora_classification"],
+            ]
+        )
+
+    buffer = io.BytesIO()
+    workbook.save(buffer)
+    buffer.seek(0)
+
+    response = HttpResponse(
+        buffer.getvalue(),
+        content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    )
+    response["Content-Disposition"] = (
+        f"attachment; filename=\"dora_metrics_{start_date.date()}_{end_date.date()}.xlsx\""
+    )
+    return response
+
+
+@staff_member_required
+@require_http_methods(["GET"])
+def export_pdf(request):
+    """Exportar métricas DORA en formato PDF."""
+
+    start_date, end_date = _date_range(request)
+    summary = _calculate_metrics(start_date, end_date)
+
+    buffer = io.BytesIO()
+    pdf = canvas.Canvas(buffer, pagesize=letter)
+    pdf.drawString(72, 750, "IACT - DORA Metrics Report")
+    pdf.drawString(72, 730, f"Periodo: {start_date.date()} a {end_date.date()}")
+    pdf.drawString(72, 710, f"Deployment Frequency: {summary['deployment_frequency']}")
+    pdf.drawString(72, 690, f"Lead Time (hrs): {summary['lead_time_hours']}")
+    pdf.drawString(72, 670, f"Change Failure Rate (%): {summary['change_failure_rate']}")
+    pdf.drawString(72, 650, f"MTTR (hrs): {summary['mttr_hours']}")
+    pdf.drawString(72, 630, f"Clasificación: {summary['dora_classification']}")
+    pdf.showPage()
+    pdf.save()
+
+    buffer.seek(0)
+    response = HttpResponse(buffer.getvalue(), content_type="application/pdf")
+    response["Content-Disposition"] = (
+        f"attachment; filename=\"dora_metrics_{start_date.date()}_{end_date.date()}.pdf\""
+    )
+    return response
 
 
 @staff_member_required
@@ -269,12 +491,6 @@ def calculate_dora_classification(deployment_count, days, lead_time_hours, cfr, 
     # Normalizar a valores por semana/mes
     deployments_per_week = deployment_count / (days / 7)
 
-    # Criterios DORA 2024
-    # Elite: >1/dia, <1h lead time, <5% CFR, <1h MTTR
-    # High: 1/sem-1/mes, 1dia-1sem lead time, 5-10% CFR, <1dia MTTR
-    # Medium: 1/mes-1/6meses, 1sem-1mes lead time, 10-15% CFR, <1sem MTTR
-    # Low: <1/6meses, >1mes lead time, >15% CFR, >1sem MTTR
-
     elite_count = 0
     high_count = 0
     medium_count = 0
@@ -301,11 +517,11 @@ def calculate_dora_classification(deployment_count, days, lead_time_hours, cfr, 
         low_count += 1
 
     # Change Failure Rate
-    if cfr < 5:
+    if cfr <= 15:
         elite_count += 1
-    elif cfr < 10:
+    elif cfr <= 30:
         high_count += 1
-    elif cfr < 15:
+    elif cfr <= 45:
         medium_count += 1
     else:
         low_count += 1
@@ -339,7 +555,7 @@ def calculate_dora_classification(deployment_count, days, lead_time_hours, cfr, 
 @require_http_methods(["GET"])
 def data_catalog_index(request):
     """
-    GET /api/dora/data-catalog/ - Complete data catalog.
+    GET /api/v1/dora/data-catalog/ - Complete data catalog.
 
     Returns structured metadata about all available datasets for AI access.
     Implements DORA 2025 AI Capability 6: AI-accessible Internal Data.
@@ -352,7 +568,7 @@ def data_catalog_index(request):
 @throttle_classes([BurstRateThrottle, SustainedRateThrottle])
 def data_catalog_dora_metrics(request):
     """
-    GET /api/dora/data-catalog/dora-metrics/ - Query DORA metrics data.
+    GET /api/v1/dora/data-catalog/dora-metrics/ - Query DORA metrics data.
 
     Query parameters:
         - days: Number of days to query (default: 30)
@@ -378,7 +594,7 @@ def data_catalog_dora_metrics(request):
 @throttle_classes([BurstRateThrottle, SustainedRateThrottle])
 def data_catalog_deployment_cycles(request):
     """
-    GET /api/dora/data-catalog/deployment-cycles/ - Query deployment cycles.
+    GET /api/v1/dora/data-catalog/deployment-cycles/ - Query deployment cycles.
 
     Query parameters:
         - days: Number of days to query (default: 30)
@@ -401,7 +617,7 @@ def data_catalog_deployment_cycles(request):
 @throttle_classes([BurstRateThrottle, SustainedRateThrottle])
 def data_catalog_aggregated_stats(request):
     """
-    GET /api/dora/data-catalog/aggregated-stats/ - Get aggregated statistics.
+    GET /api/v1/dora/data-catalog/aggregated-stats/ - Get aggregated statistics.
 
     Query parameters:
         - days: Number of days to analyze (default: 30)
@@ -423,7 +639,7 @@ def data_catalog_aggregated_stats(request):
 @require_http_methods(["GET"])
 def data_quality_assessment(request):
     """
-    GET /api/dora/ecosystem/quality/ - Data quality assessment.
+    GET /api/v1/dora/ecosystem/quality/ - Data quality assessment.
 
     Query parameters:
         - days: Number of days to assess (default: 30)
@@ -441,7 +657,7 @@ def data_quality_assessment(request):
 @require_http_methods(["GET"])
 def data_governance_status(request):
     """
-    GET /api/dora/ecosystem/governance/ - Data governance status.
+    GET /api/v1/dora/ecosystem/governance/ - Data governance status.
 
     Returns current data governance policies and compliance status.
     """
@@ -453,7 +669,7 @@ def data_governance_status(request):
 @require_http_methods(["GET"])
 def data_lineage_map(request):
     """
-    GET /api/dora/ecosystem/lineage/ - Data lineage map.
+    GET /api/v1/dora/ecosystem/lineage/ - Data lineage map.
 
     Returns complete data lineage and flow information.
     """
@@ -465,7 +681,7 @@ def data_lineage_map(request):
 @require_http_methods(["GET"])
 def ecosystem_health_status(request):
     """
-    GET /api/dora/ecosystem/health/ - Overall ecosystem health.
+    GET /api/v1/dora/ecosystem/health/ - Overall ecosystem health.
 
     Returns comprehensive ecosystem health status including:
     - Overall health score
@@ -481,7 +697,7 @@ def ecosystem_health_status(request):
 @require_http_methods(["GET"])
 def metadata_registry(request):
     """
-    GET /api/dora/ecosystem/metadata/ - Metadata registry.
+    GET /api/v1/dora/ecosystem/metadata/ - Metadata registry.
 
     Returns complete metadata registry for all datasets.
     """
@@ -499,7 +715,7 @@ def metadata_registry(request):
 @throttle_classes([BurstRateThrottle, SustainedRateThrottle])
 def trend_analysis_deployment_frequency(request):
     """
-    GET /api/dora/analytics/trends/deployment-frequency/ - Deployment frequency trend.
+    GET /api/v1/dora/analytics/trends/deployment-frequency/ - Deployment frequency trend.
 
     Query parameters:
         - days: Number of days to analyze (default: 90)
@@ -517,7 +733,7 @@ def trend_analysis_deployment_frequency(request):
 @throttle_classes([BurstRateThrottle, SustainedRateThrottle])
 def trend_analysis_lead_time(request):
     """
-    GET /api/dora/analytics/trends/lead-time/ - Lead time trend analysis.
+    GET /api/v1/dora/analytics/trends/lead-time/ - Lead time trend analysis.
 
     Query parameters:
         - days: Number of days to analyze (default: 90)
@@ -535,7 +751,7 @@ def trend_analysis_lead_time(request):
 @throttle_classes([BurstRateThrottle, SustainedRateThrottle])
 def comparative_period_over_period(request):
     """
-    GET /api/dora/analytics/comparative/period-over-period/ - Period comparison.
+    GET /api/v1/dora/analytics/comparative/period-over-period/ - Period comparison.
 
     Query parameters:
         - current_days: Current period days (default: 30)
@@ -558,7 +774,7 @@ def comparative_period_over_period(request):
 @throttle_classes([BurstRateThrottle, SustainedRateThrottle])
 def historical_monthly_report(request):
     """
-    GET /api/dora/analytics/historical/monthly/ - Monthly historical report.
+    GET /api/v1/dora/analytics/historical/monthly/ - Monthly historical report.
 
     Query parameters:
         - months: Number of months to include (default: 6)
@@ -576,7 +792,7 @@ def historical_monthly_report(request):
 @throttle_classes([BurstRateThrottle, SustainedRateThrottle])
 def anomaly_detection(request):
     """
-    GET /api/dora/analytics/anomalies/ - Detect anomalies.
+    GET /api/v1/dora/analytics/anomalies/ - Detect anomalies.
 
     Query parameters:
         - days: Number of days to analyze (default: 30)
@@ -594,7 +810,7 @@ def anomaly_detection(request):
 @throttle_classes([BurstRateThrottle, SustainedRateThrottle])
 def performance_forecast(request):
     """
-    GET /api/dora/analytics/forecast/ - Performance forecast.
+    GET /api/v1/dora/analytics/forecast/ - Performance forecast.
 
     Query parameters:
         - historical_months: Months of historical data to use (default: 6)
@@ -619,7 +835,7 @@ from .ai_telemetry import AITelemetryCollector
 @throttle_classes([BurstRateThrottle, SustainedRateThrottle])
 def ai_telemetry_record(request):
     """
-    POST /api/dora/ai-telemetry/record/ - Registrar decision IA.
+    POST /api/v1/dora/ai-telemetry/record/ - Registrar decision IA.
 
     Body:
         {
@@ -658,7 +874,7 @@ def ai_telemetry_record(request):
 @throttle_classes([BurstRateThrottle, SustainedRateThrottle])
 def ai_telemetry_feedback(request, telemetry_id):
     """
-    POST /api/dora/ai-telemetry/<id>/feedback/ - Registrar feedback humano.
+    POST /api/v1/dora/ai-telemetry/<id>/feedback/ - Registrar feedback humano.
 
     Body:
         {
@@ -685,7 +901,7 @@ def ai_telemetry_feedback(request, telemetry_id):
 @throttle_classes([BurstRateThrottle, SustainedRateThrottle])
 def ai_telemetry_stats(request):
     """
-    GET /api/dora/ai-telemetry/stats/ - Estadisticas generales.
+    GET /api/v1/dora/ai-telemetry/stats/ - Estadisticas generales.
 
     Query parameters:
         - days: Number of days to analyze (default: 30)
@@ -710,7 +926,7 @@ def ai_telemetry_stats(request):
 @throttle_classes([BurstRateThrottle, SustainedRateThrottle])
 def ai_telemetry_agent_stats(request, agent_id):
     """
-    GET /api/dora/ai-telemetry/agent/<agent_id>/ - Stats por agente.
+    GET /api/v1/dora/ai-telemetry/agent/<agent_id>/ - Stats por agente.
 
     Query parameters:
         - days: Number of days to analyze (default: 30)
@@ -726,7 +942,7 @@ def ai_telemetry_agent_stats(request, agent_id):
 @throttle_classes([BurstRateThrottle, SustainedRateThrottle])
 def ai_telemetry_accuracy(request):
     """
-    GET /api/dora/ai-telemetry/accuracy/ - Metricas accuracy.
+    GET /api/v1/dora/ai-telemetry/accuracy/ - Metricas accuracy.
 
     Query parameters:
         - agent_id: Filter by agent (optional)
@@ -774,7 +990,7 @@ from .ml_models import DeploymentRiskPredictor
 @throttle_classes([BurstRateThrottle, SustainedRateThrottle])
 def predict_deployment_risk(request):
     """
-    POST /api/dora/predict/deployment-risk/ - Predecir riesgo de deployment.
+    POST /api/v1/dora/predict/deployment-risk/ - Predecir riesgo de deployment.
 
     Body:
         {
@@ -828,7 +1044,7 @@ def predict_deployment_risk(request):
 @throttle_classes([BurstRateThrottle, SustainedRateThrottle])
 def predict_model_stats(request):
     """
-    GET /api/dora/predict/model-stats/ - Estadisticas del modelo ML.
+    GET /api/v1/dora/predict/model-stats/ - Estadisticas del modelo ML.
     """
     predictor = DeploymentRiskPredictor()
 
@@ -853,7 +1069,7 @@ def predict_model_stats(request):
 @throttle_classes([BurstRateThrottle, SustainedRateThrottle])
 def predict_retrain_model(request):
     """
-    POST /api/dora/predict/retrain/ - Re-entrenar modelo ML.
+    POST /api/v1/dora/predict/retrain/ - Re-entrenar modelo ML.
 
     Body:
         {
@@ -898,7 +1114,7 @@ def predict_retrain_model(request):
 @throttle_classes([BurstRateThrottle, SustainedRateThrottle])
 def predict_feature_importance(request):
     """
-    GET /api/dora/predict/feature-importance/ - Feature importance del modelo.
+    GET /api/v1/dora/predict/feature-importance/ - Feature importance del modelo.
     """
     predictor = DeploymentRiskPredictor()
 
@@ -940,7 +1156,7 @@ from .auto_remediation import ProblemDetector, RemediationEngine
 @require_http_methods(["GET"])
 @throttle_classes([BurstRateThrottle, SustainedRateThrottle])
 def remediation_problems(request):
-    """GET /api/dora/remediation/problems/ - Lista problemas detectados."""
+    """GET /api/v1/dora/remediation/problems/ - Lista problemas detectados."""
     problems = ProblemDetector.detect_all_problems()
     return JsonResponse({"total_problems": len(problems), "problems": [p.to_dict() for p in problems]})
 
@@ -948,7 +1164,7 @@ def remediation_problems(request):
 @require_http_methods(["POST"])
 @throttle_classes([BurstRateThrottle, SustainedRateThrottle])
 def remediation_propose_fix(request):
-    """POST /api/dora/remediation/propose-fix/ - Proponer fix para problema."""
+    """POST /api/v1/dora/remediation/propose-fix/ - Proponer fix para problema."""
     data = json.loads(request.body)
     problems = ProblemDetector.detect_all_problems()
     problem = next((p for p in problems if p.problem_type == data.get("problem_type")), None)
@@ -961,7 +1177,7 @@ def remediation_propose_fix(request):
 @require_http_methods(["POST"])
 @throttle_classes([BurstRateThrottle, SustainedRateThrottle])
 def remediation_execute(request):
-    """POST /api/dora/remediation/execute/ - Ejecutar fix."""
+    """POST /api/v1/dora/remediation/execute/ - Ejecutar fix."""
     data = json.loads(request.body)
     problems = ProblemDetector.detect_all_problems()
     problem = next((p for p in problems if p.problem_type == data.get("problem_type")), None)
@@ -976,6 +1192,6 @@ def remediation_execute(request):
 @require_http_methods(["POST"])
 @throttle_classes([BurstRateThrottle, SustainedRateThrottle])
 def remediation_rollback(request, execution_id):
-    """POST /api/dora/remediation/rollback/<id>/ - Rollback fix."""
+    """POST /api/v1/dora/remediation/rollback/<id>/ - Rollback fix."""
     result = RemediationEngine.rollback_fix(execution_id)
     return JsonResponse(result)

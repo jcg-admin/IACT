@@ -303,8 +303,8 @@ class DataLineage:
                             "stage": "access",
                             "component": "REST APIs",
                             "endpoints": [
-                                "/api/dora/metrics/",
-                                "/api/dora/data-catalog/dora-metrics/"
+                                "/api/v1/dora/metrics/",
+                                "/api/v1/dora/data-catalog/dora-metrics/"
                             ]
                         }
                     ]
