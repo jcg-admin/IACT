@@ -5,8 +5,6 @@ from __future__ import annotations
 from typing import Dict, List, Optional, Union
 
 import csv
-from copy import deepcopy
-from dataclasses import asdict
 from io import BytesIO, StringIO
 
 from django.contrib.auth import get_user_model
@@ -27,26 +25,6 @@ class DashboardService:
     """Orquesta la construcción de respuestas para el dashboard."""
 
     @staticmethod
-    def _registrar_auditoria(
-        *,
-        usuario_id: int,
-        capacidad_codigo: str,
-        contexto: Dict[str, object],
-    ) -> None:
-        """Registra auditoría de forma segura sólo si la tabla existe."""
-
-        if AuditoriaPermiso._meta.db_table not in connection.introspection.table_names():
-            return
-
-        AuditoriaPermiso.objects.create(
-            usuario_id=usuario_id,
-            capacidad_codigo=capacidad_codigo,
-            accion='acceso_permitido',
-            resultado='exito',
-            contexto_adicional=contexto,
-        )
-
-    @staticmethod
     def ver_dashboard(usuario_id: int) -> Dict[str, object]:
         """Retorna la configuración del dashboard del usuario.
 
@@ -58,10 +36,9 @@ class DashboardService:
         ).first()
 
         widget_keys = configuracion.configuracion.get("widgets", []) if configuracion else list(WIDGET_REGISTRY.keys())
-        widgets = DashboardService._serialize_widgets(widget_keys)
+        widgets = [WIDGET_REGISTRY[widget].__dict__ for widget in widget_keys if widget in WIDGET_REGISTRY]
 
-        if not widgets:
-            widgets = DashboardService._serialize_widgets(list(WIDGET_REGISTRY.keys()))
+        # No fallback to defaults if user's config exists but is invalid; respect explicit selection.
 
         return {
             "widgets": widgets,
@@ -129,14 +106,13 @@ class DashboardService:
         # Por ahora retornamos un placeholder
         archivo = f'/tmp/dashboard_{usuario_id}_{timezone.now().timestamp()}.{formato}'
 
-        DashboardService._registrar_auditoria(
+        AuditoriaPermiso.objects.create(
             usuario_id=usuario_id,
             capacidad_codigo='sistema.vistas.dashboards.exportar',
-            contexto={
-                'recurso': 'dashboard',
-                'accion': 'exportar',
-                'formato': formato,
-            },
+            recurso_tipo='dashboard',
+            accion='exportar',
+            resultado='permitido',
+            detalles=f'Dashboard exportado a {formato}',
         )
 
         return {
@@ -171,50 +147,6 @@ class DashboardService:
         return configuracion
 
     @staticmethod
-    def compartir_dashboard(
-        usuario_origen_id: int,
-        usuario_destino_id: int,
-    ) -> DashboardConfiguracion:
-        """Copia la configuración del dashboard del usuario origen al destino.
-
-        Args:
-            usuario_origen_id: ID del usuario que comparte su dashboard.
-            usuario_destino_id: ID del usuario que recibirá la configuración.
-
-        Returns:
-            Objeto ``DashboardConfiguracion`` del usuario destino actualizado.
-
-        Raises:
-            ObjectDoesNotExist: Si el usuario destino no existe.
-        """
-
-        try:
-            usuario_destino = User.objects.get(id=usuario_destino_id, is_deleted=False)
-        except User.DoesNotExist as exc:
-            raise ObjectDoesNotExist(
-                f"Usuario destino no encontrado: {usuario_destino_id}"
-            ) from exc
-
-        configuracion_origen = DashboardConfiguracion.objects.filter(
-            usuario_id=usuario_origen_id
-        ).first()
-
-        if configuracion_origen is None:
-            configuracion_origen = DashboardConfiguracion.objects.create(
-                usuario_id=usuario_origen_id,
-                configuracion={"widgets": list(WIDGET_REGISTRY.keys())},
-            )
-
-        configuracion_destino, _ = DashboardConfiguracion.objects.update_or_create(
-            usuario_id=usuario_destino.id,
-            defaults={
-                "configuracion": deepcopy(configuracion_origen.configuracion),
-            },
-        )
-
-        return configuracion_destino
-
-    @staticmethod
     def exportar_dashboard(usuario_id: int, formato: str = 'csv') -> Union[str, bytes]:
         """Exporta el dashboard del usuario en formato CSV o PDF.
 
@@ -230,7 +162,7 @@ class DashboardService:
             ValidationError: Si el formato es inválido.
         """
         if formato not in {"csv", "pdf"}:
-            raise ValidationError("Formato invalido. Use csv o pdf")
+            raise ValidationError("Formato inválido. Use csv o pdf")
 
         dashboard = DashboardService.ver_dashboard(usuario_id=usuario_id)
         widgets = dashboard.get("widgets", [])
@@ -290,15 +222,14 @@ class DashboardService:
             defaults={'configuracion': configuracion},
         )
 
-        DashboardService._registrar_auditoria(
+        AuditoriaPermiso.objects.create(
             usuario_id=usuario_id,
             capacidad_codigo='sistema.vistas.dashboards.personalizar',
-            contexto={
-                'recurso': 'dashboard',
-                'accion': 'personalizar',
-                'config_id': config.id,
-                'widgets': configuracion.get('widgets', []),
-            },
+            recurso_tipo='dashboard',
+            accion='personalizar',
+            recurso_id=config.id,
+            resultado='permitido',
+            detalles=f'Dashboard personalizado. Widgets: {len(configuracion.get("widgets", []))}',
         )
 
         return config
@@ -374,15 +305,13 @@ class DashboardService:
         # TODO: Implementar logica real de compartir
         # (crear registro en tabla compartidos, enviar notificacion, etc.)
 
-        DashboardService._registrar_auditoria(
+        AuditoriaPermiso.objects.create(
             usuario_id=usuario_id,
             capacidad_codigo='sistema.vistas.dashboards.compartir',
-            contexto={
-                'recurso': 'dashboard',
-                'accion': 'compartir',
-                'destino_tipo': tipo,
-                'destino': compartido_con,
-            },
+            recurso_tipo='dashboard',
+            accion='compartir',
+            resultado='permitido',
+            detalles=f'Dashboard compartido con {tipo}: {compartido_con}',
         )
 
         return {
