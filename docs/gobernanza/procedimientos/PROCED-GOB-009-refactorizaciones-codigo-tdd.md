@@ -457,5 +457,5 @@ Al finalizar, crear CONSOLIDADO-EVIDENCIAS.md con:
 
 **Procedimiento creado:** 2025-11-17
 **Ultima revision:** 2025-11-17
-**Proxima revision:** 2026-11-17 (o despues de 5 usos)
+**Próxima revisión:** 2026-11-17 (o después de 5 usos)
 **Mantenedor:** Tech Lead Team
