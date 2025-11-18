@@ -50,7 +50,7 @@ class ConfiguracionSistema(models.Model):
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
-        related_name='configuraciones_modificadas',
+        related_name='configuracion_sistema_modificaciones',
         help_text='Usuario que modificó este parámetro'
     )
 

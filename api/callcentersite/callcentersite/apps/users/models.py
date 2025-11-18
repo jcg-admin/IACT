@@ -10,6 +10,9 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, Permis
 from django.db import models
 from django.utils import timezone
 
+# Modelos adicionales del dominio de permisos granulados
+from .models_permisos_granular import PermisoExcepcional
+
 # =============================================================================
 # MODELO USER DE DJANGO (Opción C - Modelo totalmente custom)
 # =============================================================================
