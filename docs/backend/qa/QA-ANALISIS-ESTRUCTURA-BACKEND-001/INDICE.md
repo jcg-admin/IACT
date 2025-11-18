@@ -42,7 +42,17 @@ Este analisis toma como referencia:
   - Matriz de riesgos
   - Criterios de exito
 
-### 2. Mapeo de Migracion (A crear)
+### 2. Listado Completo de Tareas
+- **Archivo:** `LISTADO-COMPLETO-TAREAS.md`
+- **Tipo:** Indice de tareas
+- **Estado:** Completado
+- **Contenido:**
+  - Resumen de 65 tareas en 4 fases
+  - Duracion estimada por tarea
+  - Tecnicas de prompting aplicadas
+  - Estructura de evidencias
+
+### 3. Mapeo de Migracion (A crear)
 - **Archivo:** `MAPEO-MIGRACION-BACKEND-2025-11-18.md`
 - **Tipo:** Matriz de trazabilidad
 - **Estado:** Pendiente (TASK-005)
@@ -51,7 +61,7 @@ Este analisis toma como referencia:
   - Justificacion de cada movimiento
   - Dependencias entre archivos
 
-### 3. Analisis de Gaps (A crear)
+### 4. Analisis de Gaps (A crear)
 - **Archivo:** `ANALISIS-GAPS-BACKEND-2025-11-18.md`
 - **Tipo:** Analisis tecnico
 - **Estado:** Pendiente
@@ -60,7 +70,7 @@ Este analisis toma como referencia:
   - Contenido critico sin documentar
   - Prioridades de creacion
 
-### 4. Reporte de Ejecucion (A crear post-ejecucion)
+### 5. Reporte de Ejecucion (A crear post-ejecucion)
 - **Archivo:** `REPORTE-EJECUCION-2025-MM-DD.md`
 - **Tipo:** Reporte
 - **Estado:** No iniciado
