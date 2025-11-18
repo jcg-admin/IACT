@@ -1,29 +1,18 @@
----
-id: DOC-REQ-FRONTEND
-estado: borrador
-propietario: equipo-frontend
-ultima_actualizacion: 2025-02-20
-relacionados: ["DOC-REQ-INDEX", "DOC-ARQ-FRONTEND"]
-date: 2025-11-13
----
-# Requisitos del frontend
+# Requisitos del Frontend - IACT
 
-Complementa los lineamientos corporativos de [el marco de gobernanza (`../gobernanza/marco_integrado/`)](../gobernanza/marco_integrado/) con criterios de experiencia de usuario y comportamiento del cliente web.
+Requisitos específicos del dominio Frontend del proyecto IACT.
 
-## Página padre
-- [`../README.md`](../README.md)
+## Estructura (Jerarquía ADR-GOB-005)
 
-## Enlaces relevantes
-- Arquitectura UX/UI: [`../arquitectura/README.md`](../arquitectura/README.md)
-- Diseño detallado: [`../diseno_detallado/README.md`](../diseno_detallado/README.md)
-- Estrategia de QA: [`../qa/README.md`](../qa/README.md)
+```
+requisitos/
+├── requerimientos_usuario/      ← UC: Casos de uso frontend (UX)
+│   └── casos_uso/
+├── requerimientos_funcionales/  ← RF: Funcionalidad UI/componentes
+└── atributos_calidad/           ← RNF: Performance, accesibilidad, UX
+```
 
-## Aspectos a documentar
-- Requisitos funcionales por flujo y rol, alineados con los casos de uso corporativos.
-- Reglas de accesibilidad, rendimiento percibido y soporte multidioma.
-- Dependencias con APIs y eventos publicados por el backend.
+## Referencias
 
-## Próximos pasos sugeridos
-- [ ] Catalogar requisitos priorizados para MVP web.
-- [ ] Documentar compromisos de accesibilidad (WCAG) y usabilidad.
-- [ ] Definir métricas de experiencia de usuario y enlazarlas con tableros de observabilidad.
+- [Templates Globales](../../gobernanza/templates/)
+- [ADR-FRONT-001: Monolito Modular](../gobernanza/adr/ADR-FRONT-001-monolito-modular.md)

@@ -1,0 +1,3 @@
+Los commits de refactorizaciones ya fueron creados por cherry-pick:
+ba316a1 refactor: modernize type annotations to PEP 585 style
+3c9e429 refactor: extract Playwright MCP version to constant
