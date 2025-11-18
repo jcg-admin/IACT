@@ -2,18 +2,21 @@ import configMock from './config.json';
 import permissionsMock from './permissions.json';
 import callsMock from './llamadas.json';
 import { MOCK_METADATA } from './metadata';
-import { validateConfigMock, validatePermissionsMock, validateCallsMock } from './schemas';
+import { validateConfigMock, validatePermissionsMock, validateCallsMock, validateHealthMock } from './schemas';
+import healthMock from './health.json';
 
 const DATA_BY_KEY = {
   config: configMock,
   permissions: permissionsMock,
   calls: callsMock,
+  health: healthMock,
 };
 
 const VALIDATORS = {
   config: validateConfigMock,
   permissions: validatePermissionsMock,
   calls: validateCallsMock,
+  health: validateHealthMock,
 };
 
 export const validateMock = (key, data) => {

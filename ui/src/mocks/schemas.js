@@ -106,8 +106,26 @@ const validateCallsMock = (data) => {
   return data;
 };
 
+const validateHealthMock = (data) => {
+  assert(isObject(data), 'health debe ser objeto');
+  assert(typeof data.status === 'string', 'health.status debe ser string');
+  assert(typeof data.checkedAt === 'string', 'health.checkedAt debe ser string');
+
+  if (data.services) {
+    assert(Array.isArray(data.services), 'health.services debe ser arreglo cuando existe');
+    data.services.forEach((svc) => {
+      assert(isObject(svc), 'health.services[x] debe ser objeto');
+      assert(typeof svc.name === 'string', 'health.services[x].name debe ser string');
+      assert(typeof svc.status === 'string', 'health.services[x].status debe ser string');
+    });
+  }
+
+  return data;
+};
+
 module.exports = {
   validateConfigMock,
   validatePermissionsMock,
   validateCallsMock,
+  validateHealthMock,
 };

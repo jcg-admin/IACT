@@ -3,10 +3,12 @@ import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import appConfigReducer from '@state/slices/appConfigSlice';
 import homeReducer from '@modules/home/state/homeSlice';
+import healthReducer from '@state/slices/healthSlice';
 import App from './App';
 import { setConfig } from '@state/slices/appConfigSlice';
 import { AppConfigService } from '@services/config/AppConfigService';
 import { CallsService } from '@services/calls/CallsService';
+import { HealthService } from '@services/health/HealthService';
 
 jest.mock('@services/config/AppConfigService', () => ({
   AppConfigService: {
@@ -20,11 +22,18 @@ jest.mock('@services/calls/CallsService', () => ({
   },
 }));
 
+jest.mock('@services/health/HealthService', () => ({
+  HealthService: {
+    getStatus: jest.fn(),
+  },
+}));
+
 const createTestStore = () => {
   return configureStore({
     reducer: {
       appConfig: appConfigReducer,
       home: homeReducer,
+      observability: healthReducer,
     },
   });
 };
@@ -38,6 +47,11 @@ describe('App', () => {
     });
     CallsService.getCalls.mockResolvedValue({
       data: { llamadas: [], estados: [], tipos: [] },
+      source: 'api',
+      error: null,
+    });
+    HealthService.getStatus.mockResolvedValue({
+      data: { status: 'ok', checkedAt: '2025-11-14T00:00:00Z' },
       source: 'api',
       error: null,
     });
@@ -75,6 +89,19 @@ describe('App', () => {
     );
 
     expect(await screen.findByRole('main')).toBeInTheDocument();
+  });
+
+  it('renders backend health status information', async () => {
+    const store = createTestStore();
+
+    render(
+      <Provider store={store}>
+        <App />
+      </Provider>
+    );
+
+    expect(await screen.findByText(/estado backend/i)).toBeInTheDocument();
+    expect(screen.getByText(/ok/i)).toBeInTheDocument();
   });
 
   it('shows mock data banner when using mocks', async () => {

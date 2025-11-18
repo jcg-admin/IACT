@@ -17,4 +17,10 @@ export const MOCK_METADATA = {
     lastUpdated: '2025-11-09',
     description: 'Escenario de llamadas y catalogos para pruebas funcionales',
   },
+  health: {
+    id: 'health',
+    source: 'manual: estrategia_integracion_backend',
+    lastUpdated: '2025-11-14',
+    description: 'Health check simulado para habilitar degradacion controlada en UI',
+  },
 };

@@ -62,12 +62,12 @@ Lista priorizada de trabajos arquitectónicos necesarios para que la UI absorba 
 
 ### P2 · Transición hacia backend real
 
-- [ ] **Health check y monitoreo** `3SP`
+- [x] **Health check y monitoreo** `3SP`
   - Consumir `/health` (cuando exista) y almacenar último estado en contexto global.
   - Generar pruebas de integración que simulen backend intermitente.
   - Referencia: roadmap de fases de transición.【F:docs/frontend/arquitectura/estrategia_integracion_backend.md†L110-L118】
 
-- [ ] **Métricas de dependencia de mocks** `3SP`
+- [x] **Métricas de dependencia de mocks** `3SP`
   - Registrar en analytics internas cuántos módulos operan en modo mock.
   - Alimentar reportes para priorizar endpoints backend.
   - Referencia: acciones priorizadas sobre métricas de mocks.【F:docs/frontend/arquitectura/estrategia_integracion_backend.md†L132-L135】
