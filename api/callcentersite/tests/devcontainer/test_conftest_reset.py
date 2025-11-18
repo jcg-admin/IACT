@@ -22,6 +22,19 @@ def test_safe_reset_ignora_modulo_faltante(monkeypatch: pytest.MonkeyPatch) -> N
     conftest.safe_reset_in_memory_registry()
 
 
+def test_safe_reset_tolera_dependencias_de_django_faltantes(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """Debe ignorar la falta de dependencias básicas como Django."""
+
+    def fake_import(name: str) -> types.ModuleType:
+        raise ModuleNotFoundError(name="django")
+
+    monkeypatch.setattr(importlib, "import_module", fake_import)
+
+    conftest.safe_reset_in_memory_registry()
+
+
 def test_reset_fixture_invoca_reset_en_ambas_fases(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:

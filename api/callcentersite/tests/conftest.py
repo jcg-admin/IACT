@@ -97,8 +97,8 @@ def safe_reset_in_memory_registry() -> None:
     try:
         models = importlib.import_module("callcentersite.apps.users.models")
     except ModuleNotFoundError as exc:
-        missing = exc.name or ""
-        if missing.split(".")[0] != "callcentersite":
+        missing_root = (exc.name or "").split(".")[0]
+        if missing_root not in {"callcentersite", "django"}:
             raise
         return
     except Exception as exc:  # pragma: no cover - defensive guard
