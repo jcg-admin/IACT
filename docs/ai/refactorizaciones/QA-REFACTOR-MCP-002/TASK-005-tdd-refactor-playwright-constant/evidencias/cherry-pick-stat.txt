@@ -1,0 +1,10 @@
+commit 3c9e4291636cafb989a09e4a380a6e7830127fd9
+Author: copilot-swe-agent[bot] <198982749+Copilot@users.noreply.github.com>
+Date:   Sun Nov 16 06:08:16 2025 +0000
+
+    refactor: extract Playwright MCP version to constant
+    
+    Co-authored-by: 2-Coatl <121911012+2-Coatl@users.noreply.github.com>
+
+ scripts/coding/ai/mcp/registry.py | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
