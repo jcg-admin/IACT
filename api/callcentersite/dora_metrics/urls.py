@@ -8,6 +8,10 @@ urlpatterns = [
     # API endpoints
     path("metrics/", views.dora_metrics_summary, name="dora-metrics-summary"),
     path("metrics/create/", views.dora_metrics_create, name="dora-metrics-create"),
+    path("summary/", views.dora_summary, name="dora-summary"),
+    path("export/csv/", views.export_csv, name="dora-export-csv"),
+    path("export/excel/", views.export_excel, name="dora-export-excel"),
+    path("export/pdf/", views.export_pdf, name="dora-export-pdf"),
     # Dashboard views
     path("dashboard/", views.dora_dashboard, name="dora-dashboard"),
     # Chart data API endpoints

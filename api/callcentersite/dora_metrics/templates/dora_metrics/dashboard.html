@@ -55,6 +55,28 @@
             color: #333;
         }
 
+        .export-actions {
+            margin-top: 15px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .export-button {
+            display: inline-block;
+            padding: 10px 16px;
+            background: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: 600;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .export-button:hover {
+            background: #43A047;
+        }
+
         .metrics-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -208,6 +230,11 @@
             <p class="subtitle">IACT Project - DevOps Research and Assessment Metrics</p>
             <div class="period-info">
                 <span>Periodo:</span> {{ period_start }} a {{ period_end }} ({{ days }} dias)
+            </div>
+            <div class="export-actions">
+                <a class="export-button" href="/api/v1/dora/export/csv/?start_date={{ period_start }}&end_date={{ period_end }}">Exportar CSV</a>
+                <a class="export-button" href="/api/v1/dora/export/excel/?start_date={{ period_start }}&end_date={{ period_end }}">Exportar Excel</a>
+                <a class="export-button" href="/api/v1/dora/export/pdf/?start_date={{ period_start }}&end_date={{ period_end }}">Exportar PDF</a>
             </div>
         </header>
 

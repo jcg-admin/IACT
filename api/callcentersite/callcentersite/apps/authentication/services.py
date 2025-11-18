@@ -9,7 +9,8 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.hashers import check_password
 from django.core.exceptions import PermissionDenied, ObjectDoesNotExist
 from django.utils import timezone
-from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.exceptions import TokenError
+from rest_framework_simplejwt.tokens import AccessToken, RefreshToken
 
 from .models import LoginAttempt
 from callcentersite.apps.audit.models import AuditLog
@@ -289,9 +290,7 @@ class AuthenticationService:
         )
 
         # Generar tokens JWT
-        refresh = RefreshToken.for_user(user)
-        access_token = str(refresh.access_token)
-        refresh_token = str(refresh)
+        tokens = TokenService.generate_jwt_tokens(user)
 
         # Auditar login exitoso
         AuditLog.objects.create(
@@ -305,11 +304,99 @@ class AuthenticationService:
 
         # Retornar tokens
         return {
-            'access_token': access_token,
-            'refresh_token': refresh_token,
+            'access_token': tokens['access'],
+            'refresh_token': tokens['refresh'],
             'token_type': 'Bearer',
             'expires_in': 900  # 15 minutos en segundos
         }
+
+
+class TokenService:
+    """Gestiona generación, validación y refresh de tokens JWT."""
+
+    @staticmethod
+    def _build_claims(user: User) -> dict:
+        roles = []
+        if hasattr(user, "groups"):
+            roles = list(user.groups.values_list("name", flat=True))
+        return {
+            "user_id": user.id,
+            "username": user.username,
+            "email": user.email,
+            "segment": getattr(user, "segment", ""),
+            "roles": roles,
+        }
+
+    @staticmethod
+    def _apply_claims(token: RefreshToken | AccessToken, user: User) -> None:
+        for key, value in TokenService._build_claims(user).items():
+            token[key] = value
+
+    @staticmethod
+    def generate_jwt_tokens(user: User) -> dict:
+        refresh = RefreshToken.for_user(user)
+        TokenService._apply_claims(refresh, user)
+        access = refresh.access_token
+        TokenService._apply_claims(access, user)
+        return {"access": str(access), "refresh": str(refresh)}
+
+    @staticmethod
+    def validate_access_token(request: "HttpRequest") -> User:
+        auth_header = request.META.get("HTTP_AUTHORIZATION", "")
+        if not auth_header.startswith("Bearer "):
+            raise Exception("Token no proporcionado")
+
+        token_str = auth_header.split(" ", 1)[1]
+        try:
+            access_token = AccessToken(token_str)
+        except TokenError as exc:  # pragma: no cover - handled in tests
+            raise Exception(str(exc))
+
+        if access_token.get("token_type") != "access":
+            raise Exception("Debe usar access token")
+
+        user_id = access_token.get("user_id")
+        user = User.objects.filter(id=user_id).first()
+        if not user:
+            raise Exception("Usuario no encontrado")
+        if getattr(user, "status", "ACTIVO") != "ACTIVO":
+            raise Exception("Usuario inactivo")
+        if getattr(user, "is_locked", False):
+            raise Exception("Usuario bloqueado")
+
+        return user
+
+    @staticmethod
+    def refresh_access_token(refresh_token_str: str) -> dict:
+        try:
+            refresh_token = RefreshToken(refresh_token_str)
+            refresh_token.check_blacklist()
+        except TokenError as exc:
+            message = str(exc).lower()
+            if "blacklist" in message or "lista negra" in message:
+                raise TokenError("Token en blacklist")
+            if "expir" in message or "caduc" in message:
+                raise Exception("Refresh token expirado")
+            raise Exception("Token inválido o en blacklist")
+
+        user_id = refresh_token.get("user_id")
+        user = User.objects.filter(id=user_id).first()
+        if not user:
+            raise Exception("Usuario no encontrado")
+
+        try:
+            refresh_token.blacklist()
+        except AttributeError:
+            pass
+        except Exception:
+            raise Exception("Token inválido o en blacklist")
+
+        new_refresh = RefreshToken.for_user(user)
+        TokenService._apply_claims(new_refresh, user)
+        new_access = new_refresh.access_token
+        TokenService._apply_claims(new_access, user)
+
+        return {"access": str(new_access), "refresh": str(new_refresh)}
 
 
 def _get_client_ip(request: HttpRequest) -> str:
