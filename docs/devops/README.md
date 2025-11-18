@@ -613,14 +613,6 @@ docs/devops/
 3. Configurar backups y DR
 4. Implementar logging centralizado
 
-## QA y trazabilidad documental
-
-- La estructura de QA replica el modelo de `docs/gobernanza/qa` para mantener consistencia documental.
-- Portada y metadatos: [`qa/README.md`](qa/README.md).
-- Índice y ubicaciones: [`qa/INDICE.md`](qa/INDICE.md).
-- Análisis vigente: [`qa/QA-ANALISIS-DEVCONTAINER-CODESPACES-SIN-DOCKER-001/`](qa/QA-ANALISIS-DEVCONTAINER-CODESPACES-SIN-DOCKER-001/).
-- Nuevos análisis deben usar el prefijo `QA-ANALISIS-*` y registrar evidencias dentro de su carpeta.
-
 ---
 
 ## Estado Actual

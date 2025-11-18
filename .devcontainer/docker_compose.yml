@@ -41,29 +41,37 @@ services:
     ports:
       - "8000:8000"  # Django runserver
 
-    env_file:
-      - .env
-
     # Environment variables
     environment:
-      DJANGO_SETTINGS_MODULE: ${DJANGO_SETTINGS_MODULE}
-      DEBUG: ${DEBUG}
-      POSTGRES_HOST: ${POSTGRES_HOST}
-      POSTGRES_PORT: ${POSTGRES_PORT}
-      POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      MARIADB_HOST: ${MARIADB_HOST}
-      MARIADB_PORT: ${MARIADB_PORT}
-      MARIADB_DATABASE: ${MARIADB_DATABASE}
-      MARIADB_USER: ${MARIADB_USER}
-      MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
-      DJANGO_SUPERUSER_USERNAME: ${DJANGO_SUPERUSER_USERNAME}
-      DJANGO_SUPERUSER_EMAIL: ${DJANGO_SUPERUSER_EMAIL}
-      DJANGO_SUPERUSER_PASSWORD: ${DJANGO_SUPERUSER_PASSWORD}
-      PYTHONUNBUFFERED: ${PYTHONUNBUFFERED}
-      PYTHONDONTWRITEBYTECODE: ${PYTHONDONTWRITEBYTECODE}
-      TZ: ${TZ}
+      # Django settings
+      DJANGO_SETTINGS_MODULE: "callcentersite.settings.development"
+      DEBUG: "True"
+
+      # PostgreSQL (default database)
+      POSTGRES_HOST: db_postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: callcenter_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+
+      # MariaDB (legacy database)
+      MARIADB_HOST: db_mariadb
+      MARIADB_PORT: 3306
+      MARIADB_DATABASE: callcenter_legacy
+      MARIADB_USER: root
+      MARIADB_ROOT_PASSWORD: root
+
+      # Django superuser (for development)
+      DJANGO_SUPERUSER_USERNAME: admin
+      DJANGO_SUPERUSER_EMAIL: admin@example.com
+      DJANGO_SUPERUSER_PASSWORD: admin
+
+      # Python
+      PYTHONUNBUFFERED: 1
+      PYTHONDONTWRITEBYTECODE: 1
+
+      # Timezone
+      TZ: America/Mexico_City
 
     # Dependencies
     depends_on:
@@ -106,16 +114,13 @@ services:
     ports:
       - "5432:5432"
 
-    env_file:
-      - .env
-
     # Environment variables
     environment:
-      POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: callcenter_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
       POSTGRES_INITDB_ARGS: "--encoding=UTF8 --lc-collate=en_US.UTF-8 --lc-ctype=en_US.UTF-8"
-      TZ: ${TZ}
+      TZ: America/Mexico_City
 
     # Health check
     healthcheck:
@@ -153,16 +158,13 @@ services:
     ports:
       - "3306:3306"
 
-    env_file:
-      - .env
-
     # Environment variables
     environment:
-      MARIADB_DATABASE: ${MARIADB_DATABASE}
-      MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
+      MARIADB_DATABASE: callcenter_legacy
+      MARIADB_ROOT_PASSWORD: root
       MARIADB_CHARACTER_SET_SERVER: utf8mb4
       MARIADB_COLLATION_SERVER: utf8mb4_unicode_ci
-      TZ: ${TZ}
+      TZ: America/Mexico_City
 
     # Command with custom settings
     command: >

@@ -40,6 +40,21 @@
   // ==========================================================================
 
   "features": {
+    // CPython Precompilado (Instalador Personalizado - SPEC_INFRA_001 Fase 3)
+    // Para generar el artefacto: make build_cpython VERSION=3.12.6
+    // Para desarrollo local: usa artifactUrl con path local
+    // Para producción: usa GitHub Release URL
+    "./infrastructure/cpython/installer": {
+      "version": "3.12.6",
+      // DESARROLLO LOCAL: Path relativo al workspace
+      "artifactUrl": "/workspaces/${localWorkspaceFolderBasename}/infrastructure/cpython/artifacts/cpython-3.12.6-ubuntu20.04-build1.tgz",
+      "checksumUrl": "/workspaces/${localWorkspaceFolderBasename}/infrastructure/cpython/artifacts/cpython-3.12.6-ubuntu20.04-build1.tgz.sha256",
+      // PRODUCCIÓN: Descomentar cuando el Release esté publicado
+      // "artifactUrl": "https://github.com/2-Coatl/IACT---project/releases/download/cpython-3.12.6-build1/cpython-3.12.6-ubuntu20.04-build1.tgz",
+      // "checksumUrl": "https://github.com/2-Coatl/IACT---project/releases/download/cpython-3.12.6-build1/cpython-3.12.6-ubuntu20.04-build1.tgz.sha256",
+      "installPrefix": "/opt/python",
+      "skipValidation": false
+    },
     "ghcr.io/devcontainers/features/git:1": {
       "version": "latest"
     },
@@ -87,8 +102,8 @@
 
       // Settings
       "settings": {
-        // Python - intérprete provisto por la imagen base
-        "python.defaultInterpreterPath": "/usr/local/bin/python3",
+        // Python - Apunta al CPython precompilado
+        "python.defaultInterpreterPath": "/opt/python-3.12.6/bin/python3",
         "python.linting.enabled": true,
         "python.linting.pylintEnabled": false,
         "python.linting.flake8Enabled": true,

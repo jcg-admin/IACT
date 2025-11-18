@@ -1,11 +1,11 @@
 # =============================================================================
 # CALLCENTER DJANGO API - DEVCONTAINER
 # =============================================================================
-# Base image: Python 3.12 on Debian Bookworm
+# Base image: Python 3.11 on Debian Bookworm
 # Includes: PostgreSQL client, MariaDB client, development tools
 # =============================================================================
 
-FROM mcr.microsoft.com/devcontainers/python:3.12-bookworm
+FROM mcr.microsoft.com/devcontainers/python:3.11-bookworm
 
 # =============================================================================
 # METADATA

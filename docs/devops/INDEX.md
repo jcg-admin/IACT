@@ -11,10 +11,9 @@
 
 - **automatizacion/** - Automatizacion CI/CD y planificacion
 - **backend/** - DevOps especifico backend
-- **frontend/** - DevOps especifico frontend
+- **frontend/** - DevOps especifico frontend  
 - **git/** - Git workflows, estrategias y niveles
 - **infraestructura/** - Runbooks operacionales
-- **qa/** - Estrategia, análisis y evidencias de QA para DevOps
 
 ---
 
@@ -30,9 +29,6 @@
 - [Backend DevOps](backend/) - CI/CD backend
 - [Frontend DevOps](frontend/) - CI/CD frontend
 - [Infraestructura](infraestructura/) - Runbooks y operaciones
-
-### Calidad y QA
-- [QA DevOps](qa/) - Estrategia y análisis de calidad para pipelines y entornos
 
 ---
 
