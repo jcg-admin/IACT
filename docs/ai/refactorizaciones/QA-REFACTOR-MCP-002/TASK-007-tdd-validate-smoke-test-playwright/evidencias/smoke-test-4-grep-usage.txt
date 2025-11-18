@@ -1,0 +1,13 @@
+=== BUSQUEDA DE USO DE CONSTANTE ===
+1. Definicion de constante:
+18:PLAYWRIGHT_MCP_VERSION = "0.0.40"
+
+2. Usos de constante:
+18:PLAYWRIGHT_MCP_VERSION = "0.0.40"
+110:                f"@playwright/mcp@{PLAYWRIGHT_MCP_VERSION}",
+
+3. Total ocurrencias: 2
+PASS: Constante definida y usada (2 ocurrencias)
+
+4. Verificacion de strings hardcodeados:
+PASS: Sin strings hardcodeados @playwright/mcp@0.0.40

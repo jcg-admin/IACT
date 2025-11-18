@@ -1,0 +1,1 @@
+65ec2ae2f8d0d9461776f377d5ac39c7  /home/user/IACT---project/scripts/coding/ai/mcp/registry.py

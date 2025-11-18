@@ -1,0 +1,19 @@
+============================= test session starts ==============================
+platform linux -- Python 3.11.14, pytest-9.0.1, pluggy-1.6.0 -- /root/.local/share/uv/tools/pytest/bin/python
+cachedir: .pytest_cache
+rootdir: /home/user/IACT---project
+collecting ... collected 10 items
+
+scripts/coding/tests/ai/mcp/test_registry.py::test_default_registry_declares_remote_servers PASSED [ 10%]
+scripts/coding/tests/ai/mcp/test_registry.py::test_playwright_server_configuration_matches_reference_log PASSED [ 20%]
+scripts/coding/tests/ai/mcp/test_registry.py::test_registry_cli_config_serializes_servers PASSED [ 30%]
+scripts/coding/tests/ai/mcp/test_registry.py::test_empty_registry_serializes_correctly PASSED [ 40%]
+scripts/coding/tests/ai/mcp/test_registry.py::test_remote_server_with_custom_headers PASSED [ 50%]
+scripts/coding/tests/ai/mcp/test_registry.py::test_remote_server_without_custom_headers PASSED [ 60%]
+scripts/coding/tests/ai/mcp/test_registry.py::test_local_server_with_custom_env_variables PASSED [ 70%]
+scripts/coding/tests/ai/mcp/test_registry.py::test_local_server_without_custom_env_variables PASSED [ 80%]
+scripts/coding/tests/ai/mcp/test_registry.py::test_registry_with_mixed_empty_collections PASSED [ 90%]
+scripts/coding/tests/ai/mcp/test_registry.py::test_registry_with_only_local_servers PASSED [100%]
+
+============================== 10 passed in 0.08s ==============================
+Exit code: 0

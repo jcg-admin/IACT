@@ -1,0 +1,15 @@
+=== VALIDACION ENTORNO PYTHON ===
+Fecha: $(date +"%Y-%m-%d %H:%M:%S")
+
+PYTHON VERSION:
+$(cat /home/user/IACT---project/docs/ai/refactorizaciones/QA-REFACTOR-MCP-002/TASK-003-validar-entorno-python/evidencias/python-version.log)
+
+PEP 585 COMPATIBILIDAD:
+$(cat /home/user/IACT---project/docs/ai/refactorizaciones/QA-REFACTOR-MCP-002/TASK-003-validar-entorno-python/evidencias/pep585-compatibilidad.log)
+
+TYPE CHECKERS DISPONIBLES:
+$(cat /home/user/IACT---project/docs/ai/refactorizaciones/QA-REFACTOR-MCP-002/TASK-003-validar-entorno-python/evidencias/type-checkers.log)
+
+DECISION:
+$(python -c "import sys; major, minor = sys.version_info.major, sys.version_info.minor; print('CONTINUAR CON PLAN' if (major == 3 and minor >= 9) or major > 3 else 'ABORTAR PLAN - Python < 3.9')")
+

@@ -146,6 +146,40 @@ REST_FRAMEWORK = {
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 
+SPECTACULAR_SETTINGS = {
+    "TITLE": "IACT API",
+    "DESCRIPTION": "IVR Analytics & Customer Tracking - Sistema de analítica de centros de contacto",
+    "VERSION": "1.0.0",
+    "SERVE_INCLUDE_SCHEMA": False,
+    "CONTACT": {
+        "name": "IACT Development Team",
+        "email": "dev@iact.com",
+    },
+    "LICENSE": {
+        "name": "Proprietary",
+    },
+    "TAGS": [
+        {"name": "authentication", "description": "Autenticación y gestión de sesiones JWT"},
+        {"name": "users", "description": "Gestión de usuarios del sistema"},
+        {"name": "permissions", "description": "Sistema de permisos granulares"},
+        {"name": "llamadas", "description": "Gestión de llamadas del call center"},
+        {"name": "analytics", "description": "Analítica y métricas"},
+        {"name": "reports", "description": "Generación de reportes"},
+    ],
+    "SERVERS": [
+        {
+            "url": "http://localhost:8000",
+            "description": "Desarrollo Local",
+        },
+        {
+            "url": "http://localhost:15432",
+            "description": "PostgreSQL Dev",
+        },
+    ],
+    "COMPONENT_SPLIT_REQUEST": True,
+    "SORT_OPERATIONS": True,
+}
+
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=15),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
