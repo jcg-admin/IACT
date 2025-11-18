@@ -9,7 +9,7 @@ relacionados: ["docs/infraestructura/qa/tareas_activas.md", "scripts/run_all_tes
 
 # Testing y validación de infraestructura
 
-Este espacio documenta los comandos y evidencias de validación utilizados para infraestructura. Las suites deben seguir TDD (Red → Green → Refactor) y mantener cobertura mínima de 80 %.
+Este espacio documenta los comandos y evidencias de validación utilizados para infraestructura. Las suites deben seguir TDD (Red → Green → Refactor) y mantener cobertura mínima de 80%.
 
 ## Objetivos
 - Registrar comandos de validación y su responsable.

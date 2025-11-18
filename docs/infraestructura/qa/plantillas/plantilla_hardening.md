@@ -4,9 +4,6 @@ estado: pendiente
 responsable: definir
 fecha: 2025-11-18
 version: 1.0.0
-metricas_objetivo:
-  cobertura: 
-  evidencia: 
 trazabilidad:
   tareas: ["TASK-INFRA-QA-002"]
   adrs: []
@@ -31,7 +28,7 @@ Asegurar controles de seguridad mínimos en sistemas operativos, contenedores y 
 
 ## Validaciones automáticas
 - Ejecutar `./scripts/validate_security_config.sh` y anexar resultados.
-- Incluir pruebas de configuración en pipelines con cobertura mínima de 80 %.
+- Incluir pruebas de configuración en pipelines con cobertura mínima de 80%.
 
 ## Trazabilidad
 - Documentar excepciones en ADRs y enlazar con `qa/tareas_activas.md`.
