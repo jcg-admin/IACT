@@ -2,7 +2,7 @@
 id: PROCED-GOB-009
 tipo: procedimiento
 categoria: calidad-codigo
-titulo: Procedimiento para Refactorizaciones de Codigo con TDD
+titulo: Procedimiento para Refactorizaciones de Código con TDD
 version: 1.0.0
 fecha_creacion: 2025-11-17
 autor: Claude Code Agent
@@ -10,11 +10,11 @@ frecuencia_uso: ad-hoc (cuando se requiera refactorización)
 alcance: Refactorizaciones de calidad en codebase Python/JavaScript
 ---
 
-# PROCED-GOB-009: Procedimiento para Refactorizaciones de Codigo con TDD
+# PROCED-GOB-009: Procedimiento para Refactorizaciones de Código con TDD
 
 ## 1. Proposito
 
-Establecer un proceso estandarizado para ejecutar refactorizaciones de codigo usando metodologia Test-Driven Development (TDD), garantizando zero regresiones funcionales y manteniendo calidad del codigo.
+Establecer un proceso estandarizado para ejecutar refactorizaciones de código usando metodologia Test-Driven Development (TDD), garantizando zero regresiones funcionales y manteniendo calidad del código.
 
 ## 2. Alcance
 
@@ -22,7 +22,7 @@ Establecer un proceso estandarizado para ejecutar refactorizaciones de codigo us
 - Refactorizaciones de calidad (mejoras sin cambio funcional)
 - Modernizacion de sintaxis (PEP 585, ES6+, etc.)
 - Extraccion de constantes y eliminacion de magic numbers
-- Reorganizacion de codigo sin cambio de comportamiento
+- Reorganizacion de código sin cambio de comportamiento
 
 **NO aplica a:**
 - Nuevas funcionalidades (usar proceso de desarrollo normal)
@@ -67,7 +67,7 @@ Antes de iniciar refactorizacion:
    - Tipo de cambios (imports, tipos, valores)
    - Riesgos potenciales
 3. Crear documento ANALISIS-REFACTORIZACIONES-YYYY-MM-DD.md con:
-   - Estado actual del codigo
+   - Estado actual del código
    - Refactorizaciones pendientes (detalle por commit)
    - Analisis de compatibilidad
    - Matriz de riesgos
@@ -136,7 +136,7 @@ Para CADA refactorizacion:
 pytest <modulo> -v > evidencias/baseline-pre-refactor.log
 ```
 - Establecer baseline de tests (cuantos pasan)
-- Documentar estado actual del codigo
+- Documentar estado actual del código
 - Guardar snapshot del archivo si es necesario
 
 **TASK-NNN+1: [TDD-REFACTOR] Aplicar Refactorizacion**
@@ -367,7 +367,7 @@ Una refactorizacion es exitosa cuando:
 
 ### Metricas a Capturar:
 
-**Codigo:**
+**Código:**
 - Archivos afectados
 - Lineas modificadas
 - Commits aplicados
@@ -401,7 +401,7 @@ Al finalizar, crear CONSOLIDADO-EVIDENCIAS.md con:
 
 ## 12. Frecuencia de Uso
 
-**Ad-hoc:** Cuando se requiera refactorizar codigo
+**Ad-hoc:** Cuando se requiera refactorizar código
 
 **Triggers comunes:**
 - Actualizacion de version de runtime (Python 3.9 → 3.11)
