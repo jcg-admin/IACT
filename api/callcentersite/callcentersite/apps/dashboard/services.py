@@ -155,7 +155,7 @@ class DashboardService:
             ValidationError: Si el formato es inválido.
         """
         if formato not in {"csv", "pdf"}:
-            raise ValidationError("Formato invalido. Use csv o pdf")
+            raise ValidationError("Formato inválido. Use csv o pdf")
 
         dashboard = DashboardService.ver_dashboard(usuario_id=usuario_id)
         widgets = dashboard.get("widgets", [])
