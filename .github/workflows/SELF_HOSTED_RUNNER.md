@@ -35,20 +35,11 @@ Esta guía resume **ventajas**, **requisitos** y un **procedimiento endurecido**
 3. **Configurar el runner con token efímero** (reemplaza `<TOKEN>`):
    ```bash
    sudo -u ghactions ./config.sh \
-     --url https://github.com/2-Coatl/IACT \
+     --url https://github.com/<ORG>/<REPO> \
      --token <TOKEN> \
      --name "iact-arm64-01" \
      --labels "self-hosted,arm64,ci" \
      --unattended
-   ```
-   - Usa `--replace` solo si reciclas un nombre existente.
-   - No expongas el token en logs ni lo guardes en shell history.
-4. **Instalar como servicio systemd** para inicio automático y reinicios en fallo:
-   ```bash
-   sudo ./svc.sh install ghactions
-   sudo systemctl enable actions.runner.2-Coatl-IACT.iact-arm64-01.service
-   sudo systemctl start actions.runner.2-Coatl-IACT.iact-arm64-01.service
-   sudo systemctl status actions.runner.2-Coatl-IACT.iact-arm64-01.service
    ```
 5. **Endurecimiento recomendado**
    - Limita permisos del usuario `ghactions` (sin sudo; agrega a `docker` solo si es necesario).
