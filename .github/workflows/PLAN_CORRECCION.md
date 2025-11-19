@@ -30,7 +30,7 @@ Este plan resume las acciones necesarias para corregir y optimizar los workflows
 ## Acciones por workflow
 - **actionlint.yml**: fijar digest del contenedor y añadir cache para dependencias de verificación si aplica.
 - **agents-ci.yml**: añadir `permissions` mínimos; declarar `CODECOV_TOKEN` como `env` opcional con guardas; revisar que `bandit` falle en hallazgos críticos y habilitar cache pip.
-- **backend-ci.yml**: agregar `workflow_dispatch`; definir permisos mínimos; usar secretos no triviales para MySQL y cerrar puerto con `ports: ["3306:3306"]` solo si es estrictamente necesario; cache pip y matiz de Python 3.10-3.12; añadir `concurrency` por ref.
+- **backend-ci.yml**: agregar `workflow_dispatch`; definir permisos mínimos; usar secretos no triviales para MySQL y cerrar puerto con `ports: ["3306:3306"]` solo si es estrictamente necesario; cache pip y matriz de Python 3.10-3.12; añadir `concurrency` por ref.
 - **code-quality.yml**: incluir `push` y `workflow_dispatch`; permisos mínimos; cache según herramienta (npm/pip); revisar matrices si hay múltiples linters.
 - **codeql.yml**: agregar `workflow_dispatch`; permisos mínimos (`security-events: write`, `contents: read`); cache de dependencias del lenguaje y fijar versiones de `actions/checkout`/`setup-*` por SHA.
 - **dependency-review.yml**: añadir `push` y `workflow_dispatch`; permisos mínimos (`contents: read`); documentar política de bloqueo.
