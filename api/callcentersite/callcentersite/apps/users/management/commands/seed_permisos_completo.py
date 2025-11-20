@@ -59,11 +59,10 @@ class Command(BaseCommand):
         # FASE 1: Funciones y Capacidades Base
         self.stdout.write('\n[1/3] Creando funciones y capacidades base...\n')
         try:
-            call_command(
-                'seed_permisos_base',
-                '--reset' if reset else None,
-                verbosity=1,
-            )
+            if reset:
+                call_command('seed_permisos_base', '--reset', verbosity=1)
+            else:
+                call_command('seed_permisos_base', verbosity=1)
         except Exception as e:
             self.stdout.write(
                 self.style.ERROR(f'\n[FAIL] Error en seed_permisos_base: {e}')
@@ -73,11 +72,10 @@ class Command(BaseCommand):
         # FASE 2: Grupos por Defecto
         self.stdout.write('\n[2/3] Creando grupos de permisos por defecto...\n')
         try:
-            call_command(
-                'seed_grupos_default',
-                '--reset' if reset else None,
-                verbosity=1,
-            )
+            if reset:
+                call_command('seed_grupos_default', '--reset', verbosity=1)
+            else:
+                call_command('seed_grupos_default', verbosity=1)
         except Exception as e:
             self.stdout.write(
                 self.style.ERROR(f'\n[FAIL] Error en seed_grupos_default: {e}')
@@ -88,12 +86,10 @@ class Command(BaseCommand):
         if not skip_usuarios:
             self.stdout.write('\n[3/3] Creando usuarios de demostración...\n')
             try:
-                call_command(
-                    'seed_usuarios_demo',
-                    '--reset' if reset else None,
-                    '--password', password,
-                    verbosity=1,
-                )
+                if reset:
+                    call_command('seed_usuarios_demo', '--reset', '--password', password, verbosity=1)
+                else:
+                    call_command('seed_usuarios_demo', '--password', password, verbosity=1)
             except Exception as e:
                 self.stdout.write(
                     self.style.ERROR(f'\n[FAIL] Error en seed_usuarios_demo: {e}')
@@ -115,16 +111,16 @@ class Command(BaseCommand):
                 'Sistema de Permisos Granulares inicializado con:\n'
                 '\n'
                 '  FUNCIONES:\n'
-                '    • vistas.dashboards\n'
-                '    • vistas.reportes\n'
-                '    • vistas.calidad\n'
-                '    • vistas.equipos\n'
-                '    • vistas.analisis\n'
-                '    • administracion.usuarios\n'
-                '    • administracion.grupos\n'
-                '    • administracion.permisos\n'
-                '    • administracion.auditoria\n'
-                '    • administracion.configuracion\n'
+                '    • sistema.vistas.dashboards\n'
+                '    • sistema.vistas.reportes\n'
+                '    • sistema.vistas.calidad\n'
+                '    • sistema.vistas.equipos\n'
+                '    • sistema.vistas.analisis\n'
+                '    • sistema.administracion.usuarios\n'
+                '    • sistema.administracion.grupos\n'
+                '    • sistema.administracion.permisos\n'
+                '    • sistema.administracion.auditoria\n'
+                '    • sistema.administracion.configuracion\n'
                 '\n'
                 '  CAPACIDADES: ~32 capacidades base\n'
                 '\n'
@@ -161,7 +157,7 @@ class Command(BaseCommand):
                 '     >>> Capacidad.objects.count()  # Debe ser ~32\n'
                 '\n'
                 '  2. Probar API:\n'
-                '     curl -X POST http://localhost:8000/api/auth/login/ \\\n'
+                '     curl -X POST http://localhost:8000/api/v1/auth/login/ \\\n'
                 '       -d "username=admin_demo&password=' + password + '"\n'
                 '\n'
                 '  3. Probar verificación de permisos:\n'
@@ -169,7 +165,7 @@ class Command(BaseCommand):
                 '     >>> from django.contrib.auth import get_user_model\n'
                 '     >>> user = get_user_model().objects.get(username="agente1_demo")\n'
                 '     >>> from callcentersite.apps.users.services_permisos_granular import *\n'
-                '     >>> UserManagementService.verificar_permiso(\n'
+                '     >>> UserManagementService.usuario_tiene_permiso(\n'
                 '     ...     user.id, "sistema.vistas.dashboards.ver")\n'
                 '     True\n'
                 '\n'

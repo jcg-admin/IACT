@@ -52,84 +52,95 @@ class Command(BaseCommand):
         funciones_data = [
             # VISTAS
             {
-                'codigo': 'vistas.dashboards',
+                'nombre_completo': 'sistema.vistas.dashboards',
                 'nombre': 'Dashboards',
                 'descripcion': 'Visualización de paneles de control e indicadores',
                 'dominio': 'vistas',
+                'categoria': 'vistas',
             },
             {
-                'codigo': 'vistas.reportes',
+                'nombre_completo': 'sistema.vistas.reportes',
                 'nombre': 'Reportes',
                 'descripcion': 'Generación y visualización de reportes',
                 'dominio': 'vistas',
+                'categoria': 'vistas',
             },
             {
-                'codigo': 'vistas.calidad',
+                'nombre_completo': 'sistema.vistas.calidad',
                 'nombre': 'Calidad',
                 'descripcion': 'Evaluación y gestión de calidad de llamadas',
                 'dominio': 'vistas',
+                'categoria': 'vistas',
             },
             {
-                'codigo': 'vistas.equipos',
+                'nombre_completo': 'sistema.vistas.equipos',
                 'nombre': 'Equipos',
                 'descripcion': 'Gestión y visualización de equipos de trabajo',
                 'dominio': 'vistas',
+                'categoria': 'vistas',
             },
             {
-                'codigo': 'vistas.analisis',
+                'nombre_completo': 'sistema.vistas.analisis',
                 'nombre': 'Análisis',
                 'descripcion': 'Análisis avanzados y métricas',
                 'dominio': 'vistas',
+                'categoria': 'vistas',
             },
             # ADMINISTRACIÓN
             {
-                'codigo': 'administracion.usuarios',
+                'nombre_completo': 'sistema.administracion.usuarios',
                 'nombre': 'Gestión de Usuarios',
                 'descripcion': 'Administración completa de usuarios del sistema',
                 'dominio': 'administracion',
+                'categoria': 'administracion',
             },
             {
-                'codigo': 'administracion.grupos',
+                'nombre_completo': 'sistema.administracion.grupos',
                 'nombre': 'Gestión de Grupos',
                 'descripcion': 'Administración de grupos de permisos',
                 'dominio': 'administracion',
+                'categoria': 'administracion',
             },
             {
-                'codigo': 'administracion.permisos',
+                'nombre_completo': 'sistema.administracion.permisos',
                 'nombre': 'Gestión de Permisos',
                 'descripcion': 'Administración de capacidades y permisos excepcionales',
                 'dominio': 'administracion',
+                'categoria': 'administracion',
             },
             {
-                'codigo': 'administracion.auditoria',
+                'nombre_completo': 'sistema.administracion.auditoria',
                 'nombre': 'Auditoría',
                 'descripcion': 'Consulta de logs y auditoría del sistema',
                 'dominio': 'administracion',
+                'categoria': 'administracion',
             },
             {
-                'codigo': 'administracion.configuracion',
+                'nombre_completo': 'sistema.administracion.configuracion',
                 'nombre': 'Configuración',
                 'descripcion': 'Configuración general del sistema',
                 'dominio': 'administracion',
+                'categoria': 'administracion',
             },
         ]
 
         creadas = 0
         for func_data in funciones_data:
             funcion, created = Funcion.objects.get_or_create(
-                codigo=func_data['codigo'],
+                nombre_completo=func_data['nombre_completo'],
                 defaults={
                     'nombre': func_data['nombre'],
                     'descripcion': func_data['descripcion'],
                     'dominio': func_data['dominio'],
+                    'categoria': func_data['categoria'],
                     'activa': True,
                 }
             )
             if created:
                 creadas += 1
-                self.stdout.write(f'  + Función creada: {funcion.codigo}')
+                self.stdout.write(f'  + Función creada: {funcion.nombre_completo}')
             else:
-                self.stdout.write(f'  - Función ya existe: {funcion.codigo}')
+                self.stdout.write(f'  - Función ya existe: {funcion.nombre_completo}')
 
         return creadas
 
@@ -137,64 +148,64 @@ class Command(BaseCommand):
         """Crea capacidades base asociadas a funciones."""
         capacidades_data = [
             # DASHBOARDS
-            ('sistema.vistas.dashboards.ver', 'Ver Dashboards', 'vistas.dashboards'),
-            ('sistema.vistas.dashboards.editar', 'Editar Dashboards', 'vistas.dashboards'),
-            ('sistema.vistas.dashboards.compartir', 'Compartir Dashboards', 'vistas.dashboards'),
+            ('sistema.vistas.dashboards.ver', 'Ver Dashboards', 'sistema.vistas.dashboards'),
+            ('sistema.vistas.dashboards.editar', 'Editar Dashboards', 'sistema.vistas.dashboards'),
+            ('sistema.vistas.dashboards.compartir', 'Compartir Dashboards', 'sistema.vistas.dashboards'),
 
             # REPORTES
-            ('sistema.vistas.reportes.ver', 'Ver Reportes', 'vistas.reportes'),
-            ('sistema.vistas.reportes.crear', 'Crear Reportes', 'vistas.reportes'),
-            ('sistema.vistas.reportes.editar', 'Editar Reportes', 'vistas.reportes'),
-            ('sistema.vistas.reportes.eliminar', 'Eliminar Reportes', 'vistas.reportes'),
-            ('sistema.vistas.reportes.exportar', 'Exportar Reportes', 'vistas.reportes'),
+            ('sistema.vistas.reportes.ver', 'Ver Reportes', 'sistema.vistas.reportes'),
+            ('sistema.vistas.reportes.crear', 'Crear Reportes', 'sistema.vistas.reportes'),
+            ('sistema.vistas.reportes.editar', 'Editar Reportes', 'sistema.vistas.reportes'),
+            ('sistema.vistas.reportes.eliminar', 'Eliminar Reportes', 'sistema.vistas.reportes'),
+            ('sistema.vistas.reportes.exportar', 'Exportar Reportes', 'sistema.vistas.reportes'),
 
             # CALIDAD
-            ('sistema.vistas.calidad.ver', 'Ver Evaluaciones de Calidad', 'vistas.calidad'),
-            ('sistema.vistas.calidad.evaluar', 'Realizar Evaluaciones', 'vistas.calidad'),
-            ('sistema.vistas.calidad.aprobar', 'Aprobar Evaluaciones', 'vistas.calidad'),
+            ('sistema.vistas.calidad.ver', 'Ver Evaluaciones de Calidad', 'sistema.vistas.calidad'),
+            ('sistema.vistas.calidad.evaluar', 'Realizar Evaluaciones', 'sistema.vistas.calidad'),
+            ('sistema.vistas.calidad.aprobar', 'Aprobar Evaluaciones', 'sistema.vistas.calidad'),
 
             # EQUIPOS
-            ('sistema.vistas.equipos.ver', 'Ver Equipos', 'vistas.equipos'),
-            ('sistema.vistas.equipos.gestionar', 'Gestionar Equipos', 'vistas.equipos'),
+            ('sistema.vistas.equipos.ver', 'Ver Equipos', 'sistema.vistas.equipos'),
+            ('sistema.vistas.equipos.gestionar', 'Gestionar Equipos', 'sistema.vistas.equipos'),
 
             # ANÁLISIS
-            ('sistema.vistas.analisis.ver', 'Ver Análisis', 'vistas.analisis'),
-            ('sistema.vistas.analisis.avanzados', 'Análisis Avanzados', 'vistas.analisis'),
+            ('sistema.vistas.analisis.ver', 'Ver Análisis', 'sistema.vistas.analisis'),
+            ('sistema.vistas.analisis.avanzados', 'Análisis Avanzados', 'sistema.vistas.analisis'),
 
             # USUARIOS
-            ('sistema.administracion.usuarios.ver', 'Ver Usuarios', 'administracion.usuarios'),
-            ('sistema.administracion.usuarios.crear', 'Crear Usuarios', 'administracion.usuarios'),
-            ('sistema.administracion.usuarios.editar', 'Editar Usuarios', 'administracion.usuarios'),
-            ('sistema.administracion.usuarios.eliminar', 'Eliminar Usuarios', 'administracion.usuarios'),
-            ('sistema.administracion.usuarios.restablecer_password', 'Restablecer Contraseñas', 'administracion.usuarios'),
+            ('sistema.administracion.usuarios.ver', 'Ver Usuarios', 'sistema.administracion.usuarios'),
+            ('sistema.administracion.usuarios.crear', 'Crear Usuarios', 'sistema.administracion.usuarios'),
+            ('sistema.administracion.usuarios.editar', 'Editar Usuarios', 'sistema.administracion.usuarios'),
+            ('sistema.administracion.usuarios.eliminar', 'Eliminar Usuarios', 'sistema.administracion.usuarios'),
+            ('sistema.administracion.usuarios.restablecer_password', 'Restablecer Contraseñas', 'sistema.administracion.usuarios'),
 
             # GRUPOS
-            ('sistema.administracion.grupos.ver', 'Ver Grupos', 'administracion.grupos'),
-            ('sistema.administracion.grupos.crear', 'Crear Grupos', 'administracion.grupos'),
-            ('sistema.administracion.grupos.editar', 'Editar Grupos', 'administracion.grupos'),
-            ('sistema.administracion.grupos.eliminar', 'Eliminar Grupos', 'administracion.grupos'),
+            ('sistema.administracion.grupos.ver', 'Ver Grupos', 'sistema.administracion.grupos'),
+            ('sistema.administracion.grupos.crear', 'Crear Grupos', 'sistema.administracion.grupos'),
+            ('sistema.administracion.grupos.editar', 'Editar Grupos', 'sistema.administracion.grupos'),
+            ('sistema.administracion.grupos.eliminar', 'Eliminar Grupos', 'sistema.administracion.grupos'),
 
             # PERMISOS
-            ('sistema.administracion.permisos.ver', 'Ver Permisos', 'administracion.permisos'),
-            ('sistema.administracion.permisos.excepcionales.conceder', 'Conceder Permisos Excepcionales', 'administracion.permisos'),
-            ('sistema.administracion.permisos.excepcionales.revocar', 'Revocar Permisos Excepcionales', 'administracion.permisos'),
+            ('sistema.administracion.permisos.ver', 'Ver Permisos', 'sistema.administracion.permisos'),
+            ('sistema.administracion.permisos.excepcionales.conceder', 'Conceder Permisos Excepcionales', 'sistema.administracion.permisos'),
+            ('sistema.administracion.permisos.excepcionales.revocar', 'Revocar Permisos Excepcionales', 'sistema.administracion.permisos'),
 
             # AUDITORÍA
-            ('sistema.administracion.auditoria.ver', 'Ver Auditoría', 'administracion.auditoria'),
-            ('sistema.administracion.auditoria.exportar', 'Exportar Auditoría', 'administracion.auditoria'),
+            ('sistema.administracion.auditoria.ver', 'Ver Auditoría', 'sistema.administracion.auditoria'),
+            ('sistema.administracion.auditoria.exportar', 'Exportar Auditoría', 'sistema.administracion.auditoria'),
 
             # CONFIGURACIÓN
-            ('sistema.administracion.configuracion.ver', 'Ver Configuración', 'administracion.configuracion'),
-            ('sistema.administracion.configuracion.editar', 'Editar Configuración', 'administracion.configuracion'),
+            ('sistema.administracion.configuracion.ver', 'Ver Configuración', 'sistema.administracion.configuracion'),
+            ('sistema.administracion.configuracion.editar', 'Editar Configuración', 'sistema.administracion.configuracion'),
         ]
 
         creadas = 0
-        for codigo, nombre, funcion_codigo in capacidades_data:
+        for codigo, nombre, funcion_nombre_completo in capacidades_data:
             try:
-                funcion = Funcion.objects.get(codigo=funcion_codigo)
+                funcion = Funcion.objects.get(nombre_completo=funcion_nombre_completo)
             except Funcion.DoesNotExist:
                 self.stdout.write(
-                    self.style.WARNING(f'  ! Función no encontrada: {funcion_codigo}')
+                    self.style.WARNING(f'  ! Función no encontrada: {funcion_nombre_completo}')
                 )
                 continue
 
