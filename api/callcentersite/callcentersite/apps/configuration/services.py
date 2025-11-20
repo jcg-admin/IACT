@@ -88,6 +88,41 @@ class ConfiguracionService:
         return configuraciones
 
     @staticmethod
+    def obtener_configuracion_detalle(
+        usuario_id: int,
+        clave: str,
+    ) -> Configuracion:
+        """Obtiene una configuracion puntual.
+
+        Usa el mismo permiso de consulta que el listado general
+        para mantener una unica superficie de autorizacion.
+        """
+
+        verificar_permiso_y_auditar(
+            usuario_id=usuario_id,
+            capacidad_codigo='sistema.tecnico.configuracion.ver',
+            recurso_tipo='configuracion',
+            accion='ver',
+            mensaje_error='No tiene permiso para ver configuraciones',
+        )
+
+        try:
+            configuracion = Configuracion.objects.get(clave=clave, activa=True)
+        except Configuracion.DoesNotExist:
+            raise ValidationError(f'Configuracion no encontrada: {clave}')
+
+        auditar_accion_exitosa(
+            usuario_id=usuario_id,
+            capacidad_codigo='sistema.tecnico.configuracion.ver',
+            recurso_tipo='configuracion',
+            accion='ver',
+            recurso_id=configuracion.id,
+            detalles=f'Detalle de {clave}',
+        )
+
+        return configuracion
+
+    @staticmethod
     def editar_configuracion(
         usuario_id: int,
         clave: str,
@@ -160,6 +195,42 @@ class ConfiguracionService:
         )
 
         return configuracion
+
+    @staticmethod
+    def obtener_historial_configuracion(
+        usuario_id: int,
+        clave: str,
+    ) -> List[ConfiguracionHistorial]:
+        """Recupera el historial de una configuracion especifica."""
+
+        verificar_permiso_y_auditar(
+            usuario_id=usuario_id,
+            capacidad_codigo='sistema.tecnico.configuracion.ver',
+            recurso_tipo='configuracion',
+            accion='ver',
+            mensaje_error='No tiene permiso para ver configuraciones',
+        )
+
+        try:
+            configuracion = Configuracion.objects.get(clave=clave, activa=True)
+        except Configuracion.DoesNotExist:
+            raise ValidationError(f'Configuracion no encontrada: {clave}')
+
+        historial = list(
+            ConfiguracionHistorial.objects.filter(configuracion=configuracion)
+            .order_by('-timestamp')
+        )
+
+        auditar_accion_exitosa(
+            usuario_id=usuario_id,
+            capacidad_codigo='sistema.tecnico.configuracion.ver',
+            recurso_tipo='configuracion',
+            accion='ver',
+            recurso_id=configuracion.id,
+            detalles=f'Historial de {clave} ({len(historial)} eventos)',
+        )
+
+        return historial
 
     @staticmethod
     def exportar_configuracion(
@@ -318,6 +389,32 @@ class ConfiguracionService:
             'actualizadas': actualizadas,
             'errores': errores,
         }
+
+    @staticmethod
+    def obtener_historial_general(usuario_id: int) -> List[ConfiguracionHistorial]:
+        """Devuelve el historial completo de configuraciones."""
+
+        verificar_permiso_y_auditar(
+            usuario_id=usuario_id,
+            capacidad_codigo='sistema.tecnico.configuracion.ver',
+            recurso_tipo='configuracion',
+            accion='ver',
+            mensaje_error='No tiene permiso para ver configuraciones',
+        )
+
+        historial = list(
+            ConfiguracionHistorial.objects.all().order_by('-timestamp')
+        )
+
+        auditar_accion_exitosa(
+            usuario_id=usuario_id,
+            capacidad_codigo='sistema.tecnico.configuracion.ver',
+            recurso_tipo='configuracion',
+            accion='ver',
+            detalles=f'Historial completo ({len(historial)} eventos)',
+        )
+
+        return historial
 
     @staticmethod
     def restaurar_configuracion(
