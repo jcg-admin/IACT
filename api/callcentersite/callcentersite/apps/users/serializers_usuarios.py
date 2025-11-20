@@ -36,9 +36,8 @@ class UserSerializer(serializers.ModelSerializer):
 
     Campos:
         - id: int (read-only)
+        - username: str (requerido, unico)
         - email: str (requerido, unico, formato email)
-        - first_name: str (requerido)
-        - last_name: str (requerido)
         - is_active: bool
         - is_staff: bool
         - grupos: list (read-only, calculado desde UsuarioGrupo)
@@ -58,9 +57,8 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = [
             'id',
+            'username',
             'email',
-            'first_name',
-            'last_name',
             'is_active',
             'is_staff',
             'grupos',
@@ -70,15 +68,11 @@ class UserSerializer(serializers.ModelSerializer):
         ]
         read_only_fields = ['id', 'created_at', 'last_login', 'grupos']
         extra_kwargs = {
+            'username': {
+                'required': True,
+                'allow_blank': False,
+            },
             'email': {
-                'required': True,
-                'allow_blank': False,
-            },
-            'first_name': {
-                'required': True,
-                'allow_blank': False,
-            },
-            'last_name': {
                 'required': True,
                 'allow_blank': False,
             },
@@ -95,7 +89,7 @@ class UserSerializer(serializers.ModelSerializer):
             {
                 'codigo': ug.grupo.codigo,
                 'nombre': ug.grupo.nombre,
-                'asignado_en': ug.asignado_en.isoformat(),
+                'asignado_en': ug.fecha_asignacion.isoformat(),
             }
             for ug in grupos
         ]
@@ -160,9 +154,8 @@ class UserListSerializer(serializers.ModelSerializer):
         model = User
         fields = [
             'id',
+            'username',
             'email',
-            'first_name',
-            'last_name',
             'is_active',
             'is_staff',
             'grupos_count',
@@ -286,7 +279,7 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         """Crea usuario nuevo con password hasheado."""
         # Remove password_confirm as it's not needed for creation
         validated_data.pop('password_confirm')
-        
+
         # Create user with hashed password
         user = User.objects.create_user(
             username=validated_data['username'],

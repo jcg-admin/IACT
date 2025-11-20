@@ -70,8 +70,6 @@ class Command(BaseCommand):
             username='system_admin',
             defaults={
                 'email': 'system@callcenter.com',
-                'first_name': 'System',
-                'last_name': 'Admin',
                 'is_staff': True,
                 'is_superuser': True,
             }
@@ -104,8 +102,6 @@ class Command(BaseCommand):
             username='admin_demo',
             defaults={
                 'email': 'admin@demo.com',
-                'first_name': 'Admin',
-                'last_name': 'Demo',
                 'is_staff': True,
             }
         )
@@ -147,8 +143,6 @@ class Command(BaseCommand):
             username='coord1_demo',
             defaults={
                 'email': 'coord1@demo.com',
-                'first_name': 'Carlos',
-                'last_name': 'Coordinador',
             }
         )
 
@@ -183,8 +177,6 @@ class Command(BaseCommand):
             username='agente1_demo',
             defaults={
                 'email': 'agente1@demo.com',
-                'first_name': 'Ana',
-                'last_name': 'Agente',
             }
         )
 
@@ -219,8 +211,6 @@ class Command(BaseCommand):
             username='agente2_demo',
             defaults={
                 'email': 'agente2@demo.com',
-                'first_name': 'Pedro',
-                'last_name': 'Agente Senior',
             }
         )
 
@@ -255,8 +245,6 @@ class Command(BaseCommand):
             username='analista1_demo',
             defaults={
                 'email': 'analista1@demo.com',
-                'first_name': 'María',
-                'last_name': 'Analista',
             }
         )
 

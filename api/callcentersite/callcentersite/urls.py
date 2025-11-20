@@ -46,3 +46,12 @@ urlpatterns = [
     path("api/v1/data/", include("data_centralization.urls")),
     path("health/", health_check, name="health"),
 ]
+
+# Django Debug Toolbar URLs (solo en desarrollo)
+from django.conf import settings
+
+if settings.DEBUG:
+    import debug_toolbar
+    urlpatterns += [
+        path("__debug__/", include(debug_toolbar.urls)),
+    ]

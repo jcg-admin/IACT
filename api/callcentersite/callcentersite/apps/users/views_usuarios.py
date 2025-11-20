@@ -104,9 +104,8 @@ class UserViewSet(viewsets.ModelViewSet):
         Crea un nuevo usuario.
 
         Body:
+            - username: str (requerido, unico)
             - email: str (requerido)
-            - first_name: str (requerido)
-            - last_name: str (requerido)
             - password: str (requerido)
             - is_staff: bool (opcional)
 
@@ -174,9 +173,8 @@ class UserViewSet(viewsets.ModelViewSet):
         Actualiza un usuario completo.
 
         Body:
+            - username: str (opcional)
             - email: str (opcional)
-            - first_name: str (opcional)
-            - last_name: str (opcional)
             - is_staff: bool (opcional)
 
         Permiso: sistema.administracion.usuarios.editar
@@ -362,29 +360,29 @@ class UserViewSet(viewsets.ModelViewSet):
 class UserRegistrationView(generics.CreateAPIView):
     """
     Vista para registro publico de usuarios.
-    
+
     POST /api/register/
-    
+
     Body:
         - username: str (requerido, unico)
         - email: str (requerido, unico)
         - password: str (requerido, minimo 8 caracteres)
         - password_confirm: str (requerido, debe coincidir)
-    
+
     Returns:
         - 201 Created: Usuario registrado exitosamente
         - 400 Bad Request: Datos invalidos
     """
-    
+
     serializer_class = UserRegistrationSerializer
     permission_classes = [AllowAny]
-    
+
     def create(self, request, *args, **kwargs):
         """Registra un nuevo usuario."""
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.save()
-        
+
         return Response(
             {
                 'message': 'Usuario registrado exitosamente',
