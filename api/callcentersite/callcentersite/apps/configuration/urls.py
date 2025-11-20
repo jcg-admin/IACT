@@ -16,10 +16,10 @@ app_name = "configuration"
 
 urlpatterns = [
     path("", ConfiguracionListView.as_view(), name="list"),
-    path("<str:clave>/", ConfiguracionEditarView.as_view(), name="editar"),
-    path("<str:clave>/historial/", ConfiguracionHistorialView.as_view(), name="historial"),
     path("exportar/", ConfiguracionExportarView.as_view(), name="exportar"),
     path("importar/", ConfiguracionImportarView.as_view(), name="importar"),
     path("auditar/", ConfiguracionAuditoriaView.as_view(), name="auditar"),
+    path("<str:clave>/historial/", ConfiguracionHistorialView.as_view(), name="historial"),
     path("<str:clave>/restaurar/", ConfiguracionRestaurarView.as_view(), name="restaurar"),
+    path("<str:clave>/", ConfiguracionEditarView.as_view(), name="editar"),
 ]
