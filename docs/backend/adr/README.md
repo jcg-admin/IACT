@@ -47,6 +47,8 @@ Ver: `docs/backend/plantillas/plantilla-adr-backend.md`
 
 (Lista se actualizara conforme se creen ADRs formales)
 
+- `ADR-BACK-006-unificacion-configuracion.md`: consolida la app de configuraciones en un solo módulo en inglés manteniendo rutas en español y eliminando duplicaciones.
+
 ### Por implementar:
 - Arquitectura de permisos granular
 - Estrategia de testing (TDD)

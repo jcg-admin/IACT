@@ -22,9 +22,18 @@ urlpatterns = [
     ),
     path("api/v1/", include("callcentersite.apps.users.urls")),
     path("api/v1/configuration/", include("callcentersite.apps.configuration.urls")),
+    path(
+        "api/v1/configuracion/",
+        include(
+            (
+                "callcentersite.apps.configuration.urls",
+                "configuration",
+            ),
+            namespace="configuracion",
+        ),
+    ),
     path("api/v1/auth/", include("callcentersite.apps.authentication.urls")),
     path("api/v1/dashboard/", include("callcentersite.apps.dashboard.urls")),
-    path("api/v1/configuracion/", include("callcentersite.apps.configuracion.urls")),
     path("api/v1/presupuestos/", include("callcentersite.apps.presupuestos.urls")),
     path("api/v1/politicas/", include("callcentersite.apps.politicas.urls")),
     path("api/v1/excepciones/", include("callcentersite.apps.excepciones.urls")),

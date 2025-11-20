@@ -3,7 +3,10 @@ Vistas API REST para gestion de configuraciones del sistema.
 
 Endpoints:
     - GET    /api/v1/configuracion/                  (obtener)
+    - GET    /api/v1/configuracion/:clave/           (detalle)
     - PUT    /api/v1/configuracion/:clave/           (editar)
+    - GET    /api/v1/configuracion/:clave/historial/ (historial)
+    - GET    /api/v1/configuracion/auditar/          (auditoria)
     - GET    /api/v1/configuracion/exportar/         (exportar)
     - POST   /api/v1/configuracion/importar/         (importar)
     - POST   /api/v1/configuracion/:clave/restaurar/ (restaurar)
@@ -20,6 +23,7 @@ from rest_framework.views import APIView
 
 from .serializers import (
     ConfiguracionSerializer,
+    ConfiguracionHistorialSerializer,
     EditarConfiguracionSerializer,
     ImportarConfiguracionSerializer,
 )
@@ -60,6 +64,27 @@ class ConfiguracionEditarView(APIView):
 
     Permiso: sistema.tecnico.configuracion.editar
     """
+
+    def get(self, request, clave):  # type: ignore[override]
+        try:
+            configuracion = ConfiguracionService.obtener_configuracion_detalle(
+                usuario_id=request.user.id,
+                clave=clave,
+            )
+
+            output_serializer = ConfiguracionSerializer(configuracion)
+            return Response(output_serializer.data)
+
+        except PermissionDenied as e:
+            return Response(
+                {'error': str(e)},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+        except ValidationError as e:
+            return Response(
+                {'error': str(e)},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
     def put(self, request, clave):  # type: ignore[override]
         serializer = EditarConfiguracionSerializer(data=request.data)
@@ -180,4 +205,48 @@ class ConfiguracionRestaurarView(APIView):
             return Response(
                 {'error': str(e)},
                 status=status.HTTP_400_BAD_REQUEST,
+            )
+
+
+class ConfiguracionHistorialView(APIView):
+    """Expone el historial de cambios de una configuracion."""
+
+    def get(self, request, clave):  # type: ignore[override]
+        try:
+            historial = ConfiguracionService.obtener_historial_configuracion(
+                usuario_id=request.user.id,
+                clave=clave,
+            )
+
+            serializer = ConfiguracionHistorialSerializer(historial, many=True)
+            return Response(serializer.data)
+
+        except PermissionDenied as e:
+            return Response(
+                {'error': str(e)},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+        except ValidationError as e:
+            return Response(
+                {'error': str(e)},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+
+class ConfiguracionAuditoriaView(APIView):
+    """Devuelve el historial completo de configuraciones."""
+
+    def get(self, request):  # type: ignore[override]
+        try:
+            historial = ConfiguracionService.obtener_historial_general(
+                usuario_id=request.user.id,
+            )
+
+            serializer = ConfiguracionHistorialSerializer(historial, many=True)
+            return Response(serializer.data)
+
+        except PermissionDenied as e:
+            return Response(
+                {'error': str(e)},
+                status=status.HTTP_403_FORBIDDEN,
             )
