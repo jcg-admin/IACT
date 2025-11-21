@@ -2,6 +2,7 @@ name: Lint Requirements Frontmatter
 
 on:
   pull_request:
+    branches: [ main ]
     paths:
       - 'implementacion/**/requisitos/**/*.md'
   push:

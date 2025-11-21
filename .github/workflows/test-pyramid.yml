@@ -2,9 +2,9 @@ name: Test Pyramid Validation
 
 on:
   push:
-    branches: [ main, develop ]
+    branches: [ main ]
   pull_request:
-    branches: [ main, develop ]
+    branches: [ main]
   schedule:
     # Run weekly to track test pyramid metrics over time
     - cron: '0 0 * * 0'

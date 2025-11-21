@@ -2,10 +2,12 @@ name: Generate Requirements Indices (ISO 29148)
 
 on:
   push:
+    branches: [ main ]
     paths:
       - 'implementacion/**/requisitos/**/*.md'
       - 'scripts/requisitos/generate_requirements_index.py'
   pull_request:
+    branches: [ main ]
     paths:
       - 'implementacion/**/requisitos/**/*.md'
   workflow_dispatch:

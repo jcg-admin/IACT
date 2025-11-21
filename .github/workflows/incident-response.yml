@@ -1,6 +1,7 @@
 name: Incident Response
 
 on:
+  branches: [ main ]
   workflow_dispatch:
     inputs:
       incident_type:

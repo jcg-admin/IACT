@@ -4,16 +4,14 @@ on:
   push:
     branches:
       - main
-      - develop
-      - 'feature/**'
-      - 'claude/**'
+
     paths:
       - 'api/**'
       - '.github/workflows/python_ci.yml'
   pull_request:
     branches:
       - main
-      - develop
+
     paths:
       - 'api/**'
   workflow_dispatch:

@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-      - develop
+      
       - 'feature/**'
       - 'claude/**'
     paths:
@@ -14,7 +14,7 @@ on:
   pull_request:
     branches:
       - main
-      - develop
+      
     paths:
       - 'scripts/coding/ai/agents/**'
       - 'scripts/coding/tests/test_agents/**'

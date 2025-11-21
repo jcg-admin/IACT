@@ -6,7 +6,7 @@ on:
       - 'api/**/migrations/**'
       - 'api/**/models.py'
   push:
-    branches: [ main, develop ]
+    branches: [ main ]
     paths:
       - 'api/**/migrations/**'
       - 'api/**/models.py'

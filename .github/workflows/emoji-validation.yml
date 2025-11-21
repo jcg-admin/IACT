@@ -18,8 +18,7 @@ on:
   push:
     branches:
       - main
-      - develop
-      - 'claude/**'
+
 
 jobs:
   check-emojis:

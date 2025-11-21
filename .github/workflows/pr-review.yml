@@ -1,6 +1,7 @@
 name: PR Review with MCP
 
 on:
+  branches: [ main ]
   issue_comment:
     types: [created]
 

@@ -1,6 +1,7 @@
 name: Documentation Sync (Weekly)
 
 on:
+  branches: [ main ]
   # Ejecución programada: Lunes 9:00 AM UTC
   schedule:
     - cron: '0 9 * * 1'

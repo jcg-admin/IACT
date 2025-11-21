@@ -9,7 +9,7 @@ on:
   push:
     branches:
       - main
-      - develop
+
     paths:
       - 'docs/guias/**'
   workflow_dispatch:

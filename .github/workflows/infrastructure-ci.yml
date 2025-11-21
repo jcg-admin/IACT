@@ -2,13 +2,13 @@ name: Infrastructure CI
 
 on:
   push:
-    branches: [ main, develop ]
+    branches: [ main ]
     paths:
       - 'infrastructure/**'
       - 'scripts/**'
       - '.github/workflows/infrastructure-ci.yml'
   pull_request:
-    branches: [ main, develop ]
+    branches: [ main ]
     paths:
       - 'infrastructure/**'
       - 'scripts/**'
