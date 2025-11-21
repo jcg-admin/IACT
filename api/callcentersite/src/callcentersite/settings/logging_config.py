@@ -37,86 +37,72 @@ LOGGING_CONFIG: dict[str, Any] = {
             },
         },
         "json_structured": {
-            "()": "callcentersite.logging.JSONStructuredFormatter",
-        },
-    },
-    "filters": {
-        "require_debug_false": {
-            "()": "django.utils.log.RequireDebugFalse",
-        },
-        "require_debug_true": {
-            "()": "django.utils.log.RequireDebugTrue",
+            # CAMBIO: Añadido prefijo 'src.'
+            "()": "src.callcentersite.logging.JSONStructuredFormatter",
         },
     },
     "handlers": {
         "console": {
-            "level": "INFO",
             "class": "logging.StreamHandler",
-            "formatter": "verbose",
+            "formatter": "simple",
         },
         "console_debug": {
-            "level": "DEBUG",
-            "filters": ["require_debug_true"],
             "class": "logging.StreamHandler",
             "formatter": "verbose",
+            "level": "DEBUG",
         },
         "file": {
-            "level": "INFO",
             "class": "logging.handlers.RotatingFileHandler",
-            "filename": os.path.join(os.getenv("LOG_DIR", "/tmp"), "django.log"),
-            "maxBytes": 1024 * 1024 * 10,  # 10MB
+            "filename": os.getenv("APP_LOG_FILE", "/var/log/iact/application.log"),
+            "formatter": "verbose",
+            "maxBytes": 1024 * 1024 * 50,  # 50 MB
             "backupCount": 5,
-            "formatter": "verbose",
-        },
-        "file_debug": {
-            "level": "DEBUG",
-            "filters": ["require_debug_true"],
-            "class": "logging.handlers.RotatingFileHandler",
-            "filename": os.path.join(os.getenv("LOG_DIR", "/tmp"), "django_debug.log"),
-            "maxBytes": 1024 * 1024 * 10,  # 10MB
-            "backupCount": 3,
-            "formatter": "verbose",
         },
         "error_file": {
-            "level": "ERROR",
             "class": "logging.handlers.RotatingFileHandler",
-            "filename": os.path.join(os.getenv("LOG_DIR", "/tmp"), "django_errors.log"),
-            "maxBytes": 1024 * 1024 * 10,  # 10MB
-            "backupCount": 10,
+            "filename": os.getenv("APP_ERROR_FILE", "/var/log/iact/error.log"),
             "formatter": "verbose",
+            "level": "ERROR",
+            "maxBytes": 1024 * 1024 * 20,  # 20 MB
+            "backupCount": 3,
         },
         "json_file": {
-            "level": "INFO",
             "class": "logging.handlers.RotatingFileHandler",
-            "filename": os.path.join(os.getenv("LOG_DIR", "/var/log/iact"), "app.json.log"),
-            "maxBytes": 1024 * 1024 * 100,  # 100MB
-            "backupCount": 10,
+            "filename": os.getenv("APP_JSON_LOG_FILE", "/var/log/iact/application_json.log"),
             "formatter": "json_structured",
+            "maxBytes": 1024 * 1024 * 100,  # 100 MB
+            "backupCount": 10,
         },
         "json_error_file": {
-            "level": "ERROR",
             "class": "logging.handlers.RotatingFileHandler",
-            "filename": os.path.join(os.getenv("LOG_DIR", "/var/log/iact"), "app_errors.json.log"),
-            "maxBytes": 1024 * 1024 * 100,  # 100MB
-            "backupCount": 20,
+            "filename": os.getenv("APP_JSON_ERROR_FILE", "/var/log/iact/error_json.log"),
             "formatter": "json_structured",
-        },
-        "mail_admins": {
             "level": "ERROR",
-            "filters": ["require_debug_false"],
-            "class": "django.utils.log.AdminEmailHandler",
-            "include_html": True,
+            "maxBytes": 1024 * 1024 * 30,  # 30 MB
+            "backupCount": 5,
+        },
+        "security_audit": {
+            "class": "logging.handlers.RotatingFileHandler",
+            "filename": os.getenv("SECURITY_AUDIT_LOG", "/var/log/iact/security.log"),
+            "formatter": "json_structured",
+            "maxBytes": 1024 * 1024 * 10,  # 10 MB
+            "backupCount": 2,
         },
     },
     "loggers": {
         "django": {
-            "handlers": ["console", "file", "error_file", "json_file", "json_error_file"],
+            "handlers": ["console", "file", "error_file"],
             "level": os.getenv("DJANGO_LOG_LEVEL", "INFO"),
-            "propagate": False,
+            "propagate": True,
         },
         "django.request": {
-            "handlers": ["error_file", "json_error_file", "mail_admins"],
-            "level": "ERROR",
+            "handlers": ["console", "error_file"],
+            "level": "WARNING",
+            "propagate": False,
+        },
+        "django.server": {
+            "handlers": ["console", "error_file"],
+            "level": "INFO",
             "propagate": False,
         },
         "django.security": {
@@ -129,27 +115,28 @@ LOGGING_CONFIG: dict[str, Any] = {
             "level": "DEBUG",
             "propagate": False,
         },
-        "callcentersite": {
+        # CAMBIO: Añadido prefijo 'src.' a todos los loggers internos
+        "src.callcentersite": {
             "handlers": ["console", "file", "error_file", "json_file", "json_error_file"],
             "level": os.getenv("APP_LOG_LEVEL", "INFO"),
             "propagate": False,
         },
-        "callcentersite.apps.etl": {
+        "src.callcentersite.apps.etl": {
             "handlers": ["console", "file", "json_file"],
             "level": "INFO",
             "propagate": False,
         },
-        "callcentersite.apps.authentication": {
+        "src.callcentersite.apps.authentication": {
             "handlers": ["console", "file", "error_file", "json_file", "json_error_file"],
             "level": "INFO",
             "propagate": False,
         },
-        "callcentersite.apps.audit": {
+        "src.callcentersite.apps.audit": {
             "handlers": ["console", "file", "json_file"],
             "level": "INFO",
             "propagate": False,
         },
-        "dora_metrics": {
+        "src.dora_metrics": {
             "handlers": ["console", "file", "json_file"],
             "level": "INFO",
             "propagate": False,
@@ -163,8 +150,5 @@ LOGGING_CONFIG: dict[str, Any] = {
 
 
 def get_logging_config() -> dict[str, Any]:
-    """
-    Retorna la configuración de logging.
-    Permite personalización según el entorno.
-    """
+    """Retorna la configuracion de logging completa."""
     return LOGGING_CONFIG

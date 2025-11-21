@@ -8,7 +8,7 @@ import sys
 def main() -> None:
     """Ejecuta tareas administrativas de Django."""
     os.environ.setdefault(
-        "DJANGO_SETTINGS_MODULE", "callcentersite.settings.development"
+        "DJANGO_SETTINGS_MODULE", "src.callcentersite.settings.development"
     )
 
     try:

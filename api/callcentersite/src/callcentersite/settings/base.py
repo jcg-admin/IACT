@@ -19,7 +19,10 @@ ALLOWED_HOSTS = [
     if host.strip()
 ]
 
-INSTALLED_APPS = [
+# **************** INSTALLED_APPS ****************
+
+# 1. Aplicaciones de Terceros (Django y Librerías)
+THIRD_PARTY_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -31,31 +34,40 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt.token_blacklist",
     "django_filters",
     "drf_spectacular",
-    "callcentersite.apps.common",
-    "callcentersite.apps.users",
-    "callcentersite.apps.authentication",
-    "callcentersite.apps.permissions",
-    "callcentersite.apps.llamadas",
-    "callcentersite.apps.notifications",
-    "callcentersite.apps.analytics",
-    "callcentersite.apps.ivr_legacy",
-    "callcentersite.apps.etl",
-    "callcentersite.apps.reportes",
-    "callcentersite.apps.audit",
-    "callcentersite.apps.dashboard",
-    "callcentersite.apps.configuration",
-    "callcentersite.apps.presupuestos",
-    "callcentersite.apps.politicas",
-    "callcentersite.apps.excepciones",
-    "callcentersite.apps.alertas",
-    "callcentersite.apps.clientes",
-    "callcentersite.apps.equipos",
-    "callcentersite.apps.horarios",
-    "callcentersite.apps.metricas",
-    "callcentersite.apps.tickets",
-    "data_centralization",
-    "dora_metrics",
 ]
+
+# 2. Aplicaciones Propias del Proyecto (Locales)
+LOCAL_APPS = [
+    "src.callcentersite.apps.common",
+    "src.callcentersite.apps.users",
+    "src.callcentersite.apps.authentication",
+    "src.callcentersite.apps.permissions",
+    "src.callcentersite.apps.llamadas",
+    "src.callcentersite.apps.notifications",
+    "src.callcentersite.apps.analytics",
+    "src.callcentersite.apps.ivr_legacy",
+    "src.callcentersite.apps.etl",
+    "src.callcentersite.apps.reportes",
+    "src.callcentersite.apps.audit",
+    "src.callcentersite.apps.dashboard",
+    "src.callcentersite.apps.configuration",
+    "src.callcentersite.apps.presupuestos",
+    "src.callcentersite.apps.politicas",
+    "src.callcentersite.apps.excepciones",
+    "src.callcentersite.apps.alertas",
+    "src.callcentersite.apps.clientes",
+    "src.callcentersite.apps.equipos",
+    "src.callcentersite.apps.horarios",
+    "src.callcentersite.apps.metricas",
+    "src.callcentersite.apps.tickets",
+    "src.data_centralization",
+    "src.dora_metrics",
+]
+
+# Unión de todas las aplicaciones
+INSTALLED_APPS = THIRD_PARTY_APPS + LOCAL_APPS
+
+# **************** MIDDLEWARE ****************
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -63,12 +75,14 @@ MIDDLEWARE = [
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
-    "callcentersite.middleware.session_security.SessionSecurityMiddleware",
+    "src.callcentersite.middleware.session_security.SessionSecurityMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-ROOT_URLCONF = "callcentersite.urls"
+# **************** URLS y WSGI ****************
+
+ROOT_URLCONF = "src.callcentersite.urls"
 
 TEMPLATES = [
     {
@@ -86,7 +100,7 @@ TEMPLATES = [
     }
 ]
 
-WSGI_APPLICATION = "callcentersite.wsgi.application"
+WSGI_APPLICATION = "src.callcentersite.wsgi.application"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 AUTH_USER_MODEL = "users.User"
@@ -123,7 +137,9 @@ DATABASES = {
     },
 }
 
-DATABASE_ROUTERS = ["callcentersite.database_router.IVRReadOnlyRouter"]
+# **************** DATABASE_ROUTERS ****************
+
+DATABASE_ROUTERS = ["src.callcentersite.database_router.IVRReadOnlyRouter"]
 
 LANGUAGE_CODE = "es-es"
 TIME_ZONE = "UTC"
@@ -145,6 +161,8 @@ REST_FRAMEWORK = {
     "DEFAULT_FILTER_BACKENDS": ["django_filters.rest_framework.DjangoFilterBackend"],
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
+
+# **************** SPECTACULAR_SETTINGS ****************
 
 SPECTACULAR_SETTINGS = {
     "TITLE": "IACT API",
@@ -177,6 +195,8 @@ SPECTACULAR_SETTINGS = {
         },
     ],
     "COMPONENT_SPLIT_REQUEST": True,
+    "COMPONENT_SPLIT_PATCH": True,
+    "ENFORCE_NON_BLANK_FIELDS": True,
     "SORT_OPERATIONS": True,
 }
 

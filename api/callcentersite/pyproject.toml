@@ -18,6 +18,41 @@ classifiers = [
     "Programming Language :: Python :: 3.12",
 ]
 
+# **************** INICIO DE CAMBIOS POR MIGRACIÓN A SRC/ ****************
+
+[tool.setuptools.packages.find]
+# Indica a Setuptools que busque los paquetes instalables dentro de la carpeta 'src'
+where = ["src"]
+# Lista los paquetes principales que deben ser instalados
+include = ["callcentersite", "data_centralization", "dora_metrics"]
+
+[tool.django-stubs]
+# Se actualiza el path de los settings para incluir 'src'
+django_settings_module = "src.callcentersite.settings.development"
+
+[tool.pytest.ini_options]
+# Se actualiza el path de los settings para Pytest
+DJANGO_SETTINGS_MODULE = "src.callcentersite.settings"
+python_files = ["tests.py", "test_*.py", "*_tests.py"]
+testpaths = ["."]
+addopts = "-v --strict-markers --tb=short"
+
+[tool.coverage.run]
+# Se indica a coverage que la fuente del código es la carpeta 'src'
+source = ["src"]
+omit = [
+    "*/migrations/*",
+    "*/tests/*",
+    "*/test_*.py",
+    "*/__pycache__/*",
+    "manage.py",
+    "*/wsgi.py",
+    "*/asgi.py",
+]
+branch = true
+
+# **************** FIN DE CAMBIOS POR MIGRACIÓN A SRC/ ****************
+
 [tool.ruff]
 line-length = 100
 target-version = "py312"
@@ -173,9 +208,6 @@ module = [
 ]
 ignore_errors = true
 
-[tool.django-stubs]
-django_settings_module = "callcentersite.settings.development"
-
 [tool.bandit]
 exclude_dirs = [
     "tests",
@@ -196,25 +228,6 @@ disable = [
 
 [tool.pylint.format]
 max-line-length = 100
-
-[tool.pytest.ini_options]
-DJANGO_SETTINGS_MODULE = "callcentersite.settings"
-python_files = ["tests.py", "test_*.py", "*_tests.py"]
-testpaths = ["."]
-addopts = "-v --strict-markers --tb=short"
-
-[tool.coverage.run]
-source = ["."]
-omit = [
-    "*/migrations/*",
-    "*/tests/*",
-    "*/test_*.py",
-    "*/__pycache__/*",
-    "manage.py",
-    "*/wsgi.py",
-    "*/asgi.py",
-]
-branch = true
 
 [tool.coverage.report]
 exclude_lines = [

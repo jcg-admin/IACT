@@ -5,10 +5,10 @@ Este settings minimal permite tests de conectividad de base de datos
 sin requerir migraciones ni modelos personalizados.
 
 Usar con:
-    pytest --ds=callcentersite.settings.infrastructure_test
+    pytest --ds=src.callcentersite.settings.infrastructure_test
 """
 
-from callcentersite.settings.base import *
+from src.callcentersite.settings.base import *
 
 # Deshabilitar admin y apps que requieren migraciones
 INSTALLED_APPS = [
