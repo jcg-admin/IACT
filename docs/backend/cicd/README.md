@@ -1,119 +1,85 @@
+# CI/CD - Backend
+
+Este directorio contiene documentacion de pipelines de integracion continua y despliegue continuo especificos del backend.
+
+## Proposito
+
+Documentar:
+- Pipelines de CI/CD
+- Workflows de GitHub Actions
+- Procesos de build y testing
+- Estrategias de deployment
+- Configuraciones de entornos
+
+## Nomenclatura
+
+```
+CI-CD-###-titulo-snake-case.md
+```
+
+**Ejemplos:**
+- `CI-CD-001-pipeline-tests-backend.md`
+- `CI-CD-002-deployment-staging.md`
+- `CI-CD-003-pipeline-validacion-restricciones.md`
+
+## Contenido Esperado
+
+### Pipelines de Testing
+- Pipeline de ejecucion de pytest
+- Validacion de cobertura de tests
+- Linting y formateo (black, flake8, mypy)
+- Validacion de migraciones
+
+### Pipelines de Deployment
+- Deployment a staging
+- Deployment a produccion
+- Rollback procedures
+- Health checks post-deployment
+
+### Validaciones Automatizadas
+- Validacion de restricciones criticas (no Redis, no SMTP)
+- Verificacion de SessionEngine en settings
+- Validacion de configuracion de bases de datos dual
+
+## Estructura de Documento CI/CD
+
+```yaml
 ---
-id: CICD-BACKEND-001
-tipo: documentacion
-categoria: cicd
+id: CI-CD-###
+tipo: ci_cd
+categoria: [pipeline|workflow|deployment]
+titulo: Titulo del Pipeline
 version: 1.0.0
-fecha_creacion: 2025-11-18
+fecha_creacion: YYYY-MM-DD
 ---
-
-# CI/CD Backend
-
-Documentación de CI/CD para el backend.
-
----
-
-## Pipeline Actual
-
-### GitHub Actions
-
-**Ubicación:** `.github/workflows/backend-*.yml`
-
-**Stages:**
-
-1. **Lint**
- - flake8 para estilo de código
- - black para formato
- - isort para imports
-
-2. **Test**
- - pytest con coverage
- - Coverage mínimo: 80%
-
-3. **Security**
- - Safety para dependencies vulnerables
- - Bandit para security issues en código
-
-4. **Build**
- - Validar que proyecto se construye correctamente
-
----
-
-## Comandos Locales
-
-### Ejecutar Tests
-```bash
-# Tests completos
-pytest
-
-# Con coverage
-pytest --cov=myapp --cov-report=html
-
-# Tests específicos
-pytest tests/test_services.py
 ```
 
-### Linting
-```bash
-# flake8
-flake8 myapp/
+## Workflows de GitHub Actions
 
-# black
-black --check myapp/
-
-# isort
-isort --check myapp/
+```
+workflows/
+ backend-tests.yml
+ backend-linting.yml
+ backend-deploy-staging.yml
+ backend-validaciones-criticas.yml
 ```
 
-### Fix Automático
-```bash
-# Formatear código
-black myapp/
+## Restricciones Validadas en CI/CD
 
-# Ordenar imports
-isort myapp/
-```
+Los pipelines deben validar:
+1. **NO Redis:** Verificar que CACHES no usa RedisCache
+2. **NO SMTP:** Verificar que EMAIL_BACKEND no es smtp
+3. **Sesiones MySQL:** Verificar SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+4. **Dual DB:** Verificar configuracion de DATABASES con 'ivr' y 'analytics'
+
+## Metricas de CI/CD
+
+- Tiempo de ejecucion de tests
+- Tasa de exito de pipelines
+- Cobertura de codigo
+- Frecuencia de deployments
 
 ---
 
-## Configuración
-
-### pytest.ini
-```ini
-[pytest]
-DJANGO_SETTINGS_MODULE = config.settings.test
-python_files = tests.py test_*.py *_tests.py
-addopts = --cov --cov-report=html --cov-fail-under=80
-```
-
-### .flake8
-```ini
-[flake8]
-max-line-length = 100
-exclude = migrations,__pycache__,.git
-```
-
----
-
-## Deployment
-
-### Staging
-1. Merge a branch `staging`
-2. CI/CD ejecuta tests
-3. Deploy automático a staging
-
-### Production
-1. Merge a branch `main`
-2. CI/CD ejecuta tests completos
-3. Deploy manual tras aprobación
-
----
-
-## Referencias
-
-- [GitHub Actions Docs](https://docs.github.com/en/actions)
-- [pytest Documentation](https://docs.pytest.org/)
-- [flake8](https://flake8.pycqa.org/)
-
----
-
-**Última actualización:** 2025-11-18
+**Ultima actualizacion:** 2025-11-18
+**Responsable:** Equipo Backend + DevOps
