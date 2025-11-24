@@ -16,6 +16,7 @@ Centraliza la estrategia, métricas y evidencias de aseguramiento de calidad par
 - [`estrategia_qa.md`](estrategia_qa.md)
 - [`actividades_garantia_documental.md`](actividades_garantia_documental.md)
 - [`registros/`](registros/)
+- [`guia_estructura_qa.md`](guia_estructura_qa.md)
 
 ## Información clave
 ### Rol dentro del flujo de documentación

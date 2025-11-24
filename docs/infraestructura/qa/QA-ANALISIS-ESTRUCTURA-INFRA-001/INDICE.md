@@ -70,6 +70,15 @@ Dos analisis complementarios que trabajan en conjunto:
 
 **Documentos principales:**
 
+#### Vista rapida de documentos clave
+| Archivo | Tipo | Proposito | Hallazgos o entregables clave |
+| --- | --- | --- | --- |
+| `ANALISIS-ESTRUCTURA-INFRA-2025-11-18.md` | Analisis tecnico | Inventario de estructura, brechas contra Gobernanza y plan de accion inmediato. | 32 README/INDEX inventariados, brechas en QA/testing/registros y plantillas QA creadas como primeras acciones. |
+| `PLAN-DOCUMENTACION-INFRA-2025-11-19.md` | Plan de accion | Roadmap de tareas (Fases Descubrimiento → Gobernanza) para igualar la madurez de QA respecto a Gobernanza. | 8 tareas con dependencias y restricciones obligatorias (TDD, cobertura >=80%, commits convencionales). |
+| `README-REORGANIZACION-ESTRUCTURA.md` | Analisis de reorganizacion | Propuesta top-down de estructura objetivo y gaps cuantificados (carpetas, ADR, procesos, plantillas). | 13 carpetas nuevas requeridas, 65 tareas estimadas en 6 semanas con metricas de exito y riesgos. |
+| `LISTADO-COMPLETO-TAREAS.md` | Backlog | Inventario consolidado de tareas P0–P4 y dependencias cruzadas entre analisis y ejecucion. | Trazabilidad hacia `tareas_activas.md` y tareas numeradas TASK-001 a TASK-040. |
+| `MATRIZ_HALLAZGOS_INFRAESTRUCTURA.csv` | Matriz de hallazgos | Evidencias y severidad por hallazgo con responsables sugeridos. | Alimenta las tareas P1–P3 de correccion y los checks de QA semanal. |
+
 #### 1.1. ANALISIS-ESTRUCTURA-INFRA-2025-11-18.md
 **Tipo:** Analisis Tecnico
 **Proposito:** Analisis inicial de estructura y plan de accion para documentar componentes
@@ -411,6 +420,14 @@ Al finalizar ambos analisis, se obtiene:
 - `docs/gobernanza/` - Modelo de referencia para estructura objetivo
 - `docs/gobernanza/qa/QA-ANALISIS-RAMAS-001/` - Modelo de analisis QA
 - `docs/gobernanza/qa/ANALISIS-GOBERNANZA-POST-LIMPIEZA-2025-11-17.md` - Analisis de duplicados (complementario)
+
+#### Integracion con gobernanza/qa
+
+| Documento | Proposito | Como usarlo en este analisis |
+| --- | --- | --- |
+| `docs/gobernanza/qa/README.md` | Portada QA con metadatos y artefactos obligatorios (estrategia, controles documentales, registros). | Alinear el frontmatter y las secciones de cumplimiento de este indice con el formato corporativo y replicar las acciones prioritarias (cobertura >= 80 %, criterios de salida APScheduler). |
+| `docs/gobernanza/qa/guia_estructura_qa.md` | Guía rápida de estructura y nomenclatura para nuevas guías QA basada en `checklist_auditoria_restricciones.md`. | Usar la plantilla para crear futuros checklists de infraestructura (IDs en mayúsculas, tablas 1.x, columnas `#`, `Ítem`, `Verificación`, `Estado`, `Evidencia`, bloque de métricas y firmas). |
+| `docs/gobernanza/qa/checklist_auditoria_restricciones.md` | Checklist de referencia con secciones numeradas y scoring por bloque. | Tomar como referencia para construir checklists específicos de infraestructura (por ejemplo, hardening de VMs o DevContainers) respetando numeración y encabezados en mayúsculas. |
 
 **En docs/backend/:**
 - `docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/` - Modelo de reorganizacion de otro dominio
