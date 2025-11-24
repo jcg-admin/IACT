@@ -82,3 +82,63 @@ relacionados: ["..."]
 - Security Lead: ___ Fecha: ___
 - Tech Lead: ___ Fecha: ___
 ```
+
+## Guía de QA: mapeo de referencia y estilo
+
+### 1. Archivo de referencia identificado
+
+- **Ruta:** `docs/standards/engineering-ruleset.md`.
+- **Propósito del archivo:** consolidar convenciones técnicas y de nomenclatura para el monorrepo (equivalente a un objetivo).
+- **Alcance explícito:** cubre estándares de repositorio, Bash, Python, UI y automatización; aplica a todo `docs/` y a las capas descritas (presentación, dominio, infraestructura).
+
+### 2. Mapa de estructura del archivo de referencia
+
+| Orden | Encabezado / sección | Contenido clave | Elementos relevantes para QA |
+| --- | --- | --- | --- |
+| 1 | Título y resumen inicial | Presenta el propósito del ruleset y su carácter viviente. | Objetivo y alcance implícitos. |
+| 2 | `1. Core Principles` | Lista numerada con principios base. | Actúa como checklist de lineamientos generales. |
+| 3 | `2. Repository Structure Expectations` | Diagrama de árbol del monorrepo con comentarios. | Define alcance y dependencias. |
+| 4 | `3. Naming Conventions` | Tabla con convenciones por capa (Bash, Python, React, SCSS, Webpack, PlantUML). | Convenciones de nomenclatura obligatorias. |
+| 5 | `4. Layering Rules` | Lista numerada con límites de responsabilidad. | Checklist de responsabilidades y restricciones. |
+| 6 | `5. Bash Standards` | Bullets de prácticas obligatorias. | Lista de verificación para scripts. |
+| 7 | `6. Python (Flask + PyTM) Standards` | Bullets de estilo y organización. | Lista de verificación por lenguaje. |
+| 8 | `7. PlantUML and Diagram Automation` | Bullets sobre ubicación y generación de diagramas. | Checklist especializado. |
+| … | Secciones posteriores | Continúan con estándares por capa (no visibles en este extracto). | Extienden checklists y reglas específicas. |
+
+#### Convenciones de nomenclatura derivadas
+
+- Usar `snake_case` para scripts Bash y módulos/funciones Python.
+- Emplear `PascalCase` para clases Python y componentes React.
+- Archivos SCSS en `kebab-case`, variables en `$kebab-case`.
+- Configuraciones de Webpack como `webpack.<target>.config.js`.
+- Plantillas PlantUML en `snake_case.puml`.
+
+### 3. Guía de estilo para nuevas guías de QA
+
+Al crear futuras guías de QA en este repositorio, incluye como mínimo:
+
+1. **Portada breve:** título, versión, fecha y sistema o equipo al que aplica.
+2. **Objetivo:** párrafo que explique qué se valida o protege.
+3. **Alcance:** listado con límites (incluye/excluye). Si aplica a un módulo específico, referéncialo.
+4. **Responsables:** tabla con rol, responsabilidad y contacto/canal.
+5. **Frecuencia:** periodicidad de ejecución (por ciclo, semanal, por release) y disparadores.
+6. **Checklist operativo:** tabla `| Paso | Acción | Evidencia esperada | Estado |` para asegurar trazabilidad.
+7. **Métricas:** tabla mínima `| Métrica | Definición | Umbral | Fuente |`.
+8. **Convenciones de nomenclatura:** referencias a la tabla del archivo de referencia y reglas específicas de QA (p. ej., prefijos para casos de prueba).
+9. **Registro de decisiones/observaciones:** bullets con hallazgos, desvíos y acciones correctivas.
+10. **Trazabilidad y anexos:** enlaces relativos a scripts, pipelines o plantillas utilizadas.
+
+#### Reglas de formato
+
+- Mantén encabezados numerados para reflejar orden y facilitar auditorías.
+- Usa tablas para checklist, métricas y responsables; alinea columnas con `|` para lecturabilidad.
+- Coloca código o comandos en bloques de triple acento invertido con idioma cuando aplique.
+- Nombra archivos de QA en `kebab-case` (`control-versionado-qa.md`) y rutas bajo `docs/gobernanza/qa/`.
+- Si introduces nuevas convenciones, documenta el objetivo y enlaza al recurso correspondiente dentro del repositorio.
+
+### 4. Ubicación y nomenclatura confirmada
+
+- No existen variantes previas (`.md`, `.adoc`, `.pdf`) de las guías solicitadas bajo `docs/` o `infrastructure/`.
+- Se crean y consolidan las rutas acordadas para QA:
+  - `docs/gobernanza/qa/QA-ANALISIS-RAMAS-001/QA-ANALISIS-RAMAS-001.md` para el control de ramas.
+  - `docs/infraestructura/qa/QA-ANALISIS-ESTRUCTURA-INFRA-001/QA-ANALISIS-ESTRUCTURA-INFRA-001.md` para la estructura de infraestructura.
