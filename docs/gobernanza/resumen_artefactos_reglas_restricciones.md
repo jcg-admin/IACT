@@ -47,6 +47,9 @@ Recopilar en un solo lugar todos los archivos del repositorio que mencionan regl
 
 ## Restricciones críticas destacadas
 - **Prohibición de envío de correos electrónicos reales:** documentada en guías operativas y validada por scripts de control, con referencias explícitas en `docs/gobernanza/guias/scripts/validate_critical_restrictions.md` y en el plan QA de infraestructura `docs/infraestructura/qa/QA-ANALISIS-ESTRUCTURA-INFRA-001/PLAN-DOCUMENTACION-INFRA-2025-11-19.md`. Esta restricción aplica a las 24 apps Django analizadas y requiere mock o deshabilitar integraciones de correo en configuraciones y despliegues.
+  - **Puertas automáticas:** `scripts/ci/gate-restrictions.sh` bloquea cambios que violen reglas críticas, incluyendo el envío de correos reales en entornos no productivos.
+  - **Checklist manual:** `docs/gobernanza/guias/scripts/validate_critical_restrictions.md` incluye pasos de verificación (por ejemplo, revisión de variables SMTP y de proveedores externos) que deben ejecutarse antes de merge y despliegue.
+  - **Cobertura en planes QA:** `docs/infraestructura/qa/QA-ANALISIS-ESTRUCTURA-INFRA-001/PLAN-DOCUMENTACION-INFRA-2025-11-19.md` exige mocks de email, registros de auditoría y pruebas negativas para evitar envíos reales.
 
 ## Apéndice: listado completo de artefactos
 La siguiente lista contiene cada archivo que incluye referencias a reglas o restricciones (ordenados alfabéticamente):
