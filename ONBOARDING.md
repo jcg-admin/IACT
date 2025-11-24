@@ -1,4 +1,4 @@
----
+﻿---
 id: ONBOARDING-GUIDE
 tipo: guia
 categoria: proyecto
@@ -81,7 +81,7 @@ python manage.py runserver
 ### 2.1 Organizacion General
 
 ```
-IACT---project/
+IACT/
 ├── api/                    Backend Django
 ├── docs/                   Documentacion transversal
 ├── scripts/                Scripts automatizacion
