@@ -62,6 +62,111 @@ Las tareas se reorganizan para cerrar las brechas identificadas (secuencia UML �
 - **GOB_v2.md / BR_v2.md**: incluyen `trazabilidad_upward` hacia políticas/regulaciones y `trazabilidad_downward` hacia UC/RF.
 - **Gemas**: bloque obligatorio YAML/JSON `trazabilidad` con arrays `uc_refs`, `rf_refs`, `adr_refs`, `tests_refs`; validado por `scripts/trazabilidad/validar_gemas.py`.
 
+### 5.3 Aplicación de técnicas de Prompt Engineering a la división de tareas
+Para garantizar que cada macro-objetivo se convierta en un backlog accionable y trazable al PROC-IACT-TRZ, se integran dos técnicas complementarias:
+
+#### Auto-CoT (Automatic Chain-of-Thought)
+- **Propósito**: obligar al LLM a descomponer el problema en pasos intermedios antes de generar las tareas finales, evitando saltos conceptuales.
+- **Aplicación**: el razonamiento interno debe citar primero la regla del PROC-IACT-TRZ a cubrir y los artefactos involucrados antes de proponer subtareas. Ejemplo: para **B7.5 (Consistencia)** se parte de la regla **PROC-IACT-TRZ 4.6 (Relación Mínima)** y los artefactos **API (fase 10.7)** y **TEST (fase 10.8)**; luego se generan subtareas como (1) definir JSON de reglas de Consistencia, (2) codificar `check_minimum_relation` en `rtm-drift-check.py`, (3) crear unit tests de la función y (4) integrar el job en CI/CD.
+- **Salida esperada**: consolidar las subtareas en un backlog ejecutable, por ejemplo, “Tarea Backlog B7.5: Actualizar `rtm-drift-check.py` [LLD: 001] con el módulo `check_minimum_relation` para validar que toda API tenga al menos un Test en la RTM”.
+
+#### Self-Consistency (Auto-Consistencia)
+- **Propósito**: validar la robustez del plan de tareas generado y evitar omisiones.
+- **Aplicación**: generar 3–5 descomposiciones alternativas del mismo objetivo (p. ej., Camino A centrado en desarrollo de script, Camino B en gobernanza/documentación y Camino C en integración CI/CD) y evaluarlas contra restricciones obligatorias (trazabilidad bidireccional, completitud por fase, controles de CI/CD, etc.).
+- **Selección**: escoger la ruta que cumpla más restricciones; normalmente una combinación de Caminos B y C para incluir documentación de la regla y job de bloqueo.
+
+#### Ejemplo resumido de ejecución
+Entrada: requisito **B4.5 (UML)**. El Auto-CoT lo descompone citando la fase 10.4 y el principio de “Completitud por Fase”, generando subtareas como definición de plantilla, desarrollo de `uml-check`, creación del job y documentación de la matriz. La Self-Consistency compara rutas alternativas y valida que todas controlen la matriz **UC → UML** antes de iniciar la fase 10.5. El backlog usa la versión que mejor cumple las restricciones del PROC-IACT-TRZ.
+
+### 5.4 Task Decomposition para backlog B7.5 (rtm-drift-check.py)
+La *Task Decomposition* transforma macro-objetivos validados por Auto-CoT y Self-Consistency en un plan de acción granular y secuencial, preparado para ejecución paralela por agentes especializados.
+
+#### Aplicación de Task Decomposition
+- **Requisito a descomponer**: Backlog **B7.5** — Implementar el control de Relación Mínima Requerida (punto 4.6 del PROC-IACT-TRZ) en `rtm-drift-check.py`.
+- **Restricción crítica**: cada `API-XXX` debe tener al menos un `TEST-YYY` asociado en la RTM.
+- **Proceso**: el agente de planificación descompone la macro-tarea en subtareas secuenciales/paralelizables, minimizando dependencias y habilitando asignación a equipos especializados.
+
+| Sub-Tarea ID | Tipo de Tarea | Descripción / Implementación | Agente de Ejecución Sugerido | Hitos y Paralelismo |
+| --- | --- | --- | --- | --- |
+| **B7.5.1** | Definición | Crear `rules/min_relations.json` con la regla `{ "API": { "requires_min": 1, "target": "TEST" } }`. | Documentador / Arquitecto | Bloquea **B7.5.2**. |
+| **B7.5.2** | Desarrollo | Implementar `check_minimum_relation(RTM, rules)` en `rtm-drift-check.py` para fallar si hay APIs sin Tests. | Agente Python/Scripting | En paralelo con **B7.5.3**. |
+| **B7.5.3** | QA / Docs | Escribir unit tests (RTM mock) que validen el fallo ante APIs huérfanas. | QA / Testing | En paralelo con **B7.5.2**. |
+| **B7.5.4** | Integración | Actualizar el workflow CI/CD para ejecutar la nueva función en el job `rtm-drift-check`. | DevOps / Infraestructura | Depende de **B7.5.2** y **B7.5.3**. |
+| **B7.5.5** | Documentación | Documentar la regla de bloqueo y códigos de error para desarrolladores. | Documentador | Puede ejecutarse junto a **B7.5.4** pero debe cerrarse antes del merge. |
+
+#### Conclusión operativa
+La Task Decomposition convierte el requerimiento de consistencia en un conjunto de tareas atómicas y asignables. Permite lanzar agentes en paralelo (p. ej., desarrollo y QA) y asegura que cada componente cuente con pruebas, integración CI/CD y documentación para cumplir el PROC-IACT-TRZ sin omisiones.
+
+### 5.5 Grounding normativo para planes y backlog
+El *Grounding* ancla cada decisión de planificación y ejecución en la **Fuente Única de Verdad** (el PROC-IACT-TRZ), evitando interpretaciones libres o alucinación normativa.
+
+- **Evita la alucinación normativa**: impide que el LLM invente tareas o requisitos no especificados en el procedimiento. Cada subtarea debe citar explícitamente el punto aplicable (p. ej., 4.6 para la Relación Mínima). Si no existe referencia normativa, la tarea se descarta o se eleva como riesgo documentado.
+- **Garantiza la trazabilidad**: toda tarea del backlog (como **B7.5** en `rtm-drift-check.py`) debe poder justificarse con una cita directa al PROC-IACT-TRZ. El *Definition of Done* incluye dejar trazada la regla aplicada en la RTM o en la documentación de CI/CD.
+- **Refuerza la coherencia**: combina consistencia interna (Self-Consistency) con coherencia externa (alineación con la norma). El plan final debe mostrar cómo el Auto-CoT citó la norma, cómo la Task Decomposition mantuvo la referencia y cómo los controles de CI/CD validan la regla.
+- **Cruza con restricciones documentadas**: antes de cerrar la planificación de cada backlog, validar que las reglas aplicadas no contradicen las restricciones detalladas en `docs/gobernanza/reglas_restricciones_detalle.md`. El resultado esperado es un checklist de cumplimiento adjunto al PR o pipeline que evidencie la revisión de restricciones obligatorias.
+
+Aplicación práctica al backlog B7.5
+- El JSON de reglas (`rules/min_relations.json`) debe incluir el identificador normativo que respalda cada control.
+- `rtm-drift-check.py` registra en sus mensajes de error el punto de la norma que se está cumpliendo al fallar por ausencia de `TEST-YYY`.
+- El job de CI/CD agrega un enlace al apartado 4.6 del procedimiento en la documentación del pipeline, permitiendo auditoría directa.
+- Los PRs que toquen la RTM documentan la referencia normativa en la descripción y en la sección de checklist de trazabilidad.
+
+### 5.6 Integración de módulos Django (`callcentersite.apps.*`) en el plan de remediación
+Para que la trazabilidad y los controles CI/CD cubran todo el stack operativo, cada módulo Django identificado se integra al backlog y a las validaciones de la siguiente forma:
+
+- **authentication** y **users**: registrar en `RTM-IACT` los requisitos de autenticación y sesiones; exigir que los endpoints expuestos incluyan `uc_refs/rf_refs/adr_refs` en `@extend_schema` y que los tests funcionales validen emisión y refresco de tokens.
+- **permissions**: mapear reglas de acceso granular a BR/RN en la RTM y documentar decisiones en ADRs; el job `rtm-drift-check` verifica que cada política tenga al menos un test asociado (regla de relación mínima).
+- **audit** y **notifications**: trazar eventos críticos a RN/BR y garantizar pruebas de notificación/auditoría; incorporar en CI el chequeo de cobertura mínima para eventos obligatorios.
+- **politicas** y **common**: documentar la herencia de `TimeStampedModel` y plantillas de políticas en RTM; validar con `lint-trazabilidad` que las plantillas `BR_v2.md` incluyan referencias downward hacia UC/ADR.
+- **llamadas** (servicios de dominio): asociar cada servicio o endpoint a UC/RF específicos en RTM y reforzar pruebas de regresión; `api-metadata-check` y `rtm-drift-check` aseguran que no existan APIs o servicios sin trazabilidad ni tests.
+
+Con esta integración, cualquier cambio en las aplicaciones `callcentersite.apps.*` queda cubierto por los artefactos normativos (RTM, ADRs, plantillas v2) y por los jobs de bloqueo (`lint-trazabilidad`, `api-metadata-check`, `rtm-drift-check`), evitando brechas de cumplimiento.
+
+### 5.7 Agrupación de módulos y archivos pendientes para trazabilidad
+Para reforzar la trazabilidad inter-modular y cumplir el estándar IACT, se agrupan los archivos clave por dominio y se listan los pendientes que deben incorporarse al RTM, ADRs y jobs de bloqueo:
+
+| Grupo | Módulo | Archivos (estado) | Propósito en trazabilidad |
+| --- | --- | --- | --- |
+| A: Control de Acceso y Usuarios | authentication | `views.py`, `services.py` (analizados) | Control de Acceso (UC-AUT-001), genera postcondición de sesión activa/token. |
+|  | users | `users/models.py` (pendiente) | Define el actor primario y atributos (`is_locked`, `last_activity_at`) como precondiciones del UC-AUT-001. |
+| B: Autorización y Reglas de Negocio | permissions | `permissions/models.py`, `permissions/services.py` (pendiente) | Reglas de privilegio (BR-XXX) y roles (ej. R016) que actúan como precondiciones de autorización en CUs. |
+|  | politicas | `politicas/models.py`, `politicas/services.py` (pendiente) | Nivel 1 BR-XXX; origen de requisitos funcionales y lógica de CUs centrales. |
+| C: Flujo Central de Negocio | llamadas | `llamadas/services.py` (pendiente) | Caso de uso central (ej. UC-CALL-001) que consume A, B y D; valida integración completa. |
+| D: Servicios Transversales (RNF) | audit | `audit/models.py` (pendiente) | Estructura de auditoría (RNF-AUD-001); ya referenciada por authentication. |
+|  | notifications | `notifications/models.py` (implícito en `services.py`) | Mensajes internos/externos (RNF-NOT-001); usado por authentication y audit. |
+|  | analytics/reports | `reportes/services.py` (pendiente, opcional) | Evidencia QA y métricas de Nivel 9. |
+
+Archivos pendientes a incorporar en RTM y validaciones:
+
+- Nivel 1 BR-XXX: `politicas/models.py`, `politicas/services.py`.
+- Nivel 2 RNF Críticos (Auditoría): `audit/models.py`.
+- Nivel 3 Autorización (Permisos): `permissions/models.py`, `permissions/services.py`.
+- Nivel 4 CU Central de Negocio: `llamadas/services.py`.
+
+Acciones de integración:
+
+1) Registrar estos archivos en `docs/trazabilidad/RTM.md` con referencias BR/RF/UC/ADR y relaciones downward a pruebas.
+2) Exigir que los PRs correspondientes citen `docs/gobernanza/reglas_restricciones_detalle.md` en el checklist de cumplimiento.
+3) Extender `rtm-drift-check` y `api-metadata-check` para bloquear cambios en estos módulos sin referencias ni pruebas asociadas.
+
+### 5.8 Formalización de Casos de Uso para el módulo `authentication`
+La especificación textual de Casos de Uso (UC) se convierte en la unidad central de trazabilidad del módulo de autenticación y se enlaza explícitamente con reglas de negocio, RNF y código.
+
+- **CU principal**: `UC-AUT-001 Iniciar sesión en el sistema con credenciales locales`.
+  - Escenario normal (`UC-AUT-001-Esc-01`): credenciales válidas, usuario activo y no bloqueado. Implementación directa en `AuthenticationService.login` desde el paso 6 en adelante, generando tokens y reseteando contadores de fallos.
+  - Escenario de fallo (`UC-AUT-001-Esc-02`): credenciales incorrectas. Se incrementan intentos, se bloquea al tercer intento y se envía notificación. Implementado en el bloque `if not check_password(...)` con `MAX_FAILED_ATTEMPTS` y `LOCK_DURATION_MINUTES`.
+  - Escenario alterno de desbloqueo automático (`UC-AUT-001-Esc-03`): desbloqueo por expiración de ventana de bloqueo (`user.is_locked` y `locked_until < timezone.now()`), previo al reintento.
+- **Reglas de negocio y RNF mapeadas al código**:
+  - `BR-001 Intento fallido`: control de 3 intentos/15 minutos en `services.py` → vincular a `UC-AUT-001-Esc-02` y `RNF-SEG-003 Bloqueo por intentos`.
+  - `BR-002 Bloqueo temporal`: lógica `user.is_locked`/`locked_until` → `UC-AUT-001-Esc-03`.
+  - `BR-003 Privilegio R016`: validación de privilegio para desbloqueo manual → nuevo `UC-ADM-010 Desbloquear cuenta` con precondición `target_user.is_locked = True` y regla de gobernanza `GOB-USR-002`.
+  - `RNF-SEG-001 Sesión única`: cierre de sesiones previas vía `UserSession.objects.filter(..., is_active=True)` en el flujo de login (`UC-AUT-001-Esc-01`).
+  - `RNF-SEG-002 Complejidad de contraseña`: `validate_password_complexity` en `validators.py`, vinculado a `UC-AUT-002 Cambio/Registro de contraseña` y `RF-003` asociado.
+  - `RNF-AUD-001 Auditoría`: registros `AuditLog.objects.create(...)` para `LOGIN_FAILURE`, `LOGIN_SUCCESS`, `SESSION_CLOSED`, `USER_LOCKED`, cubriendo postcondiciones de todos los escenarios de `UC-AUT-001`.
+- **Nivel 6 API/Vistas**: los endpoints `/auth/login/` y `/auth/refresh/` trazan directamente a `UC-AUT-001` y `UC-AUT-004`; las vistas `views.py` deben declarar en `@extend_schema` las referencias `uc_refs`, `rf_refs`, `adr_refs` que enlazan con `AuthenticationService.login` y `TokenService.refresh_access_token`.
+- **Secuencia de artefactos ajustada**: `BR/RNF → RF → UC → Escenarios → UML → API → Código → Tests (TC-AUT-001, TC-AUT-003) → GOB`. Cada sección debe citar la regla normativa (PROC-IACT-TRZ 4.6, RNF-SEG, RNF-AUD) para justificar auditoría.
+- **Próximo paso**: publicar la plantilla `UC_v2` específica para autenticación (Actores, Pre/Postcondiciones, Flujos/Alternos, BR asociadas, RNF especiales) y actualizar RTM/ADR para que la trazabilidad `UC-AUT-001` sea automática en CI/CD.
+
 ## 6. Controles de gobernanza en CI/CD (cambios en validación)
 | Control CI/CD | Descripción y cambios implementados | Brecha mitigada |
 | --- | --- | --- |
@@ -120,7 +225,7 @@ El procedimiento normativo define la cadena obligatoria `RN → RF → UC → UM
 | 10.8: Pruebas | `TEST_v2.md` | B4 y B7.5: Actualizar `TEST_v2.md` con campos upward (API/UC/RF) y downward (Evidencia/Código); aplicar regla de Relación Mínima Requerida en RTM. | `rtm-drift-check`: falla si la cobertura < 90% o si algún `API-XXX` en RTM carece de `TEST-YYY`. |
 | 10.10: Revisión Final QA | Auditoría/Registro | B9: Activar auditorías mensuales y por release. | Métrica de éxito: cero PRs aceptados sin referencias tras la semana 3; auditorías mensuales sin hallazgos críticos a partir del segundo ciclo. |
 
-📐 **Cobertura de la Matriz RTM-IACT**
+Cobertura de la Matriz RTM-IACT
 El principal entregable, la matriz RTM-IACT (`docs/trazabilidad/RTM.md`), es el punto central donde converge la trazabilidad. La completitud por fase (punto 10.5 del plan) exige que la matriz sea actualizada y validada en cada paso. El plan asegura el cumplimiento del criterio de trazabilidad bidireccional (punto 4.4 del PROC-IACT-TRZ) al requerir campos `trazabilidad_upward` y `trazabilidad_downward` en todas las plantillas (UC, ADR, TEST, GOB, BR), y al forzar la relación descendente hacia código, API y pruebas mediante controles de CI/CD.
 
 ### 10.1 Encabezado normativo y propósito del procedimiento
