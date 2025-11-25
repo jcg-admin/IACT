@@ -246,7 +246,7 @@ scripts/coding/tests/shell/run_all_unit_tests.sh  # Unit tests
 **Test Generation (AI)**:
 ```bash
 scripts/coding/ai/agents/tdd/
-├── tdd_agent.py                # TDD agent
+├── tdd_operativo.py                # TDD agent
 ├── test_generator.py           # Test generator
 └── test_generator_autocot.py   # Auto-CoT test gen
 ```

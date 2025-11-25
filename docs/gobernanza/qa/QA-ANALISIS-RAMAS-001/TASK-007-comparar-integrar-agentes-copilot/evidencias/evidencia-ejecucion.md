@@ -171,7 +171,7 @@ jq empty .github/copilot/agents.json && echo "OK: JSON valido"
 57. shared_pr_creator_agent
 58. shared_test_runner_agent
 59. tdd_feature_agent
-60. tdd_tdd_agent
+60. tdd_tdd_operativo
 61. techniques_auto_cot_agent
 62. techniques_chain_of_verification_agent
 63. techniques_self_consistency_agent

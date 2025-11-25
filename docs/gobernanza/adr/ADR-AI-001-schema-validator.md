@@ -5,7 +5,7 @@ status: Implemented
 decision_makers: DevOps Team
 tags: [automation, validation, tdd, sdlc]
 related_docs:
-  - docs/devops/automatizacion/planificacion/AGENTS_ARCHITECTURE.md
+  - docs/devops/automatizacion/planificacion/AUTOMATION_ARCHITECTURE.md
   - docs/devops/automatizacion/planificacion/DEPLOYMENT_PLAN.md
 ---
 
@@ -31,7 +31,7 @@ The project needs:
 6. **Standardized Output**: JSON output format for programmatic consumption
 7. **Clear Exit Codes**: 0=valid, 1=invalid, 3=config error
 
-### Requirements (from AGENTS_ARCHITECTURE.md)
+### Requirements (from AUTOMATION_ARCHITECTURE.md)
 
 Per section 2.2.1, agent 5:
 
@@ -319,7 +319,7 @@ Agents that will use SchemaValidatorAgent:
 
 ## Related Decisions
 
-- **AGENTS_ARCHITECTURE.md**: Overall agent architecture
+- **AUTOMATION_ARCHITECTURE.md**: Overall agent architecture
 - **Future ADR-041**: DevContainerValidatorAgent (depends on this)
 - **Future ADR-042**: CIPipelineOrchestratorAgent (depends on this)
 
@@ -335,7 +335,7 @@ Agents that will use SchemaValidatorAgent:
 
 1. JSON Schema Specification: https://json-schema.org/
 2. jsonschema Python library: https://python-jsonschema.readthedocs.io/
-3. AGENTS_ARCHITECTURE.md section 2.2.1, agent 5
+3. AUTOMATION_ARCHITECTURE.md section 2.2.1, agent 5
 4. Test file: tests/ai/automation/test_schema_validator_agent.py
 5. Implementation: scripts/coding/ai/automation/schema_validator_agent.py
 

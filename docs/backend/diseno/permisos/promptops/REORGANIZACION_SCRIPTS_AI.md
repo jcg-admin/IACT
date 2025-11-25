@@ -338,7 +338,7 @@ scripts/
  sdlc/ # SDLC orchestration
  sdlc_orchestrator.py
  tdd/ # [EXISTENTE]
- tdd_agent.py
+ tdd_operativo.py
  test_generator.py
  testing/ # Test analysis
  coverage_analyzer.py

@@ -175,7 +175,7 @@ python3 scripts/coding/ai/automation/devcontainer_validator_agent.py \
 ### Mitigation Strategies
 
 - **Performance**: Run validation in parallel where possible
-- **Maintenance**: Document agent in AGENTS_ARCHITECTURE.md
+- **Maintenance**: Document agent in AUTOMATION_ARCHITECTURE.md
 - **Reliability**: Implement timeout and retry logic
 - **Documentation**: ADR tracks design decisions
 
@@ -378,7 +378,7 @@ echo "DevContainer validation passed!"
 ## References
 
 - **Parent ADR**: ADR-036 - Sistema Automatizacion Hibrido
-- **Architecture**: docs/devops/automatizacion/planificacion/AGENTS_ARCHITECTURE.md
+- **Architecture**: docs/devops/automatizacion/planificacion/AUTOMATION_ARCHITECTURE.md
 - **Constitution**: docs/gobernanza/agentes/constitution.md
 - **Tests**: tests/ai/automation/test_devcontainer_validator_agent.py
 - **Implementation**: scripts/coding/ai/automation/devcontainer_validator_agent.py

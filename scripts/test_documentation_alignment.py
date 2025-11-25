@@ -297,7 +297,7 @@ def test_context_management_playbook_is_linked_across_guides():
 
 
 def test_meta_agente_codex_is_published_and_linked():
-    meta_doc = REPO_ROOT / "docs" / "analisis" / "META_AGENTE_CODEX_PARTE_1.md"
+    meta_doc = REPO_ROOT / "docs" / "analisis" / "META_CODEX_PARTE_1.md"
     assert meta_doc.exists(), "Falta la Parte 1 del META-AGENTE CODEX en docs/analisis"
 
     meta_contents = _read(meta_doc)
@@ -308,16 +308,16 @@ def test_meta_agente_codex_is_published_and_linked():
     assert execplan_path.exists(), "Debe existir el ExecPlan que gobierna el META-AGENTE CODEX"
 
     docs_index = _read(REPO_ROOT / "docs" / "index.md")
-    assert "META_AGENTE_CODEX_PARTE_1" in docs_index
+    assert "META_CODEX_PARTE_1" in docs_index
 
     root_readme = _read(REPO_ROOT / "README.md")
     assert "META-AGENTE CODEX" in root_readme
 
     agent_catalog = _read(REPO_ROOT / ".agent" / "agents" / "README.md")
-    assert "META_AGENTE_CODEX_PARTE_1" in agent_catalog
+    assert "META_CODEX_PARTE_1" in agent_catalog
 
     docs_agent = _read(REPO_ROOT / ".agent" / "agents" / "docs_agent.md")
-    assert "META_AGENTE_CODEX_PARTE_1" in docs_agent
+    assert "META_CODEX_PARTE_1" in docs_agent
     assert "EXECPLAN_meta_agente_codex.md" in docs_agent
 
     providers = ["claude_agent.md", "chatgpt_agent.md", "huggingface_agent.md"]
@@ -326,5 +326,5 @@ def test_meta_agente_codex_is_published_and_linked():
 
     for filename in providers + domains:
         contents = _read(agents_dir / filename)
-        assert "META_AGENTE_CODEX_PARTE_1" in contents
+        assert "META_CODEX_PARTE_1" in contents
 

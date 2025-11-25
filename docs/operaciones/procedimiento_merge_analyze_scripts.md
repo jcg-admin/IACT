@@ -206,7 +206,7 @@ La rama `claude/analyze-scripts-output-011CV5YLxdEnu9YN3qpzGV2R` incluye commits
 - `docs/ai_capabilities/orchestration/CONTEXT_MANAGEMENT_PLAYBOOK.md`
 
 ### Análisis y Planes
-- `docs/analisis/META_AGENTE_CODEX_PARTE_1.md`
+- `docs/analisis/META_CODEX_PARTE_1.md`
 - `docs/analisis/AGENTS.md`
 - `docs/analisis/GAP_ANALYSIS_SISTEMA_PERMISOS.md`
 - `docs/plans/EXECPLAN_*` (múltiples planes de ejecución)

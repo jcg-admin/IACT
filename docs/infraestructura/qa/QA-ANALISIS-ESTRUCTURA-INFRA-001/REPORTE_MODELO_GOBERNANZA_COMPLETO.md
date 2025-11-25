@@ -21,24 +21,24 @@ docs/gobernanza/                                         [RAIZ GOBERNANZA]
 ├── adr/                                                 [ARCHITECTURE DECISION RECORDS]
 │   ├── README.md                                        [Índice de ADRs]
 │   ├── plantilla_adr.md                                 [Template oficial]
-│   ├── ADR-AI-001-schema-validator-agent.md             [Agente validador]
-│   ├── ADR-AI-002-devcontainer-validator-agent.md       [Validador devcontainer]
-│   ├── ADR-AI-003-metrics-collector-agent.md            [Recolector de métricas]
-│   ├── ADR-AI-004-coherence-analyzer-agent.md           [Analizador coherencia]
-│   ├── ADR-AI-005-constitution-validator-agent.md       [Validador constitución]
-│   ├── ADR-AI-006-ci-pipeline-orchestrator-agent.md     [Orquestador CI]
+│   ├── ADR-AI-001-schema-validator.md             [Agente validador]
+│   ├── ADR-AI-002-devcontainer-validator.md       [Validador devcontainer]
+│   ├── ADR-AI-003-metrics-collector.md            [Recolector de métricas]
+│   ├── ADR-AI-004-coherence-analyzer.md           [Analizador coherencia]
+│   ├── ADR-AI-005-constitution-validator.md       [Validador constitución]
+│   ├── ADR-AI-006-ci-pipeline-orchestrator.md     [Orquestador CI]
 │   ├── ADR-AI-007-clasificacion-automatica-artefactos.md
-│   ├── ADR-AI-008-ai-agent-memory-architecture.md
+│   ├── ADR-AI-008-ai-memory-architecture.md
 │   ├── ADR-AI-009-memory-types-storage-strategy.md
 │   ├── ADR-AI-010-context-engineering-architecture.md
 │   ├── ADR-AI-011-context-management-strategies.md
 │   ├── ADR-AI-012-metacognition-architecture.md
-│   ├── ADR-AI-013-multi-agent-design-patterns.md
+│   ├── ADR-AI-013-multi-service-design-patterns.md
 │   ├── ADR-AI-014-planning-architecture.md
-│   ├── ADR-AI-015-agent-protocols-architecture.md
-│   ├── ADR-AI-016-agentic-design-principles.md
+│   ├── ADR-AI-015-protocols-architecture.md
+│   ├── ADR-AI-016-design-principles.md
 │   ├── ADR-AI-017-trustworthy-ai-architecture.md
-│   ├── ADR-AI-018-ai-agents-standalone-architecture.md
+│   ├── ADR-AI-018-ai-services-standalone-architecture.md
 │   ├── ADR-AI-019-dora-sdlc-integration.md
 │   ├── ADR-BACK-001-grupos-funcionales-sin-jerarquia.md
 │   ├── ADR-BACK-002-configuracion-dinamica-sistema.md
@@ -72,7 +72,7 @@ docs/gobernanza/                                         [RAIZ GOBERNANZA]
 ├── procesos/                                            [PROCESOS OPERATIVOS]
 │   ├── README.md                                        [Índice procesos]
 │   ├── INDICE_WORKFLOWS.md                              [Índice workflows]
-│   ├── PROC-AI-001-agentes_sdlc.md
+│   ├── PROC-001-gobernanza_sdlc.md
 │   ├── PROC-DEV-001-pipeline_trabajo_iact.md            [Pipeline completo]
 │   ├── PROC-DEV-002-sdlc_process.md
 │   ├── PROC-DEVOPS-001-devops_automation.md
@@ -83,7 +83,7 @@ docs/gobernanza/                                         [RAIZ GOBERNANZA]
 │   │
 │   ├── agentes/                                         [Procesos de agentes]
 │   │   ├── README.md
-│   │   ├── WORKFLOW_AGENTES_DORA.md
+│   │   ├── WORKFLOW_METRICAS_PROCESO.md
 │   │   └── constitution.md
 │   │
 │   ├── checklists/                                      [Checklists operativos]
@@ -154,13 +154,13 @@ docs/gobernanza/                                         [RAIZ GOBERNANZA]
 │   │   ├── onboarding_005.md (Agentes SDLC)
 │   │   ├── onboarding_006.md (Validar documentación)
 │   │   ├── onboarding_007.md (Generar índices)
-│   │   └── onboarding_008_agente_atencion_cliente.md
+│   │   └── onboarding_008_atencion_cliente.md
 │   │
 │   ├── workflows/                                       [Workflows Git/CI]
 │   │   ├── workflow_admin_users_and_groups.md
 │   │   ├── workflow_create_feature_branch.md
 │   │   ├── workflow_create_pull_request.md
-│   │   ├── workflow_implement_feature_with_tdd_agent.md
+│   │   ├── workflow_implement_feature_with_tdd_operativo.md
 │   │   ├── workflow_interpret_ci_cd_results.md
 │   │   ├── workflow_make_conventional_commits.md
 │   │   └── workflow_manage_teams_as_coordinator.md
@@ -325,11 +325,11 @@ docs/gobernanza/                                         [RAIZ GOBERNANZA]
 │
 ├── metodologias/                                        [METODOLOGÍAS]
 │   ├── README.md
-│   ├── METODOLOGIA-AGENTES-ESPECIALIZADOS-SESION-COMPLETA.md
+│   ├── METODOLOGIA-SERVICIOS-ESPECIALIZADOS-SESION-COMPLETA.md
 │   ├── METODOLOGIA_DESARROLLO_POR_LOTES.md
 │   ├── WORKFLOWS_COMPLETOS.md
-│   ├── agentes_automatizacion.md
-│   └── arquitectura_agentes_especializados.md
+│   ├── automatizacion_servicios.md
+│   └── arquitectura_servicios_especializados.md
 │
 ├── sesiones/                                            [SESIONES DE TRABAJO]
 │   ├── SESSION_PIPELINE_2025_11_13.md
@@ -573,7 +573,7 @@ Donde:
 
 **Ejemplos:**
 ```
-ADR-AI-001-schema-validator-agent.md
+ADR-AI-001-schema-validator.md
 ADR-BACK-004-sistema-permisos-sin-roles-jerarquicos.md
 PROC-DEV-001-pipeline-trabajo-iact.md
 PROCED-GOB-001-crear-adr.md
@@ -585,7 +585,7 @@ TASK-015-actualizacion-documentacion.md
 
 | Tipo | Patrón | Ejemplo |
 |------|--------|---------|
-| ADR | `ADR-{DOMINIO}-{NNN}-{titulo}.md` | `ADR-AI-001-schema-validator-agent.md` |
+| ADR | `ADR-{DOMINIO}-{NNN}-{titulo}.md` | `ADR-AI-001-schema-validator.md` |
 | Proceso | `PROC-{DOMINIO}-{NNN}-{titulo}.md` | `PROC-DEV-001-pipeline_trabajo_iact.md` |
 | Procedimiento | `PROCED-{DOMINIO}-{NNN}-{titulo}.md` | `PROCED-GOB-001-crear_adr.md` |
 | Guía | `GUIA-{DOMINIO}-{NNN}-{titulo}.md` | `GUIA-GOB-001-procesos_vs_procedimientos.md` |

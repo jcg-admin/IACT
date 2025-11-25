@@ -37,7 +37,7 @@ def decidir_por_contexto(tipo: str, contexto_detectado: Dict) -> str:
 
         ("script", None, "git"): "docs/devops/git/",
         ("script", None, "ci_cd"): "docs/devops/automatizacion/",
-        ("script", None, "agente"): "scripts/coding/ai/automation/",
+        ("script", None, "agente"): "scripts/gobernanza_sdlc/automation/",
 
         ("diagrama", True, None): "docs/gobernanza/anexos/diagramas/",
         ("diagrama", False, "backend"): "docs/backend/diseno_detallado/diagramas/",

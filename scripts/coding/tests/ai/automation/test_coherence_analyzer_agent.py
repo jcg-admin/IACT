@@ -16,7 +16,7 @@ from unittest.mock import MagicMock, Mock, patch
 import pytest
 
 # Import agent (will fail initially - TDD RED phase)
-from scripts.coding.ai.automation.coherence_analyzer_agent import (
+from scripts.gobernanza_sdlc.automation.coherence_analyzer_agent import (
     CoherenceAnalyzerAgent,
     APIEndpoint,
     UIService,

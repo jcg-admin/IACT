@@ -27,7 +27,7 @@ import pytest
 
 # Import will fail until we implement the agent (TDD RED phase)
 try:
-    from scripts.coding.ai.automation.pdca_agent import (
+    from scripts.gobernanza_sdlc.automation.pdca_agent import (
         PDCAAutomationAgent,
         PDCAPhase,
         DecisionAction

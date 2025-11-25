@@ -33,8 +33,8 @@ Este directorio contiene las metodologias y enfoques de desarrollo utilizados en
 
 | Archivo | Descripcion | Estado |
 |---------|-------------|--------|
-| [agentes_automatizacion.md](agentes_automatizacion.md) | Vision general de agentes IA para automatizacion de tareas de desarrollo | Activo |
-| [arquitectura_agentes_especializados.md](arquitectura_agentes_especializados.md) | Arquitectura detallada de agentes SDLC especializados por fase | Activo |
+| [automatizacion_servicios.md](automatizacion_servicios.md) | Vision general de agentes IA para automatizacion de tareas de desarrollo | Activo |
+| [arquitectura_servicios_especializados.md](arquitectura_servicios_especializados.md) | Arquitectura detallada de agentes SDLC especializados por fase | Activo |
 
 ## Relacion con Otros Documentos
 
@@ -59,7 +59,7 @@ Los workflows documentados aqui estan en:
 ### Para Developers
 1. Leer `METODOLOGIA_DESARROLLO_POR_LOTES.md` antes de empezar desarrollo
 2. Consultar `WORKFLOWS_COMPLETOS.md` para entender CI/CD
-3. Ver `arquitectura_agentes_especializados.md` para usar agentes IA
+3. Ver `arquitectura_servicios_especializados.md` para usar agentes IA
 
 ### Para Tech Leads
 1. Usar estas metodologias como base para planning

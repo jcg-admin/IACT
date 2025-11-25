@@ -33,7 +33,7 @@ The IACT automation system (constitucion.sh, ci-local.sh, validation scripts) ge
 - Prove ROI of automation investments
 - Make data-driven decisions about process changes
 
-**Requirements** (from AGENTS_ARCHITECTURE.md section 2.2.1 #6):
+**Requirements** (from AUTOMATION_ARCHITECTURE.md section 2.2.1 #6):
 
 - Parse logs/constitucion_violations.log
 - Track violations by rule (R1-R6)
@@ -390,7 +390,7 @@ pytest tests/ai/automation/test_metrics_collector_agent.py -v --cov
 
 ## References
 
-- AGENTS_ARCHITECTURE.md - Section 2.2.1 #6
+- AUTOMATION_ARCHITECTURE.md - Section 2.2.1 #6
 - DEPLOYMENT_PLAN.md - Automation system overview
 - constitucion.sh - Violation log generator
 - ci-local.sh - CI metrics source

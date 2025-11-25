@@ -75,7 +75,7 @@ Se detectaron los siguientes simbolos decorativos/emojis distribuidos en los arc
    - Ubicacion: Marco de casos de uso
    - Tipo: Checkmarks
 
-8. **metodologias/agentes_automatizacion.md** - 1,105 emojis
+8. **metodologias/automatizacion_servicios.md** - 1,105 emojis
    - Ubicacion: Automatizacion con agentes
    - Tipo: Checkmarks de flujos
 

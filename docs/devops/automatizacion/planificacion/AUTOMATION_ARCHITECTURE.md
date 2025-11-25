@@ -483,7 +483,7 @@ JSON Output → Bash → Exit Codes
 - 6 ADRs (1 por agente)
 - 1 README automation/
 - 1 INTEGRATION_GUIDE.md
-- 1 AGENTS_ARCHITECTURE.md (este documento)
+- 1 AUTOMATION_ARCHITECTURE.md (este documento)
 
 **Configuracion**:
 - .constitucion.yaml (reglas)
@@ -502,7 +502,7 @@ JSON Output → Bash → Exit Codes
 
 **Orden ejecucion** (NO PARAR):
 
-1. Commit este documento (AGENTS_ARCHITECTURE.md)
+1. Commit este documento (AUTOMATION_ARCHITECTURE.md)
 2. Crear estructura tests/ai/automation/
 3. TDD RED: Implementar tests SchemaValidatorAgent
 4. TDD GREEN: Implementar SchemaValidatorAgent

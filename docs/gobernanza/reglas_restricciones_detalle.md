@@ -36,14 +36,14 @@ Cada subsección incluye las líneas exactas que contienen las palabras clave, c
 - L94: # Validar todas las reglas
 
 ### .agent/agents/claude_agent.md
-- L17: - **Normativa CODEX**: `docs/analisis/META_AGENTE_CODEX_PARTE_1.md` fija los supuestos y restricciones que deben respetar los artefactos generados con Claude.
+- L17: - **Normativa CODEX**: `docs/analisis/META_CODEX_PARTE_1.md` fija los supuestos y restricciones que deben respetar los artefactos generados con Claude.
 
 ### .agent/agents/dependency_agent.md
 - L32: - Detección de licencias restrictivas
 - L160: Reporta licencias restrictivas.
 
 ### .agent/agents/docs_agent.md
-- L14: - **Referencia normativa**: `docs/analisis/META_AGENTE_CODEX_PARTE_1.md` (Parte 1 de 3) establece los supuestos y restricciones del meta-agente que gobierna todas las redacciones CODEX.
+- L14: - **Referencia normativa**: `docs/analisis/META_CODEX_PARTE_1.md` (Parte 1 de 3) establece los supuestos y restricciones del meta-agente que gobierna todas las redacciones CODEX.
 - L18: 1. **Planificación**: antes de modificar documentación, produce un ExecPlan y verifica las reglas del ETA-AGENTE CODEX.
 
 ### .agent/agents/gitops_agent.md
@@ -387,7 +387,7 @@ Cada subsección incluye las líneas exactas que contienen las palabras clave, c
 - L63:    ./scripts/validate_critical_restrictions.sh
 - L121: 4. Validar restricciones
 
-### docs/ai/analisis/META_AGENTE_CODEX_PARTE_1.md
+### docs/ai/analisis/META_CODEX_PARTE_1.md
 - L61: - Validadores automáticos derivados de restricciones formales.
 - L80: - **Enunciado:** La especialización admite formalización mediante propiedades verificables o restricciones cuantificables.
 - L141: - Presencia de restricciones formales derivables.
@@ -736,7 +736,7 @@ Cada subsección incluye las líneas exactas que contienen las palabras clave, c
 - L364:  gate-restrictions.sh
 - L404: 3. **Crear gates faltantes** (docs, db-router, restrictions, emojis)
 
-### docs/backend/diseno/permisos/promptops/ROADMAP_TDD_AGENT.md
+### docs/backend/diseno/permisos/promptops/ROADMAP_TDD_OPERATIVO.md
 - L53: - Formato consistente con restricciones del proyecto
 - L197: - Ejecutar localmente (respetando restricción de no servicios externos)
 - L290: - [IMPORTANT] Modelo < 10GB por restricciones de almacenamiento
@@ -745,7 +745,7 @@ Cada subsección incluye las líneas exactas que contienen las palabras clave, c
 ### docs/backend/diseno/permisos/promptops/gates/route_lint.md
 - L486: - [Restricciones del Proyecto](../../gobernanza/marco_integrado/restricciones_y_lineamientos.md)
 
-### docs/backend/diseno/permisos/promptops/meta/tdd_agent.md
+### docs/backend/diseno/permisos/promptops/meta/tdd_operativo.md
 - L33: - NO emojis/iconos (restricción del proyecto)
 
 ### docs/backend/estilos/README.md
@@ -1044,7 +1044,7 @@ Cada subsección incluye las líneas exactas que contienen las palabras clave, c
 ### docs/devops/analysis_tfg_server_vs_iact_scripts.md
 - L36: **Propósito**: Gestión automática de "constitución" de agentes AI (principios y reglas)
 
-### docs/devops/automatizacion/planificacion/AGENTS_ARCHITECTURE.md
+### docs/devops/automatizacion/planificacion/AUTOMATION_ARCHITECTURE.md
 - L62: | constitucion.sh | 656 | Valida 6 reglas constitucion | COMPLETO |
 - L89: # Responsibility: Validacion inteligente reglas constitucion R1-R6
 - L489: - .constitucion.yaml (reglas)
@@ -1303,7 +1303,7 @@ Cada subsección incluye las líneas exactas que contienen las palabras clave, c
 - L580: - [TASK-002: Validar Restricciones Criticas](../qa/TASK-002-validar-restricciones-criticas.md)
 - L587: - [validate_critical_restrictions.sh](../../scripts/validate_critical_restrictions.sh)
 
-### docs/gobernanza/adr/ADR-AI-018-ai-agents-standalone-architecture.md
+### docs/gobernanza/adr/ADR-AI-018-ai-services-standalone-architecture.md
 - L133: - OK Framework de agentes puede evolucionar rapidamente sin restricciones
 
 ### docs/gobernanza/adr/ADR-BACK-001-grupos-funcionales-sin-jerarquia.md
@@ -1772,7 +1772,7 @@ Cada subsección incluye las líneas exactas que contienen las palabras clave, c
 - L305: ./scripts/validate_critical_restrictions.sh
 - L1082: │     ├─ ./scripts/validate_critical_restrictions.sh         │
 
-### docs/gobernanza/metodologias/agentes_automatizacion.md
+### docs/gobernanza/metodologias/automatizacion_servicios.md
 - L54:     prompt="Revisa el codigo en api/ y valida contra restricciones...",
 - L216: Gates de validacion para restricciones del proyecto.
 - L220: | RestrictionsGate | scripts/coding/ai/agents/validation/restrictions_gate.py | Valida restricciones criticas del proyecto |
@@ -1780,7 +1780,7 @@ Cada subsección incluye las líneas exactas que contienen las palabras clave, c
 - L596:           python scripts/coding/ai/agents/validation/restrictions_gate.py \
 - L648: │  - validate_critical_restrictions.sh (custom)                      │
 
-### docs/gobernanza/metodologias/arquitectura_agentes_especializados.md
+### docs/gobernanza/metodologias/arquitectura_servicios_especializados.md
 - L223: # AGENTE 5: VALIDATOR (Validación de reglas)
 - L234:     Responsabilidad: Validar que transformaciones siguen reglas
 - L236:     Input: EditResult, reglas del proyecto
@@ -1935,7 +1935,7 @@ Cada subsección incluye las líneas exactas que contienen las palabras clave, c
 - L495: - **Restricciones**: `docs/backend/requisitos/restricciones_y_lineamientos.md`
 - L515: - validate-restrictions (RNF-002)
 
-### docs/gobernanza/procesos/PROC-AI-001-agentes_sdlc.md
+### docs/gobernanza/procesos/PROC-001-gobernanza_sdlc.md
 - L23: 5. [Restricciones IACT](#restricciones-iact)
 - L202: - Validacion restricciones IACT automatica
 - L731: Todos los agentes validan restricciones IACT automaticamente:
@@ -2188,7 +2188,7 @@ Cada subsección incluye las líneas exactas que contienen las palabras clave, c
 - L286: │   │   └── restricciones_y_lineamientos.md
 - L416: │   ├── catalogo_reglas_negocio.md
 
-### docs/gobernanza/sesiones/analisis_nov_2025/ETA_AGENTE_CODEX_ANALISIS.md
+### docs/gobernanza/sesiones/analisis_nov_2025/ETA_CODEX_ANALISIS.md
 - L18: - *Técnicos*: Acceso a repositorios académicos, análisis metodológico riguroso, derivación de restricciones formales y validación multi-ruta.
 - L34: 4. **Constraint-Driven Prompting** para garantizar que ninguna decisión viole restricciones lógicas o de complejidad.
 - L55: │   ├─ Ejecución condicionada según objetivos y restricciones
@@ -2196,7 +2196,7 @@ Cada subsección incluye las líneas exactas que contienen las palabras clave, c
 - L79: - **Objetivos verificables** y **restricciones adicionales** (técnicas, operacionales, regulatorias, legacy).
 - L85: 2. **Derivación de restricciones**: complejidad computacional, propiedades de consistencia/correctitud y seguridad basada en threat models.
 
-### docs/gobernanza/sesiones/analisis_nov_2025/META_AGENTE_CODEX_PARTE_1.md
+### docs/gobernanza/sesiones/analisis_nov_2025/META_CODEX_PARTE_1.md
 - L68: - Validadores automáticos derivados de restricciones formales.
 - L87: - **Enunciado:** La especialización admite formalización mediante propiedades verificables o restricciones cuantificables.
 - L148: - Presencia de restricciones formales derivables.
@@ -2798,7 +2798,7 @@ Cada subsección incluye las líneas exactas que contienen las palabras clave, c
 ### docs/scripts/script_development_guide.md
 - L425: Los scripts deben respetar restricciones criticas:
 
-### docs/scripts/sdlc_agent_guide.md
+### docs/scripts/sdlc_process_guide.md
 - L77:                    │ Consulta reglas
 - L83: │  - Valida compliance con reglas del proyecto                │
 - L84: │  - Asegura restricciones criticas (RNF-002)                │
@@ -2806,7 +2806,7 @@ Cada subsección incluye las líneas exactas que contienen las palabras clave, c
 - L653:   - Usar alternativa compatible con restricciones
 - L661: ./scripts/validate_critical_restrictions.sh
 
-### docs/scripts/sdlc_agents_reference.md
+### docs/scripts/sdlc_automation_reference.md
 - L770:    - Asegura compliance con restricciones criticas
 
 ### infrastructure/vagrant/config/apt/sources.list

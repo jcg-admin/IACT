@@ -243,7 +243,7 @@ git mv scripts/coding/ai/agents/ARCHITECTURE_SDLC_AGENTS.md \
         diseno/arquitectura/agentes/ARCHITECTURE_SDLC_AGENTS_DETAILED.md
 
 # Mover DevOps
-git mv docs/devops/automatizacion/planificacion/AGENTS_ARCHITECTURE.md \
+git mv docs/devops/automatizacion/planificacion/AUTOMATION_ARCHITECTURE.md \
         diseno/arquitectura/agentes/AGENTS_DEVOPS_AUTOMATION_ARCHITECTURE.md
 
 # Nota: scripts/coding/ai/agents/ARCHITECTURE.md puede ser merge con overview

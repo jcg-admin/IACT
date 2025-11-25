@@ -4,7 +4,7 @@
 **Status**: Implemented
 **Decision Makers**: DevOps Team, SDLC Agent
 **Context**: IACT-AUTO-001 (Sistema Automatizacion Hibrido)
-**Related**: AGENTS_ARCHITECTURE.md, ADR-043 (Sistema Automatizacion)
+**Related**: AUTOMATION_ARCHITECTURE.md, ADR-043 (Sistema Automatizacion)
 
 ---
 
@@ -391,7 +391,7 @@ pytest tests/ai/automation/test_constitution_validator_agent.py --cov
 
 ### Documentation
 
-- **Architecture**: `docs/devops/automatizacion/planificacion/AGENTS_ARCHITECTURE.md`
+- **Architecture**: `docs/devops/automatizacion/planificacion/AUTOMATION_ARCHITECTURE.md`
 - **SDLC Plan**: `docs/devops/automatizacion/planificacion/HLD_SISTEMA_AUTOMATIZACION.md`
 - **Constitution**: `.constitucion.yaml` (to be created)
 

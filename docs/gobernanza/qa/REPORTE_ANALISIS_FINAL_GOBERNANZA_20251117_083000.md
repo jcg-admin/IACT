@@ -617,7 +617,7 @@ TASK-{###}-{descripcion}.md
 ### C. Referencias
 
 - [GUIA-GOB-002: Convenciones de Nomenclatura](../guias/GUIA-GOB-002-convenciones_nomenclatura.md)
-- [ADR-AI-018: AI Agents Standalone Architecture](../adr/ADR-AI-018-ai-agents-standalone-architecture.md)
+- [ADR-AI-018: AI Agents Standalone Architecture](../adr/ADR-AI-018-ai-services-standalone-architecture.md)
 - [PLAN_REORGANIZACION_DOCS_AI_20251117_080000.md](PLAN_REORGANIZACION_DOCS_AI_20251117_080000.md)
 
 ---

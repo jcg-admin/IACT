@@ -3,7 +3,7 @@
 **Fecha creación**: 2025-11-17 08:00:00
 **Autor**: Claude Code (Sonnet 4.5)
 **Tipo**: Plan de reorganización documental
-**Relacionado**: ADR-AI-018-ai-agents-standalone-architecture
+**Relacionado**: ADR-AI-018-ai-services-standalone-architecture
 
 ---
 
@@ -263,7 +263,7 @@ BENEFICIOS:
 - Facilita mantenimiento del proyecto iact_agents/
 - Cumple con decisión arquitectónica de ADR-AI-018
 
-Relacionado: ADR-AI-018-ai-agents-standalone-architecture
+Relacionado: ADR-AI-018-ai-services-standalone-architecture
 EOF
 )"
 ```
@@ -311,5 +311,5 @@ git push -u origin claude/analyze-project-agents-01CW4YLfCp3taEJjTCNbwpfq
 ## Aprobación
 
 - **Autor**: Claude Code (Sonnet 4.5)
-- **Basado en**: ADR-AI-018-ai-agents-standalone-architecture
+- **Basado en**: ADR-AI-018-ai-services-standalone-architecture
 - **Fecha de ejecución**: 2025-11-17

@@ -29,7 +29,7 @@ Dispersión Actual (23 archivos en 11 ubicaciones):
 │   │   ├── agent/arquitectura/ (9 archivos HLD/ADR)
 │   │   └── arquitectura/README.md
 │   ├── backend/diseno/permisos/arquitectura_permisos_granular.md
-│   ├── devops/automatizacion/planificacion/AGENTS_ARCHITECTURE.md
+│   ├── devops/automatizacion/planificacion/AUTOMATION_ARCHITECTURE.md
 │   ├── frontend/arquitectura/ (5 archivos)
 │   ├── gobernanza/diseno/arquitectura/STORAGE_ARCHITECTURE.md
 │   └── infraestructura/
@@ -146,7 +146,7 @@ diseno/
 | `docs/agents/ARCHITECTURE.md` + `scripts/coding/ai/agents/ARCHITECTURE.md` | `diseno/arquitectura/agentes/ARCHITECTURE_AGENTS_OVERVIEW.md` | CONSOLIDAR | Merger + Rename |
 | `docs/ai/arquitectura/README.md` | `diseno/arquitectura/agentes/README.md` | MOVER | `git mv` |
 | `scripts/coding/ai/agents/ARCHITECTURE_SDLC_AGENTS.md` | `diseno/arquitectura/agentes/ARCHITECTURE_SDLC_AGENTS_DETAILED.md` | MOVER | `git mv` |
-| `docs/devops/automatizacion/planificacion/AGENTS_ARCHITECTURE.md` | `diseno/arquitectura/agentes/AGENTS_DEVOPS_AUTOMATION_ARCHITECTURE.md` | MOVER | `git mv` |
+| `docs/devops/automatizacion/planificacion/AUTOMATION_ARCHITECTURE.md` | `diseno/arquitectura/agentes/AGENTS_DEVOPS_AUTOMATION_ARCHITECTURE.md` | MOVER | `git mv` |
 
 ### 4.6 Backend
 

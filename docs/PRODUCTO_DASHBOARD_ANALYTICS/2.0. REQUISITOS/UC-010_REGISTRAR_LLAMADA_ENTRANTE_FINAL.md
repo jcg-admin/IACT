@@ -33,7 +33,7 @@
 | ID RNF | Alcance | Implementación |
 | :--- | :--- | :--- |
 | **RNF-AUD-001** | Auditoría forense | Registro obligatorio del evento `LLAMADA_REGISTRO` con `AuditLog` (ver `RNF/RNF-AUD-001_AUDITORIA.md`). |
-| **RNF-PERF-001** | Métricas/Desempeño | Datos generados alimentan `obtener_estadisticas_agente` para dashboards y DORA. |
+| **RNF-PERF-001** | Métricas/Desempeño | Datos generados alimentan `obtener_estadisticas_agente` para dashboards internos. |
 
 ---
 

@@ -327,7 +327,7 @@ e5cebe1 - feat: implementar FASE 4 y FASE 5 - Tests y Documentacion completa
 #### TDD Agents (1 agente)
 **Ubicacion**: `scripts/coding/ai/agents/tdd/`
 
-1. `tdd_agent.py` - Test-Driven Development agent
+1. `tdd_operativo.py` - Test-Driven Development agent
 
 **Tests**: `scripts/coding/tests/ai/agents/test_tdd_constitution.py`
 
@@ -544,7 +544,7 @@ e5cebe1 - feat: implementar FASE 4 y FASE 5 - Tests y Documentacion completa
 
 **Documentacion Adicional**:
 - `docs/backend/permisos/promptops/TDD_ERRORS_AND_SOLUTIONS.md` - Errores y soluciones
-- `docs/backend/permisos/promptops/ROADMAP_TDD_AGENT.md` - Roadmap del agente TDD
+- `docs/backend/permisos/promptops/ROADMAP_TDD_OPERATIVO.md` - Roadmap del agente TDD
 - `docs/TDD_REFACTOR_RESUMEN.md` - Resumen de refactorizacion
 
 **Checklists**:

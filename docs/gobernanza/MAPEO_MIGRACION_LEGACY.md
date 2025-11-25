@@ -37,8 +37,8 @@ version: 1.0.0
 ### Desarrollo (4 archivos)
 - METODOLOGIA_DESARROLLO_POR_LOTES.md -> gobernanza/metodologias/
 - WORKFLOWS_COMPLETOS.md -> gobernanza/metodologias/
-- agentes_automatizacion.md -> gobernanza/metodologias/
-- arquitectura_agentes_especializados.md -> gobernanza/metodologias/
+- automatizacion_servicios.md -> gobernanza/metodologias/
+- arquitectura_servicios_especializados.md -> gobernanza/metodologias/
 
 ### DevOps (3 archivos)
 - contenedores_devcontainer.md -> implementacion/infrastructure/

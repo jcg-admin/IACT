@@ -25,7 +25,7 @@ from unittest.mock import patch
 import sys
 sys.path.insert(0, str(Path(__file__).parent.parent.parent.parent))
 
-from scripts.coding.ai.automation.compliance_validator_agent import (
+from scripts.gobernanza_sdlc.automation.compliance_validator_agent import (
     ComplianceValidatorAgent,
     ValidationResult,
     ValidationIssue,
@@ -373,7 +373,7 @@ def test_unit():
     def test_cli_success_exit_code(self, temp_spec_file):
         """Test CLI exits with 0 on success."""
         with patch('sys.argv', ['agent', '--spec-file', str(temp_spec_file)]):
-            from scripts.coding.ai.automation.compliance_tests_validator_agent import main
+            from scripts.gobernanza_sdlc.automation.compliance_tests_validator_agent import main
 
             exit_code = main()
             assert exit_code == ExitCode.VALID
@@ -393,7 +393,7 @@ def test_invalid():
         temp_spec_file.write_text(content)
 
         with patch('sys.argv', ['agent', '--spec-file', str(temp_spec_file)]):
-            from scripts.coding.ai.automation.compliance_tests_validator_agent import main
+            from scripts.gobernanza_sdlc.automation.compliance_tests_validator_agent import main
 
             exit_code = main()
             assert exit_code == ExitCode.INVALID

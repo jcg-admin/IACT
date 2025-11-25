@@ -25,7 +25,7 @@ from unittest.mock import patch
 import sys
 sys.path.insert(0, str(Path(__file__).parent.parent.parent.parent))
 
-from scripts.coding.ai.automation.schema_validator_agent import (
+from scripts.gobernanza_sdlc.automation.schema_validator_agent import (
     SchemaValidatorAgent,
     ValidationResult,
     ValidationError,

@@ -27,7 +27,7 @@ Las siguientes BR-SEG controlan las capacidades críticas de negocio y deben cit
 | :--- | :--- | :--- | :--- | :--- |
 | **BR-SEG-007** | `sistema.operaciones.llamadas.registrar` | Operaciones → Llamadas | Precondición del **UC-010 Registrar Llamada Entrante**. | `PermisoService.usuario_tiene_permiso` en `llamadas/services.py` |
 | **BR-SEG-021** | `sistema.operaciones.llamadas.finalizar` | Operaciones → Llamadas | Controla el cierre de llamadas y cálculo de métricas de tiempo. | `PermisoService.usuario_tiene_permiso` en `LlamadaService.finalizar_llamada` |
-| **BR-SEG-105** | `sistema.analytics.reportes.ver` | Analíticas → Dashboards | Restringe la visualización de reportes con PII y métricas DORA. | Uso esperado en vistas de reportes (`@audit_action` recomendado) |
+| **BR-SEG-105** | `sistema.analytics.reportes.ver` | Analíticas → Dashboards | Restringe la visualización de reportes con PII y métricas internas. | Uso esperado en vistas de reportes (`@audit_action` recomendado) |
 
 ## 4. Gobernanza y versionado
 

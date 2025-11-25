@@ -63,7 +63,7 @@ Ancestor de HEAD: SÍ
 
 ```
 13-Nov 23:34   [0a96db5] docs(agents): define hybrid Bash/Python agents architecture
-               └─ Creó: AGENTS_ARCHITECTURE.md (520 líneas)
+               └─ Creó: AUTOMATION_ARCHITECTURE.md (520 líneas)
 
 13-Nov 23:52   [4850495] feat(agents): implement 6 Python automation agents with TDD
                ├─ 34 archivos creados
@@ -205,7 +205,7 @@ diff <(git show HEAD:scripts/coding/ai/automation/schema_validator_agent.py) \
 
 | Archivo | Tamaño | Estado |
 |---------|--------|--------|
-| SCHEMA_VALIDATOR_AGENT_IMPLEMENTATION_REPORT.md | 17K | ✓ Presente |
+| SCHEMA_VALIDATOR_IMPLEMENTATION_REPORT.md | 17K | ✓ Presente |
 | METRICS_COLLECTOR_IMPLEMENTATION_REPORT.md | 16K | ✓ Presente |
 | INTEGRATION_READINESS_REPORT.md | 9.2K | ✓ Presente |
 | MERGE_EXECUTION_REPORT.md | 7.5K | ✓ Presente |
@@ -217,7 +217,7 @@ diff <(git show HEAD:scripts/coding/ai/automation/schema_validator_agent.py) \
 
 | Archivo | Tamaño | Estado |
 |---------|--------|--------|
-| AGENTS_ARCHITECTURE.md | 13K | ✓ Presente |
+| AUTOMATION_ARCHITECTURE.md | 13K | ✓ Presente |
 
 ---
 
@@ -492,7 +492,7 @@ El trabajo masivo de implementación de agentes está **100% PRESERVADO**:
 - 6 ADRs documentados
 - 9 fixtures de testing
 - 4+ reportes de implementación
-- AGENTS_ARCHITECTURE.md
+- AUTOMATION_ARCHITECTURE.md
 - **Total:** 34 archivos, 15,203 líneas
 
 ### 10.3 Reorganización c991da6

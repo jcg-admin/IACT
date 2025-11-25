@@ -17,7 +17,7 @@ Automatizar el flujo TDD para acelerar desarrollo de nuevos componentes:
 ```
 TDD Agent (MVP)
 ├── Prompt: docs/backend/permisos/promptops/meta/tdd-agent.md
-├── Agent: scripts/ai/agents/tdd/tdd_agent.py
+├── Agent: scripts/ai/agents/tdd/tdd_operativo.py
 └── Shell: scripts/ci/run-tdd-cycle.sh
 ```
 
@@ -40,7 +40,7 @@ TDD Agent (MVP)
 ### Opción 1: CLI directa
 
 ```bash
-python3 scripts/ai/agents/tdd/tdd_agent.py \
+python3 scripts/ai/agents/tdd/tdd_operativo.py \
     --component audit_validator \
     --requirements "Validar que todos los campos de audit log están presentes" \
     --type gate \
@@ -121,7 +121,7 @@ En la versión MVP actual:
 
 ### Extensiones Futuras (Roadmap)
 
-Ver: `docs/backend/permisos/promptops/ROADMAP_TDD_AGENT.md`
+Ver: `docs/backend/permisos/promptops/ROADMAP_TDD_OPERATIVO.md`
 
 - Auto-generación de código de tests completo (no solo templates)
 - Auto-fix de errores comunes
@@ -169,7 +169,7 @@ Contiene:
 
 ```bash
 # Requisitos: Gate que valida permisos en ViewSets
-python3 scripts/ai/agents/tdd/tdd_agent.py \
+python3 scripts/ai/agents/tdd/tdd_operativo.py \
     --component route_linter \
     --requirements "Detectar ViewSets sin permission_classes definidas" \
     --type gate
@@ -186,7 +186,7 @@ python3 scripts/ai/agents/tdd/tdd_agent.py \
 
 ```bash
 # Requisitos: Chain que valida múltiples condiciones en secuencia
-python3 scripts/ai/agents/tdd/tdd_agent.py \
+python3 scripts/ai/agents/tdd/tdd_operativo.py \
     --component permission_validator_chain \
     --requirements "Validar que usuario tiene permiso, luego validar que recurso existe, luego validar que acción está permitida" \
     --type chain
@@ -230,7 +230,7 @@ Prompt (MD) + Agent (Python) + Shell (Bash)
 
 **Ubicación:**
 - Prompt: `docs/backend/permisos/promptops/meta/tdd-agent.md`
-- Agent: `scripts/ai/agents/tdd/tdd_agent.py`
+- Agent: `scripts/ai/agents/tdd/tdd_operativo.py`
 - Shell: `scripts/ci/run-tdd-cycle.sh`
 
 **Proceso:**
@@ -264,7 +264,7 @@ Ver: `docs/backend/permisos/promptops/CONTRIBUTING.md` para más detalles sobre 
 
 ## Roadmap
 
-Ver archivo completo: `docs/backend/permisos/promptops/ROADMAP_TDD_AGENT.md`
+Ver archivo completo: `docs/backend/permisos/promptops/ROADMAP_TDD_OPERATIVO.md`
 
 **Versión 1.1 (Next):**
 - Generación completa de tests (no templates)

@@ -250,7 +250,7 @@ PULL REQUEST:
 
 ## Documentación Completa
 
-Ver: `docs/desarrollo/arquitectura_agentes_especializados.md`
+Ver: `docs/desarrollo/arquitectura_servicios_especializados.md`
 
 ## Ejemplos y Guías
 

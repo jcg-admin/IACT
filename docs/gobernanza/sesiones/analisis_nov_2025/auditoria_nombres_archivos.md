@@ -50,7 +50,7 @@ gobernanza/onboarding/onboarding_004.md  # Configurar Variables de Entorno
 gobernanza/onboarding/onboarding_005.md  # Usar Agentes SDLC - Planning
 gobernanza/onboarding/onboarding_006.md  # Validar Documentacion
 gobernanza/onboarding/onboarding_007.md  # Generar Indices de Requisitos
-gobernanza/onboarding/onboarding_008_agente_atencion_cliente.md  # (ya tiene descripcion)
+gobernanza/onboarding/onboarding_008_atencion_cliente.md  # (ya tiene descripcion)
 ```
 
 **Propuesta:**
@@ -62,7 +62,7 @@ mv onboarding_004.md configurar_variables_entorno.md
 mv onboarding_005.md usar_agentes_sdlc_planning.md
 mv onboarding_006.md validar_documentacion.md
 mv onboarding_007.md generar_indices_requisitos.md
-mv onboarding_008_agente_atencion_cliente.md operaciones_agente_call_center.md
+mv onboarding_008_atencion_cliente.md operaciones_agente_call_center.md
 ```
 
 ### 1.3 Deployment (5 archivos)

@@ -607,7 +607,7 @@ fi
 ## References
 
 - **Parent ADR**: ADR-042 (Automation System Architecture)
-- **Architecture Doc**: docs/devops/automatizacion/planificacion/AGENTS_ARCHITECTURE.md
+- **Architecture Doc**: docs/devops/automatizacion/planificacion/AUTOMATION_ARCHITECTURE.md
 - **Implementation**: scripts/coding/ai/automation/coherence_analyzer_agent.py
 - **Tests**: tests/ai/automation/test_coherence_analyzer_agent.py
 - **Related Scripts**: scripts/check_ui_api_coherence.sh

@@ -111,7 +111,7 @@ ORIGEN                                          → DESTINO
 /scripts/coding/ai/agents/ARCHITECTURE_SDLC_AGENTS.md
   → diseno/arquitectura/agentes/ARCHITECTURE_SDLC_AGENTS_DETAILED.md
 
-/docs/devops/automatizacion/planificacion/AGENTS_ARCHITECTURE.md
+/docs/devops/automatizacion/planificacion/AUTOMATION_ARCHITECTURE.md
   → diseno/arquitectura/agentes/AGENTS_DEVOPS_AUTOMATION_ARCHITECTURE.md
 ```
 

@@ -252,7 +252,7 @@ python scripts/analyze_logs.py --days 7
 - [x] Implementar @dora_tracked decorator
 - [x] Storage persistente (.dora_sdlc_metrics.json)
 - [x] Crear PDCA automation agent
-- [x] Documentar workflow (WORKFLOW_AGENTES_DORA.md)
+- [x] Documentar workflow (WORKFLOW_METRICAS_PROCESO.md)
 - [x] Crear ADR-003 (este documento)
 
 **Timeframe:** 1 dia (COMPLETADO)
@@ -261,7 +261,7 @@ python scripts/analyze_logs.py --days 7
 - `scripts/ai/agents/dora_sdlc_integration.py` (536 lineas)
 - `scripts/ai/agents/pdca_automation_agent.py` (658 lineas)
 - `docs/gobernanza/ai/DORA_SDLC_INTEGRATION_GUIDE.md` (500 lineas)
-- `docs/gobernanza/procesos/agentes/WORKFLOW_AGENTES_DORA.md` (800 lineas)
+- `docs/gobernanza/procesos/agentes/WORKFLOW_METRICAS_PROCESO.md` (800 lineas)
 
 ### 2. Fase 2: Refactor Existing Agents (P1 - 5 SP)
 
@@ -467,7 +467,7 @@ LIMIT 10;
 - FASES_IMPLEMENTACION_IA.md (Fase 1: T1.2, Fase 5: T5.1, T5.5)
 - ESTRATEGIA_IA.md (Practica 3: AI-accessible Internal Data)
 - DORA_SDLC_INTEGRATION_GUIDE.md (guia tecnica completa)
-- WORKFLOW_AGENTES_DORA.md (workflow operacional)
+- WORKFLOW_METRICAS_PROCESO.md (workflow operacional)
 - ADR-002: Suite Calidad Codigo (contexto agentes SDLC)
 
 ## Notas Adicionales

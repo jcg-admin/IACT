@@ -100,24 +100,24 @@
 
 | Archivo Original | Nombre Propuesto | Justificacion |
 |------------------|------------------|---------------|
-| ADR-040-schema_validator_agent.md | ADR-AI-001-schema-validator-agent.md | Agente validador de schemas. Tecnologias: AI agents, schema validation, Pydantic, JSON Schema |
-| ADR-041-devcontainer_validator_agent.md | ADR-AI-002-devcontainer-validator-agent.md | Agente validador de devcontainers. Tecnologias: AI agents, DevContainer validation, JSON schema |
-| ADR-042-metrics_collector_agent.md | ADR-AI-003-metrics-collector-agent.md | Agente colector de metricas. Tecnologias: AI agents, metrics collection, DORA metrics |
-| ADR-043-coherence_analyzer_agent.md | ADR-AI-004-coherence-analyzer-agent.md | Agente analizador de coherencia. Tecnologias: AI agents, coherence analysis, NLP |
-| ADR-044-constitution_validator_agent.md | ADR-AI-005-constitution-validator-agent.md | Agente validador de constitucion. Tecnologias: AI agents, constitution validation, rules engine |
-| ADR-045-ci_pipeline_orchestrator_agent.md | ADR-AI-006-ci-pipeline-orchestrator-agent.md | Agente orquestador de pipeline CI. Tecnologias: AI agents, CI/CD orchestration, GitHub Actions |
+| ADR-040-schema_validator_agent.md | ADR-AI-001-schema-validator.md | Agente validador de schemas. Tecnologias: AI agents, schema validation, Pydantic, JSON Schema |
+| ADR-041-devcontainer_validator_agent.md | ADR-AI-002-devcontainer-validator.md | Agente validador de devcontainers. Tecnologias: AI agents, DevContainer validation, JSON schema |
+| ADR-042-metrics_collector_agent.md | ADR-AI-003-metrics-collector.md | Agente colector de metricas. Tecnologias: AI agents, metrics collection, DORA metrics |
+| ADR-043-coherence_analyzer_agent.md | ADR-AI-004-coherence-analyzer.md | Agente analizador de coherencia. Tecnologias: AI agents, coherence analysis, NLP |
+| ADR-044-constitution_validator_agent.md | ADR-AI-005-constitution-validator.md | Agente validador de constitucion. Tecnologias: AI agents, constitution validation, rules engine |
+| ADR-045-ci_pipeline_orchestrator_agent.md | ADR-AI-006-ci-pipeline-orchestrator.md | Agente orquestador de pipeline CI. Tecnologias: AI agents, CI/CD orchestration, GitHub Actions |
 | ADR-046-clasificacion-automatica-artefactos.md | ADR-AI-007-clasificacion-automatica-artefactos.md | Clasificacion automatica de artefactos con IA. Tecnologias: AI classification, ML, artifact categorization |
-| ADR-048-ai-agent-memory-architecture.md | ADR-AI-008-ai-agent-memory-architecture.md | Arquitectura de memoria para agentes IA. Tecnologias: AI memory systems, episodic memory, semantic memory, working memory |
+| ADR-048-ai-agent-memory-architecture.md | ADR-AI-008-ai-memory-architecture.md | Arquitectura de memoria para agentes IA. Tecnologias: AI memory systems, episodic memory, semantic memory, working memory |
 | ADR-049-memory-types-storage-strategy.md | ADR-AI-009-memory-types-storage-strategy.md | Estrategia almacenamiento tipos de memoria. Tecnologias: Memory storage, Redis, PostgreSQL, vector databases |
 | ADR-050-context-engineering-architecture.md | ADR-AI-010-context-engineering-architecture.md | Arquitectura ingenieria de contexto. Tecnologias: Context engineering, prompt engineering, RAG, context windows |
 | ADR-051-context-management-strategies.md | ADR-AI-011-context-management-strategies.md | Estrategias gestion de contexto. Tecnologias: Context management, context pruning, context compression |
 | ADR-052-metacognition-architecture.md | ADR-AI-012-metacognition-architecture.md | Arquitectura de metacognicion. Tecnologias: Metacognition, self-reflection, learning from experience |
-| ADR-053-multi-agent-design-patterns.md | ADR-AI-013-multi-agent-design-patterns.md | Patrones de diseno multi-agente. Tecnologias: Multi-agent systems, collaboration patterns, agent coordination |
+| ADR-053-multi-agent-design-patterns.md | ADR-AI-013-multi-service-design-patterns.md | Patrones de diseno multi-agente. Tecnologias: Multi-agent systems, collaboration patterns, agent coordination |
 | ADR-054-planning-architecture.md | ADR-AI-014-planning-architecture.md | Arquitectura de planificacion. Tecnologias: AI planning, goal decomposition, action planning, ReAct pattern |
-| ADR-055-agent-protocols-architecture.md | ADR-AI-015-agent-protocols-architecture.md | Arquitectura de protocolos de agentes. Tecnologias: MCP (Model Context Protocol), A2A (Agent-to-Agent), NLWeb, protocol standards |
-| ADR-056-agentic-design-principles.md | ADR-AI-016-agentic-design-principles.md | Principios de diseno agentico UX. Tecnologias: Agentic UX, human-centric design, transparency, trust, adaptability |
+| ADR-055-agent-protocols-architecture.md | ADR-AI-015-protocols-architecture.md | Arquitectura de protocolos de agentes. Tecnologias: MCP (Model Context Protocol), A2A (Agent-to-Agent), NLWeb, protocol standards |
+| ADR-056-agentic-design-principles.md | ADR-AI-016-design-principles.md | Principios de diseno agentico UX. Tecnologias: Agentic UX, human-centric design, transparency, trust, adaptability |
 | ADR-057-trustworthy-ai-architecture.md | ADR-AI-017-trustworthy-ai-architecture.md | Arquitectura IA confiable y segura. Tecnologias: Trustworthy AI, security layers, threat detection, HITL, audit logging |
-| ADR-058-ai-agents-standalone-architecture.md | ADR-AI-018-ai-agents-standalone-architecture.md | Framework agentes IA como proyecto standalone. Tecnologias: Standalone architecture, Pydantic, FastAPI, separation of concerns |
+| ADR-058-ai-agents-standalone-architecture.md | ADR-AI-018-ai-services-standalone-architecture.md | Framework agentes IA como proyecto standalone. Tecnologias: Standalone architecture, Pydantic, FastAPI, separation of concerns |
 | ADR-003-dora-sdlc-integration.md | ADR-AI-019-dora-sdlc-integration.md | Integracion DORA metrics con agentes SDLC. Tecnologias: DORA metrics, SDLC agents, automation, PDCA cycle, metrics tracking |
 
 **Subtotal AI:** 19 ADRs
@@ -362,26 +362,26 @@ git mv ADR-019-testing-strategy-jest-testing-library.md ADR-QA-002-testing-strat
 
 ```bash
 # AI-001 a AI-007
-git mv ADR-040-schema_validator_agent.md ADR-AI-001-schema-validator-agent.md
-git mv ADR-041-devcontainer_validator_agent.md ADR-AI-002-devcontainer-validator-agent.md
-git mv ADR-042-metrics_collector_agent.md ADR-AI-003-metrics-collector-agent.md
-git mv ADR-043-coherence_analyzer_agent.md ADR-AI-004-coherence-analyzer-agent.md
-git mv ADR-044-constitution_validator_agent.md ADR-AI-005-constitution-validator-agent.md
-git mv ADR-045-ci_pipeline_orchestrator_agent.md ADR-AI-006-ci-pipeline-orchestrator-agent.md
+git mv ADR-040-schema_validator_agent.md ADR-AI-001-schema-validator.md
+git mv ADR-041-devcontainer_validator_agent.md ADR-AI-002-devcontainer-validator.md
+git mv ADR-042-metrics_collector_agent.md ADR-AI-003-metrics-collector.md
+git mv ADR-043-coherence_analyzer_agent.md ADR-AI-004-coherence-analyzer.md
+git mv ADR-044-constitution_validator_agent.md ADR-AI-005-constitution-validator.md
+git mv ADR-045-ci_pipeline_orchestrator_agent.md ADR-AI-006-ci-pipeline-orchestrator.md
 git mv ADR-046-clasificacion-automatica-artefactos.md ADR-AI-007-clasificacion-automatica-artefactos.md
 
 # AI-008 a AI-018
-git mv ADR-048-ai-agent-memory-architecture.md ADR-AI-008-ai-agent-memory-architecture.md
+git mv ADR-048-ai-agent-memory-architecture.md ADR-AI-008-ai-memory-architecture.md
 git mv ADR-049-memory-types-storage-strategy.md ADR-AI-009-memory-types-storage-strategy.md
 git mv ADR-050-context-engineering-architecture.md ADR-AI-010-context-engineering-architecture.md
 git mv ADR-051-context-management-strategies.md ADR-AI-011-context-management-strategies.md
 git mv ADR-052-metacognition-architecture.md ADR-AI-012-metacognition-architecture.md
-git mv ADR-053-multi-agent-design-patterns.md ADR-AI-013-multi-agent-design-patterns.md
+git mv ADR-053-multi-agent-design-patterns.md ADR-AI-013-multi-service-design-patterns.md
 git mv ADR-054-planning-architecture.md ADR-AI-014-planning-architecture.md
-git mv ADR-055-agent-protocols-architecture.md ADR-AI-015-agent-protocols-architecture.md
-git mv ADR-056-agentic-design-principles.md ADR-AI-016-agentic-design-principles.md
+git mv ADR-055-agent-protocols-architecture.md ADR-AI-015-protocols-architecture.md
+git mv ADR-056-agentic-design-principles.md ADR-AI-016-design-principles.md
 git mv ADR-057-trustworthy-ai-architecture.md ADR-AI-017-trustworthy-ai-architecture.md
-git mv ADR-058-ai-agents-standalone-architecture.md ADR-AI-018-ai-agents-standalone-architecture.md
+git mv ADR-058-ai-agents-standalone-architecture.md ADR-AI-018-ai-services-standalone-architecture.md
 
 # AI-019
 git mv ADR-003-dora-sdlc-integration.md ADR-AI-019-dora-sdlc-integration.md
@@ -592,24 +592,24 @@ git mv ADR-019-testing-strategy-jest-testing-library.md ADR-QA-002-testing-strat
 
 # AI (19 archivos)
 echo "  Procesando AI (19 archivos)..."
-git mv ADR-040-schema_validator_agent.md ADR-AI-001-schema-validator-agent.md 2>/dev/null || true
-git mv ADR-041-devcontainer_validator_agent.md ADR-AI-002-devcontainer-validator-agent.md 2>/dev/null || true
-git mv ADR-042-metrics_collector_agent.md ADR-AI-003-metrics-collector-agent.md 2>/dev/null || true
-git mv ADR-043-coherence_analyzer_agent.md ADR-AI-004-coherence-analyzer-agent.md 2>/dev/null || true
-git mv ADR-044-constitution_validator_agent.md ADR-AI-005-constitution-validator-agent.md 2>/dev/null || true
-git mv ADR-045-ci_pipeline_orchestrator_agent.md ADR-AI-006-ci-pipeline-orchestrator-agent.md 2>/dev/null || true
+git mv ADR-040-schema_validator_agent.md ADR-AI-001-schema-validator.md 2>/dev/null || true
+git mv ADR-041-devcontainer_validator_agent.md ADR-AI-002-devcontainer-validator.md 2>/dev/null || true
+git mv ADR-042-metrics_collector_agent.md ADR-AI-003-metrics-collector.md 2>/dev/null || true
+git mv ADR-043-coherence_analyzer_agent.md ADR-AI-004-coherence-analyzer.md 2>/dev/null || true
+git mv ADR-044-constitution_validator_agent.md ADR-AI-005-constitution-validator.md 2>/dev/null || true
+git mv ADR-045-ci_pipeline_orchestrator_agent.md ADR-AI-006-ci-pipeline-orchestrator.md 2>/dev/null || true
 git mv ADR-046-clasificacion-automatica-artefactos.md ADR-AI-007-clasificacion-automatica-artefactos.md 2>/dev/null || true
-git mv ADR-048-ai-agent-memory-architecture.md ADR-AI-008-ai-agent-memory-architecture.md 2>/dev/null || true
+git mv ADR-048-ai-agent-memory-architecture.md ADR-AI-008-ai-memory-architecture.md 2>/dev/null || true
 git mv ADR-049-memory-types-storage-strategy.md ADR-AI-009-memory-types-storage-strategy.md 2>/dev/null || true
 git mv ADR-050-context-engineering-architecture.md ADR-AI-010-context-engineering-architecture.md 2>/dev/null || true
 git mv ADR-051-context-management-strategies.md ADR-AI-011-context-management-strategies.md 2>/dev/null || true
 git mv ADR-052-metacognition-architecture.md ADR-AI-012-metacognition-architecture.md 2>/dev/null || true
-git mv ADR-053-multi-agent-design-patterns.md ADR-AI-013-multi-agent-design-patterns.md 2>/dev/null || true
+git mv ADR-053-multi-agent-design-patterns.md ADR-AI-013-multi-service-design-patterns.md 2>/dev/null || true
 git mv ADR-054-planning-architecture.md ADR-AI-014-planning-architecture.md 2>/dev/null || true
-git mv ADR-055-agent-protocols-architecture.md ADR-AI-015-agent-protocols-architecture.md 2>/dev/null || true
-git mv ADR-056-agentic-design-principles.md ADR-AI-016-agentic-design-principles.md 2>/dev/null || true
+git mv ADR-055-agent-protocols-architecture.md ADR-AI-015-protocols-architecture.md 2>/dev/null || true
+git mv ADR-056-agentic-design-principles.md ADR-AI-016-design-principles.md 2>/dev/null || true
 git mv ADR-057-trustworthy-ai-architecture.md ADR-AI-017-trustworthy-ai-architecture.md 2>/dev/null || true
-git mv ADR-058-ai-agents-standalone-architecture.md ADR-AI-018-ai-agents-standalone-architecture.md 2>/dev/null || true
+git mv ADR-058-ai-agents-standalone-architecture.md ADR-AI-018-ai-services-standalone-architecture.md 2>/dev/null || true
 git mv ADR-003-dora-sdlc-integration.md ADR-AI-019-dora-sdlc-integration.md 2>/dev/null || true
 
 # DEV

@@ -19,7 +19,7 @@ status: active
 
 ## Documentos Principales
 
-- `CLI-SDLC-AGENTS.md`: CLI de agentes SDLC
+- `CLI-SDLC-AUTOMATION.md`: CLI de agentes SDLC
 - `ci-cd-workflows.md`: Workflows GitHub Actions
 - `monitoring-setup.md`: Configuracion de monitoring
 - `incident-response-playbook.md`: Playbook de incidentes

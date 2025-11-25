@@ -17,7 +17,7 @@ import pytest
 
 # Import will fail until we implement the agent (TDD RED phase)
 try:
-    from scripts.coding.ai.automation.metrics_collector_agent import (
+    from scripts.gobernanza_sdlc.automation.metrics_collector_agent import (
         MetricsCollectorAgent,
         ViolationMetrics,
         CIMetrics,

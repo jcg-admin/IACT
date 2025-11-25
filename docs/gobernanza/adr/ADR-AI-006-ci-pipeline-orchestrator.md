@@ -452,7 +452,7 @@ python ci_pipeline_orchestrator_agent.py --output pipeline_report.json
 
 ## References
 
-- **Specification**: `docs/devops/automatizacion/planificacion/AGENTS_ARCHITECTURE.md` section 2.2.1 #2
+- **Specification**: `docs/devops/automatizacion/planificacion/AUTOMATION_ARCHITECTURE.md` section 2.2.1 #2
 - **Tests**: `tests/ai/automation/test_ci_pipeline_orchestrator_agent.py`
 - **Implementation**: `scripts/coding/ai/automation/ci_pipeline_orchestrator_agent.py`
 - **Config**: `.ci-local.yaml`

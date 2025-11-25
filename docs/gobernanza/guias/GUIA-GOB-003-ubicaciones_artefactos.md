@@ -117,7 +117,7 @@ docs/gobernanza/sesiones/analisis_YYYY_MM/{NOMBRE_ANALISIS}.md
 
 **Ejemplos:**
 - `docs/gobernanza/sesiones/analisis_nov_2025/GAP_ANALYSIS_SISTEMA_PERMISOS.md`
-- `docs/gobernanza/sesiones/analisis_nov_2025/ETA_AGENTE_CODEX_ANALISIS.md`
+- `docs/gobernanza/sesiones/analisis_nov_2025/ETA_CODEX_ANALISIS.md`
 
 **Frontmatter:**
 ```yaml

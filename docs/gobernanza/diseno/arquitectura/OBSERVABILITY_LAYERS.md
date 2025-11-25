@@ -539,7 +539,7 @@ logger.info("Nginx received request")  # Ya esta en nginx access.log
 
 - ADR-2025-003: Decision integracion DORA + SDLC
 - DORA_SDLC_INTEGRATION_GUIDE.md: Implementacion Capa 1
-- WORKFLOW_AGENTES_DORA.md: Uso operacional Capa 1
+- WORKFLOW_METRICAS_PROCESO.md: Uso operacional Capa 1
 - Django Logging: https://docs.djangoproject.com/en/4.2/topics/logging/
 - RFC 3164: Syslog Protocol
 - DORA Report 2025: https://dora.dev/

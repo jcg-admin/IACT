@@ -258,7 +258,7 @@ DETALLE POR ARCHIVO
   Linea  343 [TODO       ]: - [ ] Detecta TODOS los ViewSets sin permisos
   Linea  352 [TODO       ]: 1. ¿Analicé TODOS los archivos views.py?
 
-/home/user/IACT---project/docs/backend/permisos/promptops/ROADMAP_TDD_AGENT.md (5 items):
+/home/user/IACT---project/docs/backend/permisos/promptops/ROADMAP_TDD_OPERATIVO.md (5 items):
 --------------------------------------------------------------------------------
   Linea   28 [TODO       ]: - Genera métodos de test con TODOs
   Linea   62 [TODO       ]: - Genera TODOs en lugar de implementaciones
@@ -551,12 +551,12 @@ DETALLE POR ARCHIVO
   Linea  758 [XXX        ]: - RF-XXX: Requisitos Funcionales
   Linea  759 [XXX        ]: - RNF-XXX: Requisitos No Funcionales
 
-/home/user/IACT---project/docs/gobernanza/metodologias/agentes_automatizacion.md (2 items):
+/home/user/IACT---project/docs/gobernanza/metodologias/automatizacion_servicios.md (2 items):
 --------------------------------------------------------------------------------
   Linea  121 [TODO       ]: Necesito que remuevas TODOS los emojis de TODOS los archivos markdown 
   Linea  136 [TODO       ]: - Mantén TODO el contenido
 
-/home/user/IACT---project/docs/gobernanza/metodologias/arquitectura_agentes_especializados.md (2 items):
+/home/user/IACT---project/docs/gobernanza/metodologias/arquitectura_servicios_especializados.md (2 items):
 --------------------------------------------------------------------------------
   Linea  423 [TODO       ]: # → Hay que entender TODO el agente (500 líneas)
   Linea  476 [TODO       ]: # → O ejecutar TODO el agente (overhead)
@@ -610,7 +610,7 @@ DETALLE POR ARCHIVO
   Linea  328 [XXX        ]: - Sin placeholders (TODO, FIXME, XXX, HACK, ...)
   Linea  328 [HACK       ]: - Sin placeholders (TODO, FIXME, XXX, HACK, ...)
 
-/home/user/IACT---project/docs/gobernanza/procesos/agentes/WORKFLOW_AGENTES_DORA.md (2 items):
+/home/user/IACT---project/docs/gobernanza/procesos/agentes/WORKFLOW_METRICAS_PROCESO.md (2 items):
 --------------------------------------------------------------------------------
   Linea  188 [TODO       ]: 1. [x] Sin placeholders (TODO, FIXME)
   Linea  188 [FIXME      ]: 1. [x] Sin placeholders (TODO, FIXME)
@@ -740,7 +740,7 @@ DETALLE POR ARCHIVO
 --------------------------------------------------------------------------------
   Linea  113 [XXX        ]: id: DOC-XXX
 
-/home/user/IACT---project/docs/guias/onboarding/onboarding_008_agente_atencion_cliente.md (1 items):
+/home/user/IACT---project/docs/guias/onboarding/onboarding_008_atencion_cliente.md (1 items):
 --------------------------------------------------------------------------------
   Linea  341 [XXX        ]: - Tickets creados tienen ID único (T-XXXXX)
 

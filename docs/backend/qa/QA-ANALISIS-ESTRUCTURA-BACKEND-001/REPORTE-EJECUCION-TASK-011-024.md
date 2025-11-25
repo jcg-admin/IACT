@@ -249,7 +249,7 @@ Consolidar la estructura del directorio `/home/user/IACT/docs/backend/diseno/` m
  gates/
  route_lint.md
  meta/
- tdd_agent.md
+ tdd_operativo.md
  detallado/ ← CONSOLIDADO
  README.md
  diseno_tecnico_autenticacion.md

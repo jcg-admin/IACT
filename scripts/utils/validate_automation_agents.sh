@@ -38,7 +38,7 @@ set -euo pipefail
 # Global variables
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "${SCRIPT_DIR}/../.." && pwd)"
-AGENTS_DIR="${PROJECT_ROOT}/scripts/coding/ai/automation"
+AGENTS_DIR="${PROJECT_ROOT}/scripts/gobernanza_sdlc/automation"
 TEMP_DIR="${PROJECT_ROOT}/tmp/agent_validation_$$"
 VERBOSE=false
 TESTS_PASSED=0
