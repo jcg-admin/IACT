@@ -13,30 +13,43 @@
 5. Preparar auditoría mensual y por release conforme al punto 11 del plan oficial.
 6. Completar la automatización de validación, reporte y rollback para que el cambio sea reversible y visible.
 
+### Objetivos — Visión más granular
+- **Restablecer la cadena estructural vertical**: Asegurar que la cadena completa de trazabilidad (`RNF → ... → Evidencia`) sea funcional y medible.
+- **Normalizar Plantillas V2**: Implementar las plantillas actualizadas (`UC_v2`, `ADR_v2`, `TEST_v2`, etc.) con campos de trazabilidad bidireccional (upward y downward).
+- **Publicar y Consolidar RTM-IACT**: Crear la nueva Matriz de Trazabilidad de Requisitos y migrar, limpiar y consolidar todos los datos heredados.
+- **Integrar Trazabilidad en el Código**: Incorporar las referencias de trazabilidad (`uc_refs`, `adr_refs`) directamente en el código fuente (Gemas/APIs) como metadatos obligatorios.
+- **Implementar Gobernanza CI/CD**: Activar todos los jobs de bloqueo (`lint-trazabilidad`, `api-metadata-check`, `uml-check`) para forzar el cumplimiento en tiempo real.
+- **Garantizar la Consistencia de la RTM**: Asegurar la consistencia de la matriz mediante el control de Relación Mínima Requerida (ej., cada API funcional debe tener al menos una Prueba asociada).
+- **Certificar Cobertura**: Alcanzar y registrar una Cobertura de Trazabilidad Vertical ≥ 90%, cerrando el ciclo con la generación automática de la Evidencia de QA.
+
 ## 3. Alcance
 Aplica a todos los dominios definidos en el Plan Oficial: Backend (Django REST), Frontend (React/Webpack), Infraestructura/DevOps, Documentación/Gobernanza, Scripts, QA/Testing, Reglas de Negocio, Casos de Uso/UML y ADRs.
 
-## 4. Estrategia (en oleadas)
-1. **Oleada 1 — Estabilización documental (Semana 1)**
+## 4. Estrategia (en fases)
+1. **Fase 0 — Preparación y limpieza**
+   - Depurar matrices y artefactos heredados, eliminando duplicados y referencias huérfanas.
+   - Congelar convenciones de identificadores y nomenclaturas para RNF, RF, UC, ADR, APIs y Pruebas.
+   - Definir responsables y circuitos de aprobación para cada dominio (documental, código, QA).
+
+2. **Fase 1 — Normalización documental (Semana 1)**
    - Crear repositorio oficial `docs/trazabilidad/` con estructura del punto 9.
    - Generar `TRZ-001-estandar-sdlc.md` y `RTM.md` inicial (RTM-IACT) reemplazando la matriz corrupta de `docs/gobernanza`.
-   - Actualizar plantillas v2 (`UC_v2.md`, `ADR_v2.md`, `TEST_v2.md`, `GOB_v2.md`, `BR_v2.md`) con campos de trazabilidad upward/downward.
-   - Registrar política `GOB-TRZ-001` y calendario de auditoría.
+   - Publicar las plantillas v2 (`UC_v2.md`, `ADR_v2.md`, `TEST_v2.md`, `GOB_v2.md`, `BR_v2.md`) con campos de trazabilidad bidireccional y ejemplos mínimos.
+   - Registrar política `GOB-TRZ-001`, habilitar checklists de revisión y calendarizar auditorías.
 
-2. **Oleada 2 — Integración operativa (Semanas 2-3)**
-   - Modificar gemas del proyecto para incluir el bloque obligatorio de trazabilidad (punto 6).
-   - Integrar validaciones en CI/CD (punto 7):
-     - Verificar referencias a UC/RF/ADR en PRs.
-     - Validar actualizaciones en `docs/trazabilidad/RTM.md`.
-     - Ejecutar linters de plantillas UC/ADR/TEST.
-   - Integrar metadatos de trazabilidad en API con `@extend_schema` (punto 8) y refrescar documentación de drf-spectacular.
+3. **Fase 2 — Integración en código y CI/CD (Semanas 2-3)**
+   - Modificar gemas del proyecto para incluir metadatos de trazabilidad obligatorios (`uc_refs`, `adr_refs`, `rf_refs`).
+   - Integrar metadatos de trazabilidad en API con `@extend_schema` y refrescar documentación de drf-spectacular.
+   - Activar los jobs de validación en CI/CD (`lint-trazabilidad`, `api-metadata-check`, `uml-check`) en modo de transición (warning → blocking) y validar actualizaciones en `docs/trazabilidad/RTM.md`.
+   - Ejecutar linters de plantillas UC/ADR/TEST y garantizar que cada API funcional tenga pruebas asociadas y referencias cruzadas en RTM.
 
-3. **Oleada 3 — Evidencia y auditoría (Semanas 3-4)**
+4. **Fase 3 — Auditoría y certificación (Semanas 3-4)**
    - Completar RTM con enlaces a código, tests y evidencia ejecutada.
-   - Activar auditoría mensual y por release (punto 11) y registrar hallazgos en `docs/trazabilidad/registros/`.
-   - Incorporar reportes automáticos de cobertura y evidencia de pruebas.
+   - Activar auditoría mensual y por release registrando hallazgos en `docs/trazabilidad/registros/`.
+   - Incorporar reportes automáticos de cobertura y evidencia de pruebas y registrar resultados ≥ 90% con acciones correctivas cuando aplique.
+   - Consolidar aprendizajes y ajustes al procedimiento para mantener la consistencia de RTM y los controles preventivos.
 
-### 4.1 Detalle técnico de CI/CD (aplica a oleadas 2 y 3)
+### 4.1 Detalle técnico de CI/CD (aplica a fases 2 y 3)
 - **Workflows** (`.github/workflows/trazabilidad.yml`):
   - Job `lint-trazabilidad` (warning semana 2 → blocking semana 3):
     - Ejecuta `scripts/trazabilidad/validar_plantillas.py --paths docs/trazabilidad/plantillas`.
@@ -91,7 +104,7 @@ Aplica a todos los dominios definidos en el Plan Oficial: Backend (Django REST),
 ## 8. Gobernanza y responsables
 - **Owner del plan**: Equipo de Gobernanza/QA.
 - **Responsables por dominio**: Tech Leads de Backend, Frontend, Infraestructura y Documentación.
-- **Aprobación**: Comité de Arquitectura (ADRs) y QA para cierre de cada oleada.
+- **Aprobación**: Comité de Arquitectura (ADRs) y QA para cierre de cada fase.
 
 ## 9. Métricas de éxito
 - Cobertura de trazabilidad vertical ≥ 90% en RTM.
@@ -313,6 +326,6 @@ Para asegurar que el plan de remediación incorpora **todo lo solicitado** en el
 - **Integraciones obligatorias (secciones 6–8 del plan oficial)**: previstas en backlog B6–B8 para gemas, CI/CD (referencias UC/RF/ADR y RTM actualizado) y metadatos de API con `@extend_schema`.
 - **Procedimiento por fases 10.1–10.10 (PROC-IACT-TRZ)**: resumido en el punto 10.4, con entradas, salidas, matrices y roles, y reforzado por las reglas de gobernanza (punto 10.5).
 - **Reglas de gobernanza y versionado (sección 7 y 9 del procedimiento)**: incorporadas en el punto 10.5 (completitud, entradas mínimas, control de huérfanos, actualización continua, revisión trimestral) y campos editables/versionado en el punto 10.6.
-- **Auditoría y entregables (secciones 11 y 12 del plan oficial)**: integrados en oleada 3, backlog B9 y métricas de éxito (auditoría mensual/por release y RTM con ≥90% de cobertura vertical).
+- **Auditoría y entregables (secciones 11 y 12 del plan oficial)**: integrados en fase 3, backlog B9 y métricas de éxito (auditoría mensual/por release y RTM con ≥90% de cobertura vertical).
 
 Esta lista debe revisarse junto con cada PR para verificar que ninguna pieza normativa quede fuera del alcance del cambio.
