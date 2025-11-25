@@ -11,6 +11,7 @@
 3. Normalizar plantillas y gemas con campos de trazabilidad obligatorios.
 4. Asegurar que CI/CD rechace artefactos sin referencias y valide actualizaciones de RTM.
 5. Preparar auditoría mensual y por release conforme al punto 11 del plan oficial.
+6. Completar la automatización de validación, reporte y rollback para que el cambio sea reversible y visible.
 
 ## 3. Alcance
 Aplica a todos los dominios definidos en el Plan Oficial: Backend (Django REST), Frontend (React/Webpack), Infraestructura/DevOps, Documentación/Gobernanza, Scripts, QA/Testing, Reglas de Negocio, Casos de Uso/UML y ADRs.
@@ -35,6 +36,20 @@ Aplica a todos los dominios definidos en el Plan Oficial: Backend (Django REST),
    - Activar auditoría mensual y por release (punto 11) y registrar hallazgos en `docs/trazabilidad/registros/`.
    - Incorporar reportes automáticos de cobertura y evidencia de pruebas.
 
+### 4.1 Detalle técnico de CI/CD (aplica a oleadas 2 y 3)
+- **Workflows** (`.github/workflows/trazabilidad.yml`):
+  - Job `lint-trazabilidad` (warning semana 2 → blocking semana 3):
+    - Ejecuta `scripts/trazabilidad/validar_plantillas.py --paths docs/trazabilidad/plantillas`.
+    - Regex obligatoria en PR: referencias `UC-\d+`, `RF-\d+`, `ADR-\d+`, `BR-\d+` en commits y PR body.
+    - Verifica que los archivos `RTM.md` y plantillas modificadas pasen `yamllint`/`markdownlint` con reglas extendidas de trazabilidad.
+  - Job `rtm-drift-check` (blocking):
+    - Usa `scripts/trazabilidad/validar_rtm.py --rtm docs/trazabilidad/RTM.md --codigo api backend ui scripts`.
+    - Falla si hay referencias huérfanas o si la cobertura < 90%.
+  - Job `api-metadata-check` (blocking):
+    - Ejecuta `pytest api --maxfail=1 -q -k "extend_schema"` para asegurar metadatos.
+    - Verifica que cada endpoint nuevo incluya campos `uc_refs`, `rf_refs`, `adr_refs` en el decorador `@extend_schema`.
+- **Condiciones de bloqueo**: `lint-trazabilidad` en warning durante semana 2, se cambia a blocking en semana 3 mediante variable `TRZ_VALIDATION_MODE=blocking`.
+
 ## 5. Backlog detallado
 - **B1. Crear repositorio de trazabilidad** (`docs/trazabilidad/` con subcarpetas `plantillas/` y `registros/`). Entregable: estructura mínima y README.
 - **B2. Publicar TRZ-001** (estándar SDLC) con reglas, identificadores y ciclo de vida de artefactos.
@@ -53,6 +68,13 @@ Aplica a todos los dominios definidos en el Plan Oficial: Backend (Django REST),
   - Referenciar explícitamente artefactos origen (UC/RF/ADR/BR) y destino (código/tests/evidencia).
   - Indicar en qué matriz se reflejará el cambio (`RTM-IACT`, `M_*` correspondientes) y qué plantilla v2 aplica.
   - Incluir criterios de *Definition of Done* con prueba/linters y actualización de RTM.
+
+### 5.2 Contenido mínimo de plantillas v2 y gemas
+- **UC_v2.md**: campos `id`, `titulo`, `actores`, `precondiciones`, `flujo_basico`, `flujos_alternos`, `trazabilidad_upward (RN/RF/BR)`, `trazabilidad_downward (UML/API/Tests)`, `riesgos`, `evidencia`.
+- **ADR_v2.md**: `id`, `estatus`, `contexto`, `decisión`, `alternativas`, `trazabilidad_upward (UC/UML)`, `trazabilidad_downward (Código/Tests/API)`, `fecha`, `responsable`.
+- **TEST_v2.md**: `id`, `tipo`, `ambiente`, `datos_prueba`, `pasos`, `resultado_esperado`, `trazabilidad_upward (API/UC/RF)`, `trazabilidad_downward (Evidencia/Código)`, `resultado`.
+- **GOB_v2.md / BR_v2.md**: incluyen `trazabilidad_upward` hacia políticas/regulaciones y `trazabilidad_downward` hacia UC/RF.
+- **Gemas**: bloque obligatorio YAML/JSON `trazabilidad` con arrays `uc_refs`, `rf_refs`, `adr_refs`, `tests_refs`; validado por `scripts/trazabilidad/validar_gemas.py`.
 
 ## 6. Criterios de aceptación
 - RTM-IACT sin campos vacíos y con enlaces bidireccionales a requisitos, código, tests y evidencia.
@@ -113,6 +135,16 @@ RN → RF → UC → UML → ADR → Código → API → Pruebas → Evidencia �
 - **Fase 10.9 — Evidencia:** registrar evidencias y Test→Evidencia, actualizar `M_EVID` y `M_TEST_EVID`.
 - **Fase 10.10 — Revisión final QA:** requiere todas las matrices principales y relacionales completas; valida cierre del ciclo y autoriza liberación.
 
+### 10.4.1 Plan de migración de datos heredados
+- **Inventario inicial (día 1-2)**: exportar matrices actuales (`docs/gobernanza/trazabilidad/*`) y clasificarlas por criticidad (CRIT/MAJ/MIN).
+- **Limpieza asistida (día 3-4)**: script `scripts/trazabilidad/etl_rtm.py`:
+  - Normaliza IDs y detecta duplicados/huérfanos.
+  - Marca huecos con etiqueta `PENDING` y `responsable`.
+  - Genera reporte CSV para revisión manual.
+- **Carga a RTM-IACT (día 5)**: importar CSV limpio a `docs/trazabilidad/RTM.md`.
+- **Validación cruzada (día 6)**: ejecutar `validar_rtm.py` + muestreo manual 10% de entradas CRIT.
+- **Cierre (día 7)**: aprobar migración, archivar matrices antiguas como deprecated.
+
 ### 10.5 Reglas de gobernanza adicionales
 - **Completitud por fase**: no cerrar sin salidas obligatorias, matriz actualizada y validación formal.
 - **Prohibición de iniciar sin entradas mínimas** y **control de artefactos huérfanos** (origen y destino identificables).
@@ -124,12 +156,45 @@ RN → RF → UC → UML → ADR → Código → API → Pruebas → Evidencia �
 - Responsables: Trazabilidad, QA, Arquitectura, Desarrollo.
 - Observaciones libres para decisiones, riesgos o acuerdos.
 
-### 10.7 Mapa ASCII de referencia
+### 10.7 Medición y verificación de cobertura ≥90%
+- **Definición**: porcentaje de filas en `RTM.md` con vínculos válidos a origen (UC/RF/ADR/BR) y destino (Código/API/Tests/Evidencia).
+- **Herramienta**: `scripts/trazabilidad/coverage_rtm.py --rtm docs/trazabilidad/RTM.md --repo .`.
+- **Métrica**: `cobertura_total = filas_con_origen_y_destino / filas_totales`.
+- **Umbral**: warning < 90%, blocking < 85%.
+- **Reporte**: genera `docs/trazabilidad/registros/rtm_coverage_<fecha>.json` + gráfico en `rtm_coverage_<fecha>.svg`.
+
+### 10.8 Mapa ASCII de referencia
 
 ```
 [RN] → [RF] → [UC] → [UML] → [ADR] → [COD] → [API] → [TEST] → [EVID] → [REV]
 Origen  Reqs   Casos  Diseño  Decis.  Impl.  Interf.  Validac.  Soporte  Aprob.
 ```
+
+### 10.9 Evidencia automatizada y reporting
+- **Periodicidad**: semanal (pipeline) y por release.
+- **Formato**: `docs/trazabilidad/registros/<fecha>-evidencia.json` con campos `id`, `tipo`, `fuente`, `uc_refs`, `rf_refs`, `adr_refs`, `resultado`, `enlace_evidencia`.
+- **Integración CI/CD**: job `reporte-trazabilidad` publica artefacto HTML en `logs_data/trazabilidad/reportes/<fecha>.html`.
+- **Dashboard**: script `scripts/trazabilidad/dashboard_rtm.py` genera `docs/trazabilidad/registros/dashboard/index.html` con cobertura y hallazgos.
+
+### 10.10 Responsables, tiempos y estimaciones
+- **B1–B2**: Owner Gobernanza (5d).
+- **B3**: Owner QA + Gobernanza (7d).
+- **B4**: Owner Arquitectura + Backend (5d).
+- **B5**: Owner QA (7d, depende B3).
+- **B6**: Owner Backend/Frontend (5d c/u) con soporte Arquitectura.
+- **B7**: Owner DevOps (4d) — transición warning→blocking semana 3.
+- **B8**: Owner Backend (3d) + QA (validación extend_schema).
+- **B9**: Owner QA/Gobernanza (recurrencia mensual, 2d por ciclo).
+
+### 10.11 Checklist de PR y UX para desarrolladores
+- Plantilla `.github/PULL_REQUEST_TEMPLATE.md` debe incluir: `UC refs`, `RF refs`, `ADR refs`, `RTM actualizado (sí/no)`, `Evidencia adjunta`.
+- Validación automática: workflow `trazabilidad.yml` bloquea PR si falta alguna referencia o si el RTM no cambió cuando hay nuevas funcionalidades.
+- Mensajes de commit deben incluir ID de UC/RF/ADR cuando aplique.
+
+### 10.12 Versionado y rollback
+- **Habilitación progresiva**: variable `TRZ_VALIDATION_MODE` controla warning/blocking.
+- **Rollback**: si el pipeline bloquea releases inesperadamente, deshabilitar job `rtm-drift-check` y revertir la versión de `RTM.md` a la última release estable (`git tag trazabilidad-vX.Y`).
+- **Feature flags**: usar `feature-trz-*` para cambios de gemas o validadores; merge solo tras pasar cobertura ≥90%.
 
 ## 11. Validación de cobertura (conformidad con el plan oficial y PROC-IACT-TRZ)
 Para asegurar que el plan de remediación incorpora **todo lo solicitado** en el Plan Oficial y el procedimiento PROC-IACT-TRZ v1.1, se valida lo siguiente:
