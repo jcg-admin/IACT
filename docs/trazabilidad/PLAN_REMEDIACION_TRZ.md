@@ -100,101 +100,209 @@ Aplica a todos los dominios definidos en el Plan Oficial: Backend (Django REST),
 - Auditorías mensuales sin hallazgos críticos a partir del segundo ciclo.
 
 ## 10. Integración del procedimiento PROC-IACT-TRZ (v1.1)
-Esta sección incorpora el canvas normativo-operativo *PROC-IACT-TRZ-Procedimiento-Trazabilidad* dentro del plan de remediación.
+Esta sección alinea el plan de remediación con el procedimiento normativo-operativo *PROC-IACT-TRZ-Procedimiento-Trazabilidad*.
 
-### 10.1 Encabezado normativo y propósito
-- **Código:** PROC-IACT-TRZ-Procedimiento-Trazabilidad — versión 1.1 (estado canvas editable, clasificación Normativo/Operativo).
-- **Dominio:** SDLC / Gobernanza / Trazabilidad. **Responsable:** [EDITABLE]. **Última revisión:** [YYYY-MM-DD].
-- **Propósito:** guía normativa y operativa para la GEM "IACT-SDLC-TRZ"; base para validadores automáticos, checklists y auditorías; referencia formal de cumplimiento.
-- **Reglas de uso GEM:** guiar al usuario en fases 10.1→10.10; validar entradas/salidas; impedir avance si falta fase previa; detectar artefactos faltantes/huérfanos.
+### 10.1 Encabezado normativo y propósito del procedimiento
+- **Código del Documento:** PROC-IACT-TRZ-Procedimiento-Trazabilidad.
+- **Versión:** 1.1. **Estado:** Editable. **Clasificación:** Normativo / Operativo.
+- **Proyecto:** IACT. **Dominio:** SDLC / Gobernanza / Trazabilidad.
+- **Responsable:** [EDITABLE]. **Última revisión:** [YYYY-MM-DD].
+- **Propósito del procedimiento:**
+  - Guía normativa para aplicar trazabilidad en el SDLC de IACT.
+  - Base técnica para validadores automáticos, checklists y auditorías.
+  - Referencia formal para cumplimiento de gobernanza y aseguramiento de calidad.
+  - Guía fase por fase (10.1 → 10.10) para validar entradas y salidas, impedir avanzar si falta una fase previa y detectar artefactos faltantes o huérfanos.
 
-### 10.2 Alcance y cadena estructural
-Aplica a todo el SDLC y cubre: **RN, RF, UC, UML, ADR, Código, API, Pruebas, Evidencia, Revisión final de QA**. Cadena obligatoria:
+### 10.2 Alcance y estructura general
+Este procedimiento aplica a todo el SDLC y cubre artefactos formales: **RN, RF, UC, UML, ADR, Código, API, Pruebas, Evidencia y Revisión Final de QA**.
 
-```
-RN → RF → UC → UML → ADR → Código → API → Pruebas → Evidencia → Revisión Final de QA
-```
-
-### 10.3 Principios operativos obligatorios
-- **Secuencialidad 10.1→10.10** sin saltos ni reordenamientos.
-- **Control estricto de entradas/salidas** y bloqueo si faltan elementos.
-- **Prevención de omisiones**: identificar faltantes, ubicación esperada y corrección antes de avanzar.
-- **Trazabilidad bidireccional** (directa e inversa) y **prohibición de artefactos huérfanos**.
-- **Consistencia en matrices**: identificadores correctos, sin duplicados, relaciones mínimas cumplidas.
-- **Condiciones de cierre por fase**: salidas completas, matriz actualizada, entradas de la fase siguiente listas.
-
-### 10.4 Procedimiento por fases (resumen aplicable al backlog)
-- **Fase 10.1 — RN:** identificar RN (BR-XXX), validar unicidad y fuentes; actualizar `M_RN`.
-- **Fase 10.2 — RF:** derivar RF‑XXX desde RN, establecer RN→RF, actualizar `M_RF` y `M_RN_RF`.
-- **Fase 10.3 — UC:** crear UC‑XXX para RF con interacción, establecer RF→UC, actualizar `M_UC` y `M_RF_UC`.
-- **Fase 10.4 — UML:** generar UML‑XXX derivados de UC, establecer UC→UML, actualizar `M_UML` y `M_UC_UML`.
-- **Fase 10.5 — ADR:** registrar ADR‑XXX basados en UML, establecer UML→ADR, actualizar `M_ADR` y `M_UML_ADR`.
-- **Fase 10.6 — Código:** implementar referenciando UC/UML/ADR, establecer ADR→Código, actualizar `M_CODE` y `M_ADR_CODE`.
-- **Fase 10.7 — API:** documentar endpoints, establecer Código→API, actualizar `M_API` y `M_CODE_API`.
-- **Fase 10.8 — Pruebas:** diseñar TC‑XXX, establecer API→Test, actualizar `M_TEST` y `M_API_TEST`.
-- **Fase 10.9 — Evidencia:** registrar evidencias y Test→Evidencia, actualizar `M_EVID` y `M_TEST_EVID`.
-- **Fase 10.10 — Revisión final QA:** requiere todas las matrices principales y relacionales completas; valida cierre del ciclo y autoriza liberación.
-
-### 10.4.1 Plan de migración de datos heredados
-- **Inventario inicial (día 1-2)**: exportar matrices actuales (`docs/gobernanza/trazabilidad/*`) y clasificarlas por criticidad (CRIT/MAJ/MIN).
-- **Limpieza asistida (día 3-4)**: script `scripts/trazabilidad/etl_rtm.py`:
-  - Normaliza IDs y detecta duplicados/huérfanos.
-  - Marca huecos con etiqueta `PENDING` y `responsable`.
-  - Genera reporte CSV para revisión manual.
-- **Carga a RTM-IACT (día 5)**: importar CSV limpio a `docs/trazabilidad/RTM.md`.
-- **Validación cruzada (día 6)**: ejecutar `validar_rtm.py` + muestreo manual 10% de entradas CRIT.
-- **Cierre (día 7)**: aprobar migración, archivar matrices antiguas como deprecated.
-
-### 10.5 Reglas de gobernanza adicionales
-- **Completitud por fase**: no cerrar sin salidas obligatorias, matriz actualizada y validación formal.
-- **Prohibición de iniciar sin entradas mínimas** y **control de artefactos huérfanos** (origen y destino identificables).
-- **Trazabilidad continua y verificable**: matrices reflejan cambios y versiones; controles de versión del procedimiento con revisión trimestral.
-- **Versionado**: mantener historial (ejemplo tabla 1.0 y 1.1) sin sobrescritura; toda modificación registrada con fecha y responsable.
-
-### 10.6 Campos editables de operación
-- Proyecto, versión de sistema, módulo o área, fecha de elaboración.
-- Responsables: Trazabilidad, QA, Arquitectura, Desarrollo.
-- Observaciones libres para decisiones, riesgos o acuerdos.
-
-### 10.7 Medición y verificación de cobertura ≥90%
-- **Definición**: porcentaje de filas en `RTM.md` con vínculos válidos a origen (UC/RF/ADR/BR) y destino (Código/API/Tests/Evidencia).
-- **Herramienta**: `scripts/trazabilidad/coverage_rtm.py --rtm docs/trazabilidad/RTM.md --repo .`.
-- **Métrica**: `cobertura_total = filas_con_origen_y_destino / filas_totales`.
-- **Umbral**: warning < 90%, blocking < 85%.
-- **Reporte**: genera `docs/trazabilidad/registros/rtm_coverage_<fecha>.json` + gráfico en `rtm_coverage_<fecha>.svg`.
-
-### 10.8 Mapa ASCII de referencia
+Cadena estructural obligatoria:
 
 ```
-[RN] → [RF] → [UC] → [UML] → [ADR] → [COD] → [API] → [TEST] → [EVID] → [REV]
-Origen  Reqs   Casos  Diseño  Decis.  Impl.  Interf.  Validac.  Soporte  Aprob.
+RN  →  RF  →  UC  →  UML  →  ADR  →  Código  →  API  →  Pruebas  →  Evidencia  →  Revisión Final de QA
+```
+
+#### 10.2.1 Significado de los elementos
+- **RN — Reglas de Negocio:** origen de la trazabilidad; políticas y condiciones.
+- **RF — Requerimientos Funcionales:** derivación técnica de las RN.
+- **UC — Casos de Uso:** interacciones y flujos del usuario, con pre/postcondiciones.
+- **UML — Diagramas UML:** diseño visual derivado de los UC.
+- **ADR — Architecture Decision Records:** decisiones arquitectónicas con contexto y consecuencias.
+- **Código:** implementación alineada a UC/UML/ADR.
+- **API:** interfaces públicas sustentadas por código, RF, UC y ADR.
+- **Pruebas:** validaciones formales sobre RN, RF, UC, API y código.
+- **Evidencia:** soportes verificables de la ejecución de pruebas.
+- **Revisión Final de QA:** aprobación interna que acredita el cierre de trazabilidad.
+
+### 10.3 Principios de operación del procedimiento
+- **Secuencialidad obligatoria:** avanzar de 10.1 a 10.10 sin saltos ni reordenamientos.
+- **Control estricto de entradas y salidas:** verificar salidas obligatorias y entradas mínimas antes de pasar de fase.
+- **Prevención de omisiones y errores:** identificar faltantes, ubicarlos, indicar corrección y bloquear avance hasta resolver.
+- **Trazabilidad bidireccional:** relaciones directas e inversas desde RN hasta Revisión Final.
+- **Prohibición de artefactos huérfanos:** cada elemento debe tener origen y destino trazable.
+- **Consistencia en matrices:** identificadores correctos, sin duplicados y con relaciones mínimas cumplidas.
+- **Condiciones para marcar fase como completa:** salidas generadas y verificadas, matrices actualizadas y entradas válidas para la siguiente fase.
+
+### 10.4 Procedimiento por fases (10.1–10.10)
+Cada fase mantiene objetivo, entradas mínimas, actividades clave, salidas obligatorias, matrices afectadas, validaciones para avanzar y rol principal responsable.
+
+- **5.1 Fase 10.1 — Identificación de Reglas de Negocio (RN)**
+  - **Objetivo:** definir el conjunto completo y válido de Reglas de Negocio del sistema.
+  - **Entradas mínimas:** información de procesos del negocio; políticas, contratos, normativas; RN existentes (si las hay).
+  - **Actividades clave:** identificar y documentar cada RN; asignar un identificador único (BR-XXX); clasificar cada RN según RN-STD-IACT; registrar fuente, responsable y propósito.
+  - **Salidas obligatorias:** lista oficial de RN (RN-XXX); Matriz RN (catálogo RN consolidado).
+  - **Matrices afectadas:** `M_RN` (catálogo de Reglas de Negocio).
+  - **Validaciones para avanzar:** no debe haber RN sin identificador único; no debe haber RN duplicadas o ambiguas; todas las RN deben tener fuente y responsable.
+  - **Rol principal responsable [EDITABLE]:** Analista de Negocio / Product Owner.
+
+- **5.2 Fase 10.2 — Derivación de Requerimientos Funcionales (RF)**
+  - **Objetivo:** derivar requerimientos funcionales a partir de las RN.
+  - **Entradas mínimas:** matriz `M_RN` completa.
+  - **Actividades clave:** analizar cada RN; derivar uno o más RF; registrar `RF-XXX`; establecer relaciones RN → RF.
+  - **Salidas obligatorias:** lista `RF-XXX`; matriz RN → RF.
+  - **Matrices afectadas:** `M_RF`, `M_RN_RF`.
+  - **Validaciones para avanzar:** cada RF debe referenciar al menos una RN; no debe haber RF sin RN asociada.
+  - **Rol principal responsable [EDITABLE]:** Analista de Requisitos.
+
+- **5.3 Fase 10.3 — Elaboración de Casos de Uso (UC)**
+  - **Objetivo:** modelar funcionalmente el sistema mediante Casos de Uso.
+  - **Entradas mínimas:** matriz RN → RF (`M_RN_RF`); lista `RF-XXX` (`M_RF`).
+  - **Actividades clave:** definir `UC-XXX` por RF que implique interacción/proceso; documentar actores, flujos, pre y postcondiciones; establecer RF → UC.
+  - **Salidas obligatorias:** lista `UC-XXX`; matriz RF → UC.
+  - **Matrices afectadas:** `M_UC`, `M_RF_UC`.
+  - **Validaciones para avanzar:** todo RF relevante debe estar cubierto por uno o más UC; no debe haber UC sin RF asociado.
+  - **Rol principal responsable [EDITABLE]:** Analista Funcional.
+
+- **5.4 Fase 10.4 — Modelado UML**
+  - **Objetivo:** transformar los Casos de Uso en diseño técnico UML.
+  - **Entradas mínimas:** matriz RF → UC (`M_RF_UC`); lista `UC-XXX` (`M_UC`).
+  - **Actividades clave:** seleccionar tipo de diagrama para cada UC (Actividad, Secuencia, Estado, Estructural); crear diagramas `UML-XXX`; establecer UC → UML.
+  - **Salidas obligatorias:** colección `UML-XXX`; matriz UC → UML.
+  - **Matrices afectadas:** `M_UML`, `M_UC_UML`.
+  - **Validaciones para avanzar:** cada UC debe tener al menos un diagrama UML asociado; el contenido de UML debe ser consistente con los flujos del UC.
+  - **Rol principal responsable [EDITABLE]:** Arquitecto de Software / Diseñador.
+
+- **5.5 Fase 10.5 — Documentación de ADR**
+  - **Objetivo:** registrar decisiones arquitectónicas con trazabilidad a UML.
+  - **Entradas mínimas:** matriz UC → UML (`M_UC_UML`); diagramas `UML-XXX` (`M_UML`).
+  - **Actividades clave:** identificar decisiones arquitectónicas en los modelos UML; documentar `ADR-XXX`; establecer UML → ADR.
+  - **Salidas obligatorias:** lista `ADR-XXX`; matriz UML → ADR.
+  - **Matrices afectadas:** `M_ADR`, `M_UML_ADR`.
+  - **Validaciones para avanzar:** todo ADR debe referenciar al menos un UML; todo ADR debe tener contexto, decisión y consecuencias.
+  - **Rol principal responsable [EDITABLE]:** Arquitecto de Software.
+
+- **5.6 Fase 10.6 — Implementación de Código**
+  - **Objetivo:** implementar el sistema conforme a UC, UML y ADR.
+  - **Entradas mínimas:** matriz UML → ADR (`M_UML_ADR`); lista `ADR-XXX` (`M_ADR`); `UC-XXX` (`M_UC`).
+  - **Actividades clave:** implementar código alineado a diseño; documentar referencias a ADR/UC en el código (comentarios, anotaciones); establecer ADR → Código.
+  - **Salidas obligatorias:** código implementado; matriz ADR → Código.
+  - **Matrices afectadas:** `M_CODE`, `M_ADR_CODE`.
+  - **Validaciones para avanzar:** no debe existir código sin ADR o UC asociado; código clave debe poder rastrearse hacia arriba.
+  - **Rol principal responsable [EDITABLE]:** Equipo de Desarrollo.
+
+- **5.7 Fase 10.7 — Definición y Documentación de API**
+  - **Objetivo:** documentar las APIs expuestas con trazabilidad a código y requisitos.
+  - **Entradas mínimas:** matriz ADR → Código (`M_ADR_CODE`); código implementado (`M_CODE`).
+  - **Actividades clave:** identificar endpoints generados por el código; documentarlos (OpenAPI u otro formato); establecer Código → API.
+  - **Salidas obligatorias:** especificación de API; matriz Código → API.
+  - **Matrices afectadas:** `M_API`, `M_CODE_API`.
+  - **Validaciones para avanzar:** todo endpoint debe estar respaldado por código y requisitos; no debe haber API “huérfana”.
+  - **Rol principal responsable [EDITABLE]:** Equipo de Desarrollo / API Owner.
+
+- **5.8 Fase 10.8 — Diseño y Ejecución de Pruebas**
+  - **Objetivo:** validar que el sistema cumple RN, RF, UC, API y Código.
+  - **Entradas mínimas:** matriz Código → API (`M_CODE_API`); `RF-XXX`, `UC-XXX`, `RN-XXX`.
+  - **Actividades clave:** diseñar casos de prueba (`TC-XXX`); establecer API → Test; ejecutar pruebas y registrar resultados; documentar defectos con trazabilidad inversa.
+  - **Salidas obligatorias:** lista `TC-XXX`; resultados de pruebas; matriz API → Test.
+  - **Matrices afectadas:** `M_TEST`, `M_API_TEST`.
+  - **Validaciones para avanzar:** toda API crítica debe tener pruebas asociadas; defectos deben poder rastrearse a su origen (RN/RF/UC/API/Código).
+  - **Rol principal responsable [EDITABLE]:** Equipo de QA.
+
+- **5.9 Fase 10.9 — Registro de Evidencia**
+  - **Objetivo:** respaldar todas las pruebas con evidencia verificable.
+  - **Entradas mínimas:** matriz API → Test (`M_API_TEST`); resultados de pruebas (`M_TEST`).
+  - **Actividades clave:** capturar evidencia (reportes, capturas, logs); registrar evidencia en repositorios oficiales; establecer Test → Evidencia.
+  - **Salidas obligatorias:** evidencia catalogada; matriz Test → Evidencia.
+  - **Matrices afectadas:** `M_EVID`, `M_TEST_EVID`.
+  - **Validaciones para avanzar:** no debe haber test sin evidencia; evidencia debe ser accesible y verificable.
+  - **Rol principal responsable [EDITABLE]:** QA / Cumplimiento.
+
+- **5.10 Fase 10.10 — Validación Final de Trazabilidad**
+  - **Objetivo:** certificar que el sistema puede liberarse con trazabilidad completa.
+  - **Entradas mínimas:** todas las matrices: `M_RN`, `M_RF`, `M_UC`, `M_UML`, `M_ADR`, `M_CODE`, `M_API`, `M_TEST`, `M_EVID`; todas las matrices de relación: `M_RN_RF`, `M_RF_UC`, `M_UC_UML`, `M_UML_ADR`, `M_ADR_CODE`, `M_CODE_API`, `M_API_TEST`, `M_TEST_EVID`.
+  - **Actividades clave:** verificar que ninguna matriz esté incompleta; confirmar ausencia de artefactos huérfanos; verificar trazabilidad bidireccional; registrar firmas de QA y Gobernanza.
+  - **Salidas obligatorias:** certificación de Trazabilidad; acta de liberación de versión.
+  - **Matrices afectadas:** `M_CERT` (registro de certificación).
+  - **Validaciones para cierre:** ningún artefacto sin origen ni destino; todas las fases marcadas como completas.
+  - **Rol principal responsable [EDITABLE]:** QA / Gobernanza Técnica.
+
+### 10.5 Reglas de gobernanza del procedimiento
+- **Completitud obligatoria por fase:** salidas, matriz y validación formal listas antes de cerrar.
+- **Prohibición de avanzar sin entradas mínimas:** bloquear inicio de fase si faltan insumos.
+- **Control de artefactos huérfanos:** todo artefacto debe tener origen y destino dentro del flujo.
+- **Trazabilidad continua y verificable:** matrices actualizadas con cambios, versiones y relaciones obligatorias.
+- **Control de versiones del procedimiento:** revisión al menos trimestral e incorporación de mejoras sin sobrescribir historial.
+
+### 10.6 Campos editables del procedimiento
+- **Proyecto, versión del sistema, módulo o área aplicada, fecha de elaboración** (YYYY-MM-DD).
+- **Responsables:** Trazabilidad, QA, Arquitectura, Desarrollo.
+- **Observaciones:** espacio libre para decisiones, acuerdos, riesgos o aclaraciones.
+
+### 10.7 Versionado del procedimiento
+|Versión|Fecha|Responsable|Descripción de cambios|
+|---|---|---|---|
+|1.0|[YYYY-MM-DD]|Gobernanza IACT|Versión inicial del procedimiento|
+|1.1|[YYYY-MM-DD]|Gobernanza IACT|Versión ampliada, organizada por secciones independientes|
+
+Política de actualización: registrar toda modificación, no sobrescribir historial y revisar formalmente cada tres meses.
+
+### 10.8 Mapa ASCII del procedimiento
+
+```
+[RN]   → [RF]   → [UC]   → [UML]   → [ADR]   → [COD]   → [API]   → [TEST]   → [EVID]   → [CERT]
+Origen   Reqs      Casos    Diseño    Decis.    Impl.     Interf.   Validac.   Soporte    Aprob.
 ```
 
 ### 10.9 Evidencia automatizada y reporting
-- **Periodicidad**: semanal (pipeline) y por release.
-- **Formato**: `docs/trazabilidad/registros/<fecha>-evidencia.json` con campos `id`, `tipo`, `fuente`, `uc_refs`, `rf_refs`, `adr_refs`, `resultado`, `enlace_evidencia`.
-- **Integración CI/CD**: job `reporte-trazabilidad` publica artefacto HTML en `logs_data/trazabilidad/reportes/<fecha>.html`.
-- **Dashboard**: script `scripts/trazabilidad/dashboard_rtm.py` genera `docs/trazabilidad/registros/dashboard/index.html` con cobertura y hallazgos.
+- **Periodicidad:** semanal (pipeline) y por release.
+- **Formato:** `docs/trazabilidad/registros/<fecha>-evidencia.json` con campos `id`, `tipo`, `fuente`, `uc_refs`, `rf_refs`, `adr_refs`, `resultado`, `enlace_evidencia`.
+- **Integración CI/CD:** job `reporte-trazabilidad` publica artefacto HTML en `logs_data/trazabilidad/reportes/<fecha>.html`.
+- **Dashboard:** `scripts/trazabilidad/dashboard_rtm.py` genera `docs/trazabilidad/registros/dashboard/index.html` con cobertura y hallazgos.
 
-### 10.10 Responsables, tiempos y estimaciones
-- **B1–B2**: Owner Gobernanza (5d).
-- **B3**: Owner QA + Gobernanza (7d).
-- **B4**: Owner Arquitectura + Backend (5d).
-- **B5**: Owner QA (7d, depende B3).
-- **B6**: Owner Backend/Frontend (5d c/u) con soporte Arquitectura.
-- **B7**: Owner DevOps (4d) — transición warning→blocking semana 3.
-- **B8**: Owner Backend (3d) + QA (validación extend_schema).
-- **B9**: Owner QA/Gobernanza (recurrencia mensual, 2d por ciclo).
+### 10.10 Plan de migración de datos heredados
+- **Inventario inicial (día 1-2):** exportar matrices actuales (`docs/gobernanza/trazabilidad/*`) y clasificarlas por criticidad (CRIT/MAJ/MIN).
+- **Limpieza asistida (día 3-4):** usar `scripts/trazabilidad/etl_rtm.py` para normalizar IDs, detectar duplicados/huérfanos, marcar huecos con `PENDING` y generar reporte CSV.
+- **Carga a RTM-IACT (día 5):** importar CSV limpio a `docs/trazabilidad/RTM.md`.
+- **Validación cruzada (día 6):** ejecutar `validar_rtm.py` y muestrear manualmente 10% de entradas CRIT.
+- **Cierre (día 7):** aprobar migración y archivar matrices antiguas como deprecated.
 
-### 10.11 Checklist de PR y UX para desarrolladores
-- Plantilla `.github/PULL_REQUEST_TEMPLATE.md` debe incluir: `UC refs`, `RF refs`, `ADR refs`, `RTM actualizado (sí/no)`, `Evidencia adjunta`.
-- Validación automática: workflow `trazabilidad.yml` bloquea PR si falta alguna referencia o si el RTM no cambió cuando hay nuevas funcionalidades.
+### 10.11 Medición y verificación de cobertura ≥90%
+- **Definición:** porcentaje de filas en `RTM.md` con vínculos válidos a origen (UC/RF/ADR/BR) y destino (Código/API/Tests/Evidencia).
+- **Herramienta:** `scripts/trazabilidad/coverage_rtm.py --rtm docs/trazabilidad/RTM.md --repo .`.
+- **Métrica:** `cobertura_total = filas_con_origen_y_destino / filas_totales`.
+- **Umbral:** warning < 90%, blocking < 85%.
+- **Reporte:** `docs/trazabilidad/registros/rtm_coverage_<fecha>.json` + gráfico `rtm_coverage_<fecha>.svg`.
+
+### 10.12 Responsables, tiempos y estimaciones
+- **B1–B2:** Owner Gobernanza (5d).
+- **B3:** Owner QA + Gobernanza (7d).
+- **B4:** Owner Arquitectura + Backend (5d).
+- **B5:** Owner QA (7d, depende B3).
+- **B6:** Owner Backend/Frontend (5d c/u) con soporte Arquitectura.
+- **B7:** Owner DevOps (4d) — transición warning→blocking semana 3.
+- **B8:** Owner Backend (3d) + QA (validación extend_schema).
+- **B9:** Owner QA/Gobernanza (recurrencia mensual, 2d por ciclo).
+
+### 10.13 Checklist de PR y UX para desarrolladores
+- Plantilla `.github/PULL_REQUEST_TEMPLATE.md` con `UC refs`, `RF refs`, `ADR refs`, `RTM actualizado (sí/no)`, `Evidencia adjunta`.
+- Workflow `trazabilidad.yml` bloquea PR si falta alguna referencia o si `RTM.md` no cambia cuando hay nuevas funcionalidades.
 - Mensajes de commit deben incluir ID de UC/RF/ADR cuando aplique.
 
-### 10.12 Versionado y rollback
-- **Habilitación progresiva**: variable `TRZ_VALIDATION_MODE` controla warning/blocking.
-- **Rollback**: si el pipeline bloquea releases inesperadamente, deshabilitar job `rtm-drift-check` y revertir la versión de `RTM.md` a la última release estable (`git tag trazabilidad-vX.Y`).
-- **Feature flags**: usar `feature-trz-*` para cambios de gemas o validadores; merge solo tras pasar cobertura ≥90%.
+### 10.14 Versionado y rollback
+- **Habilitación progresiva:** `TRZ_VALIDATION_MODE` controla warning/blocking.
+- **Rollback:** deshabilitar `rtm-drift-check` y revertir `RTM.md` a la última release estable (`git tag trazabilidad-vX.Y`) si un bloqueo es inesperado.
+- **Feature flags:** usar `feature-trz-*` para gemas o validadores; merge solo tras pasar cobertura ≥90%.
+
 
 ## 11. Validación de cobertura (conformidad con el plan oficial y PROC-IACT-TRZ)
 Para asegurar que el plan de remediación incorpora **todo lo solicitado** en el Plan Oficial y el procedimiento PROC-IACT-TRZ v1.1, se valida lo siguiente:
