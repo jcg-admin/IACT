@@ -48,5 +48,5 @@
 | :--- | :--- | :--- |
 | **Servicio Principal** | UC-010 | `LlamadaService.registrar_llamada_entrante` |
 | **Motor de Autorización** | BR-SEG-007 | `callcentersite.apps.permissions.services.PermisoService` |
-| **Postcondición RNF** | RNF-AUD-001 (Pendiente) | Registrar auditoría del evento `llamada_registrada` para el recurso `llamada.codigo`. |
+| **Postcondición RNF** | RNF-AUD-001 | Registrar auditoría del evento `llamada_registrada` para el recurso `llamada.codigo`, siguiendo el estándar de `AuditLog`. |
 | **Postcondición Métrica** | RNF-PERF-001 | La llamada registrada alimenta `obtener_estadisticas_agente` para `total_llamadas` y `promedio_duracion`. |
