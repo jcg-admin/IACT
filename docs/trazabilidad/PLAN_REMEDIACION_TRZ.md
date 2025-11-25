@@ -24,6 +24,25 @@
   3. Ajustar `rtm-drift-check` y `api-metadata-check` para fallar si un BR/RNF no apunta a un UC o si un artefacto del producto carece de `uc_refs/rf_refs/adr_refs`, incluyendo RNF específicos de datos, performance y auditoría de reportes.
   4. Documentar el cambio en checklist de PR y en `docs/gobernanza/reglas_restricciones_detalle.md` para mantener consistencia en auditorías.
 
+### Alineación con los activos vigentes en `docs/gobernanza`
+- **Estado y políticas**: El espacio de gobernanza ya consolida TDD obligatorio, cobertura ≥80% y Conventional Commits, además del seguimiento ISO 29148 con brecha en CI/CD; el plan debe conservar estos criterios como entrada normativa al cerrar brechas de trazabilidad.
+- **Scripts completados (ADR-GOB-009)**: `validar-trazabilidad.sh` y `generar-matriz-trazabilidad.py` están operativos; se integrarán como validadores de referencia para RTM-IACT y para los jobs `lint-trazabilidad`/`rtm-drift-check` hasta que se sustituyan o extiendan.
+- **Proceso de reorganización documental (PROC-GOB-008)**: La reorganización propuesta para `PRODUCTO_DASHBOARD_ANALYTICS` y `GOVERNANZA_SDLC` debe seguir la estructura objetivo y roles definidos en este proceso, manteniendo backups, índices y QA por fase antes de mover artefactos.
+- **ADRs y checklists**: El índice de ADRs y el checklist de metadatos/README ya existen; cualquier plantilla V2 (UC/ADR/TEST) debe enlazar a este inventario y registrar avances en el `CHANGELOG` de gobernanza.
+
+### Integración del agente ACII (Analista de Cumplimiento e Integración de Implementación)
+- **Propósito**: Complementar al IACT en los niveles 6–8 del SDLC, generando trazabilidad “Es Real” desde el código hacia la norma.
+- **Triple Auditoría (salidas)**:
+  - `TRZ-UC-REV`: mapea endpoints/servicios a UC y Escenarios implementados.
+  - `TCA-BR-IMP`: valida en código las reglas de negocio y restricciones (`p01.txt`).
+  - `TC-COV`: cruza pruebas unitarias/integración con los escenarios para medir cobertura real.
+- **Ubicación en el flujo**: se activa antes de cada release o PR mayor; consume código y configuraciones, y entrega artefactos anexables a `RTM-IACT` y al backlog (ej. **B7.5.x** para validaciones mínimas en `rtm-drift-check`).
+- **Integración operacional**:
+  - Publicar los tres artefactos ACII en `docs/trazabilidad/` y referenciarlos en `RTM-IACT` con enlaces bidireccionales.
+  - Incorporar en CI/CD un paso de verificación ACII que bloquee merges si falta relación `BR/RNF → UC → Código → Tests` detectada por la auditoría.
+  - Registrar hallazgos ACII en el checklist de PR y, cuando apliquen, levantar flujo REM-XXX para remediar brechas.
+- **Responsables**: el agente GEM-ACII-001 ejecuta el análisis automático; el Analista de Trazabilidad humano valida y consolida los artefactos en la RTM y en los ADR/UC correspondientes.
+
 
 ## 1. ¿Es necesario seguir el Plan Oficial tal cual? ¿Qué alternativas hay?
 - **Recomendación**: seguir el *Plan Oficial de Implementación SDLC — Proyecto IACT* como línea base, porque ya define artefactos, rutas verticales/horizontales y gobernanza normativa. Reducirlo implicaría mantener brechas críticas (RTM corrupto, plantillas sin trazabilidad, APIs sin metadatos) y volvería a incumplir las reglas de la sección 3.3 del plan oficial.
