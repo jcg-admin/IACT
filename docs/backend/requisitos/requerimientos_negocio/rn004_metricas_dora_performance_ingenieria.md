@@ -229,7 +229,7 @@ Según **ADR_2025_003**:
 - **Código implementado**: api/callcentersite/dora_metrics/
 - **Backend analysis**: docs/backend_analisis/2025-11-11/
 - **DORA SDLC Integration Guide**: docs/gobernanza/ai/DORA_SDLC_INTEGRATION_GUIDE.md
-- **Workflow Agentes DORA**: docs/gobernanza/procesos/agentes/WORKFLOW_AGENTES_DORA.md
+- **Workflow Agentes DORA**: docs/gobernanza/procesos/agentes/WORKFLOW_METRICAS_PROCESO.md
 
 ### 10.2 Research & Standards
 

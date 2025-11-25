@@ -122,7 +122,7 @@ fi
 REQUIREMENTS_TEXT=$(python3 -c "import json; print(json.load(open('$REQUIREMENTS_FILE')).get('requirements', ''))")
 
 # Ejecutar TDD Agent v1.1
-python3 "$PROJECT_ROOT/scripts/ai/agents/tdd/tdd_agent.py" \
+python3 "$PROJECT_ROOT/scripts/ai/agents/tdd/tdd_operativo.py" \
     --component "$COMPONENT" \
     --requirements "$REQUIREMENTS_TEXT" \
     --type "$AGENT_TYPE" \

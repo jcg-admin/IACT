@@ -17,7 +17,7 @@ Tests cover all critical functionality:
 
 Author: Claude Code Agent
 Date: 2025-11-13
-Related: AGENTS_ARCHITECTURE.md, ADR-045
+Related: AUTOMATION_ARCHITECTURE.md, ADR-045
 """
 
 import asyncio
@@ -33,7 +33,7 @@ from typing import Dict, List
 
 # Import will fail initially (TDD RED) - that's expected
 try:
-    from scripts.coding.ai.automation.ci_pipeline_orchestrator_agent import (
+    from scripts.gobernanza_sdlc.automation.ci_pipeline_orchestrator_agent import (
         CIPipelineOrchestratorAgent,
         PipelineConfig,
         Stage,

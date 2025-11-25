@@ -16,9 +16,9 @@ Versión v1.1 Features:
 - Ciclo iterativo con auto-fixes
 
 Uso:
-    python tdd_agent.py --component audit_validator --requirements "..."
-    python tdd_agent.py --config requirements.json
-    python tdd_agent.py --component route_linter --requirements "..." --auto-fix
+    python tdd_operativo.py --component audit_validator --requirements "..."
+    python tdd_operativo.py --config requirements.json
+    python tdd_operativo.py --component route_linter --requirements "..." --auto-fix
 """
 
 import json

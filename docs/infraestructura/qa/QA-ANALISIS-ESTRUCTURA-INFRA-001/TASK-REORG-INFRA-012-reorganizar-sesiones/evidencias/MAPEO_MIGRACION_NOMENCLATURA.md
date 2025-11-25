@@ -134,8 +134,8 @@ tags: [backend, arquitectura, sesiones]
 
 | Archivo Actual | Fecha Inferida | Tema | Nombre Propuesto |
 |---|---|---|---|
-| `META_AGENTE_CODEX_PARTE_1.md` | 2025-11-16 | meta | `2025-11-16-meta-agente-codex-parte1.md` |
-| `ETA_AGENTE_CODEX_ANALISIS.md` | 2025-11-16 | meta | `2025-11-16-meta-eta-agente-codex-analisis.md` |
+| `META_CODEX_PARTE_1.md` | 2025-11-16 | meta | `2025-11-16-meta-agente-codex-parte1.md` |
+| `ETA_CODEX_ANALISIS.md` | 2025-11-16 | meta | `2025-11-16-meta-eta-agente-codex-analisis.md` |
 | `ANUNCIO_EQUIPO_REORGANIZACION.md` | 2025-11-15 | anuncio | `2025-11-15-anuncio-equipo-reorganizacion.md` |
 
 #### Grupo G: Documentación de Procesos (3+ archivos)

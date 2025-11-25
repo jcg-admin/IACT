@@ -54,7 +54,7 @@ def construir_ubicacion(tipo: str, ownership: str, temporalidad: str, contexto: 
         "documentacion_agente": lambda: "scripts/coding/ai/agents/",
         "configuracion_agente": lambda: "scripts/coding/ai/config/",
         "script": lambda: "/tmp/" if temporalidad == "temporal"
-                          else "scripts/coding/ai/automation/",
+                          else "scripts/gobernanza_sdlc/automation/",
 
         # DevOps
         "pipeline_ci_cd": lambda: "docs/devops/ci_cd/",

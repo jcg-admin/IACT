@@ -334,8 +334,8 @@ docs/solicitudes/
 **desarrollo/** (4 archivos) → docs/desarrollo/
 - METODOLOGIA_DESARROLLO_POR_LOTES.md
 - WORKFLOWS_COMPLETOS.md
-- agentes_automatizacion.md
-- arquitectura_agentes_especializados.md
+- automatizacion_servicios.md
+- arquitectura_servicios_especializados.md
 
 **planificacion_y_releases/** (1 archivo) → docs/planificacion_y_releases/
 - README.md

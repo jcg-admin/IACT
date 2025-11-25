@@ -79,7 +79,7 @@ Esta dispersión dificulta:
 ### Devops & Automatización
 | Archivo | Ubicación Actual | Descripción |
 |---------|------------------|-------------|
-| AGENTS_ARCHITECTURE.md | `/docs/devops/automatizacion/planificacion/` | Arquitectura de agentes automatización |
+| AUTOMATION_ARCHITECTURE.md | `/docs/devops/automatizacion/planificacion/` | Arquitectura de agentes automatización |
 
 ## Estructura Consolidada (AUTO-CoT Step 3)
 

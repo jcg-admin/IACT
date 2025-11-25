@@ -19,7 +19,7 @@ from pathlib import Path
 from typing import Dict, Any
 from unittest.mock import Mock, patch, MagicMock
 
-from scripts.coding.ai.automation.devcontainer_validator_agent import (
+from scripts.gobernanza_sdlc.automation.devcontainer_validator_agent import (
     DevContainerValidatorAgent,
     ValidationResult,
     CheckStatus

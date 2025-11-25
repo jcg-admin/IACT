@@ -529,7 +529,7 @@ The CIPipelineOrchestratorAgent is production-ready and can be integrated with:
 
 ## 12. References
 
-- **Specification**: `docs/devops/automatizacion/planificacion/AGENTS_ARCHITECTURE.md` (Section 2.2.1 #2)
+- **Specification**: `docs/devops/automatizacion/planificacion/AUTOMATION_ARCHITECTURE.md` (Section 2.2.1 #2)
 - **Implementation**: `scripts/coding/ai/automation/ci_pipeline_orchestrator_agent.py`
 - **Tests**: `tests/ai/automation/test_ci_pipeline_orchestrator_agent.py`
 - **ADR**: `docs/adr/ADR-045-ci-pipeline-orchestrator-agent.md`

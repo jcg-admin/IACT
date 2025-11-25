@@ -39,7 +39,7 @@ scripts/ai/agents/
  auto_cot_agent.py # Core Auto-CoT implementation
  __init__.py
  tdd/
- tdd_agent.py # [EXISTING] TDD orchestrator
+ tdd_operativo.py # [EXISTING] TDD orchestrator
  test_generator.py # [EXISTING] Basic generator
  test_generator_autocot.py # [NEW] Auto-CoT enhanced
  [other agents can use Auto-CoT]

@@ -1,5 +1,5 @@
 ---
-id: ADR-AI-018-ai-agents-standalone-architecture
+id: ADR-AI-018-ai-services-standalone-architecture
 estado: aceptada
 propietario: equipo-arquitectura
 ultima_actualizacion: 2025-11-16

@@ -19,7 +19,7 @@ issue: IACT-AUTO-001
 
 ## Executive Summary
 
-Successfully implemented SchemaValidatorAgent following complete TDD approach as specified in AGENTS_ARCHITECTURE.md. The agent validates YAML/JSON configuration files (.constitucion.yaml and .ci-local.yaml) against JSON schemas with comprehensive error reporting.
+Successfully implemented SchemaValidatorAgent following complete TDD approach as specified in AUTOMATION_ARCHITECTURE.md. The agent validates YAML/JSON configuration files (.constitucion.yaml and .ci-local.yaml) against JSON schemas with comprehensive error reporting.
 
 ### Key Achievements
 
@@ -336,7 +336,7 @@ valid
 
 ## Compliance with Requirements
 
-### Architecture Requirements (AGENTS_ARCHITECTURE.md Section 2.2.1)
+### Architecture Requirements (AUTOMATION_ARCHITECTURE.md Section 2.2.1)
 
 - [x] **Location**: scripts/coding/ai/automation/schema_validator_agent.py
 - [x] **Responsibility**: Validation schemas YAML/JSON (constitucion, ci-local)

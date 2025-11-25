@@ -252,7 +252,7 @@ relacionados: ["PLAN-REM-DOCS-GOB-001"]
 | 139 | `analisis_completitud_reorganizacion.md` | sesiones/analisis_nov_2025/ |
 | 70 | `ANALISIS_DOCS_FINAL_20251116_0945.md` | sesiones/analisis_nov_2025/ |
 | 36 | `workflow_admin_users_and_groups.md` | guias/workflows/ |
-| 34 | `onboarding_008_agente_atencion_cliente.md` | guias/onboarding/ |
+| 34 | `onboarding_008_atencion_cliente.md` | guias/onboarding/ |
 | 29 | `estandares_codigo.md` | Raiz |
 | 29 | `analisis-errores-adr-2025-11-16.md` | qa/ |
 | 23 | `estandares_codigo.md` | estilos/ |

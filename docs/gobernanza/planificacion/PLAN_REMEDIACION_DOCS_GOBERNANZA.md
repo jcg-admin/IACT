@@ -75,7 +75,7 @@ FILES_WITH_EMOJIS=(
   "sesiones/analisis_nov_2025/analisis_completitud_reorganizacion.md"
   "sesiones/analisis_nov_2025/ANALISIS_DOCS_FINAL_20251116_0945.md"
   "guias/workflows/workflow_admin_users_and_groups.md"
-  "guias/onboarding/onboarding_008_agente_atencion_cliente.md"
+  "guias/onboarding/onboarding_008_atencion_cliente.md"
   "estandares_codigo.md"
   "qa/analisis-errores-adr-2025-11-16.md"
   "estilos/estandares_codigo.md"

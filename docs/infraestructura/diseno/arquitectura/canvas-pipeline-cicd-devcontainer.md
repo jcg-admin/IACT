@@ -1600,7 +1600,7 @@ cleanup:containers:
 
 - **TASK-REORG-INFRA-008:** Canvas DevContainer Host (Vagrant VM)
 - **TASK-REORG-INFRA-006:** Infraestructura base de proyectos
-- **ADR-AI-006:** [CI-Pipeline Orchestrator Agent](../../gobernanza/adr/ADR-AI-006-ci-pipeline-orchestrator-agent.md)
+- **ADR-AI-006:** [CI-Pipeline Orchestrator Agent](../../gobernanza/adr/ADR-AI-006-ci-pipeline-orchestrator.md)
 - **PROC-DEV-001:** [Pipeline de Trabajo IACT](../../gobernanza/procesos/PROC-DEV-001-pipeline_trabajo_iact.md)
 
 ### Herramientas y referencias técnicas

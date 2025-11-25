@@ -1103,7 +1103,7 @@ python3 scripts/ai/agents/database/db_router_gate.py
 
 # Test TDD Agent with Auto-CoT
 cd scripts/ai/agents/tdd
-python3 tdd_agent.py --component DBRouterGate --use-autocot
+python3 tdd_operativo.py --component DBRouterGate --use-autocot
 ```
 
 ---

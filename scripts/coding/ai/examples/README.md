@@ -456,8 +456,8 @@ Integrar en tu pipeline para generación continua automática.
 
 - [Guía de Inicio Rápido](GUIA_INICIO_RAPIDO.md)
 - [Documentación Principal](../README.md)
-- [Arquitectura de Agentes](../../../docs/desarrollo/arquitectura_agentes_especializados.md)
-- [Guía de Automatización](../../../docs/desarrollo/agentes_automatizacion.md)
+- [Arquitectura de Agentes](../../../docs/desarrollo/arquitectura_servicios_especializados.md)
+- [Guía de Automatización](../../../docs/desarrollo/automatizacion_servicios.md)
 
 ---
 

@@ -30,7 +30,7 @@ import os
 project_root = Path(__file__).parent.parent.parent.parent
 sys.path.insert(0, str(project_root))
 
-from scripts.coding.ai.automation.constitution_validator_agent import (
+from scripts.gobernanza_sdlc.automation.constitution_validator_agent import (
     ConstitutionValidatorAgent,
     ValidationMode,
     ValidationResult,

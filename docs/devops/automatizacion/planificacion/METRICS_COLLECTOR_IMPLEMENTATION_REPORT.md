@@ -33,7 +33,7 @@ Successfully implemented MetricsCollectorAgent following strict TDD methodology 
 ## 1. SDLC Phase 1: Planning
 
 ### Objective
-Implement MetricsCollectorAgent as specified in AGENTS_ARCHITECTURE.md section 2.2.1 #6.
+Implement MetricsCollectorAgent as specified in AUTOMATION_ARCHITECTURE.md section 2.2.1 #6.
 
 ### Requirements Gathered
 - Parse logs/constitucion_violations.log

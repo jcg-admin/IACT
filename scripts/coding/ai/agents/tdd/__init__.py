@@ -15,6 +15,6 @@ Componentes:
 - DocGenerator: Genera documentación markdown
 """
 
-from .tdd_agent import TDDAgent
+from .tdd_operativo import TDDAgent
 
 __all__ = ['TDDAgent']

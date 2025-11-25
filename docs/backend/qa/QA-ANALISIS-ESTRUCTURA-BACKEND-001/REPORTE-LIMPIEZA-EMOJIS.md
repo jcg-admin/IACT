@@ -357,7 +357,7 @@ Archivos modificados (288):
     Emojis eliminados: 23
   - /home/user/IACT/docs/backend/requisitos/README.md
     Emojis eliminados: 23
-  - /home/user/IACT/docs/backend/diseno/permisos/promptops/meta/tdd_agent.md
+  - /home/user/IACT/docs/backend/diseno/permisos/promptops/meta/tdd_operativo.md
     Emojis eliminados: 22
   - /home/user/IACT/docs/backend/qa/QA-ANALISIS-ESTRUCTURA-BACKEND-001/LISTADO-COMPLETO-TAREAS.md
     Emojis eliminados: 20
@@ -697,7 +697,7 @@ Archivos modificados (288):
     Emojis eliminados: 0
   - /home/user/IACT/docs/backend/diseno/permisos/promptops/README.md
     Emojis eliminados: 0
-  - /home/user/IACT/docs/backend/diseno/permisos/promptops/ROADMAP_TDD_AGENT.md
+  - /home/user/IACT/docs/backend/diseno/permisos/promptops/ROADMAP_TDD_OPERATIVO.md
     Emojis eliminados: 0
   - /home/user/IACT/docs/backend/diseno/arquitectura/decoradores_y_middleware_permisos.md
     Emojis eliminados: 0

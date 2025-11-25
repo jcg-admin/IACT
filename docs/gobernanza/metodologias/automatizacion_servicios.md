@@ -29,7 +29,7 @@ Este documento documenta la arquitectura completa de agentes de automatizacion i
 El proyecto IACT implementa el patron de **N agentes especializados**, donde cada agente tiene una unica responsabilidad (Single Responsibility Principle).
 
 **Referencia**: Para detalles sobre la arquitectura correcta de agentes especializados vs monoliticos, consulta:
-- [Arquitectura de Agentes Especializados](./arquitectura_agentes_especializados.md)
+- [Arquitectura de Agentes Especializados](./arquitectura_servicios_especializados.md)
 
 Diferencias clave:
 - 1 agente monolitico a N agentes especializados
@@ -736,7 +736,7 @@ from scripts.coding.ai.agents.base.chain_of_verification import ChainOfVerificat
 verifier = ChainOfVerificationAgent(use_llm=True)
 
 # Generar codigo con agente
-code = tdd_agent.run({...})
+code = tdd_operativo.run({...})
 
 # Verificar con CoVe
 verification = verifier.verify(
@@ -746,7 +746,7 @@ verification = verifier.verify(
 
 if verification.final_confidence < 0.7:
     # Regenerar con feedback
-    code = tdd_agent.run({..., "feedback": verification.issues})
+    code = tdd_operativo.run({..., "feedback": verification.issues})
 ```
 
 ### Patron 4: Orquestacion Multi-Agente
@@ -902,7 +902,7 @@ Ejemplo:
 ### Referencias Adicionales
 
 **Documentacion relacionada**:
-- Arquitectura de agentes especializados: `docs/gobernanza/metodologias/arquitectura_agentes_especializados.md`
+- Arquitectura de agentes especializados: `docs/gobernanza/metodologias/arquitectura_servicios_especializados.md`
 - README tecnico: `scripts/coding/ai/README.md`
 - Configuracion API keys: `scripts/coding/ai/.env.example`
 - Constitucion de agentes: Archivos constitution.py en cada categoria

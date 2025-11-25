@@ -314,7 +314,7 @@ Los tests fueron generados usando un pipeline de agentes especializados:
 6. CoverageVerifier - Verificó incremento de cobertura
 7. PRCreator - Creó este PR
 
-Para más información, consulta: `docs/desarrollo/arquitectura_agentes_especializados.md`
+Para más información, consulta: `docs/desarrollo/arquitectura_servicios_especializados.md`
 """
 
         return body

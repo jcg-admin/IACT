@@ -939,9 +939,9 @@ Total: 14 scripts shell reutilizables
 - `docs/gobernanza/sesiones/analisis_nov_2025/ANALISIS_DOCS_FINAL_20251116_0945.md`
 - `docs/gobernanza/sesiones/analisis_nov_2025/ANALISIS_FINAL_LIMPIO.md`
 - `docs/gobernanza/sesiones/analisis_nov_2025/CATALOGO_SCRIPTS_LIMPIEZA.md`
-- `docs/gobernanza/sesiones/analisis_nov_2025/ETA_AGENTE_CODEX_ANALISIS.md`
+- `docs/gobernanza/sesiones/analisis_nov_2025/ETA_CODEX_ANALISIS.md`
 - `docs/gobernanza/sesiones/analisis_nov_2025/GAP_ANALYSIS_SISTEMA_PERMISOS.md`
-- `docs/gobernanza/sesiones/analisis_nov_2025/META_AGENTE_CODEX_PARTE_1.md`
+- `docs/gobernanza/sesiones/analisis_nov_2025/META_CODEX_PARTE_1.md`
 - `docs/gobernanza/sesiones/analisis_nov_2025/revision_20251112_consolidada.md`
 
 ### Guías

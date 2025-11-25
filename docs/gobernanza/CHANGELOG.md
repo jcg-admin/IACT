@@ -331,7 +331,7 @@ entre metricas DORA y agentes SDLC del proyecto IACT.
 - Storage: .dora_sdlc_metrics.json (formato JSON documentado)
 - CLI tools, mejores practicas, troubleshooting
 
-**WORKFLOW_AGENTES_DORA.md (800 lineas)**
+**WORKFLOW_METRICAS_PROCESO.md (800 lineas)**
 - Workflow completo feature development (11 fases)
 - Diagrama flujo: Feature Request -> PDCA Analysis
 - Fase-a-fase: Planning, Design, Testing, Deployment, Monitoring, PDCA
@@ -346,7 +346,7 @@ entre metricas DORA y agentes SDLC del proyecto IACT.
 - Agregadas 4 nuevas documentaciones AI:
   - FASES_IMPLEMENTACION_IA.md (CRITICA)
   - DORA_SDLC_INTEGRATION_GUIDE.md (ALTA)
-  - WORKFLOW_AGENTES_DORA.md (workflow proceso)
+  - WORKFLOW_METRICAS_PROCESO.md (workflow proceso)
   - ADR-2025-003 (decision arquitectonica)
 - Contadores actualizados: 122 archivos (+2), ~37,000 lineas (+1,200)
 - Seccion Gobernanza: 39 archivos (+2)
@@ -363,7 +363,7 @@ docs/
 │   │   └── DORA_SDLC_INTEGRATION_GUIDE.md (guia tecnica)
 │   └── procesos/
 │       └── agentes/
-│           └── WORKFLOW_AGENTES_DORA.md (workflow operacional)
+│           └── WORKFLOW_METRICAS_PROCESO.md (workflow operacional)
 └── INDICE.md (v1.5.0)
 ```
 
@@ -375,7 +375,7 @@ docs/
 **Archivos:**
 - docs/adr/adr_2025_003_dora_sdlc_integration.md (nuevo, 650 lineas)
 - docs/gobernanza/ai/DORA_SDLC_INTEGRATION_GUIDE.md (nuevo, 500 lineas)
-- docs/gobernanza/procesos/agentes/WORKFLOW_AGENTES_DORA.md (nuevo, 800 lineas)
+- docs/gobernanza/procesos/agentes/WORKFLOW_METRICAS_PROCESO.md (nuevo, 800 lineas)
 - docs/INDICE.md (actualizado a v1.5.0)
 
 ---
@@ -794,8 +794,8 @@ Actualizacion con datos cuantitativos y correlaciones del **DORA Report 2025 - S
 - `docs/gobernanza/metodologias/README.md`
 - `METODOLOGIA_DESARROLLO_POR_LOTES.md`
 - `WORKFLOWS_COMPLETOS.md`
-- `agentes_automatizacion.md`
-- `arquitectura_agentes_especializados.md`
+- `automatizacion_servicios.md`
+- `arquitectura_servicios_especializados.md`
 
 #### FASE 9 - Marco Integrado (8 archivos)
 - `docs/gobernanza/marco_integrado/` (completo)

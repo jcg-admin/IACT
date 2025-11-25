@@ -373,8 +373,8 @@ Integra en tu pipeline CI/CD para generación automática continua.
 ## Recursos Adicionales
 
 - [Documentación Completa](../README.md)
-- [Arquitectura de Agentes](../../../docs/desarrollo/arquitectura_agentes_especializados.md)
-- [Guía de Automatización](../../../docs/desarrollo/agentes_automatizacion.md)
+- [Arquitectura de Agentes](../../../docs/desarrollo/arquitectura_servicios_especializados.md)
+- [Guía de Automatización](../../../docs/desarrollo/automatizacion_servicios.md)
 
 ---
 

@@ -316,7 +316,7 @@ assert_file_exists() {
 
 # Test 1: Basic Python agent invocation from Bash
 test_basic_agent_invocation() {
-    local agent_script="${PROJECT_ROOT}/scripts/coding/ai/automation/ci_pipeline_orchestrator_agent.py"
+    local agent_script="${PROJECT_ROOT}/scripts/gobernanza_sdlc/automation/ci_pipeline_orchestrator_agent.py"
 
     if [ ! -f "$agent_script" ]; then
         log_warn "Agent script not found, skipping test"
@@ -516,7 +516,7 @@ PYTHON
 
 # Test 6: CI Pipeline Orchestrator Agent integration
 test_ci_pipeline_agent() {
-    local agent_script="${PROJECT_ROOT}/scripts/coding/ai/automation/ci_pipeline_orchestrator_agent.py"
+    local agent_script="${PROJECT_ROOT}/scripts/gobernanza_sdlc/automation/ci_pipeline_orchestrator_agent.py"
     local config_file="${PROJECT_ROOT}/.ci-local.yaml"
 
     if [ ! -f "$agent_script" ]; then

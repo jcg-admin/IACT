@@ -309,7 +309,7 @@ Developer Commit --> Pre-commit Hook --> Constitution Validation --> Coherence C
 
 ### Core Documentation
 
-1. **[AGENTS_ARCHITECTURE.md](planificacion/AGENTS_ARCHITECTURE.md)**
+1. **[AUTOMATION_ARCHITECTURE.md](planificacion/AUTOMATION_ARCHITECTURE.md)**
    - Detailed architecture rationale
    - Agent responsibilities and interfaces
    - Self-consistency analysis
@@ -353,7 +353,7 @@ Located in current directory and `planificacion/`:
 
 - **[IMPLEMENTATION_REPORT_CIPipelineOrchestrator.md](IMPLEMENTATION_REPORT_CIPipelineOrchestrator.md)** - CI Pipeline implementation
 - **[METRICS_COLLECTOR_IMPLEMENTATION_REPORT.md](planificacion/METRICS_COLLECTOR_IMPLEMENTATION_REPORT.md)** - Metrics collector details
-- **[SCHEMA_VALIDATOR_AGENT_IMPLEMENTATION_REPORT.md](planificacion/SCHEMA_VALIDATOR_AGENT_IMPLEMENTATION_REPORT.md)** - Schema validator details
+- **[SCHEMA_VALIDATOR_IMPLEMENTATION_REPORT.md](planificacion/SCHEMA_VALIDATOR_IMPLEMENTATION_REPORT.md)** - Schema validator details
 
 ---
 

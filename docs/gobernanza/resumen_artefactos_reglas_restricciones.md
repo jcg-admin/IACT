@@ -89,7 +89,7 @@ La siguiente lista contiene cada archivo que incluye referencias a reglas o rest
 - docs/ai/analisis/AGENTS.md
 - docs/ai/analisis/ANALISIS_GAPS_POST_DORA_2025.md
 - docs/ai/analisis/GAPS_SUMMARY_QUICK_REF.md
-- docs/ai/analisis/META_AGENTE_CODEX_PARTE_1.md
+- docs/ai/analisis/META_CODEX_PARTE_1.md
 - docs/ai/analisis/META_AGENTE_CODEX_PARTE_2.md
 - docs/ai/analisis/META_AGENTE_CODEX_PARTE_3.md
 - docs/ai/estrategia/ESTRATEGIA_IA.md
@@ -164,9 +164,9 @@ La siguiente lista contiene cada archivo que incluye referencias a reglas o rest
 - docs/backend/diseno/permisos/promptops/CONTRIBUTING.md
 - docs/backend/diseno/permisos/promptops/README.md
 - docs/backend/diseno/permisos/promptops/REORGANIZACION_SCRIPTS_AI.md
-- docs/backend/diseno/permisos/promptops/ROADMAP_TDD_AGENT.md
+- docs/backend/diseno/permisos/promptops/ROADMAP_TDD_OPERATIVO.md
 - docs/backend/diseno/permisos/promptops/gates/route_lint.md
-- docs/backend/diseno/permisos/promptops/meta/tdd_agent.md
+- docs/backend/diseno/permisos/promptops/meta/tdd_operativo.md
 - docs/backend/estilos/README.md
 - docs/backend/gobernanza/adr/ADR-BACK-001-grupos-funcionales-sin-jerarquia.md
 - docs/backend/gobernanza/adr/ADR-BACK-002-configuracion-dinamica-sistema.md
@@ -232,7 +232,7 @@ La siguiente lista contiene cada archivo que incluye referencias a reglas o rest
 - docs/backend/validaciones/VALIDACION_RAPIDA.md
 - docs/devops/README.md
 - docs/devops/analysis_tfg_server_vs_iact_scripts.md
-- docs/devops/automatizacion/planificacion/AGENTS_ARCHITECTURE.md
+- docs/devops/automatizacion/planificacion/AUTOMATION_ARCHITECTURE.md
 - docs/devops/automatizacion/planificacion/DEPLOYMENT_PLAN.md
 - docs/devops/automatizacion/planificacion/HLD_SISTEMA_AUTOMATIZACION.md
 - docs/devops/automatizacion/planificacion/LLD_00_OVERVIEW.md
@@ -270,7 +270,7 @@ La siguiente lista contiene cada archivo que incluye referencias a reglas o rest
 - docs/gobernanza/TAREAS_ACTIVAS.md
 - docs/gobernanza/TASK-015-actualizacion_documentacion.md
 - docs/gobernanza/TASK-016-compliance_rnf_002_audit.md
-- docs/gobernanza/adr/ADR-AI-018-ai-agents-standalone-architecture.md
+- docs/gobernanza/adr/ADR-AI-018-ai-services-standalone-architecture.md
 - docs/gobernanza/adr/ADR-BACK-001-grupos-funcionales-sin-jerarquia.md
 - docs/gobernanza/adr/ADR-BACK-002-configuracion-dinamica-sistema.md
 - docs/gobernanza/adr/ADR-DEV-002-workflow-validation-shell-migration.md
@@ -330,8 +330,8 @@ La siguiente lista contiene cada archivo que incluye referencias a reglas o rest
 - docs/gobernanza/marco_integrado/plantillas/plantilla-03-checklist-completitud.md
 - docs/gobernanza/marco_integrado/plantillas/plantilla-04-regla-negocio.md
 - docs/gobernanza/metodologias/WORKFLOWS_COMPLETOS.md
-- docs/gobernanza/metodologias/agentes_automatizacion.md
-- docs/gobernanza/metodologias/arquitectura_agentes_especializados.md
+- docs/gobernanza/metodologias/automatizacion_servicios.md
+- docs/gobernanza/metodologias/arquitectura_servicios_especializados.md
 - docs/gobernanza/plan_general.md
 - docs/gobernanza/planificacion/PLAN_REMEDIACION_DOCS_GOBERNANZA.md
 - docs/gobernanza/plantilla_adr.md
@@ -350,7 +350,7 @@ La siguiente lista contiene cada archivo que incluye referencias a reglas o rest
 - docs/gobernanza/procedimientos/PROCED-GOB-006-generar-diagrama-uml-plantuml.md
 - docs/gobernanza/procedimientos/PROCED-GOB-008-configurar-permisos-git-push.md
 - docs/gobernanza/procesos/INDICE_WORKFLOWS.md
-- docs/gobernanza/procesos/PROC-AI-001-agentes_sdlc.md
+- docs/gobernanza/procesos/PROC-001-gobernanza_sdlc.md
 - docs/gobernanza/procesos/PROC-DEVOPS-001-devops_automation.md
 - docs/gobernanza/procesos/PROC-GOB-001-mapeo_procesos_templates.md
 - docs/gobernanza/procesos/PROC-GOB-008-reorganizacion-estructura-documental.md
@@ -395,8 +395,8 @@ La siguiente lista contiene cada archivo que incluye referencias a reglas o rest
 - docs/gobernanza/sesiones/analisis_nov_2025/ANALISIS_DOCS_ESTRUCTURA_20251116.md
 - docs/gobernanza/sesiones/analisis_nov_2025/ANALISIS_UBICACION_ARCHIVOS.md
 - docs/gobernanza/sesiones/analisis_nov_2025/ESTRATEGIA_REORGANIZACION_TODO_POR_DOMINIO.md
-- docs/gobernanza/sesiones/analisis_nov_2025/ETA_AGENTE_CODEX_ANALISIS.md
-- docs/gobernanza/sesiones/analisis_nov_2025/META_AGENTE_CODEX_PARTE_1.md
+- docs/gobernanza/sesiones/analisis_nov_2025/ETA_CODEX_ANALISIS.md
+- docs/gobernanza/sesiones/analisis_nov_2025/META_CODEX_PARTE_1.md
 - docs/gobernanza/sesiones/analisis_nov_2025/REPORTE_DUPLICADOS.md
 - docs/gobernanza/sesiones/analisis_nov_2025/analisis_completitud_reorganizacion.md
 - docs/gobernanza/sesiones/analisis_nov_2025/analisis_fallas_docs.md
@@ -497,8 +497,8 @@ La siguiente lista contiene cada archivo que incluye referencias a reglas o rest
 - docs/scripts/analisis/validate_critical_restrictions.sh_analysis.md
 - docs/scripts/ci_cd_scripts.md
 - docs/scripts/script_development_guide.md
-- docs/scripts/sdlc_agent_guide.md
-- docs/scripts/sdlc_agents_reference.md
+- docs/scripts/sdlc_process_guide.md
+- docs/scripts/sdlc_automation_reference.md
 - infrastructure/vagrant/config/apt/sources.list
 - infrastructure/vagrant/scripts/postgres_install.sh
 - monitoring/dashboards/business_rules_compliance.json

@@ -129,9 +129,9 @@ docs/frontend/analisis_negocio/marco_integrado/   (2 archivos) - COPIA OBSOLETA
 **Archivos afectados:**
 ```
 docs/ai/TAREAS_PENDIENTES_AGENTES_IA.md
-  Línea 294: **Ubicación:** docs/desarrollo/arquitectura_agentes_especializados.md
-  Línea 497: **Ubicación:** docs/desarrollo/agentes_automatizacion.md
-  Línea 843: nano docs/desarrollo/arquitectura_agentes_especializados.md
+  Línea 294: **Ubicación:** docs/desarrollo/arquitectura_servicios_especializados.md
+  Línea 497: **Ubicación:** docs/desarrollo/automatizacion_servicios.md
+  Línea 843: nano docs/desarrollo/arquitectura_servicios_especializados.md
 
 docs/ai/tareas/TAREAS_PENDIENTES_AGENTES_IA.md (duplicado)
   Mismas referencias rotas
