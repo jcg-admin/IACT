@@ -18,61 +18,34 @@
 - **Normalizar Plantillas V2**: Implementar las plantillas actualizadas (`UC_v2`, `ADR_v2`, `TEST_v2`, etc.) con campos de trazabilidad bidireccional (upward y downward).
 - **Publicar y Consolidar RTM-IACT**: Crear la nueva Matriz de Trazabilidad de Requisitos y migrar, limpiar y consolidar todos los datos heredados.
 - **Integrar Trazabilidad en el Código**: Incorporar las referencias de trazabilidad (`uc_refs`, `adr_refs`) directamente en el código fuente (Gemas/APIs) como metadatos obligatorios.
-- **Implementar Gobernanza CI/CD**: Activar todos los jobs de bloqueo (`lint-trazabilidad`, `api-metadata-check`, `uml-check`) para forzar el cumplimiento en tiempo real.
-- **Garantizar la Consistencia de la RTM**: Asegurar la consistencia de la matriz mediante el control de Relación Mínima Requerida (ej., cada API funcional debe tener al menos una Prueba asociada).
+- **Implementar Gobernanza CI/CD**: Activar todos los jobs de bloqueo (`lint-trazabilidad`, `api-metadata-check`, `uml-check`, `rtm-drift-check --validar-relaciones-minimas`) para forzar el cumplimiento en tiempo real.
+- **Garantizar la Consistencia de la RTM**: Asegurar la consistencia de la matriz mediante el control de Relación Mínima Requerida (ej., cada API funcional debe tener al menos una Prueba asociada) y validar estas relaciones con un job dedicado de CI/CD.
 - **Certificar Cobertura**: Alcanzar y registrar una Cobertura de Trazabilidad Vertical ≥ 90%, cerrando el ciclo con la generación automática de la Evidencia de QA.
 
 ## 3. Alcance
 Aplica a todos los dominios definidos en el Plan Oficial: Backend (Django REST), Frontend (React/Webpack), Infraestructura/DevOps, Documentación/Gobernanza, Scripts, QA/Testing, Reglas de Negocio, Casos de Uso/UML y ADRs.
 
-## 4. Estrategia (en fases)
-1. **Fase 0 — Preparación y limpieza**
-   - Depurar matrices y artefactos heredados, eliminando duplicados y referencias huérfanas.
-   - Congelar convenciones de identificadores y nomenclaturas para RNF, RF, UC, ADR, APIs y Pruebas.
-   - Definir responsables y circuitos de aprobación para cada dominio (documental, código, QA).
+## 4. Estrategia de implementación (fases)
+La alternativa B (incremental) se mantiene como la recomendada, pero se organiza en tres fases secuenciales alineadas con las salidas obligatorias del PROC-IACT-TRZ. El detalle técnico de CI/CD antes ubicado en la sección 4.1 se mueve a la sección 6 para mayor claridad.
 
-2. **Fase 1 — Normalización documental (Semana 1)**
-   - Crear repositorio oficial `docs/trazabilidad/` con estructura del punto 9.
-   - Generar `TRZ-001-estandar-sdlc.md` y `RTM.md` inicial (RTM-IACT) reemplazando la matriz corrupta de `docs/gobernanza`.
-   - Publicar las plantillas v2 (`UC_v2.md`, `ADR_v2.md`, `TEST_v2.md`, `GOB_v2.md`, `BR_v2.md`) con campos de trazabilidad bidireccional y ejemplos mínimos.
-   - Registrar política `GOB-TRZ-001`, habilitar checklists de revisión y calendarizar auditorías.
+| ID | Nombre de la fase | Foco y objetivo |
+| --- | --- | --- |
+| **Fase 1** | Estabilización Documental | Cerrar brechas normativas (RN, RF, UC, UML) y publicar la RTM-IACT. Cubre las fases 10.1 a 10.4 del procedimiento. |
+| **Fase 2** | Integración Operacional | Incorporar controles de trazabilidad en código, gemas, APIs y ADRs. Cubre las fases 10.5 a 10.7 del procedimiento. |
+| **Fase 3** | Certificación y Evidencia | Completar la validación con Tests y Evidencia, y activar el ciclo de auditoría continua. Cubre las fases 10.8 a 10.10 del procedimiento. |
 
-3. **Fase 2 — Integración en código y CI/CD (Semanas 2-3)**
-   - Modificar gemas del proyecto para incluir metadatos de trazabilidad obligatorios (`uc_refs`, `adr_refs`, `rf_refs`).
-   - Integrar metadatos de trazabilidad en API con `@extend_schema` y refrescar documentación de drf-spectacular.
-   - Activar los jobs de validación en CI/CD (`lint-trazabilidad`, `api-metadata-check`, `uml-check`) en modo de transición (warning → blocking) y validar actualizaciones en `docs/trazabilidad/RTM.md`.
-   - Ejecutar linters de plantillas UC/ADR/TEST y garantizar que cada API funcional tenga pruebas asociadas y referencias cruzadas en RTM.
+## 5. Backlog detallado de remediación (nuevas tareas)
+Las tareas se reorganizan para cerrar las brechas identificadas (secuencia UML → ADR y relación mínima API → Test) y mantener la trazabilidad completa.
 
-4. **Fase 3 — Auditoría y certificación (Semanas 3-4)**
-   - Completar RTM con enlaces a código, tests y evidencia ejecutada.
-   - Activar auditoría mensual y por release registrando hallazgos en `docs/trazabilidad/registros/`.
-   - Incorporar reportes automáticos de cobertura y evidencia de pruebas y registrar resultados ≥ 90% con acciones correctivas cuando aplique.
-   - Consolidar aprendizajes y ajustes al procedimiento para mantener la consistencia de RTM y los controles preventivos.
-
-### 4.1 Detalle técnico de CI/CD (aplica a fases 2 y 3)
-- **Workflows** (`.github/workflows/trazabilidad.yml`):
-  - Job `lint-trazabilidad` (warning semana 2 → blocking semana 3):
-    - Ejecuta `scripts/trazabilidad/validar_plantillas.py --paths docs/trazabilidad/plantillas`.
-    - Regex obligatoria en PR: referencias `UC-\d+`, `RF-\d+`, `ADR-\d+`, `BR-\d+` en commits y PR body.
-    - Verifica que los archivos `RTM.md` y plantillas modificadas pasen `yamllint`/`markdownlint` con reglas extendidas de trazabilidad.
-  - Job `rtm-drift-check` (blocking):
-    - Usa `scripts/trazabilidad/validar_rtm.py --rtm docs/trazabilidad/RTM.md --codigo api backend ui scripts`.
-    - Falla si hay referencias huérfanas o si la cobertura < 90%.
-  - Job `api-metadata-check` (blocking):
-    - Ejecuta `pytest api --maxfail=1 -q -k "extend_schema"` para asegurar metadatos.
-    - Verifica que cada endpoint nuevo incluya campos `uc_refs`, `rf_refs`, `adr_refs` en el decorador `@extend_schema`.
-- **Condiciones de bloqueo**: `lint-trazabilidad` en warning durante semana 2, se cambia a blocking en semana 3 mediante variable `TRZ_VALIDATION_MODE=blocking`.
-
-## 5. Backlog detallado
-- **B1. Crear repositorio de trazabilidad** (`docs/trazabilidad/` con subcarpetas `plantillas/` y `registros/`). Entregable: estructura mínima y README.
-- **B2. Publicar TRZ-001** (estándar SDLC) con reglas, identificadores y ciclo de vida de artefactos.
-- **B3. Publicar RTM-IACT** (Matriz oficial) con campos completos y datos heredados limpios.
-- **B4. Actualizar plantillas v2** (UC, ADR, TEST, GOB, BR) con bloques de trazabilidad y ejemplos.
-- **B5. Migrar matrices anteriores** desde `docs/gobernanza/trazabilidad` a `docs/trazabilidad/RTM.md` y marcar deprecated las versiones corruptas.
-- **B6. Integrar trazabilidad en gemas** (bloque obligatorio en cada Gem).
-- **B7. Integrar controles CI/CD** para validar referencias y RTM.
-- **B8. Integrar metadatos de API** (`@extend_schema` con UC/RF/ADR) y actualizar schema.
-- **B9. Activar auditorías** y registro en `registros/` (mensual y por release).
+| Backlog ID | Tarea y artefacto de salida | Fase | Justificación (PROC-IACT-TRZ) |
+| --- | --- | --- | --- |
+| **B1–B4** | Tareas originales: publicación de TRZ-001, plantillas v2 y RTM-IACT. | 1 | Mantener la base normativa y la RTM oficial (fases 10.1–10.3). |
+| **B4.5** | Implementación del artefacto y matriz UML. Crear `docs/trazabilidad/modelos/UML_Model.md` y script validador. | 1 | **Nuevo**: garantizar la trazabilidad UC → UML (fase 10.4) antes de los ADRs. |
+| **B5** | Migración de datos heredados a `docs/trazabilidad/RTM.md` y marcado de matrices corruptas. | 1 | Completar RTM-IACT con datos limpios antes de avanzar. |
+| **B6** | Integrar bloques de trazabilidad en gemas (`uc_refs`, `rf_refs`, `adr_refs`). | 2 | Alinear código y gemas con trazabilidad descendente (fase 10.6). |
+| **B7.5** | Actualizar `rtm-drift-check.py` con la regla de Relación Mínima Requerida. | 2 | **Nuevo**: validar que cada `API-XXX` en RTM tenga ≥1 `TEST-YYY` asociado (punto 4.6). |
+| **B8** | Integrar metadatos `@extend_schema` en APIs con referencias UC/RF/ADR. | 2 | Cumplir trazabilidad en API (fase 10.7). |
+| **B9** | Activar auditorías y registros mensuales y por release. | 3 | Cerrar certificación y evidencias (fase 10.10). |
 
 ## 5.1 Cómo dividir el backlog en *n* tareas (técnica de prompt)
 - **Propósito**: descomponer cualquier iniciativa de trazabilidad en *n* tareas concretas, aplicables en issues o PRs, asegurando cobertura vertical y horizontal.
@@ -89,31 +62,66 @@ Aplica a todos los dominios definidos en el Plan Oficial: Backend (Django REST),
 - **GOB_v2.md / BR_v2.md**: incluyen `trazabilidad_upward` hacia políticas/regulaciones y `trazabilidad_downward` hacia UC/RF.
 - **Gemas**: bloque obligatorio YAML/JSON `trazabilidad` con arrays `uc_refs`, `rf_refs`, `adr_refs`, `tests_refs`; validado por `scripts/trazabilidad/validar_gemas.py`.
 
-## 6. Criterios de aceptación
+## 6. Controles de gobernanza en CI/CD (cambios en validación)
+| Control CI/CD | Descripción y cambios implementados | Brecha mitigada |
+| --- | --- | --- |
+| `lint-trazabilidad` | Se mantiene. Valida formato y regex de referencias (`UC-\d+`, `ADR-\d+`, etc.) en commits y PRs. | Ausencia de referencias obligatorias. |
+| `uml-check` | **Nuevo job de bloqueo (fase 1)**: ejecutado después de la creación de UC y antes de ADRs. Garantiza que exista `UML_Model.md` para los UC activos y que se genere la matriz UC → UML con referencias bidireccionales completas. | Trazabilidad UML huérfana (fase 10.4). |
+| `api-metadata-check` | Se mantiene. Verifica que cada endpoint nuevo incluya campos de trazabilidad en `@extend_schema`. | Ausencia de trazabilidad en API (fase 10.7). |
+| `rtm-drift-check` | **Modificado (backlog B7.5)**: falla si hay referencias huérfanas, cobertura < 90% o incumplimiento de relación mínima (cualquier `API-XXX` o `RF-YYY` en RTM sin la referencia descendente obligatoria, p. ej., sin `TEST-ZZZ`). | Consistencia y relación mínima (API → Test, RN → RF). |
+
+## 7. Criterios de aceptación
 - RTM-IACT sin campos vacíos y con enlaces bidireccionales a requisitos, código, tests y evidencia.
 - Todas las plantillas vigentes incluyen campos `trazabilidad_upward` y `trazabilidad_downward` completos.
 - CI/CD falla cuando falta referencia a UC/RF/ADR o no se actualiza RTM.
 - Documentación de API incluye referencias de trazabilidad en `extend_schema`.
 - Primer ciclo de auditoría registrado con hallazgos y acciones.
 
-## 7. Riesgos y mitigaciones
+## 8. Riesgos y mitigaciones
 - **Datos heredados incompletos**: priorizar migración con prioridad en requisitos críticos; marcar explícitamente huecos en RTM.
 - **Resistencia al cambio**: proveer guía rápida en `docs/trazabilidad/TRZ-001` y checklist en PRs.
 - **Sobrecarga en CI/CD**: habilitar validaciones en modo warning durante la transición (semana 2) y endurecer a blocking en semana 3.
 
-## 8. Gobernanza y responsables
+## 9. Gobernanza y responsables
 - **Owner del plan**: Equipo de Gobernanza/QA.
 - **Responsables por dominio**: Tech Leads de Backend, Frontend, Infraestructura y Documentación.
 - **Aprobación**: Comité de Arquitectura (ADRs) y QA para cierre de cada fase.
 
-## 9. Métricas de éxito
+## 10. Métricas de éxito
 - Cobertura de trazabilidad vertical ≥ 90% en RTM.
 - 0 PRs aceptados sin referencias a UC/RF/ADR tras semana 3.
 - 100% de APIs nuevas con `extend_schema` incluyendo referencias.
 - Auditorías mensuales sin hallazgos críticos a partir del segundo ciclo.
 
-## 10. Integración del procedimiento PROC-IACT-TRZ (v1.1)
+## 11. Integración del procedimiento PROC-IACT-TRZ (v1.1)
 Esta sección alinea el plan de remediación con el procedimiento normativo-operativo *PROC-IACT-TRZ-Procedimiento-Trazabilidad*.
+
+### 10.0 Mapa de trazabilidad PROC-IACT-TRZ → Plan de Remediación
+El procedimiento normativo define la cadena obligatoria `RN → RF → UC → UML → ADR → Código → API → Pruebas → Evidencia → Revisión Final de QA`. A continuación se presenta la alineación explícita del plan con cada fase, el artefacto generado, el backlog asociado y el control de CI/CD que valida el cumplimiento.
+
+#### Fase 1: Estabilización Documental y Requisitos
+| Fase PROC-IACT-TRZ | Artefacto de trazabilidad | Backlog específico (Plan) | Controles CI/CD y criterio de éxito |
+| --- | --- | --- | --- |
+| 10.1: RN | `BR_v2.md` | B1–B4: Publicar TRZ-001 y plantillas v2 (`BR_v2.md`) con trazabilidad_upward/downward; migrar matrices heredadas y marcar huecos. | `lint-trazabilidad`: asegura que `BR_v2.md` declare trazabilidad hacia políticas/regulaciones. |
+| 10.2: RF | `RTM-IACT.md` (matriz oficial) | B3 y B5: Publicar RTM-IACT con campos completos y cargar datos limpios tras ETL. | Métrica de éxito: RTM-IACT sin campos vacíos y con enlaces bidireccionales. |
+| 10.3: UC | `UC_v2.md` | B1–B4: Actualizar plantillas v2 (incluye `UC_v2.md` con campos upward `RN/RF/BR` y downward `UML/API/Tests`). | Regex obligatoria en PR: referencias `UC-\d+` en commits y cuerpo del PR. |
+| 10.4: UML | `docs/trazabilidad/modelos/UML_Model.md` + `M_UC_UML` | B4.5: Implementar artefacto UML y matriz UC → UML antes de ADRs. | `uml-check`: bloquea si falta `UML_Model.md` o la matriz UC→UML está incompleta. |
+
+#### Fase 2: Integración Operativa y Diseño
+| Fase PROC-IACT-TRZ | Artefacto de trazabilidad | Backlog específico (Plan) | Controles CI/CD y criterio de éxito |
+| --- | --- | --- | --- |
+| 10.5: ADR | `ADR_v2.md` | B4: Actualizar `ADR_v2.md` con campos upward (UC/UML) y downward (Código/Tests/API). | Regex obligatoria en PR: referencias `ADR-\d+` en commits y cuerpo del PR. |
+| 10.6: Código | Referencias en gemas/código | B6: Integrar bloque obligatorio de trazabilidad (`uc_refs`, `rf_refs`, `adr_refs`) en las gemas. | `rtm-drift-check`: valida contra código (`--codigo api backend ui scripts`), evitando código huérfano. |
+| 10.7: API | Metadatos `@extend_schema` | B8: Integrar metadatos de API con referencias a UC/RF/ADR. | `api-metadata-check`: job de bloqueo que verifica que cada endpoint nuevo incluya `uc_refs`, `rf_refs`, `adr_refs`. |
+
+#### Fase 3: Validación y Certificación
+| Fase PROC-IACT-TRZ | Artefacto de trazabilidad | Backlog específico (Plan) | Controles CI/CD y criterio de éxito |
+| --- | --- | --- | --- |
+| 10.8: Pruebas | `TEST_v2.md` | B4 y B7.5: Actualizar `TEST_v2.md` con campos upward (API/UC/RF) y downward (Evidencia/Código); aplicar regla de Relación Mínima Requerida en RTM. | `rtm-drift-check`: falla si la cobertura < 90% o si algún `API-XXX` en RTM carece de `TEST-YYY`. |
+| 10.10: Revisión Final QA | Auditoría/Registro | B9: Activar auditorías mensuales y por release. | Métrica de éxito: cero PRs aceptados sin referencias tras la semana 3; auditorías mensuales sin hallazgos críticos a partir del segundo ciclo. |
+
+📐 **Cobertura de la Matriz RTM-IACT**
+El principal entregable, la matriz RTM-IACT (`docs/trazabilidad/RTM.md`), es el punto central donde converge la trazabilidad. La completitud por fase (punto 10.5 del plan) exige que la matriz sea actualizada y validada en cada paso. El plan asegura el cumplimiento del criterio de trazabilidad bidireccional (punto 4.4 del PROC-IACT-TRZ) al requerir campos `trazabilidad_upward` y `trazabilidad_downward` en todas las plantillas (UC, ADR, TEST, GOB, BR), y al forzar la relación descendente hacia código, API y pruebas mediante controles de CI/CD.
 
 ### 10.1 Encabezado normativo y propósito del procedimiento
 - **Código del Documento:** PROC-IACT-TRZ-Procedimiento-Trazabilidad.
@@ -193,6 +201,7 @@ Cada fase mantiene objetivo, entradas mínimas, actividades clave, salidas oblig
   - **Salidas obligatorias:** colección `UML-XXX`; matriz UC → UML.
   - **Matrices afectadas:** `M_UML`, `M_UC_UML`.
   - **Validaciones para avanzar:** cada UC debe tener al menos un diagrama UML asociado; el contenido de UML debe ser consistente con los flujos del UC.
+  - **Validaciones CI/CD:** job `uml-matrix-check` bloquea el paso a la fase 10.5 si la matriz UC→UML no está publicada o está incompleta.
   - **Rol principal responsable [EDITABLE]:** Arquitecto de Software / Diseñador.
 
 - **5.5 Fase 10.5 — Documentación de ADR**
