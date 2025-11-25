@@ -1,5 +1,30 @@
 # Plan de remediación de trazabilidad SDLC — Proyecto IACT
 
+## Notas de seguimiento
+- En la solicitud anterior solo se requirió exponer el contenido de archivos para validación; no se incluyeron instrucciones de modificación, por lo que no se aplicaron cambios en el repositorio.
+
+## Integración solicitada: cadena BR → UC → RNF → Código
+- **Nivel 1 (BR-XXX)**: las reglas de negocio se concentran en `docs/scripts/requirements_management.md` y alimentan la RTM como origen normativo. Cada BR debe enlazar a un UC específico y marcar su referencia descendente en RTM.
+- **Nivel 3 (RNF-XXX)**: los requisitos no funcionales de resiliencia y seguridad se documentan en `docs/scripts/disaster_recovery.md` y en `docs/gobernanza/reglas_restricciones_detalle.md`. Deben actuar como postcondiciones de los UC y reflejarse en RTM con vínculos a los módulos de soporte.
+- **Nivel 4 (UC-XXX, Plantilla UC-V2)**: se publican en `docs/trazabilidad/casos_de_uso/` usando los campos de trazabilidad upward (BR/RNF) y downward (UML/API/Código/Tests). Cada UC debe señalar actores, precondiciones y módulos implementadores.
+- **Nivel 5 (Código y APIs)**: la implementación se ubica en `api/callcentersite/src/callcentersite/apps/` y en las APIs que expongan la funcionalidad. La RTM debe enlazar cada UC con su servicio/clase, endpoint y prueba asociada.
+
+### Cadena de validación para bloqueo/desbloqueo de cuentas
+1. **BR-SEG-005 (Control de intentos fallidos)**: registrar en `requirements_management.md` la regla de bloqueo tras 3 intentos fallidos e incluir referencia a `UC-AUT-001-Esc-02` en RTM.
+2. **UC-AUT-001-Esc-02 (Login fallido con bloqueo)**: crear el UC en `docs/trazabilidad/casos_de_uso/UC-AUT-001.md` con Plantilla UC-V2. Precondición: actor autenticado intenta acceder; flujo alterno con bloqueo temporal. Postcondiciones: `RNF-AUD-001` (registro `USER_LOCKED`), `RNF-NOT-001` (notificación al usuario) y relación con `UC-ADM-010` para desbloqueo manual.
+3. **RNF-AUD-001 y RNF-NOT-001**: trazar a `api/callcentersite/src/callcentersite/apps/audit/models.py` y `api/callcentersite/src/callcentersite/apps/notifications/` (InternalMessage) como módulos implementadores. RTM debe reflejar la relación UC → RNF → Código.
+4. **Autorización R016 para desbloqueo**: documentar en RTM que `UC-ADM-010` depende de `permissions` (`permissions/models.py`, `permissions/services.py`) y de la regla BR correspondiente. La verificación se realiza en `authentication/services.py` y en la API de administración de usuarios.
+5. **Cobertura en RTM y CI/CD**: registrar la cadena completa `BR-SEG-005 → UC-AUT-001-Esc-02 → RNF-AUD-001/RNF-NOT-001 → audit/notifications/permissions/authentication` y asociar pruebas (p. ej., `TC-AUT-001`, `TC-ADM-010`). `rtm-drift-check` debe marcar error si falta alguna relación bidireccional.
+
+### Reorganización documental propuesta (PRODUCTO_DASHBOARD_ANALYTICS vs GOVERNANZA_SDLC)
+- **Árbol recomendado**: `PRODUCTO_DASHBOARD_ANALYTICS/` (incluye `CATALOGO_BR/`, `REQUISITOS/UC/`, `REQUISITOS/RNF/`, `DISENO/`, `REFERENCIA_API/`) y `GOVERNANZA_SDLC/` (incluye `ADR/`, `PROCESO_SDLC/`, `AI_AGENTES/`). Los detalles están en `docs/trazabilidad/REORGANIZACION_DOCS.md`.
+- **Acciones**:
+  1. Inventariar archivos actuales en `docs/` y clasificarlos en el árbol propuesto (sin perder referencias relativas) priorizando el dominio de dashboards/analíticas.
+  2. Actualizar RTM-IACT al mover BR/RNF/UC y verificar que cada referencia bidireccional se conserve.
+  3. Ajustar `rtm-drift-check` y `api-metadata-check` para fallar si un BR/RNF no apunta a un UC o si un artefacto del producto carece de `uc_refs/rf_refs/adr_refs`, incluyendo RNF específicos de datos, performance y auditoría de reportes.
+  4. Documentar el cambio en checklist de PR y en `docs/gobernanza/reglas_restricciones_detalle.md` para mantener consistencia en auditorías.
+
+
 ## 1. ¿Es necesario seguir el Plan Oficial tal cual? ¿Qué alternativas hay?
 - **Recomendación**: seguir el *Plan Oficial de Implementación SDLC — Proyecto IACT* como línea base, porque ya define artefactos, rutas verticales/horizontales y gobernanza normativa. Reducirlo implicaría mantener brechas críticas (RTM corrupto, plantillas sin trazabilidad, APIs sin metadatos) y volvería a incumplir las reglas de la sección 3.3 del plan oficial.
 - **Alternativa A (parcial, solo parches)**: corregir la matriz RTM existente y completar plantillas actuales sin crear el repositorio `docs/trazabilidad/` ni los nuevos artefactos (TRZ-001, RTM-IACT). **No recomendada**: no resolvería los controles de CI/CD ni la trazabilidad descendente hacia código y evidencia.
