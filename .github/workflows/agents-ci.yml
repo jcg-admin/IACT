@@ -4,9 +4,7 @@ on:
   push:
     branches:
       - main
-      
-      - 'feature/**'
-      - 'claude/**'
+
     paths:
       - 'scripts/coding/ai/agents/**'
       - 'scripts/coding/tests/test_agents/**'
