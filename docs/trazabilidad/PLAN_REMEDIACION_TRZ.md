@@ -43,6 +43,12 @@
   - Registrar hallazgos ACII en el checklist de PR y, cuando apliquen, levantar flujo REM-XXX para remediar brechas.
 - **Responsables**: el agente GEM-ACII-001 ejecuta el análisis automático; el Analista de Trazabilidad humano valida y consolida los artefactos en la RTM y en los ADR/UC correspondientes.
 
+### Cobertura explícita de los niveles IACT (0–9)
+- **Niveles 0–2 (Definición)**: el plan exige que la Visión/Objetivos de negocio (0) y las Reglas de Negocio/Políticas (1) alimenten los RF/RNF (2) registrados en RTM, con trazas bidireccionales hacia UC.
+- **Niveles 3–5 (Especificación y Diseño)**: la plantilla UC-V2 (3) y los UML asociados (4) permanecen como núcleo de trazabilidad, respaldados por ADR-XXX (5) justificadas por RNF-XXX; toda API/end-point debe referenciar un UC y, cuando aplique, su ADR de diseño.
+- **Niveles 6–8 (Implementación y Verificación)**: los artefactos de ACII (`TRZ-UC-REV`, `TCA-BR-IMP`, `TC-COV`) cierran la trazabilidad descendente desde API (6) y código/configuración (7) hasta pruebas/evidencia (8), y se integran como entradas obligatorias de RTM.
+- **Nivel 9 (Gobernanza)**: PROC-GOB-008, ADR-GOB-009 y los jobs de CI/CD (`lint-trazabilidad`, `api-metadata-check`, `rtm-drift-check`, `uml-check`) operan como controles de nivel 9 para impedir brechas en cualquier nivel inferior y registrar remediaciones REM-XXX.
+
 
 ## 1. ¿Es necesario seguir el Plan Oficial tal cual? ¿Qué alternativas hay?
 - **Recomendación**: seguir el *Plan Oficial de Implementación SDLC — Proyecto IACT* como línea base, porque ya define artefactos, rutas verticales/horizontales y gobernanza normativa. Reducirlo implicaría mantener brechas críticas (RTM corrupto, plantillas sin trazabilidad, APIs sin metadatos) y volvería a incumplir las reglas de la sección 3.3 del plan oficial.
