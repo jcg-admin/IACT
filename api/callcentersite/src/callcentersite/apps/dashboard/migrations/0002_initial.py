@@ -10,22 +10,19 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ("authentication", "0001_initial"),
+        ("dashboard", "0001_initial"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
         migrations.AddField(
-            model_name="securityquestion",
-            name="user",
-            field=models.ForeignKey(
+            model_name="dashboardconfiguracion",
+            name="usuario",
+            field=models.OneToOneField(
+                help_text="Usuario dueno de la configuracion",
                 on_delete=django.db.models.deletion.CASCADE,
-                related_name="security_questions",
+                related_name="dashboard_configuracion",
                 to=settings.AUTH_USER_MODEL,
             ),
-        ),
-        migrations.AlterUniqueTogether(
-            name="securityquestion",
-            unique_together={("user", "question")},
         ),
     ]

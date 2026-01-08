@@ -1,6 +1,7 @@
+from __future__ import annotations
+from .models_permisos_granular import *
 """Modelos de Django para usuarios y sistema de permisos en memoria."""
 
-from __future__ import annotations
 
 from dataclasses import dataclass, field
 from datetime import datetime, timezone as dt_timezone

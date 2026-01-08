@@ -10,28 +10,31 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ("notifications", "0001_initial"),
+        ("politicas", "0001_initial"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
         migrations.AddField(
-            model_name="internalmessage",
-            name="recipient",
+            model_name="politica",
+            name="creado_por",
             field=models.ForeignKey(
-                on_delete=django.db.models.deletion.CASCADE,
-                related_name="received_messages",
+                help_text="Usuario que creó esta versión",
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                related_name="politicas_creadas",
                 to=settings.AUTH_USER_MODEL,
             ),
         ),
         migrations.AddField(
-            model_name="internalmessage",
-            name="sender",
+            model_name="politica",
+            name="publicado_por",
             field=models.ForeignKey(
                 blank=True,
+                help_text="Usuario que publicó la política",
                 null=True,
                 on_delete=django.db.models.deletion.SET_NULL,
-                related_name="sent_messages",
+                related_name="politicas_publicadas",
                 to=settings.AUTH_USER_MODEL,
             ),
         ),

@@ -1,3 +1,0 @@
-All imports: OK
-PLAYWRIGHT_MCP_VERSION=0.0.40
-Registry build: OK

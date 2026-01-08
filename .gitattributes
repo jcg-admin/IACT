@@ -1,35 +1,63 @@
-# Mantener el final de línea como LF (no cambiar a CRLF)
-* text=lf
-# Para archivos de script
-*.sh text eol=lf
+###############################################################################
+# CONFIGURACIÓN GLOBAL
+###############################################################################
+# Detectar archivos de texto automáticamente y normalizarlos a LF
+* text=auto
 
-# Para archivos de texto
-*.txt text eol=lf
+###############################################################################
+# API - PYTHON / DJANGO (OBLIGATORIO LF)
+###############################################################################
+# Forzamos LF en código y migraciones para evitar errores en servidores Linux
+*.py                text eol=lf
+# Requisitos y configuración de entorno
+*.txt               text eol=lf
+requirements/*.txt  text eol=lf
+# Logs de la aplicación (vistos en tu estructura en api/callcentersite/logs/)
+api/callcentersite/logs/*.log text eol=lf
+*.log               text eol=lf
 
-# Para archivos de Python
-*.py text eol=lf
+###############################################################################
+# UI - JAVASCRIPT / REACT / TYPESCRIPT
+###############################################################################
+*.js                text eol=lf
+*.jsx               text eol=lf
+*.ts                text eol=lf
+*.tsx               text eol=lf
+*.json              text eol=lf
+*.css               text eol=lf
+*.html              text eol=lf
+# Archivos de mocks (vistos en ui/src/mocks/)
+ui/src/mocks/*.json text eol=lf
 
-# Archivos binarios
-*.png binary
-*.jpg binary
-*.gif binary
-*.woff binary
-*.ttf binary
+###############################################################################
+# CONFIGURACIÓN Y DESPLIEGUE (INFRAESTRUCTURA)
+###############################################################################
+*.yaml              text eol=lf
+*.yml               text eol=lf
+*.toml              text eol=lf
+Makefile            text eol=lf
+.gitignore          text eol=lf
+.gitattributes      text eol=lf
+.markdownlint.json  text eol=lf
+# Scripts de shell (vital que sean LF para Linux)
+*.sh                text eol=lf
+create-pr.sh        text eol=lf
 
-# Archivos de Python
-*.py text eol=lf
+###############################################################################
+# DOCUMENTACIÓN
+###############################################################################
+*.md                text eol=lf
+CHANGELOG.md        text eol=lf
+README.md           text eol=lf
 
-# Archivos de texto
-*.txt text eol=lf
-*.json text eol=lf
-*.md text eol=lf
-
-# Archivos de configuración específicos
-*.conf text eol=lf
-*.service text eol=lf
-
-# Archivos de requisitos
-requirements.txt text eol=lf
-
-# Mantener el final de línea como LF (no cambiar a CRLF)
-Vagrantfile text eol=lf
+###############################################################################
+# ARCHIVOS BINARIOS (NO NORMALIZAR)
+###############################################################################
+*.png               binary
+*.jpg               binary
+*.jpeg              binary
+*.gif               binary
+*.ico               binary
+*.pdf               binary
+*.woff              binary
+*.woff2             binary

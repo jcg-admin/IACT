@@ -1,4 +1,0 @@
-[claude/fix-branch-issues-013FpGsYZUySbBL6bsMbhBf2 3c9e429] refactor: extract Playwright MCP version to constant
- Author: copilot-swe-agent[bot] <198982749+Copilot@users.noreply.github.com>
- Date: Sun Nov 16 06:08:16 2025 +0000
- 1 file changed, 5 insertions(+), 1 deletion(-)

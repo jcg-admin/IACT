@@ -10,28 +10,31 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ("notifications", "0001_initial"),
+        ("presupuestos", "0001_initial"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
         migrations.AddField(
-            model_name="internalmessage",
-            name="recipient",
+            model_name="presupuesto",
+            name="aprobado_por",
             field=models.ForeignKey(
-                on_delete=django.db.models.deletion.CASCADE,
-                related_name="received_messages",
+                blank=True,
+                help_text="Usuario que aprobó/rechazó el presupuesto",
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                related_name="presupuestos_aprobados",
                 to=settings.AUTH_USER_MODEL,
             ),
         ),
         migrations.AddField(
-            model_name="internalmessage",
-            name="sender",
+            model_name="presupuesto",
+            name="creado_por",
             field=models.ForeignKey(
-                blank=True,
+                help_text="Usuario que creó el presupuesto",
                 null=True,
                 on_delete=django.db.models.deletion.SET_NULL,
-                related_name="sent_messages",
+                related_name="presupuestos_creados",
                 to=settings.AUTH_USER_MODEL,
             ),
         ),

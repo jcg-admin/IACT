@@ -1,2 +1,0 @@
-PLAYWRIGHT_MCP_VERSION = 0.0.40
-EXITO: String interpolation correcta: @playwright/mcp@0.0.40
