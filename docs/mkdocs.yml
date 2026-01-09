@@ -159,3 +159,6 @@ markdown_extensions:
   - pymdownx.snippets
   - def_list
   - footnotes
+
+extra:
+  version: 0.1.0
