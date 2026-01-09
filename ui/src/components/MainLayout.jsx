@@ -1,8 +1,9 @@
 import { memo, useEffect, useState } from 'react';
 import MockDataNotice from './MockDataNotice';
 import { PermissionsService } from '@services/permissions/PermissionsService';
+import BackendStatusPanel from './BackendStatusPanel';
 
-const MainLayout = memo(({ children, mockNotice }) => {
+const MainLayout = memo(({ children, mockNotice, backendStatus, mockSummary }) => {
   const [menuEntries, setMenuEntries] = useState([]);
   const [menuError, setMenuError] = useState(null);
 
@@ -61,6 +62,7 @@ const MainLayout = memo(({ children, mockNotice }) => {
           </ul>
         </nav>
       </header>
+      <BackendStatusPanel health={backendStatus} mockSummary={mockSummary} />
       <MockDataNotice {...mockNotice} />
       <main className="app-main" role="main">
         {children}
@@ -76,6 +78,8 @@ MainLayout.displayName = 'MainLayout';
 
 MainLayout.defaultProps = {
   mockNotice: { isVisible: false },
+  backendStatus: { status: 'unknown', source: 'unknown' },
+  mockSummary: { domainsUsingMock: 0, totalDomains: 0, metrics: {} },
 };
 
 export default MainLayout;

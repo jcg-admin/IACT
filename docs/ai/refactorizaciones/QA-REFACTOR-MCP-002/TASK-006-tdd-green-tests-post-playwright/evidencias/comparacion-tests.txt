@@ -1,6 +1,0 @@
-=== COMPARACION CON BASELINE ===
-TASK-004 Baseline: 10 tests passing
-TASK-006 Post-Refactor: 10 tests passing
-Tests failed: 0
-Tests errors: 0
-EXITO: Tests en mismo estado que baseline

@@ -106,8 +106,107 @@ const validateCallsMock = (data) => {
   return data;
 };
 
+const validateHealthMock = (data) => {
+  assert(isObject(data), 'health debe ser objeto');
+  assert(typeof data.status === 'string', 'health.status debe ser string');
+  assert(typeof data.checkedAt === 'string', 'health.checkedAt debe ser string');
+
+  if (data.services) {
+    assert(Array.isArray(data.services), 'health.services debe ser arreglo cuando existe');
+    data.services.forEach((svc) => {
+      assert(isObject(svc), 'health.services[x] debe ser objeto');
+      assert(typeof svc.name === 'string', 'health.services[x].name debe ser string');
+      assert(typeof svc.status === 'string', 'health.services[x].status debe ser string');
+    });
+  }
+
+  return data;
+};
+
+const validateUsersMock = (data) => {
+  assert(isObject(data), 'users debe ser objeto');
+  assert(Array.isArray(data.usuarios), 'users.usuarios debe ser arreglo');
+  assert(Array.isArray(data.grupos), 'users.grupos debe ser arreglo');
+  return data;
+};
+
+const validateDashboardMock = (data) => {
+  assert(isObject(data), 'dashboard debe ser objeto');
+  assert(isObject(data.overview), 'dashboard.overview debe ser objeto');
+  assert(Array.isArray(data.widgets), 'dashboard.widgets debe ser arreglo');
+  return data;
+};
+
+const validateConfiguracionMock = (data) => {
+  assert(isObject(data), 'configuracion debe ser objeto');
+  assert(Array.isArray(data.parametros), 'configuracion.parametros debe ser arreglo');
+  return data;
+};
+
+const validateConfigurationMock = (data) => {
+  assert(isObject(data), 'configuration debe ser objeto');
+  assert(Array.isArray(data.settings), 'configuration.settings debe ser arreglo');
+  return data;
+};
+
+const validatePresupuestosMock = (data) => {
+  assert(isObject(data), 'presupuestos debe ser objeto');
+  assert(Array.isArray(data.presupuestos), 'presupuestos.presupuestos debe ser arreglo');
+  return data;
+};
+
+const validatePoliticasMock = (data) => {
+  assert(isObject(data), 'politicas debe ser objeto');
+  assert(Array.isArray(data.politicas), 'politicas.politicas debe ser arreglo');
+  return data;
+};
+
+const validateExcepcionesMock = (data) => {
+  assert(isObject(data), 'excepciones debe ser objeto');
+  assert(Array.isArray(data.excepciones), 'excepciones.excepciones debe ser arreglo');
+  return data;
+};
+
+const validateReportesMock = (data) => {
+  assert(isObject(data), 'reportes debe ser objeto');
+  assert(Array.isArray(data.reportes), 'reportes.reportes debe ser arreglo');
+  return data;
+};
+
+const validateNotificationsMock = (data) => {
+  assert(isObject(data), 'notifications debe ser objeto');
+  assert(Array.isArray(data.messages), 'notifications.messages debe ser arreglo');
+  assert(typeof data.unread_count === 'number', 'notifications.unread_count debe ser numero');
+  return data;
+};
+
+const validateETLMock = (data) => {
+  assert(isObject(data), 'etl debe ser objeto');
+  assert(Array.isArray(data.jobs), 'etl.jobs debe ser arreglo');
+  assert(Array.isArray(data.errors), 'etl.errors debe ser arreglo');
+  return data;
+};
+
+const validateDORAMock = (data) => {
+  assert(isObject(data), 'dora debe ser objeto');
+  assert(isObject(data.metrics), 'dora.metrics debe ser objeto');
+  return data;
+};
+
 module.exports = {
   validateConfigMock,
   validatePermissionsMock,
   validateCallsMock,
+  validateHealthMock,
+  validateUsersMock,
+  validateDashboardMock,
+  validateConfiguracionMock,
+  validateConfigurationMock,
+  validatePresupuestosMock,
+  validatePoliticasMock,
+  validateExcepcionesMock,
+  validateReportesMock,
+  validateNotificationsMock,
+  validateETLMock,
+  validateDORAMock,
 };

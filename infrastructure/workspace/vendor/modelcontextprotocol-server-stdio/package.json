@@ -1,9 +1,0 @@
-{
-  "name": "@modelcontextprotocol/server-stdio",
-  "version": "0.5.0",
-  "description": "Stub transport helpers for MCP servers in offline environments",
-  "type": "module",
-  "exports": {
-    ".": "./index.mjs"
-  }
-}
