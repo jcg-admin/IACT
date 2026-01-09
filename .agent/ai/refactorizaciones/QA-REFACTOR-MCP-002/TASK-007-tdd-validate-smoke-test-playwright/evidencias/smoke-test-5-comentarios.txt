@@ -1,8 +1,0 @@
-=== VALIDACION DE COMENTARIOS ===
-# Playwright MCP version pinned to match Copilot CLI reference log (2025-01-16)
-# This version has been verified to work with the current integration
-PLAYWRIGHT_MCP_VERSION = "0.0.40"
-
-
-PASS: Comentario con referencia a Copilot CLI encontrado
-PASS: Comentario de verificacion encontrado

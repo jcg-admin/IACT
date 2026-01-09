@@ -1,9 +1,0 @@
-{
-  "name": "prettier",
-  "version": "3.1.0",
-  "description": "Stub Prettier CLI for offline formatting",
-  "bin": {
-    "prettier": "bin/prettier.mjs"
-  },
-  "type": "module"
-}

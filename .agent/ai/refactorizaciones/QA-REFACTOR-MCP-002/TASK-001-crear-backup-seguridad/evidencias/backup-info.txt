@@ -1,9 +1,0 @@
-tag backup-refactor-mcp-2025-11-17
-Tagger: Claude <noreply@anthropic.com>
-
-Backup antes de integrar refactorizaciones MCP (Playwright + PEP 585)
-13b89d1bde163688aaaed9d054060f2f6bc6e471
-docs(qa): agregar evidencias de ejecucion TASK-001
-Claude
-noreply@anthropic.com
-Mon Nov 17 22:57:28 2025 +0000

@@ -1,9 +1,0 @@
-{
-  "name": "codex-mcp",
-  "version": "1.0.0",
-  "description": "Offline stub for the Codex MCP CLI so tests can exercise npm scripts",
-  "type": "module",
-  "bin": {
-    "codex": "bin/codex.mjs"
-  }
-}

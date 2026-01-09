@@ -1,5 +1,0 @@
-[mysqld]
-bind-address = 127.0.0.1
-sql_mode = STRICT_ALL_TABLES
-character-set-server = utf8mb4
-collation-server = utf8mb4_unicode_ci
