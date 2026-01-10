@@ -1,564 +1,269 @@
-# IACT DevBox - Multi-Database Development Environment
+# IACT DevBox
 
-Entorno de desarrollo Vagrant con 3 VMs aisladas para desarrollo local de aplicaciones con múltiples bases de datos.
+Entorno de desarrollo multi-VM para bases de datos con Vagrant y VirtualBox.
 
----
+## ¿Qué es IACT DevBox?
 
-## Descripción
+IACT DevBox es un entorno de desarrollo completo que proporciona 3 máquinas virtuales pre-configuradas:
 
-IACT DevBox es un entorno de desarrollo completo que proporciona:
+- **MariaDB 11.4** - Base de datos legacy (IVR)
+- **PostgreSQL 16** - Base de datos principal (Analytics)
+- **Adminer 4.8.1** - Interfaz web para administración
 
-- MariaDB 11.4 para bases de datos MySQL/MariaDB legacy
-- PostgreSQL 16 para aplicaciones modernas
-- Adminer como interfaz web para gestión de bases de datos
+Todas las VMs están conectadas en una red Host-Only privada (192.168.56.0/24) y son accesibles desde tu máquina host.
 
-Todas las VMs están conectadas en una red privada host-only, accesibles únicamente desde la máquina host.
+## Quick Start
 
----
+### Prerequisitos
 
-## Requisitos del Sistema
+- **VirtualBox** 7.0+ → [Descargar](https://www.virtualbox.org/)
+- **Vagrant** 2.3+ → [Descargar](https://www.vagrantup.com/)
+- **RAM**: 6 GB libres (recomendado)
+- **Disco**: 20 GB libres
 
-### Software requerido
-
-- VirtualBox 7.x o superior
-- Vagrant 2.x o superior
-- Sistema operativo: Windows 10/11, Linux, o macOS
-- Espacio en disco: mínimo 10 GB libres
-- RAM: mínimo 6 GB (para correr las 3 VMs simultáneamente)
-
-### Opcional
-
-- MySQL Client (para conectar desde host)
-- PostgreSQL Client (para conectar desde host)
-- Git (para control de versiones)
-
----
-
-## Arquitectura
-
-El sistema consta de 3 máquinas virtuales independientes:
-
-### VM 1 - MariaDB
-- Hostname: iact-mariadb
-- IP: 192.168.56.10
-- Puerto: 3306
-- RAM: 2048 MB
-- Base de datos: ivr_legacy
-
-### VM 2 - PostgreSQL
-- Hostname: iact-postgres
-- IP: 192.168.56.11
-- Puerto: 5432
-- RAM: 2048 MB
-- Base de datos: iact_analytics
-
-### VM 3 - Adminer
-- Hostname: iact-adminer
-- IP: 192.168.56.12
-- Puertos: 80 (HTTP), 443 (HTTPS)
-- RAM: 1024 MB
-- Interfaz web para gestión de bases de datos
-
-Ver documentación completa de arquitectura en: docs/ARCHITECTURE.md
-
----
-
-## Inicio Rápido
-
-### Instalación
-
-```bash
-# Clonar o descargar el proyecto
-cd infrastructure
-
-# Levantar todas las VMs
-vagrant up
-```
-
-El proceso de aprovisionamiento tarda aproximadamente 6 minutos.
-
-### Verificación
-
-```bash
-# Verificar estado de las VMs
-vagrant status
-
-# Ejecutar script de verificación
-.\scripts\verify-vms.ps1
-```
-
-### Acceso a servicios
-
-Adminer Web Interface:
-```
-http://192.168.56.12
-https://192.168.56.12 (con certificado autofirmado)
-```
-
-Conexión a MariaDB desde host:
-```bash
-mysql -h 192.168.56.10 -u django_user -p'django_pass' ivr_legacy
-```
-
-Conexión a PostgreSQL desde host:
-```bash
-PGPASSWORD='django_pass' psql -h 192.168.56.11 -U django_user -d iact_analytics
-```
-
----
-
-## Credenciales
-
-### MariaDB
-```
-Host:     192.168.56.10
-Port:     3306
-Database: ivr_legacy
-User:     django_user
-Password: django_pass
-Root:     rootpass123
-```
-
-### PostgreSQL
-```
-Host:     192.168.56.11
-Port:     5432
-Database: iact_analytics
-User:     django_user
-Password: django_pass
-Postgres: postgrespass123
-```
-
-### Adminer
-```
-URL HTTP:  http://192.168.56.12
-URL HTTPS: https://192.168.56.12
-```
-
-ADVERTENCIA: Estas credenciales son para DESARROLLO únicamente. 
-NO usar en producción.
-
----
-
-## Gestión de VMs
-
-### Comandos básicos
-
-```bash
-# Levantar todas las VMs
-vagrant up
-
-# Levantar una VM específica
-vagrant up mariadb
-vagrant up postgresql
-vagrant up adminer
-
-# Ver estado
-vagrant status
-
-# Conectar por SSH
-vagrant ssh mariadb
-vagrant ssh postgresql
-vagrant ssh adminer
-
-# Detener VMs
-vagrant halt
-
-# Detener una VM específica
-vagrant halt mariadb
-
-# Reiniciar
-vagrant reload
-
-# Destruir VMs
-vagrant destroy
-
-# Destruir y recrear
-vagrant destroy -f
-vagrant up
-
-# Re-provisionar (aplicar cambios en scripts)
-vagrant provision
-vagrant provision mariadb
-```
-
----
-
-## Logs de Aprovisionamiento
-
-### Ubicación
-
-Todos los logs se guardan en: `logs/`
-
-Los logs son compartidos entre el host y las VMs (carpeta sincronizada).
-
-### Archivos generados
-
-Después de vagrant up, se generan 10 archivos de log:
-
-```
-logs/
-├── mariadb_bootstrap.log
-├── mariadb_install.log
-├── mariadb_setup.log
-├── postgres_bootstrap.log
-├── postgres_install.log
-├── postgres_setup.log
-├── adminer_bootstrap.log
-├── adminer_install.log
-├── adminer_ssl.log
-└── adminer_swap.log
-```
-
-### Consultar logs
+### Setup Inicial (Recomendado)
 
 ```powershell
-# Ver todos los logs
-dir logs\*.log
+# 1. Verificar requisitos
+.\scripts\check-prerequisites.ps1
 
-# Buscar errores
-Select-String -Path logs\*.log -Pattern "\[ERROR"
-
-# Ver logs de una VM específica
-Get-Content logs\mariadb_bootstrap.log
-
-# Ver últimas 20 líneas
-Get-Content logs\mariadb_bootstrap.log -Tail 20
-
-# Verificar que completó exitosamente
-Select-String -Path logs\*_bootstrap.log -Pattern "completed successfully"
+# 2. Setup automático guiado
+.\scripts\setup-environment.ps1
 ```
 
----
+El script `setup-environment.ps1` te guiará paso a paso y ejecutará todo automáticamente.
 
-## Integración con Django
+### Setup Manual
 
-### Configuración de settings.py
+```powershell
+# 1. Crear VMs
+vagrant up
 
-```python
-DATABASES = {
-    'legacy': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'ivr_legacy',
-        'USER': 'django_user',
-        'PASSWORD': 'django_pass',
-        'HOST': '192.168.56.10',
-        'PORT': '3306',
-        'OPTIONS': {
-            'charset': 'utf8mb4',
-        },
-    },
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'iact_analytics',
-        'USER': 'django_user',
-        'PASSWORD': 'django_pass',
-        'HOST': '192.168.56.11',
-        'PORT': '5432',
-    }
-}
+# 2. Verificar que funcionan
+.\scripts\verify-vms.ps1
+
+# 3. Probar conectividad
+ping 192.168.56.10
+ping 192.168.56.11
+ping 192.168.56.12
 ```
 
-### Migraciones
+## Acceso a Servicios
 
+### MariaDB 11.4
+
+```
+IP:       192.168.56.10:3306
+Users:    root / django_user
+Password: rootpass123 / django_pass
+Database: ivr_legacy
+```
+
+**Comando:**
 ```bash
-# Aplicar migraciones a base de datos legacy
-python manage.py migrate --database=legacy
-
-# Aplicar migraciones a base de datos principal
-python manage.py migrate --database=default
+mysql -h 192.168.56.10 -u root -p'rootpass123'
 ```
 
----
+### PostgreSQL 16
+
+```
+IP:       192.168.56.11:5432
+Users:    postgres / django_user
+Password: postgrespass123 / django_pass
+Database: iact_analytics
+```
+
+**Comando:**
+```bash
+psql -h 192.168.56.11 -U postgres
+```
+
+### Adminer (Web Interface)
+
+```
+HTTP:  http://192.168.56.12
+HTTPS: https://192.168.56.12
+```
+
+**Acceso desde navegador:**
+- Usuario: root / postgres / django_user
+- Contraseñas: ver arriba
 
 ## Scripts de Utilidad
 
-### verify-vms.ps1
+IACT DevBox incluye 7 scripts PowerShell para facilitar el manejo del entorno:
 
-Verifica el estado completo del sistema:
+| Script | Cuándo Usar | Descripción |
+|--------|-------------|-------------|
+| `check-prerequisites.ps1` | **Antes** de `vagrant up` | Verifica requisitos del sistema |
+| `setup-environment.ps1` | Primera vez | Asistente de setup completo |
+| `diagnose-system.ps1` | Hay problemas | Diagnóstico profundo del sistema |
+| `fix-network.ps1` | Ghost Network Adapters | Elimina adaptadores duplicados |
+| `verify-vms.ps1` | **Después** de `vagrant up` | Verifica que VMs funcionan |
+| `clean-logs.ps1` | Mantenimiento | Limpia y archiva logs antiguos |
+| `generate-support-bundle.ps1` | Soporte técnico | Genera bundle de diagnóstico |
+
+**Ejemplo de uso:**
+```powershell
+# Diagnóstico completo
+.\scripts\diagnose-system.ps1
+
+# Generar reporte para soporte
+.\scripts\generate-support-bundle.ps1 -IncludeLogs
+```
+
+## Comandos Vagrant Esenciales
 
 ```powershell
-.\scripts\verify-vms.ps1
+vagrant status          # Ver estado de VMs
+vagrant up              # Iniciar todas las VMs
+vagrant halt            # Detener todas las VMs
+vagrant reload          # Reiniciar VMs
+vagrant destroy -f      # Eliminar VMs completamente
+vagrant ssh mariadb     # SSH a VM específica
 ```
-
-Revisa:
-- Estado de VMs
-- Logs generados
-- Conectividad de red
-- Puertos de servicios
-- Acceso HTTP
-
-### clean-logs.ps1
-
-Limpia logs antiguos moviéndolos a archive:
-
-```powershell
-.\scripts\clean-logs.ps1
-```
-
----
-
-## Mantenimiento
-
-### Re-provisioning
-
-Si actualizas los scripts de aprovisionamiento:
-
-```bash
-# Re-provisionar todas las VMs
-vagrant provision
-
-# Re-provisionar una VM específica
-vagrant provision mariadb
-```
-
-Nota: Con la versión 1.0.0, el re-provisioning es idempotente y no reinstala paquetes innecesariamente.
-
-### Actualizar configuraciones
-
-Si modificas archivos en config/:
-
-```bash
-vagrant provision
-```
-
-### Limpiar y empezar de cero
-
-```bash
-vagrant destroy -f
-vagrant up
-```
-
----
 
 ## Estructura del Proyecto
 
 ```
-infrastructure/
-├── config/              Archivos de configuración
-├── docs/                Documentación
-├── logs/                Logs de aprovisionamiento
-│   └── archive/         Logs antiguos
-├── provisioners/        Scripts de aprovisionamiento
-│   ├── adminer/
+IACT/db/
+├── Vagrantfile              # Configuración de VMs
+├── scripts/                 # Scripts PowerShell
+│   ├── diagnose-system.ps1
+│   ├── fix-network.ps1
+│   └── ...
+├── provisioners/            # Scripts de provisioning (Bash)
 │   ├── mariadb/
-│   └── postgres/
-├── scripts/             Scripts de utilidad
-├── utils/               Funciones compartidas
-├── .gitignore
-├── CHANGELOG.md         Historial de cambios
-└── Vagrantfile          Configuración de Vagrant
+│   ├── postgres/
+│   └── adminer/
+├── utils/                   # Funciones compartidas (Bash)
+│   ├── core.sh
+│   ├── logging.sh
+│   └── ...
+├── logs/                    # Logs de provisioning
+│   └── archive/             # Logs archivados
+├── config/                  # Configuración de servicios
+├── test/                    # Scripts de prueba
+└── docs/                    # Documentación
 ```
 
----
+## Documentación Completa
 
-## Documentación
+- **[QUICKSTART.md](docs/QUICKSTART.md)** - Comandos rápidos
+- **[TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md)** - Solución de problemas
+- **[COMMANDS.md](docs/COMMANDS.md)** - Referencia de comandos
+- **[PROVISIONERS.md](docs/PROVISIONERS.md)** - Cómo funcionan los provisioners
+- **[DEVELOPMENT.md](docs/DEVELOPMENT.md)** - Extender el sistema
 
-### Documentos disponibles
+## Troubleshooting Rápido
 
-- README.md (este archivo): Guía rápida
-- docs/ARCHITECTURE.md: Arquitectura detallada
-- docs/TROUBLESHOOTING.md: Solución de problemas
-- docs/CHANGELOG.md: Historial de versiones
-- docs/reference/utils-guide.md: Guía de funciones utils/
-- docs/reference/logging-system.md: Sistema de logging
+### Problema #1: Error 10060 (Timeout)
 
-### Temas cubiertos
+**Síntomas:**
+- `ping 192.168.56.10` falla con 100% packet loss
+- Error de conexión a bases de datos
 
-- Configuración de red
-- Flujo de aprovisionamiento
-- Sistema de logging
-- Backups automáticos
-- Seguridad
-- Conexión desde aplicaciones
+**Solución:**
+```powershell
+# 1. Diagnosticar
+.\scripts\diagnose-system.ps1
 
----
+# 2. Si detecta Ghost Network Adapters
+.\scripts\fix-network.ps1
 
-## Solución de Problemas
+# 3. Verificar
+.\scripts\verify-vms.ps1
+```
 
-### Problemas comunes
+Ver [TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md) para más problemas.
 
-Ver documentación completa en: docs/TROUBLESHOOTING.md
+### Problema #2: VMs no arrancan
 
-#### VMs no inician
+```powershell
+# Ver logs de provisioning
+Get-ChildItem logs\*.log | Select-String "ERROR"
+
+# Reintentar provisioning
+vagrant reload --provision
+```
+
+## Logs y Mantenimiento
+
+Los logs se generan automáticamente en `logs/`:
+
+```
+logs/
+├── mariadb_bootstrap.log    # Provisioning de MariaDB
+├── postgres_bootstrap.log   # Provisioning de PostgreSQL
+├── adminer_bootstrap.log    # Provisioning de Adminer
+└── diagnose-system_*.log    # Scripts de diagnóstico
+```
+
+**Limpiar logs antiguos:**
+```powershell
+# Mover logs de 30+ días a archive/
+.\scripts\clean-logs.ps1
+
+# Comprimir logs archivados
+.\scripts\clean-logs.ps1 -Compress
+
+# Limpiar todo (útil para desarrollo)
+.\scripts\clean-logs.ps1 -DaysToKeep 0 -Compress -DeleteArchived
+```
+
+## Desarrollo
+
+### Modificar Vagrantfile
+
+El `Vagrantfile` define las 3 VMs. Para cambiar configuración:
+
+```ruby
+# Ejemplo: Cambiar RAM de MariaDB
+config.vm.define "mariadb" do |mariadb|
+  mariadb.vm.provider "virtualbox" do |vb|
+    vb.memory = 3072  # Cambiar de 2048 a 3072
+  end
+end
+```
+
+### Agregar Scripts de Provisioning
+
+Los provisioners están en `provisioners/<vm>/`:
 
 ```bash
-# Verificar VirtualBox
-VBoxManage --version
+# Ejemplo: Agregar paso a MariaDB
+# Editar: provisioners/mariadb/bootstrap.sh
 
-# Verificar red host-only
-VBoxManage list hostonlyifs
-
-# Reiniciar servicio VirtualBox (Windows)
-Restart-Service -Name "VBoxSDS"
+log_info "Nuevo paso de configuración"
+# ... tu código aquí ...
 ```
 
-#### Errores de red
-
-```
-VERR_INTNET_FLT_IF_NOT_FOUND
-```
-
-Solución: Deshabilitar y habilitar adaptador de red en ncpa.cpl
-
-#### Servicios no arrancan
-
-```bash
-# SSH a la VM
-vagrant ssh mariadb
-
-# Verificar servicio
-sudo systemctl status mariadb
-
-# Ver logs del sistema
-sudo journalctl -u mariadb -n 50
-```
-
-#### No se generan logs
-
-Causa: VMs ya provisionadas previamente
-
-Solución:
-```bash
-vagrant destroy -f
-vagrant up
-```
-
----
-
-## Seguridad
-
-### Alcance
-
-Este entorno está diseñado para DESARROLLO LOCAL únicamente.
-
-### Características de seguridad
-
-- Red privada host-only (no accesible desde Internet)
-- Firewall configurado en cada VM
-- Acceso limitado a red 192.168.56.0/24
-- Certificados SSL autofirmados (para desarrollo)
-
-### Advertencias
-
-1. NO usar en producción
-2. NO exponer al Internet
-3. Cambiar TODAS las contraseñas para producción
-4. Los certificados SSL son autofirmados
-5. Las credenciales están en texto plano en configs
-
----
-
-## Backups Automáticos
-
-El sistema crea backups automáticos de archivos críticos de configuración:
-
-### Archivos con backup
-
-- /etc/mysql/mariadb.conf.d/50-server.cnf
-- /etc/postgresql/16/main/pg_hba.conf
-- /etc/postgresql/16/main/postgresql.conf
-- /etc/apache2/sites-available/adminer.conf
-- /etc/apache2/sites-available/adminer-ssl.conf
-
-### Formato de backup
-
-```
-archivo.backup.YYYYMMDD_HHMMSS
-```
-
-Ejemplo:
-```
-50-server.cnf.backup.20260101_153045
-```
-
-Los backups NO se sobrescriben, permitiendo auditoría completa de cambios.
-
----
-
-## Performance
-
-### Tiempos de aprovisionamiento
-
-Primera ejecución (vagrant up):
-- MariaDB: ~2 min
-- PostgreSQL: ~1.5 min
-- Adminer: ~2.5 min
-- Total: ~6 min
-
-Re-provisioning (vagrant provision):
-- MariaDB: ~30 seg
-- PostgreSQL: ~30 seg
-- Adminer: ~45 seg
-- Total: ~2 min
-
-Nota: Los tiempos de re-provisioning son significativamente menores gracias a instalación idempotente.
-
----
-
-## Contribuir
-
-### Reportar problemas
-
-1. Verificar que no sea un problema conocido (docs/TROUBLESHOOTING.md)
-2. Recolectar información:
-   - Output de vagrant up
-   - Contenido de logs/
-   - Versión de VirtualBox y Vagrant
-3. Crear issue con información completa
-
-### Mejoras
-
-1. Fork del repositorio
-2. Crear rama para feature
-3. Probar cambios completamente
-4. Actualizar documentación si es necesario
-5. Submit pull request
-
----
-
-## Licencia
-
-Especificar licencia según aplique al proyecto.
-
----
+Ver [DEVELOPMENT.md](docs/DEVELOPMENT.md) para detalles.
 
 ## Soporte
 
+### Generar Reporte de Diagnóstico
+
+```powershell
+# Bundle completo
+.\scripts\generate-support-bundle.ps1 -IncludeLogs -IncludeVagrantfile
+
+# Resultado: support-bundle_TIMESTAMP.zip
+```
+
+Comparte el archivo `.zip` con el equipo de soporte.
+
 ### Recursos
 
-- Documentación: docs/
-- Logs: logs/
-- Scripts de diagnóstico: scripts/verify-vms.ps1
+- Logs en: `logs/`
+- VirtualBox Logs: `~/.VirtualBox/`
+- Vagrant Logs: Agregar `VAGRANT_LOG=debug` antes de comandos
 
-### Referencias externas
+## Licencia
 
-- VirtualBox: https://www.virtualbox.org/manual/
-- Vagrant: https://www.vagrantup.com/docs
-- MariaDB: https://mariadb.com/kb/
-- PostgreSQL: https://www.postgresql.org/docs/
-- Adminer: https://www.adminer.org/
+Proyecto interno de IACT para desarrollo.
 
 ---
 
-## Changelog
-
-Ver CHANGELOG.md para historial completo de versiones.
-
-### Versión actual: 1.0.0
-
-Cambios principales:
-- Refactorización completa de provisioners
-- Sistema de logging mejorado
-- Backups automáticos de configuración
-- Estructura de directorios empresarial
-- Documentación completa
-- Scripts de utilidad
-
----
-
-## Créditos
-
-IACT DevBox - Entorno de Desarrollo Multi-Base de Datos
-
-Desarrollado para proyectos que requieren múltiples bases de datos en desarrollo local.
+**Versión**: 1.0.0  
+**Última actualización**: 2026-01-10
