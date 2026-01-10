@@ -11,6 +11,35 @@ $script:ErrorColor = "Red"
 $script:WarningColor = "Yellow"
 $script:InfoColor = "Cyan"
 
+# Detectar directorio raiz del proyecto (donde esta Vagrantfile)
+function Get-ProjectRoot {
+    $currentDir = Get-Location
+    $maxLevels = 5
+    $level = 0
+
+    while ($level -lt $maxLevels) {
+        if (Test-Path (Join-Path $currentDir "Vagrantfile")) {
+            return $currentDir
+        }
+
+        $parentDir = Split-Path $currentDir -Parent
+        if (-not $parentDir -or $parentDir -eq $currentDir) {
+            break
+        }
+
+        $currentDir = $parentDir
+        $level++
+    }
+
+    # Si no se encuentra Vagrantfile, usar directorio actual
+    return Get-Location
+}
+
+$script:ProjectRoot = Get-ProjectRoot
+$script:LogsPath = Join-Path $script:ProjectRoot "logs"
+$script:Timestamp = Get-Date -Format "yyyyMMdd_HHmmss"
+$script:LogFile = Join-Path $script:LogsPath "diagnose-system_$($script:Timestamp).log"
+
 # Configuracion de IPs esperadas
 $script:ExpectedHostIP = "192.168.56.1"
 $script:ExpectedNetworkRange = "192.168.56.0/24"
@@ -18,6 +47,36 @@ $script:ExpectedVMs = @{
     "mariadb" = "192.168.56.10"
     "postgresql" = "192.168.56.11"
     "adminer" = "192.168.56.12"
+}
+
+# Funcion para inicializar logging
+function Initialize-Logging {
+    if (-not (Test-Path $script:LogsPath)) {
+        New-Item -ItemType Directory -Path $script:LogsPath -Force | Out-Null
+    }
+
+    $startMessage = "========================================`r`n"
+    $startMessage += "IACT DevBox - System Diagnostics`r`n"
+    $startMessage += "Version: 1.0.0`r`n"
+    $startMessage += "Timestamp: $($script:Timestamp)`r`n"
+    $startMessage += "Log File: $($script:LogFile)`r`n"
+    $startMessage += "========================================`r`n"
+
+    $startMessage | Out-File -FilePath $script:LogFile -Encoding UTF8
+}
+
+# Funcion para escribir a log y consola
+function Write-Log {
+    param(
+        [string]$Message,
+        [string]$Level = "INFO"
+    )
+
+    $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
+    $logMessage = "[$timestamp] [$Level] $Message"
+
+    # Escribir a archivo sin colores
+    $logMessage | Out-File -FilePath $script:LogFile -Append -Encoding UTF8
 }
 
 # Funcion para mostrar header
@@ -28,6 +87,12 @@ function Show-Header {
     Write-Host " Version: 1.0.0" -ForegroundColor $InfoColor
     Write-Host "========================================" -ForegroundColor $InfoColor
     Write-Host ""
+    Write-Host "  [INFO] Directorio del proyecto: $($script:ProjectRoot)" -ForegroundColor $InfoColor
+    Write-Host "  [INFO] Generando log: $($script:LogFile)" -ForegroundColor $InfoColor
+    Write-Host ""
+
+    Write-Log "=== Inicio de diagnostico ===" "INFO"
+    Write-Log "Directorio del proyecto: $($script:ProjectRoot)" "INFO"
 }
 
 # Funcion para mostrar seccion
@@ -36,30 +101,38 @@ function Show-Section {
     Write-Host ""
     Write-Host "$Title" -ForegroundColor $InfoColor
     Write-Host ("-" * $Title.Length) -ForegroundColor $InfoColor
+
+    Write-Log "" "INFO"
+    Write-Log $Title "INFO"
+    Write-Log ("-" * $Title.Length) "INFO"
 }
 
 # Funcion para mostrar resultado OK
 function Show-OK {
     param([string]$Message)
     Write-Host "  [OK] $Message" -ForegroundColor $SuccessColor
+    Write-Log "[OK] $Message" "INFO"
 }
 
 # Funcion para mostrar resultado FAIL
 function Show-Fail {
     param([string]$Message)
     Write-Host "  [FAIL] $Message" -ForegroundColor $ErrorColor
+    Write-Log "[FAIL] $Message" "ERROR"
 }
 
 # Funcion para mostrar resultado WARN
 function Show-Warn {
     param([string]$Message)
     Write-Host "  [WARN] $Message" -ForegroundColor $WarningColor
+    Write-Log "[WARN] $Message" "WARN"
 }
 
 # Funcion para mostrar resultado INFO
 function Show-Info {
     param([string]$Message)
     Write-Host "  [INFO] $Message" -ForegroundColor $InfoColor
+    Write-Log "[INFO] $Message" "INFO"
 }
 
 # 1. Diagnostico de adaptadores Host-Only
@@ -148,7 +221,7 @@ function Test-HostOnlyAdapters {
             Show-Fail "PROBLEMA: Multiples adaptadores Host-Only detectados ($adapterCount)"
             Show-Warn "Esto causa el problema de Ghost Network Adapters"
             Show-Info "Solucion: Eliminar adaptadores sobrantes con fix-network.ps1"
-            
+
             if ($ghostAdapters.Count -gt 0) {
                 Write-Host ""
                 Show-Info "Adaptadores a eliminar:"
@@ -589,6 +662,9 @@ function Show-DiagnosticSummary {
 
 # Funcion principal
 function Main {
+    # Inicializar logging
+    Initialize-Logging
+
     Show-Header
 
     # Ejecutar diagnosticos
@@ -607,6 +683,9 @@ function Main {
                           -PnPResult $pnpResult `
                           -ResourceResult $resourceResult
 
+    Write-Host ""
+    Write-Log "=== Fin de diagnostico ===" "INFO"
+    Write-Host "  [INFO] Log guardado en: $($script:LogFile)" -ForegroundColor $InfoColor
     Write-Host ""
 }
 
