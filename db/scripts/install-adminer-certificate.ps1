@@ -43,8 +43,40 @@ function Get-ProjectRoot {
 }
 
 $script:ProjectRoot = Get-ProjectRoot
+$script:LogsPath = Join-Path $script:ProjectRoot "logs"
+$script:Timestamp = Get-Date -Format "yyyyMMdd_HHmmss"
+$script:LogFile = Join-Path $script:LogsPath "install-adminer-certificate_$($script:Timestamp).log"
 $script:TempCertPath = Join-Path $env:TEMP "adminer.cer"
 $script:CertSubject = "*192.168.56.12*"
+
+# Funcion para inicializar logging
+function Initialize-Logging {
+    if (-not (Test-Path $script:LogsPath)) {
+        New-Item -ItemType Directory -Path $script:LogsPath -Force | Out-Null
+    }
+    
+    $startMessage = "========================================`r`n"
+    $startMessage += "Adminer SSL Certificate Installer`r`n"
+    $startMessage += "Version: 1.0.0`r`n"
+    $startMessage += "Timestamp: $($script:Timestamp)`r`n"
+    $startMessage += "Log File: $($script:LogFile)`r`n"
+    $startMessage += "========================================`r`n"
+    
+    $startMessage | Out-File -FilePath $script:LogFile -Encoding UTF8 -Confirm:$false
+}
+
+# Funcion para escribir a log
+function Write-Log {
+    param(
+        [string]$Message,
+        [string]$Level = "INFO"
+    )
+    
+    $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
+    $logMessage = "[$timestamp] [$Level] $Message"
+    
+    $logMessage | Out-File -FilePath $script:LogFile -Append -Encoding UTF8 -Confirm:$false
+}
 
 # Funciones de output
 function Show-Header {
@@ -54,26 +86,35 @@ function Show-Header {
     Write-Host " Version: 1.0.0" -ForegroundColor $InfoColor
     Write-Host "========================================" -ForegroundColor $InfoColor
     Write-Host ""
+    Write-Host "  [INFO] Directorio del proyecto: $($script:ProjectRoot)" -ForegroundColor $InfoColor
+    Write-Host "  [INFO] Generando log: $($script:LogFile)" -ForegroundColor $InfoColor
+    Write-Host ""
+    
+    Write-Log "=== Inicio de instalación de certificado SSL ===" "INFO"
 }
 
 function Show-OK {
     param([string]$Message)
     Write-Host "  [OK] $Message" -ForegroundColor $SuccessColor
+    Write-Log "[OK] $Message" "INFO"
 }
 
 function Show-Fail {
     param([string]$Message)
     Write-Host "  [FAIL] $Message" -ForegroundColor $ErrorColor
+    Write-Log "[FAIL] $Message" "ERROR"
 }
 
 function Show-Warn {
     param([string]$Message)
     Write-Host "  [WARN] $Message" -ForegroundColor $WarningColor
+    Write-Log "[WARN] $Message" "WARN"
 }
 
 function Show-Info {
     param([string]$Message)
     Write-Host "  [INFO] $Message" -ForegroundColor $InfoColor
+    Write-Log "[INFO] $Message" "INFO"
 }
 
 function Show-Section {
@@ -81,6 +122,9 @@ function Show-Section {
     Write-Host ""
     Write-Host "$Title" -ForegroundColor $InfoColor
     Write-Host ("-" * $Title.Length) -ForegroundColor $InfoColor
+    
+    Write-Log "" "INFO"
+    Write-Log $Title "INFO"
 }
 
 # Funcion para mostrar ayuda
@@ -97,6 +141,7 @@ function Show-Help {
     Write-Host "PARAMETROS:"
     Write-Host "  -Force     Instalar sin pedir confirmacion"
     Write-Host "  -Remove    Eliminar certificado instalado"
+    Write-Host "  -Verbose   Mostrar información detallada (parametro comun de PowerShell)"
     Write-Host "  -Help      Mostrar esta ayuda"
     Write-Host ""
     Write-Host "REQUIERE:"
@@ -113,6 +158,9 @@ function Show-Help {
     Write-Host ""
     Write-Host "  .\install-adminer-certificate.ps1 -Remove"
     Write-Host "    Eliminar certificado instalado"
+    Write-Host ""
+    Write-Host "  .\install-adminer-certificate.ps1 -Verbose"
+    Write-Host "    Instalar con salida detallada de debugging"
     Write-Host ""
     Write-Host "NOTA:"
     Write-Host "  Despues de instalar, cierra completamente el navegador y vuelve a abrirlo."
@@ -138,9 +186,14 @@ function Get-InstalledCertificate {
         $cert = Get-ChildItem -Path Cert:\LocalMachine\Root -ErrorAction SilentlyContinue | 
                 Where-Object { $_.Subject -like $script:CertSubject }
         
+        if ($cert) {
+            Write-Log "Certificado encontrado: $($cert.Thumbprint)" "INFO"
+        }
+        
         return $cert
     }
     catch {
+        Write-Log "Error buscando certificado: $_" "ERROR"
         return $null
     }
 }
@@ -152,21 +205,32 @@ function Export-CertificateFromVM {
     # Verificar que VM esta corriendo
     try {
         Push-Location $script:ProjectRoot
-        $status = & vagrant status adminer 2>&1
+        $status = & vagrant status adminer 2>&1 | Out-String
         Pop-Location
         
-        if ($status -notmatch "running") {
+        Write-Log "Verificando estado de VM adminer" "INFO"
+        
+        # Buscar patron especifico: "adminer" seguido de "running"
+        if ($status -match "adminer\s+running") {
+            Show-OK "VM de Adminer esta corriendo"
+            Write-Log "VM adminer está corriendo" "INFO"
+        }
+        else {
             Show-Fail "VM de Adminer no esta corriendo"
+            Write-Log "VM adminer no está corriendo" "ERROR"
+            Show-Info "Estado actual:"
+            Write-Host ""
+            & vagrant status adminer 2>&1 | Select-String -Pattern "adminer"
+            Write-Host ""
             Show-Info "Ejecutar: vagrant up adminer"
             return $false
         }
-        
-        Show-OK "VM de Adminer esta corriendo"
         
     }
     catch {
         Pop-Location
         Show-Fail "Error verificando estado de VM: $_"
+        Write-Log "Error verificando estado de VM: $_" "ERROR"
         return $false
     }
     
@@ -174,25 +238,81 @@ function Export-CertificateFromVM {
     try {
         Show-Info "Exportando certificado desde VM..."
         
-        Push-Location $script:ProjectRoot
-        $certContent = & vagrant ssh adminer -c "sudo cat /etc/ssl/certs/adminer-selfsigned.crt" 2>&1
-        Pop-Location
+        Write-Verbose "Directorio del proyecto: $script:ProjectRoot"
+        Write-Verbose "Verificando existencia del certificado..."
         
-        if ($LASTEXITCODE -ne 0) {
-            Show-Fail "Error exportando certificado desde VM"
+        Push-Location $script:ProjectRoot
+        
+        # Primero verificar que el certificado existe
+        $certCheck = & vagrant ssh adminer -c "sudo test -f /etc/ssl/certs/adminer-selfsigned.crt && echo EXISTS || echo MISSING" 2>&1
+        
+        Write-Verbose "Resultado de verificación: $certCheck"
+        
+        if ($certCheck -match "MISSING") {
+            Pop-Location
+            Show-Fail "Certificado no existe en la VM"
+            Write-Log "Certificado no existe en /etc/ssl/certs/adminer-selfsigned.crt" "ERROR"
+            Show-Info "Ruta esperada: /etc/ssl/certs/adminer-selfsigned.crt"
+            Show-Info "Regenerar con: vagrant reload adminer --provision"
             return $false
         }
+        
+        Write-Verbose "Ejecutando: vagrant ssh adminer -c 'sudo cat /etc/ssl/certs/adminer-selfsigned.crt'"
+        
+        # Exportar certificado
+        $certContent = & vagrant ssh adminer -c "sudo cat /etc/ssl/certs/adminer-selfsigned.crt" 2>&1
+        $exitCode = $LASTEXITCODE
+        
+        Write-Verbose "Exit code: $exitCode"
+        Write-Verbose "Líneas recibidas: $($certContent.Count)"
+        
+        Pop-Location
+        
+        if ($exitCode -ne 0) {
+            Show-Fail "Error exportando certificado desde VM (exit code: $exitCode)"
+            Write-Log "Error exportando certificado: exit code $exitCode" "ERROR"
+            Show-Info "Salida del comando:"
+            Write-Host ""
+            $certContent | ForEach-Object { 
+                Write-Host "  $_" -ForegroundColor Gray
+                Write-Log "  $_" "ERROR"
+            }
+            Write-Host ""
+            return $false
+        }
+        
+        # Verificar que el contenido es válido
+        if (-not ($certContent -match "BEGIN CERTIFICATE")) {
+            Show-Fail "El contenido exportado no parece ser un certificado válido"
+            Write-Log "Contenido exportado no es un certificado válido" "ERROR"
+            Show-Info "Contenido recibido:"
+            Write-Host ""
+            $certContent | Select-Object -First 5 | ForEach-Object { 
+                Write-Host "  $_" -ForegroundColor Gray
+                Write-Log "  $_" "ERROR"
+            }
+            Write-Host "  ..." -ForegroundColor Gray
+            Write-Host ""
+            return $false
+        }
+        
+        Write-Verbose "Guardando en: $script:TempCertPath"
         
         # Guardar en archivo temporal
         $certContent | Out-File -FilePath $script:TempCertPath -Encoding ASCII
         
         Show-OK "Certificado exportado a: $script:TempCertPath"
+        Write-Log "Certificado exportado exitosamente" "INFO"
+        Write-Log "Ruta temporal: $script:TempCertPath" "INFO"
         return $true
         
     }
     catch {
-        Pop-Location
+        if (Get-Location -eq $script:ProjectRoot) {
+            Pop-Location
+        }
         Show-Fail "Error exportando certificado: $_"
+        Write-Verbose "Stack trace: $($_.ScriptStackTrace)"
         return $false
     }
 }
@@ -229,6 +349,7 @@ function Install-Certificate {
             $cert = Import-Certificate -FilePath $script:TempCertPath -CertStoreLocation Cert:\LocalMachine\Root -ErrorAction Stop
             
             Show-OK "Certificado instalado exitosamente"
+            Write-Log "Certificado instalado: $($cert.Thumbprint)" "INFO"
             Write-Host ""
             Show-Info "Detalles del certificado:"
             Write-Host "  Subject: $($cert.Subject)" -ForegroundColor Gray
@@ -236,15 +357,20 @@ function Install-Certificate {
             Write-Host "  Valido hasta: $($cert.NotAfter)" -ForegroundColor Gray
             Write-Host ""
             
+            Write-Log "Subject: $($cert.Subject)" "INFO"
+            Write-Log "Valido hasta: $($cert.NotAfter)" "INFO"
+            
             return $true
         }
         else {
             Show-Info "Instalacion simulada (WhatIf)"
+            Write-Log "Instalación simulada (WhatIf)" "INFO"
             return $false
         }
     }
     catch {
         Show-Fail "Error instalando certificado: $_"
+        Write-Log "Error instalando certificado: $_" "ERROR"
         return $false
     }
 }
@@ -278,17 +404,21 @@ function Remove-Certificate {
     # Eliminar
     try {
         if ($PSCmdlet.ShouldProcess($cert.Thumbprint, "Eliminar certificado")) {
+            $thumbprint = $cert.Thumbprint
             $cert | Remove-Item -Force -ErrorAction Stop
             Show-OK "Certificado eliminado exitosamente"
+            Write-Log "Certificado eliminado: $thumbprint" "INFO"
             return $true
         }
         else {
             Show-Info "Eliminacion simulada (WhatIf)"
+            Write-Log "Eliminación simulada (WhatIf)" "INFO"
             return $false
         }
     }
     catch {
         Show-Fail "Error eliminando certificado: $_"
+        Write-Log "Error eliminando certificado: $_" "ERROR"
         return $false
     }
 }
@@ -340,14 +470,21 @@ function Main {
         return
     }
     
+    Initialize-Logging
     Show-Header
     
     # Modo eliminacion
     if ($Remove) {
+        Write-Log "Modo: Eliminación de certificado" "INFO"
         $removed = Remove-Certificate
         Show-FinalInstructions -Installed $false
+        Write-Log "=== Fin de eliminación de certificado ===" "INFO"
+        Write-Host "  [INFO] Log guardado en: $($script:LogFile)" -ForegroundColor $InfoColor
+        Write-Host ""
         return
     }
+    
+    Write-Log "Modo: Instalación de certificado" "INFO"
     
     # Verificar si ya esta instalado
     if (Test-CertificateInstalled) {
@@ -355,11 +492,15 @@ function Main {
         
         Write-Host ""
         Show-Warn "El certificado ya esta instalado"
+        Write-Log "Certificado ya instalado: $($cert.Thumbprint)" "WARN"
         Write-Host "  Subject: $($cert.Subject)" -ForegroundColor Gray
         Write-Host "  Thumbprint: $($cert.Thumbprint)" -ForegroundColor Gray
         Write-Host "  Valido hasta: $($cert.NotAfter)" -ForegroundColor Gray
         Write-Host ""
         Show-Info "Para reinstalar, primero eliminalo con: -Remove"
+        Write-Host ""
+        Write-Host "  [INFO] Log guardado en: $($script:LogFile)" -ForegroundColor $InfoColor
+        Write-Host ""
         return
     }
     
@@ -368,6 +509,10 @@ function Main {
     
     if (-not $exported) {
         Show-Fail "No se pudo exportar el certificado"
+        Write-Log "=== Fin de instalación (FALLIDO) ===" "ERROR"
+        Write-Host ""
+        Write-Host "  [INFO] Log guardado en: $($script:LogFile)" -ForegroundColor $InfoColor
+        Write-Host ""
         return
     }
     
@@ -380,7 +525,14 @@ function Main {
     # Mostrar instrucciones
     if ($installed) {
         Show-FinalInstructions -Installed $true
+        Write-Log "=== Fin de instalación (EXITOSO) ===" "INFO"
+    } else {
+        Write-Log "=== Fin de instalación (CANCELADO) ===" "INFO"
     }
+    
+    Write-Host ""
+    Write-Host "  [INFO] Log guardado en: $($script:LogFile)" -ForegroundColor $InfoColor
+    Write-Host ""
 }
 
 # Ejecutar
