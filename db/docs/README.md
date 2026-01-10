@@ -175,8 +175,6 @@ IACT/db/
 .\scripts\verify-vms.ps1
 ```
 
-Ver [TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md) para más problemas.
-
 ### Problema #2: VMs no arrancan
 
 ```powershell
@@ -186,6 +184,30 @@ Get-ChildItem logs\*.log | Select-String "ERROR"
 # Reintentar provisioning
 vagrant reload --provision
 ```
+
+### Problema #3: No puedo conectarme a MariaDB/PostgreSQL
+
+```bash
+# MariaDB
+vagrant ssh mariadb -c "sudo systemctl status mariadb"
+
+# PostgreSQL
+vagrant ssh postgresql -c "sudo systemctl status postgresql"
+
+# Ver logs
+vagrant ssh mariadb -c "sudo tail -50 /var/log/mysql/error.log"
+vagrant ssh postgresql -c "sudo tail -50 /var/log/postgresql/postgresql-16-main.log"
+```
+
+### Problema #4: Adminer HTTPS no funciona
+
+HTTPS está configurado con certificado autofirmado. El browser mostrará warning:
+
+1. Ir a `https://192.168.56.12`
+2. Click en "Avanzado" → "Continuar al sitio"
+3. Adminer cargará con HTTPS
+
+Ver [TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md) para todos los problemas.
 
 ## Logs y Mantenimiento
 
