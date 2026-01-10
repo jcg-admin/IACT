@@ -1,7 +1,7 @@
 #!/bin/bash
 # ssl.sh
-# SSL/HTTPS configuration script with Certificate Authority (VVV-style)
-# Version: 2.0.0 - CA-based certificates for trusted local development
+# SSL/HTTPS configuration script with Certificate Authority
+# Version: 2.0.0 - CA-based certificates for IACT DevBox (adminer.devbox)
 
 set -euo pipefail
 
@@ -197,7 +197,7 @@ subjectAltName = @alt_names
 
 [alt_names]
 IP.1 = ${ADMINER_IP}
-DNS.1 = adminer.test
+DNS.1 = adminer.devbox
 DNS.2 = localhost
 EOF
 
@@ -223,7 +223,7 @@ subjectAltName = @alt_names
 
 [alt_names]
 IP.1 = ${ADMINER_IP}
-DNS.1 = adminer.test
+DNS.1 = adminer.devbox
 DNS.2 = localhost
 EOF
 
@@ -442,6 +442,7 @@ show_windows_instructions() {
     log_info ""
     log_info "========================================="
     log_info "  SSL CERTIFICATE SETUP COMPLETE"
+    log_info "  IACT DevBox"
     log_info "========================================="
     log_info ""
     log_info "Next step: Install Certificate Authority on Windows"
@@ -451,13 +452,16 @@ show_windows_instructions() {
     log_info ""
     log_info "This will:"
     log_info "  1. Install the CA certificate to Windows Trusted Root"
-    log_info "  2. Remove browser SSL warnings for https://192.168.56.12"
+    log_info "  2. Remove browser SSL warnings for:"
+    log_info "     - https://adminer.devbox"
+    log_info "     - https://192.168.56.12"
     log_info ""
     log_info "CA Certificate location:"
     log_info "  ${CA_CERT}"
     log_info ""
     log_info "After installation, restart your browser and visit:"
-    log_info "  https://192.168.56.12"
+    log_info "  https://adminer.devbox"
+    log_info "  https://www.adminer.devbox"
     log_info ""
     log_info "========================================="
     log_info ""

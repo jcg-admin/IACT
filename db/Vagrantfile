@@ -14,6 +14,67 @@
 VAGRANTFILE_API_VERSION = "2"
 
 # =============================================================================
+# COLOR CODES FOR TERMINAL OUTPUT
+# =============================================================================
+red = "\033[0;31m"
+green = "\033[0;32m"
+yellow = "\033[0;33m"
+blue = "\033[0;34m"
+creset = "\033[0m"
+
+# Directory paths
+vagrant_dir = File.expand_path(File.dirname(__FILE__))
+
+# =============================================================================
+# PLUGIN AUTO-INSTALLATION (vagrant-goodhosts for adminer.devbox domain)
+# =============================================================================
+
+unless Vagrant.has_plugin?('vagrant-goodhosts')
+  puts ""
+  puts "#{yellow}╔═══════════════════════════════════════════════════════════════════╗#{creset}"
+  puts "#{yellow}║  Installing required plugin: vagrant-goodhosts                   ║#{creset}"
+  puts "#{yellow}╚═══════════════════════════════════════════════════════════════════╝#{creset}"
+  puts ""
+  puts "#{blue}This plugin automatically manages your hosts file for adminer.devbox#{creset}"
+  puts ""
+
+  # Check if local gem file exists (for offline installation)
+  if File.file?(File.join(vagrant_dir, 'vagrant-goodhosts.gem'))
+    puts "#{blue}Installing from local gem file...#{creset}"
+    system('vagrant plugin install ' + File.join(vagrant_dir, 'vagrant-goodhosts.gem'))
+    File.delete(File.join(vagrant_dir, 'vagrant-goodhosts.gem'))
+    puts ""
+    puts "#{green}✓ vagrant-goodhosts plugin installed from local gem#{creset}"
+    puts "#{yellow}Please run 'vagrant up' again to continue.#{creset}"
+    puts ""
+    exit
+  else
+    # Install from RubyGems
+    puts "#{blue}Installing from RubyGems...#{creset}"
+    unless system('vagrant plugin install vagrant-goodhosts')
+      puts ""
+      puts "#{red}✗ Failed to install vagrant-goodhosts plugin#{creset}"
+      puts "#{yellow}You can install it manually with: vagrant plugin install vagrant-goodhosts#{creset}"
+      puts ""
+      exit 1
+    end
+    puts ""
+    puts "#{green}✓ vagrant-goodhosts plugin installed successfully#{creset}"
+    puts "#{yellow}Please run 'vagrant up' again to continue.#{creset}"
+    puts ""
+    exit
+  end
+end
+
+# Disable vbguest auto-update if plugin is installed (causes issues for some users)
+if Vagrant.has_plugin?('vagrant-vbguest')
+  puts "#{blue}ℹ vagrant-vbguest detected - auto_update will be disabled#{creset}"
+end
+
+puts "#{green}✓ All required plugins are installed#{creset}"
+puts ""
+
+# =============================================================================
 # CONFIGURATION VARIABLES - SINGLE SOURCE OF TRUTH
 # =============================================================================
 
@@ -21,6 +82,9 @@ VAGRANTFILE_API_VERSION = "2"
 MARIADB_IP = "192.168.56.10"
 POSTGRES_IP = "192.168.56.11"
 ADMINER_IP = "192.168.56.12"
+
+# Adminer Domain (.devbox TLD for IACT DevBox)
+ADMINER_DOMAIN = "adminer.devbox"
 
 # Database Ports
 MARIADB_PORT = "3306"
@@ -50,12 +114,12 @@ SWAP_SIZE = "1G"
 
 # SSL Configuration
 SSL_DAYS = "365"
-SSL_COUNTRY = "US"
-SSL_STATE = "State"
-SSL_CITY = "City"
-SSL_ORG = "IACT"
-SSL_OU = "DevBox"
-SSL_CN = "adminer.local"
+SSL_COUNTRY = "MX"
+SSL_STATE = "Estado"
+SSL_CITY = "Ciudad"
+SSL_ORG = "IACT DevBox"
+SSL_OU = "Development"
+SSL_CN = ADMINER_DOMAIN
 
 # =============================================================================
 # HELPER FUNCTIONS
@@ -91,6 +155,9 @@ puts ""
 puts "VM 3 - Adminer:"
 puts "  Name:      iact-adminer"
 puts "  IP:        #{ADMINER_IP}:#{ADMINER_HTTP_PORT}/#{ADMINER_HTTPS_PORT}"
+puts "  Domain:    #{ADMINER_DOMAIN}"
+puts "  URLs:      http://#{ADMINER_DOMAIN}"
+puts "             https://#{ADMINER_DOMAIN}"
 puts "  Version:   Adminer #{ADMINER_VERSION}"
 puts "  Memory:    1024 MB"
 puts "  CPUs:      1"
@@ -153,7 +220,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       end
 
       if result.nil? || result.empty?
-        # Solo avisamos, Vagrant creará la red automáticamente al detectar 
+        # Solo avisamos, Vagrant creará la red automáticamente al detectar
         # la configuración "private_network" en las VMs.
         puts "[INFO] No Host-Only network detected. Vagrant will create one."
       else
@@ -480,7 +547,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     adminer.vm.box_check_update = true
 
     # Hostname
-    adminer.vm.hostname = "iact-adminer"
+    adminer.vm.hostname = ADMINER_DOMAIN
 
     # Disable vbguest auto-update if plugin is installed
     if Vagrant.has_plugin?("vagrant-vbguest")
