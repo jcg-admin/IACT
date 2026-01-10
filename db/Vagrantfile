@@ -254,6 +254,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     # -----------------------------------------------------------------------
     # Al eliminar el parámetro 'name', evitamos conflictos de adaptadores duplicados.
     mariadb.vm.network "private_network", ip: MARIADB_IP, netmask: "255.255.255.0"
+    # SSH Port Forwarding
+    mariadb.vm.network "forwarded_port", guest: 22, host: 2222, id: "ssh", auto_correct: true
+
 
     # Synced folders
     cache_dir = local_cache(mariadb.vm.box)
@@ -374,6 +377,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     # -----------------------------------------------------------------------
     # Simplificado para evitar conflictos de nombres de adaptadores
     postgresql.vm.network "private_network", ip: POSTGRES_IP, netmask: "255.255.255.0"
+    # SSH Port Forwarding
+    postgresql.vm.network "forwarded_port", guest: 22, host: 2200, id: "ssh", auto_correct: true
+
 
     # Synced folders
     cache_dir = local_cache(postgresql.vm.box)
@@ -485,6 +491,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     adminer.ssh.forward_agent = true
     adminer.ssh.insert_key = true
     adminer.ssh.connect_timeout = 120
+    # SSH Port Forwarding
+    adminer.vm.network "forwarded_port", guest: 22, host: 2201, id: "ssh", auto_correct: true
+
 
     # -----------------------------------------------------------------------
     # Network - Host-Only with static IP (FORMA ESTÁNDAR)
