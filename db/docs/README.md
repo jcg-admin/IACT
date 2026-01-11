@@ -1,626 +1,488 @@
-# IACT DevBox
+# Documentación IACT DevBox
 
-Entorno de desarrollo multi-base de datos para el proyecto IACT utilizando Vagrant y VirtualBox.
+Bienvenido a la documentación completa del proyecto IACT DevBox, un entorno de desarrollo multi-base de datos basado en Vagrant y VirtualBox.
 
-## Descripción
+## Tabla de Contenidos
 
-IACT DevBox es un entorno de desarrollo que proporciona tres máquinas virtuales aisladas con:
-- MariaDB 11.4 para base de datos legacy (IVR)
-- PostgreSQL 16 para analytics y datos modernos
-- Adminer 4.8.1 como interfaz web unificada para administración
+- [Inicio Rápido](#inicio-rápido)
+- [Estructura de la Documentación](#estructura-de-la-documentación)
+- [Guías por Rol de Usuario](#guías-por-rol-de-usuario)
+- [Documentos por Categoría](#documentos-por-categoría)
+- [Recursos Adicionales](#recursos-adicionales)
 
-El entorno está diseñado para desarrollo local en Windows, con configuración automatizada y aprovisionamiento idempotente.
+---
 
-## Características Principales
+## Inicio Rápido
 
-- Arquitectura de 3 VMs independientes e interconectadas
-- Networking privado (192.168.56.0/24)
-- Dominio local: adminer.devbox (gestión automática de hosts)
-- SSL/HTTPS con Certificate Authority propia
-- Provisioning completamente automatizado
-- Scripts de utilidades modulares y reutilizables
-- Logging detallado de todas las operaciones
-- Configuración documentada y reproducible
+Si es tu primera vez con IACT DevBox, sigue esta ruta:
 
-## Arquitectura del Sistema
+1. **[Instalación Rápida](getting-started/QUICKSTART.md)** - Configura el entorno en 10 minutos
+2. **[Comandos Básicos](getting-started/COMMANDS.md)** - Aprende los comandos esenciales de Vagrant
+3. **[Verificación Completa](getting-started/VERIFICACION_COMPLETA.md)** - Confirma que todo funciona correctamente
+
+Después de completar estos pasos, tu entorno estará listo para desarrollo.
+
+---
+
+## Estructura de la Documentación
+
+La documentación está organizada en categorías para facilitar la navegación:
+
+### Getting Started (Primeros Pasos)
+
+Documentación esencial para comenzar a usar IACT DevBox.
+
+- **[QUICKSTART.md](getting-started/QUICKSTART.md)** - Guía de instalación rápida
+- **[COMMANDS.md](getting-started/COMMANDS.md)** - Referencia de comandos Vagrant
+- **[VERIFICACION_COMPLETA.md](getting-started/VERIFICACION_COMPLETA.md)** - Checklist de verificación post-instalación
+
+### Setup (Configuración Avanzada)
+
+Configuraciones opcionales que mejoran la experiencia de desarrollo.
+
+- **[INSTALAR_CA_WINDOWS.md](setup/INSTALAR_CA_WINDOWS.md)** - Instalación de certificado CA para HTTPS sin advertencias
+- **[PERFILES_POWERSHELL.md](setup/PERFILES_POWERSHELL.md)** - Configuración del perfil de PowerShell
+
+### Architecture (Arquitectura y Desarrollo)
+
+Documentación técnica para desarrolladores y mantenedores del proyecto.
+
+- **[DEVELOPMENT.md](architecture/DEVELOPMENT.md)** - Guía de desarrollo del proyecto
+- **[PROVISIONERS.md](architecture/PROVISIONERS.md)** - Documentación del sistema de provisioning
+
+### Troubleshooting (Resolución de Problemas)
+
+Soluciones a problemas comunes y errores conocidos.
+
+- **[TROUBLESHOOTING.md](troubleshooting/TROUBLESHOOTING.md)** - Guía completa de resolución de problemas
+- **[VAGRANT_2.4.7_WORKAROUND.md](troubleshooting/VAGRANT_2.4.7_WORKAROUND.md)** - Solución al bug de Vagrant 2.4.7
+
+### Archive (Archivo Histórico)
+
+Documentos obsoletos mantenidos como referencia histórica.
+
+- **[TROUBLESHOOTING_ORIGINAL.md](archive/TROUBLESHOOTING_ORIGINAL.md)** - Versión original de troubleshooting
+
+---
+
+## Guías por Rol de Usuario
+
+### Para Usuarios Nuevos
+
+Si nunca has usado IACT DevBox antes:
+
+1. Lee **[QUICKSTART.md](getting-started/QUICKSTART.md)** para la instalación inicial
+2. Familiarízate con **[COMMANDS.md](getting-started/COMMANDS.md)** para comandos básicos
+3. Ejecuta **[VERIFICACION_COMPLETA.md](getting-started/VERIFICACION_COMPLETA.md)** para confirmar que todo funciona
+4. Opcionalmente, instala el certificado CA siguiendo **[INSTALAR_CA_WINDOWS.md](setup/INSTALAR_CA_WINDOWS.md)**
+5. Configura PowerShell con **[PERFILES_POWERSHELL.md](setup/PERFILES_POWERSHELL.md)** para mejor experiencia
+
+### Para Usuarios Experimentados
+
+Si ya conoces Vagrant y necesitas referencia rápida:
+
+- **[COMMANDS.md](getting-started/COMMANDS.md)** - Referencia rápida de comandos
+- **[TROUBLESHOOTING.md](troubleshooting/TROUBLESHOOTING.md)** - Solución de problemas específicos
+- **[VAGRANT_2.4.7_WORKAROUND.md](troubleshooting/VAGRANT_2.4.7_WORKAROUND.md)** - Si usas Vagrant 2.4.7
+
+### Para Desarrolladores
+
+Si vas a modificar o extender IACT DevBox:
+
+1. Entiende la arquitectura con **[DEVELOPMENT.md](architecture/DEVELOPMENT.md)**
+2. Revisa el sistema de provisioning en **[PROVISIONERS.md](architecture/PROVISIONERS.md)**
+3. Consulta **[TROUBLESHOOTING.md](troubleshooting/TROUBLESHOOTING.md)** para depuración
+4. Ejecuta **[VERIFICACION_COMPLETA.md](getting-started/VERIFICACION_COMPLETA.md)** después de cambios
+
+### Para Administradores de Sistemas
+
+Si vas a desplegar o administrar el entorno:
+
+1. Revisa **[QUICKSTART.md](getting-started/QUICKSTART.md)** para requisitos del sistema
+2. Configura el entorno siguiendo **[PERFILES_POWERSHELL.md](setup/PERFILES_POWERSHELL.md)**
+3. Implementa certificados con **[INSTALAR_CA_WINDOWS.md](setup/INSTALAR_CA_WINDOWS.md)**
+4. Valida con **[VERIFICACION_COMPLETA.md](getting-started/VERIFICACION_COMPLETA.md)**
+5. Mantén **[TROUBLESHOOTING.md](troubleshooting/TROUBLESHOOTING.md)** a mano para soporte
+
+---
+
+## Documentos por Categoría
+
+### Instalación y Configuración Inicial
+
+Documentos que necesitas al comenzar con el proyecto.
+
+| Documento | Descripción | Tiempo Estimado |
+|-----------|-------------|-----------------|
+| [QUICKSTART.md](getting-started/QUICKSTART.md) | Instalación completa paso a paso | 10-15 minutos |
+| [PERFILES_POWERSHELL.md](setup/PERFILES_POWERSHELL.md) | Configurar PowerShell correctamente | 5 minutos |
+| [VERIFICACION_COMPLETA.md](getting-started/VERIFICACION_COMPLETA.md) | Verificar instalación exitosa | 10-15 minutos |
+
+### Uso Diario
+
+Documentos de referencia para uso cotidiano.
+
+| Documento | Descripción | Cuándo Usar |
+|-----------|-------------|-------------|
+| [COMMANDS.md](getting-started/COMMANDS.md) | Comandos de Vagrant y gestión de VMs | Referencia diaria |
+| [TROUBLESHOOTING.md](troubleshooting/TROUBLESHOOTING.md) | Solución de problemas comunes | Cuando algo falla |
+| [VAGRANT_2.4.7_WORKAROUND.md](troubleshooting/VAGRANT_2.4.7_WORKAROUND.md) | Fix para bug específico de versión | Si usas Vagrant 2.4.7 |
+
+### Mejoras Opcionales
+
+Configuraciones que mejoran la experiencia pero no son obligatorias.
+
+| Documento | Descripción | Beneficio |
+|-----------|-------------|-----------|
+| [INSTALAR_CA_WINDOWS.md](setup/INSTALAR_CA_WINDOWS.md) | Certificados SSL confiables | HTTPS sin advertencias |
+| [PERFILES_POWERSHELL.md](setup/PERFILES_POWERSHELL.md) | Optimizar PowerShell | SSH funcional, comandos más rápidos |
+
+### Desarrollo y Arquitectura
+
+Documentación técnica interna del proyecto.
+
+| Documento | Descripción | Para Quién |
+|-----------|-------------|------------|
+| [DEVELOPMENT.md](architecture/DEVELOPMENT.md) | Guía de desarrollo del proyecto | Desarrolladores |
+| [PROVISIONERS.md](architecture/PROVISIONERS.md) | Sistema de provisioning | Mantenedores |
+
+---
+
+## Información del Proyecto
+
+### Qué es IACT DevBox
+
+IACT DevBox es un entorno de desarrollo local que proporciona:
+
+- **MariaDB 11.4** - Base de datos legacy (IVR)
+- **PostgreSQL 16** - Base de datos analytics moderna
+- **Adminer 4.8.1** - Interfaz web unificada de administración
+
+Todo configurado automáticamente con Vagrant, listo para usar en minutos.
+
+### Arquitectura del Sistema
 
 ```
-Host Machine (Windows)
-├── IP: 192.168.56.1 (VirtualBox Host-Only)
+Host Windows (192.168.56.1)
 │
-├── VM 1: MariaDB
-│   ├── Hostname: iact-mariadb
-│   ├── IP: 192.168.56.10
-│   ├── Port: 3306
-│   ├── Database: ivr_legacy
-│   ├── User: django_user / django_pass
-│   └── Root: root / rootpass123
+├── VM: MariaDB (192.168.56.10:3306)
+│   └── Base de datos: ivr_legacy
 │
-├── VM 2: PostgreSQL
-│   ├── Hostname: iact-postgres
-│   ├── IP: 192.168.56.11
-│   ├── Port: 5432
-│   ├── Database: iact_analytics
-│   ├── User: django_user / django_pass
-│   └── Superuser: postgres / postgrespass123
+├── VM: PostgreSQL (192.168.56.11:5432)
+│   └── Base de datos: iact_analytics
 │
-└── VM 3: Adminer
-    ├── Hostname: adminer.devbox
-    ├── IP: 192.168.56.12
-    ├── Ports: 80 (HTTP), 443 (HTTPS)
-    ├── URLs: http://adminer.devbox, https://adminer.devbox
-    └── Version: Adminer 4.8.1 (PHP 7.4, Apache 2.4)
+└── VM: Adminer (192.168.56.12:80/443)
+    └── URL: http://adminer.devbox o https://adminer.devbox
 ```
 
-## Requisitos del Sistema
+### Requisitos del Sistema
 
-### Software Requerido
-
+**Software requerido**:
 - Windows 10/11 (64-bit)
-- VirtualBox 7.0+ ([Descargar](https://www.virtualbox.org/wiki/Downloads))
-- Vagrant 2.4+ ([Descargar](https://developer.hashicorp.com/vagrant/downloads))
-- PowerShell 5.1+ (incluido en Windows)
-- Git for Windows ([Descargar](https://git-scm.com/download/win))
+- VirtualBox 7.0+
+- Vagrant 2.4+
+- PowerShell 5.1+
+- Git for Windows
 
-### Hardware Recomendado
+**Hardware recomendado**:
+- CPU: 4+ cores
+- RAM: 8GB+ (sistema usa ~5GB con 3 VMs)
+- Disco: 20GB+ libres
 
-- CPU: 4+ cores (Intel/AMD)
-- RAM: 8GB+ (sistema usa ~5GB con las 3 VMs)
-- Disco: 20GB+ libres (VMs usan ~15GB)
-- Red: Adaptador Ethernet o WiFi
+### Características Principales
 
-### Permisos
+- Provisioning completamente automatizado
+- Networking privado aislado (192.168.56.0/24)
+- SSL/HTTPS con Certificate Authority propia
+- Dominio local: adminer.devbox
+- Scripts modulares y reutilizables
+- Logging detallado de todas las operaciones
+- Configuración reproducible y documentada
 
-- Privilegios de administrador (solo para instalación inicial)
-- Capacidad de modificar archivo hosts de Windows
-- Firewall: permitir VirtualBox Host-Only Network
+---
 
-## Instalación Rápida
+## Workflows Comunes
 
-### 1. Clonar o Descargar Proyecto
-
-```powershell
-cd D:\Estadia_IACT\proyecto\IACT
-# El directorio 'db' debe contener el Vagrantfile
-```
-
-### 2. Configurar PowerShell
+### Workflow 1: Primera Instalación
 
 ```powershell
-# Verificar si perfil existe
-Test-Path $PROFILE
+# 1. Configurar PowerShell
+# Seguir: setup/PERFILES_POWERSHELL.md
 
-# Si retorna False, crear perfil
-New-Item -ItemType File -Path $PROFILE -Force
-
-# Editar perfil
-notepad $PROFILE
-
-# Agregar estas líneas al inicio:
-$env:PATH = "C:\Program Files\Git\usr\bin;$env:PATH"
-$env:VAGRANT_LOG_LEVEL = "INFO"
-
-# Guardar y recargar
-. $PROFILE
-```
-
-### 3. Levantar VMs
-
-```powershell
+# 2. Levantar VMs
 cd D:\Estadia_IACT\proyecto\IACT\db
-
-# Primera ejecución (instala vagrant-goodhosts)
 vagrant up
 
-# Si pide ejecutar vagrant up de nuevo:
-vagrant up
+# 3. Verificar instalación
+# Seguir: getting-started/VERIFICACION_COMPLETA.md
+
+# 4. Instalar CA (opcional)
+# Seguir: setup/INSTALAR_CA_WINDOWS.md
 ```
 
-### 4. Verificar Instalación
+### Workflow 2: Uso Diario
 
 ```powershell
-# Estado de VMs
-vagrant status
-
-# Ping a servicios
-ping 192.168.56.10  # MariaDB
-ping 192.168.56.11  # PostgreSQL
-ping 192.168.56.12  # Adminer
-ping adminer.devbox # Dominio
-
-# Abrir Adminer
-Start-Process http://adminer.devbox
-```
-
-### 5. Instalar Certificado SSL (Opcional pero Recomendado)
-
-```powershell
-# Como Administrador
-cd D:\Estadia_IACT\proyecto\IACT\db\scripts
-.\install-ca-certificate.ps1
-
-# Reiniciar navegadores
-# Acceder a: https://adminer.devbox (sin warnings)
-```
-
-### 6. Configurar Firewall (Opcional - Elimina UAC Prompts)
-
-```powershell
-# Como Administrador (UNA VEZ)
-cd D:\Estadia_IACT\proyecto\IACT\db\scripts
-.\configure-vagrant-firewall.ps1
-
-# Después de esto, ya no necesitas ejecutar como admin
-```
-
-## Uso Básico
-
-### Comandos de Vagrant
-
-```powershell
-# Iniciar todas las VMs
+# Iniciar VMs
 vagrant up
 
-# Iniciar una VM específica
-vagrant up mariadb
-vagrant up postgresql
-vagrant up adminer
-
-# Ver estado
-vagrant status
-
-# SSH a una VM
-vagrant ssh mariadb
-vagrant ssh postgresql
-vagrant ssh adminer
-
-# Detener VMs
-vagrant halt              # Detener todas
-vagrant halt mariadb      # Detener una
-
-# Reiniciar VMs
-vagrant reload            # Reiniciar todas
-vagrant reload adminer    # Reiniciar una
-
-# Reprovisionar (ejecutar scripts de nuevo)
-vagrant provision adminer
-
-# Destruir VMs (eliminar completamente)
-vagrant destroy           # Destruir todas
-vagrant destroy -f mariadb  # Destruir una sin confirmación
-```
-
-### Conectar a Bases de Datos
-
-#### MariaDB desde línea de comandos
-
-```powershell
-# Conectar como root
-mysql -h 192.168.56.10 -u root -p'rootpass123'
-
-# Conectar como usuario Django
-mysql -h 192.168.56.10 -u django_user -p'django_pass' -D ivr_legacy
-
-# Ejecutar query directa
-mysql -h 192.168.56.10 -u root -p'rootpass123' -e "SHOW DATABASES;"
-```
-
-#### PostgreSQL desde línea de comandos
-
-```powershell
-# Conectar como superuser
-$env:PGPASSWORD='postgrespass123'
-psql -h 192.168.56.11 -U postgres
-
-# Conectar como usuario Django
-$env:PGPASSWORD='django_pass'
-psql -h 192.168.56.11 -U django_user -d iact_analytics
-
-# Ejecutar query directa
-$env:PGPASSWORD='postgrespass123'
-psql -h 192.168.56.11 -U postgres -c "SELECT version();"
-```
-
-#### Adminer (Interfaz Web)
-
-```powershell
-# Abrir en navegador
-Start-Process http://adminer.devbox
-# O: Start-Process https://adminer.devbox (con SSL)
-```
-
-Credenciales para login:
-
-**MariaDB**:
-- System: MySQL
-- Server: 192.168.56.10
-- Username: django_user
-- Password: django_pass
-- Database: ivr_legacy
-
-**PostgreSQL**:
-- System: PostgreSQL
-- Server: 192.168.56.11
-- Username: django_user
-- Password: django_pass
-- Database: iact_analytics
-
-### Configuración de Django
-
-```python
-# settings.py
-
-DATABASES = {
-    # Base de datos legacy (IVR) en MariaDB
-    'legacy': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'ivr_legacy',
-        'USER': 'django_user',
-        'PASSWORD': 'django_pass',
-        'HOST': '192.168.56.10',
-        'PORT': '3306',
-        'OPTIONS': {
-            'charset': 'utf8mb4',
-            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
-        },
-    },
-    
-    # Base de datos principal (Analytics) en PostgreSQL
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'iact_analytics',
-        'USER': 'django_user',
-        'PASSWORD': 'django_pass',
-        'HOST': '192.168.56.11',
-        'PORT': '5432',
-    },
-}
-```
-
-## Estructura del Proyecto
-
-```
-db/
-├── Vagrantfile                    # Configuración principal de Vagrant
-├── README.md                      # Este archivo
-│
-├── config/                        # Archivos de configuración
-│   ├── vhost.conf                 # VirtualHost HTTP de Adminer
-│   ├── vhost_ssl.conf             # VirtualHost HTTPS de Adminer
-│   ├── ssl.sh                     # Script de generación de certificados
-│   └── certs/                     # Certificados SSL (generados)
-│       ├── ca/
-│       │   ├── ca.crt             # Certificate Authority
-│       │   └── ca.key             # CA Private Key
-│       ├── adminer.crt            # Certificado de Adminer
-│       └── adminer.key            # Clave privada de Adminer
-│
-├── provisioners/                  # Scripts de provisioning por VM
-│   ├── mariadb/
-│   │   └── bootstrap.sh           # Provisioner de MariaDB
-│   ├── postgresql/
-│   │   └── bootstrap.sh           # Provisioner de PostgreSQL
-│   └── adminer/
-│       └── bootstrap.sh           # Provisioner de Adminer
-│
-├── scripts/                       # Scripts de utilidades para host
-│   ├── install-ca-certificate.ps1           # Instalar CA en Windows
-│   └── configure-vagrant-firewall.ps1       # Configurar firewall
-│
-├── utils/                         # Utilidades compartidas (en VMs)
-│   ├── core.sh                    # Funciones core
-│   ├── logging.sh                 # Sistema de logging
-│   ├── network.sh                 # Utilidades de red
-│   └── validation.sh              # Validaciones
-│
-├── logs/                          # Logs de provisioning (generados)
-│   ├── mariadb/
-│   ├── postgresql/
-│   └── adminer/
-│
-└── docs/                          # Documentación técnica
-    ├── INSTALAR_CA_WINDOWS.md
-    ├── VAGRANT_2.4.7_WORKAROUND.md
-    ├── VERIFICACION_COMPLETA.md
-    ├── TROUBLESHOOTING_COMPLETO.md
-    ├── PERFILES_POWERSHELL.md
-    └── ANALISIS_PROBLEMA_SSH_VAGRANT.md
-```
-
-## Gestión de Datos
-
-### Backups
-
-Los datos de las bases de datos están dentro de las VMs. Para hacer backup:
-
-```bash
-# SSH a la VM correspondiente
-vagrant ssh mariadb
-
-# MariaDB - Dump de base de datos
-sudo mysqldump -u root -p'rootpass123' ivr_legacy > /vagrant/backup_ivr_legacy.sql
-
-# PostgreSQL - Dump de base de datos
-vagrant ssh postgresql
-sudo -u postgres pg_dump iact_analytics > /vagrant/backup_iact_analytics.sql
-```
-
-Los archivos quedarán en el directorio del proyecto (synced folder).
-
-### Restaurar Datos
-
-```bash
-# MariaDB
-vagrant ssh mariadb
-sudo mysql -u root -p'rootpass123' ivr_legacy < /vagrant/backup_ivr_legacy.sql
-
-# PostgreSQL
-vagrant ssh postgresql
-sudo -u postgres psql iact_analytics < /vagrant/backup_iact_analytics.sql
-```
-
-### Limpiar y Reinstalar
-
-```powershell
-# Eliminar todas las VMs y datos
-vagrant destroy -f
-
-# Levantar de nuevo (fresh install)
-vagrant up
-```
-
-## Logs y Debugging
-
-### Ver Logs de Provisioning
-
-```powershell
-# Logs locales en host
-Get-Content logs\mariadb\mariadb_*.log
-Get-Content logs\postgresql\postgresql_*.log
-Get-Content logs\adminer\adminer_*.log
-```
-
-### Ver Logs del Sistema en VMs
-
-```bash
-# SSH a la VM
-vagrant ssh adminer
-
-# Ver logs de Apache
-sudo tail -f /var/log/apache2/adminer-error.log
-sudo tail -f /var/log/apache2/adminer-ssl-error.log
-
-# Ver logs de sistema
-sudo journalctl -u apache2 -f
-
-# MariaDB logs
-vagrant ssh mariadb
-sudo tail -f /var/log/mysql/error.log
-
-# PostgreSQL logs
-vagrant ssh postgresql
-sudo tail -f /var/log/postgresql/postgresql-16-main.log
-```
-
-### Verificación de Estado
-
-```bash
-# En cada VM, verificar servicio
-vagrant ssh mariadb
-sudo systemctl status mariadb
-
-vagrant ssh postgresql
-sudo systemctl status postgresql
-
-vagrant ssh adminer
-sudo systemctl status apache2
-```
-
-## Troubleshooting
-
-### Problema: VMs no arrancan
-
-```powershell
-# Verificar VirtualBox
-VBoxManage list vms
-
-# Verificar red Host-Only
-VBoxManage list hostonlyifs
-
-# Reiniciar adaptador de red
-# Win+R -> ncpa.cpl
-# VirtualBox Host-Only Network -> Deshabilitar/Habilitar
-```
-
-### Problema: No se puede conectar a bases de datos
-
-```powershell
-# Verificar que VMs están corriendo
-vagrant status
-
-# Test de conectividad
-Test-NetConnection -ComputerName 192.168.56.10 -Port 3306
-Test-NetConnection -ComputerName 192.168.56.11 -Port 5432
-
-# Ver logs
-vagrant ssh mariadb
-sudo systemctl status mariadb
-```
-
-### Problema: adminer.devbox no resuelve
-
-```powershell
-# Verificar plugin
-vagrant plugin list | Select-String goodhosts
-
-# Ver archivo hosts
-Get-Content C:\Windows\System32\drivers\etc\hosts | Select-String adminer
-
-# Reinstalar entradas
-vagrant reload adminer
-```
-
-Para troubleshooting detallado, ver: **docs/TROUBLESHOOTING_COMPLETO.md**
-
-## Seguridad
-
-### Credenciales por Defecto
-
-ADVERTENCIA: Las credenciales en este proyecto son para DESARROLLO LOCAL únicamente. NO usar en producción.
-
-**MariaDB**:
-- root: rootpass123
-- django_user: django_pass
-
-**PostgreSQL**:
-- postgres: postgrespass123
-- django_user: django_pass
-
-### Acceso de Red
-
-El entorno usa red privada 192.168.56.0/24:
-- Solo accesible desde host machine
-- NO accesible desde red externa
-- NO accesible desde internet
-
-### Certificados SSL
-
-Los certificados son autofirmados y válidos solo para desarrollo local:
-- CA: IACT DevBox Root CA (válido 10 años)
-- Certificado Adminer: válido 365 días
-- NO usar estos certificados en producción
-
-## Actualizaciones y Mantenimiento
-
-### Actualizar Vagrant
-
-```powershell
-# Verificar versión actual
-vagrant --version
-
-# Descargar nueva versión de:
-# https://developer.hashicorp.com/vagrant/downloads
-
-# Instalar (sobrescribe automáticamente)
-```
-
-### Actualizar VirtualBox
-
-```powershell
-# Verificar versión
-VBoxManage --version
-
-# Descargar nueva versión de:
-# https://www.virtualbox.org/wiki/Downloads
-
-# IMPORTANTE: Cerrar todas las VMs antes de actualizar
+# Trabajar con bases de datos
+# - Via Adminer: http://adminer.devbox
+# - Via CLI: ver getting-started/COMMANDS.md
+
+# Detener VMs al finalizar
 vagrant halt
 ```
 
-### Actualizar Plugins de Vagrant
+### Workflow 3: Resolver Problemas
 
 ```powershell
-# Listar plugins
-vagrant plugin list
+# 1. Identificar síntomas
+vagrant status
 
-# Actualizar todos
-vagrant plugin update
+# 2. Consultar troubleshooting
+# Ver: troubleshooting/TROUBLESHOOTING.md
 
-# Actualizar uno específico
-vagrant plugin update vagrant-goodhosts
+# 3. Aplicar solución documentada
+
+# 4. Verificar corrección
+# Ver: getting-started/VERIFICACION_COMPLETA.md
 ```
 
-### Reprovisionar VMs
-
-Si hay cambios en scripts de provisioning:
+### Workflow 4: Desarrollo de Features
 
 ```powershell
-# Reprovisionar una VM
-vagrant provision adminer
+# 1. Entender arquitectura
+# Leer: architecture/DEVELOPMENT.md
 
-# Reprovisionar todas
-vagrant provision
+# 2. Revisar provisioners
+# Leer: architecture/PROVISIONERS.md
 
-# Forzar reprovisioning completo
-vagrant destroy -f
-vagrant up
+# 3. Hacer cambios
+
+# 4. Reprovisionar para probar
+vagrant provision [vm]
+
+# 5. Verificar cambios
+# Seguir: getting-started/VERIFICACION_COMPLETA.md
 ```
+
+---
+
+## Rutas de Aprendizaje
+
+### Ruta 1: Usuario Básico (2-3 horas)
+
+Objetivo: Usar el entorno para desarrollo
+
+1. [QUICKSTART.md](getting-started/QUICKSTART.md) - 15 min
+2. [COMMANDS.md](getting-started/COMMANDS.md) - 30 min
+3. [VERIFICACION_COMPLETA.md](getting-started/VERIFICACION_COMPLETA.md) - 15 min
+4. Práctica con Adminer y bases de datos - 60 min
+5. [TROUBLESHOOTING.md](troubleshooting/TROUBLESHOOTING.md) - 30 min (referencia)
+
+### Ruta 2: Usuario Avanzado (4-6 horas)
+
+Objetivo: Dominar configuración y optimización
+
+1. Completar Ruta 1
+2. [PERFILES_POWERSHELL.md](setup/PERFILES_POWERSHELL.md) - 30 min
+3. [INSTALAR_CA_WINDOWS.md](setup/INSTALAR_CA_WINDOWS.md) - 30 min
+4. [VAGRANT_2.4.7_WORKAROUND.md](troubleshooting/VAGRANT_2.4.7_WORKAROUND.md) - 20 min
+5. Práctica avanzada con networking y SSL - 120 min
+6. [TROUBLESHOOTING.md](troubleshooting/TROUBLESHOOTING.md) - 60 min (completo)
+
+### Ruta 3: Desarrollador/Mantenedor (8-10 horas)
+
+Objetivo: Modificar y extender el sistema
+
+1. Completar Ruta 2
+2. [DEVELOPMENT.md](architecture/DEVELOPMENT.md) - 120 min
+3. [PROVISIONERS.md](architecture/PROVISIONERS.md) - 120 min
+4. Análisis de código fuente - 180 min
+5. Implementar cambio de prueba - 120 min
+6. Toda la documentación de troubleshooting - 60 min
+
+---
 
 ## Recursos Adicionales
 
-### Documentación Técnica
-
-- **INSTALAR_CA_WINDOWS.md**: Instalación detallada de certificado CA
-- **VAGRANT_2.4.7_WORKAROUND.md**: Solución a bug conocido de Vagrant
-- **VERIFICACION_COMPLETA.md**: Checklist de verificación post-instalación
-- **TROUBLESHOOTING_COMPLETO.md**: Guía completa de resolución de problemas
-- **PERFILES_POWERSHELL.md**: Configuración detallada de PowerShell
-- **ANALISIS_PROBLEMA_SSH_VAGRANT.md**: Análisis del problema SSH/PowerShell
-
-### Enlaces Externos
+### Documentación Oficial Externa
 
 - [Vagrant Documentation](https://developer.hashicorp.com/vagrant/docs)
 - [VirtualBox Manual](https://www.virtualbox.org/manual/)
 - [MariaDB Documentation](https://mariadb.com/kb/en/documentation/)
 - [PostgreSQL Documentation](https://www.postgresql.org/docs/)
 - [Adminer Documentation](https://www.adminer.org/)
+- [PowerShell Documentation](https://learn.microsoft.com/powershell/)
 
-## Soporte
-
-### Issues Comunes
-
-Antes de reportar un problema, verificar:
-1. Versiones de software (Vagrant, VirtualBox)
-2. Logs de provisioning en `logs/`
-3. Estado de VMs con `vagrant status`
-4. Documentación en `docs/TROUBLESHOOTING_COMPLETO.md`
-
-### Script de Diagnóstico
+### Comandos de Ayuda Rápida
 
 ```powershell
-# Ejecutar diagnóstico automático
-cd D:\Estadia_IACT\proyecto\IACT\db
-
-# Verificación rápida
+# Ver estado de VMs
 vagrant status
-Test-NetConnection adminer.devbox
+
+# Ver ayuda de un comando
+vagrant [comando] --help
+
+# Ver logs de provisioning
+Get-Content logs\[vm]\*.log
+
+# Acceder a Adminer
+Start-Process http://adminer.devbox
 ```
 
-## Licencia
+### Directorios Importantes
 
-Este proyecto es para uso interno de IACT. Todos los derechos reservados.
-
-## Contribuciones
-
-Para contribuir al proyecto:
-1. Documentar cualquier cambio en la arquitectura
-2. Actualizar este README si es necesario
-3. Mantener scripts idempotentes
-4. Agregar logging apropiado
-5. Probar en fresh install antes de commitear
-
-## Changelog
-
-### v2.1.0 (2026-01-10)
-- Implementación de dominio adminer.devbox con vagrant-goodhosts
-- Certificate Authority para SSL
-- Corrección de problema SSH en PowerShell
-- Workaround para Vagrant 2.4.7 bug
-- Script de configuración de firewall
-- Documentación completa
-
-### v2.0.0 (2026-01-10)
-- SSL/HTTPS con CA propia
-- Certificados firmados por CA
-- VirtualHost SSL para Adminer
-
-### v1.0.0 (2026-01-09)
-- Arquitectura inicial de 3 VMs
-- MariaDB 11.4 + PostgreSQL 16 + Adminer 4.8.1
-- Networking host-only configurado
-- Scripts de provisioning modulares
+```
+D:\Estadia_IACT\proyecto\IACT\db\
+├── Vagrantfile                 # Configuración principal
+├── docs\                       # Esta documentación
+├── config\                     # Archivos de configuración
+│   ├── ssl.sh                  # Script de generación SSL
+│   ├── vhost.conf              # VirtualHost HTTP
+│   ├── vhost_ssl.conf          # VirtualHost HTTPS
+│   └── certs\                  # Certificados SSL
+├── provisioners\               # Scripts de provisioning
+│   ├── mariadb\
+│   ├── postgresql\
+│   └── adminer\
+├── scripts\                    # Scripts de utilidades
+├── utils\                      # Utilidades compartidas
+└── logs\                       # Logs de provisioning
+```
 
 ---
 
-IACT DevBox v2.1.0
-Última actualización: 2026-01-10
+## Convenciones de la Documentación
+
+### Formato de Código
+
+Los bloques de código PowerShell se muestran así:
+
+```powershell
+vagrant up
+```
+
+Los bloques de código Bash (dentro de VMs) se muestran así:
+
+```bash
+sudo systemctl status mariadb
+```
+
+### Rutas de Archivo
+
+Las rutas se muestran en formato Windows:
+
+```
+D:\Estadia_IACT\proyecto\IACT\db\config\ssl.sh
+```
+
+Dentro de VMs, las rutas usan formato Unix:
+
+```
+/vagrant/config/ssl.sh
+```
+
+### Comandos Opcionales
+
+Los parámetros opcionales se muestran entre corchetes:
+
+```powershell
+vagrant up [vm_name]
+```
+
+### Valores de Ejemplo
+
+Los valores que debes reemplazar se muestran entre `<>`:
+
+```powershell
+mysql -h 192.168.56.10 -u <usuario> -p'<password>'
+```
+
+---
+
+## Mantenimiento de la Documentación
+
+### Cómo Contribuir
+
+Si encuentras errores o áreas de mejora en la documentación:
+
+1. Verifica que no esté ya documentado en otra sección
+2. Si es un problema técnico, agrégalo a [TROUBLESHOOTING.md](troubleshooting/TROUBLESHOOTING.md)
+3. Si es una mejora de proceso, actualiza el documento correspondiente
+4. Mantén el estilo y formato consistente
+
+### Principios de Documentación
+
+Esta documentación sigue estos principios:
+
+- **Claridad sobre concisión**: Preferir explicaciones claras aunque sean más largas
+- **Ejemplos prácticos**: Cada instrucción debe tener un ejemplo
+- **Verificación**: Cada proceso debe incluir cómo verificar que funcionó
+- **Troubleshooting proactivo**: Anticipar problemas comunes
+- **Actualización continua**: Mantener relevante y precisa
+
+### Última Actualización
+
+Esta documentación fue reorganizada el 2026-01-10 para mejorar la navegación y accesibilidad.
+
+---
+
+## Contacto y Soporte
+
+### Antes de Reportar Problemas
+
+1. Consulta [TROUBLESHOOTING.md](troubleshooting/TROUBLESHOOTING.md)
+2. Verifica con [VERIFICACION_COMPLETA.md](getting-started/VERIFICACION_COMPLETA.md)
+3. Revisa los logs en `logs/[vm]/`
+4. Busca en la documentación por el mensaje de error específico
+
+### Información Útil para Reportes
+
+Al reportar un problema, incluye:
+
+- Salida de `vagrant --version`
+- Salida de `VBoxManage --version`
+- Salida de `vagrant status`
+- Contenido del último log en `logs/`
+- Pasos exactos para reproducir el problema
+
+---
+
+## Licencia y Uso
+
+Este proyecto es para uso interno de IACT. Todos los derechos reservados.
+
+La documentación puede ser compartida internamente sin restricciones, pero no debe ser distribuida fuera de la organización sin autorización.
+
+---
+
+## Versión de la Documentación
+
+- **Versión**: 2.1.0
+- **Fecha**: 2026-01-10
+- **Cambios principales**: Reorganización en subdirectorios, mejora de navegación
+- **Sistema**: IACT DevBox v2.1.0
+
+---
+
+## Índice Alfabético de Documentos
+
+- [COMMANDS.md](getting-started/COMMANDS.md) - Referencia de comandos Vagrant
+- [DEVELOPMENT.md](architecture/DEVELOPMENT.md) - Guía de desarrollo
+- [INSTALAR_CA_WINDOWS.md](setup/INSTALAR_CA_WINDOWS.md) - Instalación de certificado CA
+- [PERFILES_POWERSHELL.md](setup/PERFILES_POWERSHELL.md) - Configuración de PowerShell
+- [PROVISIONERS.md](architecture/PROVISIONERS.md) - Sistema de provisioning
+- [QUICKSTART.md](getting-started/QUICKSTART.md) - Instalación rápida
+- [TROUBLESHOOTING.md](troubleshooting/TROUBLESHOOTING.md) - Resolución de problemas
+- [VAGRANT_2.4.7_WORKAROUND.md](troubleshooting/VAGRANT_2.4.7_WORKAROUND.md) - Bug de Vagrant 2.4.7
+- [VERIFICACION_COMPLETA.md](getting-started/VERIFICACION_COMPLETA.md) - Checklist de verificación
+
+---
+
+**¿Nuevo en IACT DevBox?** Comienza con [QUICKSTART.md](getting-started/QUICKSTART.md)
+
+**¿Tienes un problema?** Consulta [TROUBLESHOOTING.md](troubleshooting/TROUBLESHOOTING.md)
+
+**¿Necesitas una referencia rápida?** Ve a [COMMANDS.md](getting-started/COMMANDS.md)

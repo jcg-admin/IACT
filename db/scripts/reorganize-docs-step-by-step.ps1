@@ -42,11 +42,14 @@
     File Name      : reorganize-docs-step-by-step.ps1
     Author         : IACT DevBox
     Prerequisite   : PowerShell 5.1+
-    Version        : 1.1.0
+    Version        : 1.1.3
     Changes        : v1.1.0 - Corregido: nombres de funciones, DryRun->WhatIf
+                     v1.1.1 - Corregido: interpolación de variables con ${}
+                     v1.1.2 - Removido SupportsShouldProcess (duplicaba parámetro WhatIf)
+                     v1.1.3 - Mejorado: Show-FinalStructure muestra estructura proyectada en WhatIf
 #>
 
-[CmdletBinding(SupportsShouldProcess)]
+[CmdletBinding()]
 param(
     [Parameter(Mandatory = $false)]
     [switch]$WhatIf,
@@ -272,7 +275,7 @@ function New-DirectoryStructure {
                 WriteSuccess "Creado: $dir/"
             }
             catch {
-                WriteError "Error creando $dir/: $($_.Exception.Message)"
+                WriteError "Error creando ${dir}/: $($_.Exception.Message)"
                 return $false
             }
         }
@@ -320,7 +323,7 @@ function Move-RegularFiles {
             $movedCount++
         }
         catch {
-            WriteError "Error moviendo $file: $($_.Exception.Message)"
+            WriteError "Error moviendo ${file}: $($_.Exception.Message)"
             return $false
         }
     }
@@ -372,7 +375,7 @@ function Move-SpecialFiles {
             WriteSuccess "$operation : $sourceFile -> $targetRelative"
         }
         catch {
-            WriteError "Error procesando $sourceFile : $($_.Exception.Message)"
+            WriteError "Error procesando ${sourceFile}: $($_.Exception.Message)"
             return $false
         }
     }
@@ -477,7 +480,7 @@ Solución de problemas y errores comunes.
             WriteSuccess "Creado: $dir/README.md"
         }
         catch {
-            WriteError "Error creando $dir/README.md: $($_.Exception.Message)"
+            WriteError "Error creando ${dir}/README.md: $($_.Exception.Message)"
             return $false
         }
     }
@@ -494,14 +497,48 @@ function Show-FinalStructure {
     if ($WhatIf) {
         WriteWarning "Esto es una simulación de la estructura final"
         Write-Host ""
-    }
 
-    Get-ChildItem $docsPath -Recurse -File -ErrorAction SilentlyContinue |
-        Where-Object { $_.FullName -notlike "*_backup_*" } |
-        ForEach-Object {
-            $relativePath = $_.FullName.Replace((Get-Location).Path + "\", "")
-            Write-Host "  $relativePath" -ForegroundColor $ColorGray
+        # Construir estructura proyectada basada en mapeos
+        $projectedStructure = @()
+
+        # README principal
+        $projectedStructure += "docs\README.md"
+
+        # Archivos en subdirectorios (desde fileMapping)
+        foreach ($dir in $directories) {
+            # README del subdirectorio
+            $projectedStructure += "docs\$dir\README.md"
+
+            # Archivos que van a este directorio
+            foreach ($file in $fileMapping.Keys) {
+                if ($fileMapping[$file] -eq $dir) {
+                    $projectedStructure += "docs\$dir\$file"
+                }
+            }
         }
+
+        # Archivos especiales procesados
+        foreach ($targetRelative in $specialFiles.Values) {
+            if ($targetRelative -ne "README.md") {  # Ya agregado arriba
+                $projectedStructure += "docs\$targetRelative"
+            }
+        }
+
+        # Ordenar y mostrar
+        $projectedStructure | Sort-Object | ForEach-Object {
+            Write-Host "  $_" -ForegroundColor $ColorGray
+        }
+    }
+    else {
+        # Modo real: mostrar estructura actual del disco
+        Get-ChildItem $docsPath -Recurse -File -ErrorAction SilentlyContinue |
+            Where-Object { $_.FullName -notlike "*_backup_*" } |
+            Sort-Object FullName |
+            ForEach-Object {
+                $relativePath = $_.FullName.Replace((Get-Location).Path + "\", "")
+                Write-Host "  $relativePath" -ForegroundColor $ColorGray
+            }
+    }
 }
 
 function Show-RollbackInstructions {
