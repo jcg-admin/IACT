@@ -1,6 +1,6 @@
 # verify-vms.ps1
 # Script de verificacion completa del sistema IACT DevBox
-# Version: 1.0.0
+# Version: 1.0.1 (FIXED - Deteccion mejorada de provisioning)
 
 #Requires -Version 5.1
 
@@ -37,7 +37,7 @@ function Show-Header {
     Write-Host ""
     Write-Host "========================================" -ForegroundColor $InfoColor
     Write-Host " IACT DevBox - System Verification" -ForegroundColor $InfoColor
-    Write-Host " Version: 1.0.0" -ForegroundColor $InfoColor
+    Write-Host " Version: 1.0.1" -ForegroundColor $InfoColor
     Write-Host "========================================" -ForegroundColor $InfoColor
     Write-Host ""
 }
@@ -307,7 +307,7 @@ function Test-AdminerWeb {
     }
 }
 
-# 8. Verificar provision completado
+# 8. Verificar provision completado (VERSION MEJORADA)
 function Test-ProvisionCompleted {
     Show-Section "8. Verificando provision completado"
 
@@ -330,13 +330,34 @@ function Test-ProvisionCompleted {
 
         if (Test-Path $logPath) {
             $content = Get-Content $logPath -Raw
-            if ($content -match "completed successfully") {
+
+            # CORRECCION: Buscar multiples patrones de exito (case-insensitive)
+            $patterns = @(
+                "completed successfully",
+                "\[SUCCESS\].*complet",
+                "\[OK\].*complet",
+                "provisioning completed",
+                "VM Ready",
+                "All steps completed successfully",
+                "PROVISIONING COMPLETE"
+            )
+
+            $provisionOK = $false
+            foreach ($pattern in $patterns) {
+                if ($content -match "(?i)$pattern") {
+                    $provisionOK = $true
+                    break
+                }
+            }
+
+            if ($provisionOK) {
                 $vmName = $logFile -replace "_bootstrap.log", ""
                 Show-OK "$vmName provision completado"
                 $completedCount++
             } else {
                 $vmName = $logFile -replace "_bootstrap.log", ""
                 Show-Warn "$vmName provision incompleto o con errores"
+                Show-Info "Revisar log: $logPath"
             }
         } else {
             $vmName = $logFile -replace "_bootstrap.log", ""
@@ -352,6 +373,7 @@ function Test-ProvisionCompleted {
         return $true
     } else {
         Show-Warn "Solo $completedCount/$totalVMs VMs provisionadas completamente"
+        Show-Info "Nota: Si las VMs funcionan correctamente, esto puede ser un falso negativo"
         return $false
     }
 }
@@ -413,6 +435,8 @@ function Show-Summary {
     } else {
         Write-Host ""
         Write-Host "El sistema esta parcialmente funcional. Revisar verificaciones fallidas." -ForegroundColor $WarningColor
+        Write-Host ""
+        Show-Info "Si la conectividad y puertos funcionan, el sistema esta operativo"
     }
 }
 

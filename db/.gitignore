@@ -285,3 +285,5 @@ Thumbs.db
 *.bak
 
 *.backup
+
+/config/certs/ca/
