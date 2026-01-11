@@ -17,8 +17,8 @@
     - TROUBLESHOOTING_COMPLETO.md -> troubleshooting/TROUBLESHOOTING.md
     - TROUBLESHOOTING.md -> archive/TROUBLESHOOTING_ORIGINAL.md
 
-.PARAMETER DryRun
-    Modo de prueba. Muestra qué haría sin ejecutar cambios.
+.PARAMETER WhatIf
+    Modo de simulación. Muestra qué haría sin ejecutar cambios.
 
 .PARAMETER SkipBackup
     Omite la creación de backup inicial.
@@ -27,8 +27,8 @@
     Sobrescribe archivos existentes sin preguntar.
 
 .EXAMPLE
-    .\reorganize-docs-step-by-step.ps1 -DryRun
-    Ejecuta en modo prueba sin hacer cambios
+    .\reorganize-docs-step-by-step.ps1 -WhatIf
+    Ejecuta en modo simulación sin hacer cambios
 
 .EXAMPLE
     .\reorganize-docs-step-by-step.ps1
@@ -42,17 +42,18 @@
     File Name      : reorganize-docs-step-by-step.ps1
     Author         : IACT DevBox
     Prerequisite   : PowerShell 5.1+
-    Version        : 1.0.0
+    Version        : 1.1.0
+    Changes        : v1.1.0 - Corregido: nombres de funciones, DryRun->WhatIf
 #>
 
-[CmdletBinding()]
+[CmdletBinding(SupportsShouldProcess)]
 param(
     [Parameter(Mandatory = $false)]
-    [switch]$DryRun,
-    
+    [switch]$WhatIf,
+
     [Parameter(Mandatory = $false)]
     [switch]$SkipBackup,
-    
+
     [Parameter(Mandatory = $false)]
     [switch]$Force
 )
@@ -110,7 +111,7 @@ $specialFiles = @{
 # FUNCIONES
 # =============================================================================
 
-function Write-Header {
+function WriteHeader {
     param([string]$Text)
     Write-Host ""
     Write-Host "=" * 70 -ForegroundColor $ColorInfo
@@ -119,7 +120,7 @@ function Write-Header {
     Write-Host ""
 }
 
-function Write-Step {
+function WriteStep {
     param(
         [string]$Step,
         [string]$Description
@@ -129,35 +130,35 @@ function Write-Step {
     Write-Host ("-" * 70) -ForegroundColor $ColorGray
 }
 
-function Write-Success {
+function WriteSuccess {
     param([string]$Text)
     Write-Host "[OK] $Text" -ForegroundColor $ColorSuccess
 }
 
-function Write-Warning-Message {
+function WriteWarning {
     param([string]$Text)
     Write-Host "[WARN] $Text" -ForegroundColor $ColorWarning
 }
 
-function Write-Error-Message {
+function WriteError {
     param([string]$Text)
     Write-Host "[ERROR] $Text" -ForegroundColor $ColorError
 }
 
-function Write-Info {
+function WriteInfo {
     param([string]$Text)
     Write-Host "[INFO] $Text" -ForegroundColor $ColorInfo
 }
 
-function Write-DryRun {
+function WriteWhatIf {
     param([string]$Text)
-    Write-Host "[DRY-RUN] $Text" -ForegroundColor $ColorWarning
+    Write-Host "[WHATIF] $Text" -ForegroundColor $ColorWarning
 }
 
 function Test-DocsDirectory {
     if (-not (Test-Path $docsPath)) {
-        Write-Error-Message "Directorio 'docs' no encontrado"
-        Write-Info "Asegúrate de ejecutar este script desde el directorio del proyecto"
+        WriteError "Directorio 'docs' no encontrado"
+        WriteInfo "Asegúrate de ejecutar este script desde el directorio del proyecto"
         return $false
     }
     return $true
@@ -172,17 +173,17 @@ function Get-FileSize {
 }
 
 function Compare-TroubleshootingFiles {
-    Write-Step "0" "Análisis de archivos TROUBLESHOOTING"
-    
+    WriteStep "0" "Análisis de archivos TROUBLESHOOTING"
+
     $original = "$docsPath\TROUBLESHOOTING.md"
     $completo = "$docsPath\TROUBLESHOOTING_COMPLETO.md"
-    
+
     $originalExists = Test-Path $original
     $completoExists = Test-Path $completo
-    
-    Write-Info "Análisis de archivos:"
+
+    WriteInfo "Análisis de archivos:"
     Write-Host ""
-    
+
     if ($originalExists) {
         $originalSize = Get-FileSize $original
         $originalLines = (Get-Content $original).Count
@@ -192,9 +193,9 @@ function Compare-TroubleshootingFiles {
     } else {
         Write-Host "  TROUBLESHOOTING.md: NO EXISTE" -ForegroundColor $ColorWarning
     }
-    
+
     Write-Host ""
-    
+
     if ($completoExists) {
         $completoSize = Get-FileSize $completo
         $completoLines = (Get-Content $completo).Count
@@ -204,184 +205,184 @@ function Compare-TroubleshootingFiles {
     } else {
         Write-Host "  TROUBLESHOOTING_COMPLETO.md: NO EXISTE" -ForegroundColor $ColorWarning
     }
-    
+
     Write-Host ""
-    
+
     if ($originalExists -and $completoExists) {
-        Write-Info "Recomendación: Usar TROUBLESHOOTING_COMPLETO como principal"
-        Write-Info "Razón: Es más extenso y completo"
+        WriteInfo "Recomendación: Usar TROUBLESHOOTING_COMPLETO como principal"
+        WriteInfo "Razón: Es más extenso y completo"
         return $true
     } elseif ($completoExists) {
-        Write-Info "Solo existe TROUBLESHOOTING_COMPLETO"
+        WriteInfo "Solo existe TROUBLESHOOTING_COMPLETO"
         return $true
     } elseif ($originalExists) {
-        Write-Warning-Message "Solo existe TROUBLESHOOTING original"
-        Write-Warning-Message "No se puede aplicar Opción B sin TROUBLESHOOTING_COMPLETO"
+        WriteWarning "Solo existe TROUBLESHOOTING original"
+        WriteWarning "No se puede aplicar Opción B sin TROUBLESHOOTING_COMPLETO"
         return $false
     } else {
-        Write-Warning-Message "No existen archivos TROUBLESHOOTING"
+        WriteWarning "No existen archivos TROUBLESHOOTING"
         return $false
     }
 }
 
 function New-BackupDirectory {
-    Write-Step "1" "Crear backup de documentación actual"
-    
+    WriteStep "1" "Crear backup de documentación actual"
+
     if ($SkipBackup) {
-        Write-Warning-Message "Backup omitido por parámetro -SkipBackup"
+        WriteWarning "Backup omitido por parámetro -SkipBackup"
         return $true
     }
-    
-    if ($DryRun) {
-        Write-DryRun "Crearía backup en: $backupPath"
+
+    if ($WhatIf) {
+        WriteWhatIf "Crearía backup en: $backupPath"
         return $true
     }
-    
+
     try {
-        Write-Info "Creando backup en: $backupPath"
+        WriteInfo "Creando backup en: $backupPath"
         Copy-Item -Path $docsPath -Destination $backupPath -Recurse -Force
-        
+
         $fileCount = (Get-ChildItem $backupPath -Recurse -File).Count
-        Write-Success "Backup creado ($fileCount archivos)"
-        
+        WriteSuccess "Backup creado ($fileCount archivos)"
+
         return $true
     }
     catch {
-        Write-Error-Message "Error creando backup: $($_.Exception.Message)"
+        WriteError "Error creando backup: $($_.Exception.Message)"
         return $false
     }
 }
 
 function New-DirectoryStructure {
-    Write-Step "2" "Crear estructura de subdirectorios"
-    
+    WriteStep "2" "Crear estructura de subdirectorios"
+
     foreach ($dir in $directories) {
         $dirPath = Join-Path $docsPath $dir
-        
-        if ($DryRun) {
-            Write-DryRun "Crearía directorio: $dir/"
+
+        if ($WhatIf) {
+            WriteWhatIf "Crearía directorio: $dir/"
             continue
         }
-        
+
         if (Test-Path $dirPath) {
-            Write-Info "Ya existe: $dir/"
+            WriteInfo "Ya existe: $dir/"
         } else {
             try {
                 New-Item -ItemType Directory -Path $dirPath -Force | Out-Null
-                Write-Success "Creado: $dir/"
+                WriteSuccess "Creado: $dir/"
             }
             catch {
-                Write-Error-Message "Error creando $dir/: $($_.Exception.Message)"
+                WriteError "Error creando $dir/: $($_.Exception.Message)"
                 return $false
             }
         }
     }
-    
+
     return $true
 }
 
 function Move-RegularFiles {
-    Write-Step "3" "Mover archivos regulares a subdirectorios"
-    
+    WriteStep "3" "Mover archivos regulares a subdirectorios"
+
     $movedCount = 0
     $skippedCount = 0
-    
+
     foreach ($file in $fileMapping.Keys) {
         $sourcePath = Join-Path $docsPath $file
         $targetDir = $fileMapping[$file]
         $targetPath = Join-Path $docsPath (Join-Path $targetDir $file)
-        
+
         if (-not (Test-Path $sourcePath)) {
-            Write-Warning-Message "No encontrado: $file (saltando)"
+            WriteWarning "No encontrado: $file (saltando)"
             $skippedCount++
             continue
         }
-        
-        if ($DryRun) {
-            Write-DryRun "Movería: $file -> $targetDir/"
+
+        if ($WhatIf) {
+            WriteWhatIf "Movería: $file -> $targetDir/"
             $movedCount++
             continue
         }
-        
+
         try {
             if ((Test-Path $targetPath) -and -not $Force) {
-                Write-Warning-Message "Ya existe en destino: $file"
+                WriteWarning "Ya existe en destino: $file"
                 $choice = Read-Host "Sobrescribir? (s/n)"
                 if ($choice -ne "s") {
-                    Write-Info "Saltando: $file"
+                    WriteInfo "Saltando: $file"
                     $skippedCount++
                     continue
                 }
             }
-            
+
             Move-Item -Path $sourcePath -Destination $targetPath -Force
-            Write-Success "Movido: $file -> $targetDir/"
+            WriteSuccess "Movido: $file -> $targetDir/"
             $movedCount++
         }
         catch {
-            Write-Error-Message "Error moviendo $file: $($_.Exception.Message)"
+            WriteError "Error moviendo $file: $($_.Exception.Message)"
             return $false
         }
     }
-    
-    Write-Info ""
-    Write-Info "Archivos movidos: $movedCount"
-    Write-Info "Archivos saltados: $skippedCount"
-    
+
+    WriteInfo ""
+    WriteInfo "Archivos movidos: $movedCount"
+    WriteInfo "Archivos saltados: $skippedCount"
+
     return $true
 }
 
 function Move-SpecialFiles {
-    Write-Step "4" "Procesar archivos especiales"
-    
+    WriteStep "4" "Procesar archivos especiales"
+
     foreach ($sourceFile in $specialFiles.Keys) {
         $sourcePath = Join-Path $docsPath $sourceFile
         $targetRelative = $specialFiles[$sourceFile]
         $targetPath = Join-Path $docsPath $targetRelative
-        
+
         if (-not (Test-Path $sourcePath)) {
-            Write-Warning-Message "No encontrado: $sourceFile (saltando)"
+            WriteWarning "No encontrado: $sourceFile (saltando)"
             continue
         }
-        
+
         $operation = if ($sourceFile -ne ($targetRelative.Split('/')[-1])) { "Mover y renombrar" } else { "Mover" }
-        
-        if ($DryRun) {
-            Write-DryRun "$operation : $sourceFile -> $targetRelative"
+
+        if ($WhatIf) {
+            WriteWhatIf "$operation : $sourceFile -> $targetRelative"
             continue
         }
-        
+
         try {
             # Crear directorio destino si no existe
             $targetDir = Split-Path $targetPath -Parent
             if (-not (Test-Path $targetDir)) {
                 New-Item -ItemType Directory -Path $targetDir -Force | Out-Null
             }
-            
+
             if ((Test-Path $targetPath) -and -not $Force) {
-                Write-Warning-Message "Ya existe: $targetRelative"
+                WriteWarning "Ya existe: $targetRelative"
                 $choice = Read-Host "Sobrescribir? (s/n)"
                 if ($choice -ne "s") {
-                    Write-Info "Saltando: $sourceFile"
+                    WriteInfo "Saltando: $sourceFile"
                     continue
                 }
             }
-            
+
             Move-Item -Path $sourcePath -Destination $targetPath -Force
-            Write-Success "$operation : $sourceFile -> $targetRelative"
+            WriteSuccess "$operation : $sourceFile -> $targetRelative"
         }
         catch {
-            Write-Error-Message "Error procesando $sourceFile : $($_.Exception.Message)"
+            WriteError "Error procesando $sourceFile : $($_.Exception.Message)"
             return $false
         }
     }
-    
+
     return $true
 }
 
 function New-SubdirectoryReadmes {
-    Write-Step "5" "Crear archivos README.md en subdirectorios"
-    
+    WriteStep "5" "Crear archivos README.md en subdirectorios"
+
     $readmeContents = @{
         "getting-started" = @"
 # Getting Started
@@ -400,7 +401,7 @@ Después de completar esta sección:
 - [Setup](../setup/) - Configuración avanzada (opcional)
 - [Troubleshooting](../troubleshooting/) - Si hay problemas
 "@
-        
+
         "setup" = @"
 # Setup Avanzado
 
@@ -415,7 +416,7 @@ Configuración adicional para mejorar la experiencia de desarrollo.
 
 Estas configuraciones son opcionales pero recomendadas para una mejor experiencia.
 "@
-        
+
         "architecture" = @"
 # Arquitectura y Desarrollo
 
@@ -433,7 +434,7 @@ Esta sección es para:
 - Mantenedores del proyecto
 - Personas implementando cambios en la arquitectura
 "@
-        
+
         "troubleshooting" = @"
 # Troubleshooting
 
@@ -453,49 +454,49 @@ Solución de problemas y errores comunes.
 5. Verificar que el problema se resolvió
 "@
     }
-    
+
     foreach ($dir in $readmeContents.Keys) {
         $readmePath = Join-Path $docsPath (Join-Path $dir "README.md")
-        
-        if ($DryRun) {
-            Write-DryRun "Crearía: $dir/README.md"
+
+        if ($WhatIf) {
+            WriteWhatIf "Crearía: $dir/README.md"
             continue
         }
-        
+
         try {
             if ((Test-Path $readmePath) -and -not $Force) {
-                Write-Warning-Message "Ya existe: $dir/README.md"
+                WriteWarning "Ya existe: $dir/README.md"
                 $choice = Read-Host "Sobrescribir? (s/n)"
                 if ($choice -ne "s") {
-                    Write-Info "Saltando: $dir/README.md"
+                    WriteInfo "Saltando: $dir/README.md"
                     continue
                 }
             }
-            
+
             $readmeContents[$dir] | Out-File -FilePath $readmePath -Encoding UTF8 -Force
-            Write-Success "Creado: $dir/README.md"
+            WriteSuccess "Creado: $dir/README.md"
         }
         catch {
-            Write-Error-Message "Error creando $dir/README.md: $($_.Exception.Message)"
+            WriteError "Error creando $dir/README.md: $($_.Exception.Message)"
             return $false
         }
     }
-    
+
     return $true
 }
 
 function Show-FinalStructure {
-    Write-Step "6" "Mostrar estructura final"
-    
-    Write-Info "Estructura de documentación reorganizada:"
+    WriteStep "6" "Mostrar estructura final"
+
+    WriteInfo "Estructura de documentación reorganizada:"
     Write-Host ""
-    
-    if ($DryRun) {
-        Write-Warning-Message "Esto es una simulación de la estructura final"
+
+    if ($WhatIf) {
+        WriteWarning "Esto es una simulación de la estructura final"
         Write-Host ""
     }
-    
-    Get-ChildItem $docsPath -Recurse -File -ErrorAction SilentlyContinue | 
+
+    Get-ChildItem $docsPath -Recurse -File -ErrorAction SilentlyContinue |
         Where-Object { $_.FullName -notlike "*_backup_*" } |
         ForEach-Object {
             $relativePath = $_.FullName.Replace((Get-Location).Path + "\", "")
@@ -504,10 +505,10 @@ function Show-FinalStructure {
 }
 
 function Show-RollbackInstructions {
-    if ($DryRun -or $SkipBackup) {
+    if ($WhatIf -or $SkipBackup) {
         return
     }
-    
+
     Write-Host ""
     Write-Host "ROLLBACK DISPONIBLE" -ForegroundColor $ColorWarning
     Write-Host ("-" * 70) -ForegroundColor $ColorGray
@@ -523,80 +524,80 @@ function Show-RollbackInstructions {
 }
 
 function Invoke-Reorganization {
-    Write-Header "Reorganización de Documentación IACT DevBox"
-    
-    if ($DryRun) {
-        Write-Warning-Message "MODO DRY-RUN ACTIVO - No se harán cambios reales"
+    WriteHeader "Reorganización de Documentación IACT DevBox"
+
+    if ($WhatIf) {
+        WriteWarning "MODO WHATIF ACTIVO - No se harán cambios reales"
         Write-Host ""
     }
-    
+
     # Verificar directorio docs
     if (-not (Test-DocsDirectory)) {
         return $false
     }
-    
-    Write-Success "Directorio 'docs' encontrado"
-    
+
+    WriteSuccess "Directorio 'docs' encontrado"
+
     # Paso 0: Analizar archivos TROUBLESHOOTING
     if (-not (Compare-TroubleshootingFiles)) {
-        Write-Error-Message "No se puede continuar sin archivos TROUBLESHOOTING adecuados"
+        WriteError "No se puede continuar sin archivos TROUBLESHOOTING adecuados"
         return $false
     }
-    
+
     # Confirmar antes de continuar
-    if (-not $DryRun -and -not $Force) {
+    if (-not $WhatIf -and -not $Force) {
         Write-Host ""
-        Write-Warning-Message "Esta operación moverá archivos en el directorio docs/"
+        WriteWarning "Esta operación moverá archivos en el directorio docs/"
         $confirm = Read-Host "Continuar? (s/n)"
         if ($confirm -ne "s") {
-            Write-Info "Operación cancelada por el usuario"
+            WriteInfo "Operación cancelada por el usuario"
             return $false
         }
     }
-    
+
     # Paso 1: Backup
     if (-not (New-BackupDirectory)) {
         return $false
     }
-    
+
     # Paso 2: Crear estructura
     if (-not (New-DirectoryStructure)) {
         return $false
     }
-    
+
     # Paso 3: Mover archivos regulares
     if (-not (Move-RegularFiles)) {
         return $false
     }
-    
+
     # Paso 4: Procesar archivos especiales
     if (-not (Move-SpecialFiles)) {
         return $false
     }
-    
+
     # Paso 5: Crear READMEs en subdirectorios
     if (-not (New-SubdirectoryReadmes)) {
         return $false
     }
-    
+
     # Paso 6: Mostrar estructura final
     Show-FinalStructure
-    
+
     # Instrucciones de rollback
     Show-RollbackInstructions
-    
+
     Write-Host ""
-    Write-Header "Reorganización Completada"
-    
-    if ($DryRun) {
-        Write-Info "Ejecuta el script sin -DryRun para aplicar cambios"
+    WriteHeader "Reorganización Completada"
+
+    if ($WhatIf) {
+        WriteInfo "Ejecuta el script sin -DryRun para aplicar cambios"
     } else {
-        Write-Success "Documentación reorganizada exitosamente"
-        Write-Info ""
-        Write-Info "Siguiente paso: Verificar links en docs/README.md"
-        Write-Info "Comando: notepad docs\README.md"
+        WriteSuccess "Documentación reorganizada exitosamente"
+        WriteInfo ""
+        WriteInfo "Siguiente paso: Verificar links en docs/README.md"
+        WriteInfo "Comando: notepad docs\README.md"
     }
-    
+
     return $true
 }
 
@@ -606,7 +607,7 @@ function Invoke-Reorganization {
 
 try {
     $result = Invoke-Reorganization
-    
+
     if ($result) {
         exit 0
     } else {
@@ -614,7 +615,7 @@ try {
     }
 }
 catch {
-    Write-Error-Message "Error inesperado: $($_.Exception.Message)"
-    Write-Error-Message "Stack trace: $($_.ScriptStackTrace)"
+    WriteError "Error inesperado: $($_.Exception.Message)"
+    WriteError "Stack trace: $($_.ScriptStackTrace)"
     exit 1
 }
