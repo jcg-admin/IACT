@@ -561,6 +561,15 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     # SSH Port Forwarding
     adminer.vm.network "forwarded_port", guest: 22, host: 2201, id: "ssh", auto_correct: true
 
+    # -------------------------------------------------------------------------
+    # vagrant-goodhosts - Automatic hosts file management for adminer.devbox
+    # -------------------------------------------------------------------------
+    if Vagrant.has_plugin?('vagrant-goodhosts')
+      adminer.goodhosts.aliases = [
+        ADMINER_DOMAIN,           # adminer.devbox
+        "www.#{ADMINER_DOMAIN}"   # www.adminer.devbox
+      ]
+    end
 
     # -----------------------------------------------------------------------
     # Network - Host-Only with static IP (FORMA ESTÁNDAR)
